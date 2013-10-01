@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  registerAs: MyString
+  organisationType: MyString
+  organisationName: MyString
+  individualsType: MyString
+  companyRegistrationNumber: MyString
+  publicBodyType: MyString
+  title: MyString
+  firstName: MyString
+  lastName: MyString
+  phoneNumber: MyString
+  emailAddress: MyString
+  houseNumber: MyString
+  postcode: MyString
+  uprn: MyString
+  address: MyString
+
+two:
+  registerAs: MyString
+  organisationType: MyString
+  organisationName: MyString
+  individualsType: MyString
+  companyRegistrationNumber: MyString
+  publicBodyType: MyString
+  title: MyString
+  firstName: MyString
+  lastName: MyString
+  phoneNumber: MyString
+  emailAddress: MyString
+  houseNumber: MyString
+  postcode: MyString
+  uprn: MyString
+  address: MyString
