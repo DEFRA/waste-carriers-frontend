@@ -1,3 +1,41 @@
 // Place all the styles related to the Registrations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+// govuk_frontend_toolkit mixins
+@import "_conditionals";
+@import "_typography";
+@import "_colours";
+@import "_css3";
+
+@import 'design-patterns/_buttons.scss';
+
+.button{
+  @include button;
+}
+.button-secondary{
+  @include button($grey-3);
+}
+
+.js .js-hidden,
+.nojs .nojs-hidden {
+	display: none;
+}
+
+.offscreen {
+	position: absolute;
+	top: -1000px;
+	left: -1000px;
+}
+
+#progress {
+	width: 400px;
+	display: inline-block;
+	border: 1px solid black;
+	padding: 0em;
+}
+#progress .bar{
+	background-color: $grey-3;
+	height: 1em;
+}

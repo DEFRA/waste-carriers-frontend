@@ -17,11 +17,19 @@
 	function movePage(num){
 		if(num===3){
 			updateSummary();
+			$("input[name=register]").removeClass("js-hidden").css("display","");
+			$("input[name=next]").css("display","none");
+		}else{
+			$("input[name=register]").css("display","none");
+			$("input[name=next]").css("display","");
 		}
 
 		$("#page"+page).css("display","none");
 		$("#page"+num).css("display","");
 		page = num;
+
+		setProgress(num * 100 / 4);
+		window.scrollTo(0);
 	}
 
 	function moveNext(){
@@ -138,6 +146,12 @@
 		$("#registration_"+key).val(value);
 	}
 
+	function setProgress(percent){
+		var $progress = $("#progress");
+		$progress.html("<div class=\"offscreen\">"+percent+"%</div><div class=\"bar\"></div>");
+		$("#progress .bar").css("width",percent+"%");
+	}
+
 	$(document).ready(function(){
 		$('#registration_organisationType').change(refreshQuestions);
 		$("input[name=next]").click(function(e){e.preventDefault();moveNext()});
@@ -153,5 +167,6 @@
 			$("#addresses").val(uprn);
 			updateAddress();
 		}
+		setProgress(100 / 4);
 	});
 }());
