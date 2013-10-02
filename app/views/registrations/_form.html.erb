@@ -44,7 +44,7 @@
 
 <p id="indType-wrapper" class="group">
 <%= f.label :individualsType, "Organisation type" %>
-<%= f.select :individualsType , options_for_select([["Please select...",""]],f.object.individualsType) %>
+<%= f.select :individualsType , options_for_select([["Please select...",""],["Charity","charity"]],f.object.individualsType) %>
 </p>
 
 <p id="regNumber-wrapper" class="group">
@@ -84,7 +84,7 @@
 </p>
 
 <p class="action group">
-<input name="findAddress" type="submit" value="Find address"/>
+<input name="findAddress" class="button" type="submit" value="Find address"/>
 </p>
 </div>
 
@@ -101,7 +101,7 @@
 <div id="addressDisplay">
 </div>
 <p class="action group">
-<input name="changeAddress" type="submit" value="Change address"/>
+<input name="changeAddress" class="button-secondary" type="submit" value="Change address"/>
 </p>
 </div>
 

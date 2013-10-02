@@ -39,3 +39,37 @@
 	background-color: $grey-3;
 	height: 1em;
 }
+
+html {
+	font-family: Arial,sans-serif
+}
+
+fieldset {
+	border: none;
+	padding: 0;
+}
+legend {
+	font-size: 24px;
+	line-height: 1.25;
+	font-weight: 400;
+	text-transform: none;
+	margin-bottom: 0.5em;
+	color: #0b0c0c;
+}
+label {
+	display: block;
+	color: #0b0c0c;
+	font-size: 19px;
+	line-height: 1.31579;
+	font-weight: 400;
+	text-transform: none;
+	vertical-align: top;
+	padding: 0.25em 0;
+}
+
+input {
+	background-color: #f9f9f9;
+	border: 2px inset;
+	font-size: 1em;
+	padding: 0.1em 0 0.1em 0.4em;
+}
