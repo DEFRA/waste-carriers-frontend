@@ -1,0 +1,94 @@
+@import '_shims';
+#global-header {
+  background-color: $black;
+  width: 100%;
+
+  .header-wrapper {
+    max-width: 990px;
+    margin: 0 auto;
+    padding: 0.5em 15px;
+    @extend %contain-floats;
+    @include media-down(mobile){
+      padding: 0.5em 0;
+    }
+
+    @include ie(6) {
+      width: 960px;
+    }
+
+    .header-global {
+      @extend %contain-floats;
+      .header-logo {
+        @extend %contain-floats;
+        width: 49%;
+        float: left;
+
+        @include media(desktop){
+          width: 33.33%;
+        }
+        @media screen and (max-width: 379px) {
+          width: auto;
+          float: none;
+        }
+
+        .content {
+          margin: 0 15px;
+        }
+      }
+      .header-logo {
+        margin: 5px 0 2px;
+      }
+    }
+  }
+
+  #logo {
+    float: left;
+    position: relative;
+    width: 166px;
+    height: 30px;
+    overflow: hidden;
+
+    img {
+      position: absolute;
+      left: -166px;
+      top: 0;
+      border: none;
+
+      /* scale oversized image to container bounds */
+      width: 200%;
+      height: 300%;
+
+      @include ie(6){
+        left: 0;
+      }
+    }
+    &:hover img {
+      top: -30px;
+    }
+  }
+}
+
+/* Global cookie message */
+
+.js-enabled #global-cookie-message {
+  display: none; /* shown with JS, always on for non-JS */
+}
+
+#global-cookie-message {
+  padding: 0.5em 2em;
+  background-color: $light-blue-25;
+
+  p {
+    @include core-19;
+    margin: 0 auto;
+    max-width: 960px;
+
+    @include ie-lte(6) {
+      width: 960px;
+    }
+  }
+
+  @include media-down(mobile) {
+    padding: 0.5em 1em;
+  }
+}

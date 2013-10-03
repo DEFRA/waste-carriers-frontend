@@ -1,9 +1,11 @@
+<main id="content" role="main" class="group"><article role="article" class="group">
+
 <%= form_for(@registration) do |f| %>
 
 <h1>Waste Carrier Registration</h1>
 <h2 class="subtitle">For a lower tier waste carrier, broker or dealer</h2>
 
-<div>Progress: <div id="progress"></div></div>
+<div id="progress-wrapper">Progress: <div id="progress"></div></div>
 
   <% if @registration.errors.any? %>
     <div id="error_explanation">
@@ -170,3 +172,4 @@
 </p>
 
 <% end %>
+</article></main>
