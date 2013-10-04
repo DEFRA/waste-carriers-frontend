@@ -21,6 +21,13 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def start
+  end
+
+  def finish
+    @registration = Registration.find(params[:id])
+  end
+
   # GET /registrations/new
   # GET /registrations/new.json
   def new
@@ -44,7 +51,7 @@ class RegistrationsController < ApplicationController
 
     respond_to do |format|
       if @registration.save
-        format.html { redirect_to @registration, notice: 'Registration was successfully created.' }
+        format.html { redirect_to finish_url(:id => @registration.id), notice: 'Registration was successfully created.' }
         format.json { render json: @registration, status: :created, location: @registration }
       else
         format.html { render action: "new" }

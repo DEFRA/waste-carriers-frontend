@@ -1,3 +1,40 @@
+<main id="content" role="main" class="group"><article role="article" class="group">
+
+<!--
+<h2>Find a registered business, organisation or trader</h2>
+<div class="box">
+<label for="businessName">Business, organisation or trading name</label>
+<input id="businessName" type="text" />
+<p class="action group">
+<button class="button">Search</button>
+</p>
+</div>
+
+<h2>Found <%=pluralize(@registrations.count,"registration")%></h2>
+<p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
+
+<% @registrations.each do |registration| %>
+<div class="box">
+	<dl>
+		<dt>Name</dt>
+		<dd><%= registration.organisationName %></dd>
+
+		<dt>Postcode</dt>
+		<dd><%= registration.postcode %></dd>
+	</dl>
+	<div class="detail" data-registerAs="<%= registration.registerAs%>" data-organisationType="<%= registration.organisationType%>"
+		data-organisationName="<%=registration.organisationName%>" data-individualsType="<%=registration.individualsType%>"
+		data-companyRegistrationNumber="<%=registration.companyRegistrationNumber%>" data-publicBodyType="<%=registration.publicBodyType%>"
+		data-title="<%=registration.title%>" data-firstName="<%=registration.firstName%>"
+		data-lastName="<%=registration.lastName%>" data-phoneNumber="<%=registration.phoneNumber%>"
+		data-emailAddress="<%=registration.emailAddress%>" data-houseNumber="<%=registration.houseNumber%>"
+		data-postcode="<%=registration.postcode%>" data-uprn="<%=registration.uprn%>"
+		data-address="<%=registration.address%>" >
+	</div>
+</div>
+<% end %>
+-->
+
 <h1>Listing registrations</h1>
 
 <table>
@@ -48,4 +85,6 @@
 
 <br />
 
-<%= link_to 'New Registration', new_registration_path %>
+<%= link_to 'New Registration', start_url%>
+
+</article></main>

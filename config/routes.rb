@@ -1,4 +1,6 @@
 Registrations::Application.routes.draw do
+  match "registrations/start" => 'registrations#start', :as => :start
+  match "registrations/:id/finish" => 'registrations#finish', :as => :finish
   resources :registrations
 
 

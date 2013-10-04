@@ -1,0 +1,19 @@
+<main id="content" role="main" class="group"><article role="article" class="group">
+
+<h1>Waste Carrier Registration</h1>
+<h2 class="subtitle">For a lower tier waste carrier, broker or dealer</h2>
+
+<h2 class="registered"><%= @registration.organisationName%> has been successfully registered!</h2>
+
+<p>Your registration has been emailed to: <%= @registration.emailAddress%></p>
+
+<p>You can also print this registration for your records.:</p>
+
+<form action="<%=registrations_path %>">
+<p class="action group">
+<input name="finish" class="button" type="submit" value="Finish"/>
+<input name="print" class="button-secondary" type="submit" value="Print"/>
+</p>
+</form>
+
+</article></main>
