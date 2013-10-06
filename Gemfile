@@ -38,3 +38,15 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
+
+group :test do
+  gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
+
+  #We need the selenium webdriver for javascript
+  gem 'selenium-webdriver'
+
+  #for headless testing
+  #gem 'capybara-webkit'
+end
