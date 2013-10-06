@@ -90,6 +90,7 @@ input {
 .box dl {
 	padding: 0px;
 	margin: 0px;
+	width: 70%;
 }
 .box dl dt,
 .box dl dd
@@ -114,6 +115,7 @@ input {
 	margin: 1em 2em 3em 2em;
 }
 .box .detail {
+	background-color: $green-50;
 	display: none;
 }
 .box a.view {

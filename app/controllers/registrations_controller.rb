@@ -67,7 +67,7 @@ class RegistrationsController < ApplicationController
 
     respond_to do |format|
       if @registration.update_attributes(params[:registration])
-        format.html { redirect_to @registration, notice: 'Registration was successfully updated.' }
+        format.html { redirect_to registrations_path notice: 'Registration was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

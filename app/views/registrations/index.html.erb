@@ -1,15 +1,35 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
-<!--
+
 <h2>Find a registered business, organisation or trader</h2>
 <div class="box">
-<label for="businessName">Business, organisation or trading name</label>
-<input id="businessName" type="text" />
+<p class="group">
+	<label for="businessName">Business, organisation or trading name</label>
+	<input id="businessName" type="text" />
+</p>
+<div id="advanced-options" style="display:none">
+<p class="group">
+	<label for="organisationType">Business or organisation type</label>
+	<select id="organisationType">
+		<option value="">Please select...</option>
+		<option value="individual">An individual</option>
+		<option value="organisationOfIndividuals">An organisation of individuals (such as a charity)</option>
+		<option value="limitedCompany" selected="selected">A limited company or limited liability partnership (LLP)</option>
+		<option value="publicBody">A public body</option></select>
+	</select>
+</p>
+<p class="group">
+	<label for="postcode">Postcode of principal (main) place of business</label>
+	<input id="postcode" type="text" />
+</p>
+</div>
 <p class="action group">
-<button class="button">Search</button>
+<button id="reg-search" class="button">Search</button>
+<a href="#" id="toggle-search">Advanced search</a>
 </p>
 </div>
 
+<div id="reg-search-result" style="display: none">
 <h2>Found <%=pluralize(@registrations.count,"registration")%></h2>
 <p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
 
@@ -22,19 +42,25 @@
 		<dt>Postcode</dt>
 		<dd><%= registration.postcode %></dd>
 	</dl>
-	<div class="detail" data-registerAs="<%= registration.registerAs%>" data-organisationType="<%= registration.organisationType%>"
-		data-organisationName="<%=registration.organisationName%>" data-individualsType="<%=registration.individualsType%>"
-		data-companyRegistrationNumber="<%=registration.companyRegistrationNumber%>" data-publicBodyType="<%=registration.publicBodyType%>"
-		data-title="<%=registration.title%>" data-firstName="<%=registration.firstName%>"
-		data-lastName="<%=registration.lastName%>" data-phoneNumber="<%=registration.phoneNumber%>"
-		data-emailAddress="<%=registration.emailAddress%>" data-houseNumber="<%=registration.houseNumber%>"
-		data-postcode="<%=registration.postcode%>" data-uprn="<%=registration.uprn%>"
-		data-address="<%=registration.address%>" >
+	<div class="detail">
+		<div class="data" data-registerAs="<%= registration.registerAs%>" data-organisationType="<%= registration.organisationType%>"
+			data-organisationName="<%=registration.organisationName%>" data-individualsType="<%=registration.individualsType%>"
+			data-companyRegistrationNumber="<%=registration.companyRegistrationNumber%>" data-publicBodyType="<%=registration.publicBodyType%>"
+			data-title="<%=registration.title%>" data-firstName="<%=registration.firstName%>"
+			data-lastName="<%=registration.lastName%>" data-phoneNumber="<%=registration.phoneNumber%>"
+			data-emailAddress="<%=registration.emailAddress%>" data-houseNumber="<%=registration.houseNumber%>"
+			data-postcode="<%=registration.postcode%>" data-uprn="<%=registration.uprn%>"
+			data-address="<%=registration.address%>" >
+		</div>
+		<form action="<%=edit_registration_path(registration.id)%>">
+			<p class="action group"><input type="submit" class="button" value="Edit Registration"/></p>
+		</form>
 	</div>
 </div>
 <% end %>
--->
+</div>
 
+<!--
 <h1>Listing registrations</h1>
 
 <table>
@@ -84,7 +110,7 @@
 </table>
 
 <br />
-
+-->
 <%= link_to 'New Registration', start_url%>
 
 </article></main>
