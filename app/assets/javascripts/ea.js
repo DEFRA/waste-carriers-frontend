@@ -38,7 +38,7 @@
 		$("#page"+num).css("display","");
 		page = num;
 
-		setProgress(num * 100 / 4);
+		setProgress(num , 4);
 		window.scrollTo(0);
 	}
 
@@ -93,6 +93,16 @@
 		setHidden("uprn",address);
 		setHidden("address",addressTextLookup[address]);
 
+	}
+
+	function manualAddress(){
+		$("#addressSearchResults").css("display","none");
+		$("#selectedAddress").css("display","none");
+		$("input[name=findAddress]").css("display","none");
+		$("#addressManual").css("display","");
+		$("#addressSearch").css("display","");
+		setHidden("uprn","");
+		setHidden("address","");
 	}
 
 	function changeAddress(){
@@ -212,10 +222,12 @@
 
 	function refreshQuestions(){
 		var value = $("#registration_organisationType").val();
+		var publicBody = $("#registration_publicBodyType").val();
 
 		$("#indType-wrapper").css("display",value === "organisationOfIndividuals"?"":"none");
 		$("#regNumber-wrapper").css("display",value === "limitedCompany"?"":"none");
 		$("#publicBodyType-wrapper").css("display",value === "publicBody"?"":"none");
+		$("#publicBodyOther-wrapper").css("display",(value === "publicBody" && publicBody === "other")?"":"none");
 
 		if(value !== ""){
 			$("#orgTypeQuestions").removeClass("js-hidden");
@@ -228,11 +240,24 @@
 		$("#registration_"+key).val(value);
 	}
 
-	function setProgress(percent){
+	function setProgress(curr,max){
+		var percent = curr * 100 / max;
 		var $progress = $("#progress");
 		$progress.html("<div class=\"offscreen\">"+percent+"%</div><div class=\"bar\"></div>");
 		$("#progress .bar").css("width",percent+"%");
 	}
+
+//	function setProgress(curr,max){
+//		var $progress = $("#progress");
+//		var html = "<div class=\"offscreen\">"+curr+"/"+max+"</div><nav class=\"progress-indicator\"><ol>";
+//		for(var x=0;x<max;x++){
+//			html += "<li";
+//			if(x<curr)html+=" class=\"active\"";
+//			html += "></li>";
+//		}
+//		html += "</ol></nav>";
+//		$progress.html(html);
+//	}
 
 	function regSearch(){
 		var businessName = $("#businessName").val().toLowerCase();
@@ -284,6 +309,7 @@
 
 	$(document).ready(function(){
 		$('#registration_organisationType').change(refreshQuestions);
+		$("#registration_publicBodyType").change(refreshQuestions);
 		$("input[name=next]").click(function(e){e.preventDefault();moveNext()});
 		$("input[name=back]").click(function(e){e.preventDefault();moveBack()});
 		$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress()});
@@ -296,8 +322,15 @@
 			findAddress();
 			$("#addresses").val(uprn);
 			updateAddress();
+		}else{
+			var address1 = $("#registration_address1").val();
+			var address2 = $("#registration_address2").val();
+			var city = $("#registration_city").val();
+			if(address1!="" || address2!="" || city!=""){
+				manualAddress();
+			}
 		}
-		setProgress(100 / 4);
+		setProgress(1,4);
 		searchResultSummaries();
 
 		$("#reg-search").click(function(e){
@@ -307,6 +340,10 @@
 		$("a#toggle-search").click(function(e){
 			e.preventDefault();
 			advancedToggle();
+		});
+		$("#manualAddressLink").click(function(e){
+			e.preventDefault();
+			manualAddress();
 		});
 	});
 }());

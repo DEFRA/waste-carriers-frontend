@@ -52,14 +52,14 @@
 <%= f.select :individualsType , options_for_select([["Please select...",""],["Charity","charity"]],f.object.individualsType) %>
 </p>
 
-<p id="regNumber-wrapper" class="group">
-<%= f.label :companyRegistrationNumber, "Company registration number" %>
-<%= f.text_field :companyRegistrationNumber %>
-</p>
-
 <p id="publicBodyType-wrapper" class="group">
 <%= f.label :publicBodyType, "Type of public body" %>
-<%= f.select :publicBodyType , options_for_select([["Please select...",""]],f.object.publicBodyType ) %>
+<%= f.select :publicBodyType , options_for_select([["Please select...",""],["Other","other"]],f.object.publicBodyType ) %>
+</p>
+
+<p id="publicBodyOther-wrapper" class="group">
+<%= f.label :publicBodyOther, "Other type of public body" %>
+<%= f.text_field :publicBodyOther%>
 </p>
 </div>
 
@@ -83,13 +83,28 @@
 <%= f.text_field :houseNumber %>
 </p>
 
+<div id="addressManual" style="display:none">
+<p class="group">
+<%= f.label :address1, "Street" %>
+<%= f.text_field :address1 %>
+</p>
+<p class="group">
+<%= f.label :address2, :class=>"offscreen" %>
+<%= f.text_field :address2 %>
+</p>
+<p class="group">
+<%= f.label :city, "Town/City" %>
+<%= f.text_field :city%>
+</p>
+</div>
+
 <p class="group">
     <%= f.label :postcode, "Postcode" %>
     <%= f.text_field :postcode %>
 </p>
 
 <p class="action group">
-<input name="findAddress" class="button" type="submit" value="Find address"/>
+<input name="findAddress" class="button-secondary" type="submit" value="Find address"/>
 </p>
 </div>
 
@@ -100,6 +115,7 @@
 <option>Please select an address..</option>
 </select>
 </p>
+<a href="#" id="manualAddressLink">I cannot find my address</a>
 </div>
 
 <div id="selectedAddress" style="display:none">
@@ -161,7 +177,7 @@
 <p>&lt;Legal text&gt;</p>
 
 <p class="option group">
-<label for="declaration"><input id="declaration" type="checkbox" />I declare that as far as I know and believe, the information in this registration is true.</label>
+<label for="registration_declaration"><input id="registration_declaration" name="registration[declaration]" type="checkbox" />I declare that as far as I know and believe, the information in this registration is true.</label>
 </p>
 
 </fieldset>
