@@ -15,9 +15,17 @@ Scenario: Valid registration as an Individual
   And I select business or organisation type "An individual"
   And I fill in "Business, organisation or trading name" with "Joe Bloggs"
   And I click "Next"
-  #And I fill in valid contact details
+  And I fill in valid contact details
   And I click "Next"
-  #And I select the declaration checkbox
+  And I select the declaration checkbox
   And I click "Register"
   Then I should see the Confirmation page
 
+
+Scenario: Valid registration as an Individual (version 2)
+  Given I am on the Start page
+  When I click on "Begin"
+  And I provide valid individual trading name details
+  And I provide valid contact details
+  And I confirm the declaration
+  Then I should see the Confirmation page

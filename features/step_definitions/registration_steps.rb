@@ -26,8 +26,7 @@ Then(/^I fill in "(.*?)" with "(.*?)"$/) do |field_name, field_value|
 end
 
 Then(/^I click "(.*?)"$/) do |name|
-	#TODO - Select the checkbox
-  #check(name)
+  click_on name
 end
 
 Then(/^I fill in valid contact details$/) do
@@ -43,7 +42,8 @@ Then(/^I fill in valid contact details$/) do
 end
 
 Then(/^I select the declaration checkbox$/) do
-  click_on('declaration')
+  find_field('declaration')
+  check('declaration')
 end
 
 Then(/^I should see the Confirmation page$/) do
