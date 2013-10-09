@@ -21,7 +21,8 @@ Scenario: Valid registration as an Individual
   And I click "Register"
   Then I should see the Confirmation page
 
-
+@javascript
+@no-database-cleaner
 Scenario: Valid registration as an Individual (version 2)
   Given I am on the Start page
   When I click on "Begin"
