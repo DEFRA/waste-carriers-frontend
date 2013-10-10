@@ -2,8 +2,63 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+
   hello: "Hello world"
-  activerecord:
-    attributes:
-      registration:
-        title: "Title"
+  #Registration form/page(s) content
+
+  registrations:
+    form:
+      title: "Waste Carrier Registration"
+      subtitle: "For a lower tier waste carrier, broker or dealer"
+      progress: "Progress: "
+      error_explanation: "prohibited this registration from being saved:"
+      business_or_org_details: "Business or organisation details"
+      registerAs_label: "Register as"
+      organisationType_label: "Business or organisation type"
+      organisationName_label: "Business, organisation or trading name"
+      individualsType_label: "Organisation type"
+      companyRegistrationNumber_label: "Company registration number"
+      publicBodyType_label: "Type of public body"
+
+      option_please_select: "Please select..."
+
+      registerAs_carrier: "Carrier"
+      registerAs_broker: "Broker"
+      registerAs_dealer: "Dealer"
+
+      organisationType_individual: "An individual"
+      organisationType_organisationOfIndividuals: "An organisation of individuals (such as a charity)"
+      organisationType_limitedCompany: "A limited company or limited liability partnership (LLP)"
+      organisationType_publicBody: "A public body"
+
+
+      address_and_contact_details_heading: "Address and contact details"
+
+      houseNumber_label: "House number"
+      postcode_label: "Post code"
+      findAddress_label: "Find address"
+      addresses_found: " Address(es) found"
+      please_select_address: "Please select an address.."
+      change_address_label: "Change address"
+
+      contact_information_legend: "Contact information"
+
+      title_mr: "Mr"
+      title_mrs: "Mrs"
+      title_miss: "Miss"
+
+      firstName_label: "First name"
+      lastName_label: "Last name"
+      phoneNumber_label: "Phone number"
+      emailAddress_label: "E-mail address"
+
+      next_button_label: "Next"
+      back_button_label: "Back"
+      register_button_label: "Register"
+
+      check_details_and_register_heading: "Check details and register"
+      summary_of_registreation: "Summary of information"
+      declaration_legend: "Declaration"
+      declaration_label: "I declare that as far as I know and believe, the information in this registration is true."
+      declaration_legal_text: "...(TBD) some legal text to go here..."
+
