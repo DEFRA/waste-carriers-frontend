@@ -1,0 +1,109 @@
+
+
+<div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">50%</div><div class="bar" style="width: 50%"></div></div></div>
+
+  <% if @registration.errors.any? %>
+    <div id="error_explanation" class="validation-summary">
+      <h2><%= pluralize(@registration.errors.count, "error") %> prohibited this registration from being saved:</h2>
+
+      <ol>
+      <% @registration.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ol>
+    </div>
+  <% end %>
+
+<!-- WF 4.3.2 -->
+<div id="page2">
+
+<h2>Address and contact details</h2>
+
+<fieldset>
+<legend>Principal (main) business, organisation or trading address</legend>
+
+
+<div id="addressSearch">
+<p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
+<%= f.label :houseNumber, "House number" %>
+<%= f.text_field :houseNumber %>
+</p>
+
+<div id="addressManual" style="display:none">
+<p class="group<%if @registration.errors[:address1].any?%> validation<%end%>">
+<%= f.label :address1, "Street" %>
+<%= f.text_field :address1 %>
+</p>
+<p class="group<%if @registration.errors[:address2].any?%> validation<%end%>">
+<%= f.label :address2, :class=>"offscreen" %>
+<%= f.text_field :address2 %>
+</p>
+<p class="group<%if @registration.errors[:city].any?%> validation<%end%>">
+<%= f.label :city, "Town/City" %>
+<%= f.text_field :city%>
+</p>
+</div>
+
+<p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
+    <%= f.label :postcode, "Postcode" %>
+    <%= f.text_field :postcode %>
+</p>
+
+<p class="action group">
+<input name="findAddress" class="button-secondary" type="submit" value="Find address"/>
+</p>
+</div>
+
+<div id="addressSearchResults" style="display:none">
+<p class="group">
+<label for="addresses"><span id="resultCount">5</span> Addresses found</label>
+<select id="addresses">
+<option>Please select an address..</option>
+</select>
+</p>
+<a href="#" id="manualAddressLink">I cannot find my address</a>
+</div>
+
+<div id="selectedAddress" style="display:none">
+<div id="addressDisplay">
+</div>
+<p class="action group">
+<input name="changeAddress" class="button-secondary" type="submit" value="Change address"/>
+</p>
+</div>
+
+<%= f.hidden_field :uprn %>
+<%= f.hidden_field :address %>
+</fieldset>
+
+<fieldset>
+<legend>Contact information</legend>
+
+<p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+<%= f.label :title %>
+<%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"]],f.object.title ) %>
+</p>
+<p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+    <%= f.label :firstName, "First name" %>
+    <%= f.text_field :firstName %>
+</p>
+<p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+    <%= f.label :lastName, "Last name" %>
+    <%= f.text_field :lastName %>
+</p>
+<p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
+    <%= f.label :phoneNumber, "Phone number" %>
+    <%= f.text_field :phoneNumber %>
+</p>
+<p class="group<%if @registration.errors[:emailAddress].any?%> validation<%end%>">
+    <%= f.label :emailAddress, "Email address" %>
+    <%= f.text_field :emailAddress %>
+</p>
+</fieldset>
+
+<!--<p class="action group">
+<input name="next" type="submit" value="Next"/>
+<input name="back" type="submit" value="Back"/>
+</p>-->
+
+</div>

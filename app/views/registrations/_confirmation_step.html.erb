@@ -1,0 +1,47 @@
+
+<div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">75%</div><div class="bar" style="width: 75%"></div></div></div>
+
+  <% if @registration.errors.any? %>
+    <div id="error_explanation" class="validation-summary">
+      <h2><%= pluralize(@registration.errors.count, "error") %> prohibited this registration from being saved:</h2>
+
+      <ul>
+      <% @registration.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<!-- WF 4.3.3 -->
+<div id="page3">
+<h2>Check details and register</h2>
+<fieldset>
+<legend>Summary of registration</legend>
+<div id="summary">
+
+<p>Registering <%=@registration.organisationType%> for</p>
+<p><%=@registration.organisationName%></p>
+<p>At the following address</p>
+
+<div><%=@registration.address%></div>
+
+<p>Contact</p>
+<div><%=@registration.title%> <%=@registration.firstName%> <%=@registration.lastName%> (<%=@registration.emailAddress%>)</div>
+<div>Telephone number: <%=@registration.phoneNumber%></div>
+
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Declaration</legend>
+
+<p>&lt;Legal text&gt;</p>
+
+<p class="option group<%if @registration.errors[:declaration].any?%> validation<%end%>">
+<label for="registration_declaration"><%= f.check_box :declaration%> I declare that as far as I know and believe, the information in this registration is true.</label>
+</p>
+
+</fieldset>
+
+</div>

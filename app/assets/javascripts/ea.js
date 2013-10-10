@@ -10,47 +10,14 @@
 
 	var advancedSearch = false;
 
+	var manualAddress;
+
 	var orgTypeLookup = {
 			"individual":"individual",
 			"organisationOfIndividuals":"organisation of individuals",
 			"limitedCompany":"limited company or limited liability partnership",
 			"publicBody":"public body"
 		};
-
-	function movePage(num){
-		if(num==0){
-			if(window.location.href.indexOf("/edit")!=-1){
-				window.location.href = "/registrations";
-			}else{
-				window.location.href = r.startUrl;
-			}
-		}
-		if(num===3){
-			updateSummary();
-			$("input[name=register]").removeClass("js-hidden").css("display","");
-			$("input[name=next]").css("display","none");
-		}else{
-			$("input[name=register]").css("display","none");
-			$("input[name=next]").css("display","");
-		}
-
-		$("#page"+page).css("display","none");
-		$("#page"+num).css("display","");
-		page = num;
-
-		setProgress(num , 4);
-		window.scrollTo(0);
-	}
-
-	function moveNext(){
-		if(page>=3)return;
-		movePage(page+1);
-	}
-
-	function moveBack(){
-		if(page<=0)return;
-		movePage(page-1);
-	}
 
 	function findAddress(){
 		var value = $("#registration_postcode").val();
@@ -103,6 +70,25 @@
 		$("#addressSearch").css("display","");
 		setHidden("uprn","");
 		setHidden("address","");
+		manualAddress = true;
+	}
+
+
+	function submitAddress(){
+		if(!manualAddress){
+			return;
+		}
+		var address = $("#registration_houseNumber").val() + " " + $("#registration_address1").val();
+		var address2 = $("#registration_address2").val();
+		if(address2!=""){
+			address += ", "+address2;
+		}
+		var city = $("#registration_city").val();
+		if(city!=""){
+			address += ", "+city;
+		}
+		address += ", "+$("#registration_postcode").val();
+		setHidden("address",address);
 	}
 
 	function changeAddress(){
@@ -133,6 +119,7 @@
 
 		updateSummaryWithData(data,$("#summary").get(0));
 	}
+
 
 	function searchResultSummaries(){
 		$(".detail .data").each(function(index,elem){
@@ -240,25 +227,6 @@
 		$("#registration_"+key).val(value);
 	}
 
-	function setProgress(curr,max){
-		var percent = curr * 100 / max;
-		var $progress = $("#progress");
-		$progress.html("<div class=\"offscreen\">"+percent+"%</div><div class=\"bar\"></div>");
-		$("#progress .bar").css("width",percent+"%");
-	}
-
-//	function setProgress(curr,max){
-//		var $progress = $("#progress");
-//		var html = "<div class=\"offscreen\">"+curr+"/"+max+"</div><nav class=\"progress-indicator\"><ol>";
-//		for(var x=0;x<max;x++){
-//			html += "<li";
-//			if(x<curr)html+=" class=\"active\"";
-//			html += "></li>";
-//		}
-//		html += "</ol></nav>";
-//		$progress.html(html);
-//	}
-
 	function regSearch(){
 		var businessName = $("#businessName").val().toLowerCase();
 		var searchOrgType = $("#organisationType").val().toLowerCase();
@@ -310,8 +278,6 @@
 	$(document).ready(function(){
 		$('#registration_organisationType').change(refreshQuestions);
 		$("#registration_publicBodyType").change(refreshQuestions);
-		$("input[name=next]").click(function(e){e.preventDefault();moveNext()});
-		$("input[name=back]").click(function(e){e.preventDefault();moveBack()});
 		$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress()});
 		$("#addresses").change(updateAddress);
 		$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress()});
@@ -330,7 +296,6 @@
 				manualAddress();
 			}
 		}
-		setProgress(1,4);
 		searchResultSummaries();
 
 		$("#reg-search").click(function(e){
@@ -344,6 +309,9 @@
 		$("#manualAddressLink").click(function(e){
 			e.preventDefault();
 			manualAddress();
+		});
+		$("form").submit(function(e){
+			submitAddress();
 		});
 	});
 }());

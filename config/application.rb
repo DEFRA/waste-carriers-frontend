@@ -56,6 +56,10 @@ module Registrations
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance|
+      "#{html_tag}".html_safe
+    }
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
   end
