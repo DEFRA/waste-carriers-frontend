@@ -17,9 +17,16 @@ class Registration < ActiveRecord::Base
   validates :postcode,:if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format:{with: /\A(GIR 0AA)|((([A-Z-[QVX]][0-9][0-9]?)|(([A-Z-[QVX]][A-Z-[IJZ]][0-9][0-9]?)|(([A-Z-[QVX]][0-9][A-HJKSTUW])|([A-Z-[QVX]][A-Z-[IJZ]][0-9][ABEHMNPRVWXY])))) [0-9][A-Z-[CIKMOV]]{2})\Z/, message:"must be a valid UK postcode"}
   validates_presence_of :title, :if => lambda { |o| o.current_step == "contact" }
   validates_presence_of :firstName, :if => lambda { |o| o.current_step == "contact" }
+  validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z]*\Z/, message:"can only contain letters"}
+  validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:"can not be longer than 35 characters"}
   validates_presence_of :lastName, :if => lambda { |o| o.current_step == "contact" }
+  validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z]*\Z/, message:"can only contain letters"}
+  validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:"can not be longer than 35 characters"}
   validates_presence_of :email, :if => lambda { |o| o.current_step == "contact" }
+  validates :email, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+\Z/, message:"must be a valid email address"}
+  validates :email, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}
   validates_presence_of :phoneNumber, :if => lambda { |o| o.current_step == "contact" }
+  validates :phoneNumber, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[0-9\s]*\Z/, message:"can only contain numbers"}
 
   validates :declaration, :acceptance => "1", :if => lambda { |o| o.current_step == "confirmation" }
 

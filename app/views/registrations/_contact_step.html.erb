@@ -81,7 +81,7 @@
 
 <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
 <%= f.label :title %>
-<%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"]],f.object.title ) %>
+<%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"],["Dr"]],f.object.title ) %>
 </p>
 <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
     <%= f.label :firstName, "First name" %>
