@@ -78,8 +78,8 @@
 		if(!manualAddress){
 			return;
 		}
-		var address = $("#registration_houseNumber").val() + " " + $("#registration_address1").val();
-		var address2 = $("#registration_address2").val();
+		var address = $("#registration_houseNumber").val() + " " + $("#registration_streetLine1").val();
+		var address2 = $("#registration_streetLine2").val();
 		if(address2!=""){
 			address += ", "+address2;
 		}
@@ -103,16 +103,14 @@
 		address = addressLookup[address];
 
 		var data = {
-			registerAs : $("#registration_registerAs").val(),
-			organisationType: $("#registration_organisationType").val(),
-			organisationName: $("#registration_organisationName").val(),
+			organisationType: $("#registration_businessType").val(),
+			organisationName: $("#registration_companyName").val(),
 			title : $("#registration_title").val(),
 			firstName : $("#registration_firstName").val(),
 			lastName : $("#registration_lastName").val(),
 			emailAddress : $("#registration_emailAddress").val(),
 			phoneNumber: $("#registration_phoneNumber").val(),
 			individualsType: $("#registration_individualsType").val(),
-			companyRegistrationNumber:$("#registration_companyRegistrationNumber").val(),
 			publicBodyType:$("#registration_publicBodyType").val(),
 			address: address
 		}
@@ -128,7 +126,6 @@
 			var address = $elem.attr("data-address");
 
 			var data = {
-				registerAs : $elem.attr("data-registerAs"),
 				organisationType: $elem.attr("data-organisationType"),
 				organisationName: $elem.attr("data-organisationName"),
 				title : $elem.attr("data-title"),
@@ -136,8 +133,7 @@
 				lastName : $elem.attr("data-lastName"),
 				emailAddress : $elem.attr("data-emailAddress"),
 				phoneNumber: $elem.attr("data-phoneNumber"),
-				individualsType: $elem.attr("individualsType"),
-				companyRegistrationNumber:$elem.attr("data-companyRegistrationNumber"),
+				individualsType: $elem.attr("data-individualsType"),
 				publicBodyType:$elem.attr("data-publicBodyType"),
 				address: address
 			}
@@ -208,7 +204,7 @@
 	}
 
 	function refreshQuestions(){
-		var value = $("#registration_organisationType").val();
+		var value = $("#registration_businessType").val();
 		var publicBody = $("#registration_publicBodyType").val();
 
 		$("#indType-wrapper").css("display",value === "organisationOfIndividuals"?"":"none");
@@ -276,7 +272,7 @@
 
 
 	$(document).ready(function(){
-		$('#registration_organisationType').change(refreshQuestions);
+		$('#registration_businessType').change(refreshQuestions);
 		$("#registration_publicBodyType").change(refreshQuestions);
 		$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress()});
 		$("#addresses").change(updateAddress);
@@ -289,9 +285,9 @@
 			$("#addresses").val(uprn);
 			updateAddress();
 		}else{
-			var address1 = $("#registration_address1").val();
-			var address2 = $("#registration_address2").val();
-			var city = $("#registration_city").val();
+			var address1 = $("#registration_streetLine1").val();
+			var address2 = $("#registration_streetLine2").val();
+			var city = $("#registration_townCity").val();
 			if(address1!="" || address2!="" || city!=""){
 				manualAddress();
 			}

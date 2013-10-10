@@ -11,31 +11,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131007141903) do
+ActiveRecord::Schema.define(:version => 20131010114503) do
 
   create_table "registrations", :force => true do |t|
     t.string   "registerAs"
-    t.string   "organisationType"
-    t.string   "organisationName"
+    t.string   "businessType"
+    t.string   "companyName"
     t.string   "individualsType"
-    t.string   "companyRegistrationNumber"
     t.string   "publicBodyType"
     t.string   "title"
     t.string   "firstName"
     t.string   "lastName"
     t.string   "phoneNumber"
-    t.string   "emailAddress"
+    t.string   "email"
     t.string   "houseNumber"
     t.string   "postcode"
     t.string   "uprn"
     t.string   "address"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
     t.string   "declaration"
-    t.string   "publicBodyOther"
-    t.string   "address1"
-    t.string   "address2"
-    t.string   "city"
+    t.string   "publicBodyTypeOther"
+    t.string   "streetLine1"
+    t.string   "streetLine2"
+    t.string   "townCity"
   end
 
 end

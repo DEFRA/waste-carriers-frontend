@@ -6,11 +6,11 @@
     <div id="error_explanation" class="validation-summary">
       <h2><%= pluralize(@registration.errors.count, "error") %> prohibited this registration from being saved:</h2>
 
-      <ol>
+      <ul>
       <% @registration.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
-      </ol>
+      </ul>
     </div>
   <% end %>
 
@@ -30,17 +30,17 @@
 </p>
 
 <div id="addressManual" style="display:none">
-<p class="group<%if @registration.errors[:address1].any?%> validation<%end%>">
-<%= f.label :address1, "Street" %>
-<%= f.text_field :address1 %>
+<p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
+<%= f.label :streetLine1, "Street" %>
+<%= f.text_field :streetLine1%>
 </p>
-<p class="group<%if @registration.errors[:address2].any?%> validation<%end%>">
-<%= f.label :address2, :class=>"offscreen" %>
-<%= f.text_field :address2 %>
+<p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
+<%= f.label :streetLine2, :class=>"offscreen" %>
+<%= f.text_field :streetLine2%>
 </p>
-<p class="group<%if @registration.errors[:city].any?%> validation<%end%>">
-<%= f.label :city, "Town/City" %>
-<%= f.text_field :city%>
+<p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
+<%= f.label :townCity, "Town/City" %>
+<%= f.text_field :townCity%>
 </p>
 </div>
 
@@ -95,9 +95,9 @@
     <%= f.label :phoneNumber, "Phone number" %>
     <%= f.text_field :phoneNumber %>
 </p>
-<p class="group<%if @registration.errors[:emailAddress].any?%> validation<%end%>">
-    <%= f.label :emailAddress, "Email address" %>
-    <%= f.text_field :emailAddress %>
+<p class="group<%if @registration.errors[:email].any?%> validation<%end%>">
+    <%= f.label :email, "Email address" %>
+    <%= f.text_field :email%>
 </p>
 </fieldset>
 

@@ -1,15 +1,15 @@
 class Registration < ActiveRecord::Base
-  attr_accessible :address, :companyRegistrationNumber, :emailAddress, :firstName, :houseNumber, :individualsType, :lastName, :organisationName, :organisationType, :phoneNumber, :postcode, :publicBodyType, :registerAs, :title, :uprn, :publicBodyOther, :address1, :address2, :city, :declaration
+  attr_accessible :address, :email, :firstName, :houseNumber, :individualsType, :lastName, :companyName, :businessType, :phoneNumber, :postcode, :publicBodyType, :registerAs, :title, :uprn, :publicBodyTypeOther, :streetLine1, :streetLine2, :townCity, :declaration
 
   attr_writer :current_step
 
-  validates_presence_of :organisationType, :if => lambda { |o| o.current_step == "business" }
-  validates_presence_of :organisationName, :if => lambda { |o| o.current_step == "business" and o.organisationType != "" }
-  validates :organisationName, :if => lambda { |o| o.current_step == "business" and o.organisationType != "" }, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: "can only contain alpha numeric characters and be no longer than 35 characters"}
-  validates_presence_of :individualsType, :if => lambda { |o| o.current_step == "business" and o.organisationType == "organisationOfIndividuals" }
-  validates_presence_of :publicBodyType, :if => lambda { |o| o.current_step == "business" and o.organisationType == "publicBody" }
-  validates :publicBodyOther, :if => lambda { |o| o.current_step == "business" and o.organisationType == "publicBody" and o.publicBodyType == "other"}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: "can only contain alpha numeric characters and be no longer than 35 characters"}
-  validates_presence_of :publicBodyOther, :if => lambda { |o| o.current_step == "business" and o.organisationType == "publicBody" and o.publicBodyType == "other"}
+  validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
+  validates_presence_of :companyName, :if => lambda { |o| o.current_step == "business" and o.businessType != "" }
+  validates :companyName, :if => lambda { |o| o.current_step == "business" and o.businessType != "" }, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: "can only contain alpha numeric characters and be no longer than 35 characters"}
+  validates_presence_of :individualsType, :if => lambda { |o| o.current_step == "business" and o.businessType == "organisationOfIndividuals" }
+  validates_presence_of :publicBodyType, :if => lambda { |o| o.current_step == "business" and o.businessType == "publicBody" }
+  validates :publicBodyTypeOther, :if => lambda { |o| o.current_step == "business" and o.businessType == "publicBody" and o.publicBodyType == "other"}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: "can only contain alpha numeric characters and be no longer than 35 characters"}
+  validates_presence_of :publicBodyTypeOther, :if => lambda { |o| o.current_step == "business" and o.businessType == "publicBody" and o.publicBodyType == "other"}
 
   validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates :houseNumber ,:if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[0-9]{0,4}\Z/, message: "can only contain numbers (maximum four)"}
@@ -18,7 +18,7 @@ class Registration < ActiveRecord::Base
   validates_presence_of :title, :if => lambda { |o| o.current_step == "contact" }
   validates_presence_of :firstName, :if => lambda { |o| o.current_step == "contact" }
   validates_presence_of :lastName, :if => lambda { |o| o.current_step == "contact" }
-  validates_presence_of :emailAddress, :if => lambda { |o| o.current_step == "contact" }
+  validates_presence_of :email, :if => lambda { |o| o.current_step == "contact" }
   validates_presence_of :phoneNumber, :if => lambda { |o| o.current_step == "contact" }
 
   validates :declaration, :acceptance => "1", :if => lambda { |o| o.current_step == "confirmation" }

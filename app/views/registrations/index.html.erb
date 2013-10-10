@@ -37,18 +37,18 @@
 <div class="box">
 	<dl>
 		<dt>Name</dt>
-		<dd><%= registration.organisationName %></dd>
+		<dd><%= registration.companyName %></dd>
 
 		<dt>Postcode</dt>
 		<dd><%= registration.postcode %></dd>
 	</dl>
 	<div class="detail">
-		<div class="data" data-registerAs="<%= registration.registerAs%>" data-organisationType="<%= registration.organisationType%>"
-			data-organisationName="<%=registration.organisationName%>" data-individualsType="<%=registration.individualsType%>"
-			data-companyRegistrationNumber="<%=registration.companyRegistrationNumber%>" data-publicBodyType="<%=registration.publicBodyType%>"
+		<div class="data" data-organisationType="<%= registration.businessType%>"
+			data-organisationName="<%=registration.companyName%>" data-individualsType="<%=registration.individualsType%>"
+			data-publicBodyType="<%=registration.publicBodyType%>"
 			data-title="<%=registration.title%>" data-firstName="<%=registration.firstName%>"
 			data-lastName="<%=registration.lastName%>" data-phoneNumber="<%=registration.phoneNumber%>"
-			data-emailAddress="<%=registration.emailAddress%>" data-houseNumber="<%=registration.houseNumber%>"
+			data-emailAddress="<%=registration.email%>" data-houseNumber="<%=registration.houseNumber%>"
 			data-postcode="<%=registration.postcode%>" data-uprn="<%=registration.uprn%>"
 			data-address="<%=registration.address%>" >
 		</div>
@@ -60,57 +60,6 @@
 <% end %>
 </div>
 
-<!--
-<h1>Listing registrations</h1>
-
-<table>
-  <tr>
-    <th>Registeras</th>
-    <th>Organisationtype</th>
-    <th>Organisationname</th>
-    <th>Individualstype</th>
-    <th>Companyregistrationnumber</th>
-    <th>Publicbodytype</th>
-    <th>Title</th>
-    <th>Firstname</th>
-    <th>Lastname</th>
-    <th>Phonenumber</th>
-    <th>Emailaddress</th>
-    <th>Housenumber</th>
-    <th>Postcode</th>
-    <th>Uprn</th>
-    <th>Address</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @registrations.each do |registration| %>
-  <tr>
-    <td><%= registration.registerAs %></td>
-    <td><%= registration.organisationType %></td>
-    <td><%= registration.organisationName %></td>
-    <td><%= registration.individualsType %></td>
-    <td><%= registration.companyRegistrationNumber %></td>
-    <td><%= registration.publicBodyType %></td>
-    <td><%= registration.title %></td>
-    <td><%= registration.firstName %></td>
-    <td><%= registration.lastName %></td>
-    <td><%= registration.phoneNumber %></td>
-    <td><%= registration.emailAddress %></td>
-    <td><%= registration.houseNumber %></td>
-    <td><%= registration.postcode %></td>
-    <td><%= registration.uprn %></td>
-    <td><%= registration.address %></td>
-    <td><%= link_to 'Show', registration %></td>
-    <td><%= link_to 'Edit', edit_registration_path(registration) %></td>
-    <td><%= link_to 'Destroy', registration, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
--->
 <%= link_to 'New Registration', start_url%>
 
 </article></main>
