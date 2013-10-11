@@ -20,14 +20,14 @@
 <legend>Summary of registration</legend>
 <div id="summary">
 
-<p>Registering <%=@registration.organisationType%> for</p>
-<p><%=@registration.organisationName%></p>
+<p>Registering <%=@registration.businessType%> for</p>
+<p><%=@registration.companyName%></p>
 <p>At the following address</p>
 
 <div><%=@registration.address%></div>
 
 <p>Contact</p>
-<div><%=@registration.title%> <%=@registration.firstName%> <%=@registration.lastName%> (<%=@registration.emailAddress%>)</div>
+<div><%=@registration.title%> <%=@registration.firstName%> <%=@registration.lastName%> (<%=@registration.email%>)</div>
 <div>Telephone number: <%=@registration.phoneNumber%></div>
 
 </div>
@@ -45,3 +45,7 @@
 </fieldset>
 
 </div>
+<p class="action group">
+<input name="back" class="button-secondary" type="submit" value="Back"/>
+<input name="register" class="button" type="submit" value="Register"/>
+</p>
