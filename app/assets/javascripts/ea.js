@@ -10,7 +10,7 @@
 
 	var advancedSearch = false;
 
-	var manualAddress;
+	var useManualAddress;
 
 	var orgTypeLookup = {
 			"individual":"individual",
@@ -70,12 +70,12 @@
 		$("#addressSearch").css("display","");
 		setHidden("uprn","");
 		setHidden("address","");
-		manualAddress = true;
+		useManualAddress = true;
 	}
 
 
 	function submitAddress(){
-		if(!manualAddress){
+		if(!useManualAddress){
 			return;
 		}
 		var address = $("#registration_houseNumber").val() + " " + $("#registration_streetLine1").val();

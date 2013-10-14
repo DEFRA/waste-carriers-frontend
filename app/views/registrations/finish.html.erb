@@ -3,11 +3,16 @@
 <h1>Waste Carrier Registration</h1>
 <h2 class="subtitle">For a lower tier waste carrier, broker or dealer</h2>
 
-<h2 class="registered"><%= @registration.companyName%> has been successfully registered!</h2>
+<h2 class="registered">Registration complete</h2>
 
-<p>Your registration has been emailed to: <%= @registration.email%></p>
+<p><b>Your registration number is: CBD1234567.</b></p>
 
-<p>You can also print this registration for your records.:</p>
+<p><b><%=@registration.companyName%></b></p>
+<div><b><%=@registration.address%></b></div>
+
+<p>Please make a record of your registration number as an authorised officer  may ask for it. These details along with supporting guidance have been emailed to <%= @registration.email%></p>
+
+<p>Your registration lasts indefinitely so does not need to be renewed. However, you must tell us if any of your details change.</p>
 
 <form action="<%=registrations_path %>">
 <p class="action group">
