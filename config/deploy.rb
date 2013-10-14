@@ -11,11 +11,10 @@ set :scm_username, "git"
 set :repository, "waste-exemplar-frontend.github.com:EnvironmentAgency/waste-exemplar-frontend.git"
 set :user, "poc-rails"
 set :deploy_to, "/caci/deploys/we-frontend"
-set :rails_env, 'development'
 
-role :app, "ea-dev"
-role :web, "ea-dev"
-role :db, "ea-dev", :primary => true
+#role :app, "ea-dev"
+#role :web, "ea-dev"
+#role :db, "ea-dev", :primary => true
 
 # set :format, :prettyset :branch, "master"
 # set :log_level, :debug
@@ -26,6 +25,12 @@ role :db, "ea-dev", :primary => true
 
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
 # set :keep_releases, 5
+
+desc "Deploy to development server"
+task :dev do
+  set :rails_env, 'development'
+  server "ea-dev", :web, :app, :db, :primary => true
+end
 
 namespace :deploy do
 
