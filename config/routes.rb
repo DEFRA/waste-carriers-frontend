@@ -1,6 +1,8 @@
 Registrations::Application.routes.draw do
   match "registrations/start" => 'registrations#start', :as => :start
   match "registrations/:id/finish" => 'registrations#finish', :as => :finish
+  match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
+  match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put]
   resources :registrations
 
 

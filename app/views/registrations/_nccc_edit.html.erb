@@ -1,7 +1,4 @@
 
-
-<div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">50%</div><div class="bar" style="width: 50%"></div></div></div>
-
   <% if @registration.errors.any? %>
     <div id="error_explanation" class="validation-summary">
       <h2><%= pluralize(@registration.errors.count, "error") %> prohibited this registration from being saved:</h2>
@@ -13,6 +10,46 @@
       </ul>
     </div>
   <% end %>
+
+<!-- WF 4.3.1 -->
+<div id="page1">
+
+
+<fieldset>
+<legend>Business or organisation details</legend>
+
+<p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
+<%= f.label :businessType, "Business or organisation type" %>
+<%= f.select :businessType, options_for_select([["Please select...",""],["An individual","individual"],["An organisation of individuals (such as a charity)","organisationOfIndividuals"],["A limited company or limited liability partnership (LLP)","limitedCompany"],["A public body","publicBody"]],f.object.businessType) %>
+</p>
+
+<div id="orgTypeQuestions" class="js-hidden">
+
+<p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+<%= f.label :companyName, "Business, organisation or trading name" %>
+<%= f.text_field :companyName%>
+</p>
+
+<p id="indType-wrapper" class="group<%if @registration.errors[:individualsType ].any?%> validation<%end%>">
+<%= f.label :individualsType, "Organisation type" %>
+<%= f.select :individualsType , options_for_select([["Please select...",""],["Charity","charity"]],f.object.individualsType) %>
+</p>
+
+<p id="publicBodyType-wrapper" class="group<%if @registration.errors[:publicBodyType].any?%> validation<%end%>">
+<%= f.label :publicBodyType, "Type of public body" %>
+<%= f.select :publicBodyType , options_for_select([["Please select...",""],["English county council","englishCountyCouncil"], ["English district council","englishDistrictCouncil"], ["English unitary authority","englishUnitaryAuthority"], ["English metropolitan council","englishMetropolitanCouncil"], ["London borough council","londonBoroughCouncil"], ["Town council","townCouncil"], ["Parish council","parishCouncil"], ["Other government authority","otherGovernmentAuthority"], ["NHS trust","nhsTrust"], ["Primary care trust","primaryCareTrust"], ["Other health body","otherHealthBody"], ["Fire authority","fireAuthority"], ["Other public body (please give details)","other"]],f.object.publicBodyType ) %>
+</p>
+
+<p id="publicBodyOther-wrapper" class="group<%if @registration.errors[:publicBodyTypeOther].any?%> validation<%end%>">
+<%= f.label :publicBodyTypeOther, "Other type of public body" %>
+<%= f.text_field :publicBodyTypeOther%>
+</p>
+</div>
+
+</fieldset>
+
+
+</div>
 
 <!-- WF 4.3.2 -->
 <div id="page2">
@@ -101,13 +138,8 @@
 </p>
 </fieldset>
 
-<!--<p class="action group">
-<input name="next" type="submit" value="Next"/>
-<input name="back" type="submit" value="Back"/>
-</p>-->
-
 </div>
 <p class="action group">
 <input name="back" class="button-secondary" type="submit" value="Back"/>
-<input name="next" class="button" type="submit" value="Next"/>
+<input name="next" class="button" type="submit" value="Update"/>
 </p>
