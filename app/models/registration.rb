@@ -1,7 +1,36 @@
-class Registration < ActiveRecord::Base
-  attr_accessible :address, :email, :firstName, :houseNumber, :individualsType, :lastName, :companyName, :businessType, :phoneNumber, :postcode, :publicBodyType, :registerAs, :title, :uprn, :publicBodyTypeOther, :streetLine1, :streetLine2, :townCity, :declaration
+require 'active_resource'
+
+class Registration < ActiveResource::Base
+# In Rails 4, attr_accessible has been replaced by strong parameters in controllers
+#  attr_accessible :address, :email, :firstName, :houseNumber, :individualsType, :lastName, :companyName, :businessType, :phoneNumber, :postcode, :publicBodyType, :registerAs, :title, :uprn, :publicBodyTypeOther, :streetLine1, :streetLine2, :townCity, :declaration
+
+  self.site = 'http://localhost:9090'
+  self.format = :json
 
   attr_writer :current_step
+
+  #The schema is not strictly necessary for a model based on ActiveRessource, but helpful for documentation
+  schema do
+    string :businessType
+    string :companyName
+    string :individualsType
+    string :publicBodyType
+    string :publicBodyTypeOther
+    string :houseNumber
+    string :streetLine1
+    string :streetLine2
+    string :townCity
+    string :postcode
+    string :title
+    string :firstName
+    string :lastName
+    string :phoneNumber
+    string :email
+    string :declaration
+    # TODO: Determine if this is needed?
+    string :uprn
+    string :address
+  end
 
   validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
   validates_presence_of :companyName, :if => lambda { |o| o.current_step == "business" and o.businessType != "" }

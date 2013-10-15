@@ -1,26 +1,32 @@
 source 'https://rubygems.org'
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'rails', '3.2.13'
+gem 'rails', '4.0.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+#We won't need sqllite (or ActiveRecord) once we have moved to ActiveResource for registrations
+#but it may still be need it for authentication...
 gem 'sqlite3'
+
+# Use ActiveResource, this app being the client of the REST-based service API (implemented in waste-exemplar-services)
+gem 'activeresource', '~>4.0.0'
+
 
 gem 'govuk_frontend_toolkit'
 
 # Gems used only for assets and not required
 # in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
 
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer', :platforms => :ruby
+gem 'sass-rails',   '~> 4.0.0'
+gem 'coffee-rails', '~> 4.0.0'
 
-  gem 'uglifier', '>= 1.0.3'
-end
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+# gem 'therubyracer', :platforms => :ruby
+
+gem 'uglifier', '>= 1.3.0'
+
 
 gem 'jquery-rails'
 
@@ -51,6 +57,6 @@ group :test do
   #We need the selenium webdriver for javascript
   gem 'selenium-webdriver'
 
-  #for headless testing
-  #gem 'capybara-webkit'
+  #needed for headless testing with Javascript
+  gem 'capybara-webkit'
 end

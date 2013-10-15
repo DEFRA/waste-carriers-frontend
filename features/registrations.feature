@@ -8,10 +8,10 @@ So that I am compliant with regulations
 @no-database-cleaner
 Scenario: Valid registration as an Individual
   Given I am on the Start page
-  And I click on "Begin"
+  And I click on "Begin registration"
   Then I should see "Waste Carrier Registration"
   And I should see "For a lower tier waste carrier, broker or dealer"
-  And I register as a"Carrier"
+  #And I register as a"Carrier"
   And I select business or organisation type "An individual"
   And I fill in "Business, organisation or trading name" with "Joe Bloggs"
   And I click "Next"
@@ -25,7 +25,7 @@ Scenario: Valid registration as an Individual
 @no-database-cleaner
 Scenario: Valid registration as an Individual (version 2)
   Given I am on the Start page
-  When I click on "Begin"
+  When I click on "Begin registration"
   And I provide valid individual trading name details
   And I provide valid contact details
   And I confirm the declaration
