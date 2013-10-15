@@ -44,6 +44,10 @@ class RegistrationsController < ApplicationController
     @registration.update_attributes(session[:registration_params])
     @registration.current_step = session[:registration_step]
   end
+  
+  def ncccedit
+    @registration = Registration.find(params[:id])
+  end
 
   # POST /registrations
   # POST /registrations.json
@@ -71,6 +75,21 @@ class RegistrationsController < ApplicationController
     else
       session[:registration_step] = session[:registration_params] = nil
       redirect_to finish_url(:id => @registration.id)
+    end
+  end
+  
+  def ncccupdate
+    if params[:back]
+      redirect_to registrations_path
+    else
+      @registration = Registration.find(params[:id])
+      @registration.update_attributes(params[:registration])
+      if @registration.all_valid?
+        @registration.save
+        redirect_to registrations_path
+      else
+        render "ncccedit"
+      end
     end
   end
 
