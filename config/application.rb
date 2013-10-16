@@ -62,5 +62,10 @@ module Registrations
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    #Our services URL. This application is the REST-based client of that service API.
+    #As described in the comments above, this setting can be redefined in config/environments/*.rb
+    #Changing this value requires restart of the application
+    config.waste_exemplar_services_url = "http://localhost:9090"
   end
 end

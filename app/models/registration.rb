@@ -4,7 +4,9 @@ class Registration < ActiveResource::Base
 # In Rails 4, attr_accessible has been replaced by strong parameters in controllers
 #  attr_accessible :address, :email, :firstName, :houseNumber, :individualsType, :lastName, :companyName, :businessType, :phoneNumber, :postcode, :publicBodyType, :registerAs, :title, :uprn, :publicBodyTypeOther, :streetLine1, :streetLine2, :townCity, :declaration
 
-  self.site = 'http://localhost:9090'
+  #The services URL can be configured in config/application.rb and/or in the config/environments/*.rb files.
+  self.site = Rails.configuration.waste_exemplar_services_url
+
   self.format = :json
 
   attr_writer :current_step
