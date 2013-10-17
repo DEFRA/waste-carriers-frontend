@@ -59,7 +59,7 @@ class Registration < ActiveResource::Base
   validates_presence_of :phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   validates :phoneNumber, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[0-9\s]*\Z/, message:"can only contain numbers"}
 
-  validates :declaration, :acceptance => "1", :if => lambda { |o| o.current_step == "confirmation" }
+  validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:"must be accepted"}
 
 
   def current_step
