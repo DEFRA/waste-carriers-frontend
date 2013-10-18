@@ -224,8 +224,8 @@
 	}
 
 	function regSearch(){
-		var businessName = $("#businessName").val().toLowerCase();
-		var searchOrgType = $("#organisationType").val().toLowerCase();
+		var businessName = $("#companyName").val().toLowerCase();
+		var searchOrgType = $("#businessType").val().toLowerCase();
 		var searchPostcode = $("#postcode").val().toLowerCase();
 
 		var count = 0;

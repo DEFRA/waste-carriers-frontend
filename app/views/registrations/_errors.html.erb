@@ -1,0 +1,11 @@
+<% if @registration.errors.any? %>
+    <div id="error_explanation" class="validation-summary">
+      <h2>You have <%= pluralize(@registration.errors.count, "error") %> errors on this page</h2>
+
+      <ul>
+      <% @registration.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>

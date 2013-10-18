@@ -1,18 +1,8 @@
 
 
 <div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">50%</div><div class="bar" style="width: 50%"></div></div></div>
-
-  <% if @registration.errors.any? %>
-    <div id="error_explanation" class="validation-summary">
-      <h2><%= pluralize(@registration.errors.count, "error") %> prohibited this registration from being saved:</h2>
-
-      <ul>
-      <% @registration.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+    
+  <%= render "errors" %>
 
 <!-- WF 4.3.2 -->
 <div id="page2">
@@ -81,7 +71,7 @@
 
 <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
 <%= f.label :title %>
-<%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"],["Dr"]],f.object.title ) %>
+<%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"],["Ms"],["Dr"]],f.object.title ) %>
 </p>
 <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
     <%= f.label :firstName, "First name" %>

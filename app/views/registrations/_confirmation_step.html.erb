@@ -1,17 +1,7 @@
 
 <div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">75%</div><div class="bar" style="width: 75%"></div></div></div>
 
-  <% if @registration.errors.any? %>
-    <div id="error_explanation" class="validation-summary">
-      <h2><%= pluralize(@registration.errors.count, "error") %> prohibited this registration from being saved:</h2>
-
-      <ul>
-      <% @registration.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render "errors" %>
 
 <!-- WF 4.3.3 -->
 <div id="page3">
