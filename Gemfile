@@ -10,6 +10,9 @@ gem 'rails', '4.0.0'
 #but it may still be need it for authentication...
 gem 'sqlite3'
 
+#Using devise for authentication
+gem 'devise', '~>3.1.1'
+
 # Use ActiveResource, this app being the client of the REST-based service API (implemented in waste-exemplar-services)
 gem 'activeresource', '~>4.0.0'
 

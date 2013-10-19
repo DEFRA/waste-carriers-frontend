@@ -32,6 +32,10 @@ class Registration < ActiveResource::Base
     # TODO: Determine if this is needed?
     string :uprn
     string :address
+
+    string :user_email
+    string :password
+    string :confirm_password
   end
 
   validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
@@ -67,7 +71,7 @@ class Registration < ActiveResource::Base
   end
 
   def steps
-    %w[business contact confirmation]
+    %w[business contact confirmation signup]
   end
 
   def next_step

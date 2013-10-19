@@ -81,5 +81,6 @@ end
 When(/^I confirm the declaration$/) do
   find_field('registration_declaration')
   check('registration_declaration')
+  click_on 'Next'
   click_on 'Register'
 end

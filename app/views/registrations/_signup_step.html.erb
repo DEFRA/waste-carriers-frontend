@@ -1,0 +1,42 @@
+
+<div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">75%</div><div class="bar" style="width: 75%"></div></div></div>
+
+  <%= render "errors" %>
+
+<!-- WF 4.3.4 -->
+<div id="page4">
+<h2>Sign up and register</h2>
+<fieldset>
+<legend>User details</legend>
+<div id="summary">
+
+<p>Registering <%=@registration.email%></p>
+<p><%=@registration.companyName%></p>
+
+</div>
+</fieldset>
+
+<fieldset>
+<legend>Signup information</legend>
+
+<p class="group<%if @registration.errors[:user_email].any?%> validation<%end%>">
+    <%= f.label :user_email, "E-mail" %>
+    <%= f.text_field :user_email %>
+</p>
+<p class="group<%if @registration.errors[:password].any?%> validation<%end%>">
+    <%= f.label :password, "Password" %>
+    <%= f.text_field :password %>
+</p>
+<p class="group<%if @registration.errors[:confirm_password].any?%> validation<%end%>">
+    <%= f.label :confirm_password, "Confirm password" %>
+    <%= f.text_field :confirm_password %>
+</p>
+
+</fieldset>
+
+
+</div>
+<p class="action group">
+<input name="back" class="button-secondary" type="submit" value="Back"/>
+<input name="register" class="button" type="submit" value="Register"/>
+</p>

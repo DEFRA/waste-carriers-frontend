@@ -1,4 +1,8 @@
 Registrations::Application.routes.draw do
+  devise_for :users
+  root :to => "home#index"
+
+  get "home/index"
   get "registrations/start" => 'registrations#start', :as => :start
   get "registrations/:id/finish" => 'registrations#finish', :as => :finish
   match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit

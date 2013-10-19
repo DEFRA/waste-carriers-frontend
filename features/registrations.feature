@@ -18,6 +18,7 @@ Scenario: Valid registration as an Individual
   And I fill in valid contact details
   And I click "Next"
   And I select the declaration checkbox
+  And I click "Next"
   And I click "Register"
   Then I should see the Confirmation page
 
