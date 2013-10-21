@@ -90,3 +90,22 @@ When(/^I provide valid user details for sign up$/) do
   fill_in('registration_password_confirmation', :with  => 'bloggs123')
   #click_on 'Register'
 end
+
+
+When(/^I begin a registration$/) do
+    visit '/registrations/new'
+end
+
+Then(/^I should see an error with "(.*?)"$/) do |some_text|
+  assert(page.has_content?(some_text))
+end
+
+When(/^I begin a registration as an Individual$/) do
+  visit '/registrations/new'
+  page.select('An individual', :from => 'registration_businessType')
+end
+
+When(/^I fill in company name with "(.*?)"$/) do |company_name|
+  fill_in('registration_companyName', :with => company_name)  
+end
+
