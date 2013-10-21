@@ -19,6 +19,7 @@ Scenario: Valid registration as an Individual
   And I click "Next"
   And I select the declaration checkbox
   And I click "Next"
+  And I provide valid user details for sign up
   And I click "Register"
   Then I should see the Confirmation page
 
@@ -30,4 +31,6 @@ Scenario: Valid registration as an Individual (version 2)
   And I provide valid individual trading name details
   And I provide valid contact details
   And I confirm the declaration
+  And I provide valid user details for sign up
+  And I click "Register"
   Then I should see the Confirmation page

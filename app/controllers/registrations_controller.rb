@@ -35,6 +35,7 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = session[:registration_step]
+    #@registration.user = User.new
   end
 
   # GET /registrations/1/edit
@@ -61,7 +62,7 @@ class RegistrationsController < ApplicationController
       session[:registration_step] = @registration.current_step
     elsif @registration.valid?
       if @registration.last_step?
-        @registration.save if @registration.all_valid?
+        @registration.save_with_user if @registration.all_valid?
       else
         @registration.next_step
       end

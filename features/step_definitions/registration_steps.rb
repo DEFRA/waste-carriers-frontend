@@ -82,5 +82,11 @@ When(/^I confirm the declaration$/) do
   find_field('registration_declaration')
   check('registration_declaration')
   click_on 'Next'
-  click_on 'Register'
+end
+
+When(/^I provide valid user details for sign up$/) do
+  fill_in('registration_email', :with => 'joe@bloggs.com')
+  fill_in('registration_password', :with => 'bloggs123')
+  fill_in('registration_password_confirmation', :with  => 'bloggs123')
+  #click_on 'Register'
 end
