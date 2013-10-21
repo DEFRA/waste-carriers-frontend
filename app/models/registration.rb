@@ -141,8 +141,8 @@ class Registration < ActiveResource::Base
   def validate_passwords
     #this method may be called (again?) after the password properties have been deleted
     if password != nil && password_confirmation != nil
-      puts 'password = ' + password
-      puts 'password_confirmation = ' + password_confirmation
+      #puts 'password = ' + password
+      #puts 'password_confirmation = ' + password_confirmation
       if password != password_confirmation
         errors.add(:password_confirmation, 'The passwords must match')
       end
