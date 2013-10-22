@@ -15,7 +15,10 @@ Registrations::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  # Don't care if the mailer can't send
+  #Experimental mail configuration for development - does Postfix use sendmail settings?
+  config.action_mailer.delivery_method = :sendmail
+
+  # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = true
 
   # Print deprecation notices to the Rails logger

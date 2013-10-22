@@ -83,6 +83,7 @@ class RegistrationsController < ApplicationController
         @registration.save_with_user if @registration.all_valid?
         @user = @registration.user
         sign_in @user
+        RegistrationMailer.welcome_email(@user).deliver
       else
         @registration.next_step
       end
