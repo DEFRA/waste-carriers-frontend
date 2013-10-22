@@ -5,7 +5,6 @@ I want to register
 So that I am compliant with regulations
 
 @javascript
-@no-database-cleaner
 Scenario: Valid registration as an Individual
   Given I am on the Start page
   And I click on "Begin registration"
@@ -24,7 +23,6 @@ Scenario: Valid registration as an Individual
   Then I should see the Confirmation page
 
 @javascript
-@no-database-cleaner
 Scenario: Valid registration as an Individual (version 2)
   Given I am on the Start page
   When I click on "Begin registration"
