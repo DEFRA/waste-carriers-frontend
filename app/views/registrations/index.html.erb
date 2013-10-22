@@ -2,10 +2,11 @@
 
 
 <h2>Find a registered business, organisation or trader</h2>
+<form method="get" action="registrations">
 <div class="box">
 <p class="group">
-	<label for="companyName">Registration number</label>
-	<input id="companyName" type="text" />
+	<label for="q">Registration number</label>
+	<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 </p>
 <div id="advanced-options" style="display:none">
 <p class="group">
@@ -24,12 +25,14 @@
 </p>
 </div>
 <p class="action group">
-<button id="reg-search" class="button">Search</button>
+<input type="submit" id="reg-search" class="button" value="Search" />
 <a href="#" id="toggle-search">Advanced search</a>
 </p>
 </div>
+</form>
 
-<div id="reg-search-result" style="display: none">
+<% if params[:q]%>
+<div id="reg-search-result" style="">
 <h2>Found <%=pluralize(@registrations.count,"registration")%></h2>
 <p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
 
@@ -59,6 +62,7 @@
 </div>
 <% end %>
 </div>
+<% end %>
 
 <%= link_to 'New Registration', start_url%>
 

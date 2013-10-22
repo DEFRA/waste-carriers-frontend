@@ -90,7 +90,7 @@ input {
 	padding: 0.25em;
 	margin: 1em 0em;
 }
-.box input{
+.box input[type=text]{
 	min-width:20em;
 }
 .box dl {

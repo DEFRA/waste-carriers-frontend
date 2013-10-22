@@ -292,12 +292,14 @@
 				manualAddress();
 			}
 		}
+		
 		searchResultSummaries();
-
+/*
 		$("#reg-search").click(function(e){
 			e.preventDefault();
 			regSearch();
 		});
+		*/
 		$("a#toggle-search").click(function(e){
 			e.preventDefault();
 			advancedToggle();
