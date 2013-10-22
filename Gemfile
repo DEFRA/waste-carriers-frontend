@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+#Needed for pre-release gov.uk gems
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
 gem 'rails', '4.0.0'
@@ -12,6 +13,9 @@ gem 'sqlite3'
 
 #Using devise for authentication
 gem 'devise', '~>3.1.1'
+
+#Using cancan for authorisation
+gem "cancan", "~> 1.6.10"
 
 # Use ActiveResource, this app being the client of the REST-based service API (implemented in waste-exemplar-services)
 gem 'activeresource', '~>4.0.0'

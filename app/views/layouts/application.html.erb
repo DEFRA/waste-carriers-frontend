@@ -94,6 +94,8 @@
       <% end %>
     </div>
 
+    <%= render "shared/current_user" %>
+
     <%= content_for?(:content) ? yield(:content) : yield %>
 
     <footer class="group js-footer" id="footer" role="contentinfo">

@@ -73,6 +73,8 @@ class Registration < ActiveResource::Base
   #validates_presence_of :password_confirmation, if: :password_changed?
 
   validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" }
+  #If changing mim and max length, please also change in devise.rb
+  validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" }
   validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" }
 
 
@@ -147,6 +149,10 @@ class Registration < ActiveResource::Base
         errors.add(:password_confirmation, 'The passwords must match')
       end
     end
+  end
+
+  def user
+    @user
   end
 
 end

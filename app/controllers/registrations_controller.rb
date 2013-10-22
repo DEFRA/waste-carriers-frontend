@@ -1,4 +1,10 @@
 class RegistrationsController < ApplicationController
+
+  #We require authentication (and authorisation) largely only for editing registrations,
+  #and for viewing the finished/completed registration.
+  before_filter :authenticate_user!,
+    :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish]
+
   # GET /registrations
   # GET /registrations.json
   def index
@@ -27,6 +33,7 @@ class RegistrationsController < ApplicationController
 
   def finish
     @registration = Registration.find(params[:id])
+    authorize! :read, @registration
   end
 
   # GET /registrations/new
@@ -63,6 +70,8 @@ class RegistrationsController < ApplicationController
     elsif @registration.valid?
       if @registration.last_step?
         @registration.save_with_user if @registration.all_valid?
+        @user = @registration.user
+        sign_in @user
       else
         @registration.next_step
       end

@@ -34,6 +34,7 @@ GEM
     atomic (1.1.14)
     bcrypt-ruby (3.1.2)
     builder (3.1.4)
+    cancan (1.6.10)
     capistrano (3.0.0)
       i18n
       rake (>= 10.0.0)
@@ -175,6 +176,7 @@ PLATFORMS
 
 DEPENDENCIES
   activeresource (~> 4.0.0)
+  cancan (~> 1.6.10)
   capistrano (~> 3.0.0)
   capybara-webkit
   ci_reporter
