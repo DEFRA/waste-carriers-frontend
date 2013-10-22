@@ -5,20 +5,22 @@
 
 <h2 class="registered">Registration complete</h2>
 
-<p><b>Your registration number is: CBD1234567.</b></p>
+<p><b>Your registration number is: <%=@registration.regIdentifier%>.</b></p>
 
 <p><b><%=@registration.companyName%></b></p>
 <div><b><%=@registration.address%></b></div>
 
-<p>Please make a record of your registration number as an authorised officer  may ask for it. These details along with supporting guidance have been emailed to <%= @registration.email%></p>
+<p>Please make a record of your registration number as an authorised officer may ask for it. These details along with supporting guidance have been emailed to <%= @registration.email%></p>
 
 <p>Your registration lasts indefinitely so does not need to be renewed. However, you must tell us if any of your details change.</p>
 
-<form action="<%=registrations_path %>">
+
+<form action="<%=print_url(@registration.id)%>">
 <p class="action group">
-<input name="finish" class="button" type="submit" value="Finish"/>
-<input name="print" class="button-secondary" type="submit" value="Print"/>
+	<input name="finish" class="button" type="submit" value="Finish"/>
+	<input type="submit" class="button-secondary" value="Print"/>
 </p>
 </form>
+
 
 </article></main>

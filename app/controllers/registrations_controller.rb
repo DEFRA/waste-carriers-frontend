@@ -30,6 +30,17 @@ class RegistrationsController < ApplicationController
 
   def start
   end
+  
+  def print
+  	@registration = Registration.find(params[:id])
+  	if params[:finish]
+      redirect_to registrations_path
+    elsif params[:back]
+      redirect_to finish_url(:id => @registration.id)
+    else
+	  render :layout => 'printview'
+    end
+  end
 
   def finish
     @registration = Registration.find(params[:id])

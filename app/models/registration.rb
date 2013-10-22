@@ -29,6 +29,7 @@ class Registration < ActiveResource::Base
     string :phoneNumber
     string :email
     string :declaration
+    string :regIdentifier
     # TODO: Determine if this is needed?
     string :uprn
     string :address

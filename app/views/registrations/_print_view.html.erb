@@ -1,0 +1,145 @@
+
+  <% if @registration.errors.any? %>
+    <div id="error_explanation" class="validation-summary">
+      <h2><%= pluralize(@registration.errors.count, "error") %> prohibited this registration from being saved:</h2>
+
+      <ul>
+      <% @registration.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<!-- WF 4.3.1 -->
+<div id="page1">
+
+
+<fieldset>
+<legend>Business or organisation details</legend>
+
+<p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
+<%= f.label :businessType, "Business or organisation type" %>
+<%= f.text_field :businessType, :readOnly => true, :size => 100 %>
+</p>
+
+<div id="orgTypeQuestions" class="js-hidden">
+
+<p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+<%= f.label :companyName, "Business, organisation or trading name" %>
+<%= f.text_field :companyName, :readOnly => true, :size => 100 %>
+</p>
+
+<p id="indType-wrapper" class="group<%if @registration.errors[:individualsType ].any?%> validation<%end%>">
+<%= f.label :individualsType, "Organisation type" %>
+<%= f.text_field :individualsType, :readOnly => true, :size => 100 %>
+</p>
+
+<p id="publicBodyType-wrapper" class="group<%if @registration.errors[:publicBodyType].any?%> validation<%end%>">
+<%= f.label :publicBodyType, "Type of public body" %>
+<%= f.text_field :publicBodyType, :readOnly => true, :size => 100 %>
+</p>
+
+<p id="publicBodyOther-wrapper" class="group<%if @registration.errors[:publicBodyTypeOther].any?%> validation<%end%>">
+<%= f.label :publicBodyTypeOther, "Other type of public body" %>
+<%= f.text_field :publicBodyTypeOther, :readOnly => true, :size => 100 %>
+</p>
+</div>
+
+</fieldset>
+
+
+</div>
+
+<!-- WF 4.3.2 -->
+<div id="page2">
+
+<h2>Address and contact details</h2>
+
+<fieldset>
+<legend>Principal (main) business, organisation or trading address</legend>
+
+
+<div id="addressSearch">
+<p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
+<%= f.label :houseNumber, "House number" %>
+<%= f.text_field :houseNumber, :readOnly => true, :size => 100 %>
+</p>
+
+<div id="addressManual" style="display:none">
+<p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
+<%= f.label :streetLine1, "Street" %>
+<%= f.text_field :streetLine1, :readOnly => true, :size => 100 %>
+</p>
+<p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
+<%= f.label :streetLine2, :class=>"offscreen" %>
+<%= f.text_field :streetLine2, :readOnly => true, :size => 100 %>
+</p>
+<p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
+<%= f.label :townCity, "Town/City" %>
+<%= f.text_field :townCity, :readOnly => true, :size => 100 %>
+</p>
+</div>
+
+<p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
+    <%= f.label :postcode, "Postcode" %>
+    <%= f.text_field :postcode, :readOnly => true, :size => 100 %>
+</p>
+
+<p class="action group">
+<!--<input name="findAddress" class="button-secondary" type="submit" value="Find address"/>-->
+</p>
+</div>
+
+<div id="addressSearchResults" style="display:none">
+<p class="group">
+<label for="addresses"><span id="resultCount">5</span> Addresses found</label>
+<select id="addresses">
+<option>Please select an address..</option>
+</select>
+</p>
+<a href="#" id="manualAddressLink">I cannot find my address</a>
+</div>
+
+<div id="selectedAddress" style="display:none">
+<div id="addressDisplay">
+</div>
+<p class="action group">
+<input name="changeAddress" class="button-secondary" type="submit" value="Change address"/>
+</p>
+</div>
+
+<%= f.hidden_field :uprn %>
+<%= f.hidden_field :address %>
+</fieldset>
+
+<fieldset>
+<legend>Contact information</legend>
+
+<p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+<%= f.label :title %>
+<%= f.text_field :title, :readOnly => true, :size => 100 %>
+</p>
+<p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+    <%= f.label :firstName, "First name" %>
+    <%= f.text_field :firstName, :readOnly => true, :size => 100 %>
+</p>
+<p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+    <%= f.label :lastName, "Last name" %>
+    <%= f.text_field :lastName, :readOnly => true, :size => 100 %>
+</p>
+<p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
+    <%= f.label :phoneNumber, "Phone number" %>
+    <%= f.text_field :phoneNumber, :readOnly => true, :size => 100 %>
+</p>
+<p class="group<%if @registration.errors[:email].any?%> validation<%end%>">
+    <%= f.label :email, "Email address" %>
+    <%= f.text_field :email, :readOnly => true, :size => 100 %>
+</p>
+</fieldset>
+
+</div>
+
+<p class="action group">
+	<input name="back" class="button-secondary" type="submit" value="Back"/>
+</p>
