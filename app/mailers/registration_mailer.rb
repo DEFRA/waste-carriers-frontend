@@ -4,7 +4,7 @@ class RegistrationMailer < ActionMailer::Base
   def welcome_email(user)
   	@user = user
   	@url = 'http://37.26.89.99/registrations'
-    mail(to: @user.email, subject: 'Welcome to Waste Carrier Registrations!')
+    mail(to: @user.email, subject: 'Registration Complete for a Waste Carrier!')
   end
   
 end
