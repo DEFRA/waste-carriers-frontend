@@ -5,7 +5,28 @@ en:
 
   hello: "Hello world"
   #Registration form/page(s) content
-
+  errors:
+    messages:
+      blank: "must be completed"
+      
+  activemodel:
+    models:
+      registration: "Registration"
+    attributes:
+      registration:
+        businessType: "Business or organisation type"
+        companyName: "Business, organisation or trading name"
+        individualsType: "Organisation type"
+        publicBodyType: "Type of public body"
+        publicBodyTypeOther: "Other type of public body"
+        houseNumber: "House/Building number"
+        townCity: "Town/City"
+        firstName: "First name"
+        lastName: "Last name"
+        phoneNumber: "Phone number"
+        email: "Email address"
+        otherTitle: "Other title"
+      
   registrations:
     form:
       title: "Waste Carrier Registration"
@@ -61,4 +82,3 @@ en:
       declaration_legend: "Declaration"
       declaration_label: "I declare that as far as I know and believe, the information in this registration is true."
       declaration_legal_text: "...(TBD) some legal text to go here..."
-

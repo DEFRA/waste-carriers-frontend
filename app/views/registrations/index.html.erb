@@ -31,6 +31,11 @@
 </div>
 </form>
 
+
+<form method="get" action="<%=start_url%>">
+<div style="max-width:510px"><input type="submit" class="button" style="float:right" value="New Registration" /></div>
+</form>
+
 <% if params[:q]%>
 <div id="reg-search-result" style="">
 <h2>Found <%=pluralize(@registrations.count,"registration")%></h2>
@@ -64,6 +69,5 @@
 </div>
 <% end %>
 
-<%= link_to 'New Registration', start_url%>
 
 </article></main>

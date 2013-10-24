@@ -15,12 +15,14 @@
 <%= f.select :businessType, options_for_select([["Please select...",""],["An individual","individual"],["An organisation of individuals (such as a charity)","organisationOfIndividuals"],["A limited company or limited liability partnership (LLP)","limitedCompany"],["A public body","publicBody"]],f.object.businessType) %>
 </p>
 
-<div id="orgTypeQuestions" class="js-hidden">
 
 <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
 <%= f.label :companyName, "Business, organisation or trading name" %>
 <%= f.text_field :companyName%>
 </p>
+
+<div id="orgTypeQuestions" class="js-hidden">
+
 
 <p id="indType-wrapper" class="group<%if @registration.errors[:individualsType ].any?%> validation<%end%>">
 <%= f.label :individualsType, "Organisation type" %>

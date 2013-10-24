@@ -269,7 +269,15 @@
 			$("#advanced-options").css("display","none");
 		}
 	}
-
+	
+	function updateTitleOther(){
+		var show = $('#registration_title').val() == "Other";
+		if(show){
+			$('#titleOtherWrapper').removeClass("js-hidden");
+		}else{
+			$('#titleOtherWrapper').addClass("js-hidden");
+		}
+	}
 
 	$(document).ready(function(){
 		$('#registration_businessType').change(refreshQuestions);
@@ -278,6 +286,9 @@
 		$("#addresses").change(updateAddress);
 		$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress()});
 		refreshQuestions();
+		
+		$("#registration_title").change(function(e){e.preventDefault();updateTitleOther();});
+		updateTitleOther();
 
 		var uprn = $("#registration_uprn").val();
 		if(uprn && uprn !== ""){

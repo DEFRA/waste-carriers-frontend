@@ -10,12 +10,12 @@
 <h2>Address and contact details</h2>
 
 <fieldset>
-<legend>Principal (main) business, organisation or trading address</legend>
+<legend>Main business, organisation or trading address</legend>
 
 
 <div id="addressSearch">
 <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
-<%= f.label :houseNumber, "House number" %>
+<%= f.label :houseNumber, "House/Building name" %>
 <%= f.text_field :houseNumber %>
 </p>
 
@@ -71,7 +71,11 @@
 
 <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
 <%= f.label :title %>
-<%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"],["Ms"],["Dr"]],f.object.title ) %>
+<%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"],["Ms"],["Dr"],["Other"]],f.object.title ) %>
+</p>
+<p id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
+    <%= f.label :otherTitle, "Other title" %>
+    <%= f.text_field :otherTitle %>
 </p>
 <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
     <%= f.label :firstName, "First name" %>
