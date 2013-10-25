@@ -1,5 +1,10 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
+<% if params[:error] %>
+<div id="error_explanation" class="validation-summary">
+  <h2><%= params[:error]%></h2>
+</div>
+<% end %>
 
 <h2>Find a registered business, organisation or trader</h2>
 <form method="get" action="/registrations">

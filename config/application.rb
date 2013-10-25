@@ -69,5 +69,8 @@ module Registrations
     #As described in the comments above, this setting can be redefined in config/environments/*.rb
     #Changing this value requires restart of the application
     config.waste_exemplar_services_url = "http://localhost:9090"
+    
+    # Set configuration for error pages to manual, to enable more user friendly error pages
+    config.exceptions_app = self.routes
   end
 end
