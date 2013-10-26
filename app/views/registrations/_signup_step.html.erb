@@ -9,13 +9,12 @@
 <fieldset>
 <legend>User details</legend>
 <div id="summary">
-
 <p>Registering <%=@registration.email%></p>
 <p><%=@registration.companyName%></p>
-
 </div>
 </fieldset>
 
+<% if @registration.do_sign_up? %>
 <fieldset>
 <legend>Signup information</legend>
 
@@ -33,6 +32,22 @@
 </p>
 </fieldset>
 
+<% else %>
+	
+<fieldset>
+<legend>Signin information</legend>
+
+<p class="group<%if @registration.errors[:email].any?%> validation<%end%>">
+    <%= f.label :email, "E-mail" %>
+    <%= f.email_field :email, :autofocus => true %>
+</p>
+<p class="group<%if @registration.errors[:password].any?%> validation<%end%>">
+    <%= f.label :password, "Password" %>
+    <%= f.password_field :password %>
+</p>
+</fieldset>
+
+<% end %>
 
 </div>
 <p class="action group">

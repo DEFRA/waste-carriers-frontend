@@ -55,7 +55,6 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = session[:registration_step]
-    #@registration.user = User.new
   end
 
   # GET /registrations/1/edit
@@ -81,10 +80,25 @@ class RegistrationsController < ApplicationController
       @registration.previous_step
       session[:registration_step] = @registration.current_step
     elsif @registration.valid?
+      if @registration.confirmation_step?
+        @registration.initialize_sign_up_mode
+      end
       if @registration.last_step?
-        @registration.save_with_user if @registration.all_valid?
-        @user = @registration.user
-        sign_in @user
+        if @registration.do_sign_up?
+          @user = User.new
+          @user.email = @registration.email
+          @user.password = @registration.password
+          @user.save!
+          sign_in @user
+        else
+          @user = User.find_by_email(@registration.email)
+          if @user.valid_password?(@registration.password)
+            sign_in @user
+          else
+            #TODO error
+          end
+        end
+        @registration.save if @registration.all_valid?
         RegistrationMailer.welcome_email(@user).deliver
       else
         @registration.next_step

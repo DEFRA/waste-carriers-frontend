@@ -37,6 +37,7 @@ class Registration < ActiveResource::Base
 
     string :password
     string :password_confirmation
+    string :sign_up_mode
   end
 
   validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
@@ -67,19 +68,26 @@ class Registration < ActiveResource::Base
 
   validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:"must be accepted"}
 
-  #Note: there is no uniqueness validation ot ouf the box in ActiveResource - only in ActiveRecord.
-  #validates :email, uniqueness: true, :if => lambda { |o| o.current_step == "signup" }
-  validate :email_is_unique, :if => lambda { |o| o.current_step == "signup" }
-
-  #does this work?
-  #validates_confirmation_of :password, :if => lambda { |o| o.current_step == "signup" }
-  #validates_presence_of :password_confirmation, if: :password_changed?
+  #Note: there is no uniqueness validation ot ouf the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
+  validate :email_is_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up?}
 
   validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" }
   #If changing mim and max length, please also change in devise.rb
   validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" }
-  validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" }
+  validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && do_sign_up?}
+  validate :validate_login, :if => lambda { |o| o.current_step == "signup" && do_sign_in?}
 
+  def sign_up_mode
+    @sign_up_mode || 'sign_up'
+  end 
+
+  def initialize_sign_up_mode
+    if User.where(email: email).count == 0
+      sign_up_mode = 'sign_up'
+    else
+      sign_up_mode = 'sign_in'
+    end
+  end
 
   def current_step
     @current_step || steps.first
@@ -117,15 +125,17 @@ class Registration < ActiveResource::Base
   end
 
   def save_with_user
-    @user = User.new
-    @user.email = email
-    @user.password = password
-    @user.save!
-    #attributes.delete :password
-    #attributes.delete :password_confirmation
-    #puts 'GGG deleted password attributes'
-    password = 'Removed123'
-    password_confirmation = 'Removed123'
+    if do_sign_up?
+      @user = User.new
+      @user.email = email
+      @user.password = password
+      @user.save!
+      #attributes.delete :password
+      #attributes.delete :password_confirmation
+      #puts 'GGG deleted password attributes'
+      password = 'Removed123'
+      password_confirmation = 'Removed123'
+    end
     if valid?
       save!
     else
@@ -138,20 +148,45 @@ class Registration < ActiveResource::Base
   end
 
   def email_is_unique
-    unless User.where(email: email).count == 0
-      errors.add(:email, 'Account for this e-mail is already taken')
+    if do_sign_up
+      unless User.where(email: email).count == 0
+        errors.add(:email, 'Account for this e-mail is already taken')
+      end
     end
   end
 
   def validate_passwords
-    #this method may be called (again?) after the password properties have been deleted
-    if password != nil && password_confirmation != nil
-      #puts 'password = ' + password
-      #puts 'password_confirmation = ' + password_confirmation
-      if password != password_confirmation
-        errors.add(:password_confirmation, 'The passwords must match')
+    if do_sign_up
+      #this method may be called (again?) after the password properties have been deleted
+      if password != nil && password_confirmation != nil
+        #puts 'password = ' + password
+        #puts 'password_confirmation = ' + password_confirmation
+        if password != password_confirmation
+          errors.add(:password_confirmation, 'The passwords must match')
+        end
       end
     end
+  end
+
+  def validate_login
+    if do_sign_in?
+      @user = User.find_by_email(email)
+      puts 'GGG found user' + @user.email
+      if @user != nil && @user.valid_password?(password)
+        puts 'GGG Password is valid'
+      else
+        puts 'GGG Password is invalid'
+        errors.add(:password, 'Invalid email and/or password')
+      end
+    end
+  end
+
+  def do_sign_in?
+    @sign_up_mode != 'sign_up'
+  end
+
+  def do_sign_up?
+    @sign_up_mode == 'sign_up'
   end
 
   def user
