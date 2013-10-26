@@ -69,7 +69,7 @@ class Registration < ActiveResource::Base
   validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:"must be accepted"}
 
   #Note: there is no uniqueness validation ot ouf the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
-  validate :email_is_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up?}
+  validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up?}
 
   validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" }
   #If changing mim and max length, please also change in devise.rb
@@ -124,30 +124,7 @@ class Registration < ActiveResource::Base
     end
   end
 
-  def save_with_user
-    if do_sign_up?
-      @user = User.new
-      @user.email = email
-      @user.password = password
-      @user.save!
-      #attributes.delete :password
-      #attributes.delete :password_confirmation
-      #puts 'GGG deleted password attributes'
-      password = 'Removed123'
-      password_confirmation = 'Removed123'
-    end
-    if valid?
-      save!
-    else
-      #TODO - Why is this still invalid???
-      errors.each do |e|
-        puts e
-      end
-      save(:validate => false)
-    end
-  end
-
-  def email_is_unique
+  def validate_email_unique
     if do_sign_up
       unless User.where(email: email).count == 0
         errors.add(:email, 'Account for this e-mail is already taken')
@@ -171,11 +148,7 @@ class Registration < ActiveResource::Base
   def validate_login
     if do_sign_in?
       @user = User.find_by_email(email)
-      puts 'GGG found user' + @user.email
-      if @user != nil && @user.valid_password?(password)
-        puts 'GGG Password is valid'
-      else
-        puts 'GGG Password is invalid'
+      if @user == nil || !@user.valid_password?(password)
         errors.add(:password, 'Invalid email and/or password')
       end
     end
