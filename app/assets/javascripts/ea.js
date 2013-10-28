@@ -20,7 +20,7 @@
 		};
 
 	function findAddress(){
-		var value = $("#registration_postcode").val();
+		var value = $("#registration_postcodeSearch").val();
 		if(value == "")value = "MK5 7TQ";
 
 		var $addresses = $("#addresses");
@@ -41,10 +41,11 @@
 			$addresses.append(option);
 
 			addressTextLookup[addrValue] = addr;
-			addressLookup[addrValue] = "<div>"+(i+5)+" Some street,</div><div>Some town,</div><div>"+value+"</div>";
+			//addressLookup[addrValue] = "<div>"+(i+5)+" Some street,</div><div>Some town,</div><div>"+value+"</div>";
+			addressLookup[addrValue] = {houseNumber:i+5, streetLine1:"Some street",streetLine2:"",townCity:"Some town",postcode:value};
 		}
 
-		$("#addressSearch").css("display","none");
+		//$("#addressSearch").css("display","none");
 		$("#addressSearchResults").css("display","");
 	}
 
@@ -52,11 +53,18 @@
 		var address = $("#addresses").val();
 		if(address==="")return;
 
-		$("#addressDisplay").html(addressLookup[address]);
+		//$("#addressDisplay").html(addressLookup[address]);
+		
+		var addressObject = addressLookup[address];
+		$("#registration_houseNumber").val(addressObject.houseNumber);
+		$("#registration_streetLine1").val(addressObject.streetLine1);
+		$("#registration_streetLine2").val(addressObject.streetLine2);
+		$("#registration_townCity").val(addressObject.townCity);
+		$("#registration_postcode").val(addressObject.postcode);
 
 
-		$("#addressSearchResults").css("display","none");
-		$("#selectedAddress").css("display","");
+		//$("#addressSearchResults").css("display","none");
+		//$("#selectedAddress").css("display","");
 		setHidden("uprn",address);
 		setHidden("address",addressTextLookup[address]);
 
@@ -280,12 +288,12 @@
 	}
 
 	$(document).ready(function(){
-		$('#registration_businessType').change(refreshQuestions);
-		$("#registration_publicBodyType").change(refreshQuestions);
+		//$('#registration_businessType').change(refreshQuestions);
+		//$("#registration_publicBodyType").change(refreshQuestions);
 		$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress()});
 		$("#addresses").change(updateAddress);
 		$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress()});
-		refreshQuestions();
+		//refreshQuestions();
 		
 		$("#registration_title").change(function(e){e.preventDefault();updateTitleOther();});
 		updateTitleOther();

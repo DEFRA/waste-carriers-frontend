@@ -14,12 +14,29 @@
 
 
 <div id="addressSearch">
+
+<p class="action group">
+
+    <%= f.label :postcodeSearch, "Find address using postcode" %>
+    <%= f.text_field :postcodeSearch %>
+
+<input name="findAddress" class="button-secondary" type="submit" value="Find address"/>
+</p>
+</div>
+<div id="addressSearchResults" style="display:none">
+<p class="group">
+<label for="addresses"><span id="resultCount">5</span> Addresses found</label>
+<select id="addresses">
+<option>Please select an address..</option>
+</select>
+</p>
+</div>
+
 <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
 <%= f.label :houseNumber, "House/Building name" %>
 <%= f.text_field :houseNumber %>
 </p>
 
-<div id="addressManual" style="display:none">
 <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
 <%= f.label :streetLine1, "Street" %>
 <%= f.text_field :streetLine1%>
@@ -32,27 +49,14 @@
 <%= f.label :townCity, "Town/City" %>
 <%= f.text_field :townCity%>
 </p>
-</div>
 
 <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
     <%= f.label :postcode, "Postcode" %>
     <%= f.text_field :postcode %>
 </p>
 
-<p class="action group">
-<input name="findAddress" class="button-secondary" type="submit" value="Find address"/>
-</p>
-</div>
 
-<div id="addressSearchResults" style="display:none">
-<p class="group">
-<label for="addresses"><span id="resultCount">5</span> Addresses found</label>
-<select id="addresses">
-<option>Please select an address..</option>
-</select>
-</p>
-<a href="#" id="manualAddressLink">I cannot find my address</a>
-</div>
+
 
 <div id="selectedAddress" style="display:none">
 <div id="addressDisplay">

@@ -1,0 +1,44 @@
+<h3>Business or organisation details</h3>
+
+<dl>
+  <dt>Business or organisation type</dt>
+  <dd><%= @registration.businessType %></dd>
+  
+  <dt>Business, organisation or trading name</dt>
+  <dd><%= @registration.companyName %></dd>
+</dl>
+
+<h3>Main business, organisation or trading address</h3>
+<dl>
+  <dt>House/Building name</dt>
+  <dd><%= @registration.houseNumber %></dd>
+  
+  <dt>Street</dt>
+  <dd><%= @registration.streetLine1 %><br /><%= @registration.streetLine2 %></dd>
+  
+  <dt>Town/City</dt>
+  <dd><%= @registration.townCity%></dd>
+  
+  <dt>Postcode</dt>
+  <dd><%= @registration.postcode%></dd>
+</dl>
+
+<h3>Contact information</h3>
+<dl>
+  <dt>Title</dt>
+  <dd>
+  <%if @registration.title == "other"%>
+  <%= @registration.otherTitle%>
+  <%else%>
+  <%= @registration.title%>
+  <%end%>
+  </dd>
+  <dt>First name</dt>
+  <dd><%= @registration.firstName%></dd>
+  <dt>Last name</dt>
+  <dd><%= @registration.lastName%></dd>
+  <dt>Phone number</dt>
+  <dd><%= @registration.phoneNumber%></dd>
+  <dt>Email address</dt>
+  <dd><%= @registration.email%></dd>
+</dl>
