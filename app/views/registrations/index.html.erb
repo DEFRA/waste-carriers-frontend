@@ -31,7 +31,7 @@
 </div>
 <p class="action group">
 <input type="submit" id="reg-search" class="button" value="Search" />
-<a href="#" id="toggle-search">Advanced search</a>
+<!--<a href="#" id="toggle-search">Advanced search</a>-->
 </p>
 </div>
 </form>
@@ -68,6 +68,7 @@
 		<form action="<%=ncccedit_url(registration.id)%>">
 			<p class="action group"><input type="submit" class="button" value="Edit Registration"/></p>
 		</form>
+		<!--<%=button_to "Delete",registration_path(registration.id), :method => :delete, :class => "button", :confirm => "Are you sure ?"%>-->
 	</div>
 </div>
 <% end %>
