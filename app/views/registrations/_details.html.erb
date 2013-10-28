@@ -1,15 +1,16 @@
 <h3>Business or organisation details</h3>
 
-<dl>
+<dl class="data">
   <dt>Business or organisation type</dt>
   <dd><%= @registration.businessType %></dd>
   
   <dt>Business, organisation or trading name</dt>
   <dd><%= @registration.companyName %></dd>
 </dl>
+<div class="clr"></div>
 
 <h3>Main business, organisation or trading address</h3>
-<dl>
+<dl class="data">
   <dt>House/Building name</dt>
   <dd><%= @registration.houseNumber %></dd>
   
@@ -22,9 +23,10 @@
   <dt>Postcode</dt>
   <dd><%= @registration.postcode%></dd>
 </dl>
+<div class="clr"></div>
 
 <h3>Contact information</h3>
-<dl>
+<dl class="data">
   <dt>Title</dt>
   <dd>
   <%if @registration.title == "other"%>
@@ -42,3 +44,4 @@
   <dt>Email address</dt>
   <dd><%= @registration.email%></dd>
 </dl>
+<div class="clr"></div>

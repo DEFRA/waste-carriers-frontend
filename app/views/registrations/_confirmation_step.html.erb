@@ -28,8 +28,6 @@
 <fieldset>
 <legend>Declaration</legend>
 
-<p>&lt;Legal text&gt;</p>
-
 <p class="option group<%if @registration.errors[:declaration].any?%> validation<%end%>">
 <label for="registration_declaration"><%= f.check_box :declaration%> I declare that as far as I know and believe, the information in this registration is true.</label>
 </p>

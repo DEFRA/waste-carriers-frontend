@@ -153,3 +153,39 @@ background-color: #fef7f7;
 .inline label {
 	display: inline-block;
 }
+
+.finish-section h3 {
+	clear: both;
+	margin-top: 1em;
+}
+.finish-section h3:first-child {
+	margin-top: 0em;
+}
+.finish-section {
+	border: 1px solid black;
+	padding: 0.25em;
+	margin: 1em 0em;
+}
+.finish-section ol {
+	list-style-type: decimal
+}
+dl.data dt,
+dl.data dd {
+	display: inline-block;
+	float: left;
+}
+dl.data dt{
+	clear: both;
+	min-width: 5em;
+}
+dl.data dd{
+	margin-left: 1em;
+}
+.clr{
+	clear: both;
+}
+
+.print-section dl.data dt,
+.finish-section dl.data dt{
+	min-width: 17em;
+}
