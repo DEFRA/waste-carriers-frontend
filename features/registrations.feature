@@ -11,7 +11,7 @@ Scenario: Valid registration as an Individual
   Then I should see "Waste Carrier Registration"
   And I should see "For a lower tier waste carrier, broker or dealer"
   #And I register as a"Carrier"
-  And I select business or organisation type "An individual"
+  And I select business or organisation type "Sole trader"
   And I fill in "Business, organisation or trading name" with "Joe Bloggs"
   And I click "Next"
   And I fill in valid contact details

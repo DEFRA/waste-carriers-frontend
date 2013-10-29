@@ -59,7 +59,7 @@ end
 When(/^I provide valid individual trading name details$/) do
   #The registerAs field dropdown has been removed...
   #page.select('Carrier', :from => 'registration_registerAs')
-  page.select('An individual', :from => 'registration_businessType')
+  page.select('Sole trader', :from => 'registration_businessType')
   fill_in('registration_companyName', :with => 'Joe Bloggs')  
   click_on('Next')
 end
@@ -102,7 +102,7 @@ end
 
 When(/^I begin a registration as an Individual$/) do
   visit '/registrations/new'
-  page.select('An individual', :from => 'registration_businessType')
+  page.select('Sole trader', :from => 'registration_businessType')
 end
 
 When(/^I fill in company name with "(.*?)"$/) do |company_name|
