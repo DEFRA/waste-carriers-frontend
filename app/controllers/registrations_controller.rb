@@ -8,7 +8,7 @@ class RegistrationsController < ApplicationController
   # GET /registrations
   # GET /registrations.json
   def index
-    @registrations = Registration.find(:all, :params => {:q => params[:q]})
+    @registrations = Registration.find(:all, :params => {:q => params[:q], :searchWithin => params[:searchWithin]})
     session[:registration_step] = session[:registration_params] = nil
 
     respond_to do |format|

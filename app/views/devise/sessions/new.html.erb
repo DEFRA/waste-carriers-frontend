@@ -6,7 +6,12 @@
   <p class="alert alert-notice"><%= notice %></p>
 <% end %>
 <% if alert %>
-  <p class="alert alert-error"><%= alert %></p>
+<div id="error_explanation" class="validation-summary">
+  <h2>You have 1 error on this page</h2>
+  <ul>
+    <li><%= alert %></li>
+  </ul>
+</div>
 <% end %>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
