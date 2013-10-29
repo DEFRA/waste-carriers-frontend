@@ -70,17 +70,21 @@ class Registration < ActiveResource::Base
   validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" }
   #If changing mim and max length, please also change in devise.rb
   validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" }
-  validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && do_sign_up?}
-  validate :validate_login, :if => lambda { |o| o.current_step == "signup" && do_sign_in?}
+  validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" }
+  validate :validate_login, :if => lambda { |o| o.current_step == "signup" }
+  validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" }
 
-  def sign_up_mode
-    @sign_up_mode || 'sign_up'
-  end 
+  #def sign_up_mode
+  #  @sign_up_mode || 'sign_up'
+  #end 
 
   def initialize_sign_up_mode
+    puts "GGG - entering initialize_sign_up_mode"
     if User.where(email: email).count == 0
+      puts "No user found in database with email = " + email + ". Signing up..."
       sign_up_mode = 'sign_up'
     else
+      puts "Found user with email = " + email + ". Signing in..."
       sign_up_mode = 'sign_in'
     end
   end
@@ -113,6 +117,10 @@ class Registration < ActiveResource::Base
     current_step == steps.last
   end
 
+  def confirmation_step?
+    current_step == 'confirmation'
+  end
+
   def all_valid?
     steps.all? do |step|
       self.current_step = step
@@ -121,7 +129,7 @@ class Registration < ActiveResource::Base
   end
 
   def validate_email_unique
-    if do_sign_up
+    if do_sign_up?
       unless User.where(email: email).count == 0
         errors.add(:email, 'Account for this e-mail is already taken')
       end
@@ -129,33 +137,39 @@ class Registration < ActiveResource::Base
   end
 
   def validate_passwords
-    if do_sign_up
-      #this method may be called (again?) after the password properties have been deleted
+    if do_sign_up?
+      #Note: this method may be called (again?) after the password properties have been deleted
       if password != nil && password_confirmation != nil
-        #puts 'password = ' + password
-        #puts 'password_confirmation = ' + password_confirmation
         if password != password_confirmation
           errors.add(:password_confirmation, 'The passwords must match')
         end
       end
+    else
+      puts "GGG - validate_passwords: not validating, sign_up_mode = " + sign_up_mode
     end
   end
 
   def validate_login
+    puts "GGG entering validate_login"
     if do_sign_in?
+      puts "GGG validate_login - inside do_sign_in"
       @user = User.find_by_email(email)
       if @user == nil || !@user.valid_password?(password)
         errors.add(:password, 'Invalid email and/or password')
       end
+    else
+      puts "GGG - validate_login: not validating, sign_up_mode = " + sign_up_mode
     end
   end
 
   def do_sign_in?
-    @sign_up_mode != 'sign_up'
+    puts "do_sign_in? - sign_up_mode = " + sign_up_mode.to_s
+    'sign_in' == sign_up_mode
   end
 
   def do_sign_up?
-    @sign_up_mode == 'sign_up'
+    puts "do_sign_up? - sign_up_mode = " + sign_up_mode.to_s
+    'sign_up' == sign_up_mode
   end
 
   def user

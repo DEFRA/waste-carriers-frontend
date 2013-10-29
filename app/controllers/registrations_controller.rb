@@ -15,8 +15,6 @@ class RegistrationsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @registrations }
     end
-  rescue ActiveResource::ServerError
-    redirect_to registrations_path(:error => 'Server Error detected, check the log for details. Detected searching for: ' + params[:q] )
   end
 
   # GET /registrations/1
@@ -28,8 +26,6 @@ class RegistrationsController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @registration }
     end
-  rescue ActiveResource::ResourceNotFound
-    redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id] )
   end
 
   def start
@@ -86,22 +82,28 @@ class RegistrationsController < ApplicationController
         @registration.initialize_sign_up_mode
       end
       if @registration.last_step?
-        if @registration.do_sign_up?
+        if @registration.sign_up_mode == 'sign_up'
+          puts "GGG - sign_up: Creating, saving and signing in user " + @registration.email
           @user = User.new
           @user.email = @registration.email
           @user.password = @registration.password
           @user.save!
           sign_in @user
         else
+          puts "GGG - sign_up_mode = " + @registration.sign_up_mode
           @user = User.find_by_email(@registration.email)
           if @user.valid_password?(@registration.password)
+            puts "GGG - password is valid. Signing in user " + @user.email
             sign_in @user
           else
-            #TODO error
+            puts "GGG ERROR - password not valid for user with e-mail = " + @registration.email
+            #TODO error - should have caught the error in validation
           end
         end
-        @registration.save if @registration.all_valid?
-        RegistrationMailer.welcome_email(@user).deliver
+        if @registration.all_valid?
+          @registration.save!
+          RegistrationMailer.welcome_email(@user).deliver
+        end
       else
         @registration.next_step
       end
@@ -175,9 +177,5 @@ class RegistrationsController < ApplicationController
       format.html { redirect_to registrations_url }
       format.json { head :no_content }
     end
-  end
-  
-  def notfound
-    redirect_to registrations_path(:error => params[:message] )
   end
 end
