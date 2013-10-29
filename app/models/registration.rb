@@ -73,6 +73,7 @@ class Registration < ActiveResource::Base
   validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" }
   validate :validate_login, :if => lambda { |o| o.current_step == "signup" }
   validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" }
+  validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" }, :inclusion => {:in => %w[sign_up sign_in] }
 
   #def sign_up_mode
   #  @sign_up_mode || 'sign_up'
@@ -81,10 +82,10 @@ class Registration < ActiveResource::Base
   def initialize_sign_up_mode
     puts "GGG - entering initialize_sign_up_mode"
     if User.where(email: email).count == 0
-      puts "No user found in database with email = " + email + ". Signing up..."
+      #puts "No user found in database with email = " + email + ". Signing up..."
       sign_up_mode = 'sign_up'
     else
-      puts "Found user with email = " + email + ". Signing in..."
+      #puts "Found user with email = " + email + ". Signing in..."
       sign_up_mode = 'sign_in'
     end
   end
@@ -96,6 +97,9 @@ class Registration < ActiveResource::Base
   def steps
     %w[business contact confirmation signup]
   end
+
+  VALID_SIGN_UP_MODES = %w[sign_up sign_in]
+
 
   def next_step
     self.current_step = steps[steps.index(current_step)+1]
@@ -129,8 +133,11 @@ class Registration < ActiveResource::Base
   end
 
   def validate_email_unique
+    puts "GGG - entering validate_email_unique"
     if do_sign_up?
+      puts "GGG - validate_email_unique - do_sign_up is true"
       unless User.where(email: email).count == 0
+        puts "GGG - adding error"
         errors.add(:email, 'Account for this e-mail is already taken')
       end
     end
@@ -145,7 +152,7 @@ class Registration < ActiveResource::Base
         end
       end
     else
-      puts "GGG - validate_passwords: not validating, sign_up_mode = " + sign_up_mode
+      #puts "GGG - validate_passwords: not validating, sign_up_mode = " + sign_up_mode
     end
   end
 
@@ -158,17 +165,17 @@ class Registration < ActiveResource::Base
         errors.add(:password, 'Invalid email and/or password')
       end
     else
-      puts "GGG - validate_login: not validating, sign_up_mode = " + sign_up_mode
+      #puts "GGG - validate_login: not validating, sign_up_mode = " + sign_up_mode
     end
   end
 
   def do_sign_in?
-    puts "do_sign_in? - sign_up_mode = " + sign_up_mode.to_s
+    puts "do_sign_in? - sign_up_mode = " + sign_up_mode
     'sign_in' == sign_up_mode
   end
 
   def do_sign_up?
-    puts "do_sign_up? - sign_up_mode = " + sign_up_mode.to_s
+    puts "do_sign_up? - sign_up_mode = " + sign_up_mode
     'sign_up' == sign_up_mode
   end
 

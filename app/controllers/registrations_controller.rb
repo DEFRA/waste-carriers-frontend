@@ -83,14 +83,17 @@ class RegistrationsController < ApplicationController
       end
       if @registration.last_step?
         if @registration.sign_up_mode == 'sign_up'
-          puts "GGG - sign_up: Creating, saving and signing in user " + @registration.email
+          puts "GGG - The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.email
           @user = User.new
           @user.email = @registration.email
           @user.password = @registration.password
+          puts "GGG - about to save user"
           @user.save!
+          puts "GGG - User has been saved"
           sign_in @user
+          puts "The newly saved user has been signed in"
         else
-          puts "GGG - sign_up_mode = " + @registration.sign_up_mode
+          puts "GGG - registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode
           @user = User.find_by_email(@registration.email)
           if @user.valid_password?(@registration.password)
             puts "GGG - password is valid. Signing in user " + @user.email
@@ -100,9 +103,17 @@ class RegistrationsController < ApplicationController
             #TODO error - should have caught the error in validation
           end
         end
+        #Note (...Hack): We are resetting the sign_up_mode here to avoid the error message that the e-mail is already taken
+        @registration.sign_up_mode = 'sign_in'
+        puts "GGG - now asking whether registration is all valid"
         if @registration.all_valid?
+          puts "GGG - The registration is all valid. About to save the registration..."
           @registration.save!
+          puts "GGG - registration has been saved. About to send e-mail..."
           RegistrationMailer.welcome_email(@user).deliver
+          puts "GGG - e-mail sent."
+        else
+          puts "GGG - The registration is NOT valid!"
         end
       else
         @registration.next_step

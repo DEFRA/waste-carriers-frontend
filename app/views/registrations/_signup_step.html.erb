@@ -14,7 +14,6 @@
 </div>
 </fieldset>
 
-<%=@registration.initialize_sign_up_mode %>
 <p class="group<%if @registration.errors[:sign_up_mode].any?%> validation<%end%>">
     <%= f.label :sign_up_mode, "Sign up or sign in" %>
     <%= f.select :sign_up_mode, options_for_select([["Please select...",""],["Sign up (new e-mail)","sign_up"],["Sign in (existing e-mail)","sign_in"]],f.object.sign_up_mode) %>
