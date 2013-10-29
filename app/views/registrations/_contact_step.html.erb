@@ -89,6 +89,10 @@
     <%= f.label :lastName, "Last name" %>
     <%= f.text_field :lastName %>
 </p>
+<p class="group<%if @registration.errors[:position].any?%> validation<%end%>">
+    <%= f.label :position, "Position" %>
+    <%= f.text_field :position %>
+</p>
 <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
     <%= f.label :phoneNumber, "Phone number" %>
     <%= f.text_field :phoneNumber %>

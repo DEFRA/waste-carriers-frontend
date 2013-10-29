@@ -189,3 +189,7 @@ dl.data dd{
 .finish-section dl.data dt{
 	min-width: 17em;
 }
+.tooltip {
+	background: $grey-3;
+	border: 1px solid black;
+}

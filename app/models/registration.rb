@@ -28,6 +28,7 @@ class Registration < ActiveResource::Base
     string :otherTitle
     string :firstName
     string :lastName
+    string :position
     string :phoneNumber
     string :email
     string :declaration
@@ -56,6 +57,7 @@ class Registration < ActiveResource::Base
   validates_presence_of :lastName, :if => lambda { |o| o.current_step == "contact" }
   validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z]*\Z/, message:"can only contain letters"}
   validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:"can not be longer than 35 characters"}
+  validates :position, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z]*\Z/, message:"can only contain letters"}
   validates_presence_of :email, :if => lambda { |o| o.current_step == "contact" }
   validates :email, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:"must be a valid email address"}
   validates :email, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}

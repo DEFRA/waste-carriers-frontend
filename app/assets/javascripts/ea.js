@@ -157,6 +157,9 @@
 			detailElem.parentNode.insertBefore(a,detailElem.parentNode.firstChild);
 			$a.click(authorViewDetail(detailElem,a));
 			
+			new Tooltip(detailElem.parentNode,$elem.html(),function(){
+				return $(detailElem).css("display") === "none";
+			});
 		});
 	}
 
@@ -285,6 +288,54 @@
 		}else{
 			$('#titleOtherWrapper').addClass("js-hidden");
 		}
+	}
+	
+	var Tooltip = function(elem,html,mayShow){
+		var tip = document.createElement("div");
+		var $tip = $(tip);
+		$tip.addClass("tooltip");
+		$tip.css("display","none");
+		$tip.css("position","absolute");
+		$tip.css("z-index","1");
+		this.visible = false;
+		this.$tip = $tip;
+		this.mayShow = mayShow;
+		document.body.appendChild(tip);
+		if(html){
+			$tip.html(html);
+		}
+		
+		var t = this;
+		$(elem).mouseenter(function(e){t.show(e.pageX,e.pageY);});
+		$(elem).mouseleave(function(e){t.hide();});
+		$(document.body).mousemove(function(e){t.position(e.pageX,e.pageY);});
+	}
+	
+	Tooltip.prototype.show = function(x,y){
+		if(this.mayShow && !this.mayShow()){
+			return;
+		}
+		
+		this.$tip.css("display","block");
+		this.visible = true;
+		this.position(x,y);
+	}
+	
+	Tooltip.prototype.position = function(x,y){
+		if(this.mayShow && !this.mayShow()){
+			if(this.visible){
+				this.hide();
+			}
+			return;
+		}
+		
+		this.$tip.css("top",y+"px");
+		this.$tip.css("left",(x+20)+"px");
+	}
+	
+	Tooltip.prototype.hide = function(){
+		this.$tip.css("display","none");
+		this.visible = false;
 	}
 
 	$(document).ready(function(){
