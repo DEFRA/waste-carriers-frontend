@@ -83,37 +83,37 @@ class RegistrationsController < ApplicationController
       end
       if @registration.last_step?
         if @registration.sign_up_mode == 'sign_up'
-          puts "GGG - The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.email
+          logger.debug "The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.email
           @user = User.new
           @user.email = @registration.email
           @user.password = @registration.password
-          puts "GGG - about to save user"
+          logger.debug "About to save the new user."
           @user.save!
-          puts "GGG - User has been saved"
+          logger.debug "User has been saved."
           sign_in @user
-          puts "The newly saved user has been signed in"
+          logger.debug "The newly saved user has been signed in"
         else
-          puts "GGG - registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode
+          logger.debug "Registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode
           @user = User.find_by_email(@registration.email)
           if @user.valid_password?(@registration.password)
-            puts "GGG - password is valid. Signing in user " + @user.email
+            logger.info "The user's password is valid. Signing in user " + @user.email
             sign_in @user
           else
-            puts "GGG ERROR - password not valid for user with e-mail = " + @registration.email
+            logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.email
             #TODO error - should have caught the error in validation
           end
         end
-        #Note (...Hack): We are resetting the sign_up_mode here to avoid the error message that the e-mail is already taken
+        #Note: We are resetting the sign_up_mode here to avoid the error message that the e-mail is already taken
         @registration.sign_up_mode = 'sign_in'
-        puts "GGG - now asking whether registration is all valid"
+        logger.debug "Now asking whether registration is all valid"
         if @registration.all_valid?
-          puts "GGG - The registration is all valid. About to save the registration..."
+          logger.debug "The registration is all valid. About to save the registration..."
           @registration.save!
-          puts "GGG - registration has been saved. About to send e-mail..."
+          logger.debug "The registration has been saved. About to send e-mail..."
           RegistrationMailer.welcome_email(@user).deliver
-          puts "GGG - e-mail sent."
+          logger.debug "registration e-mail has been sent."
         else
-          puts "GGG - The registration is NOT valid!"
+          logger.error "GGG - The registration is NOT valid!"
         end
       else
         @registration.next_step
@@ -189,4 +189,9 @@ class RegistrationsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def logger
+    Rails.logger
+  end
+
 end

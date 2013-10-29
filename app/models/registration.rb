@@ -1,7 +1,7 @@
 require 'active_resource'
 
 class Registration < ActiveResource::Base
-# In Rails 4, attr_accessible has been replaced by strong parameters in controllers
+# Note: In Rails 4, attr_accessible has been replaced by strong parameters in controllers
 #  attr_accessible :address, :email, :firstName, :houseNumber, :individualsType, :lastName, :companyName, :businessType, :phoneNumber, :postcode, :publicBodyType, :registerAs, :title, :uprn, :publicBodyTypeOther, :streetLine1, :streetLine2, :townCity, :declaration
 
   #The services URL can be configured in config/application.rb and/or in the config/environments/*.rb files.
@@ -80,12 +80,12 @@ class Registration < ActiveResource::Base
   #end 
 
   def initialize_sign_up_mode
-    puts "GGG - entering initialize_sign_up_mode"
+    Rails.logger.debug "Entering initialize_sign_up_mode"
     if User.where(email: email).count == 0
-      #puts "No user found in database with email = " + email + ". Signing up..."
+      Rails.logger.debug "No user found in database with email = " + email + ". Signing up..."
       sign_up_mode = 'sign_up'
     else
-      #puts "Found user with email = " + email + ". Signing in..."
+      Rails.logger.debug "Found user with email = " + email + ". Signing in..."
       sign_up_mode = 'sign_in'
     end
   end
@@ -133,11 +133,11 @@ class Registration < ActiveResource::Base
   end
 
   def validate_email_unique
-    puts "GGG - entering validate_email_unique"
+    Rails.logger.debug "entering validate_email_unique"
     if do_sign_up?
-      puts "GGG - validate_email_unique - do_sign_up is true"
+      Rails.logger.debug "validate_email_unique - do_sign_up is true"
       unless User.where(email: email).count == 0
-        puts "GGG - adding error"
+        Rails.logger.debug "adding error - email already taken"
         errors.add(:email, 'Account for this e-mail is already taken')
       end
     end
@@ -152,30 +152,30 @@ class Registration < ActiveResource::Base
         end
       end
     else
-      #puts "GGG - validate_passwords: not validating, sign_up_mode = " + sign_up_mode
+      Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + sign_up_mode
     end
   end
 
   def validate_login
-    puts "GGG entering validate_login"
+    Rails.logger.debug "entering validate_login"
     if do_sign_in?
-      puts "GGG validate_login - inside do_sign_in"
+      Rails.logger.debug "validate_login - do_sign_in is true - looking for User with this email"
       @user = User.find_by_email(email)
       if @user == nil || !@user.valid_password?(password)
         errors.add(:password, 'Invalid email and/or password')
       end
     else
-      #puts "GGG - validate_login: not validating, sign_up_mode = " + sign_up_mode
+      Rails.logger.debug "validate_login: not validating, sign_up_mode = " + sign_up_mode
     end
   end
 
   def do_sign_in?
-    puts "do_sign_in? - sign_up_mode = " + sign_up_mode
+    Rails.logger.debug "do_sign_in? - sign_up_mode = " + sign_up_mode
     'sign_in' == sign_up_mode
   end
 
   def do_sign_up?
-    puts "do_sign_up? - sign_up_mode = " + sign_up_mode
+    Rails.logger.debug "do_sign_up? - sign_up_mode = " + sign_up_mode
     'sign_up' == sign_up_mode
   end
 
