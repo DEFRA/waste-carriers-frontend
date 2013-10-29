@@ -15,6 +15,8 @@ class RegistrationsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @registrations }
     end
+  rescue ActiveResource::ServerError
+    redirect_to registrations_path(:error => 'Server Error detected, check the log for details. Detected searching for: ' + params[:q] )
   end
 
   # GET /registrations/1
@@ -26,6 +28,8 @@ class RegistrationsController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @registration }
     end
+  rescue ActiveResource::ResourceNotFound
+    redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id] )
   end
 
   def start
@@ -188,6 +192,10 @@ class RegistrationsController < ApplicationController
       format.html { redirect_to registrations_url }
       format.json { head :no_content }
     end
+  end
+  
+  def notfound
+    redirect_to registrations_path(:error => params[:message] )
   end
 
   def logger
