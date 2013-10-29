@@ -67,13 +67,13 @@ class Registration < ActiveResource::Base
   #Note: there is no uniqueness validation ot ouf the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up?}
 
-  validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" }
+  validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
   #If changing mim and max length, please also change in devise.rb
-  validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" }
-  validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" }
-  validate :validate_login, :if => lambda { |o| o.current_step == "signup" }
-  validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" }
-  validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" }, :inclusion => {:in => %w[sign_up sign_in] }
+  validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
+  validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
+  validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
+  validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
+  validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
 
   #def sign_up_mode
   #  @sign_up_mode || 'sign_up'
@@ -144,7 +144,7 @@ class Registration < ActiveResource::Base
   end
 
   def validate_passwords
-    if do_sign_up?
+    if !persisted? && do_sign_up?
       #Note: this method may be called (again?) after the password properties have been deleted
       if password != nil && password_confirmation != nil
         if password != password_confirmation
@@ -152,30 +152,30 @@ class Registration < ActiveResource::Base
         end
       end
     else
-      Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + sign_up_mode
+      Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + (sign_up_mode || '')
     end
   end
 
   def validate_login
     Rails.logger.debug "entering validate_login"
-    if do_sign_in?
+    if !persisted? && do_sign_in?
       Rails.logger.debug "validate_login - do_sign_in is true - looking for User with this email"
       @user = User.find_by_email(email)
       if @user == nil || !@user.valid_password?(password)
         errors.add(:password, 'Invalid email and/or password')
       end
     else
-      Rails.logger.debug "validate_login: not validating, sign_up_mode = " + sign_up_mode
+      Rails.logger.debug "validate_login: not validating, sign_up_mode = " + (sign_up_mode || '')
     end
   end
 
   def do_sign_in?
-    Rails.logger.debug "do_sign_in? - sign_up_mode = " + sign_up_mode
+    Rails.logger.debug "do_sign_in? - sign_up_mode = " + (sign_up_mode || '')
     'sign_in' == sign_up_mode
   end
 
   def do_sign_up?
-    Rails.logger.debug "do_sign_up? - sign_up_mode = " + sign_up_mode
+    Rails.logger.debug "do_sign_up? - sign_up_mode = " + (sign_up_mode || '')
     'sign_up' == sign_up_mode
   end
 
