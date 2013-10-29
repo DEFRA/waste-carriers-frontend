@@ -15,10 +15,10 @@
 <% end %>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <p class="group"><%= f.label :email %>
+  <p class="group<% if alert %> validation<% end %>"><%= f.label :email %>
   <%= f.email_field :email, :autofocus => true %></p>
 
-  <p class="group"><%= f.label :password %>
+  <p class="group<% if alert %> validation<% end %>"><%= f.label :password %>
   <%= f.password_field :password %></p>
 
   <% if devise_mapping.rememberable? -%>
