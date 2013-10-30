@@ -70,6 +70,9 @@ module Registrations
     #Changing this value requires restart of the application
     config.waste_exemplar_services_url = "http://localhost:9090"
     
+    # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
+    config.waste_exemplar_end_url = "/gds-end"
+    
     # Set configuration for error pages to manual, to enable more user friendly error pages
     config.exceptions_app = self.routes
   end

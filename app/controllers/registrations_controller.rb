@@ -38,7 +38,7 @@ class RegistrationsController < ApplicationController
   def print
   	@registration = Registration.find(params[:id])
   	if params[:finish]
-      redirect_to registrations_path
+      redirect_to Rails.configuration.waste_exemplar_end_url
     elsif params[:back]
       redirect_to finish_url(:id => @registration.id)
     else
