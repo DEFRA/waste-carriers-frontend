@@ -1,16 +1,16 @@
 <div id="current_user">
 <p class="current_user">
 <% if user_signed_in? %>
-  Logged in as <strong><%= current_user.email %></strong>.
-  <%= link_to "Change Password", edit_user_registration_path, :class => 'navbar-link' %> 
+  Logged in as <strong><%= current_user.email %></strong><br/>
+  <%= link_to "Change Password", edit_user_registration_path, :class => 'navbar-link' %><br/>
   <%= link_to "Logout", destroy_user_session_path, :method => :delete, :class => 'navbar-link'  %>
   <% elsif agency_user_signed_in? %>
-  Logged in as agency user <strong><%= current_agency_user.email %></strong>.
-  <%= link_to "Change Password", edit_agency_user_registration_path, :class => 'navbar-link' %> 
+  Logged in as agency user <strong><%= current_agency_user.email %></strong><br/>
+  <%= link_to "Change Password", edit_agency_user_registration_path, :class => 'navbar-link' %><br/>
   <%= link_to "Logout", destroy_agency_user_session_path, :method => :delete, :class => 'navbar-link'  %>  
   <% elsif admin_signed_in? %>
-  Logged in as admin <strong><%= current_admin.email %></strong>.
-  <%= link_to "Change Password", edit_admin_registration_path, :class => 'navbar-link' %> 
+  Logged in as admin <strong><%= current_admin.email %></strong><br/>
+  <%= link_to "Change Password", edit_admin_registration_path, :class => 'navbar-link' %><br/>
   <%= link_to "Logout", destroy_admin_session_path, :method => :delete, :class => 'navbar-link'  %>  
 <% else %>
   <%#= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> 
