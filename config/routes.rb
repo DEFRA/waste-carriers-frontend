@@ -1,9 +1,21 @@
 Registrations::Application.routes.draw do
-  
-  devise_for :users, :skip => [:registrations], :controllers => { :registrations => "devise/registrationsss"}
+
+  devise_for :users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
     as :user do
       get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'    
       put 'users/:id' => 'devise/registrations#update', :as => 'user_registration'            
+    end
+
+  devise_for :agency_users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
+    as :agency_user do
+      get 'agency_users/edit' => 'devise/registrations#edit', :as => 'edit_agency_user_registration'    
+      put 'agency_users/:id' => 'devise/registrations#update', :as => 'agency_user_registration'            
+    end
+
+  devise_for :admins, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
+    as :agency_user do
+      get 'admins/edit' => 'devise/registrations#edit', :as => 'edit_admin_registration'    
+      put 'admins/:id' => 'devise/registrations#update', :as => 'admin_registration'            
     end
 
   root :to => "home#index"
@@ -18,6 +30,8 @@ Registrations::Application.routes.draw do
   match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
 
   resources :registrations
+
+  resources :agency_users
 
   # Add a route for a 404, Define this catch all unknowns last
   if Rails.env.development?

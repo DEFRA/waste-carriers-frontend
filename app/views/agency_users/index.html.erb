@@ -1,0 +1,27 @@
+<h1>Listing agency users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @agency_users.each do |agency_user| %>
+      <tr>
+        <td><%= agency_user.email %></td>
+        <td><%= link_to 'Show', agency_user %></td>
+        <td><%= link_to 'Edit', edit_agency_user_path(agency_user) %></td>
+        <td><%= link_to 'Destroy', agency_user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New agency_user', new_agency_user_path %>

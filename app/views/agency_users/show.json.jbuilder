@@ -1,0 +1,1 @@
+json.extract! @agency_user, :email, :created_at, :updated_at

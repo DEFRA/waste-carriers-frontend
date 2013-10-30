@@ -7,6 +7,14 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-  	registrations_path
+  	if user_signed_in?
+  	  registrations_path
+  	elsif agency_user_signed_in?
+  	  registrations_path
+  	elsif admin_signed_in?
+  	  agency_users_path
+  	else
+      registrations_path
+  	end
   end
 end
