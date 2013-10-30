@@ -42,6 +42,17 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { :host => 'localhost' }
+  config.action_mailer.default_url_options = { :host => 'www.dev.wastecarriers.service.gov.uk' }
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => ENV[SENDGRID_USERNAME],
+    :password => ENV[SENDGRID_PASSWORD],
+    :domain => 'www.dev.wastecarriers.service.gov.uk',
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
 
 end
