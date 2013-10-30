@@ -14,26 +14,37 @@
 </div>
 </fieldset>
 
+<fieldset>
+
+<% if user_signed_in? %>
+<legend>User Account</legend>
+
+<p>You are currently logged in as <strong><%= current_user.email %></strong>, it is this account that will be associated with this registration.</p>
+<p>If this is not the case, Click here to <%= link_to "logout and start again", destroy_user_session_path, :method => :delete, :class => 'navbar-link'  %>.</p>
+
+<% else %>
+<legend>User Registration</legend>
+
 <p class="group<%if @registration.errors[:sign_up_mode].any?%> validation<%end%>">
     <%= f.label :sign_up_mode, "Sign up or sign in" %>
     <%= f.select :sign_up_mode, options_for_select([["Please select...",""],["Sign up (new e-mail)","sign_up"],["Sign in (existing e-mail)","sign_in"]],f.object.sign_up_mode) %>
 </p>
 
-<fieldset>
-<legend>Signup information</legend>
-
-<p class="group<%if @registration.errors[:email].any?%> validation<%end%>">
+<p class="group js-hidden<%if @registration.errors[:email].any?%> validation<%end%>">
     <%= f.label :email, "E-mail" %>
-    <%= f.email_field :email, :autofocus => true %>
+    <%= f.email_field :email, :autofocus => true, :id =>"accountEmail" %>
 </p>
-<p class="group<%if @registration.errors[:password].any?%> validation<%end%>">
+<p class="group js-hidden<%if @registration.errors[:password].any?%> validation<%end%>">
     <%= f.label :password, "Password" %>
     <%= f.password_field :password %>
 </p>
-<p class="group<%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
+<p class="group js-hidden<%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
     <%= f.label :password_confirmation, "Confirm password" %>
     <%= f.password_field :password_confirmation %>
 </p>
+
+<% end %>
+
 </fieldset>
 
 </div>

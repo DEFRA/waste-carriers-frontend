@@ -30,7 +30,8 @@ class Registration < ActiveResource::Base
     string :lastName
     string :position
     string :phoneNumber
-    string :email
+    string :contactEmail
+    string :accountEmail
     string :declaration
     string :regIdentifier
     # TODO: Determine if this is needed?
@@ -58,9 +59,14 @@ class Registration < ActiveResource::Base
   validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z]*\Z/, message:"can only contain letters"}
   validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:"can not be longer than 35 characters"}
   validates :position, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z]*\Z/, message:"can only contain letters"}
-  validates_presence_of :email, :if => lambda { |o| o.current_step == "contact" }
-  validates :email, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:"must be a valid email address"}
-  validates :email, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}
+  validates_presence_of :contactEmail, :if => lambda { |o| o.current_step == "contact"}
+  validates :contactEmail, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:"must be a valid email address"}
+  validates :contactEmail, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}
+  
+  validates_presence_of :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != ""}
+  validates :accountEmail, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:"must be a valid email address"}
+  validates :accountEmail, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}
+  
   validates_presence_of :phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   validates :phoneNumber, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[0-9\s]*\Z/, message:"can only contain numbers"}
 
@@ -69,9 +75,9 @@ class Registration < ActiveResource::Base
   #Note: there is no uniqueness validation ot ouf the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up?}
 
-  validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
+  validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   #If changing mim and max length, please also change in devise.rb
-  validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
+  validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
   validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
   validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}

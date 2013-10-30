@@ -115,7 +115,7 @@ input {
 #content {
 	margin: 0 auto;
 	max-width: 1020px;
-	position: relative;
+	//position: relative;	// Removed as caused issues overlaying the LoginLogout links
 }
 #content article {
 	margin: 1em 2em 3em 2em;
@@ -140,15 +140,13 @@ margin: 1em -1em 1.5em -1em;
 background-color: #fef7f7;
 }
 
-/*
 #current_user {
     float: right;
 	text-align: right;
 	display: inline-block;
-	margin-right: 100px;
+	margin-right: 2em;
+	max-width:100em;
 }
-*/
-
 
 .inline label {
 	display: inline-block;
