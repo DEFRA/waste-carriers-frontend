@@ -294,7 +294,7 @@
 		var signin = $('#registration_sign_up_mode').val() == "sign_in";
 		var signup = $('#registration_sign_up_mode').val() == "sign_up";
 		if(signup||signin) {
-			$('#accountEmail').parent().removeClass("js-hidden");
+			$('#registration_accountEmail').parent().removeClass("js-hidden");
 			$('#registration_password').parent().removeClass("js-hidden");
 			if(signup) {
 				$('#registration_password_confirmation').parent().removeClass("js-hidden");
@@ -302,7 +302,7 @@
 				$('#registration_password_confirmation').parent().addClass("js-hidden");
 			}
 		} else {
-			$('#accountEmail').parent().addClass("js-hidden");
+			$('#registration_accountEmail').parent().addClass("js-hidden");
 			$('#registration_password').parent().addClass("js-hidden");
 			$('#registration_password_confirmation').parent().addClass("js-hidden");
 		}

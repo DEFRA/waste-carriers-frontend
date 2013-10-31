@@ -24,7 +24,8 @@ en:
         firstName: "First name"
         lastName: "Last name"
         phoneNumber: "Phone number"
-        email: "Email address"
+        contactEmail: "Email address"
+        accountEmail: "Email address"
         otherTitle: "Other title"
       
   registrations:

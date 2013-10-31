@@ -35,6 +35,7 @@ class Ability
 
     can :update, Registration do |registration|
         user_is_agency_user? || user.email == registration.accountEmail
+        user.email == registration.accountEmail
     end
 
   end #initialize

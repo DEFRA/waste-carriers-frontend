@@ -111,9 +111,9 @@
     <%= f.label :phoneNumber, "Phone number" %>
     <%= f.text_field :phoneNumber %>
 </p>
-<p class="group<%if @registration.errors[:email].any?%> validation<%end%>">
-    <%= f.label :email, "Email address" %>
-    <%= f.text_field :email%>
+<p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
+    <%= f.label :contactEmail, "Email address" %>
+    <%= f.text_field :contactEmail%>
 </p>
 </fieldset>
 

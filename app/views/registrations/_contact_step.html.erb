@@ -73,7 +73,7 @@
 <fieldset>
 <legend>Contact information</legend>
 
-<p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+<p class="group<%if @registration.errors[:title].any?%> validation<%end%>">
 <%= f.label :title %>
 <%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"],["Ms"],["Dr"],["Other"]],f.object.title ) %>
 </p>
@@ -97,9 +97,9 @@
     <%= f.label :phoneNumber, "Phone number" %>
     <%= f.text_field :phoneNumber %>
 </p>
-<p class="group<%if @registration.errors[:email].any?%> validation<%end%>">
-    <%= f.label :email, "Email address" %>
-    <%= f.text_field :email%>
+<p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
+    <%= f.label :contactEmail, "Email address" %>
+    <%= f.text_field :contactEmail%>
 </p>
 </fieldset>
 
