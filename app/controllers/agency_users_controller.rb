@@ -2,7 +2,7 @@
 
 class AgencyUsersController < ApplicationController
 
-  #Only administrators can manage other users.
+  #Only administrators can manage other users - requires administrator login.
   before_filter :authenticate_admin!
 
   before_action :set_agency_user, only: [:show, :edit, :update, :destroy]
