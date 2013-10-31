@@ -39,7 +39,7 @@ Then(/^I fill in valid contact details$/) do
   fill_in('registration_firstName', :with => 'Joe')  
   fill_in('registration_lastName', :with => 'Bloggs')  
   fill_in('registration_phoneNumber', :with => '0123 456')  
-  fill_in('registration_email', :with => 'joe@bloggs.com')  
+  fill_in('registration_contactEmail', :with => 'joe@bloggs.com')  
 end
 
 
@@ -73,7 +73,7 @@ When(/^I provide valid contact details$/) do
   fill_in('registration_firstName', :with => 'Joe')  
   fill_in('registration_lastName', :with => 'Bloggs')  
   fill_in('registration_phoneNumber', :with => '0123 456')  
-  fill_in('registration_email', :with => 'joe@bloggs.com')  
+  fill_in('registration_contactEmail', :with => 'joe@bloggs.com')  
   click_on('Next')
   assert(page.has_content?('Check details and register'))
 end
@@ -85,7 +85,7 @@ When(/^I confirm the declaration$/) do
 end
 
 When(/^I provide valid user details for sign up$/) do
-  fill_in('registration_email', :with => 'joe@bloggs.com')
+  fill_in('registration_accountEmail', :with => 'joe@bloggs.com')
   fill_in('registration_password', :with => 'bloggs123')
   fill_in('registration_password_confirmation', :with  => 'bloggs123')
   #click_on 'Register'
