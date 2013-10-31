@@ -17,4 +17,9 @@ class ApplicationController < ActionController::Base
       registrations_path
   	end
   end
+
+  def is_admin_request?
+    'admin' == request.host_with_port[0..4]
+  end
+
 end

@@ -9,4 +9,8 @@ class Admin < ActiveRecord::Base
   	true
   end
   
+  def is_agency_user?
+    false
+  end
+  
 end
