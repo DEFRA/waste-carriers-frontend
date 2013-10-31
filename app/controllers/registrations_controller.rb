@@ -211,7 +211,7 @@ class RegistrationsController < ApplicationController
   end
 
   def authenticate_external_user!
-    if !is_admin_request!
+    if !is_admin_request?
       authenticate_user!
     end
   end
