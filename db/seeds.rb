@@ -4,4 +4,11 @@
 # Examples:
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+#   Mayor.create(name: 'Emanuel', city: cities.first) 
+
+# TODO - Remove for production!!!
+
+if Admin.count() == 0
+ admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'secret123')
+ admin.save!
+end
