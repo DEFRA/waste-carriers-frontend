@@ -39,7 +39,7 @@ Registrations::Application.configure do
   config.action_mailer.default_url_options = { :host => 'www.dev.wastecarriersregistration.service.gov.uk' }
 
   # Don't care if the mailer can't send (if set to false)
-  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
