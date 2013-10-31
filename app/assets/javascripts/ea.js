@@ -128,7 +128,7 @@
 
 
 	function searchResultSummaries(){
-		$(".detail .data").each(function(index,elem){
+		$("#reg-search-result .detail .data").each(function(index,elem){
 			var $elem = $(elem);
 			var detailElem = elem.parentNode;
 			var address = $elem.attr("data-address");

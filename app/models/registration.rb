@@ -34,6 +34,7 @@ class Registration < ActiveResource::Base
     string :accountEmail
     string :declaration
     string :regIdentifier
+    string :status
     # TODO: Determine if this is needed?
     string :uprn
     string :address

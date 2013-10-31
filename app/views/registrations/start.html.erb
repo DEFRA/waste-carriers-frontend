@@ -13,6 +13,12 @@
 
 <p>Find out if you need to register, including which waste category applies to your business or organisation by using the guidance service.</p>
 
-<p><a href="#">Do I need to register?</a></p>
+
+<% if !user_signed_in? %>
+<p>
+<%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+<a href="#">Do I need to register?</a></p>
+<%end%>
+
 
 </article></main>

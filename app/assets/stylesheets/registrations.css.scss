@@ -200,3 +200,26 @@ dl.data dd{
 #current_user > * {
 	margin: 0em 2em;
 }
+
+.box.full {
+	max-width: 100%;
+}
+.box.full dl{
+	float: left;
+	width: 50%;
+}
+.box .actions {
+	float: right;
+}
+.box .status {
+	float: left;
+	margin: 0.25em;
+	padding: 0.25em;
+}
+.box .status.registered {
+	background-color: yellow;
+}
+.box .status.revoked {
+	background-color: red;
+	font-weight: bold;
+}
