@@ -15,12 +15,6 @@ Registrations::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  #Experimental mail configuration for development - does Postfix use sendmail settings?
-  config.action_mailer.delivery_method = :sendmail
-
-  # Don't care if the mailer can't send (if set to false)
-  config.action_mailer.raise_delivery_errors = true
-
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
@@ -42,13 +36,16 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { :host => 'www.dev.wastecarriers.service.gov.uk' }
+  config.action_mailer.default_url_options = { :host => 'www.dev.wastecarriersregistration.service.gov.uk' }
+
+  # Don't care if the mailer can't send (if set to false)
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :user_name => ENV["SENDGRID_USERNAME"],
-    :password => ENV["SENDGRID_PASSWORD"],
-    :domain => 'www.dev.wastecarriers.service.gov.uk',
+    :user_name => ENV["WEFRONTEND_SENDGRID_USERNAME"],
+    :password => ENV["WEFRONTEND_SENDGRID_PASSWORD"],
+    :domain => 'www.dev.wastecarriersregistration.service.gov.uk',
     :address => 'smtp.sendgrid.net',
     :port => 587,
     :authentication => :plain,
