@@ -83,13 +83,13 @@ class RegistrationsController < ApplicationController
       session[:registration_step] = @registration.current_step
     elsif @registration.valid?
       if @registration.confirmation_step?
-        @registration.initialize_sign_up_mode
+        #@registration.initialize_sign_up_mode
       end
       if @registration.last_step?
         if @registration.sign_up_mode == 'sign_up'
-          logger.debug "The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.email
+          logger.debug "The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.accountEmail
           @user = User.new
-          @user.email = @registration.email
+          @user.email = @registration.accountEmail
           @user.password = @registration.password
           logger.debug "About to save the new user."
           @user.save!
@@ -98,12 +98,12 @@ class RegistrationsController < ApplicationController
           logger.debug "The newly saved user has been signed in"
         else
           logger.debug "Registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode
-          @user = User.find_by_email(@registration.email)
+          @user = User.find_by_email(@registration.accountEmail)
           if @user.valid_password?(@registration.password)
             logger.info "The user's password is valid. Signing in user " + @user.email
             sign_in @user
           else
-            logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.email
+            logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
             #TODO error - should have caught the error in validation
           end
         end

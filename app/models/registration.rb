@@ -63,9 +63,11 @@ class Registration < ActiveResource::Base
   validates :contactEmail, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:"must be a valid email address"}
   validates :contactEmail, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}
   
-  validates_presence_of :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != ""}
-  validates :accountEmail, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:"must be a valid email address"}
-  validates :accountEmail, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}
+  validates_presence_of :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" && !user_signed_in? }
+  validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" && !user_signed_in? }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:"must be a valid email address"}
+  validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" && !user_signed_in? }, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}
+  
+  
   
   validates_presence_of :phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   validates :phoneNumber, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[0-9\s]*\Z/, message:"can only contain numbers"}
@@ -73,30 +75,34 @@ class Registration < ActiveResource::Base
   validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:"must be accepted"}
 
   #Note: there is no uniqueness validation ot ouf the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
-  validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up?}
+  validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? && !user_signed_in? }
 
-  validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !user_signed_in? && o.sign_up_mode != ""}
+  
   #If changing mim and max length, please also change in devise.rb
-  validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-  validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
-  validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
-  validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted?}
-  validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
+  validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && user_signed_in? && o.sign_up_mode != ""}
+  validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && user_signed_in? && o.sign_up_mode != ""}
+  validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && user_signed_in? && o.sign_up_mode != ""}
+  
+  validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !user_signed_in? }
+  #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !user_signed_in?}, :inclusion => {:in => %w[sign_up sign_in] }
+
+  validates_presence_of :password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !user_signed_in? && o.sign_up_mode == "sign_up" }
 
   #def sign_up_mode
   #  @sign_up_mode || 'sign_up'
   #end 
 
-  def initialize_sign_up_mode
-    Rails.logger.debug "Entering initialize_sign_up_mode"
-    if User.where(email: email).count == 0
-      Rails.logger.debug "No user found in database with email = " + email + ". Signing up..."
-      sign_up_mode = 'sign_up'
-    else
-      Rails.logger.debug "Found user with email = " + email + ". Signing in..."
-      sign_up_mode = 'sign_in'
-    end
-  end
+#  def initialize_sign_up_mode
+#    Rails.logger.debug "Entering initialize_sign_up_mode"
+#    if User.where(email: accountEmail).count == 0
+#      Rails.logger.debug "No user found in database with email = " + accountEmail + ". Signing up..."
+#      sign_up_mode = 'sign_up'
+#    else
+#      Rails.logger.debug "Found user with email = " + accountEmail + ". Signing in..."
+#      sign_up_mode = 'sign_in'
+#    end
+#  end
 
   def current_step
     @current_step || steps.first
@@ -144,9 +150,9 @@ class Registration < ActiveResource::Base
     Rails.logger.debug "entering validate_email_unique"
     if do_sign_up?
       Rails.logger.debug "validate_email_unique - do_sign_up is true"
-      unless User.where(email: email).count == 0
+      unless User.where(email: accountEmail).count == 0
         Rails.logger.debug "adding error - email already taken"
-        errors.add(:email, 'Account for this e-mail is already taken')
+        errors.add(:accountEmail, 'Account for this e-mail is already taken')
       end
     end
   end
@@ -168,9 +174,10 @@ class Registration < ActiveResource::Base
     Rails.logger.debug "entering validate_login"
     if !persisted? && do_sign_in?
       Rails.logger.debug "validate_login - do_sign_in is true - looking for User with this email"
-      @user = User.find_by_email(email)
+      @user = User.find_by_email(accountEmail)
       if @user == nil || !@user.valid_password?(password)
         errors.add(:password, 'Invalid email and/or password')
+        Rails.logger.debug "Invalid User Found"
       end
     else
       Rails.logger.debug "validate_login: not validating, sign_up_mode = " + (sign_up_mode || '')
