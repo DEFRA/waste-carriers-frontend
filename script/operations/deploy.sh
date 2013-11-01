@@ -76,7 +76,7 @@ sed -i "s/WCRS_FRONTEND_EMAIL_PASSWORD/${WCRS_FRONTEND_EMAIL_PASSWORD}/g" \
 
 ## Bundle and rake.
 cd "${WCRS_FRONTEND_HOME}/live"
-rpm use ${WCRS_FRONTEND_RUBY_VERSION}
+rvm use ${WCRS_FRONTEND_RUBY_VERSION}
 bundle install
 rake db:migrate RAILS_ENV="${WCRS_FRONTEND_RAILS_ENV}"
 
