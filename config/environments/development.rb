@@ -36,7 +36,7 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { :host => 'www.dev.wastecarriersregistration.service.gov.uk' }
+  config.action_mailer.default_url_options = { :host => 'WCRS_FRONTEND_PUBLIC_APP_DOMAIN' }
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
