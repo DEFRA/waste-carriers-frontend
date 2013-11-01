@@ -121,15 +121,19 @@ class RegistrationsController < ApplicationController
       
     elsif @registration.valid?
       if @registration.confirmation_step?
+      
+        # Prepopulate Email field/Set registration account
         if user_signed_in?
-          # If already signed in, check user account?? is this needed?
-          @registration.sign_up_mode = @registration.initialize_sign_up_mode(current_user.email, user_signed_in?)
-          logger.info 'try that '+ @registration.sign_up_mode
+          logger.debug 'User already signed in using current email: ' + current_user.email
+          @registration.accountEmail = current_user.email
         else
-          # Check if the contact Email exists as an account in the user records
-          @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.contactEmail, user_signed_in?)
-          logger.debug 'registration mode: ' + @registration.sign_up_mode
+          logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
+          @registration.accountEmail = @registration.contactEmail
         end
+        
+        # Get signup mode
+        @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, user_signed_in?)
+        logger.debug 'registration mode: ' + @registration.sign_up_mode
         
       end
       
@@ -146,19 +150,26 @@ class RegistrationsController < ApplicationController
           logger.debug "User has been saved."
           sign_in @user
           logger.debug "The newly saved user has been signed in"
+          
+          # Reset Signed up user to signed in status
+          @registration.sign_up_mode = 'sign_in'
         else
           logger.debug "Registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode
-          @user = User.find_by_email(@registration.accountEmail)
-          if @user.valid_password?(@registration.password)
-            logger.info "The user's password is valid. Signing in user " + @user.email
-            sign_in @user
+          if @registration.sign_up_mode == 'sign_in'
+          	@user = User.find_by_email(@registration.accountEmail)
+            if @user.valid_password?(@registration.password)
+              logger.info "The user's password is valid. Signing in user " + @user.email
+              sign_in @user
+            else
+              logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
+              #TODO error - should have caught the error in validation
+            end
           else
-            logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
-            #TODO error - should have caught the error in validation
+          	logger.debug "User signed in, set account email to user email and get user"
+          	@registration.accountEmail = current_user.email
+          	@user = User.find_by_email(@registration.accountEmail)
           end
         end
-        #Note: We are resetting the sign_up_mode here to avoid the error message that the e-mail is already taken
-        @registration.sign_up_mode = 'sign_in'
         logger.debug "Now asking whether registration is all valid"
         if @registration.all_valid?
           logger.debug "The registration is all valid. About to save the registration..."
