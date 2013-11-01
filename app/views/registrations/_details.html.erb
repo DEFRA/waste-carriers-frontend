@@ -1,51 +1,22 @@
 <h3>Business or organisation details</h3>
-
-<dl class="data">
-  <dt>Business or organisation type</dt>
-  <dd><%= @registration.businessType %></dd>
-  
-  <dt>Business, organisation or trading name</dt>
-  <dd><%= @registration.companyName %></dd>
-</dl>
 <div class="clr"></div>
-
-<h3>Main business, organisation or trading address</h3>
 <dl class="data">
-  <dt>House/Building name</dt>
-  <dd><%= @registration.houseNumber %></dd>
-  
-  <dt>Street</dt>
-  <dd><%= @registration.streetLine1 %><br /><%= @registration.streetLine2 %></dd>
-  
-  <dt>Town/City</dt>
-  <dd><%= @registration.townCity%></dd>
-  
-  <dt>Postcode</dt>
-  <dd><%= @registration.postcode%></dd>
-</dl>
-<div class="clr"></div>
-
-<h3>Contact information</h3>
-<dl class="data">
-  <dt>Title</dt>
+  <dt>Contact name</dt>
   <dd>
   <%if @registration.title == "Other"%>
   <%= @registration.otherTitle%>
   <%else%>
   <%= @registration.title%>
   <%end%>
+  <%= @registration.firstName%> <%= @registration.lastName%>
   </dd>
-  <dt>First name</dt>
-  <dd><%= @registration.firstName%></dd>
-  <dt>Last name</dt>
-  <dd><%= @registration.lastName%></dd>
-  <%if @registration.position != ""%>
-  <dt>Position</dt>
-  <dd><%= @registration.position%></dd>
-  <%end%>
   <dt>Phone number</dt>
   <dd><%= @registration.phoneNumber%></dd>
-  <dt>Email address</dt>
-  <dd><%= @registration.contactEmail%></dd>
 </dl>
+<dl class="data">
+  <dt>Address</dt>
+  <dd><%= @registration.houseNumber %> <%= @registration.streetLine1 %><br /><%= @registration.streetLine2 %> <%= @registration.townCity%><%= @registration.postcode%></dd>
+</dl>
+<div class="clr"></div>
+
 <div class="clr"></div>

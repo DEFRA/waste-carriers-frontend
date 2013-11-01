@@ -5,14 +5,7 @@
 
 <!-- WF 4.3.4 -->
 <div id="page4">
-<h2>Sign up and register</h2>
-<fieldset>
-<legend>User details</legend>
-<div id="summary">
-<p>Registering <%=@registration.contactEmail%></p>
-<p><%=@registration.companyName%></p>
-</div>
-</fieldset>
+<h2>Complete registration</h2>
 
 <fieldset>
 
@@ -33,7 +26,7 @@
 </p>
 
 <p class="group js-hidden<%if @registration.errors[:accountEmail].any?%> validation<%end%>">
-    <%= f.label :accountEmail, "E-mail" %>
+    <%= f.label :accountEmail, "Email" %>Please check this email address as it will be your username<br/>
     <%= f.email_field :accountEmail, :autofocus => true %>
 </p>
 <p class="group js-hidden<%if @registration.errors[:password].any?%> validation<%end%>">

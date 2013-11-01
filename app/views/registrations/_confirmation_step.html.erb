@@ -5,33 +5,39 @@
 
 <!-- WF 4.3.3 -->
 <div id="page3">
-<h2>Check details and register</h2>
 <fieldset>
-<legend>Summary of registration</legend>
+<legend>Check details</legend>
 <div id="summary">
 
-<p>Registering <%=@registration.businessType%> for</p>
-<p><%=@registration.companyName%></p>
-<p>At the following address</p>
+<p>Registering <%=@registration.companyName%> as a <%=@registration.businessType%>.</p>
+<p>With the following details:</p>
 
 <div><%=@registration.address%></div>
 
-<p>Contact</p>
 <div><%=@registration.title%> <%=@registration.firstName%> <%=@registration.lastName%> (<%=@registration.contactEmail%>)</div>
 <div>Telephone number: <%=@registration.phoneNumber%></div>
 
 </div>
 </fieldset>
 
-<p>Please use the <b>'Back'</b> button to change your information.</p>
+<br/>
+<legend>Anything wrong?</legend>
+
+<p>To edit your details use the <b>'Back'</b> button.</p>
 
 <fieldset>
 <legend>Declaration</legend>
 
 <p class="option group<%if @registration.errors[:declaration].any?%> validation<%end%>">
-<label for="registration_declaration"><%= f.check_box :declaration%> I declare that as far as I know and believe, the information in this registration is true.</label>
+<label for="registration_declaration"><%= f.check_box :declaration%> I declare that as far as I know and believe, the information in this registration is true. A statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Ammendment) Act 1989.</label>
 </p>
 
+
+</fieldset>
+
+<fieldset>
+<legend>Find out how we use your data</legend>
+<p><a href="#TODO_EXTERNALLINKFORTERMSANDCONDITIONS">Find out more details about how we use your data and information</a></p>
 </fieldset>
 
 </div>
