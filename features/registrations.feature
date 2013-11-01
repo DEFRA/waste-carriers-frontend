@@ -9,7 +9,7 @@ Scenario: Valid registration as an Individual
   Given I am on the Start page
   And I click on "Begin registration"
   Then I should see "Waste Carrier Registration"
-  And I should see "For a lower tier waste carrier, broker or dealer"
+  And I should see "For a lower tier waste carrier/broker/dealer"
   #And I register as a"Carrier"
   And I select business or organisation type "Sole trader"
   And I fill in "Business, organisation or trading name" with "Joe Bloggs"
