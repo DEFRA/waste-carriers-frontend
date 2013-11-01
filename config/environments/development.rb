@@ -43,11 +43,11 @@ Registrations::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :user_name => ENV["WEFRONTEND_SENDGRID_USERNAME"],
-    :password => ENV["WEFRONTEND_SENDGRID_PASSWORD"],
-    :domain => 'www.dev.wastecarriersregistration.service.gov.uk',
-    :address => 'smtp.sendgrid.net',
-    :port => 587,
+    :user_name => ENV["WCRS_FRONTEND_EMAIL_USERNAME"],
+    :password => ENV["WCRS_FRONTEND_EMAIL_PASSWORD"],
+    :domain => 'WCRS_FRONTEND_PUBLIC_APP_DOMAIN',
+    :address => 'WCRS_FRONTEND_EMAIL_HOST',
+    :port => WCRS_FRONTEND_EMAIL_PORT,
     :authentication => :plain,
     :enable_starttls_auto => true
   }

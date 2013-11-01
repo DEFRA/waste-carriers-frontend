@@ -68,7 +68,7 @@ module Registrations
     #Our services URL. This application is the REST-based client of that service API.
     #As described in the comments above, this setting can be redefined in config/environments/*.rb
     #Changing this value requires restart of the application
-    config.waste_exemplar_services_url = "http://localhost:9090"
+    config.waste_exemplar_services_url = "WCRS_FRONTEND_WCRS_SERVICES_URL"
     
     # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
     config.waste_exemplar_end_url = "/gds-end"
