@@ -17,8 +17,8 @@ class RegistrationsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @registrations }
     end
-  rescue ActiveResource::ServerError
-    redirect_to registrations_path(:error => 'Server Error detected, check the log for details. Detected searching for: ' + params[:q] )
+  #rescue ActiveResource::ServerError
+  #  redirect_to registrations_path(:error => 'Server Error detected, check the log for details. Detected searching for: ' + (params[:q] || '') )
   end
   
   def userRegistrations
