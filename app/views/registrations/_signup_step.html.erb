@@ -15,12 +15,12 @@
 <p>You are currently logged in as <strong><%= current_user.email %></strong>, it is this account that will be associated with this registration.</p>
 <p>If this is not the case, Click here to <%= link_to "logout and start again", destroy_user_session_path, :method => :delete, :class => 'navbar-link'  %>.</p>
 
-<%# f.text_field :sign_up_mode, :class => "js-hidden" %>
+<%= f.select(:sign_up_mode, options_for_select([["Signed In",""]],f.object.sign_up_mode), {}, { :class => 'js-hidden' }) %>
 
 <% else %>
 <legend>User Registration</legend>
 
-<p class="group<%if @registration.errors[:sign_up_mode].any?%> validation<%end%>">
+<p class="group<%if @registration.errors[:sign_up_mode].any?%> validation<%end%> js-hidden">
     <%= f.label :sign_up_mode, "Sign up or sign in" %>
     <%= f.select :sign_up_mode, options_for_select([["Please select...",""],["Sign up (new e-mail)","sign_up"],["Sign in (existing e-mail)","sign_in"]],f.object.sign_up_mode) %>
 </p>
