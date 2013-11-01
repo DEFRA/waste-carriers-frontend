@@ -175,7 +175,7 @@ class RegistrationsController < ApplicationController
           logger.debug "The registration is all valid. About to save the registration..."
           @registration.save!
           logger.debug "The registration has been saved. About to send e-mail..."
-          RegistrationMailer.welcome_email(@user).deliver
+          RegistrationMailer.welcome_email(@user, @registration).deliver
           logger.debug "registration e-mail has been sent."
         else
           logger.error "GGG - The registration is NOT valid!"
