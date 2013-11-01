@@ -22,4 +22,16 @@ class ApplicationController < ActionController::Base
     'admin' == request.host_with_port[0..4]
   end
 
+  def current_ability
+    @current_ability ||= Ability.new(current_any_user)
+  end
+
+  def current_any_user
+    current_user || current_agency_user || current_admin
+  end
+
+  rescue_from CanCan::AccessDenied do |exception| 
+    render :file => "/public/403.html", :status => 403 
+  end
+
 end

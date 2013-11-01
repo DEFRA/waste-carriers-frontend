@@ -46,4 +46,5 @@ class Ability
     end
 
   end #initialize
+
 end
