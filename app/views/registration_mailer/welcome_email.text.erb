@@ -1,7 +1,7 @@
 <%=@registration.companyName%> has been registered with the Environment Agency.
 ===============================================================================
 
-Your registration number is: <%=@registration.regIdentifier%>. Your username is your email: <%= @registration.accountEmail %>.
+Your registration number is: <%= @registration.regIdentifier %>. Your username is your email: <%= @registration.accountEmail %>.
 
 This is proof of your registration.
 	
@@ -11,21 +11,21 @@ Business or organisation details
 --------------------------------
 
 Contact name:
-<%if @registration.title == "Other"%>
-<%= @registration.otherTitle%>
-<%else%>
-<%= @registration.title%>
-<%end%
-<%= @registration.firstName%> <%= @registration.lastName%>
+<% if @registration.title == "Other" %>
+<%= @registration.otherTitle %>
+<% else %>
+<%= @registration.title %>
+<% end %>
+<%= @registration.firstName %> <%= @registration.lastName %>
 
 Phone number:
-<%= @registration.phoneNumber%>
+<%= @registration.phoneNumber %>
 		
 Address:
 <%= @registration.houseNumber %> <%= @registration.streetLine1 %>
 <%= @registration.streetLine2 %>
-<%= @registration.townCity%>
-<%= @registration.postcode%>
+<%= @registration.townCity %>
+<%= @registration.postcode %>
 
 
 Lower tier registration
