@@ -78,13 +78,52 @@ class RegistrationsController < ApplicationController
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = session[:registration_step]
     first = @registration.first_step?
+    
+    # Log current Step
+    logger.info 'current step is: ' + @registration.current_step + ' SHOULD BE signup'
+    
+    # Log persisted
+    if @registration.persisted?
+      logger.info 'persisted is true'
+    elsif !@registration.persisted?
+      logger.info 'persisted is false' + ' SHOULD BE false'
+    else
+      logger.info 'persisted is not known'
+    end
+    
+	# Log whether the user is currently logged in
+    if user_signed_in?
+      logger.info 'User Signed in ' + current_user.email
+    elsif !user_signed_in?
+      logger.info 'User NOT Signed in'
+    else
+      logger.info 'User status not known'
+    end
+    
+    #logger.info 'sign_up_mode: ' + @registration.sign_up_mode
+    
     if params[:back]
       @registration.previous_step
       session[:registration_step] = @registration.current_step
+      
+      logger.info 'Navigate back to previous step'
+      
     elsif @registration.valid?
       if @registration.confirmation_step?
-        #@registration.initialize_sign_up_mode
+        if user_signed_in?
+          # If already signed in, check user account?? is this needed?
+          @registration.sign_up_mode = @registration.initialize_sign_up_mode(current_user.email, user_signed_in?)
+          logger.info 'try that '+ @registration.sign_up_mode
+        else
+          # Check if the contact Email exists as an account in the user records
+          @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.contactEmail, user_signed_in?)
+          logger.debug 'registration mode: ' + @registration.sign_up_mode
+        end
+        
       end
+      
+      logger.info 'Registration is potentially valid...'
+      
       if @registration.last_step?
         if @registration.sign_up_mode == 'sign_up'
           logger.debug "The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.accountEmail
