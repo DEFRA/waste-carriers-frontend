@@ -24,7 +24,6 @@ if [[ -z "${WCRS_FRONTEND_SOURCE}" ]]; then env_alert WCRS_FRONTEND_SOURCE; fi
 if [[ -z "${WCRS_FRONTEND_SQLITE_FILE}" ]]; then env_alert WCRS_FRONTEND_SQLITE_FILE; fi
 if [[ -z "${WCRS_FRONTEND_EMAIL_HOST}" ]]; then env_alert WCRS_FRONTEND_EMAIL_HOST; fi
 if [[ -z "${WCRS_FRONTEND_EMAIL_PORT}" ]]; then env_alert WCRS_FRONTEND_EMAIL_PORT; fi
-if [[ -z "${WCRS_FRONTEND_EMAIL_DOMAIN}" ]]; then env_alert WCRS_FRONTEND_EMAIL_DOMAIN; fi
 if [[ -z "${WCRS_FRONTEND_EMAIL_USERNAME}" ]]; then env_alert WCRS_FRONTEND_EMAIL_USERNAME; fi
 if [[ -z "${WCRS_FRONTEND_EMAIL_PASSWORD}" ]]; then env_alert WCRS_FRONTEND_EMAIL_PASSWORD; fi
 if [[ -z "${WCRS_FRONTEND_WCRS_SERVICES_URL}" ]]; then env_alert WCRS_FRONTEND_WCRS_SERVICES_URL; fi
@@ -35,13 +34,13 @@ if [[ -z "${WCRS_FRONTEND_PUBLIC_APP_DOMAIN}" ]]; then env_alert WCRS_FRONTEND_P
 sudo service nginx stop
 
 ## Backup the current database.
-if [ -d "${WESERVICES_HOME}/live" ]; then
+if [ -d "${WESERVICES_HOME}/live/db" ]; then
   echo "Backing up current database."
   cd "${WESERVICES_HOME}/live/db" 
-  tar zcf "${WCRS_FRONTEND_SQLITE_FILE}.sqlite3-${DATESTAMP}.tgz" \
-          "${WCRS_FRONTEND_SQLITE_FILE}.sqlite3"
+  tar zcf "${WCRS_FRONTEND_SQLITE_FILE}-${DATESTAMP}.tgz" \
+          "${WCRS_FRONTEND_SQLITE_FILE}"
   if [ $? -ne 0 ]; then
-    echo "ERROR: Backup of ${WCRS_FRONTEND_SQLITE_FILE}.sqlite3 failed."
+    echo "ERROR: Backup of ${WCRS_FRONTEND_SQLITE_FILE} failed."
     echo "       Exiting now. Nginx is stopped. No new code has been deployed."
     exit 2
   fi
