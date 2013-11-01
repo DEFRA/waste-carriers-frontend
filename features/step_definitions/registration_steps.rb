@@ -85,7 +85,7 @@ When(/^I confirm the declaration$/) do
 end
 
 When(/^I provide valid user details for sign up$/) do
-  page.select('Sign up (new e-mail)', :from => 'registration_sign_up_mode')
+  #page.select('Sign up (new e-mail)', :from => 'registration_sign_up_mode')
   fill_in('registration_accountEmail', :with => 'joe@bloggs.com')
   fill_in('registration_password', :with => 'bloggs123')
   fill_in('registration_password_confirmation', :with  => 'bloggs123')
