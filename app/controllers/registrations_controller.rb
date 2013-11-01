@@ -2,8 +2,10 @@ class RegistrationsController < ApplicationController
 
   #We require authentication (and authorisation) largely only for editing registrations,
   #and for viewing the finished/completed registration.
-  before_filter :authenticate_user!,
-    :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish]
+
+  before_filter :authenticate_admin_request!
+
+  before_filter :authenticate_external_user!, :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish]
 
   # GET /registrations
   # GET /registrations.json
@@ -17,6 +19,15 @@ class RegistrationsController < ApplicationController
     end
   rescue ActiveResource::ServerError
     redirect_to registrations_path(:error => 'Server Error detected, check the log for details. Detected searching for: ' + params[:q] )
+  end
+  
+  def userRegistrations
+    @registrations = Registration.find(:all, :params => {:user => params[:id]})
+    
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @registrations }
+    end
   end
 
   # GET /registrations/1
@@ -239,6 +250,18 @@ class RegistrationsController < ApplicationController
 
   def logger
     Rails.logger
+  end
+
+  def authenticate_admin_request!
+    if is_admin_request?
+      authenticate_agency_user!
+    end
+  end
+
+  def authenticate_external_user!
+    if !is_admin_request?
+      authenticate_user!
+    end
   end
 
 end

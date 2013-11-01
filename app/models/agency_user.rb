@@ -8,4 +8,7 @@ class AgencyUser < ActiveRecord::Base
   	false
   end
   
+  def is_agency_user?
+    true
+  end
 end

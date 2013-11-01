@@ -191,12 +191,25 @@ dl.data dd{
 	background: $grey-3;
 	border: 1px solid black;
 }
-/*
-#current_user {
-	margin: 0 auto;
-	max-width: 1020px;
-	position: relative;
+.box.full {
+	max-width: 100%;
 }
-#current_user > * {
-	margin: 0em 2em;
-}*/
+.box.full dl{
+	float: left;
+	width: 50%;
+}
+.box .actions {
+	float: right;
+}
+.box .status {
+	float: left;
+	margin: 0.25em;
+	padding: 0.25em;
+}
+.box .status.registered {
+	background-color: yellow;
+}
+.box .status.revoked {
+	background-color: red;
+	font-weight: bold;
+}

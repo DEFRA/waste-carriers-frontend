@@ -30,11 +30,19 @@ class Ability
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     can :read, Registration do |registration|
-        user.email == registration.accountEmail
+        if user
+          user.is_agency_user? || user.email == registration.accountEmail
+        else
+          false
+        end
     end
 
     can :update, Registration do |registration|
-        user.email == registration.accountEmail
+        if user
+          user.is_agency_user? || user.email == registration.accountEmail
+        else
+          false
+        end
     end
 
   end #initialize
