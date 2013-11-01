@@ -85,7 +85,7 @@ class Registration < ActiveResource::Base
   validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   
-  validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "" }
+  #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
   #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
 
   validates_presence_of :password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
@@ -96,17 +96,17 @@ class Registration < ActiveResource::Base
 
   def initialize_sign_up_mode(userEmail, signedIn)
     Rails.logger.debug "Entering initialize_sign_up_mode"
-    if User.where(email: userEmail).count == 0
-      Rails.logger.debug "No user found in database with email = " + userEmail + ". Signing up..."
-      sign_up_mode = 'sign_up'
+    if signedIn
+      Rails.logger.debug "User already signed in with email = " + userEmail + "."
+      sign_up_mode = ''
     else
-      Rails.logger.debug "Found user with email = " + userEmail + ". Signing in..."
-      if signedIn?
-      	sign_up_mode = 'signed_in'
+      if User.where(email: userEmail).count == 0
+        Rails.logger.debug "No user found in database with email = " + userEmail + ". Signing up..."
+        sign_up_mode = 'sign_up'
       else
-      	sign_up_mode = 'sign_in'
+        Rails.logger.debug "Found user with email = " + userEmail + ". Directing to Sign in..."
+        sign_up_mode = 'sign_in'
       end
-      # NOTE: THis value setting doesnt seem to work????
     end
   end
 
