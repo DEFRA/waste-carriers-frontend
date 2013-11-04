@@ -121,7 +121,7 @@ input {
 	margin: 1em 2em 3em 2em;
 }
 .box .detail {
-	background-color: $green-50;
+	background-color: #FFCC99;
 	display: none;
 }
 .box a.view {
@@ -212,4 +212,20 @@ dl.data dd{
 .box .status.revoked {
 	background-color: red;
 	font-weight: bold;
+}
+
+.detailsBoxWrapper
+{
+	display: none;
+	position:relative;
+}
+
+.detailsBox
+{
+	background-color: #FFCC99;
+	padding: 0.25em;
+	width: 20em;
+	position: absolute;
+	left:35em;
+	top:-7em;
 }

@@ -154,26 +154,69 @@
 			$a.attr("href","#");
 			$a.addClass("view");
 			$a.html("View registration");
-			detailElem.parentNode.insertBefore(a,detailElem.parentNode.firstChild);
+			detailElem.parentNode.parentNode.parentNode.insertBefore(a,detailElem.parentNode.parentNode.parentNode.firstChild);
+			
 			$a.click(authorViewDetail(detailElem,a));
+			$a.click(resetAll() );
 			
 			new Tooltip(detailElem.parentNode,$elem.html(),function(){
 				return $(detailElem).css("display") === "none";
 			});
+			
+			$elem.parent().parent().parent().parent()
+			  .mouseenter(function() {
+			    // Hide all details boxes
+			    resetAll();
+			    
+			    // Show this specific details box
+			    $(detailElem).css("display","block");
+			    $(detailElem).parent().parent().css("display","block");
+			    
+			    $(detailElem).parent().parent().parent().css("background-color", "#FFCC99");
+			    
+			    // Reset link to a Hide link
+			    $(a).html("Hide details");
+			  });
+			
+		});
+	}
+	
+	function resetAll(){
+		$("#reg-search-result .detail .data").each(function(index,elem){
+			// hide all details boxes
+			var $elem = $(elem);
+			var detailElem = elem.parentNode;
+			$(detailElem).css("display","none");
+			$(detailElem).parent().parent().css("display","none");
+			$(detailElem).parent().parent().parent().css("background-color","rgb(222, 224, 226)");
+		});
+		
+		$("#reg-search-result .box .view").each(function(index,elem){
+			// revert all text links to default
+			$(elem).html("View details");
 		});
 	}
 
 	function authorViewDetail(elem,a){
-		var shown = false;
+		
+		
+		
+		var shown = true;
 		return function(e){
+			// reset all details to hidden
+			resetAll();
 			e.preventDefault();
 			if(!shown){
 				$(elem).css("display","block");
-				$(a).html("Hide registration");
+				$(a).html("Hide details");
+				// display/hide new details
+				$(elem).parent().parent().css("display","block");
 				
 			}else{
 				$(elem).css("display","none");
-				$(a).html("View registration");
+				$(a).html("View details");
+				// display/hide new details
+				$(elem).parent().parent().css("display","none");
 			}
 			shown = !shown;
 		}

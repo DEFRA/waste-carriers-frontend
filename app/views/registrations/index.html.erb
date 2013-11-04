@@ -53,20 +53,30 @@
 		<dt>Postcode</dt>
 		<dd><%= registration.postcode %></dd>
 	</dl>
-	<div class="detail">
-		<div class="data" data-organisationType="<%= registration.businessType%>"
-			data-organisationName="<%=registration.companyName%>" data-individualsType="<%=registration.individualsType%>"
-			data-publicBodyType="<%=registration.publicBodyType%>"
-			data-title="<%=registration.title%>" data-firstName="<%=registration.firstName%>"
-			data-lastName="<%=registration.lastName%>" data-phoneNumber="<%=registration.phoneNumber%>"
-			data-emailAddress="<%=registration.contactEmail%>" data-houseNumber="<%=registration.houseNumber%>"
-			data-postcode="<%=registration.postcode%>" data-uprn="<%=registration.uprn%>"
-			data-address="<%=registration.address%>" >
+	<div class="detailsBoxWrapper">
+		<div class="detailsBox">
+			<div class="detail">
+				<div class="data" 
+					data-organisationType="<%= registration.businessType%>" 
+					data-organisationName="<%=registration.companyName%>" 
+					data-individualsType="<%=registration.individualsType%>" 
+					data-publicBodyType="<%=registration.publicBodyType%>" 
+					data-title="<%=registration.title%>" 
+					data-firstName="<%=registration.firstName%>" 
+					data-lastName="<%=registration.lastName%>" 
+					data-phoneNumber="<%=registration.phoneNumber%>" 
+					data-emailAddress="<%=registration.contactEmail%>" 
+					data-houseNumber="<%=registration.houseNumber%>" 
+					data-postcode="<%=registration.postcode%>" 
+					data-uprn="<%=registration.uprn%>" 
+					data-address="<%=registration.address%>" >
+				</div>
+			</div>
+			<form action="<%=ncccedit_url(registration.id)%>">
+				<p class="action group"><input type="submit" class="button" value="Edit Registration"/></p>
+			</form>
+			<%= button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :data => "{ :confirm => 'are you sure?' }"%>
 		</div>
-		<form action="<%=ncccedit_url(registration.id)%>">
-			<p class="action group"><input type="submit" class="button" value="Edit Registration"/></p>
-		</form>
-		<%= button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :data => "{ :confirm => 'are you sure?' }"%>
 	</div>
 </div>
 <% end %>
