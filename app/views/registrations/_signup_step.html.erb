@@ -30,7 +30,7 @@
     <%= f.email_field :accountEmail, :autofocus => true %>
 </p>
 <p class="group js-hidden<%if @registration.errors[:password].any?%> validation<%end%>">
-    <%= f.label :password, "Password" %>
+    <%= f.label :password, "Password" %>Your password must be at least eight characters long<br/>
     <%= f.password_field :password %>
 </p>
 <p class="group js-hidden<%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
