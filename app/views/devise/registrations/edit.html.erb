@@ -25,16 +25,6 @@
 <% end %>
 </fieldset>
 
-<fieldset>
-<legend>Delete my account</legend>
-
-<p class="action group">
-Unhappy?
-<%= button_to "Delete my account", user_registration_path(resource), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => "button-secondary" %>
-</p>
-
-</fieldset>
-
 <%= link_to "Back", :back %>
 
 </article></main>
