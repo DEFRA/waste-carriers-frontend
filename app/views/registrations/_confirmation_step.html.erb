@@ -10,12 +10,12 @@
 <fieldset>
 <div id="summary">
 
-<p>Registering <%=@registration.companyName%> as a <%=@registration.businessType%>.</p>
+<p>Registering <%=@registration.companyName%> as a <%=@registration.businessType.to_s.humanize%>.</p>
 <p>With the following details:</p>
 
 <div><%=@registration.address%></div>
 
-<div><%=@registration.title%> <%=@registration.firstName%> <%=@registration.lastName%> (<%=@registration.contactEmail%>)</div>
+<div><%=@registration.title_for_display%> <%=@registration.firstName%> <%=@registration.lastName%> (<%=@registration.contactEmail%>)</div>
 <div>Telephone number: <%=@registration.phoneNumber%></div>
 
 </div>

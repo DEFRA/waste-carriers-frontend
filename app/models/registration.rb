@@ -204,4 +204,12 @@ class Registration < ActiveResource::Base
     @user
   end
 
+  def title_for_display
+    if title == 'Other'
+      otherTitle
+    else
+      title
+    end
+  end  
+
 end
