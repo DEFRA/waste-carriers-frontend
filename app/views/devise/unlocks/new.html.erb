@@ -1,12 +1,16 @@
+<main id="content" role="main" class="group"><article role="article" class="group">
+
 <h2>Resend unlock instructions</h2>
 
 <%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+  <p class="group"><%= f.label :email %>
+  <%= f.email_field :email, :autofocus => true %></p>
 
-  <div><%= f.submit "Resend unlock instructions" %></div>
+  <p class="action group"><%= f.submit "Resend unlock instructions" %></p>
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+</article></main>
