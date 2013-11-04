@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
   	if user_signed_in?
-  	  registrations_path
+  	  userRegistrations_path(resource)
   	elsif agency_user_signed_in?
   	  registrations_path
   	elsif admin_signed_in?
