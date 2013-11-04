@@ -11,15 +11,15 @@
     </div>
   <% end %>
 
-  <div class="email">
-    <%= f.label :email %><br>
+  <p class="group email">
+    <%= f.label :email %>
     <%= f.text_field :email %>
-  </div>
-  <div class="field">
-    <%= f.label :password %><br>
+  </p>
+  <p class="group field">
+    <%= f.label :password %>
     <%= f.password_field :password %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  </p>
+  <p class="action group">
+    <input name="next" class="button" type="submit" value="Create Agency User"/>
+  </p>
 <% end %>
