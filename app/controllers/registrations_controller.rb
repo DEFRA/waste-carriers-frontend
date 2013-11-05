@@ -22,11 +22,20 @@ class RegistrationsController < ApplicationController
   end
   
   def userRegistrations
-    @registrations = Registration.find(:all, :params => {:ac => params[:accountEmail]})
-    
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @registrations }
+    # Get user from id in url
+    tmpUser = User.find_by_id(params[:id])
+    # if matches current logged in user
+    if tmpUser.nil? || current_user.nil?
+      redirect_to registrations_path(:error => 'Access Denied: User does not exist' )
+    elsif current_user.email != tmpUser.email
+      redirect_to registrations_path(:error => 'Access Denied: Cannot access this page' )
+    else
+	  # Search for users registrations
+      @registrations = Registration.find(:all, :params => {:ac => tmpUser.email})
+	  respond_to do |format|
+        format.html # index.html.erb
+        format.json { render json: @registrations }
+      end
     end
   end
 

@@ -21,7 +21,7 @@ Registrations::Application.routes.draw do
   root :to => "home#index"
 
   get "home/index"
-  get "user/:accountEmail/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
+  get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
   get "registrations/start" => 'registrations#start', :as => :start
   get "registrations/:id/finish" => 'registrations#finish', :as => :finish
   match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
