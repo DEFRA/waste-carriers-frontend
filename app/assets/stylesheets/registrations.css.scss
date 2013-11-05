@@ -192,7 +192,8 @@ dl.data dd{
 	border: 1px solid black;
 }
 .box.full {
-	max-width: 100%;
+	max-width: 75%;
+	min-width: 32em;
 }
 .box.full dl{
 	float: left;
@@ -200,6 +201,11 @@ dl.data dd{
 }
 .box .actions {
 	float: right;
+	margin: 0.25em;
+	#display: inline;
+}
+.box .actions #delete {
+	background-color: red;
 }
 .box .status {
 	float: left;

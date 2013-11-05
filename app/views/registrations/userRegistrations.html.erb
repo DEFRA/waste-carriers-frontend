@@ -1,19 +1,11 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
-
 <h1>Waste Carrier Registration</h1>
-<h2 class="subtitle">For a lower tier waste carrier, broker or dealer</h2>
+<h2 class="subtitle">For a lower tier waste carrier/broker/dealer</h2>
 
+<p class="group">Your registrations are listed below, from here you can create a new registration for a business or organisation. You can also change or delete one you have previously created. You must tell us if any of your registration details change, within 28 days of the change.</p>
 
-<h2>Registrations</h2>
-<p>Your registrations are listed below, from here you can create a new registration for a business or organisation. You can also change or delete one you have previously created. You must tell us if any of your registration details change, within 28 days of the change.</p>
-
-<form method="get" action="<%=start_url%>">
-<div><input type="submit" class="button" value="New Registration" /></div>
-</form>
-
-
-<h2>You have <%=pluralize(@registrations.count,"registration")%></h2>
+<p class="group"><b>You have <%=pluralize(@registrations.count,"registration")%></b></p>
 
 <% @registrations.each do |registration| %>
 <div class="box full">
@@ -33,11 +25,18 @@
 		Registered
 	</div>
 	<%end%>
+	<div class="actions" >
+		<%= button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :id => "delete", :data => "{ :confirm => 'are you sure?' }"%>
+	</div>
 	<div class="actions">
-		<form action="<%=edit_registration_url(registration.id)%>"><div><input type="submit" class="button" value="Change" /></div></form>
+		<form action="<%=edit_registration_url(registration.id)%>"><input type="submit" class="button" value="Change" /></form>
 	</div>
 	<div class="clr"></div>
 </div>
 <% end %>
+
+<form method="get" action="<%=start_url%>" class="action group">
+	<input type="submit" class="button" value="New Registration" />
+</form>
 
 </article></main>
