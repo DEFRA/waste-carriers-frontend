@@ -31,8 +31,7 @@ class Ability
 
     can :read, Registration do |registration|
         if user
-          #user.is_agency_user? || user.email == registration.accountEmail
-          true
+          user.is_agency_user? || user.email == registration.accountEmail
         else
           false
         end
@@ -40,8 +39,7 @@ class Ability
 
     can :update, Registration do |registration|
         if user
-          #user.is_agency_user? || user.email == registration.accountEmail
-          true
+          user.is_agency_user? || user.email == registration.accountEmail
         else
           false
         end

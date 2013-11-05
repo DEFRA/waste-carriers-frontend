@@ -5,7 +5,7 @@ class RegistrationsController < ApplicationController
 
   before_filter :authenticate_admin_request!
 
-  #before_filter :authenticate_external_user!, :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish]
+  before_filter :authenticate_external_user!, :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish]
 
   # GET /registrations
   # GET /registrations.json
@@ -279,7 +279,7 @@ class RegistrationsController < ApplicationController
   end
 
   def authenticate_external_user!
-    if !is_admin_request?
+    if !is_admin_request? && !agency_user_signed_in?
       authenticate_user!
     end
   end
