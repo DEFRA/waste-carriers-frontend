@@ -2,6 +2,12 @@
 
 <h2>Sign in</h2>
 
+<% if request.original_url.include? "agency_users/sign_in" %>
+<h4>NCCC Agency Login</h4>
+<% elsif request.original_url.include? "admins/sign_in" %>
+<h4>Administration Login</h4>
+<% end%>
+
 <% if alert %>
 <div id="error_explanation" class="validation-summary">
   <h2>You have 1 error on this page</h2>
