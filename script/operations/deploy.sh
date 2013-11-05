@@ -46,11 +46,14 @@ if [ -f "${WCRS_FRONTEND_HOME}/live/db/${WCRS_FRONTEND_SQLITE_FILE}" ]; then
   fi
 fi
 
-## Create a new release directory.
+## Create a new release directory and copy the old database into it..
 RELEASE_DIR="wcrs-frontend-${DATESTAMP}"
 echo "Creating new release directory ${RELEASE_DIR}"
 mkdir "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}"
 cd "${WCRS_FRONTEND_HOME}"
+if [ -f "${WCRS_FRONTEND_HOME}/live/db/${WCRS_FRONTEND_SQLITE_FILE}" ]; then
+  cp ${WCRS_FRONTEND_HOME}/live/db/${WCRS_FRONTEND_SQLITE_FILE} ${RELEASE_DIR}/db/
+fi
 if [ -d "${WCRS_FRONTEND_HOME}/live" ]; then
   rm live
 fi
