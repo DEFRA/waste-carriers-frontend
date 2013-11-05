@@ -140,12 +140,23 @@ margin: 1em -1em 1.5em -1em;
 background-color: #fef7f7;
 }
 
-#current_user {
+.current_user {
     float: right;
 	text-align: right;
 	display: inline-block;
-	margin-right: 2em;
+	margin: 1em 2em 0em 1em;
 	max-width:100em;
+	padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+.external {
+	background-color: #99D6EA;
+}
+.internal {
+	background-color: yellow;
+}
+.admin {
+	background-color: red;
 }
 
 .inline label {
