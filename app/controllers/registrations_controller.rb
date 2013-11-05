@@ -22,7 +22,7 @@ class RegistrationsController < ApplicationController
   end
   
   def userRegistrations
-    @registrations = Registration.find(:all, :params => {:user => params[:id]})
+    @registrations = Registration.find(:all, :params => {:ac => params[:accountEmail]})
     
     respond_to do |format|
       format.html # index.html.erb
