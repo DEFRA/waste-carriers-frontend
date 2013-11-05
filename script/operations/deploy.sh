@@ -75,13 +75,20 @@ sed -i "s/WCRS_FRONTEND_EMAIL_USERNAME/${WCRS_FRONTEND_EMAIL_USERNAME}/g" \
 sed -i "s/WCRS_FRONTEND_EMAIL_PASSWORD/${WCRS_FRONTEND_EMAIL_PASSWORD}/g" \
        "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/config/environments/development.rb"
 
-## Bundle and rake.
+## Bundle
 echo "Installing bundle."
 cd "${WCRS_FRONTEND_HOME}/live"
 rvm use "${WCRS_FRONTEND_RUBY_VERSION}"
 bundle install
+
 echo "Migrating database changes, if any."
 rake db:migrate RAILS_ENV="${WCRS_FRONTEND_RAILS_ENV}"
+
+## Seed the database as long as we're not in a production environment.
+if [ ${WCRS_FRONTEND_RAILS_ENV} == "development" -o ${WCRS_FRONTEND_RAILS_ENV} == "test" ]; then
+  echo "Seeding the database."
+  rake db:seed
+fi
 
 ## Start nginx.
 echo "Starting nginx."
