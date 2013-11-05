@@ -6,9 +6,15 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first) 
 
-# TODO - Remove for production!!!
+# TODO FIXME - Remove for production!!!
 
-if Admin.count() == 0
- admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'secret123')
- admin.save!
+if Admin.count == 0
+  admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'secret123')
+  admin.save!
 end
+
+if AgencyUser.count == 0
+  au = AgencyUser.new(:email => 'joe.bloggs@waste-exemplar.gov.uk', :password => 'secret123')
+  au.save!
+end
+

@@ -2,9 +2,6 @@
 
 class AgencyUsersController < ApplicationController
 
-  #TODO Remove
-  before_filter :create_initial_admin
-
   #Only administrators can manage other users - requires administrator login.
   before_filter :authenticate_admin!
 
@@ -80,15 +77,5 @@ class AgencyUsersController < ApplicationController
     def agency_user_params
       params.require(:agency_user).permit(:email, :password)
     end
-
-  #TODO DEV-ONLY FIXME REMOVE!!!
-  def create_initial_admin
-    if Admin.count == 0
-      admin = Admin.new
-      admin.email = 'admin@waste-exemplar.gov.uk'
-      admin.password = 'secret123'
-      admin.save!
-    end
-  end
 
 end
