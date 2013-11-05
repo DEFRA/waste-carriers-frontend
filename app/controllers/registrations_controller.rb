@@ -5,7 +5,7 @@ class RegistrationsController < ApplicationController
 
   before_filter :authenticate_admin_request!
 
-  before_filter :authenticate_external_user!, :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish]
+  #before_filter :authenticate_external_user!, :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish]
 
   # GET /registrations
   # GET /registrations.json
