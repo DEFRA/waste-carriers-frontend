@@ -19,7 +19,7 @@ en:
         individualsType: "Organisation type"
         publicBodyType: "Type of public body"
         publicBodyTypeOther: "Other type of public body"
-        houseNumber: "House/Building number"
+        houseNumber: "House/Building name"
         townCity: "Town/City"
         firstName: "First name"
         lastName: "Last name"
@@ -27,6 +27,10 @@ en:
         contactEmail: "Email address"
         accountEmail: "Email address"
         otherTitle: "Other title"
+        position: "Job title"
+        title: "Title"
+        postcode: "Postcode"
+        streetLine1: "Street"
       
   registrations:
     form:
