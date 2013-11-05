@@ -245,7 +245,7 @@
 			orgInfo = " ("+orgInfo+")";
 		}
 
-		var html = "<div>Registering "+orgTypeLookup[orgType]+" for</div>";
+		var html = "<div>Registering for</div>";
 		html += "<div>"+orgName+orgInfo+"</div>";
 		html += "<p>At the following address</p>";
 		html += address;
