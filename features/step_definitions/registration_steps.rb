@@ -49,7 +49,7 @@ Then(/^I select the declaration checkbox$/) do
 end
 
 Then(/^I should see the Confirmation page$/) do
-  #TODO verify page contents
+  assert(page.has_content?('has been registered'))
 end
 
 
@@ -109,4 +109,28 @@ end
 When(/^I fill in company name with "(.*?)"$/) do |company_name|
   fill_in('registration_companyName', :with => company_name)  
 end
+
+Given(/^I have an account$/) do
+  #Note: This user has been created by 'rake db:seed'
+  user = User.new
+  user.email = 'joe@company.com'
+  user.password = 'secret123'
+  user.password_confirmation = 'secret123'
+  user.save!
+
+  #assert(Admin.count > 0, "We need Admins in the database")
+  user = User.find_by_email('joe@company.com')
+  assert(user, 'We need the User in the database')
+end
+
+Given(/^I am not logged in$/) do
+  visit('users/sign_out')
+  assert(!page.has_content?("Logged in as"))
+end
+
+When(/^I provide valid user details for sign in$/) do
+  fill_in('registration_accountEmail', :with => 'joe@company.com')
+  fill_in('registration_password', :with => 'secret123')
+end
+
 

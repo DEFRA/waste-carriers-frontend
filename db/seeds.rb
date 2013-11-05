@@ -18,3 +18,8 @@ if AgencyUser.count == 0
   au.save!
 end
 
+if (!User.find_by_email('joe@company.com'))
+  user = User.new(:email => 'joe@company.com', :password => 'secret123')
+  user.save!
+end
+

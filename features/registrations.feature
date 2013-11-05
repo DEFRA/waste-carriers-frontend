@@ -32,3 +32,17 @@ Scenario: Valid registration as an Individual (version 2)
   And I provide valid user details for sign up
   And I click "Register"
   Then I should see the Confirmation page
+
+@javascript
+Scenario: Valid registration for existing user (account email) - sign in during registration
+  Given I have an account
+  And I am not logged in
+  And I am on the Start page
+  When I click on "Begin registration"
+  And I provide valid individual trading name details
+  And I provide valid contact details
+  And I confirm the declaration
+  And I provide valid user details for sign in
+  And I click "Register"
+#  Then I should see the Confirmation page
+
