@@ -19,6 +19,8 @@ class RegistrationsController < ApplicationController
     end
   #rescue ActiveResource::ServerError
   #  redirect_to registrations_path(:error => 'Server Error detected, check the log for details. Detected searching for: ' + (params[:q] || '') )
+  rescue Errno::ECONNREFUSED
+  	render :file => "/public/503.html", :status => 503
   end
   
   def userRegistrations
