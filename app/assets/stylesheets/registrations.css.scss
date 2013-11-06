@@ -246,3 +246,33 @@ dl.data dd{
 	left:35em;
 	top:-7em;
 }
+.meta-phases {
+ 	margin: 15px 0;
+ 	padding: 0;
+ 	list-style: none;
+ }
+ 
+ .meta-phases li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+	color: #fff;
+	text-decoration: none;
+	
+ }
+ 
+.meta-phases li.beta {
+	background-color: #f47738;
+}
+.meta-phases li {
+	padding: 5px 10px;
+	float: left;
+	margin: 0 5px 0 0;
+	font-family: "nta",Arial,sans-serif;
+	font-size: 14px;
+	line-height: 1.42857;
+	font-weight: 700;
+	text-align: center;
+	text-transform: uppercase;
+	letter-spacing: 0.2em;
+}
