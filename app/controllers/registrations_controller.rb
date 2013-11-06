@@ -60,6 +60,8 @@ class RegistrationsController < ApplicationController
   def print
   	@registration = Registration.find(params[:id])
   	if params[:finish]
+  	  logger.info 'Sign user out before redirecting back to GDS site'
+  	  sign_out 				# Performs a signout action on the current user
       redirect_to Rails.configuration.waste_exemplar_end_url
     elsif params[:back]
       redirect_to finish_url(:id => @registration.id)

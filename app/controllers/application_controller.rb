@@ -2,9 +2,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   def after_sign_out_path_for(resource_or_scope)
+  	logger.info 'Signout function'
     #request.referrer
     #registrations_path
-    root_path
+    #root_path
+    #Rails.cache.clear # Could possibly clear the cache here
+    Rails.configuration.waste_exemplar_end_url
+  end
+  
+  def logger
+    Rails.logger
   end
 
   def after_sign_in_path_for(resource)
