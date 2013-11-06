@@ -80,6 +80,9 @@
           </div>
 
           <%= yield :inside_header %>
+          <div class="header-heading">
+          	<h2>Waste Carrier Registration &nbsp;<span class="beta">beta</span></h2>
+          </div>
         </div>
       </div>
     </header>
@@ -91,6 +94,14 @@
         <%= yield :cookie_message %>
       <% else %>
         <p>GOV.UK uses cookies to make the site simpler. <a href="https://www.gov.uk/help/cookies">Find out more about cookies</a></p>
+      <% end %>
+    </div>
+    
+    <div id="global-beta-message">
+      <% if content_for?(:cookie_message) %>
+        <%= yield :cookie_message %>
+      <% else %>
+        <p><b>BETA:</b> This is a trial service for the Waste Carrier Exemplar. <a href="https://www.gov.uk/service-manual/phases/beta.html">Find out more</a></p>
       <% end %>
     </div>
 
