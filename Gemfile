@@ -58,7 +58,7 @@ group :test do
   gem 'ci_reporter'
 end 
 
-group :test do
+group :test, :development do
   gem 'cucumber-rails', :require => false
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
@@ -68,4 +68,14 @@ group :test do
 
   #needed for headless testing with Javascript
   gem 'capybara-webkit'
+end
+
+#cross-browser testing using saucelabs
+group :test, :development do
+  gem 'rspec-rails', '~> 2.12'
+  gem 'sauce', '~> 3.2.0'
+  gem 'sauce-connect', :require => false
+  gem 'sauce-cucumber', :require => false
+  gem 'capybara', '~> 2.1.0'
+  gem 'parallel_tests', :require => false
 end
