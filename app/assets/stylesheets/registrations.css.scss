@@ -277,6 +277,30 @@ dl.data dd{
 	letter-spacing: 0.2em;
 }
 
+
+ul.actions {
+ 	margin: 0px;
+ 	padding: 0;
+ 	list-style: none;
+}
+ul.actions li {
+	display: inline-block;
+	padding-left: 0.25em;
+}
+ul.actions li:first-child {
+	padding-left: 0em;
+}
+table.users {
+	border-collapse: collapse;
+}
+table.users th {
+	background-color: $grey-3;
+}
+table.users th,
+table.users td {
+	border: 1px solid black;
+	padding: 0em 0.25em;
+}
 .button_to {
   .navbar-link {
 	    overflow:visible; /* Shrinkwrap the text in IE7- */

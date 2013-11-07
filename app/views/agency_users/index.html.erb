@@ -1,13 +1,11 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 <h1>Listing agency users</h1>
 
-<table>
+<table class="users">
   <thead>
     <tr>
       <th>Email</th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>Actions</th>
     </tr>
   </thead>
 
@@ -15,9 +13,13 @@
     <% @agency_users.each do |agency_user| %>
       <tr>
         <td><%= agency_user.email %></td>
-        <td><%= link_to 'Show', agency_user %></td>
-        <td><%= link_to 'Edit', edit_agency_user_path(agency_user) %></td>
-        <td><%= link_to 'Delete', agency_user, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td>
+        <ul class="actions">
+        	<li><%= link_to 'Show', agency_user %></li>
+        	<li><%= link_to 'Edit', edit_agency_user_path(agency_user) %></li>
+        	<li><%= link_to 'Delete', agency_user, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+        </ul>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -25,5 +27,8 @@
 
 <br>
 
-<%= link_to 'New agency user', new_agency_user_path %>
+<form method="get" action="<%=new_agency_user_path%>">
+<div><input type="submit" class="button" value="New agency user" /></div>
+</form>
+
 </article></main>
