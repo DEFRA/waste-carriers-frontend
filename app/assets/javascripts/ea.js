@@ -91,7 +91,7 @@
 		if(address2!=""){
 			address += ", "+address2;
 		}
-		var city = $("#registration_city").val();
+		var city = $("#registration_townCity").val();
 		if(city!=""){
 			address += ", "+city;
 		}
