@@ -9,10 +9,10 @@
 
 <fieldset>
 
-<% if user_signed_in? %>
+<% if user_signed_in? || agency_user_signed_in? %>
 <legend>User Account</legend>
-
-<p>You are currently logged in as <strong><%= current_user.email %></strong>, it is this account that will be associated with this registration.</p>
+	
+<p>You are currently logged in as <strong><% if user_signed_in? %><%= current_user.email %><% elsif agency_user_signed_in? %><%= current_agency_user.email %><% end %></strong>, it is this account that will be associated with this registration.</p>
 <p>If this is not the case, Click here to <%= link_to "logout and start again", destroy_user_session_path, :method => :delete, :class => 'navbar-link'  %>.</p>
 
 <%= f.select(:sign_up_mode, options_for_select([["Signed In",""]],f.object.sign_up_mode), {}, { :class => 'js-hidden' }) %>

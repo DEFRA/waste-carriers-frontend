@@ -104,13 +104,13 @@ class RegistrationsController < ApplicationController
     first = @registration.first_step?
     
     # Log current Step
-    logger.info 'current step is: ' + @registration.current_step + ' SHOULD BE signup'
+    logger.info 'current step is: ' + @registration.current_step
     
     # Log persisted
     if @registration.persisted?
       logger.info 'persisted is true'
     elsif !@registration.persisted?
-      logger.info 'persisted is false' + ' SHOULD BE false'
+      logger.info 'persisted is false'
     else
       logger.info 'persisted is not known'
     end
@@ -118,6 +118,8 @@ class RegistrationsController < ApplicationController
 	# Log whether the user is currently logged in
     if user_signed_in?
       logger.info 'User Signed in ' + current_user.email
+    elsif agency_user_signed_in?
+      logger.info 'Agency User Signed in ' + current_agency_user.email
     elsif !user_signed_in?
       logger.info 'User NOT Signed in'
     else
@@ -136,16 +138,19 @@ class RegistrationsController < ApplicationController
       if @registration.confirmation_step?
       
         # Prepopulate Email field/Set registration account
-        if user_signed_in?
+        if user_signed_in? 
           logger.debug 'User already signed in using current email: ' + current_user.email
           @registration.accountEmail = current_user.email
+        elsif agency_user_signed_in?
+          logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
+          @registration.accountEmail = current_agency_user.email
         else
           logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
           @registration.accountEmail = @registration.contactEmail
         end
         
         # Get signup mode
-        @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, user_signed_in?)
+        @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
         logger.debug 'registration mode: ' + @registration.sign_up_mode
         
       end
@@ -179,7 +184,11 @@ class RegistrationsController < ApplicationController
             end
           else
           	logger.debug "User signed in, set account email to user email and get user"
-          	@registration.accountEmail = current_user.email
+          	if user_signed_in?
+		      @registration.accountEmail = current_user.email
+		    elsif agency_user_signed_in?
+		      @registration.accountEmail = current_agency_user.email
+		    end
           	@user = User.find_by_email(@registration.accountEmail)
           end
         end
