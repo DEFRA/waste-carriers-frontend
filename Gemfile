@@ -13,6 +13,9 @@ gem 'debugger', :require => false
 #but it may still be need it for authentication...
 gem 'sqlite3'
 
+#We store user accounts (authentication with Devise) in a MongoDB database
+gem 'mongoid', github: "mongoid/mongoid"
+
 #Using devise for authentication
 gem 'devise', '~>3.1.1'
 

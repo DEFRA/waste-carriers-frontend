@@ -7,6 +7,7 @@ So that I am compliant with regulations
 @javascript
 Scenario: Valid registration as an Individual
   Given I am on the Start page
+  And I do not have an account yet
   And I click on "Begin registration"
   Then I should see "Waste Carrier Registration"
   And I should see "For a lower tier waste carrier/broker/dealer"
@@ -25,6 +26,7 @@ Scenario: Valid registration as an Individual
 @javascript
 Scenario: Valid registration as an Individual (version 2)
   Given I am on the Start page
+  And I do not have an account yet
   When I click on "Begin registration"
   And I provide valid individual trading name details
   And I provide valid contact details

@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/mongoid/mongoid.git
+  revision: 7457677fec0443b0d2d237ee62b72a15e904b7f3
+  specs:
+    mongoid (4.0.0)
+      activemodel (~> 4.0.0)
+      moped (~> 2.0.beta3)
+      origin (~> 1.0)
+      tzinfo (~> 0.3.37)
+
 GEM
   remote: https://rubygems.org/
   remote: https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/
@@ -33,6 +43,7 @@ GEM
     arel (4.0.0)
     atomic (1.1.14)
     bcrypt-ruby (3.1.2)
+    bson (2.0.0.rc3)
     builder (3.1.4)
     cancan (1.6.10)
     capistrano (3.0.0)
@@ -107,6 +118,9 @@ GEM
     mime-types (1.25)
     mini_portile (0.5.1)
     minitest (4.7.5)
+    moped (2.0.0.beta3)
+      bson (~> 2.0.0.rc3)
+      optionable (~> 0.1.1)
     multi_json (1.8.2)
     multi_test (0.0.2)
     net-http-persistent (2.9)
@@ -117,6 +131,8 @@ GEM
       net-ssh (>= 2.6.5)
     nokogiri (1.6.0)
       mini_portile (~> 0.5.0)
+    optionable (0.1.1)
+    origin (1.1.0)
     orm_adapter (0.4.0)
     parallel (0.9.0)
     parallel_tests (0.15.0)
@@ -236,6 +252,7 @@ DEPENDENCIES
   devise (~> 3.1.1)
   govuk_frontend_toolkit
   jquery-rails
+  mongoid!
   parallel_tests
   rails (= 4.0.0)
   rspec-rails (~> 2.12)

@@ -111,16 +111,25 @@ When(/^I fill in company name with "(.*?)"$/) do |company_name|
 end
 
 Given(/^I have an account$/) do
-  #Note: This user has been created by 'rake db:seed'
-  user = User.new
-  user.email = 'joe@company.com'
-  user.password = 'secret123'
-  user.password_confirmation = 'secret123'
-  user.save!
+  theUsersEmail = 'joe@company.com'
+  theUsersPassword = 'secret123'
+  if !User.find_by_email(theUsersEmail)
+    user = User.new
+    user.email = theUsersEmail
+    user.password = theUsersPassword
+    user.password_confirmation = theUsersPassword
+    user.save!
+  end
 
-  #assert(Admin.count > 0, "We need Admins in the database")
   user = User.find_by_email('joe@company.com')
   assert(user, 'We need the User in the database')
+end
+
+Given(/^I do not have an account yet$/) do
+    user = User.find_by_email('joe@bloggs.com')
+    if user
+      user.destroy
+    end
 end
 
 Given(/^I am not logged in$/) do
