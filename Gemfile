@@ -14,7 +14,8 @@ gem 'debugger', :require => false
 gem 'sqlite3'
 
 #We store user accounts (authentication with Devise) in a MongoDB database
-gem 'mongoid', github: "mongoid/mongoid"
+#gem 'mongoid', github: "mongoid/mongoid"
+gem 'mongoid', :git => "https://github.com/mongoid/mongoid.git"
 
 #Using devise for authentication
 gem 'devise', '~>3.1.1'
