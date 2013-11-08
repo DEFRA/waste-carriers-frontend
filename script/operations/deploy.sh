@@ -28,32 +28,33 @@ if [[ -z "${WCRS_FRONTEND_EMAIL_USERNAME}" ]]; then env_alert WCRS_FRONTEND_EMAI
 if [[ -z "${WCRS_FRONTEND_EMAIL_PASSWORD}" ]]; then env_alert WCRS_FRONTEND_EMAIL_PASSWORD; fi
 if [[ -z "${WCRS_FRONTEND_WCRS_SERVICES_URL}" ]]; then env_alert WCRS_FRONTEND_WCRS_SERVICES_URL; fi
 if [[ -z "${WCRS_FRONTEND_PUBLIC_APP_DOMAIN}" ]]; then env_alert WCRS_FRONTEND_PUBLIC_APP_DOMAIN; fi
-#if [[ -z "${WCRS_FRONTEND_ADMIN_APP_DOMAIN}" ]]; then env_alert WCRS_FRONTEND_ADMIN_APP_DOMAIN; fi
+if [[ -z "${WCRS_FRONTEND_ADMIN_APP_DOMAIN}" ]]; then env_alert WCRS_FRONTEND_ADMIN_APP_DOMAIN; fi
+if [[ -z "${WCRS_FRONTEND_USERSDB_NAME}" ]]; then env_alert WCRS_FRONTEND_USERSDB_NAME; fi
+if [[ -z "${WCRS_FRONTEND_USERSDB_USERNAME}" ]]; then env_alert WCRS_FRONTEND_USERSDB_USERNAME; fi
+if [[ -z "${WCRS_FRONTEND_USERSDB_PASSWORD}" ]]; then env_alert WCRS_FRONTEND_USERSDB_PASSWORD; fi
+if [[ -z "${WCRS_FRONTEND_USERSDB_URL}" ]]; then env_alert WCRS_FRONTEND_USERSDB_URL; fi
 
 ## Stop nginx.
 echo "Stopping nginx."
 sudo service nginx stop
 
 ## Backup the current database.
-if [ -f "${WCRS_FRONTEND_HOME}/live/db/${WCRS_FRONTEND_SQLITE_FILE}" ]; then
-  echo "Backing up current database."
-  cd "${WCRS_FRONTEND_HOME}/live/db" 
-  tar zcf "${WCRS_FRONTEND_SQLITE_FILE}-${DATESTAMP}.tgz" "${WCRS_FRONTEND_SQLITE_FILE}"
-  if [ $? -ne 0 ]; then
-    echo "ERROR: Backup of ${WCRS_FRONTEND_SQLITE_FILE} failed."
-    echo "       Exiting now. Nginx is stopped. No new code has been deployed."
-    exit 2
-  fi
-fi
+#if [ -f "${WCRS_FRONTEND_HOME}/live/db/${WCRS_FRONTEND_SQLITE_FILE}" ]; then
+#  echo "Backing up current database."
+#  cd "${WCRS_FRONTEND_HOME}/live/db" 
+#  tar zcf "${WCRS_FRONTEND_SQLITE_FILE}-${DATESTAMP}.tgz" "${WCRS_FRONTEND_SQLITE_FILE}"
+#  if [ $? -ne 0 ]; then
+#    echo "ERROR: Backup of ${WCRS_FRONTEND_SQLITE_FILE} failed."
+#    echo "       Exiting now. Nginx is stopped. No new code has been deployed."
+#    exit 2
+#  fi
+#fi
 
 ## Create a new release directory and copy the old database into it..
 RELEASE_DIR="wcrs-frontend-${DATESTAMP}"
 echo "Creating new release directory ${RELEASE_DIR}"
 mkdir "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}"
 cd "${WCRS_FRONTEND_HOME}"
-if [ -f "${WCRS_FRONTEND_HOME}/live/db/${WCRS_FRONTEND_SQLITE_FILE}" ]; then
-  cp ${WCRS_FRONTEND_HOME}/live/db/${WCRS_FRONTEND_SQLITE_FILE} ${RELEASE_DIR}/db/
-fi
 if [ -d "${WCRS_FRONTEND_HOME}/live" ]; then
   rm live
 fi
@@ -62,21 +63,6 @@ ln -s "${RELEASE_DIR}" live
 ## Deploy the new code.
 echo "Copying new code to ${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/"
 cp -pr ${WCRS_FRONTEND_SOURCE}/* "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/"
-
-## Replace environment variables.
-echo "Setting environment variables in files."
-sed -i "s/WCRS_FRONTEND_WCRS_SERVICES_URL/${WCRS_FRONTEND_WCRS_SERVICES_URL}/g" \
-       "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/config/application.rb"
-sed -i "s/WCRS_FRONTEND_PUBLIC_APP_DOMAIN/${WCRS_FRONTEND_PUBLIC_APP_DOMAIN}/g" \
-       "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/config/environments/development.rb"
-sed -i "s/WCRS_FRONTEND_EMAIL_HOST/${WCRS_FRONTEND_EMAIL_HOST}/g" \
-       "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/config/environments/development.rb"
-sed -i "s/WCRS_FRONTEND_EMAIL_PORT/${WCRS_FRONTEND_EMAIL_PORT}/g" \
-       "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/config/environments/development.rb"
-sed -i "s/WCRS_FRONTEND_EMAIL_USERNAME/${WCRS_FRONTEND_EMAIL_USERNAME}/g" \
-       "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/config/environments/development.rb"
-sed -i "s/WCRS_FRONTEND_EMAIL_PASSWORD/${WCRS_FRONTEND_EMAIL_PASSWORD}/g" \
-       "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/config/environments/development.rb"
 
 ## Bundle
 echo "Installing bundle."
