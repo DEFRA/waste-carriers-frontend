@@ -219,7 +219,7 @@
 				$(elem).parent().parent().css("display","none");
 			}
 			shown = !shown;
-		}
+		};
 	}
 
 	function updateSummaryWithData(data,elem){
@@ -237,11 +237,11 @@
 
 
 		var orgInfo = "";
-		if(orgType==="organisationOfIndividuals"){orgInfo=data.individualsType}
-		else if(orgType==="limitedCompany"){orgInfo=data.companyRegistrationNumber}
-		else if(orgType==="publicBody"){orgInfo=data.publicBodyType}
+		if (orgType==="organisationOfIndividuals") {orgInfo=data.individualsType;}
+		else if (orgType==="limitedCompany") {orgInfo=data.companyRegistrationNumber;}
+		else if (orgType==="publicBody") {orgInfo=data.publicBodyType;}
 
-		if(orgInfo!=""){
+		if(orgInfo!==""){
 			orgInfo = " ("+orgInfo+")";
 		}
 
@@ -333,6 +333,130 @@
 		}
 	}
 	
+	function smarterAnswersQuestion1(){
+		var tmpVal = $('#discover_businessType').val();
+		// Show Question2: Only if business type is a sole trader, partnership or limited company
+		var showQ2 = tmpVal == "soleTrader" || tmpVal == "partnership" || tmpVal == "limitedCompany";
+		if (showQ2) {
+			$('#discover_otherBusinesses').removeClass("js-hidden");
+		} else {
+			// Question 1 has changed, Reset Other answers
+            $('#new_discover input[type="radio"]').prop('checked', false);      // Find all radios and uncheck
+            smarterAnswersQuestion2();   // Run logic on subsequent questions
+            smarterAnswersQuestion3();
+            
+			$('#new_discover input[type="checkbox"]').prop('checked', false);   // Find all checkboxes and uncheck
+			smarterAnswersQuestion4();
+			
+			$('#discover_otherBusinesses').addClass("js-hidden");
+		}
+		
+		// Show Contact EA Text if Other selected
+		var showContact = tmpVal == "other";
+		if (showContact) {
+			$('#new_discover #contactText').removeClass("js-hidden");
+		} else {
+			$('#new_discover #contactText').addClass("js-hidden");
+		}
+		
+		// Show LowerTier Text: Only if business type is a charity, or a waste authority
+		var showLower = tmpVal == "charity" || tmpVal == "collectionAuthority" || tmpVal == "disposalAuthority" || tmpVal == "regulationAuthority";
+		if (showLower) {
+			$('#new_discover #lowerText').removeClass("js-hidden");
+		} else {
+			$('#new_discover #lowerText').addClass("js-hidden");
+		}
+	}
+	
+	function smarterAnswersQuestion2(){
+		// Show UpperTier Text Only if otherBusinesses is yes
+		var tmpVal = $('#discover_otherBusinesses_yes:checked').val();
+		var showUpper = tmpVal == "yes";
+		if (showUpper) {
+			// Uncheck question 3
+			$('#new_discover #discover_constructionWaste input[type="radio"]').prop('checked', false);
+			smarterAnswersQuestion3();   // Run logic on subsequent questions
+			
+			$('#new_discover #upperText').removeClass("js-hidden");
+		} else {
+			$('#new_discover #upperText').addClass("js-hidden");
+		}
+		
+		tmpVal = $('#discover_otherBusinesses_no:checked').val();
+		// Show Question3: Only if otherBusinesses is no
+		var showQ3 = tmpVal == "no";
+		if (showQ3) {
+			$('#discover_constructionWaste').removeClass("js-hidden");
+		} else {
+			$('#discover_constructionWaste').addClass("js-hidden");
+		}
+	}
+	
+	function smarterAnswersQuestion3(){
+		var tmpVal = $('#discover_constructionWaste_no:checked').val();
+		// Show Question4: Only if constructionWaste is no
+		var showQ4 = tmpVal == "no";
+		if (showQ4) {
+			$('#discover_wasteType').removeClass("js-hidden");
+		} else {
+			// Uncheck all checkboxes
+			$('#new_discover input[type="checkbox"]').prop('checked', false);   // Find all checkboxes and uncheck
+			smarterAnswersQuestion4();
+			
+			$('#discover_wasteType').addClass("js-hidden");
+		}
+		
+		// Show UpperTier Text Only if constructionWaste is yes
+		tmpVal = $('#discover_constructionWaste_yes:checked').val();
+		var showUpper = tmpVal == "yes";
+		if (showUpper) {
+			$('#new_discover #upperText').removeClass("js-hidden");
+		} else {
+			$('#new_discover #upperText').addClass("js-hidden");
+		}
+	}
+	
+	function smarterAnswersQuestion4(){
+		var tmpAnimalVal = $('#discover_wasteType_animal:checked').val();
+		var tmpMineVal = $('#discover_wasteType_mine:checked').val();
+		var tmpFarmVal = $('#discover_wasteType_farm:checked').val();
+		var tmpOtherVal = $('#discover_wasteType_other:checked').val();
+		
+		var isAnimal = tmpAnimalVal == "1";
+		var isMine = tmpMineVal == "1";
+		var isFarm = tmpFarmVal == "1";
+		var isOther = tmpOtherVal == "1";
+		
+		// Show Upper tier if 2 or more are selected
+		if ( (isAnimal && isMine) || (isAnimal && isFarm) || (isAnimal && isOther) || (isMine && isFarm) || (isMine && isOther) || (isFarm && isOther) ) 
+		{
+			// Show Upper tier Text (hide lower)
+			$('#new_discover #lowerText').addClass("js-hidden");
+			$('#new_discover #upperText').removeClass("js-hidden");
+		}
+		// Show Lower tier if only 1 selected
+		else if ( (isAnimal) || (isMine) || (isFarm) || (isOther)) {
+			// Show Lower tier text (hide upper)
+			$('#new_discover #upperText').addClass("js-hidden");
+			$('#new_discover #lowerText').removeClass("js-hidden");
+		}
+		else {
+			// Hide both upper and lower
+			$('#new_discover #lowerText').addClass("js-hidden");
+			$('#new_discover #upperText').addClass("js-hidden");
+		}
+		
+	}
+	
+	/*
+	* Useful Notes:
+	// Individual radio reset
+	//$('#discover_otherBusinesses_yes').prop('checked', false);
+	*
+	// Log message to console
+	//if (window.console) console.log('my message: ' + valuetotest);
+	*/
+	
 	function toggleSignInUp(){
 		var signin = $('#registration_sign_up_mode').val() == "sign_in";
 		var signup = $('#registration_sign_up_mode').val() == "sign_up";
@@ -370,7 +494,7 @@
 		$(elem).mouseenter(function(e){t.show(e.pageX,e.pageY);});
 		$(elem).mouseleave(function(e){t.hide();});
 		$(document.body).mousemove(function(e){t.position(e.pageX,e.pageY);});
-	}
+	};
 	
 	Tooltip.prototype.show = function(x,y){
 		if(this.mayShow && !this.mayShow()){
@@ -380,7 +504,7 @@
 		this.$tip.css("display","block");
 		this.visible = true;
 		this.position(x,y);
-	}
+	};
 	
 	Tooltip.prototype.position = function(x,y){
 		if(this.mayShow && !this.mayShow()){
@@ -392,19 +516,19 @@
 		
 		this.$tip.css("top",y+"px");
 		this.$tip.css("left",(x+20)+"px");
-	}
+	};
 	
 	Tooltip.prototype.hide = function(){
 		this.$tip.css("display","none");
 		this.visible = false;
-	}
+	};
 
 	$(document).ready(function(){
 		//$('#registration_businessType').change(refreshQuestions);
 		//$("#registration_publicBodyType").change(refreshQuestions);
-		$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress()});
+		$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress();});
 		$("#addresses").change(updateAddress);
-		$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress()});
+		$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress();});
 		//refreshQuestions();
 		
 		$("#registration_title").change(function(e){e.preventDefault();updateTitleOther();});
@@ -412,6 +536,16 @@
 		
 		$("#registration_sign_up_mode").change(function(e){e.preventDefault();toggleSignInUp();});
 		toggleSignInUp();
+		
+		// Smarter Answers Initialisation
+		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
+		smarterAnswersQuestion1();
+		$("#discover_otherBusinesses").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
+		smarterAnswersQuestion2();
+		$("#discover_constructionWaste").change(function(e){e.preventDefault();smarterAnswersQuestion3();});
+		smarterAnswersQuestion3();
+		$("#discover_wasteType").change(function(e){e.preventDefault();smarterAnswersQuestion4();});
+		smarterAnswersQuestion4();
 
 		var uprn = $("#registration_uprn").val();
 		if(uprn && uprn !== ""){
@@ -422,7 +556,7 @@
 			var address1 = $("#registration_streetLine1").val();
 			var address2 = $("#registration_streetLine2").val();
 			var city = $("#registration_townCity").val();
-			if(address1!="" || address2!="" || city!=""){
+			if(address1!=="" || address2!=="" || city!==""){
 				manualAddress();
 			}
 		}

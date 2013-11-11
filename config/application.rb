@@ -72,6 +72,7 @@ module Registrations
     
     # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
     config.waste_exemplar_end_url = "/gds-end"
+    config.waste_exemplar_eaupper_url = "/ea-upper"
     
     # Set configuration for error pages to manual, to enable more user friendly error pages
     config.exceptions_app = self.routes

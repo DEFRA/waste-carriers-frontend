@@ -22,6 +22,9 @@ Registrations::Application.routes.draw do
 
   get "home/index"
   get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
+  
+  get "registrations/find" => 'discovers#new', :via => [:get, :post], :as => :find
+  
   get "registrations/start" => 'registrations#start', :as => :start
   get "registrations/:id/finish" => 'registrations#finish', :as => :finish
   match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
@@ -33,6 +36,8 @@ Registrations::Application.routes.draw do
   resources :registrations
 
   resources :agency_users
+  
+  resources :discovers
 
   # Add a route for a 404, Define this catch all unknowns last
   if Rails.env.development?

@@ -1,0 +1,98 @@
+<%= form_for(@discover) do |f| %>
+  
+  <% if @discover.errors.any? %>
+    <div id="error_explanation" class="validation-summary">
+      <h2>You have <%= pluralize(@discover.errors.count, "error") %> on this page</h2>
+
+      <ul>
+      <% @discover.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+  <p class="group<%if @discover.errors[:businessType].any?%> validation<%end%>">
+    <%= f.label :businessType, "Business or organisation details" %>
+    <%= f.select :businessType, options_for_select([
+    	["Please select...",""],
+    	["Sole trader","soleTrader"],
+    	["Partnership","partnership"],
+    	["Limited company","limitedCompany"],
+    	["Charity or voluntary organisation","charity"],
+    	["Waste collection authority","collectionAuthority"],
+    	["Waste disposal authority","disposalAuthority"],
+    	["Waste regulation authority","regulationAuthority"],
+    	["Other","other"]
+    	],f.object.businessType) %>
+  </p>
+  
+  <div id="businessDoesHeading" class="js-hidden">
+  	<h3>What your business or organisation does</h3>
+  </div>
+  
+  <p id="discover_otherBusinesses" class="group<%if @discover.errors[:otherBusinesses].any?%> validation<%end%>">
+	  <%= f.label :otherBusinesses, "Do you transport waste for other businesses?" %>
+	  <span class="inline"><!-- GDS have an 'option' class but it renders awfully -->
+	    <!--<label class="label" for="discover_otherBusinesses_yes">-->
+	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %><%= f.label :otherBusinesses_yes, "Yes", :class => "label" %> <!-- Yes</label>-->
+	    <%= f.radio_button :otherBusinesses, "no", :class => "radio" %><%= f.label :otherBusinesses_no, "No", :class => "label" %>
+	  </span>
+  </p>
+  
+  <p id="discover_constructionWaste" class="group<%if @discover.errors[:constructionWaste].any?%> validation<%end%>">
+	  <%= f.label :constructionWaste, "Do you ever transport construction or demolition waste?" %> 
+	  <span class="inline">
+	    <%= f.radio_button :constructionWaste, "yes", :class => "radio" %> <%= f.label :constructionWaste_yes, "Yes", :class => "label" %>
+	    <%= f.radio_button :constructionWaste, "no", :class => "radio" %><%= f.label :constructionWaste_no, "No", :class => "label" %>
+	  </span>
+  </p>
+  
+  <p id="discover_wasteType" class="group<%if @discover.errors[:wasteType_animal].any?%> validation<%end%>">
+    <%= f.label "Do you transport any of these types of waste regularly? (Select all that apply)" %>
+    <span class="inline">
+	    <%= f.check_box :wasteType_animal, :class => "radio" %><%= f.label :wasteType_animal, :class => "label" %><br/>
+	    <%= f.check_box :wasteType_mine, :class => "radio" %><%= f.label :wasteType_mine, :class => "label" %><br/>
+	    <%= f.check_box :wasteType_farm, :class => "radio" %><%= f.label :wasteType_farm, :class => "label" %><br/>
+	    <%= f.check_box :wasteType_other, :class => "radio" %><%= f.label :wasteType_other, :class => "label" %>
+    </span>
+  </p>
+  
+  <div id="contactText" class="js-hidden">
+    <p class="group">
+	    <h3>Contact the Environment Agency</h3>
+		<p>We need some more information about your organisation before we can register you as a waste carrier.</p>
+		<p>Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm).</p>
+	</p>
+  </div>
+  
+  <div id="upperText" class="js-hidden">
+    <p class="group">
+	    <h3>Register on the Environment Agency website</h3>
+		<p>You need to register as an 'upper tier' carrier, broker or dealer on the Environment agency website.</p>
+		<p class="action group">
+			<%= f.submit :class => "button", :value => "Start now >" %>
+		</p>
+		<p>on the Environment Agency website</p>
+		<p>Or to apply by post, download and complete the <a href="#">upper tier registration form</a> [PDF, 180KB].</p>
+	</p>
+  </div>
+  
+  <div id="lowerText" class="js-hidden">
+    <p class="group">
+	    <h3>You need to register as a ‘lower tier’ waste carrier/broker/dealer.</h3>
+		<p class="action group">
+			<%= f.submit :class => "button", :value => "Start now >" %>
+		</p>
+	</p>
+  </div>
+  
+  <div id="notRegisterText" class="js-hidden">
+    <p class="group">
+		<p>You do not need to register as a waste carrier, broker or dealer.</p>
+	</p>
+  </div>
+  
+  <%= f.submit :class => "button", :value => "temp validation test >" %>
+  
+<% end %>

@@ -1,7 +1,7 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <fieldset>
-<legend>Change Password</legend>
+<legend>Change password</legend>
 
 <%= form_for(resource, :as => resource_name, :url => user_registration_path(resource), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
@@ -10,11 +10,11 @@
     <p class="group">Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
   <% end %>
   
-  <p class="group<% if resource.errors[:current_password].any? %> validation<% end %>"><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+  <p class="group<% if resource.errors[:current_password].any? %> validation<% end %>"><%= f.label :current_password %>We need your current password to confirm your changes<br />
   <%= f.password_field :current_password %>
   </p>
 
-  <p class="group"><%= f.label :password, "New password" %>
+  <p class="group"><%= f.label :password, "New password" %>Your password must be at least eight characters long<br/>
   <%= f.password_field :password, :autocomplete => "off" %>
   </p>
 

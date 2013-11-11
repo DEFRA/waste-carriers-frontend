@@ -213,7 +213,7 @@ dl.data dd{
 .box .actions {
 	float: right;
 	margin: 0.25em;
-	#display: inline;
+	//display: inline;
 }
 .box .actions #delete {
 	background-color: red;
@@ -326,5 +326,18 @@ table.users td {
 	.navbar-link::-moz-focus-inner {
 	    padding:0;
 	    border:0;
+	}
+}
+
+.group{
+	span {
+		display: block;
+		.radio {
+			margin-top: 0.75em
+		}
+		.label {
+			margin-left: 0.25em;
+			margin-right: 2em;
+		}
 	}
 }
