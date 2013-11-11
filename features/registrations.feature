@@ -4,7 +4,7 @@ As a Waste Carrier
 I want to register 
 So that I am compliant with regulations
 
-#@javascript
+#@selenium
 Scenario: Valid registration as an Individual
   Given I am on the Start page
   And I do not have an account yet
@@ -20,7 +20,7 @@ Scenario: Valid registration as an Individual
   And I select the declaration checkbox
   And I click "Next"
   And I provide valid user details for sign up
-  And I click "Register"
+  And I click "Complete registration"
   Then I should see the Confirmation page
 
 #@javascript
@@ -32,7 +32,7 @@ Scenario: Valid registration as an Individual (version 2)
   And I provide valid contact details
   And I confirm the declaration
   And I provide valid user details for sign up
-  And I click "Register"
+  And I click "Complete registration"
   Then I should see the Confirmation page
 
 #@javascript
@@ -45,6 +45,6 @@ Scenario: Valid registration for existing user (account email) - sign in during 
   And I provide valid contact details
   And I confirm the declaration
   And I provide valid user details for sign in
-  And I click "Register"
+  And I click "Complete registration"
   Then I should see the Confirmation page
 
