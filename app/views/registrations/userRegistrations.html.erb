@@ -26,9 +26,9 @@
 		Registered
 	</div>
 	<%end%>
-	<div class="actions" >
-		<%= button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :id => "delete", :data => "{ :confirm => 'are you sure?' }"%>
-	</div>
+	<!--<div class="actions" >
+		<%# button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :id => "delete", :data => "{ :confirm => 'are you sure?' }"%>
+	</div>-->
 	<div class="actions">
 		<form action="<%=edit_registration_url(registration.id)%>"><input type="submit" class="button" value="Change" /></form>
 	</div>
