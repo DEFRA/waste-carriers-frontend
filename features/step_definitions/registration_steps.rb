@@ -146,4 +146,14 @@ When(/^I provide valid user details for sign in$/) do
   fill_in('registration_password', :with => 'secret123')
 end
 
+Given(/^I am already logged in$/) do
+  click_on "Sign in"
+  assert(page.has_content? "Sign in")
+  fill_in('user_email', :with => 'joe@company.com')
+  fill_in('user_password', :with => 'secret123')
+  click_button "Sign in"
+  assert(page.has_content? "Signed in as joe@company.com")
+end
+
+
 
