@@ -10,15 +10,15 @@
 <fieldset>
 
 <% if user_signed_in? || agency_user_signed_in? %>
-<legend>User Account</legend>
+<!--<legend>User Account</legend>-->
 	
-<p>You are currently logged in as <strong><% if user_signed_in? %><%= current_user.email %><% elsif agency_user_signed_in? %><%= current_agency_user.email %><% end %></strong>, it is this account that will be associated with this registration.</p>
-<p>If this is not the case, Click here to <%= link_to "logout and start again", destroy_user_session_path, :method => :delete, :class => 'navbar-link'  %>.</p>
+<p>You are currently signed in as <strong><% if user_signed_in? %><%= current_user.email %><% elsif agency_user_signed_in? %><%= current_agency_user.email %><% end %></strong><!--, it is this account that will be associated with this registration.--></p>
+<p>If this is not you, <!--Click here to --><%= link_to "logout and start again", destroy_user_session_path, :method => :delete, :class => 'navbar-link'  %>.</p>
 
 <%= f.select(:sign_up_mode, options_for_select([["Signed In",""]],f.object.sign_up_mode), {}, { :class => 'js-hidden' }) %>
 
 <% else %>
-<legend>User Registration</legend>
+<!--<legend>User Registration</legend>-->
 
 <p class="group<%if @registration.errors[:sign_up_mode].any?%> validation<%end%> js-hidden">
     <%= f.label :sign_up_mode, "Sign up or sign in" %>
@@ -29,6 +29,10 @@
     <%= f.label :accountEmail, "Email" %>Please check this email address as it will be your username<br/>
     <%= f.email_field :accountEmail, :autofocus => true %>
 </p>
+<!--<p class="group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
+    <%= f.label :accountEmail, "Confirm email" %>
+    <%= f.email_field :accountEmail %>
+</p>-->
 <p class="group js-hidden<%if @registration.errors[:password].any?%> validation<%end%>">
     <%= f.label :password, "Password" %>Your password must be at least eight characters long<br/>
     <%= f.password_field :password %>
@@ -45,5 +49,5 @@
 </div>
 <p class="action group">
 <input name="back" class="button-secondary" type="submit" value="Back"/>
-<input name="register" class="button" type="submit" value="Register"/>
+<input name="register" class="button" type="submit" value="Complete registration"/>
 </p>

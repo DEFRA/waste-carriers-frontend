@@ -19,7 +19,7 @@ en:
         individualsType: "Organisation type"
         publicBodyType: "Type of public body"
         publicBodyTypeOther: "Other type of public body"
-        houseNumber: "House/Building name"
+        houseNumber: "Building name/number"
         townCity: "Town/City"
         firstName: "First name"
         lastName: "Last name"

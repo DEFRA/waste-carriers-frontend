@@ -4,7 +4,7 @@
 <h2 class="subtitle">For a lower tier waste carrier/broker/dealer</h2>
 <%= render "shared/meta_phases"%>
 
-<p class="group">Your registrations are listed below, from here you can create a new registration for a business or organisation. You can also change or delete one you have previously created. You must tell us if any of your registration details change, within 28 days of the change.</p>
+<p class="group">Your registrations are listed below. You can create a new registration for a business or organisation and you can change or delete one you have previously created. You must tell us if any of your registration details change, within 28 days of the change.</p>
 
 <p class="group"><b>You have <%=pluralize(@registrations.count,"registration")%></b></p>
 
@@ -37,7 +37,7 @@
 <% end %>
 
 <form method="get" action="<%=start_url%>" class="action group">
-	<input type="submit" class="button" value="New Registration" />
+	<input type="submit" class="button" value="New registration" />
 </form>
 
 </article></main>
