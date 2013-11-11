@@ -35,16 +35,17 @@ Registrations::Application.routes.draw do
 
   resources :registrations
 
-  scope "/administration" do 
-    resources :agency_users
-  end
+  #scope "/administration" do 
+  #  resources :agency_users
+  #end
   
   resources :discovers
 
+  resources :agency_users
   # Add a route for a 404, Define this catch all unknowns last
-  if Rails.env.development?
-  	get "*path" => "registrations#notfound", via: [:get], :message => 'Page Not Found'
-  end
+  #if Rails.env.development?
+  #	get "*path" => "registrations#notfound", via: [:get], :message => 'Page Not Found'
+  #end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
