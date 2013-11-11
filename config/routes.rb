@@ -13,7 +13,7 @@ Registrations::Application.routes.draw do
     end
 
   devise_for :admins, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
-    as :agency_user do
+    as :admin do
       get 'admins/edit' => 'devise/registrations#edit', :as => 'edit_admin_registration'    
       put 'admins/:id' => 'devise/registrations#update', :as => 'admin_registration'            
     end
@@ -32,11 +32,13 @@ Registrations::Application.routes.draw do
 
   resources :registrations
 
-  resources :agency_users
+  scope "/administration" do 
+    resources :agency_users
+  end
 
   # Add a route for a 404, Define this catch all unknowns last
   if Rails.env.development?
-  	get "*path" => "registrations#notfound", via: [:get], :message => 'Page Not Found'
+  #	get "*path" => "registrations#notfound", via: [:get], :message => 'Page Not Found'
   end
 
   # The priority is based upon order of creation:
