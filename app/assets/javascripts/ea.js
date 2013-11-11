@@ -114,6 +114,7 @@
 			organisationType: $("#registration_businessType").val(),
 			organisationName: $("#registration_companyName").val(),
 			title : $("#registration_title").val(),
+			otherTitle : $("#registration_otherTitle").val(),
 			firstName : $("#registration_firstName").val(),
 			lastName : $("#registration_lastName").val(),
 			emailAddress : $("#registration_emailAddress").val(),
@@ -137,6 +138,7 @@
 				organisationType: $elem.attr("data-organisationType"),
 				organisationName: $elem.attr("data-organisationName"),
 				title : $elem.attr("data-title"),
+				otherTitle : $elem.attr("data-otherTitle"),
 				firstName : $elem.attr("data-firstName"),
 				lastName : $elem.attr("data-lastName"),
 				emailAddress : $elem.attr("data-emailAddress"),
@@ -250,7 +252,11 @@
 		html += "<p>At the following address</p>";
 		html += address;
 		html += "<p>Contact</p>";
-		html += "<div>"+title+" "+firstName+" "+lastName+" ("+email+")</div>";
+		var tmpTitle = title;
+		if (title==="Other") {
+			tmpTitle = data.otherTitle;
+		}
+		html += "<div>"+tmpTitle+" "+firstName+" "+lastName+" ("+email+")</div>";
 		html += "<div>Telephone number: "+phone+"</div>";
 
 
