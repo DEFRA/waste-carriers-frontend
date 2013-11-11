@@ -133,7 +133,11 @@ Given(/^I do not have an account yet$/) do
 end
 
 Given(/^I am not logged in$/) do
-  visit('users/sign_out')
+  #Note: Logging out via DELETE (vs. GET) - therefore visiting the URL is not enough
+  #visit('/users/sign_out')
+  if (page.has_content?("Logged in as"))
+    click_button("Logout")
+  end
   assert(!page.has_content?("Logged in as"))
 end
 
