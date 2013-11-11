@@ -3,7 +3,17 @@
 <fieldset>
 <legend>Change password</legend>
 
-<%= form_for(resource, :as => resource_name, :url => user_registration_path(resource), :html => { :method => :put }) do |f| %>
+<% 
+    if user_signed_in?
+      my_registration_path = user_registration_path(resource)
+    elsif agency_user_signed_in?
+      my_registration_path = agency_user_registration_path(resource)
+    elsif admin_signed_in?
+      my_registration_path = admin_registration_path(resource)
+    end
+ %>
+
+<%= form_for(resource, :as => resource_name, :url => my_registration_path, :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>

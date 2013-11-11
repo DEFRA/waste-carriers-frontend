@@ -35,7 +35,9 @@ Registrations::Application.routes.draw do
 
   resources :registrations
 
-  resources :agency_users
+  scope "/administration" do 
+    resources :agency_users
+  end
   
   resources :discovers
 

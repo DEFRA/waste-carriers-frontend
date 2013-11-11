@@ -5,7 +5,7 @@ class RegistrationsController < ApplicationController
 
   before_filter :authenticate_admin_request!
 
-  before_filter :authenticate_external_user!, :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish]
+  before_filter :authenticate_external_user!, :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish, :print]
 
   # GET /registrations
   # GET /registrations.json
@@ -58,7 +58,14 @@ class RegistrationsController < ApplicationController
   end
   
   def print
-  	@registration = Registration.find(params[:id])
+  	begin
+      @registration = Registration.find(params[:id])
+    rescue ActiveResource::ResourceNotFound
+      redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id])
+      return
+    end
+
+    authorize! :read, @registration
   	if params[:finish]
   	  logger.info 'Sign user out before redirecting back to GDS site'
   	  sign_out 				# Performs a signout action on the current user

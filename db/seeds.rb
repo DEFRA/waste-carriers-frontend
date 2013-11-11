@@ -14,7 +14,7 @@ if Admin.count == 0
 end
 
 if AgencyUser.count == 0
-  au = AgencyUser.new(:email => 'joe.bloggs@waste-exemplar.gov.uk', :password => 'secret123')
+  au = AgencyUser.new(:email => 'nccc1@waste-exemplar.gov.uk', :password => 'secret123')
   au.save!
 end
 
