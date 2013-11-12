@@ -155,5 +155,9 @@ Given(/^I am already logged in$/) do
   assert(page.has_content? "Signed in as joe@company.com")
 end
 
-
+When(/^proceed to the Address and Contact Details page$/) do
+  page.select('Sole trader', :from => 'registration_businessType')
+  fill_in('registration_companyName', :with => 'Joe Bloggs')  
+  click_on('Next')
+end
 

@@ -15,17 +15,17 @@ Scenario: Login as Administrator
 Scenario: Create a new user
   Given I am logged in as an administrator
   When I elect to create a new agency user
+  And there is no such user yet
   And I fill in valid agency user details
-  And I click "Create Agency User"
   Then the user should have been created
   And I should see the user's details page
 
 
-Scenario: Delete a user
-  Given I am logged in as an administrator
-  And there is a user to be deleted
-  When I elect to delete the user
-  Then the user should have been deleted
+#Scenario: Delete a user
+#  Given I am logged in as an administrator
+#  And there is a user to be deleted
+#  When I elect to delete the user
+#  Then the user should have been deleted
 
 
 Scenario: Attempt to access user administration without being logged in
