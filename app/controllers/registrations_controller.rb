@@ -105,6 +105,7 @@ class RegistrationsController < ApplicationController
   # POST /registrations
   # POST /registrations.json
   def create
+    session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(params[:registration]) if params[:registration]
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = session[:registration_step]
