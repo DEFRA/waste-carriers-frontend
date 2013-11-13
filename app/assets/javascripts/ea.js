@@ -418,7 +418,7 @@
 			//var tmpVal3 = $('input:radio[name="discover_otherBusinesses_yes"]:checked').val();
 			//var tmpVal4 = $('input:radio[name="discover_otherBusinesses"]:checked').val();
 			//var tmpVal5 = $('input:radio[name="discover_otherBusinesses_yes"]').is(':checked');
-			tmpVal = $('#discover_otherBusinesses_yes').is(':checked');
+			//tmpVal = $('#discover_otherBusinesses_yes').is(':checked');
 			
 			if (window.console) console.log('ie version tmpVal: ' + tmpVal ); //+ ' other: ' + tmpVal2 + tmpVal3 + tmpVal4 + tmpVal5 );
 			showUpper = tmpVal;
@@ -639,6 +639,11 @@
 		
 		$("#discover_otherBusinesses_yes").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
 		$("#discover_otherBusinesses_no").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
+
+//		$("#discover_otherBusinesses").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
+		
+//		$("#discover_otherBusinesses_yes").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
+//		$("#discover_otherBusinesses_no").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
 		
 		smarterAnswersQuestion2();
 //		$("#discover_constructionWaste").change(function(e){e.preventDefault();smarterAnswersQuestion3();});
