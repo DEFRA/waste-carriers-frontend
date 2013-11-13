@@ -391,15 +391,15 @@
 		
 		var tmpVal;
 		// Special case handling for IE8
-		var ie8 = $.browser.msie && ($.browser.version == "8.0") && !window.XMLHttpRequest;
+		var ie8 = ($.browser.msie) && ($.browser.version == "8.0");
 		if(!ie8)
 		{
-			if (window.console) console.log('use original style, browser version: ' + $.browser.version);
+			if (window.console) console.log('use original style, browser: ' + $.browser.msie + $.browser.version);
 			tmpVal = $('#discover_otherBusinesses_yes:checked').val();
 		}
 		else
 		{
-			if (window.console) console.log('use ie style, browser version: ' + $.browser.version);
+			if (window.console) console.log('use ie style, browser: ' + $.browser.msie + $.browser.version);
 			tmpVal = $('input[name="discover_otherBusinesses_yes"]:checked').val();
 		}
 		
