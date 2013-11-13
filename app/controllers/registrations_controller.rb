@@ -85,7 +85,7 @@ class RegistrationsController < ApplicationController
   # GET /registrations/new
   # GET /registrations/new.json
   def new
-    session[:registration_params] ||= {}
+    session[:registration_params] = {}
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = session[:registration_step]
   end
