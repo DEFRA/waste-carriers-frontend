@@ -397,7 +397,7 @@
 	function smarterAnswersQuestion2(){
 		// Show UpperTier Text Only if otherBusinesses is yes
 		
-		var tmpVal;
+		/*var tmpVal;
 		var showUpper;
 		// Special case handling for IE8/agency users
 		var ie8 = isIE8();
@@ -418,46 +418,45 @@
 			//var tmpVal3 = $('input:radio[name="discover_otherBusinesses_yes"]:checked').val();
 			//var tmpVal4 = $('input:radio[name="discover_otherBusinesses"]:checked').val();
 			//var tmpVal5 = $('input:radio[name="discover_otherBusinesses_yes"]').is(':checked');
-			//tmpVal = $('#discover_otherBusinesses_yes').is(':checked');
+			tmpVal = $('#discover_otherBusinesses_yes').is(':checked');
 			
 			if (window.console) console.log('ie version tmpVal: ' + tmpVal ); //+ ' other: ' + tmpVal2 + tmpVal3 + tmpVal4 + tmpVal5 );
 			showUpper = tmpVal;
-		}
+		}*/
 		
 		//var tmpVal = $('#discover_otherBusinesses_yes:checked').val();
 		//var tmpVal = $('input[name="discover_otherBusinesses_yes"]:checked').val();
-		
+		var showUpper = $('#discover_otherBusinesses_yes').is(':checked');
 		
 		if (showUpper) {
-/*
-* TEST			// Uncheck question 3
+			// Uncheck question 3
 			$('#new_discover #discover_constructionWaste input[type="radio"]').prop('checked', false);
 			smarterAnswersQuestion3();   // Run logic on subsequent questions
-*/			
+			
 			$('#new_discover #upperText').removeClass("js-hidden");
 		} else {
 			$('#new_discover #upperText').addClass("js-hidden");
 		}
 		
-		//tmpVal = $('#discover_otherBusinesses_no:checked').val();
+		/*tmpVal = $('#discover_otherBusinesses_no:checked').val();
 		//tmpVal = $('input[name="discover_otherBusinesses_no"]:checked').val();
-/*
-* TEST		if(!ie8)
+		if(!ie8)
 		{
 			tmpVal = $('#discover_otherBusinesses_no:checked').val();
 		}
 		else
 		{
 			tmpVal = $('input[name="discover_otherBusinesses_no"]:checked').val();
-		}
+		}*/
 		
 		// Show Question3: Only if otherBusinesses is no
-		var showQ3 = tmpVal == "no";
+		//var showQ3 = tmpVal == "no";
+		var showQ3 = $('#discover_otherBusinesses_no').is(':checked');
 		if (showQ3) {
 			$('#discover_constructionWaste').removeClass("js-hidden");
 		} else {
 			$('#discover_constructionWaste').addClass("js-hidden");
-		}*/
+		}
 	}
 	
 	function smarterAnswersQuestion3(){
@@ -633,51 +632,13 @@
 		toggleSignInUp();
 		
 		// Smarter Answers Initialisation
-//		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
-//		smarterAnswersQuestion1();
-		if(false){//!isIE8()) {
-			//$("#discover_otherBusinesses").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
-		}
-		else {
-					
-    
-			$("#discover_otherBusinesses_yes").change(function(e){if (window.console) console.log('JUST SHOW ME! ');});
-			$("#discover_otherBusinesses_no").change(function(e){if (window.console) console.log('OR ME! ');});
-			
-			//$("#discover_otherBusinesses_yes").click(function(e){e.preventDefault();if (window.console) console.log('JUST SHOW ME! ');});
-			//$("#discover_otherBusinesses_no").click(function(e){e.preventDefault();this.focus();});
-			//$("#discover_otherBusinesses_no").click(function(e){e.preventDefault();if (window.console) console.log('OR ME! ');});
-			
-//			$("#discover_otherBusinesses_yes").live("change", function(e) {
-				//e.preventDefault();
-				/*if (e.preventDefault()) {
-	                e.preventDefault();
-	            } else {
-	                e.returnValue = false;
-	            }*/
-//				if (window.console) console.log('JUST SHOW ME! ');
-//			});
-//			$("#discover_otherBusinesses_no").live("change", function(e) {
-				//e.preventDefault();
-				/*if (e.preventDefault()) {
-	                e.preventDefault();
-	            } else {
-	                e.returnValue = false;
-	            }*/
-//				if (window.console) console.log('OR ME! ');
-//			});
-			
-			//this.blur();  $(this).change();   this.focus();
-			
-		}
-//		$("#discover_otherBusinesses").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
-		
-//		$("#discover_otherBusinesses_yes").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
-//		$("#discover_otherBusinesses_no").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
-		
-//		smarterAnswersQuestion2();
-//		$("#discover_constructionWaste").change(function(e){e.preventDefault();smarterAnswersQuestion3();});
-//		smarterAnswersQuestion3();
+		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
+		smarterAnswersQuestion1();
+		$("#discover_otherBusinesses_yes").change(function(e){smarterAnswersQuestion2();});
+		$("#discover_otherBusinesses_no").change(function(e){smarterAnswersQuestion2();});
+		smarterAnswersQuestion2();
+		$("#discover_constructionWaste").change(function(e){smarterAnswersQuestion3();});
+		smarterAnswersQuestion3();
 //		$("#discover_wasteType").change(function(e){e.preventDefault();smarterAnswersQuestion4();});
 //		smarterAnswersQuestion4();
 
