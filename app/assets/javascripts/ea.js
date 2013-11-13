@@ -641,8 +641,8 @@
 		smarterAnswersQuestion2();
 		$("#discover_constructionWaste").change(function(e){smarterAnswersQuestion3();});
 		smarterAnswersQuestion3();
-//		$("#discover_wasteType").change(function(e){e.preventDefault();smarterAnswersQuestion4();});
-//		smarterAnswersQuestion4();
+		$("#discover_wasteType").change(function(e){smarterAnswersQuestion4();});
+		smarterAnswersQuestion4();
 
 		var uprn = $("#registration_uprn").val();
 		if(uprn && uprn !== ""){
