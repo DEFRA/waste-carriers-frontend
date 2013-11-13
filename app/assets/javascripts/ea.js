@@ -413,7 +413,7 @@
 		}
 		else
 		{
-			tmpVal = $('input[#discover_otherBusinesses_yes]:checked').val();
+			tmpVal = $('input[name="discover_otherBusinesses_yes"]:checked').val();
 			var tmpVal3 = $('input:radio[name="discover_otherBusinesses_yes"]:checked').val();
 			var tmpVal4 = $('input:radio[name="discover_otherBusinesses"]:checked').val();
 			var tmpVal5 = $('input:radio[name="discover_otherBusinesses_yes"]').is(':checked');
