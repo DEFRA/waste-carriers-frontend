@@ -388,7 +388,23 @@
 	
 	function smarterAnswersQuestion2(){
 		// Show UpperTier Text Only if otherBusinesses is yes
-		var tmpVal = $('#discover_otherBusinesses_yes:checked').val();
+		
+		var tmpVal;
+		var ie6 = $.browser.msie&&($.browser.version == "6.0")&&!window.XMLHttpRequest;
+		if(!ie6)
+		{
+			if (window.console) console.log('use original style, browser version: ' + $.browser.version);
+			tmpVal = $('#discover_otherBusinesses_yes:checked').val();
+		}
+		else
+		{
+			if (window.console) console.log('use ie style, browser version: ' + $.browser.version);
+			tmpVal = $('input[name="discover_otherBusinesses_yes"]:checked').val();
+		}
+		
+		//var tmpVal = $('#discover_otherBusinesses_yes:checked').val();
+		//var tmpVal = $('input[name="discover_otherBusinesses_yes"]:checked').val();
+		
 		var showUpper = tmpVal == "yes";
 		if (showUpper) {
 			// Uncheck question 3
@@ -400,7 +416,17 @@
 			$('#new_discover #upperText').addClass("js-hidden");
 		}
 		
-		tmpVal = $('#discover_otherBusinesses_no:checked').val();
+		//tmpVal = $('#discover_otherBusinesses_no:checked').val();
+		//tmpVal = $('input[name="discover_otherBusinesses_no"]:checked').val();
+		if(!ie6)
+		{
+			tmpVal = $('#discover_otherBusinesses_no:checked').val();
+		}
+		else
+		{
+			tmpVal = $('input[name="discover_otherBusinesses_no"]:checked').val();
+		}
+		
 		// Show Question3: Only if otherBusinesses is no
 		var showQ3 = tmpVal == "no";
 		if (showQ3) {
