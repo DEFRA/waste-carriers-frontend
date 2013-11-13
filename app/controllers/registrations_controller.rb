@@ -105,6 +105,7 @@ class RegistrationsController < ApplicationController
   # POST /registrations
   # POST /registrations.json
   def create
+  	if !session[:registration_params].nil?
     session[:registration_params].deep_merge!(params[:registration]) if params[:registration]
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = session[:registration_step]
@@ -222,6 +223,10 @@ class RegistrationsController < ApplicationController
     else
       session[:registration_step] = session[:registration_params] = nil
       redirect_to finish_url(:id => @registration.id)
+    end
+    
+    else
+      redirect_to registrations_path(:error => "Unable to access registration cookie information. We use cookies to store information throughout your registration process." )
     end
   end
   
