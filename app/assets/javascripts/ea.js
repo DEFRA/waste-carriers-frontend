@@ -636,18 +636,27 @@
 //		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
 //		smarterAnswersQuestion1();
 		if(false){//!isIE8()) {
-			$("#discover_otherBusinesses").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
+			//$("#discover_otherBusinesses").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
 		}
 		else {
-			$("#discover_otherBusinesses_yes").change(function(e){e.preventDefault();if (window.console) console.log('JUST SHOW ME! ');});
-			$("#discover_otherBusinesses_no").change(function(e){e.preventDefault();if (window.console) console.log('OR ME! ');});
+					
+    
+			//$("#discover_otherBusinesses_yes").change(function(e){e.preventDefault();if (window.console) console.log('JUST SHOW ME! ');});
+			//$("#discover_otherBusinesses_no").change(function(e){e.preventDefault();if (window.console) console.log('OR ME! ');});
+			
+			$("#discover_otherBusinesses_yes").click(function(e){e.preventDefault();if (window.console) console.log('JUST SHOW ME! ');});
+			//$("#discover_otherBusinesses_no").click(function(e){e.preventDefault();this.focus();});
+			$("#discover_otherBusinesses_no").click(function(e){e.preventDefault();if (window.console) console.log('OR ME! ');});
+			
+			//this.blur();  $(this).change();   this.focus();
+			
 		}
 //		$("#discover_otherBusinesses").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
 		
 //		$("#discover_otherBusinesses_yes").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
 //		$("#discover_otherBusinesses_no").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
 		
-		smarterAnswersQuestion2();
+//		smarterAnswersQuestion2();
 //		$("#discover_constructionWaste").change(function(e){e.preventDefault();smarterAnswersQuestion3();});
 //		smarterAnswersQuestion3();
 //		$("#discover_wasteType").change(function(e){e.preventDefault();smarterAnswersQuestion4();});
