@@ -386,20 +386,26 @@
 		}
 	}
 	
+	function isIE8(){
+		if ($.browser.msie && ($.browser.version == "8.0"))
+		{
+			return true;
+		}
+		return false;
+	}
+	
 	function smarterAnswersQuestion2(){
 		// Show UpperTier Text Only if otherBusinesses is yes
 		
 		var tmpVal;
-		// Special case handling for IE8
-		var ie8 = ($.browser.msie) && ($.browser.version == "8.0");
+		// Special case handling for IE8/agency users
+		var ie8 = isIE8();
 		if(!ie8)
 		{
-			if (window.console) console.log('use original style, browser: ' + $.browser.msie + $.browser.version);
 			tmpVal = $('#discover_otherBusinesses_yes:checked').val();
 		}
 		else
 		{
-			if (window.console) console.log('use ie style, browser: ' + $.browser.msie + $.browser.version);
 			tmpVal = $('input[name="discover_otherBusinesses_yes"]:checked').val();
 		}
 		
@@ -438,7 +444,16 @@
 	}
 	
 	function smarterAnswersQuestion3(){
-		var tmpVal = $('#discover_constructionWaste_no:checked').val();
+		var tmpVal; // = $('#discover_constructionWaste_no:checked').val();
+		if(!isIE8())
+		{
+			tmpVal = $('#discover_constructionWaste_no:checked').val();
+		}
+		else
+		{
+			tmpVal = $('input[name="discover_constructionWaste_no"]:checked').val();
+		}
+		
 		// Show Question4: Only if constructionWaste is no
 		var showQ4 = tmpVal == "no";
 		if (showQ4) {
@@ -452,7 +467,16 @@
 		}
 		
 		// Show UpperTier Text Only if constructionWaste is yes
-		tmpVal = $('#discover_constructionWaste_yes:checked').val();
+		//tmpVal = $('#discover_constructionWaste_yes:checked').val();
+		if(!isIE8())
+		{
+			tmpVal = $('#discover_constructionWaste_yes:checked').val();
+		}
+		else
+		{
+			tmpVal = $('input[name="discover_constructionWaste_yes"]:checked').val();
+		}
+		
 		var showUpper = tmpVal == "yes";
 		if (showUpper) {
 			$('#new_discover #upperText').removeClass("js-hidden");
@@ -462,7 +486,16 @@
 	}
 	
 	function smarterAnswersQuestion4(){
-		var tmpAnimalVal = $('#discover_wasteType_animal:checked').val();
+		var tmpAnimalVal; // = $('#discover_wasteType_animal:checked').val();
+		if(!isIE8())
+		{
+			tmpAnimalVal = $('#discover_wasteType_animal:checked').val();
+		}
+		else
+		{
+			tmpAnimalVal = $('input[name="discover_wasteType_animal"]:checked').val();
+		}
+		
 		var tmpMineVal = $('#discover_wasteType_mine:checked').val();
 		var tmpFarmVal = $('#discover_wasteType_farm:checked').val();
 		var tmpOtherVal = $('#discover_wasteType_other:checked').val();
