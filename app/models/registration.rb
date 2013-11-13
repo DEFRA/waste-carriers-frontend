@@ -82,6 +82,7 @@ class Registration < ActiveResource::Base
   
   #If changing mim and max length, please also change in devise.rb
   validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validate :validate_password_strength, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   
@@ -176,6 +177,13 @@ class Registration < ActiveResource::Base
     end
   end
 
+  def validate_password_strength
+    strength = PasswordStrength.test(accountEmail,password)
+    if !strength.valid?(:good)
+      errors.add(:password,' is not strong enough. Please use letters (uppercase and downcase), numbers and special characters.')
+    end 
+  end
+    
   def validate_login
     Rails.logger.debug "entering validate_login"
     if !persisted? && do_sign_in?

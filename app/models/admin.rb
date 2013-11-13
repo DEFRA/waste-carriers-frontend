@@ -45,6 +45,9 @@ class Admin
   # field :locked_at,       :type => Time
 
 
+  validates_strength_of :password, :with => :email
+
+
   def is_admin?
   	true
   end

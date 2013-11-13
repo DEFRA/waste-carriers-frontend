@@ -43,9 +43,9 @@ class User
   # field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
   # field :locked_at,       :type => Time
 
-  #other from the tutorial
-  #validates_presence_of :email
-  #validates_uniqueness_of :email, :case_sensitive => false
+
+  validates_strength_of :password, :with => :email
+
 
   def is_admin?
     false
