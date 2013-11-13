@@ -390,8 +390,9 @@
 		// Show UpperTier Text Only if otherBusinesses is yes
 		
 		var tmpVal;
-		var ie6 = $.browser.msie&&($.browser.version == "6.0")&&!window.XMLHttpRequest;
-		if(!ie6)
+		// Special case handling for IE8
+		var ie8 = $.browser.msie && ($.browser.version == "8.0") && !window.XMLHttpRequest;
+		if(!ie8)
 		{
 			if (window.console) console.log('use original style, browser version: ' + $.browser.version);
 			tmpVal = $('#discover_otherBusinesses_yes:checked').val();
@@ -418,7 +419,7 @@
 		
 		//tmpVal = $('#discover_otherBusinesses_no:checked').val();
 		//tmpVal = $('input[name="discover_otherBusinesses_no"]:checked').val();
-		if(!ie6)
+		if(!ie8)
 		{
 			tmpVal = $('#discover_otherBusinesses_no:checked').val();
 		}
