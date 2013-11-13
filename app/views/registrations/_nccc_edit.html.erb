@@ -1,5 +1,11 @@
 
-  <%= render "errors" %>
+<%= render "errors" %>
+  
+<% if params[:note] %>
+<div id="note_explanation" class="note-summary">
+  <h1><%= params[:note]%></h1>
+</div>
+<% end %>
 
 <!-- WF 4.3.1 -->
 <div id="page1">
@@ -51,12 +57,12 @@
 </div>
 
 <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
-<%= f.label :houseNumber, "House/Building name" %>
+<%= f.label :houseNumber %>
 <%= f.text_field :houseNumber %>
 </p>
 
 <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
-<%= f.label :streetLine1, "Street" %>
+<%= f.label :streetLine1 %>
 <%= f.text_field :streetLine1%>
 </p>
 <p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
@@ -64,12 +70,12 @@
 <%= f.text_field :streetLine2%>
 </p>
 <p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
-<%= f.label :townCity, "Town/City" %>
+<%= f.label :townCity %>
 <%= f.text_field :townCity%>
 </p>
 
 <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
-    <%= f.label :postcode, "Postcode" %>
+    <%= f.label :postcode %>
     <%= f.text_field :postcode %>
 </p>
 
@@ -91,7 +97,7 @@
 <fieldset>
 <legend>Contact information</legend>
 
-<p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+<p class="group<%if @registration.errors[:title].any?%> validation<%end%>">
 <%= f.label :title %>
 <%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"],["Ms"],["Dr"],["Other"]],f.object.title ) %>
 </p>
@@ -121,4 +127,9 @@
 <p class="action group">
 <input name="back" class="button-secondary" type="submit" value="Back"/>
 <input name="next" class="button" type="submit" value="Update"/>
+<% if @registration.metaData.status == "REVOKED" %>
+<input name="unrevoke" class="button revoke" type="submit" value="Un-revoke"/>
+<% else %>
+<input name="revoke" class="button revoke" type="submit" value="Revoke"/>
+<% end %>
 </p>

@@ -228,12 +228,24 @@ class RegistrationsController < ApplicationController
   def ncccupdate
     if params[:back]
       redirect_to registrations_path
+    elsif params[:revoke]
+      logger.info 'Revoke action detected'
+      @registration = Registration.find(params[:id])
+      @registration.metaData.status = "REVOKED"
+      @registration.save
+      redirect_to ncccedit_path(:note => "Revoke performed")
+    elsif params[:unrevoke]
+      logger.info 'Revoke action detected'
+      @registration = Registration.find(params[:id])
+      @registration.metaData.status = "ACTIVE"
+      @registration.save
+      redirect_to ncccedit_path(:note => "Un-Revoke performed")
     else
       @registration = Registration.find(params[:id])
       @registration.update_attributes(params[:registration])
       if @registration.all_valid?
         @registration.save
-        redirect_to registrations_path
+        redirect_to ncccedit_path(:note => "Registration updated")
       else
         render "ncccedit"
       end

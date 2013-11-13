@@ -46,7 +46,7 @@
 <p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
 
 <% @registrations.each do |registration| %>
-<div class="box">
+<div class="box<% if registration.metaData.status == "REVOKED" %> revoked<% end %>">
 	<dl>
 		<dt>Name</dt>
 		<dd><%= registration.companyName %></dd>
@@ -55,7 +55,8 @@
 		<dd><%= registration.postcode %></dd>
 	</dl>
 	<div class="detailsBoxWrapper">
-		<div class="detailsBox">
+		<div class="detailsBox<% if registration.metaData.status == "REVOKED" %> revoked<% end %>">
+			<% if registration.metaData.status == "REVOKED" %><div class="detailHeading">Registration Status: Revoked</div><% end %>
 			<div class="detail">
 				<div class="data" 
 					data-organisationType="<%= registration.businessType%>" 
@@ -71,7 +72,8 @@
 					data-houseNumber="<%=registration.houseNumber%>" 
 					data-postcode="<%=registration.postcode%>" 
 					data-uprn="<%=registration.uprn%>" 
-					data-address="<%=registration.address%>" >
+					data-address="<%=registration.address%>"
+					data-status="<%=registration.metaData.status%>">
 				</div>
 			</div>
 			<form action="<%=ncccedit_url(registration.id)%>">

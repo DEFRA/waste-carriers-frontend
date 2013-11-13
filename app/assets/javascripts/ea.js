@@ -145,18 +145,30 @@
 				phoneNumber: $elem.attr("data-phoneNumber"),
 				individualsType: $elem.attr("data-individualsType"),
 				publicBodyType:$elem.attr("data-publicBodyType"),
+				mdStatus:$elem.attr("data-status"),
 				address: address
 			}
 
 
 			updateSummaryWithData(data,elem);
+			
+			var div = document.createElement("div");
+			var $div = $(div);
+			$div.addClass("view");
+			detailElem.parentNode.parentNode.parentNode.insertBefore(div,detailElem.parentNode.parentNode.parentNode.firstChild);
 
 			var a = document.createElement("a");
 			var $a = $(a);
 			$a.attr("href","#");
-			$a.addClass("view");
-			$a.html("View registration");
-			detailElem.parentNode.parentNode.parentNode.insertBefore(a,detailElem.parentNode.parentNode.parentNode.firstChild);
+			$div.append(a);
+			
+			if (data.mdStatus == "REVOKED") {
+				var pStatus = document.createElement("div");
+				var $pStatus = $(pStatus);
+				$pStatus.addClass("revokedtext");
+				$pStatus.html("Status: Revoked");
+				$div.append(pStatus);
+			}
 			
 			$a.click(authorViewDetail(detailElem,a));
 			$a.click(resetAll() );
@@ -174,7 +186,7 @@
 			    $(detailElem).css("display","block");
 			    $(detailElem).parent().parent().css("display","block");
 			    
-			    $(detailElem).parent().parent().parent().css("background-color", "#FFCC99");
+			    $(detailElem).parent().parent().parent().css("background-color", "#FFCC99");//orange
 			    
 			    // Reset link to a Hide link
 			    $(a).html("Hide details");
@@ -190,10 +202,10 @@
 			var detailElem = elem.parentNode;
 			$(detailElem).css("display","none");
 			$(detailElem).parent().parent().css("display","none");
-			$(detailElem).parent().parent().parent().css("background-color","rgb(222, 224, 226)");
+			$(detailElem).parent().parent().parent().css("background-color","rgb(222, 224, 226)");//grey
 		});
 		
-		$("#reg-search-result .box .view").each(function(index,elem){
+		$("#reg-search-result .box .view a").each(function(index,elem){
 			// revert all text links to default
 			$(elem).html("View details");
 		});

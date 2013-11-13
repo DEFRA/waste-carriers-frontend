@@ -122,11 +122,12 @@ input {
 	margin: 1em 2em 3em 2em;
 }
 .box .detail {
-	background-color: #FFCC99;
+	//background-color: #FFCC99;
 	display: none;
 }
-.box a.view {
+.box div.view {
 	float: right;
+	text-align: right;
 }
 
 h2.registered {
@@ -247,6 +248,17 @@ dl.data dd{
 	left:35em;
 	top:-7em;
 }
+/**
+* Set Detail box heading, used for Registration status
+*/
+.detailHeading {
+	padding-bottom: 1em;
+	font-weight: bold;
+}
+.revoked {
+	//border: dashed 0.1em;
+}
+
 .meta-phases {
  	margin: 15px 0;
  	padding: 0;
@@ -330,6 +342,17 @@ table.users td {
 	}
 }
 
+/**
+* Override Buttons to make a revoke button grey
+*/
+.revoke {
+	background-color: darkgray;
+	
+}
+.revoke:hover {
+	background-color: gray;
+}
+
 .group{
 	span {
 		display: block;
@@ -342,3 +365,36 @@ table.users td {
 		}
 	}
 }
+
+/**
+* Added to show alert type messages similar to errors, but to represent status updates
+*/
+.note-summary{
+    border: 3px solid #FFD633;
+    @include panel(lighten(#FFFF00, 45%));
+    max-width: 600px;
+    h1{
+      margin-bottom: 0;
+    }
+    a {
+      color: $mellow-red;
+      text-decoration: none;
+      &:hover{
+        text-decoration: underline;
+      }
+    }
+    ul, ol {
+      color: $mellow-red;
+    }
+    ul{
+      padding-left: 2.2em;
+      li{
+      list-style-type: none;
+      list-style-image: none; 
+      }
+    }
+    li{
+      @include core-16;
+    }
+
+  }
