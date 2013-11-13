@@ -403,10 +403,24 @@
 		if(!ie8)
 		{
 			tmpVal = $('#discover_otherBusinesses_yes:checked').val();
+			var tmpVal3 = $('input:radio[name="discover_otherBusinesses_yes"]:checked').val();
+			var tmpVal4 = $('input:radio[name="discover_otherBusinesses"]:checked').val();
+			var tmpVal5 = $('input:radio[name="discover[otherBusinesses]_no"]').is(':checked');
+			var tmpVal6 = $('#discover_otherBusinesses_yes').is(':checked');
+			
+			if (window.console) console.log('my1 tmpVal: ' + tmpVal + tmpVal3 + tmpVal4 + tmpVal5 + tmpVal6);
+			
 		}
 		else
 		{
-			tmpVal = $('input[name="discover_otherBusinesses_yes"]:checked').val();
+			tmpVal = $('input[#discover_otherBusinesses_yes]:checked').val();
+			var tmpVal3 = $('input:radio[name="discover_otherBusinesses_yes"]:checked').val();
+			var tmpVal4 = $('input:radio[name="discover_otherBusinesses"]:checked').val();
+			var tmpVal5 = $('input:radio[name="discover_otherBusinesses_yes"]').is(':checked');
+			var tmpVal6 = $('#discover_otherBusinesses_yes').is(':checked');
+			
+			if (window.console) console.log('my2 tmpVal: ' + tmpVal + tmpVal3 + tmpVal4 + tmpVal5 + tmpVal6);
+			
 		}
 		
 		//var tmpVal = $('#discover_otherBusinesses_yes:checked').val();
