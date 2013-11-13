@@ -404,12 +404,12 @@
 		if(!ie8)
 		{
 			tmpVal = $('#discover_otherBusinesses_yes:checked').val();
-			var tmpVal3 = $('input:radio[name="discover_otherBusinesses_yes"]:checked').val();
-			var tmpVal4 = $('input:radio[name="discover_otherBusinesses"]:checked').val();
-			var tmpVal5 = $('input:radio[name="discover[otherBusinesses]_no"]').is(':checked');
-			var tmpVal6 = $('#discover_otherBusinesses_yes').is(':checked');
+			//var tmpVal3 = $('input:radio[name="discover_otherBusinesses_yes"]:checked').val();
+			//var tmpVal4 = $('input:radio[name="discover_otherBusinesses"]:checked').val();
+			//var tmpVal5 = $('input:radio[name="discover[otherBusinesses]_no"]').is(':checked');
+			//var tmpVal6 = $('#discover_otherBusinesses_yes').is(':checked');
 			
-			if (window.console) console.log('non ie verison tmpVal: ' + tmpVal + ' other: ' + tmpVal3 + tmpVal4 + tmpVal5 + tmpVal6);
+			if (window.console) console.log('non ie verison tmpVal: ' + tmpVal ); //+ ' other: ' + tmpVal3 + tmpVal4 + tmpVal5 + tmpVal6);
 			showUpper = tmpVal == "yes";
 		}
 		else
@@ -635,7 +635,11 @@
 		// Smarter Answers Initialisation
 //		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
 //		smarterAnswersQuestion1();
-		$("#discover_otherBusinesses").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
+//		$("#discover_otherBusinesses").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
+		
+		$("#discover_otherBusinesses_yes").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
+		$("#discover_otherBusinesses_no").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
+		
 		smarterAnswersQuestion2();
 //		$("#discover_constructionWaste").change(function(e){e.preventDefault();smarterAnswersQuestion3();});
 //		smarterAnswersQuestion3();
