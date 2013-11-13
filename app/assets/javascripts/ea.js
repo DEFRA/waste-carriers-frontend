@@ -361,7 +361,7 @@
 			// Question 1 has changed, Reset Other answers
             $('#new_discover input[type="radio"]').prop('checked', false);      // Find all radios and uncheck
             smarterAnswersQuestion2();   // Run logic on subsequent questions
-            smarterAnswersQuestion3();
+            smarterAnswersQuestion3(); 
             
 			$('#new_discover input[type="checkbox"]').prop('checked', false);   // Find all checkboxes and uncheck
 			smarterAnswersQuestion4();
@@ -429,10 +429,11 @@
 		
 		
 		if (showUpper) {
-			// Uncheck question 3
+/*
+* TEST			// Uncheck question 3
 			$('#new_discover #discover_constructionWaste input[type="radio"]').prop('checked', false);
 			smarterAnswersQuestion3();   // Run logic on subsequent questions
-			
+*/			
 			$('#new_discover #upperText').removeClass("js-hidden");
 		} else {
 			$('#new_discover #upperText').addClass("js-hidden");
@@ -440,7 +441,8 @@
 		
 		//tmpVal = $('#discover_otherBusinesses_no:checked').val();
 		//tmpVal = $('input[name="discover_otherBusinesses_no"]:checked').val();
-		if(!ie8)
+/*
+* TEST		if(!ie8)
 		{
 			tmpVal = $('#discover_otherBusinesses_no:checked').val();
 		}
@@ -455,7 +457,7 @@
 			$('#discover_constructionWaste').removeClass("js-hidden");
 		} else {
 			$('#discover_constructionWaste').addClass("js-hidden");
-		}
+		}*/
 	}
 	
 	function smarterAnswersQuestion3(){
@@ -631,14 +633,14 @@
 		toggleSignInUp();
 		
 		// Smarter Answers Initialisation
-		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
-		smarterAnswersQuestion1();
+//		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
+//		smarterAnswersQuestion1();
 		$("#discover_otherBusinesses").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
 		smarterAnswersQuestion2();
-		$("#discover_constructionWaste").change(function(e){e.preventDefault();smarterAnswersQuestion3();});
-		smarterAnswersQuestion3();
-		$("#discover_wasteType").change(function(e){e.preventDefault();smarterAnswersQuestion4();});
-		smarterAnswersQuestion4();
+//		$("#discover_constructionWaste").change(function(e){e.preventDefault();smarterAnswersQuestion3();});
+//		smarterAnswersQuestion3();
+//		$("#discover_wasteType").change(function(e){e.preventDefault();smarterAnswersQuestion4();});
+//		smarterAnswersQuestion4();
 
 		var uprn = $("#registration_uprn").val();
 		if(uprn && uprn !== ""){
