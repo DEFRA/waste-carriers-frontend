@@ -648,22 +648,22 @@
 			//$("#discover_otherBusinesses_no").click(function(e){e.preventDefault();this.focus();});
 			//$("#discover_otherBusinesses_no").click(function(e){e.preventDefault();if (window.console) console.log('OR ME! ');});
 			
-			$("#discover_otherBusinesses_yes").live("click", function(e) {
+			$("#discover_otherBusinesses_yes").live("change", function(e) {
 				//e.preventDefault();
-				if (e.preventDefault()) {
+				/*if (e.preventDefault()) {
 	                e.preventDefault();
 	            } else {
 	                e.returnValue = false;
-	            }
+	            }*/
 				if (window.console) console.log('JUST SHOW ME! ');
 			});
-			$("#discover_otherBusinesses_no").live("click", function(e) {
+			$("#discover_otherBusinesses_no").live("change", function(e) {
 				//e.preventDefault();
-				if (e.preventDefault()) {
+				/*if (e.preventDefault()) {
 	                e.preventDefault();
 	            } else {
 	                e.returnValue = false;
-	            }
+	            }*/
 				if (window.console) console.log('OR ME! ');
 			});
 			
