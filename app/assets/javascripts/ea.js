@@ -635,11 +635,13 @@
 		// Smarter Answers Initialisation
 //		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
 //		smarterAnswersQuestion1();
-//		$("#discover_otherBusinesses").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
-		
-		$("#discover_otherBusinesses_yes").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
-		$("#discover_otherBusinesses_no").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
-
+		if(false){//!isIE8()) {
+			$("#discover_otherBusinesses").change(function(e){e.preventDefault();smarterAnswersQuestion2();});
+		}
+		else {
+			$("#discover_otherBusinesses_yes").change(function(e){e.preventDefault();if (window.console) console.log('JUST SHOW ME! ');});
+			$("#discover_otherBusinesses_no").change(function(e){e.preventDefault();if (window.console) console.log('OR ME! ');});
+		}
 //		$("#discover_otherBusinesses").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
 		
 //		$("#discover_otherBusinesses_yes").click(function(e){e.preventDefault();smarterAnswersQuestion2();});
