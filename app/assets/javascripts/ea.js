@@ -398,6 +398,7 @@
 		// Show UpperTier Text Only if otherBusinesses is yes
 		
 		var tmpVal;
+		var showUpper;
 		// Special case handling for IE8/agency users
 		var ie8 = isIE8();
 		if(!ie8)
@@ -408,8 +409,8 @@
 			var tmpVal5 = $('input:radio[name="discover[otherBusinesses]_no"]').is(':checked');
 			var tmpVal6 = $('#discover_otherBusinesses_yes').is(':checked');
 			
-			if (window.console) console.log('my1 tmpVal: ' + tmpVal + tmpVal3 + tmpVal4 + tmpVal5 + tmpVal6);
-			
+			if (window.console) console.log('my1 tmpVal: ' + tmpVal + ' other: ' + tmpVal3 + tmpVal4 + tmpVal5 + tmpVal6);
+			showUpper = tmpVal == "yes";
 		}
 		else
 		{
@@ -419,14 +420,14 @@
 			var tmpVal5 = $('input:radio[name="discover_otherBusinesses_yes"]').is(':checked');
 			tmpVal = $('#discover_otherBusinesses_yes').is(':checked');
 			
-			if (window.console) console.log('my2 tmpVal: ' + tmpVal2 + tmpVal3 + tmpVal4 + tmpVal5 + tmpVal);
-			
+			if (window.console) console.log('my2 tmpVal: ' + tmpVal + ' other: ' + tmpVal2 + tmpVal3 + tmpVal4 + tmpVal5 );
+			showUpper = tmpVal;
 		}
 		
 		//var tmpVal = $('#discover_otherBusinesses_yes:checked').val();
 		//var tmpVal = $('input[name="discover_otherBusinesses_yes"]:checked').val();
 		
-		var showUpper = tmpVal == "yes";
+		
 		if (showUpper) {
 			// Uncheck question 3
 			$('#new_discover #discover_constructionWaste input[type="radio"]').prop('checked', false);
