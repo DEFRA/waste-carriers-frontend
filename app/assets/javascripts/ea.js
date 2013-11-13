@@ -409,18 +409,18 @@
 			var tmpVal5 = $('input:radio[name="discover[otherBusinesses]_no"]').is(':checked');
 			var tmpVal6 = $('#discover_otherBusinesses_yes').is(':checked');
 			
-			if (window.console) console.log('my1 tmpVal: ' + tmpVal + ' other: ' + tmpVal3 + tmpVal4 + tmpVal5 + tmpVal6);
+			if (window.console) console.log('non ie verison tmpVal: ' + tmpVal + ' other: ' + tmpVal3 + tmpVal4 + tmpVal5 + tmpVal6);
 			showUpper = tmpVal == "yes";
 		}
 		else
 		{
-			var tmpVal2 = $('input[name="discover_otherBusinesses_yes"]:checked').val();
-			var tmpVal3 = $('input:radio[name="discover_otherBusinesses_yes"]:checked').val();
-			var tmpVal4 = $('input:radio[name="discover_otherBusinesses"]:checked').val();
-			var tmpVal5 = $('input:radio[name="discover_otherBusinesses_yes"]').is(':checked');
+			//var tmpVal2 = $('input[name="discover_otherBusinesses_yes"]:checked').val();
+			//var tmpVal3 = $('input:radio[name="discover_otherBusinesses_yes"]:checked').val();
+			//var tmpVal4 = $('input:radio[name="discover_otherBusinesses"]:checked').val();
+			//var tmpVal5 = $('input:radio[name="discover_otherBusinesses_yes"]').is(':checked');
 			tmpVal = $('#discover_otherBusinesses_yes').is(':checked');
 			
-			if (window.console) console.log('my2 tmpVal: ' + tmpVal + ' other: ' + tmpVal2 + tmpVal3 + tmpVal4 + tmpVal5 );
+			if (window.console) console.log('ie version tmpVal: ' + tmpVal ); //+ ' other: ' + tmpVal2 + tmpVal3 + tmpVal4 + tmpVal5 );
 			showUpper = tmpVal;
 		}
 		
