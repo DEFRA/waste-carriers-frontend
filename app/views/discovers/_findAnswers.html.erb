@@ -51,10 +51,10 @@
   <p id="discover_wasteType" class="group<%if @discover.errors[:wasteType_animal].any?%> validation<%end%>">
     <%= f.label "Do you transport any of these types of waste regularly? (Select all that apply)" %>
     <span class="inline">
-	    <%= f.check_box :wasteType_animal, :class => "radio" %><%= f.label :wasteType_animal, :class => "label" %><br/>
-	    <%= f.check_box :wasteType_mine, :class => "radio" %><%= f.label :wasteType_mine, :class => "label" %><br/>
-	    <%= f.check_box :wasteType_farm, :class => "radio" %><%= f.label :wasteType_farm, :class => "label" %><br/>
-	    <%= f.check_box :wasteType_other, :class => "radio" %><%= f.label :wasteType_other, :class => "label" %>
+	    <%= f.check_box :wasteType_animal, :class => "radio" %><%= f.label :wasteType_animal, "Waste from animal carcasses", :class => "label" %><br/>
+	    <%= f.check_box :wasteType_mine, :class => "radio" %><%= f.label :wasteType_mine, "Waste from a mine or quarry", :class => "label" %><br/>
+	    <%= f.check_box :wasteType_farm, :class => "radio" %><%= f.label :wasteType_farm, "Farm or agricultural waste", :class => "label" %><br/>
+	    <%= f.check_box :wasteType_other, :class => "radio" %><%= f.label :wasteType_other, "Other waste", :class => "label" %>
     </span>
   </p>
   
