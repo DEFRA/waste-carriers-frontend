@@ -81,3 +81,20 @@ test:
         retry_interval: 0
   options:
     raise_not_found_error: false
+#Settings for Production
+production:
+  sessions:
+    default:
+      database: <%= ENV['WCRS_FRONTEND_USERSDB_NAME'] %>
+      username: <%= ENV['WCRS_FRONTEND_USERSDB_USERNAME'] %>
+      password: <%= ENV['WCRS_FRONTEND_USERSDB_PASSWORD'] %>
+      hosts:
+        - <%= ENV['WCRS_FRONTEND_USERSDB_URL'] %>
+      options:
+        read: primary
+        # In the test environment we lower the retries and retry interval to
+        # low amounts for fast failures.
+        max_retries: 1
+        retry_interval: 0
+  options:
+    raise_not_found_error: false
