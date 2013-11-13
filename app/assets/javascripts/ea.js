@@ -460,7 +460,7 @@
 	}
 	
 	function smarterAnswersQuestion3(){
-		var tmpVal; // = $('#discover_constructionWaste_no:checked').val();
+		/*var tmpVal; // = $('#discover_constructionWaste_no:checked').val();
 		if(!isIE8())
 		{
 			tmpVal = $('#discover_constructionWaste_no:checked').val();
@@ -471,7 +471,8 @@
 		}
 		
 		// Show Question4: Only if constructionWaste is no
-		var showQ4 = tmpVal == "no";
+		var showQ4 = tmpVal == "no";*/
+		var showQ4 = $('#discover_constructionWaste_no').is(':checked');
 		if (showQ4) {
 			$('#discover_wasteType').removeClass("js-hidden");
 		} else {
@@ -484,7 +485,7 @@
 		
 		// Show UpperTier Text Only if constructionWaste is yes
 		//tmpVal = $('#discover_constructionWaste_yes:checked').val();
-		if(!isIE8())
+		/*if(!isIE8())
 		{
 			tmpVal = $('#discover_constructionWaste_yes:checked').val();
 		}
@@ -493,7 +494,8 @@
 			tmpVal = $('input[name="discover_constructionWaste_yes"]:checked').val();
 		}
 		
-		var showUpper = tmpVal == "yes";
+		var showUpper = tmpVal == "yes";*/
+		var showUpper = $('#discover_constructionWaste_yes').is(':checked');
 		if (showUpper) {
 			$('#new_discover #upperText').removeClass("js-hidden");
 		} else {
