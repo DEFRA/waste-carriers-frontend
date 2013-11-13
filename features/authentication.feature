@@ -15,4 +15,21 @@ Administrators can create and manage other internal users.
 
 Users can change their password (once signed in), or have their password reset if they have forgotten their password.
 
-Internal and administrative functions can only be accessed from known locations (registered IP addresses) and via a special 'admin' URL subdomain (such as 'admin.wastecarriers.service.gov.uk' vs. 'www.wastecarriers.service.gov.uk')
+Internal and administrative functions can only be accessed from known locations (registered IP addresses) and via a special 'admin' URL subdomain (such as 'admin.wastecarriers.service.gov.uk' vs. 'www.wastecarriers.service.gov.uk'). Administrative functions will have special URLs such as '/agency_users/*'' or '/admins/*'.
+
+
+Scenario: Log in successfully as Waste Carrier
+  Given there is a user Joe
+  When the user visits the login page
+  And enters valid credentials for user Joe
+  Then the user should be logged in successfully
+
+
+Scenario: Log in as Waste Carrier - invalid password
+  Given there is a user Joe
+  When the user visits the login page
+  And enters invalid credentials for user Joe
+  Then the user should see a login error
+
+
+

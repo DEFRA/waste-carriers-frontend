@@ -31,18 +31,23 @@ When(/^I elect to create a new agency user$/) do
   click_button "New agency user"
 end
 
+When(/^there is no such user yet$/) do
+  AgencyUser.where(email: "joe3@waste-exemplar.gov.uk").delete
+end
+
 When(/^I fill in valid agency user details$/) do
-  fill_in "agency_user_email", :with => 'joe@waste-exemplar.gov.uk'
+  assert page.has_content?("New agency user")
+  fill_in "agency_user_email", :with => 'joe3@waste-exemplar.gov.uk'
   fill_in "agency_user_password", :with => 'secret123'
   click_button "Create Agency User"
 end
 
 Then(/^the user should have been created$/) do
-  assert(AgencyUser.where(email: 'joe@waste-exemplar.gov.uk').count > 0)
+  assert(AgencyUser.where(email: 'joe3@waste-exemplar.gov.uk').exists?)
 end
 
 Then(/^I should see the user's details page$/) do
-  pending # express the regexp above with the code you wish you had
+  assert page.has_content?("agency user was successfully created.")
 end
 
 Given(/^there is a user to be deleted$/) do
