@@ -94,6 +94,7 @@ class RegistrationsController < ApplicationController
   def edit
     session[:registration_params] ||= {}
     @registration = Registration.find(params[:id])
+    authorize! :update, @registration
     if !@registration.metaData.status.nil? && @registration.metaData.status == "REVOKED"
       logger.info "Edit not allowed, as registration has been revoked"
       redirect_to userRegistrations_path(current_user.id)
@@ -103,6 +104,7 @@ class RegistrationsController < ApplicationController
   
   def ncccedit
     @registration = Registration.find(params[:id])
+    authorize! :update, @registration
   end
 
   # POST /registrations
@@ -230,25 +232,30 @@ class RegistrationsController < ApplicationController
     
   end
   
+
+  #PUT...
   def ncccupdate
+    @registration = Registration.find(params[:id])
+    authorize! :update, @registration
+
     if params[:back]
       redirect_to registrations_path
     elsif params[:print]
       redirect_to print_url(:id => params[:id])
     elsif params[:revoke]
       logger.info 'Revoke action detected'
-      @registration = Registration.find(params[:id])
+      #@registration = Registration.find(params[:id])
       @registration.metaData.status = "REVOKED"
       @registration.save
       redirect_to ncccedit_path(:note => "Revoke performed")
     elsif params[:unrevoke]
       logger.info 'Revoke action detected'
-      @registration = Registration.find(params[:id])
+      #@registration = Registration.find(params[:id])
       @registration.metaData.status = "ACTIVE"
       @registration.save
       redirect_to ncccedit_path(:note => "Un-Revoke performed")
     else
-      @registration = Registration.find(params[:id])
+      #@registration = Registration.find(params[:id])
       @registration.update_attributes(params[:registration])
       if @registration.all_valid?
         @registration.save

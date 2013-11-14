@@ -42,4 +42,7 @@ class ApplicationController < ActionController::Base
     render :file => "/public/403.html", :status => 403 
   end
 
+  rescue_from ActiveResource::ResourceNotFound do |exception|
+    render :file => "/public/404.html", :status => 404     
+  end  
 end
