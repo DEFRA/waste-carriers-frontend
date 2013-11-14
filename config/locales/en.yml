@@ -31,7 +31,16 @@ en:
         title: "Title"
         postcode: "Postcode"
         streetLine1: "Street"
-      
+
+  shared:
+    current_user:
+      change_password: "Change password"
+      sign_out: "Sign out"
+      sign_in: "Sign in"
+      signed_in_as: "Signed in as"
+      signed_in_as_agency_user: "Signed in as agency user"
+      signed_in_as_admin: "Signed in as admin"
+
   registrations:
     form:
       title: "Waste Carrier Registration"
