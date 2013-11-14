@@ -21,7 +21,6 @@ echo ""
 if [[ -z "${WCRS_FRONTEND_RAILS_ENV}" ]]; then env_alert WCRS_FRONTEND_RAILS_ENV; fi
 if [[ -z "${WCRS_FRONTEND_HOME}" ]]; then env_alert WCRS_FRONTEND_HOME; fi
 if [[ -z "${WCRS_FRONTEND_SOURCE}" ]]; then env_alert WCRS_FRONTEND_SOURCE; fi
-if [[ -z "${WCRS_FRONTEND_SQLITE_FILE}" ]]; then env_alert WCRS_FRONTEND_SQLITE_FILE; fi
 if [[ -z "${WCRS_FRONTEND_EMAIL_HOST}" ]]; then env_alert WCRS_FRONTEND_EMAIL_HOST; fi
 if [[ -z "${WCRS_FRONTEND_EMAIL_PORT}" ]]; then env_alert WCRS_FRONTEND_EMAIL_PORT; fi
 if [[ -z "${WCRS_FRONTEND_EMAIL_USERNAME}" ]]; then env_alert WCRS_FRONTEND_EMAIL_USERNAME; fi
@@ -39,16 +38,6 @@ echo "Stopping nginx."
 sudo service nginx stop
 
 ## Backup the current database.
-#if [ -f "${WCRS_FRONTEND_HOME}/live/db/${WCRS_FRONTEND_SQLITE_FILE}" ]; then
-#  echo "Backing up current database."
-#  cd "${WCRS_FRONTEND_HOME}/live/db" 
-#  tar zcf "${WCRS_FRONTEND_SQLITE_FILE}-${DATESTAMP}.tgz" "${WCRS_FRONTEND_SQLITE_FILE}"
-#  if [ $? -ne 0 ]; then
-#    echo "ERROR: Backup of ${WCRS_FRONTEND_SQLITE_FILE} failed."
-#    echo "       Exiting now. Nginx is stopped. No new code has been deployed."
-#    exit 2
-#  fi
-#fi
 
 ## Create a new release directory and copy the old database into it..
 RELEASE_DIR="wcrs-frontend-${DATESTAMP}"
