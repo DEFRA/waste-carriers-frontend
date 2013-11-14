@@ -169,3 +169,10 @@ When(/^proceed to the Address and Contact Details page$/) do
   click_on('Next')
 end
 
+
+Then(/^it should send me a Registration Confirmation email$/) do
+  @email = ActionMailer::Base.deliveries.last
+  @email.to.should include "joe@bloggs.com"
+  @email.subject.should include("Registration Complete for a Waste Carrier!")
+end
+

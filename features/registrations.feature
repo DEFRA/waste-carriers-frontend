@@ -34,6 +34,7 @@ Scenario: Valid registration as an Individual (version 2)
   And I provide valid user details for sign up
   And I click "Complete registration"
   Then I should see the Confirmation page
+  And it should send me a Registration Confirmation email
 
 #@javascript
 Scenario: Valid registration for existing user (account email) - sign in during registration
