@@ -17,21 +17,23 @@
 		<dt>Postcode</dt>
 		<dd><%= registration.postcode %></dd>
 	</dl>
-	<%if registration.status == "revoked"%>
+	<% if registration.metaData.status == "REVOKED" %>
 	<div class="status revoked">
 		Revoked
 	</div>
-	<%else%>
+	<% else %>
 	<div class="status registered">
 		Registered
 	</div>
-	<%end%>
+	<% end %>
 	<!--<div class="actions" >
 		<%# button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :id => "delete", :data => "{ :confirm => 'are you sure?' }"%>
 	</div>-->
+	<% if registration.metaData.status != "REVOKED" %>
 	<div class="actions">
 		<form action="<%=edit_registration_url(registration.id)%>"><input type="submit" class="button" value="Change" /></form>
 	</div>
+	<% end %>
 	<div class="clr"></div>
 </div>
 <% end %>
