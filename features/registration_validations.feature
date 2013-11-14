@@ -42,9 +42,22 @@ Scenario: Invalid Trading Name
   And I click "Next"
   Then I should see an error with "Business, organisation or trading name can only contain alpha numeric characters and be no longer than 35 characters"
 
-Scenario: Missing house number
+Scenario: Missing mandatory fields on the Address and Contact Details page
   When I begin a registration as an Individual
   And proceed to the Address and Contact Details page
   And I click "Next"
   Then I should see an error with "Building name/number must be completed"
+  Then I should see an error with "Street must be completed"
+  Then I should see an error with "Town/City must be completed"
+  Then I should see an error with "Postcode must be completed"
+  Then I should see an error with "Title must be completed"
+  Then I should see an error with "First name must be completed"
+  Then I should see an error with "Last name must be completed"
+  Then I should see an error with "Phone number must be completed"
+  Then I should see an error with "Email address must be completed"
 
+Scenario: Invalid house number
+  When I begin a registration as an Individual
+  And proceed to the Address and Contact Details page
+  And I fill in house number with "12£"
+  Then I should see an error with "Building name/number"
