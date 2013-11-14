@@ -42,6 +42,7 @@ class Registration < ActiveResource::Base
     string :password
     string :password_confirmation
     string :sign_up_mode
+    string :accessCode
   end
 
   validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
@@ -219,6 +220,10 @@ class Registration < ActiveResource::Base
     else
       title
     end
+  end  
+
+  def generate_random_access_code
+    accessCode = (0...6).map { (65 + SecureRandom.random_number(26)).chr }.join
   end  
 
 end
