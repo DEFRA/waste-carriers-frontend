@@ -36,7 +36,7 @@
 <fieldset>
 <legend>Main business, organisation or trading address</legend>
 
-
+<!--
 <div id="addressSearch">
 
 <p class="action group">
@@ -55,6 +55,7 @@
 </select>
 </p>
 </div>
+-->
 
 <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
 <%= f.label :houseNumber %>
@@ -126,6 +127,7 @@
 </div>
 <p class="action group">
 <input name="back" class="button-secondary" type="submit" value="Back"/>
+<input name="print" class="button-secondary" type="submit" value="Print"/>
 <input name="next" class="button" type="submit" value="Update"/>
 <% if @registration.metaData.status == "REVOKED" %>
 <input name="unrevoke" class="button revoke" type="submit" value="Un-revoke"/>

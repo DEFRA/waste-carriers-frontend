@@ -233,6 +233,8 @@ class RegistrationsController < ApplicationController
   def ncccupdate
     if params[:back]
       redirect_to registrations_path
+    elsif params[:print]
+      redirect_to print_url(:id => params[:id])
     elsif params[:revoke]
       logger.info 'Revoke action detected'
       @registration = Registration.find(params[:id])
