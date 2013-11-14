@@ -1,11 +1,12 @@
 class RegistrationMailer < ActionMailer::Base
-  default from: "waste-carrier-registrations@example.com"
+  default from: "registration@wastecarriersregistration.service.gov.uk"
 
   def welcome_email(user, registration)
   	@user = user
-  	@url = 'http://37.26.89.99/registrations'
+  	@url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "www.wastecarriersregistration.service.gov.uk"
   	@registration = registration
-    mail(to: @user.email, subject: 'Registration Complete for a Waste Carrier!')
+    mail(to: @user.email, subject: 'Registration Complete for a Waste Carrier!',
+    	reply_to: 'TODO-wastecarriersregistration@environment-agency.gov.uk')
   end
   
 end

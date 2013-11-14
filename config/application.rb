@@ -69,6 +69,10 @@ module Registrations
     #As described in the comments above, this setting can be redefined in config/environments/*.rb
     #Changing this value requires restart of the application
     config.waste_exemplar_services_url = ENV["WCRS_FRONTEND_WCRS_SERVICES_URL"] || "http://localhost:9090"
+
+    #The application URL
+    config.waste_exemplar_frontend_url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "http://localhost:3000"
+
     
     # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
     config.waste_exemplar_end_url = "/gds-end"

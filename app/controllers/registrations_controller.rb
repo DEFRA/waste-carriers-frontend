@@ -85,15 +85,28 @@ class RegistrationsController < ApplicationController
   # GET /registrations/new
   # GET /registrations/new.json
   def new
+    logger.info 'Request New Registration'
     session[:registration_params] = {}
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = session[:registration_step]
+    # Set route name based on agency paramenter
+    @registration.routeName = 'DIGITAL'
+    if !params[:agency].nil?
+      @registration.routeName = 'ASSISTED_DIGITAL'
+      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
+    end
+    # Prepop businessType with value from smarter answers
+    if !params[:smarterAnswersBusiness].nil?
+      logger.info 'Smart answers pre-pop detected: ' + params[:smarterAnswersBusiness]
+      @registration.businessType = params[:smarterAnswersBusiness]
+    end
   end
 
   # GET /registrations/1/edit
   def edit
     session[:registration_params] ||= {}
     @registration = Registration.find(params[:id])
+    authorize! :update, @registration
     if !@registration.metaData.status.nil? && @registration.metaData.status == "REVOKED"
       logger.info "Edit not allowed, as registration has been revoked"
       redirect_to userRegistrations_path(current_user.id)
@@ -103,6 +116,7 @@ class RegistrationsController < ApplicationController
   
   def ncccedit
     @registration = Registration.find(params[:id])
+    authorize! :update, @registration
   end
 
   # POST /registrations
@@ -207,6 +221,9 @@ class RegistrationsController < ApplicationController
         if @registration.all_valid?
           logger.debug "The registration is all valid. About to save the registration..."
           @registration.save!
+          logger.info 'Perform an additional save, to set the Route Name in metadata'
+          @registration.metaData.route = @registration.routeName;
+          @registration.save
           logger.debug "The registration has been saved. About to send e-mail..."
           RegistrationMailer.welcome_email(@user, @registration).deliver
           logger.debug "registration e-mail has been sent."
@@ -220,7 +237,12 @@ class RegistrationsController < ApplicationController
     end
     if params[:back] and first
       session[:registration_step] = nil
-      redirect_to start_path
+      logger.debug 'Decide redirection route back to Smarter Answers or search page'
+      if @registration.routeName == 'DIGITAL'
+        redirect_to :find
+      else
+        redirect_to registrations_path
+      end
     elsif @registration.new_record?
       render "new"
     else
@@ -230,25 +252,30 @@ class RegistrationsController < ApplicationController
     
   end
   
+
+  #PUT...
   def ncccupdate
+    @registration = Registration.find(params[:id])
+    authorize! :update, @registration
+
     if params[:back]
       redirect_to registrations_path
     elsif params[:print]
       redirect_to print_url(:id => params[:id])
     elsif params[:revoke]
       logger.info 'Revoke action detected'
-      @registration = Registration.find(params[:id])
+      #@registration = Registration.find(params[:id])
       @registration.metaData.status = "REVOKED"
       @registration.save
       redirect_to ncccedit_path(:note => "Revoke performed")
     elsif params[:unrevoke]
       logger.info 'Revoke action detected'
-      @registration = Registration.find(params[:id])
+      #@registration = Registration.find(params[:id])
       @registration.metaData.status = "ACTIVE"
       @registration.save
       redirect_to ncccedit_path(:note => "Un-Revoke performed")
     else
-      @registration = Registration.find(params[:id])
+      #@registration = Registration.find(params[:id])
       @registration.update_attributes(params[:registration])
       if @registration.all_valid?
         @registration.save

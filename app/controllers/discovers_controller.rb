@@ -27,7 +27,7 @@ class DiscoversController < ApplicationController
 	    else
 	      logger.info 'Smarter Answers not upper'
 	      
-          format.html { redirect_to :start }
+          format.html { redirect_to new_registration_path(:smarterAnswersBusiness => @discover.businessType) }
 	      format.json { render action: 'show', status: :created, location: @discover }
 	    end
       else

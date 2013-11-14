@@ -42,6 +42,7 @@ class Registration < ActiveResource::Base
     string :password
     string :password_confirmation
     string :sign_up_mode
+    string :routeName
   end
 
   validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }

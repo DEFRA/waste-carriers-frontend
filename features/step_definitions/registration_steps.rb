@@ -30,7 +30,9 @@ Then(/^I fill in valid contact details$/) do
   find_field('registration_houseNumber')
   #assert(page.has_content?('Address and contact details'))
   fill_in('registration_houseNumber', :with => '12')
-  fill_in('registration_postcode', :with => 'SW1 2AB')
+  fill_in('registration_streetLine1', :with => 'Deanery Road')
+  fill_in('registration_townCity', :with => 'Bristol')
+  fill_in('registration_postcode', :with => 'BS1 5AH')
 
   #click_button 'findAddress'
   #page.select('addr1', :from => 'addresses')
@@ -68,6 +70,8 @@ When(/^I provide valid contact details$/) do
   find_field('registration_houseNumber')
   #assert(page.has_content?('Address and contact details'))
   fill_in('registration_houseNumber', :with => '12')
+  fill_in('registration_streetLine1', :with => 'Some Road')
+  fill_in('registration_townCity', :with => 'Some Town')
   fill_in('registration_postcode', :with => 'SW12 3AB')
   page.select('Mr', :from => 'registration_title')
   fill_in('registration_firstName', :with => 'Joe')  
@@ -108,6 +112,10 @@ end
 
 When(/^I fill in company name with "(.*?)"$/) do |company_name|
   fill_in('registration_companyName', :with => company_name)  
+end
+
+When(/^I fill in house number with "(.*?)"$/) do |house_number|
+  fill_in('registration_houseNumber', :with => house_number)  
 end
 
 Given(/^I have an account$/) do
