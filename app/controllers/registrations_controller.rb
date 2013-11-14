@@ -66,10 +66,15 @@ class RegistrationsController < ApplicationController
     end
 
     authorize! :read, @registration
-  	if params[:finish]
-  	  logger.info 'Sign user out before redirecting back to GDS site'
-  	  sign_out 				# Performs a signout action on the current user
-      redirect_to Rails.configuration.waste_exemplar_end_url
+    if params[:finish]
+      if agency_user_signed_in?
+        logger.info 'Keep agency user signed in before redirecting back to search page'
+        redirect_to registrations_path
+      else
+        logger.info 'Sign user out before redirecting back to GDS site'
+        sign_out 				# Performs a signout action on the current user
+        redirect_to Rails.configuration.waste_exemplar_end_url
+      end
     elsif params[:back]
       redirect_to finish_url(:id => @registration.id)
     else
