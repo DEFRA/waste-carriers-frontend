@@ -242,10 +242,16 @@ class RegistrationsController < ApplicationController
     end
     if params[:back] and first
       session[:registration_step] = nil
-      logger.debug 'Decide redirection route back to Smarter Answers or search page'
       if @registration.routeName == 'DIGITAL'
-        redirect_to :find
+        if user_signed_in?
+          logger.debug 'User already signed in so redirect to my account page'
+          redirect_to userRegistrations_path(current_user.id)
+        else
+          logger.debug 'User not signed in so redirect to smarter answers'
+          redirect_to :find
+        end
       else
+        logger.debug 'Assisted digital route detected, redirect to search page'
         redirect_to registrations_path
       end
     elsif @registration.new_record?
