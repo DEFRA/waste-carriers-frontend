@@ -12,6 +12,8 @@ development:
       # of host:port pairs. (required)
       hosts:
         - <%= ENV['WCRS_FRONTEND_USERSDB_URL'] || 'localhost:27017' %>
+        - <%= ENV['WCRS_FRONTEND_USERSDB_URL2'] || 'localhost:28017' %>
+        - <%= ENV['WCRS_FRONTEND_USERSDB_URL3'] || 'localhost:29017' %>
 
       options:
         # Change the default write concern. (default = { w: 1 })
@@ -90,6 +92,8 @@ production:
       password: <%= ENV['WCRS_FRONTEND_USERSDB_PASSWORD'] %>
       hosts:
         - <%= ENV['WCRS_FRONTEND_USERSDB_URL'] %>
+        - <%= ENV['WCRS_FRONTEND_USERSDB_URL2'] %>
+        - <%= ENV['WCRS_FRONTEND_USERSDB_URL3'] %>
       options:
         read: primary
         # In the test environment we lower the retries and retry interval to
