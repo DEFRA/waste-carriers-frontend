@@ -10,6 +10,7 @@ class RegistrationsController < ApplicationController
   # GET /registrations
   # GET /registrations.json
   def index
+    authenticate_agency_user!
     @registrations = Registration.find(:all, :params => {:q => params[:q], :searchWithin => params[:searchWithin]})
     session[:registration_step] = session[:registration_params] = nil
 
@@ -28,9 +29,9 @@ class RegistrationsController < ApplicationController
     tmpUser = User.find_by_id(params[:id])
     # if matches current logged in user
     if tmpUser.nil? || current_user.nil?
-      redirect_to registrations_path(:error => 'Access Denied: User does not exist' )
+      renderAccessDenied
     elsif current_user.email != tmpUser.email
-      redirect_to registrations_path(:error => 'Access Denied: Cannot access this page' )
+      renderAccessDenied
     else
 	  # Search for users registrations
       @registrations = Registration.find(:all, :params => {:ac => tmpUser.email})

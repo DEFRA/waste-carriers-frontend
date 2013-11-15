@@ -40,12 +40,20 @@ class ApplicationController < ActionController::Base
     current_user || current_agency_user || current_admin
   end
 
-  rescue_from CanCan::AccessDenied do |exception| 
+  def renderAccessDenied
     render :file => "/public/403.html", :status => 403 
   end
 
-  rescue_from ActiveResource::ResourceNotFound do |exception|
+  def renderNotFound
     render :file => "/public/404.html", :status => 404     
+  end
+
+  rescue_from CanCan::AccessDenied do |exception| 
+    renderAccessDenied
+  end
+
+  rescue_from ActiveResource::ResourceNotFound do |exception|
+    renderNotFound   
   end  
 
 end
