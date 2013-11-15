@@ -1,8 +1,9 @@
 #Registration step definitions
 #Capybara syntax (visit, fill_in, ...) see e.g. https://github.com/jnicklas/capybara
 
-Given(/^I am on the Start page$/) do
-  visit '/registrations/start'
+Given(/^I am on the initial page$/) do
+  visit "/registrations/find"
+  assert page.has_content?("Waste Carrier Registration")
 end
 
 Given(/^I click on "(.*?)"$/) do |name|

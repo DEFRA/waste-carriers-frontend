@@ -5,13 +5,12 @@ I want to register
 So that I am compliant with regulations
 
 #@selenium
+#@javascript
 Scenario: Valid registration as an Individual
-  Given I am on the Start page
-  And I do not have an account yet
-  And I click on "Begin registration"
+  Given I do not have an account yet
+  And I have found out that I need to register in the lower tier
   Then I should see "Waste Carrier Registration"
   And I should see "For a lower tier waste carrier/broker/dealer"
-  #And I register as a"Carrier"
   And I select business or organisation type "Sole trader"
   And I fill in "Business, organisation or trading name" with "Joe Bloggs"
   And I click "Next"
@@ -25,9 +24,8 @@ Scenario: Valid registration as an Individual
 
 #@javascript
 Scenario: Valid registration as an Individual (version 2)
-  Given I am on the Start page
-  And I do not have an account yet
-  When I click on "Begin registration"
+  Given I do not have an account yet
+  And I have found out that I need to register in the lower tier
   And I provide valid individual trading name details
   And I provide valid contact details
   And I confirm the declaration
@@ -39,9 +37,9 @@ Scenario: Valid registration as an Individual (version 2)
 #@javascript
 Scenario: Valid registration for existing user (account email) - sign in during registration
   Given I have an account
-  And I am on the Start page
+  And I am on the initial page
   And I am not logged in
-  When I click on "Begin registration"
+  And I have found out that I need to register in the lower tier
   And I provide valid individual trading name details
   And I provide valid contact details
   And I confirm the declaration
@@ -51,10 +49,9 @@ Scenario: Valid registration for existing user (account email) - sign in during 
 
 Scenario: Valid registration for existing user - already logged in, no need to provide login details again
   Given I have an account
-  And I am on the Start page
+  And I am on the initial page
   And I am already logged in
   When I click on "New registration"
-  And I click on "Begin registration"
   And I provide valid individual trading name details
   And I provide valid contact details
   And I confirm the declaration
