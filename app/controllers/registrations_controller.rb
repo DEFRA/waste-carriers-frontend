@@ -54,8 +54,8 @@ class RegistrationsController < ApplicationController
     redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id] )
   end
 
-  def start
-  end
+#  def start
+#  end
   
   def print
   	begin

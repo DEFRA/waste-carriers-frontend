@@ -25,7 +25,7 @@ Registrations::Application.routes.draw do
   
   get "registrations/find" => 'discovers#new', :via => [:get, :post], :as => :find
   
-  get "registrations/start" => 'registrations#start', :as => :start
+  #get "registrations/start" => 'registrations#start', :as => :start
   get "registrations/:id/finish" => 'registrations#finish', :as => :finish
   match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
   match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
