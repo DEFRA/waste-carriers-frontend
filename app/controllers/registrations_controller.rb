@@ -128,7 +128,7 @@ class RegistrationsController < ApplicationController
   # POST /registrations.json
   def create
   	session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(params[:registration]) if params[:registration]
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = session[:registration_step]
     first = @registration.first_step?
@@ -370,4 +370,32 @@ class RegistrationsController < ApplicationController
     end
   end
 
+private
+
+  ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
+  def registration_params
+    params.require(:registration).permit(
+      :businessType,
+      :companyName,
+      :houseNumber,
+      :streetLine1,
+      :streetLine2,
+      :townCity,
+      :postcode,
+      :postcodeSearch,
+      :title,
+      :otherTitle,
+      :firstName,
+      :lastName,
+      :position,
+      :phoneNumber,
+      :contactEmail,
+      :accountEmail,
+      :declaration,
+      :uprn,
+      :password,
+      :password_confirmation,
+      :sign_up_mode)
+  end 
+   
 end
