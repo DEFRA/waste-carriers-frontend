@@ -227,4 +227,8 @@ class Registration < ActiveResource::Base
     accessCode = (0...6).map { (65 + SecureRandom.random_number(26)).chr }.join
   end  
 
+  def assisted_digital?
+    metaData && metaData.route == 'ASSISTED_DIGITAL'
+  end
+
 end

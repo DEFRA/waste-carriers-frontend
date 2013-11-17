@@ -46,6 +46,7 @@ class RegistrationsController < ApplicationController
   # GET /registrations/1.json
   def show
     @registration = Registration.find(params[:id])
+    authorize! :read, @registration
 
     respond_to do |format|
       format.html # show.html.erb
@@ -229,6 +230,9 @@ class RegistrationsController < ApplicationController
           @registration.save!
           logger.info 'Perform an additional save, to set the Route Name in metadata'
           @registration.metaData.route = @registration.routeName;
+          if @registration.routeName == 'ASSISTED_DIGITAL'
+            @registration.generate_random_access_code
+          end
           @registration.save
           logger.debug "The registration has been saved. About to send e-mail..."
           RegistrationMailer.welcome_email(@user, @registration).deliver
