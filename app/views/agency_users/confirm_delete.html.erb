@@ -1,0 +1,19 @@
+<main id="content" role="main" class="group">
+<article role="article" class="group">
+
+<h1>Confirm delete agency user</h1>
+
+<%= form_for @agency_user, :method => 'delete' do |f| %>
+
+  <p>Are you sure that you want to delete agency user <b><%= @agency_user.email %></b>?</p>
+  <p class="action group">
+    <input name="delete" class="button" type="submit" value="Delete agency user"/>
+  </p>
+<% end %>
+
+
+<%# link_to 'Show', @agency_user %>
+<%= link_to 'Back', agency_users_path %>
+
+</article>
+</main>

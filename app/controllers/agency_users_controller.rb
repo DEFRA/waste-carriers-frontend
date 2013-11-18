@@ -5,7 +5,7 @@ class AgencyUsersController < ApplicationController
   #Only administrators can manage other users - requires administrator login.
   before_filter :authenticate_admin!
 
-  before_action :set_agency_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_agency_user, only: [:show, :edit, :update, :confirm_delete, :destroy]
 
   # GET /agency_users
   # GET /agency_users.json
@@ -55,6 +55,9 @@ class AgencyUsersController < ApplicationController
         format.json { render json: @agency_user.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def confirm_delete
   end
 
   # DELETE /agency_users/1

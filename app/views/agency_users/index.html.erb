@@ -15,9 +15,8 @@
         <td><%= agency_user.email %></td>
         <td>
         <ul class="actions">
-        	<!--<li><%= link_to 'Show', agency_user %></li>-->
         	<li><%= link_to 'Edit', edit_agency_user_path(agency_user) %></li>
-        	<li><%= link_to 'Delete', agency_user, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+          <li><%= link_to 'Delete', confirm_delete_agency_user_path(agency_user) %></li>
         </ul>
         </td>
       </tr>
