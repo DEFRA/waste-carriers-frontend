@@ -173,7 +173,7 @@ class Registration < ActiveResource::Base
       #Note: this method may be called (again?) after the password properties have been deleted
       if password != nil && password_confirmation != nil
         if password != password_confirmation
-          errors.add(:password_confirmation, 'The passwords must match')
+          errors.add(:password_confirmation, 'must match the password provided')
         end
       end
     else
