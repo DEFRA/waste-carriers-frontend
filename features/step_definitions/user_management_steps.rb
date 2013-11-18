@@ -47,19 +47,30 @@ Then(/^the user should have been created$/) do
 end
 
 Then(/^I should see the user's details page$/) do
-  assert page.has_content?("agency user was successfully created.")
+  assert page.has_content?("Agency user was successfully created.")
 end
 
 Given(/^there is a user to be deleted$/) do
-  pending # express the regexp above with the code you wish you had
+  AgencyUser.where(email: "to-be-deleted@waste-exemplar.gov.uk", password: "secret123").create!
 end
 
 When(/^I elect to delete the user$/) do
-  pending # express the regexp above with the code you wish you had
+  #TODO find a better way to identify the link?
+  id = AgencyUser.find_by(email: "to-be-deleted@waste-exemplar.gov.uk").id.to_s
+
+  within(:xpath, "//tr[@id='agency_user_" + id +"']") do
+    click_link "Delete"
+  end
+  assert page.has_content?("Confirm delete")
+  assert page.has_content?("to-be-deleted@waste-exemplar.gov.uk")
+end
+
+When(/^I confirm to delete the user$/) do
+  click_button "Delete agency user"
 end
 
 Then(/^the user should have been deleted$/) do
-  pending # express the regexp above with the code you wish you had
+  assert page.has_content?("Agency user was successfully deleted.")
 end
 
 When(/^I am not logged in as an administrator$/) do

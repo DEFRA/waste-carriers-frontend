@@ -34,7 +34,7 @@ class AgencyUsersController < ApplicationController
 
     respond_to do |format|
       if @agency_user.save
-        format.html { redirect_to @agency_user, notice: 'agency user was successfully created.' }
+        format.html { redirect_to @agency_user, notice: 'Agency user was successfully created.' }
         format.json { render action: 'show', status: :created, location: @agency_user }
       else
         format.html { render action: 'new' }
@@ -48,7 +48,7 @@ class AgencyUsersController < ApplicationController
   def update
     respond_to do |format|
       if @agency_user.update(agency_user_params)
-        format.html { redirect_to @agency_user, notice: 'agency user was successfully updated.' }
+        format.html { redirect_to @agency_user, notice: 'Agency user was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -65,7 +65,7 @@ class AgencyUsersController < ApplicationController
   def destroy
     @agency_user.destroy
     respond_to do |format|
-      format.html { redirect_to agency_users_url }
+      format.html { redirect_to agency_users_url, notice: 'Agency user was successfully deleted.' }
       format.json { head :no_content }
     end
   end

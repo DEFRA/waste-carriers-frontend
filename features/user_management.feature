@@ -21,11 +21,13 @@ Scenario: Create a new user
   And I should see the user's details page
 
 
-#Scenario: Delete a user
-#  Given I am logged in as an administrator
-#  And there is a user to be deleted
-#  When I elect to delete the user
-#  Then the user should have been deleted
+Scenario: Delete a user
+  Given I am logged in as an administrator
+  And there is a user to be deleted
+  And I access the user administration page
+  When I elect to delete the user
+  And I confirm to delete the user
+  Then the user should have been deleted
 
 
 Scenario: Attempt to access user administration without being logged in

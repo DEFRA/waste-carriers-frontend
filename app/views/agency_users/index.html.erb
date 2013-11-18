@@ -1,6 +1,8 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 <h1>Listing agency users</h1>
 
+<p id="notice"><%= notice %></p>
+
 <table class="users">
   <thead>
     <tr>
@@ -11,7 +13,7 @@
 
   <tbody>
     <% @agency_users.each do |agency_user| %>
-      <tr>
+      <tr id= "agency_user_<%= agency_user.id.to_s %>">
         <td><%= agency_user.email %></td>
         <td>
         <ul class="actions">
