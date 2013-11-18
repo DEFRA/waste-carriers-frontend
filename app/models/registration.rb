@@ -48,7 +48,7 @@ class Registration < ActiveResource::Base
 
   validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
   validates_presence_of :companyName, :if => lambda { |o| o.current_step == "business" }
-  validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
+  #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
   validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&]{0,35}\Z/, message: "can only contain alpha numeric characters and be no longer than 35 characters"}  
   validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,4}\Z/, message: "can only contain numbers (maximum four)"}
