@@ -229,11 +229,12 @@ class RegistrationsController < ApplicationController
           logger.debug "The registration is all valid. About to save the registration..."
           @registration.save!
           logger.info 'Perform an additional save, to set the Route Name in metadata'
-          @registration.metaData.route = @registration.routeName;
+          logger.info 'routeName = ' + @registration.routeName
+          @registration.metaData.route = @registration.routeName
           if @registration.routeName == 'ASSISTED_DIGITAL'
             @registration.generate_random_access_code
           end
-          @registration.save
+          @registration.save!
           logger.debug "The registration has been saved. About to send e-mail..."
           RegistrationMailer.welcome_email(@user, @registration).deliver
           logger.debug "registration e-mail has been sent."

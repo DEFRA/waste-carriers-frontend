@@ -15,10 +15,10 @@
 </dl>
 <dl class="data">
   <dt>Address</dt>
-  <dd><%= @registration.houseNumber %> <%= @registration.streetLine1 %><br /><%= @registration.streetLine2 %> <%= @registration.townCity%><%= @registration.postcode%></dd>
+  <dd><%= @registration.houseNumber %> <%= @registration.streetLine1 %><br /><%= @registration.streetLine2 %> <%= @registration.townCity%> <%= @registration.postcode%></dd>
 </dl>
 
-<%if @registration.assistedDigital? %>
+<%if @registration.assisted_digital? %>
 <dl class="data">
   <dt>Access code</dt>
   <dd><%= @registration.access_code %> </dd>
