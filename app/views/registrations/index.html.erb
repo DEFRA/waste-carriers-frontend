@@ -30,7 +30,7 @@
 </div>
 <p class="action group">
 <input type="submit" id="reg-search" class="button" value="Search" />
-<a href="#" id="toggle-search"><% if params[:searchWithin]=='any'||!params[:searchWithin] %>Advanced<% else %>Basic<% end %> search</a>
+<a href="#" id="toggle-search"><% if params[:searchWithin]=='any'||!params[:searchWithin] %>Refine<% else %>Full<% end %> search</a>
 </p>
 </div>
 </form>
@@ -73,7 +73,8 @@
 					data-postcode="<%=registration.postcode%>" 
 					data-uprn="<%=registration.uprn%>" 
 					data-address="<%=registration.address%>"
-					data-status="<%=registration.metaData.status%>">
+					data-status="<%=registration.metaData.status%>"
+					data-regIdentifier="<%=registration.regIdentifier%>">
 				</div>
 			</div>
 			<form action="<%=ncccedit_url(registration.id)%>">

@@ -146,6 +146,7 @@
 				individualsType: $elem.attr("data-individualsType"),
 				publicBodyType:$elem.attr("data-publicBodyType"),
 				mdStatus:$elem.attr("data-status"),
+				regIdentifier:$elem.attr("data-regIdentifier"),
 				address: address
 			}
 
@@ -248,7 +249,7 @@
 		var phone = data.phoneNumber;
 
 		var address = data.address;
-
+		var regIden = data.regIdentifier;
 
 		var orgInfo = "";
 		if (orgType==="organisationOfIndividuals") {orgInfo=data.individualsType;}
@@ -259,16 +260,22 @@
 			orgInfo = " ("+orgInfo+")";
 		}
 
-		var html = "<div>Registering for</div>";
+		var html = "";
+		//html += "<div>Registering for</div>";
 		html += "<div>"+orgName+orgInfo+"</div>";
-		html += "<p>At the following address</p>";
+		html += "<div>Registration number: "+regIden+"</div>";
+		//html += "<p>At the following address</p>";
 		html += address;
-		html += "<p>Contact</p>";
+		//html += "<p>Contact</p>";
 		var tmpTitle = title;
 		if (title==="Other") {
 			tmpTitle = data.otherTitle;
 		}
-		html += "<div>"+tmpTitle+" "+firstName+" "+lastName+" ("+email+")</div>";
+		if (email !== "")
+		{
+			email = " (" + email + ")";
+		}
+		html += "<div>"+tmpTitle+" "+firstName+" "+lastName+email+"</div>";
 		html += "<div>Telephone number: "+phone+"</div>";
 
 

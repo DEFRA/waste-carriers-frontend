@@ -184,7 +184,7 @@ class Registration < ActiveResource::Base
   def validate_password_strength
     strength = PasswordStrength.test(accountEmail,password)
     if !strength.valid?(:good)
-      errors.add(:password,' is not strong enough. Please use letters (uppercase and downcase), numbers and special characters.')
+      errors.add(:password,' is not strong enough. Please use letters (uppercase and lowercase), numbers and special characters.')
     end 
   end
     

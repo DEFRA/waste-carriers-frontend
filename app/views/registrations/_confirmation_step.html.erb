@@ -12,10 +12,8 @@
 
 <p>Registering <%=@registration.companyName%> as a <%=@registration.businessType.to_s.humanize%>.</p>
 <p>With the following details:</p>
-
-<div><%=@registration.address%></div>
-
 <div><%=@registration.title_for_display%> <%=@registration.firstName%> <%=@registration.lastName%> <% if @registration.contactEmail != "" %>(<%=@registration.contactEmail%>)<% end %></div>
+<div><%=@registration.address%></div>
 <div>Telephone number: <%=@registration.phoneNumber%></div>
 
 </div>
