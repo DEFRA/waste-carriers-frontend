@@ -382,6 +382,7 @@ private
     params.require(:registration).permit(
       :businessType,
       :companyName,
+      :routeName,
       :houseNumber,
       :streetLine1,
       :streetLine2,
