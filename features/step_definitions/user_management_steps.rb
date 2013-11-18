@@ -8,7 +8,7 @@ end
 
 When(/^I log in as administrator$/) do
   visit "/admins/sign_in"
-  assert page.has_content? "Administration Login"
+  assert page.has_content? "Administration login"
   fill_in "admin_email", :with => 'admin@waste-exemplar.gov.uk'
   fill_in "admin_password", :with => 'secret123'
   click_button "Sign in"
@@ -39,7 +39,7 @@ When(/^I fill in valid agency user details$/) do
   assert page.has_content?("New agency user")
   fill_in "agency_user_email", :with => 'joe3@waste-exemplar.gov.uk'
   fill_in "agency_user_password", :with => 'secret123'
-  click_button "Create Agency User"
+  click_button "Create agency user"
 end
 
 Then(/^the user should have been created$/) do
@@ -71,6 +71,6 @@ When(/^I access the user administration page$/) do
 end
 
 Then(/^I should be prompted to login as an administrator$/) do
-  assert page.has_content?("Administration Login")
+  assert page.has_content?("Administration login")
   assert !page.has_content?("Listing agency users")
 end
