@@ -21,7 +21,7 @@ end
 
 Given(/^I am logged in as an administrator$/) do
   visit "/admins/sign_in"
-  assert page.has_content? "Administration Login"
+  assert page.has_content? "Administration login"
   fill_in "admin_email", :with => 'admin@waste-exemplar.gov.uk'
   fill_in "admin_password", :with => 'secret123'
   click_button "Sign in"
