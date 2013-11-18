@@ -15,10 +15,13 @@
 
 <p>This is proof of your registration.</p>
 
+<% if @registration.assisted_digital? %>
+<h3>Your access code is: <%=@registration.accessCode%>.</h3>
+<% end %>
+
 <div class="print-section">
 <%= render "details", :f => f %>
 </div>
-
 
 <div class="finish-section">
 <h3>Lower tier registration</h3>

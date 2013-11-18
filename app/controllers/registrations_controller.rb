@@ -231,8 +231,8 @@ class RegistrationsController < ApplicationController
           logger.info 'Perform an additional save, to set the Route Name in metadata'
           logger.info 'routeName = ' + @registration.routeName
           @registration.metaData.route = @registration.routeName
-          if @registration.routeName == 'ASSISTED_DIGITAL'
-            @registration.generate_random_access_code
+          if agency_user_signed_in?
+            @registration.accessCode = @registration.generate_random_access_code
           end
           @registration.save!
           logger.debug "The registration has been saved. About to send e-mail..."
