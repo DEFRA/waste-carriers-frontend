@@ -339,8 +339,8 @@ class RegistrationsController < ApplicationController
       render "edit"
     else
       session[:registration_step] = session[:registration_params] = nil
-      logger.info ">>>>>>>>>>>>>>>>> Unknown Route: When did this occur"
-      redirect_to registrations_path                # TODO Change this, as should not go to registrations, but not sure when this is used
+      logger.info "This should have been a signed in user, completing an update redirecting to my account"
+      redirect_to userRegistrations_path(current_user.id)
     end
   end
 
