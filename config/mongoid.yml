@@ -93,7 +93,6 @@ production:
       hosts:
         - <%= ENV['WCRS_FRONTEND_USERSDB_URL'] %>
         - <%= ENV['WCRS_FRONTEND_USERSDB_URL2'] %>
-        - <%= ENV['WCRS_FRONTEND_USERSDB_URL3'] %>
       options:
         read: primary
         # In the test environment we lower the retries and retry interval to
