@@ -49,5 +49,5 @@
 </div>
 <p class="action group">
 <input name="back" class="button-secondary" type="submit" value="Back"/>
-<input name="register" class="button" type="submit" value="Complete registration"/>
+<input name="register" class="button" type="submit" value="<% if @registration.try(:metaData).nil? %>Complete<% else %>Update<% end %> registration"/>
 </p>
