@@ -15,7 +15,7 @@
 
 <div><%=@registration.address%></div>
 
-<div><%=@registration.title_for_display%> <%=@registration.firstName%> <%=@registration.lastName%> (<%=@registration.contactEmail%>)</div>
+<div><%=@registration.title_for_display%> <%=@registration.firstName%> <%=@registration.lastName%> <% if @registration.contactEmail != "" %>(<%=@registration.contactEmail%>)<% end %></div>
 <div>Telephone number: <%=@registration.phoneNumber%></div>
 
 </div>
