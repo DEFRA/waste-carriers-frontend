@@ -8,6 +8,6 @@ Given(/^I have found out that I need to register in the lower tier$/) do
   choose 'discover_constructionWaste_no'
   check 'discover_wasteType_other'
   within("//div[@id='lowerText']") do
-    click_button "Start now >"
+    click_button "Continue >"
   end
 end
