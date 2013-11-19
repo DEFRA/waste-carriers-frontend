@@ -364,37 +364,66 @@ table.users td {
 			margin-right: 2em;
 		}
 	}
+	span.strength_icon{
+		/* Triange with shadow*/
+		transform: scaleX(2.5);
+		text-shadow: 
+		    0 2px 2px rgba(255,255,255,0.7), 
+		    0 10px 4px rgba(0,0,0,0.5);
+		font-size: 32px;
+	}
+	span.strength_icon.none{
+		display: none;
+		color: #ac1d1c;
+	}
+	span.strength_icon.poor{
+		display: inline;
+		color: #ac1d1c;
+	}
+	span.strength_icon.good{
+		display: inline;
+		color: #e1e100;
+	}
+	span.strength_icon.strong{
+		display: inline;
+		color: #BADA55;
+	}
+	span.strength_icon .strength_message{
+		display: inline;
+		color: black;
+		text-shadow: none;
+		font-size: 16px;
+	}
 }
 
 /**
 * Added to show alert type messages similar to errors, but to represent status updates
 */
-.note-summary{
+.note-summary {
     border: 3px solid #FFD633;
     @include panel(lighten(#FFFF00, 45%));
     max-width: 600px;
-    h1{
+    h1 {
       margin-bottom: 0;
     }
     a {
       color: $mellow-red;
       text-decoration: none;
-      &:hover{
+      &:hover {
         text-decoration: underline;
       }
     }
     ul, ol {
       color: $mellow-red;
     }
-    ul{
+    ul {
       padding-left: 2.2em;
-      li{
-      list-style-type: none;
-      list-style-image: none; 
+      li {
+        list-style-type: none;
+        list-style-image: none; 
       }
     }
-    li{
+    li {
       @include core-16;
     }
-
-  }
+}

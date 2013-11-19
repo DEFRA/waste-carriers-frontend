@@ -559,6 +559,64 @@
 		this.$tip.css("display","none");
 		this.visible = false;
 	};
+	
+	/**
+	* This function checks the registration email and password for strength and sets appropriate classes
+	* for the strength icon's and message depending on the results
+	*/
+	function passwordCheck(){
+		
+	    var regword = $("#registration_password").val();
+	    var strengthIcon = $("#registration_password").parent().children().css( "name", "strength_icon" );
+	    var minCountBeforeCheck = 0;
+	    // Only perform check if minimum characters reached
+	    if (regword.length <= minCountBeforeCheck) 
+	    {
+			// Show nothing/Hide all others
+			strengthIcon.removeClass("poor");
+			strengthIcon.removeClass("good");
+			strengthIcon.removeClass("strong");
+			strengthIcon.addClass("none");
+	    }
+	    else if (regword.length > minCountBeforeCheck)
+	    {
+		    var strengthText = strengthIcon.children().css( "name", "strength_message" );
+		    var regemail = $("#registration_email").val();
+		    
+		    // Perform password strength analysis
+		    //if (window.console) console.log('Validation regemail: ' + regemail + ' regword: ' + regword);
+		    var result = PasswordStrength.test(regemail, regword);
+		    var status = result.status; // possible values returned are: weak, good, strong
+		    //if (window.console) console.log('Validation status: ' + status + ' score: ' + result.score);
+		    
+			strengthIcon.removeClass("none");
+		    if (status == "weak") {
+				// Show poor
+				strengthIcon.addClass("poor");
+				strengthIcon.removeClass("good");
+				strengthIcon.removeClass("strong");
+				
+				strengthText.html("Weak: Try making the password longer, and add more uppercase, lowercase and number combinations.");
+		    }
+		    else if (status == "good") {
+				// Show good
+				strengthIcon.removeClass("poor");
+				strengthIcon.removeClass("strong");
+				strengthIcon.addClass("good");
+				
+				strengthText.html("Fair: Try to use more combinations of uppercase lower case and numbers");
+		    }
+		    else if (status == "strong") {
+				// Show strong
+				strengthIcon.removeClass("poor");
+				strengthIcon.removeClass("good");
+				strengthIcon.addClass("strong");
+				
+				strengthText.html("Strong: You have entered a strong password");
+		    }
+	    }
+	    
+	}
 
 	$(document).ready(function(){
 		//$('#registration_businessType').change(refreshQuestions);
@@ -613,6 +671,20 @@
 			e.preventDefault();
 			manualAddress();
 		});
+		
+		/**
+		 * Call Password check on both keydown, and change
+		 */
+		$("#registration_password").keydown(function(e){
+			//if (window.console) console.log('password char was keydowned: ');
+			passwordCheck(e);
+		});
+		$("#registration_password").change(function(e){
+			//if (window.console) console.log('password char was changed: ');
+			e.preventDefault();
+			passwordCheck();
+		});
+		
 		$("form").submit(function(e){
 			submitAddress();
 		});
