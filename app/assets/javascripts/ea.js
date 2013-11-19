@@ -345,11 +345,11 @@
 		advancedSearch = !advancedSearch;
 
 		if(advancedSearch){
-			$("a#toggle-search").html("Basic search");
+			$("a#toggle-search").html("Full search");
 			$("#advanced-options").css("display","block");
 		}else{
 
-			$("a#toggle-search").html("Advanced search");
+			$("a#toggle-search").html("Refine search");
 			$("#advanced-options").css("display","none");
 		}
 	}
