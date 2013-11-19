@@ -147,6 +147,7 @@
 				publicBodyType:$elem.attr("data-publicBodyType"),
 				mdStatus:$elem.attr("data-status"),
 				regIdentifier:$elem.attr("data-regIdentifier"),
+				accessCode:$elem.attr("data-accessCode"),
 				address: address
 			}
 
@@ -250,6 +251,7 @@
 
 		var address = data.address;
 		var regIden = data.regIdentifier;
+		var accessCode = data.accessCode;
 
 		var orgInfo = "";
 		if (orgType==="organisationOfIndividuals") {orgInfo=data.individualsType;}
@@ -264,6 +266,9 @@
 		//html += "<div>Registering for</div>";
 		html += "<div>"+orgName+orgInfo+"</div>";
 		html += "<div>Registration number: "+regIden+"</div>";
+		if (accessCode!=="") {
+		    html += "<div>Access code: "+accessCode+"</div>";
+		}
 		//html += "<p>At the following address</p>";
 		html += address;
 		//html += "<p>Contact</p>";
