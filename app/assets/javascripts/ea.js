@@ -254,13 +254,16 @@
 		var accessCode = data.accessCode;
 
 		var orgInfo = "";
+		/*
+		 * Remove this orgType/orgInfo details as these refer to old fields that are no longer present
+		 *
 		if (orgType==="organisationOfIndividuals") {orgInfo=data.individualsType;}
 		else if (orgType==="limitedCompany") {orgInfo=data.companyRegistrationNumber;}
 		else if (orgType==="publicBody") {orgInfo=data.publicBodyType;}
 
 		if(orgInfo!==""){
 			orgInfo = " ("+orgInfo+")";
-		}
+		}*/
 
 		var html = "";
 		//html += "<div>Registering for</div>";
