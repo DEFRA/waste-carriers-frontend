@@ -16,6 +16,9 @@
 
 		<dt>Postcode</dt>
 		<dd><%= registration.postcode %></dd>
+		
+		<dt>Registration</dt>
+		<dd><%= registration.regIdentifier %></dd>
 	</dl>
 	<% if registration.metaData.status == "REVOKED" %>
 	<div class="status revoked">
