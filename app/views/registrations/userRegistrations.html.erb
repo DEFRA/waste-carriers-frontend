@@ -31,7 +31,7 @@
 	</div>-->
 	<% if registration.metaData.status != "REVOKED" %>
 	<div class="actions">
-		<form action="<%=edit_registration_url(registration.id)%>"><input type="submit" class="button" value="Change" /></form>
+		<form action="<%=ncccedit_url(registration.id)%>"><input type="submit" class="button" value="Change" /></form>
 	</div>
 	<% end %>
 	<div class="clr"></div>

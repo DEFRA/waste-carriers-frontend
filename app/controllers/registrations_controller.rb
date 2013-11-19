@@ -276,23 +276,34 @@ class RegistrationsController < ApplicationController
     authorize! :update, @registration
 
     if params[:back]
-      redirect_to registrations_path
+      if agency_user_signed_in?
+        logger.info 'Redirect to search page for agency users'
+        redirect_to registrations_path
+      else
+        logger.info 'Redirect to my account page for external users'
+        redirect_to userRegistrations_path(current_user.id)
+      end
     elsif params[:print]
       redirect_to print_url(:id => params[:id])
     elsif params[:revoke]
-      logger.info 'Revoke action detected'
-      #@registration = Registration.find(params[:id])
-      @registration.metaData.status = "REVOKED"
-      @registration.save
-      redirect_to ncccedit_path(:note => "Revoke performed")
-    elsif params[:unrevoke]
-      logger.info 'Revoke action detected'
-      #@registration = Registration.find(params[:id])
-      @registration.metaData.status = "ACTIVE"
-      @registration.save
-      redirect_to ncccedit_path(:note => "Un-Revoke performed")
+      if agency_user_signed_in?
+        logger.info 'Revoke action detected'
+        @registration.metaData.status = "REVOKED"
+        @registration.save
+        redirect_to ncccedit_path(:note => "Revoke performed")
+      else
+        renderAccessDenied
+      end
+    elsif params[:unrevoke] && agency_user_signed_in?
+      if agency_user_signed_in?
+        logger.info 'Revoke action detected'
+        @registration.metaData.status = "ACTIVE"
+        @registration.save
+        redirect_to ncccedit_path(:note => "Un-Revoke performed")
+      else
+        renderAccessDenied
+      end
     else
-      #@registration = Registration.find(params[:id])
       @registration.update_attributes(params[:registration])
       if @registration.all_valid?
         @registration.save
