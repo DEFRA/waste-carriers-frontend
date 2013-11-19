@@ -413,6 +413,7 @@ private
       :uprn,
       :password,
       :password_confirmation,
+      :accountEmail_confirmation,
       :sign_up_mode)
   end 
    

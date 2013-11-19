@@ -39,6 +39,7 @@ class Registration < ActiveResource::Base
     string :uprn
     string :address
 
+    string :accountEmail_confirmation
     string :password
     string :password_confirmation
     string :sign_up_mode
@@ -92,6 +93,7 @@ class Registration < ActiveResource::Base
   validate :validate_password_strength, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validate :validate_email_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   
   #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
   #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
@@ -187,6 +189,17 @@ class Registration < ActiveResource::Base
       end
     else
       Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + (sign_up_mode || '')
+    end
+  end
+
+  def validate_email_confirmation
+    if !persisted? && do_sign_up?
+      #Note: this method may be called (again?) after the password properties have been deleted
+      if accountEmail != nil && accountEmail_confirmation != nil
+        if accountEmail != accountEmail_confirmation
+          errors.add(:accountEmail_confirmation, 'must match the e-mail provided')
+        end
+      end
     end
   end
 

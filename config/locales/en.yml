@@ -31,6 +31,7 @@ en:
         title: "Title"
         postcode: "Postcode"
         streetLine1: "Street"
+        accountEmail_confirmation: "Confirm e-mail"
 
   shared:
     current_user:
