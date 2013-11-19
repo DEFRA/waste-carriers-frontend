@@ -57,6 +57,7 @@ class Registration < ActiveResource::Base
   validates_presence_of :streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates_presence_of :townCity, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates_presence_of :postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
+  validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates_presence_of :title, :if => lambda { |o| o.current_step == "contact" }
   validates_presence_of :otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "Other"}
   validates_presence_of :firstName, :if => lambda { |o| o.current_step == "contact" }
@@ -156,6 +157,12 @@ class Registration < ActiveResource::Base
     steps.all? do |step|
       self.current_step = step
       valid?
+    end
+  end
+
+  def validate_postcode
+    if !Postcode.is_valid_postcode?(postcode)
+      errors.add(:postcode, 'is not valid')
     end
   end
 

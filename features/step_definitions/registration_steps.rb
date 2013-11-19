@@ -119,6 +119,10 @@ When(/^I fill in house number with "(.*?)"$/) do |house_number|
   fill_in('registration_houseNumber', :with => house_number)  
 end
 
+When(/^I fill in postcode with "(.*?)"$/) do |pc|
+  fill_in('registration_postcode', :with => pc)
+end
+
 Given(/^I have an account$/) do
   theUsersEmail = 'joe@company.com'
   theUsersPassword = 'secret123'

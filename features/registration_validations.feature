@@ -61,3 +61,10 @@ Scenario: Invalid house number
   And proceed to the Address and Contact Details page
   And I fill in house number with "12£"
   Then I should see an error with "Building name/number"
+
+Scenario: Invalid postcode
+  When I begin a registration as an Individual
+  And proceed to the Address and Contact Details page
+  And I fill in postcode with "W1"
+  Then I should see an error with "Postcode"
+
