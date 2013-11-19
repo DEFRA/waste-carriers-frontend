@@ -1,0 +1,30 @@
+Feature: Registrations - Assisted Digital
+
+As a worker in the NCCC contact centre  
+I want to be able to register on behalf of an applicant 
+who gives me their details over the phone 
+So that I do not have to send them a paper form
+
+For assisted digital users the system computes a random six-letter access code
+which the user needs for further changes via the phone. 
+
+
+Scenario: Valid registration on behalf of a caller
+  Given I have an NCCC agency user account
+  And I am logged in as an NCCC agency user
+  And I have received a call from a business
+  And I start a new registration
+  Then I should see the Business or Organisation Details page
+  And I select business or organisation type "Sole trader"
+  And I fill in "Business, organisation or trading name" with "Joe Bloggs assisted"
+  And I click "Next"
+  And I fill in valid contact details without email
+  And I click "Next"
+  And I select the declaration checkbox
+  And I click "Next"
+  And I click "Complete registration"
+  Then I should see the Confirmation page
+  And the registration confirmation email should not be sent
+  And when I access the print page
+  Then the print page contains the six-digit access code for the user
+
