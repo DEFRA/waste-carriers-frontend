@@ -1,5 +1,9 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
-<p id="notice"><%= notice %></p>
+<% if !notice.nil? %>
+<div id="note_explanation" class="note-summary">
+  <h1><%= notice%></h1>
+</div>
+<% end %>
 
 <p>
   <strong>Name:</strong>

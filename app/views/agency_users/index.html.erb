@@ -1,7 +1,11 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 <h1>Listing agency users</h1>
 
-<p id="notice"><%= notice %></p>
+<% if !notice.nil? %>
+<div id="note_explanation" class="note-summary">
+  <h1><%= notice%></h1>
+</div>
+<% end %>
 
 <table class="users">
   <thead>
