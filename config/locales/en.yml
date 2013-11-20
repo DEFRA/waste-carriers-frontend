@@ -12,6 +12,7 @@ en:
   activemodel:
     models:
       registration: "Registration"
+      discover: "Discover"
     attributes:
       registration:
         businessType: "Business or organisation type"
@@ -32,6 +33,9 @@ en:
         postcode: "Postcode"
         streetLine1: "Street"
         accountEmail_confirmation: "Confirm e-mail"
+      discover:
+        businessType: "Business or organisation type"
+        wasteType_animal: "Do you transport any of these types of waste regularly"
 
   shared:
     current_user:
