@@ -1,7 +1,7 @@
 class Discover
   include ActiveModel::Model
   
-  attr_accessor :id, :businessType, :otherBusinesses, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other
+  attr_accessor :id, :businessType, :otherBusinesses, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other, :wasteType_none
   
   # businessType must be present
   validates_presence_of :businessType
@@ -14,6 +14,18 @@ class Discover
   
   # wastetype must be present if construction waste is no, plus ensure that all other checkboxes are not selected
   validates :wasteType_animal, :if => lambda { |o| !o.constructionWaste.nil? && o.constructionWaste == "no" && o.wasteType_mine == "0" && o.wasteType_farm == "0" && o.wasteType_other == "0"}, format:{with:/\A[1]{1}\Z/, message:"must select at least one option"}
+  
+  # NEW Validation Still in devlopement
+  #validate :validate_not_apply, :if => lambda { |o| !o.constructionWaste.nil? && o.constructionWaste == "no"}
+  
+  # NEW Validation Still in devlopement
+#  def validate_not_apply
+#    if wasteType_none == "1"
+#      if wasteType_animal == "1" || wasteType_mine == "1" || wasteType_farm == "1" || wasteType_other == "1"
+#        errors.add(:wasteType_animal, 'abc message')‌
+#      end
+#    end
+#  end
   
   def persisted?
     self.id == 1

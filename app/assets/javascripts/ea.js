@@ -457,6 +457,24 @@
 	}
 	
 	function smarterAnswersQuestion4(){
+		var tmpNoneVal = $('#discover_wasteType_none:checked').val();
+		var isNone = tmpNoneVal == "1";
+		// If none selected: Uncheck all other fields, and show need not apply message
+		if (isNone) {
+			var animalCheck = $('#discover_wasteType_animal');
+			var mineCheck = $('#discover_wasteType_mine');
+			var farmCheck = $('#discover_wasteType_farm');
+			var otherCheck = $('#discover_wasteType_other');
+			animalCheck.attr('checked', false);
+			mineCheck.attr('checked', false);
+			farmCheck.attr('checked', false);
+			otherCheck.attr('checked', false);
+			$('#new_discover #notRegisterText').removeClass("js-hidden");
+		}
+		else {
+			$('#new_discover #notRegisterText').addClass("js-hidden");
+		}
+		
 		var tmpAnimalVal = $('#discover_wasteType_animal:checked').val();
 		var tmpMineVal = $('#discover_wasteType_mine:checked').val();
 		var tmpFarmVal = $('#discover_wasteType_farm:checked').val();

@@ -43,6 +43,6 @@ class DiscoversController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def discover_params
-      params.require(:discover).permit(:businessType, :otherBusinesses, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other)
+      params.require(:discover).permit(:businessType, :otherBusinesses, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other, :wasteType_none)
     end
 end
