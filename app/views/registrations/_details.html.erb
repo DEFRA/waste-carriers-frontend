@@ -15,7 +15,7 @@
 </dl>
 <dl class="data">
   <dt>Address</dt>
-  <dd><%= @registration.houseNumber %> <%= @registration.streetLine1 %><br /><%= @registration.streetLine2 %> <%= @registration.townCity%> <%= @registration.postcode%></dd>
+  <dd><%= @registration.houseNumber %> <%= @registration.streetLine1 %><br /><% if @registration.streetLine2 != "" %><%= @registration.streetLine2 %><br /><% end %><%= @registration.townCity%><br /><%= @registration.postcode%></dd>
 </dl>
 
 <%if @registration.assisted_digital? %>
