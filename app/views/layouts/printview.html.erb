@@ -14,7 +14,7 @@
     
 
 
-    <link href="<%= asset_path "govuk-template-print.css" %>" media="screen" rel="stylesheet" type="text/css" />
+    <link href="<%= asset_path "govuk-template-print.css" %>" media="all" rel="stylesheet" type="text/css" />
 
     <!--[if IE 8]>
     <script type="text/javascript">
@@ -60,11 +60,11 @@
   <body<%= content_for?(:body_classes) ? raw(" class=\"#{yield(:body_classes)}\"") : '' %>>
     <script type="text/javascript">document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');</script>
 
-    <div id="skiplink-container">
+    <!--<div id="skiplink-container">
       <div>
         <a href="#content" class="skiplink">Skip to main content</a>
       </div>
-    </div>
+    </div>-->
 
     <% unless @omit_header %>
     <header role="banner" id="global-header">
