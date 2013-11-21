@@ -52,7 +52,7 @@ class Registration < ActiveResource::Base
   
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
-  validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,35}\Z/, message: "can only contain alpha numeric characters and be no longer than 35 characters"}  
+  validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/, message: "can only contain alpha numeric characters and be no longer than 70 characters"}  
   validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: "can only contain letters, spaces and numbers and be no longer than 35 characters"}
   validates_presence_of :streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
