@@ -7,7 +7,8 @@ Given(/^I have found out that I need to register in the lower tier$/) do
   choose 'discover_otherBusinesses_no'
   choose 'discover_constructionWaste_no'
   check 'discover_wasteType_other'
-  within("//div[@id='lowerText']") do
-    click_button "Continue >"
-  end
+  #within("//div[@id='lowerText']") do
+  #  click_button "Continue >"
+  #end
+  click_button "register_lower_tier"
 end

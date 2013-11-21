@@ -52,6 +52,11 @@ Then(/^I select the declaration checkbox$/) do
 end
 
 Then(/^I should see the Confirmation page$/) do
+  if !page.has_content?('has been registered')
+    #page.save_screenshot('screenshot.png')
+    save_and_open_page
+    sleep 60
+  end
   assert(page.has_content?('has been registered'))
 end
 
@@ -83,6 +88,22 @@ When(/^I provide valid contact details$/) do
   #assert(page.has_content?('Check details and register'))
 end
 
+Given(/^I provide valid contact details for "(.*?)"$/) do |email|
+ find_field('registration_houseNumber')
+  #assert(page.has_content?('Address and contact details'))
+  fill_in('registration_houseNumber', :with => '12')
+  fill_in('registration_streetLine1', :with => 'Some Road')
+  fill_in('registration_townCity', :with => 'Some Town')
+  fill_in('registration_postcode', :with => 'SW12 3AB')
+  page.select('Mr', :from => 'registration_title')
+  fill_in('registration_firstName', :with => 'Joe')  
+  fill_in('registration_lastName', :with => 'Bloggs')  
+  fill_in('registration_phoneNumber', :with => '0123 456')  
+  fill_in('registration_contactEmail', :with => email)  
+  click_on('Next')
+  #assert(page.has_content?('Check details and register'))
+end
+
 When(/^I confirm the declaration$/) do
   find_field('registration_declaration')
   check('registration_declaration')
@@ -91,8 +112,9 @@ end
 
 When(/^I provide valid user details for sign up$/) do
   #page.select('Sign up (new e-mail)', :from => 'registration_sign_up_mode')
-  fill_in('registration_accountEmail', :with => 'joe@bloggs.com')
-  fill_in('registration_accountEmail_confirmation', :with => 'joe@bloggs.com')
+  unique_email = 'test-' + SecureRandom.urlsafe_base64 + '@bloggs.com'
+  fill_in('registration_accountEmail', :with => unique_email)
+  fill_in('registration_accountEmail_confirmation', :with => unique_email)
   fill_in('registration_password', :with => 'bloggs123')
   fill_in('registration_password_confirmation', :with  => 'bloggs123')
   #click_on 'Register'
@@ -178,7 +200,8 @@ end
 
 Then(/^it should send me a Registration Confirmation email$/) do
   @email = ActionMailer::Base.deliveries.last
-  @email.to.should include "joe@bloggs.com"
-  @email.subject.should include("Registration Complete for a Waste Carrier!")
+  #TODO: verify random e-mail address created above
+  @email.to.first.should include '@bloggs.com'
+  @email.subject.should include "Registration Complete for a Waste Carrier!"
 end
 

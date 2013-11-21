@@ -43,7 +43,8 @@ When(/^I fill in valid agency user details$/) do
 end
 
 Then(/^the user should have been created$/) do
-  assert(AgencyUser.where(email: 'joe3@waste-exemplar.gov.uk').exists?)
+  assert page.has_content? "Agency user was successfully created."
+  page.should have_content "joe3@waste-exemplar.gov.uk"
 end
 
 Then(/^I should see the user's details page$/) do

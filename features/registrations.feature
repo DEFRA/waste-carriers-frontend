@@ -5,7 +5,6 @@ I want to register
 So that I am compliant with regulations
 
 #@selenium
-#@javascript
 Scenario: Valid registration as an Individual
   Given I do not have an account yet
   And I have found out that I need to register in the lower tier
@@ -41,7 +40,7 @@ Scenario: Valid registration for existing user (account email) - sign in during 
   And I am not logged in
   And I have found out that I need to register in the lower tier
   And I provide valid individual trading name details
-  And I provide valid contact details
+  And I provide valid contact details for "joe@company.com"
   And I confirm the declaration
   And I provide valid user details for sign in
   And I click "Complete registration"
