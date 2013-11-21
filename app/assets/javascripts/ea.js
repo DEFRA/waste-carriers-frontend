@@ -625,7 +625,7 @@
 				strengthIcon.removeClass("strong");
 				strengthIcon.addClass("good");
 				
-				strengthText.html("Fair: Try to use more combinations of uppercase lower case and numbers");
+				strengthText.html("Fair: Try to use even more combinations of uppercase lowercase and numbers");
 		    }
 		    else if (status == "strong") {
 				// Show strong

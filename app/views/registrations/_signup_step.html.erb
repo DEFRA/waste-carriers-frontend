@@ -36,7 +36,7 @@
 </p>
 
 <p class="group js-hidden<%if @registration.errors[:password].any?%> validation<%end%>">
-    <%= f.label :password, "Password" %>Your password must be at least eight characters long<br/>
+    <%= f.label :password, "Password" %>
     <%= f.password_field :password %>
     <span class="strength_icon none">▲<span class="strength_message"/></span>
 </p>
