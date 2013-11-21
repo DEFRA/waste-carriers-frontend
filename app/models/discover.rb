@@ -13,17 +13,18 @@ class Discover
   validates_presence_of :constructionWaste, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "no" }
   
   # wastetype must be present if construction waste is no, plus ensure that all other checkboxes are not selected
-  validates :wasteType_animal, :if => lambda { |o| !o.constructionWaste.nil? && o.constructionWaste == "no" && o.wasteType_mine == "0" && o.wasteType_farm == "0" && o.wasteType_other == "0" && o.wasteType_none == "0"}, format:{with:/\A[1]{1}\Z/, message:"must select at least one option"}
-  
   validate :validate_not_apply, :if => lambda { |o| !o.constructionWaste.nil? && o.constructionWaste == "no" }
   
   def validate_not_apply
     if wasteType_none == "1"
       if wasteType_animal == "1" || wasteType_mine == "1" || wasteType_farm == "1" || wasteType_other == "1"
-        errors.add(:wasteType_animal, 'cannot contain multiple selections if you do not carry waste regularly')
+        errors.add(:wasteType, 'cannot contain multiple selections if you do not carry waste regularly')
       else
-        errors.add(:wasteType_animal, 'identified that you do not carry waste regularly therefore you do not need to register')
+        errors.add(:wasteType, 'identified that you do not carry waste regularly therefore you do not need to register')
       end
+    end
+    if wasteType_animal == "0" && wasteType_mine == "0" && wasteType_farm == "0" && wasteType_other == "0" && wasteType_none == "0"
+      errors.add(:wasteType, 'must select at least one option')
     end
   end
   

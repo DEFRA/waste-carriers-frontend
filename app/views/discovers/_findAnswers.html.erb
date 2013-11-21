@@ -48,7 +48,7 @@
 	  </span>
   </p>
   
-  <p id="discover_wasteType" class="group<%if @discover.errors[:wasteType_animal].any?%> validation<%end%>">
+  <p id="discover_wasteType" class="group<%if @discover.errors[:wasteType_animal].any? or @discover.errors[:wasteType].any?%> validation<%end%>">
     <%= f.label :wasteType %>
     <span class="inline">
 	    <%= f.check_box :wasteType_animal, :class => "radio" %><%= f.label :wasteType_animal, :class => "label" %><br/>
