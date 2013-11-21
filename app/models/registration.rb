@@ -52,7 +52,7 @@ class Registration < ActiveResource::Base
   
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
-  validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&]{0,35}\Z/, message: "can only contain alpha numeric characters and be no longer than 35 characters"}  
+  validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,35}\Z/, message: "can only contain alpha numeric characters and be no longer than 35 characters"}  
   validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: "can only contain letters, spaces and numbers and be no longer than 35 characters"}
   validates_presence_of :streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
@@ -62,10 +62,10 @@ class Registration < ActiveResource::Base
   validates_presence_of :title, :if => lambda { |o| o.current_step == "contact" }
   validates_presence_of :otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "Other"}
   validates_presence_of :firstName, :if => lambda { |o| o.current_step == "contact" }
-  validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-]*\Z/, message:"can only contain letters"}
+  validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:"can only contain letters"}
   validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:"can not be longer than 35 characters"}
   validates_presence_of :lastName, :if => lambda { |o| o.current_step == "contact" }
-  validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-]*\Z/, message:"can only contain letters"}
+  validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:"can only contain letters"}
   validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:"can not be longer than 35 characters"}
   validates :position, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s]*\Z/, message:"can only contain letters and spaces"}
   validates_presence_of :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}
