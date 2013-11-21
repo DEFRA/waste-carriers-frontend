@@ -41,7 +41,7 @@ en:
         constructionWaste: "Do you ever transport construction or demolition waste?"
         constructionWaste_yes: "Yes"
         constructionWaste_no: "No"
-        wasteType: "Do you transport any of these types of waste regularly"
+        wasteType: "Do you transport any of these types of waste regularly? (Select all that apply)"
         wasteType_animal: "Waste from animal carcasses"
         wasteType_mine: "Waste from a mine or quarry"
         wasteType_farm: "Farm or agricultural waste"
