@@ -12,7 +12,17 @@
 
 <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
 <%= f.label :businessType, "Business or organisation type" %>
-<%= f.select :businessType, options_for_select([["Please select...",""],["Sole trader","soleTrader"],["Partnership","partnership"],["Limited company","limitedCompany"],["Charity or voluntary organisation","charity"],["Waste collection authority","collectionAuthority"],["Waste disposal authority","disposalAuthority"],["Waste regulation authority","regulationAuthority"]],f.object.businessType) %>
+<%= f.select :businessType, options_for_select([
+    	[t('discovers.findAnswers.businessType_default'),""],
+    	[t('discovers.findAnswers.businessType_soleTrader'),"soleTrader"],
+    	[t('discovers.findAnswers.businessType_partnership'),"partnership"],
+    	[t('discovers.findAnswers.businessType_limitedCompany'),"limitedCompany"],
+    	[t('discovers.findAnswers.businessType_charity'),"charity"],
+    	[t('discovers.findAnswers.businessType_collectionAuthority'),"collectionAuthority"],
+    	[t('discovers.findAnswers.businessType_disposalAuthority'),"disposalAuthority"],
+    	[t('discovers.findAnswers.businessType_regulationAuthority'),"regulationAuthority"],
+    	[t('discovers.findAnswers.businessType_other'),"other"]
+    	],f.object.businessType) %>
 </p>
 
 

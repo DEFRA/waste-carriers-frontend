@@ -16,13 +16,13 @@
     <%= f.label :businessType %>
     <%= f.select :businessType, options_for_select([
     	[t('.businessType_default'),""],
-    	[t('.businessType_sole'),"soleTrader"],
-    	[t('.businessType_partner'),"partnership"],
-    	[t('.businessType_limited'),"limitedCompany"],
+    	[t('.businessType_soleTrader'),"soleTrader"],
+    	[t('.businessType_partnership'),"partnership"],
+    	[t('.businessType_limitedCompany'),"limitedCompany"],
     	[t('.businessType_charity'),"charity"],
-    	[t('.businessType_wca'),"collectionAuthority"],
-    	[t('.businessType_wda'),"disposalAuthority"],
-    	[t('.businessType_wra'),"regulationAuthority"],
+    	[t('.businessType_collectionAuthority'),"collectionAuthority"],
+    	[t('.businessType_disposalAuthority'),"disposalAuthority"],
+    	[t('.businessType_regulationAuthority'),"regulationAuthority"],
     	[t('.businessType_other'),"other"]
     	],f.object.businessType) %>
   </p> 
