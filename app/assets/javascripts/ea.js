@@ -522,12 +522,15 @@
 			$('#registration_accountEmail').parent().removeClass("js-hidden");
 			$('#registration_password').parent().removeClass("js-hidden");
 			if(signup) {
+				$('#registration_accountEmail_confirmation').parent().removeClass("js-hidden");
 				$('#registration_password_confirmation').parent().removeClass("js-hidden");
 			} else {
 				$('#registration_password_confirmation').parent().addClass("js-hidden");
+				$('#registration_accountEmail_confirmation').parent().addClass("js-hidden");
 			}
 		} else {
 			$('#registration_accountEmail').parent().addClass("js-hidden");
+			$('#registration_accountEmail_confirmation').parent().addClass("js-hidden");
 			$('#registration_password').parent().addClass("js-hidden");
 			$('#registration_password_confirmation').parent().addClass("js-hidden");
 		}
