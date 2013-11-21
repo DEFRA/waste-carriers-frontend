@@ -431,3 +431,8 @@ table.users td {
 #accessCode {
     display: inline;
 }
+
+@media print
+{
+	.printButton { display: none; }
+}

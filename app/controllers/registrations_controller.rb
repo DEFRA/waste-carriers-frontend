@@ -78,8 +78,21 @@ class RegistrationsController < ApplicationController
         redirect_to Rails.configuration.waste_exemplar_end_url
       end
     elsif params[:back]
-      redirect_to finish_url(:id => @registration.id)
+      if params[:from] == "NCCCEdit"
+        logger.debug 'From page found, redirecting back to NCCC edit'
+        redirect_to ncccedit_path(:id => @registration.id)
+      else
+        logger.debug 'Default, redirecting back to Finish page'
+        redirect_to finish_url(:id => @registration.id)
+      end
     else
+      if params[:reprint]
+        logger.debug 'Save Reprint state in the print page (go to NCCCedit)'
+        flash[:alert] = 'NCCCEdit'
+      else
+        logger.debug 'Save Print state in the print page (go to Finish)'
+        flash[:alert] = 'Finish'
+      end
 	  render :layout => 'printview'
     end
   end
@@ -285,8 +298,9 @@ class RegistrationsController < ApplicationController
         logger.info 'Redirect to my account page for external users'
         redirect_to userRegistrations_path(current_user.id)
       end
-    elsif params[:print]
-      redirect_to print_url(:id => params[:id])
+    elsif params[:reprint]
+      logger.debug 'Redirect to Print page'
+      redirect_to print_url(:id => params[:id], :reprint => params[:reprint])
     elsif params[:revoke]
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
