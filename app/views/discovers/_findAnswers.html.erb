@@ -2,7 +2,7 @@
   
   <% if @discover.errors.any? %>
     <div id="error_explanation" class="validation-summary">
-      <h2>You have <%= pluralize(@discover.errors.count, "error") %> on this page</h2>
+      <h2><%= t ".errorMessageStart" %> <%= pluralize(@discover.errors.count, t('.errorMessageMid') ) %> <%= t '.errorMessageEnd' %></h2>
 
       <ul>
       <% @discover.errors.full_messages.each do |msg| %>
@@ -13,84 +13,84 @@
   <% end %>
   
   <p class="group<%if @discover.errors[:businessType].any?%> validation<%end%>">
-    <%= f.label :businessType, "Business or organisation details" %>
+    <%= f.label :businessType %>
     <%= f.select :businessType, options_for_select([
-    	["Please select...",""],
-    	["Sole trader","soleTrader"],
-    	["Partnership","partnership"],
-    	["Limited company","limitedCompany"],
-    	["Charity or voluntary organisation","charity"],
-    	["Waste collection authority","collectionAuthority"],
-    	["Waste disposal authority","disposalAuthority"],
-    	["Waste regulation authority","regulationAuthority"],
-    	["Other","other"]
+    	[t('.businessType_default'),""],
+    	[t('.businessType_sole'),"soleTrader"],
+    	[t('.businessType_partner'),"partnership"],
+    	[t('.businessType_limited'),"limitedCompany"],
+    	[t('.businessType_charity'),"charity"],
+    	[t('.businessType_wca'),"collectionAuthority"],
+    	[t('.businessType_wda'),"disposalAuthority"],
+    	[t('.businessType_wra'),"regulationAuthority"],
+    	[t('.businessType_other'),"other"]
     	],f.object.businessType) %>
-  </p>
+  </p> 
   
   <div id="businessDoesHeading" class="js-hidden">
-  	<h3>What your business or organisation does</h3>
+  	<h3><%= t '.businessHeading' %></h3>
   </div>
   
   <p id="discover_otherBusinesses" class="group<%if @discover.errors[:otherBusinesses].any?%> validation<%end%>">
-	  <%= f.label :otherBusinesses, "Do you transport waste for other businesses?" %>
+	  <%= f.label :otherBusinesses %>
 	  <span class="inline"><!-- GDS have an 'option' class but it renders awfully -->
 	    <!--<label class="label" for="discover_otherBusinesses_yes">-->
-	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %><%= f.label :otherBusinesses_yes, "Yes", :class => "label" %> <!-- Yes</label>-->
-	    <%= f.radio_button :otherBusinesses, "no", :class => "radio" %><%= f.label :otherBusinesses_no, "No", :class => "label" %>
+	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %><%= f.label :otherBusinesses_yes, :class => "label" %> <!-- Yes</label>-->
+	    <%= f.radio_button :otherBusinesses, "no", :class => "radio" %><%= f.label :otherBusinesses_no, :class => "label" %>
 	  </span>
   </p>
   
   <p id="discover_constructionWaste" class="group<%if @discover.errors[:constructionWaste].any?%> validation<%end%>">
-	  <%= f.label :constructionWaste, "Do you ever transport construction or demolition waste?" %> 
+	  <%= f.label :constructionWaste %> 
 	  <span class="inline">
-	    <%= f.radio_button :constructionWaste, "yes", :class => "radio" %> <%= f.label :constructionWaste_yes, "Yes", :class => "label" %>
-	    <%= f.radio_button :constructionWaste, "no", :class => "radio" %><%= f.label :constructionWaste_no, "No", :class => "label" %>
+	    <%= f.radio_button :constructionWaste, "yes", :class => "radio" %> <%= f.label :constructionWaste_yes, :class => "label" %>
+	    <%= f.radio_button :constructionWaste, "no", :class => "radio" %><%= f.label :constructionWaste_no, :class => "label" %>
 	  </span>
   </p>
   
   <p id="discover_wasteType" class="group<%if @discover.errors[:wasteType_animal].any?%> validation<%end%>">
-    <%= f.label "Do you transport any of these types of waste regularly? (Select all that apply)" %>
+    <%= f.label :wasteType %>
     <span class="inline">
-	    <%= f.check_box :wasteType_animal, :class => "radio" %><%= f.label :wasteType_animal, "Waste from animal carcasses", :class => "label" %><br/>
-	    <%= f.check_box :wasteType_mine, :class => "radio" %><%= f.label :wasteType_mine, "Waste from a mine or quarry", :class => "label" %><br/>
-	    <%= f.check_box :wasteType_farm, :class => "radio" %><%= f.label :wasteType_farm, "Farm or agricultural waste", :class => "label" %><br/>
-	    <%= f.check_box :wasteType_other, :class => "radio" %><%= f.label :wasteType_other, "Other waste", :class => "label" %><br/>
-	    <%= f.check_box :wasteType_none, :class => "radio" %><%= f.label :wasteType_none, "I do not carry waste regularly", :class => "label" %>
+	    <%= f.check_box :wasteType_animal, :class => "radio" %><%= f.label :wasteType_animal, :class => "label" %><br/>
+	    <%= f.check_box :wasteType_mine, :class => "radio" %><%= f.label :wasteType_mine, :class => "label" %><br/>
+	    <%= f.check_box :wasteType_farm, :class => "radio" %><%= f.label :wasteType_farm, :class => "label" %><br/>
+	    <%= f.check_box :wasteType_other, :class => "radio" %><%= f.label :wasteType_other, :class => "label" %><br/>
+	    <%= f.check_box :wasteType_none, :class => "radio" %><%= f.label :wasteType_none, :class => "label" %>
     </span>
   </p>
   
   <div id="contactText" class="js-hidden">
     <p class="group">
-	    <h3>Contact the Environment Agency</h3>
-		<p>We need some more information about your organisation before we can register you as a waste carrier.</p>
-		<p>Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm).</p>
+	    <h3><%= t '.contactTextHeading' %></h3>
+		<p><%= t '.contactTextLine1' %></p>
+		<p><%= t '.contactTextLine2' %></p>
 	</p>
   </div>
   
   <div id="upperText" class="js-hidden">
     <p class="group">
-	    <h3>Register in the upper tier</h3>
-		<p>You need to register as an upper tier carrier, broker or dealer on the Environment Agency website.</p>
+	    <h3><%= t '.upperTextHeading' %></h3>
+		<p><%= t '.upperTextLine1' %></p>
 		<p class="action group">
-			<%= f.submit :class => "button", :id => 'register_upper_tier', :value => "Continue >" %>
+			<%= f.submit :class => "button", :id => 'register_upper_tier', :value => t('.buttonText') %>
 		</p>
-		<p>Or to apply by post, download and complete the <a href="#">upper tier registration form</a> [PDF, 180KB].</p>
+		<p><%= t '.upperTextLine2_html' %></p>
 	</p>
   </div>
   
   <div id="lowerText" class="js-hidden">
     <p class="group">
-	    <h3>Register in the lower tier</h3>
-	    <p>You need to register as a lower tier carrier/broker/dealer.</p>
+	    <h3><%= t '.lowerTextHeading' %></h3>
+	    <p><%= t '.lowerTextLine1' %></p>
 		<p class="action group">
-			<%= f.submit :class => "button", :id => 'register_lower_tier', :value => "Continue >" %>
+			<%= f.submit :class => "button", :id => 'register_lower_tier', :value => t('.buttonText') %>
 		</p>
 	</p>
   </div>
   
   <div id="notRegisterText" class="js-hidden">
     <p class="group">
-		<p>You do not need to register as a waste carrier, broker or dealer.</p>
+		<p><%= t '.notRegisterText' %></p>
 	</p>
   </div>
   
