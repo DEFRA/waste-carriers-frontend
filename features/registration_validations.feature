@@ -40,7 +40,7 @@ Scenario: Invalid Trading Name
   When I begin a registration as an Individual
   And I fill in company name with "%^&*"
   And I click "Next"
-  Then I should see an error with "Business, organisation or trading name can only contain alpha numeric characters and be no longer than 35 characters"
+  Then I should see an error with "Business, organisation or trading name can only contain alpha numeric characters and be no longer than 70 characters"
 
 Scenario: Missing mandatory fields on the Address and Contact Details page
   When I begin a registration as an Individual
