@@ -1,47 +1,46 @@
+<%= render "shared/progress", size: "60%" %>
 
-<div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">75%</div><div class="bar" style="width: 60%"></div></div></div>
-
-  <%= render "errors" %>
+<%= render "errors" %>
 
 <!-- WF 4.3.3 -->
 <div id="page3">
 
-<h2>Check details</h2>
+<h2><%= t '.confirmationHeading' %></h2>
 <fieldset>
 <div id="summary">
 
-<p>Registering <%=@registration.companyName%> as a <%= t('discovers.findAnswers.businessType_' + @registration.businessType) %>.</p>
-<p>With the following details:</p>
+<p><%= t '.registeringText' %> <%=@registration.companyName%> <%= t '.registeringAsAText' %> <%= t('discovers.findAnswers.businessType_' + @registration.businessType) %>.</p>
+<p><%= t '.followingDetails' %>:</p>
 <div><%=@registration.title_for_display%> <%=@registration.firstName%> <%=@registration.lastName%> <% if @registration.contactEmail != "" %>(<%=@registration.contactEmail%>)<% end %></div>
 <div><%=@registration.houseNumber%> <%=@registration.streetLine1%><% if @registration.streetLine2 != "" %>, <%=@registration.streetLine2%><% end %>, <%=@registration.townCity%>, <%=@registration.postcode%></div>
 
-<div>Telephone number: <%=@registration.phoneNumber%></div>
+<div><%= t '.phoneNumber' %>: <%=@registration.phoneNumber%></div>
 
 </div>
 </fieldset>
 
-<br/>
-<legend>Anything wrong?</legend>
-
-<p>To edit your details use the <b>'Back'</b> button.</p>
+<fieldset>
+<legend><%= t '.anythingWrong_legend' %>?</legend>
+<p><%= t '.anythingWrongText_html' %></p>
+</fieldset>
 
 <fieldset>
-<legend>Declaration</legend>
+<legend><%= t '.declaration_legend' %></legend>
 
 <p class="option group<%if @registration.errors[:declaration].any?%> validation<%end%>">
-<label for="registration_declaration"><%= f.check_box :declaration%> <span style="display: inline; font-size:90%}">I declare that as far as I know and believe, the information in this registration is true. A statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989.</span></label>
+<label for="registration_declaration"><%= f.check_box :declaration%> <span style="display: inline; font-size:90%}"><%= t '.declarationText' %></span></label>
 </p>
 
 
 </fieldset>
 
 <fieldset>
-<legend>Find out how we use your data</legend>
-<p><a href="#TODO_EXTERNALLINKFORTERMSANDCONDITIONS">Find out more details about how we use your data and information</a></p>
+<legend><%= t '.dataProtection_legend' %></legend>
+<p><a href="#TODO_EXTERNALLINKFORTERMSANDCONDITIONS"><%= t '.dataProtectionText' %></a></p>
 </fieldset>
 
 </div>
 <p class="action group">
-<input name="back" class="button-secondary" type="submit" value="Back"/>
-<input name="next" class="button" type="submit" value="Next"/>
+<input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
+<input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </p>
