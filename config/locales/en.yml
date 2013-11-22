@@ -56,14 +56,13 @@ en:
       signed_in_as: "Signed in as"
       signed_in_as_agency_user: "Signed in as agency user"
       signed_in_as_admin: "Signed in as admin"
+    progress:
+      progress: "Progress"
       
   discovers:
     new:
       title: "Find out if you need to register and which category applies"
     findAnswers:
-      errorMessageStart: "You have"
-      errorMessageMid: "error"
-      errorMessageEnd: "on this page"
       businessType_default: "Please select..."
       businessType_soleTrader: "Sole trader"
       businessType_partnership: "Partnership"
@@ -86,9 +85,25 @@ en:
       buttonText: "Continue >"
 
   registrations:
+    errors:
+      errorMessageStart: "You have"
+      errorMessageMid: "error"
+      errorMessageEnd: "on this page"
+    business_step:
+      business_or_org_details: "Business or organisation details"
+    contact_step:
+      contactHeading: "Address and contact details"
+      businessAddress: "Main business, organisation or trading address"
+      contact_information_legend: "Contact information"
+      title_mr: "Mr"
+      title_mrs: "Mrs"
+      title_miss: "Miss"
+      title_ms: "Ms"
+      title_dr: "Dr"
+      title_other: "Other"
     form:
       title: "Waste Carrier Registration"
-      subtitle: "For a lower tier waste carrier, broker or dealer"
+      subtitle: "For a lower tier waste carrier/broker/dealer"
       progress: "Progress: "
       error_explanation: "prohibited this registration from being saved:"
       business_or_org_details: "Business or organisation details"
@@ -120,11 +135,7 @@ en:
       please_select_address: "Please select an address.."
       change_address_label: "Change address"
 
-      contact_information_legend: "Contact information"
-
-      title_mr: "Mr"
-      title_mrs: "Mrs"
-      title_miss: "Miss"
+      
 
       firstName_label: "First name"
       lastName_label: "Last name"

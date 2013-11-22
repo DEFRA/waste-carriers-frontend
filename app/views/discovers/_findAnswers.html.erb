@@ -2,7 +2,7 @@
   
   <% if @discover.errors.any? %>
     <div id="error_explanation" class="validation-summary">
-      <h2><%= t ".errorMessageStart" %> <%= pluralize(@discover.errors.count, t('.errorMessageMid') ) %> <%= t '.errorMessageEnd' %></h2>
+      <h2><%= t "registrations.errors.errorMessageStart" %> <%= pluralize(@discover.errors.count, t('registrations.errors.errorMessageMid') ) %> <%= t 'registrations.errors.errorMessageEnd' %></h2>
 
       <ul>
       <% @discover.errors.full_messages.each do |msg| %>

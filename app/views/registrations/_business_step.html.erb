@@ -1,17 +1,16 @@
-<div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">25%</div><div class="bar" style="width: 20%"></div></div></div>
+<%= render "shared/progress", size: "20%" %>
   
-  <%= render "errors" %>
-
+<%= render "errors" %>
 
 <!-- WF 4.3.1 -->
 <div id="page1">
 
 
 <fieldset>
-<legend>Business or organisation details</legend>
+<legend><%= t '.business_or_org_details' %></legend>
 
 <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-<%= f.label :businessType, "Business or organisation type" %>
+<%= f.label :businessType %>
 <%= f.select :businessType, options_for_select([
     	[t('discovers.findAnswers.businessType_default'),""],
     	[t('discovers.findAnswers.businessType_soleTrader'),"soleTrader"],
@@ -27,7 +26,7 @@
 
 
 <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
-<%= f.label :companyName, "Business, organisation or trading name" %>
+<%= f.label :companyName %>
 <%= f.text_field :companyName%>
 </p>
 
@@ -39,6 +38,6 @@
 </div>
 
 <p class="action group">
-<input name="back" class="button-secondary" type="submit" value="Back"/>
-<input name="next" class="button" type="submit" value="Next"/>
+<input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
+<input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </p>

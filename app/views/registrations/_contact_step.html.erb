@@ -1,16 +1,14 @@
+<%= render "shared/progress", size: "40%" %>
 
-
-<div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">50%</div><div class="bar" style="width: 40%"></div></div></div>
-    
-  <%= render "errors" %>
+<%= render "errors" %>
 
 <!-- WF 4.3.2 -->
 <div id="page2">
 
-<h2>Address and contact details</h2>
+<h2><%= t '.contactHeading' %></h2>
 
 <fieldset>
-<legend>Main business, organisation or trading address</legend>
+<legend><%= t '.businessAddress' %></legend>
 
 <!--
 <div id="addressSearch">
@@ -72,11 +70,19 @@
 </fieldset>
 
 <fieldset>
-<legend>Contact information</legend>
+<legend><%= t '.contact_information_legend' %></legend>
 
 <p class="group<%if @registration.errors[:title].any?%> validation<%end%>">
 <%= f.label :title %>
-<%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"],["Ms"],["Dr"],["Other"]],f.object.title ) %>
+<%= f.select :title , options_for_select([
+	[t('discovers.findAnswers.businessType_default'),""],
+	[t('.title_mr'),"mr"],
+	[t('.title_mrs'),"mrs"],
+	[t('.title_miss'),"miss"],
+	[t('.title_ms'),"ms"],
+	[t('.title_dr'),"dr"],
+	[t('.title_other'),"other"]
+	],f.object.title ) %>
 </p>
 <p id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
     <%= f.label :otherTitle, "Other title" %>
@@ -111,6 +117,6 @@
 
 </div>
 <p class="action group">
-<input name="back" class="button-secondary" type="submit" value="Back"/>
-<input name="next" class="button" type="submit" value="Next"/>
+<input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
+<input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </p>

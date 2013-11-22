@@ -5,8 +5,8 @@
 
 <%= form_for(@registration) do |f| %>
 
-<h1>Waste Carrier Registration</h1>
-<h2 class="subtitle">For a lower tier waste carrier/broker/dealer</h2>
+<h1><%= t '.title' %></h1>
+<h2 class="subtitle"><%= t '.subtitle' %></h2>
 <%= render "shared/meta_phases"%>
 
 <%= render "#{@registration.current_step}_step", :f => f %>
