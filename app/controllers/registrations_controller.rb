@@ -107,6 +107,7 @@ class RegistrationsController < ApplicationController
   def new
     logger.info 'Request New Registration'
     session[:registration_params] = {}
+    session[:registration_step] = nil
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = session[:registration_step]
     # Set route name based on agency paramenter
