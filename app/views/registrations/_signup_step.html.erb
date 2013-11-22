@@ -1,11 +1,10 @@
+<%= render "shared/progress", size: "80%" %>
 
-<div id="progress-wrapper">Progress: <div id="progress"><div class="offscreen">75%</div><div class="bar" style="width: 80%"></div></div></div>
-
-  <%= render "errors" %>
+<%= render "errors" %>
 
 <!-- WF 4.3.4 -->
 <div id="page4">
-<h2><% if !@registration.persisted? %>Complete<% else %>Update<% end %> registration</h2>
+<h2><% if !@registration.persisted? %><%= t '.complete' %><% else %><%= t '.update' %><% end %></h2>
 
 <fieldset>
 
@@ -26,22 +25,22 @@
 </p>
 
 <p class="group js-hidden<%if @registration.errors[:accountEmail].any?%> validation<%end%>">
-    <%= f.label :accountEmail, "Email" %>Please check this email address as it will be your username<br/>
+    <%= f.label :accountEmail %><%= t '.emailUsernameText' %><br/>
     <%= f.email_field :accountEmail, :autofocus => true %>
 </p>
 
 <p class="group <%if @registration.errors[:accountEmail_confirmation].any?%> validation<%end%>">
-    <%= f.label :accountEmail_confirmation, "Confirm email" %>
+    <%= f.label :accountEmail_confirmation %>
     <%= f.email_field :accountEmail_confirmation %>
 </p>
 
 <p class="group js-hidden<%if @registration.errors[:password].any?%> validation<%end%>">
-    <%= f.label :password, "Password" %>
+    <%= f.label :password %>
     <%= f.password_field :password %>
     <span class="strength_icon none">▲<span class="strength_message"/></span>
 </p>
 <p class="group js-hidden<%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
-    <%= f.label :password_confirmation, "Confirm password" %>
+    <%= f.label :password_confirmation %>
     <%= f.password_field :password_confirmation %>
 </p>
 
