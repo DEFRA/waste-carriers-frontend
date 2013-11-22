@@ -32,6 +32,10 @@ class ApplicationController < ActionController::Base
     'admin' == request.host_with_port[0..4]
   end
 
+  def is_local_request?
+    'localhost' == request.host_with_port[0..8]
+  end
+
   def current_ability
     @current_ability ||= Ability.new(current_any_user)
   end

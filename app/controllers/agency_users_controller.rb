@@ -2,6 +2,13 @@
 
 class AgencyUsersController < ApplicationController
 
+  ##TODO Uncomment filters when ready
+
+  #before_filter :validate_session_timeout!
+
+  #before_filter :require_admin_request!
+
+
   #Only administrators can manage other users - requires administrator login.
   before_filter :authenticate_admin!
 
@@ -81,4 +88,19 @@ class AgencyUsersController < ApplicationController
       params.require(:agency_user).permit(:email, :password)
     end
 
+    def require_admin_request!
+      if !is_admin_request? && !is_local_request?
+        renderAccessDenied
+      end
+    end
+
+    def validate_session_timeout!
+      session[:expires_at] ||= Time.current + 10.seconds
+      if session[:expires_at] < Time.current
+        reset_session
+        render :file => "/public/session_expired.html", :status => 400    
+      end
+    end
+
 end
+

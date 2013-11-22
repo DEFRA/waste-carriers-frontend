@@ -73,6 +73,10 @@ module Registrations
     #The application URL
     config.waste_exemplar_frontend_url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "http://localhost:3000"
 
+    #In Production we want to verify that requests to agency user and administration functionality
+    #have been made via the 'internal' domain URL 'https://admin.wastecarriersregistration.service.gov.uk'
+    #rather than via the public domain and URL 'https://www.wastecarriersregistration.service.gov.uk'
+    config.require_admin_requests = Rails.env.production? || ENV["WCRS_FRONTEND_REQUIRE_ADMIN_REQUESTS"] || false
     
     # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
     config.waste_exemplar_end_url = "/gds-end"
