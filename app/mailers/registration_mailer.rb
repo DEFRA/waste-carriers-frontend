@@ -6,7 +6,7 @@ class RegistrationMailer < ActionMailer::Base
   	@url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "www.wastecarriersregistration.service.gov.uk"
   	@registration = registration
     mail(to: @user.email, subject: 'Registration Complete for a Waste Carrier!',
-    	reply_to: 'TODO-wastecarriersregistration@environment-agency.gov.uk')
+    	reply_to: Rails.configuration.registrations_service_email)
   end
   
 end

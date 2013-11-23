@@ -84,5 +84,13 @@ module Registrations
     
     # Set configuration for error pages to manual, to enable more user friendly error pages
     config.exceptions_app = self.routes
+
+    # Update this whenever the reported version number is supposed to have changed - particularly before any new releases. 
+    # Note: This is the version of the frontend application. The version number of the services application may change separately.
+    config.application_version = '0.5.0'
+
+    # The e-mail address shown on the Finish page and used in e-mails sent by the application
+    config.registrations_service_email = 'registrations@wastecarriersregistration.service.gov.uk'
+
   end
 end
