@@ -74,15 +74,7 @@
 
 <p class="group<%if @registration.errors[:title].any?%> validation<%end%>">
 <%= f.label :title %>
-<%= f.select :title , options_for_select([
-	[t('discovers.findAnswers.businessType_default'),""],
-	[t('.title_mr'),"mr"],
-	[t('.title_mrs'),"mrs"],
-	[t('.title_miss'),"miss"],
-	[t('.title_ms'),"ms"],
-	[t('.title_dr'),"dr"],
-	[t('.title_other'),"other"]
-	],f.object.title ) %>
+<%= f.select :title , options_for_select(Registration.title_options_for_select, f.object.title ) %>
 </p>
 <p id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
     <%= f.label :otherTitle, "Other title" %>

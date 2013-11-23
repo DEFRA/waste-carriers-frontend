@@ -8,7 +8,28 @@ en:
   errors:
     messages:
       blank: "must be completed"
-      
+
+  #Enumerations
+  please_select: "Please select..."
+
+  business_types:
+    soleTrader: "Sole trader"
+    partnership: "Partnership"
+    limitedCompany: "Limited company"
+    charity: "Charity or voluntary organisation"
+    collectionAuthority: "Waste collection authority"
+    disposalAuthority: "Waste disposal authority"
+    regulationAuthority: "Waste regulation authority"
+    other: "Other"
+
+  titles:
+    mr: "Mr"
+    mrs: "Mrs"
+    miss: "Miss"
+    ms: "Ms"
+    dr: "Dr"
+    other: "Other" 
+
   activemodel:
     models:
       registration: "Registration"

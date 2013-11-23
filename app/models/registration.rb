@@ -47,12 +47,21 @@ class Registration < ActiveResource::Base
     string :accessCode
   end
 
+  #(Enumeration) available business types: configurable in config file
+  #  %w[soleTrader partnership limitedCompany charity collectionAuthority disposalAuthority regulationAuthority other]
+  BUSINESS_TYPES = Rails.application.config.registration_business_types
+
+
+  TITLES = %w[mr mrs miss ms dr other]
+
   validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
+  validates :businessType, :inclusion => { :in => BUSINESS_TYPES, :message => "business type is invalid" }, :if => lambda { |o| o.current_step == "business" }
   validates_presence_of :companyName, :if => lambda { |o| o.current_step == "business" }
+  validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/, message: "can only contain alpha numeric characters and be no longer than 70 characters"}  
   
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
-  validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/, message: "can only contain alpha numeric characters and be no longer than 70 characters"}  
+
   validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: "can only contain letters, spaces and numbers and be no longer than 35 characters"}
   validates_presence_of :streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
@@ -60,6 +69,8 @@ class Registration < ActiveResource::Base
   validates_presence_of :postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates_presence_of :title, :if => lambda { |o| o.current_step == "contact" }
+  validates :title, :inclusion => { :in => TITLES, :message => "is invalid" }, :if => lambda { |o| o.current_step == "contact" }
+
   validates_presence_of :otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "Other"}
   validates_presence_of :firstName, :if => lambda { |o| o.current_step == "contact" }
   validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:"can only contain letters"}
@@ -99,6 +110,15 @@ class Registration < ActiveResource::Base
   #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
 
   validates_presence_of :password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
+
+
+  def self.business_type_options_for_select
+    [["Please select...", ""]] + (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
+  end
+
+  def self.title_options_for_select
+    [["Please select...", ""]] + (TITLES.collect {|d| [I18n.t('titles.'+d), d]})
+  end
 
   #def sign_up_mode
   #  @sign_up_mode || 'sign_up'
