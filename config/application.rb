@@ -108,5 +108,7 @@ module Registrations
     #Titles. Please also edit locale-specific values in localisation files.
     config.registration_titles = %w[mr mrs miss ms dr other]
 
+    #Tracking using Google Analytics should be performed only in Production
+    config.use_google_analytics = ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] || Rails.env.production?
   end
 end
