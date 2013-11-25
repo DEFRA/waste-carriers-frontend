@@ -307,7 +307,7 @@ class RegistrationsController < ApplicationController
         logger.info 'Revoke action detected'
         @registration.metaData.status = "REVOKED"
         @registration.save
-        redirect_to ncccedit_path(:note => "Revoke performed")
+        redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_revoked'))
       else
         renderAccessDenied
       end
@@ -316,7 +316,7 @@ class RegistrationsController < ApplicationController
         logger.info 'Revoke action detected'
         @registration.metaData.status = "ACTIVE"
         @registration.save
-        redirect_to ncccedit_path(:note => "Un-Revoke performed")
+        redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_unrevoked'))
       else
         renderAccessDenied
       end
@@ -324,7 +324,7 @@ class RegistrationsController < ApplicationController
       @registration.update_attributes(params[:registration])
       if @registration.all_valid?
         @registration.save
-        redirect_to ncccedit_path(:note => "Registration updated")
+        redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_updated') )
       else
         render "ncccedit"
       end

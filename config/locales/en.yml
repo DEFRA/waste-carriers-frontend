@@ -127,9 +127,8 @@ en:
 
   registrations:
     errors:
-      errorMessageStart: "You have"
-      errorMessageMid: "error"
-      errorMessageEnd: "on this page"
+      error: "error"
+      errorMessage: "You have %{count} on this page"
     business_step:
       business_or_org_details: "Business or organisation details"
     contact_step:
@@ -220,6 +219,13 @@ en:
       print_button_label: "Print"
       change_button_label: "Change"
       new_button_label: "New Registration"
+      update_button_label: "Update"
+      revoke_button_label: "Revoke"
+      unrevoke_button_label: "Un-revoke"
+      
+      reg_updated: "Registration updated"
+      reg_revoked: "Registration revoked"
+      reg_unrevoked: "Registration un-revoked"
 
       check_details_and_register_heading: "Check details and register"
       summary_of_registreation: "Summary of information"

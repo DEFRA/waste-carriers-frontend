@@ -11,16 +11,16 @@
 <div id="page1"  data-journey="waste-carriers-registration:edit">
 
 <fieldset>
-<legend>Business or organisation details</legend>
+<legend><%= t 'registrations.business_step.business_or_org_details' %></legend>
 
 <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-<%= f.label :businessType, "Business or organisation type" %>
-<%= f.select :businessType, options_for_select([["Please select...",""],["Sole trader","soleTrader"],["Partnership","partnership"],["Limited company","limitedCompany"],["Charity or voluntary organisation","charity"],["Waste collection authority","collectionAuthority"],["Waste disposal authority","disposalAuthority"],["Waste regulation authority","regulationAuthority"]],f.object.businessType) %>
+<%= f.label :businessType %>
+<%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
 </p>
 
 
 <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
-<%= f.label :companyName, "Business, organisation or trading name" %>
+<%= f.label :companyName %>
 <%= f.text_field :companyName%>
 </p>
 
@@ -31,10 +31,8 @@
 <!-- WF 4.3.2 -->
 <div id="page2">
 
-<h2>Address and contact details</h2>
-
 <fieldset>
-<legend>Main business, organisation or trading address</legend>
+<legend><%= t 'registrations.contact_step.businessAddress' %></legend>
 
 <!--
 <div id="addressSearch">
@@ -96,44 +94,44 @@
 </fieldset>
 
 <fieldset>
-<legend>Contact information</legend>
+<legend><%= t 'registrations.contact_step.contact_information_legend' %></legend>
 
 <p class="group<%if @registration.errors[:title].any?%> validation<%end%>">
 <%= f.label :title %>
-<%= f.select :title , options_for_select([["Please select...",""],["Mr"],["Mrs"],["Miss"],["Ms"],["Dr"],["Other"]],f.object.title ) %>
+<%= f.select :title , options_for_select(Registration.title_options_for_select,f.object.title ) %>
 </p>
 <p id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
     <%= f.label :otherTitle, "Other title" %>
     <%= f.text_field :otherTitle %>
 </p>
 <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
-    <%= f.label :firstName, "First name" %>
+    <%= f.label :firstName %>
     <%= f.text_field :firstName %>
 </p>
 <p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
-    <%= f.label :lastName, "Last name" %>
+    <%= f.label :lastName %>
     <%= f.text_field :lastName %>
 </p>
 <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
-    <%= f.label :phoneNumber, "Phone number" %>
+    <%= f.label :phoneNumber %>
     <%= f.text_field :phoneNumber %>
 </p>
 <p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
-    <%= f.label :contactEmail, "Email address" %>
+    <%= f.label :contactEmail %>
     <%= f.text_field :contactEmail%>
 </p>
 </fieldset>
 
 </div>
 <p class="action group">
-<input name="back" class="button-secondary" type="submit" value="Back"/>
-<input name="reprint" class="button-secondary" type="submit" value="Print"/>
-<input name="next" class="button" type="submit" value="Update"/>
+<input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
+<input name="reprint" class="button-secondary" type="submit" value="<%= t 'registrations.form.print_button_label' %>"/>
+<input name="next" class="button" type="submit" value="<%= t 'registrations.form.update_button_label' %>"/>
 <% if agency_user_signed_in? %>
 <% if @registration.metaData.status == "REVOKED" %>
-<input name="unrevoke" class="button revoke" type="submit" value="Un-revoke"/>
+<input name="unrevoke" class="button revoke" type="submit" value="<%= t 'registrations.form.unrevoke_button_label' %>"/>
 <% else %>
-<input name="revoke" class="button revoke" type="submit" value="Revoke"/>
+<input name="revoke" class="button revoke" type="submit" value="<%= t 'registrations.form.revoke_button_label' %>"/>
 <% end %>
 <% end %>
 </p>
