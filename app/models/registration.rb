@@ -262,7 +262,7 @@ class Registration < ActiveResource::Base
     if title == 'Other'
       otherTitle
     else
-      title
+      I18n.translate('titles.' + title)
     end
   end  
 
