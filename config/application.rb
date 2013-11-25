@@ -110,5 +110,12 @@ module Registrations
 
     #Tracking using Google Analytics should be performed only in Production
     config.use_google_analytics = ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] || Rails.env.production?
+
+    #Total (a.k.a. global) session timeout - total session duration
+    config.app_session_total_timeout = 8.hours
+
+    #Inactivity timeout - between requests - should be 20 minutes, except for agency users
+    config.app_session_inactivity_timeout = 20.minutes
+
   end
 end

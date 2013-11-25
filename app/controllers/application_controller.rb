@@ -3,6 +3,9 @@ require 'active_resource'
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  before_filter :validate_session_total_timeout!
+  before_filter :validate_session_inactivity_timeout!
+
   def after_sign_out_path_for(resource_or_scope)
   	logger.info 'Signout function'
     #request.referrer
@@ -51,6 +54,25 @@ class ApplicationController < ActionController::Base
   def renderNotFound
     render :file => "/public/404.html", :status => 404     
   end
+
+  def validate_session_total_timeout!
+    session[:expires_at] ||= Time.current + Rails.application.config.app_session_total_timeout
+    if session[:expires_at] < Time.current
+      reset_session
+      render :file => "/public/session_expired.html", :status => 400    
+    end
+  end
+
+  def validate_session_inactivity_timeout!
+    session[:last_seen_at] ||= Time.current
+    if !agency_user_signed_in?
+      if Time.current > session[:last_seen_at] + Rails.application.config.app_session_inactivity_timeout
+        reset_session
+        render :file => "/public/session_expired.html", :status => 400    
+      end
+    end
+  end
+
 
   rescue_from CanCan::AccessDenied do |exception| 
     renderAccessDenied
