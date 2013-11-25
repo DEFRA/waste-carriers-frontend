@@ -1,14 +1,14 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
-<h1>Waste Carrier Registration</h1>
-<h2 class="subtitle">For a lower tier waste carrier/broker/dealer</h2>
+<h1><%= t 'registrations.form.title' %></h1>
+<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>
 <%= render "shared/meta_phases"%>
 
-<h2 class="registered"><%=@registration.companyName%> has been registered with the Environment Agency</h2>
+<h2 class="registered"><%= t '.hasBeenRegistered', :companyName => @registration.companyName %></h2>
 
-<h3>Your registration number is: <%=@registration.regIdentifier%></h3>
+<h3><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h3>
 
-<p>Your registration details and guidance have been emailed to <%=@registration.accountEmail%> and can be printed for your reference.</p>
+<p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
 
 <div class="finish-section js-hidden">
 <%# render "details" %>
@@ -16,13 +16,13 @@
 
 <form action="<%=print_url(@registration.id)%>">
 <p class="action group">
-	<input name="finish" class="button" type="submit" value="Finish"/>
-	<input type="submit" class="button-secondary" value="Print"/>
+	<input name="finish" class="button" type="submit" value="<%= t 'registrations.form.finish_button_label' %>"/>
+	<input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/>
 </p>
 
-<p>If any of your details change you must update your registration within 28 days. Instructions can be found in your email.</p>
+<p><%= t '.detailsChange' %></p>
 
-<p>If you have any problems with this service email: <a href="mailto:<%= Rails.configuration.registrations_service_email %>?Subject=Digital%20Assistance%20Request"><%= Rails.configuration.registrations_service_email %></a></p>
+<p><%= t '.problems_html', :email => Rails.configuration.registrations_service_email, :subject => 'Digital%20Assistance%20Request' %></p>
 
 </form>
 

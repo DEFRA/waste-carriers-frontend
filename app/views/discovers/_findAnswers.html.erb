@@ -14,17 +14,7 @@
   
   <p class="group<%if @discover.errors[:businessType].any?%> validation<%end%>">
     <%= f.label :businessType %>
-    <%= f.select :businessType, options_for_select([
-    	[t('.businessType_default'),""],
-    	[t('.businessType_soleTrader'),"soleTrader"],
-    	[t('.businessType_partnership'),"partnership"],
-    	[t('.businessType_limitedCompany'),"limitedCompany"],
-    	[t('.businessType_charity'),"charity"],
-    	[t('.businessType_collectionAuthority'),"collectionAuthority"],
-    	[t('.businessType_disposalAuthority'),"disposalAuthority"],
-    	[t('.businessType_regulationAuthority'),"regulationAuthority"],
-    	[t('.businessType_other'),"other"]
-    	],f.object.businessType) %>
+    <%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
   </p> 
   
   <div id="businessDoesHeading" class="js-hidden">

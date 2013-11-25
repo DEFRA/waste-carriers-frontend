@@ -55,44 +55,44 @@ class Registration < ActiveResource::Base
   TITLES = %w[mr mrs miss ms dr other]
 
   validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
-  validates :businessType, :inclusion => { :in => BUSINESS_TYPES, :message => "business type is invalid" }, :if => lambda { |o| o.current_step == "business" }
+  validates :businessType, :inclusion => { :in => BUSINESS_TYPES, :message => I18n.t('errors.messages.invalid_selection') }, :if => lambda { |o| o.current_step == "business" }
   validates_presence_of :companyName, :if => lambda { |o| o.current_step == "business" }
-  validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/, message: "can only contain alpha numeric characters and be no longer than 70 characters"}  
+  validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/, message: I18n.t('errors.messages.alpha70') }  
   
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-  validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: "can only contain letters, spaces and numbers and be no longer than 35 characters"}
+  validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }
   validates_presence_of :streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates_presence_of :townCity, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates_presence_of :postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates_presence_of :title, :if => lambda { |o| o.current_step == "contact" }
-  validates :title, :inclusion => { :in => TITLES, :message => "is invalid" }, :if => lambda { |o| o.current_step == "contact" }
+  validates :title, :inclusion => { :in => TITLES, :message => I18n.t('errors.messages.invalid_selection') }, :if => lambda { |o| o.current_step == "contact" }
 
   validates_presence_of :otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "Other"}
   validates_presence_of :firstName, :if => lambda { |o| o.current_step == "contact" }
-  validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:"can only contain letters"}
-  validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:"can not be longer than 35 characters"}
+  validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:I18n.t('errors.messages.letters') }
+  validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:I18n.t('errors.messages.35characters') }
   validates_presence_of :lastName, :if => lambda { |o| o.current_step == "contact" }
-  validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:"can only contain letters"}
-  validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:"can not be longer than 35 characters"}
-  validates :position, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s]*\Z/, message:"can only contain letters and spaces"}
+  validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:I18n.t('errors.messages.letters') }
+  validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:I18n.t('errors.messages.35characters') }
+  validates :position, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s]*\Z/, message:I18n.t('errors.messages.lettersSpaces') }
   validates_presence_of :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}
-  validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:"must be a valid email address"}
-  validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}
+  validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
+  validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A.{0,70}\Z/, message:I18n.t('errors.messages.70characters') }
   
   validates_presence_of :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }
-  validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:"must be a valid email address"}
-  validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A.{0,70}\Z/, message:"can not be longer than 70 characters"}
+  validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
+  validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A.{0,70}\Z/, message:I18n.t('errors.messages.70characters') }
   
   
   
   validates_presence_of :phoneNumber, :if => lambda { |o| o.current_step == "contact" }
-  validates :phoneNumber, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[0-9\s]*\Z/, message:"can only contain numbers"}
+  validates :phoneNumber, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[0-9\s]*\Z/, message:I18n.t('errors.messages.numbers') }
 
-  validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:"must be accepted"}
+  validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
 
   #Note: there is no uniqueness validation ot ouf the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
@@ -100,7 +100,8 @@ class Registration < ActiveResource::Base
   validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   
   #If changing mim and max length, please also change in devise.rb
-  validates_length_of :password, :minimum => 8, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validates_length_of :password, :minimum => 8, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.min8')
+  validates_length_of :password, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.max128')
   validate :validate_password_strength, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
@@ -113,11 +114,11 @@ class Registration < ActiveResource::Base
 
 
   def self.business_type_options_for_select
-    [["Please select...", ""]] + (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
+    [[I18n.t('please_select'), ""]] + (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
   end
 
   def self.title_options_for_select
-    [["Please select...", ""]] + (TITLES.collect {|d| [I18n.t('titles.'+d), d]})
+    [[I18n.t('please_select'), ""]] + (TITLES.collect {|d| [I18n.t('titles.'+d), d]})
   end
 
   #def sign_up_mode
@@ -184,7 +185,7 @@ class Registration < ActiveResource::Base
 
   def validate_postcode
     if !Postcode.is_valid_postcode?(postcode)
-      errors.add(:postcode, 'is not valid')
+      errors.add(:postcode, I18n.t('errors.messages.invalid') )
     end
   end
 
@@ -194,7 +195,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug "validate_email_unique - do_sign_up is true"
       unless User.where(email: accountEmail).count == 0
         Rails.logger.debug "adding error - email already taken"
-        errors.add(:accountEmail, 'Account for this e-mail is already taken')
+        errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') )
       end
     end
   end
@@ -204,7 +205,7 @@ class Registration < ActiveResource::Base
       #Note: this method may be called (again?) after the password properties have been deleted
       if password != nil && password_confirmation != nil
         if password != password_confirmation
-          errors.add(:password_confirmation, 'must match the password provided')
+          errors.add(:password_confirmation, I18n.t('errors.messages.matchPassword') )
         end
       end
     else
@@ -217,7 +218,7 @@ class Registration < ActiveResource::Base
       #Note: this method may be called (again?) after the password properties have been deleted
       if accountEmail != nil && accountEmail_confirmation != nil
         if accountEmail != accountEmail_confirmation
-          errors.add(:accountEmail_confirmation, 'must match the e-mail provided')
+          errors.add(:accountEmail_confirmation, I18n.t('errors.messages.matchEmail') )
         end
       end
     end
@@ -226,7 +227,7 @@ class Registration < ActiveResource::Base
   def validate_password_strength
     strength = PasswordStrength.test(accountEmail,password)
     if !strength.valid?(:good)
-      errors.add(:password,' is not strong enough. Please use letters (uppercase and lowercase) and numbers')
+      errors.add(:password, I18n.t('errors.messages.weakPassword') )
     end 
   end
     

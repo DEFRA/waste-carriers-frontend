@@ -8,6 +8,23 @@ en:
   errors:
     messages:
       blank: "must be completed"
+      invalid: "is not valid"
+      invalid_selection: "has an invalid selection"
+      invalidEmail: "must be a valid email address"
+      letters: "can only contain letters"
+      lettersSpaces: "can only contain letters and spaces"
+      lettersSpacesNumbers35: "can only contain letters, spaces and numbers and be no longer than 35 characters"
+      numbers: "can only contain numbers"
+      alpha70: "can only contain alpha numeric characters and be no longer than 70 characters"
+      35characters: "can not be longer than 35 characters"
+      70characters: "can not be longer than 70 characters"
+      accepted: "must be accepted"
+      matchPassword: "must match the password provided"
+      matchEmail: "must match the email provided"
+      weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
+      emailTaken: "has already been taken"
+      max128: "is too long (maximum is 128 characters)"
+      min8: "is too short (minimum is 8 characters)"
 
   #Enumerations
   please_select: "Please select..."
@@ -141,6 +158,12 @@ en:
       emailUsernameText: "Please check this email address as it will be your username"
       complete: "Complete registration"
       update: "Update registration"
+    finish:
+      hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
+      yourRegNumber: "Your registration number is: %{reg}"
+      detailsEmailed: "Your registration details and guidance have been emailed to %{email} and can be printed for your reference."
+      detailsChange: "If any of your details change you must update your registration within 28 days. Instructions can be found in your email."
+      problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
     form:
       title: "Waste Carrier Registration"
       subtitle: "For a lower tier waste carrier/broker/dealer"
@@ -185,6 +208,8 @@ en:
       next_button_label: "Next"
       back_button_label: "Back"
       register_button_label: "Register"
+      finish_button_label: "Finish"
+      print_button_label: "Print"
 
       check_details_and_register_heading: "Check details and register"
       summary_of_registreation: "Summary of information"
