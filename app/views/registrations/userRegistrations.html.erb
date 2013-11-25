@@ -1,12 +1,12 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
-<h1>Waste Carrier Registration</h1>
-<h2 class="subtitle">For a lower tier waste carrier/broker/dealer</h2>
+<h1><%= t 'registrations.form.title' %></h1>
+<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>
 <%= render "shared/meta_phases"%>
 
-<p class="group">Your registrations are listed below. You can create a new registration for a business or organisation and you can change any you have previously created. You must tell us if any of your registration details change, within 28 days of the change.</p>
+<p class="group"><%= t '.summaryText' %></p>
 
-<p class="group"><b>You have <%=pluralize(@registrations.count,"registration")%></b></p>
+<p class="group"><b><%= t '.registrationCountText', :count => pluralize(@registrations.count,"registration") %></b></p>
 
 <% @registrations.each do |registration| %>
 <div class="box full">
@@ -14,19 +14,19 @@
 		<dt>Name</dt>
 		<dd><%= registration.companyName %></dd>
 
-		<dt>Postcode</dt>
+		<dt><%= t 'activemodel.attributes.registration.postcode' %></dt>
 		<dd><%= registration.postcode %></dd>
 		
-		<dt>Registration</dt>
+		<dt><%= t 'activemodel.models.registration' %></dt>
 		<dd><%= registration.regIdentifier %></dd>
 	</dl>
 	<% if registration.metaData.status == "REVOKED" %>
 	<div class="status revoked">
-		Revoked
+		<%= t '.revoked' %>
 	</div>
 	<% else %>
 	<div class="status registered">
-		Registered
+		<%= t '.registered' %>
 	</div>
 	<% end %>
 	<!--<div class="actions" >
@@ -34,7 +34,7 @@
 	</div>-->
 	<% if registration.metaData.status != "REVOKED" %>
 	<div class="actions">
-		<form action="<%=ncccedit_url(registration.id)%>"><input type="submit" class="button" value="Change" /></form>
+		<form action="<%=ncccedit_url(registration.id)%>"><input type="submit" class="button" value="<%= t 'registrations.form.change_button_label' %>" /></form>
 	</div>
 	<% end %>
 	<div class="clr"></div>
@@ -42,7 +42,7 @@
 <% end %>
 
 <form method="get" action="<%=new_registration_path%>" class="action group">
-	<input type="submit" class="button" value="New registration" />
+	<input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />
 </form>
 
 </article></main>

@@ -164,6 +164,14 @@ en:
       detailsEmailed: "Your registration details and guidance have been emailed to %{email} and can be printed for your reference."
       detailsChange: "If any of your details change you must update your registration within 28 days. Instructions can be found in your email."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
+    print:
+      accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
+      proof: "This is proof of your registration."
+    userRegistrations:
+      summaryText: "Your registrations are listed below. You can create a new registration for a business or organisation and you can change any you have previously created. You must tell us if any of your registration details change, within 28 days of the change."
+      registrationCountText: "You have %{count}"
+      revoked: "Revoked"
+      registered: "Registered"
     form:
       title: "Waste Carrier Registration"
       subtitle: "For a lower tier waste carrier/broker/dealer"
@@ -210,6 +218,8 @@ en:
       register_button_label: "Register"
       finish_button_label: "Finish"
       print_button_label: "Print"
+      change_button_label: "Change"
+      new_button_label: "New Registration"
 
       check_details_and_register_heading: "Check details and register"
       summary_of_registreation: "Summary of information"

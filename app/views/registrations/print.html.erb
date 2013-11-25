@@ -5,18 +5,18 @@
 
 <%= form_for(@registration, url: print_url(:id => @registration.id)) do |f| %>
 
-<h1>Waste Carrier Registration</h1>
-<h2 class="subtitle">For a lower tier waste carrier/broker/dealer</h2>
+<h1><%= t 'registrations.form.title' %></h1>
+<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>
 <%= render "shared/meta_phases"%>
 
-<h2 class="registered"><%=@registration.companyName%> has been registered with the Environment Agency</h2>
+<h2 class="registered"><%= t 'registrations.finish.hasBeenRegistered', :companyName => @registration.companyName %></h2>
 
-<h3>Your registration number is: <%=@registration.regIdentifier%></h3>
+<h3><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h3>
 
-<p>This is proof of your registration.</p>
+<p><%= t '.proof' %></p>
 
 <% if @registration.assisted_digital? %>
-<h3>Your access code is: <span id="accessCode"><%=@registration.accessCode%></span>.</h3>
+<h3><%= t '.accessCode_html', :code => @registration.accessCode %></h3>
 <% end %>
 
 <div class="print-section"  data-journey="waste-carriers-registration:print">
@@ -25,7 +25,6 @@
 
 <div class="finish-section">
 <h3>Lower tier registration</h3>
-
 <p>
 You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 but <b>only</b> in the following circumstances:
 <ol>
@@ -36,7 +35,6 @@ You are registered as a lower tier waste carrier/broker/dealer under The Waste (
 </ol>
 </p>
 <p>Your registration will last indefinitely so does not need to be renewed but <b>you must tell us if any of your registration details change</b>, within 28 days of the change.  You can do this by going to the website <u>www.wastecarriersregistration.service.gov.uk</u> and logging in using your email and password.</p>
-
 </div>
 
 <div class="finish-section">
