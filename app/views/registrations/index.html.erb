@@ -9,7 +9,7 @@
 <h2>Find a registered business, organisation or trader</h2>
 <%= render "shared/meta_phases"%>
 <form method="get" action="/registrations">
-<div class="box">
+<div class="box"  data-journey="waste-carriers-registration:registrations">
 <p class="group">
 	<label for="q">Find a registration</label>
 	<input id="q" name="q" type="text" value="<%= params[:q]%>" />

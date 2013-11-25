@@ -3,7 +3,7 @@
 <%= render "errors" %>
 
 <!-- WF 4.3.4 -->
-<div id="page4">
+<div id="page4"  data-journey="waste-carriers-registration:confirm">
 <h2><% if !@registration.persisted? %><%= t '.complete' %><% else %><%= t '.update' %><% end %></h2>
 
 <fieldset>
