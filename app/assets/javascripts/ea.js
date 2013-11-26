@@ -358,7 +358,7 @@
 	}
 	
 	function updateTitleOther(){
-		var show = $('#registration_title').val() == "Other";
+		var show = $('#registration_title').val() == "other";
 		if(show){
 			$('#titleOtherWrapper').removeClass("js-hidden");
 		}else{

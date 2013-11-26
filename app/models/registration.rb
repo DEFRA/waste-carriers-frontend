@@ -271,7 +271,7 @@ class Registration < ActiveResource::Base
   end
 
   def title_for_display
-    if title == 'Other'
+    if title == 'other'
       otherTitle
     else
       I18n.translate('titles.' + title)
