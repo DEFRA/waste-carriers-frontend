@@ -6,7 +6,10 @@
 
 <h2 class="registered"><%= t '.hasBeenRegistered', :companyName => @registration.companyName %></h2>
 
-<h3><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h3>
+<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
+
+<form action="<%=print_url(@registration.id)%>">
+<p class="action group"><input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/></p>
 
 <p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
 
@@ -14,15 +17,11 @@
 <%# render "details" %>
 </div>
 
-<form action="<%=print_url(@registration.id)%>">
-<p class="action group">
-	<input name="finish" class="button" type="submit" value="<%= t 'registrations.form.finish_button_label' %>"/>
-	<input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/>
-</p>
-
 <p><%= t '.detailsChange' %></p>
 
-<p><%= t '.problems_html', :email => Rails.configuration.registrations_service_email, :subject => 'Digital%20Assistance%20Request' %></p>
+<p class="action group"><input name="finish" class="button" type="submit" value="<%= t 'registrations.form.finish_button_label' %>"/></p>
+
+<!--<p><%# t '.problems_html', :email => Rails.configuration.registrations_service_email, :subject => 'Digital%20Assistance%20Request' %></p>-->
 
 </form>
 

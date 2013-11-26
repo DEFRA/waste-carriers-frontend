@@ -165,8 +165,8 @@ en:
     finish:
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
       yourRegNumber: "Your registration number is: %{reg}"
-      detailsEmailed: "Your registration details and guidance have been emailed to %{email} and can be printed for your reference."
-      detailsChange: "If any of your details change you must update your registration within 28 days. Instructions can be found in your email."
+      detailsEmailed: "Your certificate and guidance have been emailed to %{email}"
+      detailsChange: "If any of your details change you must update your registration within 28 days. You can find instructions in your email."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
     print:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
@@ -220,8 +220,8 @@ en:
       next_button_label: "Next"
       back_button_label: "Back"
       register_button_label: "Register"
-      finish_button_label: "Finish"
-      print_button_label: "Print"
+      finish_button_label: "Finished"
+      print_button_label: "View certificate"
       change_button_label: "Change"
       new_button_label: "New Registration"
       update_button_label: "Update"
