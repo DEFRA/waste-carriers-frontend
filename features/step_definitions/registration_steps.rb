@@ -52,11 +52,6 @@ Then(/^I select the declaration checkbox$/) do
 end
 
 Then(/^I should see the Confirmation page$/) do
-  if !page.has_content?('has been registered')
-    #page.save_screenshot('screenshot.png')
-    save_and_open_page
-    sleep 60
-  end
   assert(page.has_content?('has been registered'))
 end
 

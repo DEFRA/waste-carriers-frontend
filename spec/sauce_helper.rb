@@ -6,6 +6,9 @@ Sauce.config do |config|
   config[:browsers] = [
 #   ["OS", "BROWSER", "VERSION"],
     ["Windows 8", "Internet Explorer", "10"],             
+    ["Windows 7", "Internet Explorer", "9"],             
+    ["Windows xp", "Internet Explorer", "8"],             
+    ["Windows xp", "Internet Explorer", "6"],             
     ["Windows 7", "Firefox", "20"],
     ["OS X 10.8", "Safari", "6"],                         
     ["Linux", "Chrome", nil]          
