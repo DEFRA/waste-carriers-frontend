@@ -33,25 +33,25 @@
 
 <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
 <%= f.label :houseNumber %>
-<%= f.text_field :houseNumber %>
+<%= f.text_field :houseNumber, :size => 20, :maxlength => 35 %>
 </p>
 
 <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
 <%= f.label :streetLine1 %>
-<%= f.text_field :streetLine1%>
+<%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
 </p>
 <p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
 <%= f.label :streetLine2, :class=>"offscreen" %>
-<%= f.text_field :streetLine2%>
+<%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %>
 </p>
 <p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
 <%= f.label :townCity %>
-<%= f.text_field :townCity%>
+<%= f.text_field :townCity, :size => 20, :maxlength => 35 %>
 </p>
 
 <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
     <%= f.label :postcode %>
-    <%= f.text_field :postcode %>
+    <%= f.text_field :postcode, :size => 20, :maxlength => 10 %>
 </p>
 
 
@@ -78,27 +78,27 @@
 </p>
 <p id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
     <%= f.label :otherTitle, "Other title" %>
-    <%= f.text_field :otherTitle %>
+    <%= f.text_field :otherTitle, :size => 20, :maxlength => 35 %>
 </p>
 <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
     <%= f.label :firstName %>
-    <%= f.text_field :firstName %>
+    <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
 </p>
 <p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
     <%= f.label :lastName %>
-    <%= f.text_field :lastName %>
+    <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
 </p>
 <p class="group<%if @registration.errors[:position].any?%> validation<%end%>">
     <%= f.label :position %>
-    <%= f.text_field :position %>
+    <%= f.text_field :position, :size => 20, :maxlength => 35 %>
 </p>
 <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
     <%= f.label :phoneNumber %>
-    <%= f.text_field :phoneNumber %>
+    <%= f.text_field :phoneNumber, :size => 20, :maxlength => 20 %>
 </p>
 <p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
     <%= f.label :contactEmail %>
-    <%= f.text_field :contactEmail%>
+    <%= f.text_field :contactEmail, :size => 20, :maxlength => 70 %>
 </p>
 </fieldset>
 

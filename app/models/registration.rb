@@ -54,6 +54,8 @@ class Registration < ActiveResource::Base
 
   TITLES = %w[mr mrs miss ms dr other]
 
+  VALID_CHARACTERS = /\A[A-Za-z0-9\s\'\.&!%]*\Z/
+
   validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
   validates :businessType, :inclusion => { :in => BUSINESS_TYPES, :message => I18n.t('errors.messages.invalid_selection') }, :if => lambda { |o| o.current_step == "business" }
   validates_presence_of :companyName, :if => lambda { |o| o.current_step == "business" }
@@ -65,13 +67,21 @@ class Registration < ActiveResource::Base
   validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }
   validates_presence_of :streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
+  validates :streetLine1, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
+  validates :streetLine2, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
+  validates_length_of :streetLine1, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
+  validates_length_of :streetLine2, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
+
   validates_presence_of :townCity, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
+  validates :townCity, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
   validates_presence_of :postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
   validates_presence_of :title, :if => lambda { |o| o.current_step == "contact" }
   validates :title, :inclusion => { :in => TITLES, :message => I18n.t('errors.messages.invalid_selection') }, :if => lambda { |o| o.current_step == "contact" }
 
   validates_presence_of :otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "Other"}
+  validates :otherTitle, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
+
   validates_presence_of :firstName, :if => lambda { |o| o.current_step == "contact" }
   validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:I18n.t('errors.messages.letters') }
   validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:I18n.t('errors.messages.35characters') }
@@ -91,6 +101,7 @@ class Registration < ActiveResource::Base
   
   validates_presence_of :phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   validates :phoneNumber, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[0-9\s]*\Z/, message:I18n.t('errors.messages.numbers') }
+  validates_length_of :phoneNumber, :maximum => 20, :allow_blank => true, message: I18n.t('errors.messages.maxlength20'), :if => lambda { |o| o.current_step == "contact"}
 
   validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
 

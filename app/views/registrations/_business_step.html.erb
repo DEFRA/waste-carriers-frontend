@@ -17,7 +17,7 @@
 
 <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
 <%= f.label :companyName %>
-<%= f.text_field :companyName%>
+<%= f.text_field :companyName, :size => 20, :maxlength => 70 %>
 </p>
 
 <%= f.hidden_field :routeName %>

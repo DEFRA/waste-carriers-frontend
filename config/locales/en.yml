@@ -25,6 +25,11 @@ en:
       emailTaken: "has already been taken"
       max128: "is too long (maximum is 128 characters)"
       min8: "is too short (minimum is 8 characters)"
+      invalid_characters: "contains invalid characters. Please only use letters, numbers, or \'&%!."
+      maxlength20: "is too long (maximum is 20 characters)"
+      maxlength35: "is too long (maximum is 35 characters)"
+      maxlength50: "is too long (maximum is 50 characters)"
+
 
   #Enumerations
   please_select: "Please select..."
