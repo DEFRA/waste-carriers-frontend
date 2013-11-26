@@ -38,8 +38,8 @@ describe "The Registration flow", :sauce => true do
     page.should have_content "Complete registration"
     fill_in('registration_accountEmail', :with => unique_email)
     fill_in('registration_accountEmail_confirmation', :with => unique_email)
-    fill_in('registration_password', :with => 'secret123')
-    fill_in('registration_password_confirmation', :with  => 'secret123')
+    fill_in('registration_password', :with => 'MySecret123')
+    fill_in('registration_password_confirmation', :with  => 'MySecret123')
     click_on 'Complete registration'
 
     page.should have_content "has been registered"
