@@ -49,7 +49,7 @@ Then(/^the registration confirmation email should not be sent$/) do
 end
 
 Then(/^when I access the print page$/) do
-  click_button "Print"
+  click_button "View certificate"
 end
 
 Then(/^the print page contains the six-digit access code for the user$/) do
