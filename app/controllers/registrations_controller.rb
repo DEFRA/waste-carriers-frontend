@@ -101,6 +101,12 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(params[:id])
     authorize! :read, @registration
   end
+  
+  def version
+    @railsVersion = Rails.configuration.application_version
+    @apiVersion = '...'   
+    render :layout => false
+  end
 
   # GET /registrations/new
   # GET /registrations/new.json

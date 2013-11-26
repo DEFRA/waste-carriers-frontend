@@ -1,5 +1,30 @@
 <!DOCTYPE html>
 <html>
+<head> 
+  <script src="/assets/jquery.min.js"></script> 
+  <script>
+  $(function(){
+    $("#includedContent").load("/registrations/version.html");
+  });
+  </script>
+  <style type="text/css">
+    #includedContent{ 
+      display: inline; 
+      color: #666;
+      width: 100%;
+      position: absolute;
+      bottom: 0em;
+      right: 0em;
+      border-top:thin dotted #666;
+    }
+    #versionDetails { 
+      position: relative;
+      float: right;
+      margin: 0.5em;
+    }
+  </style>
+</head> 
+<body>
 <h3>Waste Carrier Application Testing Service - GOV.UK</h3>
 <h4 style='color:red'>THIS IS NOT THE APPLICATION: This is a skeleton application to enable links to the various services for testing purposes.</h4>
 <p>
@@ -9,6 +34,10 @@
 <b>User Story 5.7/5.1b:</b> As a NCCC User wanting to <a href='/agency_users/sign_in'>login</a><br/>
 <b>User Story 5.7/5.1b:</b> As a NCCC User wanting to search and edit <a href='/registrations'>existing registrations</a><br/>
 </p>
+
+<div id="includedContent"></div>
+
+</body>
 </html>
 
 <!--

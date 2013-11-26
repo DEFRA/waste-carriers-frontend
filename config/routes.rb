@@ -29,6 +29,7 @@ Registrations::Application.routes.draw do
   get "registrations/:id/finish" => 'registrations#finish', :as => :finish
   match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
   match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
+  get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
   
   # Add a new route for the print view
   match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
