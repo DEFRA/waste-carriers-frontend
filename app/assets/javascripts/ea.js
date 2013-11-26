@@ -699,15 +699,19 @@
 		/**
 		 * Call Password check on both keydown, and change
 		 */
+		
 		$("#registration_password").keydown(function(e){
 			//if (window.console) console.log('password char was keydowned: ');
 			passwordCheck(e);
 		});
+		
+		/*
 		$("#registration_password").change(function(e){
 			//if (window.console) console.log('password char was changed: ');
 			e.preventDefault();
 			passwordCheck();
 		});
+		*/
 		
 		$("form").submit(function(e){
 			submitAddress();
