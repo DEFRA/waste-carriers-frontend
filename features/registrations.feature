@@ -50,7 +50,7 @@ Scenario: Valid registration for existing user - already logged in, no need to p
   Given I have an account
   And I am on the initial page
   And I am already logged in
-  When I click on "New registration"
+  When I click on "New Registration"
   And I provide valid individual trading name details
   And I provide valid contact details
   And I confirm the declaration
