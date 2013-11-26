@@ -37,7 +37,7 @@
 <p class="group js-hidden<%if @registration.errors[:password].any?%> validation<%end%>">
     <%= f.label :password %>
     <%= f.password_field :password %>
-    <span class="strength_icon none">&#9650;<span class="strength_message"/>
+    <span class="strength_icon none">&#9650;<span class="strength_message"></span>
 </p>
 <p class="group js-hidden<%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
     <%= f.label :password_confirmation %>
