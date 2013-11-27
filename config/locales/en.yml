@@ -154,7 +154,8 @@ en:
       anythingWrong_legend: "Anything wrong"
       anythingWrongText_html: "To edit your details use the <b>'Back'</b> button."
       declaration_legend: "Declaration"
-      declarationText: "I declare that as far as I know and believe, the information in this registration is true. A statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
+      #declarationText: "I declare that as far as I know and believe, the information in this registration is true. A statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
+      declarationText: "I declare that as far as I know, the information I have provided in this registration is true. I understand that providing false or misleading information is an offence which can lead to a fine of up to £xx."
       dataProtection_legend: "Find out how we use your data"
       dataProtectionText: "Find out more details about how we use your data and information"
     signup_step:
