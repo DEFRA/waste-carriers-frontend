@@ -9,7 +9,7 @@
 <fieldset>
 <div id="summary">
 
-<p><%= t '.registeringText', :companyName => @registration.companyName, :businessType => t('discovers.findAnswers.businessType_' + @registration.businessType) %></p>
+<p><%= t '.registeringText', :companyName => @registration.companyName, :businessType => t('discovers.findAnswers.businessType_' + @registration.businessType).downcase %></p>
 <p><%= t '.followingDetails' %>:</p>
 <div><%=@registration.title_for_display%> <%=@registration.firstName%> <%=@registration.lastName%> <% if @registration.contactEmail != "" %>(<%=@registration.contactEmail%>)<% end %></div>
 <div><%=@registration.houseNumber%> <%=@registration.streetLine1%><% if @registration.streetLine2 != "" %>, <%=@registration.streetLine2%><% end %>, <%=@registration.townCity%>, <%=@registration.postcode%></div>
