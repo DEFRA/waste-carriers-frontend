@@ -147,7 +147,7 @@ en:
       title_dr: "Dr"
       title_other: "Other"
     confirmation_step:
-      confirmationHeading: "Check details"
+      confirmationHeading: "Check your details"
       registeringText: "Registering"
       registeringAsAText: "as a"
       followingDetails: "With the following details"
