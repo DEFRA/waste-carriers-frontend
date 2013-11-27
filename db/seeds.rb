@@ -26,9 +26,13 @@ end
 #Loading agency users from file.
 data = YAML::load(File.read("db/NCCC-users.txt"))
 data.split(" ").each {|e| 
-  if !AgencyUser.where(email: e).exists?
+  if AgencyUser.where(email: e).exists?
+  	puts "AgencyUser with email " + e + " already exists. Nothing to do."
+  else
     pw = (0...16).map { (65 + SecureRandom.random_number(52)).chr }.join
     au = AgencyUser.new(:email => e, :password => pw)
-    au.save!
+    if !au.save
+      puts "AgencyUser with email " + e + " could not be saved."
+    end
   end
 }
