@@ -23,3 +23,12 @@ if (!User.find_by_email('joe@company.com'))
   user.save!
 end
 
+#Loading agency users from file.
+data = YAML::load(File.read("db/NCCC-users.txt"))
+data.split(" ").each {|e| 
+  if !AgencyUser.where(email: e).exists?
+    pw = (0...10).map { (65 + SecureRandom.random_number(52)).chr }.join
+    au = AgencyUser.new(:email => e, :password => 'Secret123')
+    au.save!
+  end
+}
