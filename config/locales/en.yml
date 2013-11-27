@@ -128,7 +128,7 @@ en:
       lowerTextHeading: "Register in the lower tier"
       lowerTextLine1: "You need to register as a lower tier carrier/broker/dealer."
       notRegisterText: "You do not need to register as a waste carrier, broker or dealer."
-      buttonText: "Continue >"
+      buttonText: "Continue"
 
   registrations:
     errors:
