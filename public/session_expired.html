@@ -3,25 +3,24 @@
 <head>
   <title>Your session has expired</title>
   <style type="text/css">
-    div.dialog {
-      width: 25em;
-      padding: 0 4em;
-      margin: 4em auto;
-      border: 1px solid #ccc;
-      border-right-color: #999;
-      border-bottom-color: #999;
-      text-align: center;
-      color: #666;
-    }
-    h1 { text-align: center; font-size: 100%; color: #f00; line-height: 1.5em; }
+	//.current_user{ display: none; }
   </style>
 </head>
 
 <body>
-  <!-- This file lives in public/session_expired.html -->
-  <div class="dialog">
-    <h1>Your session has expired.</h1>
-    <p>Your session has expired, or you do not have cookies enabled in your browser.</p>
-  </div>
+	<!-- This file lives in public/session_expired.html -->
+	<main id="content" role="main" class="group">
+		<br/>
+		<header class="page-header group">
+			<div>
+				<h1>Your session has expired</h1>
+			</div>
+		</header>
+		<article role="article" class="group">
+			<p>Your session has expired, or you do not have cookies enabled in your browser.</p>
+			<p><a href="/registrations/find">Start your registration from the beginning</a></p>
+			<p>If you have completed your registration, you can <a href="/users/sign_in">sign in</a> to view or ammend your existing certificates.</p>
+		</article>
+	</main>
 </body>
 </html>

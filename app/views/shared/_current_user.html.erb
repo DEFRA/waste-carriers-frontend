@@ -19,13 +19,13 @@
 <% else %>
   <div class="current_user signin">
   <%#= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> 
-  <% if current_page?(new_admin_session_path) %>
-  <%= link_to t('.sign_in'), new_admin_session_path, :class => 'navbar-link'  %>
-  <% elsif current_page?(registrations_path) || current_page?(new_agency_user_session_path) %>
-  <%= link_to t('.sign_in'), new_agency_user_session_path, :class => 'navbar-link'  %>
-  <% else %>
-  <%= link_to t('.sign_in'), new_user_session_path, :class => 'navbar-link'  %>
-  <% end %>
+  <%# if current_page?(new_admin_session_path) %>
+  <%# link_to t('.sign_in'), new_admin_session_path, :class => 'navbar-link'  %>
+  <%# elsif current_page?(registrations_path) || current_page?(new_agency_user_session_path) %>
+  <%# link_to t('.sign_in'), new_agency_user_session_path, :class => 'navbar-link'  %>
+  <%# else %>
+  <%# link_to t('.sign_in'), new_user_session_path, :class => 'navbar-link'  %>
+  <%# end %>
   </div>
 <% end %>
 
