@@ -3,7 +3,7 @@
 
 Given(/^I am on the initial page$/) do
   visit "/registrations/find"
-  assert page.has_content?("Waste Carrier Registration")
+  assert page.has_content?("Waste carrier registration")
 end
 
 Given(/^I click on "(.*?)"$/) do |name|
@@ -178,7 +178,8 @@ When(/^I provide valid user details for sign in$/) do
 end
 
 Given(/^I am already logged in$/) do
-  click_on "Sign in"
+  #click_on "Sign in"
+  visit '/users/sign_in'
   assert(page.has_content? "Sign in")
   fill_in('user_email', :with => 'joe@company.com')
   fill_in('user_password', :with => 'secret123')
