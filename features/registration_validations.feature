@@ -8,10 +8,10 @@ The registration form has the following fields to be entered by the user:
 * Business or organisation type (dropdown select)
 * Business, organisation or trading name
 * Address:
-  * Building name/number
+  * Building name or number
   * Street (line 1)
   * Street (line 2)
-  * Town/city
+  * Town or city
   * Postcode
 * Contact Information:
   * Title (dropdown select)
@@ -46,9 +46,9 @@ Scenario: Missing mandatory fields on the Address and Contact Details page
   When I begin a registration as an Individual
   And proceed to the Address and Contact Details page
   And I click "Next"
-  Then I should see an error with "Building name/number must be completed"
+  Then I should see an error with "Building name or number must be completed"
   Then I should see an error with "Street must be completed"
-  Then I should see an error with "Town/City must be completed"
+  Then I should see an error with "Town or city must be completed"
   Then I should see an error with "Postcode must be completed"
   Then I should see an error with "Title must be completed"
   Then I should see an error with "First name must be completed"
@@ -60,7 +60,7 @@ Scenario: Invalid house number
   When I begin a registration as an Individual
   And proceed to the Address and Contact Details page
   And I fill in house number with "12£"
-  Then I should see an error with "Building name/number"
+  Then I should see an error with "Building name or number"
 
 Scenario: Invalid postcode
   When I begin a registration as an Individual
