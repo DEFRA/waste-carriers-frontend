@@ -148,8 +148,7 @@ en:
       title_other: "Other"
     confirmation_step:
       confirmationHeading: "Check your details"
-      registeringText: "Registering"
-      registeringAsAText: "as a"
+      registeringText: "You are registering %{companyName} (a %{businessType})"
       followingDetails: "With the following details"
       phoneNumber: "Telephone number"
       anythingWrong_legend: "Anything wrong"
