@@ -54,4 +54,9 @@ class AgencyUser
   def is_agency_user?
     true
   end
+
+  def self.find_by_email(some_email)
+    AgencyUser.find_by(email: some_email)
+  end
+
 end

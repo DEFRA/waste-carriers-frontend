@@ -56,4 +56,8 @@ class Admin
     false
   end
   
+  def self.find_by_email(some_email)
+    Admin.find_by(email: some_email)
+  end
+
 end
