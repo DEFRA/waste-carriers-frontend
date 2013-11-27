@@ -52,7 +52,7 @@ Then(/^I should see the user's details page$/) do
 end
 
 Given(/^there is a user to be deleted$/) do
-  AgencyUser.where(email: "to-be-deleted@waste-exemplar.gov.uk", password: "secret123").create!
+  AgencyUser.where(email: "to-be-deleted@waste-exemplar.gov.uk", password: "secret123").create
 end
 
 When(/^I elect to delete the user$/) do

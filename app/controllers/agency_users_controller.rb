@@ -2,9 +2,7 @@
 
 class AgencyUsersController < ApplicationController
 
-  ##TODO Uncomment filters when ready
-
-  #before_filter :require_admin_request!
+  before_filter :require_admin_request!
 
 
   #Only administrators can manage other users - requires administrator login.
@@ -90,8 +88,11 @@ class AgencyUsersController < ApplicationController
     end
 
     def require_admin_request!
-      if !is_admin_request? && !is_local_request?
-        renderAccessDenied
+      if Rails.application.config.require_admin_requests
+        if !is_admin_request? && !is_local_request?
+          #renderAccessDenied
+          renderNotFound
+        end
       end
     end
 
