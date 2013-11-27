@@ -80,7 +80,7 @@ module Registrations
     
     # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
     config.waste_exemplar_end_url = "/gds-end"   # Eventually will be: https://www.gov.uk/done/waste-carrier-or-broker-registration 
-    config.waste_exemplar_eaupper_url = "/ea-upper"
+    config.waste_exemplar_eaupper_url = "https://integrated-regulation.environment-agency.gov.uk/EAIntegratedRegulationInternet/login.jsf"
     
     # Set configuration for error pages to manual, to enable more user friendly error pages
     config.exceptions_app = self.routes
