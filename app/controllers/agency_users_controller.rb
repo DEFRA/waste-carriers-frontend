@@ -79,6 +79,9 @@ class AgencyUsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_agency_user
       @agency_user = AgencyUser.find(params[:id])
+      if !@agency_user 
+        renderNotFound
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
