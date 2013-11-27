@@ -79,7 +79,7 @@ module Registrations
     config.require_admin_requests = Rails.env.production? || ENV["WCRS_FRONTEND_REQUIRE_ADMIN_REQUESTS"] || false
     
     # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
-    config.waste_exemplar_end_url = "/gds-end"
+    config.waste_exemplar_end_url = "/gds-end"   # Eventually will be: https://www.gov.uk/done/waste-carrier-or-broker-registration 
     config.waste_exemplar_eaupper_url = "/ea-upper"
     
     # Set configuration for error pages to manual, to enable more user friendly error pages
