@@ -177,7 +177,7 @@ en:
       registered: "Status: Registered"
     form:
       title: "Waste Carrier Registration"
-      subtitle: "For a lower tier waste carrier/broker/dealer"
+      subtitle: "Registering as a lower tier waste carrier/broker/dealer"
       progress: "Progress: "
       error_explanation: "prohibited this registration from being saved:"
       business_or_org_details: "Business or organisation details"
