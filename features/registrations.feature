@@ -8,8 +8,7 @@ So that I am compliant with regulations
 Scenario: Valid registration as an Individual
   Given I do not have an account yet
   And I have found out that I need to register in the lower tier
-  Then I should see "Waste Carrier Registration"
-  And I should see "For a lower tier waste carrier/broker/dealer"
+  Then I should see "Registering as a lower tier waste carrier/broker/dealer"
   And I select business or organisation type "Sole trader"
   And I fill in "Business, organisation or trading name" with "Joe Bloggs"
   And I click "Next"
