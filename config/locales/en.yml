@@ -124,7 +124,7 @@ en:
       contactTextLine2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
       upperTextHeading: "Register in the upper tier"
       upperTextLine1: "You need to register as an upper tier carrier, broker or dealer on the Environment Agency website."
-      upperTextLine2_html: "Or to apply by post, download and complete the <a href='#'>upper tier registration form</a> [PDF, 180KB]."
+      upperTextLine2_html: "Or to apply by post, download and complete the <a href='%{pdflocation}' target='_blank'>upper tier registration form</a> [PDF, 180KB]."
       lowerTextHeading: "Register in the lower tier"
       lowerTextLine1: "You need to register as a lower tier carrier/broker/dealer."
       notRegisterText: "You do not need to register as a waste carrier, broker or dealer."
