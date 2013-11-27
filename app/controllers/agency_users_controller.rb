@@ -15,7 +15,7 @@ class AgencyUsersController < ApplicationController
   # GET /agency_users
   # GET /agency_users.json
   def index
-    @agency_users = AgencyUser.all
+    @agency_users = AgencyUser.all.sort_by(&:email)
   end
 
   # GET /agency_users/1
