@@ -162,6 +162,9 @@ en:
       emailUsernameText: "Please check this email address as it will be your username"
       complete: "Complete registration"
       update: "Update registration"
+      accountExists: "An account already exists with the email you have provided, sign in with this email address."
+      signedInAsText: "You are currently signed in as"
+      notYouText_html: "If this is not you, <a href='#' id='secondaryButton' onclick='document.getElementById(\"signout_button\").click()'>sign out and start again</a>"
     finish:
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
       yourRegNumber: "Your registration number is: %{reg}"

@@ -11,8 +11,9 @@
 <% if user_signed_in? || agency_user_signed_in? %>
 <!--<legend>User Account</legend>-->
 	
-<p>You are currently signed in as <strong><% if user_signed_in? %><%= current_user.email %><% elsif agency_user_signed_in? %><%= current_agency_user.email %><% end %></strong></p>
-<p>If this is not you, <% if user_signed_in? %><%= link_to "sign out and start again", destroy_user_session_path, :method => :delete, :class => 'navbar-link'  %><% elsif agency_user_signed_in? %><%= link_to "sign out and start again", destroy_agency_user_session_path, :method => :delete, :class => 'navbar-link'  %><% end %>.</p>
+<p><%= t '.signedInAsText' %> <strong><% if user_signed_in? %><%= current_user.email %><% elsif agency_user_signed_in? %><%= current_agency_user.email %><% end %></strong></p>
+<p><%= t '.notYouText_html' %></p>
+
 
 <%= f.select(:sign_up_mode, options_for_select([["Signed In",""]],f.object.sign_up_mode), {}, { :class => 'js-hidden' }) %>
 
@@ -24,9 +25,11 @@
     <%= f.select :sign_up_mode, options_for_select([["Please select...",""],["Sign up (new e-mail)","sign_up"],["Sign in (existing e-mail)","sign_in"]],f.object.sign_up_mode) %>
 </p>
 
+<p id="accountExists" class="group js-hidden"><%= t '.accountExists' %></p>
+
 <p class="group js-hidden<%if @registration.errors[:accountEmail].any?%> validation<%end%>">
-    <%= f.label :accountEmail %><%= t '.emailUsernameText' %><br/>
-    <%= f.email_field :accountEmail, :autofocus => true %>
+    <%= f.label :accountEmail %><span id="emailSignUpText" class="js-hidden"><%= t '.emailUsernameText' %><br/></span>
+    <%= f.email_field :accountEmail, :autofocus => true, :readonly => true %>
 </p>
 
 <p class="group <%if @registration.errors[:accountEmail_confirmation].any?%> validation<%end%>">

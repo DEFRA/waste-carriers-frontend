@@ -524,9 +524,14 @@
 			if(signup) {
 				$('#registration_accountEmail_confirmation').parent().removeClass("js-hidden");
 				$('#registration_password_confirmation').parent().removeClass("js-hidden");
+				$('#emailSignUpText').removeClass("js-hidden");
+				$('#accountExists').addClass("js-hidden");
+				
 			} else {
 				$('#registration_password_confirmation').parent().addClass("js-hidden");
 				$('#registration_accountEmail_confirmation').parent().addClass("js-hidden");
+				$('#emailSignUpText').addClass("js-hidden");
+				$('#accountExists').removeClass("js-hidden");
 			}
 		} else {
 			$('#registration_accountEmail').parent().addClass("js-hidden");
