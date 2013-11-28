@@ -52,26 +52,26 @@
   <div id="contactText" class="js-hidden">
     <p class="group">
 	    <h3><%= t '.contactTextHeading' %></h3>
-		<p><%= t '.contactTextLine1' %></p>
-		<p><%= t '.contactTextLine2' %></p>
+		<p class="font-larger"><%= t '.contactTextLine1' %></p>
+		<p class="font-larger"><%= t '.contactTextLine2' %></p>
 	</p>
   </div>
   
   <div id="upperText" class="js-hidden">
     <p class="group">
 	    <h3><%= t '.upperTextHeading' %></h3>
-		<p><%= t '.upperTextLine1' %></p>
+		<p class="font-larger"><%= t '.upperTextLine1' %></p>
 		<p class="action group">
 			<%= f.submit :class => "button", :id => 'register_upper_tier', :value => t('.buttonText') %>
 		</p>
-		<p><%= t '.upperTextLine2_html', :pdflocation => 'https://publications.environment-agency.gov.uk/pdf/GEHO0411BTTB-e-e.pdf' %></p>
+		<p class="font-larger"><%= t '.upperTextLine2_html', :pdflocation => 'https://publications.environment-agency.gov.uk/pdf/GEHO0411BTTB-e-e.pdf' %></p>
 	</p>
   </div>
   
   <div id="lowerText" class="js-hidden">
     <p class="group">
 	    <h3><%= t '.lowerTextHeading' %></h3>
-	    <p><%= t '.lowerTextLine1' %></p>
+	    <p class="font-larger"><%= t '.lowerTextLine1' %></p>
 		<p class="action group">
 			<%= f.submit :class => "button", :id => 'register_lower_tier', :value => t('.buttonText') %>
 		</p>
@@ -80,7 +80,7 @@
   
   <div id="notRegisterText" class="js-hidden">
     <p class="group">
-		<p><%= t '.notRegisterText' %></p>
+		<p class="font-larger"><%= t '.notRegisterText' %></p>
 	</p>
   </div>
   
