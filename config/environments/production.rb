@@ -70,4 +70,18 @@ Registrations::Application.configure do
   # Sending e-mails is required for user management and registration e-mails
   config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'] }
 
+  # Don't care if the mailer can't send (if set to false)
+  config.action_mailer.raise_delivery_errors = false
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => ENV["WCRS_FRONTEND_EMAIL_USERNAME"],
+    :password => ENV["WCRS_FRONTEND_EMAIL_PASSWORD"],
+    :domain => ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"],
+    :address => ENV["WCRS_FRONTEND_EMAIL_HOST"],
+    :port => ENV["WCRS_FRONTEND_EMAIL_PORT"],
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
+
 end
