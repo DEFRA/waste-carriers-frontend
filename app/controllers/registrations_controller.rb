@@ -11,7 +11,18 @@ class RegistrationsController < ApplicationController
   # GET /registrations.json
   def index
     authenticate_agency_user!
-    @registrations = Registration.find(:all, :params => {:q => params[:q], :searchWithin => params[:searchWithin]})
+    searchWithin = params[:searchWithin]
+    searchString = params[:q]
+    if validate_search_parameters?(searchString,searchWithin)
+      if searchString != nil && !searchString.empty?
+        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
+      else
+        @registrations = []
+      end
+    else
+      @registrations = []
+      flash.now[:notice] = 'Invalid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
+    end
     session[:registration_step] = session[:registration_params] = nil
 
     respond_to do |format|
@@ -24,6 +35,12 @@ class RegistrationsController < ApplicationController
   	render :file => "/public/503.html", :status => 503
   end
   
+  def validate_search_parameters?(searchString, searchWithin)
+    searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
+    searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
+    searchString_valid && searchWithin_valid
+  end
+
   def userRegistrations
     # Get user from id in url
     tmpUser = User.find_by_id(params[:id])
