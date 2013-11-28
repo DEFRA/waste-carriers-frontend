@@ -39,6 +39,7 @@
   
   <p id="discover_wasteType" class="group<%if @discover.errors[:wasteType_animal].any? or @discover.errors[:wasteType].any?%> validation<%end%>">
     <%= f.label :wasteType %>
+    <label class="label"><%= t '.selectApply' %></label>
     <span class="inline">
 	    <%= f.check_box :wasteType_animal, :class => "radio" %><%= f.label :wasteType_animal, :class => "label" %><br/>
 	    <%= f.check_box :wasteType_mine, :class => "radio" %><%= f.label :wasteType_mine, :class => "label" %><br/>
