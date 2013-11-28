@@ -57,17 +57,17 @@ As is standard with Rails applications, navigate to the project directory, and e
 
 Install missing gems:
 
- $ bundle install
+	$ bundle install
 
 Start the Rails application web server:
 
- $ rails server
+	$ rails server
 
 This will start the Rails development server (in development mode), by default on port 3000 (http://localhost:3000).
 
 Once the application server is started you should be able to access the application in your browser on
 
-http://localhost:3000
+	http://localhost:3000
 
 ##User Guide
 
@@ -79,7 +79,7 @@ While in development, the application contains a (temporary) root index page whi
 
 To run the Cucumber-based acceptance tests, navigate to the application project directory, and execute from the command line / Terminal window:
 
- $ cucumber
+	$ cucumber
 
 Acceptance tests are located in the features directory.
 
@@ -93,14 +93,25 @@ Cucumber-based tests are work-in-progress and sometimes fail due to connectivity
 
 To run the Cucumber-based tests against Saucelabs, execute:
 
- $ rake sauce:features
+	$ rake sauce:features
 
 
 To run RSpec-based tests against Saucelabs, execute:
 
- $ rake sauce:spec
+	$ rake sauce:spec
 
 
 ##Related Resources
 
+Ruby on Rails: http://rubyonrails.org
 
+MongoDB: http://www.mongodb.org
+
+ElasticSearch: http://www.elasticsearch.org
+
+Apache Maven: http://www.elasticsearch.org
+
+
+##License
+
+TBD
