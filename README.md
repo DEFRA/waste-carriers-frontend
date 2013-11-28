@@ -50,8 +50,8 @@ You may want or need to set the following environment variables, e.g. in your ~/
 	export WCRS_FRONTEND_USERSDB_URL2=localhost:28017
 	export WCRS_FRONTEND_USERSDB_URL3=localhost:29017
 	##for Saucelabs cross-browser testing:
-	export SAUCE_USERNAME=***REMOVED***
-	export SAUCE_ACCESS_KEY=***REMOVED***
+	export SAUCE_USERNAME=<your saucelabs username>
+	export SAUCE_ACCESS_KEY=<your sauce access key>
 
 You may want to edit your local 'hosts' file to have entries for "www.local.wastecarriersregistration.service.gov.uk" and "admin.local.wastecarriersregistration.service.gov.uk".
 
