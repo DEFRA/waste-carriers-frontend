@@ -1,65 +1,106 @@
-waste-exemplar-frontend
-=======================
+#waste-exemplar-frontend
 
 Waste Carriers Registration Service Frontend application.
 
-The frontend application is a Ruby on Rails 4 application, which accesses a RESTful services layer implemented in Java.
-The service layer in turn accesses a MongoDB database.
+The Waste Carrier Registrations Service allows businesses, who deal with waste and thus have to register according to the regulations, to register online. Once registered, businesses can sign in again to edit their registrations if needed.
 
-Installation
-------------
+The service also allows authorised agency users and NCCC contact centre staff to create and manage registrations on other users behalf. The service provides an internal user account management facility which allows authorised administrators to create and manage other agency user accounts.
+
+The service is implemented as a frontend web application, with a service API and a document-oriented database (MongoDB) underneath.
+
+The frontend application is a Ruby on Rails 4 application, which accesses a RESTful services layer implemented in Java.
+The services layer provides a RESTful API to manage (create, read, update, delete) registrations.
+The service layer in turn accesses a MongoDB database. 
+
+For authentication purposes the application uses the Devise gem (https://github.com/plataformatec/devise) to manage the user accounts of waste carriers (i.e. external users), and internal users (agency users such as NCCC contact centre staff and administrators). User account information managed by the Devise gem is stored in MongoDB.
+
+It is expected that external user authentication will be migrated to mechanisms provided by the GOV.UK ID Assurance program, once these become available (thought to be in 2014).
+
+The application sends emails using the Sendgrid e-mail service.
+
+
+##Installation
+
 
 Clone the repository, copying the project into a working directory:
 
+ $ git clone https://github.com/EnvironmentAgency/waste-exemplar-frontend.git
 
-Configuration
--------------
+##Configuration
+
+The application contains a variety of configurable settings, which are set in several files located in the /config directory.
+Environment-related configuration settings are located in the /config/environments directory, e.g. development.rb, production.rb, etc.
+
+The frontend application expects the services to run on http://localhost:9090, unless configured otherwise.
+
+You may want or need to set the following environment variables, e.g. in your ~/.bash_profile (if you are a Mac or Linux user):
 
 
-Prerequisites
--------------
+
+##Prerequisites
+
 
 * Git
 * Access to GitHub
 * Ruby 2.0.0
 * Rails 4.0
 * The running services layer (build and deploy waste-exemplar-services)
-* MongoDB (version 2.4.6 or above)
-* ElasticSearch (version 0.90.5 or above)
+* Java 7 JDK - for building the services layer
+* Maven (version 3.0 or above) - for building the services layer
+* MongoDB (version 2.4.6 or above) - to store registrations and user accounts
+* ElasticSearch (version 0.90.5 or above) - for full-text search
 
 
-Build and Deploy
-----------------
+##Build and Deploy
 
 As is standard with Rails applications, navigate to the project directory, and execute the following:
 
 Install missing gems:
 
-$ bundle install
+ $ bundle install
 
 Start the Rails application web server:
 
-$ rails server
+ $ rails server
 
 This will start the Rails development server (in development mode), by default on port 3000 (http://localhost:3000).
 
-Once the application server is started you can access the application on
+Once the application server is started you should be able to access the application in your browser on
 
 http://localhost:3000
 
-User Guide
-----------
+##User Guide
+
+While in development, the application contains a (temporary) root index page which shows a variety of links for the typical entry points into the application. Note: this page may be removed at a later stage.
+
+##Run Tests
+
+###Acceptance Tests - using Cucumber
+
+To run the Cucumber-based acceptance tests, navigate to the application project directory, and execute from the command line / Terminal window:
+
+ $ cucumber
+
+Acceptance tests are located in the features directory.
 
 
-Run Tests
----------
+###Cross-Browser Tests
 
-To run the Cucumber-based acceptance tests, navigate to the application project directory execute from the command line / Terminal window:
+We use Saucelabs to run cross-browser and cross-platform tests.
+Saucelabs supports a variety of languages and testing frameworks, including RSpec and Cucumber for Ruby and Rails based development.
 
-$ cucumber
+Cucumber-based tests are work-in-progress and sometimes fail due to connectivity and timeout problems. 
 
-Related Resources
------------------
+To run the Cucumber-based tests against Saucelabs, execute:
 
+ $ rake sauce:features
+
+
+To run RSpec-based tests against Saucelabs, execute:
+
+ $ rake sauce:spec
+
+
+##Related Resources
 
 
