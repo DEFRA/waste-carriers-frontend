@@ -54,5 +54,5 @@
 </div>
 <p class="action group">
 <input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
-<input name="register" class="button" type="submit" value="<% if !@registration.persisted? %><%= t 'registrations.form.next_button_label' %><% else %><%= t '.update' %><% end %>"/>
+<input name="register" class="button" type="submit" value="<% if !@registration.persisted? %><%= t '.complete' %><% else %><%= t '.update' %><% end %>"/>
 </p>
