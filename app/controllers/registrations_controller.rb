@@ -124,6 +124,10 @@ class RegistrationsController < ApplicationController
     @apiVersion = '0-5-1-SNAPSHOT'   
     render :layout => false
   end
+  
+  def privacy
+    render :file => "/public/privacy.html", :status => 200
+  end
 
   # GET /registrations/new
   # GET /registrations/new.json
