@@ -526,6 +526,7 @@
 				$('#registration_password_confirmation').parent().removeClass("js-hidden");
 				$('#emailSignUpText').removeClass("js-hidden");
 				$('#accountExists').addClass("js-hidden");
+				$('#registration_accountEmail').removeAttr('readonly');
 				
 			} else {
 				$('#registration_password_confirmation').parent().addClass("js-hidden");
