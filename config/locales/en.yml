@@ -80,7 +80,7 @@ en:
         password: "Password"
         password_confirmation: "Confirm password"
       discover:
-        businessType: "Business or organisation details"
+        businessType: "What kind of business or organisation are you?"
         otherBusinesses: "Do you transport waste for other businesses?"
         otherBusinesses_yes: "Yes"
         otherBusinesses_no: "No"
