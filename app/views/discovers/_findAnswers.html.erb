@@ -24,8 +24,16 @@
 	  <%= f.label :otherBusinesses %>
 	  <span class="inline"><!-- GDS have an 'option' class but it renders awfully -->
 	    <!--<label class="label" for="discover_otherBusinesses_yes">-->
-	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %><%= f.label :otherBusinesses_yes, :class => "label" %> <!-- Yes</label>-->
+	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %> <%= f.label :otherBusinesses_yes, :class => "label" %><!-- Yes</label>-->
 	    <%= f.radio_button :otherBusinesses, "no", :class => "radio" %><%= f.label :otherBusinesses_no, :class => "label" %>
+	  </span>
+  </p>
+  
+  <p id="discover_onlyAMF" class="group<%if @discover.errors[:onlyAMF].any?%> validation<%end%>">
+      <%= f.label :onlyAMF %>
+	  <span class="inline"><!-- GDS have an 'option' class but it renders awfully -->
+	    <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> <%= f.label :onlyAMF_yes, :class => "label" %>
+	    <%= f.radio_button :onlyAMF, "no", :class => "radio" %><%= f.label :onlyAMF_no, :class => "label" %>
 	  </span>
   </p>
   
@@ -37,6 +45,7 @@
 	  </span>
   </p>
   
+  <!--
   <p id="discover_wasteType" class="group<%if @discover.errors[:wasteType_animal].any? or @discover.errors[:wasteType].any?%> validation<%end%>">
     <%= f.label :wasteType %>
     <label class="label"><%= t '.selectApply' %></label>
@@ -47,7 +56,7 @@
 	    <%= f.check_box :wasteType_other, :class => "radio" %><%= f.label :wasteType_other, :class => "label" %><br/>
 	    <%= f.check_box :wasteType_none, :class => "radio" %><%= f.label :wasteType_none, :class => "label" %>
     </span>
-  </p>
+  </p>-->
   
   <div id="contactText" class="js-hidden">
     <p class="group">
