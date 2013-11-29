@@ -6,7 +6,7 @@ Given(/^I have found out that I need to register in the lower tier$/) do
   page.select('Sole trader', :from => 'discover_businessType')
   choose 'discover_otherBusinesses_no'
   choose 'discover_constructionWaste_no'
-  check 'discover_wasteType_other'
+  #check 'discover_wasteType_other'
   #within("//div[@id='lowerText']") do
   #  click_button "Continue >"
   #end
