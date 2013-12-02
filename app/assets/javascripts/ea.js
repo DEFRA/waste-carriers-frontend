@@ -674,6 +674,28 @@
 	    }
 	    
 	}
+	
+	/**
+	* This function ensure than when internal links are activated a smooth transistion occurs between
+	* scroll of the page from the click to the target location
+	*/
+	function smoothInternalLinks(){
+		$('a[href^="#"]').on('click',function (e) {
+		    e.preventDefault();
+
+		    var target = this.hash,
+		    $target = $(target);
+
+		    $('html, body').stop().animate({
+		        'scrollTop': $target.offset().top - 75
+		    }, 900, 'swing', function () {
+		        window.location.hash = target;
+		    });
+		    
+		    $target.focus();
+		    
+		});
+	}
 
 	$(document).ready(function(){
 		//$('#registration_businessType').change(refreshQuestions);
@@ -749,6 +771,8 @@
 			passwordCheck();
 		});
 		*/
+		
+		smoothInternalLinks();
 		
 		$("form").submit(function(e){
 			submitAddress();

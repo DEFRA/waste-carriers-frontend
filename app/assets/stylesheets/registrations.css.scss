@@ -443,6 +443,17 @@ table.users td {
 	font-size:110%
 }
 
-span.error-text {
+a,span.error-text {
 	color: #df3034;
+}
+
+a:visited.error-text {
+	color: #df3034;
+}
+a:hover.error-text {
+	color: #df3034;
+}
+a:focus.error-text {
+background-color: rgb(255, 191, 71);
+outline: 3px solid rgb(255, 191, 71);
 }
