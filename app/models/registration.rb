@@ -83,21 +83,13 @@ class Registration < ActiveResource::Base
   validate :validate_accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }
   #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
-
-  validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-  #If changing mim and max length, please also change in devise.rb
-  validates_length_of :password, :minimum => 8, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.min8')
-  validates_length_of :password, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.max128')
-  validate :validate_password_strength, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-  validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-  validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_email_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
   
   #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
   #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
-
-  validates_presence_of :password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
-
 
   def self.business_type_options_for_select
     [[I18n.t('please_select'), ""]] + (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
@@ -370,6 +362,47 @@ class Registration < ActiveResource::Base
     end
   end
   
+  def validate_password
+    #validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+    if password == ""
+      Rails.logger.debug 'password is empty'
+      errors.add(:password, I18n.t('errors.messages.blank') )
+    #If changing mim and max length, please also change in devise.rb
+    #validates_length_of :password, :minimum => 8, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.min8')
+    elsif password.length < 8
+      Rails.logger.debug 'password minimum not reached'
+      errors.add(:password, I18n.t('errors.messages.min8') )
+    #validates_length_of :password, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.max128')
+    elsif password.length > 128
+      Rails.logger.debug 'password longer than allowed'
+      errors.add(:password, I18n.t('errors.messages.max128') )
+    else
+      #validate :validate_password_strength, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+      strength = PasswordStrength.test(accountEmail,password)
+      if !strength.valid?(:good)
+        errors.add(:password, I18n.t('errors.messages.weakPassword') )
+      end 
+    end
+  end
+  
+  def validate_password_confirmation
+    #validates_presence_of :password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
+    if password_confirmation == ""
+      Rails.logger.debug 'password_confirmation is empty'
+      errors.add(:password_confirmation, I18n.t('errors.messages.blank') )
+    #validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+    elsif !persisted? && do_sign_up?
+      #Note: this method may be called (again?) after the password properties have been deleted
+      if password != nil && password_confirmation != nil
+        if password != password_confirmation
+          errors.add(:password_confirmation, I18n.t('errors.messages.matchPassword') )
+        end
+      end
+    else
+      Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + (sign_up_mode || '')
+    end
+  end
+  
   # ----------------------------------------------------------
   # GENERAL VALIDATIONS
   # ----------------------------------------------------------
@@ -385,19 +418,6 @@ class Registration < ActiveResource::Base
     end
   end
 
-  def validate_passwords
-    if !persisted? && do_sign_up?
-      #Note: this method may be called (again?) after the password properties have been deleted
-      if password != nil && password_confirmation != nil
-        if password != password_confirmation
-          errors.add(:password_confirmation, I18n.t('errors.messages.matchPassword') )
-        end
-      end
-    else
-      Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + (sign_up_mode || '')
-    end
-  end
-
   def validate_email_confirmation
     if !persisted? && do_sign_up?
       #Note: this method may be called (again?) after the password properties have been deleted
@@ -408,14 +428,7 @@ class Registration < ActiveResource::Base
       end
     end
   end
-
-  def validate_password_strength
-    strength = PasswordStrength.test(accountEmail,password)
-    if !strength.valid?(:good)
-      errors.add(:password, I18n.t('errors.messages.weakPassword') )
-    end 
-  end
-    
+  
   def validate_login
     Rails.logger.debug "entering validate_login"
     if !persisted? && do_sign_in?
