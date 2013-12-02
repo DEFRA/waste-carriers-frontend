@@ -39,7 +39,7 @@
 </p>
 <p class="group js-hidden<%if @registration.errors[:password].any?%> validation<%end%>">
     <%= validation_for(@registration, :password) %>
-    <%= f.label :password %>
+    <% if @registration.sign_up_mode == "sign_up" %><%= f.label :password, t('.createPassword') %><% else %><%= f.label :password %><% end %>
     <%= f.password_field :password %>
     <span class="strength_icon none">&#9650;<span class="strength_message"></span></span>
 </p>
