@@ -1,10 +1,9 @@
 <% if @registration.errors.any? %>
     <div id="error_explanation" class="validation-summary">
       <h2><%= t '.errorMessage', :count => pluralize(@registration.errors.count, t('.error')) %></h2>
-
       <ul>
-      <% @registration.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
+      <% @registration.errors.each do |error| %>
+        <li><a class="error-text" href="#registration_<%= error %>"><%= @registration.errors.full_messages_for(error).first %></a></li>
       <% end %>
       </ul>
     </div>
