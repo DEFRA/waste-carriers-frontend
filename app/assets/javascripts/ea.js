@@ -653,7 +653,7 @@
 				strengthIcon.removeClass("good");
 				strengthIcon.removeClass("strong");
 				
-				strengthText.html("Weak: Try making the password longer, and add more uppercase, lowercase and number combinations.");
+				strengthText.html("Weak: try making the password longer, and add more uppercase, lowercase and number combinations");
 		    }
 		    else if (status == "good") {
 				// Show good
@@ -661,7 +661,7 @@
 				strengthIcon.removeClass("strong");
 				strengthIcon.addClass("good");
 				
-				strengthText.html("Fair: Try to use even more combinations of uppercase lowercase and numbers");
+				strengthText.html("Fair: try to use even more combinations of uppercase lowercase and numbers");
 		    }
 		    else if (status == "strong") {
 				// Show strong
@@ -669,7 +669,7 @@
 				strengthIcon.removeClass("good");
 				strengthIcon.addClass("strong");
 				
-				strengthText.html("Strong: You have entered a strong password");
+				strengthText.html("Strong: you have entered a strong password");
 		    }
 	    }
 	    
