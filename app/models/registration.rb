@@ -85,7 +85,6 @@ class Registration < ActiveResource::Base
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
   validate :validate_email_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-  validate :validate_login, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
   
   #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
@@ -381,6 +380,17 @@ class Registration < ActiveResource::Base
       strength = PasswordStrength.test(accountEmail,password)
       if !strength.valid?(:good)
         errors.add(:password, I18n.t('errors.messages.weakPassword') )
+      else
+	    if !persisted? && do_sign_in?
+	      Rails.logger.debug "validate_password - do_sign_in is true - looking for User with this email"
+	      @user = User.find_by_email(accountEmail)
+	      if @user == nil || !@user.valid_password?(password)
+	        errors.add(:password, 'Invalid email and/or password')
+	        Rails.logger.debug "Invalid User Found"
+	      end
+	    else
+	      Rails.logger.debug "validate_password: not validating, sign_up_mode = " + (sign_up_mode || '')
+	    end
       end 
     end
   end
@@ -426,20 +436,6 @@ class Registration < ActiveResource::Base
           errors.add(:accountEmail_confirmation, I18n.t('errors.messages.matchEmail') )
         end
       end
-    end
-  end
-  
-  def validate_login
-    Rails.logger.debug "entering validate_login"
-    if !persisted? && do_sign_in?
-      Rails.logger.debug "validate_login - do_sign_in is true - looking for User with this email"
-      @user = User.find_by_email(accountEmail)
-      if @user == nil || !@user.valid_password?(password)
-        errors.add(:password, 'Invalid email and/or password')
-        Rails.logger.debug "Invalid User Found"
-      end
-    else
-      Rails.logger.debug "validate_login: not validating, sign_up_mode = " + (sign_up_mode || '')
     end
   end
 
