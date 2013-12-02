@@ -181,7 +181,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'companyName is empty'
       errors.add(:companyName, I18n.t('errors.messages.blank') )
     #validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/, message: I18n.t('errors.messages.alpha70') }  
-    elsif companyName[/\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/].nil?
+    elsif !companyName.nil? and companyName[/\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/].nil?
       Rails.logger.debug 'companyName fails reg ex check'
       errors.add(:companyName, I18n.t('errors.messages.alpha70') )
     end
@@ -193,7 +193,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'houseNumber is empty'
       errors.add(:houseNumber, I18n.t('errors.messages.blank') )
     #validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }
-    elsif houseNumber[/\A[a-zA-Z0-9\s]{0,35}\Z/].nil?
+    elsif !houseNumber.nil? and houseNumber[/\A[a-zA-Z0-9\s]{0,35}\Z/].nil?
       Rails.logger.debug 'houseNumber fails reg ex check'
       errors.add(:houseNumber, I18n.t('errors.messages.lettersSpacesNumbers35') )
     end
@@ -205,7 +205,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'streetLine1 is empty'
       errors.add(:streetLine1, I18n.t('errors.messages.blank') )
     #validates :streetLine1, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
-    elsif streetLine1[VALID_CHARACTERS].nil?
+    elsif !streetLine1.nil? and streetLine1[VALID_CHARACTERS].nil?
       Rails.logger.debug 'streetLine1 fails reg ex check'
       errors.add(:streetLine1, I18n.t('errors.messages.invalid_characters') )
     #validates_length_of :streetLine1, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
@@ -217,7 +217,7 @@ class Registration < ActiveResource::Base
   
   def validate_streetLine2
     #validates :streetLine2, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
-    if streetLine2[VALID_CHARACTERS].nil?
+    if !streetLine2.nil? and streetLine2[VALID_CHARACTERS].nil?
       Rails.logger.debug 'streetLine2 fails reg ex check'
       errors.add(:streetLine2, I18n.t('errors.messages.invalid_characters') )
     #validates_length_of :streetLine2, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
@@ -233,7 +233,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'townCity is empty'
       errors.add(:townCity, I18n.t('errors.messages.blank') )
     #validates :townCity, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
-    elsif townCity[VALID_CHARACTERS].nil?
+    elsif !townCity.nil? and townCity[VALID_CHARACTERS].nil?
       Rails.logger.debug 'townCity fails reg ex check'
       errors.add(:townCity, I18n.t('errors.messages.invalid_characters') )
     end
@@ -267,7 +267,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'otherTitle is empty'
       errors.add(:otherTitle, I18n.t('errors.messages.blank') )
     #validates :otherTitle, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
-    elsif otherTitle[VALID_CHARACTERS].nil?
+    elsif !otherTitle.nil? and otherTitle[VALID_CHARACTERS].nil?
       Rails.logger.debug 'otherTitle fails reg ex check'
       errors.add(:otherTitle, I18n.t('errors.messages.invalid_characters') )
     end
@@ -279,11 +279,11 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'firstName is empty'
       errors.add(:firstName, I18n.t('errors.messages.blank') )
     #validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:I18n.t('errors.messages.letters') }
-    elsif firstName[/\A[a-zA-Z\s\-\']*\Z/].nil?
+    elsif !firstName.nil? and firstName[/\A[a-zA-Z\s\-\']*\Z/].nil?
       Rails.logger.debug 'firstName fails reg ex check'
       errors.add(:firstName, I18n.t('errors.messages.letters') )
     #validates :firstName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:I18n.t('errors.messages.35characters') }
-    elsif firstName[/\A.{0,35}\Z/].nil?
+    elsif !firstName.nil? and firstName[/\A.{0,35}\Z/].nil?
       Rails.logger.debug 'firstName fails reg ex check'
       errors.add(:firstName, I18n.t('errors.messages.35characters') )
     end
@@ -295,11 +295,11 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'lastName is empty'
       errors.add(:lastName, I18n.t('errors.messages.blank') )
     #validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:I18n.t('errors.messages.letters') }
-    elsif lastName[/\A[a-zA-Z\s\-\']*\Z/].nil?
+    elsif !lastName.nil? and lastName[/\A[a-zA-Z\s\-\']*\Z/].nil?
       Rails.logger.debug 'lastName fails reg ex check'
       errors.add(:lastName, I18n.t('errors.messages.letters') )
     #validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:I18n.t('errors.messages.35characters') }
-    elsif lastName[/\A.{0,35}\Z/].nil?
+    elsif !lastName.nil? and lastName[/\A.{0,35}\Z/].nil?
       Rails.logger.debug 'lastName fails reg ex check'
       errors.add(:lastName, I18n.t('errors.messages.35characters') )
     end
@@ -307,7 +307,7 @@ class Registration < ActiveResource::Base
   
   def validate_position
     #validates :position, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s]*\Z/, message:I18n.t('errors.messages.lettersSpaces') }
-    if position[/\A[a-zA-Z\s]*\Z/].nil?
+    if !position.nil? and position[/\A[a-zA-Z\s]*\Z/].nil?
       Rails.logger.debug 'position fails reg ex check'
       errors.add(:position, I18n.t('errors.messages.lettersSpaces') )
     end
@@ -319,7 +319,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'phoneNumber is empty'
       errors.add(:phoneNumber, I18n.t('errors.messages.blank') )
     #validates :phoneNumber, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[0-9\s]*\Z/, message:I18n.t('errors.messages.numbers') }
-    elsif phoneNumber[/\A[0-9\s]*\Z/].nil?
+    elsif !phoneNumber.nil? and phoneNumber[/\A[0-9\s]*\Z/].nil?
       Rails.logger.debug 'phoneNumber fails reg ex check'
       errors.add(:phoneNumber, I18n.t('errors.messages.numbers') )
     #validates_length_of :phoneNumber, :maximum => 20, :allow_blank => true, message: I18n.t('errors.messages.maxlength20'), :if => lambda { |o| o.current_step == "contact"}
@@ -335,11 +335,11 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'contactEmail is empty'
       errors.add(:contactEmail, I18n.t('errors.messages.blank') )
     #validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
-    elsif contactEmail[/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
+    elsif !contactEmail.nil? and contactEmail[/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
       Rails.logger.debug 'contactEmail fails reg ex check'
       errors.add(:contactEmail, I18n.t('errors.messages.invalidEmail') )
     #validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A.{0,70}\Z/, message:I18n.t('errors.messages.70characters') }
-    elsif contactEmail[/\A.{0,70}\Z/].nil?
+    elsif !contactEmail.nil? and contactEmail[/\A.{0,70}\Z/].nil?
       Rails.logger.debug 'contactEmail fails reg ex check'
       errors.add(:contactEmail, I18n.t('errors.messages.70characters') )
     end
@@ -351,11 +351,11 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'accountEmail is empty'
       errors.add(:accountEmail, I18n.t('errors.messages.blank') )
     #validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
-    elsif accountEmail[/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
+    elsif !accountEmail.nil? and accountEmail[/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
       Rails.logger.debug 'accountEmail fails reg ex check'
       errors.add(:accountEmail, I18n.t('errors.messages.invalidEmail') )
     #validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A.{0,70}\Z/, message:I18n.t('errors.messages.70characters') }
-    elsif accountEmail[/\A.{0,70}\Z/].nil?
+    elsif !accountEmail.nil? and accountEmail[/\A.{0,70}\Z/].nil?
       Rails.logger.debug 'accountEmail fails reg ex check'
       errors.add(:accountEmail, I18n.t('errors.messages.70characters') )
     end
