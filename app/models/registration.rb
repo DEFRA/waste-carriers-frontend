@@ -83,7 +83,7 @@ class Registration < ActiveResource::Base
   validate :validate_accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }
   #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
-  validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != "sign_up"}
+  validate :validate_email_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
   
@@ -428,7 +428,7 @@ class Registration < ActiveResource::Base
     end
   end
 
-  def validate_accountEmail_confirmation
+  def validate_email_confirmation
     if !persisted? && do_sign_up?
       #Note: this method may be called (again?) after the password properties have been deleted
       if accountEmail != nil && accountEmail_confirmation != nil
