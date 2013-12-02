@@ -75,6 +75,7 @@ en:
         title: "Title"
         postcode: "Postcode"
         streetLine1: "Street"
+        streetLine2: "Street Line 2"
         accountEmail_confirmation: "Confirm email"
         declaration: "Declaration"
         password: "Password"
