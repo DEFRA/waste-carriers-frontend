@@ -13,6 +13,8 @@
 
 <h3><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h3>
 
+<p><i>Registered on: <%= format_date(@registration.metaData.dateRegistered) %></i></p>
+
 <p><%= t '.proof' %></p>
 
 <% if @registration.assisted_digital? %>

@@ -164,6 +164,7 @@ class RegistrationsController < ApplicationController
   
   def ncccedit
     @registration = Registration.find(params[:id])
+    @registration.routeName = @registration.metaData.route
     authorize! :update, @registration
   end
 

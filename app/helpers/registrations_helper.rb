@@ -9,4 +9,15 @@ def validation_for(model, attribute)
   end
 end
 
+def format_date(dateString)
+	d = Date.parse(dateString)
+	myExt = 'th'	
+	if d.mday == '1' || d.mday == '21' || d.mday == '31'
+	  myExt = 'st'
+	elsif d.mday == '2' || d.mday == '22'
+	  myExt = 'nd'
+	end
+	d.strftime('%A %-d'+myExt+' %B %Y')
+end
+
 end
