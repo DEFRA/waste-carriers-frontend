@@ -14,14 +14,14 @@
 <legend><%= t 'registrations.business_step.business_or_org_details' %></legend>
 
 <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-<%= f.label :businessType %>
-<%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
+	<%= validation_for(@registration, :businessType) %>
+	<%= f.label :businessType %>
+	<%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
 </p>
-
-
 <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
-<%= f.label :companyName %>
-<%= f.text_field :companyName%>
+	<%= validation_for(@registration, :companyName) %>
+	<%= f.label :companyName %>
+	<%= f.text_field :companyName%>
 </p>
 
 </fieldset>
@@ -56,26 +56,29 @@
 -->
 
 <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
-<%= f.label :houseNumber %>
-<%= f.text_field :houseNumber %>
+	<%= validation_for(@registration, :houseNumber) %>
+	<%= f.label :houseNumber %>
+	<%= f.text_field :houseNumber %>
 </p>
-
 <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
-<%= f.label :streetLine1 %>
-<%= f.text_field :streetLine1%>
+	<%= validation_for(@registration, :streetLine1) %>
+	<%= f.label :streetLine1 %>
+	<%= f.text_field :streetLine1%>
 </p>
 <p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
-<%= f.label :streetLine2, :class=>"offscreen" %>
-<%= f.text_field :streetLine2%>
+	<%= validation_for(@registration, :streetLine2) %>
+	<%= f.label :streetLine2, :class=>"offscreen" %>
+	<%= f.text_field :streetLine2%>
 </p>
 <p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
-<%= f.label :townCity %>
-<%= f.text_field :townCity%>
+	<%= validation_for(@registration, :townCity) %>
+	<%= f.label :townCity %>
+	<%= f.text_field :townCity%>
 </p>
-
 <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
-    <%= f.label :postcode %>
-    <%= f.text_field :postcode %>
+	<%= validation_for(@registration, :postcode) %>
+	<%= f.label :postcode %>
+	<%= f.text_field :postcode %>
 </p>
 
 
@@ -97,26 +100,32 @@
 <legend><%= t 'registrations.contact_step.contact_information_legend' %></legend>
 
 <p class="group<%if @registration.errors[:title].any?%> validation<%end%>">
-<%= f.label :title %>
-<%= f.select :title , options_for_select(Registration.title_options_for_select,f.object.title ) %>
+	<%= validation_for(@registration, :title) %>
+	<%= f.label :title %>
+	<%= f.select :title , options_for_select(Registration.title_options_for_select,f.object.title ) %>
 </p>
 <p id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
+	<%= validation_for(@registration, :otherTitle) %>
     <%= f.label :otherTitle, "Other title" %>
     <%= f.text_field :otherTitle %>
 </p>
 <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+	<%= validation_for(@registration, :firstName) %>
     <%= f.label :firstName %>
     <%= f.text_field :firstName %>
 </p>
 <p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+	<%= validation_for(@registration, :lastName) %>
     <%= f.label :lastName %>
     <%= f.text_field :lastName %>
 </p>
 <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
+	<%= validation_for(@registration, :phoneNumber) %>
     <%= f.label :phoneNumber %>
     <%= f.text_field :phoneNumber %>
 </p>
 <p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
+	<%= validation_for(@registration, :contactEmail) %>
     <%= f.label :contactEmail %>
     <%= f.text_field :contactEmail%>
 </p>
