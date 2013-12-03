@@ -7,6 +7,8 @@
     <h2 class="registered"><%= @registration.companyName %> has been registered with the Environment Agency</h2>
 
 	<h3>Your registration number is: <%= @registration.regIdentifier %>. Your username is your email <%= @registration.accountEmail %></h3>
+	
+	<p><i>Registered on: <%= format_date(@registration.metaData.dateRegistered) %></i></p>
 
 	<p>This is proof of your registration.</p>
 	
