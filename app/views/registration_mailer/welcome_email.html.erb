@@ -8,7 +8,16 @@
 
 	<h3>Your registration number is: <%= @registration.regIdentifier %>. Your username is your email <%= @registration.accountEmail %></h3>
 	
-	<p><i>Registered on: <%= format_date(@registration.metaData.dateRegistered) %></i></p>
+	<%
+	d = Date.parse(@registration.metaData.dateRegistered)
+	myExt = 'th'	
+	if d.mday == '1' || d.mday == '21' || d.mday == '31'
+	  myExt = 'st'
+	elsif d.mday == '2' || d.mday == '22'
+	  myExt = 'nd'
+	end
+	%>
+	<p><i>Registered on: <%= d.strftime('%A %-d'+myExt+' %B %Y') %></i></p>
 
 	<p>This is proof of your registration.</p>
 	
