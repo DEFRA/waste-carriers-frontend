@@ -24,7 +24,9 @@
 	  <%= f.label :otherBusinesses %>
 	  <span class="inline"><!-- GDS have an 'option' class but it renders awfully -->
 	    <!--<label class="label" for="discover_otherBusinesses_yes">-->
-	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %> <%= f.label :otherBusinesses_yes, :class => "label" %><!-- Yes</label>-->
+	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %><%= f.label :otherBusinesses_yes, :class => "label" %><!-- Yes</label>-->
+	  </span>
+	  <span class="inline">
 	    <%= f.radio_button :otherBusinesses, "no", :class => "radio" %><%= f.label :otherBusinesses_no, :class => "label" %>
 	  </span>
   </p>
