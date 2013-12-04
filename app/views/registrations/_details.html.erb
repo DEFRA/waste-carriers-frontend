@@ -18,12 +18,14 @@
   <dd><%= @registration.houseNumber %> <%= @registration.streetLine1 %><br /><% if @registration.streetLine2 != "" %><%= @registration.streetLine2 %><br /><% end %><%= @registration.townCity%><br /><%= @registration.postcode%></dd>
 </dl>
 
+<!--
 <%if @registration.assisted_digital? %>
 <dl class="data">
   <dt>Access code</dt>
   <dd><%= @registration.accessCode %> </dd>
 </dl>
 <%end%>
+-->
 
 <div class="clr"></div>
 
