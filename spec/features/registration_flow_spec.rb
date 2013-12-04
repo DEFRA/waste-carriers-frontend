@@ -8,7 +8,6 @@ describe "The Registration flow", :sauce => true do
     page.select('Sole trader', :from => 'discover_businessType')
     choose 'discover_otherBusinesses_no'
     choose 'discover_constructionWaste_no'
-    check 'discover_wasteType_other'
     click_button "register_lower_tier"
 
     page.should have_content "Business or organisation details"
@@ -30,7 +29,7 @@ describe "The Registration flow", :sauce => true do
     fill_in('registration_contactEmail', :with => unique_email)    
   	click_on('Next')
 
-    page.should have_content "Check details"
+    page.should have_content "Check your details"
   	find_field('registration_declaration')
     check('registration_declaration')
     click_on 'Next'
