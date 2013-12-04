@@ -121,7 +121,7 @@ class RegistrationsController < ApplicationController
   
   def version
     @railsVersion = Rails.configuration.application_version
-    @apiVersion = '0-5-1-SNAPSHOT'   
+    @apiVersion = '0-6-0-SNAPSHOT'   
     render :layout => false
   end
   
