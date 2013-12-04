@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 #Needed for pre-release gov.uk gems
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'rails', '4.0.0'
+gem 'rails', '4.0.2'
 
 gem 'debugger', :require => false
 
