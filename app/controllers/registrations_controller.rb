@@ -350,6 +350,8 @@ class RegistrationsController < ApplicationController
       end
     else
       @registration.update_attributes(params[:registration])
+      # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
+      @registration.routeName = @registration.metaData.route
       if @registration.all_valid?
         @registration.save
         redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_updated') )
