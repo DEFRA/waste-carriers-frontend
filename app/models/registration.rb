@@ -74,7 +74,7 @@ class Registration < ActiveResource::Base
   validate :validate_lastName, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_position, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_phoneNumber, :if => lambda { |o| o.current_step == "contact" }
-  validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}
+  validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
   
   # Confirmation fields
   validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
@@ -331,16 +331,16 @@ class Registration < ActiveResource::Base
   
   def validate_contactEmail
     #validates_presence_of :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}
-    if contactEmail == ""
+    if contactEmail == "" and routeName == 'DIGITAL'
       Rails.logger.debug 'contactEmail is empty'
       errors.add(:contactEmail, I18n.t('errors.messages.blank') )
     #validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
-    elsif !contactEmail.nil? and contactEmail[/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
-      Rails.logger.debug 'contactEmail fails reg ex check'
+    elsif !contactEmail.nil? and !contactEmail.empty? and contactEmail[/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
+      Rails.logger.debug 'contactEmail fails reg ex check 1'
       errors.add(:contactEmail, I18n.t('errors.messages.invalidEmail') )
     #validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A.{0,70}\Z/, message:I18n.t('errors.messages.70characters') }
     elsif !contactEmail.nil? and contactEmail[/\A.{0,70}\Z/].nil?
-      Rails.logger.debug 'contactEmail fails reg ex check'
+      Rails.logger.debug 'contactEmail fails reg ex check 2'
       errors.add(:contactEmail, I18n.t('errors.messages.70characters') )
     end
   end
