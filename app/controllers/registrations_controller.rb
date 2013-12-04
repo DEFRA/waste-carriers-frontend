@@ -121,7 +121,14 @@ class RegistrationsController < ApplicationController
   
   def version
     @railsVersion = Rails.configuration.application_version
-    @apiVersion = '0-5-1-SNAPSHOT'   
+    
+    # Request version from REST api
+    @apiVersionObj = Version.find(:one, :from => "/version.json" )
+    if !@apiVersionObj.nil?
+      logger.debug 'Version info, version number:' + @apiVersionObj.versionDetails + ' lastBuilt: ' + @apiVersionObj.lastBuilt
+      @apiVersion = @apiVersionObj.versionDetails
+    end
+    
     render :layout => false
   end
   
