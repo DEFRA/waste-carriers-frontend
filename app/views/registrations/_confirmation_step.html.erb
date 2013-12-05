@@ -37,7 +37,28 @@
 
 <fieldset>
 <legend><%= t '.dataProtection_legend' %></legend>
-<p><%= link_to t('.dataProtectionText'), privacy_path, :target => "_blank" %></p>
+<h4><%= t '.dataProtection_heading' %></h4>
+
+<p><%= t '.dataProtection_text1' %></p>
+<p><%= t '.dataProtection_text2' %></p>
+
+<p>
+<ul>
+<li><%= t '.dataProtection_point1' %></li>
+<li><%= t '.dataProtection_point2' %></li>
+<li><%= t '.dataProtection_point3' %></li>
+<li><%= t '.dataProtection_point4' %></li>
+<li><%= t '.dataProtection_point5' %></li>
+<li><%= t '.dataProtection_point6' %></li>
+<li><%= t '.dataProtection_point7' %></li>
+</ul>
+</p>
+
+<p><%= t '.dataProtection_text3' %></p>
+
+<h4><%= t '.followingReg_heading' %></h4>
+<p><%= link_to t('.privacyPolicy'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %></p>
+<!--<p><%# link_to t('.dataProtectionText'), privacy_path, :target => "_blank" %></p>-->
 </fieldset>
 
 </div>
