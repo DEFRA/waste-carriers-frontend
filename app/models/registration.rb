@@ -368,7 +368,7 @@ class Registration < ActiveResource::Base
       errors.add(:password, I18n.t('errors.messages.blank') )
     #If changing mim and max length, please also change in devise.rb
     #validates_length_of :password, :minimum => 8, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.min8')
-    elsif password.length < 8
+    elsif !password.nil? and password.length < 8
       Rails.logger.debug 'password minimum not reached'
       errors.add(:password, I18n.t('errors.messages.min8') )
     #validates_length_of :password, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.max128')
@@ -378,7 +378,7 @@ class Registration < ActiveResource::Base
     else
       #validate :validate_password_strength, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
       strength = PasswordStrength.test(accountEmail,password)
-      if !strength.valid?(:good)
+      if !password.nil? and !strength.valid?(:good)
         errors.add(:password, I18n.t('errors.messages.weakPassword') )
       else
 	    if !persisted? && do_sign_in?
