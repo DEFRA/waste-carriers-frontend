@@ -4,9 +4,9 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-    <h2 class="registered"><%= @registration.companyName %> has been registered with the Environment Agency</h2>
-
-	<h3>Your registration number is: <%= @registration.regIdentifier %>. Your username is your email <%= @registration.accountEmail %></h3>
+	
+	<h2 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h2>
+	<h3><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>. Your username is your email: <%= @registration.accountEmail %></h3>
 	
 	<%
 	d = Date.parse(@registration.metaData.dateRegistered)
@@ -19,7 +19,7 @@
 	%>
 	<p><i>Registered on: <%= d.strftime('%A %-d'+myExt+' %B %Y') %></i></p>
 
-	<p>This is proof of your registration.</p>
+	<p><%= t 'registrations.print.proof' %></p>
 	
 	<p>If your details change, follow this link: <a href="<%= @url %>"><%= @url %></a> to login and amend your details.</p>
 
@@ -29,54 +29,56 @@
 		<dl class="data">
 		  <dt>Contact name</dt>
 		  <dd>
-		  <% if @registration.title == "other" %>
-		  <%= @registration.otherTitle %>
-		  <% else %>
-		  <%= @registration.title %>
-		  <% end %>
-		  <%= @registration.firstName %> <%= @registration.lastName %>
+		  <%if @registration.title == "other"%>
+		  <%= @registration.otherTitle%>
+		  <%else%>
+		  <%= @registration.title%>
+		  <%end%>
+		  <%= @registration.firstName%> <%= @registration.lastName%>
 		  </dd>
 		  <dt>Phone number</dt>
-		  <dd><%= @registration.phoneNumber %></dd>
+		  <dd><%= @registration.phoneNumber%></dd>
 		</dl>
 		<dl class="data">
 		  <dt>Address</dt>
-		  <dd><%= @registration.houseNumber %> <%= @registration.streetLine1 %><br /><%= @registration.streetLine2 %> <%= @registration.townCity%> <%= @registration.postcode%></dd>
+		  <dd><%= @registration.houseNumber %> <%= @registration.streetLine1 %><br /><% if @registration.streetLine2 != "" %><%= @registration.streetLine2 %><br /><% end %><%= @registration.townCity%><br /><%= @registration.postcode%></dd>
 		</dl>
+		<div class="clr"></div>
+		<div class="clr"></div>
 	</div>
 
 	<div class="finish-section">
 		<h3>Lower tier registration</h3>
-		<p>You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 but <b>only</b> in the following circumstances:
-		<ol>
-		<li>You are a charity or voluntary organisation.</li>
-		<li>You are a waste collection authority, a waste disposal authority or a waste regulation authority.</li>
-		<li>You are a business which only transports waste you have produced as part of your normal business activities, except where it is construction or demolition waste.</li>
-		<li>You only handle: (i) animal by-products; (ii) waste from a mine or quarry; or (iii) waste from premises used for agriculture.</li>
-		</ol>
+		<p>
+		You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 but <b>only</b> in the following circumstances:
+		<ul>
+		<li>You only transport your own business waste, unless it is construction or demolition waste</li>
+		<li>You are a charity or voluntary organisation</li>
+		<li>You are a waste collection authority, a waste disposal authority or a waste regulation authority</li>
+		<li>You only handle animal by-products, waste from a mine or quarry or waste from premises used for agriculture</li>
+		</ul>
 		</p>
-		<p>Your registration will last indefinitely so does not need to be renewed but <b>you must tell us if any of your registration details change</b>, within 28 days of the change.  You can do this by going to the website <u>www.wastecarriersregistration.service.gov.uk</u> and logging in using your email and password.</p>
+		<p>Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. <% if !@registration.assisted_digital? %>You can do this by going to the website <u>www.gov.uk/waste-carrier-or-broker-registration</u> and logging in using your email and password.<% else %>You can do this by calling the Environment Agency and providing your access code.<% end %></p>
 	</div>
 
 	<div class="finish-section">
 		<h3>Your legal responsibilities for waste</h3>
-		<p>If you produce, carry, import, keep, treat or dispose of waste you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health by making sure that waste is handled safely and only passed to people authorised to receive it. There are some simple rules you must follow:
+		<p>If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:</p>
 		<ul>
-		<li>If you give your waste to another business check the person is properly authorised to accept it. Check that they are a permitted site or a registered waste carrier.</li>
-		<li>Make sure any waste is safely contained and is not able to escape control.</li>
-		<li>Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste.</li>
-		<li>Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'.</li>
-		</ul>
-		</p>
+		<li>If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier</li>
+		<li>Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste</li>
+		<li>Make sure any waste is safely handled and stored</li>
+		<li>Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'</li>
+		<ul>
 	</div>
 
 	<div class="finish-section">
-		<p>Please contact the Environment Agency if you have any enqueries.</p>
+		<p>Please contact the Environment Agency if you have any enquiries.</p>
 		<dl class="data">
 		<dt>Telephone:</dt>
-		<dd>03708 506506</dd>
+		<dd><%= Rails.configuration.registrations_service_phone %></dd>
 		<dt>Email:</dt>
-		<dd>NCCC-carrierbroker@environment-agency.co.uk</dd>
+		<dd><%= Rails.configuration.registrations_service_email %></dd>
 		</dl>
 	</div>
   </body>
