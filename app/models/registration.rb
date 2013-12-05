@@ -209,7 +209,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'streetLine1 fails reg ex check'
       errors.add(:streetLine1, I18n.t('errors.messages.invalid_characters') )
     #validates_length_of :streetLine1, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
-    elsif streetLine1.length > 35
+    elsif !streetLine1.nil? and streetLine1.length > 35
       Rails.logger.debug 'streetLine1 longer than allowed'
       errors.add(:streetLine1, I18n.t('errors.messages.maxlength35') )
     end
@@ -221,7 +221,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'streetLine2 fails reg ex check'
       errors.add(:streetLine2, I18n.t('errors.messages.invalid_characters') )
     #validates_length_of :streetLine2, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
-    elsif streetLine2.length > 35
+    elsif !streetLine2.nil? and streetLine2.length > 35
       Rails.logger.debug 'streetLine2 longer than allowed'
       errors.add(:streetLine2, I18n.t('errors.messages.maxlength35') )
     end
@@ -323,7 +323,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'phoneNumber fails reg ex check'
       errors.add(:phoneNumber, I18n.t('errors.messages.numbers') )
     #validates_length_of :phoneNumber, :maximum => 20, :allow_blank => true, message: I18n.t('errors.messages.maxlength20'), :if => lambda { |o| o.current_step == "contact"}
-    elsif phoneNumber.length > 20
+    elsif !phoneNumber.nil? and phoneNumber.length > 20
       Rails.logger.debug 'phoneNumber longer than allowed'
       errors.add(:phoneNumber, I18n.t('errors.messages.maxlength20') )
     end
@@ -372,7 +372,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'password minimum not reached'
       errors.add(:password, I18n.t('errors.messages.min8') )
     #validates_length_of :password, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.max128')
-    elsif password.length > 128
+    elsif !password.nil? and password.length > 128
       Rails.logger.debug 'password longer than allowed'
       errors.add(:password, I18n.t('errors.messages.max128') )
     else
