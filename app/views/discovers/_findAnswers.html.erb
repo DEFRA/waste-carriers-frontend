@@ -60,6 +60,8 @@
     </span>
   </p>-->
   
+  <div id="discover_resultResponses" class="hidden">
+  
   <div id="contactText" class="js-hidden">
     <p class="group">
 	    <h3><%= t '.contactTextHeading' %></h3>
@@ -94,6 +96,14 @@
 		<p class="font-larger"><%= t '.notRegisterText' %></p>
 	</p>
   </div>
+  
+  </div>
+  
+  <noscript>
+	<p class="action group">
+		<%= f.submit :class => "button", :value => t('.buttonText') %>
+	</p>
+  </noscript>
   
   <%# f.submit :class => "button", :value => "Test Validation >" %>
   
