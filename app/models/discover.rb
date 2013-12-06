@@ -4,7 +4,7 @@ class Discover
   attr_accessor :id, :businessType, :otherBusinesses, :onlyAMF, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other, :wasteType_none
   
   # businessType must be present
-  validates_presence_of :businessType
+  validate :validate_businessType
   
   # otherBusinesses must be present if businessType is present and has a value of "soleTrader" || "partnership" || "limitedCompany"
   validates_presence_of :otherBusinesses, :if => lambda { |o| !o.businessType.nil? && (o.businessType == "soleTrader" || o.businessType == "partnership" || o.businessType == "limitedCompany") }
@@ -39,6 +39,16 @@ class Discover
   def initialize(attributes={})
     super
     @omg ||= true
+  end
+  
+  def validate_businessType
+    if businessType == ""
+      Rails.logger.debug 'businessType is empty'
+      errors.add(:businessType, I18n.t('errors.messages.blank') )
+    elsif businessType == "other"
+      Rails.logger.debug 'businessType is other thus registration not applicable'
+      errors.add(:businessType, I18n.t('errors.messages.invalid_selection') )
+    end
   end
   
   def isUpper?

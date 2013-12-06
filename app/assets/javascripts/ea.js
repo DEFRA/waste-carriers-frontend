@@ -712,6 +712,7 @@
 		toggleSignInUp();
 		
 		// Smarter Answers Initialisation
+		$("#discover_resultResponses").removeClass("hidden");
 		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
 		smarterAnswersQuestion1();
 		$("#discover_otherBusinesses").change(function(e){smarterAnswersQuestion2();});
