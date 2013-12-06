@@ -30,9 +30,9 @@
 		  <dt>Contact name</dt>
 		  <dd>
 		  <%if @registration.title == "other"%>
-		  <%= @registration.otherTitle%>
+		  <%= @registration.otherTitle.camelize %>
 		  <%else%>
-		  <%= @registration.title%>
+		  <%= @registration.title.camelize %>
 		  <%end%>
 		  <%= @registration.firstName%> <%= @registration.lastName%>
 		  </dd>

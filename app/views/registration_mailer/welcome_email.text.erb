@@ -23,9 +23,9 @@ Business or organisation details
 
 Contact name:
 <% if @registration.title == "other" %>
-<%= @registration.otherTitle %>
+<%= @registration.otherTitle.camelize %>
 <% else %>
-<%= @registration.title %>
+<%= @registration.title.camelize %>
 <% end %>
 <%= @registration.firstName %> <%= @registration.lastName %>
 
