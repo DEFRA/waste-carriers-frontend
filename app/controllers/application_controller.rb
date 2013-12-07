@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
   #Session inactivity timeout.
   def validate_session_inactivity_timeout!
     if !agency_user_signed_in?
-      if session_inactivity_timeout_time < Time.current
+      if session[:last_seen_at] != nil && session_inactivity_timeout_time < Time.current
         reset_session
         render :file => "/public/session_expired.html", :status => 400    
       end
