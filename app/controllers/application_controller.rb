@@ -6,6 +6,8 @@ class ApplicationController < ActionController::Base
   before_filter :validate_session_total_timeout!
   before_filter :validate_session_inactivity_timeout!
 
+  include ApplicationHelper
+
   def after_sign_out_path_for(resource_or_scope)
   	logger.info 'Signout function'
     #request.referrer
@@ -20,6 +22,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
+    session[:expires_at] = Time.current + Rails.application.config.app_session_total_timeout
   	if user_signed_in?
   	  userRegistrations_path(resource)
   	elsif agency_user_signed_in?
@@ -55,6 +58,7 @@ class ApplicationController < ActionController::Base
     render :file => "/public/404.html", :status => 404     
   end
 
+  #Total session timeout. No session is allowed to be longer than this.
   def validate_session_total_timeout!
     session[:expires_at] ||= Time.current + Rails.application.config.app_session_total_timeout
     if session[:expires_at] < Time.current
@@ -63,14 +67,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #Session inactivity timeout.
   def validate_session_inactivity_timeout!
-    session[:last_seen_at] ||= Time.current
     if !agency_user_signed_in?
-      if Time.current > session[:last_seen_at] + Rails.application.config.app_session_inactivity_timeout
+      if session_inactivity_timeout_time < Time.current
         reset_session
         render :file => "/public/session_expired.html", :status => 400    
       end
     end
+    session[:last_seen_at] = Time.current
   end
 
 

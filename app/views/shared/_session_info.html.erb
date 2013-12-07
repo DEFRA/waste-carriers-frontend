@@ -1,0 +1,7 @@
+<div id="session_info">
+<p>You last contacted the server at: <%= session[:last_seen_at] %>. </p>
+<p>Your session will expire at: <%= session_inactivity_timeout_time %> (due to inactivity) unless you contact the server again until then.</p>
+<p>The session inactivity timeout is: <%= Rails.application.config.app_session_inactivity_timeout %> seconds.</p>
+<p>The session total timeout is: <%= Rails.application.config.app_session_total_timeout %> seconds.</p>
+<p>Your session will expire at the latest at: <%= session[:expires_at] %> (total duration)</p>
+</div>
