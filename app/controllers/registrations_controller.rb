@@ -174,6 +174,242 @@ class RegistrationsController < ApplicationController
     @registration.routeName = @registration.metaData.route
     authorize! :update, @registration
   end
+  
+  def newBusinessDetails
+    logger.info 'Request New Registration'
+    #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
+    session[:registration_params] ||= {}
+    @registration = Registration.new(session[:registration_params])
+    
+    # Set route name based on agency paramenter
+    @registration.routeName = 'DIGITAL'
+    if !params[:agency].nil?
+      @registration.routeName = 'ASSISTED_DIGITAL'
+      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
+    end
+    # Prepop businessType with value from smarter answers
+    if !params[:smarterAnswersBusiness].nil?
+      logger.info 'Smart answers pre-pop detected: ' + params[:smarterAnswersBusiness]
+      @registration.businessType = params[:smarterAnswersBusiness]
+    end
+  end
+  
+  def updateNewBusinessDetails
+    logger.info 'updateNewBusinessDetails()'
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration= Registration.new(session[:registration_params])
+    @registration.current_step = "business"
+    
+    if params[:back]
+      logger.info 'Registration back request from first page'
+      session[:registration_step] = nil
+      if @registration.routeName == 'DIGITAL'
+        if user_signed_in?
+          logger.debug 'User already signed in so redirect to my account page'
+          redirect_to userRegistrations_path(current_user.id)
+        else
+          logger.debug 'User not signed in so redirect to smarter answers'
+          redirect_to :find
+        end
+      else
+        logger.debug 'Assisted digital route detected, redirect to search page'
+        redirect_to registrations_path
+      end
+    elsif @registration.valid?
+      logger.info 'Registration is valid so far, go to next page'
+      redirect_to :newContact
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newBusinessDetails", :status => '400'
+      #redirect_to newBusiness_path
+    end
+  end
+  
+  def newContactDetails
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+    
+    # Pass in current page to check previous page is valid
+    if !@registration.steps_valid?("contact")
+      redirect_to_failed_page(@registration.current_step)
+    else
+      logger.debug 'Previous pages are valid'
+    end
+  end
+  
+  def updateNewContactDetails
+    logger.info 'updateNewContactDetails()'
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+    @registration.current_step = "contact"
+    
+    if params[:back]
+      logger.info 'Registration back request from contact page'
+      redirect_to :newBusiness
+    elsif @registration.valid?
+      logger.info 'Registration is valid so far, go to next page'
+      redirect_to :newConfirmation
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newContactDetails", :status => '400'
+    end
+  end
+  
+  def newConfirmation
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+    
+    # Pass in current page to check previous page is valid
+    if !@registration.steps_valid?("confirmation")
+      redirect_to_failed_page(@registration.current_step)
+    else
+      logger.debug 'Previous pages are valid'
+    end
+  end
+  
+  def updateNewConfirmation
+    logger.info 'updateNewConfirmation()'
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+    @registration.current_step = "confirmation"
+    
+    if params[:back]
+      logger.info 'Registration back request from confirmation page'
+      redirect_to :newContact
+    elsif @registration.valid?
+      logger.info 'Registration is valid so far, go to next page'
+      redirect_to :newSignup
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newConfirmation", :status => '400'
+    end
+  end
+  
+  def newSignup
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+    
+    # Pass in current page to check previous page is valid
+    if !@registration.steps_valid?("signup")
+      redirect_to_failed_page(@registration.current_step)
+    else
+      logger.debug 'Previous pages are valid'
+      
+	  # Prepopulate Email field/Set registration account
+	  if user_signed_in? 
+	    logger.debug 'User already signed in using current email: ' + current_user.email
+	    @registration.accountEmail = current_user.email
+	  elsif agency_user_signed_in?
+	    logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
+	    @registration.accountEmail = current_agency_user.email
+	  else
+	    logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
+	    @registration.accountEmail = @registration.contactEmail
+	  end
+	  # Get signup mode
+	  @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
+	  logger.debug 'registration mode: ' + @registration.sign_up_mode
+    end
+  end
+  
+  def updateNewSignup
+    logger.info 'updateNewSignup()'
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+    @registration.current_step = "signup"
+    
+    if params[:back]
+      logger.info 'Registration back request from signup page'
+      redirect_to :newConfirmation
+    elsif @registration.valid?
+      logger.info 'Registration is valid so far, go to next page'
+      if @registration.sign_up_mode == 'sign_up'
+		logger.debug "The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.accountEmail
+		@user = User.new
+		@user.email = @registration.accountEmail
+		@user.password = @registration.password
+		logger.debug "About to save the new user."
+		@user.save!
+		logger.debug "User has been saved."
+		sign_in @user
+		logger.debug "The newly saved user has been signed in"
+		  
+		# Reset Signed up user to signed in status
+		@registration.sign_up_mode = 'sign_in'
+	  else
+		logger.debug "Registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode
+		if @registration.sign_up_mode == 'sign_in'
+		  @user = User.find_by_email(@registration.accountEmail)
+		  if @user.valid_password?(@registration.password)
+		    logger.info "The user's password is valid. Signing in user " + @user.email
+		    sign_in @user
+		  else
+		    logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
+		    #TODO error - should have caught the error in validation
+		  end
+		else
+		  logger.debug "User signed in, set account email to user email and get user"
+		  if user_signed_in?
+		    @registration.accountEmail = current_user.email
+		  elsif agency_user_signed_in?
+		    @registration.accountEmail = current_agency_user.email
+		  end
+		  @user = User.find_by_email(@registration.accountEmail)
+		end
+	  end
+	  
+	  logger.debug "Now asking whether registration is all valid"
+	  if @registration.all_valid?
+		logger.debug "The registration is all valid. About to save the registration..."
+		@registration.save!
+		logger.info 'Perform an additional save, to set the Route Name in metadata'
+		logger.info 'routeName = ' + @registration.routeName
+		@registration.metaData.route = @registration.routeName
+		if agency_user_signed_in?
+		  @registration.accessCode = @registration.generate_random_access_code
+		end
+		@registration.save!
+		logger.debug "The registration has been saved. About to send e-mail..."
+		if user_signed_in?
+		  RegistrationMailer.welcome_email(@user, @registration).deliver
+		end
+		logger.debug "registration e-mail has been sent."
+	  else
+		logger.error "GGG - The registration is NOT valid!"
+	  end
+	  
+	  # Clear session and redirect to Finish
+      session[:registration_step] = session[:registration_params] = nil
+      redirect_to finish_url(:id => @registration.id)
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newSignup", :status => '400'
+    end
+  end
+  
+  def redirect_to_failed_page(failedStep)
+    logger.debug 'redirect_to_failed_page(failedStep) failedStep: ' +  failedStep
+    if failedStep == "business"
+      redirect_to :newBusiness
+    elsif failedStep == "contact"
+      redirect_to :newContact
+    elsif failedStep == "confirmation"
+      redirect_to :newConfirmation
+    elsif failedStep == "signup"
+      redirect_to :newSignup
+    end
+  end
 
   # POST /registrations
   # POST /registrations.json

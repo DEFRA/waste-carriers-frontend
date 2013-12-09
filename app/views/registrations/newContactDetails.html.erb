@@ -1,0 +1,10 @@
+<main id="content" role="main" class="group"><article role="article" class="group">
+
+<%= form_for(@registration, :url => newContact_path) do |f| %>
+
+<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>
+
+<%= render "contact_step", :f => f %>
+
+<% end %>
+</article></main>
