@@ -328,67 +328,68 @@ class RegistrationsController < ApplicationController
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = "signup"
     
+    @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
     if params[:back]
       logger.info 'Registration back request from signup page'
       redirect_to :newConfirmation
     elsif @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       if @registration.sign_up_mode == 'sign_up'
-		logger.debug "The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.accountEmail
-		@user = User.new
-		@user.email = @registration.accountEmail
-		@user.password = @registration.password
-		logger.debug "About to save the new user."
-		@user.save!
-		logger.debug "User has been saved."
-		sign_in @user
-		logger.debug "The newly saved user has been signed in"
+        logger.debug "The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.accountEmail
+        @user = User.new
+        @user.email = @registration.accountEmail
+        @user.password = @registration.password
+        logger.debug "About to save the new user."
+        @user.save!
+        logger.debug "User has been saved."
+        sign_in @user
+        logger.debug "The newly saved user has been signed in"
 		  
-		# Reset Signed up user to signed in status
-		@registration.sign_up_mode = 'sign_in'
-	  else
-		logger.debug "Registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode
-		if @registration.sign_up_mode == 'sign_in'
-		  @user = User.find_by_email(@registration.accountEmail)
-		  if @user.valid_password?(@registration.password)
-		    logger.info "The user's password is valid. Signing in user " + @user.email
-		    sign_in @user
-		  else
-		    logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
-		    #TODO error - should have caught the error in validation
-		  end
-		else
-		  logger.debug "User signed in, set account email to user email and get user"
-		  if user_signed_in?
-		    @registration.accountEmail = current_user.email
-		  elsif agency_user_signed_in?
-		    @registration.accountEmail = current_agency_user.email
-		  end
-		  @user = User.find_by_email(@registration.accountEmail)
-		end
-	  end
+        # Reset Signed up user to signed in status
+        @registration.sign_up_mode = 'sign_in'
+	    else
+        logger.debug "Registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode.to_s
+        if @registration.sign_up_mode == 'sign_in'
+          @user = User.find_by_email(@registration.accountEmail)
+          if @user.valid_password?(@registration.password)
+            logger.info "The user's password is valid. Signing in user " + @user.email
+            sign_in @user
+          else
+            logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
+            #TODO error - should have caught the error in validation
+          end
+        else
+          logger.debug "User signed in, set account email to user email and get user"
+          if user_signed_in?
+            @registration.accountEmail = current_user.email
+          elsif agency_user_signed_in?
+            @registration.accountEmail = current_agency_user.email
+          end
+          @user = User.find_by_email(@registration.accountEmail)
+        end
+      end
 	  
-	  logger.debug "Now asking whether registration is all valid"
-	  if @registration.all_valid?
-		logger.debug "The registration is all valid. About to save the registration..."
-		@registration.save!
-		logger.info 'Perform an additional save, to set the Route Name in metadata'
-		logger.info 'routeName = ' + @registration.routeName
-		@registration.metaData.route = @registration.routeName
-		if agency_user_signed_in?
-		  @registration.accessCode = @registration.generate_random_access_code
-		end
-		@registration.save!
-		logger.debug "The registration has been saved. About to send e-mail..."
-		if user_signed_in?
-		  RegistrationMailer.welcome_email(@user, @registration).deliver
-		end
-		logger.debug "registration e-mail has been sent."
-	  else
-		logger.error "GGG - The registration is NOT valid!"
-	  end
+	    logger.debug "Now asking whether registration is all valid"
+      if @registration.all_valid?
+        logger.debug "The registration is all valid. About to save the registration..."
+        @registration.save!
+        logger.info 'Perform an additional save, to set the Route Name in metadata'
+        logger.info 'routeName = ' + @registration.routeName
+        @registration.metaData.route = @registration.routeName
+        if agency_user_signed_in?
+          @registration.accessCode = @registration.generate_random_access_code
+        end
+        @registration.save!
+        logger.debug "The registration has been saved. About to send e-mail..."
+        if user_signed_in?
+          RegistrationMailer.welcome_email(@user, @registration).deliver
+        end
+        logger.debug "registration e-mail has been sent."
+      else
+        logger.error "GGG - The registration is NOT valid!"
+      end
 	  
-	  # Clear session and redirect to Finish
+      # Clear session and redirect to Finish
       session[:registration_step] = session[:registration_params] = nil
       redirect_to finish_url(:id => @registration.id)
     elsif @registration.new_record?
