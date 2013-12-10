@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
   before_filter :validate_session_total_timeout!
   before_filter :validate_session_inactivity_timeout!
 
+  before_filter :require_admin_url, if: :devise_controller?
+
+  ## TODO activate filter (fix for pen test issue 3.4)
+  #before_filter :set_no_cache
+
   include ApplicationHelper
 
   def after_sign_out_path_for(resource_or_scope)
@@ -76,6 +81,20 @@ class ApplicationController < ActionController::Base
       end
     end
     session[:last_seen_at] = Time.current
+  end
+
+
+  def require_admin_url
+    if Rails.application.config.require_admin_requests && !is_admin_request? && request.fullpath[0..5] != '/users'
+      #renderAccessDenied
+      renderNotFound
+    end
+  end
+
+  def set_no_cache
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 
 
