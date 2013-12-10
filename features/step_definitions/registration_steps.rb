@@ -198,6 +198,6 @@ Then(/^it should send me a Registration Confirmation email$/) do
   @email = ActionMailer::Base.deliveries.last
   #TODO: verify random e-mail address created above
   @email.to.first.should include '@bloggs.com'
-  @email.subject.should include "Registration Complete for a Waste Carrier!"
+  @email.subject.should include "Waste Carrier Registration Complete"
 end
 
