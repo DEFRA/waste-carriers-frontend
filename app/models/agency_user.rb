@@ -59,4 +59,8 @@ class AgencyUser
     AgencyUser.find_by(email: some_email)
   end
 
+  def self.random_password
+    (0...16).map { (65 + SecureRandom.random_number(52)).chr }.join
+  end
+
 end

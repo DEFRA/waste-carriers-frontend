@@ -160,6 +160,21 @@ class Registration < ActiveResource::Base
     end
   end
   
+  def steps_valid?(uptostep)
+    Rails.logger.debug 'steps_valid() uptostep: ' + uptostep
+    steps.all? do |step|
+      if steps.index(step) < steps.index(uptostep)
+        Rails.logger.debug 'about to validate step: ' + step
+        self.current_step = step
+        valid?
+      else
+        # set default to true to ensure remaining steps return true
+        Rails.logger.debug 'WHEN AM I CALLED'
+        true
+      end
+    end
+  end
+  
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
