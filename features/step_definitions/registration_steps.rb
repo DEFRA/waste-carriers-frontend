@@ -3,7 +3,7 @@
 
 Given(/^I am on the initial page$/) do
   visit "/registrations/find"
-  assert page.has_content?("Waste carrier registration")
+  assert page.has_content?("Find out if")
 end
 
 Given(/^I click on "(.*?)"$/) do |name|
@@ -52,7 +52,7 @@ Then(/^I select the declaration checkbox$/) do
 end
 
 Then(/^I should see the Confirmation page$/) do
-  assert(page.has_content?('has been registered'), 'Cannot find \'has been registered\' text')
+  assert(page.has_content?('is registered'), 'Cannot find \'has been registered\' text')
   assert(page.has_button?('Finished'), 'Cannot find finish button')
 end
 
