@@ -105,5 +105,9 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveResource::ResourceNotFound do |exception|
     renderNotFound   
   end  
+  
+  rescue_from Errno::ECONNREFUSED do |exception|
+    render :file => "/public/503.html", :status => 503
+  end
 
 end
