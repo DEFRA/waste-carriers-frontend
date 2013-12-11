@@ -399,7 +399,13 @@ class RegistrationsController < ApplicationController
 	  
       # Clear session and redirect to Finish
       session[:registration_step] = session[:registration_params] = nil
-      redirect_to finish_url(:id => @registration.id)
+      if !@registration.id.nil?
+        redirect_to finish_url(:id => @registration.id)
+      else
+        # Registration Id not found, must have done something wrong
+        logger.info 'Registration Id not found, must have done something wrong'
+        render :file => "/public/session_expired.html", :status => 400
+      end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
