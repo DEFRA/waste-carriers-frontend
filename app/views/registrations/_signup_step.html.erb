@@ -29,10 +29,13 @@
 <% if @registration.sign_up_mode == "sign_in" %>
 <p id="accountExists" class="group"><%= t '.accountExists' %></p>
 <% end %>
+<% if @registration.sign_up_mode == "sign_up" %>
+<p><span id="emailSignUpText"><%= t '.emailUsernameText' %><br/></span></p>
+<% end %>
 
 <p class="group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
     <%= validation_for(@registration, :accountEmail) %>
-    <%= f.label :accountEmail %><% if @registration.sign_up_mode == "sign_up" %><span id="emailSignUpText"><%= t '.emailUsernameText' %><br/></span><% end %>
+    <%= f.label :accountEmail %>
     <% if @registration.sign_up_mode == "sign_in" %>
     <%= f.email_field :accountEmail, :autofocus => true, :readonly => true %>
     <% else %>

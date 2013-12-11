@@ -1,7 +1,7 @@
 <%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %>
 ===============================================================================
 
-<%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>. Your username is your email: <%= @registration.accountEmail %>
+<%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>.
 
 <%
 d = Date.parse(@registration.metaData.dateRegistered)
@@ -15,8 +15,6 @@ end
 Registered on: <%= d.strftime('%A %-d'+myExt+' %B %Y') %>
 	
 <%= t 'registrations.print.proof' %>
-	
-If your details change, follow this link: <%= @url %> to login and amend your details.
 
 Business or organisation details
 --------------------------------
@@ -44,21 +42,23 @@ Address:
 <%= @registration.townCity%>
 <%= @registration.postcode%>
 
+Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change.
+You can do this by going to the website www.gov.uk/waste-carrier-or-broker-registration and logging in using your email and password.
+
+Please contact the Environment Agency if you have any enquiries.
+Telephone: <%= Rails.configuration.registrations_service_phone %>
+Email: <%= Rails.configuration.registrations_service_email %>
 
 Lower tier registration
 -----------------------
-You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 but <b>only</b> in the following circumstances:
+You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 because you have declared that you meet one of the following criteria:
 
 - You only transport your own business waste, unless it is construction or demolition waste
 - You are a charity or voluntary organisation
 - You are a waste collection authority, a waste disposal authority or a waste regulation authority
 - You only handle animal by-products, waste from a mine or quarry or waste from premises used for agriculture
 
-Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change.
-You can do this by going to the website www.gov.uk/waste-carrier-or-broker-registration and logging in using your email and password.
-
-
-Your legal responsibilities for waste
+Legal responsibilities for waste
 -------------------------------------
 If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:
 
@@ -66,8 +66,3 @@ If you produce, carry, import, keep, treat or dispose of waste, or manage it for
 - Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste
 - Make sure any waste is safely handled and stored
 - Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'
-
-
-Please contact the Environment Agency if you have any enquiries.
-Telephone: <%= Rails.configuration.registrations_service_phone %>
-Email: <%= Rails.configuration.registrations_service_email %>

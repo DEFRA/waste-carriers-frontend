@@ -55,7 +55,7 @@
 <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
     <%= validation_for(@registration, :postcode) %>
     <%= f.label :postcode %>
-    <%= f.text_field :postcode, :size => 20, :maxlength => 10 %>
+    <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
 </p>
 
 

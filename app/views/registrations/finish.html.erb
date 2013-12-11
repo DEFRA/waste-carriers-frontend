@@ -1,12 +1,14 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
-<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>
-<%= render "shared/meta_phases"%>
+<h2 class="subtitle"><%= t '.heading' %></h2>
+<h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
+<%# render "shared/meta_phases"%>
 
-<h2 class="registered"><%= t '.hasBeenRegistered', :companyName => @registration.companyName %></h2>
+<h3 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h3>
 
-<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
+
+<!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
 
 <form action="<%=print_url(@registration.id)%>">
 <p class="action group"><input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/></p>
