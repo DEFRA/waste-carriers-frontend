@@ -457,3 +457,31 @@ a:focus.error-text {
 background-color: rgb(255, 191, 71);
 outline: 3px solid rgb(255, 191, 71);
 }
+
+.search {
+	border-collapse: collapse;
+}
+.search-header {
+	font-weight: bold;
+	background-color: $panel-colour;
+}
+.search-header-field {
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	border: 1px solid #bbb;
+	text-align: left;
+}
+.search-body {
+}
+.search-body-field {
+	padding: 0.5em 0.5em 0.5em 0.5em;
+	margin: 0em 0em;
+	border: 1px dotted #bbb;
+	vertical-align: top;
+}
+.header-box {
+	background-color: $panel-colour;
+}
+.solid-box {
+	background-color: $canvas-colour;
+}
+
