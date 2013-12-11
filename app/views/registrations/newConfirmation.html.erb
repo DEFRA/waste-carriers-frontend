@@ -1,0 +1,10 @@
+<main id="content" role="main" class="group"><article role="article" class="group">
+
+<%= form_for(@registration, :url => newConfirmation_path) do |f| %>
+
+<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>
+
+<%= render "confirmation_step", :f => f %>
+
+<% end %>
+</article></main>

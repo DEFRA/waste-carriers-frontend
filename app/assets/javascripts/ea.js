@@ -708,8 +708,8 @@
 		$("#registration_title").change(function(e){e.preventDefault();updateTitleOther();});
 		updateTitleOther();
 		
-		$("#registration_sign_up_mode").change(function(e){e.preventDefault();toggleSignInUp();});
-		toggleSignInUp();
+//		$("#registration_sign_up_mode").change(function(e){e.preventDefault();toggleSignInUp();});
+//		toggleSignInUp();
 		
 		// Smarter Answers Initialisation
 		$("#discover_resultResponses").removeClass("hidden");

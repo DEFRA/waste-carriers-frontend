@@ -5,6 +5,11 @@ class ApplicationController < ActionController::Base
 
   before_filter :validate_session_total_timeout!
   before_filter :validate_session_inactivity_timeout!
+  
+  before_filter :require_admin_url, if: :devise_controller?
+
+  ## TODO activate filter (fix for pen test issue 3.4)
+  #before_filter :set_no_cache
 
   include ApplicationHelper
 
@@ -78,6 +83,19 @@ class ApplicationController < ActionController::Base
     session[:last_seen_at] = Time.current
   end
 
+  def require_admin_url
+    if Rails.application.config.require_admin_requests && !is_admin_request? && request.fullpath[0..5] != '/users'
+      #renderAccessDenied
+      renderNotFound
+    end
+  end
+
+  def set_no_cache
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    response.headers["Pragma"] = "no-cache"
+    response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+  end
+
 
   rescue_from CanCan::AccessDenied do |exception| 
     renderAccessDenied
@@ -86,5 +104,9 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveResource::ResourceNotFound do |exception|
     renderNotFound   
   end  
+  
+  rescue_from Errno::ECONNREFUSED do |exception|
+    render :file => "/public/503.html", :status => 503
+  end
 
 end
