@@ -53,7 +53,7 @@ end
 
 Then(/^I should see the Confirmation page$/) do
   #assert(page.has_content?('has been registered'))
-  assert(page.has_button?('finish'))
+  assert(page.has_button?('finish'), 'Cannot find finish button')
 end
 
 
