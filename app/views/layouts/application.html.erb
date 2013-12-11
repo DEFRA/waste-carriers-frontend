@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-    <title><%= content_for?(:page_title) ? yield(:page_title) : "GOV.UK - The best place to find government services and information" %></title>
+    <title><%= content_for?(:page_title) ? yield(:page_title) : "Register as a waste carrier - GOV.UK" %></title>
     <link href="<%= asset_path "registrations.css" %>" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript">
@@ -96,7 +96,7 @@
 
           <%= yield :inside_header %>
           <div class="header-heading">
-          	<h1>Waste carrier registration &nbsp;<span class="beta">beta</span></h1>
+          	<h1>Register as a waste carrier &nbsp;<span class="beta">beta</span></h1>
           </div>
         </div>
       </div>
@@ -112,7 +112,7 @@
       <% if content_for?(:cookie_message) %>
         <%= yield :cookie_message %>
       <% else %>
-        <p>GOV.UK uses cookies to make the site simpler. <a href="https://www.gov.uk/help/cookies">Find out more about cookies</a></p>
+        <p>GOV.UK uses cookies to make the site simpler. <a href="http://www.environment-agency.gov.uk/help/35770.aspx">Find out more about cookies</a></p>
       <% end %>
     </div>
 
@@ -126,6 +126,9 @@
         <%= yield :footer_top %>
 
         <%#= render "shared/session_info" %>
+        
+        Helpline: <%= Rails.configuration.registrations_service_phone%> (Environment Agency)<br/>
+        <a href="<%= Rails.configuration.waste_exemplar_eaPrivacyCookies_url%>" target="_blank">Privacy and cookies</a>
 
         <div class="footer-meta">
           <div class="footer-meta-inner">

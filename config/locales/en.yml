@@ -83,9 +83,9 @@ en:
       discover:
         businessType: "What kind of business or organisation are you?"
         otherBusinesses: "Do you deal with waste from other businesses?"
-        otherBusinesses_yes: "Yes, we deal with waste from other business"
+        otherBusinesses_yes: "Yes, we deal with waste from other businesses"
         otherBusinesses_no: "No, we just deal with waste from our own business"
-        onlyAMF: "Do you only deal with the following waste: animal by-products, waste from a mine or quary, or farm or agricultural waste?"
+        onlyAMF: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
         onlyAMF_yes: "Yes"
         onlyAMF_no: "No"
         constructionWaste: "Do you ever deal with construction or demolition waste?"
@@ -178,7 +178,7 @@ en:
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
       privacyPolicy: "Privacy policy and cookies"
     signup_step:
-      emailUsernameText: "Please check this email address as it will be your username"
+      emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
       complete: "Complete registration"
       update: "Update registration"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
@@ -186,20 +186,24 @@ en:
       notYouText_html: "If this is not you, <a href='#' id='secondaryButton' onclick='document.getElementById(\"signout_button\").click()'>sign out and start again</a>"
       createPassword: "Create password"
     finish:
+      heading: "Registration complete"
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
       yourRegNumber: "Your registration number is: %{reg}"
       detailsEmailed: "Your certificate and guidance have been emailed to %{email}"
-      detailsChange: "If any of your details change you must update your registration within 28 days. You can find instructions in your email."
+      detailsChange: "If any of your details change you must update your registration within 28 days. How to do this is explained in your email."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
     print:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."
       isRegistered: "%{companyName} is registered as a lower tier waste carrier/broker/dealer with the Environment Agency"
     userRegistrations:
+      subtitle: "Your registrations"
       summaryText: "Your registrations are listed below. You can create a new registration for a business or organisation and you can change any you have previously created. You must tell us if any of your registration details change, within 28 days of the change."
       registrationCountText: "You have %{count}"
       revoked: "Status: Revoked"
       registered: "Status: Registered"
+    ncccform:
+      subtitle: "Change your registration details"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"
