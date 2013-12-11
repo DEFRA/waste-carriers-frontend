@@ -52,7 +52,8 @@ Then(/^I select the declaration checkbox$/) do
 end
 
 Then(/^I should see the Confirmation page$/) do
-  assert(page.has_content?('has been registered'))
+  #assert(page.has_content?('has been registered'))
+  assert(page.has_button?('finish'))
 end
 
 
