@@ -52,7 +52,8 @@ Then(/^I select the declaration checkbox$/) do
 end
 
 Then(/^I should see the Confirmation page$/) do
-  assert(page.has_content?('has been registered'))
+  assert(page.has_content?('has been registered'), 'Cannot find \'has been registered\' text')
+  assert(page.has_button?('finish'), 'Cannot find finish button')
 end
 
 
@@ -117,7 +118,7 @@ end
 
 
 When(/^I begin a registration$/) do
-    visit '/registrations/new'
+    visit '/your-registration/business-details'
 end
 
 Then(/^I should see an error with "(.*?)"$/) do |some_text|
@@ -125,7 +126,7 @@ Then(/^I should see an error with "(.*?)"$/) do |some_text|
 end
 
 When(/^I begin a registration as an Individual$/) do
-  visit '/registrations/new'
+  visit '/your-registration/business-details'
   page.select('Sole trader', :from => 'registration_businessType')
 end
 
