@@ -25,6 +25,9 @@ Registrations::Application.routes.draw do
   
   get "registrations/find" => 'discovers#new', :via => [:get, :post], :as => :find
   
+  # Add routing for Public Search
+  get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
+  
   #get "registrations/start" => 'registrations#start', :as => :start
   get "registrations/:id/finish" => 'registrations#finish', :as => :finish
   match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit

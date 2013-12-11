@@ -424,6 +424,22 @@ class RegistrationsController < ApplicationController
     #end
   end
   
+  def publicSearch
+    distance = params[:distance]
+    searchString = params[:q]
+    tcp = params[:tcp]
+    if validate_search_parameters?(searchString,"any")
+      if searchString != nil && !searchString.empty?
+        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => distance, :activeOnly => 'true' })
+      else
+        @registrations = []
+      end
+    else
+      @registrations = []
+      flash.now[:notice] = 'Invalid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
+    end
+  end
+  
   def notfound
     redirect_to registrations_path(:error => params[:message] )
   end
