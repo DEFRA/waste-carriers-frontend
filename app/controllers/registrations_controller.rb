@@ -335,9 +335,6 @@ class RegistrationsController < ApplicationController
     elsif agency_user_signed_in?
       logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
       @registration.accountEmail = current_agency_user.email
-    else
-      logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
-      @registration.accountEmail = @registration.contactEmail
     end
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
     if params[:back]
