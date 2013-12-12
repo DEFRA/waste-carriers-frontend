@@ -41,7 +41,7 @@ describe "The Registration flow", :sauce => true do
     fill_in('registration_password_confirmation', :with  => 'MySecret123')
     click_on 'Complete registration'
 
-    page.should have_content "has been registered"
+    page.should have_content "Registration complete"
     click_on "Finish"
 
   end
