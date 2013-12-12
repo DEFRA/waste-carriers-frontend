@@ -403,7 +403,8 @@ class RegistrationsController < ApplicationController
         redirect_to finish_url(:id => @registration.id)
       else
         # Registration Id not found, must have done something wrong
-        logger.info 'Registration Id not found, must have done something wrong'
+        logger.info 'Registration Id not found, must have done something wrong, Sign user out before redirecting to expired page'
+        sign_out 				# Performs a signout action on the current user
         render :file => "/public/session_expired.html", :status => 400
       end
     elsif @registration.new_record?
