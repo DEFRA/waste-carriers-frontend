@@ -1,5 +1,11 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
+<% if params[:note] %>
+<div id="note_explanation" class="note-summary">
+  <h1><%= params[:note]%></h1>
+</div>
+<% end %>
+
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
 <h2 class="subtitle"><%= t '.subtitle' %></h2>
 <%= render "shared/meta_phases"%>
@@ -29,10 +35,10 @@
 		<%= t '.registered' %>
 	</div>
 	<% end %>
-	<!--<div class="actions" >
-		<%# button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :id => "delete", :data => "{ :confirm => 'are you sure?' }"%>
-	</div>-->
 	<% if registration.metaData.status != "REVOKED" %>
+	<div class="actions" >
+		<%= button_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.id), :method => :get, :class => "button", :id => "delete" %>
+	</div>
 	<div class="actions">
 		<form action="<%=ncccedit_url(registration.id)%>"><input type="submit" class="button" value="<%= t 'registrations.form.change_button_label' %>" /></form>
 	</div>

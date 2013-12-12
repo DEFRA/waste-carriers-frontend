@@ -744,16 +744,22 @@ class RegistrationsController < ApplicationController
   # DELETE /registrations/1
   # DELETE /registrations/1.json
   def destroy
-    ##TODO re-introduce when needed
-    renderAccessDenied
-    #@registration = Registration.find(params[:id])
-    #authorize! :update, @registration
-    #@registration.destroy
+    #TODO re-introduce when needed
+    #renderAccessDenied
+    @registration = Registration.find(params[:id])
+    deletedCompany = @registration.companyName
+    authorize! :update, @registration
+    @registration.destroy
 
-    #respond_to do |format|
-    #  format.html { redirect_to registrations_url }
-    #  format.json { head :no_content }
-    #end
+    respond_to do |format|
+      format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) }
+      format.json { head :no_content }
+    end
+  end
+  
+  def confirmDelete
+    @registration = Registration.find(params[:id])
+    authorize! :update, @registration
   end
   
   def publicSearch

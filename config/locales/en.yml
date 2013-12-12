@@ -261,6 +261,7 @@ en:
       update_button_label: "Update"
       revoke_button_label: "Revoke"
       unrevoke_button_label: "Un-revoke"
+      delete_button_label: "Delete"
       
       reg_updated: "Registration updated"
       reg_revoked: "Registration revoked"
