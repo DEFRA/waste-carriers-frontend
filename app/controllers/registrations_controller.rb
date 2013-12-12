@@ -135,6 +135,10 @@ class RegistrationsController < ApplicationController
   def privacy
     render :file => "/public/privacy.html", :status => 200
   end
+  
+  # Renders static data proctection page
+  def dataProtection
+  end
 
   # GET /registrations/new
   # GET /registrations/new.json
