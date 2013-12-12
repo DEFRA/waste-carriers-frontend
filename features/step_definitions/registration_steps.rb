@@ -16,7 +16,6 @@ end
 
 Then(/^I select business or organisation type "(.*?)"$/) do |field_value|
     page.select(field_value, :from => 'registration_businessType')
-
 end
 
 Then(/^I fill in "(.*?)" with "(.*?)"$/) do |field_name, field_value|
@@ -61,8 +60,12 @@ end
 
 
 When(/^I provide valid individual trading name details$/) do
-  #The registerAs field dropdown has been removed...
-  #page.select('Carrier', :from => 'registration_registerAs')
+  #page.select('Sole trader', :from => 'registration_businessType')
+  fill_in('registration_companyName', :with => 'Joe Bloggs')  
+  click_on('Next')
+end
+
+When(/^I provide valid individual trading name details including business type$/) do
   page.select('Sole trader', :from => 'registration_businessType')
   fill_in('registration_companyName', :with => 'Joe Bloggs')  
   click_on('Next')
@@ -189,7 +192,7 @@ Given(/^I am already logged in$/) do
 end
 
 When(/^proceed to the Address and Contact Details page$/) do
-  page.select('Sole trader', :from => 'registration_businessType')
+  #page.select('Sole trader', :from => 'registration_businessType')
   fill_in('registration_companyName', :with => 'Joe Bloggs')  
   click_on('Next')
 end
