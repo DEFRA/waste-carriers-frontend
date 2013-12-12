@@ -177,6 +177,7 @@ en:
       dataProtection_point7: "respond to requests for information under the Freedom of Information Act 2000 and the Environmental Information Regulations 2004 (if the Data Protection Act allows)"
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
       privacyPolicy: "Privacy policy and cookies"
+      dataProtection_findOutMore: "Find out about other ways in which we may use your information."
     signup_step:
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
       complete: "Complete registration"

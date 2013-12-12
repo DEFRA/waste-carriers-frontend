@@ -31,6 +31,7 @@ Registrations::Application.routes.draw do
   match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
   get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
   get "registrations/privacy" => 'registrations#privacy', :via => [:get], :as => :privacy
+  get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
   
   # Add a new route for the print view
   match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
