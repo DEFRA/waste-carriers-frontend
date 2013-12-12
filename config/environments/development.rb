@@ -52,4 +52,8 @@ Registrations::Application.configure do
     :enable_starttls_auto => true
   }
 
+  # Overriding 'Done' URL for development
+  #config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"
+  config.waste_exemplar_end_url = "/gds-end"
+
 end
