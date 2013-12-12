@@ -11,7 +11,7 @@ describe "The Registration flow", :sauce => true do
     click_button "register_lower_tier"
 
     page.should have_content "Business or organisation details"
-    page.select('Sole trader', :from => 'registration_businessType')
+    #page.select('Sole trader', :from => 'registration_businessType')
     fill_in('registration_companyName', :with => 'Browser Test & Co')  
     click_on('Next')
  
