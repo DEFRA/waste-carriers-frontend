@@ -64,5 +64,9 @@ class User
     User.find(some_id)
   end
 
+  def subdomain
+    'www.wastecarriersregistration.service'
+  end
+  
 end
 

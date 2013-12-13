@@ -73,6 +73,9 @@ module Registrations
     #The application URL
     config.waste_exemplar_frontend_url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "http://localhost:3000"
 
+    #The application URL
+    config.waste_exemplar_frontend_admin_url = ENV["WCRS_FRONTEND_ADMIN_APP_DOMAIN"] || "http://localhost:3000"
+
     #In Production we want to verify that requests to agency user and administration functionality
     #have been made via the 'internal' domain URL 'https://admin.wastecarriersregistration.service.gov.uk'
     #rather than via the public domain and URL 'https://www.wastecarriersregistration.service.gov.uk'
