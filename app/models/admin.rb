@@ -60,4 +60,8 @@ class Admin
     Admin.find_by(email: some_email)
   end
 
+  def subdomain
+    'admin.wastecarrierregistration.service'
+  end
+  
 end

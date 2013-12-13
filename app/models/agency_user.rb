@@ -63,4 +63,8 @@ class AgencyUser
     (0...16).map { (65 + SecureRandom.random_number(52)).chr }.join
   end
 
+  def subdomain
+    'admin.wastecarriersregistration.service'
+  end
+
 end
