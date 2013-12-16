@@ -64,7 +64,7 @@ class AgencyUser
   end
 
   def subdomain
-    'admin.wastecarriersregistration.service'
+    Rails.application.config.waste_exemplar_frontend_admin_subdomain
   end
 
 end
