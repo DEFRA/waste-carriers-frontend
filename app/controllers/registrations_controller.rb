@@ -284,10 +284,16 @@ class RegistrationsController < ApplicationController
     if postcodeSearch and postcodeSearch != ""
       postcode = session[:registration_params][:postcodeSearch]
       logger.info "getting addresses for: "+postcode
-      @addresses = Address.find(:all, :params => {:postcode => postcode})
-      if @addresses.length == 0
+      begin
+        @addresses = Address.find(:all, :params => {:postcode => postcode})
+      rescue ActiveResource::ServerError
+        @addresses = []
+      end
+      if @addresses.length > 0
         session[:registration_params][:selectedMoniker] =  @addresses[0].moniker
         @address = @addresses[0]
+      else
+        @address = nil
       end
     end
     
@@ -301,9 +307,10 @@ class RegistrationsController < ApplicationController
     end
     
     if @address
-      session[:registration_params][:streetLine1] = @address.lines[0]
-      session[:registration_params][:streetLine2] = @address.lines[1]
-      session[:registration_params][:townCity] = @address.lines[2]
+      #puts "GGG - address = " + @address.to_s
+      session[:registration_params][:streetLine1] = @address.streetLine1
+      session[:registration_params][:streetLine2] = @address.streetLine2
+      session[:registration_params][:townCity] = @address.townCity
       session[:registration_params][:postcode] = @address.postcode
     end
   end
