@@ -230,7 +230,10 @@ class RegistrationsController < ApplicationController
   def newContactDetails
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    addressSearchLogic
     @registration = Registration.new(session[:registration_params])
+    #postcode = params[:sPostcode]
+    #@addresses = Address.find(:all, :params => {:postcode => postcode})
     
     # Pass in current page to check previous page is valid
     if !@registration.steps_valid?("contact")
@@ -240,14 +243,75 @@ class RegistrationsController < ApplicationController
     end
   end
   
+  def clearAddress
+    session[:registration_params][:postcodeSearch] = nil
+    session[:registration_params][:selectedMoniker] = nil
+    session[:registration_params][:streetLine1] = nil
+    session[:registration_params][:streetLine2] = nil
+    session[:registration_params][:townCity] = nil
+    session[:registration_params][:postcode] = nil
+  end
+  
+  def addressSearchLogic
+    logger.info "addressSearchLogic"
+    @addresses = []
+    if params[:sManual]
+      session[:registration_params][:addressMode] = "manual-uk"
+      clearAddress
+    elsif params[:sManualForeign]
+      session[:registration_params][:addressMode] = "manual-foreign"
+      clearAddress
+    elsif params[:sSearch]
+      session[:registration_params][:addressMode] = nil
+      clearAddress
+    end
+    
+    
+    if params[:sPostcode]
+      session[:registration_params][:postcodeSearch] = params[:sPostcode]
+    end
+    
+    postcodeSearch = session[:registration_params][:postcodeSearch]
+    if postcodeSearch and postcodeSearch != ""
+      postcode = session[:registration_params][:postcodeSearch]
+      logger.info "getting addresses for: "+postcode
+      @addresses = Address.find(:all, :params => {:postcode => postcode})
+      if @addresses.length == 0
+        session[:registration_params][:selectedMoniker] =  @addresses[0].moniker
+        @address = @addresses[0]
+      end
+    end
+    
+    if params[:sSelect] and params[:sSelect] != ""
+      session[:registration_params][:selectedMoniker] = params[:sSelect]
+    end
+    selectedMoniker = session[:registration_params][:selectedMoniker]
+    if selectedMoniker and selectedMoniker!="" and !@address
+      logger.info "Getting address for: "+selectedMoniker
+      @address = Address.find(selectedMoniker)
+    end
+    
+    if @address
+      session[:registration_params][:streetLine1] = @address.lines[0]
+      session[:registration_params][:streetLine2] = @address.lines[1]
+      session[:registration_params][:townCity] = @address.lines[2]
+      session[:registration_params][:postcode] = @address.postcode
+    end
+  end
+  
   def updateNewContactDetails
     logger.info 'updateNewContactDetails()'
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    
+    addressSearchLogic
+    
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = "contact"
     
-    if params[:back]
+    if params[:findAddress]
+      render "newContactDetails"
+    elsif params[:back]
       logger.info 'Registration back request from contact page'
       redirect_to :newBusiness
     elsif @registration.valid?

@@ -19,11 +19,15 @@ class Registration < ActiveResource::Base
     string :publicBodyType
     string :publicBodyTypeOther
     string :houseNumber
+    
+    string :addressMode
+    string :postcodeSearch
+    string :selectedMoniker
     string :streetLine1
     string :streetLine2
     string :townCity
     string :postcode
-    string :postcodeSearch
+    
     string :title
     string :otherTitle
     string :firstName

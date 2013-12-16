@@ -144,6 +144,9 @@ en:
     contact_step:
       contactHeading: "Address and contact details"
       businessAddress: "Main business, organisation or trading address"
+      selectAddress: "Select address"
+      findAddressUsingPostcode: "Find address using postcode"
+      findAddress: "Find address"
       contact_information_legend: "Contact information"
       title_mr: "Mr"
       title_mrs: "Mrs"

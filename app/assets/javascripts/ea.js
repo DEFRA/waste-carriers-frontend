@@ -700,9 +700,9 @@
 	$(document).ready(function(){
 		//$('#registration_businessType').change(refreshQuestions);
 		//$("#registration_publicBodyType").change(refreshQuestions);
-		$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress();});
-		$("#addresses").change(updateAddress);
-		$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress();});
+		//$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress();});
+		//$("#addresses").change(updateAddress);
+		//$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress();});
 		//refreshQuestions();
 		
 		$("#registration_title").change(function(e){e.preventDefault();updateTitleOther();});
@@ -726,7 +726,7 @@
 		//$("#discover_wasteType").change(function(e){smarterAnswersQuestion4();});
 		//smarterAnswersQuestion4();
 
-		var uprn = $("#registration_uprn").val();
+		/*var uprn = $("#registration_uprn").val();
 		if(uprn && uprn !== ""){
 			findAddress();
 			$("#addresses").val(uprn);
@@ -738,7 +738,7 @@
 			if(address1!=="" || address2!=="" || city!==""){
 				manualAddress();
 			}
-		}
+		}*/
 		
 		searchResultSummaries();
 /*
@@ -775,8 +775,8 @@
 		
 		smoothInternalLinks();
 		
-		$("form").submit(function(e){
+		/*$("form").submit(function(e){
 			submitAddress();
-		});
+		});*/
 	});
 }());
