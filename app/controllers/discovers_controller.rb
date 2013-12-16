@@ -26,8 +26,8 @@ class DiscoversController < ApplicationController
 	      format.html { redirect_to Rails.configuration.waste_exemplar_eaupper_url }
 	    else
 	      logger.info 'Smarter Answers not upper'
-	      
-          format.html { redirect_to newBusiness_path(:smarterAnswersBusiness => @discover.businessType) }
+	      session[:smarterAnswersBusiness] = @discover.businessType
+        format.html { redirect_to newBusiness_path }
 	      format.json { render action: 'show', status: :created, location: @discover }
 	    end
       else

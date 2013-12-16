@@ -64,5 +64,9 @@ class User
     User.find(some_id)
   end
 
+  def subdomain
+    Rails.application.config.waste_exemplar_frontend_public_subdomain
+  end
+  
 end
 

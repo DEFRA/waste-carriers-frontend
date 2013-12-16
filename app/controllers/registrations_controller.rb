@@ -135,6 +135,10 @@ class RegistrationsController < ApplicationController
   def privacy
     render :file => "/public/privacy.html", :status => 200
   end
+  
+  # Renders static data proctection page
+  def dataProtection
+  end
 
   # GET /registrations/new
   # GET /registrations/new.json
@@ -188,9 +192,9 @@ class RegistrationsController < ApplicationController
       logger.info 'Set route as Assisted Digital: ' + @registration.routeName
     end
     # Prepop businessType with value from smarter answers
-    if !params[:smarterAnswersBusiness].nil?
-      logger.info 'Smart answers pre-pop detected: ' + params[:smarterAnswersBusiness]
-      @registration.businessType = params[:smarterAnswersBusiness]
+    if !session[:smarterAnswersBusiness].nil?
+      logger.info 'Smart answers pre-pop detected: ' + session[:smarterAnswersBusiness]
+      @registration.businessType = session[:smarterAnswersBusiness]
     end
   end
   
@@ -200,7 +204,12 @@ class RegistrationsController < ApplicationController
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = "business"
-    
+
+    if !session[:smarterAnswersBusiness].nil?
+      logger.info 'Initialising business type from session: ' + session[:smarterAnswersBusiness]
+      @registration.businessType = session[:smarterAnswersBusiness]
+    end
+
     if params[:back]
       logger.info 'Registration back request from first page'
       session[:registration_step] = nil
