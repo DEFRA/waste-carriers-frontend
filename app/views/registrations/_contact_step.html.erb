@@ -10,33 +10,7 @@
 <fieldset>
 <legend><%= t '.businessAddress' %></legend>
 
-<!--
-<div id="addressSearch">
-
-<p class="action group">
-
-    <%= f.label :postcodeSearch, "Find address using postcode" %>
-    <%= f.text_field :postcodeSearch %>
-
-<input name="findAddress" class="button-secondary" type="submit" value="Find address"/>
-</p>
-</div>
-<div id="addressSearchResults" style="display:none">
-<p class="group">
-<label for="addresses"><span id="resultCount">5</span> Addresses found</label>
-<select id="addresses">
-<option>Please select an address..</option>
-</select>
-</p>
-</div>
--->
-
-<p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
-    <%= validation_for(@registration, :houseNumber) %>
-    <%= f.label :houseNumber %>
-    <%= f.text_field :houseNumber, :size => 20, :maxlength => 35 %>
-</p>
-
+<%if @registration.addressMode%>
 <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
     <%= validation_for(@registration, :streetLine1) %>
     <%= f.label :streetLine1 %>
@@ -57,20 +31,26 @@
     <%= f.label :postcode %>
     <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
 </p>
+<%else%>
+  <% if @addresses.count > 0%>
+    <label for="sSelect"><%= t '.selectAddress'%></label>
+    <select id="sSelect" name="sSelect">
+    <option></option>
+    <% @addresses.each do |address| %>
+      <option value="<%=address.moniker%>"<%if address.moniker=@registration.selectedMoniker%> selected="selected"<%end%>><%=address.partial%></option>
+    <%end%>
+    </select>
+  <%else%>
+    <label for="sPostcode"><%= t '.findAddressUsingPostcode'%></label>
+    <input id="sPostcode" name="sPostcode" type="text"/>
+    <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
+  <%end%>
+<%end%>
 
 
 
 
-<div id="selectedAddress" style="display:none">
-<div id="addressDisplay">
-</div>
-<p class="action group">
-<input name="changeAddress" class="button-secondary" type="submit" value="Change address"/>
-</p>
-</div>
 
-<%= f.hidden_field :uprn %>
-<%= f.hidden_field :address %>
 </fieldset>
 
 <fieldset>
