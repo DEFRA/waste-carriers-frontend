@@ -65,7 +65,7 @@ class User
   end
 
   def subdomain
-    'www.wastecarriersregistration.service'
+    Rails.application.config.waste_exemplar_frontend_public_subdomain
   end
   
 end

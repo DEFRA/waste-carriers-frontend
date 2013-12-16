@@ -61,7 +61,7 @@ class Admin
   end
 
   def subdomain
-    'admin.wastecarrierregistration.service'
+    Rails.application.config.waste_exemplar_frontend_admin_subdomain
   end
   
 end
