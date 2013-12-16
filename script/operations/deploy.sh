@@ -73,9 +73,12 @@ echo "Starting nginx."
 sudo service nginx start
 
 ## Test.
-echo "Running tests."
-rake db:test:prepare
-xvfb-run cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
+if [ "${WCRS_FRONTEND_RAILS_ENV}" != "production" ]; then
+  echo "Running tests."
+  rake db:test:prepare
+  xvfb-run cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
+fi
+
 if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
   echo "Copying cucumber report to Jenkins."
   scp ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json \
