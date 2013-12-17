@@ -41,7 +41,7 @@ Registrations::Application.configure do
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
 
-  config.action_mailer.delivery_method = :test
+  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :user_name => ENV["WCRS_FRONTEND_EMAIL_USERNAME"],
     :password => ENV["WCRS_FRONTEND_EMAIL_PASSWORD"],
