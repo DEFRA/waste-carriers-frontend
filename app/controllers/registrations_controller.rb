@@ -289,7 +289,7 @@ class RegistrationsController < ApplicationController
       rescue ActiveResource::ServerError
         @addresses = []
       end
-      if @addresses.length > 0
+      if @addresses.length == 1
         session[:registration_params][:selectedMoniker] =  @addresses[0].moniker
         @address = @addresses[0]
       else
