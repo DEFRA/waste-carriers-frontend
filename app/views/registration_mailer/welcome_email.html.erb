@@ -21,7 +21,7 @@
 
 	<p><%= t 'registrations.print.proof' %></p>
 	<!--
-	<p>If your details change, follow this link: <a href="<%= @url %>"><%= @url %></a> to login and amend your details.</p>
+	<p>If your details change, follow this link: <%= link_to 'sign in', new_user_session_url %> to login and amend your details.</p>
 	-->
 	<div class="print-section">
 		<h3>Business or organisation details</h3>
@@ -47,7 +47,7 @@
 		<div class="clr"></div>
 	</div>
 	
-	<p>Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. <% if !@registration.assisted_digital? %>You can do this by going to the website <u>www.gov.uk/waste-carrier-or-broker-registration</u> and logging in using your email and password.<% else %>You can do this by calling the Environment Agency and providing your access code.<% end %></p>
+	<p>Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. <% if !@registration.assisted_digital? %>You can do this by going to the website <%= link_to 'sign in', new_user_session_url %> and logging in using your email and password.<% else %>You can do this by calling the Environment Agency and providing your access code.<% end %></p>
 
     <div class="finish-section">
 		<p>Please contact the Environment Agency if you have any enquiries.</p>
