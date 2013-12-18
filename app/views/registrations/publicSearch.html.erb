@@ -21,8 +21,8 @@
 		<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 	</p>
 	<p class="group">
-		<label for="tcp">Town, city or postcode</label>
-		<input id="tcp" name="tcp" size="10" value="<%= params[:tcp]%>" type="text" />
+		<label for="postcode">Postcode</label>
+		<input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
 		
 		<label for="distance">Distance</label>
 		<select id="distance" name="distance">
@@ -56,7 +56,7 @@
 			<th class="search-header-field" style="width:20%">Business Type</th>
 			<th class="search-header-field" style="width:30%">Address</th>
 			<th class="search-header-field" style="width:15%">Contact</th>
-			<th class="search-header-field" style="width:10%">Distance</th>
+			<% if params[:distance]!='any' %><th class="search-header-field" style="width:10%">Distance</th><% end %>
 		</tr>
 	</thead>
 	<tbody>
@@ -67,7 +67,7 @@
 		<td class="search-body-field" style="width:20%"><%= t('discovers.findAnswers.businessType_' + registration.businessType) %></td>
 		<td class="search-body-field" style="width:30%"><%= registration.houseNumber %> <%= registration.streetLine1 %><br /><% if registration.streetLine2 != "" %><%= registration.streetLine2 %><br /><% end %><%= registration.townCity%><br /><%= registration.postcode%></td>
 		<td class="search-body-field" style="width:15%"><%= registration.phoneNumber %></td>
-		<td class="search-body-field" style="width:10%">XXX Miles</td>
+		<% if params[:distance]!='any' %><td class="search-body-field" style="width:10%"><%= registration.metaData.distance %> Miles</td><% end %>
 	</tr>
 <% regCount = regCount + 1; %>
 <% end %>
