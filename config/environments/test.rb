@@ -31,6 +31,9 @@ Registrations::Application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
+  # Sending e-mails is required for user management and registration e-mails
+  config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'] }
+
   # Deprecated - Raise exception on mass assignment protection for Active Record models
   # config.active_record.mass_assignment_sanitizer = :strict
 
