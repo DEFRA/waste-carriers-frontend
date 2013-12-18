@@ -104,6 +104,7 @@ module Registrations
     
     # The phone number shown on the certificate and used in e-mails sent by the application
     config.registrations_service_phone = '03708 506506'
+    config.registrations_cy_service_phone = '03000 653000'
 
     #Business types available for registrations. 
     #Note: When adding or removing, please also adjust locale-specific values in localisation files.
@@ -111,6 +112,7 @@ module Registrations
       soleTrader 
       partnership 
       limitedCompany 
+      publicBody 
       charity
       collectionAuthority
       disposalAuthority

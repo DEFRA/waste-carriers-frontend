@@ -212,7 +212,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug 'houseNumber is empty'
       errors.add(:houseNumber, I18n.t('errors.messages.blank') )
     #validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }
-    elsif !houseNumber.nil? and houseNumber[/\A[a-zA-Z0-9\s]{0,35}\Z/].nil?
+    elsif !houseNumber.nil? and houseNumber[/\A[a-zA-Z0-9\s-]{0,35}\Z/].nil?
       Rails.logger.debug 'houseNumber fails reg ex check'
       errors.add(:houseNumber, I18n.t('errors.messages.lettersSpacesNumbers35') )
     end

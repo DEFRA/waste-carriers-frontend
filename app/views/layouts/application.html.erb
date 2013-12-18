@@ -105,7 +105,7 @@
     <% end %>
     
     <div id="global-beta-message">
-      <p><b>BETA:</b> This is a trial version of the waste carrier registration service. Please give us your feedback once you have finished.</p>
+      <p><b>BETA:</b> this is a new service. Please give us your feedback once you have finished.</p>
     </div>
 
     <div id="global-cookie-message">
@@ -127,7 +127,9 @@
 
         <%#= render "shared/session_info" %>
         
-        Helpline: <%= Rails.configuration.registrations_service_phone%> (Environment Agency)<br/>
+        Helpline<br/>
+        England: <%= Rails.configuration.registrations_service_phone %> (Environment Agency)<br/>
+        Wales: <%= Rails.configuration.registrations_cy_service_phone %> (Natural Resources Wales)<br/>
         <a href="<%= Rails.configuration.waste_exemplar_eaPrivacyCookies_url%>" target="_blank">Privacy and cookies</a>
 
         <div class="footer-meta">

@@ -368,8 +368,8 @@
 	
 	function smarterAnswersQuestion1(){
 		var tmpVal = $('#discover_businessType').val();
-		// Show Question2: Only if business type is a sole trader, partnership or limited company
-		var showQ2 = tmpVal == "soleTrader" || tmpVal == "partnership" || tmpVal == "limitedCompany";
+		// Show Question2: Only if business type is a sole trader, partnership, limited company or public body
+		var showQ2 = tmpVal == "soleTrader" || tmpVal == "partnership" || tmpVal == "limitedCompany" || tmpVal == "publicBody";
 		if (showQ2) {
 			$('#discover_otherBusinesses').removeClass("js-hidden");
 		} else {
