@@ -38,6 +38,26 @@
 </div>
 
 <p class="action group">
-<input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
+<%
+session[:registration_step] = nil
+if @registration.routeName == 'DIGITAL'
+  if user_signed_in?
+    logger.debug 'User already signed in so redirect to my account page'
+%>
+<%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'button-secondary' %>
+<%
+  else
+    logger.debug 'User not signed in so redirect to smarter answers'
+%>
+<%= link_to t('registrations.form.back_button_label'), find_path, :class => 'button-secondary' %>
+<%
+  end
+else
+  logger.debug 'Assisted digital route detected, redirect to search page'
+%>
+<%= link_to t('registrations.form.back_button_label'), registrations_path, :class => 'button-secondary' %>
+<%
+end
+%>
 <input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </p>
