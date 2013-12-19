@@ -83,8 +83,8 @@ en:
         password_confirmation: "Confirm password"
       discover:
         businessType: "What kind of business or organisation are you?"
-        otherBusinesses: "Do you deal with waste from other businesses?"
-        otherBusinesses_yes: "Yes, we deal with waste from other businesses"
+        otherBusinesses: "Do you deal with waste from other businesses or households?"
+        otherBusinesses_yes: "Yes, we deal with waste from other businesses or households"
         otherBusinesses_no: "No, we just deal with waste from our own business"
         onlyAMF: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
         onlyAMF_yes: "Yes"
