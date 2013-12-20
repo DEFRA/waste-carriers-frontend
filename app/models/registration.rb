@@ -27,6 +27,16 @@ class Registration < ActiveResource::Base
     string :streetLine2
     string :townCity
     string :postcode
+    string :easting
+    string :northing
+    string :dependentLocality
+    string :dependentThroughfare
+    string :administrativeArea
+    
+    # Non UK fields
+    string :streetLine3
+    string :streetLine4
+    string :country
     
     string :title
     string :otherTitle
@@ -67,10 +77,15 @@ class Registration < ActiveResource::Base
 
   # Contact Step fields
   validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == "" }
-  validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-  validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-  validate :validate_townCity, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-  validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
+  validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
+  validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
+  validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
+  validate :validate_streetLine4, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
+  validate :validate_country, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
+  validate :validate_townCity, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
+  validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
+  validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
+  validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   
   validate :validate_title, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
@@ -218,6 +233,26 @@ class Registration < ActiveResource::Base
     end
   end
   
+  def validate_postcodeSearch
+    if postcodeSearch == "" and addressMode.nil?
+      errors.add(:postcodeSearch, I18n.t('errors.messages.blank') )
+    end
+  end
+  
+  def validate_selectedMoniker
+      Rails.logger.debug 'validate selectedMoniker'
+      if !selectedMoniker.nil?
+      Rails.logger.debug 'selectedMoniker: '+selectedMoniker
+      end
+      #Rails.logger.debug 'addressMode.nil? '+(addressMode.nil?)
+      if !postcodeSearch.nil?
+      Rails.logger.debug 'postcodeSearch: '+postcodeSearch
+      end
+    if (selectedMoniker.nil? or selectedMoniker == "") and addressMode.nil? and postcodeSearch != ""
+      errors.add(:selectedMoniker, I18n.t('errors.messages.blank') )    
+    end
+  end
+  
   def validate_streetLine1
     #validates_presence_of :streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
     if streetLine1 == ""
@@ -246,6 +281,28 @@ class Registration < ActiveResource::Base
     end
   end
   
+  def validate_streetLine3
+    if !streetLine3.nil? and streetLine3[VALID_CHARACTERS].nil?
+      Rails.logger.debug 'streetLine3 fails reg ex check'
+      errors.add(:streetLine3, I18n.t('errors.messages.invalid_characters') )
+    #validates_length_of :streetLine3, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
+    elsif !streetLine3.nil? and streetLine3.length > 35
+      Rails.logger.debug 'streetLine3 longer than allowed'
+      errors.add(:streetLine3, I18n.t('errors.messages.maxlength35') )
+    end
+  end
+  
+  def validate_streetLine4
+    if !streetLine4.nil? and streetLine4[VALID_CHARACTERS].nil?
+      Rails.logger.debug 'streetLine4 fails reg ex check'
+      errors.add(:streetLine4, I18n.t('errors.messages.invalid_characters') )
+    #validates_length_of :streetLine4, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
+    elsif !streetLine4.nil? and streetLine4.length > 35
+      Rails.logger.debug 'streetLine4 longer than allowed'
+      errors.add(:streetLine4, I18n.t('errors.messages.maxlength35') )
+    end
+  end
+  
   def validate_townCity
     #validates_presence_of :townCity, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
     if townCity == ""
@@ -255,6 +312,20 @@ class Registration < ActiveResource::Base
     elsif !townCity.nil? and townCity[VALID_CHARACTERS].nil?
       Rails.logger.debug 'townCity fails reg ex check'
       errors.add(:townCity, I18n.t('errors.messages.invalid_characters') )
+    end
+  end
+  
+  def validate_country
+    if country.nil? or country == ""
+      Rails.logger.debug 'country is empty'
+      errors.add(:country, I18n.t('errors.messages.blank') )
+    elsif !country.nil? and streetLine4[VALID_CHARACTERS].nil?
+      Rails.logger.debug 'country fails reg ex check'
+      errors.add(:country, I18n.t('errors.messages.invalid_characters') )
+    #validates_length_of :country, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
+    elsif !country.nil? and country.length > 35
+      Rails.logger.debug 'country longer than allowed'
+      errors.add(:country, I18n.t('errors.messages.maxlength35') )
     end
   end
 

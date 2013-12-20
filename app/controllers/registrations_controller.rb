@@ -246,14 +246,24 @@ class RegistrationsController < ApplicationController
   def clearAddress
     session[:registration_params][:postcodeSearch] = nil
     session[:registration_params][:selectedMoniker] = nil
+    session[:registration_params][:houseNumber] = nil
     session[:registration_params][:streetLine1] = nil
     session[:registration_params][:streetLine2] = nil
+    session[:registration_params][:streetLine3] = nil
+    session[:registration_params][:streetLine4] = nil
+    session[:registration_params][:country] = nil
     session[:registration_params][:townCity] = nil
     session[:registration_params][:postcode] = nil
+    session[:registration_params][:easting] = nil
+    session[:registration_params][:northing] = nil
+    session[:registration_params][:dependentLocality] = nil
+    session[:registration_params][:dependentThroughfare] = nil
+    session[:registration_params][:administrativeArea] = nil
   end
   
   def addressSearchLogic
     logger.info "addressSearchLogic"
+    
     @addresses = []
     if params[:sManual]
       session[:registration_params][:addressMode] = "manual-uk"
@@ -276,7 +286,7 @@ class RegistrationsController < ApplicationController
       postcode = session[:registration_params][:postcodeSearch]
       logger.info "getting addresses for: "+postcode
       @addresses = Address.find(:all, :params => {:postcode => postcode})
-      if @addresses.length == 0
+      if @addresses.length == 1
         session[:registration_params][:selectedMoniker] =  @addresses[0].moniker
         @address = @addresses[0]
       end
@@ -294,13 +304,22 @@ class RegistrationsController < ApplicationController
     if @address
       session[:registration_params][:streetLine1] = @address.lines[0]
       session[:registration_params][:streetLine2] = @address.lines[1]
-      session[:registration_params][:townCity] = @address.lines[2]
+      session[:registration_params][:streetLine3] = @address.lines[2]
+      session[:registration_params][:streetLine4] = @address.lines[3]
+      session[:registration_params][:townCity] = @address.town
       session[:registration_params][:postcode] = @address.postcode
+      session[:registration_params][:uprn] = @address.uprn
+      session[:registration_params][:easting] = @address.easting
+      session[:registration_params][:northing] = @address.northing
+      session[:registration_params][:dependentLocality] = @address.dependentLocality
+      session[:registration_params][:dependentThroughfare] = @address.dependentThroughfare
+      session[:registration_params][:administrativeArea] = @address.administrativeArea
     end
   end
   
   def updateNewContactDetails
     logger.info 'updateNewContactDetails()'
+    
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     
@@ -467,8 +486,7 @@ class RegistrationsController < ApplicationController
         redirect_to finish_url(:id => @registration.id)
       else
         # Registration Id not found, must have done something wrong
-        logger.info 'Registration Id not found, must have done something wrong, Sign user out before redirecting to expired page'
-        sign_out 				# Performs a signout action on the current user
+        logger.info 'Registration Id not found, must have done something wrong'
         render :file => "/public/session_expired.html", :status => 400
       end
     elsif @registration.new_record?
@@ -787,6 +805,9 @@ private
       :houseNumber,
       :streetLine1,
       :streetLine2,
+      :streetLine3,
+      :streetLine4,
+      :country,
       :townCity,
       :postcode,
       :postcodeSearch,
