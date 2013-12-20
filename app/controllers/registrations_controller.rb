@@ -135,6 +135,10 @@ class RegistrationsController < ApplicationController
   def privacy
     render :file => "/public/privacy.html", :status => 200
   end
+  
+  # Renders static data proctection page
+  def dataProtection
+  end
 
   # GET /registrations/new
   # GET /registrations/new.json
@@ -188,9 +192,9 @@ class RegistrationsController < ApplicationController
       logger.info 'Set route as Assisted Digital: ' + @registration.routeName
     end
     # Prepop businessType with value from smarter answers
-    if !params[:smarterAnswersBusiness].nil?
-      logger.info 'Smart answers pre-pop detected: ' + params[:smarterAnswersBusiness]
-      @registration.businessType = params[:smarterAnswersBusiness]
+    if !session[:smarterAnswersBusiness].nil?
+      logger.info 'Smart answers pre-pop detected: ' + session[:smarterAnswersBusiness]
+      @registration.businessType = session[:smarterAnswersBusiness]
     end
   end
   
@@ -200,7 +204,12 @@ class RegistrationsController < ApplicationController
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = "business"
-    
+
+    if !session[:smarterAnswersBusiness].nil?
+      logger.info 'Initialising business type from session: ' + session[:smarterAnswersBusiness]
+      @registration.businessType = session[:smarterAnswersBusiness]
+    end
+
     if params[:back]
       logger.info 'Registration back request from first page'
       session[:registration_step] = nil
@@ -285,10 +294,20 @@ class RegistrationsController < ApplicationController
     if postcodeSearch and postcodeSearch != ""
       postcode = session[:registration_params][:postcodeSearch]
       logger.info "getting addresses for: "+postcode
+<<<<<<< HEAD
       @addresses = Address.find(:all, :params => {:postcode => postcode})
+=======
+      begin
+        @addresses = Address.find(:all, :params => {:postcode => postcode})
+      rescue ActiveResource::ServerError
+        @addresses = []
+      end
+>>>>>>> 4d9a55f67f06495e9de9b3316374e2504af1c306
       if @addresses.length == 1
         session[:registration_params][:selectedMoniker] =  @addresses[0].moniker
         @address = @addresses[0]
+      else
+        @address = nil
       end
     end
     
@@ -746,25 +765,31 @@ class RegistrationsController < ApplicationController
   # DELETE /registrations/1
   # DELETE /registrations/1.json
   def destroy
-    ##TODO re-introduce when needed
-    renderAccessDenied
-    #@registration = Registration.find(params[:id])
-    #authorize! :update, @registration
-    #@registration.destroy
+    #TODO re-introduce when needed
+    #renderAccessDenied
+    @registration = Registration.find(params[:id])
+    deletedCompany = @registration.companyName
+    authorize! :update, @registration
+    @registration.destroy
 
-    #respond_to do |format|
-    #  format.html { redirect_to registrations_url }
-    #  format.json { head :no_content }
-    #end
+    respond_to do |format|
+      format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) }
+      format.json { head :no_content }
+    end
+  end
+  
+  def confirmDelete
+    @registration = Registration.find(params[:id])
+    authorize! :update, @registration
   end
   
   def publicSearch
     distance = params[:distance]
     searchString = params[:q]
-    tcp = params[:tcp]
+    postcode = params[:postcode]
     if validate_search_parameters?(searchString,"any")
       if searchString != nil && !searchString.empty?
-        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => distance, :activeOnly => 'true' })
+        @registrations = Registration.find(:all, :params => {:q => searchString, :distance => distance, :activeOnly => 'true', :postcode => postcode })
       else
         @registrations = []
       end

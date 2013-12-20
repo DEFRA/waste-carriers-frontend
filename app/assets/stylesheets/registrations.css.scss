@@ -217,8 +217,11 @@ dl.data dd{
 	margin: 0.25em;
 	//display: inline;
 }
-.box .actions #delete {
-	background-color: red;
+.box .actions .button#delete {
+	background-color: rgb(230, 3, 3);
+}
+.box .actions .button#delete:hover {
+	background-color: rgb(206, 30, 30);
 }
 .box .status {
 	float: left;

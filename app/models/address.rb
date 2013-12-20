@@ -15,4 +15,28 @@ class Address < ActiveResource::Base
     Array :lines
   end
 
+  def streetLine1
+    if lines && lines.size > 0
+      lines[0]
+    else
+      ""
+    end
+  end
+
+  def streetLine2
+    if lines && lines.size > 1
+      lines[1]
+    else
+      ""
+    end
+  end
+
+  def townCity
+    if lines && lines.size > 2
+      lines[2]
+    else
+      ""
+    end
+  end
+
 end
