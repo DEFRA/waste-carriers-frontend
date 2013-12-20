@@ -63,4 +63,8 @@ class AgencyUser
     (0...16).map { (65 + SecureRandom.random_number(52)).chr }.join
   end
 
+  def subdomain
+    Rails.application.config.waste_exemplar_frontend_admin_subdomain
+  end
+
 end

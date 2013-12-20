@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   before_filter :require_admin_url, if: :devise_controller?
 
   ## TODO activate filter (fix for pen test issue 3.4)
-  #before_filter :set_no_cache
+  before_filter :set_no_cache
 
   include ApplicationHelper
 

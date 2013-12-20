@@ -10,10 +10,14 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'registration@wastecarriersregistration.service.gov.uk'
+  config.mailer_sender = 'registrations@wastecarriersregistration.service.gov.uk'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
+
+  config.mailer.class_eval do
+    helper :subdomain
+  end
 
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and

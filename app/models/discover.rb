@@ -6,8 +6,8 @@ class Discover
   # businessType must be present
   validate :validate_businessType
   
-  # otherBusinesses must be present if businessType is present and has a value of "soleTrader" || "partnership" || "limitedCompany"
-  validates_presence_of :otherBusinesses, :if => lambda { |o| !o.businessType.nil? && (o.businessType == "soleTrader" || o.businessType == "partnership" || o.businessType == "limitedCompany") }
+  # otherBusinesses must be present if businessType is present and has a value of "soleTrader" || "partnership" || "limitedCompany" || "publicBody"
+  validates_presence_of :otherBusinesses, :if => lambda { |o| !o.businessType.nil? && (o.businessType == "soleTrader" || o.businessType == "partnership" || o.businessType == "limitedCompany" || o.businessType == "publicBody") }
   
   # onlyAMF must be present if otherBusinesses is no
   validates_presence_of :onlyAMF, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" }

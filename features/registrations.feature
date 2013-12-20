@@ -9,7 +9,7 @@ Scenario: Valid registration as an Individual
   Given I do not have an account yet
   And I have found out that I need to register in the lower tier
   Then I should see "Registering as a lower tier waste carrier/broker/dealer"
-  And I select business or organisation type "Sole trader"
+  #And I select business or organisation type "Sole trader"
   And I fill in "Business, organisation or trading name" with "Joe Bloggs"
   And I click "Next"
   And I fill in valid contact details
@@ -50,7 +50,7 @@ Scenario: Valid registration for existing user - already logged in, no need to p
   And I am on the initial page
   And I am already logged in
   When I click on "New Registration"
-  And I provide valid individual trading name details
+  And I provide valid individual trading name details including business type
   And I provide valid contact details
   And I confirm the declaration
   And I click "Complete registration"

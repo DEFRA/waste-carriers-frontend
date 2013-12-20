@@ -74,6 +74,13 @@ module Registrations
     #The application URL
     config.waste_exemplar_frontend_url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "http://localhost:3000"
 
+    #The application URL
+    config.waste_exemplar_frontend_admin_url = ENV["WCRS_FRONTEND_ADMIN_APP_DOMAIN"] || "http://localhost:3000"
+
+    #The subdomains used in links for password reset and other e-mails sent by the Devise authentication component.
+    config.waste_exemplar_frontend_public_subdomain = ENV["WCRS_FRONTEND_PUBLIC_APP_SUBDOMAIN"] || "www.wastecarriersregistration.service"
+    config.waste_exemplar_frontend_admin_subdomain = ENV["WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN"] || "admin.wastecarriersregistration.service"
+
     #In Production we want to verify that requests to agency user and administration functionality
     #have been made via the 'internal' domain URL 'https://admin.wastecarriersregistration.service.gov.uk'
     #rather than via the public domain and URL 'https://www.wastecarriersregistration.service.gov.uk'
@@ -81,7 +88,7 @@ module Registrations
     
     # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
     config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"
-    config.waste_exemplar_eaupper_url = "https://integrated-regulation.environment-agency.gov.uk/EAIntegratedRegulationInternet/login.jsf"
+    config.waste_exemplar_eaupper_url = "https://integrated-regulation.environment-agency.gov.uk/EAIntegratedRegulationInternet/?_flowId=carriersandbrokers-flow"
     config.waste_exemplar_eaPrivacyCookies_url = "http://www.environment-agency.gov.uk/help/35770.aspx"
     
     # Set configuration for error pages to manual, to enable more user friendly error pages
@@ -90,13 +97,14 @@ module Registrations
     # Update this whenever the reported version number is supposed to have changed - particularly before any new releases. 
     # Note: This is the version of the frontend application. The version number of the services application may change separately.
     # Use semantic versioning (Major.Minor.Patch)
-    config.application_version = '0.6.0'
+    config.application_version = '1.0.0'
 
     # The e-mail address shown on the Finish page and used in e-mails sent by the application
     config.registrations_service_email = 'registrations@wastecarriersregistration.service.gov.uk'
     
     # The phone number shown on the certificate and used in e-mails sent by the application
     config.registrations_service_phone = '03708 506506'
+    config.registrations_cy_service_phone = '03000 653000'
 
     #Business types available for registrations. 
     #Note: When adding or removing, please also adjust locale-specific values in localisation files.
@@ -104,6 +112,7 @@ module Registrations
       soleTrader 
       partnership 
       limitedCompany 
+      publicBody 
       charity
       collectionAuthority
       disposalAuthority

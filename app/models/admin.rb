@@ -60,4 +60,8 @@ class Admin
     Admin.find_by(email: some_email)
   end
 
+  def subdomain
+    Rails.application.config.waste_exemplar_frontend_admin_subdomain
+  end
+  
 end
