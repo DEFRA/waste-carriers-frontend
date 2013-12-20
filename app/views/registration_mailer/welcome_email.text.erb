@@ -43,7 +43,7 @@ Address:
 <%= @registration.postcode%>
 
 Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change.
-You can do this by going to the website www.gov.uk/waste-carrier-or-broker-registration and logging in using your email and password.
+You can do this by going to the website <%= link_to 'sign in', new_user_session_url %> and logging in using your email and password.
 
 Please contact the Environment Agency if you have any enquiries.
 Telephone: <%= Rails.configuration.registrations_service_phone %>
