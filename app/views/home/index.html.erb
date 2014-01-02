@@ -1,8 +1,35 @@
 <h1>Waste Carrier Registration Service - GOV.UK</h1>
-<h2 style='color:red'>Entry points (typically redirected from GOV.UK)</h2>
+
+<% if alert %>
+<div id="error_explanation" class="validation-summary">
+  <h2><%= t '.standard_error' %></h2>
+  <ul>
+    <li><%= alert %></li>
+  </ul>
+</div>
+<% end %>
+
+<% if notice %>
+<div id="notice_explanation" class="validation-summary">
+  <!--
+  <h2><%= t '.standard_error' %></h2>
+  -->
+  <ul>
+    <li><%= notice %></li>
+  </ul>
+</div>
+<% end %>
+
+<h2>Waste Carrier Entry points (typically redirected from GOV.UK)</h2>
 <p><a href='/registrations/find'>Find out if I have to register </a><br/></p>
 <p><a href='/users/sign_in'>Waste Carrier Login </a><br/></p>
 
-<div id="includedContent"></div>
 
+<h2>NCCC Entry points</h2>
+<p><a href='/agency_users/sign_in'>Agency/NCCC Login </a><br/></p>
+
+<h2>Administration Entry points</h2>
+<p><a href='/admins/sign_in'>Administration Login </a><br/></p>
+
+<div id="includedContent"></div>
 
