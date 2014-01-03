@@ -45,8 +45,9 @@ Scenario: Invalid Trading Name
 Scenario: Missing mandatory fields on the Address and Contact Details page
   When I begin a registration as an Individual
   And proceed to the Address and Contact Details page
+  And I prepare to enter an address manually
   And I click "Next"
-  Then I should see an error with "Building name or number must be completed"
+  #Then I should see an error with "Building name or number must be completed"
   Then I should see an error with "Street must be completed"
   Then I should see an error with "Town or city must be completed"
   Then I should see an error with "Postcode must be completed"
@@ -59,12 +60,14 @@ Scenario: Missing mandatory fields on the Address and Contact Details page
 Scenario: Invalid house number
   When I begin a registration as an Individual
   And proceed to the Address and Contact Details page
+  And I prepare to enter an address manually
   And I fill in house number with "12£"
   Then I should see an error with "Building name or number"
 
 Scenario: Invalid postcode
   When I begin a registration as an Individual
   And proceed to the Address and Contact Details page
+  And I prepare to enter an address manually
   And I fill in postcode with "W1"
   Then I should see an error with "Postcode"
 
