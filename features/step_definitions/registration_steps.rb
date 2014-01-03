@@ -27,16 +27,19 @@ Then(/^I click "(.*?)"$/) do |name|
 end
 
 Then(/^I fill in valid contact details$/) do
-  find_field('registration_houseNumber')
-  #assert(page.has_content?('Address and contact details'))
-  fill_in('registration_houseNumber', :with => '12')
-  fill_in('registration_streetLine1', :with => 'Deanery Road')
-  fill_in('registration_townCity', :with => 'Bristol')
-  fill_in('registration_postcode', :with => 'BS1 5AH')
 
-  #click_button 'findAddress'
-  #page.select('addr1', :from => 'addresses')
+  ## With address lookup enabled and working, users do not enter house number etc. anymore
+  #find_field('registration_houseNumber')
+  ##assert(page.has_content?('Address and contact details'))
+  #fill_in('registration_houseNumber', :with => '12')
+  #fill_in('registration_streetLine1', :with => 'Deanery Road')
+  #fill_in('registration_townCity', :with => 'Bristol')
+  #fill_in('registration_postcode', :with => 'BS1 5AH')
 
+  fill_in('sPostcode', :with => 'BS1 5AH')
+  click_button 'Find address'
+  page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
+  
   page.select('Mr', :from => 'registration_title')
   fill_in('registration_firstName', :with => 'Joe')  
   fill_in('registration_lastName', :with => 'Bloggs')  
@@ -72,12 +75,17 @@ When(/^I provide valid individual trading name details including business type$/
 end
 
 When(/^I provide valid contact details$/) do
-  find_field('registration_houseNumber')
-  #assert(page.has_content?('Address and contact details'))
-  fill_in('registration_houseNumber', :with => '12')
-  fill_in('registration_streetLine1', :with => 'Some Road')
-  fill_in('registration_townCity', :with => 'Some Town')
-  fill_in('registration_postcode', :with => 'SW12 3AB')
+  #find_field('registration_houseNumber')
+  ##assert(page.has_content?('Address and contact details'))
+  #fill_in('registration_houseNumber', :with => '12')
+  #fill_in('registration_streetLine1', :with => 'Some Road')
+  #fill_in('registration_townCity', :with => 'Some Town')
+  #fill_in('registration_postcode', :with => 'SW12 3AB')
+
+  fill_in('sPostcode', :with => 'BS1 5AH')
+  click_button 'Find address'
+  page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
+
   page.select('Mr', :from => 'registration_title')
   fill_in('registration_firstName', :with => 'Joe')  
   fill_in('registration_lastName', :with => 'Bloggs')  
@@ -88,12 +96,16 @@ When(/^I provide valid contact details$/) do
 end
 
 Given(/^I provide valid contact details for "(.*?)"$/) do |email|
- find_field('registration_houseNumber')
-  #assert(page.has_content?('Address and contact details'))
-  fill_in('registration_houseNumber', :with => '12')
-  fill_in('registration_streetLine1', :with => 'Some Road')
-  fill_in('registration_townCity', :with => 'Some Town')
-  fill_in('registration_postcode', :with => 'SW12 3AB')
+  #find_field('registration_houseNumber')
+  ##assert(page.has_content?('Address and contact details'))
+  #fill_in('registration_houseNumber', :with => '12')
+  #fill_in('registration_streetLine1', :with => 'Some Road')
+  #fill_in('registration_townCity', :with => 'Some Town')
+  #fill_in('registration_postcode', :with => 'SW12 3AB')
+  fill_in('sPostcode', :with => 'BS1 5AH')
+  click_button 'Find address'
+  page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
+
   page.select('Mr', :from => 'registration_title')
   fill_in('registration_firstName', :with => 'Joe')  
   fill_in('registration_lastName', :with => 'Bloggs')  
@@ -197,6 +209,12 @@ When(/^proceed to the Address and Contact Details page$/) do
   click_on('Next')
 end
 
+When(/^I prepare to enter an address manually$/) do
+  ## At least at the moment the user has to perform a search in order to make the link appear
+  fill_in('sPostcode', :with => 'BS1 5AH')
+  click_button 'Find address'
+  click_link "I want to add an address myself"
+end
 
 Then(/^it should send me a Registration Confirmation email$/) do
   @email = ActionMailer::Base.deliveries.last
