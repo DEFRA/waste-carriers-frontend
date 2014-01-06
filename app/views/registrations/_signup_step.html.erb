@@ -69,6 +69,6 @@
 
 </div>
 <p class="action group">
-<input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
+<%= link_to t('registrations.form.back_button_label'), newConfirmation_path, :class => 'button-secondary' %>
 <input name="register" class="button" type="submit" value="<% if !@registration.persisted? %><%= t '.complete' %><% else %><%= t '.update' %><% end %>"/>
 </p>
