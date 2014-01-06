@@ -39,7 +39,6 @@
 
 <p class="action group">
 <%
-session[:registration_step] = nil
 if @registration.routeName == 'DIGITAL'
   if user_signed_in?
     logger.debug 'User already signed in so redirect to my account page'

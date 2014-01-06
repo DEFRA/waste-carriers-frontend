@@ -65,6 +65,6 @@
 
 </div>
 <p class="action group">
-<input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
+<%= link_to t('registrations.form.back_button_label'), newContact_path, :class => 'button-secondary' %>
 <input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </p>
