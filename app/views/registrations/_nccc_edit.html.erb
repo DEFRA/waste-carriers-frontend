@@ -137,7 +137,11 @@
 
 </div>
 <p class="action group">
-<input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
+<% if agency_user_signed_in? %>
+  <%= link_to t('registrations.form.back_button_label'), registrations_path, :class => 'button-secondary' %>
+<% else logger.debug 'User not signed in so Redirect back to my account page' %>
+  <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'button-secondary' %>
+<% end %>
 <input name="reprint" class="button-secondary" type="submit" value="<%= t 'registrations.form.print_button_label' %>"/>
 <input name="next" class="button" type="submit" value="<%= t 'registrations.form.update_button_label' %>"/>
 <% if agency_user_signed_in? %>

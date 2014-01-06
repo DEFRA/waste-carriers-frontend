@@ -7,12 +7,10 @@
 
   <p>Are you sure that you want to delete registration <b><%= @registration.companyName %></b>?</p>
   <p class="action group">
+    <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'button-secondary' %>
     <input name="delete" class="button" type="submit" value="Delete registration"/>
   </p>
 <% end %>
-
-
-<%= link_to 'Back', userRegistrations_path(current_user.id) %>
 
 </article>
 </main>

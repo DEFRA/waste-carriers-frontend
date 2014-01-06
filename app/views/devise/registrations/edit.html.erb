@@ -31,10 +31,10 @@
   <p class="group"><%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %></p>
 
-  <p class="action group"><%= f.submit "Update", :class => "button" %></p>
+  <p class="action group">
+  <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
+  <%= f.submit "Update", :class => "button" %></p>
 <% end %>
 </fieldset>
-
-<%= link_to "Back", :back %>
 
 </article></main>

@@ -690,15 +690,16 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(params[:id])
     authorize! :update, @registration
 
-    if params[:back]
-      if agency_user_signed_in?
-        logger.info 'Redirect to search page for agency users'
-        redirect_to registrations_path
-      else
-        logger.info 'Redirect to my account page for external users'
-        redirect_to userRegistrations_path(current_user.id)
-      end
-    elsif params[:reprint]
+#    if params[:back]
+#      if agency_user_signed_in?
+#        logger.info 'Redirect to search page for agency users'
+#        redirect_to registrations_path
+#      else
+#        logger.info 'Redirect to my account page for external users'
+#        redirect_to userRegistrations_path(current_user.id)
+#      end
+#    elsif params[:reprint]
+    if params[:reprint]
       logger.debug 'Redirect to Print page'
       redirect_to print_url(:id => params[:id], :reprint => params[:reprint])
     elsif params[:revoke]
