@@ -76,7 +76,7 @@ class Registration < ActiveResource::Base
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   # Contact Step fields
-  validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == "" }
+  validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
   validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
   validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
   validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
