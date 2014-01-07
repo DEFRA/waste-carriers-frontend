@@ -329,7 +329,7 @@ class RegistrationsController < ApplicationController
       @address = Address.find(selectedMoniker)
     end
     
-    if @address
+    if @address and @address.lines!=nil
       session[:registration_params][:streetLine1] = @address.lines[0]
       session[:registration_params][:streetLine2] = @address.lines[1]
       session[:registration_params][:streetLine3] = @address.lines[2]

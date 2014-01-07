@@ -11,6 +11,7 @@
 <legend><%= t '.businessAddress' %></legend>
 
 <%if @registration.addressMode%>
+<a href="?sSearch=true"><%= t '.search_address_label'%></a>
   <%if @registration.addressMode == "manual-uk"%>
     <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
         <%= validation_for(@registration, :houseNumber) %>
@@ -61,7 +62,10 @@
     </p>
   <%end%>
 <%else%>
-  <% if @addresses.count > 0%>
+  <% if @registration.selectedMoniker%>
+    <label for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
+    <div><%=@registration.houseNumber%> <%=@registration.streetLine1%><% if @registration.streetLine2 != "" %>, <%=@registration.streetLine2%><% end %>, <%=@registration.townCity%>, <%=@registration.postcode%></div>
+  <% elsif @addresses.count > 0%>
     <p class="group<%if @registration.errors[:selectedMoniker].any?%> validation<%end%>">
     <%= validation_for(@registration, :selectedMoniker) %>
     <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
@@ -75,10 +79,15 @@
     </p>
     <a href="?sManual=true"><%= t '.manual_address_label'%></a>
   <%else%>
-    <p class="group<%if @registration.errors[:postcodeSearch].any?%> validation<%end%>">
+    <p class="group<%if @registration.errors[:postcodeSearch].any? or params[:sPostcode]%> validation<%end%>">
      <%= validation_for(@registration, :postcodeSearch) %>
+     <%if params[:sPostcode] and params[:sPostcode]!=""%>
+     <span class="error-text"><%= t '.no_results_error'%></span>
+     <%elsif params[:sPostcode]%>
+     <span class="error-text"><%= t '.postcode_search_error'%></span>
+     <%end%>
     <label for="sPostcode"><%= t '.findAddressUsingPostcode'%></label>
-    <input id="sPostcode" name="sPostcode" type="text"/>
+    <input id="sPostcode" name="sPostcode" type="text" value="<%= params[:sPostcode]%>"/>
     <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
     </p>
 <a href="?sManualForeign=true"><%= t '.foreignAddressLink'%></a>
