@@ -13,7 +13,7 @@ class Admin
   # is done as part of the waste carrier registration flow.
   # We also do not use :rememberable (remember me tokens)
 
-  devise :database_authenticatable, :recoverable, :trackable, :validatable
+  devise :database_authenticatable, :recoverable, :trackable, :validatable, :lockable
 
   ## Database authenticatable
   field :email,              :type => String, :default => ""
@@ -40,9 +40,9 @@ class Admin
   # field :unconfirmed_email,    :type => String # Only if using reconfirmable
 
   ## Lockable
-  # field :failed_attempts, :type => Integer, :default => 0 # Only if lock strategy is :failed_attempts
-  # field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
-  # field :locked_at,       :type => Time
+  field :failed_attempts, :type => Integer, :default => 0 # Only if lock strategy is :failed_attempts
+  field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
+  field :locked_at,       :type => Time
 
 
   validates_strength_of :password, :with => :email
