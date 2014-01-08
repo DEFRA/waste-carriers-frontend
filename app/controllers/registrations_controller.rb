@@ -711,8 +711,16 @@ class RegistrationsController < ApplicationController
         
         # Merge param information with registration from DB
         @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
+        
+        # Forceably set the revoked value in the registration to now check for a revoke reason
+        if params[:revoke_question] == 'yes'
+          logger.info 'Revoke set, so should now run additional rule'
+          @registration.revoked = 'true'
+        end
+        
         if @registration.all_valid?
           @registration.metaData.status = "REVOKED"
+          @registration.revoked = ''
           @registration.save
           
           logger.info 'About to send revoke email'
