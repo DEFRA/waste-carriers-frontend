@@ -210,22 +210,6 @@ class RegistrationsController < ApplicationController
       @registration.businessType = session[:smarterAnswersBusiness]
     end
 
-#    if params[:back]
-#      logger.info 'Registration back request from first page'
-#      session[:registration_step] = nil
-#      if @registration.routeName == 'DIGITAL'
-#        if user_signed_in?
-#          logger.debug 'User already signed in so redirect to my account page'
-#          redirect_to userRegistrations_path(current_user.id)
-#        else
-#          logger.debug 'User not signed in so redirect to smarter answers'
-#          redirect_to :find
-#        end
-#      else
-#        logger.debug 'Assisted digital route detected, redirect to search page'
-#        redirect_to registrations_path
-#      end
-#    elsif @registration.valid?
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       redirect_to :newContact
@@ -358,9 +342,6 @@ class RegistrationsController < ApplicationController
     
     if params[:findAddress]
       render "newContactDetails"
-#    elsif params[:back]
-#      logger.info 'Registration back request from contact page'
-#      redirect_to :newBusiness
     elsif @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       redirect_to :newConfirmation
@@ -391,10 +372,6 @@ class RegistrationsController < ApplicationController
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = "confirmation"
     
-#    if params[:back]
-#      logger.info 'Registration back request from confirmation page'
-#      redirect_to :newContact
-#    elsif @registration.valid?
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       redirect_to :newSignup
@@ -449,10 +426,6 @@ class RegistrationsController < ApplicationController
       @registration.accountEmail = current_agency_user.email
     end
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-#    if params[:back]
-#      logger.info 'Registration back request from signup page'
-#      redirect_to :newConfirmation
-#    elsif @registration.valid?
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       if @registration.sign_up_mode == 'sign_up'
@@ -690,15 +663,6 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(params[:id])
     authorize! :update, @registration
 
-#    if params[:back]
-#      if agency_user_signed_in?
-#        logger.info 'Redirect to search page for agency users'
-#        redirect_to registrations_path
-#      else
-#        logger.info 'Redirect to my account page for external users'
-#        redirect_to userRegistrations_path(current_user.id)
-#      end
-#    elsif params[:reprint]
     if params[:reprint]
       logger.debug 'Redirect to Print page'
       redirect_to print_url(:id => params[:id], :reprint => params[:reprint])
