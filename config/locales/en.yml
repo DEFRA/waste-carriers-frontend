@@ -86,6 +86,7 @@ en:
         declaration: "Declaration"
         password: "Password"
         password_confirmation: "Confirm password"
+        revokedReason: "Why do you wish to revoke this registration"
       discover:
         businessType: "What kind of business or organisation are you?"
         otherBusinesses: "Do you deal with waste from other businesses or households?"

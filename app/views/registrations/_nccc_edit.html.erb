@@ -137,14 +137,15 @@
   <label for="revoke_question"><%= t('.revokedQuestion') %></label>
   <span class="inline">
     <input class="radio" id="revoke_question_yes" name="revoke_question" type="radio" value="yes" 
-    	<% if @registration.metaData.revokedReason != '' %>checked="true"<%end%> <% if @registration.metaData.status == "REVOKED" %>disabled="true"<%end%>>
+    	<% if @registration.metaData.revokedReason != '' || @registration.errors[:revokedReason].any? %>checked="true"<%end%> <% if @registration.metaData.status == "REVOKED" %>disabled="true"<%end%>>
     <label class="label" for="revoke_question_yes">Yes</label>
     <input class="radio" id="revoke_question_no" name="revoke_question" type="radio" value="no" 
-    	<% if @registration.metaData.revokedReason == '' %>checked="true"<%end%> <% if @registration.metaData.status == "REVOKED" %>disabled="true"<%end%>>
+    	<% if @registration.metaData.revokedReason == '' && !@registration.errors[:revokedReason].any? %>checked="true"<%end%> <% if @registration.metaData.status == "REVOKED" %>disabled="true"<%end%>>
     <label class="label" for="revoke_question_no">No</label>
   </span>
 </p>
-<p class="group">
+<p class="group <%if @registration.errors[:revokedReason].any?%> validation<%end%>">
+  <%= validation_for(@registration, :revokedReason) %>
   <%= ff.label :revokedReason, t('.revokedReason') %>
   <span>This will appear as the reason sent in the email to the registrant</span>
   <% if @registration.metaData.status == "REVOKED" %>

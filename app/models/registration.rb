@@ -59,6 +59,10 @@ class Registration < ActiveResource::Base
     string :sign_up_mode
     string :routeName
     string :accessCode
+    
+    # Used as a trigger value to force validation of the revoke reason field
+    # When this value contains any value, the revokeReason field is validated
+    string :revoked
   end
 
   #(Enumeration) available business types: configurable in config file
@@ -105,6 +109,9 @@ class Registration < ActiveResource::Base
   validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
   validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
+  
+  # Validate Revoke Reason
+  validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
   
   #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
   #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
@@ -500,6 +507,18 @@ class Registration < ActiveResource::Base
       end
     else
       Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + (sign_up_mode || '')
+    end
+  end
+  
+  def validate_revokedReason
+    #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
+    Rails.logger.debug 'validate revokedReason, revoked:' + revoked.to_s
+    # If revoke question is Yes, and revoke reason is empty, then error
+    if revoked.to_s != ''
+      if metaData.revokedReason == '' || metaData.revokedReason.nil?
+        Rails.logger.debug 'revokedReason is empty'
+        errors.add(:revokedReason, I18n.t('errors.messages.blank') )
+      end
     end
   end
   
