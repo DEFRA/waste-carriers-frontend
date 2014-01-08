@@ -177,7 +177,7 @@
 <% if @registration.metaData.status != "REVOKED" %>
 <input name="next" class="button" type="submit" value="<%= t 'registrations.form.update_button_label' %>"/>
 <% if agency_user_signed_in? %>
-<input name="revoke" class="button" type="submit" value="<%= t 'registrations.form.revoke_button_label' %>"/>
+<input id="delete" name="revoke" class="button" type="submit" value="<%= t 'registrations.form.revoke_button_label' %>"/>
 <% end %>
 <% else %>
 <input name="unrevoke" class="button" type="submit" value="<%= t 'registrations.form.unrevoke_button_label' %>"/>
