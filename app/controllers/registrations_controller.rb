@@ -745,9 +745,12 @@ class RegistrationsController < ApplicationController
       end
     else
       logger.info 'About to Update Registration'
-      
-      # Merge param information with registration from DB
-      @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
+      if agency_user_signed_in?
+        # Merge param information with registration from DB
+        @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
+      else
+        @registration.update_attributes(params[:registration])
+      end
       # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
       @registration.routeName = @registration.metaData.route
       if @registration.all_valid?
@@ -764,9 +767,13 @@ class RegistrationsController < ApplicationController
     dbMetaData = databaseMetaData
     # Create a new Registration from submitted params
     regFromParams = Registration.new(submittedParams)
-    metaDataFromParams = regFromParams.metaData
-    # Update Saved MD with revoked reason from Param
-    dbMetaData.revokedReason = metaDataFromParams.revokedReason
+    begin
+      metaDataFromParams = regFromParams.metaData
+      # Update Saved MD with revoked reason from Param
+      dbMetaData.revokedReason = metaDataFromParams.revokedReason
+    rescue
+      logger.info 'Warning: Cannot find meta data, this could be valid if being edited by an external user, Ignoring for now and continuing'
+    end
     regFromParams.metaData = dbMetaData
     regFromParams.attributes
   end
