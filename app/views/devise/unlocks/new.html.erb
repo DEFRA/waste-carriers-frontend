@@ -1,5 +1,4 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
-
 <h2>Resend unlock instructions</h2>
 
 <%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f| %>
@@ -8,9 +7,9 @@
   <p class="group"><%= f.label :email %>
   <%= f.email_field :email, :autofocus => true %></p>
 
-  <p class="action group"><%= f.submit "Resend unlock instructions" %></p>
+  <p class="action group">
+  <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
+  <%= f.submit "Resend unlock instructions", :class => "button" %></p>
 <% end %>
-
-<%= render "devise/shared/links" %>
 
 </article></main>
