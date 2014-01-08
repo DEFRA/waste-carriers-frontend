@@ -755,7 +755,11 @@ class RegistrationsController < ApplicationController
       @registration.routeName = @registration.metaData.route
       if @registration.all_valid?
         @registration.save
-        redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_updated') )
+        if agency_user_signed_in?
+          redirect_to find_path(:notice => I18n.t('registrations.form.reg_updated') )
+        else
+          redirect_to userRegistrations_path(:note => I18n.t('registrations.form.reg_updated') )
+        end
       else
         render "ncccedit"
       end
