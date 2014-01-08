@@ -114,6 +114,32 @@ class RegistrationsController < ApplicationController
     end
   end
 
+
+  def print_pending
+    begin
+      @registration = Registration.find(session[:registration_id])
+    rescue ActiveResource::ResourceNotFound
+      renderNotFound
+      return
+    end
+
+    if params[:finish]
+      if agency_user_signed_in?
+        logger.info 'Keep agency user signed in before redirecting back to search page'
+        redirect_to registrations_path
+      else
+        reset_session
+        redirect_to Rails.configuration.waste_exemplar_end_url
+      end
+    elsif params[:back]
+      logger.debug 'Default, redirecting back to Finish page'
+      redirect_to pending_url
+    else
+      render :layout => 'printview'
+    end
+  end
+
+
   def finish
     @registration = Registration.find(params[:id])
     authorize! :read, @registration
@@ -436,8 +462,9 @@ class RegistrationsController < ApplicationController
         logger.debug "About to save the new user."
         @user.save!
         logger.debug "User has been saved."
-        sign_in @user
-        logger.debug "The newly saved user has been signed in"
+        ## the newly created user has to active his account before being able to sign in
+        #sign_in @user
+        #logger.debug "The newly saved user has been signed in"
 		  
         # Reset Signed up user to signed in status
         @registration.sign_up_mode = 'sign_in'
@@ -451,6 +478,7 @@ class RegistrationsController < ApplicationController
           else
             logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
             #TODO error - should have caught the error in validation
+            raise "error - invalid password - should have been caught before in validation"
           end
         else
           logger.debug "User signed in, set account email to user email and get user"
@@ -474,6 +502,7 @@ class RegistrationsController < ApplicationController
           @registration.accessCode = @registration.generate_random_access_code
         end
         @registration.save!
+        session[:registration_id] = @registration.id
         logger.debug "The registration has been saved. About to send e-mail..."
         if user_signed_in?
           RegistrationMailer.welcome_email(@user, @registration).deliver
@@ -486,7 +515,12 @@ class RegistrationsController < ApplicationController
       # Clear session and redirect to Finish
       session[:registration_step] = session[:registration_params] = nil
       if !@registration.id.nil?
-        redirect_to finish_url(:id => @registration.id)
+        ## Account not yet activated for new user. Cannot redirect to the finish URL 
+        if agency_user_signed_in? || user_signed_in?
+          redirect_to finish_url(:id => @registration.id)
+        else
+          redirect_to pending_url
+        end
       else
         # Registration Id not found, must have done something wrong
         logger.info 'Registration Id not found, must have done something wrong'
@@ -499,6 +533,11 @@ class RegistrationsController < ApplicationController
     end
   end
   
+  def pending
+    @registration = Registration.find(session[:registration_id])
+  end
+
+
   def redirect_to_failed_page(failedStep)
     logger.debug 'redirect_to_failed_page(failedStep) failedStep: ' +  failedStep
     if failedStep == "business"

@@ -17,6 +17,15 @@
 </div>
 <% end %>
 
+<% if notice %>
+<div id="notice_explanation" class="note-summary">
+  <h2><%= t '.standard_notice' %></h2>
+  <ul>
+    <li><%= notice %></li>
+  </ul>
+</div>
+<% end %>
+
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <p class="group<% if alert %> validation<% end %>"><%= f.label :email %>
   <%= f.email_field :email, :autofocus => true, :autocomplete => :off %></p>

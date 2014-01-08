@@ -41,7 +41,7 @@ Registrations::Application.routes.draw do
   
   # Add a new route for the print view
   match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
-  
+ 
   # Add new routing for new registration urls
   match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusiness
   match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
@@ -54,8 +54,10 @@ Registrations::Application.routes.draw do
   
   match "your-registration/signup" => 'registrations#newSignup', :via => [:get], :as => :newSignup
   match "your-registration/signup" => 'registrations#updateNewSignup', :via => [:post,:put,:patch]
-  
-  
+ 
+  get "your-registration/pending" => 'registrations#pending', :as => :pending 
+  match "your-registration/print" => 'registrations#print_pending', :via => [:get,:patch], :as => :print_pending
+   
 
   resources :registrations
 
