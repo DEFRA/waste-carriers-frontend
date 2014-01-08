@@ -675,7 +675,12 @@ class RegistrationsController < ApplicationController
         if @registration.all_valid?
           @registration.metaData.status = "REVOKED"
           @registration.save
-          redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_updated') )
+          
+          logger.info 'About to send revoke email'
+          @user = User.find_by_email(@registration.accountEmail)
+          RegistrationMailer.revoke_email(@user, @registration).deliver
+          
+          redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_revoked') )
         else
           render "ncccedit"
         end
