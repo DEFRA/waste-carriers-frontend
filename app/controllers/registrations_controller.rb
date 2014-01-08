@@ -705,9 +705,16 @@ class RegistrationsController < ApplicationController
     elsif params[:revoke]
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
-        @registration.metaData.status = "REVOKED"
-        @registration.save
-        redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_revoked'))
+        
+        # Merge param information with registration from DB
+        @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
+        if @registration.all_valid?
+          @registration.metaData.status = "REVOKED"
+          @registration.save
+          redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_updated') )
+        else
+          render "ncccedit"
+        end
       else
         renderAccessDenied
       end
@@ -721,7 +728,10 @@ class RegistrationsController < ApplicationController
         renderAccessDenied
       end
     else
-      @registration.update_attributes(params[:registration])
+      logger.info 'About to Update Registration'
+      
+      # Merge param information with registration from DB
+      @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
       # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
       @registration.routeName = @registration.metaData.route
       if @registration.all_valid?
@@ -731,6 +741,18 @@ class RegistrationsController < ApplicationController
         render "ncccedit"
       end
     end
+  end
+  
+  def updatedParameters(databaseMetaData, submittedParams) 
+    # Save DB MetaData
+    dbMetaData = databaseMetaData
+    # Create a new Registration from submitted params
+    regFromParams = Registration.new(submittedParams)
+    metaDataFromParams = regFromParams.metaData
+    # Update Saved MD with revoked reason from Param
+    dbMetaData.revokedReason = metaDataFromParams.revokedReason
+    regFromParams.metaData = dbMetaData
+    regFromParams.attributes
   end
 
   # PUT /registrations/1

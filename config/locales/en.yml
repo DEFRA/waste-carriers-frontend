@@ -224,6 +224,9 @@ en:
       registered: "Status: Registered"
     ncccform:
       subtitle: "Change your registration details"
+    nccc_edit:
+      revokedQuestion: "Do you wish to revoke this registration?"
+      revokedReason: "Why do you wish to revoke this registration"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"

@@ -569,6 +569,21 @@
 		}
 	}
 	
+	function showHideRevoke(){
+		// Show revoked reason is revoked question is yes
+		var showReason = $('#revoke_question_yes').is(':checked');
+		if (showReason) {
+			$('#registration_metaData_revokedReason').parent().removeClass("js-hidden");
+			$('input[name="revoke"]').removeClass("js-hidden");
+			$('input[name="next"]').addClass("js-hidden");
+		} else {
+			$('#registration_metaData_revokedReason').val('');
+			$('#registration_metaData_revokedReason').parent().addClass("js-hidden");
+			$('input[name="revoke"]').addClass("js-hidden");
+			$('input[name="next"]').removeClass("js-hidden");
+		}
+	}
+	
 	var Tooltip = function(elem,html,mayShow){
 		var tip = document.createElement("div");
 		var $tip = $(tip);
@@ -725,6 +740,10 @@
 		// Commented out sa4 as not used
 		//$("#discover_wasteType").change(function(e){smarterAnswersQuestion4();});
 		//smarterAnswersQuestion4();
+		
+		// Setup Revoke questions on NCCC edit
+		$("#revoke_question").change(function(e){showHideRevoke();});
+		showHideRevoke();
 
 		/*var uprn = $("#registration_uprn").val();
 		if(uprn && uprn !== ""){
