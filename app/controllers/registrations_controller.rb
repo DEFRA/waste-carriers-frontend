@@ -481,8 +481,12 @@ class RegistrationsController < ApplicationController
         if @registration.sign_up_mode == 'sign_in'
           @user = User.find_by_email(@registration.accountEmail)
           if @user.valid_password?(@registration.password)
-            logger.info "The user's password is valid. Signing in user " + @user.email
-            sign_in @user
+            if @user.confirmed?
+              logger.info "The user's password is valid and the account is confirmed. Signing in user " + @user.email
+              sign_in @user
+            else
+              logger.warn "User account not yet confirmed for " + @user.email
+            end
           else
             logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
             #TODO error - should have caught the error in validation
@@ -509,7 +513,7 @@ class RegistrationsController < ApplicationController
         if agency_user_signed_in?
           @registration.accessCode = @registration.generate_random_access_code
         end
-        # The user is signed in at this stage if he activated his e-mail/account for a previous registration
+        # The user is signed in at this stage if he activated his e-mail/account (for a previous registration)
         # Assisted Digital registrations (made by the signed in agency user) do not need verification either. 
         if agency_user_signed_in? || user_signed_in?
           @registration.activate!
