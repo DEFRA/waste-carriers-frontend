@@ -501,6 +501,11 @@ class RegistrationsController < ApplicationController
         if agency_user_signed_in?
           @registration.accessCode = @registration.generate_random_access_code
         end
+        # The user is signed in at this stage if he activated his e-mail/account for a previous registration
+        # Assisted Digital registrations (made by the signed in agency user) do not need verification either. 
+        if agency_user_signed_in? || user_signed_in?
+          @registration.activate!
+        end
         @registration.save!
         session[:registration_id] = @registration.id
         logger.debug "The registration has been saved. About to send e-mail..."

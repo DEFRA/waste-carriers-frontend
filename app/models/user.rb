@@ -46,6 +46,10 @@ class User
 
   validates_strength_of :password, :with => :email
 
+  def confirm!
+    super
+    Registration.activate_registrations(self)
+  end
 
   def is_admin?
     false

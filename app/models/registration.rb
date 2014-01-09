@@ -201,6 +201,19 @@ class Registration < ActiveResource::Base
     end
   end
   
+  def pending?
+    metaData && metaData.status == 'PENDING'
+  end
+
+  def pending!
+    metaData.status = 'PENDING'
+  end
+
+  def activate!
+    #Note: the actual status update will be performed in the service
+    metaData.status = 'ACTIVATE'
+  end
+
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
@@ -576,6 +589,21 @@ class Registration < ActiveResource::Base
 
   def assisted_digital?
     metaData && metaData.route == 'ASSISTED_DIGITAL'
+  end
+
+  def self.activate_registrations(user)
+    Rails.logger.info("Activating pending registrations for user with email " + user.email)
+    Registration.find(:all, :params => {:ac => user.email}).each { |r| 
+      if r.pending?
+        Rails.logger.info("Activating registration " + r.regIdentifier)
+        r.activate!
+        r.save!
+        RegistrationMailer.welcome_email(user,r).deliver
+      else
+        Rails.logger.info("Skipping non-pending registration " + r.regIdentifier)
+      end
+    }
+    Rails.logger.info("Activated registration(s) for user with email " +  user.email)
   end
 
 end
