@@ -39,8 +39,13 @@ sudo service nginx stop
 
 ## Backup the current database.
 
-## Create a new release directory and copy the old database into it..
-RELEASE_DIR="wcrs-frontend-${DATESTAMP}"
+## Create a new release directory.
+if [ -f "${WCRS_FRONTEND_SOURCE}/jenkins_build_number" ]; then
+  JENKINS_BUILD_NUMBER=`cat ${WCRS_FRONTEND_SOURCE}/jenkins_build_number`
+else
+  JENKINS_BUILD_NUMBER="j"
+fi
+RELEASE_DIR="wcrs-frontend-${JENKINS_BUILD_NUMBER}-${DATESTAMP}"
 echo "Creating new release directory ${RELEASE_DIR}"
 mkdir "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}"
 cd "${WCRS_FRONTEND_HOME}"
@@ -52,6 +57,22 @@ ln -s "${RELEASE_DIR}" live
 ## Deploy the new code.
 echo "Copying new code to ${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/"
 cp -pr ${WCRS_FRONTEND_SOURCE}/* "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/"
+
+## Preserve the jenkins build number file.
+if [ -f "${WCRS_FRONTEND_SOURCE}/jenkins_build_number" ]; then
+  cp "${WCRS_FRONTEND_SOURCE}/jenkins_build_number" "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/conf/"
+fi
+
+## Create a backup of the codedrop if on the dev server.
+if [ ! -d "${WCRS_FRONTEND_HOME}/baselines" ]; then
+  mkdir "${WCRS_FRONTEND_HOME}/baselines"
+fi
+if [ `uname -n` == "ea-dev" ]; then
+  echo "Tarring up this codedrop for deploys to other servers. You can find it here:"
+  echo "    ${WCRS_FRONTEND_HOME}/baselines/codedrop-wcrs-frontend-${JENKINS_BUILD_NUMBER}-${DATESTAMP}.tgz"
+  cd "${WCRS_FRONTEND_SOURCE}"
+  tar -zcf "${WCRS_FRONTEND_HOME}/baselines/codedrop-wcrs-frontend-${JENKINS_BUILD_NUMBER}-${DATESTAMP}.tgz" *
+fi
 
 ## Bundle
 echo "Installing bundle."
