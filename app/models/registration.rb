@@ -501,6 +501,10 @@ class Registration < ActiveResource::Base
 	        errors.add(:password, 'Invalid email and/or password')
 	        Rails.logger.debug "Invalid User Found"
 	      end
+        # # Uncomment if we don't want to allow additional registrations
+        # if @user && !user.confirmed?
+        #   errors.add(:password, 'User account not confirmed')
+        # end
 	    else
 	      Rails.logger.debug "validate_password: not validating, sign_up_mode = " + (sign_up_mode || '')
 	    end
