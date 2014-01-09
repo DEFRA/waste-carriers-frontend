@@ -21,7 +21,7 @@ class RegistrationsController < ApplicationController
       end
     else
       @registrations = []
-      flash.now[:notice] = 'Invalid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
+      flash.now[:notice] = 'You must provided valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
     end
     session[:registration_step] = session[:registration_params] = nil
 
@@ -850,13 +850,13 @@ class RegistrationsController < ApplicationController
     postcode = params[:postcode]
     if validate_search_parameters?(searchString,"any")
       if searchString != nil && !searchString.empty?
-        @registrations = Registration.find(:all, :params => {:q => searchString, :distance => distance, :activeOnly => 'true', :postcode => postcode })
+        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode })
       else
         @registrations = []
       end
     else
       @registrations = []
-      flash.now[:notice] = 'Invalid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
+      flash.now[:notice] = 'You must provided a business or trading name. This must only use letters, numbers, or any of \' . & ! %.'
     end
   end
   
