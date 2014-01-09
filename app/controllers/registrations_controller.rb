@@ -40,6 +40,14 @@ class RegistrationsController < ApplicationController
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
   end
+  
+  def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
+    searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
+    searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
+    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance) 
+    searchPostcode_valid = searchDistance == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
+    searchString_valid && searchWithin_valid && searchDistance_valid && searchPostcode_valid
+  end
 
   def userRegistrations
     # Get user from id in url
@@ -853,7 +861,7 @@ class RegistrationsController < ApplicationController
     distance = params[:distance]
     searchString = params[:q]
     postcode = params[:postcode]
-    if validate_search_parameters?(searchString,"any")
+    if validate_public_search_parameters?(searchString,"any",distance, postcode)
       if searchString != nil && !searchString.empty?
         @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode })
       else

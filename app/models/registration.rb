@@ -72,6 +72,9 @@ class Registration < ActiveResource::Base
   TITLES = %w[mr mrs miss ms dr other]
 
   VALID_CHARACTERS = /\A[A-Za-z0-9\s\'\.&!%]*\Z/
+  
+  DISTANCES = %w[any 10 50 100]
+  POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
 
   # Business Step fields
   validate :validate_businessType, :if => lambda { |o| o.current_step == "business" }
