@@ -83,8 +83,9 @@ test:
         retry_interval: 0
   options:
     raise_not_found_error: false
-production:
-  sandbox:
+#Settings for sandbox
+sandbox:
+  sessions:
     default:
       database: <%= ENV['WCRS_FRONTEND_USERSDB_NAME'] %>
       username: <%= ENV['WCRS_FRONTEND_USERSDB_USERNAME'] %>
