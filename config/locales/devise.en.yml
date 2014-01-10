@@ -49,6 +49,7 @@ en:
         agency_heading: "NCCC agency login"
         admin_heading: "Administration login"
         standard_error: "You have 1 error on this page"
+        standard_notice: "Information"
     shared:
       links:
         forgotPassword: "Forgot your password?"

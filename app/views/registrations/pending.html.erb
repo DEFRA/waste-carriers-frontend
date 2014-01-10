@@ -1,0 +1,30 @@
+<main id="content" role="main" class="group"><article role="article" class="group">
+
+<h1><%= t 'registrations.form.title' %></h1>
+
+<h2 class="subtitle"><%= t '.heading' %></h2>
+<h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
+<%# render "shared/meta_phases"%>
+
+<b>TODO - update text to be shown here...</b>
+<br/>
+<b>PLEASE SEE YOUR E-MAIL</b>
+
+<h3 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h3>
+
+<form action="<%=print_pending_url%>">
+<p class="action group"><input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/></p>
+
+<p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
+
+<div class="finish-section js-hidden"  data-journey="waste-carriers-registration:pending">
+<%# render "details" %>
+</div>
+
+<p><%= t '.detailsChange' %></p>
+
+<p class="action group"><input name="finish" class="button" type="submit" value="<%= t 'registrations.form.finish_button_label' %>"/></p>
+
+</form>
+
+</article></main>

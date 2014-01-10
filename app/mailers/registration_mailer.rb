@@ -10,4 +10,13 @@ class RegistrationMailer < ActionMailer::Base
     	reply_to: Rails.configuration.registrations_service_email)
   end
   
+  def revoke_email(user, registration)
+  	@user = user
+  	@url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "www.wastecarriersregistration.service.gov.uk"
+  	@registration = registration
+    mail(to: @user.email, subject: 'The lower tier registration for '+@registration.companyName+' has been revoked. ',
+    	from: Rails.configuration.registrations_service_email,
+    	reply_to: Rails.configuration.registrations_service_email)
+  end
+  
 end
