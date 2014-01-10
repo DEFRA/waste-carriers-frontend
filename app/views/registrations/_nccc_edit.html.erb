@@ -31,70 +31,8 @@
 <!-- WF 4.3.2 -->
 <div id="page2">
 
-<fieldset>
-<legend><%= t 'registrations.contact_step.businessAddress' %></legend>
+<%= render "address_entry",:f=>f %>
 
-<!--
-<div id="addressSearch">
-
-<p class="action group">
-
-    <%= f.label :postcodeSearch, "Find address using postcode" %>
-    <%= f.text_field :postcodeSearch %>
-
-<input name="findAddress" class="button-secondary" type="submit" value="Find address"/>
-</p>
-</div>
-<div id="addressSearchResults" style="display:none">
-<p class="group">
-<label for="addresses"><span id="resultCount">5</span> Addresses found</label>
-<select id="addresses">
-<option>Please select an address..</option>
-</select>
-</p>
-</div>
--->
-
-<p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
-	<%= validation_for(@registration, :houseNumber) %>
-	<%= f.label :houseNumber %>
-	<%= f.text_field :houseNumber %>
-</p>
-<p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
-	<%= validation_for(@registration, :streetLine1) %>
-	<%= f.label :streetLine1 %>
-	<%= f.text_field :streetLine1%>
-</p>
-<p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
-	<%= validation_for(@registration, :streetLine2) %>
-	<%= f.label :streetLine2, :class=>"offscreen" %>
-	<%= f.text_field :streetLine2%>
-</p>
-<p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
-	<%= validation_for(@registration, :townCity) %>
-	<%= f.label :townCity %>
-	<%= f.text_field :townCity%>
-</p>
-<p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
-	<%= validation_for(@registration, :postcode) %>
-	<%= f.label :postcode %>
-	<%= f.text_field :postcode %>
-</p>
-
-
-
-
-<div id="selectedAddress" style="display:none">
-<div id="addressDisplay">
-</div>
-<p class="action group">
-<input name="changeAddress" class="button-secondary" type="submit" value="Change address"/>
-</p>
-</div>
-
-<%= f.hidden_field :uprn %>
-<%= f.hidden_field :address %>
-</fieldset>
 
 <fieldset>
 <legend><%= t 'registrations.contact_step.contact_information_legend' %></legend>

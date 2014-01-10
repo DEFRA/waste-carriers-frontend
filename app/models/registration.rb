@@ -32,6 +32,8 @@ class Registration < ActiveResource::Base
     string :dependentLocality
     string :dependentThroughfare
     string :administrativeArea
+    string :royalMailUpdateDate
+    string :localAuthorityUpdateDate
     
     # Non UK fields
     string :streetLine3
@@ -76,7 +78,7 @@ class Registration < ActiveResource::Base
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   # Contact Step fields
-  validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
+  validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
   validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
   validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
   validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
@@ -86,6 +88,8 @@ class Registration < ActiveResource::Base
   validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
   validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
+  
+  validate :validate_addressMode
   
   validate :validate_title, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
@@ -223,7 +227,7 @@ class Registration < ActiveResource::Base
   
   def validate_houseNumber
     #validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-    if houseNumber == ""
+    if houseNumber.nil? or houseNumber == ""
       Rails.logger.debug 'houseNumber is empty'
       errors.add(:houseNumber, I18n.t('errors.messages.blank') )
     #validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }
@@ -240,22 +244,20 @@ class Registration < ActiveResource::Base
   end
   
   def validate_selectedMoniker
-      Rails.logger.debug 'validate selectedMoniker'
-      if !selectedMoniker.nil?
-      Rails.logger.debug 'selectedMoniker: '+selectedMoniker
-      end
-      #Rails.logger.debug 'addressMode.nil? '+(addressMode.nil?)
-      if !postcodeSearch.nil?
-      Rails.logger.debug 'postcodeSearch: '+postcodeSearch
-      end
-    if (selectedMoniker.nil? or selectedMoniker == "") and addressMode.nil? and postcodeSearch != ""
+    if (selectedMoniker.nil? or selectedMoniker == "") and addressMode.nil? and postcodeSearch != "" and !uprn
       errors.add(:selectedMoniker, I18n.t('errors.messages.blank') )    
+    end
+  end
+  
+  def validate_addressMode
+    if addressMode and !addressMode.nil? and addressMode != "manual-uk" and addressMode != "manual-foreign"
+      errors.add(:addressMode, I18n.t('errors.messages.blank') )
     end
   end
   
   def validate_streetLine1
     #validates_presence_of :streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-    if streetLine1 == ""
+    if streetLine1.nil? or streetLine1 == ""
       Rails.logger.debug 'streetLine1 is empty'
       errors.add(:streetLine1, I18n.t('errors.messages.blank') )
     #validates :streetLine1, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
@@ -305,7 +307,7 @@ class Registration < ActiveResource::Base
   
   def validate_townCity
     #validates_presence_of :townCity, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-    if townCity == ""
+    if townCity.nil? or townCity == ""
       Rails.logger.debug 'townCity is empty'
       errors.add(:townCity, I18n.t('errors.messages.blank') )
     #validates :townCity, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
@@ -331,7 +333,7 @@ class Registration < ActiveResource::Base
 
   def validate_postcode
     #validates_presence_of :postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-    if postcode == ""
+    if postcode.nil? or postcode == ""
       Rails.logger.debug 'postcode is empty'
       errors.add(:postcode, I18n.t('errors.messages.blank') )
     elsif !Postcode.is_valid_postcode?(postcode)
