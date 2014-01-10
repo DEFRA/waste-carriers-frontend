@@ -1,3 +1,5 @@
+<% content_for :page_title, "GOV.UK - Public register of lower tier waste carriers" %>
+
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <% if params[:error] %>
@@ -8,11 +10,14 @@
 
 <% if !notice.nil? %>
 <div id="note_explanation" class="note-summary">
-  <h1><%= notice %></h1>
+  <h1>Information</h1>
+  <ul>
+  <li><%= notice %></li>
+  </ul>
 </div>
 <% end %>
 
-<h2>Public register Draft Solution</h2>
+<h2>Public register of lower tier waste carriers</h2>
 
 <form method="get" action="/registrations/search">
 <div class="box" data-journey="waste-carriers-registration:registrations">
@@ -21,10 +26,10 @@
 		<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 	</p>
 	<p class="group">
-		<label for="postcode">Postcode</label>
+		<label for="postcode">Postcode (Optional)</label>
 		<input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
 		
-		<label for="distance">Distance</label>
+		<label for="distance">Distance (Optional)</label>
 		<select id="distance" name="distance">
 			<option value="any"<% if params[:distance]=='any'||!params[:distance] %>selected="selected"<%end%>>Any</option>
 			<option value="10" <% if params[:distance]=='10' %>selected="selected"<%end%>>10 miles</option>

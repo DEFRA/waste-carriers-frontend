@@ -19,14 +19,14 @@ Internal and administrative functions can only be accessed from known locations 
 
 
 Scenario: Log in successfully as Waste Carrier
-  Given there is a user Joe
+  Given there is an activated user Joe
   When the user visits the login page
   And enters valid credentials for user Joe
   Then the user should be logged in successfully
 
 
 Scenario: Log in as Waste Carrier - invalid password
-  Given there is a user Joe
+  Given there is an activated user Joe
   When the user visits the login page
   And enters invalid credentials for user Joe
   Then the user should see a login error

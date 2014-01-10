@@ -21,7 +21,7 @@ class RegistrationsController < ApplicationController
       end
     else
       @registrations = []
-      flash.now[:notice] = 'Invalid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
+      flash.now[:notice] = 'You must provided valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
     end
     session[:registration_step] = session[:registration_params] = nil
 
@@ -39,6 +39,14 @@ class RegistrationsController < ApplicationController
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
+  end
+  
+  def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
+    searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
+    searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
+    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance) 
+    searchPostcode_valid = searchDistance == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
+    searchString_valid && searchWithin_valid && searchDistance_valid && searchPostcode_valid
   end
 
   def userRegistrations
@@ -113,6 +121,32 @@ class RegistrationsController < ApplicationController
 	  render :layout => 'printview'
     end
   end
+
+
+  def print_pending
+    begin
+      @registration = Registration.find(session[:registration_id])
+    rescue ActiveResource::ResourceNotFound
+      renderNotFound
+      return
+    end
+
+    if params[:finish]
+      if agency_user_signed_in?
+        logger.info 'Keep agency user signed in before redirecting back to search page'
+        redirect_to registrations_path
+      else
+        reset_session
+        redirect_to Rails.configuration.waste_exemplar_end_url
+      end
+    elsif params[:back]
+      logger.debug 'Default, redirecting back to Finish page'
+      redirect_to pending_url
+    else
+      render :layout => 'printview'
+    end
+  end
+
 
   def finish
     @registration = Registration.find(params[:id])
@@ -211,22 +245,6 @@ class RegistrationsController < ApplicationController
       @registration.businessType = session[:smarterAnswersBusiness]
     end
 
-#    if params[:back]
-#      logger.info 'Registration back request from first page'
-#      session[:registration_step] = nil
-#      if @registration.routeName == 'DIGITAL'
-#        if user_signed_in?
-#          logger.debug 'User already signed in so redirect to my account page'
-#          redirect_to userRegistrations_path(current_user.id)
-#        else
-#          logger.debug 'User not signed in so redirect to smarter answers'
-#          redirect_to :find
-#        end
-#      else
-#        logger.debug 'Assisted digital route detected, redirect to search page'
-#        redirect_to registrations_path
-#      end
-#    elsif @registration.valid?
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       redirect_to :newContact
@@ -400,9 +418,6 @@ class RegistrationsController < ApplicationController
     
     if params[:findAddress]
       render "newContactDetails"
-#    elsif params[:back]
-#      logger.info 'Registration back request from contact page'
-#      redirect_to :newBusiness
     elsif @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       copyAddressToSession @registration
@@ -434,10 +449,6 @@ class RegistrationsController < ApplicationController
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = "confirmation"
     
-#    if params[:back]
-#      logger.info 'Registration back request from confirmation page'
-#      redirect_to :newContact
-#    elsif @registration.valid?
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       redirect_to :newSignup
@@ -492,10 +503,6 @@ class RegistrationsController < ApplicationController
       @registration.accountEmail = current_agency_user.email
     end
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-#    if params[:back]
-#      logger.info 'Registration back request from signup page'
-#      redirect_to :newConfirmation
-#    elsif @registration.valid?
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       if @registration.sign_up_mode == 'sign_up'
@@ -506,8 +513,9 @@ class RegistrationsController < ApplicationController
         logger.debug "About to save the new user."
         @user.save!
         logger.debug "User has been saved."
-        sign_in @user
-        logger.debug "The newly saved user has been signed in"
+        ## the newly created user has to active his account before being able to sign in
+        #sign_in @user
+        #logger.debug "The newly saved user has been signed in"
 		  
         # Reset Signed up user to signed in status
         @registration.sign_up_mode = 'sign_in'
@@ -516,11 +524,16 @@ class RegistrationsController < ApplicationController
         if @registration.sign_up_mode == 'sign_in'
           @user = User.find_by_email(@registration.accountEmail)
           if @user.valid_password?(@registration.password)
-            logger.info "The user's password is valid. Signing in user " + @user.email
-            sign_in @user
+            if @user.confirmed?
+              logger.info "The user's password is valid and the account is confirmed. Signing in user " + @user.email
+              sign_in @user
+            else
+              logger.warn "User account not yet confirmed for " + @user.email
+            end
           else
             logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
             #TODO error - should have caught the error in validation
+            raise "error - invalid password - should have been caught before in validation"
           end
         else
           logger.debug "User signed in, set account email to user email and get user"
@@ -543,7 +556,13 @@ class RegistrationsController < ApplicationController
         if agency_user_signed_in?
           @registration.accessCode = @registration.generate_random_access_code
         end
+        # The user is signed in at this stage if he activated his e-mail/account (for a previous registration)
+        # Assisted Digital registrations (made by the signed in agency user) do not need verification either. 
+        if agency_user_signed_in? || user_signed_in?
+          @registration.activate!
+        end
         @registration.save!
+        session[:registration_id] = @registration.id
         logger.debug "The registration has been saved. About to send e-mail..."
         if user_signed_in?
           RegistrationMailer.welcome_email(@user, @registration).deliver
@@ -556,7 +575,12 @@ class RegistrationsController < ApplicationController
       # Clear session and redirect to Finish
       session[:registration_step] = session[:registration_params] = nil
       if !@registration.id.nil?
-        redirect_to finish_url(:id => @registration.id)
+        ## Account not yet activated for new user. Cannot redirect to the finish URL 
+        if agency_user_signed_in? || user_signed_in?
+          redirect_to finish_url(:id => @registration.id)
+        else
+          redirect_to pending_url
+        end
       else
         # Registration Id not found, must have done something wrong
         logger.info 'Registration Id not found, must have done something wrong'
@@ -569,6 +593,11 @@ class RegistrationsController < ApplicationController
     end
   end
   
+  def pending
+    @registration = Registration.find(session[:registration_id])
+  end
+
+
   def redirect_to_failed_page(failedStep)
     logger.debug 'redirect_to_failed_page(failedStep) failedStep: ' +  failedStep
     if failedStep == "business"
@@ -735,15 +764,6 @@ class RegistrationsController < ApplicationController
     authorize! :update, @registration
 
 
-#    if params[:back]
-#      if agency_user_signed_in?
-#        logger.info 'Redirect to search page for agency users'
-#        redirect_to registrations_path
-#      else
-#        logger.info 'Redirect to my account page for external users'
-#        redirect_to userRegistrations_path(current_user.id)
-#      end
-#    elsif params[:reprint]
     if params[:findAddress]
       render "ncccedit"
     elsif params[:reprint]
@@ -752,9 +772,29 @@ class RegistrationsController < ApplicationController
     elsif params[:revoke]
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
-        @registration.metaData.status = "REVOKED"
-        @registration.save
-        redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_revoked'))
+        
+        # Merge param information with registration from DB
+        @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
+        
+        # Forceably set the revoked value in the registration to now check for a revoke reason
+        if params[:revoke_question] == 'yes'
+          logger.info 'Revoke set, so should now run additional rule'
+          @registration.revoked = 'true'
+        end
+        
+        if @registration.all_valid?
+          @registration.metaData.status = "REVOKED"
+          @registration.revoked = ''
+          @registration.save
+          
+          logger.info 'About to send revoke email'
+          @user = User.find_by_email(@registration.accountEmail)
+          RegistrationMailer.revoke_email(@user, @registration).deliver
+          
+          redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_revoked') )
+        else
+          render "ncccedit"
+        end
       else
         renderAccessDenied
       end
@@ -768,16 +808,42 @@ class RegistrationsController < ApplicationController
         renderAccessDenied
       end
     else
-      @registration.update_attributes(params[:registration])
+      logger.info 'About to Update Registration'
+      if agency_user_signed_in?
+        # Merge param information with registration from DB
+        @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
+      else
+        @registration.update_attributes(params[:registration])
+      end
       # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
       @registration.routeName = @registration.metaData.route
       if @registration.all_valid?
         @registration.save
-        redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_updated') )
+        if agency_user_signed_in?
+          redirect_to find_path(:notice => I18n.t('registrations.form.reg_updated') )
+        else
+          redirect_to userRegistrations_path(:note => I18n.t('registrations.form.reg_updated') )
+        end
       else
         render "ncccedit"
       end
     end
+  end
+  
+  def updatedParameters(databaseMetaData, submittedParams) 
+    # Save DB MetaData
+    dbMetaData = databaseMetaData
+    # Create a new Registration from submitted params
+    regFromParams = Registration.new(submittedParams)
+    begin
+      metaDataFromParams = regFromParams.metaData
+      # Update Saved MD with revoked reason from Param
+      dbMetaData.revokedReason = metaDataFromParams.revokedReason
+    rescue
+      logger.info 'Warning: Cannot find meta data, this could be valid if being edited by an external user, Ignoring for now and continuing'
+    end
+    regFromParams.metaData = dbMetaData
+    regFromParams.attributes
   end
 
   # PUT /registrations/1
@@ -846,15 +912,15 @@ class RegistrationsController < ApplicationController
     distance = params[:distance]
     searchString = params[:q]
     postcode = params[:postcode]
-    if validate_search_parameters?(searchString,"any")
+    if validate_public_search_parameters?(searchString,"any",distance, postcode)
       if searchString != nil && !searchString.empty?
-        @registrations = Registration.find(:all, :params => {:q => searchString, :distance => distance, :activeOnly => 'true', :postcode => postcode })
+        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode })
       else
         @registrations = []
       end
     else
       @registrations = []
-      flash.now[:notice] = 'Invalid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
+      flash.now[:notice] = 'You must provided a business or trading name. This must only use letters, numbers, or any of \' . & ! %.'
     end
   end
   

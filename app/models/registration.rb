@@ -61,6 +61,10 @@ class Registration < ActiveResource::Base
     string :sign_up_mode
     string :routeName
     string :accessCode
+    
+    # Used as a trigger value to force validation of the revoke reason field
+    # When this value contains any value, the revokeReason field is validated
+    string :revoked
   end
 
   #(Enumeration) available business types: configurable in config file
@@ -70,6 +74,9 @@ class Registration < ActiveResource::Base
   TITLES = %w[mr mrs miss ms dr other]
 
   VALID_CHARACTERS = /\A[A-Za-z0-9\s\'\.&!%]*\Z/
+  
+  DISTANCES = %w[any 10 50 100]
+  POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
 
   # Business Step fields
   validate :validate_businessType, :if => lambda { |o| o.current_step == "business" }
@@ -109,6 +116,9 @@ class Registration < ActiveResource::Base
   validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
   validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
+  
+  # Validate Revoke Reason
+  validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
   
   #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
   #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
@@ -198,6 +208,19 @@ class Registration < ActiveResource::Base
     end
   end
   
+  def pending?
+    metaData && metaData.status == 'PENDING'
+  end
+
+  def pending!
+    metaData.status = 'PENDING'
+  end
+
+  def activate!
+    #Note: the actual status update will be performed in the service
+    metaData.status = 'ACTIVATE'
+  end
+
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
@@ -480,6 +503,10 @@ class Registration < ActiveResource::Base
 	        errors.add(:password, 'Invalid email and/or password')
 	        Rails.logger.debug "Invalid User Found"
 	      end
+        # # Uncomment if we don't want to allow additional registrations
+        # if @user && !user.confirmed?
+        #   errors.add(:password, 'User account not confirmed')
+        # end
 	    else
 	      Rails.logger.debug "validate_password: not validating, sign_up_mode = " + (sign_up_mode || '')
 	    end
@@ -502,6 +529,18 @@ class Registration < ActiveResource::Base
       end
     else
       Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + (sign_up_mode || '')
+    end
+  end
+  
+  def validate_revokedReason
+    #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
+    Rails.logger.debug 'validate revokedReason, revoked:' + revoked.to_s
+    # If revoke question is Yes, and revoke reason is empty, then error
+    if revoked.to_s != ''
+      if metaData.revokedReason == '' || metaData.revokedReason.nil?
+        Rails.logger.debug 'revokedReason is empty'
+        errors.add(:revokedReason, I18n.t('errors.messages.blank') )
+      end
     end
   end
   
@@ -559,6 +598,21 @@ class Registration < ActiveResource::Base
 
   def assisted_digital?
     metaData && metaData.route == 'ASSISTED_DIGITAL'
+  end
+
+  def self.activate_registrations(user)
+    Rails.logger.info("Activating pending registrations for user with email " + user.email)
+    Registration.find(:all, :params => {:ac => user.email}).each { |r| 
+      if r.pending?
+        Rails.logger.info("Activating registration " + r.regIdentifier)
+        r.activate!
+        r.save!
+        RegistrationMailer.welcome_email(user,r).deliver
+      else
+        Rails.logger.info("Skipping non-pending registration " + r.regIdentifier)
+      end
+    }
+    Rails.logger.info("Activated registration(s) for user with email " +  user.email)
   end
 
 end

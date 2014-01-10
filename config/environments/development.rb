@@ -39,11 +39,12 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'] }
+  config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'] || 'http://localhost:3000', :protocol => 'https' }
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
 
+  # Mail delivery method must be :smtp for delivery via Sendgrid, but can be set to :test to skip sending emails (e.g. for local development)
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     :user_name => ENV["WCRS_FRONTEND_EMAIL_USERNAME"],

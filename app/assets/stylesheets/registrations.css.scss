@@ -223,6 +223,12 @@ dl.data dd{
 .box .actions .button#delete:hover {
 	background-color: rgb(206, 30, 30);
 }
+.action .button#delete {
+	background-color: rgb(230, 3, 3);
+}
+.action .button#delete:hover {
+	background-color: rgb(206, 30, 30);
+}
 .box .status {
 	float: left;
 	margin: 0.25em;
@@ -424,6 +430,7 @@ table.users td {
     ul {
       padding-left: 2.2em;
       li {
+        color: black;
         list-style-type: none;
         list-style-image: none; 
       }

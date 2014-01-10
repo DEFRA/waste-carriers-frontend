@@ -58,6 +58,10 @@ Then(/^I should see the Confirmation page$/) do
   assert(page.has_button?('Finished'), 'Cannot find finish button')
 end
 
+Then(/^I should see the Confirmation Pending page$/) do
+  #TODO Update text...
+  assert(page.has_content?('PLEASE SEE YOUR E-MAIL'), 'Cannot find text')
+end
 
 #Alternate version....
 
@@ -157,16 +161,19 @@ When(/^I fill in postcode with "(.*?)"$/) do |pc|
   fill_in('registration_postcode', :with => pc)
 end
 
-Given(/^I have an account$/) do
+Given(/^I have an activated account$/) do
   theUsersEmail = 'joe@company.com'
   theUsersPassword = 'secret123'
-  if !User.find_by_email(theUsersEmail)
-    user = User.new
-    user.email = theUsersEmail
-    user.password = theUsersPassword
-    user.password_confirmation = theUsersPassword
-    user.save!
+  user = User.find_by_email(theUsersEmail)
+  if user != nil
+    user.destroy
   end
+  user = User.new
+  user.email = theUsersEmail
+  user.password = theUsersPassword
+  user.password_confirmation = theUsersPassword
+  user.confirm!
+  user.save!
 
   user = User.find_by_email('joe@company.com')
   assert(user, 'We need the User in the database')
@@ -221,5 +228,30 @@ Then(/^it should send me a Registration Confirmation email$/) do
   #TODO: verify random e-mail address created above
   @email.to.first.should include '@bloggs.com'
   @email.subject.should include "Waste Carrier Registration Complete"
+end
+
+Then(/^it should send me an Account Activation email$/) do
+  @email = ActionMailer::Base.deliveries.last
+  @email.to.first.should include '@bloggs.com'
+  @email.body.should include "You can confirm your account email through the link below"
+end
+
+Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email|
+  @email = ActionMailer::Base.deliveries.last
+  @email.to.first.should include email
+  @email.subject.should include "Waste Carrier Registration Complete"
+end
+
+Then(/^when I click on the activation link$/) do
+  @email = ActionMailer::Base.deliveries.last
+  @email.to.first.should include '@bloggs.com'
+  @email.body.should include "You can confirm your account email through the link below"
+  ctoken = @email.body.match(/confirmation_token=\w*/)
+  visit "/users/confirmation?#{ctoken}"
+end
+
+Then(/^my registration should be activated$/) do
+  #TODO sign in?
+  page.should have_content("Your account was successfully confirmed")
 end
 

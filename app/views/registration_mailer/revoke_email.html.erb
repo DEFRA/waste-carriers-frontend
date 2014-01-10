@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p>To <%= @registration.companyName %> (<%= @registration.regIdentifier %>)
+    <p>This email is to inform you that the Environment Agency has revoked your lower tier waste carrier registration for the following reason:</p>
+    <p><%= @registration.metaData.revokedReason %></p>
+    <p>Please contact the Environment Agency helpline on <%= Rails.configuration.registrations_service_phone %> if you have any questions about this.</p>
+  </body>
+</html>

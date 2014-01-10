@@ -12,7 +12,7 @@ class User
   # is done as part of the waste carrier registration flow.
   # We also do not use :rememberable (remember me tokens)
 
-  devise :database_authenticatable, :recoverable, :trackable, :validatable, :lockable
+  devise :database_authenticatable, :recoverable, :trackable, :validatable, :confirmable, :lockable
 
   ## Database authenticatable
   field :email,              :type => String, :default => ""
@@ -33,10 +33,10 @@ class User
   field :last_sign_in_ip,    :type => String
 
   ## Confirmable
-  # field :confirmation_token,   :type => String
-  # field :confirmed_at,         :type => Time
-  # field :confirmation_sent_at, :type => Time
-  # field :unconfirmed_email,    :type => String # Only if using reconfirmable
+  field :confirmation_token,   :type => String
+  field :confirmed_at,         :type => Time
+  field :confirmation_sent_at, :type => Time
+  field :unconfirmed_email,    :type => String # Only if using reconfirmable
 
   ## Lockable
   field :failed_attempts, :type => Integer, :default => 0 # Only if lock strategy is :failed_attempts
@@ -46,6 +46,10 @@ class User
 
   validates_strength_of :password, :with => :email
 
+  def confirm!
+    super
+    Registration.activate_registrations(self)
+  end
 
   def is_admin?
     false

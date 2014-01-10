@@ -19,6 +19,7 @@ class ApplicationController < ActionController::Base
     #registrations_path
     #root_path
     #Rails.cache.clear # Could possibly clear the cache here
+    reset_session
     Rails.configuration.waste_exemplar_end_url
   end
   

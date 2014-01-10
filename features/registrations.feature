@@ -18,7 +18,7 @@ Scenario: Valid registration as an Individual
   And I click "Next"
   And I provide valid user details for sign up
   And I click "Complete registration"
-  Then I should see the Confirmation page
+  Then I should see the Confirmation Pending page
 
 #@javascript
 Scenario: Valid registration as an Individual (version 2)
@@ -29,12 +29,14 @@ Scenario: Valid registration as an Individual (version 2)
   And I confirm the declaration
   And I provide valid user details for sign up
   And I click "Complete registration"
-  Then I should see the Confirmation page
-  And it should send me a Registration Confirmation email
+  Then I should see the Confirmation Pending page
+  And it should send me an Account Activation email
+  And when I click on the activation link
+  Then my registration should be activated
 
 #@javascript
 Scenario: Valid registration for existing user (account email) - sign in during registration
-  Given I have an account
+  Given I have an activated account
   And I am on the initial page
   And I am not logged in
   And I have found out that I need to register in the lower tier
@@ -44,9 +46,10 @@ Scenario: Valid registration for existing user (account email) - sign in during 
   And I provide valid user details for sign in
   And I click "Complete registration"
   Then I should see the Confirmation page
+  And it should send a Registration Confirmation email to "joe@company.com"
 
 Scenario: Valid registration for existing user - already logged in, no need to provide login details again
-  Given I have an account
+  Given I have an activated account
   And I am on the initial page
   And I am already logged in
   When I click on "New Registration"
@@ -55,4 +58,5 @@ Scenario: Valid registration for existing user - already logged in, no need to p
   And I confirm the declaration
   And I click "Complete registration"
   Then I should see the Confirmation page
+  And it should send a Registration Confirmation email to "joe@company.com"
 
