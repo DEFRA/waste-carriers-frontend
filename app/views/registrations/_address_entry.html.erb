@@ -79,11 +79,12 @@
     <a href="?sManual=true"><%= t '.manual_address_label'%></a>
   <%else%>
     <p class="group<%if @registration.errors[:postcodeSearch].any? or params[:sPostcode]%> validation<%end%>">
-     <%= validation_for(@registration, :postcodeSearch) %>
      <%if params[:sPostcode] and params[:sPostcode]!=""%>
      <span class="error-text"><%= t '.no_results_error'%></span>
      <%elsif params[:sPostcode]%>
      <span class="error-text"><%= t '.postcode_search_error'%></span>
+     <%else%>
+     <%= validation_for(@registration, :postcodeSearch) %>
      <%end%>
     <label for="sPostcode"><%= t '.findAddressUsingPostcode'%></label>
     <input id="sPostcode" name="sPostcode" type="text" value="<%= params[:sPostcode]%>"/>
