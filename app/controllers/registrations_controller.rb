@@ -176,6 +176,7 @@ class RegistrationsController < ApplicationController
   def ncccedit
     @registration = Registration.find(params[:id])
     @registration.routeName = @registration.metaData.route
+    addressSearchLogic @registration
     authorize! :update, @registration
   end
   
@@ -240,8 +241,8 @@ class RegistrationsController < ApplicationController
   def newContactDetails
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    addressSearchLogic
     @registration = Registration.new(session[:registration_params])
+    addressSearchLogic @registration
     #postcode = params[:sPostcode]
     #@addresses = Address.find(:all, :params => {:postcode => postcode})
     
@@ -253,47 +254,68 @@ class RegistrationsController < ApplicationController
     end
   end
   
-  def clearAddress
-    session[:registration_params][:postcodeSearch] = nil
-    session[:registration_params][:selectedMoniker] = nil
-    session[:registration_params][:houseNumber] = nil
-    session[:registration_params][:streetLine1] = nil
-    session[:registration_params][:streetLine2] = nil
-    session[:registration_params][:streetLine3] = nil
-    session[:registration_params][:streetLine4] = nil
-    session[:registration_params][:country] = nil
-    session[:registration_params][:townCity] = nil
-    session[:registration_params][:postcode] = nil
-    session[:registration_params][:easting] = nil
-    session[:registration_params][:northing] = nil
-    session[:registration_params][:dependentLocality] = nil
-    session[:registration_params][:dependentThroughfare] = nil
-    session[:registration_params][:administrativeArea] = nil
+  def clearAddressNonManual(registration)
+    registration.uprn = nil
+    registration.postcodeSearch = nil
+    registration.selectedMoniker = nil
+    registration.easting = nil
+    registration.northing = nil
+    registration.dependentLocality = nil
+    registration.dependentThroughfare = nil
+    registration.administrativeArea = nil
+    registration.localAuthorityUpdateDate = nil
+    registration.royalMailUpdateDate = nil
   end
   
-  def addressSearchLogic
-    logger.info "addressSearchLogic"
+  def clearAddressNonUk(registration)
+    clearAddressNonManual registration
+    registration.streetLine3 = nil
+    registration.streetLine4 = nil
+    registration.country = nil
+  end
+  
+  def clearAddressNonForeign(registration)
+    clearAddressNonManual registration
+    registration.townCity = nil
+    registration.postcode = nil
+  end
+  
+  def clearAddress(registration)
+    clearAddressNonManual registration
+    registration.streetLine1 = nil
+    registration.streetLine2 = nil
+    registration.streetLine3 = nil
+    registration.streetLine4 = nil
+    registration.country = nil
+    registration.townCity = nil
+    registration.postcode = nil
+  end
+  
+  def addressSearchLogic(registration)
     
     @addresses = []
     if params[:sManual]
-      session[:registration_params][:addressMode] = "manual-uk"
-      clearAddress
+      registration.addressMode = "manual-uk"
     elsif params[:sManualForeign]
-      session[:registration_params][:addressMode] = "manual-foreign"
-      clearAddress
-    elsif params[:sSearch]
-      session[:registration_params][:addressMode] = nil
-      clearAddress
+      registration.addressMode = "manual-foreign"
+    elsif params[:sSearch] or params[:sPostcode]
+      registration.addressMode = nil
+      clearAddress registration
     end
     
+    if registration.addressMode == "manual-foreign"
+      clearAddressNonForeign registration
+    elsif registration.addressMode == "manual-uk"
+      clearAddressNonUk registration
+    end
     
     if params[:sPostcode]
-      session[:registration_params][:postcodeSearch] = params[:sPostcode]
+      registration.postcodeSearch = params[:sPostcode]
     end
     
-    postcodeSearch = session[:registration_params][:postcodeSearch]
+    postcodeSearch = registration.postcodeSearch
     if postcodeSearch and postcodeSearch != ""
-      postcode = session[:registration_params][:postcodeSearch]
+      postcode = registration.postcodeSearch
       logger.info "getting addresses for: "+postcode
       begin
         @addresses = Address.find(:all, :params => {:postcode => postcode})
@@ -313,7 +335,7 @@ class RegistrationsController < ApplicationController
       #
       end
       if @addresses.length == 1
-        session[:registration_params][:selectedMoniker] =  @addresses[0].moniker
+        registration.selectedMoniker =  @addresses[0].moniker
         @address = @addresses[0]
       else
         @address = nil
@@ -321,28 +343,48 @@ class RegistrationsController < ApplicationController
     end
     
     if params[:sSelect] and params[:sSelect] != ""
-      session[:registration_params][:selectedMoniker] = params[:sSelect]
+      registration.selectedMoniker = params[:sSelect]
     end
-    selectedMoniker = session[:registration_params][:selectedMoniker]
+    selectedMoniker = registration.selectedMoniker
     if selectedMoniker and selectedMoniker!="" and !@address
       logger.info "Getting address for: "+selectedMoniker
       @address = Address.find(selectedMoniker)
     end
     
     if @address and @address.lines!=nil
-      session[:registration_params][:streetLine1] = @address.lines[0]
-      session[:registration_params][:streetLine2] = @address.lines[1]
-      session[:registration_params][:streetLine3] = @address.lines[2]
-      session[:registration_params][:streetLine4] = @address.lines[3]
-      session[:registration_params][:townCity] = @address.town
-      session[:registration_params][:postcode] = @address.postcode
-      session[:registration_params][:uprn] = @address.uprn
-      session[:registration_params][:easting] = @address.easting
-      session[:registration_params][:northing] = @address.northing
-      session[:registration_params][:dependentLocality] = @address.dependentLocality
-      session[:registration_params][:dependentThroughfare] = @address.dependentThroughfare
-      session[:registration_params][:administrativeArea] = @address.administrativeArea
+      registration.streetLine1 = @address.lines[0]
+      registration.streetLine2 = @address.lines[1]
+      registration.streetLine3 = @address.lines[2]
+      registration.streetLine4 = @address.lines[3]
+      registration.townCity = @address.town
+      registration.postcode = @address.postcode
+      registration.uprn = @address.uprn
+      registration.easting = @address.easting
+      registration.northing = @address.northing
+      registration.dependentLocality = @address.dependentLocality
+      registration.dependentThroughfare = @address.dependentThroughfare
+      registration.administrativeArea = @address.administrativeArea
+      registration.localAuthorityUpdateDate = @address.localAuthorityUpdateDate
+      registration.royalMailUpdateDate = @address.royalMailUpdateDate
     end
+  end
+  
+  def copyAddressToSession(registration)
+  	  session[:registration_params][:addressMode] = registration.addressMode
+  	  session[:registration_params][:streetLine1] = registration.streetLine1
+      session[:registration_params][:streetLine2] = registration.streetLine2
+      session[:registration_params][:streetLine3] = registration.streetLine3
+      session[:registration_params][:streetLine4] = registration.streetLine4
+      session[:registration_params][:townCity] = registration.townCity
+      session[:registration_params][:postcode] = registration.postcode
+      session[:registration_params][:uprn] = registration.uprn
+      session[:registration_params][:easting] = registration.easting
+      session[:registration_params][:northing] = registration.northing
+      session[:registration_params][:dependentLocality] = registration.dependentLocality
+      session[:registration_params][:dependentThroughfare] = registration.dependentThroughfare
+      session[:registration_params][:administrativeArea] = registration.administrativeArea
+      session[:registration_params][:localAuthorityUpdateDate] = registration.localAuthorityUpdateDate
+      session[:registration_params][:royalMailUpdateDate] = registration.royalMailUpdateDate
   end
   
   def updateNewContactDetails
@@ -351,9 +393,9 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     
-    addressSearchLogic
-    
     @registration = Registration.new(session[:registration_params])
+    addressSearchLogic @registration
+    
     @registration.current_step = "contact"
     
     if params[:findAddress]
@@ -363,6 +405,7 @@ class RegistrationsController < ApplicationController
 #      redirect_to :newBusiness
     elsif @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
+      copyAddressToSession @registration
       redirect_to :newConfirmation
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -688,7 +731,9 @@ class RegistrationsController < ApplicationController
   #PUT...
   def ncccupdate
     @registration = Registration.find(params[:id])
+    addressSearchLogic @registration
     authorize! :update, @registration
+
 
 #    if params[:back]
 #      if agency_user_signed_in?
@@ -699,7 +744,9 @@ class RegistrationsController < ApplicationController
 #        redirect_to userRegistrations_path(current_user.id)
 #      end
 #    elsif params[:reprint]
-    if params[:reprint]
+    if params[:findAddress]
+      render "ncccedit"
+    elsif params[:reprint]
       logger.debug 'Redirect to Print page'
       redirect_to print_url(:id => params[:id], :reprint => params[:reprint])
     elsif params[:revoke]
@@ -839,6 +886,7 @@ private
       :businessType,
       :companyName,
       :routeName,
+      :addressMode,
       :houseNumber,
       :streetLine1,
       :streetLine2,
