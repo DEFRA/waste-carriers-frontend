@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
 
   def index
-  	if Rails.env.development?
+  	if Rails.env.development? || Rails.env.sandbox?
   		#redirect_to home_index_path
   	else
   		if is_admin_request?
