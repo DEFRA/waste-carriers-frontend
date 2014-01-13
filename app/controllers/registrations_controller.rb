@@ -914,7 +914,7 @@ class RegistrationsController < ApplicationController
     postcode = params[:postcode]
     if validate_public_search_parameters?(searchString,"any",distance, postcode)
       if searchString != nil && !searchString.empty?
-        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode })
+        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode, :excludeRegId => 'true' })
       else
         @registrations = []
       end
