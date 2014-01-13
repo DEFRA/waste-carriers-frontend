@@ -6,6 +6,12 @@
 </div>
 <% end %>
 
+<% if notice %>
+<div id="notice_explanation" class="note-summary">
+  <h2><%= notice %></h2>
+</div>
+<% end %>
+
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
 <h2 class="subtitle"><%= t '.subtitle' %></h2>
 <%= render "shared/meta_phases"%>
