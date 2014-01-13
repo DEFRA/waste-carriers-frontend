@@ -232,6 +232,7 @@ en:
       detailsEmailed: "We have sent you an e-mail with activation instructions to %{email}. Please verify that you have received the e-mail and activate the registration and your account."
       detailsChange: "If any of your details change you must update your registration within 28 days. How to do this is explained in your email."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
+      isRegisteredPendingActivation: "The lower tier waste carrier registration for %{companyName} has been received by the Environment Agency and an activation email has been sent to you to verify your account."
     print:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."
