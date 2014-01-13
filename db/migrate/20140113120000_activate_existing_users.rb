@@ -4,17 +4,17 @@ class ActivateExistingUsers < ActiveRecord::Migration
   ## (i.e. activation/confirmation of user account e-mail addresses) was introduced. 
   def change
     Rails.logger.info("BEGIN - Updating existing users...")
-    User.all.each { |u|
-      if !u.confirmed?
-        puts "Confirming " + u.email
-        u.confirm!
-        if !u.save
-          puts "ERROR - user could not be saved due to validation error. email = " + u.email
-        end
-      else
-        puts "Already confirmed - " + u.email
-      end
-    }
+#    User.all.each { |u|
+#      if !u.confirmed?
+#        puts "Confirming " + u.email
+#        u.confirm!
+#        if !u.save
+#          puts "ERROR - user could not be saved due to validation error. email = " + u.email
+#        end
+#      else
+#        puts "Already confirmed - " + u.email
+#      end
+#    }
     Rails.logger.info("END - Users updated")
   end
 
