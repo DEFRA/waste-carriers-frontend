@@ -6,16 +6,21 @@
 <h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 <%# render "shared/meta_phases"%>
 
-<b>TODO - update text to be shown here...</b>
-<br/>
-<b>PLEASE SEE YOUR E-MAIL</b>
-
-<h3 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h3>
+<h3 class="registered"><%= t '.isRegisteredPendingActivation', :companyName => @registration.companyName %></h3>
 
 <form action="<%=print_pending_url%>">
 <p class="action group"><input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/></p>
 
 <p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
+
+<p>
+	Once your account is verified, you will:
+	<ul>
+		<li>Receive an email confirming registration</li>
+		<li>Be able to sign in to make changes or create new registrations</li>
+		<li>Be able to view your registration on the <%= link_to 'public register', public_path %></li>
+	</ul>
+</p>
 
 <div class="finish-section js-hidden"  data-journey="waste-carriers-registration:pending">
 <%# render "details" %>

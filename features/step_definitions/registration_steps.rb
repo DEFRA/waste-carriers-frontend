@@ -60,7 +60,7 @@ end
 
 Then(/^I should see the Confirmation Pending page$/) do
   #TODO Update text...
-  assert(page.has_content?('PLEASE SEE YOUR E-MAIL'), 'Cannot find text')
+  assert(page.has_content?('We have sent you an e-mail with activation instructions'), 'Cannot find text')
 end
 
 #Alternate version....
@@ -252,6 +252,6 @@ end
 
 Then(/^my registration should be activated$/) do
   #TODO sign in?
-  page.should have_content("Your account was successfully confirmed")
+  page.should have_content("Your account has been activated successfully")
 end
 
