@@ -12,6 +12,12 @@
 </div>
 <% end %>
 
+<% if params[:note] %>
+<div id="note_explanation" class="note-summary">
+  <h1><%= params[:note]%></h1>
+</div>
+<% end %>
+
 <h2>Find a registered business, organisation or trader</h2>
 <%= render "shared/meta_phases"%>
 <form method="get" action="/registrations">
