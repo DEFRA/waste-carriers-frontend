@@ -239,6 +239,10 @@ en:
       detailsChange: "If any of your details change you must update your registration within 28 days. How to do this is explained in your email."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
       isRegisteredPendingActivation: "The lower tier waste carrier registration for %{companyName} has been received by the Environment Agency and an activation email has been sent to you to verify your account."
+      onceVerified_text: "Once your account is verified, you will:"
+      onceVerified_point1: "Receive an email confirming registration"
+      onceVerified_point2: "Be able to sign in to make changes or create new registrations"
+      onceVerified_point3_html: "Be able to view your registration on the <a href='%{path}'>public register</a>"
     print:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."

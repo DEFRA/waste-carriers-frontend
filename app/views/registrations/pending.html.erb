@@ -1,3 +1,5 @@
+<% content_for :page_title, t('.heading') + " - " + t('registrations.form.root_site') %>
+
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <h1><%= t 'registrations.form.title' %></h1>
@@ -14,11 +16,11 @@
 <p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
 
 <p>
-	Once your account is verified, you will:
+	<%= t '.onceVerified_text' %>
 	<ul>
-		<li>Receive an email confirming registration</li>
-		<li>Be able to sign in to make changes or create new registrations</li>
-		<li>Be able to view your registration on the <%= link_to 'public register', public_path %></li>
+		<li><%= t '.onceVerified_point1' %></li>
+		<li><%= t '.onceVerified_point2' %></li>
+		<li><%= t '.onceVerified_point3_html', :path => public_path %></li>
 	</ul>
 </p>
 
