@@ -42,11 +42,23 @@ class RegistrationsController < ApplicationController
   end
   
   def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
-    searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
-    searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
-    searchDistance_valid = searchWithin != nil && (Registration::DISTANCES.include? searchDistance) 
-    searchPostcode_valid = searchDistance == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
-    searchString_valid && searchWithin_valid && searchDistance_valid && searchPostcode_valid
+    searchString_valid = searchString == nil || !searchString.empty? && (!searchString.match(Registration::VALID_CHARACTERS).nil?)
+    searchWithin_valid = searchWithin == nil || !searchWithin.empty? && (['any','companyName','contactName','postcode'].include? searchWithin)
+    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance)    
+    searchPostcode_valid = searchPostcode == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
+    
+    searchCrossField_valid = true
+    # Add cross field check, to ensure that correct params supplied if needed
+    if !searchString.nil?
+      if !searchString.empty?
+        if searchDistance.nil? || searchPostcode.nil?
+          searchCrossField_valid = false
+        end
+      end
+    end
+    
+    logger.debug 'Validate Public Search Params Q:' + searchString_valid.to_s + ' SW:' + searchWithin_valid.to_s + ' D:' + searchDistance_valid.to_s + ' P:' + searchPostcode_valid.to_s + ' CF: ' + searchCrossField_valid.to_s
+    searchString_valid && searchWithin_valid && searchDistance_valid && searchPostcode_valid && searchCrossField_valid
   end
 
   def userRegistrations
