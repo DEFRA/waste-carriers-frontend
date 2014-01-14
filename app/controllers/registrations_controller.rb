@@ -21,7 +21,7 @@ class RegistrationsController < ApplicationController
       end
     else
       @registrations = []
-      flash.now[:notice] = 'You must provided valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
+      flash.now[:notice] = 'You must provide valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
     end
     session[:registration_step] = session[:registration_params] = nil
 
@@ -44,7 +44,7 @@ class RegistrationsController < ApplicationController
   def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
-    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance) 
+    searchDistance_valid = searchWithin != nil && (Registration::DISTANCES.include? searchDistance) 
     searchPostcode_valid = searchDistance == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
     searchString_valid && searchWithin_valid && searchDistance_valid && searchPostcode_valid
   end
@@ -920,7 +920,7 @@ class RegistrationsController < ApplicationController
       end
     else
       @registrations = []
-      flash.now[:notice] = 'You must provided a business or trading name. This must only use letters, numbers, or any of \' . & ! %.'
+      flash.now[:notice] = I18n.t('registrations.form.invalid_public_params')
     end
   end
   

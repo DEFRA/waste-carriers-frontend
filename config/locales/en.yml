@@ -52,6 +52,12 @@ en:
     ms: "Ms"
     dr: "Dr"
     other: "Other" 
+    
+  distances:
+    any: "Any"
+    '10': "10 Miles"
+    '50': "50 Miles"
+    '100': "100 Miles"
 
   activemodel:
     models:
@@ -252,6 +258,22 @@ en:
     nccc_edit:
       revokedQuestion: "Do you wish to revoke this registration?"
       revokedReason: "Why do you wish to revoke this registration"
+    publicSearch:
+      heading: "Public register of lower tier waste carriers"
+      search_label: "Search for a waste carrier on public register"
+      postcode_label: "Postcode (optional)"
+      distance_label: "Distance (optional)"
+      search_button_label: "Search"
+      carrier: "carrier"
+      search_found: "Found %{count} registered lower tier waste %{carrier}"
+      record: "record"
+      search_results: "Showing %{initial}-%{count} of %{records}"
+      companyName_table_heading: "Name"
+      businessType_table_heading: "Business Type"
+      contactNum_table_heading: "Contact"
+      address_table_heading: "Address"
+      distance_table_heading: "Distance"
+      miles: "Miles"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"
@@ -305,9 +327,13 @@ en:
       unrevoke_button_label: "Un-revoke"
       delete_button_label: "Delete"
       
+      root_site: "GOV.UK"
+      
       reg_updated: "Registration updated"
       reg_revoked: "Registration revoked"
       reg_unrevoked: "Registration un-revoked"
+      
+      invalid_public_params: "You must provide a business or trading name. This must only use letters, numbers, or any of \' . & ! %."
 
       check_details_and_register_heading: "Check details and register"
       summary_of_registreation: "Summary of information"
