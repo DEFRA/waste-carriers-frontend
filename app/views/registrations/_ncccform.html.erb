@@ -1,6 +1,8 @@
 <script><!--
   var startUrl = "<%=newBusiness_path%>";
 //--></script>
+<% content_for :page_title, "Change your registration details - GOV.UK" %>
+
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <%= form_for(@registration, url: ncccedit_url(:id => @registration.id)) do |f| %>
