@@ -82,15 +82,16 @@ class RegistrationsController < ApplicationController
   # GET /registrations/1
   # GET /registrations/1.json
   def show
-    @registration = Registration.find(params[:id])
-    authorize! :read, @registration
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @registration }
-    end
-  rescue ActiveResource::ResourceNotFound
-    redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id] )
+    renderNotFound
+#    @registration = Registration.find(params[:id])
+#    authorize! :read, @registration
+#
+#    respond_to do |format|
+#      format.html # show.html.erb
+#      format.json { render json: @registration }
+#    end
+#  rescue ActiveResource::ResourceNotFound
+#    redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id] )
   end
 
 #  def start
@@ -178,16 +179,15 @@ class RegistrationsController < ApplicationController
     render :layout => false
   end
   
-  def privacy
-    render :file => "/public/privacy.html", :status => 200
-  end
-  
   # Renders static data proctection page
   def dataProtection
   end
 
   # GET /registrations/new
   # GET /registrations/new.json
+  def new
+    renderNotFound
+  end
 #  def new
 #    logger.info 'Request New Registration'
 #    session[:registration_params] = {}
