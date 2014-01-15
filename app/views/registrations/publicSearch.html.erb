@@ -26,17 +26,19 @@
 		<label for="q"><%= t '.search_label' %></label>
 		<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 	</p>
-	<p class="group">
-		<label for="postcode"><%= t '.postcode_label' %></label>
-		<input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
-		
-		<label for="distance"><%= t '.distance_label' %></label>
-		<% defaultDistance='any'%>
-		<% if !params[:distance].nil?
-		defaultDistance=params[:distance] 
-		end %>
-		<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
-	</p>
+	<div id="onelinewrapper">
+		<label for="oneline">Filter by area (optional)</label>
+		<div id="oneline">
+			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
+			<% defaultDistance='any'%>
+			<% if !params[:distance].nil?
+			defaultDistance=params[:distance] 
+			end %>
+			<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
+			<span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
+			<input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
+		</div>
+	</div>
 	<p class="action group">
 		<input type="submit" id="reg-search" class="button" value="<%= t '.search_button_label' %>" />
 	</p>
