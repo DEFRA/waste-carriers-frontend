@@ -235,7 +235,8 @@ en:
     confirmDelete:
       title: "Confirm delete registration"
     pending:
-      heading: "Registration complete (pending activation)"
+      heading: "Confirm your account"
+      pendingText: "An email has been sent to you to confirm your account. Once confirmed %{companyName} will be registered as a lower tier waste carrier."
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
       yourRegNumber: "Your registration number is: %{reg}"
       detailsEmailed: "We have sent you an e-mail with activation instructions to %{email}. Please verify that you have received the e-mail and activate the registration and your account."
