@@ -130,6 +130,10 @@ class Registration < ActiveResource::Base
   def self.title_options_for_select
     [[I18n.t('please_select'), ""]] + (TITLES.collect {|d| [I18n.t('titles.'+d), d]})
   end
+  
+  def self.distance_options_for_select
+    (DISTANCES.collect {|d| [I18n.t('distances.'+d), d]})
+  end
 
   #def sign_up_mode
   #  @sign_up_mode || 'sign_up'

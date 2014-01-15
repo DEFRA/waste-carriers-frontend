@@ -131,5 +131,10 @@ module Registrations
     #Inactivity timeout - between requests - should be 20 minutes, except for agency users
     config.app_session_inactivity_timeout = 20.minutes
 
+    #Show the developer index page? - Do not show in production, but do show in development, or maybe sandbox
+    #The developer index page contains links to external and internal entry points
+    #If the developer index is not to be shown (as in production), then the application
+    #will redirect the user to a suitable entry point, such as the 'Find out if I need to register' page
+    config.show_developer_index_page = false
   end
 end

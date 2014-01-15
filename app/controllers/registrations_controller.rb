@@ -21,7 +21,7 @@ class RegistrationsController < ApplicationController
       end
     else
       @registrations = []
-      flash.now[:notice] = 'You must provided valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
+      flash.now[:notice] = 'You must provide valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
     end
     session[:registration_step] = session[:registration_params] = nil
 
@@ -42,11 +42,23 @@ class RegistrationsController < ApplicationController
   end
   
   def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
-    searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
-    searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
-    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance) 
-    searchPostcode_valid = searchDistance == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
-    searchString_valid && searchWithin_valid && searchDistance_valid && searchPostcode_valid
+    searchString_valid = searchString == nil || !searchString.empty? && (!searchString.match(Registration::VALID_CHARACTERS).nil?)
+    searchWithin_valid = searchWithin == nil || !searchWithin.empty? && (['any','companyName','contactName','postcode'].include? searchWithin)
+    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance)    
+    searchPostcode_valid = searchPostcode == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
+    
+    searchCrossField_valid = true
+    # Add cross field check, to ensure that correct params supplied if needed
+    if !searchString.nil?
+      if !searchString.empty?
+        if searchDistance.nil? || searchPostcode.nil?
+          searchCrossField_valid = false
+        end
+      end
+    end
+    
+    logger.debug 'Validate Public Search Params Q:' + searchString_valid.to_s + ' SW:' + searchWithin_valid.to_s + ' D:' + searchDistance_valid.to_s + ' P:' + searchPostcode_valid.to_s + ' CF: ' + searchCrossField_valid.to_s
+    searchString_valid && searchWithin_valid && searchDistance_valid && searchPostcode_valid && searchCrossField_valid
   end
 
   def userRegistrations
@@ -70,15 +82,16 @@ class RegistrationsController < ApplicationController
   # GET /registrations/1
   # GET /registrations/1.json
   def show
-    @registration = Registration.find(params[:id])
-    authorize! :read, @registration
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @registration }
-    end
-  rescue ActiveResource::ResourceNotFound
-    redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id] )
+    renderNotFound
+#    @registration = Registration.find(params[:id])
+#    authorize! :read, @registration
+#
+#    respond_to do |format|
+#      format.html # show.html.erb
+#      format.json { render json: @registration }
+#    end
+#  rescue ActiveResource::ResourceNotFound
+#    redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id] )
   end
 
 #  def start
@@ -166,16 +179,15 @@ class RegistrationsController < ApplicationController
     render :layout => false
   end
   
-  def privacy
-    render :file => "/public/privacy.html", :status => 200
-  end
-  
   # Renders static data proctection page
   def dataProtection
   end
 
   # GET /registrations/new
   # GET /registrations/new.json
+  def new
+    renderNotFound
+  end
 #  def new
 #    logger.info 'Request New Registration'
 #    session[:registration_params] = {}
@@ -820,9 +832,9 @@ class RegistrationsController < ApplicationController
       if @registration.all_valid?
         @registration.save
         if agency_user_signed_in?
-          redirect_to find_path(:notice => I18n.t('registrations.form.reg_updated') )
+          redirect_to registrations_path(:note => I18n.t('registrations.form.reg_updated') )
         else
-          redirect_to userRegistrations_path(:note => I18n.t('registrations.form.reg_updated') )
+          redirect_to userRegistrations_path(:id => current_user.id, :note => I18n.t('registrations.form.reg_updated') )
         end
       else
         render "ncccedit"
@@ -914,13 +926,13 @@ class RegistrationsController < ApplicationController
     postcode = params[:postcode]
     if validate_public_search_parameters?(searchString,"any",distance, postcode)
       if searchString != nil && !searchString.empty?
-        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode })
+        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode, :excludeRegId => 'true' })
       else
         @registrations = []
       end
     else
       @registrations = []
-      flash.now[:notice] = 'You must provided a business or trading name. This must only use letters, numbers, or any of \' . & ! %.'
+      flash.now[:notice] = I18n.t('registrations.form.invalid_public_params')
     end
   end
   

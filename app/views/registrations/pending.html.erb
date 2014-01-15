@@ -1,3 +1,5 @@
+<% content_for :page_title, t('.heading') + " - " + t('registrations.form.root_site') %>
+
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <h1><%= t 'registrations.form.title' %></h1>
@@ -6,16 +8,21 @@
 <h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 <%# render "shared/meta_phases"%>
 
-<b>TODO - update text to be shown here...</b>
-<br/>
-<b>PLEASE SEE YOUR E-MAIL</b>
-
-<h3 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h3>
+<h3 class="registered"><%= t '.isRegisteredPendingActivation', :companyName => @registration.companyName %></h3>
 
 <form action="<%=print_pending_url%>">
 <p class="action group"><input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/></p>
 
 <p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
+
+<p>
+	<%= t '.onceVerified_text' %>
+	<ul>
+		<li><%= t '.onceVerified_point1' %></li>
+		<li><%= t '.onceVerified_point2' %></li>
+		<li><%= t '.onceVerified_point3_html', :path => public_path %></li>
+	</ul>
+</p>
 
 <div class="finish-section js-hidden"  data-journey="waste-carriers-registration:pending">
 <%# render "details" %>
