@@ -60,7 +60,7 @@ end
 
 Then(/^I should see the Confirmation Pending page$/) do
   #TODO Update text...
-  assert(page.has_content?('We have sent you an e-mail with activation instructions'), 'Cannot find text')
+  assert(page.has_content?('An email has been sent to you to confirm your account'), 'Cannot find text')
 end
 
 #Alternate version....
