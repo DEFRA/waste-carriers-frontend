@@ -70,6 +70,8 @@ Registrations::Application.routes.draw do
 
   get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user
 
+  get "version" => 'home#version', :via => [:get], :as => :app_version
+
   # Add a route for a 404, Define this catch all unknowns last
   #if Rails.env.development?
   #	get "*path" => "registrations#notfound", via: [:get], :message => 'Page Not Found'
