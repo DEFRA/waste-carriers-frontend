@@ -1,4 +1,4 @@
-<% content_for :page_title, "GOV.UK - Public register of lower tier waste carriers" %>
+<% content_for :page_title, t('.heading') + " - " + t('registrations.form.root_site') %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
 
@@ -17,40 +17,38 @@
 </div>
 <% end %>
 
-<% content_for :page_title, "Public register of lower tier waste carriers - GOV.UK"%>
-<h1>Public register of lower tier waste carriers</h1>
+<% content_for :page_title, t(".headingTitle")%>
+<h1><%= t '.heading' %></h1>
+
 
 <form method="get" action="/registrations/search">
 <div class="box" data-journey="waste-carriers-registration:registrations">
 	<p class="group">
-		<label for="q">Search for a waste carrier on public register</label>
+		<label for="q"><%= t '.search_label' %></label>
 		<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 	</p>
 	<p class="group">
-		<label for="postcode">Postcode (Optional)</label>
+		<label for="postcode"><%= t '.postcode_label' %></label>
 		<input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
 		
-		<label for="distance">Distance (Optional)</label>
-		<select id="distance" name="distance">
-			<option value="any"<% if params[:distance]=='any'||!params[:distance] %>selected="selected"<%end%>>Any</option>
-			<option value="10" <% if params[:distance]=='10' %>selected="selected"<%end%>>10 miles</option>
-			<option value="50" <% if params[:distance]=='50' %>selected="selected"<%end%>>50 Miles</option>
-			<option value="100" <% if params[:distance]=='100' %>selected="selected"<%end%>>100 Miles</option>
-		</select>
+		<label for="distance"><%= t '.distance_label' %></label>
+		<% defaultDistance='any'%>
+		<% if !params[:distance].nil?
+		defaultDistance=params[:distance] 
+		end %>
+		<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
 	</p>
 	<p class="action group">
-		<input type="submit" id="reg-search" class="button" value="Search" />
+		<input type="submit" id="reg-search" class="button" value="<%= t '.search_button_label' %>" />
 	</p>
 </div>
 </form>
 
 
-<% if params[:q]%>
+<% if params[:q] && (notice.nil? && params[:error].nil?) %>
 <div id="reg-search-result" style="">
-<h2>Found <%= @registrations.count %> registered lower tier waste <%="carrier".pluralize(@registrations.count)%></h2>
-<p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
-
-
+<h2><%= t '.search_found', :count => @registrations.count, :carrier => t('.carrier').pluralize(@registrations.count) %></h2>
+<p><%= t '.search_results', :initial => '1', :count => @registrations.count, :records => pluralize(@registrations.count, t('.record')) %></p>
 
 
 <% if @registrations.count > 0 %>
@@ -58,11 +56,11 @@
 <table class="search">
 	<thead class="search-header">
 		<tr>
-			<th class="search-header-field" style="width:25%">Name</th>
-			<th class="search-header-field" style="width:20%">Business Type</th>
-			<th class="search-header-field" style="width:30%">Address</th>
-			<th class="search-header-field" style="width:15%">Contact</th>
-			<% if params[:distance]!='any' %><th class="search-header-field" style="width:10%">Distance</th><% end %>
+			<th class="search-header-field" style="width:25%"><%= t '.companyName_table_heading' %></th>
+			<th class="search-header-field" style="width:20%"><%= t '.businessType_table_heading' %></th>
+			<th class="search-header-field" style="width:30%"><%= t '.address_table_heading' %></th>
+			<th class="search-header-field" style="width:15%"><%= t '.contactNum_table_heading' %></th>
+			<% if params[:distance]!='any' %><th class="search-header-field" style="width:10%"><%= t '.distance_table_heading' %></th><% end %>
 		</tr>
 	</thead>
 	<tbody>
@@ -73,7 +71,7 @@
 		<td class="search-body-field" style="width:20%"><%= t('discovers.findAnswers.businessType_' + registration.businessType) %></td>
 		<td class="search-body-field" style="width:30%"><%= registration.houseNumber %> <%= registration.streetLine1 %><br /><% if registration.streetLine2 != "" %><%= registration.streetLine2 %><br /><% end %><%= registration.townCity%><br /><%= registration.postcode%></td>
 		<td class="search-body-field" style="width:15%"><%= registration.phoneNumber %></td>
-		<% if params[:distance]!='any' %><td class="search-body-field" style="width:10%"><%= registration.metaData.distance %> Miles</td><% end %>
+		<% if params[:distance]!='any' %><td class="search-body-field" style="width:10%"><%= registration.metaData.distance %> <%= t '.miles' %></td><% end %>
 	</tr>
 <% regCount = regCount + 1; %>
 <% end %>
@@ -81,161 +79,6 @@
 	</tbody>
 </table>
 <% end %>
-
-
-
-<!--
-<style type="text/css">
-  ul { width: 960px; }
-  li {
-    display: table-cell;
-    width: 1%;
-  }
-</style>
-<ul>
-  <li>Name</li>
-  <li>Business Type</li>
-  <li>Address</li>
-  <li>Contact</li>
-  <li>Distance</li>
-</ul>
-<ul>
-  <li>Tmp Name</li>
-  <li>Tmp Bus Type</li>
-  <li>Tmp Address</li>
-  <li>Tmp Contact</li>
-  <li>Tmp Dis</li>
-</ul>
-<div id="wrapper">
-	<div id="header">Header</div>
-	<div id="content">
-		<div id="content-left"></div>
-		<div id="content-main"></div>
-		<div id="content-right"></div>
-	</div>
-	<div id="footer"></div>
-	<div id="bottom"></div>
-</div>
-<div id="container">
-  <div id="row">
-  	<div id="left">
-  		<h4>Left Col</h4>
-  		<p>...</p>
-  		<p>...</p>
-  	</div>
-
-  	<div id="middle">
-  		<h4>Middle Col</h4>
-  		<p>...</p>
-  	</div>
-
-  	<div id="right">
-    	<h4>Right Col</h4>
-    	<p>...</p>
-  	</div>
-
-  </div>
-</div>
-
- <table>
-  <thead>
-    <tr>
-      <th>&nbsp;</th>
-      <th>Top</th>
-      <th>Right</th>
-      <th>Left</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Speed of completion</td>
-      <td>Fastest</td>
-      <td>&nbsp;</td>
-      <td>Slowest</td>
-    </tr>
-    <tr>
-      <td>Horizontal space required</td>
-      <td>Least</td>
-      <td>&nbsp;</td>
-      <td>Most</td>
-    </tr>
-    <tr>
-      <td>Vertical space required</td>
-      <td>Most</td>
-      <td>&nbsp;</td>
-      <td>Least</td>
-    </tr>
-  </tbody>
- </table>
-
-<% if !@registrations.nil? %>
-
-<div id="search">
-	<div class="search-header">
-		<div class="search-header-field width-8">Name</div>
-		<div class="search-header-field width-8">Business Type</div>
-		<div class="search-header-field width-12">Address</div>
-		<div class="search-header-field width-12">Contact</div>
-		<div class="search-header-field width-8">Distance</div>
-	</div>
-<% regCount = 1; %>
-<% @registrations.each do |registration| %>
-	<div class="search-body">
-		<div class="search-body-field<% if regCount.odd? %> solid-box<% end %> width-8"><%= registration.companyName %></div>
-		<div class="search-body-field<% if regCount.odd? %> solid-box<% end %> width-8"><%= registration.businessType %></div>
-		<div class="search-body-field<% if regCount.odd? %> solid-box<% end %> width-12"><%= registration.houseNumber %> <%= registration.streetLine1 %><br /><% if registration.streetLine2 != "" %><%= registration.streetLine2 %><br /><% end %><%= registration.townCity%><br /><%= registration.postcode%></div>
-		<div class="search-body-field<% if regCount.odd? %> solid-box<% end %> width-12"><%= registration.phoneNumber %></div>
-		<div class="search-body-field<% if regCount.odd? %> solid-box<% end %> width-8">TODO</div>
-	</div>
-<% regCount = regCount + 1; %>
-<% end %>
-
-</div>
-<% end %>
--->
-<!--
-<% @registrations.each do |registration| %>
-<div class="box<% if registration.metaData.status == "REVOKED" %> revoked<% end %>">
-	<dl>
-		<dt>Name</dt>
-		<dd><%= registration.companyName %></dd>
-
-		<dt>Postcode</dt>
-		<dd><%= registration.postcode %></dd>
-	</dl>
-	<div class="detailsBoxWrapper">
-		<div class="detailsBox<% if registration.metaData.status == "REVOKED" %> revoked<% end %>">
-			<% if registration.metaData.status == "REVOKED" %><div class="detailHeading">Registration Status: Revoked</div><% end %>
-			<div class="detail">
-				<div class="data" 
-					data-organisationType="<%= registration.businessType%>" 
-					data-organisationName="<%=registration.companyName%>" 
-					data-individualsType="<%=registration.individualsType%>" 
-					data-publicBodyType="<%=registration.publicBodyType%>" 
-					data-title="<%=registration.title%>" 
-					data-otherTitle="<%=registration.otherTitle%>" 
-					data-firstName="<%=registration.firstName%>" 
-					data-lastName="<%=registration.lastName%>" 
-					data-phoneNumber="<%=registration.phoneNumber%>" 
-					data-emailAddress="<%=registration.contactEmail%>" 
-					data-houseNumber="<%=registration.houseNumber%>" 
-					data-postcode="<%=registration.postcode%>" 
-					data-uprn="<%=registration.uprn%>" 
-					data-address="<%=registration.address%>"
-					data-status="<%=registration.metaData.status%>"
-					data-regIdentifier="<%=registration.regIdentifier%>"
-					data-accessCode="<%=registration.accessCode%>">
-				</div>
-			</div>
-			<form action="<%=ncccedit_url(registration.id)%>">
-				<p class="action group"><input type="submit" class="button" value="Edit registration"/></p>
-			</form>
-			<%# button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :data => "{ :confirm => 'are you sure?' }"%>
-		</div>
-	</div>
-</div>
-<% end %>
--->
 
 </div>
 <% end %>

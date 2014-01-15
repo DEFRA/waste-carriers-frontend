@@ -1,3 +1,5 @@
+<% content_for :page_title, "Register as a waste carrier, Check your details - GOV.UK" %>
+
 <%= render "shared/progress", size: "60%" %>
 
 <%= render "errors" %>
@@ -12,7 +14,13 @@
 <p><%= t '.registeringText', :companyName => @registration.companyName, :businessType => t('discovers.findAnswers.businessType_' + @registration.businessType).downcase %></p>
 <p><%= t '.followingDetails' %>:</p>
 <div><%=@registration.title_for_display%> <%=@registration.firstName%> <%=@registration.lastName%> <% if @registration.contactEmail != "" %>(<%=@registration.contactEmail%>)<% end %></div>
+
+<% if !@registration.postcode.nil? %>
 <div><%=@registration.houseNumber%> <%=@registration.streetLine1%><% if @registration.streetLine2 != "" %>, <%=@registration.streetLine2%><% end %>, <%=@registration.townCity%>, <%=@registration.postcode%></div>
+<% else %>
+<div><%=@registration.houseNumber%> <%=@registration.streetLine1%><% if @registration.streetLine2 != "" %>, <%=@registration.streetLine2%><% end %>, <%=@registration.streetLine3%>, <%=@registration.streetLine4%>, <%=@registration.country%></div>
+
+<% end %>
 
 <div><%= t '.phoneNumber' %>: <%=@registration.phoneNumber%></div>
 
@@ -38,29 +46,10 @@
 
 <fieldset>
 <legend><%= t '.dataProtection_legend' %></legend>
-<!--<h4><%= t '.dataProtection_heading' %></h4>-->
-
 
 <p><%= t '.dataProtection_text1' %> <%= link_to t('.dataProtection_findOutMore'), dataProtection_path, :target => "_blank" %></p>
 
-<!--
-<p><%= t '.dataProtection_text2' %></p>
-<p>
-<ul>
-<li><%= t '.dataProtection_point1' %></li>
-<li><%= t '.dataProtection_point2' %></li>
-<li><%= t '.dataProtection_point3' %></li>
-<li><%= t '.dataProtection_point4' %></li>
-<li><%= t '.dataProtection_point5' %></li>
-<li><%= t '.dataProtection_point6' %></li>
-<li><%= t '.dataProtection_point7' %></li>
-</ul>
-</p>
-<p><%= t '.dataProtection_text3' %></p>
--->
-
 <p><%= link_to t('.privacyPolicy'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %></p>
-<!--<p><%# link_to t('.dataProtectionText'), privacy_path, :target => "_blank" %></p>-->
 </fieldset>
 
 </div>

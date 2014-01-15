@@ -1,8 +1,16 @@
+<% content_for :page_title, "Your waste carrier registrations - GOV.UK" %>
+
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <% if params[:note] %>
 <div id="note_explanation" class="note-summary">
   <h1><%= params[:note]%></h1>
+</div>
+<% end %>
+
+<% if notice %>
+<div id="notice_explanation" class="note-summary">
+  <h2><%= notice %></h2>
 </div>
 <% end %>
 

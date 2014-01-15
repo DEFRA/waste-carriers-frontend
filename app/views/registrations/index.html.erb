@@ -12,8 +12,15 @@
 </div>
 <% end %>
 
+
+<% if params[:note] %>
+<div id="note_explanation" class="note-summary">
+  <h1><%= params[:note]%></h1>
+</div>
 <% content_for :page_title, "Find a registered business, organisation or trader - GOV.UK" %>
 <h1>Find a registered business, organisation or trader</h1>
+<% end %>
+
 <%= render "shared/meta_phases"%>
 <form method="get" action="/registrations">
 <div class="box"  data-journey="waste-carriers-registration:registrations">
