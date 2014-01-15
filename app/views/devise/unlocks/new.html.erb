@@ -1,6 +1,8 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 <h2>Resend unlock instructions</h2>
 
+<div id="wrapper" data-journey="waste-carriers-registration:unlock-account"></div>
+
 <%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f| %>
   <%= devise_error_messages! %>
 
