@@ -715,7 +715,7 @@
 
 	$(document).ready(function(){
 
-    	GOVUK.performance.stageprompt.setupForGoogleAnalytics();
+    	//GOVUK.performance.stageprompt.setupForGoogleAnalytics();
 
 		//$('#registration_businessType').change(refreshQuestions);
 		//$("#registration_publicBodyType").change(refreshQuestions);
@@ -801,5 +801,8 @@
 		/*$("form").submit(function(e){
 			submitAddress();
 		});*/
+
+    	GOVUK.performance.stageprompt.setupForGoogleAnalytics();
+
 	});
 }());
