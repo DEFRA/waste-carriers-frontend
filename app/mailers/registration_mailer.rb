@@ -1,5 +1,7 @@
 class RegistrationMailer < ActionMailer::Base
-  default from: "registrations@wastecarriersregistration.service.gov.uk"
+  #default from: "registrations@wastecarriersregistration.service.gov.uk"
+  
+  default :from => "\"EA Waste Carriers\" <registrations@wastecarriersregistration.service.gov.uk>"
 
   def welcome_email(user, registration)
   	@user = user
