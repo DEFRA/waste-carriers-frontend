@@ -255,7 +255,7 @@ en:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."
       isRegistered: "%{companyName} is registered (pending confirmation) as a lower tier waste carrier/broker/dealer with the Environment Agency"
-      title: "Waste carrier registration certificate (Pending verification)"
+      title: "Waste carrier registration certificate (pending verification)"
     userRegistrations:
       subtitle: "Your registrations"
       summaryText: "Your registrations are listed below. You can create a new registration for a business or organisation and you can change any you have previously created. You must tell us if any of your registration details change, within 28 days of the change."
