@@ -2,7 +2,8 @@
 
 <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
 
-<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>
+<% content_for :page_title, t('registrations.form.subtitleTitle') %>
+<h1 class="subtitle"><%= t 'registrations.form.subtitle' %></h1>
 
 <%= render "confirmation_step", :f => f %>
 

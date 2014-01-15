@@ -1,11 +1,11 @@
 <%= render "shared/progress", size: "40%" %>
-
+<% content_for :page_title, t('.contactHeadingTitle') %>
 <%= render "errors" %>
 
 <!-- WF 4.3.2 -->
 <div id="page2"  data-journey="waste-carriers-registration:contact-details">
 
-<h2><%= t '.contactHeading' %></h2>
+<h1><%= t '.contactHeading' %></h1>
 
 <%= render "address_entry",:f=>f%>
 

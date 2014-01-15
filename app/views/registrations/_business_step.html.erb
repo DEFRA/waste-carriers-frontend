@@ -9,7 +9,7 @@
 <fieldset>
 <legend><%= t '.business_or_org_details' %></legend>
 
-<h4><%= t 'registrations.confirmation_step.followingReg_heading' %></h4>
+<h3><%= t 'registrations.confirmation_step.followingReg_heading' %></h3>
 
 <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
 <%= validation_for(@registration, :businessType) %>
