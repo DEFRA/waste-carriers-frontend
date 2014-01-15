@@ -233,7 +233,7 @@ end
 Then(/^it should send me an Account Activation email$/) do
   @email = ActionMailer::Base.deliveries.last
   @email.to.first.should include '@bloggs.com'
-  @email.body.should include "To activate your registration account please select the following link"
+  @email.body.should include "Please select the link below to confirm your account and register"
 end
 
 Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email|
