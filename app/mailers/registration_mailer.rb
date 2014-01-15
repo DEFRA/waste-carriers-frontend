@@ -1,5 +1,5 @@
 class RegistrationMailer < ActionMailer::Base
-  #default from: "registrations@wastecarriersregistration.service.gov.uk"
+  default from: "registrations@wastecarriersregistration.service.gov.uk"
   
   default :from => "\"EA Waste Carriers\" <registrations@wastecarriersregistration.service.gov.uk>"
 
@@ -16,8 +16,9 @@ class RegistrationMailer < ActionMailer::Base
   	@user = user
   	@url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "www.wastecarriersregistration.service.gov.uk"
   	@registration = registration
+  	email_with_name = "EA Waste Registration <#{Rails.configuration.registrations_service_email}>"
     mail(to: @user.email, subject: 'The lower tier registration for '+@registration.companyName+' has been revoked. ',
-    	from: Rails.configuration.registrations_service_email,
+    	from: email_with_name,
     	reply_to: Rails.configuration.registrations_service_email)
   end
   
