@@ -1,3 +1,5 @@
+<% content_for :page_title, createTitle('registrations.form.agency_search_label') %>
+
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <% if params[:error] %>
@@ -18,7 +20,8 @@
 </div>
 <% end %>
 
-<h2>Find a registered business, organisation or trader</h2>
+<h1><%= t 'registrations.form.agency_search_label' %></h1>
+
 <%= render "shared/meta_phases"%>
 <form method="get" action="/registrations">
 <div class="box"  data-journey="waste-carriers-registration:registrations">

@@ -1,14 +1,15 @@
 <script><!--
   var startUrl = "<%=newBusiness_path%>";
 //--></script>
-<% content_for :page_title, "Change your registration details - GOV.UK" %>
+<% content_for :page_title, createTitle('.subtitle') %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <%= form_for(@registration, url: ncccedit_url(:id => @registration.id)) do |f| %>
 
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
-<h2 class="subtitle"><%= t '.subtitle' %></h2>
+
+<h1 class="subtitle"><%= t '.subtitle' %></h1>
 <%= render "shared/meta_phases"%>
 
 <%= render "nccc_edit", :f => f %>

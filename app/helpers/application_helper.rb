@@ -6,5 +6,9 @@ module ApplicationHelper
   	  timeout
   	end
   end
+  
+  def createTitle(pageTitle)
+    t(pageTitle) + " - " + t('registrations.form.root_site')
+  end
 
 end
