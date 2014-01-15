@@ -270,8 +270,8 @@ en:
     publicSearch:
       heading: "Check an organisation is registered as a waste carrier"
       search_label: "Name of organisation"
-      postcode_label: "Postcode (optional)"
-      distance_label: "Distance (optional)"
+      postcode_label: "of this postcode"
+      distance_label: "Only show results within"
       search_button_label: "Search"
       carrier: "carrier"
       search_found: "Found %{count} registered lower tier waste %{carrier}"

@@ -87,12 +87,12 @@ input {
 */
 .box {
 	background-color: $grey-3;
-	max-width: 500px;
+	max-width: 550px;
 	padding: 0.25em;
 	margin: 1em 0em;
 }
 .box input[type=text]{
-	min-width:20em;
+	min-width:10em;
 }
 .box dl {
 	padding: 0px;
@@ -256,7 +256,7 @@ dl.data dd{
 	padding: 0.25em;
 	width: 20em;
 	position: absolute;
-	left:35em;
+	left:36em;
 	top:-7em;
 }
 /**
@@ -504,3 +504,16 @@ select {
 	font-size: 1em;
 }
 
+/** Add width specific settings for public registry page*/
+input#q {
+	width: 32em;
+}
+input#postcode {
+	min-width: 8em;
+}
+div#onelinewrapper {
+	display: inline-block; 
+}
+span#disLabel, #postLabel {
+	display: inline;
+}
