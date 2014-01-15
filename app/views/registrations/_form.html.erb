@@ -6,7 +6,8 @@
 <%= form_for(@registration) do |f| %>
 
 <!--<h1><%= t '.title' %></h1>-->
-<h2 class="subtitle"><%= t '.subtitle' %></h2>
+<% content_for :page_title, t('.subtitleTitle') %>
+<h1 class="subtitle"><%= t '.subtitle' %></h1>
 <%= render "shared/meta_phases"%>
 
 <%= render "#{@registration.current_step}_step", :f => f %>

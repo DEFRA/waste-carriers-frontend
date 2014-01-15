@@ -1,7 +1,8 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
-<h2 class="subtitle"><%= t '.heading' %></h2>
+<% content_for :page_title, t('.headingTitle') %>
+<h1 class="subtitle"><%= t '.heading' %></h1>
 <h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 <%# render "shared/meta_phases"%>
 

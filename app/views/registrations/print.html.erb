@@ -9,9 +9,10 @@
 <!--<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>-->
 <%= render "shared/meta_phases"%>
 
-<h2 class="registered"><%= t '.isRegistered', :companyName => @registration.companyName %></h2>
+<% content_for :page_title, t('.isRegistered', :companyName => @registration.companyName) %>
+<h1 class="registered"><%= t '.isRegistered', :companyName => @registration.companyName %></h1>
 
-<h3><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h3>
+<h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 
 <p><i>Registered on: <%= format_date(@registration.metaData.dateRegistered) %></i></p>
 
