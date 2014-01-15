@@ -33,6 +33,7 @@ en:
 
   #Enumerations
   please_select: "Please select..."
+  address_select: "Please select an address…"
 
   business_types:
     soleTrader: "Sole trader"
@@ -231,6 +232,8 @@ en:
       detailsEmailed: "Your certificate and guidance have been emailed to %{email}"
       detailsChange: "If any of your details change you must update your registration within 28 days. How to do this is explained in your email."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
+    confirmDelete:
+      title: "Confirm delete registration"
     pending:
       heading: "Registration complete (pending activation)"
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
@@ -247,10 +250,12 @@ en:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."
       isRegistered: "%{companyName} is registered as a lower tier waste carrier/broker/dealer with the Environment Agency"
+      title: "Waste carrier registration certificate"
     print_pending:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."
       isRegistered: "%{companyName} is registered (pending confirmation) as a lower tier waste carrier/broker/dealer with the Environment Agency"
+      title: "Waste carrier registration certificate (Pending verification)"
     userRegistrations:
       subtitle: "Your registrations"
       summaryText: "Your registrations are listed below. You can create a new registration for a business or organisation and you can change any you have previously created. You must tell us if any of your registration details change, within 28 days of the change."
@@ -263,8 +268,8 @@ en:
       revokedQuestion: "Do you wish to revoke this registration?"
       revokedReason: "Why do you wish to revoke this registration"
     publicSearch:
-      heading: "Public register of lower tier waste carriers"
-      search_label: "Search for a waste carrier on public register"
+      heading: "Check an organisation is registered as a waste carrier"
+      search_label: "Name of organisation"
       postcode_label: "Postcode (optional)"
       distance_label: "Distance (optional)"
       search_button_label: "Search"
@@ -272,12 +277,14 @@ en:
       search_found: "Found %{count} registered lower tier waste %{carrier}"
       record: "record"
       search_results: "Showing %{initial}-%{count} of %{records}"
-      companyName_table_heading: "Name"
+      regId_table_heading: "Registration number"
+      companyName_table_heading: "Company name"
       businessType_table_heading: "Business Type"
       contactNum_table_heading: "Contact"
       address_table_heading: "Address"
       distance_table_heading: "Distance"
       miles: "Miles"
+      feedback_link: "Provide feedback about this service"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"
@@ -302,7 +309,7 @@ en:
       organisationType_limitedCompany: "A limited company or limited liability partnership (LLP)"
       organisationType_publicBody: "A public body"
 
-
+      agency_search_label: "Find a registered business, organisation or trader"
       address_and_contact_details_heading: "Address and contact details"
 
       houseNumber_label: "House number"
