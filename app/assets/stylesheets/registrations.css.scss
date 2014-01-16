@@ -509,7 +509,9 @@ input.postcode {
 
 /** Add width specific settings for public registry page*/
 input#q {
-	width: 32em;
+	min-width: 19em; 
+	max-width: 32em;
+	width: 95%
 }
 input#postcode {
 	min-width: 8em;
