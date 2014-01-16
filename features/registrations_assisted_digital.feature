@@ -22,7 +22,7 @@ Scenario: Valid registration on behalf of a caller
   And I click "Next"
   And I select the declaration checkbox
   And I click "Next"
-  And I click "Complete registration"
+  And I click "Next"
   Then I should see the Confirmation page
   And the registration confirmation email should not be sent
   And when I access the print page
