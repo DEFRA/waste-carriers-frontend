@@ -17,7 +17,7 @@ Scenario: Valid registration as an Individual
   And I select the declaration checkbox
   And I click "Next"
   And I provide valid user details for sign up
-  And I click "Complete registration"
+  And I click "Next"
   Then I should see the Confirmation Pending page
 
 #@javascript
@@ -28,7 +28,7 @@ Scenario: Valid registration as an Individual (version 2)
   And I provide valid contact details
   And I confirm the declaration
   And I provide valid user details for sign up
-  And I click "Complete registration"
+  And I click "Next"
   Then I should see the Confirmation Pending page
   And it should send me an Account Activation email
   And when I click on the activation link
@@ -44,7 +44,7 @@ Scenario: Valid registration for existing user (account email) - sign in during 
   And I provide valid contact details for "joe@company.com"
   And I confirm the declaration
   And I provide valid user details for sign in
-  And I click "Complete registration"
+  And I click "Next"
   Then I should see the Confirmation page
   And it should send a Registration Confirmation email to "joe@company.com"
 
@@ -56,7 +56,7 @@ Scenario: Valid registration for existing user - already logged in, no need to p
   And I provide valid individual trading name details including business type
   And I provide valid contact details
   And I confirm the declaration
-  And I click "Complete registration"
+  And I click "Next"
   Then I should see the Confirmation page
   And it should send a Registration Confirmation email to "joe@company.com"
 

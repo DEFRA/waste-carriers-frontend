@@ -59,8 +59,7 @@ Then(/^I should see the Confirmation page$/) do
 end
 
 Then(/^I should see the Confirmation Pending page$/) do
-  #TODO Update text...
-  assert(page.has_content?('An email has been sent to you to confirm your account'), 'Cannot find text')
+  assert(page.has_content?('Follow the instructions in the email to confirm your account and complete your registration'), 'Cannot find text')
 end
 
 #Alternate version....
@@ -251,7 +250,6 @@ Then(/^when I click on the activation link$/) do
 end
 
 Then(/^my registration should be activated$/) do
-  #TODO sign in?
-  page.should have_content("Your account has been activated successfully")
+  page.should have_content("You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency.")
 end
 
