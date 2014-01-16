@@ -520,7 +520,9 @@ input#postcode {
 	min-width: 8em;
 }
 div#onelinewrapper {
-	display: inline-block; 
+	// DISABLE: Disable Filter by radius, uncomment this line, and remove the display: none; line.
+	//display: inline-block; 
+	display: none;
 }
 span#disLabel, #postLabel {
 	display: inline;

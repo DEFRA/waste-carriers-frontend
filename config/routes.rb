@@ -1,6 +1,6 @@
 Registrations::Application.routes.draw do
 
-  devise_for :users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
+  devise_for :users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations", :confirmations => "confirmations"}
     as :user do
       get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'    
       put 'users/:id' => 'devise/registrations#update', :as => 'user_registration'            
@@ -57,6 +57,7 @@ Registrations::Application.routes.draw do
   get "your-registration/pending" => 'registrations#pending', :as => :pending 
   match "your-registration/print" => 'registrations#print_pending', :via => [:get,:patch], :as => :print_pending
    
+  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed 
 
   resources :registrations
 
