@@ -57,9 +57,9 @@
 <table class="search">
 	<thead class="search-header">
 		<tr>
-			<th class="search-header-field" style="width:20%"><%= t '.regId_table_heading' %></th>
 			<th class="search-header-field" style="width:30%"><%= t '.companyName_table_heading' %></th>
 			<th class="search-header-field" style="width:40%"><%= t '.address_table_heading' %></th>
+			<th class="search-header-field" style="width:20%"><%= t '.regId_table_heading' %></th>
 			<% if params[:distance]!='any' %><th class="search-header-field" style="width:10%"><%= t '.distance_table_heading' %></th><% end %>
 		</tr>
 	</thead>
@@ -67,9 +67,9 @@
 <% regCount = 1; %>
 <% @registrations.each do |registration| %>
 	<tr class="search-body<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-		<td class="search-body-field" style="width:20%"><%= registration.regIdentifier %></td>
 		<td class="search-body-field" style="width:30%"><%= registration.companyName %></td>
 		<td class="search-body-field" style="width:40%"><%= format_address(registration) %></td>
+		<td class="search-body-field" style="width:20%"><%= registration.regIdentifier %></td>
 		<% if params[:distance]!='any' %><td class="search-body-field" style="width:10%"><%= registration.metaData.distance %> <%= t '.miles' %></td><% end %>
 	</tr>
 <% regCount = regCount + 1; %>
