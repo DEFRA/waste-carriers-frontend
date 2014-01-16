@@ -604,6 +604,16 @@ class Registration < ActiveResource::Base
     metaData && metaData.route == 'ASSISTED_DIGITAL'
   end
 
+  def boxClassSuffix
+    if metaData.status == "REVOKED"
+      'revoked'
+    elsif metaData.status == "PENDING"
+      'pending'
+    else
+      ''
+    end
+  end
+
   def self.activate_registrations(user)
     Rails.logger.info("Activating pending registrations for user with email " + user.email)
     Registration.find(:all, :params => {:ac => user.email}).each { |r| 
