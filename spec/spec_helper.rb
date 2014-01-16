@@ -44,4 +44,5 @@ RSpec.configure do |config|
 end
 require "sauce_helper"
 
+# The default driver should be :sauce for Saucelabs testing.
 Capybara.default_driver = :sauce

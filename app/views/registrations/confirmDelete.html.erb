@@ -1,10 +1,9 @@
-<% content_for :page_title, "Confirm delete registration - GOV.UK" %>
+<% content_for :page_title, createTitle('.title') %>
 
 <main id="content" role="main" class="group">
 <article role="article" class="group">
 
-<h1>Confirm delete registration</h1>
-<% content_for :page_title, "Confirm delete registration - GOV.UK" %>
+<h1><%= t '.title'%></h1>
 
 <%= form_for @registration, :method => 'delete' do |f| %>
 

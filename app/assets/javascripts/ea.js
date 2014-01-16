@@ -712,14 +712,18 @@
 		});
 	}
 
+
 	$(document).ready(function(){
+
+    	//GOVUK.performance.stageprompt.setupForGoogleAnalytics();
+
 		//$('#registration_businessType').change(refreshQuestions);
 		//$("#registration_publicBodyType").change(refreshQuestions);
 		//$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress();});
 		//$("#addresses").change(updateAddress);
 		//$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress();});
 		//refreshQuestions();
-		
+
 		$("#registration_title").change(function(e){e.preventDefault();updateTitleOther();});
 		updateTitleOther();
 		
@@ -797,5 +801,8 @@
 		/*$("form").submit(function(e){
 			submitAddress();
 		});*/
+
+    	GOVUK.performance.stageprompt.setupForGoogleAnalytics();
+
 	});
 }());

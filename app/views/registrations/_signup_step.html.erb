@@ -1,4 +1,8 @@
-<% content_for :page_title, "Register as a waste carrier, Login/Signup - GOV.UK" %>
+<% if !@registration.persisted? %>
+<% content_for :page_title, createTitle('.complete') %>
+<% else %>
+<% content_for :page_title, createTitle('.update') %>
+<% end %>
 
 <%= render "shared/progress", size: "80%" %>
 
