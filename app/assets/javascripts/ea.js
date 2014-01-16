@@ -171,6 +171,13 @@
 				$pStatus.html("Status: Revoked");
 				$div.append(pStatus);
 			}
+			if (data.mdStatus == "PENDING") {
+				var pStatus = document.createElement("div");
+				var $pStatus = $(pStatus);
+				$pStatus.addClass("pendingtext");
+				$pStatus.html("Status: Pending");
+				$div.append(pStatus);
+			}
 			
 			$a.click(authorViewDetail(detailElem,a));
 			$a.click(resetAll() );

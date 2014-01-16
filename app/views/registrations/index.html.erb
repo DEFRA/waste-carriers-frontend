@@ -63,7 +63,7 @@
 <p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
 
 <% @registrations.each do |registration| %>
-<div class="box<% if registration.metaData.status == "REVOKED" %> revoked<% end %>">
+<div class="box <%= registration.boxClassSuffix %>">
 	<dl>
 		<dt>Name</dt>
 		<dd><%= registration.companyName %></dd>
@@ -72,8 +72,9 @@
 		<dd><%= registration.postcode %></dd>
 	</dl>
 	<div class="detailsBoxWrapper">
-		<div class="detailsBox<% if registration.metaData.status == "REVOKED" %> revoked<% end %>">
+		<div class="detailsBox <%= registration.boxClassSuffix %>">
 			<% if registration.metaData.status == "REVOKED" %><div class="detailHeading">Registration Status: Revoked</div><% end %>
+			<% if registration.metaData.status == "PENDING" %><div class="detailHeading">Registration Status: Pending</div><% end %>
 			<div class="detail">
 				<div class="data" 
 					data-organisationType="<%= registration.businessType%>" 
