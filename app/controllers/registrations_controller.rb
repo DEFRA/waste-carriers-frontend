@@ -96,6 +96,10 @@ class RegistrationsController < ApplicationController
 
 #  def start
 #  end
+
+  def confirmed
+  
+  end
   
   def print
   	begin

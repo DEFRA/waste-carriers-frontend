@@ -4,7 +4,7 @@
 <% content_for :page_title, createTitle('.update') %>
 <% end %>
 
-<%= render "shared/progress", size: "80%" %>
+<%= render "shared/progress", size: "70%" %>
 
 <%= render "errors" %>
 
@@ -76,5 +76,5 @@
 </div>
 <p class="action group">
 <%= link_to t('registrations.form.back_button_label'), newConfirmation_path, :class => 'button-secondary' %>
-<input name="register" class="button" type="submit" value="<% if !@registration.persisted? %><%= t '.complete' %><% else %><%= t '.update' %><% end %>"/>
+<input name="register" class="button" type="submit" value="<% if !@registration.persisted? %><%= t 'registrations.form.next_button_label' %><% else %><%= t '.update' %><% end %>"/>
 </p>

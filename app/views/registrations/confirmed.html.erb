@@ -1,0 +1,29 @@
+<% content_for :page_title, createTitle('registrations.finish.heading') %>
+
+<main id="content" role="main" class="group"><article role="article" class="group">
+
+<% if !notice.nil? %>
+<!--
+// This is commented out to consume the notice but not render the content, so that is doesnt appear on another page.
+<div id="notice_explanation" class="note-summary">
+  <h2><%= t '.standard_notice' %></h2>
+  <ul>
+    <li><%= notice %></li>
+  </ul>
+</div>
+-->
+<% end %>
+
+<h1 class="subtitle"><%= t 'registrations.finish.heading' %></h1>
+
+<p><%= t '.nowRegistered' %></p>
+
+<p><%= t '.yourCertificate' %></p>
+
+<p><%= t '.signIn_html', :link => new_user_session_path %></p>
+
+<p><%= t 'registrations.finish.detailsChange' %></p>
+
+<p class="action group"><%= link_to t('registrations.form.finish_button_label'), Rails.configuration.waste_exemplar_end_url, :class => 'button' %></p>
+
+</article></main>

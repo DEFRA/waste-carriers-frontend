@@ -219,7 +219,7 @@ en:
       dataProtection_findOutMore: "Find out about other ways in which we may use your information."
     signup_step:
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
-      complete: "Complete registration"
+      complete: "Account details"
       update: "Update registration"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       signedInAsText: "You are currently signed in as"
@@ -230,13 +230,18 @@ en:
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
       yourRegNumber: "Your registration number is: %{reg}"
       detailsEmailed: "Your certificate and guidance have been emailed to %{email}"
-      detailsChange: "If any of your details change you must update your registration within 28 days. How to do this is explained in your email."
+      detailsChange: "If any of your details change you must update your registration within 28 days."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
     confirmDelete:
       title: "Confirm delete registration"
+    confirmed:
+      nowRegistered: "You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency."
+      yourCertificate: "Your certificate and guidance have been emailed to you"
+      signIn_html: "<a href='%{link}'>Sign in</a> to view your certificate, check your details or create a new registration."
     pending:
       heading: "Confirm your account"
-      pendingText: "An email has been sent to you to confirm your account. Once confirmed, %{companyName} will be registered as a lower tier waste carrier."
+      pendingText: "An email has been sent to %{email}."
+      pendingText2: "Follow the instructions in the email to confirm your account and complete your registration."
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
       yourRegNumber: "Your registration number is: %{reg}"
       detailsEmailed: "We have sent you an e-mail with activation instructions to %{email}. Please verify that you have received the e-mail and activate the registration and your account."
