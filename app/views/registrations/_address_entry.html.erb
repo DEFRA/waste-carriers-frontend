@@ -57,7 +57,7 @@
 <%else%>
   <% if @registration.uprn%>
     <label for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
-    <div><%=@registration.houseNumber%> <%=@registration.streetLine1%><% if @registration.streetLine2 != "" %>, <%=@registration.streetLine2%><% end %>, <%=@registration.townCity%>, <%=@registration.postcode%></div>
+    <% render "address_display"%>
     <%if params[:sPostcode]%>
       <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
     <%end%>
@@ -87,7 +87,7 @@
      <%= validation_for(@registration, :postcodeSearch) %>
      <%end%>
     <label for="sPostcode"><%= t '.findAddressUsingPostcode'%></label>
-    <input id="sPostcode" name="sPostcode" type="text" value="<%= params[:sPostcode]%>"/>
+    <input id="sPostcode" name="sPostcode" type="text" class="postcode" value="<%= params[:sPostcode]%>"/>
     <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
     </p>
 <a href="?sManualForeign=true"><%= t '.foreignAddressLink'%></a>
