@@ -1,10 +1,9 @@
-<h2>Register as a waste carrier: confirm registration account</h2>
+<h2>Confirm your account as a lower tier waste carrier</h2>
 
-<p>Welcome <%= @email %>!</p>
+<p>To <%= @email %>,</p>
 
-<p>You have recently registered as a lower tier waste carrier. 
-	To activate your registration account please select the following link:</p>
+<p>Please select the link below to confirm your account and complete your registration as a lower tier waste carrier.</p>
  
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, :confirmation_token => @token) %></p>
+<p><%= link_to 'Confirm your account', confirmation_url(@resource, :confirmation_token => @token) %></p>
 
 <p>Please contact the Environment Agency helpline on 03708 506506 if you have any questions about this.</p>

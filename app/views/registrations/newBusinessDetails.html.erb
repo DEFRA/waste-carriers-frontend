@@ -2,7 +2,6 @@
 
 <%= form_for(@registration, :url => newBusiness_path) do |f| %>
 
-<% content_for :page_title, t('registrations.form.subtitleTitle') %>
 <h1 class="subtitle"><%= t 'registrations.form.subtitle' %></h1>
 
 <%= render "business_step", :f => f %>

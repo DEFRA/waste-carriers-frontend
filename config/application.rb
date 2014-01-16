@@ -101,6 +101,7 @@ module Registrations
 
     # The e-mail address shown on the Finish page and used in e-mails sent by the application
     config.registrations_service_email = 'registrations@wastecarriersregistration.service.gov.uk'
+    config.registrations_service_emailName = 'EA Waste Carrier Service'
     
     # The phone number shown on the certificate and used in e-mails sent by the application
     config.registrations_service_phone = '03708 506506'

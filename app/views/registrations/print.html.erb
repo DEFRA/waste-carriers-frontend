@@ -1,7 +1,7 @@
 <script><!--
   var startUrl = "<%=newBusiness_path%>";
 //--></script>
-<% content_for :page_title, "Waste carrier registration certificate - GOV.UK" %>
+<% content_for :page_title, createTitle('.title') %>
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <%= form_for(@registration, url: print_url(:id => @registration.id)) do |f| %>
@@ -10,7 +10,6 @@
 <!--<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>-->
 <%= render "shared/meta_phases"%>
 
-<% content_for :page_title, t('.isRegistered', :companyName => @registration.companyName) %>
 <h1 class="registered"><%= t '.isRegistered', :companyName => @registration.companyName %></h1>
 
 <h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>

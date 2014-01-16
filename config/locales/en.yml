@@ -126,7 +126,6 @@ en:
   discovers:
     new:
       title: "Find out if you need to register and which category applies"
-      titleTitle: "Find out if you need to register and which category applies - GOV.UK"
     findAnswers:
       businessType_default: "Please select..."
       businessType_soleTrader: "Sole trader"
@@ -171,7 +170,6 @@ en:
       postcode_search_error: "A postcode must be provided"
     contact_step:
       contactHeading: "Address and contact details"
-      contactHeadingTitle: "Address and contact details - GOV.UK"
       businessAddress: "Main business, organisation or trading address"
       selectAddress: "Select address"
       findAddressUsingPostcode: "Find address using postcode"
@@ -192,7 +190,6 @@ en:
       title_other: "Other"
     confirmation_step:
       confirmationHeading: "Check your details"
-      confirmationHeadingTitle: "Check your details - GOV.UK"
       registeringText: "You are registering %{companyName} (a %{businessType})"
       followingDetails: "With the following details"
       phoneNumber: "Telephone number"
@@ -220,27 +217,26 @@ en:
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
       privacyPolicy: "Privacy policy and cookies"
       dataProtection_findOutMore: "Find out about other ways in which we may use your information."
-      dataProtection_findOutMoreTitle: "Find out about other ways in which we may use your information. - GOV.UK"
     signup_step:
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
       complete: "Complete registration"
       update: "Update registration"
-      completeTitle: "Complete registration - GOV.UK"
-      updateTitle: "Update registration - GOV.UK"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       signedInAsText: "You are currently signed in as"
       notYouText_html: "If this is not you, <a href='#' id='secondaryButton' onclick='document.getElementById(\"signout_button\").click()'>sign out and start again</a>"
       createPassword: "Create password"
     finish:
       heading: "Registration complete"
-      headingTitle: "Registration complete - GOV.UK"
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
       yourRegNumber: "Your registration number is: %{reg}"
       detailsEmailed: "Your certificate and guidance have been emailed to %{email}"
       detailsChange: "If any of your details change you must update your registration within 28 days. How to do this is explained in your email."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
+    confirmDelete:
+      title: "Confirm delete registration"
     pending:
-      heading: "Registration complete (pending activation)"
+      heading: "Confirm your account"
+      pendingText: "An email has been sent to you to confirm your account. Once confirmed, %{companyName} will be registered as a lower tier waste carrier."
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
       yourRegNumber: "Your registration number is: %{reg}"
       detailsEmailed: "We have sent you an e-mail with activation instructions to %{email}. Please verify that you have received the e-mail and activate the registration and your account."
@@ -255,44 +251,44 @@ en:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."
       isRegistered: "%{companyName} is registered as a lower tier waste carrier/broker/dealer with the Environment Agency"
+      title: "Waste carrier registration certificate"
     print_pending:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."
       isRegistered: "%{companyName} is registered (pending confirmation) as a lower tier waste carrier/broker/dealer with the Environment Agency"
+      title: "Waste carrier registration certificate (pending verification)"
     userRegistrations:
       subtitle: "Your registrations"
-      subtitleTitle: "Your registrations - GOV.UK"
       summaryText: "Your registrations are listed below. You can create a new registration for a business or organisation and you can change any you have previously created. You must tell us if any of your registration details change, within 28 days of the change."
       registrationCountText: "You have %{count}"
       revoked: "Status: Revoked"
       registered: "Status: Registered"
     ncccform:
       subtitle: "Change your registration details"
-      subtitleTitle: "Change your registration details - GOV.UK"
     nccc_edit:
       revokedQuestion: "Do you wish to revoke this registration?"
       revokedReason: "Why do you wish to revoke this registration"
     publicSearch:
-      heading: "Public register of lower tier waste carriers"
-      headingTitle: "Public register of lower tier waste carriers - GOV.UK"
-      search_label: "Search for a waste carrier on public register"
-      postcode_label: "Postcode (optional)"
-      distance_label: "Distance (optional)"
+      heading: "Check an organisation is registered as a waste carrier"
+      search_label: "Name of organisation"
+      postcode_label: "of this postcode"
+      distance_label: "Only show results within"
       search_button_label: "Search"
       carrier: "carrier"
       search_found: "Found %{count} registered lower tier waste %{carrier}"
       record: "record"
       search_results: "Showing %{initial}-%{count} of %{records}"
-      companyName_table_heading: "Name"
+      regId_table_heading: "Registration number"
+      companyName_table_heading: "Company name"
       businessType_table_heading: "Business Type"
       contactNum_table_heading: "Contact"
       address_table_heading: "Address"
       distance_table_heading: "Distance"
       miles: "Miles"
+      feedback_link: "Provide feedback about this service"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"
-      subtitleTitle: "Registering as a lower tier waste carrier/broker/dealer - GOV.UK"
       progress: "Progress: "
       error_explanation: "prohibited this registration from being saved:"
       business_or_org_details: "Business or organisation details"
@@ -314,7 +310,7 @@ en:
       organisationType_limitedCompany: "A limited company or limited liability partnership (LLP)"
       organisationType_publicBody: "A public body"
 
-
+      agency_search_label: "Find a registered business, organisation or trader"
       address_and_contact_details_heading: "Address and contact details"
 
       houseNumber_label: "House number"

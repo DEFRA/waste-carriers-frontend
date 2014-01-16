@@ -1,4 +1,4 @@
-<% content_for :page_title, t('.heading') + " - " + t('registrations.form.root_site') %>
+<% content_for :page_title, createTitle('.heading') %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
 
@@ -17,27 +17,28 @@
 </div>
 <% end %>
 
-<% content_for :page_title, t(".headingTitle")%>
 <h1><%= t '.heading' %></h1>
 
 
 <form method="get" action="/registrations/search">
-<div class="box" data-journey="waste-carriers-registration:registrations">
+<div class="box" data-journey="waste-carriers-registration:search-register">
 	<p class="group">
 		<label for="q"><%= t '.search_label' %></label>
-		<input id="q" name="q" type="text" value="<%= params[:q]%>" />
+		<input id="q" name="q" type="text" placeholder="eg Bristol Flowers Ltd or Luton Mill" value="<%= params[:q]%>" />
 	</p>
-	<p class="group">
-		<label for="postcode"><%= t '.postcode_label' %></label>
-		<input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
-		
-		<label for="distance"><%= t '.distance_label' %></label>
-		<% defaultDistance='any'%>
-		<% if !params[:distance].nil?
-		defaultDistance=params[:distance] 
-		end %>
-		<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
-	</p>
+	<div id="onelinewrapper">
+		<label for="oneline">Filter by area (optional)</label>
+		<div id="oneline">
+			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
+			<% defaultDistance='any'%>
+			<% if !params[:distance].nil?
+			defaultDistance=params[:distance] 
+			end %>
+			<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
+			<span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
+			<input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
+		</div>
+	</div>
 	<p class="action group">
 		<input type="submit" id="reg-search" class="button" value="<%= t '.search_button_label' %>" />
 	</p>
@@ -56,10 +57,9 @@
 <table class="search">
 	<thead class="search-header">
 		<tr>
-			<th class="search-header-field" style="width:25%"><%= t '.companyName_table_heading' %></th>
-			<th class="search-header-field" style="width:20%"><%= t '.businessType_table_heading' %></th>
-			<th class="search-header-field" style="width:30%"><%= t '.address_table_heading' %></th>
-			<th class="search-header-field" style="width:15%"><%= t '.contactNum_table_heading' %></th>
+			<th class="search-header-field" style="width:20%"><%= t '.regId_table_heading' %></th>
+			<th class="search-header-field" style="width:30%"><%= t '.companyName_table_heading' %></th>
+			<th class="search-header-field" style="width:40%"><%= t '.address_table_heading' %></th>
 			<% if params[:distance]!='any' %><th class="search-header-field" style="width:10%"><%= t '.distance_table_heading' %></th><% end %>
 		</tr>
 	</thead>
@@ -67,10 +67,9 @@
 <% regCount = 1; %>
 <% @registrations.each do |registration| %>
 	<tr class="search-body<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-		<td class="search-body-field" style="width:25%"><%= registration.companyName %></td>
-		<td class="search-body-field" style="width:20%"><%= t('discovers.findAnswers.businessType_' + registration.businessType) %></td>
-		<td class="search-body-field" style="width:30%"><%= registration.houseNumber %> <%= registration.streetLine1 %><br /><% if registration.streetLine2 != "" %><%= registration.streetLine2 %><br /><% end %><%= registration.townCity%><br /><%= registration.postcode%></td>
-		<td class="search-body-field" style="width:15%"><%= registration.phoneNumber %></td>
+		<td class="search-body-field" style="width:20%"><%= registration.regIdentifier %></td>
+		<td class="search-body-field" style="width:30%"><%= registration.companyName %></td>
+		<td class="search-body-field" style="width:40%"><%= format_address(registration) %></td>
 		<% if params[:distance]!='any' %><td class="search-body-field" style="width:10%"><%= registration.metaData.distance %> <%= t '.miles' %></td><% end %>
 	</tr>
 <% regCount = regCount + 1; %>
@@ -83,5 +82,8 @@
 </div>
 <% end %>
 
+<% if params[:q] %>
+<p><a href="<%= Rails.configuration.waste_exemplar_end_url %>"><%= t '.feedback_link' %></a></p>
+<% end %>
 
 </article></main>

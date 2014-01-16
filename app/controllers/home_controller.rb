@@ -24,4 +24,17 @@ class HomeController < ApplicationController
   	end
   end #end index
 
+  def version
+    @railsVersion = Rails.configuration.application_version
+    
+    # Request version from REST api
+    @apiVersionObj = Version.find(:one, :from => "/version.json" )
+    if !@apiVersionObj.nil?
+      logger.debug 'Version info, version number:' + @apiVersionObj.versionDetails + ' lastBuilt: ' + @apiVersionObj.lastBuilt
+      @apiVersion = @apiVersionObj.versionDetails
+    end
+    
+#    render :layout => false
+  end
+
 end

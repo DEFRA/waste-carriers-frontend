@@ -60,7 +60,7 @@ end
 
 Then(/^I should see the Confirmation Pending page$/) do
   #TODO Update text...
-  assert(page.has_content?('We have sent you an e-mail with activation instructions'), 'Cannot find text')
+  assert(page.has_content?('An email has been sent to you to confirm your account'), 'Cannot find text')
 end
 
 #Alternate version....
@@ -233,7 +233,7 @@ end
 Then(/^it should send me an Account Activation email$/) do
   @email = ActionMailer::Base.deliveries.last
   @email.to.first.should include '@bloggs.com'
-  @email.body.should include "To activate your registration account please select the following link"
+  @email.body.should include "Please select the link below to confirm your account"
 end
 
 Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email|

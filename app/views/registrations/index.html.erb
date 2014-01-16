@@ -1,3 +1,5 @@
+<% content_for :page_title, createTitle('registrations.form.agency_search_label') %>
+
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <% if params[:error] %>
@@ -17,9 +19,10 @@
 <div id="note_explanation" class="note-summary">
   <h1><%= params[:note]%></h1>
 </div>
-<% content_for :page_title, "Find a registered business, organisation or trader - GOV.UK" %>
-<h1>Find a registered business, organisation or trader</h1>
 <% end %>
+
+
+<h1><%= t 'registrations.form.agency_search_label' %></h1>
 
 <%= render "shared/meta_phases"%>
 <form method="get" action="/registrations">
