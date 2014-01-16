@@ -57,7 +57,7 @@
 <%else%>
   <% if @registration.uprn%>
     <label for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
-    <% render "address_display"%>
+    <%= render "address_display"%>
     <%if params[:sPostcode]%>
       <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
     <%end%>
