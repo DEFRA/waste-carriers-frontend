@@ -34,6 +34,8 @@ Scenario: Valid registration as an Individual (version 2)
   And when I click on the activation link
   #Then my registration should be activated
   Then I should see the Registration Confirmed page
+  And I can view the certificate
+  And I can finish and return to govuk
 
 #@javascript
 Scenario: Valid registration for existing user (account email) - sign in during registration
