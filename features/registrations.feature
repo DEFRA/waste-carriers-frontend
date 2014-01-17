@@ -32,7 +32,8 @@ Scenario: Valid registration as an Individual (version 2)
   Then I should see the Confirmation Pending page
   And it should send me an Account Activation email
   And when I click on the activation link
-  Then my registration should be activated
+  #Then my registration should be activated
+  Then I should see the Registration Confirmed page
 
 #@javascript
 Scenario: Valid registration for existing user (account email) - sign in during registration

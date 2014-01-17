@@ -171,6 +171,7 @@ Given(/^I have an activated account$/) do
   user.email = theUsersEmail
   user.password = theUsersPassword
   user.password_confirmation = theUsersPassword
+  user.send_confirmation_instructions
   user.confirm!
   user.save!
 
@@ -249,7 +250,10 @@ Then(/^when I click on the activation link$/) do
   visit "/users/confirmation?#{ctoken}"
 end
 
-Then(/^my registration should be activated$/) do
-  page.should have_content("You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency.")
-end
+#Then(/^my registration should be activated$/) do
+#  page.should have_content("You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency.")
+#end
 
+Then(/^I should see the Registration Confirmed page$/) do
+  page.should have_content "Registration complete"
+end
