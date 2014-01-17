@@ -18,7 +18,7 @@ Scenario: Valid registration as an Individual
   And I click "Next"
   And I provide valid user details for sign up
   And I click "Next"
-  Then I should see the Confirmation Pending page
+  Then I should see the Confirm Account page
 
 #@javascript
 Scenario: Valid registration as an Individual (version 2)
@@ -29,7 +29,7 @@ Scenario: Valid registration as an Individual (version 2)
   And I confirm the declaration
   And I provide valid user details for sign up
   And I click "Next"
-  Then I should see the Confirmation Pending page
+  Then I should see the Confirm Account page
   And it should send me an Account Activation email
   And when I click on the activation link
   #Then my registration should be activated

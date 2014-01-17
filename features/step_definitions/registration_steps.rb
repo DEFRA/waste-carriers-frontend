@@ -58,7 +58,7 @@ Then(/^I should see the Confirmation page$/) do
   assert(page.has_button?('Finished'), 'Cannot find finish button')
 end
 
-Then(/^I should see the Confirmation Pending page$/) do
+Then(/^I should see the Confirm Account page$/) do
   assert(page.has_content?('Follow the instructions in the email to confirm your account and complete your registration'), 'Cannot find text')
 end
 
