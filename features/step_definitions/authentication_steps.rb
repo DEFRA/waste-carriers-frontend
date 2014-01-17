@@ -7,6 +7,7 @@ Given(/^there is an activated user Joe$/) do
   user = User.new
   user.email = 'joe.activated@wastecarrier.com'
   user.password = 'secret123'
+  user.send_confirmation_instructions
   user.confirm!
   user.save!
 end
