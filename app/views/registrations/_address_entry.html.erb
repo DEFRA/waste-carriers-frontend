@@ -69,8 +69,8 @@
     <%= validation_for(@registration, :selectedMoniker) %>
     <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
     <label for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
-    <select id="sSelect" name="sSelect">
-    <option value=""><%= t 'address_select'%></option>
+    <select id="sSelect" name="sSelect" size="<%=[10,@addresses.count].min%>">
+    <!--<option value=""><%= t 'address_select'%></option>-->
     <% @addresses.each do |address| %>
       <option value="<%=address.moniker%>"<%if address.moniker==@registration.selectedMoniker%> selected="selected"<%end%>><%=address.partial%></option>
     <%end%>
