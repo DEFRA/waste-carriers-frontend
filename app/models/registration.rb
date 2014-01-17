@@ -453,8 +453,8 @@ class Registration < ActiveResource::Base
     if contactEmail == "" and routeName == 'DIGITAL'
       Rails.logger.debug 'contactEmail is empty'
       errors.add(:contactEmail, I18n.t('errors.messages.blank') )
-    #validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
-    elsif !contactEmail.nil? and !contactEmail.empty? and contactEmail[/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
+    #validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A[a-zA-Z0-9_.+\-']+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
+    elsif !contactEmail.nil? and !contactEmail.empty? and contactEmail[/\A[a-zA-Z0-9_.+\-']+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
       Rails.logger.debug 'contactEmail fails reg ex check 1'
       errors.add(:contactEmail, I18n.t('errors.messages.invalidEmail') )
     #validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A.{0,70}\Z/, message:I18n.t('errors.messages.70characters') }
@@ -469,8 +469,8 @@ class Registration < ActiveResource::Base
     if accountEmail == ""
       Rails.logger.debug 'accountEmail is empty'
       errors.add(:accountEmail, I18n.t('errors.messages.blank') )
-    #validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
-    elsif !accountEmail.nil? and accountEmail[/\A[a-zA-Z0-9_.+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
+    #validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A[a-zA-Z0-9_.+\-']+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
+    elsif !accountEmail.nil? and accountEmail[/\A[a-zA-Z0-9_.+\-']+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
       Rails.logger.debug 'accountEmail fails reg ex check'
       errors.add(:accountEmail, I18n.t('errors.messages.invalidEmail') )
     #validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A.{0,70}\Z/, message:I18n.t('errors.messages.70characters') }
