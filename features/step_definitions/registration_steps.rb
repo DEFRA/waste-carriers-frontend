@@ -257,3 +257,15 @@ end
 Then(/^I should see the Registration Confirmed page$/) do
   page.should have_content "Registration complete"
 end
+
+Then(/^I can view the certificate$/) do
+  click_on "View certificate"
+  page.should have_content "Registered on:"
+  page.should have_content "Your registration will last indefinitely"
+  click_on "Back"
+end
+
+Then(/^I can finish and return to govuk$/) do
+  click_on "Finish"
+end
+
