@@ -10,16 +10,16 @@
 <!--<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>-->
 <%= render "shared/meta_phases"%>
 
-<h1 class="registered"><%= t '.isRegistered', :companyName => @registration.companyName %></h1>
+<h1 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h1>
 
 <h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 
 <p><i>Registered on: <%= format_date(@registration.metaData.dateRegistered) %></i></p>
 
-<p><%= t '.proof' %></p>
+<p><%= t 'registrations.print.proof' %></p>
 
 <% if @registration.assisted_digital? %>
-<h3><%= t '.accessCode_html', :code => @registration.accessCode %></h3>
+<h3><%= t 'registrations.print.accessCode_html', :code => @registration.accessCode %></h3>
 <% end %>
 
 <div class="print-section"  data-journey="waste-carriers-registration:print">
