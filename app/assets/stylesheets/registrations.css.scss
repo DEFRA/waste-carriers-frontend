@@ -20,8 +20,16 @@
 .button{
   @include button;
 }
-.button-secondary{
+.button-secondary {
   @include button($grey-3);
+}
+
+.link-button-secondary {
+  @include button($grey-3);
+}
+
+a.link-button-secondary:after {
+  content: "" !important;
 }
 
 .js .js-hidden,

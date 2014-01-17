@@ -2,28 +2,38 @@
 
 <main id="content" role="main" class="group"><article role="article" class="group">
 
-<% if !notice.nil? %>
-<!--
-// This is commented out to consume the notice but not render the content, so that is doesnt appear on another page.
-<div id="notice_explanation" class="note-summary">
-  <h2><%= t '.standard_notice' %></h2>
-  <ul>
-    <li><%= notice %></li>
-  </ul>
+<!--<h1><%= t 'registrations.form.title' %></h1>-->
+<h1 class="subtitle"><%= t '.heading' %></h1>
+<h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
+<%# render "shared/meta_phases"%>
+
+<h3 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h3>
+
+
+<!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
+
+<div id="wrapper" data-journey="waste-carriers-registration:confirmed"></div>
+
+<form action="<%=print_confirmed_url%>">
+<p class="action group">
+	<!--
+	<input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/>
+	-->
+	<%= link_to t('registrations.form.print_button_label'), print_confirmed_url, :class => 'link-button-secondary' %>
+</p>
+
+<p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
+
+<div class="finish-section js-hidden"  data-journey="waste-carriers-registration:finish">
+<%# render "details" %>
 </div>
--->
-<% end %>
 
-<h1 class="subtitle"><%= t 'registrations.finish.heading' %></h1>
+<p><%= t '.detailsChange' %></p>
 
-<p><%= t '.nowRegistered' %></p>
+<p class="action group"><input name="finish" class="button" type="submit" value="<%= t 'registrations.form.finish_button_label' %>"/></p>
 
-<p><%= t '.yourCertificate' %></p>
+<!--<p><%# t '.problems_html', :email => Rails.configuration.registrations_service_email, :subject => 'Digital%20Assistance%20Request' %></p>-->
 
-<p><%= t '.signIn_html', :link => new_user_session_path %></p>
-
-<p><%= t 'registrations.finish.detailsChange' %></p>
-
-<p class="action group"><%= link_to t('registrations.form.finish_button_label'), Rails.configuration.waste_exemplar_end_url, :class => 'button' %></p>
+</form>
 
 </article></main>

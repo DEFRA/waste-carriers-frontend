@@ -6,4 +6,7 @@
  
 <p><%= link_to 'Confirm your account', confirmation_url(@resource, :confirmation_token => @token) %></p>
 
+<p>The link above is valid for six hours. You can request this e-mail to be sent again with a new link from here: 
+<%= link_to "Send new instructions to confirm my account", new_confirmation_url(:user) %>
+<br/>
 <p>Please contact the Environment Agency helpline on 03708 506506 if you have any questions about this.</p>

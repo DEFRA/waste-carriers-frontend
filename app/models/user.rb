@@ -46,10 +46,15 @@ class User
 
   validates_strength_of :password, :with => :email
 
-  def confirm!
-    super
-    Registration.activate_registrations(self)
-  end
+## Note: now sending the e-mails from the controller...
+#  def confirm!
+#    super
+#    if confirmed?
+#      Registration.activate_registrations(self)
+#    else
+#      Rails.logger.info "Confirmation failed for user. Not activating registrations for user email = " + email
+#    end
+#  end
 
   def is_admin?
     false

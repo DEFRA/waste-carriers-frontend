@@ -44,6 +44,9 @@
 	</div>
 	<% end %>
 	<% if registration.metaData.status != "REVOKED" %>
+	<div class="actions">
+		<%= link_to 'View Certificate', print_path(registration.id) %>
+	</div>
 	<div class="actions" >
 		<%= button_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.id), :method => :get, :class => "button", :id => "delete" %>
 	</div>

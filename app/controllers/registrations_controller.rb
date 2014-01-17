@@ -71,7 +71,7 @@ class RegistrationsController < ApplicationController
       renderAccessDenied
     else
 	  # Search for users registrations
-      @registrations = Registration.find(:all, :params => {:ac => tmpUser.email})
+      @registrations = Registration.find(:all, :params => {:ac => tmpUser.email}).sort_by { |r| r.date_registered}
 	  respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -96,10 +96,6 @@ class RegistrationsController < ApplicationController
 
 #  def start
 #  end
-
-  def confirmed
-  
-  end
   
   def print
   	begin
@@ -140,7 +136,27 @@ class RegistrationsController < ApplicationController
   end
 
 
-  def print_pending
+  def confirmed
+    @user = session[:confirmed_user]
+    if !@user 
+      logger.warn "Could not retrieve the activated user. Showing 404."
+      renderNotFound
+      return
+    end
+    @registrations = Registration.find(:all, :params => {:ac => @user.email})
+    if @registrations.size > 0
+      @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
+      @registration = @sorted.first
+      session[:registration_id] = @registration.id
+    else
+      renderNotFound
+      return
+    end
+    #render the confirmed page 
+  end
+
+
+  def print_confirmed
     begin
       @registration = Registration.find(session[:registration_id])
     rescue ActiveResource::ResourceNotFound
@@ -158,7 +174,7 @@ class RegistrationsController < ApplicationController
       end
     elsif params[:back]
       logger.debug 'Default, redirecting back to Finish page'
-      redirect_to pending_url
+      redirect_to confirmed_url
     else
       render :layout => 'printview'
     end
