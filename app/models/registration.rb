@@ -614,6 +614,14 @@ class Registration < ActiveResource::Base
     end
   end
 
+  def date_registered
+    if metaData
+      metaData.dateRegistered
+    else
+      nil
+    end
+  end
+
   def self.activate_registrations(user)
     Rails.logger.info("Activating pending registrations for user with email " + user.email)
     Registration.find(:all, :params => {:ac => user.email}).each { |r| 

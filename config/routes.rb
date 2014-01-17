@@ -54,8 +54,8 @@ Registrations::Application.routes.draw do
   match "your-registration/signup" => 'registrations#newSignup', :via => [:get], :as => :newSignup
   match "your-registration/signup" => 'registrations#updateNewSignup', :via => [:post,:put,:patch]
  
-  get "your-registration/pending" => 'registrations#pending', :as => :pending 
-  match "your-registration/print" => 'registrations#print_pending', :via => [:get,:patch], :as => :print_pending
+  get "your-registration/confirm-account" => 'registrations#pending', :as => :pending 
+  match "your-registration/print" => 'registrations#print_confirmed', :via => [:get,:patch], :as => :print_confirmed
    
   get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed 
 
