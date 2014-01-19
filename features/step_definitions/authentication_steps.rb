@@ -1,9 +1,9 @@
 #step definitions for authentication
 
 Given(/^there is an activated user Joe$/) do
-  User.destroy_all(email: 'joe.activated@wastecarrier.com')
+  User.destroy_all(email: 'joe.activated@example.com')
   user = User.new
-  user.email = 'joe.activated@wastecarrier.com'
+  user.email = 'joe.activated@example.com'
   user.password = 'secret123'
   #user.send_confirmation_instructions
   #user.confirm!
@@ -17,7 +17,7 @@ end
 
 When(/^enters valid credentials for user Joe$/) do
   assert page.has_content?("Sign in")
-  fill_in "user_email", :with => 'joe.activated@wastecarrier.com'
+  fill_in "user_email", :with => 'joe.activated@example.com'
   fill_in "user_password", :with => 'secret123'
   click_button "Sign in"
 end
@@ -28,7 +28,7 @@ end
 
 When(/^enters invalid credentials for user Joe$/) do
   assert page.has_content?("Sign in")
-  fill_in "user_email", :with => 'joe.activated@wastecarrier.com'
+  fill_in "user_email", :with => 'joe.activated@example.com'
   fill_in "user_password", :with => 'secret234'
   click_button "Sign in"
 end
