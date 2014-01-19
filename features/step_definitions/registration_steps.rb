@@ -129,8 +129,8 @@ When(/^I provide valid user details for sign up$/) do
   unique_email = 'test-' + SecureRandom.urlsafe_base64 + '@example.com'
   fill_in('registration_accountEmail', :with => unique_email)
   fill_in('registration_accountEmail_confirmation', :with => unique_email)
-  fill_in('registration_password', :with => 'bloggs123')
-  fill_in('registration_password_confirmation', :with  => 'bloggs123')
+  fill_in('registration_password', :with => 'Bloggs123!')
+  fill_in('registration_password_confirmation', :with  => 'Bloggs123!')
   #click_on 'Register'
 end
 
