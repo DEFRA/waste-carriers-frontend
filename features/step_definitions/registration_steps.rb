@@ -161,7 +161,7 @@ When(/^I fill in postcode with "(.*?)"$/) do |pc|
 end
 
 Given(/^I have an activated account$/) do
-  theUsersEmail = 'joe@company.com'
+  theUsersEmail = 'joe@example.com'
   theUsersPassword = 'secret123'
   user = User.find_by_email(theUsersEmail)
   if user != nil
@@ -176,7 +176,7 @@ Given(/^I have an activated account$/) do
   user.skip_confirmation!
   user.save!
 
-  user = User.find_by_email('joe@company.com')
+  user = User.find_by_email('joe@example.com')
   assert(user, 'We need the User in the database')
 end
 
@@ -197,7 +197,7 @@ Given(/^I am not logged in$/) do
 end
 
 When(/^I provide valid user details for sign in$/) do
-  fill_in('registration_accountEmail', :with => 'joe@company.com')
+  fill_in('registration_accountEmail', :with => 'joe@example.com')
   fill_in('registration_password', :with => 'secret123')
 end
 
@@ -205,10 +205,10 @@ Given(/^I am already logged in$/) do
   #click_on "Sign in"
   visit '/users/sign_in'
   assert(page.has_content? "Sign in")
-  fill_in('user_email', :with => 'joe@company.com')
+  fill_in('user_email', :with => 'joe@example.com')
   fill_in('user_password', :with => 'secret123')
   click_button "Sign in"
-  assert(page.has_content? "Signed in as joe@company.com")
+  assert(page.has_content? "Signed in as joe@example.com")
 end
 
 When(/^proceed to the Address and Contact Details page$/) do
