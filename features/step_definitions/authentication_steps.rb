@@ -1,14 +1,13 @@
 #step definitions for authentication
 
 Given(/^there is an activated user Joe$/) do
-  if !User.where(email: 'joe.activated@wastecarrier.com').exists?
-    User.where(email: 'joe.activated@wastecarrier.com').delete
-  end
+  User.destroy_all(email: 'joe.activated@wastecarrier.com')
   user = User.new
   user.email = 'joe.activated@wastecarrier.com'
   user.password = 'secret123'
-  user.send_confirmation_instructions
-  user.confirm!
+  #user.send_confirmation_instructions
+  #user.confirm!
+  user.skip_confirmation!
   user.save!
 end
 
