@@ -171,8 +171,9 @@ Given(/^I have an activated account$/) do
   user.email = theUsersEmail
   user.password = theUsersPassword
   user.password_confirmation = theUsersPassword
-  user.send_confirmation_instructions
-  user.confirm!
+  #user.send_confirmation_instructions
+  #user.confirm!
+  user.skip_confirmation!
   user.save!
 
   user = User.find_by_email('joe@company.com')
