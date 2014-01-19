@@ -44,12 +44,12 @@ Scenario: Valid registration for existing user (account email) - sign in during 
   And I am not logged in
   And I have found out that I need to register in the lower tier
   And I provide valid individual trading name details
-  And I provide valid contact details for "joe@company.com"
+  And I provide valid contact details for "joe@example.com"
   And I confirm the declaration
   And I provide valid user details for sign in
   And I click "Next"
   Then I should see the Confirmation page
-  And it should send a Registration Confirmation email to "joe@company.com"
+  And it should send a Registration Confirmation email to "joe@example.com"
 
 Scenario: Valid registration for existing user - already logged in, no need to provide login details again
   Given I have an activated account
@@ -61,5 +61,5 @@ Scenario: Valid registration for existing user - already logged in, no need to p
   And I confirm the declaration
   And I click "Next"
   Then I should see the Confirmation page
-  And it should send a Registration Confirmation email to "joe@company.com"
+  And it should send a Registration Confirmation email to "joe@example.com"
 
