@@ -44,7 +44,7 @@ Then(/^I fill in valid contact details$/) do
   fill_in('registration_firstName', :with => 'Joe')  
   fill_in('registration_lastName', :with => 'Bloggs')  
   fill_in('registration_phoneNumber', :with => '0123 456')  
-  fill_in('registration_contactEmail', :with => 'joe@bloggs.com')  
+  fill_in('registration_contactEmail', :with => 'joe.bloggs@example.com')  
 end
 
 
@@ -93,7 +93,7 @@ When(/^I provide valid contact details$/) do
   fill_in('registration_firstName', :with => 'Joe')  
   fill_in('registration_lastName', :with => 'Bloggs')  
   fill_in('registration_phoneNumber', :with => '0123 456')  
-  fill_in('registration_contactEmail', :with => 'joe@bloggs.com')  
+  fill_in('registration_contactEmail', :with => 'joe.bloggs@example.com')  
   click_on('Next')
   #assert(page.has_content?('Check details and register'))
 end
@@ -126,7 +126,7 @@ end
 
 When(/^I provide valid user details for sign up$/) do
   #page.select('Sign up (new e-mail)', :from => 'registration_sign_up_mode')
-  unique_email = 'test-' + SecureRandom.urlsafe_base64 + '@bloggs.com'
+  unique_email = 'test-' + SecureRandom.urlsafe_base64 + '@example.com'
   fill_in('registration_accountEmail', :with => unique_email)
   fill_in('registration_accountEmail_confirmation', :with => unique_email)
   fill_in('registration_password', :with => 'bloggs123')
@@ -181,7 +181,7 @@ Given(/^I have an activated account$/) do
 end
 
 Given(/^I do not have an account yet$/) do
-    user = User.find_by_email('joe@bloggs.com')
+    user = User.find_by_email('joe.bloggs@example.com')
     if user
       user.destroy
     end
@@ -227,13 +227,13 @@ end
 Then(/^it should send me a Registration Confirmation email$/) do
   @email = ActionMailer::Base.deliveries.last
   #TODO: verify random e-mail address created above
-  @email.to.first.should include '@bloggs.com'
+  @email.to.first.should include '@example.com'
   @email.subject.should include "Waste Carrier Registration Complete"
 end
 
 Then(/^it should send me an Account Activation email$/) do
   @email = ActionMailer::Base.deliveries.last
-  @email.to.first.should include '@bloggs.com'
+  @email.to.first.should include '@example.com'
   @email.body.should include "Please select the link below to confirm your account"
 end
 
@@ -245,7 +245,7 @@ end
 
 Then(/^when I click on the activation link$/) do
   @email = ActionMailer::Base.deliveries.last
-  @email.to.first.should include '@bloggs.com'
+  @email.to.first.should include '@example.com'
   #@email.body.should include "To activate your registration account please select the following link"
   ctoken = @email.body.match(/confirmation_token=\w*/)
   visit "/users/confirmation?#{ctoken}"
