@@ -809,7 +809,12 @@
 			submitAddress();
 		});*/
 
+    	$("#sSelect").change(function(){
+    		$("#sSelect").removeAttr("size");
+    	});
+    	
     	GOVUK.performance.stageprompt.setupForGoogleAnalytics();
+    	
 
 	});
 }());
