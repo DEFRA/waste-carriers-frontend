@@ -1,9 +1,9 @@
 <% if @registration.houseNumber and  @registration.houseNumber!=""%><%=@registration.houseNumber%><%end%>
-<%=@registration.streetLine1%>,
-<% if @registration.streetLine2 and @registration.streetLine2 != "" %><%=@registration.streetLine2%>,<% end %>
-<% if @registration.streetLine3 and @registration.streetLine3 != "" %><%=@registration.streetLine3%>,<% end %>
-<% if @registration.streetLine4 and @registration.streetLine4 != "" %><%=@registration.streetLine4%>,<% end %>
-<% if @registration.townCity and  @registration.townCity!=""%><%=@registration.townCity%>,<%end%>
+<%=@registration.streetLine1%>,<%if newline%><br/><%end%>
+<% if @registration.streetLine2 and @registration.streetLine2 != "" %><%=@registration.streetLine2%>,<%if newline%><br/><%end%><% end %>
+<% if @registration.streetLine3 and @registration.streetLine3 != "" %><%=@registration.streetLine3%>,<%if newline%><br/><%end%><% end %>
+<% if @registration.streetLine4 and @registration.streetLine4 != "" %><%=@registration.streetLine4%>,<%if newline%><br/><%end%><% end %>
+<% if @registration.townCity and  @registration.townCity!=""%><%=@registration.townCity%>,<%if newline%><br/><%end%><%end%>
 <% if @registration.postcode and  @registration.postcode!=""%><%=@registration.postcode%><%end%>
 <% if @registration.country and  @registration.country!=""%><%=@registration.country%><%end%>
     
