@@ -16,7 +16,7 @@
 
 
 <fieldset>
-<legend>Business or organisation details</legend>
+<legend><%= t 'registrations.print.detailsHeading'%></legend>
 
 <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
 <%= f.label :businessType, "Business or organisation type" %>
@@ -54,10 +54,10 @@
 <!-- WF 4.3.2 -->
 <div id="page2">
 
-<h2>Address and contact details</h2>
+<h2><%= t 'registrations.print.contactHeading'%></h2>
 
 <fieldset>
-<legend>Principal (main) business, organisation or trading address</legend>
+<legend><%= t 'registrations.print.addressHeading'%></legend>
 
 
 <div id="addressSearch">

@@ -99,7 +99,7 @@
 <% end %>
 
 <p class="group">
-	<i>Registered on: <%= format_date(@registration.metaData.dateRegistered) %></i>
+	<i><%= t '.registeredOn',:date=>format_date(@registration.metaData.dateRegistered) %></i>
 	<!--<br/><i>Created by: <%= @registration.metaData.route %> (<%= @registration.routeName %>)</i>-->
 </p>
 </fieldset>

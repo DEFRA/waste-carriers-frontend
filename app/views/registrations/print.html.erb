@@ -14,7 +14,7 @@
 
 <h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 
-<p><i>Registered on: <%= format_date(@registration.metaData.dateRegistered) %></i></p>
+<p><i><%=t '.registeredOn',:date=>format_date(@registration.metaData.dateRegistered) %></i></p>
 
 <p><%= t '.proof' %></p>
 
@@ -26,28 +26,28 @@
 <%= render "details", :f => f %>
 </div>
 
-<p>Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. <% if !@registration.assisted_digital? %>You can do this by going to the website <u>www.gov.uk/waste-carrier-or-broker-registration</u> and logging in using your email and password.<% else %>You can do this by calling the Environment Agency and providing your access code.<% end %></p>
+<p><%=t '.renew_html'%><% if !@registration.assisted_digital? %><%=t '.website_html'%><% else %><%=t '.calling'%><% end %></p>
 
-<p>Please contact the Environment Agency if you have any enquiries.</p>
+<p><%= t '.enquiries'%></p>
 
 <dl class="data">
-<dt>Telephone:</dt>
+<dt><%=t '.telephone'%>:</dt>
 <dd><%= Rails.configuration.registrations_service_phone %></dd>
-<dt>Email:</dt>
+<dt><%=t '.email'%>:</dt>
 <dd><%= Rails.configuration.registrations_service_email %></dd>
 </dl>
 
 <br/><br/><br/>
 
 <div class="finish-section">
-<h3>Lower tier registration</h3>
+<h3><%=t '.lowerTierRegistration'%></h3>
 <p>
-You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 because you have declared that you meet one of the following criteria:
+<%=t '.criteriaIntro'%></p>
 <ul>
-<li>You only transport your own business waste, unless it is construction or demolition waste</li>
-<li>You are a charity or voluntary organisation</li>
-<li>You are a waste collection authority, a waste disposal authority or a waste regulation authority</li>
-<li>You only handle animal by-products, waste from a mine or quarry or waste from premises used for agriculture</li>
+<li><%=t '.criteria1'%></li>
+<li><%=t '.criteria2'%></li>
+<li><%=t '.criteria3'%></li>
+<li><%=t '.criteria4'%></li>
 </ul>
 </p>
 <br/>
@@ -55,13 +55,13 @@ You are registered as a lower tier waste carrier/broker/dealer under The Waste (
 
 <br/>
 <div class="finish-section">
-<h3>Legal responsibilities for waste</h3>
-<p>If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:</p>
+<h3><%=t '.responsibilitiesHeading'%></h3>
+<p><%=t '.responsibilitiesIntro'%></p>
 <ul>
-<li>If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier</li>
-<li>Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste</li>
-<li>Make sure any waste is safely handled and stored</li>
-<li>Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'</li>
+<li><%=t '.responsibilities1'%></li>
+<li><%=t '.responsibilities2'%></li>
+<li><%=t '.responsibilities3'%></li>
+<li><%=t '.responsibilities4'%></li>
 <ul>
 </div>
 

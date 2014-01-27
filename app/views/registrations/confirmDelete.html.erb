@@ -7,10 +7,10 @@
 
 <%= form_for @registration, :method => 'delete' do |f| %>
 
-  <p>Are you sure that you want to delete registration <b><%= @registration.companyName %></b>?</p>
+  <p><%=t '.message',:companyName=>@registration.companyName %></p>
   <p class="action group">
     <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'button-secondary' %>
-    <input id="delete" name="delete" class="button delete" type="submit" value="Delete registration"/>
+    <input id="delete" name="delete" class="button delete" type="submit" value="<%=t '.deleteLabel'%>"/>
   </p>
 <% end %>
 

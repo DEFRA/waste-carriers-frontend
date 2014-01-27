@@ -12,14 +12,14 @@ elsif d.mday == '2' || d.mday == '22'
   myExt = 'nd'
 end
 %>
-Registered on: <%= d.strftime('%A %-d'+myExt+' %B %Y') %>
+<%=t 'registration_mailer.welcome_email.registeredOn',:date=>d.strftime('%A %-d'+myExt+' %B %Y')%>
 	
 <%= t 'registrations.print.proof' %>
 
-Business or organisation details
+<%=t 'registration_mailer.welcome_email.detailsHeading'%>
 --------------------------------
 
-Contact name:
+<%=t 'registration_mailer.welcome_email.contactName'%>:
 <% if @registration.title == "other" %>
 <%= @registration.otherTitle.camelize %>
 <% else %>
@@ -27,10 +27,10 @@ Contact name:
 <% end %>
 <%= @registration.firstName %> <%= @registration.lastName %>
 
-Phone number:
+<%=t 'registration_mailer.welcome_email.phoneNumber'%>:
 <%= @registration.phoneNumber %>
 		
-Address:
+<%=t 'registration_mailer.welcome_email.address'%>:
 <%= @registration.houseNumber %> <%= @registration.streetLine1 %>
 <%= @registration.streetLine2 %>
 <%= @registration.townCity %>
@@ -42,27 +42,27 @@ Address:
 <%= @registration.townCity%>
 <%= @registration.postcode%>
 
-Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change.
-You can do this by going to the website <%= link_to 'sign in', new_user_session_url %> and logging in using your email and password.
+<%=t 'registration_mailer.welcome_email.renewal_html'%>
+<%=t 'registration_mailer.welcome_email.updateWebsite_html',:link=>link_to('sign in', new_user_session_url)%>
 
-Please contact the Environment Agency if you have any enquiries.
-Telephone: <%= Rails.configuration.registrations_service_phone %>
-Email: <%= Rails.configuration.registrations_service_email %>
+<%=t 'registration_mailer.welcome_email.enquiresMessage'%>
+<%=t 'registration_mailer.welcome_email.telephone'%> <%= Rails.configuration.registrations_service_phone %>
+<%=t 'registration_mailer.welcome_email.email'%> <%= Rails.configuration.registrations_service_email %>
 
-Lower tier registration
+<%=t 'registration_mailer.welcome_email.lowerTierRegistration'%>
 -----------------------
-You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 because you have declared that you meet one of the following criteria:
+<%=t 'registration_mailer.welcome_email.criteriaIntro'%>
 
-- You only transport your own business waste, unless it is construction or demolition waste
-- You are a charity or voluntary organisation
-- You are a waste collection authority, a waste disposal authority or a waste regulation authority
-- You only handle animal by-products, waste from a mine or quarry or waste from premises used for agriculture
+- <%=t 'registration_mailer.welcome_email.criteria1'%>
+- <%=t 'registration_mailer.welcome_email.criteria2'%>
+- <%=t 'registration_mailer.welcome_email.criteria3'%>
+- <%=t 'registration_mailer.welcome_email.criteria4'%>
 
-Legal responsibilities for waste
+<%=t 'registration_mailer.welcome_email.responsibilitiesHeading'%>
 -------------------------------------
-If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:
+<%=t 'registration_mailer.welcome_email.responsibilitiesIntro'%>
 
-- If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier
-- Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste
-- Make sure any waste is safely handled and stored
-- Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'
+- <%=t 'registration_mailer.welcome_email.responsibilities1'%>
+- <%=t 'registration_mailer.welcome_email.responsibilities2'%>
+- <%=t 'registration_mailer.welcome_email.responsibilities3'%>
+- <%=t 'registration_mailer.welcome_email.responsibilities4'%>

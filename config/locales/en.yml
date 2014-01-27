@@ -2,7 +2,53 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
-
+  agencyUsers:
+    errorHeading: "%{cause} prohibited this agency_user from being saved:"
+    updateLabel:  "Update agency user"
+    createLabel:  "Create agency user"
+    deleteText: "Are you sure that you want to delete agency user"
+    deleteLabel: "Delete agency user"
+    show: "Show"
+    back: "Back"
+    edit: "Edit"
+    delete: "Delete"
+    email: "Email"
+    actions: "Actions"
+    name: "Name"
+    newLabel: "New agency user"
+    editHeading: "Editing agency user"
+    
+  registration_mailer:
+    revoke_email:
+      p1: "To %{name} (%{id})"
+      p2: "This email is to inform you that the Environment Agency has revoked your lower tier waste carrier registration for the following reason:"
+      p3: "Please contact the Environment Agency helpline on %{phone} if you have any questions about this."
+    welcome_email:
+      registeredOn: "Registered on: %{date}"
+      detailsHeading: "Business or organisation details"
+      contactName: "Contact name"
+      phoneNumber: "Phone number"
+      address: "Address"
+      enquiresMessage: "Please contact the Environment Agency if you have any enquiries."
+      telephone: "Telephone:"
+      email: "Email:"
+      renewal_html: "Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. "
+      updateWebsite_html: "You can do this by going to the website %{link} and logging in using your email and password."
+      updatePhone: "You can do this by calling the Environment Agency and providing your access code."
+      lowerTierRegistration: "Lower tier registration"
+      criteriaIntro: "You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 because you have declared that you meet one of the following criteria:"
+      criteria1: "You only transport your own business waste, unless it is construction or demolition waste"
+      criteria2: "You are a charity or voluntary organisation"
+      criteria3: "You are a waste collection authority, a waste disposal authority or a waste regulation authority"
+      criteria4: "You only handle animal by-products, waste from a mine or quarry or waste from premises used for agriculture"
+      responsibilitiesHeading: "Legal responsibilities for waste"
+      responsibilitiesIntro: "If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:"
+      responsibilities1: "If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier"
+      responsibilities2: "Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste"
+      responsibilities3: "Make sure any waste is safely handled and stored"
+      responsibilities4: "Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'"
+      
+    
   hello: "Hello world"
   #Registration form/page(s) content
   errors:
@@ -117,6 +163,7 @@ en:
       change_password: "Change password"
       sign_out: "Sign out"
       sign_in: "Sign in"
+      sign_up: "Sign up"
       signed_in_as: "Signed in as"
       signed_in_as_agency_user: "Signed in as agency user"
       signed_in_as_admin: "Signed in as admin"
@@ -126,6 +173,7 @@ en:
   discovers:
     new:
       title: "Find out if you need to register and which category applies"
+      back: "Back"
     findAnswers:
       businessType_default: "Please select..."
       businessType_soleTrader: "Sole trader"
@@ -154,6 +202,11 @@ en:
     errors:
       error: "error"
       errorMessage: "You have %{count} on this page"
+    details:
+      heading: "Business or organisation details"
+      contactName: "Contact name"
+      phoneNumber: "Phone number"
+      address: "Address"
     business_step:
       business_or_org_details: "Business or organisation details"
     address_entry:
@@ -234,6 +287,8 @@ en:
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
     confirmDelete:
       title: "Confirm delete registration"
+      message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
+      deleteLabel: "Delete registration"
     confirmed:
       nowRegistered: "You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency."
       yourCertificate: "Your certificate and guidance have been emailed to you."
@@ -264,6 +319,28 @@ en:
       proof: "This is proof of your registration."
       isRegistered: "%{companyName} is registered as a lower tier waste carrier/broker/dealer with the Environment Agency"
       title: "Waste carrier registration certificate"
+      detailsHeading: "Business or organisation details"
+      contactHeading: "Address and contact details"
+      addressHeading: "Principal (main) business, organisation or trading address"
+      registeredOn: "Registered on: %{date}"
+      renew_html: "Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. "
+      website_html: "You can do this by going to the website <u>www.gov.uk/waste-carrier-or-broker-registration</u> and logging in using your email and password."
+      calling: "You can do this by calling the Environment Agency and providing your access code."
+      enquiries: "Please contact the Environment Agency if you have any enquiries."
+      telephone: "Telephone"
+      email: "Email"
+      lowerTierRegistration: "Lower tier registration"
+      criteriaIntro: "You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 because you have declared that you meet one of the following criteria:"
+      criteria1: "You only transport your own business waste, unless it is construction or demolition waste"
+      criteria2: "You are a charity or voluntary organisation"
+      criteria3: "You are a waste collection authority, a waste disposal authority or a waste regulation authority"
+      criteria4: "You only handle animal by-products, waste from a mine or quarry or waste from premises used for agriculture"
+      responsibilitiesHeading: "Legal responsibilities for waste"
+      responsibilitiesIntro: "If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:"
+      responsibilities1: "If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier"
+      responsibilities2: "Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste"
+      responsibilities3: "Make sure any waste is safely handled and stored"
+      responsibilities4: "Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'"
     print_confirmed:
       title: "Waste carrier registration certificate"
     userRegistrations:
@@ -277,6 +354,7 @@ en:
     nccc_edit:
       revokedQuestion: "Do you wish to revoke this registration?"
       revokedReason: "Why do you wish to revoke this registration"
+      registeredOn: "Registered on: %{date}"
     publicSearch:
       heading: "Check an organisation is registered as a waste carrier/broker/dealer"
       search_label: "Name of organisation"
@@ -295,6 +373,8 @@ en:
       distance_table_heading: "Distance"
       miles: "Miles"
       feedback_link: "Provide feedback about this service"
+      placeholder: "eg Bristol Flowers Ltd or Luton Mill"
+      filterLabel: "Filter by area (optional)"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"

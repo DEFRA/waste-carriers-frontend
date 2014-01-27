@@ -5,15 +5,15 @@
 
 <%= form_for @agency_user, :method => 'delete' do |f| %>
 
-  <p>Are you sure that you want to delete agency user <b><%= @agency_user.email %></b>?</p>
+  <p><%= t 'agencyUsers.deleteText'%> <b><%= @agency_user.email %></b>?</p>
   <p class="action group">
-    <input name="delete" class="button" type="submit" value="Delete agency user"/>
+    <input name="delete" class="button" type="submit" value="<%= t 'agencyUsers.deleteLabel'%>"/>
   </p>
 <% end %>
 
 
-<%# link_to 'Show', @agency_user %>
-<%= link_to 'Back', agency_users_path %>
+<%# link_to t('agencyUsers.show'), @agency_user %>
+<%= link_to t('agencyUsers.back'), agency_users_path %>
 
 </article>
 </main>

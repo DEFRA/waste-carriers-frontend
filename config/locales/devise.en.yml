@@ -3,6 +3,7 @@
 en:
   devise:
     confirmations:
+      resendHeading: "Resend confirmation instructions"
       confirmed: "Your account has been activated successfully and an email confirmation of your registration has been sent to you."
       confirmed_and_signed_in: "Your account was successfully confirmed. You are now signed in."
       send_instructions: "You will receive an email with instructions about how to confirm your account in a few minutes."
@@ -20,10 +21,27 @@ en:
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"
+        heading: "Confirm your account as a lower tier waste carrier/broker/dealer"
+        paragraph1: "To %{email},"
+        paragraph2: "Please select the link below to confirm your account and complete your registration as a lower tier waste carrier/broker/dealer."
+        confirmLabel: "Confirm your account"
+        paragraph3: "The link above is valid for six hours. You can request this e-mail to be sent again with a new link from here:"
+        newInstructionsLabel: "Send new instructions to confirm my account"
+        paragraph4: "Please contact the Environment Agency helpline on 03708 506506 if you have any questions about this."
       reset_password_instructions:
         subject: "Reset password instructions"
+        heading: "Register as a waste carrier: forgotten password"
+        paragraph1: "Someone has requested a link to change your password. You can do this through the link below."
+        changeLabel: "Change my password:"
+        paragraph2: "If you didn't ask for your password to be reset, please ignore this email."
+        paragraph3: "Your password won't change until you access the link above and create a new one."
       unlock_instructions:
         subject: "Unlock Instructions"
+        heading: "Register as a waste carrier: unlock account"
+        paragraph1: "To %{email},"
+        paragraph2: "Your account has been locked temporarily due to an excessive number of unsuccessful sign in attempts."
+        paragraph3: "To unlock your account straight away, please click the link below:"
+        unlockLabel: "Unlock my account"
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
@@ -33,6 +51,11 @@ en:
       send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
       updated: "Your password was changed successfully. You are now signed in."
       updated_not_active: "Your password was changed successfully."
+      heading: "Change your password"
+      confirmLabel: "Confirm new password"
+      changeLabel: "Change my password"
+      forgotHeading: "Forgot your password?"
+      sendInstructions: "Send me reset password instructions"
     registrations:
       destroyed: "Bye! Your account was successfully cancelled. We hope to see you again soon."
       signed_up: "Welcome! You have signed up successfully."
@@ -41,9 +64,17 @@ en:
       signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please open the link to activate your account."
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and click on the confirm link to finalize confirming your new email address."
       updated: "Password updated successfully."
+      changePassword: "Change password"
+      emailConfirm: "Currently waiting confirmation for: %{email}"
+      confirmMessage: "We need your current password to confirm your changes"
+      lengthMessage: "Your password must be at least eight characters long"
+      newPassword: "New password"
+      update: "Update"
+      signUp: "Sign up"
     sessions:
       signed_in: "Signed in successfully."
       signed_out: "Signed out successfully."
+      title: "Waste carrier registration, Sign in - GOV.UK"
       new:
         sign_in_heading: "Sign in"
         agency_heading: "NCCC agency login"
@@ -53,10 +84,16 @@ en:
     shared:
       links:
         forgotPassword: "Forgot your password?"
+        signIn: "Sign in"
+        signUp: "Sign up"
+        sendConfirmInstructions: "Send new instructions to confirm my account"
+        sendUnlockInstructions: "Send new instructions to unlock my account"
+        signInWith: "Sign in with %{title}"
     unlocks:
       send_instructions: "You will receive an email with instructions about how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions about how to unlock it in a few minutes."
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+      resendUnlockInstructions: "Resend unlock instructions"
   errors:
     messages:
       already_confirmed: "was already confirmed, please try signing in"

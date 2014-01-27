@@ -1,5 +1,5 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
-<h2>Resend unlock instructions</h2>
+<h2><%=t 'devise.unlocks.resendUnlockInstructions'%></h2>
 
 <div id="wrapper" data-journey="waste-carriers-registration:unlock-account"></div>
 
@@ -11,7 +11,7 @@
 
   <p class="action group">
   <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
-  <%= f.submit "Resend unlock instructions", :class => "button" %></p>
+  <%= f.submit t('devise.unlocks.resendUnlockInstructions'), :class => "button" %></p>
 <% end %>
 
 </article></main>

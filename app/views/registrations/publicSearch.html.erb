@@ -24,10 +24,10 @@
 <div class="box" data-journey="waste-carriers-registration:search-register">
 	<p class="group">
 		<label for="q"><%= t '.search_label' %></label>
-		<input id="q" name="q" type="text" placeholder="eg Bristol Flowers Ltd or Luton Mill" value="<%= params[:q]%>" />
+		<input id="q" name="q" type="text" placeholder="<%=t '.placeholder'%>" value="<%= params[:q]%>" />
 	</p>
 	<div id="onelinewrapper">
-		<label for="oneline">Filter by area (optional)</label>
+		<label for="oneline"><%=t '.filterLabel'%></label>
 		<div id="oneline">
 			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
 			<% defaultDistance='any'%>
