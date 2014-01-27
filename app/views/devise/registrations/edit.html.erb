@@ -1,7 +1,7 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <fieldset>
-<legend>Change password</legend>
+<legend><%= t 'devise.registrations.changePassword'%></legend>
 
 <% 
     if user_signed_in?
@@ -17,14 +17,14 @@
   <%= devise_error_messages! %>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <p class="group">Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+    <p class="group"><%= t 'devise.registrations.emailConfirm',:email=>resource.unconfirmed_email %></p>
   <% end %>
   
-  <p class="group<% if resource.errors[:current_password].any? %> validation<% end %>"><%= f.label :current_password %>We need your current password to confirm your changes<br />
+  <p class="group<% if resource.errors[:current_password].any? %> validation<% end %>"><%= f.label :current_password %><%=t 'devise.registrations.confirmMessage'%><br />
   <%= f.password_field :current_password %>
   </p>
 
-  <p class="group"><%= f.label :password, "New password" %>Your password must be at least eight characters long<br/>
+  <p class="group"><%= f.label :password, t('devise.registrations.newPassword') %><%=t 'devise.registrations.lengthMessage'%><br/>
   <%= f.password_field :password, :autocomplete => "off" %>
   </p>
 
@@ -33,7 +33,7 @@
 
   <p class="action group">
   <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
-  <%= f.submit "Update", :class => "button" %></p>
+  <%= f.submit t('devise.registrations.update'), :class => "button" %></p>
 <% end %>
 </fieldset>
 

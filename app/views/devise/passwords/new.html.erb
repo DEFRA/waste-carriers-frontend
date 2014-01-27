@@ -1,5 +1,5 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
-<h2>Forgot your password?</h2>
+<h2><%= t 'devise.passwords.forgotHeading'%></h2>
 
 <div id="wrapper" data-journey="waste-carriers-registration:forgot-password"></div>
 
@@ -11,7 +11,7 @@
 
   <p class="action group">
   <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
-  <%= f.submit "Send me reset password instructions", :class => "button" %></p>
+  <%= f.submit t('devise.passwords.sendInstructions'), :class => "button" %></p>
 <% end %>
 
 </article></main>

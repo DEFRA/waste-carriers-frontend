@@ -1,7 +1,7 @@
-<h2>Business or organisation details</h2>
+<h2><%=t 'registrations.details.heading'%></h2>
 <div class="clr"></div>
 <dl class="data">
-  <dt>Contact name</dt>
+  <dt><%=t 'registrations.details.contactName'%></dt>
   <dd>
   <%if @registration.title == "other"%>
   <%= @registration.otherTitle.camelize %>
@@ -10,11 +10,11 @@
   <%end%>
   <%= @registration.firstName%> <%= @registration.lastName%>
   </dd>
-  <dt>Phone number</dt>
+  <dt><%=t 'registrations.details.phoneNumber'%></dt>
   <dd><%= @registration.phoneNumber%></dd>
 </dl>
 <dl class="data">
-  <dt>Address</dt>
+  <dt><%=t 'registrations.details.address'%></dt>
   <dd><%= render "address_display",:newline=>true%></dd>
 </dl>
 

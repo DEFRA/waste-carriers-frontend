@@ -1,5 +1,5 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
-<h2>Resend confirmation instructions</h2>
+<h2><%= t 'devise.confirmations.resendHeading'%></h2>
 
 <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
   <%= devise_error_messages! %>
@@ -9,7 +9,7 @@
 
   <p class="action group">
   <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
-  <%= f.submit "Resend confirmation instructions", :class => "button" %></p>
+  <%= f.submit t('devise.confirmations.resendHeading'), :class => "button" %></p>
 <% end %>
 
 </article></main>

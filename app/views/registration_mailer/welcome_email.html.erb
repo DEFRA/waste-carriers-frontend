@@ -17,17 +17,17 @@
 	  myExt = 'nd'
 	end
 	%>
-	<p><i>Registered on: <%= d.strftime('%A %-d'+myExt+' %B %Y') %></i></p>
+	<p><i><%= t 'registration_mailer.welcome_email.registeredOn',:date=>d.strftime('%A %-d'+myExt+' %B %Y') %></i></p>
 
 	<p><%= t 'registrations.print.proof' %></p>
 	<!--
 	<p>If your details change, follow this link: <%= link_to 'sign in', new_user_session_url %> to login and amend your details.</p>
 	-->
 	<div class="print-section">
-		<h3>Business or organisation details</h3>
+		<h3><%= t 'registration_mailer.welcome_email.detailsHeading'%></h3>
 		<div class="clr"></div>
 		<dl class="data">
-		  <dt>Contact name</dt>
+		  <dt><%=t 'registration_mailer.welcome_email.contactName'%></dt>
 		  <dd>
 		  <%if @registration.title == "other"%>
 		  <%= @registration.otherTitle.camelize %>
@@ -36,50 +36,51 @@
 		  <%end%>
 		  <%= @registration.firstName%> <%= @registration.lastName%>
 		  </dd>
-		  <dt>Phone number</dt>
+		  <dt><%=t 'registration_mailer.welcome_email.phoneNumber'%></dt>
 		  <dd><%= @registration.phoneNumber%></dd>
 		</dl>
 		<dl class="data">
-		  <dt>Address</dt>
+		  <dt><%= t 'registration_mailer.welcome_email.address'%></dt>
 		  <dd><%= @registration.houseNumber %> <%= @registration.streetLine1 %><br /><% if @registration.streetLine2 != "" %><%= @registration.streetLine2 %><br /><% end %><%= @registration.townCity%><br /><%= @registration.postcode%></dd>
 		</dl>
 		<div class="clr"></div>
 		<div class="clr"></div>
 	</div>
 	
-	<p>Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. <% if !@registration.assisted_digital? %>You can do this by going to the website <%= link_to 'sign in', new_user_session_url %> and logging in using your email and password.<% else %>You can do this by calling the Environment Agency and providing your access code.<% end %></p>
+	<p><%= t 'registration_mailer.welcome_email.renew_html'%><% if !@registration.assisted_digital? %><%=t 'registration_mailer.welcome_email.updateWebsite_html',:link=>link_to('sign in', new_user_session_url)%><% else %><%=t 'registration_mailer.welcome_email.updatePhone'%><% end %></p>
 
     <div class="finish-section">
-		<p>Please contact the Environment Agency if you have any enquiries.</p>
+		<p><%= t 'registration_mailer.welcome_email.enquiresMessage'%></p>
 		<dl class="data">
-		<dt>Telephone:</dt>
+		<dt><%= t 'registration_mailer.welcome_email.telephone'%></dt>
 		<dd><%= Rails.configuration.registrations_service_phone %></dd>
-		<dt>Email:</dt>
+		<dt><%= t 'registration_mailer.welcome_email.email'%></dt>
 		<dd><%= Rails.configuration.registrations_service_email %></dd>
 		</dl>
 	</div>
 
 	<div class="finish-section">
-		<h3>Lower tier registration</h3>
+		<h3><%=t 'registration_mailer.welcome_email.lowerTierRegistration'%></h3>
 		<p>
-		You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 because you have declared that you meet one of the following criteria:
+		<%=t 'registration_mailer.welcome_email.criteriaIntro'%>
+		</p>
 		<ul>
-		<li>You only transport your own business waste, unless it is construction or demolition waste</li>
-		<li>You are a charity or voluntary organisation</li>
-		<li>You are a waste collection authority, a waste disposal authority or a waste regulation authority</li>
-		<li>You only handle animal by-products, waste from a mine or quarry or waste from premises used for agriculture</li>
+		<li><%=t 'registration_mailer.welcome_email.criteria1'%></li>
+		<li><%=t 'registration_mailer.welcome_email.criteria2'%></li>
+		<li><%=t 'registration_mailer.welcome_email.criteria3'%></li>
+		<li><%=t 'registration_mailer.welcome_email.criteria4'%></li>
 		</ul>
 		</p>
     </div>
 
 	<div class="finish-section">
-		<h3>Legal responsibilities for waste</h3>
-		<p>If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:</p>
+		<h3><%=t 'registration_mailer.welcome_email.responsibilitiesHeading'%></h3>
+		<p><%=t 'registration_mailer.welcome_email.responsibilitiesIntro'%></p>
 		<ul>
-		<li>If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier</li>
-		<li>Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste</li>
-		<li>Make sure any waste is safely handled and stored</li>
-		<li>Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'</li>
+		<li><%=t 'registration_mailer.welcome_email.responsibilities1'%></li>
+		<li><%=t 'registration_mailer.welcome_email.responsibilities2'%></li>
+		<li><%=t 'registration_mailer.welcome_email.responsibilities3'%></li>
+		<li><%=t 'registration_mailer.welcome_email.responsibilities4'%></li>
 		<ul>
 	</div>
 
