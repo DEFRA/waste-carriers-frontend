@@ -1,7 +1,7 @@
 <%= yield :top_of_page %>
 <!DOCTYPE html>
-<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+<!--[if lt IE 9]><html class="lte-ie8" lang="<%=I18n.locale%>"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="<%=I18n.locale%>"><!--<![endif]-->
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
@@ -89,14 +89,14 @@
       <div class="header-wrapper">
         <div class="header-global">
           <div class="header-logo">
-            <a href="https://www.gov.uk/" title="Go to the GOV.UK homepage" id="logo" class="content">
+            <a href="https://www.gov.uk/" title="<%=t 'global.headerLinkTitle'%>" id="logo" class="content">
               <img src="<%= asset_path 'gov.uk_logotype-2x.png' %>" alt="GOV.UK">
             </a>
           </div>
 
           <%= yield :inside_header %>
           <div class="header-heading">
-          	<div class="h1">Register as a waste carrier &nbsp;<span class="beta">beta</span></div>
+          	<div class="h1"><%= t 'global.siteHeader_html'%></div>
           </div>
         </div>
       </div>
@@ -105,14 +105,14 @@
     <% end %>
     
     <div id="global-beta-message">
-      <p><b>BETA:</b> this is a new service. Please give us your feedback once you have finished.</p>
+      <p><%=t 'global.betaMessage_html'%></p>
     </div>
 
     <div id="global-cookie-message">
       <% if content_for?(:cookie_message) %>
         <%= yield :cookie_message %>
       <% else %>
-        <p>GOV.UK uses cookies to make the site simpler. <a href="http://www.environment-agency.gov.uk/help/35770.aspx">Find out more about cookies</a></p>
+        <p><%=t 'global.cookieMessage_html'%></p>
       <% end %>
     </div>
 
@@ -127,10 +127,10 @@
 
         <%#= render "shared/session_info" %>
         
-        Helpline<br/>
-        England: <%= Rails.configuration.registrations_service_phone %> (Environment Agency)<br/>
-        Wales: <%= Rails.configuration.registrations_cy_service_phone %> (Natural Resources Wales)<br/>
-        <a href="<%= Rails.configuration.waste_exemplar_eaPrivacyCookies_url%>" target="_blank">Privacy and cookies</a>
+        <%=t 'global.helpline'%><br/>
+        <%=t 'global.england'%>: <%= Rails.configuration.registrations_service_phone %> <%=t 'global.bracketsEA'%><br/>
+        <%=t 'global.wales'%>: <%= Rails.configuration.registrations_cy_service_phone %> <%=t 'global.bracketsNRW'%><br/>
+        <a href="<%= Rails.configuration.waste_exemplar_eaPrivacyCookies_url%>" target="_blank"><%=t 'global.privacyAndCookies'%></a>
 
         <div class="footer-meta">
           <div class="footer-meta-inner">
@@ -138,12 +138,12 @@
 
             <div class="open-government-licence">
               <h2><a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2"><img src="<%= asset_path 'open-government-licence_2x.png' %>" alt="OGL"></a></h2>
-              <p>All content is available under the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2">Open Government Licence v2.0</a>, except where otherwise stated</p>
+              <p><%=t 'global.footerLicence_html'%></p>
             </div>
           </div>
 
           <div class="copyright">
-            <a href="http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm">&copy; Crown Copyright</a>
+            <%=t 'global.footerCopyright_html'%>
           </div>
         </div>
       </div>

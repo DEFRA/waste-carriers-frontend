@@ -2,6 +2,8 @@ require 'active_resource'
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
+  
+  before_action :set_i18n_locale_from_params
 
   before_filter :validate_session_total_timeout!
   before_filter :validate_session_inactivity_timeout!
@@ -10,8 +12,25 @@ class ApplicationController < ActionController::Base
 
   ## TODO activate filter (fix for pen test issue 3.4)
   before_filter :set_no_cache
+  
 
   include ApplicationHelper
+
+  def set_i18n_locale_from_params
+    if params[:locale]
+      if I18n.available_locales.map(&:to_s).include?(params[:locale])
+        I18n.locale = params[:locale]
+        logger.debug "locale set to: #{params[:locale]}"
+      else
+        flash.now[:notice] = "#{params[:locale]} translation not available"
+        logger.error flash.now[:notice]
+      end
+    end
+  end
+  
+  def default_url_options
+    {locale: I18n.locale}
+  end
 
   def after_sign_out_path_for(resource_or_scope)
   	logger.info 'Signout function'
