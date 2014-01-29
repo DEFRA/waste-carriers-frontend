@@ -2,6 +2,38 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  global:
+    siteHeader_html: "Register as a waste carrier &nbsp;<span class='beta'>beta</span>"
+    headerLinkTitle: "Go to the GOV.UK homepage"
+    betaMessage_html: "<b>BETA:</b> this is a new service. Please give us your feedback once you have finished."
+    cookieMessage_html: "GOV.UK uses cookies to make the site simpler. <a href='http://www.environment-agency.gov.uk/help/35770.aspx'>Find out more about cookies</a>"
+    helpline: "Helpline"
+    england: "England"
+    wales: "Wales"
+    bracketsEA: " (Environment Agency)"
+    bracketsNRW: "(Natural Resources Wales)"
+    privacyAndCookies: "Privacy and cookies"
+    footerLicence_html: "All content is available under the <a href='http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2'>Open Government Licence v2.0</a>, except where otherwise stated"
+    footerCopyright_html: "<a href='http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm'>&copy; Crown Copyright</a>"
+    timeout:
+      heading: "Your session has expired"
+      message1: "This service times out after 20 minutes of inactivity, or you may not have cookies enabled in your browser."
+      message2_html: "<a href='/registrations/find'>Start your registration from the beginning</a>"
+      message3_html: "If you have completed your registration, you can <a href='/users/sign_in'>sign in</a> to view or amend your existing certificates."
+    unauthorised:
+      heading: "You are not authorised to access this page"
+      message: "You may have mistyped the address or the page may have moved."
+    notfound:
+      heading: "This page cannot be found"
+      message: "You may have mistyped the address or the page may have moved."
+    rejected:
+      heading: "The change you wanted was rejected."
+      message: "Maybe you tried to change something you didn't have access to."
+    serverError:
+      message: "We're sorry, but something went wrong."
+    unavailable:
+      heading: "We're sorry, but it looks like the service is unavailable at this time"
+      message_html: "Try again later or if problems persist contact:<br/><a href='#'>registrations@wastecarriersregistration.service.gov.uk</a>"
   agencyUsers:
     errorHeading: "%{cause} prohibited this agency_user from being saved:"
     updateLabel:  "Update agency user"
