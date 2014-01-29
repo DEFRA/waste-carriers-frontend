@@ -38,6 +38,7 @@ en:
     errorHeading: "%{cause} prohibited this agency_user from being saved:"
     updateLabel:  "Update agency user"
     createLabel:  "Create agency user"
+    deleteHeading: "Confirm delete agency user"
     deleteText: "Are you sure that you want to delete agency user"
     deleteLabel: "Delete agency user"
     show: "Show"
