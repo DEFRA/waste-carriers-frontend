@@ -58,11 +58,6 @@ ln -s "${RELEASE_DIR}" live
 echo "Copying new code to ${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/"
 cp -pr ${WCRS_FRONTEND_SOURCE}/* "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/"
 
-## Preserve the jenkins build number file.
-if [ -f "${WCRS_FRONTEND_SOURCE}/jenkins_build_number" ]; then
-  cp "${WCRS_FRONTEND_SOURCE}/jenkins_build_number" "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/conf/"
-fi
-
 ## Create a backup of the codedrop if on the dev server.
 if [ ! -d "${WCRS_FRONTEND_HOME}/baselines" ]; then
   mkdir "${WCRS_FRONTEND_HOME}/baselines"
