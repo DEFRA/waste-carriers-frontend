@@ -59,9 +59,13 @@ GOVUK.performance.stageprompt = (function () {
 }());
 
 GOVUK.performance.sendGoogleAnalyticsEvent = function (category, event, label) {
-  if (window.ga && typeof(window.ga) === 'function') {
-    ga('send', 'event', category, event, label);
-  } else {
-    _gaq.push(['_trackEvent', category, event, label, undefined, true]);
+//  if (window.ga && typeof(window.ga) === 'function') {
+//    ga('send', 'event', category, event, label);
+//  } else {
+//    _gaq.push(['_trackEvent', category, event, label, undefined, true]);
+//  }
+
+  if (window.dataLayer) {
+    dataLayer.push({'event':'stageprompt', 'eventCategory':category, 'eventAction':event , 'eventLabel':label})
   }
 };
