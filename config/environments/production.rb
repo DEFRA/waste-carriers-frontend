@@ -84,4 +84,8 @@ Registrations::Application.configure do
     :enable_starttls_auto => true
   }
 
+  #The Google Tag Manager ID used with Google Analytics and the Google Tag Manager.
+  #We use a different ID in production vs development; this here is the production ID.
+  config.google_tag_manager_id = 'GTM-5DSHV4'
+
 end

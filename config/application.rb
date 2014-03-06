@@ -123,8 +123,13 @@ module Registrations
     #Titles. Please also edit locale-specific values in localisation files.
     config.registration_titles = %w[mr mrs miss ms dr other]
 
-    #Tracking using Google Analytics should be performed only in Production
+    #Tracking using Google Analytics; must be performed only in Production, but is optional in development
+    #(and uses a different Google Tag Manager ID - see below)
     config.use_google_analytics = ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] || Rails.env.production?
+
+    #The Google Tag Manager ID used with Google Analytics and the Google Tag Manager.
+    #We use a different ID in production; this here is the development ID.
+    config.google_tag_manager_id = 'GTM-W27LBD'
 
     #Total (a.k.a. global) session timeout - total session duration
     config.app_session_total_timeout = 8.hours
