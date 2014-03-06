@@ -20,6 +20,6 @@
     <%= f.password_field :password %>
   </p>
   <p class="action group">
-    <input name="next" class="button" type="submit" value="<%if @agency_user.persisted?%><%=t 'agencyUsers.updateLabel'%><%else%><%=agencyUsers.createLabel%><%end%>"/>
+    <input name="next" class="button" type="submit" value="<%if @agency_user.persisted?%><%=t 'agencyUsers.updateLabel'%><%else%><%=t 'agencyUsers.createLabel'%><%end%>"/>
   </p>
 <% end %>

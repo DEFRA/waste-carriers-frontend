@@ -1,5 +1,5 @@
 Registrations::Application.routes.draw do
-  scope '(:locale)' do
+  #scope '(:locale)' do
 	  devise_for :users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations", :confirmations => "confirmations"}
 	    as :user do
 	      get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'    
@@ -66,7 +66,7 @@ Registrations::Application.routes.draw do
 	  #end
 	  
 	  resources :discovers
-  end
+#  end
   
   resources :agency_users
 
