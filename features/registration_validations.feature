@@ -1,3 +1,4 @@
+@validations
 Feature: Validation of registrations
 
 As the service owner
@@ -31,16 +32,19 @@ Scenario: Missing business or organisation type
   And I click "Next"
   Then I should see an error with "Business or organisation type must be completed"
 
+
 Scenario: Missing Trading Name
   When I begin a registration as an Individual
   And I click "Next"
   Then I should see an error with "Business, organisation or trading name must be completed"
+
 
 Scenario: Invalid Trading Name
   When I begin a registration as an Individual
   And I fill in company name with "%^&*"
   And I click "Next"
   Then I should see an error with "Business, organisation or trading name can only contain alpha numeric characters and be no longer than 70 characters"
+
 
 Scenario: Missing mandatory fields on the Address and Contact Details page
   When I begin a registration as an Individual
@@ -62,12 +66,23 @@ Scenario: Invalid house number
   And proceed to the Address and Contact Details page
   And I prepare to enter an address manually
   And I fill in house number with "12£"
+  And I click "Next"
   Then I should see an error with "Building name or number"
+
+Scenario: Valid house number - long house numbers (up to 35 characters) are allowed
+  When I begin a registration as an Individual
+  And proceed to the Address and Contact Details page
+  And I prepare to enter an address manually
+  And I fill in house number with "Very long house name here 123"
+  And I click "Next"
+  Then I should see no error with "Building name or number"
+
 
 Scenario: Invalid postcode
   When I begin a registration as an Individual
   And proceed to the Address and Contact Details page
   And I prepare to enter an address manually
   And I fill in postcode with "W1"
+  And I click "Next"
   Then I should see an error with "Postcode"
 
