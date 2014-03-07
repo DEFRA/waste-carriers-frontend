@@ -140,7 +140,17 @@ When(/^I begin a registration$/) do
 end
 
 Then(/^I should see an error with "(.*?)"$/) do |some_text|
-  assert(page.has_content?(some_text))
+  #save_and_open_page
+  within(:css, "div#error_explanation") do
+    assert(page.has_content?(some_text))
+  end
+end
+
+Then(/^I should see no error with "(.*?)"$/) do |some_text|
+  #save_and_open_page
+  within(:css, "div#error_explanation") do
+    assert(page.has_no_content?(some_text))
+  end
 end
 
 When(/^I begin a registration as an Individual$/) do

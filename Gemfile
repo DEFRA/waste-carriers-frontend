@@ -73,6 +73,8 @@ group :test, :development do
 
   #needed for headless testing with Javascript
   gem 'capybara-webkit'
+
+  gem "launchy", "~> 2.4.2", :require => false
 end
 
 #cross-browser testing using saucelabs

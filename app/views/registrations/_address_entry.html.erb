@@ -7,7 +7,7 @@
     <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
         <%= validation_for(@registration, :houseNumber) %>
         <%= f.label :houseNumber %>
-        <%= f.text_field :houseNumber, :size => 10, :maxlength => 10 %>
+        <%= f.text_field :houseNumber, :size => 20, :maxlength => 35 %>
     </p>
   <%else%>
     <input type="hidden" name="registration[addressMode]" value="manual-foreign"/>
