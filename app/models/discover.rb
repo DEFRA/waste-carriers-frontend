@@ -1,24 +1,27 @@
 class Discover
   include ActiveModel::Model
-  
-  attr_accessor :id, :businessType, :otherBusinesses, :onlyAMF, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other, :wasteType_none
-  
+
+  attr_accessor :id, :businessType, :otherBusinesses, :isMainService, :onlyAMF, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other, :wasteType_none
+
   # businessType must be present
   validate :validate_businessType
-  
+
   # otherBusinesses must be present if businessType is present and has a value of "soleTrader" || "partnership" || "limitedCompany" || "publicBody"
   validates_presence_of :otherBusinesses, :if => lambda { |o| !o.businessType.nil? && (o.businessType == "soleTrader" || o.businessType == "partnership" || o.businessType == "limitedCompany" || o.businessType == "publicBody") }
-  
-  # onlyAMF must be present if otherBusinesses is no
+
+  # isMainService must be present if otherBusinesses is yes
+  validates_presence_of :isMainService, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" }
+
+  # onlyAMF must be present if otherBusinesses is yes
   validates_presence_of :onlyAMF, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" }
-  
+
   # construction waste must be present if otherBusinesses is no
   validates_presence_of :constructionWaste, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "no" }
-  
+
   # wastetype must be present if construction waste is no, plus ensure that all other checkboxes are not selected
   # Remove waste type validation as field removed
   #validate :validate_not_apply, :if => lambda { |o| !o.constructionWaste.nil? && o.constructionWaste == "no" }
-  
+
   def validate_not_apply
     if wasteType_none == "1"
       if wasteType_animal == "1" || wasteType_mine == "1" || wasteType_farm == "1" || wasteType_other == "1"
@@ -31,16 +34,16 @@ class Discover
       errors.add(:wasteType, 'must select at least one option')
     end
   end
-  
+
   def persisted?
     self.id == 1
   end
-  
+
   def initialize(attributes={})
     super
     @omg ||= true
   end
-  
+
   def validate_businessType
     if businessType == ""
       Rails.logger.debug 'businessType is empty'
@@ -50,7 +53,7 @@ class Discover
       errors.add(:businessType, I18n.t('errors.messages.invalid_selection') )
     end
   end
-  
+
   def isUpper?
     # Check if submission is for upper tier
     # 1. If onlyAMF is no
@@ -61,11 +64,11 @@ class Discover
     elsif constructionWaste == "yes"
       Rails.logger.info "Is Upper Tier found (constructionWaste)"
       true
-    else 
+    else
       false
     end
   end
-  
+
 #  def isUpper?
 #    # Check if submission is for upper tier
 #    # 1. If other businesses is yes
@@ -77,7 +80,7 @@ class Discover
 #    elsif constructionWaste == "yes"
 #      Rails.logger.info "Is Upper Tier found (constructionWaste)"
 #      true
-#    else 
+#    else
 #      # Count number of selected checkboxes
 #      count = 0
 #      if wasteType_animal == "1"
@@ -100,5 +103,5 @@ class Discover
 #      end
 #    end
 #  end
-  
+
 end

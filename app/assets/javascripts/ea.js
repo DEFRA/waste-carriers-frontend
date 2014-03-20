@@ -54,7 +54,7 @@
 		if(address==="")return;
 
 		//$("#addressDisplay").html(addressLookup[address]);
-		
+
 		var addressObject = addressLookup[address];
 		$("#registration_houseNumber").val(addressObject.houseNumber);
 		$("#registration_streetLine1").val(addressObject.streetLine1);
@@ -153,7 +153,7 @@
 
 
 			updateSummaryWithData(data,elem);
-			
+
 			var div = document.createElement("div");
 			var $div = $(div);
 			$div.addClass("view");
@@ -163,7 +163,7 @@
 			var $a = $(a);
 			$a.attr("href","#");
 			$div.append(a);
-			
+
 			if (data.mdStatus == "REVOKED") {
 				var pStatus = document.createElement("div");
 				var $pStatus = $(pStatus);
@@ -178,32 +178,32 @@
 				$pStatus.html("Status: Pending");
 				$div.append(pStatus);
 			}
-			
+
 			$a.click(authorViewDetail(detailElem,a));
 			$a.click(resetAll() );
-			
+
 			new Tooltip(detailElem.parentNode,$elem.html(),function(){
 				return $(detailElem).css("display") === "none";
 			});
-			
+
 			$elem.parent().parent().parent().parent()
 			  .mouseenter(function() {
 			    // Hide all details boxes
 			    resetAll();
-			    
+
 			    // Show this specific details box
 			    $(detailElem).css("display","block");
 			    $(detailElem).parent().parent().css("display","block");
-			    
+
 			    $(detailElem).parent().parent().parent().css("background-color", "#FFCC99");//orange
-			    
+
 			    // Reset link to a Hide link
 			    $(a).html("Hide details");
 			  });
-			
+
 		});
 	}
-	
+
 	function resetAll(){
 		$("#reg-search-result .detail .data").each(function(index,elem){
 			// hide all details boxes
@@ -213,7 +213,7 @@
 			$(detailElem).parent().parent().css("display","none");
 			$(detailElem).parent().parent().parent().css("background-color","rgb(222, 224, 226)");//grey
 		});
-		
+
 		$("#reg-search-result .box .view a").each(function(index,elem){
 			// revert all text links to default
 			$(elem).html("View details");
@@ -221,9 +221,9 @@
 	}
 
 	function authorViewDetail(elem,a){
-		
-		
-		
+
+
+
 		var shown = true;
 		return function(e){
 			// reset all details to hidden
@@ -234,7 +234,7 @@
 				$(a).html("Hide details");
 				// display/hide new details
 				$(elem).parent().parent().css("display","block");
-				
+
 			}else{
 				$(elem).css("display","none");
 				$(a).html("View details");
@@ -363,7 +363,7 @@
 			$("#advanced-options").css("display","none");
 		}
 	}
-	
+
 	function updateTitleOther(){
 		var show = $('#registration_title').val() == "other";
 		if(show){
@@ -372,46 +372,7 @@
 			$('#titleOtherWrapper').addClass("js-hidden");
 		}
 	}
-	
-	function smarterAnswersQuestion1(){
-		var tmpVal = $('#discover_businessType').val();
-		// Show Question2: Only if business type is a sole trader, partnership, limited company or public body
-		var showQ2 = tmpVal == "soleTrader" || tmpVal == "partnership" || tmpVal == "limitedCompany" || tmpVal == "publicBody";
-		if (showQ2) {
-			$('#discover_otherBusinesses').removeClass("js-hidden");
-		} else {
-			// Question 1 has changed, Reset Other answers
-            $('#new_discover input[type="radio"]').prop('checked', false);      // Find all radios and uncheck
-            smarterAnswersQuestion2();   // Run logic on subsequent questions
-            smarterAnswersQuestion3(); 
-            smarterAnswersQuestion5(); 
-            
-			$('#new_discover input[type="checkbox"]').prop('checked', false);   // Find all checkboxes and uncheck
-			//smarterAnswersQuestion4();			// commented out as sa4 not used
-			
-			$('#discover_otherBusinesses').addClass("js-hidden");
-		}
-		
-		// Show Contact EA Text if Other selected
-		var showContact = tmpVal == "other";
-		if (showContact) {
-			$('#new_discover #contactText').removeClass("js-hidden");
-		} else {
-			$('#new_discover #contactText').addClass("js-hidden");
-		}
-		
-		// Show LowerTier Text: Only if business type is a charity, or a waste authority
-		var showLower = tmpVal == "charity" || tmpVal == "collectionAuthority" || tmpVal == "disposalAuthority" || tmpVal == "regulationAuthority";
-		if (showLower) {
-			$('#new_discover #lowerText').removeClass("js-hidden");
-		} else {
-			$('#new_discover #lowerText').addClass("js-hidden");
-			
-			// Question 1 has changed, Check Other answers
-			smarterAnswersQuestion2();
-		}
-	}
-	
+
 	/**
 	* Helper function to determine browser version
 	*/
@@ -422,107 +383,110 @@
 		}
 		return false;
 	}
-	
-	function smarterAnswersQuestion2(){
-		// Show Only-AMF Only if otherBusinesses is yes
-		var showOnlyAMF = $('#discover_otherBusinesses_yes').is(':checked');
-		if (showOnlyAMF) {
-			// Uncheck question 3, re run logic for 3 then 5
-			$('#new_discover #discover_constructionWaste input[type="radio"]').prop('checked', false);
-			smarterAnswersQuestion3();   // Run logic on subsequent questions
-			smarterAnswersQuestion5();
-			
-			$('#discover_onlyAMF').removeClass("js-hidden");
-			
+
+	function smartAnswerBusinessType(){
+		var tmpVal = $('#discover_businessType').val();
+		// Show WhoseWaste: Only if business type is a sole trader, partnership, limited company or public body
+		var showWhoseWaste = tmpVal == "soleTrader" || tmpVal == "partnership" || tmpVal == "limitedCompany" || tmpVal == "publicBody";
+		if (showWhoseWaste) {
+			$('#discover_otherBusinesses').removeClass("js-hidden");
 		} else {
-			$('#discover_onlyAMF').addClass("js-hidden");
+			// BusinessType has changed, Reset Other answers
+            $('#new_discover input[type="radio"]').prop('checked', false);      // Find all radios and uncheck
+            smartAnswerWhoseWaste();   // Run logic on subsequent questions
+            smartAnswerServiceProvided();
+            smartAnswerConstructionDemolition();
+            smartAnswerOnlyAnimalMineFarmWaste();
+
+			$('#new_discover input[type="checkbox"]').prop('checked', false);   // Find all checkboxes and uncheck
+
+			$('#discover_otherBusinesses').addClass("js-hidden");
 		}
-		
-		// Show Question3: Only if otherBusinesses is no
-		var showQ3 = $('#discover_otherBusinesses_no').is(':checked');
-		if (showQ3) {
-			
-			// Uncheck question 5, re run logic for 5 then 3
-			$('#new_discover #discover_onlyAMF input[type="radio"]').prop('checked', false);
-			smarterAnswersQuestion5();   // Run logic on subsequent questions
-			smarterAnswersQuestion3();
-			
+
+		// Show Contact EA Text if Other selected
+		var showContact = tmpVal == "other";
+		if (showContact) {
+			$('#new_discover #contactText').removeClass("js-hidden");
+		} else {
+			$('#new_discover #contactText').addClass("js-hidden");
+		}
+
+		// Show LowerTier Text: Only if business type is a charity, or a waste authority
+		var showLower = tmpVal == "charity" || tmpVal == "collectionAuthority" || tmpVal == "disposalAuthority" || tmpVal == "regulationAuthority";
+		if (showLower) {
+			$('#new_discover #lowerText').removeClass("js-hidden");
+		} else {
+			$('#new_discover #lowerText').addClass("js-hidden");
+
+			// BusinessType has changed, Check Other answers
+			smartAnswerWhoseWaste();
+		}
+	}
+
+	function smartAnswerWhoseWaste(){
+		// Show ServiceProvided Only if otherBusinesses is yes
+		var showServiceProvided = $('#discover_otherBusinesses_yes').is(':checked');
+		if (showServiceProvided) {
+			// Uncheck question ConstructionDemolition, re run logic for it then ServiceProvided
+			$('#new_discover #discover_constructionWaste input[type="radio"]').prop('checked', false);
+			smartAnswerConstructionDemolition();   // Run logic on subsequent questions
+			smartAnswerServiceProvided();
+
+			$('#discover_isMainService').removeClass("js-hidden");
+
+		} else {
+			$('#discover_isMainService').addClass("js-hidden");
+		}
+
+		// Show ConstructionDemolition: Only if otherBusinesses is no
+		var showConstructionDemolition = $('#discover_otherBusinesses_no').is(':checked');
+		if (showConstructionDemolition) {
+
+			// Uncheck question ServiceProvided, re
+			// run logic for it then ConstructionDemolition
+			$('#new_discover #discover_isMainService input[type="radio"]').prop('checked', false);
+			smartAnswerServiceProvided();   // Run logic on subsequent questions
+			smartAnswerConstructionDemolition();
+
 			$('#discover_constructionWaste').removeClass("js-hidden");
 		} else {
 			$('#discover_constructionWaste').addClass("js-hidden");
 		}
 	}
-	
-	function smarterAnswersQuestion3(){
-		// Show LowerTier Text Only if constructionWaste is no
-		var showLower = $('#discover_constructionWaste_no').is(':checked');
-		if (showLower) {
-			$('#new_discover #lowerText').removeClass("js-hidden");
+
+	function smartAnswerServiceProvided(){
+
+		// Show Only-AMF Only if isMainService is yes
+		var showOnlyAMF = $('#discover_isMainService_yes').is(':checked');
+		if (showOnlyAMF) {
+			// Uncheck question ConstructionDemolition, re run logic for it then OnlyAnimalMineFarmWaste
+			$('#new_discover #discover_constructionWaste input[type="radio"]').prop('checked', false);
+			smartAnswerConstructionDemolition();   // Run logic on subsequent questions
+			smartAnswerOnlyAnimalMineFarmWaste();
+
+			$('#discover_onlyAMF').removeClass("js-hidden");
+
 		} else {
-			$('#new_discover #lowerText').addClass("js-hidden");
+			$('#discover_onlyAMF').addClass("js-hidden");
 		}
-		
-		// Show UpperTier Text Only if constructionWaste is yes
-		var showUpper = $('#discover_constructionWaste_yes').is(':checked');
-		if (showUpper) {
-			$('#new_discover #upperText').removeClass("js-hidden");
+
+		// Show ConstructionDemolition: Only if isMainService is no
+		var showConstructionDemolition = $('#discover_isMainService_no').is(':checked');
+		if (showConstructionDemolition) {
+
+			// Uncheck question OnlyAnimalMineFarmWaste, re
+			// run logic for it then ConstructionDemolition
+			$('#new_discover #discover_onlyAMF input[type="radio"]').prop('checked', false);
+			smartAnswerOnlyAnimalMineFarmWaste();   // Run logic on subsequent questions
+			smartAnswerConstructionDemolition();
+
+			$('#discover_constructionWaste').removeClass("js-hidden");
 		} else {
-			$('#new_discover #upperText').addClass("js-hidden");
+			$('#discover_constructionWaste').addClass("js-hidden");
 		}
 	}
-	
-	function smarterAnswersQuestion4(){
-		if (window.console) console.log('SA Q4');
-		var tmpNoneVal = $('#discover_wasteType_none:checked').val();
-		var isNone = tmpNoneVal == "1";
-		// If none selected: Uncheck all other fields, and show need not apply message
-		if (isNone) {
-			var animalCheck = $('#discover_wasteType_animal');
-			var mineCheck = $('#discover_wasteType_mine');
-			var farmCheck = $('#discover_wasteType_farm');
-			var otherCheck = $('#discover_wasteType_other');
-			animalCheck.attr('checked', false);
-			mineCheck.attr('checked', false);
-			farmCheck.attr('checked', false);
-			otherCheck.attr('checked', false);
-			$('#new_discover #notRegisterText').removeClass("js-hidden");
-		}
-		else {
-			$('#new_discover #notRegisterText').addClass("js-hidden");
-		}
-		
-		var tmpAnimalVal = $('#discover_wasteType_animal:checked').val();
-		var tmpMineVal = $('#discover_wasteType_mine:checked').val();
-		var tmpFarmVal = $('#discover_wasteType_farm:checked').val();
-		var tmpOtherVal = $('#discover_wasteType_other:checked').val();
-		
-		var isAnimal = tmpAnimalVal == "1";
-		var isMine = tmpMineVal == "1";
-		var isFarm = tmpFarmVal == "1";
-		var isOther = tmpOtherVal == "1";
-		
-		// Show Upper tier if 2 or more are selected
-		if ( (isAnimal && isMine) || (isAnimal && isFarm) || (isAnimal && isOther) || (isMine && isFarm) || (isMine && isOther) || (isFarm && isOther) ) 
-		{
-			// Show Upper tier Text (hide lower)
-			$('#new_discover #lowerText').addClass("js-hidden");
-			$('#new_discover #upperText').removeClass("js-hidden");
-		}
-		// Show Lower tier if only 1 selected
-		else if ( (isAnimal) || (isMine) || (isFarm) || (isOther)) {
-			// Show Lower tier text (hide upper)
-			$('#new_discover #upperText').addClass("js-hidden");
-			$('#new_discover #lowerText').removeClass("js-hidden");
-		}
-		else {
-			// Hide both upper and lower
-			$('#new_discover #lowerText').addClass("js-hidden");
-			$('#new_discover #upperText').addClass("js-hidden");
-		}
-		
-	}
-	
-	function smarterAnswersQuestion5(){
+
+	function smartAnswerOnlyAnimalMineFarmWaste(){
 		// Show UpperTier Text Only if onlyAMF is no
 		var showUpper = $('#discover_onlyAMF_no').is(':checked');
 		if (showUpper) {
@@ -530,7 +494,7 @@
 		} else {
 			$('#new_discover #upperText').addClass("js-hidden");
 		}
-		
+
 		// Show LowerTier Text Only if onlyAMF is yes
 		var showLower = $('#discover_onlyAMF_yes').is(':checked');
 		if (showLower) {
@@ -539,7 +503,25 @@
 			$('#new_discover #lowerText').addClass("js-hidden");
 		}
 	}
-	
+
+	function smartAnswerConstructionDemolition(){
+		// Show LowerTier Text Only if constructionWaste is no
+		var showLower = $('#discover_constructionWaste_no').is(':checked');
+		if (showLower) {
+			$('#new_discover #lowerText').removeClass("js-hidden");
+		} else {
+			$('#new_discover #lowerText').addClass("js-hidden");
+		}
+
+		// Show UpperTier Text Only if constructionWaste is yes
+		var showUpper = $('#discover_constructionWaste_yes').is(':checked');
+		if (showUpper) {
+			$('#new_discover #upperText').removeClass("js-hidden");
+		} else {
+			$('#new_discover #upperText').addClass("js-hidden");
+		}
+	}
+
 	/*
 	* Useful Notes:
 	// Individual radio reset
@@ -548,7 +530,7 @@
 	// Log message to console
 	//if (window.console) console.log('my message: ' + valuetotest);
 	*/
-	
+
 	function toggleSignInUp(){
 		var signin = $('#registration_sign_up_mode').val() == "sign_in";
 		var signup = $('#registration_sign_up_mode').val() == "sign_up";
@@ -561,7 +543,7 @@
 				$('#emailSignUpText').removeClass("js-hidden");
 				$('#accountExists').addClass("js-hidden");
 				$('#registration_accountEmail').removeAttr('readonly');
-				
+
 			} else {
 				$('#registration_password_confirmation').parent().addClass("js-hidden");
 				$('#registration_accountEmail_confirmation').parent().addClass("js-hidden");
@@ -575,7 +557,7 @@
 			$('#registration_password_confirmation').parent().addClass("js-hidden");
 		}
 	}
-	
+
 	function showHideRevoke(){
 		// Show revoked reason is revoked question is yes
 		var showReason = $('#revoke_question_yes').is(':checked');
@@ -590,7 +572,7 @@
 			$('input[name="next"]').removeClass("js-hidden");
 		}
 	}
-	
+
 	var Tooltip = function(elem,html,mayShow){
 		var tip = document.createElement("div");
 		var $tip = $(tip);
@@ -605,23 +587,23 @@
 		if(html){
 			$tip.html(html);
 		}
-		
+
 		var t = this;
 		$(elem).mouseenter(function(e){t.show(e.pageX,e.pageY);});
 		$(elem).mouseleave(function(e){t.hide();});
 		$(document.body).mousemove(function(e){t.position(e.pageX,e.pageY);});
 	};
-	
+
 	Tooltip.prototype.show = function(x,y){
 		if(this.mayShow && !this.mayShow()){
 			return;
 		}
-		
+
 		this.$tip.css("display","block");
 		this.visible = true;
 		this.position(x,y);
 	};
-	
+
 	Tooltip.prototype.position = function(x,y){
 		if(this.mayShow && !this.mayShow()){
 			if(this.visible){
@@ -629,27 +611,27 @@
 			}
 			return;
 		}
-		
+
 		this.$tip.css("top",y+"px");
 		this.$tip.css("left",(x+20)+"px");
 	};
-	
+
 	Tooltip.prototype.hide = function(){
 		this.$tip.css("display","none");
 		this.visible = false;
 	};
-	
+
 	/**
 	* This function checks the registration email and password for strength and sets appropriate classes
 	* for the strength icon's and message depending on the results
 	*/
 	function passwordCheck(){
-		
+
 	    var regword = $("#registration_password").val();
 	    var strengthIcon = $("#registration_password").parent().children().css( "name", "strength_icon" );
 	    var minCountBeforeCheck = 0;
 	    // Only perform check if minimum characters reached
-	    if (regword.length <= minCountBeforeCheck) 
+	    if (regword.length <= minCountBeforeCheck)
 	    {
 			// Show nothing/Hide all others
 			strengthIcon.removeClass("poor");
@@ -661,20 +643,20 @@
 	    {
 		    var strengthText = strengthIcon.children().css( "name", "strength_message" );
 		    var regemail = $("#registration_email").val();
-		    
+
 		    // Perform password strength analysis
 		    //if (window.console) console.log('Validation regemail: ' + regemail + ' regword: ' + regword);
 		    var result = PasswordStrength.test(regemail, regword);
 		    var status = result.status; // possible values returned are: weak, good, strong
 		    //if (window.console) console.log('Validation status: ' + status + ' score: ' + result.score);
-		    
+
 			strengthIcon.removeClass("none");
 		    if (status == "weak") {
 				// Show poor
 				strengthIcon.addClass("poor");
 				strengthIcon.removeClass("good");
 				strengthIcon.removeClass("strong");
-				
+
 				strengthText.html("Weak: try making the password longer, and add more uppercase, lowercase and number combinations");
 		    }
 		    else if (status == "good") {
@@ -682,7 +664,7 @@
 				strengthIcon.removeClass("poor");
 				strengthIcon.removeClass("strong");
 				strengthIcon.addClass("good");
-				
+
 				strengthText.html("Fair: try to use even more combinations of uppercase lowercase and numbers");
 		    }
 		    else if (status == "strong") {
@@ -690,13 +672,13 @@
 				strengthIcon.removeClass("poor");
 				strengthIcon.removeClass("good");
 				strengthIcon.addClass("strong");
-				
+
 				strengthText.html("Strong: you have entered a strong password");
 		    }
 	    }
-	    
+
 	}
-	
+
 	/**
 	* This function ensure than when internal links are activated a smooth transistion occurs between
 	* scroll of the page from the click to the target location
@@ -713,9 +695,9 @@
 		    }, 900, 'swing', function () {
 		        window.location.hash = target;
 		    });
-		    
+
 		    $target.focus();
-		    
+
 		});
 	}
 
@@ -733,25 +715,27 @@
 
 		$("#registration_title").change(function(e){e.preventDefault();updateTitleOther();});
 		updateTitleOther();
-		
+
 //		$("#registration_sign_up_mode").change(function(e){e.preventDefault();toggleSignInUp();});
 //		toggleSignInUp();
-		
-		// Smarter Answers Initialisation
+
+		// Smart Answers Initialisation
 		$("#discover_resultResponses").removeClass("hidden");
-		$("#discover_businessType").change(function(e){e.preventDefault();smarterAnswersQuestion1();});
-		smarterAnswersQuestion1();
-		$("#discover_otherBusinesses").change(function(e){smarterAnswersQuestion2();});
-		smarterAnswersQuestion2();
-		$("#discover_onlyAMF").change(function(e){smarterAnswersQuestion5();});
-		smarterAnswersQuestion5();
-		$("#discover_constructionWaste").change(function(e){smarterAnswersQuestion3();});
-		smarterAnswersQuestion3();
-		
+		$("#discover_businessType").change(function(e){e.preventDefault();smartAnswerBusinessType();});
+		smartAnswerBusinessType();
+		$("#discover_otherBusinesses").change(function(e){smartAnswerWhoseWaste();});
+		smartAnswerWhoseWaste();
+		$("#discover_isMainService").change(function(e){smartAnswerServiceProvided();});
+		smartAnswerServiceProvided();
+		$("#discover_onlyAMF").change(function(e){smartAnswerOnlyAnimalMineFarmWaste();});
+		smartAnswerOnlyAnimalMineFarmWaste();
+		$("#discover_constructionWaste").change(function(e){smartAnswerConstructionDemolition();});
+		smartAnswerConstructionDemolition();
+
 		// Commented out sa4 as not used
 		//$("#discover_wasteType").change(function(e){smarterAnswersQuestion4();});
 		//smarterAnswersQuestion4();
-		
+
 		// Setup Revoke questions on NCCC edit
 		$("#revoke_question").change(function(e){showHideRevoke();});
 		showHideRevoke();
@@ -769,7 +753,7 @@
 				manualAddress();
 			}
 		}*/
-		
+
 		searchResultSummaries();
 /*
 		$("#reg-search").click(function(e){
@@ -785,16 +769,16 @@
 			e.preventDefault();
 			manualAddress();
 		});
-		
+
 		/**
 		 * Call Password check on both keydown, and change
 		 */
-		
+
 		$("#registration_password").keydown(function(e){
 			//if (window.console) console.log('password char was keydowned: ');
 			passwordCheck(e);
 		});
-		
+
 		/*
 		$("#registration_password").change(function(e){
 			//if (window.console) console.log('password char was changed: ');
@@ -802,9 +786,9 @@
 			passwordCheck();
 		});
 		*/
-		
+
 		smoothInternalLinks();
-		
+
 		/*$("form").submit(function(e){
 			submitAddress();
 		});*/
@@ -812,9 +796,9 @@
     	$("#sSelect").change(function(){
     		$("#sSelect").removeAttr("size");
     	});
-    	
+
     	GOVUK.performance.stageprompt.setupForGoogleAnalytics();
-    	
+
 
 	});
 }());
