@@ -3,7 +3,7 @@ class DiscoversController < ApplicationController
   def logger
     Rails.logger
   end
-  
+
   def new
     logger.debug 'New Smarter Answers Request'
     @discover = Discover.new
@@ -13,7 +13,7 @@ class DiscoversController < ApplicationController
   # POST /discovers.json
   def create
     @discover = Discover.new(discover_params)
-    
+
     if @discover.valid?
       logger.info 'Smarter Answers VALID, businessType: ' + @discover.businessType
     else
@@ -43,6 +43,6 @@ class DiscoversController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def discover_params
-      params.require(:discover).permit(:businessType, :otherBusinesses, :onlyAMF, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other, :wasteType_none)
+      params.require(:discover).permit(:businessType, :otherBusinesses, :isMainService, :onlyAMF, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other, :wasteType_none)
     end
 end

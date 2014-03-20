@@ -1,5 +1,5 @@
 <%= form_for(@discover) do |f| %>
-  
+
   <% if @discover.errors.any? %>
     <div id="error_explanation" class="validation-summary">
       <h2><%= t 'registrations.errors.errorMessage', :count => pluralize(@discover.errors.count, t('registrations.errors.error')) %></h2>
@@ -10,41 +10,65 @@
       </ul>
     </div>
   <% end %>
-  
+
+  <!-- Smart Answers
+    What kind of business or organisation are you?
+   -->
   <p class="group<%if @discover.errors[:businessType].any?%> validation<%end%>">
     <%= f.label :businessType %>
     <%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
-  </p> 
-  
+  </p>
+
   <div id="businessDoesHeading" class="js-hidden" data-journey="waste-carriers-registration:determine-tier">
   	<h2><%= t '.businessHeading' %></h2>
   </div>
-  
+
+  <!-- Smart Answers
+    Whose waste do you deal with?
+   -->
   <fieldset id="discover_otherBusinesses">
     <legend><span><%= t 'activemodel.attributes.discover.otherBusinesses'%></span></legend>
-    
-  <p class="group<%if @discover.errors[:otherBusinesses].any?%> validation<%end%>">
-
-	  <span class="inline"><!-- GDS have an 'option' class but it renders awfully -->
-	    <!--<label class="label" for="discover_otherBusinesses_yes">-->
-	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %><%= f.label :otherBusinesses_yes, :class => "label" %><!-- Yes</label>-->
-	  </span>
-	  <span class="inline">
-	    <%= f.radio_button :otherBusinesses, "no", :class => "radio" %><%= f.label :otherBusinesses_no, :class => "label" %>
-	  </span>
-  </p>
+    <p class="group<%if @discover.errors[:otherBusinesses].any?%> validation<%end%>">
+      <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
+        <!--<label class="label" for="discover_otherBusinesses_yes">-->
+        <%= f.radio_button :otherBusinesses, "no", :class => "radio" %><%= f.label :otherBusinesses_no, :class => "label" %>
+      </span>
+  	  <span class="inline">
+  	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %><%= f.label :otherBusinesses_yes, :class => "label" %><!-- Yes</label>-->
+  	  </span>
+    </p>
   </fieldset>
-  
+
+  <!-- Smart Answers
+    What kind of service do you provide?
+   -->
+  <fieldset id="discover_isMainService">
+    <legend><span><%= t 'activemodel.attributes.discover.isMainService'%></span></legend>
+    <p class="group<%if @discover.errors[:isMainService].any?%> validation<%end%>">
+      <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
+        <!--<label class="label" for="discover_isMainService_yes">-->
+        <%= f.radio_button :isMainService, "no", :class => "radio" %><%= f.label :isMainService_no, :class => "label" %>
+      </span>
+      <span class="inline">
+        <%= f.radio_button :isMainService, "yes", :class => "radio" %><%= f.label :isMainService_yes, :class => "label" %><!-- Yes</label>-->
+      </span>
+    </p>
+  </fieldset>
+
+  <!-- Smart Answers
+    Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste -->
   <fieldset id="discover_onlyAMF">
     <legend><span><%= t 'activemodel.attributes.discover.onlyAMF'%></span></legend>
-  <p class="group<%if @discover.errors[:onlyAMF].any?%> validation<%end%>">
-	  <span class="inline"><!-- GDS have an 'option' class but it renders awfully -->
-	    <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> <%= f.label :onlyAMF_yes, :class => "label" %>
-	    <%= f.radio_button :onlyAMF, "no", :class => "radio" %><%= f.label :onlyAMF_no, :class => "label" %>
-	  </span>
-  </p>
+    <p class="group<%if @discover.errors[:onlyAMF].any?%> validation<%end%>">
+  	  <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
+  	    <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> <%= f.label :onlyAMF_yes, :class => "label" %>
+  	    <%= f.radio_button :onlyAMF, "no", :class => "radio" %><%= f.label :onlyAMF_no, :class => "label" %>
+  	  </span>
+    </p>
   </fieldset>
-  
+
+  <!-- Smart Answers
+    Do you ever deal with waste from building or demolition work -->
   <fieldset id="discover_constructionWaste">
     <legend><span><%= t 'activemodel.attributes.discover.constructionWaste'%></span></legend>
   <p class="group<%if @discover.errors[:constructionWaste].any?%> validation<%end%>">
@@ -54,8 +78,9 @@
 	  </span>
   </p>
   </fieldset>
-  
-  <!--
+
+  <!-- Smart Answers
+    Obsolete waste type selector
   <p id="discover_wasteType" class="group<%if @discover.errors[:wasteType_animal].any? or @discover.errors[:wasteType].any?%> validation<%end%>">
     <%= f.label :wasteType %>
     <label class="label"><%= t '.selectApply' %></label>
@@ -67,9 +92,11 @@
 	    <%= f.check_box :wasteType_none, :class => "radio" %><%= f.label :wasteType_none, :class => "label" %>
     </span>
   </p>-->
-  
+
   <div id="discover_resultResponses" class="hidden">
-  
+
+  <!-- Smart Answers
+    Contact EA message when 'other' businessType selected -->
   <div id="contactText" class="js-hidden">
     <p class="group">
 	    <h3><%= t '.contactTextHeading' %></h3>
@@ -77,7 +104,9 @@
 		<p class="font-larger"><%= t '.contactTextLine2' %></p>
 	</p>
   </div>
-  
+
+  <!-- Smart Answers
+    Upper tier result -->
   <div id="upperText" class="js-hidden">
     <p class="group">
 	    <h3><%= t '.upperTextHeading' %></h3>
@@ -88,7 +117,9 @@
 		<p class="font-larger"><%= t '.upperTextLine2_html', :pdflocation => 'https://publications.environment-agency.gov.uk/pdf/GEHO0411BTTB-e-e.pdf' %></p>
 	</p>
   </div>
-  
+
+  <!-- Smart Answers
+    Lower tier result -->
   <div id="lowerText" class="js-hidden">
     <p class="group">
 	    <h3><%= t '.lowerTextHeading' %></h3>
@@ -98,21 +129,23 @@
 		</p>
 	</p>
   </div>
-  
+
+  <!-- Smart Answers
+    Not required to register message -->
   <div id="notRegisterText" class="js-hidden">
     <p class="group">
 		<p class="font-larger"><%= t '.notRegisterText' %></p>
 	</p>
   </div>
-  
+
   </div>
-  
+
   <noscript>
 	<p class="action group">
 		<%= f.submit :class => "button", :value => t('.buttonText') %>
 	</p>
   </noscript>
-  
+
   <%# f.submit :class => "button", :value => "Test Validation >" %>
-  
+
 <% end %>
