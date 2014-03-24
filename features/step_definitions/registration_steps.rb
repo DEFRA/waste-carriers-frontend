@@ -39,12 +39,12 @@ Then(/^I fill in valid contact details$/) do
   fill_in('sPostcode', :with => 'BS1 5AH')
   click_button 'Find address'
   page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
-  
+
   page.select('Mr', :from => 'registration_title')
-  fill_in('registration_firstName', :with => 'Joe')  
-  fill_in('registration_lastName', :with => 'Bloggs')  
-  fill_in('registration_phoneNumber', :with => '0123 456')  
-  fill_in('registration_contactEmail', :with => 'joe.bloggs@example.com')  
+  fill_in('registration_firstName', :with => 'Joe')
+  fill_in('registration_lastName', :with => 'Bloggs')
+  fill_in('registration_phoneNumber', :with => '0123 456')
+  fill_in('registration_contactEmail', :with => 'joe.bloggs@example.com')
 end
 
 
@@ -67,13 +67,13 @@ end
 
 When(/^I provide valid individual trading name details$/) do
   #page.select('Sole trader', :from => 'registration_businessType')
-  fill_in('registration_companyName', :with => 'Joe Bloggs')  
+  fill_in('registration_companyName', :with => 'Joe Bloggs')
   click_on('Next')
 end
 
 When(/^I provide valid individual trading name details including business type$/) do
   page.select('Sole trader', :from => 'registration_businessType')
-  fill_in('registration_companyName', :with => 'Joe Bloggs')  
+  fill_in('registration_companyName', :with => 'Joe Bloggs')
   click_on('Next')
 end
 
@@ -90,10 +90,10 @@ When(/^I provide valid contact details$/) do
   page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
 
   page.select('Mr', :from => 'registration_title')
-  fill_in('registration_firstName', :with => 'Joe')  
-  fill_in('registration_lastName', :with => 'Bloggs')  
-  fill_in('registration_phoneNumber', :with => '0123 456')  
-  fill_in('registration_contactEmail', :with => 'joe.bloggs@example.com')  
+  fill_in('registration_firstName', :with => 'Joe')
+  fill_in('registration_lastName', :with => 'Bloggs')
+  fill_in('registration_phoneNumber', :with => '0123 456')
+  fill_in('registration_contactEmail', :with => 'joe.bloggs@example.com')
   click_on('Next')
   #assert(page.has_content?('Check details and register'))
 end
@@ -110,10 +110,10 @@ Given(/^I provide valid contact details for "(.*?)"$/) do |email|
   page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
 
   page.select('Mr', :from => 'registration_title')
-  fill_in('registration_firstName', :with => 'Joe')  
-  fill_in('registration_lastName', :with => 'Bloggs')  
-  fill_in('registration_phoneNumber', :with => '0123 456')  
-  fill_in('registration_contactEmail', :with => email)  
+  fill_in('registration_firstName', :with => 'Joe')
+  fill_in('registration_lastName', :with => 'Bloggs')
+  fill_in('registration_phoneNumber', :with => '0123 456')
+  fill_in('registration_contactEmail', :with => email)
   click_on('Next')
   #assert(page.has_content?('Check details and register'))
 end
@@ -159,11 +159,11 @@ When(/^I begin a registration as an Individual$/) do
 end
 
 When(/^I fill in company name with "(.*?)"$/) do |company_name|
-  fill_in('registration_companyName', :with => company_name)  
+  fill_in('registration_companyName', :with => company_name)
 end
 
 When(/^I fill in house number with "(.*?)"$/) do |house_number|
-  fill_in('registration_houseNumber', :with => house_number)  
+  fill_in('registration_houseNumber', :with => house_number)
 end
 
 When(/^I fill in postcode with "(.*?)"$/) do |pc|
@@ -223,14 +223,14 @@ end
 
 When(/^proceed to the Address and Contact Details page$/) do
   #page.select('Sole trader', :from => 'registration_businessType')
-  fill_in('registration_companyName', :with => 'Joe Bloggs')  
+  fill_in('registration_companyName', :with => 'Joe Bloggs')
   click_on('Next')
 end
 
 When(/^I prepare to enter an address manually$/) do
   ## At least at the moment the user has to perform a search in order to make the link appear
-  fill_in('sPostcode', :with => 'BS1 5AH')
-  click_button 'Find address'
+  #fill_in('sPostcode', :with => 'BS1 5AH')
+  #click_button 'Find address'
   click_link "I want to add an address myself"
 end
 
