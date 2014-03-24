@@ -13,7 +13,7 @@ class Discover
   validates_presence_of :isMainService, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" }
 
   # onlyAMF must be present if otherBusinesses is yes
-  validates_presence_of :onlyAMF, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" }
+  validates_presence_of :onlyAMF, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" && o.isMainService.nil? && o.isMainService == "yes"}
 
   # construction waste must be present if otherBusinesses is no
   validates_presence_of :constructionWaste, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "no" }
