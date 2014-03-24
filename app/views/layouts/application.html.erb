@@ -103,7 +103,7 @@
     </header>
     <!--end header-->
     <% end %>
-    
+
     <div id="global-beta-message">
       <p><%=t 'global.betaMessage_html'%></p>
     </div>
@@ -126,10 +126,9 @@
         <%= yield :footer_top %>
 
         <%#= render "shared/session_info" %>
-        
+
         <%=t 'global.helpline'%><br/>
         <%=t 'global.england'%>: <%= Rails.configuration.registrations_service_phone %> <%=t 'global.bracketsEA'%><br/>
-        <%=t 'global.wales'%>: <%= Rails.configuration.registrations_cy_service_phone %> <%=t 'global.bracketsNRW'%><br/>
         <a href="<%= Rails.configuration.waste_exemplar_eaPrivacyCookies_url%>" target="_blank"><%=t 'global.privacyAndCookies'%></a>
 
         <div class="footer-meta">
