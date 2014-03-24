@@ -1,8 +1,16 @@
 <fieldset>
 <legend><%= t '.businessAddress' %></legend>
 <%if @registration.addressMode%>
-<a href="?sSearch=true"><%= t '.search_address_label'%></a>
+
+  <!-- This section handles when the user goes manual. This covers selecting
+    the enter address manually link, or the address not in the UK link. -->
+  <a href="?sSearch=true"><%= t '.search_address_label'%></a>
+
   <%if @registration.addressMode == "manual-uk"%>
+
+    <!-- The user clicked the enter address manually option.
+      This creates a hidden field to record that choice and displays the
+      house number (Building name or number) field -->
     <input type="hidden" name="registration[addressMode]" value="manual-uk"/>
     <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
         <%= validation_for(@registration, :houseNumber) %>
@@ -10,8 +18,14 @@
         <%= f.text_field :houseNumber, :size => 20, :maxlength => 35 %>
     </p>
   <%else%>
+    <!-- Else the user selected address outside the UK link so again we record
+      it in a hidden field -->
     <input type="hidden" name="registration[addressMode]" value="manual-foreign"/>
   <%end%>
+
+  <!-- For the both the manual and overseas address streetLine1 and 2 are used
+    so there is no logic around whether to display them, but there is around
+    how to label them. -->
   <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
       <%= validation_for(@registration, :streetLine1) %>
       <% if @registration.addressMode == "manual-uk"%>
@@ -26,7 +40,10 @@
       <%= f.label :streetLine2, :class=>"offscreen" %>
       <%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %>
   </p>
+
   <%if @registration.addressMode == "manual-uk" %>
+    <!-- If we are dealing with a manual UK address then the next 2 fields are
+      town or city and Post Code -->
     <p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
         <%= validation_for(@registration, :townCity) %>
         <%= f.label :townCity %>
@@ -38,6 +55,8 @@
         <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
     </p>
   <%else%>
+    <!-- Else we are dealing with an overseas address so the fields are simply
+      street 3, 4 and country -->
     <p class="group<%if @registration.errors[:streetLine3].any?%> validation<%end%>">
         <%= validation_for(@registration, :streetLine3) %>
         <%= f.label :streetLine3, :class=>"offscreen" %>
@@ -55,9 +74,17 @@
     </p>
   <%end%>
 <%else%>
+  <!-- This section covers when the page is first loaded, and when the user is dealing
+    with the address lookup and its results. -->
+
   <% if @registration.uprn%>
+    <!-- If UPRN is something it means we are looking at an existing registration whose
+      address was populated via addressLookup when created/last updated. You therefore get
+      a link to change it displayed, and the current address displayed as text.
+      N.B. I believe uprn stands for Unique Postcode Record Number -->
     <label for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
     <div><%= render "address_display",:newline=>false%></div>
+
     <%if params[:sPostcode]%>
       <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
     <%end%>
@@ -65,32 +92,55 @@
       <input type="hidden" name="sSelect" value="<%=params[:sSelect]%>"/>
     <%end%>
   <% elsif @addresses.count > 0%>
+
+    <!-- If the user enters a postcode which returns matches they arrive here.
+      The selectedMoniker appears to be a unique key for the address, and the first bit of code
+      checks for any errors in the model on its selectedMoniker. -->
     <p class="group<%if @registration.errors[:selectedMoniker].any?%> validation<%end%>">
-    <%= validation_for(@registration, :selectedMoniker) %>
-    <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
-    <label for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
-    <select id="sSelect" name="sSelect" size="<%=[10,@addresses.count].min%>">
-    <!--<option value=""><%= t 'address_select'%></option>-->
-    <% @addresses.each do |address| %>
-      <option value="<%=address.moniker%>"<%if address.moniker==@registration.selectedMoniker%> selected="selected"<%end%>><%=address.partial%></option>
-    <%end%>
-    </select>
+      <%= validation_for(@registration, :selectedMoniker) %>
+
+      <!-- Display elements for selecting an address from the results, including retaining
+        the postcode submitted in a hidden field -->
+      <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
+      <label for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
+
+      <!-- Explanation of the ruby for the uninitiated; the first bit creates an an array of 2
+        values, 10 and the count of addresses. It then says return which is the smallest [].min. This is used to determine
+        the number of values shown. Within the select we iterate over the addresses collection and add each
+        one to the control with the moniker being the value and the partial address being the displayed text.
+        We also check to see if the registration's selectedMoniker matches any in the list and if so
+        we automatically set that as selected. -->
+      <select id="sSelect" name="sSelect" size="<%=[10,@addresses.count].min%>">
+        <% @addresses.each do |address| %>
+          <option value="<%=address.moniker%>"<%if address.moniker==@registration.selectedMoniker%> selected="selected"<%end%>><%=address.partial%></option>
+        <%end%>
+      </select>
     </p>
     <a href="?sManual=true"><%= t '.manual_address_label'%></a>
   <%else%>
+    <!-- This section gets hit when the page is first loaded -->
     <p class="group<%if @registration.errors[:postcodeSearch].any? or params[:sPostcode]%> validation<%end%>">
-     <%if params[:sPostcode] and params[:sPostcode]!=""%>
-     <span class="error-text"><%= t '.no_results_error'%></span>
-     <%elsif params[:sPostcode]%>
-     <span class="error-text"><%= t '.postcode_search_error'%></span>
-     <%else%>
-     <%= validation_for(@registration, :postcodeSearch) %>
-     <%end%>
-    <label for="sPostcode"><%= t '.findAddressUsingPostcode'%></label>
-    <input id="sPostcode" name="sPostcode" type="text" class="postcode" value="<%= params[:sPostcode]%>"/>
-    <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
+
+      <%if params[:sPostcode] and params[:sPostcode]!=""%>
+        <!-- The user has entered a postcode but there were no matches -->
+        <span class="error-text"><%= t '.no_results_error'%></span>
+      <%elsif params[:sPostcode]%>
+        <!-- The user has hit Find address but not entered anything -->
+        <span class="error-text"><%= t '.postcode_search_error'%></span>
+      <%else%>
+        <!-- This bit actually gets called when the page is first hit.
+          The validation_for() method can be found in app/helpers/registrations_helper. In this
+          instance it is calling validate_postcodeSearch on the registration model  -->
+        <%= validation_for(@registration, :postcodeSearch) %>
+      <%end%>
+
+      <!-- Display elements for the entering and submitting the postcode to search for -->
+      <label for="sPostcode"><%= t '.findAddressUsingPostcode'%></label>
+      <input id="sPostcode" name="sPostcode" type="text" class="postcode" value="<%= params[:sPostcode]%>"/>
+      <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
     </p>
-<a href="?sManualForeign=true"><%= t '.foreignAddressLink'%></a>
+    <a href="?sManualForeign=true"><%= t '.foreignAddressLink'%></a>
   <%end%>
+  <p><a href="?sManual=true"><%= t '.manual_address_label'%></a></p>
 <%end%>
 </fieldset>
