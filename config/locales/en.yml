@@ -177,7 +177,7 @@ en:
         businessType: "What kind of business or organisation are you?"
         otherBusinesses: "Whose waste do you deal with?"
         otherBusinesses_yes: "Waste from other businesses, organisations or households"
-        otherBusinesses_no: "Waste from our own business or organisation"
+        otherBusinesses_no: "Only waste from our own business or organisation"
         isMainService: "What kind of service do you provide?"
         isMainService_yes: "Waste disposal is the main service we provide"
         isMainService_no: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
