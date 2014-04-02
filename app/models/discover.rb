@@ -1,3 +1,7 @@
+# NOTES FOR NEWBIE RUBY/RAILS DEVELOPERS
+# Validations: The lambda is not determining whether a value is valid, it is
+#   just used to determine whether to actually validate the value at all!
+
 class Discover
   include ActiveModel::Model
 
@@ -13,7 +17,7 @@ class Discover
   validates_presence_of :isMainService, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" }
 
   # onlyAMF must be present if otherBusinesses is yes
-  validates_presence_of :onlyAMF, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" && o.isMainService.nil? && o.isMainService == "yes"}
+  validates_presence_of :onlyAMF, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" && !o.isMainService.nil? && o.isMainService == "yes"}
 
   # construction waste must be present if otherBusinesses is no
   validates_presence_of :constructionWaste, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "no" }
@@ -54,54 +58,40 @@ class Discover
     end
   end
 
+  # Test to see if discovery determines user should register in the Upper Tier
   def isUpper?
-    # Check if submission is for upper tier
-    # 1. If onlyAMF is no
-    # 2. If constructionWaste is yes
-    if onlyAMF == "no"
-      Rails.logger.info "Is Upper Tier found (onlyAMF)"
-      true
-    elsif constructionWaste == "yes"
-      Rails.logger.info "Is Upper Tier found (constructionWaste)"
-      true
+
+    if isUpperBusinessType? \
+      && !otherBusinesses.nil? && otherBusinesses == 'no' \
+      && !constructionWaste.nil? && constructionWaste == 'yes'
+      Rails.logger.info "Is Upper Tier found (otherBusinesses = no, constructionWaste = yes)"
+      return true
+    elsif isUpperBusinessType? \
+      && !otherBusinesses.nil? && otherBusinesses == 'yes' \
+      && !isMainService.nil? && isMainService == 'no' \
+      && !constructionWaste.nil? && constructionWaste == 'yes'
+      Rails.logger.info "Is Upper Tier found (otherBusinesses = yes, isMainService = no, constructionWaste = yes)"
+      return true
+    elsif isUpperBusinessType? \
+      && !otherBusinesses.nil? && otherBusinesses == 'yes' \
+      && !isMainService.nil? && isMainService == 'yes' \
+      && !onlyAMF.nil? && onlyAMF == 'no'
+      Rails.logger.info "Is Upper Tier found (otherBusinesses = yes, isMainService = yes, onlyAMF = no)"
+      return true
     else
-      false
+      Rails.logger.info "Is Upper Tier not found"
+      return false
     end
+
   end
 
-#  def isUpper?
-#    # Check if submission is for upper tier
-#    # 1. If other businesses is yes
-#    # 2. If constructionWaste is yes
-#    # 3. If more than one wasteType is selected
-#    if otherBusinesses == "yes"
-#      Rails.logger.info "Is Upper Tier found (otherbusinesses)"
-#      true
-#    elsif constructionWaste == "yes"
-#      Rails.logger.info "Is Upper Tier found (constructionWaste)"
-#      true
-#    else
-#      # Count number of selected checkboxes
-#      count = 0
-#      if wasteType_animal == "1"
-#        count = count + 1
-#      end
-#      if wasteType_mine == "1"
-#        count = count + 1
-#      end
-#      if wasteType_farm == "1"
-#        count = count + 1
-#      end
-#      if wasteType_other == "1"
-#        count = count + 1
-#      end
-#      if count > 1
-#        Rails.logger.info "Is Upper Tier found (multi wasteType)"
-#        true
-#      else
-#        false
-#      end
-#    end
-#  end
+  # Test to see if the user has selected an Upper Tier business type
+  def isUpperBusinessType?
+    if !businessType.nil? && (businessType == "soleTrader" || businessType == "partnership" || businessType == "limitedCompany" || businessType == "publicBody")
+      return true
+    else
+      return false
+    end
+  end
 
 end
