@@ -251,7 +251,7 @@ DEPENDENCIES
   cancan (~> 1.6.10)
   capistrano (~> 3.0.0)
   capybara (~> 2.1.0)
-  capybara-email
+  capybara-email (~> 2.2.0)
   capybara-webkit
   ci_reporter
   coffee-rails (~> 4.0.0)
