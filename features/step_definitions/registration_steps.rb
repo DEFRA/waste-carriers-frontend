@@ -246,11 +246,8 @@ Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email_
 end
 
 Then(/^when I click on the activation link$/) do
-  @email = ActionMailer::Base.deliveries.last
-  @email.to.first.should include '@example.com'
-  #@email.body.should include "To activate your registration account please select the following link"
-  ctoken = @email.body.match(/confirmation_token=\w*/)
-  visit "/users/confirmation?#{ctoken}"
+  open_email User.last.email
+  current_email.click_link 'Confirm your account'
 end
 
 #Then(/^my registration should be activated$/) do
