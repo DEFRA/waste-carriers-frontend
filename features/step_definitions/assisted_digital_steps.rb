@@ -49,7 +49,9 @@ Then(/^I fill in valid contact details without email$/) do
 end
 
 Then(/^the registration confirmation email should not be sent$/) do
-  ActionMailer::Base.deliveries.size.should eq 0
+  # specifically "the registration confirmation email should not be sent *to the agency user" (for whom this is the only email address provided)
+  open_email AgencyUser.last.email
+  current_email.should be_nil
 end
 
 Then(/^when I access the print page$/) do
