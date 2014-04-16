@@ -234,13 +234,6 @@ When(/^I prepare to enter an address manually$/) do
   click_link "I want to add an address myself"
 end
 
-Then(/^it should send me a Registration Confirmation email$/) do
-  @email = ActionMailer::Base.deliveries.last
-  #TODO: verify random e-mail address created above
-  @email.to.first.should include '@example.com'
-  @email.subject.should include "Waste Carrier Registration Complete"
-end
-
 Then(/^it should send me an Account Activation email$/) do
   @email = ActionMailer::Base.deliveries.last
   @email.to.first.should include '@example.com'
