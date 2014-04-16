@@ -73,6 +73,7 @@ group :test, :development do
 
   #needed for headless testing with Javascript
   gem 'capybara-webkit'
+  gem 'capybara-email'
 
   gem "launchy", "~> 2.4.2", :require => false
   gem 'rspec-rails', '~> 2.12'
