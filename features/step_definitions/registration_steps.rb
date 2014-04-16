@@ -240,10 +240,9 @@ Then(/^it should send me an Account Activation email$/) do
   @email.body.should include "Please select the link below to confirm your account"
 end
 
-Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email|
-  @email = ActionMailer::Base.deliveries.last
-  @email.to.first.should include email
-  @email.subject.should include "Waste Carrier Registration Complete"
+Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email_address|
+  open_email email_address
+  current_email.subject.should == 'Waste Carrier Registration Complete'
 end
 
 Then(/^when I click on the activation link$/) do
