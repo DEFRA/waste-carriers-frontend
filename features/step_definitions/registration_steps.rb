@@ -235,9 +235,8 @@ When(/^I prepare to enter an address manually$/) do
 end
 
 Then(/^it should send me an Account Activation email$/) do
-  @email = ActionMailer::Base.deliveries.last
-  @email.to.first.should include '@example.com'
-  @email.body.should include "Please select the link below to confirm your account"
+  open_email User.last.email
+  current_email.should have_content 'Please select the link below to confirm your account'
 end
 
 Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email_address|
