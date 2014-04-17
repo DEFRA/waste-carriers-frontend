@@ -234,31 +234,19 @@ When(/^I prepare to enter an address manually$/) do
   click_link "I want to add an address myself"
 end
 
-Then(/^it should send me a Registration Confirmation email$/) do
-  @email = ActionMailer::Base.deliveries.last
-  #TODO: verify random e-mail address created above
-  @email.to.first.should include '@example.com'
-  @email.subject.should include "Waste Carrier Registration Complete"
-end
-
 Then(/^it should send me an Account Activation email$/) do
-  @email = ActionMailer::Base.deliveries.last
-  @email.to.first.should include '@example.com'
-  @email.body.should include "Please select the link below to confirm your account"
+  open_email User.last.email
+  current_email.should have_content 'Please select the link below to confirm your account'
 end
 
-Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email|
-  @email = ActionMailer::Base.deliveries.last
-  @email.to.first.should include email
-  @email.subject.should include "Waste Carrier Registration Complete"
+Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email_address|
+  open_email email_address
+  current_email.subject.should == 'Waste Carrier Registration Complete'
 end
 
 Then(/^when I click on the activation link$/) do
-  @email = ActionMailer::Base.deliveries.last
-  @email.to.first.should include '@example.com'
-  #@email.body.should include "To activate your registration account please select the following link"
-  ctoken = @email.body.match(/confirmation_token=\w*/)
-  visit "/users/confirmation?#{ctoken}"
+  open_email User.last.email
+  current_email.click_link 'Confirm your account'
 end
 
 #Then(/^my registration should be activated$/) do
