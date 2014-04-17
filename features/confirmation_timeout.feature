@@ -12,5 +12,5 @@ Feature: confirmation link timeout
     Then my account is successfully activated
 
   Scenario: Unsuccessful account activation after time limit expired
-    When I attempt to activate the account after 12 hours has elapsed
+    When I attempt to activate the account after 12 hours
     Then I need to request a new confirmation email
