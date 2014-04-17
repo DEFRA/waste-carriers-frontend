@@ -31,7 +31,5 @@ Given(/^I have completed the lower tier registration form$/) do
   fill_in 'Confirm password', with: password
   click_on 'Next'
 
-  # unfortunately we must pause here or the confirmation email isn't picked up
-  # when we go into timecop
-  sleep 1
+  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
 end
