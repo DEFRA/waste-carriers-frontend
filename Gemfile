@@ -63,6 +63,7 @@ group :test do
   gem 'ci_reporter'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner', git: 'https://github.com/bmabey/database_cleaner.git'
+  gem 'timecop', '~> 0.7.1'
 end
 
 group :development do
