@@ -19,7 +19,9 @@ Then(/^my account is successfully activated$/) do
 end
 
 Then(/^I need to request a new confirmation email$/) do
-  page.should have_button 'Resend confirmation instructions'
-  # TODO do rest of process
+  click_on 'Resend confirmation instructions'
+  open_email 'barry@grades.co.uk'
+  current_email.click_link 'Confirm your account'
+  page.should have_content 'Your registration number is'
 end
 
