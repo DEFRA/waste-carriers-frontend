@@ -30,4 +30,8 @@ Given(/^I have completed the lower tier registration form$/) do
   fill_in 'Create password', with: password
   fill_in 'Confirm password', with: password
   click_on 'Next'
+
+  # unfortunately we must pause here or the confirmation email isn't picked up
+  # when we go into timecop
+  sleep 1
 end
