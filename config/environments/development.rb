@@ -43,18 +43,7 @@ Registrations::Application.configure do
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
-
-  # Mail delivery method must be :smtp for delivery via Sendgrid, but can be set to :test to skip sending emails (e.g. for local development)
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    :user_name => ENV["WCRS_FRONTEND_EMAIL_USERNAME"],
-    :password => ENV["WCRS_FRONTEND_EMAIL_PASSWORD"],
-    :domain => ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"],
-    :address => ENV["WCRS_FRONTEND_EMAIL_HOST"],
-    :port => ENV["WCRS_FRONTEND_EMAIL_PORT"],
-    :authentication => :plain,
-    :enable_starttls_auto => true
-  }
+  config.action_mailer.delivery_method = :letter_opener
 
   # Overriding 'Done' URL for development
   #config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"

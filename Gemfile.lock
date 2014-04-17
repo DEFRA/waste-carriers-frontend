@@ -115,6 +115,8 @@ GEM
     json (1.8.0)
     launchy (2.4.2)
       addressable (~> 2.3)
+    letter_opener (1.2.0)
+      launchy (~> 2.2)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -258,6 +260,7 @@ DEPENDENCIES
   govuk_frontend_toolkit
   jquery-rails
   launchy (~> 2.4.2)
+  letter_opener (~> 1.2.0)
   mongoid!
   parallel_tests
   password_strength (~> 0.3.2)

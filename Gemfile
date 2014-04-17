@@ -61,7 +61,11 @@ gem 'capistrano', '~> 3.0.0'
 
 group :test do
   gem 'ci_reporter'
-end 
+end
+
+group :development do
+  gem 'letter_opener', '~> 1.2.0'
+end
 
 group :test, :development do
   gem 'cucumber-rails', :require => false
