@@ -20,6 +20,7 @@ end
 
 Then(/^I need to request a new confirmation email$/) do
   click_on 'Resend confirmation instructions'
+  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email 'barry@grades.co.uk'
   current_email.click_link 'Confirm your account'
   page.should have_content 'Your registration number is'
