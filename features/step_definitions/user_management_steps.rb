@@ -1,14 +1,13 @@
 #step definitions for user administration
 
 Given(/^I am an administrator$/) do
-  @admin = FactoryGirl.create :admin
 end
 
 When(/^I log in as administrator$/) do
   visit new_admin_session_path
   assert page.has_content? "Administration login"
-  fill_in 'Email', with: @admin.email
-  fill_in 'Password', with: @admin.password
+  fill_in 'Email', with: my_admin.email
+  fill_in 'Password', with: my_admin.password
   click_button 'Sign in'
 end
 
@@ -21,8 +20,8 @@ Given(/^I am logged in as an administrator$/) do
   @admin = FactoryGirl.create :admin
   visit new_admin_session_path
   assert page.has_content? "Administration login"
-  fill_in 'Email', with: @admin.email
-  fill_in 'Password', with: @admin.password
+  fill_in 'Email', with: my_admin.email
+  fill_in 'Password', with: my_admin.password
   click_button 'Sign in'
 end
 
