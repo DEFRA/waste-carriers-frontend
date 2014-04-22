@@ -121,21 +121,8 @@ When(/^I fill in postcode with "(.*?)"$/) do |pc|
 end
 
 Given(/^I have an activated account$/) do
-  theUsersEmail = 'joe@example.com' # TODO factory
-  theUsersPassword = 'secret123'
-  user = User.find_by_email(theUsersEmail)
-  if user != nil
-    user.destroy
-  end
-  user = User.new
-  user.email = theUsersEmail
-  user.password = theUsersPassword
-  user.password_confirmation = theUsersPassword
-  user.skip_confirmation!
-  user.save!
-
-  user = User.find_by_email('joe@example.com')
-  user.should be
+  open_email my_user.email
+  current_email.click_link 'Confirm your account'
 end
 
 Given(/^I am not logged in$/) do
@@ -143,17 +130,17 @@ Given(/^I am not logged in$/) do
 end
 
 When(/^I provide valid user details for sign in$/) do
-  fill_in 'registration_accountEmail', with: 'joe@example.com'
-  fill_in 'registration_password', with: 'secret123'
+  fill_in 'registration_accountEmail', with: my_user.email
+  fill_in 'registration_password', with: my_user.password
 end
 
-Given(/^I am already logged in$/) do
+Given(/^I am already logged in$/) do # TODO rename
   visit new_user_session_path
   page.should have_content 'Sign in'
-  fill_in 'Email', with: 'joe@example.com' # TODO factory
-  fill_in 'Password', with: 'secret123'
+  fill_in 'Email', with: my_user.email
+  fill_in 'Password', with: my_user.password
   click_button 'Sign in'
-  page.should have_content 'Signed in as joe@example.com'
+  page.should have_content "Signed in as #{my_user.email}"
 end
 
 When(/^proceed to the Address and Contact Details page$/) do
@@ -171,7 +158,7 @@ Then(/^it should send me an Account Activation email$/) do
 end
 
 Then(/^it should send me a Registration Confirmation email$/) do
-  open_email 'joe@example.com' # TODO knows email
+  open_email my_user.email
   current_email.subject.should == 'Waste Carrier Registration Complete'
 end
 
