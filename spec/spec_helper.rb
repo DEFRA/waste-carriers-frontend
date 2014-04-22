@@ -47,7 +47,3 @@ RSpec.configure do |config|
     Timecop.return
   end
 end
-require "sauce_helper"
-
-# The default driver should be :sauce for Saucelabs testing.
-Capybara.default_driver = :sauce
