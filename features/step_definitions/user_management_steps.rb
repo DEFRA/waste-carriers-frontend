@@ -12,7 +12,6 @@ Then(/^I should see the user administration page$/) do
 end
 
 Given(/^I am logged in as an administrator$/) do
-  @admin = FactoryGirl.create :admin
   visit new_admin_session_path
   page.should have_content 'Administration login'
   fill_in 'Email', with: my_admin.email
