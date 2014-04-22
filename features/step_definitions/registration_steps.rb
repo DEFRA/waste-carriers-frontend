@@ -151,13 +151,6 @@ Given(/^I have an activated account$/) do
   user.should be
 end
 
-Given(/^I do not have an account yet$/) do
-  user = User.find_by_email('joe.bloggs@example.com') # TODO factory
-  if user
-    user.destroy
-  end
-end
-
 Given(/^I am not logged in$/) do
   visit destroy_user_session_path
 end
