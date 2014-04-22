@@ -18,10 +18,6 @@ Then(/^I should see the Business or Organisation Details page$/) do
 end
 
 Then(/^I fill in valid contact details without email$/) do
-  #fill_in('registration_houseNumber', :with => '12a')
-  #fill_in('registration_streetLine1', :with => 'Assisted Road')
-  #fill_in('registration_townCity', :with => 'Assist Town')
-  #fill_in('registration_postcode', :with => 'AS1 2AB')
   fill_in('sPostcode', :with => 'BS1 5AH')
   click_button 'Find address'
   page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
