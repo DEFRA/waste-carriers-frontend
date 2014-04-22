@@ -74,19 +74,6 @@ When(/^I provide valid contact details$/) do
   click_on 'Next'
 end
 
-Given(/^I provide valid contact details for "(.*?)"$/) do |email|
-  fill_in 'sPostcode', with: 'BS1 5AH'
-  click_button 'Find address'
-  page.select "Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", from: 'sSelect'
-
-  page.select 'Mr', from: 'registration_title'
-  fill_in 'registration_firstName', with: 'Joe'
-  fill_in 'registration_lastName', with: 'Bloggs'
-  fill_in 'registration_phoneNumber', with: '0123 456'
-  fill_in 'registration_contactEmail', with: email
-  click_on 'Next'
-end
-
 When(/^I confirm the declaration$/) do
   find_field 'registration_declaration'
   check 'registration_declaration'
