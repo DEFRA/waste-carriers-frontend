@@ -7,7 +7,6 @@ Administrators can create, modify and delete users.
 
 @admin
 Scenario: Login as Administrator
-  Given I am an administrator
   When I log in as administrator
   Then I should see the user administration page
 
@@ -31,7 +30,6 @@ Scenario: Delete a user
 
 @admin
 Scenario: Attempt to access user administration without being logged in
-  Given I am an administrator
   When I am not logged in as an administrator
   And I access the user administration page
   Then I should be prompted to login as an administrator
