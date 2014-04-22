@@ -1,7 +1,7 @@
 ## step definitions for Assisted Digital users and registrations
 
 Given(/^I have an NCCC agency user account$/) do
-  if !AgencyUser.where(email: 'test.user@agency.gov.uk').exists?
+  if !AgencyUser.where(email: 'test.user@agency.gov.uk').exists? # TODO factory
     user = AgencyUser.new
     user.email = 'test.user@agency.gov.uk'
     user.password = 'secret123'
@@ -10,13 +10,13 @@ Given(/^I have an NCCC agency user account$/) do
 end
 
 Given(/^I am logged in as an NCCC agency user$/) do
-  visit "/agency_users/sign_in"
-  assert(page.has_content? "Sign in")
-  assert(page.has_content? "NCCC agency login")
-  fill_in('agency_user_email', :with => 'test.user@agency.gov.uk')
-  fill_in('agency_user_password', :with => 'secret123')
-  click_button "Sign in"
-  assert page.has_content?("Signed in as agency user test.user@agency.gov.uk")
+  visit new_agency_user_session_path
+  page.should have_content 'Sign in'
+  page.should have_content 'NCCC agency login'
+  fill_in 'Email', with: 'test.user@agency.gov.uk'
+  fill_in 'Password', with: 'secret123'
+  click_button 'Sign in'
+  page.should have_content 'Signed in as agency user test.user@agency.gov.uk'
 end
 
 Given(/^I have received a call from a business$/) do
@@ -24,12 +24,12 @@ Given(/^I have received a call from a business$/) do
 end
 
 Given(/^I start a new registration$/) do
-  visit "/registrations"
-  click_button "New registration"
+  visit registrations_path
+  click_button 'New registration'
 end
 
 Then(/^I should see the Business or Organisation Details page$/) do
-  assert page.has_content? "Business or organisation details"
+  page.should have_content 'Business or organisation details'
 end
 
 Then(/^I fill in valid contact details without email$/) do
@@ -50,16 +50,16 @@ end
 
 Then(/^the registration confirmation email should not be sent$/) do
   # specifically "the registration confirmation email should not be sent *to the agency user" (for whom this is the only email address provided)
-  open_email AgencyUser.last.email
+  open_email AgencyUser.last.email # TODO factory
   current_email.should be_nil
 end
 
 Then(/^when I access the print page$/) do
-  click_button "View certificate"
+  click_button 'View certificate'
 end
 
 Then(/^the print page contains the six-digit access code for the user$/) do
-  assert page.has_content? "access code"
+  page.should have_content 'access code'
   accessCode = page.find_by_id 'accessCode'
-  assert accessCode.text.length == 6
+  accessCode.text.length.should == 6
 end
