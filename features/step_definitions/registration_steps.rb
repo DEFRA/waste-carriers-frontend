@@ -100,7 +100,6 @@ When(/^I provide valid user details for sign up$/) do
   fill_in 'registration_password_confirmation', with: my_password
 end
 
-
 When(/^I begin a registration$/) do
   visit '/your-registration/business-details'
 end
