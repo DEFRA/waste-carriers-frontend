@@ -1,8 +1,3 @@
-#step definitions for user administration
-
-Given(/^I am an administrator$/) do
-end
-
 When(/^I log in as administrator$/) do
   visit new_admin_session_path
   assert page.has_content? "Administration login"
