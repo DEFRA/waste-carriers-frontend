@@ -45,13 +45,7 @@ Given(/^there is a user to be deleted$/) do
 end
 
 When(/^I elect to delete the user$/) do
-  #TODO find a better way to identify the link?
-  # TODO use capybara-table
-  id = AgencyUser.find_by(email: "to-be-deleted@waste-exemplar.gov.uk").id.to_s
-
-  within(:xpath, "//tr[@id='agency_user_" + id +"']") do
-    click_link 'Delete'
-  end
+  click_link 'Delete'
 
   page.should have_content 'Confirm delete'
   page.should have_content 'to-be-deleted@waste-exemplar.gov.uk'
