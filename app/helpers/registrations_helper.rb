@@ -7,19 +7,12 @@ module RegistrationsHelper
       ""
     end
   end
-
-  def format_date(dateString)
-    d = Date.parse(dateString)
-    day = d.mday
-    myExt = 'th'
-    if day == 1 || day == 21 || day == 31
-      myExt = 'st'
-    elsif day == 2 || day == 22
-      myExt = 'nd'
-    end
-    d.strftime('%A %-d'+myExt+' %B %Y')
+  
+  def format_date(string)
+    d = string.to_date
+    d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
   end
-
+  
   def format_address(model)
     if model.postcode.nil?
       # Print International address
