@@ -134,7 +134,7 @@ When(/^I provide valid user details for sign in$/) do
   fill_in 'registration_password', with: my_user.password
 end
 
-Given(/^I am already logged in$/) do # TODO rename
+Given(/^I log in$/) do
   visit new_user_session_path
   page.should have_content 'Sign in'
   fill_in 'Email', with: my_user.email

@@ -52,7 +52,7 @@ Scenario: Valid registration for existing user (account email) - sign in during 
 Scenario: Valid registration for existing user - already logged in, no need to provide login details again
   Given I have an activated account
   And I am on the initial page
-  And I am already logged in
+  And I log in
   When I click on "New Registration"
   And I provide valid individual trading name details including business type
   And I provide valid contact details
