@@ -21,7 +21,7 @@ Internal and administrative functions can only be accessed from known locations 
 Scenario: Log in successfully as Waste Carrier
   Given there is an activated user
   When the user visits the login page
-  And enters valid credentials for user Joe
+  And enters valid credentials
   Then the user should be logged in successfully
 
 
