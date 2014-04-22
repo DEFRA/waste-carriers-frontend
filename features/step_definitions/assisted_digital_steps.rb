@@ -8,10 +8,6 @@ Given(/^I am logged in as an NCCC agency user$/) do
   page.should have_content "Signed in as agency user #{my_agency_user.email}"
 end
 
-Given(/^I have received a call from a business$/) do
-	#Nothing to do here
-end
-
 Given(/^I start a new registration$/) do
   visit registrations_path
   click_button 'New registration'
