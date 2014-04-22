@@ -18,7 +18,7 @@ Then(/^the user should be logged in successfully$/) do
   page.should have_content 'Signed in as'
 end
 
-When(/^enters invalid credentials for user Joe$/) do
+When(/^enters invalid credentials$/) do
   page.should have_content 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: 'incorrect_password'
