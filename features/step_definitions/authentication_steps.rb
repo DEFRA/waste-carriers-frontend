@@ -7,7 +7,7 @@ When(/^the user visits the login page$/) do
   visit new_user_session_path
 end
 
-When(/^enters valid credentials for user Joe$/) do
+When(/^enters valid credentials$/) do
   page.should have_content 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: my_user.password
