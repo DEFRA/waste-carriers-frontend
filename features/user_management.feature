@@ -14,7 +14,7 @@ Scenario: Login as Administrator
 Scenario: Create a new user
   Given I am logged in as an administrator
   When I elect to create a new agency user
-  And I fill in valid agency user details
+  And I fill in details for an agency user
   Then the user should have been created
   And I should see the user's details page
 

@@ -15,16 +15,16 @@ When(/^I elect to create a new agency user$/) do
   click_button 'New agency user'
 end
 
-When(/^I fill in valid agency user details$/) do
+When(/^I fill in details for an agency user$/) do
   page.should have_content 'New agency user'
-  fill_in "agency_user_email", with: 'joe3@waste-exemplar.gov.uk' # TODO factory
-  fill_in "agency_user_password", with: 'secret123'
+  fill_in 'Email', with: agency_email_address
+  fill_in 'Password', with: agency_password
   click_button 'Create agency user'
 end
 
 Then(/^the user should have been created$/) do
   page.should have_content 'Agency user was successfully created.'
-  page.should have_content 'joe3@waste-exemplar.gov.uk'
+  page.should have_content agency_email_address
 end
 
 Then(/^I should see the user's details page$/) do
