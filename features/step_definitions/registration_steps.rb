@@ -94,11 +94,10 @@ When(/^I confirm the declaration$/) do
 end
 
 When(/^I provide valid user details for sign up$/) do
-  unique_email = 'test-' + SecureRandom.urlsafe_base64 + '@example.com' # TODO factory
-  fill_in 'registration_accountEmail', with: unique_email
-  fill_in 'registration_accountEmail_confirmation', with: unique_email
-  fill_in 'registration_password', with: 'Bloggs123!'
-  fill_in 'registration_password_confirmation', with: 'Bloggs123!'
+  fill_in 'registration_accountEmail', with: my_email_address
+  fill_in 'registration_accountEmail_confirmation', with: my_email_address
+  fill_in 'registration_password', with: my_password
+  fill_in 'registration_password_confirmation', with: my_password
 end
 
 
@@ -188,7 +187,7 @@ When(/^I prepare to enter an address manually$/) do
 end
 
 Then(/^it should send me an Account Activation email$/) do
-  open_email User.last.email # TODO factory
+  open_email my_email_address
   current_email.should have_content 'Please select the link below to confirm your account'
 end
 
