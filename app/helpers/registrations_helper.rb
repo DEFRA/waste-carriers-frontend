@@ -9,8 +9,8 @@ def validation_for(model, attribute)
   end
 end
 
-def format_date(dateString)
-	d = dateString.to_date
+def format_date(string)
+	d = string.to_date
 	d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
 end
 
