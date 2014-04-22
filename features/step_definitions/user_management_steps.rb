@@ -1,17 +1,15 @@
 #step definitions for user administration
 
 Given(/^I am an administrator$/) do
-  #pending # express the regexp above with the code you wish you had
-
-  #TODO Create admin user if needed
+  @admin = FactoryGirl.create :admin
 end
 
 When(/^I log in as administrator$/) do
-  visit "/admins/sign_in"
+  visit new_admin_session_path
   assert page.has_content? "Administration login"
-  fill_in "admin_email", :with => 'admin@waste-exemplar.gov.uk'
-  fill_in "admin_password", :with => 'secret123'
-  click_button "Sign in"
+  fill_in 'Email', with: @admin.email
+  fill_in 'Password', with: @admin.password
+  click_button 'Sign in'
 end
 
 Then(/^I should see the user administration page$/) do
@@ -20,11 +18,12 @@ Then(/^I should see the user administration page$/) do
 end
 
 Given(/^I am logged in as an administrator$/) do
-  visit "/admins/sign_in"
+  @admin = FactoryGirl.create :admin
+  visit new_admin_session_path
   assert page.has_content? "Administration login"
-  fill_in "admin_email", :with => 'admin@waste-exemplar.gov.uk'
-  fill_in "admin_password", :with => 'secret123'
-  click_button "Sign in"
+  fill_in 'Email', with: @admin.email
+  fill_in 'Password', with: @admin.password
+  click_button 'Sign in'
 end
 
 When(/^I elect to create a new agency user$/) do
