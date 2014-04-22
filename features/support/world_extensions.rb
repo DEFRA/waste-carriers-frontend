@@ -14,6 +14,10 @@ module KnowsTheDomain
   def my_agency_user
     @my_agency_user ||= FactoryGirl.create :agency_user
   end
+
+  def my_user
+    @my_user ||= FactoryGirl.create :user
+  end
 end
 
 World(KnowsTheDomain)

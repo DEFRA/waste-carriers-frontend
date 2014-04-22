@@ -1,14 +1,6 @@
-#step definitions for authentication
-
 Given(/^there is an activated user Joe$/) do
-  User.destroy_all(email: 'joe.activated@example.com') # TODO probably don't need to do this now DB is working
-  user = User.new # TODO factory
-  user.email = 'joe.activated@example.com'
-  user.password = 'secret123'
-  #user.send_confirmation_instructions
-  #user.confirm!
-  user.skip_confirmation!
-  user.save!
+  open_email my_user.email
+  current_email.click_link 'Confirm your account'
 end
 
 When(/^the user visits the login page$/) do
@@ -17,8 +9,8 @@ end
 
 When(/^enters valid credentials for user Joe$/) do
   page.should have_content 'Sign in'
-  fill_in 'Email', with: 'joe.activated@example.com'
-  fill_in 'Password', with: 'secret123'
+  fill_in 'Email', with: my_user.email
+  fill_in 'Password', with: my_user.password
   click_button 'Sign in'
 end
 
@@ -28,8 +20,8 @@ end
 
 When(/^enters invalid credentials for user Joe$/) do
   page.should have_content 'Sign in'
-  fill_in 'Email', with: 'joe.activated@example.com'
-  fill_in 'Password', with: 'secret234'
+  fill_in 'Email', with: my_user.email
+  fill_in 'Password', with: 'incorrect_password'
   click_button 'Sign in'
 end
 
