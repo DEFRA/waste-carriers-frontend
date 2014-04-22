@@ -10,8 +10,8 @@ def validation_for(model, attribute)
 end
 
 def format_date(dateString)
-	d = Date.parse(dateString)
-	d.strftime('%A %-d' + d.mday.ordinalize + ' %B %Y')
+	d = dateString.to_date
+	d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
 end
 
 def format_address(model)
