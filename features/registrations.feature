@@ -47,7 +47,7 @@ Scenario: Valid registration for existing user (account email) - sign in during 
   And I provide valid user details for sign in
   And I click "Next"
   Then I should see the Confirmation page
-  And it should send a Registration Confirmation email to "joe@example.com"
+  And it should send me a Registration Confirmation email
 
 Scenario: Valid registration for existing user - already logged in, no need to provide login details again
   Given I have an activated account
@@ -59,5 +59,5 @@ Scenario: Valid registration for existing user - already logged in, no need to p
   And I confirm the declaration
   And I click "Next"
   Then I should see the Confirmation page
-  And it should send a Registration Confirmation email to "joe@example.com"
+  And it should send me a Registration Confirmation email
 

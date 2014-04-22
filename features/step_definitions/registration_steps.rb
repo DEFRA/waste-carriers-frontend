@@ -170,8 +170,8 @@ Then(/^it should send me an Account Activation email$/) do
   current_email.should have_content 'Please select the link below to confirm your account'
 end
 
-Then(/^it should send a Registration Confirmation email to "(.*?)"$/) do |email_address|
-  open_email email_address # TODO knows email
+Then(/^it should send me a Registration Confirmation email$/) do
+  open_email 'joe@example.com' # TODO knows email
   current_email.subject.should == 'Waste Carrier Registration Complete'
 end
 
