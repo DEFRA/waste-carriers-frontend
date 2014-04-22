@@ -1,4 +1,4 @@
-Given(/^there is an activated user Joe$/) do
+Given(/^there is an activated user$/) do
   open_email my_user.email
   current_email.click_link 'Confirm your account'
 end
