@@ -42,7 +42,7 @@ Scenario: Valid registration for existing user (account email) - sign in during 
   And I am not logged in
   And I have found out that I need to register in the lower tier
   And I provide valid individual trading name details
-  And I provide valid contact details for "joe@example.com"
+  And I provide valid contact details
   And I confirm the declaration
   And I provide valid user details for sign in
   And I click "Next"
