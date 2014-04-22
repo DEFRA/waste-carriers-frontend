@@ -1,4 +1,4 @@
-When(/^I log in as administrator$/) do
+Given(/^I am logged in as an administrator$/) do
   visit new_admin_session_path
   page.should have_content 'Administration login'
   fill_in 'Email', with: my_admin.email
@@ -9,14 +9,6 @@ end
 Then(/^I should see the user administration page$/) do
   page.should have_content 'Signed in as admin'
   page.should have_content 'Listing agency users'
-end
-
-Given(/^I am logged in as an administrator$/) do
-  visit new_admin_session_path
-  page.should have_content 'Administration login'
-  fill_in 'Email', with: my_admin.email
-  fill_in 'Password', with: my_admin.password
-  click_button 'Sign in'
 end
 
 When(/^I elect to create a new agency user$/) do

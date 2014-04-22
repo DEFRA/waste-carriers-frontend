@@ -7,7 +7,7 @@ Administrators can create, modify and delete users.
 
 @admin
 Scenario: Login as Administrator
-  When I log in as administrator
+  When I am logged in as an administrator
   Then I should see the user administration page
 
 @admin
