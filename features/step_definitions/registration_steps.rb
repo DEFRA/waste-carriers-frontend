@@ -193,13 +193,7 @@ Given(/^I do not have an account yet$/) do
 end
 
 Given(/^I am not logged in$/) do
-  #Note: Logging out via DELETE (vs. GET) - therefore visiting the URL is not enough
-  #visit('/users/sign_out')
-  if (page.has_content?("Logged in as")) # TODO another way of doing this
-    click_button("Logout")
-  end
-
-  page.should_not have_content 'Logged in as'
+  visit destroy_user_session_path
 end
 
 When(/^I provide valid user details for sign in$/) do
