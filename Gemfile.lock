@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/bmabey/database_cleaner.git
+  revision: 35bd646903fc56af185a9fa9e360c568bb56756e
+  specs:
+    database_cleaner (1.2.0)
+
+GIT
   remote: https://github.com/mongoid/mongoid.git
   revision: 86b642722dd2b6e17456a3007196addda3799f4d
   specs:
@@ -87,7 +93,6 @@ GEM
       cucumber (>= 1.2.0)
       nokogiri (>= 1.5.0)
       rails (>= 3.0.0)
-    database_cleaner (1.2.0)
     debugger (1.6.2)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -103,6 +108,11 @@ GEM
     diff-lcs (1.2.4)
     erubis (2.7.0)
     execjs (2.0.2)
+    factory_girl (4.2.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.2.1)
+      factory_girl (~> 4.2.0)
+      railties (>= 3.0.0)
     ffi (1.9.0)
     gherkin (2.12.2)
       multi_json (~> 1.3)
@@ -231,6 +241,7 @@ GEM
     thread_safe (0.1.3)
       atomic
     tilt (1.4.1)
+    timecop (0.7.1)
     tins (0.12.0)
     treetop (1.4.15)
       polyglot
@@ -258,9 +269,10 @@ DEPENDENCIES
   ci_reporter
   coffee-rails (~> 4.0.0)
   cucumber-rails
-  database_cleaner
+  database_cleaner!
   debugger
   devise (~> 3.1.1)
+  factory_girl_rails (= 4.2.1)
   govuk_frontend_toolkit
   jquery-rails
   launchy (~> 2.4.2)
@@ -276,4 +288,5 @@ DEPENDENCIES
   sauce-cucumber
   selenium-webdriver
   sqlite3
+  timecop (~> 0.7.1)
   uglifier (>= 1.3.0)

@@ -61,6 +61,10 @@ gem 'capistrano', '~> 3.0.0'
 
 group :test do
   gem 'ci_reporter'
+  gem 'cucumber-rails', require: false
+  gem 'database_cleaner', git: 'https://github.com/bmabey/database_cleaner.git'
+  gem 'timecop', '~> 0.7.1'
+  gem 'factory_girl_rails', '4.2.1'
 end
 
 group :development do
@@ -68,10 +72,6 @@ group :development do
 end
 
 group :test, :development do
-  gem 'cucumber-rails', :require => false
-  # database_cleaner is not required, but highly recommended
-  gem 'database_cleaner'
-
   #We need the selenium webdriver for javascript
   gem 'selenium-webdriver'
 
