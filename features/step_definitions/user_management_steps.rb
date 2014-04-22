@@ -51,7 +51,7 @@ Then(/^the user should have been deleted$/) do
 end
 
 When(/^I am not logged in as an administrator$/) do
-  #Nothing to do
+  visit destroy_admin_session_path
 end
 
 When(/^I access the user administration page$/) do
