@@ -6,8 +6,7 @@ So that I am compliant with regulations
 
 #@selenium
 Scenario: Valid registration as an Individual
-  Given I do not have an account yet
-  And I have found out that I need to register in the lower tier
+  Given I have found out that I need to register in the lower tier
   Then I should see "Registering as a lower tier waste carrier/broker/dealer"
   #And I select business or organisation type "Sole trader"
   And I fill in "Business, organisation or trading name" with "Joe Bloggs"
@@ -22,8 +21,7 @@ Scenario: Valid registration as an Individual
 
 #@javascript
 Scenario: Valid registration as an Individual (version 2)
-  Given I do not have an account yet
-  And I have found out that I need to register in the lower tier
+  Given I have found out that I need to register in the lower tier
   And I provide valid individual trading name details
   And I provide valid contact details
   And I confirm the declaration
