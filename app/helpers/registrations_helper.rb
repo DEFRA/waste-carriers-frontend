@@ -24,14 +24,14 @@ end
 def format_address(model)
   if model.postcode.nil?
     # Print International address
-    raw("#{model.streetLine1}<br />#{model.streetLine2}<br />#{model.streetLine3}<br />#{model.streetLine4}<br />#{model.country}")
+    "#{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.streetLine3)}<br />#{h(model.streetLine4)}<br />#{h(model.country)}".html_safe
   else
     if model.streetLine2 != ""
       # Print UK Address Including Street line 2 (as its optional but been populated)
-      raw("#{model.houseNumber} #{model.streetLine1}<br />#{model.streetLine2}<br />#{model.townCity}<br />#{model.postcode}")
+      "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
     else
       # Print UK Address
-      raw("#{model.houseNumber} #{model.streetLine1}<br />#{model.townCity}<br />#{model.postcode}")
+      "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
     end    
   end
 end
