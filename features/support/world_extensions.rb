@@ -10,6 +10,10 @@ module KnowsTheDomain
   def my_admin
     @my_admin ||= FactoryGirl.create :admin
   end
+
+  def my_agency_user
+    @my_agency_user ||= FactoryGirl.create :agency_user
+  end
 end
 
 World(KnowsTheDomain)

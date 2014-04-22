@@ -1,22 +1,11 @@
-## step definitions for Assisted Digital users and registrations
-
-Given(/^I have an NCCC agency user account$/) do
-  if !AgencyUser.where(email: 'test.user@agency.gov.uk').exists? # TODO factory
-    user = AgencyUser.new
-    user.email = 'test.user@agency.gov.uk'
-    user.password = 'secret123'
-    user.save!
-  end
-end
-
 Given(/^I am logged in as an NCCC agency user$/) do
   visit new_agency_user_session_path
   page.should have_content 'Sign in'
   page.should have_content 'NCCC agency login'
-  fill_in 'Email', with: 'test.user@agency.gov.uk'
-  fill_in 'Password', with: 'secret123'
+  fill_in 'Email', with: my_agency_user.email
+  fill_in 'Password', with: my_agency_user.password
   click_button 'Sign in'
-  page.should have_content 'Signed in as agency user test.user@agency.gov.uk'
+  page.should have_content "Signed in as agency user #{my_agency_user.email}"
 end
 
 Given(/^I have received a call from a business$/) do
@@ -50,7 +39,7 @@ end
 
 Then(/^the registration confirmation email should not be sent$/) do
   # specifically "the registration confirmation email should not be sent *to the agency user" (for whom this is the only email address provided)
-  open_email AgencyUser.last.email # TODO factory
+  open_email my_agency_user.email
   current_email.should be_nil
 end
 
