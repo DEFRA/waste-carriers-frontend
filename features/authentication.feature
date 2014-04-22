@@ -28,7 +28,7 @@ Scenario: Log in successfully as Waste Carrier
 Scenario: Log in as Waste Carrier - invalid password
   Given there is an activated user
   When the user visits the login page
-  And enters invalid credentials for user Joe
+  And enters invalid credentials
   Then the user should see a login error
 
 
