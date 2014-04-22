@@ -1,6 +1,3 @@
-#Registration step definitions
-#Capybara syntax (visit, fill_in, ...) see e.g. https://github.com/jnicklas/capybara
-
 Given(/^I am on the initial page$/) do
   visit find_path
   page.should have_content 'Find out if'
