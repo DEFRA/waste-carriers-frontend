@@ -41,6 +41,6 @@ end
 
 Then(/^the print page contains the six-digit access code for the user$/) do
   page.should have_content 'access code'
-  accessCode = page.find_by_id 'accessCode'
-  accessCode.text.length.should == 6
+  access_code = page.find_by_id 'accessCode'
+  access_code.text.length.should == 6
 end
