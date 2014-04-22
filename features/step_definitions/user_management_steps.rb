@@ -32,14 +32,14 @@ Then(/^I should see the user's details page$/) do
 end
 
 Given(/^there is a user to be deleted$/) do
-  AgencyUser.where(email: "to-be-deleted@waste-exemplar.gov.uk", password: "secret123").create # TODO factory
+  my_agency_user
 end
 
 When(/^I elect to delete the user$/) do
   click_link 'Delete'
 
   page.should have_content 'Confirm delete'
-  page.should have_content 'to-be-deleted@waste-exemplar.gov.uk'
+  page.should have_content my_agency_user.email
 end
 
 When(/^I confirm to delete the user$/) do
