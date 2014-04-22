@@ -64,7 +64,7 @@ group :test do
   gem 'cucumber-rails', require: false
   gem 'database_cleaner', git: 'https://github.com/bmabey/database_cleaner.git'
   gem 'timecop', '~> 0.7.1'
-  gem 'factory_girl_rails', '4.2.1'
+  gem 'factory_girl_rails', '~> 4.4.1'
 end
 
 group :development do
