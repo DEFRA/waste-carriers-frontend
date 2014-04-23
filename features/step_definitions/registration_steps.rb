@@ -123,7 +123,7 @@ end
 Given(/^I have an activated account$/) do
   open_email my_user.email
   current_email.click_link 'Confirm your account'
-  visit new_user_session_path
+  visit destroy_user_session_path
 end
 
 Given(/^I am not logged in$/) do
