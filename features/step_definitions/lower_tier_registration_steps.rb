@@ -14,8 +14,8 @@ Given(/^I have completed the lower tier registration form$/) do
   select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
 
   select 'Mr', from: 'Title'
-  fill_in 'First name', with: 'Barry'
-  fill_in 'Last name', with: 'Butler'
+  fill_in 'First name', with: 'Joe'
+  fill_in 'Last name', with: 'Bloggs'
   fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 8332'
   fill_in 'Email address', with: my_email_address
