@@ -122,7 +122,7 @@ end
 
 Given(/^I have an activated account$/) do
   my_user
-  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  sleep 0.3 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_user.email
   current_email.click_link 'Confirm your account'
 end
