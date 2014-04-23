@@ -83,7 +83,7 @@ group :test, :development do
   gem 'rspec-rails', '~> 2.12'
 
   #cross-browser testing using saucelabs
-  gem 'sauce', '~> 3.2.0'
+  gem 'sauce'
   gem 'sauce-connect', :require => false
   gem 'sauce-cucumber', :require => false
   gem 'capybara', '~> 2.1.0'
