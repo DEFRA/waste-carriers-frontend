@@ -102,7 +102,7 @@ if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/features/reports/
 
   echo "Copying RSpec report to Jenkins."
-  scp ${WCRS_FRONTEND_HOME}/live/spec/reports/ \
+  scp ${WCRS_FRONTEND_HOME}/live/spec/reports/*.xml \
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/spec/reports/
 fi
 
