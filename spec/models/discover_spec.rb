@@ -19,6 +19,6 @@ describe Discover do
   end
 
   describe "#upper_tier?" do
-
+    specify { Discover.new(businessType: 'charity').should_not be_upper_tier }
   end
 end
