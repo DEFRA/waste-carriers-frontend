@@ -230,7 +230,6 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
-    sqlite3 (1.3.8)
     sshkit (1.0.0)
       net-scp
       net-ssh
@@ -287,6 +286,5 @@ DEPENDENCIES
   sauce-connect
   sauce-cucumber
   selenium-webdriver
-  sqlite3
   timecop (~> 0.7.1)
   uglifier (>= 1.3.0)
