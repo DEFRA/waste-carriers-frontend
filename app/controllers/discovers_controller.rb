@@ -22,7 +22,7 @@ class DiscoversController < ApplicationController
 
     respond_to do |format|
       if @discover.valid?
-	    if @discover.isUpper?
+	    if @discover.upper_tier?
 	      format.html { redirect_to Rails.configuration.waste_exemplar_eaupper_url }
 	    else
 	      logger.info 'Smarter Answers not upper'

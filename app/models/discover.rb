@@ -59,7 +59,7 @@ class Discover
   end
 
   # Test to see if discovery determines user should register in the Upper Tier
-  def isUpper?
+  def upper_tier?
 
     if upper_business_type? \
       && !otherBusinesses.nil? && otherBusinesses == 'no' \
