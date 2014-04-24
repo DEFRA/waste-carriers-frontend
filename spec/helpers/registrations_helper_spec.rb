@@ -4,7 +4,7 @@ describe RegistrationsHelper do
   describe "#format_date" do
     specify { helper.format_date('1 Jan 2014'.to_date).should == 'Wednesday 1st January 2014' }
     specify { helper.format_date('2 Jan 2014'.to_date).should == 'Thursday 2nd January 2014' }
-    specify { helper.format_date('3 Jan 2014'.to_date).should == 'Friday 3rd January 2014' } #
+    specify { helper.format_date('3 Jan 2014'.to_date).should == 'Friday 3rd January 2014' }
     specify { helper.format_date('4 Jan 2014'.to_date).should == 'Saturday 4th January 2014' }
     specify { helper.format_date('5 Jan 2014'.to_date).should == 'Sunday 5th January 2014' }
     specify { helper.format_date('6 Jan 2014'.to_date).should == 'Monday 6th January 2014' }
