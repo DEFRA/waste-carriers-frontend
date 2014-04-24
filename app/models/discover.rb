@@ -87,11 +87,7 @@ class Discover
 
   # Test to see if the user has selected an Upper Tier business type
   def isUpperBusinessType?
-    if !businessType.nil? && (businessType == "soleTrader" || businessType == "partnership" || businessType == "limitedCompany" || businessType == "publicBody")
-      return true
-    else
-      return false
-    end
+    businessType.in? ['soleTrader', 'partnership', 'limitedCompany', 'publicBody']
   end
 
 end
