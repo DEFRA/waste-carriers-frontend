@@ -82,6 +82,7 @@ rake db:migrate RAILS_ENV="${WCRS_FRONTEND_RAILS_ENV}"
 if [ ${WCRS_FRONTEND_RAILS_ENV} == "development" -o ${WCRS_FRONTEND_RAILS_ENV} == "test" ]; then
   echo "Seeding the database."
   rake db:seed
+  rspec . --tag ~sauce
 fi
 
 ## Start nginx.
