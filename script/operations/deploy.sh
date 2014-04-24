@@ -82,9 +82,6 @@ rake db:migrate RAILS_ENV="${WCRS_FRONTEND_RAILS_ENV}"
 if [ ${WCRS_FRONTEND_RAILS_ENV} == "development" -o ${WCRS_FRONTEND_RAILS_ENV} == "test" ]; then
   echo "Seeding the database."
   rake db:seed
-  echo "ABOUT TO RUN RPECS"
-  rspec . --tag ~sauce
-  echo "RSPEC RUN FINISHED"
 fi
 
 ## Start nginx.
@@ -96,6 +93,7 @@ if [ "${WCRS_FRONTEND_RAILS_ENV}" != "production" ]; then
   echo "Running tests."
   rake db:test:prepare
   xvfb-run cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
+  rake spec SPEC_OPTS=". --tag ~sauce"
 fi
 
 if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
