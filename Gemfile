@@ -9,10 +9,6 @@ gem 'debugger', :require => false
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-#We won't need sqllite (or ActiveRecord) once we have moved to ActiveResource for registrations
-#but it may still be need it for authentication...
-gem 'sqlite3'
-
 #We store user accounts (authentication with Devise) in a MongoDB database
 #gem 'mongoid', github: "mongoid/mongoid"
 gem 'mongoid', :git => "https://github.com/mongoid/mongoid.git"
