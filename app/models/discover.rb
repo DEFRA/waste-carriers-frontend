@@ -62,20 +62,20 @@ class Discover
   def upper_tier?
 
     if upper_business_type? \
-      && !otherBusinesses.nil? && otherBusinesses == 'no' \
-      && !constructionWaste.nil? && constructionWaste == 'yes'
+      && otherBusinesses == 'no' \
+      && constructionWaste == 'yes'
       Rails.logger.info "Is Upper Tier found (otherBusinesses = no, constructionWaste = yes)"
       return true
     elsif upper_business_type? \
-      && !otherBusinesses.nil? && otherBusinesses == 'yes' \
-      && !isMainService.nil? && isMainService == 'no' \
-      && !constructionWaste.nil? && constructionWaste == 'yes'
+      && otherBusinesses == 'yes' \
+      && isMainService == 'no' \
+      && constructionWaste == 'yes'
       Rails.logger.info "Is Upper Tier found (otherBusinesses = yes, isMainService = no, constructionWaste = yes)"
       return true
     elsif upper_business_type? \
-      && !otherBusinesses.nil? && otherBusinesses == 'yes' \
-      && !isMainService.nil? && isMainService == 'yes' \
-      && !onlyAMF.nil? && onlyAMF == 'no'
+      && otherBusinesses == 'yes' \
+      && isMainService == 'yes' \
+      && onlyAMF == 'no'
       Rails.logger.info "Is Upper Tier found (otherBusinesses = yes, isMainService = yes, onlyAMF = no)"
       return true
     else
