@@ -61,7 +61,7 @@ class Discover
   # Test to see if discovery determines user should register in the Upper Tier
   def upper_tier?
     if upper_business_type?
-      (otherBusinesses == 'no' and constructionWaste == 'yes') or (otherBusinesses == 'yes' and isMainService == 'no' and constructionWaste == 'yes') or (otherBusinesses == 'yes' and isMainService == 'yes' and onlyAMF == 'no')
+      (otherBusinesses.inquiry.no? and constructionWaste.inquiry.yes?) or (otherBusinesses.inquiry.yes? and isMainService.inquiry.no? and constructionWaste.inquiry.yes?) or (otherBusinesses.inquiry.yes? and isMainService.inquiry.yes? and onlyAMF.inquiry.no?)
     else
       false
     end
