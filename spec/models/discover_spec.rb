@@ -23,5 +23,25 @@ describe Discover do
     specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'yes').should be_upper_tier }
     specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', isMainService: 'no', constructionWaste: 'yes').should be_upper_tier }
     specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', isMainService: 'yes', onlyAMF: 'no').should be_upper_tier }
+
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'no', isMainService: 'no', onlyAMF: 'no').should_not be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'no', isMainService: 'no', onlyAMF: 'yes').should_not be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'no', isMainService: 'yes', onlyAMF: 'no').should_not be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'no', isMainService: 'yes', onlyAMF: 'no').should_not be_upper_tier }
+
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'yes', isMainService: 'no', onlyAMF: 'no').should be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'yes', isMainService: 'no', onlyAMF: 'yes').should be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'yes', isMainService: 'yes', onlyAMF: 'no').should be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'yes', isMainService: 'yes', onlyAMF: 'no').should be_upper_tier }
+
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'no', isMainService: 'no', onlyAMF: 'no').should_not be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'no', isMainService: 'no', onlyAMF: 'yes').should_not be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'no', isMainService: 'yes', onlyAMF: 'yes').should_not be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'no', isMainService: 'yes', onlyAMF: 'yes').should_not be_upper_tier }
+
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'yes', isMainService: 'no', onlyAMF: 'no').should be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'yes', isMainService: 'no', onlyAMF: 'yes').should be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'yes', isMainService: 'yes', onlyAMF: 'no').should be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'yes', isMainService: 'yes', onlyAMF: 'yes').should_not be_upper_tier }
   end
 end
