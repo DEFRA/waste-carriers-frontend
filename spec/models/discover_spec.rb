@@ -18,7 +18,7 @@ describe Discover do
     specify { Discover.new(businessType: nil).should_not be_upper_business_type }
   end
 
-  describe "#is_upper?" do
+  describe "#upper_tier?" do
 
   end
 end
