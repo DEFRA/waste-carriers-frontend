@@ -60,26 +60,23 @@ class Discover
 
   # Test to see if discovery determines user should register in the Upper Tier
   def upper_tier?
-
     if upper_business_type? \
       && otherBusinesses == 'no' \
       && constructionWaste == 'yes'
-      return true
+      true
     elsif upper_business_type? \
       && otherBusinesses == 'yes' \
       && isMainService == 'no' \
       && constructionWaste == 'yes'
-      return true
+      true
     elsif upper_business_type? \
       && otherBusinesses == 'yes' \
       && isMainService == 'yes' \
       && onlyAMF == 'no'
-      return true
+      true
     else
-      Rails.logger.info "Is Upper Tier not found"
-      return false
+      false
     end
-
   end
 
   # Test to see if the user has selected an Upper Tier business type
