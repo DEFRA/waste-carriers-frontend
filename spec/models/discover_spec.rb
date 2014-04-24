@@ -20,5 +20,8 @@ describe Discover do
 
   describe "#upper_tier?" do
     specify { Discover.new(businessType: 'charity').should_not be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'no', constructionWaste: 'yes').should be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', isMainService: 'no', constructionWaste: 'yes').should be_upper_tier }
+    specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', isMainService: 'yes', onlyAMF: 'no').should be_upper_tier }
   end
 end
