@@ -13,6 +13,9 @@ describe Discover do
     specify { Discover.new(businessType: 'disposalAuthority').isUpperBusinessType? == false }
     specify { Discover.new(businessType: 'regulationAuthority').isUpperBusinessType? == false }
     specify { Discover.new(businessType: 'other').isUpperBusinessType? == false }
+
+    specify { Discover.new(businessType: '').isUpperBusinessType? == false }
+    specify { Discover.new(businessType: nil).isUpperBusinessType? == false }
   end
 
   describe "#is_upper?" do
