@@ -11,16 +11,16 @@ class Discover
   validate :validate_businessType
 
   # otherBusinesses must be present if businessType is present and has a value of "soleTrader" || "partnership" || "limitedCompany" || "publicBody"
-  validates_presence_of :otherBusinesses, :if => lambda { |o| !o.businessType.nil? && (o.businessType == "soleTrader" || o.businessType == "partnership" || o.businessType == "limitedCompany" || o.businessType == "publicBody") }
+  validates_presence_of :otherBusinesses, :if => lambda { |o| (o.businessType == "soleTrader" || o.businessType == "partnership" || o.businessType == "limitedCompany" || o.businessType == "publicBody") }
 
   # isMainService must be present if otherBusinesses is yes
-  validates_presence_of :isMainService, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" }
+  validates_presence_of :isMainService, :if => lambda { |o| o.otherBusinesses == "yes" }
 
   # onlyAMF must be present if otherBusinesses is yes
-  validates_presence_of :onlyAMF, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "yes" && !o.isMainService.nil? && o.isMainService == "yes"}
+  validates_presence_of :onlyAMF, :if => lambda { |o| o.otherBusinesses == "yes" && o.isMainService == "yes"}
 
   # construction waste must be present if otherBusinesses is no
-  validates_presence_of :constructionWaste, :if => lambda { |o| !o.otherBusinesses.nil? && o.otherBusinesses == "no" }
+  validates_presence_of :constructionWaste, :if => lambda { |o| o.otherBusinesses == "no" }
 
   # wastetype must be present if construction waste is no, plus ensure that all other checkboxes are not selected
   # Remove waste type validation as field removed
