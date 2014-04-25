@@ -205,4 +205,42 @@ describe Discover do
       end
     end
   end
+
+  describe "#validate_businessType" do
+    context "empty" do
+      subject { Discover.new(businessType: '') }
+
+      before do
+        subject.validate_businessType
+      end
+
+      it "errors" do
+        subject.errors[:businessType].should include 'must be completed'
+      end
+    end
+
+    context "other" do
+      subject { Discover.new(businessType: 'other') }
+
+      before do
+        subject.validate_businessType
+      end
+
+      it "errors" do
+        subject.errors[:businessType].should include 'has an invalid selection'
+      end
+    end
+
+    context "soleTrader" do
+      subject { Discover.new(businessType: 'soleTrader') }
+
+      before do
+        subject.validate_businessType
+      end
+
+      it "doesn't error" do
+        subject.errors[:businessType].should be_empty
+      end
+    end
+  end
 end
