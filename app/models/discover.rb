@@ -15,21 +15,6 @@ class Discover
   validates_presence_of :onlyAMF, :if => lambda { |o| o.otherBusinesses == 'yes' and o.isMainService == 'yes' }
   validates_presence_of :constructionWaste, :if => lambda { |o| o.otherBusinesses == 'no' }
 
-  # wastetype must be present if construction waste is no, plus ensure that all other checkboxes are not selected
-  # Remove waste type validation as field removed
-  #validate :validate_not_apply, :if => lambda { |o| !o.constructionWaste.nil? && o.constructionWaste == "no" }
-
-  def validate_not_apply
-    waste_types = [wasteType_animal, wasteType_mine, wasteType_farm, wasteType_other]
-
-    if wasteType_none == "1"
-      errors.add(:wasteType, 'cannot contain multiple selections if you do not carry waste regularly') if waste_types.any? { |parameter| parameter == '1' } # TODO think this should be checking for many
-      errors.add(:wasteType, 'identified that you do not carry waste regularly therefore you do not need to register') if waste_types.none? { |parameter| parameter == '1' }
-    else
-      errors.add(:wasteType, 'must select at least one option') if waste_types.none? { |parameter| parameter == '1' }
-    end
-  end
-
   def persisted?
     self.id == 1
   end
