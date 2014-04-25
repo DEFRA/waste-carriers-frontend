@@ -73,6 +73,18 @@ describe Discover do
       end
     end
 
+    context "none, animal and mine" do
+      subject { Discover.new(wasteType_none: '1', wasteType_animal: '1', wasteType_mine: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "errors" do
+        subject.errors[:wasteType].should include 'cannot contain multiple selections if you do not carry waste regularly'
+      end
+    end
+
     context "none and mine" do
       subject { Discover.new(wasteType_none: '1', wasteType_mine: '1') }
 
