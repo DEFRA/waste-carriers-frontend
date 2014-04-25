@@ -60,5 +60,17 @@ describe Discover do
         subject.errors[:wasteType].should include 'must select at least one option'
       end
     end
+
+    context "none and animal" do
+      subject { Discover.new(wasteType_none: '1', wasteType_animal: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "errors" do
+        subject.errors[:wasteType].should include 'cannot contain multiple selections if you do not carry waste regularly'
+      end
+    end
   end
 end
