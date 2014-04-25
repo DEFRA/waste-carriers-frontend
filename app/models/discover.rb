@@ -65,7 +65,6 @@ class Discover
     return true if otherBusinesses.inquiry.yes? and isMainService.inquiry.yes? and onlyAMF.inquiry.no?
   end
 
-  # Test to see if the user has selected an Upper Tier business type
   def upper_business_type?
     businessType.in? ['soleTrader', 'partnership', 'limitedCompany', 'publicBody']
   end
