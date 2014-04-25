@@ -14,13 +14,13 @@ class Discover
   validates_presence_of :otherBusinesses, :if => lambda { |o| o.upper_business_type? }
 
   # isMainService must be present if otherBusinesses is yes
-  validates_presence_of :isMainService, :if => lambda { |o| o.otherBusinesses.inquiry.yes? }
+  validates_presence_of :isMainService, :if => lambda { |o| o.otherBusinesses == 'yes' }
 
   # onlyAMF must be present if otherBusinesses is yes
-  validates_presence_of :onlyAMF, :if => lambda { |o| o.otherBusinesses.inquiry.yes? and o.isMainService.inquiry.yes? }
+  validates_presence_of :onlyAMF, :if => lambda { |o| o.otherBusinesses == 'yes' and o.isMainService == 'yes' }
 
   # construction waste must be present if otherBusinesses is no
-  validates_presence_of :constructionWaste, :if => lambda { |o| o.otherBusinesses.inquiry.no? }
+  validates_presence_of :constructionWaste, :if => lambda { |o| o.otherBusinesses == 'no' }
 
   # wastetype must be present if construction waste is no, plus ensure that all other checkboxes are not selected
   # Remove waste type validation as field removed
@@ -34,9 +34,8 @@ class Discover
         errors.add(:wasteType, 'identified that you do not carry waste regularly therefore you do not need to register')
       end
     end
-    if wasteType_animal == "0" && wasteType_mine == "0" && wasteType_farm == "0" && wasteType_other == "0" && wasteType_none == "0"
-      errors.add(:wasteType, 'must select at least one option')
-    end
+
+    errors.add(:wasteType, 'must select at least one option') if [wasteType_animal, wasteType_mine, wasteType_farm, wasteType_other, wasteType_none].all? { |parameter| parameter == '0' }
   end
 
   def persisted?
