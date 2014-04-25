@@ -132,5 +132,17 @@ describe Discover do
         subject.errors[:wasteType].should include 'identified that you do not carry waste regularly therefore you do not need to register'
       end
     end
+
+    context "animal" do
+      subject { Discover.new(wasteType_animal: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "doesn't error" do
+        subject.errors[:wasteType].should be_empty
+      end
+    end
   end
 end
