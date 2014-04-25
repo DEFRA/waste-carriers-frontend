@@ -11,7 +11,7 @@ class Discover
   validate :validate_businessType
 
   # otherBusinesses must be present if businessType is present and has a value of "soleTrader" || "partnership" || "limitedCompany" || "publicBody"
-  validates_presence_of :otherBusinesses, :if => lambda { |o| (o.businessType == "soleTrader" || o.businessType == "partnership" || o.businessType == "limitedCompany" || o.businessType == "publicBody") }
+  validates_presence_of :otherBusinesses, :if => lambda { |o| o.upper_business_type? }
 
   # isMainService must be present if otherBusinesses is yes
   validates_presence_of :isMainService, :if => lambda { |o| o.otherBusinesses == "yes" }
