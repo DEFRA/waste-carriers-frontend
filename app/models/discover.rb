@@ -9,16 +9,9 @@ class Discover
 
   # businessType must be present
   validate :validate_businessType
-
-  # otherBusinesses must be present if businessType is present and has a value of "soleTrader" || "partnership" || "limitedCompany" || "publicBody"
   validates_presence_of :otherBusinesses, :if => lambda { |o| o.upper_business_type? }
-
-  # isMainService must be present if otherBusinesses is yes
   validates_presence_of :isMainService, :if => lambda { |o| o.otherBusinesses == 'yes' }
-
   validates_presence_of :onlyAMF, :if => lambda { |o| o.otherBusinesses == 'yes' and o.isMainService == 'yes' }
-
-  # construction waste must be present if otherBusinesses is no
   validates_presence_of :constructionWaste, :if => lambda { |o| o.otherBusinesses == 'no' }
 
   # wastetype must be present if construction waste is no, plus ensure that all other checkboxes are not selected
