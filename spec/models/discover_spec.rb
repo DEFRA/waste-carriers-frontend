@@ -72,5 +72,53 @@ describe Discover do
         subject.errors[:wasteType].should include 'cannot contain multiple selections if you do not carry waste regularly'
       end
     end
+
+    context "none and mine" do
+      subject { Discover.new(wasteType_none: '1', wasteType_mine: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "errors" do
+        subject.errors[:wasteType].should include 'cannot contain multiple selections if you do not carry waste regularly'
+      end
+    end
+
+    context "none and farm" do
+      subject { Discover.new(wasteType_none: '1', wasteType_farm: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "errors" do
+        subject.errors[:wasteType].should include 'cannot contain multiple selections if you do not carry waste regularly'
+      end
+    end
+
+    context "none and other" do
+      subject { Discover.new(wasteType_none: '1', wasteType_other: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "errors" do
+        subject.errors[:wasteType].should include 'cannot contain multiple selections if you do not carry waste regularly'
+      end
+    end
+
+    context "just none" do
+      subject { Discover.new(wasteType_none: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "errors" do
+        subject.errors[:wasteType].should include 'identified that you do not carry waste regularly therefore you do not need to register'
+      end
+    end
   end
 end
