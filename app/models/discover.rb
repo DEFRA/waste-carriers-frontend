@@ -9,6 +9,7 @@ class Discover
 
   # businessType must be present
   validate :validate_businessType
+  validates :businessType, inclusion: { in: Rails.application.config.registration_business_types }
   validates_presence_of :otherBusinesses, :if => lambda { |o| o.upper_business_type? }
   validates_presence_of :isMainService, :if => lambda { |o| o.otherBusinesses == 'yes' }
   validates_presence_of :onlyAMF, :if => lambda { |o| o.otherBusinesses == 'yes' and o.isMainService == 'yes' }
