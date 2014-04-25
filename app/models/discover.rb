@@ -14,13 +14,13 @@ class Discover
   validates_presence_of :otherBusinesses, :if => lambda { |o| o.upper_business_type? }
 
   # isMainService must be present if otherBusinesses is yes
-  validates_presence_of :isMainService, :if => lambda { |o| o.otherBusinesses == "yes" }
+  validates_presence_of :isMainService, :if => lambda { |o| o.otherBusinesses.inquiry.yes? }
 
   # onlyAMF must be present if otherBusinesses is yes
-  validates_presence_of :onlyAMF, :if => lambda { |o| o.otherBusinesses == "yes" && o.isMainService == "yes"}
+  validates_presence_of :onlyAMF, :if => lambda { |o| o.otherBusinesses.inquiry.yes? and o.isMainService.inquiry.yes? }
 
   # construction waste must be present if otherBusinesses is no
-  validates_presence_of :constructionWaste, :if => lambda { |o| o.otherBusinesses == "no" }
+  validates_presence_of :constructionWaste, :if => lambda { |o| o.otherBusinesses.inquiry.no? }
 
   # wastetype must be present if construction waste is no, plus ensure that all other checkboxes are not selected
   # Remove waste type validation as field removed
