@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe Discover do
 
+  it { should allow_value('soleTrader', 'partnership', 'limitedCompany', 'publicBody', 'charity', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority', 'other').for(:businessType) }
+  it { should_not allow_value('ltd', 'plc').for(:businessType) }
+
   describe "#upper_business_type?" do
     specify { Discover.new(businessType: 'soleTrader').should be_upper_business_type }
     specify { Discover.new(businessType: 'partnership').should be_upper_business_type }
