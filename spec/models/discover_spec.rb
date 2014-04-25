@@ -47,4 +47,18 @@ describe Discover do
     specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'yes', isMainService: 'yes', onlyAMF: 'no').should be_upper_tier }
     specify { Discover.new(businessType: 'soleTrader', otherBusinesses: 'yes', constructionWaste: 'yes', isMainService: 'yes', onlyAMF: 'yes').should_not be_upper_tier }
   end
+
+  describe "#validate_not_apply" do
+    context "all 0" do
+      subject { Discover.new(wasteType_animal: '0', wasteType_mine: '0', wasteType_farm: '0', wasteType_other: '0', wasteType_none: '0') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "errors" do
+        subject.errors[:wasteType].should include 'must select at least one option'
+      end
+    end
+  end
 end
