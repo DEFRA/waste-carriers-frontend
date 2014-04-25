@@ -47,12 +47,11 @@ class Discover
   end
 
   def validate_businessType
-    if businessType == ""
-      Rails.logger.debug 'businessType is empty'
-      errors.add(:businessType, I18n.t('errors.messages.blank') )
-    elsif businessType == "other"
-      Rails.logger.debug 'businessType is other thus registration not applicable'
-      errors.add(:businessType, I18n.t('errors.messages.invalid_selection') )
+    case businessType
+      when ''
+        errors.add(:businessType, I18n.t('errors.messages.blank'))
+      when 'other'
+        errors.add(:businessType, I18n.t('errors.messages.invalid_selection'))
     end
   end
 
