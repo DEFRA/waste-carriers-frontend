@@ -31,7 +31,7 @@ class Discover
       errors.add(:wasteType, 'cannot contain multiple selections if you do not carry waste regularly') if [wasteType_animal, wasteType_mine, wasteType_farm, wasteType_other].any? { |parameter| parameter == '1' } # TODO think this should be checking for many
       errors.add(:wasteType, 'identified that you do not carry waste regularly therefore you do not need to register') if [wasteType_animal, wasteType_mine, wasteType_farm, wasteType_other].none? { |parameter| parameter == '1' }
     else
-      errors.add(:wasteType, 'must select at least one option') if [wasteType_animal, wasteType_mine, wasteType_farm, wasteType_other].all? { |parameter| parameter == '0' }
+      errors.add(:wasteType, 'must select at least one option') if [wasteType_animal, wasteType_mine, wasteType_farm, wasteType_other].none? { |parameter| parameter == '1' }
     end
   end
 
