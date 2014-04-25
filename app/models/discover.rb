@@ -58,9 +58,9 @@ class Discover
 
   def upper_tier?
     return false unless upper_business_type?
-    return true if otherBusinesses.inquiry.no? and constructionWaste.inquiry.yes?
-    return true if otherBusinesses.inquiry.yes? and isMainService.inquiry.no? and constructionWaste.inquiry.yes?
-    return true if otherBusinesses.inquiry.yes? and isMainService.inquiry.yes? and onlyAMF.inquiry.no?
+    return true if otherBusinesses == 'no' and constructionWaste == 'yes'
+    return true if otherBusinesses == 'yes' and isMainService == 'no' and constructionWaste == 'yes'
+    return true if otherBusinesses == 'yes' and isMainService == 'yes' and onlyAMF == 'no'
   end
 
   def upper_business_type?
