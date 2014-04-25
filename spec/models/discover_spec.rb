@@ -144,5 +144,65 @@ describe Discover do
         subject.errors[:wasteType].should be_empty
       end
     end
+
+    context "mine" do
+      subject { Discover.new(wasteType_mine: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "doesn't error" do
+        subject.errors[:wasteType].should be_empty
+      end
+    end
+
+    context "farm" do
+      subject { Discover.new(wasteType_farm: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "doesn't error" do
+        subject.errors[:wasteType].should be_empty
+      end
+    end
+
+    context "other" do
+      subject { Discover.new(wasteType_other: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "doesn't error" do
+        subject.errors[:wasteType].should be_empty
+      end
+    end
+
+    context "none" do
+      subject { Discover.new(wasteType_none: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "errors" do
+        subject.errors[:wasteType].should include 'identified that you do not carry waste regularly therefore you do not need to register'
+      end
+    end
+
+    context "animal and mine" do
+      subject { Discover.new(wasteType_animal: '1', wasteType_mine: '1') }
+
+      before do
+        subject.validate_not_apply
+      end
+
+      it "doesn't error" do
+        subject.errors[:wasteType].should be_empty
+      end
+    end
   end
 end
