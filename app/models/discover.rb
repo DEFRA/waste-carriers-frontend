@@ -24,15 +24,6 @@ class Discover
     @omg ||= true
   end
 
-  def validate_businessType
-    case businessType
-      when ''
-        errors.add(:businessType, I18n.t('errors.messages.blank'))
-      when 'other'
-        errors.add(:businessType, I18n.t('errors.messages.invalid_selection'))
-    end
-  end
-
   def upper_tier?
     return false unless upper_business_type?
     return true if otherBusinesses == 'no' and constructionWaste == 'yes'
@@ -44,4 +35,12 @@ class Discover
     businessType.in? ['soleTrader', 'partnership', 'limitedCompany', 'publicBody']
   end
 
+  def validate_businessType
+    case businessType
+      when ''
+        errors.add(:businessType, I18n.t('errors.messages.blank'))
+      when 'other'
+        errors.add(:businessType, I18n.t('errors.messages.invalid_selection'))
+    end
+  end
 end
