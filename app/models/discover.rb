@@ -5,7 +5,7 @@
 class Discover
   include ActiveModel::Model
 
-  attr_accessor :id, :businessType, :otherBusinesses, :isMainService, :onlyAMF, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other, :wasteType_none
+  attr_accessor :id, :businessType, :otherBusinesses, :isMainService, :onlyAMF, :constructionWaste
 
   # businessType must be present
   validate :validate_businessType
