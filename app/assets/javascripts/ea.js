@@ -732,10 +732,6 @@
 		$("#discover_constructionWaste").change(function(e){smartAnswerConstructionDemolition();});
 		smartAnswerConstructionDemolition();
 
-		// Commented out sa4 as not used
-		//$("#discover_wasteType").change(function(e){smarterAnswersQuestion4();});
-		//smarterAnswersQuestion4();
-
 		// Setup Revoke questions on NCCC edit
 		$("#revoke_question").change(function(e){showHideRevoke();});
 		showHideRevoke();
