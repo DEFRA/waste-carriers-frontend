@@ -22,7 +22,7 @@ class DiscoversController < ApplicationController
 
     respond_to do |format|
       if @discover.valid?
-	    if @discover.isUpper?
+	    if @discover.upper_tier?
 	      format.html { redirect_to Rails.configuration.waste_exemplar_eaupper_url }
 	    else
 	      logger.info 'Smarter Answers not upper'
@@ -43,6 +43,6 @@ class DiscoversController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def discover_params
-      params.require(:discover).permit(:businessType, :otherBusinesses, :isMainService, :onlyAMF, :constructionWaste, :wasteType_animal, :wasteType_mine, :wasteType_farm, :wasteType_other, :wasteType_none)
+      params.require(:discover).permit(:businessType, :otherBusinesses, :isMainService, :onlyAMF, :constructionWaste)
     end
 end
