@@ -210,7 +210,10 @@ en:
       errorMessage: "You have %{count} on this page"
     business_details:
       title: "Business details"
-      business_or_org_details: "Enter your business or organisation address"
+      form_legend: "Enter your business or organisation address"
+    contact_details:
+      title: "Contact details"
+      form_legend: "Main point of contact"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
