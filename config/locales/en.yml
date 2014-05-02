@@ -82,7 +82,6 @@ en:
       responsibilities4: "Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'"
 
 
-  hello: "Hello world"
   #Registration form/page(s) content
   errors:
     messages:
@@ -187,6 +186,11 @@ en:
         constructionWaste: "Do you ever deal with waste from building or demolition work?"
         constructionWaste_yes: "Yes"
         constructionWaste_no: "No"
+      upper_registration:
+        business_name: "Business or organisation trading name"
+        carrier: "Carrier"
+        broker: "Broker"
+        dealer: "Dealer"
 
   shared:
     current_user:
@@ -199,6 +203,20 @@ en:
       signed_in_as_admin: "Signed in as admin"
     progress:
       progress: "Progress"
+
+  upper_registrations:
+    errors:
+      error: "error"
+      errorMessage: "You have %{count} on this page"
+    business_name:
+      title: "Business details"
+      business_or_org_details: "Enter your business or organisation address"
+    form:
+      title: "Waste Carrier Registration"
+      subtitle: "Registering as an upper tier waste carrier/broker/dealer"
+      progress: "Progress: "
+      next_button_label: "Next"
+      back_button_label: "Back"
 
   discovers:
     new:
