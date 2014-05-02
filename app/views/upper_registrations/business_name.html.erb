@@ -1,0 +1,31 @@
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <%= form_for(@registration, :url => :upper_business_name) do |f| %>
+
+      <h1 class="subtitle"><%= t 'upper_registrations.form.subtitle' %></h1>
+
+      <% content_for :page_title, createTitle('.title') %>
+
+      <%= render "shared/progress", size: "10%" %>
+
+      <%= render "errors" %>
+
+      <div id="page1" data-journey="waste-carriers-upper-registration:business-details">
+
+      <fieldset>
+        <legend><%= t '.business_or_org_details' %></legend>
+        <p class="group<%if @registration.errors[:business_name].any?%> validation<%end%>">
+          <%= validation_for(@registration, :business_name) %>
+          <%= f.label :business_name %>
+          <%= f.text_field :business_name, :size => 20, :maxlength => 70 %>
+        </p>
+      </fieldset>
+
+      <%= link_to t('upper_registrations.form.back_button_label'), :upper_business_name, :class => 'button-secondary' %>
+      <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
+      </p>
+
+    <% end %>
+  </article>
+</main>
