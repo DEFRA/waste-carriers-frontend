@@ -1,2 +1,31 @@
-<h1>UpperRegistrations#contact_detail</h1>
-<p>Find me in app/views/upper_registrations/contact_detail.html.erb</p>
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <%= form_for(@registration, :url => :upper_contact_detail) do |f| %>
+
+      <h1 class="subtitle"><%= t 'upper_registrations.form.subtitle' %></h1>
+
+      <% content_for :page_title, createTitle('.title') %>
+
+      <%= render "shared/progress", size: "20%" %>
+
+      <%= render "errors" %>
+
+      <div id="page2" data-journey="waste-carriers-upper-registration:contact-details">
+
+      <fieldset>
+        <legend><%= t '.form_legend' %></legend>
+        <p class="group<%if @registration.errors[:full_name].any?%> validation<%end%>">
+          <%= validation_for(@registration, :full_name) %>
+          <%= f.label :full_name %>
+          <%= f.text_field :full_name, :size => 20, :maxlength => 35 %>
+        </p>
+      </fieldset>
+
+      <%= link_to t('upper_registrations.form.back_button_label'), :upper_contact_detail, :class => 'button-secondary' %>
+      <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
+      </p>
+
+    <% end %>
+  </article>
+</main>

@@ -1,5 +1,6 @@
 class UpperRegistrationsController < ApplicationController
 
+  # GET upper-registrations/business-details
   def business_details
     @registration = UpperRegistration.new
     session[:upper_reg_params] ||= {}
@@ -9,6 +10,7 @@ class UpperRegistrationsController < ApplicationController
     @registration.current_step = "business_details"
   end
 
+  # POST upper-registrations/business-details
   def business_details_update
     session[:upper_reg_params] ||= {}
     session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
@@ -17,17 +19,39 @@ class UpperRegistrationsController < ApplicationController
     @registration.current_step = "business_details"
 
     if @registration.valid?
-      logger.info "GOT A VALID REGISTRATION"
-      redirect_to :upper_business_details
-    elsif @registration.new_record?
+      redirect_to :upper_contact_detail
+    else
       redirect_to :upper_business_details
     end
   end
 
-  def director_address
+  # GET upper-registrations/contact-detail
+  def contact_detail
+    @registration = UpperRegistration.new
+    session[:upper_reg_params] ||= {}
+    session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
+
+    @registration = UpperRegistration.new(session[:upper_reg_params])
+    @registration.current_step = "contact_details"
   end
 
-  def contact_detail
+  # POST upper-registrations/contact-detail
+  def contact_detail_update
+    @registration = UpperRegistration.new
+    session[:upper_reg_params] ||= {}
+    session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
+
+    @registration = UpperRegistration.new(session[:upper_reg_params])
+    @registration.current_step = "contact_details"
+
+    if @registration.valid?
+      redirect_to :upper_contact_detail
+    else
+      redirect_to :upper_contact_detail
+    end
+  end
+
+  def director_address
   end
 
   def conviction

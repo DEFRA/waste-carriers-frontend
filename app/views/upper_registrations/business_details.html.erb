@@ -14,7 +14,7 @@
       <div id="page1" data-journey="waste-carriers-upper-registration:business-details">
 
       <fieldset>
-        <legend><%= t '.business_or_org_details' %></legend>
+        <legend><%= t '.form_legend' %></legend>
         <p class="group<%if @registration.errors[:business_name].any?%> validation<%end%>">
           <%= validation_for(@registration, :business_name) %>
           <%= f.label :business_name %>
