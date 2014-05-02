@@ -1,7 +1,7 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
 
-    <%= form_for(@registration, :url => :upper_business_name) do |f| %>
+    <%= form_for(@registration, :url => :upper_business_details) do |f| %>
 
       <h1 class="subtitle"><%= t 'upper_registrations.form.subtitle' %></h1>
 
@@ -22,7 +22,7 @@
         </p>
       </fieldset>
 
-      <%= link_to t('upper_registrations.form.back_button_label'), :upper_business_name, :class => 'button-secondary' %>
+      <%= link_to t('upper_registrations.form.back_button_label'), :upper_business_details, :class => 'button-secondary' %>
       <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
       </p>
 

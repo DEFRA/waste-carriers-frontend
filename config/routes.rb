@@ -62,9 +62,9 @@ Registrations::Application.routes.draw do
 
 	  resources :registrations
 
-    get "upper-registrations/business-name" => "upper_registrations#business_name", :as => :upper_business_name
-    post "upper-registrations/business-name" => "upper_registrations#business_name_update"
-    get "upper-registrations/main-address" => "upper_registrations#main_address", :as => :upper_main_address
+    get "upper-registrations/business-details" => "upper_registrations#business_details", :as => :upper_business_details
+    post "upper-registrations/business-details" => "upper_registrations#business_details_update"
+
     get "upper-registrations/director-address" => "upper_registrations#director_address", :as => :upper_director_address
     get "upper-registrations/contact-detail" => "upper_registrations#contact_detail", :as => :upper_contact_detail
     get "upper-registrations/conviction" => "upper_registrations#conviction", :as => :upper_conviction
