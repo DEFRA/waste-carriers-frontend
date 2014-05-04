@@ -1,0 +1,41 @@
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <%= form_for(@registration, :url => :upper_business_type) do |f| %>
+
+      <h1 class="subtitle"><%= t 'upper_registrations.form.subtitle' %></h1>
+
+      <% content_for :page_title, createTitle('.title') %>
+
+      <%= render "shared/progress", size: "20%" %>
+
+      <%= render "errors" %>
+
+      <div id="page3" data-journey="waste-carriers-upper-registration:business-type">
+
+      <fieldset>
+        <legend><%= t '.form_legend' %></legend>
+        <p class="group<%if @registration.errors[:carrier_dealer].any?%> validation<%end%>">
+          <%= validation_for(@registration, :carrier_dealer) %>
+          <%= f.label :carrier_dealer %>
+          <%= f.check_box :carrier_dealer %>
+        </p>
+        <p class="group<%if @registration.errors[:broker_dealer].any?%> validation<%end%>">
+          <%= validation_for(@registration, :broker_dealer) %>
+          <%= f.label :broker_dealer %>
+          <%= f.check_box :broker_dealer %>
+        </p>
+        <p class="group<%if @registration.errors[:carrier_broker_dealer].any?%> validation<%end%>">
+          <%= validation_for(@registration, :carrier_broker_dealer) %>
+          <%= f.label :carrier_broker_dealer %>
+          <%= f.check_box :carrier_broker_dealer %>
+        </p>
+      </fieldset>
+
+      <%= link_to t('upper_registrations.form.back_button_label'), :upper_contact_detail, :class => 'button-secondary' %>
+      <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
+      </p>
+
+    <% end %>
+  </article>
+</main>
