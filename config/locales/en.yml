@@ -188,9 +188,13 @@ en:
         constructionWaste_no: "No"
       upper_registration:
         business_name: "Business or organisation trading name"
-        carrier: "Carrier"
-        broker: "Broker"
-        dealer: "Dealer"
+        full_name: "Full name"
+        job_title: "Job title"
+        telephone_number: "Telephone number"
+        email_address: "Email address"
+        carrier_dealer: "carrier/dealer"
+        broker_dealer: "broker/dealer"
+        carrier_broker_dealer: "carrier/broker/dealer"
 
   shared:
     current_user:
@@ -214,6 +218,9 @@ en:
     contact_details:
       title: "Contact details"
       form_legend: "Main point of contact"
+    business_type:
+      title: "Business Type"
+      form_legend: "Type of registration to register (select one or more)"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"

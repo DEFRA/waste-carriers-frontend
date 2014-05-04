@@ -7,7 +7,7 @@ class UpperRegistrationsController < ApplicationController
     session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
 
     @registration = UpperRegistration.new(session[:upper_reg_params])
-    @registration.current_step = "business_details"
+    @registration.current_step = "business_detail"
   end
 
   # POST upper-registrations/business-details
@@ -16,7 +16,7 @@ class UpperRegistrationsController < ApplicationController
     session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
 
     @registration = UpperRegistration.new(session[:upper_reg_params])
-    @registration.current_step = "business_details"
+    @registration.current_step = "business_detail"
 
     if @registration.valid?
       redirect_to :upper_contact_detail
@@ -32,7 +32,7 @@ class UpperRegistrationsController < ApplicationController
     session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
 
     @registration = UpperRegistration.new(session[:upper_reg_params])
-    @registration.current_step = "contact_details"
+    @registration.current_step = "contact_detail"
   end
 
   # POST upper-registrations/contact-detail
@@ -42,12 +42,38 @@ class UpperRegistrationsController < ApplicationController
     session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
 
     @registration = UpperRegistration.new(session[:upper_reg_params])
-    @registration.current_step = "contact_details"
+    @registration.current_step = "contact_detail"
 
     if @registration.valid?
-      redirect_to :upper_contact_detail
+      redirect_to :upper_business_type
     else
       redirect_to :upper_contact_detail
+    end
+  end
+
+  # GET upper-registrations/contact-detail
+  def business_type
+    @registration = UpperRegistration.new
+    session[:upper_reg_params] ||= {}
+    session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
+
+    @registration = UpperRegistration.new(session[:upper_reg_params])
+    @registration.current_step = "business_type"
+  end
+
+  # POST upper-registrations/contact-detail
+  def business_type_update
+    @registration = UpperRegistration.new
+    session[:upper_reg_params] ||= {}
+    session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
+
+    @registration = UpperRegistration.new(session[:upper_reg_params])
+    @registration.current_step = "business_type"
+
+    if @registration.valid?
+      redirect_to :upper_business_type
+    else
+      redirect_to :upper_business_type
     end
   end
 
