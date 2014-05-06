@@ -188,6 +188,7 @@ en:
         constructionWaste_no: "No"
       upper_registration:
         business_name: "Business or organisation trading name"
+        postcode: "Postcode"
         full_name: "Full name"
         job_title: "Job title"
         telephone_number: "Telephone number"
@@ -224,6 +225,8 @@ en:
     business_address:
       title: "Business address"
       form_legend: "Enter your business or organisation address"
+      company_outside_uk_link: "I am a company from outside the United Kingdom"
+      manual_address_link: "Enter address manually"
     contact_detail:
       title: "Contact details"
       form_legend: "Main point of contact"
@@ -260,6 +263,7 @@ en:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
       progress: "Progress: "
+      find_button_label: "Find"
       next_button_label: "Next"
       back_button_label: "Back"
       confirm_button_label: "Confirm"

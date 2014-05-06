@@ -3,7 +3,7 @@
 
     <%= form_for(@registration, :url => :upper_business_address) do |f| %>
 
-      <h1 class="subtitle"><%= t 'upper_registrations.form.subtitle' %></h1>
+      <!-- <h1 class="subtitle"><%= t 'upper_registrations.form.subtitle' %></h1> -->
 
       <% content_for :page_title, createTitle('.title') %>
 
@@ -18,12 +18,21 @@
         <p class="group<%if @registration.errors[:business_name].any?%> validation<%end%>">
           <%= validation_for(@registration, :business_name) %>
           <%= f.label :business_name %>
-          <%= f.text_field :business_name, :size => 20, :maxlength => 70 %>
+          <%= f.text_field :business_name, :size => 20, :maxlength => 70 %></br>
+          <a href="?companyOutsideUk=true"><%= t '.company_outside_uk_link'%></a>
+        </p>
+        <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
+          <%= validation_for(@registration, :postcode) %>
+          <%= f.label :postcode %>
+          <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
+          <input type="submit" class="button" name="findAddress" value="<%=t 'upper_registrations.form.find_button_label'%>"/></br>
+          <a href="?manualAddress=true"><%= t '.manual_address_link'%></a>
         </p>
       </fieldset>
 
-      <%= link_to t('upper_registrations.form.back_button_label'), :upper_business_address, :class => 'button-secondary' %>
-      <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
+      <p>
+        <%= link_to t('upper_registrations.form.back_button_label'), :upper_business_address, :class => 'button-secondary' %>
+        <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
       </p>
 
     <% end %>
