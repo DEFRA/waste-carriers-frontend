@@ -192,6 +192,12 @@ en:
         job_title: "Job title"
         telephone_number: "Telephone number"
         email_address: "Email address"
+        business_type: "Business type"
+        company_house_number: "Find your Companies house number"
+        alt_full_name: "Full name"
+        alt_job_title: "Job title"
+        alt_telephone_number: "Telephone number"
+        alt_email_address: "Email address"
         carrier_dealer: "carrier/dealer"
         broker_dealer: "broker/dealer"
         carrier_broker_dealer: "carrier/broker/dealer"
@@ -213,7 +219,7 @@ en:
       error: "error"
       errorMessage: "You have %{count} on this page"
     business_address:
-      title: "Business details"
+      title: "Business address"
       form_legend: "Enter your business or organisation address"
     contact_detail:
       title: "Contact details"
@@ -221,6 +227,12 @@ en:
     business_type:
       title: "Business Type"
       form_legend: "Type of registration to register"
+    business_detail:
+      title: "Business details"
+      form_legend: "Business details and alternative contact"
+      find_company: "Find details"
+      manual_companies_house_link: "Enter details manually"
+      alternative_title: "Alternative contact if required"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
