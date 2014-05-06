@@ -1,5 +1,22 @@
 class UpperRegistrationsController < ApplicationController
 
+  # GET upper-registrations/business-type
+  def business_type
+    update_model("business_type")
+  end
+
+  # POST upper-registrations/business-type
+  def business_type_update
+
+    update_model("business_type")
+
+    if @registration.valid?
+      redirect_to :upper_business_address
+    else
+      redirect_to :upper_business_type
+    end
+  end
+
   # GET upper-registrations/business-address
   def business_address
     update_model("business_address")
@@ -28,43 +45,9 @@ class UpperRegistrationsController < ApplicationController
     update_model("contact_detail")
 
     if @registration.valid?
-      redirect_to :upper_business_type
-    else
-      redirect_to :upper_contact_detail
-    end
-  end
-
-  # GET upper-registrations/business-type
-  def business_type
-    update_model("business_type")
-  end
-
-  # POST upper-registrations/business-type
-  def business_type_update
-
-    update_model("business_type")
-
-    if @registration.valid?
-      redirect_to :upper_business_detail
-    else
-      redirect_to :upper_business_type
-    end
-  end
-
-  # GET upper-registrations/business-detail
-  def business_detail
-    update_model("business_detail")
-  end
-
-  # POST upper-registrations/business-detail
-  def business_detail_update
-
-    update_model("business_detail")
-
-    if @registration.valid?
       redirect_to :upper_relevant_conviction
     else
-      redirect_to :upper_business_detail
+      redirect_to :upper_contact_detail
     end
   end
 
@@ -116,6 +99,23 @@ class UpperRegistrationsController < ApplicationController
       redirect_to :upper_summary
     else
       redirect_to :upper_summary
+    end
+  end
+
+  # GET upper-registrations/business-detail
+  def business_detail
+    update_model("business_detail")
+  end
+
+  # POST upper-registrations/business-detail
+  def business_detail_update
+
+    update_model("business_detail")
+
+    if @registration.valid?
+      redirect_to :upper_relevant_conviction
+    else
+      redirect_to :upper_business_detail
     end
   end
 
