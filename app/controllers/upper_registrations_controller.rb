@@ -1,17 +1,17 @@
 class UpperRegistrationsController < ApplicationController
 
-  # GET upper-registrations/business-details
-  def business_details
+  # GET upper-registrations/business-address
+  def business_address
     @registration = UpperRegistration.new
     session[:upper_reg_params] ||= {}
     session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
 
     @registration = UpperRegistration.new(session[:upper_reg_params])
-    @registration.current_step = "business_detail"
+    @registration.current_step = "business_address"
   end
 
-  # POST upper-registrations/business-details
-  def business_details_update
+  # POST upper-registrations/business-address
+  def business_address_update
     session[:upper_reg_params] ||= {}
     session[:upper_reg_params].deep_merge!(upper_reg_params) if params[:upper_registration]
 
@@ -19,9 +19,11 @@ class UpperRegistrationsController < ApplicationController
     @registration.current_step = "business_detail"
 
     if @registration.valid?
+      logger.info "BD is valid"
       redirect_to :upper_contact_detail
     else
-      redirect_to :upper_business_details
+      logger.info "BD is not valid"
+      redirect_to :upper_business_address
     end
   end
 

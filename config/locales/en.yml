@@ -212,10 +212,10 @@ en:
     errors:
       error: "error"
       errorMessage: "You have %{count} on this page"
-    business_details:
+    business_address:
       title: "Business details"
       form_legend: "Enter your business or organisation address"
-    contact_details:
+    contact_detail:
       title: "Contact details"
       form_legend: "Main point of contact"
     business_type:
