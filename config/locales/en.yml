@@ -220,7 +220,7 @@ en:
       form_legend: "Main point of contact"
     business_type:
       title: "Business Type"
-      form_legend: "Type of registration to register (select one or more)"
+      form_legend: "Type of registration to register"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
