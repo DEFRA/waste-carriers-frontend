@@ -77,6 +77,9 @@ Registrations::Application.routes.draw do
     get "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction", :as => :upper_relevant_conviction
     post "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction"
 
+    get "upper-registrations/payment" => "upper_registrations#payment", :as => :upper_payment
+    post "upper-registrations/payment" => "upper_registrations#payment"
+
     get "upper-registrations/director-address" => "upper_registrations#director_address", :as => :upper_director_address
 
     get "upper-registrations/conviction" => "upper_registrations#conviction", :as => :upper_conviction

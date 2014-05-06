@@ -68,20 +68,37 @@ class UpperRegistrationsController < ApplicationController
     end
   end
 
-  # GET upper-registrations/business-detail
+  # GET upper-registrations/relevant-conviction
   def relevant_conviction
     update_model("relevant_conviction")
   end
 
-  # POST upper-registrations/business-detail
+  # POST upper-registrations/relevant-conviction
   def relevant_conviction_update
 
     update_model("relevant_conviction")
 
     if @registration.valid?
-      redirect_to :upper_relevant_conviction
+      redirect_to :upper_payment
     else
       redirect_to :upper_relevant_conviction
+    end
+  end
+
+  # GET upper-registrations/payment
+  def payment
+    update_model("payment")
+  end
+
+  # POST upper-registrations/payment
+  def payment_update
+
+    update_model("payment")
+
+    if @registration.valid?
+      redirect_to :upper_payment
+    else
+      redirect_to :upper_payment
     end
   end
 
@@ -120,6 +137,8 @@ class UpperRegistrationsController < ApplicationController
       :alt_telephone_number,
       :alt_email_address,
       :relevant_conviction,
+      :copy_cards,
+      :payment_method,
       :carrier_dealer,
       :broker_dealer,
       :carrier_broker_dealer)
