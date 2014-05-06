@@ -198,6 +198,9 @@ en:
         alt_job_title: "Job title"
         alt_telephone_number: "Telephone number"
         alt_email_address: "Email address"
+        relevant_conviction: "Relevant convictions"
+        copy_cards: "Copy cards cost £5 each"
+        payment_method: "Choose payment method"
         carrier_dealer: "carrier/dealer"
         broker_dealer: "broker/dealer"
         carrier_broker_dealer: "carrier/broker/dealer"
@@ -241,7 +244,12 @@ en:
       cow_tipping: "Cow tipping"
       no_convictions: "No convictions"
       waiter_tipping: "Waiter tipping"
-
+    payment:
+      title: "Payment"
+      form_legend: "Payment"
+      trouble_paying_link: "Trouble paying?"
+      payment_method_world_pay: "World Pay"
+      payment_method_elec_transfer: "Electronic Transfer"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
