@@ -199,7 +199,7 @@ en:
         alt_telephone_number: "Telephone number"
         alt_email_address: "Email address"
         relevant_conviction: "Relevant convictions"
-        copy_cards: "Copy cards cost £5 each"
+        copy_cards: "Copy card"
         payment_method: "Choose payment method"
         carrier_dealer: "carrier/dealer"
         broker_dealer: "broker/dealer"
@@ -247,15 +247,22 @@ en:
     payment:
       title: "Payment"
       form_legend: "Payment"
+      copy_card_label: "Copy cards cost £5 each"
       trouble_paying_link: "Trouble paying?"
       payment_method_world_pay: "World Pay"
       payment_method_elec_transfer: "Electronic Transfer"
+    summary:
+      title: "Summary"
+      form_legend: "Summary"
+      amount_to_pay: "Total amount to pay"
+      confirm_title: "Confirm payment and registrations"
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
       progress: "Progress: "
       next_button_label: "Next"
       back_button_label: "Back"
+      confirm_button_label: "Confirm"
 
   discovers:
     new:

@@ -72,18 +72,16 @@ Registrations::Application.routes.draw do
     post "upper-registrations/business-type" => "upper_registrations#business_type_update"
 
     get "upper-registrations/business-detail" => "upper_registrations#business_detail", :as => :upper_business_detail
-    post "upper-registrations/business-detail" => "upper_registrations#business_type_detail"
+    post "upper-registrations/business-detail" => "upper_registrations#business_type_detail_update"
 
     get "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction", :as => :upper_relevant_conviction
-    post "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction"
+    post "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction_update"
 
     get "upper-registrations/payment" => "upper_registrations#payment", :as => :upper_payment
-    post "upper-registrations/payment" => "upper_registrations#payment"
+    post "upper-registrations/payment" => "upper_registrations#payment_update"
 
-    get "upper-registrations/director-address" => "upper_registrations#director_address", :as => :upper_director_address
-
-    get "upper-registrations/conviction" => "upper_registrations#conviction", :as => :upper_conviction
     get "upper-registrations/summary" => "upper_registrations#summary", :as => :upper_summary
+    post "upper-registrations/summary" => "upper_registrations#summary_update"
 
 	  #scope "/administration" do
 	  #  resources :agency_users
