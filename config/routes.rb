@@ -72,7 +72,7 @@ Registrations::Application.routes.draw do
     post "upper-registrations/business-type" => "upper_registrations#business_type_update"
 
     get "upper-registrations/business-detail" => "upper_registrations#business_detail", :as => :upper_business_detail
-    post "upper-registrations/business-detail" => "upper_registrations#business_type_detail_update"
+    post "upper-registrations/business-detail" => "upper_registrations#business_detail_update"
 
     get "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction", :as => :upper_relevant_conviction
     post "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction_update"
