@@ -1,2 +1,50 @@
-<h1>UpperRegistrations#summary</h1>
-<p>Find me in app/views/upper_registrations/summary.html.erb</p>
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <%= form_for(@registration, :url => :upper_summary) do |f| %>
+
+      <h1 class="subtitle"><%= t 'upper_registrations.form.subtitle' %></h1>
+
+      <% content_for :page_title, createTitle('.title') %>
+
+      <%= render "shared/progress", size: "20%" %>
+
+      <%= render "errors" %>
+
+      <div id="page8" data-journey="waste-carriers-upper-registration:summary">
+        <legend><%= t '.form_legend' %></legend>
+        <div class="wrap">
+          <div class="right">
+            <fieldset>
+              <legend><%= t 'upper_registrations.contact_detail.form_legend' %></legend>
+              <%= @registration.business_name %></br>
+              <%= @registration.full_name %></br>
+              <%= @registration.job_title %></br>
+              <%= @registration.telephone_number %></br>
+              <%= @registration.email_address %>
+            </fieldset>
+            <fieldset>
+              <legend><%= t 'upper_registrations.business_detail.form_legend' %></legend>
+              <%= @registration.company_house_number %></br>
+              <%= @registration.alt_full_name %></br>
+              <%= @registration.alt_job_title %></br>
+              <%= @registration.alt_telephone_number %></br>
+              <%= @registration.alt_email_address %>
+            </fieldset>
+          </div>
+          <div class="left">
+            <span><%= t '.amount_to_pay' %></span>
+            <span>£159</span>
+            <span>1 x <%= t 'models.registration' %></span>
+            <span><%= @registration.copy_cards %> x <%= t 'upper_registration.copy_cards' %></span>
+          </div>
+        </div>
+      <p>
+        <%= t '.confirm_title' %></br>
+        <%= link_to t('upper_registrations.form.back_button_label'), :upper_payment, :class => 'button-secondary' %>
+        <input name="confirm" class="button" type="submit" value="<%= t 'upper_registrations.form.confirm_button_label' %>"/>
+      </p>
+
+    <% end %>
+  </article>
+</main>

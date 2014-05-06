@@ -96,19 +96,27 @@ class UpperRegistrationsController < ApplicationController
     update_model("payment")
 
     if @registration.valid?
-      redirect_to :upper_payment
+      redirect_to :upper_summary
     else
       redirect_to :upper_payment
     end
   end
 
-  def director_address
-  end
-
-  def conviction
-  end
-
+  # GET upper-registrations/summary
   def summary
+    update_model("summary")
+  end
+
+  # POST upper-registrations/summary
+  def summary_update
+
+    update_model("summary")
+
+    if @registration.valid?
+      redirect_to :upper_summary
+    else
+      redirect_to :upper_summary
+    end
   end
 
   private
