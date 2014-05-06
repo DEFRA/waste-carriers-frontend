@@ -134,6 +134,7 @@ class UpperRegistrationsController < ApplicationController
   def upper_reg_params
     params.require(:upper_registration).permit(
       :business_name,
+      :postcode,
       :full_name,
       :job_title,
       :telephone_number,
