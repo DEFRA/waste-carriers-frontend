@@ -2,9 +2,7 @@ class UpperRegistrationsController < ApplicationController
 
   # GET upper-registrations/business-address
   def business_address
-
     update_model("business_address")
-
   end
 
   # POST upper-registrations/business-address
@@ -21,9 +19,7 @@ class UpperRegistrationsController < ApplicationController
 
   # GET upper-registrations/contact-detail
   def contact_detail
-
     update_model("contact_detail")
-
   end
 
   # POST upper-registrations/contact-detail
@@ -40,9 +36,7 @@ class UpperRegistrationsController < ApplicationController
 
   # GET upper-registrations/business-type
   def business_type
-
     update_model("business_type")
-
   end
 
   # POST upper-registrations/business-type
@@ -59,9 +53,7 @@ class UpperRegistrationsController < ApplicationController
 
   # GET upper-registrations/business-detail
   def business_detail
-
     update_model("business_detail")
-
   end
 
   # POST upper-registrations/business-detail
@@ -70,9 +62,26 @@ class UpperRegistrationsController < ApplicationController
     update_model("business_detail")
 
     if @registration.valid?
-      redirect_to :upper_business_detail
+      redirect_to :upper_relevant_conviction
     else
       redirect_to :upper_business_detail
+    end
+  end
+
+  # GET upper-registrations/business-detail
+  def relevant_conviction
+    update_model("relevant_conviction")
+  end
+
+  # POST upper-registrations/business-detail
+  def relevant_conviction_update
+
+    update_model("relevant_conviction")
+
+    if @registration.valid?
+      redirect_to :upper_relevant_conviction
+    else
+      redirect_to :upper_relevant_conviction
     end
   end
 
@@ -110,6 +119,7 @@ class UpperRegistrationsController < ApplicationController
       :alt_job_title,
       :alt_telephone_number,
       :alt_email_address,
+      :relevant_conviction,
       :carrier_dealer,
       :broker_dealer,
       :carrier_broker_dealer)

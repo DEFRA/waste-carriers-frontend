@@ -225,7 +225,7 @@ en:
       title: "Contact details"
       form_legend: "Main point of contact"
     business_type:
-      title: "Business Type"
+      title: "Business type"
       form_legend: "Type of registration to register"
     business_detail:
       title: "Business details"
@@ -233,6 +233,15 @@ en:
       find_company: "Find details"
       manual_companies_house_link: "Enter details manually"
       alternative_title: "Alternative contact if required"
+    relevant_conviction:
+      title: "Relevant conviction"
+      form_legend: "Do you have any relevant convictions"
+      subtitle: "A relevant offence would be:"
+      fly_tipping: "Fly tipping"
+      cow_tipping: "Cow tipping"
+      no_convictions: "No convictions"
+      waiter_tipping: "Waiter tipping"
+
     form:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"

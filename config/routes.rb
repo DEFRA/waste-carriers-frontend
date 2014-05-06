@@ -74,6 +74,9 @@ Registrations::Application.routes.draw do
     get "upper-registrations/business-detail" => "upper_registrations#business_detail", :as => :upper_business_detail
     post "upper-registrations/business-detail" => "upper_registrations#business_type_detail"
 
+    get "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction", :as => :upper_relevant_conviction
+    post "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction"
+
     get "upper-registrations/director-address" => "upper_registrations#director_address", :as => :upper_director_address
 
     get "upper-registrations/conviction" => "upper_registrations#conviction", :as => :upper_conviction
