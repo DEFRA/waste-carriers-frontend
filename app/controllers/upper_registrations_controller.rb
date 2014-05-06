@@ -45,7 +45,7 @@ class UpperRegistrationsController < ApplicationController
     update_model("business_type")
 
     if @registration.valid?
-      redirect_to :upper_business_type
+      redirect_to :upper_business_detail
     else
       redirect_to :upper_business_type
     end
