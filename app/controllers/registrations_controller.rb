@@ -251,7 +251,11 @@ class RegistrationsController < ApplicationController
     #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
     session[:registration_params] ||= {}
     @registration = Registration.new(session[:registration_params])
-    
+
+    # Assign a sufficiently unique number to the registration - make the insert idempotent
+    session[:registration_uuid] = SecureRandom.uuid
+    logger.info 'Created new registration with uuid = ' + session[:registration_uuid]
+
     # Set route name based on agency paramenter
     @registration.routeName = 'DIGITAL'
     if !params[:agency].nil?
@@ -525,7 +529,13 @@ class RegistrationsController < ApplicationController
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = "signup"
-    
+
+    logger.info 'Assigning a unique id to the new registration to be created in the database. uuid = ' + session[:registration_uuid]
+    @registration.uuid = session[:registration_uuid]
+
+    ##TODO Remove - this tests for a potential re-send of the POST request
+    @registration.uuid = '8db636df-e1a9-4538-a6c0-741a1cf51c58'
+
     # Prepopulate Email field/Set registration account
     if user_signed_in? 
       logger.debug 'User already signed in using current email: ' + current_user.email
