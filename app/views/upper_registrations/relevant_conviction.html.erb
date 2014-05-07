@@ -3,39 +3,94 @@
 
     <%= form_for(@registration, :url => :upper_relevant_conviction) do |f| %>
 
-      <!-- <h1 class="subtitle"><%= t 'upper_registrations.form.subtitle' %></h1> -->
-
       <% content_for :page_title, createTitle('.title') %>
 
-      <!-- <%= render "shared/progress", size: "50%" %> -->
-      <div>Step 7 of 9</div>
+      <div class="step">Step 7 of 9</div>
+      <h1 class="subtitle"><%= t '.subtitle' %></h1>
 
       <%= render "errors" %>
 
-      <div id="page5" data-journey="waste-carriers-upper-registration:relevant-conviction">
-
       <fieldset>
         <legend><%= t '.form_legend' %></legend>
-        <p><%= t '.subtitle' %></p>
         <p class="group<%if @registration.errors[:relevant_conviction].any?%> validation<%end%>">
-          <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
-            <!--<label class="label" for="discover_isMainService_yes">-->
-            <%= f.radio_button :relevant_conviction, "Fly tipping", :class => "radio" %><%= f.label :fly_tipping, :class => "label" %>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "major_accident_hazards", :class => "radio" %>
+            <%= f.label t 'convictions.major_accident_hazards', :class => "label" %>
           </span>
           <span class="inline">
-            <%= f.radio_button :relevant_conviction, "Cow tipping", :class => "radio" %><%= f.label :cow_tipping, :class => "label" %>
+            <%= f.radio_button :relevant_conviction, "customs_excise", :class => "radio" %>
+            <%= f.label t 'convictions.customs_excise', :class => "label" %>
           </span>
           <span class="inline">
-            <%= f.radio_button :relevant_conviction, "Waiter tipping", :class => "radio" %><%= f.label :waiter_tipping, :class => "label" %>
+            <%= f.radio_button :relevant_conviction, "env_protection", :class => "radio" %>
+            <%= f.label t 'convictions.env_protection', :class => "label" %>
           </span>
           <span class="inline">
-            <%= f.radio_button :relevant_conviction, "No relevant convictions", :class => "radio" %><%= f.label :no_convictions, :class => "label" %>
+            <%= f.radio_button :relevant_conviction, "food_env_protection", :class => "radio" %>
+            <%= f.label t 'convictions.food_env_protection', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "fraud", :class => "radio" %>
+            <%= f.label t 'convictions.fraud', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "landfill", :class => "radio" %>
+            <%= f.label t 'convictions.landfill', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "legal_aid", :class => "radio" %>
+            <%= f.label t 'convictions.legal_aid', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "pollution_prev_control", :class => "radio" %>
+            <%= f.label t 'convictions.pollution_prev_control', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "proceeds_crime", :class => "radio" %>
+            <%= f.label t 'convictions.proceeds_crime', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "producer_responsibility", :class => "radio" %>
+            <%= f.label t 'convictions.producer_responsibility', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "scrap_metal_1964", :class => "radio" %>
+            <%= f.label t 'convictions.scrap_metal_1964', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "scrap_metal_2013", :class => "radio" %>
+            <%= f.label t 'convictions.scrap_metal_2013', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "theft_act", :class => "radio" %>
+            <%= f.label t 'convictions.theft_act', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "vehicles", :class => "radio" %>
+            <%= f.label t 'convictions.vehicles', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "waste_elec_equip_2006", :class => "radio" %>
+            <%= f.label t 'convictions.waste_elec_equip_2006', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "waste_elec_equip_2013", :class => "radio" %>
+            <%= f.label t 'convictions.waste_elec_equip_2013', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "water_resources", :class => "radio" %>
+            <%= f.label t 'convictions.water_resources', :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :relevant_conviction, "no_convictions", :class => "radio" %>
+            <%= f.label t 'convictions.no_convictions', :class => "label" %>
           </span>
         </p>
       </fieldset>
 
-      <%= link_to t('upper_registrations.form.back_button_label'), :upper_contact_detail, :class => 'button-secondary' %>
-      <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
+      <p>
+        <%= link_to t('upper_registrations.form.back_button_label'), :upper_contact_detail, :class => 'button-secondary' %>
+        <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
       </p>
 
     <% end %>

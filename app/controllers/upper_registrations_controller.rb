@@ -102,23 +102,6 @@ class UpperRegistrationsController < ApplicationController
     end
   end
 
-  # GET upper-registrations/business-detail
-  def business_detail
-    update_model("business_detail")
-  end
-
-  # POST upper-registrations/business-detail
-  def business_detail_update
-
-    update_model("business_detail")
-
-    if @registration.valid?
-      redirect_to :upper_relevant_conviction
-    else
-      redirect_to :upper_business_detail
-    end
-  end
-
   private
 
   def update_model(current_step)
@@ -135,22 +118,22 @@ class UpperRegistrationsController < ApplicationController
     params.require(:upper_registration).permit(
       :business_name,
       :postcode,
-      :full_name,
+      :first_name,
+      :last_name,
       :job_title,
       :telephone_number,
       :email_address,
       :business_type,
       :company_house_number,
-      :alt_full_name,
+      :alt_first_name,
+      :alt_last_name,
       :alt_job_title,
       :alt_telephone_number,
       :alt_email_address,
       :relevant_conviction,
       :copy_cards,
       :payment_method,
-      :carrier_dealer,
-      :broker_dealer,
-      :carrier_broker_dealer)
+      :confirmed_declaration)
   end
 
 end

@@ -80,9 +80,6 @@ Registrations::Application.routes.draw do
     get "upper-registrations/summary" => "upper_registrations#summary", :as => :upper_summary
     post "upper-registrations/summary" => "upper_registrations#summary_update"
 
-    get "upper-registrations/business-detail" => "upper_registrations#business_detail", :as => :upper_business_detail
-    post "upper-registrations/business-detail" => "upper_registrations#business_detail_update"
-
 	  #scope "/administration" do
 	  #  resources :agency_users
 	  #end
