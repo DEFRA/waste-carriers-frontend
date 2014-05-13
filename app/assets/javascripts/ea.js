@@ -1,3 +1,5 @@
+// TODO delete the smart answers JavaScript
+
 (function(){
 	$('html').removeClass("nojs").addClass("js");
 	var r = this;
