@@ -300,9 +300,13 @@ class RegistrationsController < ApplicationController
     if params[:findAddress]
       render "newOtherBusinesses"
     elsif @registration.valid?
-      # TODO this is where you need to make the choice
-      logger.info 'Registration is valid so far, go to next page'
-      redirect_to :newConfirmation
+      # TODO this is where you need to make the choice and update the steps
+      case @registration.otherBusinesses
+        when 'yes'
+          redirect_to :newServiceProvided
+        when 'no'
+          redirect_to :newConstructionDemolition
+      end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
