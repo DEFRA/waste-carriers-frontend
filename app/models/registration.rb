@@ -17,6 +17,7 @@ class Registration < ActiveResource::Base
     string :otherBusinesses
     string :isMainService
     string :constructionWaste
+    string :onlyAMF
     string :companyName
     string :individualsType
     string :publicBodyType
