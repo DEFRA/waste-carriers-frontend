@@ -14,6 +14,7 @@ class Registration < ActiveResource::Base
   #The schema is not strictly necessary for a model based on ActiveRessource, but helpful for documentation
   schema do
     string :businessType
+    string :otherBusinesses
     string :companyName
     string :individualsType
     string :publicBodyType
@@ -160,7 +161,7 @@ class Registration < ActiveResource::Base
   end
 
   def steps
-    %w[businesstype business contact confirmation signup]
+    %w[businesstype otherbusinesses business contact confirmation signup]
   end
 
   VALID_SIGN_UP_MODES = %w[sign_up sign_in]
