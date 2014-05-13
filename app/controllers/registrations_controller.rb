@@ -267,7 +267,15 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
-      redirect_to :newBusiness
+      # TODO set steps
+      case @registration.businessType
+        when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
+          redirect_to :newOtherBusinesses
+        when 'charity', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority'
+          redirect_to :newBusiness
+        when 'other'
+          redirect_to :noRegistration
+      end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
