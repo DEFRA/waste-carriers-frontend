@@ -313,6 +313,43 @@ class RegistrationsController < ApplicationController
       render "newOtherBusinesses", :status => '400'
     end
   end
+
+  def newServiceProvided
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+
+    # Pass in current page to check previous page is valid
+    if !@registration.steps_valid?("serviceprovided")
+      redirect_to_failed_page(@registration.current_step)
+    else
+      logger.debug 'Previous pages are valid'
+    end
+  end
+
+  def updateNewServiceProvided
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+
+    @registration.current_step = "serviceprovided"
+
+    if params[:findAddress]
+      render "newServiceProvided"
+    elsif @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
+      case @registration.isMainService
+        when 'yes'
+          redirect_to :newOnlyDealWith
+        when 'no'
+          redirect_to :newConstructionDemolition
+      end
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newServiceProvided", :status => '400'
+    end
+  end
   
   def newBusinessDetails
     #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
