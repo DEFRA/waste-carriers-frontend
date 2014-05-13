@@ -379,7 +379,7 @@ class RegistrationsController < ApplicationController
         when 'yes'
           redirect_to :newUpperTierType
         when 'no'
-          redirect_to :newBusinessDetails
+          redirect_to :newBusiness
       end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
