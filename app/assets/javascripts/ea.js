@@ -1,5 +1,3 @@
-// TODO delete the smart answers JavaScript
-
 (function(){
 	$('html').removeClass("nojs").addClass("js");
 	var r = this;
@@ -386,144 +384,6 @@
 		return false;
 	}
 
-	function smartAnswerBusinessType(){
-		var tmpVal = $('#discover_businessType').val();
-		// Show WhoseWaste: Only if business type is a sole trader, partnership, limited company or public body
-		var showWhoseWaste = tmpVal == "soleTrader" || tmpVal == "partnership" || tmpVal == "limitedCompany" || tmpVal == "publicBody";
-		if (showWhoseWaste) {
-			$('#discover_otherBusinesses').removeClass("js-hidden");
-		} else {
-			// BusinessType has changed, Reset Other answers
-            $('#new_discover input[type="radio"]').prop('checked', false);      // Find all radios and uncheck
-            smartAnswerWhoseWaste();   // Run logic on subsequent questions
-            smartAnswerServiceProvided();
-            smartAnswerConstructionDemolition();
-            smartAnswerOnlyAnimalMineFarmWaste();
-
-			$('#new_discover input[type="checkbox"]').prop('checked', false);   // Find all checkboxes and uncheck
-
-			$('#discover_otherBusinesses').addClass("js-hidden");
-		}
-
-		// Show Contact EA Text if Other selected
-		var showContact = tmpVal == "other";
-		if (showContact) {
-			$('#new_discover #contactText').removeClass("js-hidden");
-		} else {
-			$('#new_discover #contactText').addClass("js-hidden");
-		}
-
-		// Show LowerTier Text: Only if business type is a charity, or a waste authority
-		var showLower = tmpVal == "charity" || tmpVal == "collectionAuthority" || tmpVal == "disposalAuthority" || tmpVal == "regulationAuthority";
-		if (showLower) {
-			$('#new_discover #lowerText').removeClass("js-hidden");
-		} else {
-			$('#new_discover #lowerText').addClass("js-hidden");
-
-			// BusinessType has changed, Check Other answers
-			smartAnswerWhoseWaste();
-		}
-	}
-
-	function smartAnswerWhoseWaste(){
-		// Show ServiceProvided Only if otherBusinesses is yes
-		var showServiceProvided = $('#discover_otherBusinesses_yes').is(':checked');
-		if (showServiceProvided) {
-			// Uncheck question ConstructionDemolition, re run logic for it then ServiceProvided
-			$('#new_discover #discover_constructionWaste input[type="radio"]').prop('checked', false);
-			smartAnswerConstructionDemolition();   // Run logic on subsequent questions
-			smartAnswerServiceProvided();
-
-			$('#discover_isMainService').removeClass("js-hidden");
-
-		} else {
-			$('#discover_isMainService').addClass("js-hidden");
-		}
-
-		// Show ConstructionDemolition: Only if otherBusinesses is no
-		var showConstructionDemolition = $('#discover_otherBusinesses_no').is(':checked');
-		if (showConstructionDemolition) {
-
-			// Uncheck question ServiceProvided, re
-			// run logic for it then ConstructionDemolition
-			$('#new_discover #discover_isMainService input[type="radio"]').prop('checked', false);
-			smartAnswerServiceProvided();   // Run logic on subsequent questions
-			smartAnswerConstructionDemolition();
-
-			$('#discover_constructionWaste').removeClass("js-hidden");
-		} else {
-			$('#discover_constructionWaste').addClass("js-hidden");
-		}
-	}
-
-	function smartAnswerServiceProvided(){
-
-		// Show Only-AMF Only if isMainService is yes
-		var showOnlyAMF = $('#discover_isMainService_yes').is(':checked');
-		if (showOnlyAMF) {
-			// Uncheck question ConstructionDemolition, re run logic for it then OnlyAnimalMineFarmWaste
-			$('#new_discover #discover_constructionWaste input[type="radio"]').prop('checked', false);
-			smartAnswerConstructionDemolition();   // Run logic on subsequent questions
-			smartAnswerOnlyAnimalMineFarmWaste();
-
-			$('#discover_onlyAMF').removeClass("js-hidden");
-
-		} else {
-			$('#discover_onlyAMF').addClass("js-hidden");
-		}
-
-		// Show ConstructionDemolition: Only if isMainService is no
-		var showConstructionDemolition = $('#discover_isMainService_no').is(':checked');
-		if (showConstructionDemolition) {
-
-			// Uncheck question OnlyAnimalMineFarmWaste, re
-			// run logic for it then ConstructionDemolition
-			$('#new_discover #discover_onlyAMF input[type="radio"]').prop('checked', false);
-			smartAnswerOnlyAnimalMineFarmWaste();   // Run logic on subsequent questions
-			smartAnswerConstructionDemolition();
-
-			$('#discover_constructionWaste').removeClass("js-hidden");
-		} else {
-			$('#discover_constructionWaste').addClass("js-hidden");
-		}
-	}
-
-	function smartAnswerOnlyAnimalMineFarmWaste(){
-		// Show UpperTier Text Only if onlyAMF is no
-		var showUpper = $('#discover_onlyAMF_no').is(':checked');
-		if (showUpper) {
-			$('#new_discover #upperText').removeClass("js-hidden");
-		} else {
-			$('#new_discover #upperText').addClass("js-hidden");
-		}
-
-		// Show LowerTier Text Only if onlyAMF is yes
-		var showLower = $('#discover_onlyAMF_yes').is(':checked');
-		if (showLower) {
-			$('#new_discover #lowerText').removeClass("js-hidden");
-		} else {
-			$('#new_discover #lowerText').addClass("js-hidden");
-		}
-	}
-
-	function smartAnswerConstructionDemolition(){
-		// Show LowerTier Text Only if constructionWaste is no
-		var showLower = $('#discover_constructionWaste_no').is(':checked');
-		if (showLower) {
-			$('#new_discover #lowerText').removeClass("js-hidden");
-		} else {
-			$('#new_discover #lowerText').addClass("js-hidden");
-		}
-
-		// Show UpperTier Text Only if constructionWaste is yes
-		var showUpper = $('#discover_constructionWaste_yes').is(':checked');
-		if (showUpper) {
-			$('#new_discover #upperText').removeClass("js-hidden");
-		} else {
-			$('#new_discover #upperText').addClass("js-hidden");
-		}
-	}
-
 	/*
 	* Useful Notes:
 	// Individual radio reset
@@ -720,19 +580,6 @@
 
 //		$("#registration_sign_up_mode").change(function(e){e.preventDefault();toggleSignInUp();});
 //		toggleSignInUp();
-
-		// Smart Answers Initialisation
-		$("#discover_resultResponses").removeClass("hidden");
-		$("#discover_businessType").change(function(e){e.preventDefault();smartAnswerBusinessType();});
-		smartAnswerBusinessType();
-		$("#discover_otherBusinesses").change(function(e){smartAnswerWhoseWaste();});
-		smartAnswerWhoseWaste();
-		$("#discover_isMainService").change(function(e){smartAnswerServiceProvided();});
-		smartAnswerServiceProvided();
-		$("#discover_onlyAMF").change(function(e){smartAnswerOnlyAnimalMineFarmWaste();});
-		smartAnswerOnlyAnimalMineFarmWaste();
-		$("#discover_constructionWaste").change(function(e){smartAnswerConstructionDemolition();});
-		smartAnswerConstructionDemolition();
 
 		// Setup Revoke questions on NCCC edit
 		$("#revoke_question").change(function(e){showHideRevoke();});
