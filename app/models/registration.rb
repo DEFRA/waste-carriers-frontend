@@ -15,6 +15,7 @@ class Registration < ActiveResource::Base
   schema do
     string :businessType
     string :otherBusinesses
+    string :isMainService
     string :companyName
     string :individualsType
     string :publicBodyType
