@@ -16,6 +16,7 @@ class Registration < ActiveResource::Base
     string :businessType
     string :otherBusinesses
     string :isMainService
+    string :constructionWaste
     string :companyName
     string :individualsType
     string :publicBodyType

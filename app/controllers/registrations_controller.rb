@@ -1108,6 +1108,8 @@ private
     params.require(:registration).permit(
       :businessType,
       :otherBusinesses,
+      :isMainService,
+      :constructionWaste,
       :companyName,
       :routeName,
       :addressMode,
