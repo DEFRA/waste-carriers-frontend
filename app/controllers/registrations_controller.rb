@@ -377,7 +377,7 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
         when 'yes'
-          redirect_to :newOnlyDealWith # TODO first upper tier question
+          redirect_to :newUpperTierType
         when 'no'
           redirect_to :newBusinessDetails
       end
