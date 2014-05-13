@@ -15,21 +15,7 @@
   	<h2><%= t '.businessHeading' %></h2>
   </div>
 
-  <!-- Smart Answers
-    Whose waste do you deal with?
-   -->
-  <fieldset id="discover_otherBusinesses">
-    <legend><span><%= t 'activemodel.attributes.discover.otherBusinesses'%></span></legend>
-    <p class="group<%if @discover.errors[:otherBusinesses].any?%> validation<%end%>">
-      <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
-        <!--<label class="label" for="discover_otherBusinesses_yes">-->
-        <%= f.radio_button :otherBusinesses, "no", :class => "radio" %><%= f.label :otherBusinesses_no, :class => "label" %>
-      </span>
-  	  <span class="inline">
-  	    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %><%= f.label :otherBusinesses_yes, :class => "label" %><!-- Yes</label>-->
-  	  </span>
-    </p>
-  </fieldset>
+
 
   <!-- Smart Answers
     What kind of service do you provide?
