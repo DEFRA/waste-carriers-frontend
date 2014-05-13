@@ -13,23 +13,12 @@
 
     <h3><%= t 'registrations.confirmation_step.followingReg_heading' %></h3>
 
+    <!-- Smart Answers
+    What kind of business or organisation are you?
+   -->
     <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-      <%= validation_for(@registration, :businessType) %>
       <%= f.label :businessType %>
-      <% if session[:smarterAnswersBusiness] != nil %>
-<%#= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
-          <span><%= I18n.translate session[:smarterAnswersBusiness], scope: [:business_types] %></span>
-          <%= f.hidden_field :businessType %>
-      <% else %>
-          <%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
-      <% end %>
-    </p>
-
-
-    <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
-      <%= validation_for(@registration, :companyName) %>
-      <%= f.label :companyName %>
-      <%= f.text_field :companyName, :size => 20, :maxlength => 70 %>
+      <%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
     </p>
 
     <%= f.hidden_field :routeName %>
