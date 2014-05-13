@@ -45,17 +45,7 @@
     </p>
   </fieldset>
 
-  <!-- Smart Answers
-    Do you ever deal with waste from building or demolition work -->
-  <fieldset id="discover_constructionWaste">
-    <legend><span><%= t 'activemodel.attributes.discover.constructionWaste'%></span></legend>
-  <p class="group<%if @discover.errors[:constructionWaste].any?%> validation<%end%>">
-	  <span class="inline">
-	    <%= f.radio_button :constructionWaste, "yes", :class => "radio" %> <%= f.label :constructionWaste_yes, :class => "label" %>
-	    <%= f.radio_button :constructionWaste, "no", :class => "radio" %><%= f.label :constructionWaste_no, :class => "label" %>
-	  </span>
-  </p>
-  </fieldset>
+
 
   <div id="discover_resultResponses" class="hidden">
 
