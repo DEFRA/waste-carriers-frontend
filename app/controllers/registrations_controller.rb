@@ -1147,6 +1147,7 @@ private
       :otherBusinesses,
       :isMainService,
       :constructionWaste,
+      :onlyAMF,
       :companyName,
       :routeName,
       :addressMode,
