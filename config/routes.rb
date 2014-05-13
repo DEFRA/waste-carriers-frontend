@@ -42,6 +42,9 @@ Registrations::Application.routes.draw do
 	  match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
 	 
 	  # Add new routing for new registration urls
+    match "your-registration/business-type" => 'registrations#newBusinessType', :via => [:get], :as => :newBusinessType
+    match "your-registration/business-type" => 'registrations#updateNewBusinessType', :via => [:post,:put,:patch]
+
 	  match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusiness
 	  match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
 	  
