@@ -17,21 +17,7 @@
 
 
 
-  <!-- Smart Answers
-    What kind of service do you provide?
-   -->
-  <fieldset id="discover_isMainService">
-    <legend><span><%= t 'activemodel.attributes.discover.isMainService'%></span></legend>
-    <p class="group<%if @discover.errors[:isMainService].any?%> validation<%end%>">
-      <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
-        <!--<label class="label" for="discover_isMainService_yes">-->
-        <%= f.radio_button :isMainService, "no", :class => "radio" %><%= f.label :isMainService_no, :class => "label" %>
-      </span>
-      <span class="inline">
-        <%= f.radio_button :isMainService, "yes", :class => "radio" %><%= f.label :isMainService_yes, :class => "label" %><!-- Yes</label>-->
-      </span>
-    </p>
-  </fieldset>
+
 
   <!-- Smart Answers
     Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste -->
