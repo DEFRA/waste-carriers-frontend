@@ -160,7 +160,7 @@ class Registration < ActiveResource::Base
   end
 
   def steps
-    %w[business contact confirmation signup]
+    %w[business-type business contact confirmation signup]
   end
 
   VALID_SIGN_UP_MODES = %w[sign_up sign_in]
