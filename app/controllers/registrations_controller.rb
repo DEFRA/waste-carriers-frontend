@@ -533,9 +533,6 @@ class RegistrationsController < ApplicationController
     logger.info 'Assigning a unique id to the new registration to be created in the database. uuid = ' + session[:registration_uuid]
     @registration.uuid = session[:registration_uuid]
 
-    ##TODO Remove - this tests for a potential re-send of the POST request
-    @registration.uuid = '8db636df-e1a9-4538-a6c0-741a1cf51c58'
-
     # Prepopulate Email field/Set registration account
     if user_signed_in? 
       logger.debug 'User already signed in using current email: ' + current_user.email
@@ -801,17 +798,21 @@ class RegistrationsController < ApplicationController
 
   #PUT...
   def ncccupdate
+    logger.info 'Entering ncccupdate - Updating registration...'
     @registration = Registration.find(params[:id])
     addressSearchLogic @registration
     authorize! :update, @registration
 
 
     if params[:findAddress]
+      logger.info 'ncccupdate - findAddress clicked'
       render "ncccedit"
     elsif params[:reprint]
+      logger.info 'ncccupdate - reprint clicked'
       logger.debug 'Redirect to Print page'
       redirect_to print_url(:id => params[:id], :reprint => params[:reprint])
     elsif params[:revoke]
+      logger.info 'ncccupdate - revoke clicked'
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
         
@@ -841,6 +842,7 @@ class RegistrationsController < ApplicationController
         renderAccessDenied
       end
     elsif params[:unrevoke] && agency_user_signed_in?
+      logger.info 'ncccupdate - unrevoke clicked'
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
         @registration.metaData.status = "ACTIVE"
@@ -860,11 +862,19 @@ class RegistrationsController < ApplicationController
       # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
       @registration.routeName = @registration.metaData.route
       if @registration.all_valid?
-        @registration.save
+        logger.info 'ncccupdate - saving registration'
+        begin
+          @registration.save!
+          logger.info 'ncccupdate - registration saved/updated'
+          note = I18n.t('registrations.form.reg_updated')
+        rescue Exception => e
+          logger.warn 'ERROR: Could not update registration! Exception:' + e.to_s
+          note = 'Error! Could not update registration!'
+        end
         if agency_user_signed_in?
-          redirect_to registrations_path(:note => I18n.t('registrations.form.reg_updated') )
+          redirect_to registrations_path(:note => note )
         else
-          redirect_to userRegistrations_path(:id => current_user.id, :note => I18n.t('registrations.form.reg_updated') )
+          redirect_to userRegistrations_path(:id => current_user.id, :note => note )
         end
       else
         render "ncccedit"
