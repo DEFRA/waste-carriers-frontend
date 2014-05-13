@@ -284,6 +284,36 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def newNoRegistration
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+
+    # Pass in current page to check previous page is valid
+    if !@registration.steps_valid?("noregistration")
+      redirect_to_failed_page(@registration.current_step)
+    else
+      logger.debug 'Previous pages are valid'
+    end
+  end
+
+  def updateNewNoRegistration
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+
+    @registration = Registration.new(session[:registration_params])
+
+    @registration.current_step = "noregistration"
+
+    # TODO set steps
+
+    if @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newNoRegistration", :status => '400'
+    end
+  end
+
   def newOtherBusinesses
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]

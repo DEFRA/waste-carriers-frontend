@@ -164,7 +164,7 @@ class Registration < ActiveResource::Base
   end
 
   def steps
-    %w[businesstype otherbusinesses serviceprovided constructiondemolition onlydealwith business contact confirmation signup]
+    %w[businesstype otherbusinesses serviceprovided constructiondemolition onlydealwith noregistration business contact confirmation signup]
   end
 
   VALID_SIGN_UP_MODES = %w[sign_up sign_in]
