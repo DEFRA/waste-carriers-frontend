@@ -245,24 +245,42 @@ class RegistrationsController < ApplicationController
     addressSearchLogic @registration
     authorize! :update, @registration
   end
-  
-  def newBusinessDetails
+
+  def newBusinessType
     logger.info 'Request New Registration'
-    #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
     session[:registration_params] ||= {}
     @registration = Registration.new(session[:registration_params])
-    
+
     # Set route name based on agency paramenter
     @registration.routeName = 'DIGITAL'
     if !params[:agency].nil?
       @registration.routeName = 'ASSISTED_DIGITAL'
       logger.info 'Set route as Assisted Digital: ' + @registration.routeName
     end
-    # Prepop businessType with value from smarter answers
-    if !session[:smarterAnswersBusiness].nil?
-      logger.info 'Smart answers pre-pop detected: ' + session[:smarterAnswersBusiness]
-      @registration.businessType = session[:smarterAnswersBusiness]
+  end
+
+  def updateNewBusinessType
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration= Registration.new(session[:registration_params])
+    @registration.current_step = "business-type"
+
+    if @registration.valid?
+      logger.info 'Registration is valid so far, go to next page'
+      redirect_to :newBusiness
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newBusinessType", :status => '400'
+      #redirect_to newBusiness_path
     end
+  end
+  
+  def newBusinessDetails
+    #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
   end
   
   def updateNewBusinessDetails
@@ -271,11 +289,6 @@ class RegistrationsController < ApplicationController
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = "business"
-
-    if !session[:smarterAnswersBusiness].nil?
-      logger.info 'Initialising business type from session: ' + session[:smarterAnswersBusiness]
-      @registration.businessType = session[:smarterAnswersBusiness]
-    end
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
