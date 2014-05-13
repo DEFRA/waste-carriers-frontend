@@ -323,7 +323,7 @@ en:
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
     confirmDelete:
       title: "Confirm delete registration"
-      message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
+      message_html: "Are you sure that you want to delete registration <b>%{companyName} (%{regIdentifier})</b>?"
       deleteLabel: "Delete registration"
     confirmed:
       nowRegistered: "You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency."

@@ -7,9 +7,9 @@
 
 <%= form_for @registration, :method => 'delete' do |f| %>
 
-  <p><%=t '.message_html',:companyName=>@registration.companyName %></p>
+  <p><%=t '.message_html',:companyName=>@registration.companyName, :regIdentifier=>@registration.regIdentifier %></p>
   <p class="action group">
-    <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'button-secondary' %>
+    <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
     <input id="delete" name="delete" class="button delete" type="submit" value="<%=t '.deleteLabel'%>"/>
   </p>
 <% end %>
