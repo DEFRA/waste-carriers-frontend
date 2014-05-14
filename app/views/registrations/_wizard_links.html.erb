@@ -1,30 +1,32 @@
 <p class="action group">
-  <% if @registration.first_step? %>
+
+  <!-- TODO extract a method for this and make this the back step for the first step only
+
+  <%
+     if @registration.routeName == 'DIGITAL'
+       if user_signed_in?
+         logger.debug 'User already signed in so redirect to my account page'
+  %>
+          <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'button-secondary' %>
       <%
-         if @registration.routeName == 'DIGITAL'
-           if user_signed_in?
-             logger.debug 'User already signed in so redirect to my account page'
+         else
+           logger.debug 'User not signed in so redirect to smarter answers'
       %>
-              <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'button-secondary' %>
-          <%
-             else
-               logger.debug 'User not signed in so redirect to smarter answers'
-          %>
-              <%= link_to t('registrations.form.back_button_label'), find_path, :class => 'button-secondary' %>
-          <%
-             end
-             else
-               logger.debug 'Assisted digital route detected, redirect to search page'
-          %>
-          <%= link_to t('registrations.form.back_button_label'), registrations_path, :class => 'button-secondary' %>
+          <%= link_to t('registrations.form.back_button_label'), find_path, :class => 'button-secondary' %>
       <%
          end
+         else
+           logger.debug 'Assisted digital route detected, redirect to search page'
       %>
+      <%= link_to t('registrations.form.back_button_label'), registrations_path, :class => 'button-secondary' %>
+  <%
+     end
+  %>
 
-  <% else %>
-      <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
-  <% end %>
+  -->
 
+
+  <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
   <!--TODO only show this if there is a next step-->
   <input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </p>
