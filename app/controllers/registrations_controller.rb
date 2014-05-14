@@ -872,8 +872,10 @@ class RegistrationsController < ApplicationController
           note = 'Error! Could not update registration!'
         end
         if agency_user_signed_in?
+          logger.info "Redirecting agency user to the registrations path."
           redirect_to registrations_path(:note => note )
         else
+          logger.info "Redirecting user to the user's registration path."
           redirect_to userRegistrations_path(:id => current_user.id, :note => note )
         end
       else
