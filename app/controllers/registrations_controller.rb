@@ -260,10 +260,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewBusinessType
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration= Registration.new(session[:registration_params])
-    @registration.current_step = "businesstype"
+    setup_registration 'businesstype'
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
@@ -283,6 +280,13 @@ class RegistrationsController < ApplicationController
       render "newBusinessType", :status => '400'
       #redirect_to newBusiness_path
     end
+  end
+
+  def setup_registration current_step
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration= Registration.new(session[:registration_params])
+    @registration.current_step = current_step
   end
 
   def newNoRegistration
@@ -306,12 +310,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewNoRegistration
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-
-    @registration = Registration.new(session[:registration_params])
-
-    @registration.current_step = "noregistration"
+    setup_registration 'noregistration'
 
     # TODO set steps
 
@@ -327,12 +326,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewOtherBusinesses
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-
-    @registration = Registration.new(session[:registration_params])
-
-    @registration.current_step = "otherbusinesses"
+    setup_registration 'otherbusinesses'
 
     if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
@@ -354,11 +348,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewServiceProvided
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-
-    @registration.current_step = "serviceprovided"
+    setup_registration 'serviceprovided'
 
     if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
@@ -380,11 +370,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewConstructionDemolition
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-
-    @registration.current_step = "constructiondemolition"
+    setup_registration 'constructiondemolition'
 
     if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
@@ -406,11 +392,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewOnlyDealWith
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-
-    @registration.current_step = "onlydealwith"
+    setup_registration 'onlydealwith'
 
     if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
