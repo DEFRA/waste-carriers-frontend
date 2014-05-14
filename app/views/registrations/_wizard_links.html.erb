@@ -25,8 +25,13 @@
 
   -->
 
+  <% unless @registration.first_step? %>
+      <noscript>
+         <p>Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)</p>
+      </noscript>
+  <% end %>
 
-  <%= (link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary', :name => 'back_button') unless @registration.first_step? %>
+  <%= (link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'button-secondary') unless @registration.first_step? %>
   <!--TODO only show this if there is a next step-->
   <input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </p>
