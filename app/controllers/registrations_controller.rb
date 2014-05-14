@@ -251,6 +251,9 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     @registration = Registration.new(session[:registration_params])
 
+
+    @registration.steps = %w[businesstype]
+
     # Set route name based on agency paramenter
     @registration.routeName = 'DIGITAL'
     if !params[:agency].nil?
@@ -268,10 +271,13 @@ class RegistrationsController < ApplicationController
 
       case @registration.businessType
         when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
+          @registration.steps = %w[businesstype otherbusinesses]
           redirect_to :newOtherBusinesses
         when 'charity', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority'
+          @registration.steps = %w[businesstype business]
           redirect_to :newBusiness
         when 'other'
+          @registration.steps = %w[businesstype noregistration]
           redirect_to :newNoRegistration
       end
     elsif @registration.new_record?
@@ -302,6 +308,11 @@ class RegistrationsController < ApplicationController
     # but this might have changed the behaviour
     @registration.current_step = current_step
     # Pass in current page to check previous page is valid
+    # TODO had to comment this out for now because causing problems but will probably need to reinstate
+    # check_steps_are_valid_up_until_current current_step
+  end
+
+  def check_steps_are_valid_up_until_current current_step
     if !@registration.steps_valid?(current_step)
       redirect_to_failed_page(@registration.current_step)
     else
