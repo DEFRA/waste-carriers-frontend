@@ -10,7 +10,6 @@ class Registration < ActiveResource::Base
   self.format = :json
 
   attr_writer :current_step
-  attr_writer :steps
 
   #The schema is not strictly necessary for a model based on ActiveRessource, but helpful for documentation
   schema do
@@ -164,12 +163,8 @@ class Registration < ActiveResource::Base
     @current_step || steps.first
   end
 
-  # def steps
-  #   %w[businesstype noregistration otherbusinesses serviceprovided constructiondemolition onlydealwith business contact confirmation signup uppertiertype]
-  # end
-
   def steps
-    @steps || %w[businesstype]
+    %w[businesstype noregistration otherbusinesses serviceprovided constructiondemolition onlydealwith business contact confirmation signup uppertiertype]
   end
 
   VALID_SIGN_UP_MODES = %w[sign_up sign_in]
