@@ -268,17 +268,13 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       # TODO set steps
-      @registration.steps = %w[businesstype]
 
       case @registration.businessType
         when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
-          @registration.steps.push 'otherbusinesses'
           redirect_to :newOtherBusinesses
         when 'charity', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority'
-          @registration.steps.push 'business'
           redirect_to :newBusiness
         when 'other'
-          @registration.steps.push 'noregistration'
           redirect_to :newNoRegistration
       end
     elsif @registration.new_record?
