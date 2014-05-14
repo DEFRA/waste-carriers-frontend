@@ -274,7 +274,7 @@ class RegistrationsController < ApplicationController
         when 'charity', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority'
           redirect_to :newBusiness
         when 'other'
-          redirect_to :noRegistration
+          redirect_to :newNoRegistration
       end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
