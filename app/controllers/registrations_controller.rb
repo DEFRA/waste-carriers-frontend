@@ -286,12 +286,19 @@ class RegistrationsController < ApplicationController
   end
 
   def newNoRegistration
+    new_step_action 'noregistration'
+  end
+
+  def new_step_action current_step
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
 
+    # TODO by setting the step here this should work better with forward and back buttons and urls
+    # but this might have changed the behaviour
+    @registration.current_step = current_step
     # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("noregistration")
+    if !@registration.steps_valid?(current_step)
       redirect_to_failed_page(@registration.current_step)
     else
       logger.debug 'Previous pages are valid'
@@ -316,16 +323,7 @@ class RegistrationsController < ApplicationController
   end
 
   def newOtherBusinesses
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-
-    # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("otherbusinesses")
-      redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-    end
+    new_step_action 'otherbusinesses'
   end
 
   def updateNewOtherBusinesses
@@ -352,16 +350,7 @@ class RegistrationsController < ApplicationController
   end
 
   def newServiceProvided
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-
-    # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("serviceprovided")
-      redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-    end
+    new_step_action 'serviceprovided'
   end
 
   def updateNewServiceProvided
@@ -387,16 +376,7 @@ class RegistrationsController < ApplicationController
   end
 
   def newConstructionDemolition
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-
-    # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("constructiondemolition")
-      redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-    end
+    new_step_action 'constructiondemolition'
   end
 
   def updateNewConstructionDemolition
@@ -422,16 +402,7 @@ class RegistrationsController < ApplicationController
   end
 
   def newOnlyDealWith
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-
-    # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("onlydealwith")
-      redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-    end
+    new_step_action 'onlydealwith'
   end
 
   def updateNewOnlyDealWith
