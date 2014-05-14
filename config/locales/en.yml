@@ -239,7 +239,7 @@ en:
       address: "Address"
     business_step:
       title: "Name and address details"
-      heading: "Enter your business or orgnisation address"
+      heading: "Enter your business or organisation address"
     address_entry:
       businessAddress: "Main business, organisation or trading address"
       selectAddress: "Select address"
