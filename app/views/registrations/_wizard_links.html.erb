@@ -31,7 +31,7 @@
       </noscript>
   <% end %>
 
-  <%= (link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'button-secondary') unless @registration.first_step? %>
+  <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'button-secondary' %>
   <!--TODO only show this if there is a next step-->
   <input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </p>
