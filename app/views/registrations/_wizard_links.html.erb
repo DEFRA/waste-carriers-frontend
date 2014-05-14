@@ -26,7 +26,7 @@
   -->
 
 
-  <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
+  <%= (link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary', :name => 'back_button') unless @registration.first_step? %>
   <!--TODO only show this if there is a next step-->
   <input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </p>
