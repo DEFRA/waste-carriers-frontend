@@ -335,9 +335,7 @@ class RegistrationsController < ApplicationController
 
     @registration.current_step = "otherbusinesses"
 
-    if params[:findAddress]
-      render "newOtherBusinesses"
-    elsif @registration.valid?
+    if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
       case @registration.otherBusinesses
         when 'yes'
@@ -372,9 +370,7 @@ class RegistrationsController < ApplicationController
 
     @registration.current_step = "serviceprovided"
 
-    if params[:findAddress]
-      render "newServiceProvided"
-    elsif @registration.valid?
+    if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
       case @registration.isMainService
         when 'yes'
@@ -409,9 +405,7 @@ class RegistrationsController < ApplicationController
 
     @registration.current_step = "constructiondemolition"
 
-    if params[:findAddress]
-      render "newServiceProvided"
-    elsif @registration.valid?
+    if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
         when 'yes'
@@ -446,9 +440,7 @@ class RegistrationsController < ApplicationController
 
     @registration.current_step = "onlydealwith"
 
-    if params[:findAddress]
-      render "newServiceProvided"
-    elsif @registration.valid?
+    if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
         when 'yes'
