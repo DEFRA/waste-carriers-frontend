@@ -54,7 +54,5 @@
 </fieldset>
 
 </div>
-<p class="action group">
-<%= link_to t('registrations.form.back_button_label'), newContact_path, :class => 'button-secondary' %>
-<input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
-</p>
+
+<%= render 'wizard_links' %>
