@@ -420,13 +420,6 @@ class RegistrationsController < ApplicationController
   end
 
   def newBusinessDetails
-    #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-  end
-
-  def newBusinessDetails
     logger.info 'Request New Registration'
     #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
     session[:registration_params] ||= {}
