@@ -418,20 +418,47 @@ class RegistrationsController < ApplicationController
       render "newOnlyDealWith", :status => '400'
     end
   end
-  
+
   def newBusinessDetails
     #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
   end
-  
+
+  def newBusinessDetails
+    logger.info 'Request New Registration'
+    #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+    addressSearchLogic @registration
+
+    # Set route name based on agency paramenter
+    @registration.routeName = 'DIGITAL'
+    if !params[:agency].nil?
+      @registration.routeName = 'ASSISTED_DIGITAL'
+      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
+    end
+    # Prepop businessType with value from smarter answers
+    if !session[:smarterAnswersBusiness].nil?
+      logger.info 'Smart answers pre-pop detected: ' + session[:smarterAnswersBusiness]
+      @registration.businessType = session[:smarterAnswersBusiness]
+    end
+  end
+
   def updateNewBusinessDetails
     logger.info 'updateNewBusinessDetails()'
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = "business"
+    addressSearchLogic @registration
+
+    if !session[:smarterAnswersBusiness].nil?
+      logger.info 'Initialising business type from session: ' + session[:smarterAnswersBusiness]
+      @registration.businessType = session[:smarterAnswersBusiness]
+    end
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
@@ -448,10 +475,7 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
-    addressSearchLogic @registration
-    #postcode = params[:sPostcode]
-    #@addresses = Address.find(:all, :params => {:postcode => postcode})
-    
+
     # Pass in current page to check previous page is valid
     if !@registration.steps_valid?("contact")
       redirect_to_failed_page(@registration.current_step)
