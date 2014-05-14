@@ -251,7 +251,6 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     @registration = Registration.new(session[:registration_params])
 
-
     @registration.steps = %w[businesstype]
 
     # Set route name based on agency paramenter
