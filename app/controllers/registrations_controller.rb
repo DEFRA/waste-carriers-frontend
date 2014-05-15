@@ -468,6 +468,9 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
+    addressSearchLogic @registration
+    #postcode = params[:sPostcode]
+    #@addresses = Address.find(:all, :params => {:postcode => postcode})
 
     # Pass in current page to check previous page is valid
     if !@registration.steps_valid?("contact")
@@ -780,7 +783,7 @@ class RegistrationsController < ApplicationController
       # Clear session and redirect to Finish
       session[:registration_step] = session[:registration_params] = nil
       if !@registration.id.nil?
-        ## Account not yet activated for new user. Cannot redirect to the finish URL 
+        ## Account not yet activated for new user. Cannot redirect to the finish URL
         if agency_user_signed_in? || user_signed_in?
           redirect_to finish_url(:id => @registration.id)
         else
@@ -888,8 +891,8 @@ class RegistrationsController < ApplicationController
       end
     end
   end
-  
-  def updatedParameters(databaseMetaData, submittedParams) 
+
+  def updatedParameters(databaseMetaData, submittedParams)
     # Save DB MetaData
     dbMetaData = databaseMetaData
     # Create a new Registration from submitted params
@@ -962,12 +965,39 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def newRegistrationType
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+  end
+
+  def updateNewRegistrationType
+    logger.info 'updateNewRegistrationType()'
+
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+
+    @registration = Registration.new(session[:registration_params])
+
+    @registration.current_step = "registration_type"
+
+    if @registration.valid?
+      logger.info 'Registration is valid so far, go to next page'
+      redirect_to :newRegistrationType
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newRegistrationType", :status => '400'
+    end
+  end
+
 private
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
     params.require(:registration).permit(
       :businessType,
+      :registrationType,
       :otherBusinesses,
       :isMainService,
       :constructionWaste,
