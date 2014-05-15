@@ -182,10 +182,6 @@ class Registration < ActiveResource::Base
     self.current_step = steps[steps.index(current_step)+1]
   end
 
-  def previous_step
-    self.current_step = steps[steps.index(current_step)-1]
-  end
-
   def first_step?
     current_step == steps.first
   end
