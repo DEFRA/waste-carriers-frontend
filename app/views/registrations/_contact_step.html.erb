@@ -1,63 +1,52 @@
-<% content_for :page_title, createTitle('.contactHeading') %>
+<% content_for :page_title, createTitle('.title') %>
 
-<%= render "shared/progress", size: "30%" %>
 <%= render "errors" %>
 
 <!-- WF 4.3.2 -->
 <div id="page2"  data-journey="waste-carriers-registration:contact-details">
 
-<h1><%= t '.contactHeading' %></h1>
+  <h1><%= t '.heading' %></h1>
 
-<%= render "address_entry",:f=>f%>
+  <fieldset>
+    <legend><%= t '.legend' %></legend>
 
-
-<fieldset>
-<legend><%= t '.contact_information_legend' %></legend>
-
-<p class="group<%if @registration.errors[:title].any?%> validation<%end%>">
-    <%= validation_for(@registration, :title) %>
-    <%= f.label :title %>
-    <%= f.select :title , options_for_select(Registration.title_options_for_select, f.object.title ) %>
-</p>
-<p id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
-    <%= validation_for(@registration, :otherTitle) %>
-    <%= f.label :otherTitle, "Other title" %>
-    <%= f.text_field :otherTitle, :size => 20, :maxlength => 35 %>
-</p>
-<p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
-    <%= validation_for(@registration, :firstName) %>
-    <%= f.label :firstName %>
-    <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
-</p>
-<p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
-    <%= validation_for(@registration, :lastName) %>
-    <%= f.label :lastName %>
-    <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
-</p>
-<p class="group<%if @registration.errors[:position].any?%> validation<%end%>">
-    <%= validation_for(@registration, :position) %>
-    <%= f.label :position %>
-    <%= f.text_field :position, :size => 20, :maxlength => 35 %>
-</p>
-<p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
-    <%= validation_for(@registration, :phoneNumber) %>
-    <%= f.label :phoneNumber %>
-    <%= f.text_field :phoneNumber, :size => 20, :maxlength => 20 %>
-</p>
-<p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
-    <%= validation_for(@registration, :contactEmail) %>
-    <%= f.label :contactEmail %>
-    <%= f.text_field :contactEmail, :size => 20, :maxlength => 70 %>
-</p>
-</fieldset>
-
-<!--<p class="action group">
-<input name="next" type="submit" value="Next"/>
-<input name="back" type="submit" value="Back"/>
-</p>-->
+    <p class="group<%if @registration.errors[:title].any?%> validation<%end%>">
+      <%= validation_for(@registration, :title) %>
+      <%= f.label :title %>
+      <%= f.select :title , options_for_select(Registration.title_options_for_select, f.object.title ) %>
+    </p>
+    <p id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
+      <%= validation_for(@registration, :otherTitle) %>
+      <%= f.label :otherTitle, "Other title" %>
+      <%= f.text_field :otherTitle, :size => 20, :maxlength => 35 %>
+    </p>
+    <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :firstName) %>
+      <%= f.label :firstName %>
+      <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
+    </p>
+    <p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :lastName) %>
+      <%= f.label :lastName %>
+      <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
+    </p>
+    <p class="group<%if @registration.errors[:position].any?%> validation<%end%>">
+      <%= validation_for(@registration, :position) %>
+      <%= f.label :position %>
+      <%= f.text_field :position, :size => 20, :maxlength => 35 %>
+    </p>
+    <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
+      <%= validation_for(@registration, :phoneNumber) %>
+      <%= f.label :phoneNumber %>
+      <%= f.text_field :phoneNumber, :size => 20, :maxlength => 20 %>
+    </p>
+    <p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
+      <%= validation_for(@registration, :contactEmail) %>
+      <%= f.label :contactEmail %>
+      <%= f.text_field :contactEmail, :size => 20, :maxlength => 70 %>
+    </p>
+  </fieldset>
 
 </div>
-<p class="action group">
-<%= link_to t('registrations.form.back_button_label'), newBusiness_path, :class => 'button-secondary' %>
-<input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
-</p>
+
+<%= render 'wizard_links' %>

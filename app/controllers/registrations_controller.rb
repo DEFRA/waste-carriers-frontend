@@ -246,11 +246,186 @@ class RegistrationsController < ApplicationController
     authorize! :update, @registration
   end
 
+  def newBusinessType
+    logger.info 'Request New Registration'
+    session[:registration_params] ||= {}
+    @registration = Registration.new(session[:registration_params])
+
+    @registration.steps = %w[businesstype]
+
+    # Set route name based on agency paramenter
+    @registration.routeName = 'DIGITAL'
+    if !params[:agency].nil?
+      @registration.routeName = 'ASSISTED_DIGITAL'
+      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
+    end
+  end
+
+  def updateNewBusinessType
+    setup_registration 'businesstype'
+
+    if @registration.valid?
+      logger.info 'Registration is valid so far, go to next page'
+      # TODO set steps
+
+      case @registration.businessType
+        when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
+          @registration.steps = %w[businesstype otherbusinesses]
+          redirect_to :newOtherBusinesses
+        when 'charity', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority'
+          @registration.steps = %w[businesstype business]
+          redirect_to :newBusiness
+        when 'other'
+          @registration.steps = %w[businesstype noregistration]
+          redirect_to :newNoRegistration
+      end
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newBusinessType", :status => '400'
+      #redirect_to newBusiness_path
+    end
+  end
+
+  def setup_registration current_step
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration= Registration.new(session[:registration_params])
+    @registration.current_step = current_step
+  end
+
+  def newNoRegistration
+    new_step_action 'noregistration'
+  end
+
+  def new_step_action current_step
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+
+    # TODO by setting the step here this should work better with forward and back buttons and urls
+    # but this might have changed the behaviour
+    @registration.current_step = current_step
+    # Pass in current page to check previous page is valid
+    # TODO had to comment this out for now because causing problems but will probably need to reinstate
+    # check_steps_are_valid_up_until_current current_step
+  end
+
+  def check_steps_are_valid_up_until_current current_step
+    if !@registration.steps_valid?(current_step)
+      redirect_to_failed_page(@registration.current_step)
+    else
+      logger.debug 'Previous pages are valid'
+    end
+  end
+
+  def updateNewNoRegistration
+    setup_registration 'noregistration'
+
+    # TODO set steps
+
+    if @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newNoRegistration", :status => '400'
+    end
+  end
+
+  def newOtherBusinesses
+    new_step_action 'otherbusinesses'
+  end
+
+  def updateNewOtherBusinesses
+    setup_registration 'otherbusinesses'
+
+    if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
+      case @registration.otherBusinesses
+        when 'yes'
+          redirect_to :newServiceProvided
+        when 'no'
+          redirect_to :newConstructionDemolition
+      end
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newOtherBusinesses", :status => '400'
+    end
+  end
+
+  def newServiceProvided
+    new_step_action 'serviceprovided'
+  end
+
+  def updateNewServiceProvided
+    setup_registration 'serviceprovided'
+
+    if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
+      case @registration.isMainService
+        when 'yes'
+          redirect_to :newOnlyDealWith
+        when 'no'
+          redirect_to :newConstructionDemolition
+      end
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newServiceProvided", :status => '400'
+    end
+  end
+
+  def newConstructionDemolition
+    new_step_action 'constructiondemolition'
+  end
+
+  def updateNewConstructionDemolition
+    setup_registration 'constructiondemolition'
+
+    if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
+      case @registration.constructionWaste
+        when 'yes'
+          redirect_to :newUpperTierType
+        when 'no'
+          redirect_to :newBusiness
+      end
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newConstructionDemolition", :status => '400'
+    end
+  end
+
+  def newOnlyDealWith
+    new_step_action 'onlydealwith'
+  end
+
+  def updateNewOnlyDealWith
+    setup_registration 'onlydealwith'
+
+    if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
+      case @registration.onlyAMF
+        when 'yes'
+          redirect_to :newBusiness
+        when 'no'
+          redirect_to :newUpperTierType
+      end
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newOnlyDealWith", :status => '400'
+    end
+  end
+
   def newBusinessDetails
     logger.info 'Request New Registration'
     #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
     session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
+    addressSearchLogic @registration
 
     # Set route name based on agency paramenter
     @registration.routeName = 'DIGITAL'
@@ -271,6 +446,7 @@ class RegistrationsController < ApplicationController
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = "business"
+    addressSearchLogic @registration
 
     if !session[:smarterAnswersBusiness].nil?
       logger.info 'Initialising business type from session: ' + session[:smarterAnswersBusiness]
@@ -1009,6 +1185,10 @@ private
     params.require(:registration).permit(
       :businessType,
       :registrationType,
+      :otherBusinesses,
+      :isMainService,
+      :constructionWaste,
+      :onlyAMF,
       :companyName,
       :routeName,
       :addressMode,

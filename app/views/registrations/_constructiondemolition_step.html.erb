@@ -1,0 +1,24 @@
+<% content_for :page_title, createTitle('.business_or_org_details') %>
+
+<%= render "errors" %>
+
+<!-- WF 4.3.1 -->
+<div id="page1" data-journey="waste-carriers-registration:constructiondemolition">
+
+
+  <!-- Smart Answers
+    Do you ever deal with waste from building or demolition work -->
+  <fieldset>
+    <legend><span><%= t 'activemodel.attributes.registration.constructionWaste'%></span></legend>
+    <p class="group<%if @registration.errors[:constructionWaste].any?%> validation<%end%>">
+	  <span class="inline">
+	    <%= f.radio_button :constructionWaste, "yes", :class => "radio" %> <%= f.label :constructionWaste_yes, :class => "label" %>
+        <%= f.radio_button :constructionWaste, "no", :class => "radio" %><%= f.label :constructionWaste_no, :class => "label" %>
+	  </span>
+    </p>
+  </fieldset>
+
+
+</div>
+
+<%= render 'wizard_links' %>

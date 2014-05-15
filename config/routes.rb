@@ -24,6 +24,7 @@ Registrations::Application.routes.draw do
 	  get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
 
 	  get "registrations/find" => 'discovers#new', :via => [:get, :post], :as => :find
+	  get "registrations/find" => 'registrations#newBusinessType', :via => [:get, :post], :as => :find
 
 	  # Add routing for Public Search
 	  get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
@@ -42,6 +43,24 @@ Registrations::Application.routes.draw do
 	  match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
 
 	  # Add new routing for new registration urls
+    match "your-registration/business-type" => 'registrations#newBusinessType', :via => [:get], :as => :newBusinessType
+    match "your-registration/business-type" => 'registrations#updateNewBusinessType', :via => [:post,:put,:patch]
+
+    match "your-registration/no-registration" => 'registrations#newNoRegistration', :via => [:get], :as => :newNoRegistration
+    match "your-registration/no-registration" => 'registrations#updateNewNoRegistration', :via => [:post,:put,:patch]
+
+    match "your-registration/other-businesses" => 'registrations#newOtherBusinesses', :via => [:get], :as => :newOtherBusinesses
+    match "your-registration/other-businesses" => 'registrations#updateNewOtherBusinesses', :via => [:post,:put,:patch]
+
+    match "your-registration/service-provided" => 'registrations#newServiceProvided', :via => [:get], :as => :newServiceProvided
+    match "your-registration/service-provided" => 'registrations#updateNewServiceProvided', :via => [:post,:put,:patch]
+
+    match "your-registration/construction-demolition" => 'registrations#newConstructionDemolition', :via => [:get], :as => :newConstructionDemolition
+    match "your-registration/construction-demolition" => 'registrations#updateNewConstructionDemolition', :via => [:post,:put,:patch]
+
+    match "your-registration/only-deal-with" => 'registrations#newOnlyDealWith', :via => [:get], :as => :newOnlyDealWith
+    match "your-registration/only-deal-with" => 'registrations#updateNewOnlyDealWith', :via => [:post,:put,:patch]
+
 	  match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusiness
 	  match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
 
