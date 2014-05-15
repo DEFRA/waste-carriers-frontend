@@ -27,7 +27,7 @@
 
   <% unless @registration.first_step? %>
       <noscript>
-         <p>Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)</p>
+        <%= content_tag :p, t('registrations.back_link_unavailable') %>
       </noscript>
       <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'button-secondary' %>
   <% end %>
