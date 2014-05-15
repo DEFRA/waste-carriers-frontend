@@ -121,9 +121,9 @@ Then the system tells me that I must contact EA by phone
 
 
 
-Scenario Outline: Back link
+Scenario: Back link
 Given that I'm on the discovery page
-And I enter my status as <waste_carrier>
+And I enter my status as 'sole_trader'
 When I tell the system I deal with other waste too
 And I tell the system that disposing waste is my main service
 And I tell the system  that I don't deal with animal, farm and quarry or mine waste
@@ -132,9 +132,9 @@ Then I see the screen where I told the system I deal with other waste too
 And my original choice is still there
 
 
-Scenario Outline: Back button
+Scenario: Back button
 Given that I'm on the discovery page
-And I enter my status as <waste_carrier>
+And I enter my status as 'sole_trader'
 When I tell the system I deal with other waste too
 And I tell the system that disposing waste is my main service
 And I tell the system  that I don't deal with animal, farm and quarry or mine waste
