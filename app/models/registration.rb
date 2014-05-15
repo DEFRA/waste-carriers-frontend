@@ -177,11 +177,6 @@ class Registration < ActiveResource::Base
 
   VALID_SIGN_UP_MODES = %w[sign_up sign_in]
 
-
-  def next_step
-    self.current_step = steps[steps.index(current_step)+1]
-  end
-
   def first_step?
     current_step == steps.first
   end
