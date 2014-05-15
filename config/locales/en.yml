@@ -146,6 +146,7 @@ en:
     attributes:
       registration:
         businessType: "Business or organisation type"
+        registrationType: "Registration type"
         companyName: "Business, organisation or trading name"
         individualsType: "Organisation type"
         publicBodyType: "Type of public body"
@@ -239,6 +240,13 @@ en:
       address: "Address"
     business_step:
       business_or_org_details: "Business or organisation details"
+    registration_type_step:
+      title: "Business type"
+      subtitle: "Carrier, broker or dealer"
+      form_legend: "Type of registration to register"
+      carrier_dealer: "carrier/dealer"
+      broker_dealer: "broker/dealer"
+      carrier_broker_dealer: "carrier/broker/dealer"
     address_entry:
       businessAddress: "Main business, organisation or trading address"
       selectAddress: "Select address"

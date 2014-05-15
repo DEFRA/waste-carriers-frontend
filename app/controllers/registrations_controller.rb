@@ -980,13 +980,6 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
-
-    # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("contact")
-      redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-    end
   end
 
   def updateNewRegistrationType
@@ -1001,7 +994,7 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
-      redirect_to :newConfirmation
+      redirect_to :newRegistrationType
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -1015,6 +1008,7 @@ private
   def registration_params
     params.require(:registration).permit(
       :businessType,
+      :registrationType,
       :companyName,
       :routeName,
       :addressMode,
