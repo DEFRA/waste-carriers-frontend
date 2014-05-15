@@ -1,9 +1,11 @@
 Given(/^I have completed the lower tier registration form$/) do
   visit find_path
   select 'Sole trader', from: 'What kind of business or organisation are you?'
+  click_on 'Next'
   choose 'Only waste from our own business or organisation'
+  click_on 'Next'
   choose 'No'
-  click_on 'Continue'
+  click_on 'Next'
 
   fill_in 'Business, organisation or trading name', with: 'Grades'
   click_on 'Next'

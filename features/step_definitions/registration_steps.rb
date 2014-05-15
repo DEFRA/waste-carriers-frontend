@@ -1,6 +1,5 @@
 Given(/^I am on the initial page$/) do
   visit find_path
-  page.should have_content 'Find out if'
 end
 
 Given(/^I click on "(.*?)"$/) do |name|
