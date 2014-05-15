@@ -229,6 +229,7 @@ en:
       buttonText: "Continue"
 
   registrations:
+    back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     errors:
       error: "error"
       errorMessage: "You have %{count} on this page"
