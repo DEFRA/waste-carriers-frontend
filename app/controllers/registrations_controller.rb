@@ -1051,47 +1051,6 @@ class RegistrationsController < ApplicationController
     regFromParams.attributes
   end
 
-  # PUT /registrations/1
-  # PUT /registrations/1.json
-#  def update
-#    session[:registration_params] ||= {}
-#    session[:registration_params].deep_merge!(params[:registration]) if params[:registration]
-#    @registration = Registration.find(params[:id])
-#    @registration.current_step = session[:registration_step]
-#    first = @registration.first_step?
-#    last = @registration.last_step?
-#    if params[:back]
-#      @registration.previous_step
-#      session[:registration_step] = @registration.current_step
-#    else
-#      if @registration.valid?
-#        logger.info "Performing update of registration"
-#        @registration.update_attributes(session[:registration_params])
-#        @registration.current_step = session[:registration_step]
-#        first = @registration.first_step?
-#        last = @registration.last_step?
-#        if @registration.last_step?
-#          @registration.save if @registration.all_valid?
-#        else
-#          @registration.next_step
-#        end
-#        session[:registration_step] = @registration.current_step
-#      end
-#    end
-#    if params[:back] and first
-#      session[:registration_step] = nil
-#      logger.info "Redirected back to My account summary, also cleared registration session"
-#      session[:registration_params] ||= {}
-#      redirect_to userRegistrations_path(current_user.id)
-#    elsif params[:back] or not (last and @registration.all_valid?)
-#      render "edit"
-#    else
-#      session[:registration_step] = session[:registration_params] = nil
-#      logger.info "This should have been a signed in user, completing an update redirecting to my account"
-#      redirect_to userRegistrations_path(current_user.id)
-#    end
-#  end
-
   # DELETE /registrations/1
   # DELETE /registrations/1.json
   def destroy
