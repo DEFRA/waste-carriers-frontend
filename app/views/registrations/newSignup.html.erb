@@ -2,8 +2,6 @@
 
 <%= form_for(@registration, :url => newSignup_path) do |f| %>
 
-<h1 class="subtitle"><%= t 'registrations.form.subtitle' %></h1>
-
 <%= render "signup_step", :f => f %>
 
 <% end %>
