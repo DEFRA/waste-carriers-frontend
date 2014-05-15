@@ -406,7 +406,6 @@ en:
       filterLabel: "Filter by area (optional)"
     form:
       title: "Waste Carrier Registration"
-      subtitle: "Registering as a lower tier waste carrier/broker/dealer"
       progress: "Progress: "
       error_explanation: "prohibited this registration from being saved:"
       business_or_org_details: "Business or organisation details"

@@ -7,7 +7,6 @@
 <%= form_for(@registration, url: print_confirmed_url) do |f| %>
 
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
-<!--<h2 class="subtitle"><%= t 'registrations.form.subtitle' %></h2>-->
 <%= render "shared/meta_phases"%>
 
 <h1 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h1>
