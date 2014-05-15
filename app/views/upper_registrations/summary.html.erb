@@ -1,0 +1,55 @@
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <%= form_for(@registration, :url => :upper_summary) do |f| %>
+
+      <% content_for :page_title, createTitle('.title') %>
+
+      <div class="step">Step 9 of 9</div>
+      <h1 class="subtitle"><%= t '.subtitle' %></h1>
+
+      <%= render "errors" %>
+
+      <div class"wrap">
+        <div class="right">
+          <fieldset>
+            <legend><%= t '.main_contact_legend' %></legend>
+            <%= @registration.first_name %> <%= @registration.last_name %></br>
+            Acme Ltd</br>
+            <%= @registration.telephone_number %></br>
+            <%= @registration.email_address %>
+          </fieldset>
+          <fieldset>
+            <legend><%= t '.alternate_contact_legend' %></legend>
+            <%= @registration.alt_first_name %> <%= @registration.alt_last_name %></br>
+            Acme Ltd</br>
+            <%= @registration.alt_telephone_number %></br>
+            <%= @registration.alt_email_address %>
+          </fieldset>
+        </div>
+        <div class="left">
+          <div class="label_clone"><%= t '.amount_paid' %></div>
+          <div>
+            <div class="boxed_pay">
+              &nbsp;
+              <div class="label_clone_really_big">£169</div>
+              &nbsp;
+            </div>
+          </div>
+          <div class="label_clone">1 x New registration</div>
+          <div class="label_clone"><%= @registration.copy_cards %> x Copy cards</div>
+          <p class="group<%if @registration.errors[:copy_cards].any?%> validation<%end%>">
+            <%= validation_for(@registration, :copy_cards) %>
+            <div class="label_clone"><%= f.check_box :confirmed_declaration %>Tick this box to agree with declaration</div>
+            <a href="?declaration=true">Declaration</a>
+          </p>
+        </div>
+      </div>
+      <p>
+        <div class="label_clone"><%= t '.confirm_label' %></div>
+        <%= link_to t('upper_registrations.form.back_button_label'), :upper_payment, :class => 'button-secondary' %>
+        <input name="confirm" class="button" type="submit" value="<%= t 'upper_registrations.form.confirm_button_label' %>"/>
+      </p>
+    <% end %>
+  </article>
+</main>

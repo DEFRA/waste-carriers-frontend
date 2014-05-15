@@ -1,0 +1,48 @@
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <%= form_for(@registration, :url => :upper_payment) do |f| %>
+
+      <% content_for :page_title, createTitle('.title') %>
+
+      <div class="step">Step 8 of 9</div>
+      <h1 class="subtitle"><%= t '.subtitle' %></h1>
+
+      <%= render "errors" %>
+
+      <fieldset>
+        <div class="boxed">
+          <div class="label_clone_big"><%= t '.total_label' %> £169</div>
+        </div>
+        <div>&nbsp;</div>
+        <div class="boxed">
+          <div class="label_clone"><%= t '.new_reg_label' %> £154</div>
+        </div>
+        <div>&nbsp;</div>
+        <div class="boxed">
+          <p class="group<%if @registration.errors[:copy_cards].any?%> validation<%end%>">
+            <%= validation_for(@registration, :copy_cards) %>
+            <%= f.label t '.copy_card_label' %>
+            <%= f.number_field :copy_cards, :min => 0, :max => 3 %>
+          </p>
+        </div>
+        <p>
+          <a href="?whatAreCopyCards=true"><%= t '.copy_card_info_link'%></a>
+        </p>
+        <p class="group<%if @registration.errors[:payment_method].any?%> validation<%end%>">
+          <%= validation_for(@registration, :payment_method) %>
+          <%= f.label t '.payment_method_label' %>
+          <input name="world_pay" class="button" type="submit" value="<%= t '.payment_method_debit_credit' %>"/>
+          <input name="elec_transfer" class="button" type="submit" value="<%= t '.payment_method_elec_transfer' %>"/>
+          <div><a href="?troublePaying=true"><%= t '.trouble_paying_link'%></a></div>
+        </p>
+      </fieldset>
+
+      <p>
+        <%= link_to t('upper_registrations.form.back_button_label'), :upper_relevant_conviction, :class => 'button-secondary' %>
+        <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
+      </p>
+
+    <% end %>
+  </article>
+</main>
