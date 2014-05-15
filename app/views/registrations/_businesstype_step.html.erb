@@ -12,7 +12,11 @@
    -->
     <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
       <%= f.label :businessType %>
-      <%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
+      <span class="inline">
+        <% Registration.business_type_options_for_select.each do |option| %>
+            <%= f.radio_button :businessType, option.second, class: 'radio' %><%= f.label "businessType_#{option.second.downcase}", option.first, class: 'label' %><br />
+        <% end %>
+      </span>
     </p>
 
     <%= f.hidden_field :routeName %>

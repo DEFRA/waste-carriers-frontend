@@ -71,9 +71,17 @@ class Registration < ActiveResource::Base
     string :revoked
   end
 
-  #(Enumeration) available business types: configurable in config file
-  #  %w[soleTrader partnership limitedCompany charity collectionAuthority disposalAuthority regulationAuthority other]
-  BUSINESS_TYPES = Rails.application.config.registration_business_types
+  BUSINESS_TYPES = %w[
+    soleTrader
+    partnership
+    limitedCompany
+    publicBody
+    charity
+    collectionAuthority
+    disposalAuthority
+    regulationAuthority
+    other
+  ]
 
   TITLES = %w[mr mrs miss ms dr other]
 
@@ -128,7 +136,7 @@ class Registration < ActiveResource::Base
   #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
 
   def self.business_type_options_for_select
-    [[I18n.t('please_select'), ""]] + (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
+    (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
   end
 
   def self.title_options_for_select

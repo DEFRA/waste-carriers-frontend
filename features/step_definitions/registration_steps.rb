@@ -11,7 +11,7 @@ Then(/^I should see "(.*?)"$/) do |some_text|
 end
 
 Then(/^I select business or organisation type "(.*?)"$/) do |field_value|
-  page.select field_value, from: 'registration_businessType'
+  choose field_value
 end
 
 Then(/^I fill in "(.*?)" with "(.*?)"$/) do |field_name, field_value|
