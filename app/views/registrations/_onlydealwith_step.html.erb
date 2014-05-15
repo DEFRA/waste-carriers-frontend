@@ -9,7 +9,7 @@
   <!-- Smart Answers
     Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste -->
   <fieldset>
-    <legend><span><%= t 'activemodel.attributes.discover.onlyAMF'%></span></legend>
+    <legend><span><%= t 'activemodel.attributes.registration.onlyAMF'%></span></legend>
     <p class="group<%if @registration.errors[:onlyAMF].any?%> validation<%end%>">
   	  <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
         <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> <%= f.label :onlyAMF_yes, :class => "label" %>
