@@ -82,7 +82,6 @@ en:
       responsibilities4: "Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'"
 
 
-  hello: "Hello world"
   #Registration form/page(s) content
   errors:
     messages:
@@ -187,6 +186,27 @@ en:
         constructionWaste: "Do you ever deal with waste from building or demolition work?"
         constructionWaste_yes: "Yes"
         constructionWaste_no: "No"
+      upper_registration:
+        business_name: "Business or organisation trading name"
+        postcode: "Postcode"
+        first_name: "First name"
+        last_name: "Last name"
+        job_title: "Job title"
+        telephone_number: "Telephone number"
+        email_address: "Email address"
+        business_type: "Business type"
+        company_house_number: "Companies house number"
+        alt_first_name: "First name"
+        alt_last_name: "Last name"
+        alt_job_title: "Job title"
+        alt_telephone_number: "Telephone number"
+        alt_email_address: "Email address"
+        relevant_conviction: "Relevant convictions"
+        copy_cards: "Copy card"
+        payment_method: "Choose payment method"
+        carrier_dealer: "carrier/dealer"
+        broker_dealer: "broker/dealer"
+        carrier_broker_dealer: "carrier/broker/dealer"
 
   shared:
     current_user:
@@ -199,6 +219,82 @@ en:
       signed_in_as_admin: "Signed in as admin"
     progress:
       progress: "Progress"
+
+  upper_registrations:
+    errors:
+      error: "error"
+      errorMessage: "You have %{count} on this page"
+    business_type:
+      title: "Business type"
+      subtitle: "Carrier, broker or dealer"
+      form_legend: "Type of registration to register"
+    business_address:
+      title: "Business address"
+      subtitle: "Enter your business or organisation address"
+      companies_house_label: "Find your companies house number"
+      manual_companies_house_link: "Enter details manually"
+      manual_uk_address_link: "Enter address manually"
+      manual_other_address_link: "I am a company from outside the United Kingdom"
+    contact_detail:
+      title: "Contact details"
+      subtitle: "Enter your business or organisation contact details"
+      director_form_legend: "Director or main contact"
+      alternate_form_legend: "Alternative contact (if required)"
+    relevant_conviction:
+      title: "Relevant conviction"
+      subtitle: "Do you have any relevant convictions?"
+      form_legend: "A relevant offence would be."
+    payment:
+      title: "Payment"
+      subtitle: "Payment"
+      total_label: "Total to pay"
+      new_reg_label: "New registration"
+      copy_card_label: "Copy cards cost £5 each"
+      copy_card_info_link: "What are copy cards?"
+      payment_method_label: "Choose payment method"
+      payment_method_debit_credit: "Pay by debit or credit card"
+      payment_method_elec_transfer: "Pay by electronic transfer"
+      trouble_paying_link: "Trouble paying?"
+    summary:
+      title: "Summary"
+      subtitle: "Summary"
+      check_details_label: "Check your details"
+      amount_paid: "You have paid"
+      main_contact_legend: "Main contact"
+      alternate_contact_legend: "Alternative contact"
+      agree_declaration_label: "Tick this box to agree with declaration"
+      declaration_link: "Declaration"
+      confirm_label: "Confirm registration"
+      use_your_information_link: "How we use your personal information"
+    form:
+      title: "Waste Carrier Registration"
+      subtitle: "Registering as an upper tier waste carrier/broker/dealer"
+      progress: "Progress: "
+      find_address_button_label: "Find address"
+      find_details_button_label: "Find details"
+      next_button_label: "Next"
+      back_button_label: "Back"
+      confirm_button_label: "Confirm"
+
+  convictions:
+    major_accident_hazards: "Control of Major Accident Hazards Regulations 1999"
+    customs_excise: "Customs and Excise Management Act 1979: Section 170 and 170B (where the offence relates to scrap metal)"
+    env_protection: "Environmental Protection Act 1990: Section 34B"
+    food_env_protection: "Food and Environment Protection Act 1985: Section 9"
+    fraud: "Fraud Act 2006: Section 1 (for environmental/metal theft related offences only)"
+    landfill: "Landfill (England and Wales) Regulations 2002 : Regulation 17(1)"
+    legal_aid: "Legal Aid, Sentencing and Punishment of Offenders Act 2012: Section 146"
+    pollution_prev_control: "Pollution Prevention and Control (England and Wales) Regulations 2000"
+    proceeds_crime: "Proceeds of Crime Act 2002: Sections 327, 328, 330, 331 and 332"
+    producer_responsibility: "Producer Responsibility Obligations (Packaging Waste) Regulations 2007"
+    scrap_metal_1964: "Scrap Metal Dealers Act 1964"
+    scrap_metal_2013: "Scrap Metal Dealers Act 2013"
+    theft_act: "Theft Act 1968: Sections 1, 8, 9, 10, 11, 17, 18, 22 and 25 (for environmental/metal theft related offences only)"
+    vehicles: "Vehicles (Crimes) Act 2001: Part 1"
+    waste_elec_equip_2006: "Waste Electrical and Electronic Equipment Regulations 2006"
+    waste_elec_equip_2013: "Waste Electrical and Electronic Equipment Regulations 2013"
+    water_resources: "Water Resources Act 1991: Sections 85, 202 and 206"
+    no_convictions: "No relevant convictions"
 
   discovers:
     new:

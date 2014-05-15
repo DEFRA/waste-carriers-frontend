@@ -1,0 +1,38 @@
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <%= form_for(@registration, :url => :upper_business_address) do |f| %>
+
+      <% content_for :page_title, createTitle('.title') %>
+
+      <div class="step">Step 5 of 9</div>
+      <h1 class="subtitle"><%= t '.subtitle' %></h1>
+
+      <%= render "errors" %>
+
+      <fieldset>
+        <p class="group<%if @registration.errors[:company_house_number].any?%> validation<%end%>">
+          <%= validation_for(@registration, :company_house_number) %>
+          <%= f.label t '.companies_house_label' %>
+          <%= f.text_field :company_house_number, :size => 20, :maxlength => 35 %>
+          <input type="submit" class="button" name="findCompany" value="<%=t 'upper_registrations.form.find_details_button_label'%>"/></br>
+          <a href="?manualCompHouse=true"><%= t '.manual_companies_house_link'%></a>
+        </p>
+        <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
+          <%= validation_for(@registration, :postcode) %>
+          <%= f.label :postcode %>
+          <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
+          <input type="submit" class="button" name="findAddress" value="<%=t 'upper_registrations.form.find_address_button_label'%>"/></br>
+          <a href="?manualUkAddress=true"><%= t '.manual_uk_address_link'%></a></br>
+          <a href="?manualOtherAddress=true"><%= t '.manual_other_address_link'%></a>
+        </p>
+      </fieldset>
+
+      <p>
+        <%= link_to t('upper_registrations.form.back_button_label'), :upper_business_type, :class => 'button-secondary' %>
+        <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
+      </p>
+
+    <% end %>
+  </article>
+</main>

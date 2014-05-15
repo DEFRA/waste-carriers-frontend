@@ -1,0 +1,36 @@
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <%= form_for(@registration, :url => :upper_business_type) do |f| %>
+
+      <% content_for :page_title, createTitle('.title') %>
+
+      <div class="step">Step 4 of 9</div>
+      <h1 class="subtitle"><%= t '.subtitle' %></h1>
+
+      <%= render "errors" %>
+
+      <fieldset>
+        <legend><%= t '.form_legend' %></legend>
+        <p class="group<%if @registration.errors[:business_type].any?%> validation<%end%>">
+          <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
+            <!--<label class="label" for="discover_isMainService_yes">-->
+            <%= f.radio_button :business_type, "carrier_dealer", :class => "radio" %><%= f.label :carrier_dealer, :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :business_type, "broker_dealer", :class => "radio" %><%= f.label :broker_dealer, :class => "label" %>
+          </span>
+          <span class="inline">
+            <%= f.radio_button :business_type, "carrier_broker_dealer", :class => "radio" %><%= f.label :carrier_broker_dealer, :class => "label" %>
+          </span>
+        </p>
+      </fieldset>
+
+      <p>
+        <%= link_to t('upper_registrations.form.back_button_label'), :upper_business_type, :class => 'button-secondary' %>
+        <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
+      </p>
+
+    <% end %>
+  </article>
+</main>
