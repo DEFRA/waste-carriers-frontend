@@ -1,0 +1,22 @@
+<% content_for :page_title, createTitle('.business_or_org_details') %>
+
+<%= render "errors" %>
+
+<!-- WF 4.3.1 -->
+<div id="page1" data-journey="waste-carriers-registration:noregistration">
+
+
+  <!-- Smart Answers
+    Contact EA message when 'other' businessType selected -->
+  <div id="contactText">
+    <p class="group">
+    <h3><%= t 'discovers.contactTextHeading' %></h3>
+    <p class="font-larger"><%= t 'discovers.contactTextLine1' %></p>
+    <p class="font-larger"><%= t 'discovers.contactTextLine2' %></p>
+    </p>
+  </div>
+
+
+</div>
+
+<%= render 'wizard_links' %>
