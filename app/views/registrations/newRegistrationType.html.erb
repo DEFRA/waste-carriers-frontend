@@ -1,0 +1,11 @@
+<main id="content" role="main" class="group"><article role="article" class="group">
+
+<%= form_for(@registration, :url => newRegistrationType_path) do |f| %>
+
+<div class="step">Step 4 of 9</div>
+<h1 class="subtitle"><%= t 'registrations.registration_type_step.subtitle' %></h1>
+
+<%= render "registration_type_step", :f => f %>
+
+<% end %>
+</article></main>
