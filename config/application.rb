@@ -114,20 +114,6 @@ module Registrations
     config.registrations_service_phone = '03708 506506'
     config.registrations_cy_service_phone = '03000 653000'
 
-    #Business types available for registrations. 
-    #Note: When adding or removing, please also adjust locale-specific values in localisation files.
-    # Note: if the Discover and Registration classes are merged, then this should be moved into that
-    config.registration_business_types = %w[
-      soleTrader 
-      partnership 
-      limitedCompany 
-      publicBody 
-      charity
-      collectionAuthority
-      disposalAuthority
-      regulationAuthority
-      other]
-
     #Titles. Please also edit locale-specific values in localisation files.
     config.registration_titles = %w[mr mrs miss ms dr other]
 

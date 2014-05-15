@@ -71,9 +71,17 @@ class Registration < ActiveResource::Base
     string :revoked
   end
 
-  #(Enumeration) available business types: configurable in config file
-  #  %w[soleTrader partnership limitedCompany charity collectionAuthority disposalAuthority regulationAuthority other]
-  BUSINESS_TYPES = Rails.application.config.registration_business_types
+  BUSINESS_TYPES = %w[
+    soleTrader
+    partnership
+    limitedCompany
+    publicBody
+    charity
+    collectionAuthority
+    disposalAuthority
+    regulationAuthority
+    other
+  ]
 
   TITLES = %w[mr mrs miss ms dr other]
 
