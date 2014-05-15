@@ -136,7 +136,7 @@ class Registration < ActiveResource::Base
   #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
 
   def self.business_type_options_for_select
-    [[I18n.t('please_select'), ""]] + (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
+    (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
   end
 
   def self.title_options_for_select
