@@ -23,6 +23,7 @@ Registrations::Application.routes.draw do
 	  get "home/index"
 	  get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
 
+	  get "registrations/find" => 'discovers#new', :via => [:get, :post], :as => :find
 	  get "registrations/find" => 'registrations#newBusinessType', :via => [:get, :post], :as => :find
 
 	  # Add routing for Public Search
@@ -63,7 +64,7 @@ Registrations::Application.routes.draw do
 	  match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusiness
 	  match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
 
-    match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
+	  match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
 	  match "your-registration/contact-details" => 'registrations#updateNewContactDetails', :via => [:post,:put,:patch]
 
 	  match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
@@ -76,6 +77,10 @@ Registrations::Application.routes.draw do
 	  match "your-registration/print" => 'registrations#print_confirmed', :via => [:get,:patch], :as => :print_confirmed
 
 	  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
+
+    # These routes relate to pages used in the upper-tier process
+    get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
+    match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
 	  resources :registrations
 

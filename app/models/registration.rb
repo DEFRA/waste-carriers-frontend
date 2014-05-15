@@ -22,8 +22,9 @@ class Registration < ActiveResource::Base
     string :individualsType
     string :publicBodyType
     string :publicBodyTypeOther
+    string :registrationType
     string :houseNumber
-    
+
     string :addressMode
     string :postcodeSearch
     string :selectedMoniker
@@ -38,12 +39,12 @@ class Registration < ActiveResource::Base
     string :administrativeArea
     string :royalMailUpdateDate
     string :localAuthorityUpdateDate
-    
+
     # Non UK fields
     string :streetLine3
     string :streetLine4
     string :country
-    
+
     string :title
     string :otherTitle
     string :firstName
@@ -65,7 +66,7 @@ class Registration < ActiveResource::Base
     string :sign_up_mode
     string :routeName
     string :accessCode
-    
+
     # Used as a trigger value to force validation of the revoke reason field
     # When this value contains any value, the revokeReason field is validated
     string :revoked
@@ -86,7 +87,7 @@ class Registration < ActiveResource::Base
   TITLES = %w[mr mrs miss ms dr other]
 
   VALID_CHARACTERS = /\A[A-Za-z0-9\s\'\.&!%]*\Z/
-  
+
   DISTANCES = %w[any 10 50 100]
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
 
@@ -107,9 +108,9 @@ class Registration < ActiveResource::Base
   validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
   validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
-  
+
   validate :validate_addressMode
-  
+
   validate :validate_title, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
   validate :validate_firstName, :if => lambda { |o| o.current_step == "contact" }
@@ -117,10 +118,10 @@ class Registration < ActiveResource::Base
   validate :validate_position, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
-  
+
   # Confirmation fields
   validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
-  
+
   # Sign up / Sign in fields
   validate :validate_accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }
   #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
@@ -128,10 +129,10 @@ class Registration < ActiveResource::Base
   validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
   validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
-  
+
   # Validate Revoke Reason
   validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
-  
+
   #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
   #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
 
@@ -142,14 +143,14 @@ class Registration < ActiveResource::Base
   def self.title_options_for_select
     [[I18n.t('please_select'), ""]] + (TITLES.collect {|d| [I18n.t('titles.'+d), d]})
   end
-  
+
   def self.distance_options_for_select
     (DISTANCES.collect {|d| [I18n.t('distances.'+d), d]})
   end
 
   #def sign_up_mode
   #  @sign_up_mode || 'sign_up'
-  #end 
+  #end
 
   def initialize_sign_up_mode(userEmail, signedIn)
     Rails.logger.debug "Entering initialize_sign_up_mode"
@@ -208,7 +209,7 @@ class Registration < ActiveResource::Base
       valid?
     end
   end
-  
+
   def steps_valid?(uptostep)
     Rails.logger.debug 'steps_valid() uptostep: ' + uptostep
     steps.all? do |step|
@@ -223,7 +224,7 @@ class Registration < ActiveResource::Base
       end
     end
   end
-  
+
   def pending?
     metaData && metaData.status == 'PENDING'
   end
@@ -251,19 +252,19 @@ class Registration < ActiveResource::Base
       errors.add(:businessType, I18n.t('errors.messages.invalid_selection') )
     end
   end
-  
+
   def validate_companyName
     #validates_presence_of :companyName, :if => lambda { |o| o.current_step == "business" }
     if companyName == ""
       Rails.logger.debug 'companyName is empty'
       errors.add(:companyName, I18n.t('errors.messages.blank') )
-    #validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/, message: I18n.t('errors.messages.alpha70') }  
+    #validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/, message: I18n.t('errors.messages.alpha70') }
     elsif !companyName.nil? and companyName[/\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/].nil?
       Rails.logger.debug 'companyName fails reg ex check'
       errors.add(:companyName, I18n.t('errors.messages.alpha70') )
     end
   end
-  
+
   def validate_houseNumber
     #validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
     if houseNumber.nil? or houseNumber == ""
@@ -275,25 +276,25 @@ class Registration < ActiveResource::Base
       errors.add(:houseNumber, I18n.t('errors.messages.lettersSpacesNumbers35') )
     end
   end
-  
+
   def validate_postcodeSearch
     if postcodeSearch == "" and addressMode.nil?
       errors.add(:postcodeSearch, I18n.t('errors.messages.blank') )
     end
   end
-  
+
   def validate_selectedMoniker
     if (selectedMoniker.nil? or selectedMoniker == "") and addressMode.nil? and postcodeSearch != "" and !uprn
-      errors.add(:selectedMoniker, I18n.t('errors.messages.blank') )    
+      errors.add(:selectedMoniker, I18n.t('errors.messages.blank') )
     end
   end
-  
+
   def validate_addressMode
     if addressMode and !addressMode.nil? and addressMode != "manual-uk" and addressMode != "manual-foreign"
       errors.add(:addressMode, I18n.t('errors.messages.blank') )
     end
   end
-  
+
   def validate_streetLine1
     #validates_presence_of :streetLine1, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
     if streetLine1.nil? or streetLine1 == ""
@@ -309,7 +310,7 @@ class Registration < ActiveResource::Base
       errors.add(:streetLine1, I18n.t('errors.messages.maxlength35') )
     end
   end
-  
+
   def validate_streetLine2
     #validates :streetLine2, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
     if !streetLine2.nil? and streetLine2[VALID_CHARACTERS].nil?
@@ -321,7 +322,7 @@ class Registration < ActiveResource::Base
       errors.add(:streetLine2, I18n.t('errors.messages.maxlength35') )
     end
   end
-  
+
   def validate_streetLine3
     if !streetLine3.nil? and streetLine3[VALID_CHARACTERS].nil?
       Rails.logger.debug 'streetLine3 fails reg ex check'
@@ -332,7 +333,7 @@ class Registration < ActiveResource::Base
       errors.add(:streetLine3, I18n.t('errors.messages.maxlength35') )
     end
   end
-  
+
   def validate_streetLine4
     if !streetLine4.nil? and streetLine4[VALID_CHARACTERS].nil?
       Rails.logger.debug 'streetLine4 fails reg ex check'
@@ -343,7 +344,7 @@ class Registration < ActiveResource::Base
       errors.add(:streetLine4, I18n.t('errors.messages.maxlength35') )
     end
   end
-  
+
   def validate_townCity
     #validates_presence_of :townCity, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
     if townCity.nil? or townCity == ""
@@ -355,7 +356,7 @@ class Registration < ActiveResource::Base
       errors.add(:townCity, I18n.t('errors.messages.invalid_characters') )
     end
   end
-  
+
   def validate_country
     if country.nil? or country == ""
       Rails.logger.debug 'country is empty'
@@ -379,7 +380,7 @@ class Registration < ActiveResource::Base
       errors.add(:postcode, I18n.t('errors.messages.invalid') )
     end
   end
-  
+
   def validate_title
     #validates_presence_of :title, :if => lambda { |o| o.current_step == "contact" }
     if title == ""
@@ -391,7 +392,7 @@ class Registration < ActiveResource::Base
       errors.add(:title, I18n.t('errors.messages.invalid_selection') )
     end
   end
-  
+
   def validate_otherTitle
     #validates_presence_of :otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
     if otherTitle == ""
@@ -403,7 +404,7 @@ class Registration < ActiveResource::Base
       errors.add(:otherTitle, I18n.t('errors.messages.invalid_characters') )
     end
   end
-  
+
   def validate_firstName
     #validates_presence_of :firstName, :if => lambda { |o| o.current_step == "contact" }
     if firstName == ""
@@ -419,7 +420,7 @@ class Registration < ActiveResource::Base
       errors.add(:firstName, I18n.t('errors.messages.35characters') )
     end
   end
-  
+
   def validate_lastName
     #validates_presence_of :lastName, :if => lambda { |o| o.current_step == "contact" }
     if lastName == ""
@@ -435,7 +436,7 @@ class Registration < ActiveResource::Base
       errors.add(:lastName, I18n.t('errors.messages.35characters') )
     end
   end
-  
+
   def validate_position
     #validates :position, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s]*\Z/, message:I18n.t('errors.messages.lettersSpaces') }
     if !position.nil? and position[/\A[a-zA-Z\s]*\Z/].nil?
@@ -443,7 +444,7 @@ class Registration < ActiveResource::Base
       errors.add(:position, I18n.t('errors.messages.lettersSpaces') )
     end
   end
-  
+
   def validate_phoneNumber
     #validates_presence_of :phoneNumber, :if => lambda { |o| o.current_step == "contact" }
     if phoneNumber == ""
@@ -459,7 +460,7 @@ class Registration < ActiveResource::Base
       errors.add(:phoneNumber, I18n.t('errors.messages.maxlength20') )
     end
   end
-  
+
   def validate_contactEmail
     #validates_presence_of :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}
     if contactEmail == "" and routeName == 'DIGITAL'
@@ -475,7 +476,7 @@ class Registration < ActiveResource::Base
       errors.add(:contactEmail, I18n.t('errors.messages.70characters') )
     end
   end
-  
+
   def validate_accountEmail
     #validates_presence_of :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }
     if accountEmail == ""
@@ -491,7 +492,7 @@ class Registration < ActiveResource::Base
       errors.add(:accountEmail, I18n.t('errors.messages.70characters') )
     end
   end
-  
+
   def validate_password
     #validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
     if password == ""
@@ -526,10 +527,10 @@ class Registration < ActiveResource::Base
 	    else
 	      Rails.logger.debug "validate_password: not validating, sign_up_mode = " + (sign_up_mode || '')
 	    end
-      end 
+      end
     end
   end
-  
+
   def validate_password_confirmation
     #validates_presence_of :password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
     if password_confirmation == ""
@@ -547,7 +548,7 @@ class Registration < ActiveResource::Base
       Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + (sign_up_mode || '')
     end
   end
-  
+
   def validate_revokedReason
     #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
     Rails.logger.debug 'validate revokedReason, revoked:' + revoked.to_s
@@ -559,7 +560,7 @@ class Registration < ActiveResource::Base
       end
     end
   end
-  
+
   # ----------------------------------------------------------
   # GENERAL VALIDATIONS
   # ----------------------------------------------------------
@@ -606,11 +607,11 @@ class Registration < ActiveResource::Base
     else
       I18n.translate('titles.' + title)
     end
-  end  
+  end
 
   def generate_random_access_code
     accessCode = (0...6).map { (65 + SecureRandom.random_number(26)).chr }.join
-  end  
+  end
 
   def assisted_digital?
     metaData && metaData.route == 'ASSISTED_DIGITAL'
@@ -636,7 +637,7 @@ class Registration < ActiveResource::Base
 
   def self.activate_registrations(user)
     Rails.logger.info("Activating pending registrations for user with email " + user.email)
-    Registration.find(:all, :params => {:ac => user.email}).each { |r| 
+    Registration.find(:all, :params => {:ac => user.email}).each { |r|
       if r.pending?
         Rails.logger.info("Activating registration " + r.regIdentifier)
         r.activate!
