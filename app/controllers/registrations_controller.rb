@@ -420,13 +420,10 @@ class RegistrationsController < ApplicationController
   end
 
   def newBusinessDetails
-    logger.info 'Request New Registration'
-    #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
+    new_step_action 'business'
     addressSearchLogic @registration
 
+    # TODO what to do with this?
     # Set route name based on agency paramenter
     @registration.routeName = 'DIGITAL'
     if !params[:agency].nil?
@@ -441,11 +438,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewBusinessDetails
-    logger.info 'updateNewBusinessDetails()'
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration= Registration.new(session[:registration_params])
-    @registration.current_step = "business"
+    setup_registration 'business'
     addressSearchLogic @registration
 
     if !session[:smarterAnswersBusiness].nil?
