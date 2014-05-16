@@ -219,6 +219,11 @@ en:
       step: "Step 3 of 9"
       part_of_service_label: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
       main_service_label: "Waste disposal is the main service we provide"
+    constructiondemolition_step:
+      title: "Construction or demolition"
+      subtitle: "Do you ever deal with construction or demolition waste?"
+      step: "Step 3 of 9"
+      explanation_link: "What is construction and demolition waste"
     business_step:
       business_or_org_details: "Business or organisation details"
     registration_type_step:
