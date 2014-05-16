@@ -149,7 +149,7 @@ en:
       registration:
         businessType: "Business or organisation type"
         registrationType: "Registration type"
-        companyName: "Business, organisation or trading name"
+        companyName: "Business or organisation trading name"
         individualsType: "Organisation type"
         publicBodyType: "Type of public body"
         publicBodyTypeOther: "Other type of public body"
@@ -228,8 +228,10 @@ en:
       title: "Type of waste"
       subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
       step: "Step 4 of 9"
-    business_step:
-      business_or_org_details: "Business or organisation details"
+    businessdetails_step:
+      title: "Business details"
+      subtitle: "Enter your business or organisation address"
+      step: "Step 5 of 9"
     registration_type_step:
       title: "Business type"
       subtitle: "Carrier, broker or dealer"
@@ -245,7 +247,7 @@ en:
       streetLine1Foreign: "Address"
       change: "Change"
       foreignAddressLink: "I have an address outside the United Kingdom"
-      findAddress: "Find address"
+      findAddress: "Find UK address"
       search_address_label: "Search for address by postcode"
       no_results_error: "There are no addresses for the given postcode"
       postcode_search_error: "A postcode must be provided"
