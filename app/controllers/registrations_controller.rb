@@ -144,6 +144,30 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  # GET /your-registration/construction-demolition
+  def newConstructionDemolition
+    new_step_action 'constructiondemolition'
+  end
+
+  # POST /your-registration/construction-demolition
+  def updateNewConstructionDemolition
+    setup_registration 'constructiondemolition'
+
+    if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
+      case @registration.constructionWaste
+        when 'yes'
+          redirect_to :newUpperTierType
+        when 'no'
+          redirect_to :newBusiness
+      end
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newConstructionDemolition", :status => '400'
+    end
+  end
+
   def validate_search_parameters?(searchString, searchWithin)
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
@@ -382,28 +406,6 @@ class RegistrationsController < ApplicationController
       redirect_to_failed_page(@registration.current_step)
     else
       logger.debug 'Previous pages are valid'
-    end
-  end
-
-  def newConstructionDemolition
-    new_step_action 'constructiondemolition'
-  end
-
-  def updateNewConstructionDemolition
-    setup_registration 'constructiondemolition'
-
-    if @registration.valid?
-      # TODO this is where you need to make the choice and update the steps
-      case @registration.constructionWaste
-        when 'yes'
-          redirect_to :newUpperTierType
-        when 'no'
-          redirect_to :newBusiness
-      end
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newConstructionDemolition", :status => '400'
     end
   end
 
