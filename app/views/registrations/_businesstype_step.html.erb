@@ -3,11 +3,10 @@
 <!-- WF 4.3.1 -->
 <div id="page1" data-journey="waste-carriers-registration:business-type">
 
-  <fieldset>
-
-    <!-- Smart Answers
+  <!-- Smart Answers
     What kind of business or organisation are you?
-    -->
+   -->
+  <fieldset>
     <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
       <span class="inline">
         <% Registration.business_type_options_for_select.each do |option| %>
