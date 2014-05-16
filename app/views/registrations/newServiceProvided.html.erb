@@ -1,8 +1,15 @@
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
 
-  <%= form_for(@registration, :url => newServiceProvided_path) do |f| %>
+    <% content_for :page_title, createTitle('registrations.serviceprovided_step.title') %>
+    <%= form_for(@registration, :url => newServiceProvided_path) do |f| %>
+
+      <div class="step"><%= t 'registrations.serviceprovided_step.step' %></div>
+      <h1 class="subtitle"><%= t 'registrations.serviceprovided_step.subtitle' %></h1>
 
       <%= render "serviceprovided_step", :f => f %>
 
-  <% end %>
-</article></main>
+    <% end %>
+
+  </article>
+</main>

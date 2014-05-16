@@ -213,6 +213,12 @@ en:
       title: "Waste from other businesses"
       subtitle: "Do you ever deal with waste from other businesses or households?"
       step: "Step 2 of 9"
+    serviceprovided_step:
+      title: "Service provided"
+      subtitle: "What kind of service do you provide?"
+      step: "Step 3 of 9"
+      part_of_service_label: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
+      main_service_label: "Waste disposal is the main service we provide"
     business_step:
       business_or_org_details: "Business or organisation details"
     registration_type_step:
