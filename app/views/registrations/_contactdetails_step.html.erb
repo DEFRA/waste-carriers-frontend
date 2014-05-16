@@ -1,25 +1,10 @@
-<% content_for :page_title, createTitle('.title') %>
-
 <%= render "errors" %>
 
 <!-- WF 4.3.2 -->
-<div id="page2"  data-journey="waste-carriers-registration:contact-details">
-
-  <h1><%= t '.heading' %></h1>
+<div id="page7"  data-journey="waste-carriers-registration:contact-details">
 
   <fieldset>
     <legend><%= t '.legend' %></legend>
-
-    <p class="group<%if @registration.errors[:title].any?%> validation<%end%>">
-      <%= validation_for(@registration, :title) %>
-      <%= f.label :title %>
-      <%= f.select :title , options_for_select(Registration.title_options_for_select, f.object.title ) %>
-    </p>
-    <p id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
-      <%= validation_for(@registration, :otherTitle) %>
-      <%= f.label :otherTitle, "Other title" %>
-      <%= f.text_field :otherTitle, :size => 20, :maxlength => 35 %>
-    </p>
     <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
       <%= validation_for(@registration, :firstName) %>
       <%= f.label :firstName %>
