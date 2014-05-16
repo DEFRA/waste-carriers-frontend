@@ -1,6 +1,7 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
 
+    <% content_for :page_title, createTitle('registrations.businesstype_step.title') %>
     <%= form_for(@registration, :url => newBusinessType_path) do |f| %>
 
       <div class="step">Step 1 of 9</div>

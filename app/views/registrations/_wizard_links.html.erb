@@ -4,10 +4,10 @@
       <noscript>
         <%= content_tag :p, t('registrations.back_link_unavailable') %>
       </noscript>
-      <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'button-secondary' %>
+      <%= link_to t('form.back_button_label'), 'javascript:history.back()', :class => 'button-secondary' %>
   <% end %>
 
   <% unless @registration.last_step? %>
-    <input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
+    <input name="next" class="button" type="submit" value="<%= t 'form.next_button_label' %>"/>
   <% end %>
 </p>
