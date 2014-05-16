@@ -174,7 +174,6 @@ en:
         password: "Password"
         password_confirmation: "Confirm password"
         revokedReason: "Why do you wish to revoke this registration"
-      discover:
         businessType: "What kind of business or organisation are you?"
         otherBusinesses: "Whose waste do you deal with?"
         otherBusinesses_yes: "Waste from other businesses, organisations or households"
