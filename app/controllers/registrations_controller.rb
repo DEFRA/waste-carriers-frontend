@@ -65,7 +65,7 @@ class RegistrationsController < ApplicationController
           redirect_to :newOtherBusinesses
         when 'charity', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority'
           @registration.steps = %w[businesstype business]
-          redirect_to :newBusiness
+          redirect_to :newBusinessDetails
         when 'other'
           @registration.steps = %w[businesstype noregistration]
           redirect_to :newNoRegistration
@@ -74,7 +74,7 @@ class RegistrationsController < ApplicationController
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newBusinessType", :status => '400'
-      #redirect_to newBusiness_path
+      #redirect_to newBusinessDetails_path
     end
   end
 
@@ -159,7 +159,7 @@ class RegistrationsController < ApplicationController
         when 'yes'
           redirect_to :newUpperTierType
         when 'no'
-          redirect_to :newBusiness
+          redirect_to :newBusinessDetails
       end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -181,7 +181,7 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
         when 'yes'
-          redirect_to :newBusiness
+          redirect_to :newBusinessDetails
         when 'no'
           redirect_to :newUpperTierType
       end
@@ -190,6 +190,46 @@ class RegistrationsController < ApplicationController
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newOnlyDealWith", :status => '400'
     end
+  end
+
+  # GET /your-registration/business-details
+  def newBusinessDetails
+    new_step_action 'businessdetails'
+    addressSearchLogic @registration
+  end
+
+  # POST /your-registration/business-details
+  def updateNewBusinessDetails
+    setup_registration 'businessdetails'
+    addressSearchLogic @registration
+
+    if @registration.valid?
+      redirect_to :newContact
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newBusinessDetails", :status => '400'
+    end
+  end
+
+  def new_step_action current_step
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration = Registration.new(session[:registration_params])
+
+    # TODO by setting the step here this should work better with forward and back buttons and urls
+    # but this might have changed the behaviour
+    @registration.current_step = current_step
+    # Pass in current page to check previous page is valid
+    # TODO had to comment this out for now because causing problems but will probably need to reinstate
+    # check_steps_are_valid_up_until_current current_step
+  end
+
+  def setup_registration current_step
+    session[:registration_params] ||= {}
+    session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    @registration= Registration.new(session[:registration_params])
+    @registration.current_step = current_step
   end
 
   def validate_search_parameters?(searchString, searchWithin)
@@ -403,76 +443,11 @@ class RegistrationsController < ApplicationController
     authorize! :update, @registration
   end
 
-  def setup_registration current_step
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration= Registration.new(session[:registration_params])
-    @registration.current_step = current_step
-  end
-
-  def new_step_action current_step
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-
-    # TODO by setting the step here this should work better with forward and back buttons and urls
-    # but this might have changed the behaviour
-    @registration.current_step = current_step
-    # Pass in current page to check previous page is valid
-    # TODO had to comment this out for now because causing problems but will probably need to reinstate
-    # check_steps_are_valid_up_until_current current_step
-  end
-
   def check_steps_are_valid_up_until_current current_step
     if !@registration.steps_valid?(current_step)
       redirect_to_failed_page(@registration.current_step)
     else
       logger.debug 'Previous pages are valid'
-    end
-  end
-
-  def newBusinessDetails
-    logger.info 'Request New Registration'
-    #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-    addressSearchLogic @registration
-
-    # Set route name based on agency paramenter
-    @registration.routeName = 'DIGITAL'
-    if !params[:agency].nil?
-      @registration.routeName = 'ASSISTED_DIGITAL'
-      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
-    end
-    # Prepop businessType with value from smarter answers
-    if !session[:smarterAnswersBusiness].nil?
-      logger.info 'Smart answers pre-pop detected: ' + session[:smarterAnswersBusiness]
-      @registration.businessType = session[:smarterAnswersBusiness]
-    end
-  end
-
-  def updateNewBusinessDetails
-    logger.info 'updateNewBusinessDetails()'
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration= Registration.new(session[:registration_params])
-    @registration.current_step = "business"
-    addressSearchLogic @registration
-
-    if !session[:smarterAnswersBusiness].nil?
-      logger.info 'Initialising business type from session: ' + session[:smarterAnswersBusiness]
-      @registration.businessType = session[:smarterAnswersBusiness]
-    end
-
-    if @registration.valid?
-      logger.info 'Registration is valid so far, go to next page'
-      redirect_to :newContact
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newBusinessDetails", :status => '400'
-      #redirect_to newBusiness_path
     end
   end
 
@@ -821,7 +796,7 @@ class RegistrationsController < ApplicationController
   def redirect_to_failed_page(failedStep)
     logger.debug 'redirect_to_failed_page(failedStep) failedStep: ' +  failedStep
     if failedStep == "business"
-      redirect_to :newBusiness
+      redirect_to :newBusinessDetails
     elsif failedStep == "contact"
       redirect_to :newContact
     elsif failedStep == "confirmation"

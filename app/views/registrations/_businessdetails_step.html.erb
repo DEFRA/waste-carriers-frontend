@@ -1,12 +1,7 @@
-<% content_for :page_title, createTitle('.title') %>
-
 <%= render "errors" %>
 
 <!-- WF 4.3.2 -->
-<div id="page2"  data-journey="waste-carriers-registration:business-address">
-
-  <h1><%= t '.heading' %></h1>
-  <h3><%= t 'registrations.confirmation_step.followingReg_heading' %></h3>
+<div id="page6"  data-journey="waste-carriers-registration:business-details">
 
   <fieldset>
     <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
@@ -16,7 +11,7 @@
     </p>
   </fieldset>
 
-  <%= render "address_entry",:f=>f%>
+  <%= render "address_entry", :f => f %>
 </div>
 
 <%= render 'wizard_links' %>
