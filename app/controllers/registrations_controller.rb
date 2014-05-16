@@ -247,11 +247,7 @@ class RegistrationsController < ApplicationController
   end
 
   def newBusinessType
-    logger.info 'Request New Registration'
-    session[:registration_params] ||= {}
-    @registration = Registration.new(session[:registration_params])
-
-    @registration.steps = %w[businesstype]
+    new_step_action 'businesstype'
 
     # Set route name based on agency paramenter
     @registration.routeName = 'DIGITAL'
@@ -458,9 +454,7 @@ class RegistrationsController < ApplicationController
   end
   
   def newContactDetails
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
+    new_step_action 'contact'
     addressSearchLogic @registration
     #postcode = params[:sPostcode]
     #@addresses = Address.find(:all, :params => {:postcode => postcode})
@@ -607,15 +601,8 @@ class RegistrationsController < ApplicationController
   end
   
   def updateNewContactDetails
-    logger.info 'updateNewContactDetails()'
-    
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    
-    @registration = Registration.new(session[:registration_params])
+    setup_registration 'contact'
     addressSearchLogic @registration
-    
-    @registration.current_step = "contact"
     
     if params[:findAddress]
       render "newContactDetails"
@@ -631,9 +618,7 @@ class RegistrationsController < ApplicationController
   end
   
   def newConfirmation
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
+    new_action_step 'confirmation'
     
     # Pass in current page to check previous page is valid
     if !@registration.steps_valid?("confirmation")
@@ -644,11 +629,7 @@ class RegistrationsController < ApplicationController
   end
   
   def updateNewConfirmation
-    logger.info 'updateNewConfirmation()'
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-    @registration.current_step = "confirmation"
+    setup_registration 'confirmation'
     
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
@@ -661,9 +642,7 @@ class RegistrationsController < ApplicationController
   end
   
   def newSignup
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
+    new_step_action 'signup'
     
     # Pass in current page to check previous page is valid
     if !@registration.steps_valid?("signup")
@@ -689,11 +668,7 @@ class RegistrationsController < ApplicationController
   end
   
   def updateNewSignup
-    logger.info 'updateNewSignup()'
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-    @registration.current_step = "signup"
+    setup_registration 'signup'
     
     # Prepopulate Email field/Set registration account
     if user_signed_in? 
@@ -959,20 +934,11 @@ class RegistrationsController < ApplicationController
   end
 
   def newRegistrationType
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
+    new_step_action 'registration_type'
   end
 
   def updateNewRegistrationType
-    logger.info 'updateNewRegistrationType()'
-
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-
-    @registration = Registration.new(session[:registration_params])
-
-    @registration.current_step = "registration_type"
+    setup_registration 'registration_type'
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
