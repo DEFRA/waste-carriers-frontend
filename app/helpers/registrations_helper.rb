@@ -27,4 +27,19 @@ module RegistrationsHelper
       end
     end
   end
+
+  # TODO not sure what this should do now smart answers and lower tier have been merged
+  def first_back_link registration
+    path = if registration.routeName == 'DIGITAL'
+      if user_signed_in?
+        userRegistrations_path current_user.id
+      else
+        find_path
+      end
+    else
+      registrations_path
+    end
+
+    link_to t('registrations.form.back_button_label'), path, class: 'button-secondary'
+  end
 end
