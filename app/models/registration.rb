@@ -178,25 +178,20 @@ class Registration < ActiveResource::Base
 
   VALID_SIGN_UP_MODES = %w[sign_up sign_in]
 
-
-  def next_step
-    self.current_step = steps[steps.index(current_step)+1]
-  end
-
-  def previous_step
-    self.current_step = steps[steps.index(current_step)-1]
-  end
-
   def first_step?
-    current_step == steps.first
+    businesstype?
   end
 
-  def first_step
-    steps.first
+  def businesstype?
+    current_step == 'businesstype'
   end
 
   def last_step?
-    current_step == steps.last
+    noregistration?
+  end
+
+  def noregistration?
+    current_step == 'noregistration'
   end
 
   def confirmation_step?
