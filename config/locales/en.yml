@@ -224,6 +224,10 @@ en:
       subtitle: "Do you ever deal with construction or demolition waste?"
       step: "Step 3 of 9"
       explanation_link: "What is construction and demolition waste"
+    onlydealwith_step:
+      title: "Type of waste"
+      subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
+      step: "Step 4 of 9"
     business_step:
       business_or_org_details: "Business or organisation details"
     registration_type_step:
