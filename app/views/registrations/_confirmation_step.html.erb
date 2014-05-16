@@ -1,55 +1,22 @@
-<% content_for :page_title, createTitle('.confirmationHeading') %>
-
 <%= render "errors" %>
 
 <!-- WF 4.3.3 -->
-<div id="page3"  data-journey="waste-carriers-registration:declaration">
+<div id="page9"  data-journey="waste-carriers-registration:confirmation">
 
-<h2><%= t '.confirmationHeading' %></h2>
-<fieldset>
-<div id="summary">
+  <h3><%= t '.smart_answers_heading' %></h3>
+  <p>
+    <%= render 'smartanswers_display' %>
+  </p>
 
-<p><%= t '.registeringText', :companyName => @registration.companyName, :businessType => t('discovers.findAnswers.businessType_' + @registration.businessType).downcase %></p>
-<p><%= t '.followingDetails' %>:</p>
-<div><%=@registration.title_for_display%> <%=@registration.firstName%> <%=@registration.lastName%> <% if @registration.contactEmail != "" %>(<%=@registration.contactEmail%>)<% end %></div>
-<!--
-<% if !@registration.postcode.nil? %>
-<div><%=@registration.houseNumber%> <%=@registration.streetLine1%><% if @registration.streetLine2 != "" %>, <%=@registration.streetLine2%><% end %>, <%=@registration.townCity%>, <%=@registration.postcode%></div>
-<% else %>
-<div><%=@registration.houseNumber%> <%=@registration.streetLine1%><% if @registration.streetLine2 != "" %>, <%=@registration.streetLine2%><% end %>, <%=@registration.streetLine3%>, <%=@registration.streetLine4%>, <%=@registration.country%></div>
+  <h3><%= t 'registrations.address_entry.businessAddress' %></h3>
+  <p>
+    <%= render 'address_display' %>
+  </p>
 
-<% end %>
--->
-<div><%= render "address_display",:newline=>false%></div>
-<div><%= t '.phoneNumber' %>: <%=@registration.phoneNumber%></div>
-
-</div>
-</fieldset>
-
-<fieldset>
-<legend><%= t '.anythingWrong_legend' %>?</legend>
-<p><%= t '.anythingWrongText_html' %></p>
-</fieldset>
-
-<fieldset>
-<legend><%= t '.declaration_legend' %></legend>
-
-<p class="option group<%if @registration.errors[:declaration].any?%> validation<%end%>">
-<%= validation_for(@registration, :declaration) %>
-<label for="registration_declaration"><%= f.check_box :declaration%> <span style="display: inline; font-size:90%}"><%= t '.declarationText' %></span></label>
-</p>
- 
-<p> <%= link_to t('.declarationTextEligible'), find_path %> </p>
-
-</fieldset>
-
-<fieldset>
-<legend><%= t '.dataProtection_legend' %></legend>
-
-<p><%= t '.dataProtection_text1' %> <%= link_to t('.dataProtection_findOutMore'), dataProtection_path, :target => "_blank" %></p>
-
-<p><%= link_to t('.privacyPolicy'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %></p>
-</fieldset>
+  <h3><%= t 'registrations.contactdetails_step.title' %></h3>
+  <p>
+    <%= render 'contactdetails_display' %>
+  </p>
 
 </div>
 
