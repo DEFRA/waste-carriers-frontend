@@ -92,7 +92,7 @@ class Registration < ActiveResource::Base
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
 
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: lambda { |o| o.current_step == "businesstype" }
-  validates :otherBusinesses, presence: true, inclusion: { in: %w(yes now) }, if: lambda { |o| o.current_step == "otherbusinesses" }
+  validates :otherBusinesses, presence: true, inclusion: { in: %w(yes no) }, if: lambda { |o| o.current_step == "otherbusinesses" }
 
   # Business Step fields
 
