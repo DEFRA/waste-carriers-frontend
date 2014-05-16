@@ -78,6 +78,24 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  # GET /your-registration/no-registration
+  def newNoRegistration
+    new_step_action 'noregistration'
+  end
+
+  # POST /your-registration/no-registration
+  def updateNewNoRegistration
+    setup_registration 'noregistration'
+
+    # TODO set steps
+
+    if @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newNoRegistration", :status => '400'
+    end
+  end
+
   # GET /your-registration/other-businesses
   def newOtherBusinesses
     new_step_action 'otherbusinesses'
@@ -322,10 +340,6 @@ class RegistrationsController < ApplicationController
     @registration.current_step = current_step
   end
 
-  def newNoRegistration
-    new_step_action 'noregistration'
-  end
-
   def new_step_action current_step
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
@@ -344,18 +358,6 @@ class RegistrationsController < ApplicationController
       redirect_to_failed_page(@registration.current_step)
     else
       logger.debug 'Previous pages are valid'
-    end
-  end
-
-  def updateNewNoRegistration
-    setup_registration 'noregistration'
-
-    # TODO set steps
-
-    if @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newNoRegistration", :status => '400'
     end
   end
 

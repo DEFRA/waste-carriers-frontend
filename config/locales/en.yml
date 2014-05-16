@@ -202,9 +202,17 @@ en:
     businesstype_step:
       title: "Business type"
       subtitle: "What type of business or organisation are you?"
+      step: "Step 1 of 9"
+    noregistration_step:
+      title: "Contact us"
+      subtitle: "Contact the environment agency"
+      step: "Last step"
+      contact_Line_1: "We need some more information about your organisation before we can register you as a waste carrier."
+      contact_Line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
     otherBusinesses_step:
       title: "Waste from other businesses"
       subtitle: "Do you ever deal with waste from other businesses or households?"
+      step: "Step 2 of 9"
     business_step:
       business_or_org_details: "Business or organisation details"
     registration_type_step:
