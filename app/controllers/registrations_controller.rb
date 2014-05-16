@@ -295,15 +295,8 @@ class RegistrationsController < ApplicationController
   end
 
   def new_step_action current_step
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-
-    # TODO by setting the step here this should work better with forward and back buttons and urls
-    # but this might have changed the behaviour
-    @registration.current_step = current_step
-    # Pass in current page to check previous page is valid
-    # TODO had to comment this out for now because causing problems but will probably need to reinstate
+    setup_registration current_step
+    # TODO we might have to validate here
     # check_steps_are_valid_up_until_current current_step
   end
 
