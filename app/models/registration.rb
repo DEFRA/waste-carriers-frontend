@@ -90,9 +90,10 @@ class Registration < ActiveResource::Base
 
   DISTANCES = %w[any 10 50 100]
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
+  YES_NO_ANSWER = %w(yes no)
 
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: lambda { |o| o.current_step == "businesstype" }
-  validates :otherBusinesses, presence: true, inclusion: { in: %w(yes no) }, if: lambda { |o| o.current_step == "otherbusinesses" }
+  validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "otherbusinesses" }
 
   # Business Step fields
 
