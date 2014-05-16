@@ -157,7 +157,7 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
         when 'yes'
-          redirect_to :newUpperTierType
+          redirect_to :newRegistrationType
         when 'no'
           redirect_to :newBusinessDetails
       end
@@ -183,7 +183,7 @@ class RegistrationsController < ApplicationController
         when 'yes'
           redirect_to :newBusinessDetails
         when 'no'
-          redirect_to :newUpperTierType
+          redirect_to :newRegistrationType
       end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -229,6 +229,24 @@ class RegistrationsController < ApplicationController
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newContactDetails", :status => '400'
+    end
+  end
+
+  # GET /your-registration/registration-type
+  def newRegistrationType
+    new_step_action 'registrationtype'
+  end
+
+  # POST /your-registration/registration-type
+  def updateNewRegistrationType
+    setup_registration 'registrationtype'
+
+    if @registration.valid?
+      redirect_to :newRegistrationType
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newRegistrationType", :status => '400'
     end
   end
 
@@ -929,32 +947,6 @@ class RegistrationsController < ApplicationController
   def authenticate_external_user!
     if !is_admin_request? && !agency_user_signed_in?
       authenticate_user!
-    end
-  end
-
-  def newRegistrationType
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-  end
-
-  def updateNewRegistrationType
-    logger.info 'updateNewRegistrationType()'
-
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-
-    @registration = Registration.new(session[:registration_params])
-
-    @registration.current_step = "registration_type"
-
-    if @registration.valid?
-      logger.info 'Registration is valid so far, go to next page'
-      redirect_to :newRegistrationType
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newRegistrationType", :status => '400'
     end
   end
 
