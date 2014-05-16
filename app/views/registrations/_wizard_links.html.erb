@@ -1,15 +1,4 @@
 <p class="action group">
-  <% if @registration.first_step? %>
-      <!--TODO find out what this must do now smart answers and registations have merged-->
-      <!--<%= first_back_link @registration %>-->
-  <% else %>
-    <noscript>
-      <%= content_tag :p, t('registrations.back_link_unavailable') %>
-    </noscript>
-    <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'button-secondary' %>
-  <% end %>
-
-  <% unless @registration.last_step? %>
-      <input name="next" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
-  <% end %>
+  <%= render 'back_link' %>
+  <%= render 'next_link' %>
 </p>
