@@ -243,10 +243,11 @@ en:
       title_ms: "Ms"
       title_dr: "Dr"
       title_other: "Other"
-    registration_type_step:
+    registrationtype_step:
       title: "Business type"
       subtitle: "Carrier, broker or dealer"
-      form_legend: "Type of registration to register"
+      step: "Step 5 of 9"
+      legend: "Type of registration to register"
       carrier_dealer: "carrier/dealer"
       broker_dealer: "broker/dealer"
       carrier_broker_dealer: "carrier/broker/dealer"
