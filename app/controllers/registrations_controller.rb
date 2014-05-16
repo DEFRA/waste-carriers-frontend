@@ -203,12 +203,32 @@ class RegistrationsController < ApplicationController
     setup_registration 'businessdetails'
     addressSearchLogic @registration
 
-    if @registration.valid?
+    if params[:findAddress]
+      render "newBusinessDetails"
+    elsif @registration.valid?
       redirect_to :newContact
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newBusinessDetails", :status => '400'
+    end
+  end
+
+  # GET /your-registration/contact-details
+  def newContactDetails
+    new_step_action 'contactdetails'
+  end
+
+  # POST /your-registration/contact-details
+  def updateNewContactDetails
+    setup_registration 'contactdetails'
+
+    if @registration.valid?
+      redirect_to :newConfirmation
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newContactDetails", :status => '400'
     end
   end
 
@@ -451,22 +471,6 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  def newContactDetails
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-    addressSearchLogic @registration
-    #postcode = params[:sPostcode]
-    #@addresses = Address.find(:all, :params => {:postcode => postcode})
-
-    # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("contact")
-      redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-    end
-  end
-
   def clearAddressNonManual(registration)
     registration.uprn = nil
     registration.postcodeSearch = nil
@@ -598,30 +602,6 @@ class RegistrationsController < ApplicationController
       session[:registration_params][:administrativeArea] = registration.administrativeArea
       session[:registration_params][:localAuthorityUpdateDate] = registration.localAuthorityUpdateDate
       session[:registration_params][:royalMailUpdateDate] = registration.royalMailUpdateDate
-  end
-
-  def updateNewContactDetails
-    logger.info 'updateNewContactDetails()'
-
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-
-    @registration = Registration.new(session[:registration_params])
-    addressSearchLogic @registration
-
-    @registration.current_step = "contact"
-
-    if params[:findAddress]
-      render "newContactDetails"
-    elsif @registration.valid?
-      logger.info 'Registration is valid so far, go to next page'
-      copyAddressToSession @registration
-      redirect_to :newConfirmation
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newContactDetails", :status => '400'
-    end
   end
 
   def newConfirmation

@@ -39,7 +39,7 @@ Registrations::Application.routes.draw do
 	  # Add a new route for the print view
 	  match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
 
-	  # Add new routing for new registration urls
+	  # Registration urls - Smart answers
     match "your-registration/business-type" => 'registrations#newBusinessType', :via => [:get], :as => :newBusinessType
     match "your-registration/business-type" => 'registrations#updateNewBusinessType', :via => [:post,:put,:patch]
 
@@ -58,6 +58,7 @@ Registrations::Application.routes.draw do
     match "your-registration/only-deal-with" => 'registrations#newOnlyDealWith', :via => [:get], :as => :newOnlyDealWith
     match "your-registration/only-deal-with" => 'registrations#updateNewOnlyDealWith', :via => [:post,:put,:patch]
 
+    # Registration urls - Lower tier
 	  match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
 	  match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
 
@@ -75,7 +76,7 @@ Registrations::Application.routes.draw do
 
 	  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
 
-    # These routes relate to pages used in the upper-tier process
+    # Registration urls - Upper-tier process
     get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
