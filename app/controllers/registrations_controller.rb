@@ -168,6 +168,30 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  # GET /your-registration/only-deal-with
+  def newOnlyDealWith
+    new_step_action 'onlydealwith'
+  end
+
+  # POST /your-registration/only-deal-with
+  def updateNewOnlyDealWith
+    setup_registration 'onlydealwith'
+
+    if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
+      case @registration.onlyAMF
+        when 'yes'
+          redirect_to :newBusiness
+        when 'no'
+          redirect_to :newUpperTierType
+      end
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newOnlyDealWith", :status => '400'
+    end
+  end
+
   def validate_search_parameters?(searchString, searchWithin)
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
@@ -379,8 +403,6 @@ class RegistrationsController < ApplicationController
     authorize! :update, @registration
   end
 
-
-
   def setup_registration current_step
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
@@ -406,28 +428,6 @@ class RegistrationsController < ApplicationController
       redirect_to_failed_page(@registration.current_step)
     else
       logger.debug 'Previous pages are valid'
-    end
-  end
-
-  def newOnlyDealWith
-    new_step_action 'onlydealwith'
-  end
-
-  def updateNewOnlyDealWith
-    setup_registration 'onlydealwith'
-
-    if @registration.valid?
-      # TODO this is where you need to make the choice and update the steps
-      case @registration.onlyAMF
-        when 'yes'
-          redirect_to :newBusiness
-        when 'no'
-          redirect_to :newUpperTierType
-      end
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newOnlyDealWith", :status => '400'
     end
   end
 
