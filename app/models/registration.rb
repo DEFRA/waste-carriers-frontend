@@ -78,9 +78,7 @@ class Registration < ActiveResource::Base
     limitedCompany
     publicBody
     charity
-    collectionAuthority
-    disposalAuthority
-    regulationAuthority
+    authority
     other
   ]
 

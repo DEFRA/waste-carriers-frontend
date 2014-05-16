@@ -3,15 +3,12 @@
 <!-- WF 4.3.1 -->
 <div id="page1" data-journey="waste-carriers-registration:business-type">
 
-
   <fieldset>
-    <h3><%= t 'registrations.confirmation_step.followingReg_heading' %></h3>
 
     <!-- Smart Answers
     What kind of business or organisation are you?
-   -->
+    -->
     <p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-      <%= f.label :businessType %>
       <span class="inline">
         <% Registration.business_type_options_for_select.each do |option| %>
             <%= f.radio_button :businessType, option.second, class: 'radio' %><%= f.label "businessType_#{option.second.downcase}", option.first, class: 'label' %><br />
@@ -22,7 +19,6 @@
     <%= f.hidden_field :routeName %>
 
   </fieldset>
-
 
 </div>
 
