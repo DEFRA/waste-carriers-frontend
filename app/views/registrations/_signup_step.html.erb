@@ -1,8 +1,9 @@
-<% if !@registration.persisted? %>
-<% content_for :page_title, createTitle('.complete') %>
+<% if @registration.persisted? %>
+    <% content_for :page_title, createTitle('.update') %>
 <% else %>
-<% content_for :page_title, createTitle('.update') %>
+    <% content_for :page_title, createTitle('.complete') %>
 <% end %>
+
 
 <%= render "errors" %>
 
