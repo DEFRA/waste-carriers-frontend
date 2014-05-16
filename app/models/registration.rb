@@ -91,8 +91,10 @@ class Registration < ActiveResource::Base
   DISTANCES = %w[any 10 50 100]
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
 
+  validate :validate_businessType, :if => lambda { |o| o.current_step == "businesstype" }
+
   # Business Step fields
-  validate :validate_businessType, :if => lambda { |o| o.current_step == "business" }
+
   validate :validate_companyName, :if => lambda { |o| o.current_step == "business" }
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
@@ -238,7 +240,7 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
   def validate_businessType
     #validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
-    if businessType == ""
+    if businessType.blank?
       Rails.logger.debug 'businessType is empty'
       errors.add(:businessType, I18n.t('errors.messages.blank') )
     #validates :businessType, :inclusion => { :in => BUSINESS_TYPES, :message => I18n.t('errors.messages.invalid_selection') }, :if => lambda { |o| o.current_step == "business" }
