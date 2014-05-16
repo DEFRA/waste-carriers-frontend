@@ -91,7 +91,8 @@ class Registration < ActiveResource::Base
   DISTANCES = %w[any 10 50 100]
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
 
-  validate :validate_businessType, :if => lambda { |o| o.current_step == "businesstype" }
+  validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: lambda { |o| o.current_step == "businesstype" }
+  validate :validate_otherBusinesses, if: lambda { |o| o.current_step == "otherbusinesses" }
 
   # Business Step fields
 
@@ -238,15 +239,12 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
-  def validate_businessType
-    #validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
-    if businessType.blank?
-      Rails.logger.debug 'businessType is empty'
-      errors.add(:businessType, I18n.t('errors.messages.blank') )
-    #validates :businessType, :inclusion => { :in => BUSINESS_TYPES, :message => I18n.t('errors.messages.invalid_selection') }, :if => lambda { |o| o.current_step == "business" }
-    elsif !BUSINESS_TYPES.include?(businessType)
-      Rails.logger.debug 'businessType not a valid value'
-      errors.add(:businessType, I18n.t('errors.messages.invalid_selection') )
+
+  def validate_otherBusinesses
+    if otherBusinesses.blank?
+      errors.add(:otherBusinesses, I18n.t('errors.messages.blank') )
+    elsif !%w(yes no).include?(otherBusinesses)
+      errors.add(:otherBusinesses, I18n.t('errors.messages.invalid_selection') )
     end
   end
 
