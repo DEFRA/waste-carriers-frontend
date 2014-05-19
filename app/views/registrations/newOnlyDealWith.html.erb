@@ -1,8 +1,15 @@
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
 
-  <%= form_for(@registration, :url => newOnlyDealWith_path) do |f| %>
+    <% content_for :page_title, createTitle('registrations.onlydealwith_step.title') %>
+    <%= form_for(@registration, :url => newOnlyDealWith_path) do |f| %>
+
+      <div class="step"><%= t 'registrations.onlydealwith_step.step' %></div>
+      <h1 class="subtitle"><%= t 'registrations.onlydealwith_step.subtitle' %></h1>
 
       <%= render "onlydealwith_step", :f => f %>
 
-  <% end %>
-</article></main>
+    <% end %>
+
+  </article>
+</main>

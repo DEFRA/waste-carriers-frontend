@@ -15,7 +15,7 @@ class HomeController < ApplicationController
           redirect_to agency_users_path
         else
           if Rails.env.production?
-            redirect_to find_path
+            redirect_to newBusinessType_path
           else
             #not redirecting - show the developer index page...
           end
@@ -26,14 +26,14 @@ class HomeController < ApplicationController
 
   def version
     @railsVersion = Rails.configuration.application_version
-    
+
     # Request version from REST api
     @apiVersionObj = Version.find(:one, :from => "/version.json" )
     if !@apiVersionObj.nil?
       logger.debug 'Version info, version number:' + @apiVersionObj.versionDetails + ' lastBuilt: ' + @apiVersionObj.lastBuilt
       @apiVersion = @apiVersionObj.versionDetails
     end
-    
+
 #    render :layout => false
   end
 

@@ -1,5 +1,4 @@
 <fieldset>
-<legend><%= t '.businessAddress' %></legend>
 <%if @registration.addressMode%>
 
   <!-- This section handles when the user goes manual. This covers selecting
@@ -135,7 +134,7 @@
       <%end%>
 
       <!-- Display elements for the entering and submitting the postcode to search for -->
-      <label for="sPostcode"><%= t '.findAddressUsingPostcode'%></label>
+      <%= f.label :postcode %>
       <input id="sPostcode" name="sPostcode" type="text" class="postcode" value="<%= params[:sPostcode]%>"/>
       <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
     </p>

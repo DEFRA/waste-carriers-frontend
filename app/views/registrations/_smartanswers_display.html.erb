@@ -1,0 +1,27 @@
+<ul>
+  <% unless @registration.businessType.blank? %>
+    <li>
+      <%= t '.business_type', :businessType => t('business_types.' + @registration.businessType).downcase %>
+    </li>
+  <% end %>
+  <% unless @registration.otherBusinesses.blank? %>
+    <li>
+      <%= t('.other_businesses_' + @registration.otherBusinesses) %>
+    </li>
+  <% end %>
+  <% unless @registration.isMainService.blank? %>
+    <li>
+      <%= t('.service_provided_' + @registration.isMainService) %>
+    </li>
+  <% end %>
+  <% unless @registration.onlyAMF.blank? %>
+    <li>
+      <%= t('.only_deal_with_' + @registration.onlyAMF) %>
+    </li>
+  <% end %>
+  <% unless @registration.constructionWaste.blank? %>
+    <li>
+      <%= t('.construction_demolition_' + @registration.constructionWaste) %>
+    </li>
+  <% end %>
+</ul>

@@ -1,23 +1,21 @@
-<% content_for :page_title, createTitle('.business_or_org_details') %>
-
 <%= render "errors" %>
 
 <!-- WF 4.3.1 -->
-<div id="page1" data-journey="waste-carriers-registration:onlydealwith">
-
+<div id="page5" data-journey="waste-carriers-registration:onlydealwith">
 
   <!-- Smart Answers
-    Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste -->
+    Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste
+   -->
   <fieldset>
-    <legend><span><%= t 'activemodel.attributes.registration.onlyAMF'%></span></legend>
     <p class="group<%if @registration.errors[:onlyAMF].any?%> validation<%end%>">
   	  <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
-        <%= f.radio_button :onlyAMF, "yes", required: true, class: "radio" %> <%= f.label :onlyAMF_yes, class: "label" %>
-        <%= f.radio_button :onlyAMF, "no", required: true, class: "radio" %><%= f.label :onlyAMF_no, class: "label" %>
+        <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> <%= f.label t 'form.yes_option_label', :class => "label" %>
+      </span>
+      <span class="inline">
+        <%= f.radio_button :onlyAMF, "no", :class => "radio" %> <%= f.label t 'form.no_option_label', :class => "label" %>
   	  </span>
     </p>
   </fieldset>
-
 
 </div>
 
