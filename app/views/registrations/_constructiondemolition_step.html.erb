@@ -1,23 +1,23 @@
-<% content_for :page_title, createTitle('.business_or_org_details') %>
+<a href="?whatisconstruction=true"><%= t '.explanation_link'%></a>
 
 <%= render "errors" %>
 
 <!-- WF 4.3.1 -->
-<div id="page1" data-journey="waste-carriers-registration:constructiondemolition">
-
+<div id="page4" data-journey="waste-carriers-registration:constructiondemolition">
 
   <!-- Smart Answers
-    Do you ever deal with waste from building or demolition work -->
+    Do you ever deal with construction or demolition waste
+   -->
   <fieldset>
-    <legend><span><%= t 'activemodel.attributes.registration.constructionWaste'%></span></legend>
     <p class="group<%if @registration.errors[:constructionWaste].any?%> validation<%end%>">
-	  <span class="inline">
-	    <%= f.radio_button :constructionWaste, "yes", required: true, class: "radio" %> <%= f.label :constructionWaste_yes, class: "label" %>
-        <%= f.radio_button :constructionWaste, "no", required: true, class: "radio" %><%= f.label :constructionWaste_no, class: "label" %>
-	  </span>
+  	  <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
+  	    <%= f.radio_button :constructionWaste, "yes", :class => "radio" %> <%= f.label t 'form.yes_option_label', :class => "label" %>
+      </span>
+      <span class="inline">
+        <%= f.radio_button :constructionWaste, "no", :class => "radio" %> <%= f.label t 'form.no_option_label', :class => "label" %>
+  	  </span>
     </p>
   </fieldset>
-
 
 </div>
 

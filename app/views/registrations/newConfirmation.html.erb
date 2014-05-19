@@ -1,8 +1,15 @@
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
 
-<%= form_for(@registration, :url => newConfirmation_path) do |f| %>
+    <% content_for :page_title, createTitle('registrations.confirmation_step.title') %>
+    <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
 
-<%= render "confirmation_step", :f => f %>
+      <div class="step"><%= t 'registrations.confirmation_step.step' %></div>
+      <h1 class="subtitle"><%= t 'registrations.confirmation_step.subtitle' %></h1>
 
-<% end %>
-</article></main>
+      <%= render "confirmation_step", :f => f %>
+
+    <% end %>
+
+  </article>
+</main>

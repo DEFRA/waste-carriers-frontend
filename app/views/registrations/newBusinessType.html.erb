@@ -1,8 +1,14 @@
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
 
-  <%= form_for(@registration, :url => newBusinessType_path) do |f| %>
+    <% content_for :page_title, createTitle('registrations.businesstype_step.title') %>
+    <%= form_for(@registration, :url => newBusinessType_path) do |f| %>
 
+      <div class="step"><%= t 'registrations.businesstype_step.step' %></div>
+      <h1 class="subtitle"><%= t 'registrations.businesstype_step.subtitle' %></h1>
       <%= render "businesstype_step", :f => f %>
 
-  <% end %>
-</article></main>
+    <% end %>
+
+  </article>
+</main>

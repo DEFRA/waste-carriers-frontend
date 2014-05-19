@@ -78,9 +78,7 @@ class Registration < ActiveResource::Base
     limitedCompany
     publicBody
     charity
-    collectionAuthority
-    disposalAuthority
-    regulationAuthority
+    authority
     other
   ]
 
@@ -180,7 +178,7 @@ class Registration < ActiveResource::Base
   end
 
   def steps
-    %w[businesstype noregistration otherbusinesses serviceprovided constructiondemolition onlydealwith business contact confirmation signup uppertiertype]
+    %w[businesstype noregistration otherbusinesses serviceprovided constructiondemolition onlydealwith businessdetails contactdetails confirmation signup registrationtype]
   end
 
   VALID_SIGN_UP_MODES = %w[sign_up sign_in]
