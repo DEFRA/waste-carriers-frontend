@@ -10,7 +10,9 @@ which the user needs for further changes via the phone.
 
 
 Scenario: Valid registration on behalf of a caller
-  Given I am logged in as an NCCC agency user
+  Given I have an NCCC agency user account
+  And I am logged in as an NCCC agency user
+  And I have received a call from a business
   And I start a new registration
   Then I should see the Business or Organisation Details page
   And I select business or organisation type "Sole trader"

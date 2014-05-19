@@ -39,11 +39,22 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { :host => 'localhost:3000', :protocol => 'http' }
+  config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'] || 'http://localhost:3000', :protocol => 'https' }
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :letter_opener
+
+  # Mail delivery method must be :smtp for delivery via Sendgrid, but can be set to :test to skip sending emails (e.g. for local development)
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :user_name => ENV["WCRS_FRONTEND_EMAIL_USERNAME"],
+    :password => ENV["WCRS_FRONTEND_EMAIL_PASSWORD"],
+    :domain => ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"],
+    :address => ENV["WCRS_FRONTEND_EMAIL_HOST"],
+    :port => ENV["WCRS_FRONTEND_EMAIL_PORT"],
+    :authentication => :plain,
+    :enable_starttls_auto => true
+  }
 
   # Overriding 'Done' URL for development
   #config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"

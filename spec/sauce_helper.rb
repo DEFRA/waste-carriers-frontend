@@ -2,9 +2,6 @@
 # For options, check out http://saucelabs.com/docs/platforms
 require "sauce"
 require "sauce/capybara"
-
-Capybara.default_driver = :sauce
-
 Sauce.config do |config|
   config[:browsers] = [
 #   ["OS", "BROWSER", "VERSION"],

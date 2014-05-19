@@ -1,4 +1,3 @@
-require 'ci/reporter/rake/rspec'
-task :spec => 'ci:setup:rspec'
+#Rake task for ci_reporter, with cucumber
 
 require 'ci/reporter/rake/cucumber'
