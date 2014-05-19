@@ -7,12 +7,12 @@ module RegistrationsHelper
       ""
     end
   end
-  
+
   def format_date(string)
     d = string.to_date
     d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
   end
-  
+
   def format_address(model)
     if model.postcode.nil?
       # Print International address
@@ -34,7 +34,7 @@ module RegistrationsHelper
       if user_signed_in?
         userRegistrations_path current_user.id
       else
-        find_path
+        newBusinessType_path
       end
     else
       registrations_path
