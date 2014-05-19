@@ -1,0 +1,23 @@
+<%= render "errors" %>
+
+<!-- WF 4.3.2 -->
+<div id="page8"  data-journey="waste-carriers-registration:registration-type">
+
+  <fieldset>
+    <legend><%= t '.legend' %></legend>
+    <p class="group<%if @registration.errors[:registrationType].any?%> validation<%end%>">
+      <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
+        <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %><%= f.label :carrier_dealer, :class => "label" %>
+      </span>
+      <span class="inline">
+        <%= f.radio_button :registrationType, "broker_dealer", :class => "radio" %><%= f.label :broker_dealer, :class => "label" %>
+      </span>
+      <span class="inline">
+        <%= f.radio_button :registrationType, "carrier_broker_dealer", :class => "radio" %><%= f.label :carrier_broker_dealer, :class => "label" %>
+      </span>
+    </p>
+  </fieldset>
+
+</div>
+
+<%= render 'wizard_links' %>

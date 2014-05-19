@@ -7,12 +7,12 @@ module RegistrationsHelper
       ""
     end
   end
-  
+
   def format_date(string)
     d = string.to_date
     d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
   end
-  
+
   def format_address(model)
     if model.postcode.nil?
       # Print International address
@@ -26,5 +26,20 @@ module RegistrationsHelper
         "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
       end
     end
+  end
+
+  # TODO not sure what this should do now smart answers and lower tier have been merged
+  def first_back_link registration
+    path = if registration.routeName == 'DIGITAL'
+      if user_signed_in?
+        userRegistrations_path current_user.id
+      else
+        newBusinessType_path
+      end
+    else
+      registrations_path
+    end
+
+    link_to t('registrations.form.back_button_label'), path, class: 'button-secondary'
   end
 end

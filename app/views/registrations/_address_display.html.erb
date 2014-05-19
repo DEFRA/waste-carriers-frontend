@@ -1,9 +1,27 @@
-<% if @registration.houseNumber and  @registration.houseNumber!=""%><%=@registration.houseNumber%><%end%>
-<%=@registration.streetLine1%>,<%if newline%><br/><%end%>
-<% if @registration.streetLine2 and @registration.streetLine2 != "" %><%=@registration.streetLine2%>,<%if newline%><br/><%end%><% end %>
-<% if @registration.streetLine3 and @registration.streetLine3 != "" %><%=@registration.streetLine3%>,<%if newline%><br/><%end%><% end %>
-<% if @registration.streetLine4 and @registration.streetLine4 != "" %><%=@registration.streetLine4%>,<%if newline%><br/><%end%><% end %>
-<% if @registration.townCity and  @registration.townCity!=""%><%=@registration.townCity%>,<%if newline%><br/><%end%><%end%>
-<% if @registration.postcode and  @registration.postcode!=""%><%=@registration.postcode%><%end%>
-<% if @registration.country and  @registration.country!=""%><%=@registration.country%><%end%>
-    
+<% unless @registration.companyName.blank? %>
+    <%= @registration.companyName %></br>
+<% end %>
+<% unless @registration.houseNumber.blank? %>
+    <%= @registration.houseNumber %></br>
+<% end %>
+<% unless @registration.streetLine1.blank? %>
+    <%= @registration.streetLine1 %></br>
+<% end %>
+<% unless @registration.streetLine2.blank? %>
+    <%= @registration.streetLine2 %></br>
+<% end %>
+<% unless @registration.streetLine3.blank? %>
+    <%= @registration.streetLine3 %></br>
+<% end %>
+<% unless @registration.streetLine4.blank? %>
+    <%= @registration.streetLine4 %></br>
+<% end %>
+<% unless @registration.townCity.blank? %>
+    <%= @registration.townCity %></br>
+<% end %>
+<% unless @registration.postcode.blank? %>
+    <%= @registration.postcode %></br>
+<% end %>
+<% unless @registration.country.blank? %>
+    <%= @registration.country %></br>
+<% end %>

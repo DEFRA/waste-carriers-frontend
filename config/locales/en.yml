@@ -18,7 +18,7 @@ en:
     timeout:
       heading: "Your session has expired"
       message1: "This service times out after 20 minutes of inactivity, or you may not have cookies enabled in your browser."
-      message2_html: "<a href='/registrations/find'>Start your registration from the beginning</a>"
+      message2_html: "<a href='/your-registration/business-type'>Start your registration from the beginning</a>"
       message3_html: "If you have completed your registration, you can <a href='/users/sign_in'>sign in</a> to view or amend your existing certificates."
     unauthorised:
       heading: "You are not authorised to access this page"
@@ -82,6 +82,7 @@ en:
       responsibilities4: "Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'"
 
 
+  hello: "Hello world"
   #Registration form/page(s) content
   errors:
     messages:
@@ -119,9 +120,7 @@ en:
     limitedCompany: "Limited company"
     publicBody: "Public body"
     charity: "Charity or voluntary organisation"
-    collectionAuthority: "Waste collection authority"
-    disposalAuthority: "Waste disposal authority"
-    regulationAuthority: "Waste regulation authority"
+    authority: "Waste collection, disposal or regulation authority"
     other: "Other"
 
   titles:
@@ -137,6 +136,13 @@ en:
     '10': "10 Miles"
     '50': "50 Miles"
     '100': "100 Miles"
+  #Standard form controls/options
+  form:
+    yes_option_label: "Yes"
+    no_option_label: "No"
+    next_button_label: "Next"
+    back_button_label: "Back"
+    edit_these_details: "Edit these details"
 
   activemodel:
     models:
@@ -159,7 +165,8 @@ en:
         alt_telephone_number: "Telephone number"
         alt_email_address: "Email address"
         businessType: "Business or organisation type"
-        companyName: "Business, organisation or trading name"
+        registrationType: "Registration type"
+        companyName: "Business or organisation trading name"
         individualsType: "Organisation type"
         publicBodyType: "Type of public body"
         publicBodyTypeOther: "Other type of public body"
@@ -297,7 +304,6 @@ en:
     waste_elec_equip_2013: "Waste Electrical and Electronic Equipment Regulations 2013"
     water_resources: "Water Resources Act 1991: Sections 85, 202 and 206"
     no_convictions: "No relevant convictions"
-
   discovers:
     new:
       title: "Find out if you need to register and which category applies"
@@ -327,6 +333,7 @@ en:
       buttonText: "Continue"
 
   registrations:
+    back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     errors:
       error: "error"
       errorMessage: "You have %{count} on this page"
@@ -335,22 +342,94 @@ en:
       contactName: "Contact name"
       phoneNumber: "Phone number"
       address: "Address"
-    contact_detail:
+    businesstype_step:
+      title: "Business type"
+      subtitle: "What type of business or organisation are you?"
+      step: "Step 1 of 9"
+    noregistration_step:
+      title: "Contact us"
+      subtitle: "Contact the environment agency"
+      step: "Last step"
+      contact_Line_1: "We need some more information about your organisation before we can register you as a waste carrier."
+      contact_Line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
+    otherBusinesses_step:
+      title: "Waste from other businesses"
+      subtitle: "Do you ever deal with waste from other businesses or households?"
+      step: "Step 2 of 9"
+    serviceprovided_step:
+      title: "Service provided"
+      subtitle: "What kind of service do you provide?"
+      step: "Step 3 of 9"
+      part_of_service_label: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
+      main_service_label: "Waste disposal is the main service we provide"
+    constructiondemolition_step:
+      title: "Construction or demolition"
+      subtitle: "Do you ever deal with construction or demolition waste?"
+      step: "Step 3 of 9"
+      explanation_link: "What is construction and demolition waste"
+    onlydealwith_step:
+      title: "Type of waste"
+      subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
+      step: "Step 4 of 9"
+    businessdetails_step:
+      title: "Business details"
+      subtitle: "Enter your business or organisation address"
+      step: "Step 5 of 9"
+    contactdetails_step:
       title: "Contact details"
-      subtitle: "Enter your business or organisation contact details"
-      contact_form_legend: "Your contact details"
-      alternate_form_legend: "Director or other contact details (optional)"
-    business_step:
-      business_or_org_details: "Business or organisation details"
+      subtitle: "Provide contact details for your business or organisation"
+      step: "Step 6 of 9"
+      legend: "These will not be made public"
+    registrationtype_step:
+      title: "Business type"
+      subtitle: "Carrier, broker or dealer"
+      step: "Step 5 of 9"
+      legend: "Type of registration to register"
+      carrier_dealer: "carrier/dealer"
+      broker_dealer: "broker/dealer"
+      carrier_broker_dealer: "carrier/broker/dealer"
+    confirmation_step:
+      title: "Confirmation"
+      subtitle: "Checking your details before registering"
+      step: "Step 7 of 9"
+      smart_answers_heading: "You told us"
+      declaration_heading: "Declaration"
+      declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as a Lower Tier Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
+      data_protection_heading: "How we use your personal information"
+      data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
+      privacy_policy: "Privacy policy and cookies"
+      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
+    dataProtection:
+      title: "The Data Protection Act 1998"
+      subtitle: "Find out about other ways in which we may use your information."
+      text1: "The Environment Agency may also process or release the information to:"
+      text2: "The Environment Agency may pass the information on to their agents or representatives to do these things."
+      point1: "offer you documents or services relating to environmental matters"
+      point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
+      point3: "carry out research and development work on environmental issues"
+      point4: "provide information from the public register to anyone who asks"
+      point5: "prevent anyone from breaking environmental law, investigate cases where environmental law may have been broken, and take any action that is needed"
+      point6: "assess whether customers are satisfied with our service, and to improve our service"
+      point7: "respond to requests for information under the Freedom of Information Act 2000 and the Environmental Information Regulations 2004 (if the Data Protection Act allows)"
+    smartanswers_display:
+      business_type: "You are a %{businessType}"
+      other_businesses_yes: "You deal with waste from other businesses or households"
+      other_businesses_no: "You only deal with your own waste"
+      service_provided_yes: "This is the main service you provide"
+      service_provided_no: "You just dispose of clients' waste as part of another service"
+      construction_demolition_yes: "You deal with construction or demolition waste"
+      construction_demolition_no: "You never deal with construction or demolition waste"
+      only_deal_with_yes: "You only deal with animal by-products, waste from a mine or quarry, or farm or agricultural waste"
+      only_deal_with_no: "You deal with waste other than animal by-products, waste from a mine or quarry, or farm or agricultural waste"
     address_entry:
-      businessAddress: "Main business, organisation or trading address"
+      businessAddress: "Main business or organisation address"
       selectAddress: "Select address"
       findAddressUsingPostcode: "Find address using postcode"
       manual_address_label: "I want to add an address myself"
       streetLine1Foreign: "Address"
       change: "Change"
       foreignAddressLink: "I have an address outside the United Kingdom"
-      findAddress: "Find address"
+      findAddress: "Find UK address"
       search_address_label: "Search for address by postcode"
       no_results_error: "There are no addresses for the given postcode"
       postcode_search_error: "A postcode must be provided"

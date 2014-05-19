@@ -1,0 +1,37 @@
+<%= render "errors" %>
+
+<!-- WF 4.3.2 -->
+<div id="page7"  data-journey="waste-carriers-registration:contact-details">
+
+  <fieldset>
+    <legend><%= t '.legend' %></legend>
+    <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :firstName) %>
+      <%= f.label :firstName %>
+      <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
+    </p>
+    <p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :lastName) %>
+      <%= f.label :lastName %>
+      <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
+    </p>
+    <p class="group<%if @registration.errors[:position].any?%> validation<%end%>">
+      <%= validation_for(@registration, :position) %>
+      <%= f.label :position %>
+      <%= f.text_field :position, :size => 20, :maxlength => 35 %>
+    </p>
+    <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
+      <%= validation_for(@registration, :phoneNumber) %>
+      <%= f.label :phoneNumber %>
+      <%= f.text_field :phoneNumber, :size => 20, :maxlength => 20 %>
+    </p>
+    <p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
+      <%= validation_for(@registration, :contactEmail) %>
+      <%= f.label :contactEmail %>
+      <%= f.text_field :contactEmail, :size => 20, :maxlength => 70 %>
+    </p>
+  </fieldset>
+
+</div>
+
+<%= render 'wizard_links' %>

@@ -12,10 +12,11 @@ capybara-*.html
 /public/system/*
 /coverage/
 /spec/tmp/*
-**.orig
+*.orig
 rerun.txt
 pickle-email-*.html
 /features/reports/*.html
 /features/reports/*.xml
 sauce_connect.*
+*.sublime-*
 
