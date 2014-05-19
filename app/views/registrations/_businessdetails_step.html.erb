@@ -1,0 +1,17 @@
+<%= render "errors" %>
+
+<!-- WF 4.3.2 -->
+<div id="page6"  data-journey="waste-carriers-registration:business-details">
+
+  <fieldset>
+    <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :companyName) %>
+      <%= f.label :companyName %>
+      <%= f.text_field :companyName, :size => 20, :maxlength => 70 %>
+    </p>
+  </fieldset>
+
+  <%= render "address_entry", :f => f %>
+</div>
+
+<%= render 'wizard_links' %>

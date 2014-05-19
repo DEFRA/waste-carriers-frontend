@@ -1,6 +1,5 @@
 Given(/^I am on the initial page$/) do
   visit find_path
-  page.should have_content 'Find out if'
 end
 
 Given(/^I click on "(.*?)"$/) do |name|
@@ -12,7 +11,7 @@ Then(/^I should see "(.*?)"$/) do |some_text|
 end
 
 Then(/^I select business or organisation type "(.*?)"$/) do |field_value|
-  page.select field_value, from: 'registration_businessType'
+  choose field_value
 end
 
 Then(/^I fill in "(.*?)" with "(.*?)"$/) do |field_name, field_value|
