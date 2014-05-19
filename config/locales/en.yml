@@ -144,6 +144,20 @@ en:
       discover: "Discover"
     attributes:
       registration:
+       #upper-tier-registration
+        alt_first_name: "First name"
+        primary_first_name: "First name"
+        primary_last_name: "Last name"
+        primary_job_title: "Job title"
+        primary_telephone_number: "Telephone number"
+        primary_email_address: "Email address"
+        business_type: "Business type"
+        company_house_number: "Companies house number"
+        alt_first_name: "First name"
+        alt_last_name: "Last name"
+        alt_job_title: "Job title"
+        alt_telephone_number: "Telephone number"
+        alt_email_address: "Email address"
         businessType: "Business or organisation type"
         companyName: "Business, organisation or trading name"
         individualsType: "Organisation type"
@@ -189,18 +203,6 @@ en:
       upper_registration:
         business_name: "Business or organisation trading name"
         postcode: "Postcode"
-        first_name: "First name"
-        last_name: "Last name"
-        job_title: "Job title"
-        telephone_number: "Telephone number"
-        email_address: "Email address"
-        business_type: "Business type"
-        company_house_number: "Companies house number"
-        alt_first_name: "First name"
-        alt_last_name: "Last name"
-        alt_job_title: "Job title"
-        alt_telephone_number: "Telephone number"
-        alt_email_address: "Email address"
         relevant_conviction: "Relevant convictions"
         copy_cards: "Copy card"
         payment_method: "Choose payment method"
@@ -333,6 +335,11 @@ en:
       contactName: "Contact name"
       phoneNumber: "Phone number"
       address: "Address"
+    contact_detail:
+      title: "Contact details"
+      subtitle: "Enter your business or organisation contact details"
+      contact_form_legend: "Your contact details"
+      alternate_form_legend: "Director or other contact details (optional)"
     business_step:
       business_or_org_details: "Business or organisation details"
     address_entry:
