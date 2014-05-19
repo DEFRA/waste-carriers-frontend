@@ -62,23 +62,24 @@ Registrations::Application.routes.draw do
 
 	  resources :registrations
 
-    get "upper-registrations/business-type" => "upper_registrations#business_type", :as => :upper_business_type
-    post "upper-registrations/business-type" => "upper_registrations#business_type_update"
+    get "your-registration/upper/business-type" => "registrations#business_type", :as => :upper_business_type
+    post "your-registration/upper/business-type" => "registrations#business_type_update"
 
-    get "upper-registrations/business-address" => "upper_registrations#business_address", :as => :upper_business_address
-    post "upper-registrations/business-address" => "upper_registrations#business_address_update"
+    get "your-registration/upper/business-address" => "registrations#business_address", :as => :upper_business_address
+    post "your-registration/upper/business-address" => "registrations#business_address_update"
 
-    get "upper-registrations/contact-detail" => "upper_registrations#contact_detail", :as => :upper_contact_detail
-    post "upper-registrations/contact-detail" => "upper_registrations#contact_detail_update"
+    get "your-registration/upper/contact-detail" => "registrations#contact_detail", :as => :upper_contact_detail
+    post "your-registration/upper/contact-detail" => "registrations#contact_detail_update"
 
-    get "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction", :as => :upper_relevant_conviction
-    post "upper-registrations/relevant-conviction" => "upper_registrations#relevant_conviction_update"
+    get "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction", :as => :upper_relevant_conviction
+    post "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction_update"
 
-    get "upper-registrations/payment" => "upper_registrations#payment", :as => :upper_payment
-    post "upper-registrations/payment" => "upper_registrations#payment_update"
+    get "your-registration/upper/payment" => "registrations#payment", :as => :upper_payment
+    post "your-registration/upper/payment" => "registrations#payment_update"
 
-    get "upper-registrations/summary" => "upper_registrations#summary", :as => :upper_summary
-    post "upper-registrations/summary" => "upper_registrations#summary_update"
+    get "your-registration/upper/summary" => "registrations#summary", :as => :upper_summary
+    post "your-registration/upper/summary" => "registrations#summary_update"
+
 
 	  #scope "/administration" do
 	  #  resources :agency_users

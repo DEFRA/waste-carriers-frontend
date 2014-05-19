@@ -8,10 +8,38 @@
       <div class="step">Step 6 of 9</div>
       <h1 class="subtitle"><%= t '.subtitle' %></h1>
 
-      <%= render "errors" %>
+      <%= render "upper_errors" %>
 
       <div class"wrap">
-        <div class="right">
+
+          <fieldset>
+              <legend><%= t '.contact_form_legend' %></legend>
+            <p class="group<%if @registration.errors[:primary_first_name].any?%> validation<%end%>">
+              <%= validation_for(@registration, :primary_first_name) %>
+              <%= f.label :primary_first_name %>
+              <%= f.text_field :primary_first_name, :size => 20, :maxlength => 35 %>
+            </p>
+            <p class="group<%if @registration.errors[:primary_last_name].any?%> validation<%end%>">
+              <%= validation_for(@registration, :primary_last_name) %>
+              <%= f.label :primary_last_name %>
+              <%= f.text_field :primary_last_name, :size => 20, :maxlength => 35 %>
+            </p>
+            <p class="group<%if @registration.errors[:primary_job_title].any?%> validation<%end%>">
+              <%= validation_for(@registration, :primary_job_title) %>
+              <%= f.label :primary_job_title %>
+              <%= f.text_field :primary_job_title, :size => 20, :maxlength => 35 %>
+            </p>
+            <p class="group<%if @registration.errors[:primary_telephone_number].any?%> validation<%end%>">
+              <%= validation_for(@registration, :primary_telephone_number) %>
+              <%= f.label :primary_telephone_number %>
+              <%= f.telephone_field :primary_telephone_number, :size => 20, :maxlength => 20 %>
+            </p>
+            <p class="group<%if @registration.errors[:primary_email_address].any?%> validation<%end%>">
+              <%= validation_for(@registration, :primary_email_address) %>
+              <%= f.label :primary_email_address %>
+              <%= f.email_field :primary_email_address, :size => 20, :maxlength => 70 %>
+            </p>
+          </fieldset>
           <fieldset>
             <legend><%= t '.alternate_form_legend' %></legend>
             <p class="group<%if @registration.errors[:alt_first_name].any?%> validation<%end%>">
@@ -40,37 +68,6 @@
               <%= f.email_field :alt_email_address, :size => 20, :maxlength => 70 %>
             </p>
           </fieldset>
-        </div>
-        <div class="left">
-          <fieldset>
-            <legend><%= t '.director_form_legend' %></legend>
-            <p class="group<%if @registration.errors[:first_name].any?%> validation<%end%>">
-              <%= validation_for(@registration, :first_name) %>
-              <%= f.label :first_name %>
-              <%= f.text_field :first_name, :size => 20, :maxlength => 35 %>
-            </p>
-            <p class="group<%if @registration.errors[:last_name].any?%> validation<%end%>">
-              <%= validation_for(@registration, :last_name) %>
-              <%= f.label :last_name %>
-              <%= f.text_field :last_name, :size => 20, :maxlength => 35 %>
-            </p>
-            <p class="group<%if @registration.errors[:job_title].any?%> validation<%end%>">
-              <%= validation_for(@registration, :job_title) %>
-              <%= f.label :job_title %>
-              <%= f.text_field :job_title, :size => 20, :maxlength => 35 %>
-            </p>
-            <p class="group<%if @registration.errors[:telephone_number].any?%> validation<%end%>">
-              <%= validation_for(@registration, :telephone_number) %>
-              <%= f.label :telephone_number %>
-              <%= f.telephone_field :telephone_number, :size => 20, :maxlength => 20 %>
-            </p>
-            <p class="group<%if @registration.errors[:email_address].any?%> validation<%end%>">
-              <%= validation_for(@registration, :email_address) %>
-              <%= f.label :email_address %>
-              <%= f.email_field :email_address, :size => 20, :maxlength => 70 %>
-            </p>
-          </fieldset>
-        </div>
       </div>
 
       <p>
