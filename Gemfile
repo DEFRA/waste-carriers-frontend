@@ -9,6 +9,10 @@ gem 'debugger', :require => false
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
+#We won't need sqllite (or ActiveRecord) once we have moved to ActiveResource for registrations
+#but it may still be need it for authentication...
+gem 'sqlite3'
+
 #We store user accounts (authentication with Devise) in a MongoDB database
 #gem 'mongoid', github: "mongoid/mongoid"
 gem 'mongoid', :git => "https://github.com/mongoid/mongoid.git"
@@ -57,30 +61,26 @@ gem 'capistrano', '~> 3.0.0'
 
 group :test do
   gem 'ci_reporter'
-  gem 'cucumber-rails', require: false
-  gem 'database_cleaner', git: 'https://github.com/bmabey/database_cleaner.git'
-  gem 'timecop', '~> 0.7.1'
-  gem 'factory_girl_rails', '~> 4.4.1'
-  gem 'shoulda-matchers'
-end
-
-group :development do
-  gem 'letter_opener', '~> 1.2.0'
-end
+end 
 
 group :test, :development do
+  gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
+
   #We need the selenium webdriver for javascript
   gem 'selenium-webdriver'
 
   #needed for headless testing with Javascript
   gem 'capybara-webkit'
-  gem 'capybara-email', '~> 2.2.0'
 
   gem "launchy", "~> 2.4.2", :require => false
-  gem 'rspec-rails', '~> 2.12'
+end
 
-  #cross-browser testing using saucelabs
-  gem 'sauce'
+#cross-browser testing using saucelabs
+group :test, :development do
+  gem 'rspec-rails', '~> 2.12'
+  gem 'sauce', '~> 3.2.0'
   gem 'sauce-connect', :require => false
   gem 'sauce-cucumber', :require => false
   gem 'capybara', '~> 2.1.0'

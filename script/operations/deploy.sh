@@ -13,7 +13,7 @@ function env_alert() {
 }
 
 DATESTAMP=`date +%Y.%m.%d-%H.%M`
-WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p247" ## TODO this is currently hardcoded but could get it from RVM
+WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p247"
 
 echo ""
 
@@ -92,7 +92,6 @@ sudo service nginx start
 if [ "${WCRS_FRONTEND_RAILS_ENV}" != "production" ]; then
   echo "Running tests."
   rake db:test:prepare
-  rake spec SPEC_OPTS=". --tag ~sauce"
   xvfb-run cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
 fi
 

@@ -4,10 +4,10 @@
 # Examples:
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+#   Mayor.create(name: 'Emanuel', city: cities.first) 
 
-unless Rails.env.production?
-  unless Admin.find_by_email('admin@waste-exemplar.gov.uk')
+if !Rails.env.production?
+  if !Admin.find_by_email('admin@waste-exemplar.gov.uk')
     admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'secret123')
     admin.save!
   end

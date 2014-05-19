@@ -7,14 +7,16 @@ Administrators can create, modify and delete users.
 
 @admin
 Scenario: Login as Administrator
-  When I am logged in as an administrator
+  Given I am an administrator
+  When I log in as administrator
   Then I should see the user administration page
 
 @admin
 Scenario: Create a new user
   Given I am logged in as an administrator
   When I elect to create a new agency user
-  And I fill in details for an agency user
+  And there is no such user yet
+  And I fill in valid agency user details
   Then the user should have been created
   And I should see the user's details page
 
@@ -29,6 +31,7 @@ Scenario: Delete a user
 
 @admin
 Scenario: Attempt to access user administration without being logged in
+  Given I am an administrator
   When I am not logged in as an administrator
   And I access the user administration page
   Then I should be prompted to login as an administrator

@@ -187,6 +187,12 @@ en:
         constructionWaste: "Do you ever deal with waste from building or demolition work?"
         constructionWaste_yes: "Yes"
         constructionWaste_no: "No"
+        wasteType: "Which types of waste do you deal with regularly?"
+        wasteType_animal: "Waste from animal carcasses"
+        wasteType_mine: "Waste from a mine or quarry"
+        wasteType_farm: "Farm or agricultural waste"
+        wasteType_other: "Other waste"
+        wasteType_none: "I do not carry waste regularly"
 
   shared:
     current_user:

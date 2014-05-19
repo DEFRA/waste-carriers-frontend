@@ -25,7 +25,7 @@ en:
         paragraph1: "To %{email},"
         paragraph2: "Please select the link below to confirm your account and complete your registration as a lower tier waste carrier/broker/dealer."
         confirmLabel: "Confirm your account"
-        paragraph3: "The link above is valid for twelve hours. You can request this e-mail to be sent again with a new link from here:"
+        paragraph3: "The link above is valid for six hours. You can request this e-mail to be sent again with a new link from here:"
         newInstructionsLabel: "Send new instructions to confirm my account"
         paragraph4: "Please contact the Environment Agency helpline on 03708 506506 if you have any questions about this."
       reset_password_instructions:

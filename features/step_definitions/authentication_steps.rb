@@ -1,31 +1,39 @@
-Given(/^there is an activated user$/) do
-  open_email my_user.email
-  current_email.click_link 'Confirm your account'
+#step definitions for authentication
+
+Given(/^there is an activated user Joe$/) do
+  User.destroy_all(email: 'joe.activated@example.com')
+  user = User.new
+  user.email = 'joe.activated@example.com'
+  user.password = 'secret123'
+  #user.send_confirmation_instructions
+  #user.confirm!
+  user.skip_confirmation!
+  user.save!
 end
 
 When(/^the user visits the login page$/) do
-  visit new_user_session_path
+  visit '/users/sign_in'
 end
 
-When(/^enters valid credentials$/) do
-  page.should have_content 'Sign in'
-  fill_in 'Email', with: my_user.email
-  fill_in 'Password', with: my_user.password
-  click_button 'Sign in'
+When(/^enters valid credentials for user Joe$/) do
+  assert page.has_content?("Sign in")
+  fill_in "user_email", :with => 'joe.activated@example.com'
+  fill_in "user_password", :with => 'secret123'
+  click_button "Sign in"
 end
 
 Then(/^the user should be logged in successfully$/) do
-  page.should have_content 'Signed in as'
+  assert page.has_content?("Signed in as")
 end
 
-When(/^enters invalid credentials$/) do
-  page.should have_content 'Sign in'
-  fill_in 'Email', with: my_user.email
-  fill_in 'Password', with: 'incorrect_password'
-  click_button 'Sign in'
+When(/^enters invalid credentials for user Joe$/) do
+  assert page.has_content?("Sign in")
+  fill_in "user_email", :with => 'joe.activated@example.com'
+  fill_in "user_password", :with => 'secret234'
+  click_button "Sign in"
 end
 
 Then(/^the user should see a login error$/) do
-  page.should have_content 'Invalid email or password.'
+  assert page.has_content?("Invalid email or password.")
 end
 
