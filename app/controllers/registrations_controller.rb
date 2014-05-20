@@ -668,36 +668,6 @@ class RegistrationsController < ApplicationController
     end
   end
   
-  def newConfirmation
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-    
-    # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("confirmation")
-      redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-    end
-  end
-  
-  def updateNewConfirmation
-    logger.info 'updateNewConfirmation()'
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-    @registration.current_step = "confirmation"
-    
-    if @registration.valid?
-      logger.info 'Registration is valid so far, go to next page'
-      redirect_to :newSignup
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newConfirmation", :status => '400'
-    end
-  end
-  
   def newSignup
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
