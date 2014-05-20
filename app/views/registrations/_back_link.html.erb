@@ -1,7 +1,4 @@
-<% if @registration.first_step? %>
-    <!--TODO find out what this must do now smart answers and registations have merged-->
-    <!--<%= first_back_link @registration %>-->
-<% else %>
+<% unless @registration.first_step? %>
     <noscript>
       <%= content_tag :p, t('registrations.back_link_unavailable') %>
     </noscript>
