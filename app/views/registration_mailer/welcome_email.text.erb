@@ -5,7 +5,7 @@
 
 <%
 d = Date.parse(@registration.metaData.dateRegistered)
-myExt = 'th'	
+myExt = 'th'
 if d.mday == '1' || d.mday == '21' || d.mday == '31'
   myExt = 'st'
 elsif d.mday == '2' || d.mday == '22'
@@ -13,23 +13,25 @@ elsif d.mday == '2' || d.mday == '22'
 end
 %>
 <%=t 'registration_mailer.welcome_email.registeredOn',:date=>d.strftime('%A %-d'+myExt+' %B %Y')%>
-	
+
 <%= t 'registrations.print.proof' %>
 
 <%=t 'registration_mailer.welcome_email.detailsHeading'%>
 --------------------------------
 
 <%=t 'registration_mailer.welcome_email.contactName'%>:
-<% if @registration.title == "other" %>
-<%= @registration.otherTitle.camelize %>
-<% else %>
-<%= @registration.title.camelize %>
+<% unless @registration.title.blank? %>
+  <% if @registration.title == "other" %>
+    <%= @registration.otherTitle.camelize %>
+  <% else %>
+    <%= @registration.title.camelize %>
+  <% end %>
 <% end %>
 <%= @registration.firstName %> <%= @registration.lastName %>
 
 <%=t 'registration_mailer.welcome_email.phoneNumber'%>:
 <%= @registration.phoneNumber %>
-		
+
 <%=t 'registration_mailer.welcome_email.address'%>:
 <%= @registration.houseNumber %> <%= @registration.streetLine1 %>
 <%= @registration.streetLine2 %>
