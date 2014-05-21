@@ -7,7 +7,6 @@ Feature: Discovery
   Workflow for the following scenarios can be found at:
   https://docs.google.com/spreadsheets/d/15SbDNrVbwh7nhQoEus-I5mv3RDIW_6nzwyxknUOuAXs/edit?usp=sharing
 
-  @happy_day
   Scenario Outline: Own waste and no building waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
@@ -22,7 +21,6 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  @happy_day
   Scenario Outline: Own waste and building waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
@@ -37,7 +35,6 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  @happy_day
   Scenario Outline: Other waste and main service and animal waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
@@ -53,7 +50,6 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  @happy_day
   Scenario Outline: Other waste and main service and no animal waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
@@ -69,7 +65,6 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  @happy_day
   Scenario Outline: Other waste and no main service and building waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
@@ -85,7 +80,6 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  @happy_day
   Scenario Outline: Other waste and no main service and no building waste
   Given I am on the discovery page
     And I enter my business type as <business_type>
@@ -101,7 +95,6 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  @happy_day
   Scenario Outline: Charities and authorities
   Given I am on the discovery page
     And I enter my business type as <business_type>
@@ -117,7 +110,6 @@ Feature: Discovery
     Then there is no back button on the page
       But there is a next button on the page
 
-  @happy_day
   Scenario: Others
     Given I am on the discovery page
       And I enter my business type as other
