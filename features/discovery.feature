@@ -115,6 +115,16 @@ Feature: Discovery
       And I enter my business type as other
     Then I am told to ring the Environment Agency
 
+  Scenario: Going back when there's many routes back (via other businesses step)
+    Given I navigate to the construction/demolition step via the other businesses step
+    When I click the back link
+    Then I end up on the other businesses step
+
+  Scenario: Going back when there's many routes back (via main service step)
+    Given I navigate to the construction/demolition step via the main service step
+    When I click the back link
+    Then I end up on the main service step
+
   Scenario: Back link
     Given I am on the discovery page
       And I enter my business type as soletrader
