@@ -1,7 +1,7 @@
 Feature: Discovery
 
   As a waste-carrier
-  I want to discover how to register with the EA
+  I want to register in the applicable tier
   So that I'm compliant with regulations
 
   Workflow for the following scenarios can be found at:
