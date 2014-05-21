@@ -16,3 +16,7 @@ And(/^I indicate I never deal with waste from building or demolition work$/) do
   choose 'registration_constructionWaste_no'
   click_on 'Next'
 end
+
+Then(/^I will be on the lower tier waste carrier registration path$/) do
+  page.should have_content 'Enter your business or organisation address'
+end
