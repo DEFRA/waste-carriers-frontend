@@ -96,3 +96,17 @@ end
 Then(/^I end up on the main service step$/) do
   page.should have_content 'What kind of service'
 end
+
+When(/^I click the back link twice$/) do
+  click_on 'Back'
+  sleep 0.1
+  click_on 'Back'
+end
+
+Then(/^I follow the breadcrumb trail$/) do
+  page.should_not have_content 'Do you ever deal with construction'
+end
+
+And(/^I end up on the business type step$/) do
+  page.should have_content 'What type of business'
+end
