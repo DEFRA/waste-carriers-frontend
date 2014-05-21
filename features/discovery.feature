@@ -18,7 +18,7 @@ Feature: Discovery
     Examples:
       | waste_carrier |
       | sole_trader   |
-      | ltd_companyl  |
+      | ltd_company   |
       | partnership   |
       | public_body   |
 
