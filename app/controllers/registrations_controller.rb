@@ -644,30 +644,6 @@ class RegistrationsController < ApplicationController
       session[:registration_params][:royalMailUpdateDate] = registration.royalMailUpdateDate
   end
   
-  def updateNewContactDetails
-    logger.info 'updateNewContactDetails()'
-    
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    
-    @registration = Registration.new(session[:registration_params])
-    addressSearchLogic @registration
-    
-    @registration.current_step = "contact"
-    
-    if params[:findAddress]
-      render "newContactDetails"
-    elsif @registration.valid?
-      logger.info 'Registration is valid so far, go to next page'
-      copyAddressToSession @registration
-      redirect_to :newConfirmation
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newContactDetails", :status => '400'
-    end
-  end
-  
   def newSignup
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
