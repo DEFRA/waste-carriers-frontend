@@ -10,13 +10,13 @@ Feature: Discovery
   @happy_day
   Scenario Outline: Own waste and no building waste
     Given I am on the discovery page
-      And I enter my status as <waste_carrier>
+      And I enter my business type as <business_type>
       And I indicate I deal only with my own waste
       And I indicate I never deal with waste from building or demolition work
     Then I will be on the lower tier waste carrier registration process
 
     Examples:
-      | waste_carrier |
+      | business_type |
       | sole_trader   |
       | ltd_company   |
       | partnership   |
@@ -25,13 +25,13 @@ Feature: Discovery
   @happy_day
   Scenario Outline: Own waste and building waste
     Given I am on the discovery page
-      And I enter my status as <waste_carrier>
+      And I enter my business type as <business_type>
       And I indicate I deal only with my own waste
       And I indicate I sometimes deal with waste from building or demolition work
     Then I will be on the upper tier waste carrier registration process
 
     Examples:
-      | waste_carrier |
+      | business_type |
       | sole_trader   |
       | ltd_company   |
       | partnership   |
@@ -40,14 +40,14 @@ Feature: Discovery
   @happy_day
   Scenario Outline: Other waste and main service and animal waste
     Given I am on the discovery page
-      And I enter my status as <waste_carrier>
+      And I enter my business type as <business_type>
       And I indicate I deal with other waste too
       And I indicate disposing waste is my main service
       And I indicate I only deal with animal, farm and quarry or mine waste
     Then I will be on the lower tier waste carrier registration process
 
     Examples:
-      | waste_carrier |
+      | business_type |
       | sole_trader   |
       | ltd_company   |
       | partnership   |
@@ -56,14 +56,14 @@ Feature: Discovery
   @happy_day
   Scenario Outline: Other waste and main service and no animal waste
     Given I am on the discovery page
-      And I enter my status as <waste_carrier>
+      And I enter my business type as <business_type>
       And I indicate I deal with other waste too
       And I indicate disposing waste is my main service
       And I indicate I don't deal with animal, farm and quarry or mine waste
     Then I will be on the upper tier waste carrier registration process
 
     Examples:
-      | waste_carrier |
+      | business_type |
       | sole_trader   |
       | ltd_company   |
       | partnership   |
@@ -72,14 +72,14 @@ Feature: Discovery
   @happy_day
   Scenario Outline: Other waste and no main service and building waste
     Given I am on the discovery page
-      And I enter my status as <waste_carrier>
+      And I enter my business type as <business_type>
       And I indicate I deal with other waste too
       And I indicate disposing waste is not my main service
       And I indicate I sometimes deal with waste from building or demolition work
     Then I will be on the upper tier waste carrier registration process
 
     Examples:
-      | waste_carrier |
+      | business_type |
       | sole_trader   |
       | ltd_company   |
       | partnership   |
@@ -88,14 +88,14 @@ Feature: Discovery
   @happy_day
   Scenario Outline: Other waste and no main service and no building waste
   Given I am on the discovery page
-    And I enter my status as <waste_carrier>
+    And I enter my business type as <business_type>
     And I indicate I deal with other waste too
     And I indicate disposing waste is not my main service
     And I indicate I never deal with waste from building or demolition work
   Then I will be on the lower tier waste carrier registration process
 
     Examples:
-      | waste_carrier |
+      | business_type |
       | sole_trader   |
       | ltd_company   |
       | partnership   |
@@ -104,11 +104,11 @@ Feature: Discovery
   @happy_day
   Scenario Outline: Charities and authorities
   Given I am on the discovery page
-    And I enter my status as <waste_carrier>
+    And I enter my business type as <business_type>
   Then I will be on the lower tier waste carrier registration process
 
     Examples:
-      | waste_carrier        |
+      | business_type        |
       | charity              |
       | collection_authority |
       | regulation_authority |
