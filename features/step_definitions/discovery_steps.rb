@@ -12,7 +12,7 @@ And(/^I indicate I deal only with my own waste$/) do
   click_on 'Next'
 end
 
-And(/^I indicate I deal with other waste too$/) do
+And(/^I indicate I deal with other people's waste too$/) do
   choose 'registration_otherBusinesses_yes'
   click_on 'Next'
 end
