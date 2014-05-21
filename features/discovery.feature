@@ -125,15 +125,11 @@ Feature: Discovery
     When I click the back link
     Then I end up on the main service step
 
-  Scenario: Back link
-    Given I am on the discovery page
-      And I enter my business type as soletrader
-      And I indicate I deal with other people's waste too
-      And I indicate disposing waste is my main service
-      And I indicate I don't deal with animal, farm, quarry or mine waste
-      And I click on the 'Back Link' twice
-    Then I see the screen where I told the system I deal with other waste too
-      And my original choice is still there
+  Scenario: Following the breadcrumb as opposed to going to the strictly previous step
+    Given I navigate to the construction/demolition step via the other businesses step
+    When I click the back link twice
+    Then I follow the breadcrumb trail
+      And I end up on the business type step
 
   Scenario: Back button
     Given I am on the discovery page
