@@ -16,11 +16,11 @@ Feature: Discovery
     Then I will be on the lower tier waste carrier registration path
 
     Examples:
-      | business_type |
-      | sole_trader   |
-      | ltd_company   |
-      | partnership   |
-      | public_body   |
+      | business_type  |
+      | soletrader     |
+      | limitedcompany |
+      | partnership    |
+      | publicbody     |
 
   @happy_day
   Scenario Outline: Own waste and building waste
@@ -31,11 +31,11 @@ Feature: Discovery
     Then I will be on the upper tier waste carrier registration path
 
     Examples:
-      | business_type |
-      | sole_trader   |
-      | ltd_company   |
-      | partnership   |
-      | public_body   |
+      | business_type  |
+      | soletrader     |
+      | limitedcompany |
+      | partnership    |
+      | publicbody     |
 
   @happy_day
   Scenario Outline: Other waste and main service and animal waste
@@ -47,11 +47,11 @@ Feature: Discovery
     Then I will be on the lower tier waste carrier registration path
 
     Examples:
-      | business_type |
-      | sole_trader   |
-      | ltd_company   |
-      | partnership   |
-      | public_body   |
+      | business_type  |
+      | soletrader     |
+      | limitedcompany |
+      | partnership    |
+      | publicbody     |
 
   @happy_day
   Scenario Outline: Other waste and main service and no animal waste
@@ -63,11 +63,11 @@ Feature: Discovery
     Then I will be on the upper tier waste carrier registration path
 
     Examples:
-      | business_type |
-      | sole_trader   |
-      | ltd_company   |
-      | partnership   |
-      | public_body   |
+      | business_type  |
+      | soletrader     |
+      | limitedcompany |
+      | partnership    |
+      | publicbody     |
 
   @happy_day
   Scenario Outline: Other waste and no main service and building waste
@@ -79,11 +79,11 @@ Feature: Discovery
     Then I will be on the upper tier waste carrier registration path
 
     Examples:
-      | business_type |
-      | sole_trader   |
-      | ltd_company   |
-      | partnership   |
-      | public_body   |
+      | business_type  |
+      | soletrader     |
+      | limitedcompany |
+      | partnership    |
+      | publicbody     |
 
   @happy_day
   Scenario Outline: Other waste and no main service and no building waste
@@ -95,11 +95,11 @@ Feature: Discovery
   Then I will be on the lower tier waste carrier registration path
 
     Examples:
-      | business_type |
-      | sole_trader   |
-      | ltd_company   |
-      | partnership   |
-      | public_body   |
+      | business_type  |
+      | soletrader     |
+      | limitedcompany |
+      | partnership    |
+      | publicbody     |
 
   @happy_day
   Scenario Outline: Charities and authorities
@@ -108,11 +108,9 @@ Feature: Discovery
   Then I will be on the lower tier waste carrier registration path
 
     Examples:
-      | business_type        |
-      | charity              |
-      | collection_authority |
-      | regulation_authority |
-      | disposal_authority   |
+      | business_type |
+      | charity       |
+      | authority     |
 
   @happy_day
   Scenario: Others
