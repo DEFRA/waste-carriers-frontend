@@ -43,7 +43,7 @@ Feature: Discovery
       And I enter my business type as <business_type>
       And I indicate I deal with other waste too
       And I indicate disposing waste is my main service
-      And I indicate I only deal with animal, farm and quarry or mine waste
+      And I indicate I only deal with animal, farm, quarry or mine waste
     Then I will be on the lower tier waste carrier registration path
 
     Examples:
@@ -59,7 +59,7 @@ Feature: Discovery
       And I enter my business type as <business_type>
       And I indicate I deal with other waste too
       And I indicate disposing waste is my main service
-      And I indicate I don't deal with animal, farm and quarry or mine waste
+      And I indicate I don't deal with animal, farm, quarry or mine waste
     Then I will be on the upper tier waste carrier registration path
 
     Examples:
@@ -125,7 +125,7 @@ Feature: Discovery
       And I enter my status as 'sole_trader'
       And I indicate I deal with other waste too
       And I indicate disposing waste is my main service
-      And I indicate I don't deal with animal, farm and quarry or mine waste
+      And I indicate I don't deal with animal, farm, quarry or mine waste
       And I click on the 'Back Link' twice
     Then I see the screen where I told the system I deal with other waste too
       And my original choice is still there
@@ -135,7 +135,7 @@ Feature: Discovery
       And I enter my status as 'sole_trader'
       And I indicate I deal with other waste too
       And I indicate disposing waste is my main service
-      And I indicate I don't deal with animal, farm and quarry or mine waste
+      And I indicate I don't deal with animal, farm, quarry or mine waste
       And I click on the 'Back Button' twice
     Then I see the screen where I told the system I deal with other waste too
       And my original choice is still there
