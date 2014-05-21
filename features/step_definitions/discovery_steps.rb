@@ -54,3 +54,7 @@ And(/^I indicate I don't deal with animal, farm, quarry or mine waste$/) do
   choose 'registration_onlyAMF_no'
   click_on 'Next'
 end
+
+Then(/^there is no back link$/) do
+  page.should_not have_button 'Back'
+end

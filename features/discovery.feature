@@ -112,6 +112,10 @@ Feature: Discovery
       | charity       |
       | authority     |
 
+  Scenario: First wizard page
+    Given I am on the discovery page
+    Then there is no back link
+
   @happy_day
   Scenario: Others
     Given I am on the discovery page
