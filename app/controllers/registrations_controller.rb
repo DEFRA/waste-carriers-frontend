@@ -63,7 +63,7 @@ class RegistrationsController < ApplicationController
         when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
           @registration.steps = %w[businesstype otherbusinesses]
           redirect_to :newOtherBusinesses
-        when 'charity', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority'
+        when 'charity', 'authority'
           @registration.steps = %w[businesstype business]
           redirect_to :newBusinessDetails
         when 'other'
