@@ -6,3 +6,8 @@ And(/^I enter my business type as (.*)$/) do |business_type|
   choose "registration_businessType_#{business_type}"
   click_on 'Next'
 end
+
+And(/^I indicate I deal only with my own waste$/) do
+  choose 'registration_otherBusinesses_no'
+  click_on 'Next'
+end
