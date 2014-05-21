@@ -31,7 +31,6 @@ Then(/^I will be on the lower tier waste carrier registration path$/) do
   page.should have_content 'Enter your business or organisation address'
 end
 
-
 Then(/^I will be on the upper tier waste carrier registration path$/) do
   page.should have_content 'Carrier, broker or dealer'
 end
