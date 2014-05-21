@@ -62,3 +62,7 @@ end
 Then(/^there is no back button on the page/) do
   page.should_not have_button 'Back'
 end
+
+Then(/^I am told to contact the Environment Agency by telephone$/) do
+  page.should have_content 'Contact the Environment Agency'
+end
