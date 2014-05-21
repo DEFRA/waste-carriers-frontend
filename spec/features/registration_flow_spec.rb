@@ -1,7 +1,7 @@
 
 require "spec_helper"
 
-describe "The Registration flow", :sauce => true do
+describe "The Registration flow", :sauce => false do
   it "The user should be able to go through the registration flow" do
     visit "/registrations/find"
     page.should have_content "Find out if you need to register and which category applies"
