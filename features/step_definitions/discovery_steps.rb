@@ -39,3 +39,8 @@ And(/^I indicate disposing waste is my main service$/) do
   choose 'registration_isMainService_yes'
   click_on 'Next'
 end
+
+And(/^I indicate I only deal with animal, farm, quarry or mine waste$/) do
+  choose 'registration_onlyAMF_yes'
+  click_on 'Next'
+end
