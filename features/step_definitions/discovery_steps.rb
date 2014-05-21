@@ -36,3 +36,7 @@ Then(/^I will be on the upper tier waste carrier registration path$/) do
   page.should have_content 'Carrier, broker or dealer'
 end
 
+And(/^I indicate disposing waste is my main service$/) do
+  choose 'registration_isMainService_yes'
+  click_on 'Next'
+end
