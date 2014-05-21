@@ -114,7 +114,7 @@ Feature: Discovery
 
   Scenario: First wizard page
     Given I am on the discovery page
-    Then there is no back link
+    Then there is no back button on the page
 
   @happy_day
   Scenario: Others
