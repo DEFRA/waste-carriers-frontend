@@ -125,8 +125,8 @@ Feature: Discovery
 
   Scenario: Back link
     Given I am on the discovery page
-      And I enter my status as 'sole_trader'
-      And I indicate I deal with other waste too
+      And I enter my business type as soletrader
+      And I indicate I deal with other people's waste too
       And I indicate disposing waste is my main service
       And I indicate I don't deal with animal, farm, quarry or mine waste
       And I click on the 'Back Link' twice
@@ -135,8 +135,8 @@ Feature: Discovery
 
   Scenario: Back button
     Given I am on the discovery page
-      And I enter my status as 'sole_trader'
-      And I indicate I deal with other waste too
+      And I enter my business type as soletrader
+      And I indicate I deal with other people's waste too
       And I indicate disposing waste is my main service
       And I indicate I don't deal with animal, farm, quarry or mine waste
       And I click on the 'Back Button' twice
