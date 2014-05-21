@@ -13,7 +13,7 @@ Feature: Discovery
       And I enter my business type as <business_type>
       And I indicate I deal only with my own waste
       And I indicate I never deal with waste from building or demolition work
-    Then I will be on the lower tier waste carrier registration process
+    Then I will be on the lower tier waste carrier registration path
 
     Examples:
       | business_type |
@@ -28,7 +28,7 @@ Feature: Discovery
       And I enter my business type as <business_type>
       And I indicate I deal only with my own waste
       And I indicate I sometimes deal with waste from building or demolition work
-    Then I will be on the upper tier waste carrier registration process
+    Then I will be on the upper tier waste carrier registration path
 
     Examples:
       | business_type |
@@ -44,7 +44,7 @@ Feature: Discovery
       And I indicate I deal with other waste too
       And I indicate disposing waste is my main service
       And I indicate I only deal with animal, farm and quarry or mine waste
-    Then I will be on the lower tier waste carrier registration process
+    Then I will be on the lower tier waste carrier registration path
 
     Examples:
       | business_type |
@@ -60,7 +60,7 @@ Feature: Discovery
       And I indicate I deal with other waste too
       And I indicate disposing waste is my main service
       And I indicate I don't deal with animal, farm and quarry or mine waste
-    Then I will be on the upper tier waste carrier registration process
+    Then I will be on the upper tier waste carrier registration path
 
     Examples:
       | business_type |
@@ -76,7 +76,7 @@ Feature: Discovery
       And I indicate I deal with other waste too
       And I indicate disposing waste is not my main service
       And I indicate I sometimes deal with waste from building or demolition work
-    Then I will be on the upper tier waste carrier registration process
+    Then I will be on the upper tier waste carrier registration path
 
     Examples:
       | business_type |
@@ -92,7 +92,7 @@ Feature: Discovery
     And I indicate I deal with other waste too
     And I indicate disposing waste is not my main service
     And I indicate I never deal with waste from building or demolition work
-  Then I will be on the lower tier waste carrier registration process
+  Then I will be on the lower tier waste carrier registration path
 
     Examples:
       | business_type |
@@ -105,7 +105,7 @@ Feature: Discovery
   Scenario Outline: Charities and authorities
   Given I am on the discovery page
     And I enter my business type as <business_type>
-  Then I will be on the lower tier waste carrier registration process
+  Then I will be on the lower tier waste carrier registration path
 
     Examples:
       | business_type        |
