@@ -4,13 +4,13 @@
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
   </head>
   <body>
-	
+
 	<h2 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h2>
 	<h3><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>. <!--Your username is your email: <%= @registration.accountEmail %>--></h3>
-	
+
 	<%
 	d = Date.parse(@registration.metaData.dateRegistered)
-	myExt = 'th'	
+	myExt = 'th'
 	if d.mday == '1' || d.mday == '21' || d.mday == '31'
 	  myExt = 'st'
 	elsif d.mday == '2' || d.mday == '22'
@@ -29,11 +29,13 @@
 		<dl class="data">
 		  <dt><%=t 'registration_mailer.welcome_email.contactName'%></dt>
 		  <dd>
-		  <%if @registration.title == "other"%>
-		  <%= @registration.otherTitle.camelize %>
-		  <%else%>
-		  <%= @registration.title.camelize %>
-		  <%end%>
+		  <% unless @registration.title.blank? %>
+		  	<%if @registration.title == "other"%>
+		  		<%= @registration.otherTitle.camelize %>
+		  	<%else%>
+		  		<%= @registration.title.camelize %>
+		  	<%end%>
+		  <% end %>
 		  <%= @registration.firstName%> <%= @registration.lastName%>
 		  </dd>
 		  <dt><%=t 'registration_mailer.welcome_email.phoneNumber'%></dt>
@@ -46,7 +48,7 @@
 		<div class="clr"></div>
 		<div class="clr"></div>
 	</div>
-	
+
 	<p><%= t 'registration_mailer.welcome_email.renew_html'%><% if !@registration.assisted_digital? %><%=t 'registration_mailer.welcome_email.updateWebsite_html',:link=>link_to('sign in', new_user_session_url)%><% else %><%=t 'registration_mailer.welcome_email.updatePhone'%><% end %></p>
 
     <div class="finish-section">
