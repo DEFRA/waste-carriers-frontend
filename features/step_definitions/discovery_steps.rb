@@ -66,3 +66,23 @@ end
 Then(/^I am told to ring the Environment Agency$/) do
   page.should have_content 'Contact the Environment Agency'
 end
+
+Given(/^I navigate to the construction\/demolition step via the other businesses step$/) do
+  pending
+end
+
+Given(/^I navigate to the construction\/demolition step via the main service step$/) do
+  pending
+end
+
+When(/^I click the back link$/) do
+  pending
+end
+
+Then(/^I end up on the other businesses step$/) do
+  pending
+end
+
+Then(/^I end up on the main service step$/) do
+  pending
+end
