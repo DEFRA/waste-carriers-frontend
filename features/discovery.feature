@@ -1,6 +1,6 @@
 Feature: Discovery
 
-  As a waste-carrier
+  As a waste carrier
   I want to register in the applicable tier
   So that I'm compliant with regulations and only pay to register when I need to
 
