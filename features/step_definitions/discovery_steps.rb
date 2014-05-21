@@ -68,21 +68,31 @@ Then(/^I am told to ring the Environment Agency$/) do
 end
 
 Given(/^I navigate to the construction\/demolition step via the other businesses step$/) do
-  pending
+  visit find_path
+  choose 'registration_businessType_soletrader'
+  click_on 'Next'
+  choose 'registration_otherBusinesses_no'
+  click_on 'Next'
 end
 
 Given(/^I navigate to the construction\/demolition step via the main service step$/) do
-  pending
+  visit find_path
+  choose 'registration_businessType_soletrader'
+  click_on 'Next'
+  choose 'registration_otherBusinesses_yes'
+  click_on 'Next'
+  choose 'registration_isMainService_yes'
+  click_on 'Next'
 end
 
 When(/^I click the back link$/) do
-  pending
+  click_on 'Back'
 end
 
 Then(/^I end up on the other businesses step$/) do
-  pending
+  page.should have_content 'Do you ever deal with waste from other businesses'
 end
 
 Then(/^I end up on the main service step$/) do
-  pending
+  page.should have_content 'What kind of service'
 end
