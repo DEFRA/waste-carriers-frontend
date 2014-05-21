@@ -13,7 +13,7 @@ Feature: Discovery
     And I enter my status as <waste_carrier>
     When I tell the system I deal only with my own waste
     And I tell the system I never deal with waste from building or demolition work
-    Then the system tells me I must register on the Lower Tier
+    Then I register as a lower tier waste carrier
 
     Examples:
       | waste_carrier |
@@ -28,7 +28,7 @@ Feature: Discovery
     And I enter my status as <waste_carrier>
     When I tell the system I deal only with my own waste
     And I tell the system I sometimes deal with waste from building or demolition work
-    Then the system tells me I must register on the Upper Tier
+    Then I register as an upper tier waste carrier
 
     Examples:
       | waste_carrier |
@@ -44,7 +44,7 @@ Feature: Discovery
     When I tell the system I deal with other waste too
     And I tell the system disposing waste is my main service
     And I tell the system I only deal with animal, farm and quarry or mine waste
-    Then the system tells me I must register on the Lower Tier
+    Then I register as a lower tier waste carrier
 
     Examples:
       | waste_carrier |
@@ -60,7 +60,7 @@ Feature: Discovery
     When I tell the system I deal with other waste too
     And I tell the system disposing waste is my main service
     And I tell the system I don't deal with animal, farm and quarry or mine waste
-    Then the system tells me I must register on the Upper Tier
+    Then I register as an upper tier waste carrier
 
     Examples:
       | waste_carrier |
@@ -76,7 +76,7 @@ Feature: Discovery
     When I tell the system I deal with other waste too
     And I tell the system disposing waste is not my main service
     And I tell the system I sometimes deal with waste from building or demolition work
-    Then the system tells me I must register on the Upper Tier
+    Then I register as an upper tier waste carrier
 
     Examples:
       | waste_carrier |
@@ -92,7 +92,7 @@ Feature: Discovery
   When I tell the system I deal with other waste too
   And I tell the system disposing waste is not my main service
   And I tell the system I never deal with waste from building or demolition work
-  Then the system tells me I must register on the Lower Tier
+  Then I register as a lower tier waste carrier
 
     Examples:
       | waste_carrier |
@@ -105,7 +105,7 @@ Feature: Discovery
   Scenario Outline: Charities and authorities
   Given I'm on the discovery page
   And I enter my status as <waste_carrier>
-  Then the system tells me I must register on the Lower Tier
+  Then I register as a lower tier waste carrier
 
     Examples:
       | waste_carrier        |
