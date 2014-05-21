@@ -55,6 +55,6 @@ And(/^I indicate I don't deal with animal, farm, quarry or mine waste$/) do
   click_on 'Next'
 end
 
-Then(/^there is no back link$/) do
+Then(/^there is no back button on the page/) do
   page.should_not have_button 'Back'
 end
