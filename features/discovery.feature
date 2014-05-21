@@ -17,10 +17,10 @@ Feature: Discovery
 
     Examples:
       | waste_carrier |
-      |sole_trader|
-      |ltd_companyl|
-      |partnership|
-      |public_body|
+      | sole_trader   |
+      | ltd_companyl  |
+      | partnership   |
+      | public_body   |
 
   @happy_day
   Scenario Outline: Own waste and building waste
@@ -32,10 +32,10 @@ Feature: Discovery
 
     Examples:
       | waste_carrier |
-      |sole_trader|
-      |ltd_companyl|
-      |partnership|
-      |public_body|
+      | sole_trader   |
+      | ltd_company   |
+      | partnership   |
+      | public_body   |
 
   @happy_day
   Scenario Outline: Other waste and main service and animal waste
@@ -48,10 +48,10 @@ Feature: Discovery
 
     Examples:
       | waste_carrier |
-      |sole_trader|
-      |ltd_companyl|
-      |partnership|
-      |public_body|
+      | sole_trader   |
+      | ltd_company   |
+      | partnership   |
+      | public_body   |
 
   @happy_day
   Scenario Outline: Other waste and main service and no animal waste
@@ -64,10 +64,10 @@ Feature: Discovery
 
     Examples:
       | waste_carrier |
-      |sole_trader|
-      |ltd_companyl|
-      |partnership|
-      |public_body|
+      | sole_trader   |
+      | ltd_company   |
+      | partnership   |
+      | public_body   |
 
   @happy_day
   Scenario Outline: Other waste and no main service and building waste
@@ -80,10 +80,10 @@ Feature: Discovery
 
     Examples:
       | waste_carrier |
-      |sole_trader|
-      |ltd_companyl|
-      |partnership|
-      |public_body|
+      | sole_trader   |
+      | ltd_company   |
+      | partnership   |
+      | public_body   |
 
   @happy_day
   Scenario Outline: Other waste and no main service and no building waste
@@ -96,10 +96,10 @@ Feature: Discovery
 
     Examples:
       | waste_carrier |
-      |sole_trader|
-      |ltd_companyl|
-      |partnership|
-      |public_body|
+      | sole_trader   |
+      | ltd_company   |
+      | partnership   |
+      | public_body   |
 
   @happy_day
   Scenario Outline: Charities and authorities
@@ -108,37 +108,37 @@ Feature: Discovery
   Then the system tells me that I must register on the Lower Tier
 
     Examples:
-      | waste_carrier |
-      |charity|
-      |collection_authority|
-      |regulation_authority|
-      |disposal_authority|
+      | waste_carrier        |
+      | charity              |
+      | collection_authority |
+      | regulation_authority |
+      | disposal_authority   |
 
   @happy_day
   Scenario: Others
-  Given that I'm on the discovery page
-  And I enter my status as 'Other'
-  Then the system tells me that I must contact EA by phone
+    Given that I'm on the discovery page
+    And I enter my status as 'Other'
+    Then the system tells me that I must contact EA by phone
 
   Scenario: Back link
-  Given that I'm on the discovery page
-  And I enter my status as 'sole_trader'
-  When I tell the system I deal with other waste too
-  And I tell the system that disposing waste is my main service
-  And I tell the system  that I don't deal with animal, farm and quarry or mine waste
-  And I click on the 'Back Link' twice
-  Then I see the screen where I told the system I deal with other waste too
-  And my original choice is still there
+    Given that I'm on the discovery page
+    And I enter my status as 'sole_trader'
+    When I tell the system I deal with other waste too
+    And I tell the system that disposing waste is my main service
+    And I tell the system  that I don't deal with animal, farm and quarry or mine waste
+    And I click on the 'Back Link' twice
+    Then I see the screen where I told the system I deal with other waste too
+    And my original choice is still there
 
   Scenario: Back button
-  Given that I'm on the discovery page
-  And I enter my status as 'sole_trader'
-  When I tell the system I deal with other waste too
-  And I tell the system that disposing waste is my main service
-  And I tell the system  that I don't deal with animal, farm and quarry or mine waste
-  And I click on the 'Back Button' twice
-  Then I see the screen where I told the system I deal with other waste too
-  And my original choice is still there
+    Given that I'm on the discovery page
+    And I enter my status as 'sole_trader'
+    When I tell the system I deal with other waste too
+    And I tell the system that disposing waste is my main service
+    And I tell the system  that I don't deal with animal, farm and quarry or mine waste
+    And I click on the 'Back Button' twice
+    Then I see the screen where I told the system I deal with other waste too
+    And my original choice is still there
 
 
 
