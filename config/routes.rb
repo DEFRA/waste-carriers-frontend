@@ -23,7 +23,7 @@ Registrations::Application.routes.draw do
 	  get "home/index"
 	  get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
 	  
-	  get "registrations/find" => 'discovers#new', :via => [:get, :post], :as => :find
+	  get "registrations/find" => 'registrations#newBusinessType', :via => [:get, :post], :as => :find
 	  
 	  # Add routing for Public Search
 	  get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
