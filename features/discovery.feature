@@ -11,8 +11,8 @@ Feature: Discovery
   Scenario Outline: Own waste and no building waste
     Given I am on the discovery page
       And I enter my status as <waste_carrier>
-      And I tell the system I deal only with my own waste
-      And I tell the system I never deal with waste from building or demolition work
+      And I indicate I deal only with my own waste
+      And I indicate I never deal with waste from building or demolition work
     Then I will be on the lower tier waste carrier registration process
 
     Examples:
@@ -26,8 +26,8 @@ Feature: Discovery
   Scenario Outline: Own waste and building waste
     Given I am on the discovery page
       And I enter my status as <waste_carrier>
-      And I tell the system I deal only with my own waste
-      And I tell the system I sometimes deal with waste from building or demolition work
+      And I indicate I deal only with my own waste
+      And I indicate I sometimes deal with waste from building or demolition work
     Then I will be on the upper tier waste carrier registration process
 
     Examples:
@@ -41,9 +41,9 @@ Feature: Discovery
   Scenario Outline: Other waste and main service and animal waste
     Given I am on the discovery page
       And I enter my status as <waste_carrier>
-      And I tell the system I deal with other waste too
-      And I tell the system disposing waste is my main service
-      And I tell the system I only deal with animal, farm and quarry or mine waste
+      And I indicate I deal with other waste too
+      And I indicate disposing waste is my main service
+      And I indicate I only deal with animal, farm and quarry or mine waste
     Then I will be on the lower tier waste carrier registration process
 
     Examples:
@@ -57,9 +57,9 @@ Feature: Discovery
   Scenario Outline: Other waste and main service and no animal waste
     Given I am on the discovery page
       And I enter my status as <waste_carrier>
-      And I tell the system I deal with other waste too
-      And I tell the system disposing waste is my main service
-      And I tell the system I don't deal with animal, farm and quarry or mine waste
+      And I indicate I deal with other waste too
+      And I indicate disposing waste is my main service
+      And I indicate I don't deal with animal, farm and quarry or mine waste
     Then I will be on the upper tier waste carrier registration process
 
     Examples:
@@ -73,9 +73,9 @@ Feature: Discovery
   Scenario Outline: Other waste and no main service and building waste
     Given I am on the discovery page
       And I enter my status as <waste_carrier>
-      And I tell the system I deal with other waste too
-      And I tell the system disposing waste is not my main service
-      And I tell the system I sometimes deal with waste from building or demolition work
+      And I indicate I deal with other waste too
+      And I indicate disposing waste is not my main service
+      And I indicate I sometimes deal with waste from building or demolition work
     Then I will be on the upper tier waste carrier registration process
 
     Examples:
@@ -89,9 +89,9 @@ Feature: Discovery
   Scenario Outline: Other waste and no main service and no building waste
   Given I am on the discovery page
     And I enter my status as <waste_carrier>
-    And I tell the system I deal with other waste too
-    And I tell the system disposing waste is not my main service
-    And I tell the system I never deal with waste from building or demolition work
+    And I indicate I deal with other waste too
+    And I indicate disposing waste is not my main service
+    And I indicate I never deal with waste from building or demolition work
   Then I will be on the lower tier waste carrier registration process
 
     Examples:
@@ -123,9 +123,9 @@ Feature: Discovery
   Scenario: Back link
     Given I am on the discovery page
       And I enter my status as 'sole_trader'
-      And I tell the system I deal with other waste too
-      And I tell the system disposing waste is my main service
-      And I tell the system I don't deal with animal, farm and quarry or mine waste
+      And I indicate I deal with other waste too
+      And I indicate disposing waste is my main service
+      And I indicate I don't deal with animal, farm and quarry or mine waste
       And I click on the 'Back Link' twice
     Then I see the screen where I told the system I deal with other waste too
       And my original choice is still there
@@ -133,9 +133,9 @@ Feature: Discovery
   Scenario: Back button
     Given I am on the discovery page
       And I enter my status as 'sole_trader'
-      And I tell the system I deal with other waste too
-      And I tell the system disposing waste is my main service
-      And I tell the system I don't deal with animal, farm and quarry or mine waste
+      And I indicate I deal with other waste too
+      And I indicate disposing waste is my main service
+      And I indicate I don't deal with animal, farm and quarry or mine waste
       And I click on the 'Back Button' twice
     Then I see the screen where I told the system I deal with other waste too
       And my original choice is still there
