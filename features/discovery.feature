@@ -2,7 +2,7 @@ Feature: Discovery
 
   As a waste-carrier
   I want to register in the applicable tier
-  So that I'm compliant with regulations
+  So that I'm compliant with regulations and only pay to register when I need to
 
   Workflow for the following scenarios can be found at:
   https://docs.google.com/spreadsheets/d/15SbDNrVbwh7nhQoEus-I5mv3RDIW_6nzwyxknUOuAXs/edit?usp=sharing
