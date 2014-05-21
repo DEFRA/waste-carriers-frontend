@@ -7,7 +7,7 @@ Feature: Discovery
   Workflow for the following scenarios can be found at:
   https://docs.google.com/spreadsheets/d/15SbDNrVbwh7nhQoEus-I5mv3RDIW_6nzwyxknUOuAXs/edit?usp=sharing
 
-  Scenario Outline: Own waste and no building waste
+  Scenario Outline: Lower tier with own waste and no building waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
       And I indicate I deal only with my own waste
@@ -21,7 +21,7 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  Scenario Outline: Own waste and building waste
+  Scenario Outline: Upper tier with own waste and building waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
       And I indicate I deal only with my own waste
@@ -35,7 +35,7 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  Scenario Outline: Other waste and main service and animal waste
+  Scenario Outline: Lower tier with other people's waste and main service and animal waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
       And I indicate I deal with other people's waste too
@@ -50,7 +50,7 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  Scenario Outline: Other waste and main service and no animal waste
+  Scenario Outline: Upper tier with other people's waste and main service and no animal waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
       And I indicate I deal with other people's waste too
@@ -65,7 +65,7 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  Scenario Outline: Other waste and no main service and building waste
+  Scenario Outline: Upper tier with other people's waste and no main service and building waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
       And I indicate I deal with other people's waste too
@@ -80,7 +80,7 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  Scenario Outline: Other waste and no main service and no building waste
+  Scenario Outline: Lower tier with other people's waste and no main service and no building waste
     Given I am on the discovery page
       And I enter my business type as <business_type>
       And I indicate I deal with other people's waste too
@@ -95,7 +95,7 @@ Feature: Discovery
       | partnership    |
       | publicbody     |
 
-  Scenario Outline: Charities and authorities
+  Scenario Outline: Definite lower tier determined just by business type
     Given I am on the discovery page
       And I enter my business type as <business_type>
     Then I will be on the lower tier waste carrier registration path
@@ -110,7 +110,7 @@ Feature: Discovery
     Then there is no back button on the page
       But there is a next button on the page
 
-  Scenario: Others
+  Scenario: Some other business type
     Given I am on the discovery page
       And I enter my business type as other
     Then I am told to ring the Environment Agency
