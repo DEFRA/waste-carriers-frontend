@@ -121,7 +121,7 @@ Feature: Discovery
   Scenario: Others
     Given I am on the discovery page
       And I enter my business type as other
-    Then I am told to contact the Environment Agency by telephone
+    Then I am told to ring the Environment Agency
 
   Scenario: Back link
     Given I am on the discovery page
