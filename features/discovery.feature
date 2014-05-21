@@ -71,7 +71,7 @@ Feature: Discovery
 
   @happy_day
   Scenario Outline: Other waste and no main service and building waste
-    Given that I'm on the discovery page
+    Given I'm on the discovery page
       And I enter my status as <waste_carrier>
       And I tell the system I deal with other waste too
       And I tell the system disposing waste is not my main service
