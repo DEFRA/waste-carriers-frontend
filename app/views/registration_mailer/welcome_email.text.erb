@@ -23,7 +23,7 @@ end
 <% unless @registration.title.blank? %>
   <% if @registration.title == "other" %>
     <%= @registration.otherTitle.camelize %>
-  <% else %>
+  <% elsif @registration.title %>
     <%= @registration.title.camelize %>
   <% end %>
 <% end %>
