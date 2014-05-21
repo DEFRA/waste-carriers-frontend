@@ -242,7 +242,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'registrationtype'
 
     if @registration.valid?
-      redirect_to :newRegistrationType
+      redirect_to :newBusinessDetails
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'

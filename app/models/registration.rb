@@ -101,39 +101,44 @@ class Registration < ActiveResource::Base
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
 
-  # validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: lambda { |o| o.current_step == "businesstype" }
-  # validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "otherbusinesses" }
-  # validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "serviceprovided" }
-  # validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "constructiondemolition" }
-  # validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "onlydealwith" }
+=begin
+  validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: lambda { |o| o.current_step == "businesstype" }
+  validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "otherbusinesses" }
+  validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "serviceprovided" }
+  validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "constructiondemolition" }
+  validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "onlydealwith" }
+=end
 
   # Business Step fields
-  # validate :validate_businessType, :if => lambda { |o| o.current_step == "business" }
-  # validate :validate_companyName, :if => lambda { |o| o.current_step == "business" }
+  validate :validate_businessType, :if => lambda { |o| o.current_step == "business" }
+  validate :validate_companyName, :if => lambda { |o| o.current_step == "business" }
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   # Contact Step fields
-  # validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
-  # validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
-  # validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
-  # validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
-  # validate :validate_streetLine4, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
-  # validate :validate_country, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
-  # validate :validate_townCity, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
-  # validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
-  # validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
-  # validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
-
-  # validate :validate_addressMode
-
-
-  # validate :validate_firstName, :if => lambda { |o| o.current_step == "contact" }
-  # validate :validate_lastName, :if => lambda { |o| o.current_step == "contact" }
-  # validate :validate_position, :if => lambda { |o| o.current_step == "contact" }
-  # validate :validate_phoneNumber, :if => lambda { |o| o.current_step == "contact" }
-  # validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
-
+=begin
+  validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
+  validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
+  validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
+  validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
+  validate :validate_streetLine4, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
+  validate :validate_country, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
+  validate :validate_townCity, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
+  validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
+  validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
+  validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
+=end
+  
+  validate :validate_addressMode
+  
+  # validate :validate_title, :if => lambda { |o| o.current_step == "contact" }
+  # validate :validate_otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
+  validate :validate_firstName, :if => lambda { |o| o.current_step == "contact" }
+  validate :validate_lastName, :if => lambda { |o| o.current_step == "contact" }
+  validate :validate_position, :if => lambda { |o| o.current_step == "contact" }
+  validate :validate_phoneNumber, :if => lambda { |o| o.current_step == "contact" }
+  validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
+  
   # Confirmation fields
   validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
 
