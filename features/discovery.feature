@@ -120,8 +120,8 @@ Feature: Discovery
   @happy_day
   Scenario: Others
     Given I am on the discovery page
-      And I enter my status as 'Other'
-    Then the system tells me I must contact EA by phone
+      And I enter my business type as other
+    Then I am told to contact the Environment Agency by telephone
 
   Scenario: Back link
     Given I am on the discovery page
