@@ -76,3 +76,8 @@ And(/^I provide my email address and create a password$/) do
 
   click_on 'Next'
 end
+
+When(/^I confirm account creation via email$/) do
+  open_email my_email_address
+  current_email.click_link 'Confirm your account'
+end
