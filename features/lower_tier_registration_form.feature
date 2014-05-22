@@ -9,7 +9,7 @@ Feature: Lower tier
       And I provide my company name
 
   Scenario: Autocomplete address
-    Given I enter my address details by providing a postcode first
+    Given I autocomplete my address
       And I provide my personal contact details
       And I check the declaration
       And I provide my email address and create a password
