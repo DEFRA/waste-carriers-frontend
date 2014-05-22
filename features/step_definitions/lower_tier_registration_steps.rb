@@ -47,7 +47,7 @@ And(/^I provide my company name$/) do
   fill_in 'registration_companyName', with: 'Grades'
 end
 
-Given(/^I enter my address details by providing a postcode first$/) do
+Given(/^I autocomplete my address$/) do
   fill_in 'sPostcode', with: 'BS1 2EP'
   click_on 'Find UK address'
   select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
