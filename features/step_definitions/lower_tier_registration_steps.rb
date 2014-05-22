@@ -113,8 +113,10 @@ Then(/^I am registered as a lower tier waste carrier$/) do
 end
 
 But(/^I can edit this postcode$/) do
-  find_field('sPostcode').value.should == my_unrecognised_postcode
-  find_field('sPostcode')['disabled'].should_not be
+  postcode_field = find_field('sPostcode')
+
+  postcode_field.value.should == my_unrecognised_postcode
+  postcode_field['disabled'].should_not be
 end
 
 And(/^add my address manually if I wanted to$/) do
