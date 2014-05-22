@@ -99,3 +99,7 @@ end
 Then(/^I am registered as a lower tier waste carrier$/) do
   pending
 end
+
+Given(/^I want my address autocompleted$/) do
+  # no-op
+end
