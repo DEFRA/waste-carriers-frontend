@@ -55,7 +55,7 @@ Given(/^I autocomplete my address$/) do
 end
 
 Given(/^I want my address autocompleted but I provide an unrecognised postcode$/) do
-  fill_in 'sPostcode', with: 'GAME BOY'
+  fill_in 'sPostcode', with: 'the yard'
 end
 
 When(/^I try to select an address$/) do
@@ -108,6 +108,6 @@ Then(/^I am registered as a lower tier waste carrier$/) do
   pending
 end
 
-Then(/^I will be told the postcode is unrecognised$/) do
-  save_and_open_page
+Then(/^no address suggestions will be shown$/) do
+  page.should have_content 'There are no addresses for the given postcode'
 end
