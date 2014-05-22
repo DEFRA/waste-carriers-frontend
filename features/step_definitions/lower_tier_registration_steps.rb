@@ -1,10 +1,13 @@
 Given(/^I have completed the lower tier registration form$/) do
   visit find_path
-  choose 'Sole trader'
+
+  choose 'registration_businessType_soletrader'
   click_on 'Next'
-  choose 'Only waste from our own business or organisation'
+
+  choose 'registration_otherBusinesses_no'
   click_on 'Next'
-  choose 'No'
+
+  choose 'registration_constructionWaste_no'
   click_on 'Next'
 
   fill_in 'Business, organisation or trading name', with: 'Grades'
@@ -37,7 +40,7 @@ end
 Given(/^I have been funneled into the lower tier path$/) do
   visit find_path
 
-  choose "registration_businessType_soletrader"
+  choose 'registration_businessType_soletrader'
   click_on 'Next'
 
   choose 'registration_otherBusinesses_no'
