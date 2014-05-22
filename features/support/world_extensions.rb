@@ -7,6 +7,10 @@ module KnowsTheDomain
     @my_password ||= 'password123'
   end
 
+  def my_unrecognised_postcode
+    @my_unrecognised_postcode ||= 'THE YARD'
+  end
+
   def agency_email_address
     @agency_email_address ||= 'user@agency.gov.uk'
   end
