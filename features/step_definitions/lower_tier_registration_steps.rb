@@ -55,7 +55,7 @@ Given(/^I autocomplete my address$/) do
 end
 
 Given(/^I want my address autocompleted but I provide an unrecognised postcode$/) do
-  fill_in 'sPostcode', with: 'the yard'
+  fill_in 'sPostcode', with: my_unrecognised_postcode
 end
 
 Then(/^no address suggestions will be shown$/) do
@@ -113,7 +113,8 @@ Then(/^I am registered as a lower tier waste carrier$/) do
 end
 
 But(/^I can edit this postcode$/) do
-  page.should have_field 'sPostcode'
+  find_field('sPostcode').value.should == my_unrecognised_postcode
+  find_field('sPostcode')['disabled'].should_not == 'disabled'
 end
 
 And(/^add my address manually if I wanted to$/) do
