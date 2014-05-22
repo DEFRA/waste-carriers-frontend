@@ -43,3 +43,7 @@ Given(/^I have been funneled into the lower tier path$/) do
   choose 'registration_businessType_charity'
   click_on 'Next'
 end
+
+And(/^I provide my company name$/) do
+  fill_in 'registration_companyName', with: 'Grades'
+end
