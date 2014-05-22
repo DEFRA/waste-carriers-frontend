@@ -23,7 +23,7 @@ Feature: Lower tier
       But I can edit this postcode
       And add my address manually if I wanted to
 
-  Scenario: Manually-enter address
+  Scenario: Manually enter UK address
     Given I enter my address manually
       And I provide my personal contact details
       And I check the declaration
