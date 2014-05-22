@@ -14,12 +14,7 @@ module RegistrationsHelper
   end
 
   def format_name_title registration
-    unformatted_title = if registration.title == 'other'
-                          registration.otherTitle
-                        else
-                          registration.title
-                        end
-
+    unformatted_title = registration.title == 'other' ? registration.otherTitle : registration.title
     unformatted_title.titleize if unformatted_title.present?
   end
 
