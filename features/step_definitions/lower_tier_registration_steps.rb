@@ -67,3 +67,12 @@ And(/^I check the declaration$/) do
   check 'registration_declaration'
   click_on 'Next'
 end
+
+And(/^I provide my email address and create a password$/) do
+  fill_in 'registration_accountEmail', with: my_email_address
+  fill_in 'registration_accountEmail_confirmation', with: my_email_address
+  fill_in 'registration_password', with: my_password
+  fill_in 'registration_password_confirmation', with: my_password
+
+  click_on 'Next'
+end
