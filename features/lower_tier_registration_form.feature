@@ -16,6 +16,12 @@ Feature: Lower tier
     When I confirm account creation via email
     Then I am registered as a lower tier waste carrier
 
+  Scenario: Autocomplete with unrecognised postcode
+    Given I enter my address details by providing an unrecognised postcode first
+    When I try to find an address
+    Then I will be told the postcode is unrecognised
+      And no address suggestions will be shown
+
   Scenario: Manually-enter address
     Given I enter my address manually
       And I provide my personal contact details
