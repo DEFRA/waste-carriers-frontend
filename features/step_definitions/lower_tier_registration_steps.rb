@@ -81,3 +81,7 @@ When(/^I confirm account creation via email$/) do
   open_email my_email_address
   current_email.click_link 'Confirm your account'
 end
+
+Then(/^I am registered as a lower tier waste carrier$/) do
+  pending
+end
