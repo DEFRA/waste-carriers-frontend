@@ -58,6 +58,10 @@ Given(/^I want my address autocompleted but I provide an unrecognised postcode$/
   fill_in 'sPostcode', with: 'the yard'
 end
 
+Then(/^no address suggestions will be shown$/) do
+  page.should have_content 'There are no addresses for the given postcode'
+end
+
 When(/^I try to select an address$/) do
   click_on 'Find UK address'
 end
@@ -106,8 +110,4 @@ end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
   pending
-end
-
-Then(/^no address suggestions will be shown$/) do
-  page.should have_content 'There are no addresses for the given postcode'
 end
