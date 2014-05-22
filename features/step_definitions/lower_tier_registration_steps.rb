@@ -40,12 +40,6 @@ end
 Given(/^I have been funneled into the lower tier path$/) do
   visit find_path
 
-  choose 'registration_businessType_soletrader'
-  click_on 'Next'
-
-  choose 'registration_otherBusinesses_no'
-  click_on 'Next'
-
-  choose 'registration_constructionWaste_no'
+  choose 'registration_businessType_charity'
   click_on 'Next'
 end
