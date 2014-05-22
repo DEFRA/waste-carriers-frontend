@@ -13,8 +13,8 @@ Given(/^I have completed the lower tier registration form$/) do
   fill_in 'Business, organisation or trading name', with: 'Grades'
   click_on 'Next'
 
-  fill_in 'Find address using postcode', with: 'BS1 2EP'
-  click_on 'Find address'
+  fill_in 'sPostcode', with: 'BS1 2EP'
+  click_on 'Find UK address'
 
   select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
 
@@ -46,4 +46,11 @@ end
 
 And(/^I provide my company name$/) do
   fill_in 'registration_companyName', with: 'Grades'
+end
+
+Given(/^I enter my address details by providing a postcode first$/) do
+  fill_in 'sPostcode', with: 'BS1 2EP'
+  click_on 'Find UK address'
+  select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
+  click_on 'Next'
 end
