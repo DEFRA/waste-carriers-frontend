@@ -54,6 +54,14 @@ Given(/^I autocomplete my address$/) do
   click_on 'Next'
 end
 
+Given(/^I want my address autocompleted but I provide an unrecognised postcode$/) do
+  fill_in 'sPostcode', with: 'GAME BOY'
+end
+
+When(/^I try to select an address$/) do
+  click_on 'Find UK address'
+end
+
 Given(/^I enter my address manually$/) do
   click_on 'I want to add an address myself'
 
@@ -100,10 +108,6 @@ Then(/^I am registered as a lower tier waste carrier$/) do
   pending
 end
 
-Given(/^I want my address autocompleted but I provide an unrecognised postcode$/) do
-  fill_in 'sPostcode', with: 'GAME BOY'
-end
-
-When(/^I try to select an address$/) do
-  click_on 'Next'
+Then(/^I will be told the postcode is unrecognised$/) do
+  save_and_open_page
 end
