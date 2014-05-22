@@ -12,14 +12,14 @@ Feature: Lower tier
     Given I enter my address details by providing a postcode first
       And I provide my personal contact details
       And I check the declaration
-      And I provide email and password details
-    When I confirm my account creation via email
+      And I provide my email address and create a password
+    When I confirm account creation via email
     Then I am registered as a lower tier waste carrier
 
   Scenario: Manually-enter address
     Given I enter my address manually
       And I provide my personal contact details
       And I check the declaration
-      And I provide email and password details
-    When I confirm my account creation via email
+      And I provide my email address and create a password
+    When I confirm account creation via email
     Then I am registered as a lower tier waste carrier
