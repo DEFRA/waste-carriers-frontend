@@ -112,7 +112,10 @@ Then(/^I am registered as a lower tier waste carrier$/) do
   pending
 end
 
-But(/^I could edit this postcode or add my address manually$/) do
-  page.should have_link 'I want to add an address myself'
+But(/^I can edit this postcode$/) do
   page.should have_field 'sPostcode'
+end
+
+And(/^add my address manually if I wanted to$/) do
+  page.should have_link 'I want to add an address myself'
 end
