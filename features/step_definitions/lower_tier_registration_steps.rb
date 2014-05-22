@@ -101,5 +101,9 @@ Then(/^I am registered as a lower tier waste carrier$/) do
 end
 
 Given(/^I want my address autocompleted but I provide an unrecognised postcode$/) do
-  fill_in 'sPostcode', with: 'blah'
+  fill_in 'sPostcode', with: 'GAME BOY'
+end
+
+When(/^I try to select an address$/) do
+  click_on 'Next'
 end
