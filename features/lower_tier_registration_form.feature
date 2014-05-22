@@ -20,7 +20,8 @@ Feature: Lower tier
     Given I want my address autocompleted but I provide an unrecognised postcode
     When I try to select an address
     Then no address suggestions will be shown
-      But I could edit this postcode or add my address manually
+      But I can edit this postcode
+      And add my address manually if I wanted to
 
   Scenario: Manually-enter address
     Given I enter my address manually
