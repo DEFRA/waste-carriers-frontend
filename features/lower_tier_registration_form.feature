@@ -17,8 +17,7 @@ Feature: Lower tier
     Then I am registered as a lower tier waste carrier
 
   Scenario: Autocomplete with unrecognised postcode
-    Given I want my address autocompleted
-      But the postcode is invalid
+    Given I want my address autocompleted but I provide an unrecognised postcode
     When I try to select an address
     Then I will be told the postcode is unrecognised
       And no address suggestions will be shown

@@ -100,6 +100,6 @@ Then(/^I am registered as a lower tier waste carrier$/) do
   pending
 end
 
-Given(/^I want my address autocompleted$/) do
-  # no-op
+Given(/^I want my address autocompleted but I provide an unrecognised postcode$/) do
+  fill_in 'sPostcode', with: 'blah'
 end
