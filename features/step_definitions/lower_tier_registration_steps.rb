@@ -72,11 +72,13 @@ And(/^I provide my personal contact details$/) do
   fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 8332'
   fill_in 'Email address', with: my_email_address
+
   click_on 'Next'
 end
 
 And(/^I check the declaration$/) do
   check 'registration_declaration'
+
   click_on 'Next'
 end
 
