@@ -78,6 +78,19 @@ Given(/^I enter my address manually$/) do
   click_on 'Next'
 end
 
+Given(/^I enter my foreign address manually$/) do
+  click_on 'I have an address outside the United Kingdom'
+
+  fill_in 'registration_streetLine1', with: 'Broad Street'
+  fill_in 'registration_streetLine2', with: 'City Centre'
+  fill_in 'registration_streetLine3', with: 'Bristol'
+  fill_in 'registration_streetLine4', with: 'BS1 2EP'
+
+  select 'France', from: 'registration_country'
+
+  click_on 'Next'
+end
+
 And(/^I provide my personal contact details$/) do
   fill_in 'First name', with: 'Joe'
   fill_in 'Last name', with: 'Bloggs'
