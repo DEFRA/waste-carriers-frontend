@@ -5,7 +5,7 @@
   <dd>
   <%if @registration.title == "other"%>
   <%= @registration.otherTitle.camelize %>
-  <%else%>
+  <%elsif @registration.title %>
   <%= @registration.title.camelize %>
   <%end%>
   <%= @registration.firstName%> <%= @registration.lastName%>
