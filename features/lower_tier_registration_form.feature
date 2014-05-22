@@ -30,3 +30,11 @@ Feature: Lower tier
       And I provide my email address and create a password
     When I confirm account creation via email
     Then I am registered as a lower tier waste carrier
+
+  Scenario: Foreign waste carrier
+    Given I enter my foreign address manually
+    And I provide my personal contact details
+    And I check the declaration
+    And I provide my email address and create a password
+    When I confirm account creation via email
+    Then I am registered as a lower tier waste carrier
