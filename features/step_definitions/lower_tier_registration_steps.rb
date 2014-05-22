@@ -85,3 +85,15 @@ end
 Then(/^I am registered as a lower tier waste carrier$/) do
   pending
 end
+
+Given(/^I enter my address manually$/) do
+  click_on 'I want to add an address myself'
+
+  fill_in 'registration_houseNumber', with: '44'
+  fill_in 'registration_streetLine1', with: 'Broad Street'
+  fill_in 'registration_streetLine2', with: 'City Centre'
+  fill_in 'registration_townCity', with: 'Bristol'
+  fill_in 'registration_postcode', with: 'BS1 2EP'
+
+  click_on 'Next'
+end
