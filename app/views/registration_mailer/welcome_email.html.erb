@@ -8,16 +8,7 @@
 	<h2 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h2>
 	<h3><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>. <!--Your username is your email: <%= @registration.accountEmail %>--></h3>
 
-	<%
-	d = Date.parse(@registration.metaData.dateRegistered)
-	myExt = 'th'
-	if d.mday == '1' || d.mday == '21' || d.mday == '31'
-	  myExt = 'st'
-	elsif d.mday == '2' || d.mday == '22'
-	  myExt = 'nd'
-	end
-	%>
-	<p><i><%= t 'registration_mailer.welcome_email.registeredOn',:date=>d.strftime('%A %-d'+myExt+' %B %Y') %></i></p>
+	<p><i><%= t 'registration_mailer.welcome_email.registeredOn', date: format_date(@registration.metaData.dateRegistered) %></i></p>
 
 	<p><%= t 'registrations.print.proof' %></p>
 	<!--
@@ -83,7 +74,7 @@
 		<li><%=t 'registration_mailer.welcome_email.responsibilities2'%></li>
 		<li><%=t 'registration_mailer.welcome_email.responsibilities3'%></li>
 		<li><%=t 'registration_mailer.welcome_email.responsibilities4'%></li>
-		<ul>
+		</ul>
 	</div>
 
   </body>
