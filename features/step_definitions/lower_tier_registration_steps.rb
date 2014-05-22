@@ -33,3 +33,16 @@ Given(/^I have completed the lower tier registration form$/) do
 
   sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
 end
+
+Given(/^I have been funneled into the lower tier path$/) do
+  visit find_path
+
+  choose "registration_businessType_soletrader"
+  click_on 'Next'
+
+  choose 'registration_otherBusinesses_no'
+  click_on 'Next'
+
+  choose 'registration_constructionWaste_no'
+  click_on 'Next'
+end
