@@ -632,7 +632,7 @@ class Registration < ActiveResource::Base
   end
 
   def generate_random_access_code
-    accessCode = (0...6).map { (65 + SecureRandom.random_number(26)).chr }.join
+    (0...6).map { (65 + SecureRandom.random_number(26)).chr }.join
   end
 
   def assisted_digital?
