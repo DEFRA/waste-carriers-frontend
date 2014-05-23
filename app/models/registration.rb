@@ -185,18 +185,17 @@ class Registration < ActiveResource::Base
   end
 
   def current_step
-    @current_step || steps.first
-  end
-
-  def steps
-    %w[businesstype noregistration otherbusinesses serviceprovided constructiondemolition onlydealwith businessdetails contactdetails confirmation signup registrationtype]
+    @current_step || first_step
   end
 
   VALID_SIGN_UP_MODES = %w[sign_up sign_in]
 
+  def first_step
+    'businesstype'
+  end
 
   def first_step?
-    businesstype?
+    current_step == first_step
   end
 
   def businesstype?
