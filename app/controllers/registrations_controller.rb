@@ -263,11 +263,6 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # GET /registrations/data-protection
-  def dataProtection
-    # Renders static data proctection page
-  end
-
   def new_step_action current_step
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
