@@ -651,11 +651,7 @@ class Registration < ActiveResource::Base
   end
 
   def date_registered
-    if metaData
-      metaData.dateRegistered
-    else
-      nil
-    end
+    metaData.dateRegistered if metaData
   end
 
   def self.activate_registrations(user)
