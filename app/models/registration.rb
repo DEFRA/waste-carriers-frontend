@@ -640,12 +640,13 @@ class Registration < ActiveResource::Base
   end
 
   def boxClassSuffix
-    if metaData.status == "REVOKED"
-      'revoked'
-    elsif metaData.status == "PENDING"
-      'pending'
-    else
-      ''
+    case metaData.status
+      when 'REVOKED'
+        'revoked'
+      when 'PENDING'
+        'pending'
+      else
+        ''
     end
   end
 
