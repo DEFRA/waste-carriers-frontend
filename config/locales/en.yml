@@ -65,7 +65,7 @@ en:
       enquiresMessage: "Please contact the Environment Agency if you have any enquiries."
       telephone: "Telephone:"
       email: "Email:"
-      renewal_html: "Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. "
+      renew_html: "Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. "
       updateWebsite_html: "You can do this by going to the website %{link} and logging in using your email and password."
       updatePhone: "You can do this by calling the Environment Agency and providing your access code."
       lowerTierRegistration: "Lower tier registration"
