@@ -147,7 +147,6 @@ en:
   activemodel:
     models:
       registration: "Registration"
-      discover: "Discover"
     attributes:
       registration:
        #upper-tier-registration
@@ -193,20 +192,6 @@ en:
         password: "Password"
         password_confirmation: "Confirm password"
         revokedReason: "Why do you wish to revoke this registration"
-      discover:
-        businessType: "What kind of business or organisation are you?"
-        otherBusinesses: "Whose waste do you deal with?"
-        otherBusinesses_yes: "Waste from other businesses, organisations or households"
-        otherBusinesses_no: "Only waste from our own business or organisation"
-        isMainService: "What kind of service do you provide?"
-        isMainService_yes: "Waste disposal is the main service we provide"
-        isMainService_no: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
-        onlyAMF: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
-        onlyAMF_yes: "Yes"
-        onlyAMF_no: "No"
-        constructionWaste: "Do you ever deal with waste from building or demolition work?"
-        constructionWaste_yes: "Yes"
-        constructionWaste_no: "No"
       upper_registration:
         business_name: "Business or organisation trading name"
         postcode: "Postcode"
@@ -304,33 +289,6 @@ en:
     waste_elec_equip_2013: "Waste Electrical and Electronic Equipment Regulations 2013"
     water_resources: "Water Resources Act 1991: Sections 85, 202 and 206"
     no_convictions: "No relevant convictions"
-  discovers:
-    new:
-      title: "Find out if you need to register and which category applies"
-      back: "Back"
-    findAnswers:
-      businessType_default: "Please select..."
-      businessType_soleTrader: "Sole trader"
-      businessType_partnership: "Partnership"
-      businessType_limitedCompany: "Limited company"
-      businessType_publicBody: "Public body"
-      businessType_charity: "Charity or voluntary organisation"
-      businessType_collectionAuthority: "Waste collection authority"
-      businessType_disposalAuthority: "Waste disposal authority"
-      businessType_regulationAuthority: "Waste regulation authority"
-      businessType_other: "Other"
-      businessHeading: "What your business or organisation does"
-      selectApply: "Select all that apply."
-      contactTextHeading: "Contact the Environment Agency"
-      contactTextLine1: "We need some more information about your organisation before we can register you as a waste carrier."
-      contactTextLine2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
-      upperTextHeading: "Register in the upper tier"
-      upperTextLine1: "You need to register as an upper tier carrier, broker or dealer on the Environment Agency website."
-      upperTextLine2_html: "Or to apply by post, download and complete the <a href='%{pdflocation}' target='_blank'>upper tier registration form</a> [PDF, 180KB]."
-      lowerTextHeading: "Register in the lower tier"
-      lowerTextLine1: "You need to register as a lower tier carrier/broker/dealer."
-      notRegisterText: "You do not need to register as a waste carrier, broker or dealer."
-      buttonText: "Continue"
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
