@@ -168,10 +168,6 @@ class Registration < ActiveResource::Base
     (DISTANCES.collect {|d| [I18n.t('distances.'+d), d]})
   end
 
-  #def sign_up_mode
-  #  @sign_up_mode || 'sign_up'
-  #end
-
   def initialize_sign_up_mode(userEmail, signedIn)
     Rails.logger.debug "Entering initialize_sign_up_mode"
     if signedIn
