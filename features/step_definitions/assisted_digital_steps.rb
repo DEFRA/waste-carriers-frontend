@@ -8,10 +8,6 @@ Given(/^I am logged in as an NCCC agency user$/) do
   page.should have_content "Signed in as agency user #{my_agency_user.email}"
 end
 
-Given(/^I start a new registration$/) do
-  visit registrations_path
-  click_button 'New registration'
-end
 
 Then(/^I should see the Business or Organisation Details page$/) do
   page.should have_content 'Business or organisation details'
@@ -28,6 +24,50 @@ Then(/^I fill in valid contact details without email$/) do
   fill_in('registration_phoneNumber', :with => '0234 567')  
   click_on('Next')
 end
+
+Given(/^I start a new registration on behalf of a caller$/) do
+  visit registrations_path
+  click_button 'New registration'
+end
+
+Given(/^the caller provides initial answers for the lower tier$/) do
+  choose 'registration_businessType_charity'
+  click_on 'Next'
+end
+
+Given(/^the caller provides his business organisation details$/) do
+  click_on 'I want to add an address myself'
+
+  fill_in 'registration_companyName', with: 'Assisted Digital & Co'
+  fill_in 'registration_houseNumber', with: '12'
+  fill_in 'registration_streetLine1', with: 'Assisted Street'
+  fill_in 'registration_streetLine2', with: 'Digital City Centre'
+  fill_in 'registration_townCity', with: 'Bristol'
+  fill_in 'registration_postcode', with: 'BS1 5AH'
+
+  click_on 'Next'
+end
+
+Given(/^the caller provides his contact details$/) do
+  fill_in 'First name', with: 'Antony'
+  fill_in 'Last name', with: 'Assisted'
+  fill_in 'Job title', with: 'Chief'
+  fill_in 'Phone number', with: '0123 456 789'
+  fill_in 'Email address', with: ''
+
+  click_on 'Next'
+end
+
+Given(/^the caller declares the information provided is correct$/) do
+  check 'registration_declaration'
+
+  click_on 'Next'
+end
+
+Given(/^the user confirms his account details$/) do
+  click_on 'Next'
+end
+
 
 Then(/^the registration confirmation email should not be sent$/) do
   # specifically "the registration confirmation email should not be sent *to the agency user" (for whom this is the only email address provided)
