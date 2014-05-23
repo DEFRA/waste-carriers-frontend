@@ -631,7 +631,7 @@ class Registration < ActiveResource::Base
   end
 
   def assisted_digital?
-    metaData && metaData.route == 'ASSISTED_DIGITAL'
+    metaData.try(:route) == 'ASSISTED_DIGITAL'
   end
 
   def boxClassSuffix
