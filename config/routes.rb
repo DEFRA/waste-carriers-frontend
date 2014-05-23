@@ -103,8 +103,6 @@ Registrations::Application.routes.draw do
 	  #scope "/administration" do 
 	  #  resources :agency_users
 	  #end
-	  
-	  resources :discovers
 #  end
   
   resources :agency_users
