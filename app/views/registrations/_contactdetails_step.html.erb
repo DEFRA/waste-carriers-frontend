@@ -23,12 +23,12 @@
     <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
       <%= validation_for(@registration, :phoneNumber) %>
       <%= f.label :phoneNumber %>
-      <%= f.text_field :phoneNumber, :size => 20, :maxlength => 20 %>
+      <%= f.telephone_field :phoneNumber, :size => 20, :maxlength => 20 %>
     </p>
     <p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
       <%= validation_for(@registration, :contactEmail) %>
       <%= f.label :contactEmail %>
-      <%= f.text_field :contactEmail, :size => 20, :maxlength => 70 %>
+      <%= f.email_field :contactEmail, :size => 20, :maxlength => 70 %>
     </p>
   </fieldset>
 
