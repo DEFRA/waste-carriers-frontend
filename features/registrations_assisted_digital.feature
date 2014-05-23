@@ -8,21 +8,16 @@ So that I do not have to send them a paper form
 For assisted digital users the system computes a random six-letter access code
 which the user needs for further changes via the phone. 
 
-
+@assisted_digital
 Scenario: Valid registration on behalf of a caller
   Given I am logged in as an NCCC agency user
-  And I start a new registration
-  Then I should see the Business or Organisation Details page
-  And I select business or organisation type "Sole trader"
-  And I fill in "Business, organisation or trading name" with "Joe Bloggs assisted"
-  And I click "Next"
-  And I fill in valid contact details without email
-  And I click "Next"
-  And I select the declaration checkbox
-  And I click "Next"
-  And I click "Next"
+  And I start a new registration on behalf of a caller
+  And the caller provides initial answers for the lower tier
+  And the caller provides his business organisation details
+  And the caller provides his contact details
+  And the caller declares the information provided is correct
+  And the user confirms his account details
   Then I should see the Confirmation page
   And the registration confirmation email should not be sent
   And when I access the print page
   Then the print page contains the six-digit access code for the user
-
