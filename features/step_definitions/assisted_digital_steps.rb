@@ -14,7 +14,7 @@ Given(/^I start a new registration$/) do
 end
 
 Then(/^I should see the Business or Organisation Details page$/) do
-  page.should have_content 'Business or organisation details'
+  page.should have_content 'What type of business or organisation are you?'
 end
 
 Then(/^I fill in valid contact details without email$/) do
