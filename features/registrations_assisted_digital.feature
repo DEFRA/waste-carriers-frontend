@@ -34,4 +34,4 @@ Feature: Registrations - Assisted Digital
     Then I should see the Confirmation page
     And the registration confirmation email should not be sent
     And when I access the print page
-    Then the print page contains the six-digit access code for the user
+    And the print page contains the six-digit access code for the user
