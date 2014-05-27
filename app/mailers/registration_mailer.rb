@@ -25,4 +25,10 @@ class RegistrationMailer < ActionMailer::Base
     	reply_to: Rails.configuration.registrations_service_email)
   end
   
+  ## TODO - Replace with helper or decorator
+  def format_date(string)
+    d = string.to_date
+    d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
+  end
+
 end

@@ -1,3 +1,4 @@
+@activation
 Feature: confirmation link timeout
 
   As a waste carrier
