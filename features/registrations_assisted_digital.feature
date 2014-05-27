@@ -7,6 +7,21 @@ Feature: Registrations - Assisted Digital
   For assisted digital users the system computes a random six-letter access code
   which the user needs for further changes via the phone.
 
+  Background:
+    Given I am logged in as an NCCC agency user
+
+  Scenario: Lower tier
+    When I create a lower tier registration on behalf of a caller
+    Then I should see the Confirmation page
+      And the registration confirmation email should not be sent
+      And the print page contains the six-digit access code for the user
+
+  Scenario: Upper tier
+    When I create an upper tier registration on behalf of a caller
+    Then I should see the Confirmation page
+    And the registration confirmation email should not be sent
+    And the print page contains the six-digit access code for the user
+
   Scenario: Valid registration on behalf of a caller
     Given I am logged in as an NCCC agency user
     And I start a new registration
