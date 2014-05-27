@@ -3,7 +3,7 @@
 
 <%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>.
 
-<%=t 'registration_mailer.welcome_email.registeredOn', date: format_date(@registration.metaData.dateRegistered) %>
+<%=t 'registration_mailer.welcome_email.registeredOn', date: @registration.formatted_registration_date %>
 
 <%= t 'registrations.print.proof' %>
 

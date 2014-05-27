@@ -657,8 +657,14 @@ class Registration < ActiveResource::Base
     end
   end
 
+  #TODO Replace with method from helper or have decorator
   def formatted_registration_date
-    format_date(date_registered)
+    if date_registered
+      d = date_registered.to_date
+      d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
+    else
+      ''
+    end
   end
 
   def self.activate_registrations(user)
