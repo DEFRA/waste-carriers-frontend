@@ -67,4 +67,6 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
 
   check 'registration_declaration'
   click_on 'Next'
+
+  click_on 'Next'
 end
