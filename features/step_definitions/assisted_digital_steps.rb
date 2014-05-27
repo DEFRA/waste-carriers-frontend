@@ -75,12 +75,9 @@ Then(/^the registration confirmation email should not be sent$/) do
   current_email.should be_nil
 end
 
-Then(/^when I access the print page$/) do
-  click_button 'View certificate'
-end
-
 Then(/^the print page contains the six-digit access code for the user$/) do
-  page.should have_content 'access code'
+  click_on 'View certificate'
+
   access_code = page.find_by_id 'accessCode'
   access_code.text.length.should == 6
 end
