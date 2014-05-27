@@ -14,6 +14,7 @@ Feature: Registrations - Assisted Digital
     When I create a lower tier registration on behalf of a caller
     Then I should see the Confirmation page
       And the registration confirmation email should not be sent
+      And when I access the print page
       And the print page contains the six-digit access code for the user
 
   Scenario: Upper tier
