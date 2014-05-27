@@ -8,7 +8,7 @@
 	<h2 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h2>
 	<h3><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>. <!--Your username is your email: <%= @registration.accountEmail %>--></h3>
 
-	<p><i><%= t 'registration_mailer.welcome_email.registeredOn', date: format_date(@registration.metaData.dateRegistered) %></i></p>
+	<p><i><%= t 'registration_mailer.welcome_email.registeredOn', date: @registration.formatted_registration_date %></i></p>
 
 	<p><%= t 'registrations.print.proof' %></p>
 	<!--
