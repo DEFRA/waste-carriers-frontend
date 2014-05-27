@@ -19,8 +19,8 @@ Feature: Registrations - Assisted Digital
   Scenario: Upper tier
     When I create an upper tier registration on behalf of a caller
     Then I should see the Confirmation page
-    And the registration confirmation email should not be sent
-    And the print page contains the six-digit access code for the user
+      And the registration confirmation email should not be sent
+      And the print page contains the six-digit access code for the user
 
   Scenario: Valid registration on behalf of a caller
     Given I am logged in as an NCCC agency user
