@@ -649,6 +649,16 @@ class Registration < ActiveResource::Base
     metaData.dateRegistered if metaData
   end
 
+  #TODO Replace with method from helper or have decorator
+  def formatted_registration_date
+    if date_registered
+      d = date_registered.to_date
+      d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
+    else
+      ''
+    end
+  end
+
   def self.activate_registrations(user)
     Rails.logger.info("Activating pending registrations for user with email " + user.email)
     Registration.find(:all, :params => {:ac => user.email}).each { |r|
