@@ -13,14 +13,14 @@ Feature: Registrations - Assisted Digital
   Scenario: Lower tier
     When I create a lower tier registration on behalf of a caller
     Then I should see the Confirmation page
-      And the registration confirmation email should not be sent
       And the print page contains the six-digit access code for the user
+      But the registration confirmation email should not be sent
 
   Scenario: Upper tier
     When I create an upper tier registration on behalf of a caller
     Then I should see the Confirmation page
-      And the registration confirmation email should not be sent
       And the print page contains the six-digit access code for the user
+      But the registration confirmation email should not be sent
 
   @assisted_digital
   Scenario: Valid registration on behalf of a caller
@@ -31,5 +31,5 @@ Feature: Registrations - Assisted Digital
       And the caller declares the information provided is correct
       And the user confirms his account details
     Then I should see the Confirmation page
-      And the registration confirmation email should not be sent
       And the print page contains the six-digit access code for the user
+      But the registration confirmation email should not be sent
