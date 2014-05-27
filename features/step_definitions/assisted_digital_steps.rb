@@ -44,3 +44,27 @@ Then(/^the print page contains the six-digit access code for the user$/) do
   access_code = page.find_by_id 'accessCode'
   access_code.text.length.should == 6
 end
+
+When(/^I create a lower tier registration on behalf of a caller$/) do
+  click_on 'New registration'
+
+  choose 'registration_businessType_charity'
+  click_on 'Next'
+
+  fill_in 'Business or organisation trading name', with: 'Grades'
+  fill_in 'sPostcode', with: 'BS1 2EP'
+  click_on 'Find UK address'
+
+  select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
+  click_on 'Next'
+
+  fill_in 'First name', with: 'Joe'
+  fill_in 'Last name', with: 'Bloggs'
+  fill_in 'Job title', with: 'Chief Barber'
+  fill_in 'Phone number', with: '0117 926 8332'
+  fill_in 'Email address', with: my_email_address
+  click_on 'Next'
+
+  check 'registration_declaration'
+  click_on 'Next'
+end
