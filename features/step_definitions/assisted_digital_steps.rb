@@ -124,22 +124,20 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   click_on 'Next'
 
   choose 'registration_onlyAMF_no'
-
   click_on 'Next'
 
-  choose ''
-
-  save_and_open_page
-  pending
-
-  choose 'registration_businessType_charity'
+  choose 'registration_registrationType_carrier_dealer'
   click_on 'Next'
 
-  fill_in 'Business or organisation trading name', with: 'Grades'
-  fill_in 'sPostcode', with: 'BS1 2EP'
-  click_on 'Find UK address'
+  click_on 'I want to add an address myself'
 
-  select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
+  fill_in 'registration_companyName', with: 'Grades'
+  fill_in 'registration_houseNumber', with: '1'
+  fill_in 'registration_streetLine1', with: 'Something St.'
+  fill_in 'registration_streetLine2', with: 'Easton'
+  fill_in 'registration_townCity', with: 'Bristol'
+  fill_in 'registration_postcode', with: 'BS11 2AB'
+
   click_on 'Next'
 
   fill_in 'First name', with: 'Joe'
