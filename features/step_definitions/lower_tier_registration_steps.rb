@@ -130,7 +130,7 @@ When(/^I confirm account creation via email$/) do
 end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
-  pending
+  page.should have_content 'is registered as a lower tier waste carrier'
 end
 
 But(/^I can edit this postcode$/) do
