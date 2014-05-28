@@ -8,23 +8,6 @@ Given(/^I am logged in as an NCCC agency user$/) do
   page.should have_content "Signed in as agency user #{my_agency_user.email}"
 end
 
-
-Then(/^I should see the Business or Organisation Details page$/) do
-  page.should have_content 'What type of business or organisation are you?'
-end
-
-Then(/^I fill in valid contact details without email$/) do
-  fill_in('sPostcode', :with => 'BS1 5AH')
-  click_button 'Find address'
-  page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
-
-  page.select('Mr', :from => 'registration_title')
-  fill_in('registration_firstName', :with => 'Antony')  
-  fill_in('registration_lastName', :with => 'Assist')  
-  fill_in('registration_phoneNumber', :with => '0234 567')  
-  click_on('Next')
-end
-
 Given(/^I start a new registration on behalf of a caller$/) do
   visit registrations_path
   click_button 'New registration'
