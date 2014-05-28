@@ -10,12 +10,6 @@ Given(/^I have completed the lower tier registration form$/) do
   choose 'registration_constructionWaste_no'
   click_on 'Next'
 
-  #fill_in 'Business or organisation trading name', with: 'Grades'
-  #click_on 'Next'
-
-  #fill_in 'sPostcode', with: 'BS1 2EP'
-  #click_on 'Find UK address'
-  #select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
   click_on 'I want to add an address myself'
   fill_in 'registration_companyName', with: 'Grades & Co'
   fill_in 'registration_houseNumber', with: '12'
