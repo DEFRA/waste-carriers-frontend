@@ -77,7 +77,7 @@ group :test, :development do
 
   #needed for headless testing with Javascript
   gem 'capybara-webkit'
-  gem 'capybara-email', '~> 2.3.0'
+  gem 'capybara-email', '~> 2.2.0'
 
   gem "launchy", "~> 2.4.2", :require => false
   gem 'rspec-rails', '~> 2.12'
@@ -86,6 +86,6 @@ group :test, :development do
   gem 'sauce'
   gem 'sauce-connect', :require => false
   gem 'sauce-cucumber', :require => false
-  gem 'capybara', '~> 2.2.1'
+  gem 'capybara', '~> 2.1.0'
   gem 'parallel_tests', :require => false
 end
