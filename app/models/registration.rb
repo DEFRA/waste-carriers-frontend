@@ -1,6 +1,7 @@
 require 'active_resource'
 
 class Registration < ActiveResource::Base
+  validates_with RegistrationValidator
 # Note: In Rails 4, attr_accessible has been replaced by strong parameters in controllers
 #  attr_accessible :address, :email, :firstName, :houseNumber, :individualsType, :lastName, :companyName, :businessType, :phoneNumber, :postcode, :publicBodyType, :registerAs, :title, :uprn, :publicBodyTypeOther, :streetLine1, :streetLine2, :townCity, :declaration
 
