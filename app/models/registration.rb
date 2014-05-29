@@ -1,7 +1,6 @@
 require 'active_resource'
 
 class Registration < ActiveResource::Base
-  validates_with RegistrationValidator
 # Note: In Rails 4, attr_accessible has been replaced by strong parameters in controllers
 #  attr_accessible :address, :email, :firstName, :houseNumber, :individualsType, :lastName, :companyName, :businessType, :phoneNumber, :postcode, :publicBodyType, :registerAs, :title, :uprn, :publicBodyTypeOther, :streetLine1, :streetLine2, :townCity, :declaration
 
@@ -102,8 +101,8 @@ class Registration < ActiveResource::Base
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
 
-  # validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: lambda { |o| o.current_step == "businesstype" }
-  # validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "otherbusinesses" }
+  validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: lambda { |o| o.current_step == "businesstype" }
+  validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "otherbusinesses" }
   # validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "serviceprovided" }
   # validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "constructiondemolition" }
   # validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "onlydealwith" }

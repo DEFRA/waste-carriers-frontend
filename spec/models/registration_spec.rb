@@ -10,29 +10,12 @@ describe Registration do
   end
 
   context 'otherbusinesses step' do
-    before do
-      @registration = Registration.new()
-      @registration.current_step = 'otherbusinesses'
-    end
+    subject { Registration.new }
 
-    subject { @registration }
+    before { subject.current_step = 'otherbusinesses' }
 
-    it { should_not be_valid }
-
-    describe 'with otherbusinesses yes' do
-      before do
-        @registration.otherBusinesses = 'yes'
-      end
-
-      it { should be_valid }
-    end
-
-    describe 'with otherbusinesses y' do
-      before do
-        @registration.otherBusinesses = 'y'
-      end
-
-      it { should_not be_valid }
-    end
+    it { should validate_presence_of(:otherBusinesses).with_message(/must be completed/) }
+    it { should allow_value('yes', 'no').for(:otherBusinesses) }
+    it { should_not allow_value('y', 'n').for(:otherBusinesses) }
   end
 end
