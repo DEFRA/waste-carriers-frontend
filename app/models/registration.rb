@@ -101,13 +101,12 @@ class Registration < ActiveResource::Base
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
 
-=begin
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: lambda { |o| o.current_step == "businesstype" }
-  validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "otherbusinesses" }
-  validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "serviceprovided" }
-  validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "constructiondemolition" }
-  validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "onlydealwith" }
-=end
+  # validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "otherbusinesses" }
+  # validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "serviceprovided" }
+  # validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "constructiondemolition" }
+  # validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "onlydealwith" }
+
 
   # Business Step fields
   validate :validate_businessType, :if => lambda { |o| o.current_step == "business" }
