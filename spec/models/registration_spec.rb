@@ -11,7 +11,8 @@ describe Registration do
 
   context 'otherbusinesses step' do
     before do
-      @registration = Registration.new(current_step: 'otherbusinesses')
+      @registration = Registration.new()
+      @registration.current_step = 'otherbusinesses'
     end
 
     subject { @registration }
