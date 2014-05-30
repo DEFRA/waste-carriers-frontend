@@ -28,4 +28,14 @@ describe Registration do
     it { should allow_value('yes', 'no').for(:isMainService) }
     it { should_not allow_value('y', 'n').for(:isMainService) }
   end
+
+  context 'constructiondemolition step' do
+    subject { Registration.new }
+
+    before { subject.current_step = 'constructiondemolition' }
+
+    it { should validate_presence_of(:constructionWaste).with_message(/must be completed/) }
+    it { should allow_value('yes', 'no').for(:constructionWaste) }
+    it { should_not allow_value('y', 'n').for(:constructionWaste) }
+  end
 end
