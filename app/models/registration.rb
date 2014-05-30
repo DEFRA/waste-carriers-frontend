@@ -118,8 +118,8 @@ class Registration < ActiveResource::Base
   end
 
   with_options if: :signup_step? do |registration|
-    registration.validates :accountEmail, presence: true
-    registration.validates :accountEmail_confirmation, presence: true
+    registration.validates :accountEmail, presence: true, format: { with: Devise.email_regexp }
+    registration.validates :accountEmail_confirmation, presence: true, format: { with: Devise.email_regexp }
     registration.validates :password, presence: true
     registration.validates :password_confirmation, presence: true
   end
