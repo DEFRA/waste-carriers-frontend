@@ -85,6 +85,9 @@ describe Registration do
 
       it { should allow_value('Foreman', 'Ruby Dev', 'Change-manager').for(:position) }
       it { should_not allow_value('Big Guy 1').for(:position) }
+
+      it { should allow_value('0117 9109099', '(0)117 9109099', '+44 (0)117 9109099', '+44 (0)117 91-09099').for(:phoneNumber) }
+      it { should_not allow_value('999', 'my landline', 'home').for(:phoneNumber) }
     end
   end
 end
