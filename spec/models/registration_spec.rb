@@ -92,7 +92,15 @@ describe Registration do
       it { should_not allow_value('999', 'my landline', 'home').for(:phoneNumber) }
 
       it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:contactEmail) }
-      it { should_not allow_value('user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:contactEmail) }
+      it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:contactEmail) }
     end
+  end
+
+  context 'signup step' do
+    subject { Registration.new }
+
+    before { subject.current_step = 'signup' }
+
+
   end
 end

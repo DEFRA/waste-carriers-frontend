@@ -114,7 +114,7 @@ class Registration < ActiveResource::Base
     registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
     registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }
-    registration.validates :contactEmail, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
+    registration.validates :contactEmail, presence: true, format: { with: Devise.email_regexp }
   end
 
   def businesstype_step?
