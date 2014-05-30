@@ -77,8 +77,8 @@ describe Registration do
 
       before { subject.current_step = 'contactdetails' }
 
-      it { should allow_value('John', 'John-Paul').for(:firstName) }
-      it { should_not allow_value('Johnnie5', 'John Paul').for(:firstName) }
+      it { should allow_value('John', 'John-Paul', 'Sally Ann', "T'pau").for(:firstName) }
+      it { should_not allow_value('Johnnie5', 'K.R.S One').for(:firstName) }
     end
   end
 end
