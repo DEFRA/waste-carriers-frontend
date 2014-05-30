@@ -11,6 +11,8 @@ unless Rails.env.production?
     admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'secret123')
     admin.save!
   end
+
+  AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: 'secret123'
 end
 
 if !Admin.find_by_email('jamie.dempster@environment-agency.gov.uk')

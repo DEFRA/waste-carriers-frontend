@@ -26,6 +26,8 @@ gem 'password_strength', '~>0.3.2'
 
 gem 'govuk_frontend_toolkit'
 
+gem 'country_select'
+
 # Gems used only for assets and not required
 # in production environments by default.
 
@@ -58,7 +60,7 @@ gem 'capistrano', '~> 3.0.0'
 group :test do
   gem 'ci_reporter'
   gem 'cucumber-rails', require: false
-  gem 'database_cleaner', git: 'https://github.com/bmabey/database_cleaner.git'
+  gem 'database_cleaner', '~> 1.3.0'
   gem 'timecop', '~> 0.7.1'
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'shoulda-matchers'
