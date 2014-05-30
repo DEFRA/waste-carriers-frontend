@@ -101,6 +101,27 @@ describe Registration do
 
     before { subject.current_step = 'signup' }
 
+    describe 'presence' do
+      it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
+      it { should validate_presence_of(:accountEmail_confirmation).with_message(/must be completed/) }
+      it { should validate_presence_of(:password).with_message(/must be completed/) }
+      it { should validate_presence_of(:password_confirmation).with_message(/must be completed/) }
+    end
 
+    context 'format' do
+      subject { Registration.new(accountEmail: 'a@b.com', accountEmail_confirmation: 'a@b.com', password: 'please123', password_confirmation: 'please123') }
+
+      before { subject.current_step = 'signup' }
+
+      describe 'accountEmail' do
+        context 'with signup mode' do
+          before { subject.signup_mode = '' }
+        end
+
+        context 'without signup mode' do
+
+        end
+      end
+    end
   end
 end
