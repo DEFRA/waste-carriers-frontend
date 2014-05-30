@@ -121,7 +121,8 @@ class Registration < ActiveResource::Base
   with_options if: :signup_step? do |registration|
     registration.validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
     registration.validates :accountEmail_confirmation, presence: true, format: { with: VALID_EMAIL_REGEX }
-    registration.validates :password, presence: true
+    registration.validates :password, presence: true #, strong_password: true
+    registration.validates_strength_of :password, with: :accountEmail
     registration.validates :password_confirmation, presence: true
   end
 
