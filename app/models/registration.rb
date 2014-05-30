@@ -109,11 +109,15 @@ class Registration < ActiveResource::Base
 
   validates :companyName, presence: true, format: { with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\z/, message: I18n.t('errors.messages.alpha70') }, if: lambda { |o| o.current_step == 'businessdetails' }
 
-  validates :firstName, presence: true, if: lambda { |o| o.current_step == 'contactdetails' }
-  validates :lastName, presence: true, if: lambda { |o| o.current_step == 'contactdetails' }
-  validates :position, presence: true, if: lambda { |o| o.current_step == 'contactdetails' }
-  validates :phoneNumber, presence: true, if: lambda { |o| o.current_step == 'contactdetails' }
-  validates :contactEmail, presence: true, if: lambda { |o| o.current_step == 'contactdetails' }
+  validates :firstName, presence: true, if: :contactdetails_step?
+  validates :lastName, presence: true, if: :contactdetails_step?
+  validates :position, presence: true, if: :contactdetails_step?
+  validates :phoneNumber, presence: true, if: :contactdetails_step?
+  validates :contactEmail, presence: true, if: :contactdetails_step?
+
+  def contactdetails_step?
+    current_step.inquiry.contactdetails?
+  end
 
   # Business Step fields
   # validate :validate_businessType, :if => lambda { |o| o.current_step == "business" }
