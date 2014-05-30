@@ -79,6 +79,9 @@ describe Registration do
 
       it { should allow_value('John', 'John-Paul', 'Sally Ann', "T'pau").for(:firstName) }
       it { should_not allow_value('Johnnie5', 'K.R.S One').for(:firstName) }
+
+      it { should allow_value('Butler', 'Foster-Jones', 'McTavish', 'Mc Hale', "O'Brien").for(:lastName) }
+      it { should_not allow_value('1').for(:lastName) }
     end
   end
 end
