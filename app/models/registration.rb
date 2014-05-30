@@ -101,13 +101,13 @@ class Registration < ActiveResource::Base
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
 
-  validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: lambda { |o| o.current_step == "businesstype" }
-  validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "otherbusinesses" }
-  validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "serviceprovided" }
-  validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "constructiondemolition" }
-  validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "onlydealwith" }
+  validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: :businesstype_step?
+  validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :otherbusinesses_step?
+  validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :serviceprovided_step?
+  validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :constructiondemolition_step?
+  validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :onlydealwith_step?
 
-  validates :companyName, presence: true, format: { with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\z/, message: I18n.t('errors.messages.alpha70') }, if: lambda { |o| o.current_step == 'businessdetails' }
+  validates :companyName, presence: true, format: { with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\z/, message: I18n.t('errors.messages.alpha70') }, if: :businessdetails_step?
 
   with_options if: :contactdetails_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
@@ -115,6 +115,30 @@ class Registration < ActiveResource::Base
     registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }
     registration.validates :contactEmail, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
+  end
+
+  def businesstype_step?
+    current_step.inquiry.businesstype?
+  end
+
+  def otherbusinesses_step?
+    current_step.inquiry.otherbusinesses?
+  end
+
+  def serviceprovided_step?
+    current_step.inquiry.serviceprovided?
+  end
+
+  def constructiondemolition_step?
+    current_step.inquiry.constructiondemolition?
+  end
+
+  def onlydealwith_step?
+    current_step.inquiry.onlydealwith?
+  end
+
+  def businessdetails_step?
+    current_step.inquiry.businessdetails?
   end
 
   def contactdetails_step?
