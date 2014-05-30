@@ -70,6 +70,8 @@ describe Registration do
       it { should validate_presence_of(:position).with_message(/must be completed/) }
       it { should validate_presence_of(:phoneNumber).with_message(/must be completed/) }
       it { should validate_presence_of(:contactEmail).with_message(/must be completed/) }
+
+      it "should do different presence things for email based on assisted digital"
     end
 
     describe 'format' do
