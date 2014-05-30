@@ -64,10 +64,21 @@ describe Registration do
 
     before { subject.current_step = 'contactdetails' }
 
-    it { should validate_presence_of(:firstName).with_message(/must be completed/) }
-    it { should validate_presence_of(:lastName).with_message(/must be completed/) }
-    it { should validate_presence_of(:position).with_message(/must be completed/) }
-    it { should validate_presence_of(:phoneNumber).with_message(/must be completed/) }
-    it { should validate_presence_of(:contactEmail).with_message(/must be completed/) }
+    describe 'presence' do
+      it { should validate_presence_of(:firstName).with_message(/must be completed/) }
+      it { should validate_presence_of(:lastName).with_message(/must be completed/) }
+      it { should validate_presence_of(:position).with_message(/must be completed/) }
+      it { should validate_presence_of(:phoneNumber).with_message(/must be completed/) }
+      it { should validate_presence_of(:contactEmail).with_message(/must be completed/) }
+    end
+
+    describe 'format' do
+      subject { Registration.new(firstName: 'Barry', position: 'Pub landlord', lastName: 'Butler', phoneNumber: '999', contactEmail: 'barry@butler.com' ) }
+
+      before { subject.current_step = 'contactdetails' }
+
+      it { should allow_value('John', 'John-Paul').for(:firstName) }
+      it { should_not allow_value('Johnnie5', 'John Paul').for(:firstName) }
+    end
   end
 end
