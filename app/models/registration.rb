@@ -100,6 +100,7 @@ class Registration < ActiveResource::Base
   DISTANCES = %w[any 10 50 100]
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
+  VALID_EMAIL_REGEX = Devise.email_regexp
 
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: :businesstype_step?
   validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :otherbusinesses_step?
@@ -114,12 +115,12 @@ class Registration < ActiveResource::Base
     registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
     registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }
-    registration.validates :contactEmail, presence: true, format: { with: Devise.email_regexp }
+    registration.validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
   end
 
   with_options if: :signup_step? do |registration|
-    registration.validates :accountEmail, presence: true, format: { with: Devise.email_regexp }
-    registration.validates :accountEmail_confirmation, presence: true, format: { with: Devise.email_regexp }
+    registration.validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
+    registration.validates :accountEmail_confirmation, presence: true, format: { with: VALID_EMAIL_REGEX }
     registration.validates :password, presence: true
     registration.validates :password_confirmation, presence: true
   end
