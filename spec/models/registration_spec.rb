@@ -124,6 +124,9 @@ describe Registration do
 
         it { should allow_value('myPass145', 'myPass145$').for(:password) }
         it { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
+
+        it { should allow_value('myPass145', 'myPass145$').for(:password_confirmation) }
+        it { should_not allow_value('123', '123abc', 'aaaaa').for(:password_confirmation) }
       end
 
       context 'without signup mode' do
