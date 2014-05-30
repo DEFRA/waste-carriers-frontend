@@ -117,6 +117,13 @@ class Registration < ActiveResource::Base
     registration.validates :contactEmail, presence: true, format: { with: Devise.email_regexp }
   end
 
+  with_options if: :signup_step? do |registration|
+    registration.validates :accountEmail, presence: true
+    registration.validates :accountEmail_confirmation, presence: true
+    registration.validates :password, presence: true
+    registration.validates :password_confirmation, presence: true
+  end
+
   def businesstype_step?
     current_step.inquiry.businesstype?
   end
@@ -143,6 +150,10 @@ class Registration < ActiveResource::Base
 
   def contactdetails_step?
     current_step.inquiry.contactdetails?
+  end
+
+  def signup_step?
+    current_step.inquiry.signup?
   end
 
   # Business Step fields
