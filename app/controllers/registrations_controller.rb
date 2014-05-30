@@ -29,12 +29,8 @@ class RegistrationsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @registrations }
     end
-    #rescue ActiveResource::ServerError
-    #  redirect_to registrations_path(:error => 'Server Error detected, check the log for details. Detected searching for: ' + (params[:q] || '') )
-    #rescue Errno::ECONNREFUSED
-    # render :file => "/public/503.html", :status => 503
-  end
-
+end
+  
   # GET /your-registration/business-type
   def newBusinessType
     logger.info 'Request New Registration'
@@ -60,15 +56,15 @@ class RegistrationsController < ApplicationController
       # TODO set steps
 
       case @registration.businessType
-      when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
-        @registration.steps = %w[businesstype otherbusinesses]
-        redirect_to :newOtherBusinesses
-      when 'charity', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority'
-        @registration.steps = %w[businesstype business]
-        redirect_to :newBusinessDetails
-      when 'other'
-        @registration.steps = %w[businesstype noregistration]
-        redirect_to :newNoRegistration
+        when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
+          @registration.steps = %w[businesstype otherbusinesses]
+          redirect_to :newOtherBusinesses
+        when 'charity', 'authority'
+          @registration.steps = %w[businesstype business]
+          redirect_to :newBusinessDetails
+        when 'other'
+          @registration.steps = %w[businesstype noregistration]
+          redirect_to :newNoRegistration
       end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -108,10 +104,10 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
       case @registration.otherBusinesses
-      when 'yes'
-        redirect_to :newServiceProvided
-      when 'no'
-        redirect_to :newConstructionDemolition
+        when 'yes'
+          redirect_to :newServiceProvided
+        when 'no'
+          redirect_to :newConstructionDemolition
       end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -132,10 +128,10 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
       case @registration.isMainService
-      when 'yes'
-        redirect_to :newOnlyDealWith
-      when 'no'
-        redirect_to :newConstructionDemolition
+        when 'yes'
+          redirect_to :newOnlyDealWith
+        when 'no'
+          redirect_to :newConstructionDemolition
       end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -156,10 +152,10 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
-      when 'yes'
-        redirect_to :newRegistrationType
-      when 'no'
-        redirect_to :newBusinessDetails
+        when 'yes'
+          redirect_to :newRegistrationType
+        when 'no'
+          redirect_to :newBusinessDetails
       end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -180,10 +176,10 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
-      when 'yes'
-        redirect_to :newBusinessDetails
-      when 'no'
-        redirect_to :newRegistrationType
+        when 'yes'
+          redirect_to :newBusinessDetails
+        when 'no'
+          redirect_to :newRegistrationType
       end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -256,8 +252,6 @@ class RegistrationsController < ApplicationController
       else
         raise "Could not determine the registrant's business type!"
       end
-
-
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -333,13 +327,13 @@ class RegistrationsController < ApplicationController
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
   end
-
+  
   def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
     searchString_valid = searchString == nil || !searchString.empty? && (!searchString.match(Registration::VALID_CHARACTERS).nil?)
     searchWithin_valid = searchWithin == nil || !searchWithin.empty? && (['any','companyName','contactName','postcode'].include? searchWithin)
-    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance)
+    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance)    
     searchPostcode_valid = searchPostcode == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
-
+    
     searchCrossField_valid = true
     # Add cross field check, to ensure that correct params supplied if needed
     if !searchString.nil?
@@ -349,7 +343,7 @@ class RegistrationsController < ApplicationController
         end
       end
     end
-
+    
     logger.debug 'Validate Public Search Params Q:' + searchString_valid.to_s + ' SW:' + searchWithin_valid.to_s + ' D:' + searchDistance_valid.to_s + ' P:' + searchPostcode_valid.to_s + ' CF: ' + searchCrossField_valid.to_s
     searchString_valid && searchWithin_valid && searchDistance_valid && searchPostcode_valid && searchCrossField_valid
   end
@@ -363,9 +357,9 @@ class RegistrationsController < ApplicationController
     elsif current_user.email != tmpUser.email
       renderAccessDenied
     else
-      # Search for users registrations
+	  # Search for users registrations
       @registrations = Registration.find(:all, :params => {:ac => tmpUser.email}).sort_by { |r| r.date_registered}
-      respond_to do |format|
+	  respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
       end
@@ -376,22 +370,11 @@ class RegistrationsController < ApplicationController
   # GET /registrations/1.json
   def show
     renderNotFound
-    #    @registration = Registration.find(params[:id])
-    #    authorize! :read, @registration
-    #
-    #    respond_to do |format|
-    #      format.html # show.html.erb
-    #      format.json { render json: @registration }
-    #    end
-    #  rescue ActiveResource::ResourceNotFound
-    #    redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id] )
-  end
+end
 
-  #  def start
-  #  end
-
+  
   def print
-    begin
+  	begin
       @registration = Registration.find(params[:id])
     rescue ActiveResource::ResourceNotFound
       redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id])
@@ -405,7 +388,7 @@ class RegistrationsController < ApplicationController
         redirect_to registrations_path
       else
         logger.info 'Sign user out before redirecting back to GDS site'
-        sign_out        # Performs a signout action on the current user
+        sign_out 				# Performs a signout action on the current user
         redirect_to Rails.configuration.waste_exemplar_end_url
       end
     elsif params[:back]
@@ -424,14 +407,14 @@ class RegistrationsController < ApplicationController
         logger.debug 'Save Print state in the print page (go to Finish)'
         flash[:alert] = 'Finish'
       end
-      render :layout => 'printview'
+	  render :layout => 'printview'
     end
   end
 
 
   def confirmed
     @user = session[:confirmed_user]
-    if !@user
+    if !@user 
       logger.warn "Could not retrieve the activated user. Showing 404."
       renderNotFound
       return
@@ -445,7 +428,7 @@ class RegistrationsController < ApplicationController
       renderNotFound
       return
     end
-    #render the confirmed page
+    #render the confirmed page 
   end
 
 
@@ -478,20 +461,20 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(params[:id])
     authorize! :read, @registration
   end
-
+  
   def version
     @railsVersion = Rails.configuration.application_version
-
+    
     # Request version from REST api
     @apiVersionObj = Version.find(:one, :from => "/version.json" )
     if !@apiVersionObj.nil?
       logger.debug 'Version info, version number:' + @apiVersionObj.versionDetails + ' lastBuilt: ' + @apiVersionObj.lastBuilt
       @apiVersion = @apiVersionObj.versionDetails
     end
-
+    
     render :layout => false
   end
-
+  
   # Renders static data proctection page
   def dataProtection
   end
@@ -501,24 +484,7 @@ class RegistrationsController < ApplicationController
   def new
     renderNotFound
   end
-  #  def new
-  #    logger.info 'Request New Registration'
-  #    session[:registration_params] = {}
-  #    session[:registration_step] = nil
-  #    @registration = Registration.new(session[:registration_params])
-  #    @registration.current_step = session[:registration_step]
-  #    # Set route name based on agency paramenter
-  #    @registration.routeName = 'DIGITAL'
-  #    if !params[:agency].nil?
-  #      @registration.routeName = 'ASSISTED_DIGITAL'
-  #      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
-  #    end
-  #    # Prepop businessType with value from smarter answers
-  #    if !params[:smarterAnswersBusiness].nil?
-  #      logger.info 'Smart answers pre-pop detected: ' + params[:smarterAnswersBusiness]
-  #      @registration.businessType = params[:smarterAnswersBusiness]
-  #    end
-  #  end
+
 
   # GET /registrations/1/edit
   def edit
@@ -531,14 +497,14 @@ class RegistrationsController < ApplicationController
     end
     @registration.current_step = session[:registration_step]
   end
-
+  
   def ncccedit
     @registration = Registration.find(params[:id])
     @registration.routeName = @registration.metaData.route
     addressSearchLogic @registration
     authorize! :update, @registration
   end
-
+  
   def check_steps_are_valid_up_until_current current_step
     if !@registration.steps_valid?(current_step)
       redirect_to_failed_page(@registration.current_step)
@@ -546,7 +512,7 @@ class RegistrationsController < ApplicationController
       logger.debug 'Previous pages are valid'
     end
   end
-
+  
   def clearAddressNonManual(registration)
     registration.uprn = nil
     registration.postcodeSearch = nil
@@ -559,20 +525,20 @@ class RegistrationsController < ApplicationController
     registration.localAuthorityUpdateDate = nil
     registration.royalMailUpdateDate = nil
   end
-
+  
   def clearAddressNonUk(registration)
     clearAddressNonManual registration
     registration.streetLine3 = nil
     registration.streetLine4 = nil
     registration.country = nil
   end
-
+  
   def clearAddressNonForeign(registration)
     clearAddressNonManual registration
     registration.townCity = nil
     registration.postcode = nil
   end
-
+  
   def clearAddress(registration)
     clearAddressNonManual registration
     registration.streetLine1 = nil
@@ -583,9 +549,9 @@ class RegistrationsController < ApplicationController
     registration.townCity = nil
     registration.postcode = nil
   end
-
+  
   def addressSearchLogic(registration)
-
+    
     @addresses = []
     if params[:sManual]
       registration.addressMode = "manual-uk"
@@ -595,17 +561,17 @@ class RegistrationsController < ApplicationController
       registration.addressMode = nil
       clearAddress registration
     end
-
+    
     if registration.addressMode == "manual-foreign"
       clearAddressNonForeign registration
     elsif registration.addressMode == "manual-uk"
       clearAddressNonUk registration
     end
-
+    
     if params[:sPostcode]
       registration.postcodeSearch = params[:sPostcode]
     end
-
+    
     postcodeSearch = registration.postcodeSearch
     if postcodeSearch and postcodeSearch != ""
       postcode = registration.postcodeSearch
@@ -614,18 +580,18 @@ class RegistrationsController < ApplicationController
         @addresses = Address.find(:all, :params => {:postcode => postcode})
       rescue ActiveResource::ServerError
         @addresses = []
-        #
-        # TMP HACK ---
-        #
+      #
+      # TMP HACK ---
+      #
       rescue Errno::ECONNREFUSED
-        # This overrides default behaviour for service not running, by logging and carrying on rather than,
+        # This overrides default behaviour for service not running, by logging and carrying on rather than, 
         # redirecting to service unavailable page. This is currently neccesary to navigate using the system
         # if the service is not running.
         logger.error 'ERROR: Address Lookup Not running, or not Found'
         @addresses = []
-        #
-        # ---
-        #
+      #
+      # ---
+      #
       end
       if @addresses.length == 1
         registration.selectedMoniker =  @addresses[0].moniker
@@ -634,7 +600,7 @@ class RegistrationsController < ApplicationController
         @address = nil
       end
     end
-
+    
     if params[:sSelect] and params[:sSelect] != ""
       registration.selectedMoniker = params[:sSelect]
     end
@@ -643,7 +609,7 @@ class RegistrationsController < ApplicationController
       logger.info "Getting address for: "+selectedMoniker
       @address = Address.find(selectedMoniker)
     end
-
+    
     if @address and @address.lines!=nil
       registration.streetLine1 = @address.lines[0]
       registration.streetLine2 = @address.lines[1]
@@ -661,91 +627,62 @@ class RegistrationsController < ApplicationController
       registration.royalMailUpdateDate = @address.royalMailUpdateDate
     end
   end
-
+  
   def copyAddressToSession(registration)
-    session[:registration_params][:addressMode] = registration.addressMode
-    session[:registration_params][:streetLine1] = registration.streetLine1
-    session[:registration_params][:streetLine2] = registration.streetLine2
-    session[:registration_params][:streetLine3] = registration.streetLine3
-    session[:registration_params][:streetLine4] = registration.streetLine4
-    session[:registration_params][:townCity] = registration.townCity
-    session[:registration_params][:postcode] = registration.postcode
-    session[:registration_params][:uprn] = registration.uprn
-    session[:registration_params][:easting] = registration.easting
-    session[:registration_params][:northing] = registration.northing
-    session[:registration_params][:dependentLocality] = registration.dependentLocality
-    session[:registration_params][:dependentThroughfare] = registration.dependentThroughfare
-    session[:registration_params][:administrativeArea] = registration.administrativeArea
-    session[:registration_params][:localAuthorityUpdateDate] = registration.localAuthorityUpdateDate
-    session[:registration_params][:royalMailUpdateDate] = registration.royalMailUpdateDate
+  	  session[:registration_params][:addressMode] = registration.addressMode
+  	  session[:registration_params][:streetLine1] = registration.streetLine1
+      session[:registration_params][:streetLine2] = registration.streetLine2
+      session[:registration_params][:streetLine3] = registration.streetLine3
+      session[:registration_params][:streetLine4] = registration.streetLine4
+      session[:registration_params][:townCity] = registration.townCity
+      session[:registration_params][:postcode] = registration.postcode
+      session[:registration_params][:uprn] = registration.uprn
+      session[:registration_params][:easting] = registration.easting
+      session[:registration_params][:northing] = registration.northing
+      session[:registration_params][:dependentLocality] = registration.dependentLocality
+      session[:registration_params][:dependentThroughfare] = registration.dependentThroughfare
+      session[:registration_params][:administrativeArea] = registration.administrativeArea
+      session[:registration_params][:localAuthorityUpdateDate] = registration.localAuthorityUpdateDate
+      session[:registration_params][:royalMailUpdateDate] = registration.royalMailUpdateDate
   end
-
-
-
-  # def updateNewContactDetails
-  #   logger.info 'updateNewContactDetails()'
-
-  #   session[:registration_params] ||= {}
-  #   session[:registration_params].deep_merge!(registration_params) if params[:registration]
-
-  #   @registration = Registration.new(session[:registration_params])
-  #   addressSearchLogic @registration
-
-  #   @registration.current_step = "contact"
-
-  #   if params[:findAddress]
-  #     render "newContactDetails"
-  #   elsif @registration.valid?
-  #     logger.info 'Registration is valid so far, go to next page'
-  #     copyAddressToSession @registration
-  #     redirect_to :newConfirmation
-  #   elsif @registration.new_record?
-  #     # there is an error (but data not yet saved)
-  #     logger.info 'Registration is not valid, and data is not yet saved'
-  #     render "newContactDetails", :status => '400'
-  #   end
-  # end
-
-
-
-
+  
   def newSignup
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
-
+    
     # Pass in current page to check previous page is valid
     if !@registration.steps_valid?("signup")
       redirect_to_failed_page(@registration.current_step)
     else
       logger.debug 'Previous pages are valid'
-
-      # Prepopulate Email field/Set registration account
-      if user_signed_in?
-        logger.debug 'User already signed in using current email: ' + current_user.email
-        @registration.accountEmail = current_user.email
-      elsif agency_user_signed_in?
-        logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
-        @registration.accountEmail = current_agency_user.email
-      else
-        logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
-        @registration.accountEmail = @registration.contactEmail
-      end
-      # Get signup mode
-      @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-      logger.debug 'registration mode: ' + @registration.sign_up_mode
+      
+	  # Prepopulate Email field/Set registration account
+	  if user_signed_in? 
+	    logger.debug 'User already signed in using current email: ' + current_user.email
+	    @registration.accountEmail = current_user.email
+	  elsif agency_user_signed_in?
+	    logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
+	    @registration.accountEmail = current_agency_user.email
+	  else
+	    logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
+	    @registration.accountEmail = @registration.contactEmail
+	  end
+	  # Get signup mode
+	  @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
+	  logger.debug 'registration mode: ' + @registration.sign_up_mode
     end
   end
-
+  
   def updateNewSignup
     logger.info 'updateNewSignup()'
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = "signup"
-
+    
     # Prepopulate Email field/Set registration account
-    if user_signed_in?
+    if user_signed_in? 
       logger.debug 'User already signed in using current email: ' + current_user.email
       @registration.accountEmail = current_user.email
     elsif agency_user_signed_in?
@@ -764,12 +701,10 @@ class RegistrationsController < ApplicationController
         @user.save!
         logger.debug "User has been saved."
         ## the newly created user has to active his account before being able to sign in
-        #sign_in @user
-        #logger.debug "The newly saved user has been signed in"
-
+		  
         # Reset Signed up user to signed in status
         @registration.sign_up_mode = 'sign_in'
-      else
+	    else
         logger.debug "Registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode.to_s
         if @registration.sign_up_mode == 'sign_in'
           @user = User.find_by_email(@registration.accountEmail)
@@ -795,8 +730,8 @@ class RegistrationsController < ApplicationController
           @user = User.find_by_email(@registration.accountEmail)
         end
       end
-
-      logger.debug "Now asking whether registration is all valid"
+	  
+	    logger.debug "Now asking whether registration is all valid"
       if @registration.all_valid?
         logger.debug "The registration is all valid. About to save the registration..."
         @registration.save!
@@ -807,7 +742,7 @@ class RegistrationsController < ApplicationController
           @registration.accessCode = @registration.generate_random_access_code
         end
         # The user is signed in at this stage if he activated his e-mail/account (for a previous registration)
-        # Assisted Digital registrations (made by the signed in agency user) do not need verification either.
+        # Assisted Digital registrations (made by the signed in agency user) do not need verification either. 
         if agency_user_signed_in? || user_signed_in?
           @registration.activate!
         end
@@ -821,11 +756,11 @@ class RegistrationsController < ApplicationController
       else
         logger.error "GGG - The registration is NOT valid!"
       end
-
+	  
       # Clear session and redirect to Finish
       session[:registration_step] = session[:registration_params] = nil
       if !@registration.id.nil?
-        ## Account not yet activated for new user. Cannot redirect to the finish URL
+        ## Account not yet activated for new user. Cannot redirect to the finish URL 
         if agency_user_signed_in? || user_signed_in?
           redirect_to finish_url(:id => @registration.id)
         else
@@ -842,7 +777,7 @@ class RegistrationsController < ApplicationController
       render "newSignup", :status => '400'
     end
   end
-
+  
   def pending
     @registration = Registration.find(session[:registration_id])
   end
@@ -861,151 +796,7 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # POST /registrations
-  # POST /registrations.json
-  #  def create
-  #   session[:registration_params] ||= {}
-  #    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-  #    @registration= Registration.new(session[:registration_params])
-  #    @registration.current_step = session[:registration_step]
-  #    first = @registration.first_step?
-  #
-  #    # Log current Step
-  #    logger.info 'current step is: ' + @registration.current_step
-  #
-  #    # Log persisted
-  #    if @registration.persisted?
-  #      logger.info 'persisted is true'
-  #    elsif !@registration.persisted?
-  #      logger.info 'persisted is false'
-  #    else
-  #      logger.info 'persisted is not known'
-  #    end
-  #
-  # # Log whether the user is currently logged in
-  #    if user_signed_in?
-  #      logger.info 'User Signed in ' + current_user.email
-  #    elsif agency_user_signed_in?
-  #      logger.info 'Agency User Signed in ' + current_agency_user.email
-  #    elsif !user_signed_in?
-  #      logger.info 'User NOT Signed in'
-  #    else
-  #      logger.info 'User status not known'
-  #    end
-  #
-  #    #logger.info 'sign_up_mode: ' + @registration.sign_up_mode
-  #
-  #    if params[:back]
-  #      @registration.previous_step
-  #      session[:registration_step] = @registration.current_step
-  #
-  #      logger.info 'Navigate back to previous step'
-  #
-  #    elsif @registration.valid?
-  #      if @registration.confirmation_step?
-  #
-  #        # Prepopulate Email field/Set registration account
-  #        if user_signed_in?
-  #          logger.debug 'User already signed in using current email: ' + current_user.email
-  #          @registration.accountEmail = current_user.email
-  #        elsif agency_user_signed_in?
-  #          logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
-  #          @registration.accountEmail = current_agency_user.email
-  #        else
-  #          logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
-  #          @registration.accountEmail = @registration.contactEmail
-  #        end
-  #
-  #        # Get signup mode
-  #        @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-  #        logger.debug 'registration mode: ' + @registration.sign_up_mode
-  #
-  #      end
-  #
-  #      logger.info 'Registration is potentially valid...'
-  #
-  #      if @registration.last_step?
-  #        if @registration.sign_up_mode == 'sign_up'
-  #          logger.debug "The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.accountEmail
-  #          @user = User.new
-  #          @user.email = @registration.accountEmail
-  #          @user.password = @registration.password
-  #          logger.debug "About to save the new user."
-  #          @user.save!
-  #          logger.debug "User has been saved."
-  #          sign_in @user
-  #          logger.debug "The newly saved user has been signed in"
-  #
-  #          # Reset Signed up user to signed in status
-  #          @registration.sign_up_mode = 'sign_in'
-  #        else
-  #          logger.debug "Registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode
-  #          if @registration.sign_up_mode == 'sign_in'
-  #           @user = User.find_by_email(@registration.accountEmail)
-  #            if @user.valid_password?(@registration.password)
-  #              logger.info "The user's password is valid. Signing in user " + @user.email
-  #              sign_in @user
-  #            else
-  #              logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
-  #              #TODO error - should have caught the error in validation
-  #            end
-  #          else
-  #           logger.debug "User signed in, set account email to user email and get user"
-  #           if user_signed_in?
-  #         @registration.accountEmail = current_user.email
-  #       elsif agency_user_signed_in?
-  #         @registration.accountEmail = current_agency_user.email
-  #       end
-  #           @user = User.find_by_email(@registration.accountEmail)
-  #          end
-  #        end
-  #        logger.debug "Now asking whether registration is all valid"
-  #        if @registration.all_valid?
-  #          logger.debug "The registration is all valid. About to save the registration..."
-  #          @registration.save!
-  #          logger.info 'Perform an additional save, to set the Route Name in metadata'
-  #          logger.info 'routeName = ' + @registration.routeName
-  #          @registration.metaData.route = @registration.routeName
-  #          if agency_user_signed_in?
-  #            @registration.accessCode = @registration.generate_random_access_code
-  #          end
-  #          @registration.save!
-  #          logger.debug "The registration has been saved. About to send e-mail..."
-  #          if user_signed_in?
-  #            RegistrationMailer.welcome_email(@user, @registration).deliver
-  #          end
-  #          logger.debug "registration e-mail has been sent."
-  #        else
-  #          logger.error "GGG - The registration is NOT valid!"
-  #        end
-  #      else
-  #        @registration.next_step
-  #      end
-  #      session[:registration_step] = @registration.current_step
-  #    end
-  #    if params[:back] and first
-  #      session[:registration_step] = nil
-  #      if @registration.routeName == 'DIGITAL'
-  #        if user_signed_in?
-  #          logger.debug 'User already signed in so redirect to my account page'
-  #          redirect_to userRegistrations_path(current_user.id)
-  #        else
-  #          logger.debug 'User not signed in so redirect to smarter answers'
-  #          redirect_to :find
-  #        end
-  #      else
-  #        logger.debug 'Assisted digital route detected, redirect to search page'
-  #        redirect_to registrations_path
-  #      end
-  #    elsif @registration.new_record?
-  #      render "new"
-  #    else
-  #      session[:registration_step] = session[:registration_params] = nil
-  #      redirect_to finish_url(:id => @registration.id)
-  #    end
-  #
-  #  end
-
+  
 
   #PUT...
   def ncccupdate
@@ -1022,25 +813,25 @@ class RegistrationsController < ApplicationController
     elsif params[:revoke]
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
-
+        
         # Merge param information with registration from DB
         @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
-
+        
         # Forceably set the revoked value in the registration to now check for a revoke reason
         if params[:revoke_question] == 'yes'
           logger.info 'Revoke set, so should now run additional rule'
           @registration.revoked = 'true'
         end
-
+        
         if @registration.all_valid?
           @registration.metaData.status = "REVOKED"
           @registration.revoked = ''
           @registration.save
-
+          
           logger.info 'About to send revoke email'
           @user = User.find_by_email(@registration.accountEmail)
           RegistrationMailer.revoke_email(@user, @registration).deliver
-
+          
           redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_revoked') )
         else
           render "ncccedit"
@@ -1079,8 +870,8 @@ class RegistrationsController < ApplicationController
       end
     end
   end
-
-  def updatedParameters(databaseMetaData, submittedParams)
+  
+  def updatedParameters(databaseMetaData, submittedParams) 
     # Save DB MetaData
     dbMetaData = databaseMetaData
     # Create a new Registration from submitted params
@@ -1096,46 +887,6 @@ class RegistrationsController < ApplicationController
     regFromParams.attributes
   end
 
-  # PUT /registrations/1
-  # PUT /registrations/1.json
-  #  def update
-  #    session[:registration_params] ||= {}
-  #    session[:registration_params].deep_merge!(params[:registration]) if params[:registration]
-  #    @registration = Registration.find(params[:id])
-  #    @registration.current_step = session[:registration_step]
-  #    first = @registration.first_step?
-  #    last = @registration.last_step?
-  #    if params[:back]
-  #      @registration.previous_step
-  #      session[:registration_step] = @registration.current_step
-  #    else
-  #      if @registration.valid?
-  #        logger.info "Performing update of registration"
-  #        @registration.update_attributes(session[:registration_params])
-  #        @registration.current_step = session[:registration_step]
-  #        first = @registration.first_step?
-  #        last = @registration.last_step?
-  #        if @registration.last_step?
-  #          @registration.save if @registration.all_valid?
-  #        else
-  #          @registration.next_step
-  #        end
-  #        session[:registration_step] = @registration.current_step
-  #      end
-  #    end
-  #    if params[:back] and first
-  #      session[:registration_step] = nil
-  #      logger.info "Redirected back to My account summary, also cleared registration session"
-  #      session[:registration_params] ||= {}
-  #      redirect_to userRegistrations_path(current_user.id)
-  #    elsif params[:back] or not (last and @registration.all_valid?)
-  #      render "edit"
-  #    else
-  #      session[:registration_step] = session[:registration_params] = nil
-  #      logger.info "This should have been a signed in user, completing an update redirecting to my account"
-  #      redirect_to userRegistrations_path(current_user.id)
-  #    end
-  #  end
 
   # DELETE /registrations/1
   # DELETE /registrations/1.json
@@ -1152,12 +903,12 @@ class RegistrationsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
   def confirmDelete
     @registration = Registration.find(params[:id])
     authorize! :update, @registration
   end
-
+  
   def publicSearch
     distance = params[:distance]
     searchString = params[:q]
@@ -1173,7 +924,7 @@ class RegistrationsController < ApplicationController
       flash.now[:notice] = I18n.t('registrations.form.invalid_public_params')
     end
   end
-
+  
   def notfound
     redirect_to registrations_path(:error => params[:message] )
   end
@@ -1193,7 +944,7 @@ class RegistrationsController < ApplicationController
       authenticate_user!
     end
   end
-  ########## Upper Tier Regisration #####################
+########## Upper Tier Regisration #####################
 
   def update_model(current_step)
 
@@ -1222,9 +973,9 @@ class RegistrationsController < ApplicationController
       redirect_to :upper_contact_detail
     end
   end
-  ######################################
+######################################
 
-  private
+private
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
@@ -1236,10 +987,10 @@ class RegistrationsController < ApplicationController
       :alt_telephone_number,
       :alt_email_address,
       :primary_first_name,
-      :primary_last_name,
-      :primary_job_title,
-      :primary_telephone_number,
-      :primary_email_address,
+       :primary_last_name,
+       :primary_job_title,
+       :primary_telephone_number,
+       :primary_email_address,
       :businessType,
       :registrationType,
       :otherBusinesses,
@@ -1271,7 +1022,7 @@ class RegistrationsController < ApplicationController
       :password,
       :password_confirmation,
       :accountEmail_confirmation,
-    :sign_up_mode)
-  end
-
+      :sign_up_mode)
+  end 
+   
 end

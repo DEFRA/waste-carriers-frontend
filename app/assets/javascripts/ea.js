@@ -384,15 +384,6 @@
 		return false;
 	}
 
-	/*
-	* Useful Notes:
-	// Individual radio reset
-	//$('#discover_otherBusinesses_yes').prop('checked', false);
-	*
-	// Log message to console
-	//if (window.console) console.log('my message: ' + valuetotest);
-	*/
-
 	function toggleSignInUp(){
 		var signin = $('#registration_sign_up_mode').val() == "sign_in";
 		var signup = $('#registration_sign_up_mode').val() == "sign_up";

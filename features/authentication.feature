@@ -1,3 +1,4 @@
+@authentication
 Feature: Authentication
 
 Generally, the application supports three types of users:
