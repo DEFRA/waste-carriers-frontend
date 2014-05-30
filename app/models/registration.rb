@@ -114,7 +114,7 @@ class Registration < ActiveResource::Base
     registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, if: :contactdetails_step?
     registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, if: :contactdetails_step?
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }, if: :contactdetails_step?
-    registration.validates :contactEmail, presence: true, if: :contactdetails_step?
+    registration.validates :contactEmail, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }, if: :contactdetails_step?
   end
 
   def contactdetails_step?
