@@ -122,7 +122,7 @@ class Registration < ActiveResource::Base
     registration.validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
     registration.validates :accountEmail_confirmation, presence: true, format: { with: VALID_EMAIL_REGEX }
     registration.validates :password, presence: true #, strong_password: true
-    registration.validates_strength_of :password, with: :accountEmail
+    registration.validates_strength_of [:password, :password_confirmation], with: :accountEmail
     registration.validates :password_confirmation, presence: true
   end
 
