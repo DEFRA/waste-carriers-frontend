@@ -60,11 +60,11 @@ describe Registration do
   end
 
   context 'contactdetails step' do
-    subject { Registration.new }
-
-    before { subject.current_step = 'contactdetails' }
-
     describe 'presence' do
+      subject { Registration.new }
+
+      before { subject.current_step = 'contactdetails' }
+
       it { should validate_presence_of(:firstName).with_message(/must be completed/) }
       it { should validate_presence_of(:lastName).with_message(/must be completed/) }
       it { should validate_presence_of(:position).with_message(/must be completed/) }
