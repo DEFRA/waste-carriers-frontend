@@ -66,7 +66,7 @@ end
 
 group :development do
   gem 'letter_opener', '~> 1.2.0'
-  gem 'meta_request'
+  gem 'meta_request'  #allows the use of the RailsPanel plugin on Chrome
 end
 
 group :test, :development do
