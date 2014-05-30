@@ -113,20 +113,18 @@ describe Registration do
 
       before { subject.current_step = 'signup' }
 
-      describe 'accountEmail' do
-        context 'with signup mode' do
-          before { subject.signup_mode = 'sign_up' }
+      context 'with signup mode' do
+        before { subject.signup_mode = 'sign_up' }
 
-          it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:accountEmail) }
-          it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail) }
+        it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:accountEmail) }
+        it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail) }
 
-          it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:accountEmail_confirmation) }
-          it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail_confirmation) }
-        end
+        it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:accountEmail_confirmation) }
+        it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail_confirmation) }
+      end
 
-        context 'without signup mode' do
-          before { subject.sign_up_mode = '' }
-        end
+      context 'without signup mode' do
+        before { subject.sign_up_mode = '' }
       end
     end
   end
