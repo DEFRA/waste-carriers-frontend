@@ -110,11 +110,11 @@ class Registration < ActiveResource::Base
   validates :companyName, presence: true, format: { with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\z/, message: I18n.t('errors.messages.alpha70') }, if: lambda { |o| o.current_step == 'businessdetails' }
 
   with_options if: :contactdetails_step? do |registration|
-    registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, if: :contactdetails_step?
-    registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, if: :contactdetails_step?
-    registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, if: :contactdetails_step?
-    registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }, if: :contactdetails_step?
-    registration.validates :contactEmail, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }, if: :contactdetails_step?
+    registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
+    registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
+    registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
+    registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }
+    registration.validates :contactEmail, presence: true, format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
   end
 
   def contactdetails_step?
