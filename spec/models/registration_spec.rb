@@ -58,4 +58,16 @@ describe Registration do
     it { should allow_value('a' * 70, 'Dun & Bradstreet', '37signals', "Barry's Bikes").for(:companyName) }
     it { should_not allow_value('a' * 71, '', '<script>alert("hi");</script>').for(:companyName) }
   end
+
+  context 'contactdetails step' do
+    subject { Registration.new }
+
+    before { subject.current_step = 'contactdetails' }
+
+    it { should validate_presence_of(:firstName).with_message(/must be completed/) }
+    it { should validate_presence_of(:lastName).with_message(/must be completed/) }
+    it { should validate_presence_of(:position).with_message(/must be completed/) }
+    it { should validate_presence_of(:phoneNumber).with_message(/must be completed/) }
+    it { should validate_presence_of(:contactEmail).with_message(/must be completed/) }
+  end
 end
