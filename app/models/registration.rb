@@ -112,7 +112,7 @@ class Registration < ActiveResource::Base
   with_options if: :contactdetails_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, if: :contactdetails_step?
     registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, if: :contactdetails_step?
-    registration.validates :position, presence: true, if: :contactdetails_step?
+    registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, if: :contactdetails_step?
     registration.validates :phoneNumber, presence: true, if: :contactdetails_step?
     registration.validates :contactEmail, presence: true, if: :contactdetails_step?
   end
