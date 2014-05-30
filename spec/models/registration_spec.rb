@@ -121,6 +121,9 @@ describe Registration do
 
         it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:accountEmail_confirmation) }
         it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail_confirmation) }
+
+        it { should allow_value('myPass145', 'myPass145$').for(:password) }
+        it { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
       end
 
       context 'without signup mode' do
