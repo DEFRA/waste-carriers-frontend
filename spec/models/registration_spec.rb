@@ -18,4 +18,14 @@ describe Registration do
     it { should allow_value('yes', 'no').for(:otherBusinesses) }
     it { should_not allow_value('y', 'n').for(:otherBusinesses) }
   end
+
+  context 'serviceprovided step' do
+    subject { Registration.new }
+
+    before { subject.current_step = 'serviceprovided' }
+
+    it { should validate_presence_of(:isMainService).with_message(/must be completed/) }
+    it { should allow_value('yes', 'no').for(:isMainService) }
+    it { should_not allow_value('y', 'n').for(:isMainService) }
+  end
 end
