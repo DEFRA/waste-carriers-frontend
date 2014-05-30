@@ -136,13 +136,14 @@ en:
     '10': "10 Miles"
     '50': "50 Miles"
     '100': "100 Miles"
-  #Standard form controls/options
+  #Standard form labels
   form:
     yes_option_label: "Yes"
     no_option_label: "No"
     next_button_label: "Next"
     back_button_label: "Back"
     edit_these_details: "Edit these details"
+    find_companies_house_details:  "Companies House number"
 
   activemodel:
     models:
@@ -380,6 +381,13 @@ en:
       subtitle: "Provide contact details for your business or organisation"
       step: "Step 6 of 9"
       legend: "These will not be made public"
+      upper_reg_legend_1: "Your contact details"
+      upper_reg_subtitle_1: "Enter your business details"
+      upper_reg_subtitle_2: "Enter your organisation details"
+      upper_reg_legend_2: "Director contact details"
+      manual_uk_address_link: "I want to add an address myself"
+      manual_non_uk_address_link: "I have an address outside the United Kingdom"
+      manual_company_details_link: "Enter details manually"
     registrationtype_step:
       title: "Business type"
       subtitle: "Carrier, broker or dealer"
@@ -394,7 +402,7 @@ en:
       step: "Step 7 of 9"
       smart_answers_heading: "You told us"
       declaration_heading: "Declaration"
-      declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as a Lower Tier Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
+      declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as %{tier_level} Tier Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
       data_protection_heading: "How we use your personal information"
       data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
       privacy_policy: "Privacy policy and cookies"
@@ -443,6 +451,8 @@ en:
       change: "Change"
       foreignAddressLink: "I have an address outside the United Kingdom"
       findAddress: "Find address"
+      findCompanyDetails: "Find details"
+      findCompaniesHouse: "Find your Companies House number"
       search_address_label: "Search for address by postcode"
       no_results_error: "There are no addresses for the given postcode"
       postcode_search_error: "A postcode must be provided"
