@@ -107,6 +107,8 @@ class Registration < ActiveResource::Base
   validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "constructiondemolition" }
   validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: lambda { |o| o.current_step == "onlydealwith" }
 
+  validates :companyName, presence: true, if: lambda { |o| o.current_step == 'businessdetails' }
+
 
   # Business Step fields
   # validate :validate_businessType, :if => lambda { |o| o.current_step == "business" }

@@ -48,4 +48,14 @@ describe Registration do
     it { should allow_value('yes', 'no').for(:onlyAMF) }
     it { should_not allow_value('y', 'n').for(:onlyAMF) }
   end
+
+  context 'businessdetails step' do
+    subject { Registration.new }
+
+    before { subject.current_step = 'businessdetails' }
+
+    it { should validate_presence_of(:companyName).with_message(/must be completed/) }
+    it { should allow_value('a' * 70, 'Dun & Bradstreet', '37signals', "Barry's Bikes").for(:companyName) }
+    it { should_not allow_value('a' * 71, '', '<script>alert("hi");</script>').for(:companyName) }
+  end
 end
