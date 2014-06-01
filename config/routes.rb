@@ -2,45 +2,45 @@ Registrations::Application.routes.draw do
   #scope '(:locale)' do
 	  devise_for :users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations", :confirmations => "confirmations"}
 	    as :user do
-	      get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'    
-	      put 'users/:id' => 'devise/registrations#update', :as => 'user_registration'            
+	      get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
+	      put 'users/:id' => 'devise/registrations#update', :as => 'user_registration'
 	    end
 
 	  devise_for :agency_users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
 	    as :agency_user do
-	      get 'agency_users/edit' => 'devise/registrations#edit', :as => 'edit_agency_user_registration'    
-	      put 'agency_users/:id' => 'devise/registrations#update', :as => 'agency_user_registration'            
+	      get 'agency_users/edit' => 'devise/registrations#edit', :as => 'edit_agency_user_registration'
+	      put 'agency_users/:id' => 'devise/registrations#update', :as => 'agency_user_registration'
 	    end
 
 	  devise_for :admins, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
 	    as :admin do
-	      get 'admins/edit' => 'devise/registrations#edit', :as => 'edit_admin_registration'    
-	      put 'admins/:id' => 'devise/registrations#update', :as => 'admin_registration'            
+	      get 'admins/edit' => 'devise/registrations#edit', :as => 'edit_admin_registration'
+	      put 'admins/:id' => 'devise/registrations#update', :as => 'admin_registration'
 	    end
 
 	  root :to => "home#index"
 
 	  get "home/index"
 	  get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
-	  
+
 	  get "registrations/find" => 'registrations#newBusinessType', :via => [:get, :post], :as => :find
-	  
+
 	  # Add routing for Public Search
 	  get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
-	  
+
 	  #get "registrations/start" => 'registrations#start', :as => :start
 	  get "registrations/:id/finish" => 'registrations#finish', :as => :finish
 	  match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
 	  match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
 	  get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
 	  get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
-	  
+
 	  # Add routing for confirm delete registration
 	  get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
-	  
+
 	  # Add a new route for the print view
 	  match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
-	 
+
 	  # Registration urls - Smart answers
     match "your-registration/business-type" => 'registrations#newBusinessType', :via => [:get], :as => :newBusinessType
     match "your-registration/business-type" => 'registrations#updateNewBusinessType', :via => [:post,:put,:patch]
@@ -63,20 +63,20 @@ Registrations::Application.routes.draw do
     # Registration urls - Lower tier
 	  match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
 	  match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
-	  
+
 	  match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
 	  match "your-registration/contact-details" => 'registrations#updateNewContactDetails', :via => [:post,:put,:patch]
-	  
+
 	  match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
 	  match "your-registration/confirmation" => 'registrations#updateNewConfirmation', :via => [:post,:put,:patch]
-	  
+
 	  match "your-registration/signup" => 'registrations#newSignup', :via => [:get], :as => :newSignup
 	  match "your-registration/signup" => 'registrations#updateNewSignup', :via => [:post,:put,:patch]
-	 
-	  get "your-registration/confirm-account" => 'registrations#pending', :as => :pending 
+
+	  get "your-registration/confirm-account" => 'registrations#pending', :as => :pending
 	  match "your-registration/print" => 'registrations#print_confirmed', :via => [:get,:patch], :as => :print_confirmed
-	   
-	  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed 
+
+	  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
     # Registration urls - Upper-tier process
     get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
@@ -88,8 +88,8 @@ Registrations::Application.routes.draw do
     get "your-registration/upper/business-address" => "registrations#business_address", :as => :upper_business_address
     post "your-registration/upper/business-address" => "registrations#business_address_update"
 
-    get "your-registration/upper/contact-detail" => "registrations#contact_detail", :as => :upper_contact_detail
-    post "your-registration/upper/contact-detail" => "registrations#contact_detail_update"
+    get "your-registration/upper-tier-contact-details" => "registrations#newUpperContactDetails", :as => :upper_contact_details
+    post "your-registration/upper-tier-contact-details" => "registrations#updateNewUpperContactDetails"
 
     get "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction", :as => :upper_relevant_conviction
     post "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction_update"
@@ -100,13 +100,12 @@ Registrations::Application.routes.draw do
     get "your-registration/upper/summary" => "registrations#summary", :as => :upper_summary
     post "your-registration/upper/summary" => "registrations#summary_update"
 
-	  #scope "/administration" do 
+	  #scope "/administration" do
 	  #  resources :agency_users
 	  #end
-	  
-	  resources :discovers
+
 #  end
-  
+
   resources :agency_users
 
   get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user

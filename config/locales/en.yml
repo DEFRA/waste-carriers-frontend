@@ -378,8 +378,11 @@ en:
     contactdetails_step:
       title: "Contact details"
       subtitle: "Provide contact details for your business or organisation"
+      subtitle_upper: "Enter your %{business_caption} details"
       step: "Step 6 of 9"
       legend: "These will not be made public"
+      legend_upper_simple: "Your contact details"
+      legend_upper_director: "Director contact details"
     registrationtype_step:
       title: "Business type"
       subtitle: "Carrier, broker or dealer"
