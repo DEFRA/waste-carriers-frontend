@@ -4,7 +4,16 @@
 <div id="page7"  data-journey="waste-carriers-registration:contact-details">
 
   <fieldset>
-    <legend><%= t '.legend' %></legend>
+  <% if  registration_phase == 'upper' %>
+    <% if ['soleTrader', 'publicBody'].include? @registration.businessType %>
+     <legend><%= t '.legend_upper_simple' %></legend>
+     <% elsif @registration.businessType == 'limitedCompany' %>
+      <legend><%= t '.legend_upper_director' %></legend>
+    <% end %>
+  <% else %> <!-- lower phase-->
+     <legend><%= t '.legend' %></legend>
+  <% end %>
+
     <p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
       <%= validation_for(@registration, :firstName) %>
       <%= f.label :firstName %>
