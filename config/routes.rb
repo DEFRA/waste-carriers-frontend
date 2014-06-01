@@ -97,8 +97,8 @@ Registrations::Application.routes.draw do
     get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
     post "your-registration/payment" => "registrations#updateNewPayment"
 
-    get "your-registration/upper/summary" => "registrations#summary", :as => :upper_summary
-    post "your-registration/upper/summary" => "registrations#summary_update"
+    get "your-registration/upper-tier-summary" => "registrations#newUpperSummary", :as => :upper_summary
+    post "your-registration/upper-tier-summary" => "registrations#updateNewUpperSummary"
 
 
 #  end
