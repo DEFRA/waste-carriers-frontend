@@ -210,6 +210,7 @@ en:
       upper_registration:
         business_name: "Business or organisation trading name"
         postcode: "Postcode"
+        company_no: 'Company Number'
         relevant_conviction: "Relevant convictions"
         copy_cards: "Copy card"
         payment_method: "Choose payment method"
@@ -280,6 +281,7 @@ en:
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
       progress: "Progress: "
       find_address_button_label: "Find address"
+      find_address_button_label_2: "Find details"
       find_details_button_label: "Find details"
       next_button_label: "Next"
       back_button_label: "Back"
@@ -442,6 +444,7 @@ en:
       selectAddress: "Select address"
       findAddressUsingPostcode: "Find address using postcode"
       manual_address_label: "I want to add an address myself"
+      manual_address_label_2: "Enter details manually"
       streetLine1Foreign: "Address"
       change: "Change"
       foreignAddressLink: "I have an address outside the United Kingdom"
@@ -529,6 +532,17 @@ en:
       responsibilities4: "Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'"
     print_confirmed:
       title: "Waste carrier registration certificate"
+    newPayment:
+      title: "Payment"
+      subtitle: "Payment"
+      total_label: "Total to pay"
+      new_reg_label: "New registration"
+      copy_card_label: "Copy cards cost £5 each"
+      copy_card_info_link: "What are copy cards?"
+      payment_method_label: "Choose payment method"
+      payment_method_debit_credit: "Pay by debit or credit card"
+      payment_method_elec_transfer: "Pay by electronic transfer"
+      trouble_paying_link: "Trouble paying?"
     userRegistrations:
       subtitle: "Your registrations"
       summaryText: "Your registrations are listed below. You can create a new registration for a business or organisation and you can change any you have previously created. You must tell us if any of your registration details change, within 28 days of the change."

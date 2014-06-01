@@ -248,13 +248,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'registrationtype'
     @registration.registration_phase = 'upper'
     if @registration.valid?
-      case @registration.businessType
-      when 'soleTrader'
         redirect_to :upper_contact_details
-
-      when 'limitedCompany'
-        redirect_to :upper_contact_details
-      end
 
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -1168,12 +1162,30 @@ class RegistrationsController < ApplicationController
     setup_registration 'upper_contact_details'
 
     if @registration.valid?
-
+      redirect_to :upper_payment
 
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newRegistrationType", :status => '400'
+    end
+  end
+
+   # GET upper-registrations/payment
+  def newPayment
+    new_step_action 'payment'
+    # update_model("payment")
+  end
+
+  # POST upper-registrations/payment
+  def updateNewPayment
+
+    # update_model("payment")
+
+    if @registration.valid?
+      redirect_to :upper_summary
+    else
+      redirect_to :upper_payment
     end
   end
 
@@ -1228,6 +1240,7 @@ class RegistrationsController < ApplicationController
       :password_confirmation,
       :accountEmail_confirmation,
       :registration_phase,
+      :company_no,
     :sign_up_mode)
   end
 

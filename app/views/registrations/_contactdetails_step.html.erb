@@ -10,7 +10,7 @@
      <% elsif @registration.businessType == 'limitedCompany' %>
       <legend><%= t '.legend_upper_director' %></legend>
     <% end %>
-  <% else %> <!-- lower phase-->
+  <% else %> <!-- registration_phase == lower -->
      <legend><%= t '.legend' %></legend>
   <% end %>
 
@@ -41,6 +41,9 @@
     </p>
   </fieldset>
 
+
 </div>
 
+<% unless  registration_phase == 'upper' %>
 <%= render 'wizard_links' %>
+<% end %>
