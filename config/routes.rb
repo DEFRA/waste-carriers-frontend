@@ -94,15 +94,12 @@ Registrations::Application.routes.draw do
     get "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction", :as => :upper_relevant_conviction
     post "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction_update"
 
-    get "your-registration/upper/payment" => "registrations#payment", :as => :upper_payment
-    post "your-registration/upper/payment" => "registrations#payment_update"
+    get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
+    post "your-registration/payment" => "registrations#updateNewPayment"
 
     get "your-registration/upper/summary" => "registrations#summary", :as => :upper_summary
     post "your-registration/upper/summary" => "registrations#summary_update"
 
-	  #scope "/administration" do
-	  #  resources :agency_users
-	  #end
 
 #  end
 
