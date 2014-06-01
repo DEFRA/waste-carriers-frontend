@@ -4,7 +4,7 @@
 <div id="page7"  data-journey="waste-carriers-registration:contact-details">
 
   <fieldset>
-  <% if  registration_phase == 'upper' %>
+  <% if  registration_phase && registration_phase == 'upper' %>
     <% if ['soleTrader', 'publicBody'].include? @registration.businessType %>
      <legend><%= t '.legend_upper_simple' %></legend>
      <% elsif @registration.businessType == 'limitedCompany' %>

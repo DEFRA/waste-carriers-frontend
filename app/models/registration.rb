@@ -40,6 +40,10 @@ class Registration < ActiveResource::Base
     string :royalMailUpdateDate
     string :localAuthorityUpdateDate
     string :company_no
+
+    integer :total_fee
+    integer :registration_fee
+    integer :copy_card_fee
     integer :copy_cards
 
     # Non UK fields
