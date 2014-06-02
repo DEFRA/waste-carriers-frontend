@@ -36,7 +36,6 @@ Given(/^the caller provides his contact details$/) do
   fill_in 'Last name', with: 'Assisted'
   fill_in 'Job title', with: 'Chief'
   fill_in 'Phone number', with: '0123 456 789'
-  fill_in 'Email address', with: ''
 
   click_on 'Next'
 end
