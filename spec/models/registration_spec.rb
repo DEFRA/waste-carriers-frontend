@@ -92,6 +92,7 @@ describe Registration do
 
       it { should allow_value('0117 9109099', '(0)117 9109099', '+44 (0)117 9109099', '+44 (0)117 91-09099').for(:phoneNumber) }
       it { should_not allow_value('999', 'my landline', 'home').for(:phoneNumber) }
+      it { should ensure_length_of(:phoneNumber).is_at_most(20) }
 
       it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:contactEmail) }
       xit { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:contactEmail) }
