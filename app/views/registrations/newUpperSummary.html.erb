@@ -10,6 +10,13 @@
 
       <%= render "errors" %>
        <%= render "confirmation_step", f: f, registration_class: 'upper_tier'  %>
+       <hr>
+       <p>
+      <%= render 'payment_summary', f: f, fee: @registration.total_fee %>
+      <%= link_to t('form.edit_these_details'), upper_payment_path %>
+      </p>
+      <%= render 'declaration_and_data_protection', f: f %>
+
     <% end %>
   </article>
 </main>
