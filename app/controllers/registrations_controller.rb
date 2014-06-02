@@ -454,24 +454,7 @@ end
   def new
     renderNotFound
   end
-#  def new
-#    logger.info 'Request New Registration'
-#    session[:registration_params] = {}
-#    session[:registration_step] = nil
-#    @registration = Registration.new(session[:registration_params])
-#    @registration.current_step = session[:registration_step]
-#    # Set route name based on agency paramenter
-#    @registration.routeName = 'DIGITAL'
-#    if !params[:agency].nil?
-#      @registration.routeName = 'ASSISTED_DIGITAL'
-#      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
-#    end
-#    # Prepop businessType with value from smarter answers
-#    if !params[:smarterAnswersBusiness].nil?
-#      logger.info 'Smart answers pre-pop detected: ' + params[:smarterAnswersBusiness]
-#      @registration.businessType = params[:smarterAnswersBusiness]
-#    end
-#  end
+
 
   # GET /registrations/1/edit
   def edit
@@ -941,7 +924,6 @@ end
     session[:registration_params] ||= {}
     # session[:registration_params].deep_merge!(upper_reg_params) if params[:upper_registration]
 
-
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = current_step
   end
@@ -971,10 +953,10 @@ end
    # GET upper-registrations/payment
   def newPayment
     new_step_action 'payment'
-    @registration.total_fee = 169
    @registration.registration_fee = 154
-   @registration.copy_cards = 3
+   @registration.copy_cards = 2
     @registration.copy_card_fee = @registration.copy_cards * 5
+     @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
     # update_model("payment")
   end
 
@@ -1001,7 +983,7 @@ end
     setup_registration 'upper_summary'
 
     if @registration.valid?
-      redirect_to :create_account
+      redirect_to :newSignup
     else render 'newUpperSummary', :status => '400'
     end
   end

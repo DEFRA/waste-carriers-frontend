@@ -1,6 +1,6 @@
 <h3 class="subtitle"><%= t 'registrations.newUpperSummary.payment_label' %></h3>
-
-<div class="boxed_pay_small left"> £ <%=  @registration.total_fee %></div>
+<% @registration.total_fee ||=  '164' %>
+<div class="boxed_pay_small left"> £ <%= @registration.total_fee  %></div>
 <p>1 x New Registration</p>
  <p><%=  @registration.copy_cards %> x Copy Cards</p>
 <div>&nbsp;</div>
