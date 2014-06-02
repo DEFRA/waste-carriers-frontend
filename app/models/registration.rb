@@ -45,8 +45,6 @@ class Registration < ActiveResource::Base
     string :streetLine4
     string :country
 
-    string :title
-    string :otherTitle
     string :firstName
     string :lastName
     string :position
@@ -92,8 +90,6 @@ class Registration < ActiveResource::Base
     authority
     other
   ]
-
-  TITLES = %w[mr mrs miss ms dr other]
 
   VALID_CHARACTERS = /\A[A-Za-z0-9\s\'\.&!%]*\Z/
 
@@ -211,10 +207,6 @@ class Registration < ActiveResource::Base
 
   def self.business_type_options_for_select
     (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
-  end
-
-  def self.title_options_for_select
-    [[I18n.t('please_select'), ""]] + (TITLES.collect {|d| [I18n.t('titles.'+d), d]})
   end
 
   def self.distance_options_for_select
@@ -622,14 +614,6 @@ class Registration < ActiveResource::Base
 
   def user
     @user
-  end
-
-  def title_for_display
-    if title == 'other'
-      otherTitle
-    else
-      I18n.translate('titles.' + title)
-    end
   end
 
   def generate_random_access_code
