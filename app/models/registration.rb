@@ -118,7 +118,7 @@ class Registration < ActiveResource::Base
     registration.validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
   end
 
-  with_options if: :signup_step? do |registration|
+  with_options if: [:signup_step?, :sign_up_mode_present?, :unpersisted?] do |registration|
     registration.validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
     registration.validates :accountEmail_confirmation, presence: true, format: { with: VALID_EMAIL_REGEX }
     registration.validates :password, presence: true
@@ -156,6 +156,14 @@ class Registration < ActiveResource::Base
 
   def signup_step?
     current_step.inquiry.signup?
+  end
+
+  def sign_up_mode_present?
+    sign_up_mode.present?
+  end
+
+  def unpersisted?
+    not persisted?
   end
 
   # Business Step fields
