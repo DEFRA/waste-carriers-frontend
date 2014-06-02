@@ -167,7 +167,6 @@ class Registration < ActiveResource::Base
   end
 
   # Business Step fields
-  # validate :validate_companyName, :if => lambda { |o| o.current_step == "business" }
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
@@ -314,18 +313,6 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
-
-  def validate_companyName
-    #validates_presence_of :companyName, :if => lambda { |o| o.current_step == "business" }
-    if companyName == ""
-      Rails.logger.debug 'companyName is empty'
-      errors.add(:companyName, I18n.t('errors.messages.blank') )
-    #validates :companyName, :if => lambda { |o| o.current_step == "business"}, format: {with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/, message: I18n.t('errors.messages.alpha70') }
-    elsif !companyName.nil? and companyName[/\A[a-zA-Z0-9\s\.\-&\']{0,70}\Z/].nil?
-      Rails.logger.debug 'companyName fails reg ex check'
-      errors.add(:companyName, I18n.t('errors.messages.alpha70') )
-    end
-  end
 
   def validate_houseNumber
     #validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
