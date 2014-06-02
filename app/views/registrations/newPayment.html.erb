@@ -5,7 +5,7 @@
 
       <% content_for :page_title, createTitle('.title') %>
 
-      <div class="step">Step 7 of 9</div>
+      <div class="step">Step 7 of 8</div>
       <h1 class="subtitle"><%= t '.subtitle' %></h1>
 
       <%= render "errors" %>
@@ -14,7 +14,7 @@
         <div class="boxed">
         <p class="group">
           <div class="label_clone_big left"><%= t '.total_label' %>
-           <div class="boxed_pay_small right"> <%= f.text_field :total_fee, :size =>5, :maxlength => 4 %> </div>
+           <div class="boxed_pay_small right"> <%= f.text_field :total_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %> </div>
          </p>
          </div>
         </div>
@@ -33,7 +33,7 @@
             <%= validation_for(@registration, :copy_cards) %>
             <%= f.label t '.copy_card_label' %>
             <div class="left"><%= f.number_field :copy_cards, :min => 0, :max => 3 %>
-            <div class="boxed_pay_small right"> <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4 %> </div>
+            <div class="boxed_pay_small right"> <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %> </div>
 
             </div>
           </p>
