@@ -39,6 +39,12 @@ class Registration < ActiveResource::Base
     string :administrativeArea
     string :royalMailUpdateDate
     string :localAuthorityUpdateDate
+    string :company_no
+
+    integer :total_fee
+    integer :registration_fee
+    integer :copy_card_fee
+    integer :copy_cards
 
     # Non UK fields
     string :streetLine3
@@ -129,9 +135,9 @@ class Registration < ActiveResource::Base
   validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
 =end
-  
+
   validate :validate_addressMode
-  
+
   # validate :validate_title, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
   validate :validate_firstName, :if => lambda { |o| o.current_step == "contact" }
@@ -139,7 +145,7 @@ class Registration < ActiveResource::Base
   validate :validate_position, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
-  
+
   # Confirmation fields
   validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
 

@@ -27,7 +27,6 @@ gem 'password_strength', '~>0.3.2'
 gem 'govuk_frontend_toolkit'
 
 gem 'country_select'
-
 # Gems used only for assets and not required
 # in production environments by default.
 
@@ -68,7 +67,7 @@ end
 
 group :development do
   gem 'letter_opener', '~> 1.2.0'
-  gem 'meta_request'  #allows the use of the RailsPanel plugin on Chrome
+  gem 'meta_request'   #gem needed for Chrome's RailsPanel plugin
 end
 
 group :test, :development do

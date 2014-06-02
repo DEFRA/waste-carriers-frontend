@@ -21,6 +21,14 @@
     <%= link_to t('form.edit_these_details'), newContact_path %>
   </p>
 
+<% if  registration_class && registration_class == 'upper_tier' %>
+    <h3><%= t 'upper_registrations.payment.title' %></h3>
+  <p>
+      <%= render 'payment_summary', :f => f %>
+    <%= link_to t('form.edit_these_details'), upper_payment_path %>
+  </p>
+  <% end %>
+
   <h3><%= t '.declaration_heading' %></h3>
   <p class="group<%if @registration.errors[:declaration].any?%> validation<%end%>">
     <%= validation_for(@registration, :declaration) %>
@@ -41,4 +49,6 @@
 
 </div>
 
-<%= render 'wizard_links' %>
+  <%= link_to t('upper_registrations.form.back_button_label'), :upper_payment, :class => 'button-secondary' %>
+  <input name="confirm" class="button" type="submit" value="<%= t 'upper_registrations.form.confirm_button_label' %>"/>
+</p>
