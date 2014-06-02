@@ -85,6 +85,7 @@ describe Registration do
 
       it { should allow_value('Butler', 'Foster-Jones', 'McTavish', 'Mc Hale', "O'Brien").for(:lastName) }
       it { should_not allow_value('1').for(:lastName) }
+      it { should ensure_length_of(:lastName).is_at_most(35) }
 
       it { should allow_value('Foreman', 'Ruby Dev', 'Change-manager').for(:position) }
       it { should_not allow_value('Big Guy 1').for(:position) }
