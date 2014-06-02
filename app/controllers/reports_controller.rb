@@ -6,6 +6,7 @@ class ReportsController < ApplicationController
 
   # GET /report/registrations
   def reportRegistrations
+    new_action
     fromParam = params[:from]
     untilParam = params[:until]
     @registrations = []
@@ -16,7 +17,7 @@ class ReportsController < ApplicationController
     else
       @hasErrors = true
       if request.format == 'csv'
-          redirect_to export_registrations_path(format: 'html', from: fromParam, until: untilParam, route: params[:route], status: params[:status], businessType: params[:businessType] )
+          redirect_to reports_registrations_path(format: 'html', from: fromParam, until: untilParam, route: params[:route], status: params[:status], businessType: params[:businessType] )
         end
     end
     end
@@ -29,12 +30,28 @@ class ReportsController < ApplicationController
     end
   end
 
-  # TODO Helper/Shared functions which should be factored out
+  # TODO Helper/Shared functions which should be refactored out
 
   def authenticate_admin_request!
     if is_admin_request?
       authenticate_agency_user!
     end
   end
+
+  def new_action
+    session[:report_params] ||= {}
+    session[:report_params].deep_merge!(report_params) if params[:report]
+    @report = Report.new(session[:report_params])
+  end
+
+  private
+
+    def report_params
+      params.require(:report).permit(
+        :from,
+        :to,
+        :route_digital,
+        :route_assisted_digital)
+    end
 
 end

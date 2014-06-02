@@ -1,58 +1,40 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
 
-    <% content_for :page_title, createTitle('registrations.finish.heading') %>
+    <% content_for :page_title, createTitle('.title') %>
+    <%= form_for(@report, :url => "reports/registrations.csv", :html => { :method => 'GET' }) do |f| %>
 
-    <form action="/export/registrations.csv" method="GET">
-      <p class="group<%if !params[:from].nil? and params[:from] !~ /^\d\d\/\d\d\/\d\d\d\d$/%> validation<%end%>">
-        <%if !params[:from].nil? and params[:from] !~ /^\d\d\/\d\d\/\d\d\d\d$/%>From must be in the format: dd/mm/yyyy<%end%>
-        <label for="from">From (required)</label> <input id="from" type="text" name="from" value="<%=params[:from]%>">
-      </p>
-      <p class="group<%if !params[:until].nil? and params[:until] !~ /^\d\d\/\d\d\/\d\d\d\d$/%> validation<%end%>">
-        <%if !params[:until].nil? and params[:until] !~ /^\d\d\/\d\d\/\d\d\d\d$/%>Until must be in the format: dd/mm/yyyy<%end%>
-        <label for="until">Until (required)</label> <input id="until" type="text" name="until" value="<%=params[:until]%>">
-      </p>
+      <h1 class="subtitle"><%= t '.subtitle' %></h1>
 
-      <fieldset>
-        <legend>Route</legend>
-        <div class="inline">
-          <input id="route_digital" type="checkbox" name="route[]" value="DIGITAL"<%if !params[:route].nil? and params[:route].include?('DIGITAL')%> checked<%end%>>
-          <label for="route_digital">Digital</label>
-        </div>
-        <div class="inline">
-          <input id="route_assisted_digital" type="checkbox" name="route[]" value="ASSISTED_DIGITAL"<%if !params[:route].nil? and params[:route].include?('ASSISTED_DIGITAL')%> checked<%end%>>
-          <label for="route_assisted_digital">Assisted Digital</label>
-        </div>
-      </fieldset>
+      <div>
+        <fieldset>
+          <legend><%=t '.date_filters' %></legend>
+          <p class="group<%if @report.errors[:from].any?%> validation<% end %>">
+            <% if @report.errors[:from].any? %>From must be in the format: dd/mm/yyyy<% end %>
+            <%= f.label :from %>
+            <%= f.text_field :from, :size => 20, :maxlength => 20 %>
+          </p>
+          <p class="group<%if @report.errors[:to].any?%> validation<% end %>">
+            <% if @report.errors[:to].any? %>From must be in the format: dd/mm/yyyy<% end %>
+            <%= f.label :to %>
+            <%= f.text_field :to, :size => 20, :maxlength => 20 %>
+          </p>
+        </fieldset>
 
-      <fieldset>
-        <legend>Status</legend>
-        <div class="inline">
-          <input id="status_active" type="checkbox" name="status[]" value="ACTIVE"<%if !params[:status].nil? and params[:status].include?('ACTIVE')%> checked<%end%>>
-          <label for="status_active">Active</label>
-        </div>
-        <div class="inline"><input id="status_pending" type="checkbox" name="status[]" value="PENDING"<%if !params[:status].nil? and params[:status].include?('PENDING')%> checked<%end%>>
-          <label for="status_pending">Pending</label>
-        </div>
-        <div class="inline"><input id="status_revoked" type="checkbox" name="status[]" value="REVOKED"<%if !params[:status].nil? and params[:status].include?('REVOKED')%> checked<%end%>>
-          <label for="status_revoked">Revoked</label>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend>Company Type</legend>
-        <%Registration.business_type_options_for_select.each do |businessTypeOption|%>
-          <%if businessTypeOption[1]!=""%>
-            <div class="inline">
-              <input id="businessType_<%=businessTypeOption[1]%>" type="checkbox" name="businessType[]" value="<%=businessTypeOption[1]%>"<%if !params[:businessType].nil? and params[:businessType].include?(businessTypeOption[1])%> checked<%end%>>
-              <label for="businessType_<%=businessTypeOption[1]%>"><%=businessTypeOption[0]%></label>
-            </div>
-          <%end%>
-        <%end%>
-      </fieldset>
+        <fieldset>
+          <legend><%= t '.route_type' %></legend>
+          <div>
+            <%= f.label :route_digital do %>
+              <%= f.check_box :route_digital %>
+            <% end %>
+            <%= f.check_box :route_assisted_digital %><span style="display: inline; font-size:90%}"><%= f.label :route_assisted_digital %></span>
+          </div>
+        </fieldset>
 
       <input type="submit" value="Export" class="button">
-      </form>
+
+      </div>
+    <% end %>
 
   </article>
 </main>

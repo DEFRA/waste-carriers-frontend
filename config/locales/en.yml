@@ -201,6 +201,11 @@ en:
         carrier_dealer: "carrier/dealer"
         broker_dealer: "broker/dealer"
         carrier_broker_dealer: "carrier/broker/dealer"
+      report:
+        from: "From"
+        to:   "To"
+        route_digital: "Digital"
+        route_assisted_digital: "Assisted Digital"
 
   shared:
     current_user:
@@ -290,6 +295,17 @@ en:
     waste_elec_equip_2013: "Waste Electrical and Electronic Equipment Regulations 2013"
     water_resources: "Water Resources Act 1991: Sections 85, 202 and 206"
     no_convictions: "No relevant convictions"
+
+  reports:
+    reportRegistrations:
+      title: "Registrations Export"
+      subtitle: "Registrations Export"
+      date_filters: "Date filters"
+      #from: "From (required)"
+      #to: "To (required)"
+      route_type: "Route"
+      #route_digital: "Digital"
+      #route_assisted_digital: "Assited Digital"
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
