@@ -101,8 +101,8 @@ Registrations::Application.routes.draw do
     post "your-registration/upper/summary" => "registrations#summary_update"
 
     # Data reporting urls - Authenticated agency users only
-    get "export/:from/:until/registrations" => 'registrations#export'
-    get "export/registrations" => 'registrations#export', :as => :export_registrations
+    get "report/:from/:until/registrations" => 'registrations#reportExport'
+    get "report/registrations" => 'registrations#reportExport', :as => :report_registrations
 
 	  #scope "/administration" do
 	  #  resources :agency_users
