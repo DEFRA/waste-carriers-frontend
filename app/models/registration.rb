@@ -104,7 +104,7 @@ class Registration < ActiveResource::Base
   validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :constructiondemolition_step?
   validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :onlydealwith_step?
 
-  validates :companyName, presence: true, format: { with: /\A[a-zA-Z0-9\s\.\-&\']{0,70}\z/, message: I18n.t('errors.messages.alpha70') }, if: :businessdetails_step?
+  validates :companyName, presence: true, format: { with: /\A[a-zA-Z0-9\s\.\-&\']+\z/, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: :businessdetails_step?
 
   with_options if: :contactdetails_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
