@@ -172,18 +172,16 @@ class Registration < ActiveResource::Base
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   # Contact Step fields
-=begin
-  validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
-  validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
-  validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
-  validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
-  validate :validate_streetLine4, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
-  validate :validate_country, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
-  validate :validate_townCity, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
-  validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
-  validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
-  validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
-=end
+  # validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
+  # validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
+  # validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
+  # validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
+  # validate :validate_streetLine4, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
+  # validate :validate_country, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
+  # validate :validate_townCity, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
+  # validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
+  # validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
+  # validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   
   # validate :validate_addressMode
   
