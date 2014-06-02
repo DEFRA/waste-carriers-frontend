@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Registration do
   VALID_EMAIL_ADDRESSES = ['user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn']
+  INVALID_EMAIL_ADDRESSES = ['barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com']
 
   context 'businesstype step' do
     subject { Registration.new }
@@ -103,7 +104,7 @@ describe Registration do
         it { should validate_presence_of(:contactEmail).with_message(/must be completed/) }
 
         it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:contactEmail) }
-        it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:contactEmail) }
+        it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:contactEmail) }
       end
 
       context 'assisted digital route' do
@@ -151,21 +152,21 @@ describe Registration do
         before { subject.sign_up_mode = 'sign_in' }
 
         it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail) }
-        it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail) }
+        it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail) }
       end
 
       context 'sign_up signup mode' do
         before { subject.sign_up_mode = 'sign_up' }
 
         it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail) }
-        it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail) }
+        it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail) }
       end
 
       context 'sign_up signup mode' do
         before { subject.signup_mode = 'sign_up' }
 
         xit { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
-        xit { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail_confirmation) }
+        xit { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
 
         xit { should allow_value('myPass145', 'myPass145$').for(:password) }
         xit { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
