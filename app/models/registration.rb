@@ -110,7 +110,7 @@ class Registration < ActiveResource::Base
     registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
     registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
     registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
-    registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }
+    registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }, length: { maximum: 20 }
     # registration.validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
   end
 
@@ -182,7 +182,6 @@ class Registration < ActiveResource::Base
   
   # validate :validate_addressMode
 
-  # validate :validate_phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
   
   # Confirmation fields
@@ -414,22 +413,6 @@ class Registration < ActiveResource::Base
       errors.add(:postcode, I18n.t('errors.messages.blank') )
     elsif !Postcode.is_valid_postcode?(postcode)
       errors.add(:postcode, I18n.t('errors.messages.invalid') )
-    end
-  end
-
-  def validate_phoneNumber
-    #validates_presence_of :phoneNumber, :if => lambda { |o| o.current_step == "contact" }
-    if phoneNumber == ""
-      Rails.logger.debug 'phoneNumber is empty'
-      errors.add(:phoneNumber, I18n.t('errors.messages.blank') )
-    #validates :phoneNumber, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[0-9\s]*\Z/, message:I18n.t('errors.messages.numbers') }
-    elsif !phoneNumber.nil? and phoneNumber[/\A[0-9\s]*\Z/].nil?
-      Rails.logger.debug 'phoneNumber fails reg ex check'
-      errors.add(:phoneNumber, I18n.t('errors.messages.numbers') )
-    #validates_length_of :phoneNumber, :maximum => 20, :allow_blank => true, message: I18n.t('errors.messages.maxlength20'), :if => lambda { |o| o.current_step == "contact"}
-    elsif !phoneNumber.nil? and phoneNumber.length > 20
-      Rails.logger.debug 'phoneNumber longer than allowed'
-      errors.add(:phoneNumber, I18n.t('errors.messages.maxlength20') )
     end
   end
 
