@@ -186,7 +186,6 @@ class Registration < ActiveResource::Base
   
   # validate :validate_addressMode
 
-  # validate :validate_otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
   # validate :validate_firstName, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_lastName, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_position, :if => lambda { |o| o.current_step == "contact" }
@@ -426,18 +425,6 @@ class Registration < ActiveResource::Base
       errors.add(:postcode, I18n.t('errors.messages.blank') )
     elsif !Postcode.is_valid_postcode?(postcode)
       errors.add(:postcode, I18n.t('errors.messages.invalid') )
-    end
-  end
-
-  def validate_otherTitle
-    #validates_presence_of :otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
-    if otherTitle == ""
-      Rails.logger.debug 'otherTitle is empty'
-      errors.add(:otherTitle, I18n.t('errors.messages.blank') )
-    #validates :otherTitle, format: {with: VALID_CHARACTERS, message: I18n.t('errors.messages.invalid_characters') }, :if => lambda { |o| o.current_step == "contact"}
-    elsif !otherTitle.nil? and otherTitle[VALID_CHARACTERS].nil?
-      Rails.logger.debug 'otherTitle fails reg ex check'
-      errors.add(:otherTitle, I18n.t('errors.messages.invalid_characters') )
     end
   end
 
