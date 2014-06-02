@@ -182,7 +182,6 @@ class Registration < ActiveResource::Base
   
   # validate :validate_addressMode
 
-  # validate :validate_position, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
   
@@ -415,14 +414,6 @@ class Registration < ActiveResource::Base
       errors.add(:postcode, I18n.t('errors.messages.blank') )
     elsif !Postcode.is_valid_postcode?(postcode)
       errors.add(:postcode, I18n.t('errors.messages.invalid') )
-    end
-  end
-
-  def validate_position
-    #validates :position, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s]*\Z/, message:I18n.t('errors.messages.lettersSpaces') }
-    if !position.nil? and position[/\A[a-zA-Z\s]*\Z/].nil?
-      Rails.logger.debug 'position fails reg ex check'
-      errors.add(:position, I18n.t('errors.messages.lettersSpaces') )
     end
   end
 
