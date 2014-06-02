@@ -70,6 +70,7 @@ end
 Given(/^I enter my address manually$/) do
   click_on 'I want to add an address myself'
 
+  fill_in 'registration_companyName', with: 'Grades'
   fill_in 'registration_houseNumber', with: '44'
   fill_in 'registration_streetLine1', with: 'Broad Street'
   fill_in 'registration_streetLine2', with: 'City Centre'
@@ -118,7 +119,7 @@ And(/^I provide my email address and create a password$/) do
 end
 
 When(/^I confirm account creation via email$/) do
-  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  sleep 0.5 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'Confirm your account'
 end
