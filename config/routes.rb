@@ -88,22 +88,20 @@ Registrations::Application.routes.draw do
     get "your-registration/upper/business-address" => "registrations#business_address", :as => :upper_business_address
     post "your-registration/upper/business-address" => "registrations#business_address_update"
 
-    get "your-registration/upper/contact-detail" => "registrations#contact_detail", :as => :upper_contact_detail
-    post "your-registration/upper/contact-detail" => "registrations#contact_detail_update"
+    get "your-registration/upper-tier-contact-details" => "registrations#newUpperContactDetails", :as => :upper_contact_details
+    post "your-registration/upper-tier-contact-details" => "registrations#updateNewUpperContactDetails"
 
     get "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction", :as => :upper_relevant_conviction
     post "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction_update"
 
-    get "your-registration/upper/payment" => "registrations#payment", :as => :upper_payment
-    post "your-registration/upper/payment" => "registrations#payment_update"
+    get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
+    post "your-registration/payment" => "registrations#updateNewPayment"
 
-    get "your-registration/upper/summary" => "registrations#summary", :as => :upper_summary
-    post "your-registration/upper/summary" => "registrations#summary_update"
+    get "your-registration/upper-tier-summary" => "registrations#newUpperSummary", :as => :upper_summary
+    post "your-registration/upper-tier-summary" => "registrations#updateNewUpperSummary"
 
-     get "your-registration/upper/st-contact-details" => "registrations#newSTContactDetails", :as => :upper_st_contact_details
-     post "your-registration/upper/st-contact-details" => "registrations#updateSTContactDetails"
-     get "your-registration/upper/ltd-contact-details" => "registrations#newLtdContactDetails", :as => :upper_ltd_contact_details
-     post "your-registration/upper/ltd-contact-details" => "registrations#updateLtdContactDetails"
+
+	  
 
 #  end
   

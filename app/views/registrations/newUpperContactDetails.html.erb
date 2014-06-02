@@ -1,0 +1,27 @@
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <% content_for :page_title, createTitle('registrations.contactdetails_step.title') %>
+    <%= form_for(@registration, :url => upper_contact_details_path) do |f| %>
+<%= %>
+<div class="step"><%= t 'registrations.contactdetails_step.step' %></div>
+
+  <% case  @registration.businessType %>
+  <% when 'soleTrader' %>
+    <h1 class="subtitle"><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'business' %></h1>
+    <%= render "contactdetails_step", f: f , registration_phase: 'upper'  %>
+    <%= render 'address_or_company_finder', f: f %>
+  <% when 'limitedCompany' %>
+    <h1 class="subtitle"><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'business' %></h1>
+    <%= render 'address_or_company_finder', f: f %>
+    <%= render "contactdetails_step", f: f , registration_phase: 'upper'  %>
+  <% when 'publicBody' %>
+    <h1 class="subtitle"><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'organisation' %></h1>
+    <%= render "contactdetails_step", f: f , registration_phase: 'upper'  %>
+    <%= render 'address_or_company_finder', f: f %>
+  <% end %>
+
+    <%= render 'wizard_links' %>
+    <% end %>
+
+  </article>
+</main>

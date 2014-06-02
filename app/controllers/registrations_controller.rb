@@ -143,6 +143,7 @@ end
   # GET /your-registration/construction-demolition
   def newConstructionDemolition
     new_step_action 'constructiondemolition'
+    session[:registration_phase] = 'smart'
   end
 
   # POST /your-registration/construction-demolition
@@ -153,8 +154,10 @@ end
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
         when 'yes'
+        session[:registration_phase] = 'upper'
           redirect_to :newRegistrationType
         when 'no'
+        session[:registration_phase] = 'lower'
           redirect_to :newBusinessDetails
       end
     elsif @registration.new_record?
@@ -236,48 +239,15 @@ end
   # POST /your-registration/registration-type
   def updateNewRegistrationType
     setup_registration 'registrationtype'
-
+    @registration.registration_phase = 'upper'
     if @registration.valid?
-	  ## TODO: if lower tier
-      # session[:upper_registration_params] ||= {}
-      # session[:upper_registration_params][:registration_type] = @registration.registrationType
-      # redirect_to :newBusinessDetails
-	  ## TODO: if upper tier
-      logger.debug @registration.businessType
-      case  @registration.businessType
-      when "soleTrader", "publicBody"
-        redirect_to :upper_st_contact_details
-      when "limitedCompany"
-        redirect_to :upper_ltd_contact_details
-      else
-        raise "Could not determine the registrant's business type!"
-      end
+        redirect_to :upper_contact_details
+
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newRegistrationType", :status => '400'
     end
-  end
-
-  def newSTContactDetails
-    new_step_action 'stdcontactdetails'
-  end
-
-  def updateSTContactDetails
-    # if @registration.valid?
-      redirect_to :newConfirmation
-    # end
-  end
-
-
-  def newLtdContactDetails
-    new_step_action 'ltdcontactdetails'
-  end
-
-  def updateLtdContactDetails
-    # if @registration.valid?
-      redirect_to :newConfirmation
-    # end
   end
 
   # GET /your-registration/confirmation
@@ -370,9 +340,9 @@ end
   # GET /registrations/1.json
   def show
     renderNotFound
-end
+ end
 
-  
+
   def print
   	begin
       @registration = Registration.find(params[:id])
@@ -484,7 +454,24 @@ end
   def new
     renderNotFound
   end
-
+#  def new
+#    logger.info 'Request New Registration'
+#    session[:registration_params] = {}
+#    session[:registration_step] = nil
+#    @registration = Registration.new(session[:registration_params])
+#    @registration.current_step = session[:registration_step]
+#    # Set route name based on agency paramenter
+#    @registration.routeName = 'DIGITAL'
+#    if !params[:agency].nil?
+#      @registration.routeName = 'ASSISTED_DIGITAL'
+#      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
+#    end
+#    # Prepop businessType with value from smarter answers
+#    if !params[:smarterAnswersBusiness].nil?
+#      logger.info 'Smart answers pre-pop detected: ' + params[:smarterAnswersBusiness]
+#      @registration.businessType = params[:smarterAnswersBusiness]
+#    end
+#  end
 
   # GET /registrations/1/edit
   def edit
@@ -701,7 +688,7 @@ end
         @user.save!
         logger.debug "User has been saved."
         ## the newly created user has to active his account before being able to sign in
-		  
+    
         # Reset Signed up user to signed in status
         @registration.sign_up_mode = 'sign_in'
 	    else
@@ -797,6 +784,7 @@ end
   end
 
   
+  
 
   #PUT...
   def ncccupdate
@@ -888,6 +876,7 @@ end
   end
 
 
+
   # DELETE /registrations/1
   # DELETE /registrations/1.json
   def destroy
@@ -957,20 +946,62 @@ end
     @registration.current_step = current_step
   end
 
-  # GET your-registration/upper/contact-detail
-  def contact_detail
-    update_model("contact_detail")
+ # GET your-registration/upper-tier-contact-details
+  def newUpperContactDetails
+    new_step_action 'upper_contact_details'
+    logger.debug 'upper_contact_details'
+    # update_model("contact_detail")
   end
 
-  # POST your-registration/upper/contact-detail
-  def contact_detail_update
+  # POST your-registration/upper-tier-contact-details
+  def updateNewUpperContactDetails
 
-    update_model("contact_detail")
+    setup_registration 'upper_contact_details'
 
     if @registration.valid?
-      redirect_to :upper_relevant_conviction
-    else
-      redirect_to :upper_contact_detail
+      redirect_to :upper_payment
+
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newUpperContactDetails", :status => '400'
+    end
+  end
+
+   # GET upper-registrations/payment
+  def newPayment
+    new_step_action 'payment'
+   @registration.registration_fee = 154
+   @registration.copy_cards = 0
+    @registration.copy_card_fee = @registration.copy_cards * 5
+    # update_model("payment")
+  end
+
+  # POST upper-registrations/payment
+  def updateNewPayment
+    setup_registration 'payment'
+    # update_model("payment")
+
+    if @registration.valid?
+      redirect_to :upper_summary
+    else render 'newPayment', :status => '400'
+
+    end
+  end
+
+  # GET upper-registrations/summary
+  def newUpperSummary
+       new_step_action 'upper_summary'
+  end
+
+  # POST upper-registrations/summary
+  def updateNewUpperSummary
+
+    setup_registration 'upper_summary'
+
+    if @registration.valid?
+      redirect_to :create_account
+    else render 'newUpperSummary', :status => '400'
     end
   end
 ######################################
@@ -1022,6 +1053,8 @@ private
       :password,
       :password_confirmation,
       :accountEmail_confirmation,
+      :registration_phase,
+      :company_no,
       :sign_up_mode)
   end 
    
