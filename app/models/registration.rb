@@ -185,8 +185,7 @@ class Registration < ActiveResource::Base
 =end
   
   # validate :validate_addressMode
-  
-  # validate :validate_title, :if => lambda { |o| o.current_step == "contact" }
+
   # validate :validate_otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
   # validate :validate_firstName, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_lastName, :if => lambda { |o| o.current_step == "contact" }
@@ -427,18 +426,6 @@ class Registration < ActiveResource::Base
       errors.add(:postcode, I18n.t('errors.messages.blank') )
     elsif !Postcode.is_valid_postcode?(postcode)
       errors.add(:postcode, I18n.t('errors.messages.invalid') )
-    end
-  end
-
-  def validate_title
-    #validates_presence_of :title, :if => lambda { |o| o.current_step == "contact" }
-    if title == ""
-      Rails.logger.debug 'title is empty'
-      errors.add(:title, I18n.t('errors.messages.blank') )
-    #validates :title, :inclusion => { :in => TITLES, :message => I18n.t('errors.messages.invalid_selection') }, :if => lambda { |o| o.current_step == "contact" }
-    elsif !TITLES.include?(title)
-      Rails.logger.debug 'title not a valid value'
-      errors.add(:title, I18n.t('errors.messages.invalid_selection') )
     end
   end
 
