@@ -167,7 +167,6 @@ class Registration < ActiveResource::Base
   end
 
   # Business Step fields
-  # validate :validate_businessType, :if => lambda { |o| o.current_step == "business" }
   # validate :validate_companyName, :if => lambda { |o| o.current_step == "business" }
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
@@ -315,17 +314,6 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
-  def validate_businessType
-    #validates_presence_of :businessType, :if => lambda { |o| o.current_step == "business" }
-    if businessType == ""
-      Rails.logger.debug 'businessType is empty'
-      errors.add(:businessType, I18n.t('errors.messages.blank') )
-    #validates :businessType, :inclusion => { :in => BUSINESS_TYPES, :message => I18n.t('errors.messages.invalid_selection') }, :if => lambda { |o| o.current_step == "business" }
-    elsif !BUSINESS_TYPES.include?(businessType)
-      Rails.logger.debug 'businessType not a valid value'
-      errors.add(:businessType, I18n.t('errors.messages.invalid_selection') )
-    end
-  end
 
   def validate_companyName
     #validates_presence_of :companyName, :if => lambda { |o| o.current_step == "business" }
