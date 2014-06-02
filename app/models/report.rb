@@ -3,10 +3,20 @@ require 'active_resource'
 class Report
   include ActiveModel::Model
 
-  attr_accessor :is_new, :from, :to, :route_digital, :route_assisted_digital
+  attr_accessor :is_new, :from, :to, :route_digital, :route_assisted_digital, :statuses, :business_types
 
   validate :validate_from
   validate :validate_to
+
+  STATUS_OPTIONS = %w[
+    active
+    pending
+    revoked
+  ]
+
+  def self.status_options
+    (STATUS_OPTIONS.collect {|d| [I18n.t('status_options.'+d), d]})
+  end
 
   private
 
