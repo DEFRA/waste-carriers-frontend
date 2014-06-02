@@ -83,6 +83,8 @@ end
 Given(/^I enter my foreign address manually$/) do
   click_on 'I have an address outside the United Kingdom'
 
+  fill_in 'registration_companyName', with: 'IWC'
+
   fill_in 'registration_streetLine1', with: 'Broad Street'
   fill_in 'registration_streetLine2', with: 'City Centre'
   fill_in 'registration_streetLine3', with: 'Bristol'
