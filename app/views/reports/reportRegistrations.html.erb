@@ -2,20 +2,23 @@
   <article role="article" class="group">
 
     <% content_for :page_title, createTitle('.title') %>
-    <%= form_for(@report, :url => "reports/registrations.csv", :html => { :method => 'GET' }) do |f| %>
+    <%= form_for(@report, :url => "registrations", :html => { :method => 'GET' }) do |f| %>
 
       <h1 class="subtitle"><%= t '.subtitle' %></h1>
 
+      <%= render "errors" %>
+
       <div>
         <fieldset>
+          <%= f.hidden_field :is_new, :value => 'false' %>
           <legend><%=t '.date_filters' %></legend>
           <p class="group<%if @report.errors[:from].any?%> validation<% end %>">
-            <% if @report.errors[:from].any? %>From must be in the format: dd/mm/yyyy<% end %>
+            <%= validation_for(@report, :from) %>
             <%= f.label :from %>
             <%= f.text_field :from, :size => 20, :maxlength => 20 %>
           </p>
           <p class="group<%if @report.errors[:to].any?%> validation<% end %>">
-            <% if @report.errors[:to].any? %>From must be in the format: dd/mm/yyyy<% end %>
+            <%= validation_for(@report, :to) %>
             <%= f.label :to %>
             <%= f.text_field :to, :size => 20, :maxlength => 20 %>
           </p>
@@ -25,9 +28,11 @@
           <legend><%= t '.route_type' %></legend>
           <div>
             <%= f.label :route_digital do %>
-              <%= f.check_box :route_digital %>
+              <%= f.check_box :route_digital %> <%= t '.route_digital' %>
             <% end %>
-            <%= f.check_box :route_assisted_digital %><span style="display: inline; font-size:90%}"><%= f.label :route_assisted_digital %></span>
+            <%= f.label :route_assisted_digital do %>
+              <%= f.check_box :route_assisted_digital %> <%= t '.route_assisted_digital' %>
+            <% end %>
           </div>
         </fieldset>
 
