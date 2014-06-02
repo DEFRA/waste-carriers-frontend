@@ -123,6 +123,8 @@ class Registration < ActiveResource::Base
   #   registration.validates :password_confirmation, presence: true
   # end
 
+  validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:signup_step?, :sign_up_mode_present?]
+
   def businesstype_step?
     current_step.inquiry.businesstype?
   end
@@ -189,10 +191,9 @@ class Registration < ActiveResource::Base
   # validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
 
   # Sign up / Sign in fields
-  validate :validate_accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }
   #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
-  validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
+  # validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
   validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
 
@@ -414,22 +415,6 @@ class Registration < ActiveResource::Base
       errors.add(:postcode, I18n.t('errors.messages.blank') )
     elsif !Postcode.is_valid_postcode?(postcode)
       errors.add(:postcode, I18n.t('errors.messages.invalid') )
-    end
-  end
-
-  def validate_accountEmail
-    #validates_presence_of :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }
-    if accountEmail == ""
-      Rails.logger.debug 'accountEmail is empty'
-      errors.add(:accountEmail, I18n.t('errors.messages.blank') )
-    #validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A[a-zA-Z0-9_.+\-']+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
-    elsif !accountEmail.nil? and accountEmail[/\A[a-zA-Z0-9_.+\-']+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
-      Rails.logger.debug 'accountEmail fails reg ex check'
-      errors.add(:accountEmail, I18n.t('errors.messages.invalidEmail') )
-    #validates :accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }, format:{with:/\A.{0,70}\Z/, message:I18n.t('errors.messages.70characters') }
-    elsif !accountEmail.nil? and accountEmail[/\A.{0,70}\Z/].nil?
-      Rails.logger.debug 'accountEmail fails reg ex check'
-      errors.add(:accountEmail, I18n.t('errors.messages.70characters') )
     end
   end
 

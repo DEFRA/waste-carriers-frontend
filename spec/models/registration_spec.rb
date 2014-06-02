@@ -118,7 +118,23 @@ describe Registration do
     before { subject.current_step = 'signup' }
 
     describe 'presence' do
-      xit { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
+
+      context 'without signup mode' do
+        it { should_not validate_presence_of(:accountEmail) }
+      end
+
+      context 'sign_in signup mode' do
+        before { subject.sign_up_mode = 'sign_in' }
+
+        it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
+      end
+
+      context 'sign_up signup mode' do
+        before { subject.sign_up_mode = 'sign_up' }
+
+        it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
+      end
+
       xit { should validate_presence_of(:accountEmail_confirmation).with_message(/must be completed/) }
       xit { should validate_presence_of(:password).with_message(/must be completed/) }
       xit { should validate_presence_of(:password_confirmation).with_message(/must be completed/) }
@@ -129,11 +145,22 @@ describe Registration do
 
       before { subject.current_step = 'signup' }
 
-      context 'with signup mode' do
-        before { subject.signup_mode = 'sign_up' }
+      context 'sign_in signup mode' do
+        before { subject.sign_up_mode = 'sign_in' }
 
-        xit { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:accountEmail) }
-        xit { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail) }
+        it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:accountEmail) }
+        it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail) }
+      end
+
+      context 'sign_up signup mode' do
+        before { subject.sign_up_mode = 'sign_up' }
+
+        it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:accountEmail) }
+        it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail) }
+      end
+
+      context 'sign_up signup mode' do
+        before { subject.signup_mode = 'sign_up' }
 
         xit { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:accountEmail_confirmation) }
         xit { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:accountEmail_confirmation) }
@@ -143,10 +170,6 @@ describe Registration do
 
         xit { should allow_value('myPass145', 'myPass145$').for(:password_confirmation) }
         xit { should_not allow_value('123', '123abc', 'aaaaa').for(:password_confirmation) }
-      end
-
-      context 'without signup mode' do
-        before { subject.sign_up_mode = '' }
       end
     end
   end
