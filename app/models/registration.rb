@@ -108,7 +108,7 @@ class Registration < ActiveResource::Base
 
   with_options if: :contactdetails_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
-    registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
+    registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
     registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }
     # registration.validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
@@ -182,7 +182,6 @@ class Registration < ActiveResource::Base
   
   # validate :validate_addressMode
 
-  # validate :validate_lastName, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_position, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
@@ -416,22 +415,6 @@ class Registration < ActiveResource::Base
       errors.add(:postcode, I18n.t('errors.messages.blank') )
     elsif !Postcode.is_valid_postcode?(postcode)
       errors.add(:postcode, I18n.t('errors.messages.invalid') )
-    end
-  end
-
-  def validate_lastName
-    #validates_presence_of :lastName, :if => lambda { |o| o.current_step == "contact" }
-    if lastName == ""
-      Rails.logger.debug 'lastName is empty'
-      errors.add(:lastName, I18n.t('errors.messages.blank') )
-    #validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A[a-zA-Z\s\-\']*\Z/, message:I18n.t('errors.messages.letters') }
-    elsif !lastName.nil? and lastName[/\A[a-zA-Z\s\-\']*\Z/].nil?
-      Rails.logger.debug 'lastName fails reg ex check'
-      errors.add(:lastName, I18n.t('errors.messages.letters') )
-    #validates :lastName, :if => lambda { |o| o.current_step == "contact" }, format:{with:/\A.{0,35}\Z/, message:I18n.t('errors.messages.35characters') }
-    elsif !lastName.nil? and lastName[/\A.{0,35}\Z/].nil?
-      Rails.logger.debug 'lastName fails reg ex check'
-      errors.add(:lastName, I18n.t('errors.messages.35characters') )
     end
   end
 
