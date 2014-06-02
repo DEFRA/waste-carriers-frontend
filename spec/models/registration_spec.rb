@@ -70,7 +70,7 @@ describe Registration do
       it { should validate_presence_of(:lastName).with_message(/must be completed/) }
       it { should validate_presence_of(:position).with_message(/must be completed/) }
       it { should validate_presence_of(:phoneNumber).with_message(/must be completed/) }
-      xit { should validate_presence_of(:contactEmail).with_message(/must be completed/) }
+      it { should_not validate_presence_of(:contactEmail) }
 
       it "should do different presence things for email based on assisted digital"
     end
@@ -95,8 +95,20 @@ describe Registration do
       it { should_not allow_value('999', 'my landline', 'home').for(:phoneNumber) }
       it { should ensure_length_of(:phoneNumber).is_at_most(20) }
 
-      it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:contactEmail) }
-      xit { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:contactEmail) }
+      context 'digital route' do
+        before { subject.routeName = 'DIGITAL' }
+
+        it { should validate_presence_of(:contactEmail).with_message(/must be completed/) }
+
+        it { should allow_value('user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn').for(:contactEmail) }
+        it { should_not allow_value('barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com').for(:contactEmail) }
+      end
+
+      context 'assisted digital route' do
+        before { subject.routeName = 'ASSISTED_DIGITAL' }
+
+        it { should_not validate_presence_of(:contactEmail) }
+      end
     end
   end
 

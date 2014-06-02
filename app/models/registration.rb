@@ -111,8 +111,9 @@ class Registration < ActiveResource::Base
     registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
     registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }, length: { maximum: 20 }
-    # registration.validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
   end
+
+  validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
   # with_options if: [:signup_step?, :sign_up_mode_present?, :unpersisted?] do |registration|
   #   registration.validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
@@ -158,6 +159,10 @@ class Registration < ActiveResource::Base
     sign_up_mode.present?
   end
 
+  def digital_route?
+    routeName == 'DIGITAL'
+  end
+
   def unpersisted?
     not persisted?
   end
@@ -181,8 +186,6 @@ class Registration < ActiveResource::Base
 =end
   
   # validate :validate_addressMode
-
-  # validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
   
   # Confirmation fields
   # validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
@@ -413,22 +416,6 @@ class Registration < ActiveResource::Base
       errors.add(:postcode, I18n.t('errors.messages.blank') )
     elsif !Postcode.is_valid_postcode?(postcode)
       errors.add(:postcode, I18n.t('errors.messages.invalid') )
-    end
-  end
-
-  def validate_contactEmail
-    #validates_presence_of :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}
-    if contactEmail == "" and routeName == 'DIGITAL'
-      Rails.logger.debug 'contactEmail is empty'
-      errors.add(:contactEmail, I18n.t('errors.messages.blank') )
-    #validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A[a-zA-Z0-9_.+\-']+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/, message:I18n.t('errors.messages.invalidEmail') }
-    elsif !contactEmail.nil? and !contactEmail.empty? and contactEmail[/\A[a-zA-Z0-9_.+\-']+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-.]+\Z/].nil?
-      Rails.logger.debug 'contactEmail fails reg ex check 1'
-      errors.add(:contactEmail, I18n.t('errors.messages.invalidEmail') )
-    #validates :contactEmail, :if => lambda { |o| o.current_step == "contact" && o.routeName == 'DIGITAL'}, format:{with:/\A.{0,70}\Z/, message:I18n.t('errors.messages.70characters') }
-    elsif !contactEmail.nil? and contactEmail[/\A.{0,70}\Z/].nil?
-      Rails.logger.debug 'contactEmail fails reg ex check 2'
-      errors.add(:contactEmail, I18n.t('errors.messages.70characters') )
     end
   end
 
