@@ -113,8 +113,6 @@
 		var data = {
 			organisationType: $("#registration_businessType").val(),
 			organisationName: $("#registration_companyName").val(),
-			title : $("#registration_title").val(),
-			otherTitle : $("#registration_otherTitle").val(),
 			firstName : $("#registration_firstName").val(),
 			lastName : $("#registration_lastName").val(),
 			emailAddress : $("#registration_emailAddress").val(),
@@ -137,8 +135,6 @@
 			var data = {
 				organisationType: $elem.attr("data-organisationType"),
 				organisationName: $elem.attr("data-organisationName"),
-				title : $elem.attr("data-title"),
-				otherTitle : $elem.attr("data-otherTitle"),
 				firstName : $elem.attr("data-firstName"),
 				lastName : $elem.attr("data-lastName"),
 				emailAddress : $elem.attr("data-emailAddress"),
@@ -250,7 +246,6 @@
 		var orgType = data.organisationType;
 		var orgName = data.organisationName;
 
-		var title = data.title;
 		var firstName = data.firstName;
 		var lastName = data.lastName;
 		var email = data.emailAddress;
@@ -282,15 +277,11 @@
 		//html += "<p>At the following address</p>";
 		html += address;
 		//html += "<p>Contact</p>";
-		var tmpTitle = title;
-		if (title==="Other") {
-			tmpTitle = data.otherTitle;
-		}
 		if (email !== "")
 		{
 			email = " (" + email + ")";
 		}
-		html += "<div>"+tmpTitle+" "+firstName+" "+lastName+email+"</div>";
+		html += "<div>"+firstName+" "+lastName+email+"</div>";
 		html += "<div>Telephone number: "+phone+"</div>";
 
 
@@ -361,15 +352,6 @@
 
 			$("a#toggle-search").html("Refine search");
 			$("#advanced-options").css("display","none");
-		}
-	}
-
-	function updateTitleOther(){
-		var show = $('#registration_title').val() == "other";
-		if(show){
-			$('#titleOtherWrapper').removeClass("js-hidden");
-		}else{
-			$('#titleOtherWrapper').addClass("js-hidden");
 		}
 	}
 
@@ -565,9 +547,6 @@
 		//$("#addresses").change(updateAddress);
 		//$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress();});
 		//refreshQuestions();
-
-		$("#registration_title").change(function(e){e.preventDefault();updateTitleOther();});
-		updateTitleOther();
 
 //		$("#registration_sign_up_mode").change(function(e){e.preventDefault();toggleSignInUp();});
 //		toggleSignInUp();

@@ -20,13 +20,6 @@
 		<dl class="data">
 		  <dt><%=t 'registration_mailer.welcome_email.contactName'%></dt>
 		  <dd>
-		  <% unless @registration.title.blank? %>
-		  	<%if @registration.title == "other"%>
-		  		<%= @registration.otherTitle.camelize %>
-		  	<%elsif @registration.title %>
-		  		<%= @registration.title.camelize %>
-		  	<%end%>
-		  <% end %>
 		  <%= @registration.firstName%> <%= @registration.lastName%>
 		  </dd>
 		  <dt><%=t 'registration_mailer.welcome_email.phoneNumber'%></dt>

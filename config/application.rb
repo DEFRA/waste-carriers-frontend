@@ -114,9 +114,6 @@ module Registrations
     config.registrations_service_phone = '03708 506506'
     config.registrations_cy_service_phone = '03000 653000'
 
-    #Titles. Please also edit locale-specific values in localisation files.
-    config.registration_titles = %w[mr mrs miss ms dr other]
-
     #Tracking using Google Analytics; must be performed only in Production, but is optional in development
     #(and uses a different Google Tag Manager ID - see below)
     config.use_google_analytics = ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] || Rails.env.production?

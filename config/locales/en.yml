@@ -123,14 +123,6 @@ en:
     authority: "Waste collection, disposal or regulation authority"
     other: "Other"
 
-  titles:
-    mr: "Mr"
-    mrs: "Mrs"
-    miss: "Miss"
-    ms: "Ms"
-    dr: "Dr"
-    other: "Other"
-
   distances:
     any: "Any"
     '10': "10 Miles"
@@ -176,9 +168,7 @@ en:
         phoneNumber: "Phone number"
         contactEmail: "Email address"
         accountEmail: "Email"
-        otherTitle: "Other title"
         position: "Job title"
-        title: "Title"
         postcodeSearch: "Address"
         selectedMoniker: "Select address"
         postcode: "Postcode"
@@ -405,12 +395,6 @@ en:
       no_results_error: "There are no addresses for the given postcode"
       postcode_search_error: "A postcode must be provided"
       contact_information_legend: "Contact information"
-      title_mr: "Mr"
-      title_mrs: "Mrs"
-      title_miss: "Miss"
-      title_ms: "Ms"
-      title_dr: "Dr"
-      title_other: "Other"
     signup_step:
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
       complete: "Account details"

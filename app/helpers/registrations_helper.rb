@@ -13,11 +13,6 @@ module RegistrationsHelper
     d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
   end
 
-  def format_name_title registration
-    unformatted_title = registration.title == 'other' ? registration.otherTitle : registration.title
-    unformatted_title.titleize if unformatted_title.present?
-  end
-
   def format_address(model)
     if model.postcode.nil?
       # Print International address
