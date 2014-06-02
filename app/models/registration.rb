@@ -115,16 +115,16 @@ class Registration < ActiveResource::Base
     registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
     registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }
-    registration.validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
+    # registration.validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
   end
 
-  with_options if: [:signup_step?, :sign_up_mode_present?, :unpersisted?] do |registration|
-    registration.validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
-    registration.validates :accountEmail_confirmation, presence: true, format: { with: VALID_EMAIL_REGEX }
-    registration.validates :password, presence: true
-    registration.validates_strength_of [:password, :password_confirmation], with: :accountEmail
-    registration.validates :password_confirmation, presence: true
-  end
+  # with_options if: [:signup_step?, :sign_up_mode_present?, :unpersisted?] do |registration|
+  #   registration.validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
+  #   registration.validates :accountEmail_confirmation, presence: true, format: { with: VALID_EMAIL_REGEX }
+  #   registration.validates :password, presence: true
+  #   registration.validates_strength_of [:password, :password_confirmation], with: :accountEmail
+  #   registration.validates :password_confirmation, presence: true
+  # end
 
   def businesstype_step?
     current_step.inquiry.businesstype?
@@ -200,12 +200,12 @@ class Registration < ActiveResource::Base
   # validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
 
   # Sign up / Sign in fields
-  # validate :validate_accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }
+  validate :validate_accountEmail, :if => lambda { |o| o.current_step == "signup" && o.sign_up_mode != "" }
   #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
-  # validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
-  # validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
-  # validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-  # validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
+  validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
+  validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
+  validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
 
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
