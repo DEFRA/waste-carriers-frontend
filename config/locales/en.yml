@@ -211,6 +211,7 @@ en:
       signed_in_as: "Signed in as"
       signed_in_as_agency_user: "Signed in as agency user"
       signed_in_as_admin: "Signed in as admin"
+      report_export: "Create data report"
     progress:
       progress: "Progress"
 
