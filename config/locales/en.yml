@@ -136,6 +136,12 @@ en:
     '10': "10 Miles"
     '50': "50 Miles"
     '100': "100 Miles"
+
+  status_options:
+    active: "Active"
+    pending: "Pending"
+    revoked: "Revoked"
+
   #Standard form controls/options
   form:
     yes_option_label: "Yes"
@@ -304,11 +310,11 @@ en:
       title: "Registrations Export"
       subtitle: "Registrations Export"
       date_filters: "Date filters"
-      #from: "From (required)"
-      #to: "To (required)"
       route_type: "Route"
       route_digital: "Digital"
       route_assisted_digital: "Assisted Digital"
+      status: "Status"
+      business_type: "Business type"
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
