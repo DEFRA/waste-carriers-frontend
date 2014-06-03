@@ -250,6 +250,10 @@ describe Registration do
 
         it { should allow_value('sign_up', 'sign_in').for(:sign_up_mode) }
         it { should_not allow_value('signup', 'signin').for(:sign_up_mode) }
+
+        context 'with accountEmail' do
+          it { should validate_presence_of(:sign_up_mode) }
+        end
       end
     end
   end
