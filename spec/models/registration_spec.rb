@@ -165,6 +165,11 @@ describe Registration do
       describe 'presence' do
         it { should validate_presence_of(:postcodeSearch) }
       end
+
+      describe 'format' do
+        it { should allow_value('BS1 5AH', 'BS22 5AH').for(:postcodeSearch) }
+        it { should_not allow_value('1234', 'blah').for(:postcodeSearch) }
+      end
     end
   end
 

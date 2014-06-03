@@ -129,7 +129,7 @@ class Registration < ActiveResource::Base
     registration.validates :streetLine2, length: { maximum: 35 }
   end
 
-  validates :postcodeSearch, presence: true, if: [:businessdetails_step?, :address_mode_blank?]
+  validates :postcodeSearch, presence: true, uk_postcode: true, if: [:businessdetails_step?, :address_mode_blank?]
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
