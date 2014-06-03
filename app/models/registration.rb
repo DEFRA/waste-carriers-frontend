@@ -113,9 +113,11 @@ class Registration < ActiveResource::Base
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9\-+()\s]+\z/ }, length: { maximum: 20 }
   end
 
-  validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\'\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }, if: [:businessdetails_step?, :manual_uk_address?]
-  validates :townCity, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }, if: [:businessdetails_step?, :manual_uk_address?]
-  validates :postcode, presence: true, uk_postcode: true, if: [:businessdetails_step?, :manual_uk_address?]
+  with_options if: [:businessdetails_step?, :manual_uk_address?] do |registration|
+    validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\'\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
+    validates :townCity, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }
+    validates :postcode, presence: true, uk_postcode: true
+  end
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
