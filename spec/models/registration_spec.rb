@@ -146,10 +146,12 @@ describe Registration do
 
       describe 'presence' do
         it { should_not validate_presence_of(:streetLine3) }
+        it { should_not validate_presence_of(:streetLine4) }
       end
 
       describe 'length' do
         it { should ensure_length_of(:streetLine3).is_at_most(35) }
+        it { should ensure_length_of(:streetLine4).is_at_most(35) }
       end
     end
   end

@@ -119,9 +119,7 @@ class Registration < ActiveResource::Base
     registration.validates :postcode, presence: true, uk_postcode: true
   end
 
-  with_options if: [:businessdetails_step?, :manual_foreign_address?] do |registration|
-    registration.validates :streetLine3, length: { maximum: 35 }
-  end
+  validates :streetLine3, :streetLine4, length: { maximum: 35 }, if: [:businessdetails_step?, :manual_foreign_address?]
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
@@ -177,6 +175,10 @@ class Registration < ActiveResource::Base
 
   def manual_uk_address?
     addressMode == 'manual-uk'
+  end
+
+  def manual_foreign_address?
+    addressMode == 'manual-foreign'
   end
 
   def unpersisted?
@@ -355,17 +357,6 @@ class Registration < ActiveResource::Base
     elsif !streetLine2.nil? and streetLine2.length > 35
       Rails.logger.debug 'streetLine2 longer than allowed'
       errors.add(:streetLine2, I18n.t('errors.messages.maxlength35') )
-    end
-  end
-
-  def validate_streetLine4
-    if !streetLine4.nil? and streetLine4[VALID_CHARACTERS].nil?
-      Rails.logger.debug 'streetLine4 fails reg ex check'
-      errors.add(:streetLine4, I18n.t('errors.messages.invalid_characters') )
-    #validates_length_of :streetLine4, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
-    elsif !streetLine4.nil? and streetLine4.length > 35
-      Rails.logger.debug 'streetLine4 longer than allowed'
-      errors.add(:streetLine4, I18n.t('errors.messages.maxlength35') )
     end
   end
 
