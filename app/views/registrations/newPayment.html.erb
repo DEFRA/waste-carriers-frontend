@@ -11,15 +11,6 @@
       <%= render "errors" %>
 
       <fieldset>
-        <div class="boxed">
-        <p class="group">
-          <div class="label_clone_big left"><%= t '.total_label' %>
-           <div class="boxed_pay_small right">
-
-           <%= f.text_field :total_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %> </div>
-         </p>
-         </div>
-        </div>
         <div>&nbsp;</div>
         <div class="boxed">
         <p class="group">
@@ -31,17 +22,26 @@
         </div>
         <div>&nbsp;</div>
         <div class="boxed">
-          <p class="group<%if @registration.errors[:copy_cards].any?%> validation<%end%>">
+          <p class="group">
             <%= validation_for(@registration, :copy_cards) %>
-            <%= f.label t '.copy_card_label' %>
+            <div class="label_clone left"><%= f.label t '.copy_card_label' %>
             <div class="left"><%= f.number_field :copy_cards, :min => 0, :max => 3 %>
             <div class="boxed_pay_small right"> <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %> </div>
-
             </div>
           </p>
         </div>
-
+        </div>
         <p> <%= t '.copy_card_info' %> </p>
+        <div class="boxed">
+        <p class="group">
+          <div class="label_clone_big left"><%= t '.total_label' %>
+           <div class="boxed_pay_small right">
+
+           <%= f.text_field :total_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %> </div>
+         </p>
+         </div>
+        </div>
+
       </fieldset>
 
       <p>

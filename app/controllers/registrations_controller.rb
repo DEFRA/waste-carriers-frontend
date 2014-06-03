@@ -930,6 +930,7 @@ class RegistrationsController < ApplicationController
  # GET your-registration/upper-tier-contact-details
   def newUpperContactDetails
     new_step_action 'upper_contact_details'
+    addressSearchLogic @registration
     logger.debug 'upper_contact_details'
     # update_model("contact_detail")
   end
@@ -938,7 +939,19 @@ class RegistrationsController < ApplicationController
   def updateNewUpperContactDetails
 
     setup_registration 'upper_contact_details'
+       addressSearchLogic @registration
 
+    if params[:findAddress]
+      render "newBusinessDetails"
+    elsif @registration.valid?
+      redirect_to :upper_payment
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newBusinessDetails", :status => '400'
+    end
+
+=begin
     if @registration.valid?
       redirect_to :upper_payment
 
@@ -947,6 +960,8 @@ class RegistrationsController < ApplicationController
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newUpperContactDetails", :status => '400'
     end
+=end
+
   end
 
    # GET upper-registrations/payment
