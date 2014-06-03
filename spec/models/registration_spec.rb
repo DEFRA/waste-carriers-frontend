@@ -4,6 +4,9 @@ describe Registration do
   VALID_EMAIL_ADDRESSES = ['user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn']
   INVALID_EMAIL_ADDRESSES = ['barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com']
 
+  GOOD_PASSWORDS = ['myPass145', 'myPass145$']
+  WEAK_PASSWORDS = ['123', '123abc', 'aaaaa']
+
   context 'businesstype step' do
     subject { Registration.new }
 
@@ -237,11 +240,11 @@ describe Registration do
           xit { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
           xit { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
 
-          it { should allow_value('myPass145', 'myPass145$').for(:password) }
-          it { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
+          it { should allow_value(*GOOD_PASSWORDS).for(:password) }
+          it { should_not allow_value(*WEAK_PASSWORDS).for(:password) }
 
-          xit { should allow_value('myPass145', 'myPass145$').for(:password_confirmation) }
-          xit { should_not allow_value('123', '123abc', 'aaaaa').for(:password_confirmation) }
+          xit { should allow_value(*GOOD_PASSWORDS).for(:password_confirmation) }
+          xit { should_not allow_value(*WEAK_PASSWORDS).for(:password_confirmation) }
         end
       end
 
