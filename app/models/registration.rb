@@ -113,6 +113,8 @@ class Registration < ActiveResource::Base
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }, length: { maximum: 20 }
   end
 
+  validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }, if: [:businessdetails_step?, :manual_uk_address?]
+
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
   # with_options if: [:signup_step?, :sign_up_mode_present?, :unpersisted?] do |registration|
@@ -165,6 +167,10 @@ class Registration < ActiveResource::Base
     routeName == 'DIGITAL'
   end
 
+  def manual_uk_address?
+    addressMode == 'manual-uk'
+  end
+
   def unpersisted?
     not persisted?
   end
@@ -174,7 +180,6 @@ class Registration < ActiveResource::Base
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   # Contact Step fields
-  # validate :validate_houseNumber, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
   # validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
   # validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
   # validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
@@ -301,18 +306,6 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
-
-  def validate_houseNumber
-    #validates_presence_of :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-    if houseNumber.nil? or houseNumber == ""
-      Rails.logger.debug 'houseNumber is empty'
-      errors.add(:houseNumber, I18n.t('errors.messages.blank') )
-    #validates :houseNumber, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}, format: {with: /\A[a-zA-Z0-9\s]{0,35}\Z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }
-    elsif !houseNumber.nil? and houseNumber[/\A[a-zA-Z0-9\s-]{0,35}\Z/].nil?
-      Rails.logger.debug 'houseNumber fails reg ex check'
-      errors.add(:houseNumber, I18n.t('errors.messages.lettersSpacesNumbers35') )
-    end
-  end
 
   def validate_postcodeSearch
     if postcodeSearch == "" and addressMode.nil?

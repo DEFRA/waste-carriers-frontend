@@ -115,6 +115,27 @@ describe Registration do
     end
   end
 
+  context 'businessdetails step' do
+    before { subject.current_step = 'businessdetails' }
+
+    context 'manual-uk addressMode' do
+      before { subject.addressMode = 'manual-uk' }
+
+      describe 'presence' do
+        it { should validate_presence_of(:houseNumber).with_message(/must be completed/) }
+      end
+
+      describe 'format' do
+        it { should allow_value('1', '1a', 'Cloud-Base').for(:houseNumber) }
+        it { should_not allow_value('£2', "Lockeeper's Cottage").for(:houseNumber).with_message(/can only contain letters, spaces, numbers and hyphens and be no longer than 35 characters/) }
+      end
+
+      describe 'length' do
+        it { should ensure_length_of(:houseNumber).is_at_most(35) }
+      end
+    end
+  end
+
   context 'signup step' do
     subject { Registration.new }
 
