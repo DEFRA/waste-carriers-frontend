@@ -243,6 +243,8 @@ describe Registration do
           it { should allow_value(*GOOD_PASSWORDS).for(:password) }
           it { should_not allow_value(*WEAK_PASSWORDS).for(:password) }
 
+          it { should ensure_length_of(:password).is_at_least(8).is_at_most(128) }
+
           xit { should allow_value(*GOOD_PASSWORDS).for(:password_confirmation) }
           xit { should_not allow_value(*WEAK_PASSWORDS).for(:password_confirmation) }
         end
