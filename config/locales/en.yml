@@ -142,6 +142,10 @@ en:
     pending: "Pending"
     revoked: "Revoked"
 
+  route_options:
+    digital: "Active"
+    assisted_digital: "Assisted Digital"
+
   #Standard form controls/options
   form:
     yes_option_label: "Yes"

@@ -13,7 +13,24 @@ class ReportsController < ApplicationController
       @report.is_new = 'false'
 
       if @report.valid?
-        render "reportRegistrations"
+
+        routes = [ @report.route_digital, @report.route_assisted_digital ]
+
+        @registrations = Registration.find(
+          :all,
+          :params => {
+            :from => @report.from,
+            :until => @report.to,
+            :route => [ @report.route_digital, @report.route_assisted_digital ],
+            :status => @report.statuses,
+            :businessType => @report.business_types,
+            :ac => params[:email]}
+        )
+        respond_to do |format|
+          format.json { render json: @registrations }
+          format.csv
+          format.html
+        end
       else
         logger.info 'Report filters are not valid'
         render "reportRegistrations", :status => '400'
