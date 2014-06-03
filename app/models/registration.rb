@@ -119,8 +119,10 @@ class Registration < ActiveResource::Base
     registration.validates :postcode, presence: true, uk_postcode: true
   end
 
-  validates :streetLine3, :streetLine4, length: { maximum: 35 }, if: [:businessdetails_step?, :manual_foreign_address?]
-  validates :country, presence: true, length: { maximum: 35 }, if: [:businessdetails_step?, :manual_foreign_address?]
+  with_options if: [:businessdetails_step?, :manual_foreign_address?] do |registration|
+    registration.validates :streetLine3, :streetLine4, length: { maximum: 35 }
+    registration.validates :country, presence: true, length: { maximum: 35 }
+  end
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
