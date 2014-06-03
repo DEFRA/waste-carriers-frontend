@@ -114,9 +114,13 @@ class Registration < ActiveResource::Base
   end
 
   with_options if: [:businessdetails_step?, :manual_uk_address?] do |registration|
-    validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\'\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
-    validates :townCity, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }
-    validates :postcode, presence: true, uk_postcode: true
+    registration.validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\'\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
+    registration.validates :townCity, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }
+    registration.validates :postcode, presence: true, uk_postcode: true
+  end
+
+  with_options if: [:businessdetails_step?, :manual_foreign_address?] do |registration|
+    registration.validates :streetLine3, length: { maximum: 35 }
   end
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
@@ -186,7 +190,6 @@ class Registration < ActiveResource::Base
   # Contact Step fields
   # validate :validate_streetLine1, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
   # validate :validate_streetLine2, :if => lambda { |o| o.current_step == "contact" and o.addressMode}
-  # validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
   # validate :validate_streetLine4, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
   # validate :validate_country, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
   # validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
@@ -352,17 +355,6 @@ class Registration < ActiveResource::Base
     elsif !streetLine2.nil? and streetLine2.length > 35
       Rails.logger.debug 'streetLine2 longer than allowed'
       errors.add(:streetLine2, I18n.t('errors.messages.maxlength35') )
-    end
-  end
-
-  def validate_streetLine3
-    if !streetLine3.nil? and streetLine3[VALID_CHARACTERS].nil?
-      Rails.logger.debug 'streetLine3 fails reg ex check'
-      errors.add(:streetLine3, I18n.t('errors.messages.invalid_characters') )
-    #validates_length_of :streetLine3, :maximum => 35, :allow_blank => true, message: I18n.t('errors.messages.maxlength35'), :if => lambda { |o| o.current_step == "contact"}
-    elsif !streetLine3.nil? and streetLine3.length > 35
-      Rails.logger.debug 'streetLine3 longer than allowed'
-      errors.add(:streetLine3, I18n.t('errors.messages.maxlength35') )
     end
   end
 
