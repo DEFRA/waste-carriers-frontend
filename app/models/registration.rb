@@ -110,11 +110,12 @@ class Registration < ActiveResource::Base
     registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
     registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
     registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
-    registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9-+()\s]*\z/ }, length: { maximum: 20 }
+    registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9\-+()\s]*\z/ }, length: { maximum: 20 }
   end
 
   validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\'\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }, if: [:businessdetails_step?, :manual_uk_address?]
   validates :townCity, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }, if: [:businessdetails_step?, :manual_uk_address?]
+  validates :postcode, presence: true, uk_postcode: true, if: [:businessdetails_step?, :manual_uk_address?]
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
@@ -186,7 +187,6 @@ class Registration < ActiveResource::Base
   # validate :validate_streetLine3, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
   # validate :validate_streetLine4, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
   # validate :validate_country, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-foreign"}
-  # validate :validate_postcode, :if => lambda { |o| o.current_step == "contact" and o.addressMode == "manual-uk"}
   # validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   # validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   
@@ -386,16 +386,6 @@ class Registration < ActiveResource::Base
     elsif !country.nil? and country.length > 35
       Rails.logger.debug 'country longer than allowed'
       errors.add(:country, I18n.t('errors.messages.maxlength35') )
-    end
-  end
-
-  def validate_postcode
-    #validates_presence_of :postcode, :if => lambda { |o| o.current_step == "contact" and o.uprn == ""}
-    if postcode.nil? or postcode == ""
-      Rails.logger.debug 'postcode is empty'
-      errors.add(:postcode, I18n.t('errors.messages.blank') )
-    elsif !Postcode.is_valid_postcode?(postcode)
-      errors.add(:postcode, I18n.t('errors.messages.invalid') )
     end
   end
 
