@@ -159,8 +159,10 @@ class Registration < ActiveResource::Base
   #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
   # validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
-  validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
   validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
+
+  validates :password, presence: true, length: { in: 8..128 }, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validates_strength_of :password, with: :accountEmail, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
 
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
@@ -329,43 +331,6 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
-  def validate_password
-    #validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-    if password == ""
-      Rails.logger.debug 'password is empty'
-      errors.add(:password, I18n.t('errors.messages.blank') )
-    #If changing mim and max length, please also change in devise.rb
-    #validates_length_of :password, :minimum => 8, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.min8')
-    elsif !password.nil? and password.length < 8
-      Rails.logger.debug 'password minimum not reached'
-      errors.add(:password, I18n.t('errors.messages.min8') )
-    #validates_length_of :password, :maximum => 128, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}, message:I18n.t('errors.messages.max128')
-    elsif !password.nil? and password.length > 128
-      Rails.logger.debug 'password longer than allowed'
-      errors.add(:password, I18n.t('errors.messages.max128') )
-    else
-      #validate :validate_password_strength, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-      strength = PasswordStrength.test(accountEmail,password)
-      if !password.nil? and !strength.valid?(:good)
-        errors.add(:password, I18n.t('errors.messages.weakPassword') )
-      else
-	    if !persisted? && do_sign_in?
-	      Rails.logger.debug "validate_password - do_sign_in is true - looking for User with this email"
-	      @user = User.find_by_email(accountEmail)
-	      if @user == nil || !@user.valid_password?(password)
-	        errors.add(:password, 'Invalid email and/or password')
-	        Rails.logger.debug "Invalid User Found"
-	      end
-        # # Uncomment if we don't want to allow additional registrations
-        # if @user && !user.confirmed?
-        #   errors.add(:password, 'User account not confirmed')
-        # end
-	    else
-	      Rails.logger.debug "validate_password: not validating, sign_up_mode = " + (sign_up_mode || '')
-	    end
-      end
-    end
-  end
 
   def validate_password_confirmation
     #validates_presence_of :password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
