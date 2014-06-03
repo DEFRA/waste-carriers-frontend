@@ -40,6 +40,7 @@ gem 'uglifier', '>= 1.3.0'
 
 
 gem 'jquery-rails'
+gem 'jquery-turbolinks'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
