@@ -1,0 +1,22 @@
+<hr>
+  <h3><%= t 'registrations.confirmation_step.declaration_heading' %></h3>
+  <p class="group<%if @registration.errors[:declaration].any?%> validation<%end%>">
+    <%= validation_for(@registration, :declaration) %>
+    <%= f.check_box :declaration%> <span style="display: inline; font-size:90%}"><%= t 'registrations.confirmation_step.declaration_text' %></span>
+  </p>
+
+  <h3><%= t 'registrations.confirmation_step.data_protection_heading' %></h3>
+  <p>
+    <span style="font-size:90%}">
+      <%= t 'registrations.confirmation_step.data_protection_text1' %> <%= link_to t('registrations.dataProtection.subtitle'), dataProtection_path, :target => "_blank" %>
+    </span>
+  </p>
+  <p>
+    <span style="font-size:90%}">
+      <%= link_to t('.privacy_policy'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %>
+    </span>
+  </p>
+  <%= link_to t('upper_registrations.form.back_button_label'), :upper_payment, :class => 'button-secondary' %>
+  <input name="confirm" class="button" type="submit" value="<%= t 'upper_registrations.form.confirm_button_label' %>"/>
+</p>
+</div>

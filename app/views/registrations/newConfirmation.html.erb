@@ -7,7 +7,8 @@
       <div class="step"><%= t 'registrations.confirmation_step.step' %></div>
       <h1 class="subtitle"><%= t 'registrations.confirmation_step.subtitle' %></h1>
 
-      <%= render "confirmation_step", :f => f %>
+      <%= render "confirmation_step", f: f, registration_class: 'lower_tier' %>
+      <%= render 'declaration_and_data_protection', f: f %>
 
     <% end %>
 
