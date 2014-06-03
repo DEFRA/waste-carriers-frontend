@@ -129,6 +129,8 @@ class Registration < ActiveResource::Base
     registration.validates :streetLine2, length: { maximum: 35 }
   end
 
+  validates :postcodeSearch, presence: true, if: [:businessdetails_step?, :address_mode_blank?]
+
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
   # with_options if: [:signup_step?, :sign_up_mode_present?, :unpersisted?] do |registration|
@@ -191,6 +193,10 @@ class Registration < ActiveResource::Base
 
   def address_mode_present?
     addressMode.present?
+  end
+
+  def address_mode_blank?
+    addressMode.blank?
   end
 
   def unpersisted?

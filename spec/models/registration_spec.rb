@@ -158,6 +158,14 @@ describe Registration do
         it { should ensure_length_of(:country).is_at_most(35) }
       end
     end
+
+    context 'without addressMode' do
+      before { subject.addressMode = nil }
+
+      describe 'presence' do
+        it { should validate_presence_of(:postcodeSearch) }
+      end
+    end
   end
 
   context 'signup step' do
