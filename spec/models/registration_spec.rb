@@ -140,6 +140,18 @@ describe Registration do
         it { should ensure_length_of(:houseNumber).is_at_most(35) }
       end
     end
+
+    context 'manual-foreign addressMode' do
+      before { subject.addressMode = 'manual-foreign' }
+
+      describe 'presence' do
+        it { should_not validate_presence_of(:streetLine3) }
+      end
+
+      describe 'length' do
+        it { should ensure_length_of(:streetLine3).is_at_most(35) }
+      end
+    end
   end
 
   context 'signup step' do
