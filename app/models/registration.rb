@@ -256,8 +256,6 @@ class Registration < ActiveResource::Base
     @current_step || first_step
   end
 
-  VALID_SIGN_UP_MODES = %w[sign_up sign_in]
-
   def first_step
     'businesstype'
   end
