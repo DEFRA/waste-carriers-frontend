@@ -130,6 +130,7 @@ class Registration < ActiveResource::Base
   end
 
   validates :postcodeSearch, presence: true, uk_postcode: true, if: [:businessdetails_step?, :address_mode_blank?]
+  validates :selectedMoniker, presence: true, if: [:businessdetails_step?, :address_mode_blank?]
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
@@ -208,7 +209,6 @@ class Registration < ActiveResource::Base
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   # Contact Step fields
-  # validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   
   # validate :validate_addressMode
   
@@ -326,12 +326,6 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
-
-  def validate_selectedMoniker
-    if (selectedMoniker.nil? or selectedMoniker == "") and addressMode.nil? and postcodeSearch != "" and !uprn
-      errors.add(:selectedMoniker, I18n.t('errors.messages.blank') )
-    end
-  end
 
   def validate_addressMode
     if addressMode and !addressMode.nil? and addressMode != "manual-uk" and addressMode != "manual-foreign"
