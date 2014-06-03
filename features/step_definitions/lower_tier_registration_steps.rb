@@ -27,7 +27,7 @@ Given(/^I have completed the lower tier registration form$/) do
   click_on 'Next'
 
   check 'registration_declaration'
-  click_on 'Next'
+  click_on 'Confirm'
 
   fill_in 'Confirm email', with: my_email_address
   fill_in 'Create password', with: my_password
@@ -105,7 +105,7 @@ end
 And(/^I check the declaration$/) do
   check 'registration_declaration'
 
-  click_on 'Next'
+  click_on 'Confirm'
 end
 
 And(/^I provide my email address and create a password$/) do
