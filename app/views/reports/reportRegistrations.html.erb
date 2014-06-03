@@ -2,7 +2,7 @@
   <article role="article" class="group">
 
     <% content_for :page_title, createTitle('.title') %>
-    <%= form_for(@report, :url => "registrations", :html => { :method => 'GET' }) do |f| %>
+    <%= form_for(@report, :url => "registrations", :html => { :method => 'GET', :format => "csv" }) do |f| %>
 
       <h1 class="subtitle"><%= t '.subtitle' %></h1>
 

@@ -24,7 +24,7 @@ class Report
   end
 
   def self.status_options
-    (STATUS_OPTIONS.collect {|d| [I18n.t('status_options.'+d), d]})
+    (STATUS_OPTIONS.collect {|d| [I18n.t('status_options.'+d), d.upcase]})
   end
 
   private
@@ -34,9 +34,12 @@ class Report
       if from.blank?
         Rails.logger.debug "report 'from' field is empty"
         errors.add(:from, I18n.t('errors.messages.blank') )
-      # elsif from =~ /^\d\d\/\d\d\/\d\d\d\d$/
-      #   Rails.logger.debug "report 'from' field is invalid"
-      #   errors.add(:from, I18n.t('errors.messages.invalid') )
+        return
+      end
+
+      unless from.is_date?
+        Rails.logger.debug "report 'from' field is invalid"
+        errors.add(:from, I18n.t('errors.messages.invalid_date') )
       end
 
     end
@@ -46,9 +49,12 @@ class Report
       if to.blank?
         Rails.logger.debug "report 'to' field is empty"
         errors.add(:to, I18n.t('errors.messages.blank') )
-      # elsif to =~ /^\d\d\/\d\d\/\d\d\d\d$/
-      #   Rails.logger.debug "report 'to' field is invalid"
-      #   errors.add(:to, I18n.t('errors.messages.invalid') )
+        return
+      end
+
+      unless to.is_date?
+        Rails.logger.debug "report 'to' field is invalid"
+        errors.add(:to, I18n.t('errors.messages.invalid_date') )
       end
 
     end

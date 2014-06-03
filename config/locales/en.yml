@@ -88,6 +88,7 @@ en:
     messages:
       blank: "must be completed"
       invalid: "is not valid"
+      invalid_date: "is not a valid date (dd/mm/yyyy)"
       invalid_selection: "has an invalid selection"
       invalidEmail: "must be a valid email address"
       letters: "can only contain letters"
