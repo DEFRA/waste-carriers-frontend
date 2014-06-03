@@ -208,7 +208,6 @@ class Registration < ActiveResource::Base
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   # Contact Step fields
-  # validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   # validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   
   # validate :validate_addressMode
@@ -327,12 +326,6 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
-
-  def validate_postcodeSearch
-    if postcodeSearch == "" and addressMode.nil?
-      errors.add(:postcodeSearch, I18n.t('errors.messages.blank') )
-    end
-  end
 
   def validate_selectedMoniker
     if (selectedMoniker.nil? or selectedMoniker == "") and addressMode.nil? and postcodeSearch != "" and !uprn
