@@ -112,6 +112,9 @@ describe Registration do
     it { should_not allow_value('<script>alert("hi");</script>').for(:companyName) }
     it { should ensure_length_of(:companyName).is_at_most(70) }
 
+    it { should allow_value('manual-uk', 'manual-foreign').for(:addressMode) }
+    it { should_not allow_value('uk', 'foreign').for(:addressMode) }
+
     context 'manual-uk addressMode' do
       before { subject.addressMode = 'manual-uk' }
 

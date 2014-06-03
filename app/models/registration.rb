@@ -119,6 +119,8 @@ class Registration < ActiveResource::Base
     registration.validates :postcode, presence: true, uk_postcode: true
   end
 
+  validates :addressMode, allow_blank: true, inclusion: { in: %w(manual-uk manual-foreign) }, if: :businessdetails_step?
+
   with_options if: [:businessdetails_step?, :manual_foreign_address?] do |registration|
     registration.validates :streetLine3, :streetLine4, length: { maximum: 35 }
     registration.validates :country, presence: true, length: { maximum: 35 }
@@ -209,10 +211,6 @@ class Registration < ActiveResource::Base
   # Business Step fields
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
-
-  # Contact Step fields
-  
-  # validate :validate_addressMode
   
   # Confirmation fields
   # validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
@@ -328,13 +326,6 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
-
-  def validate_addressMode
-    if addressMode and !addressMode.nil? and addressMode != "manual-uk" and addressMode != "manual-foreign"
-      errors.add(:addressMode, I18n.t('errors.messages.blank') )
-    end
-  end
-
   def validate_password
     #validates_presence_of :password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
     if password == ""
