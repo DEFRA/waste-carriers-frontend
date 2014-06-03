@@ -124,6 +124,7 @@ describe Registration do
       describe 'presence' do
         it { should validate_presence_of(:houseNumber).with_message(/must be completed/) }
         it { should validate_presence_of(:townCity).with_message(/must be completed/) }
+        it { should validate_presence_of(:postcode).with_message(/must be completed/) }
       end
 
       describe 'format' do
@@ -131,6 +132,8 @@ describe Registration do
         it { should_not allow_value('£2').for(:houseNumber).with_message(/can only contain letters, spaces, numbers and hyphens and be no longer than 35 characters/) }
         it { should allow_value('Bristol', 'Newcastle-upon-Type', 'Leamington Spa', "Gerrard's Cross").for(:townCity)}
         it { should_not allow_value('Bristol!', 'District 9').for(:townCity) }
+        it { should allow_value('BS1 5AH', 'BS22 5AH').for(:postcode) }
+        it { should_not allow_value('1234', 'blah').for(:postcode) }
       end
 
       describe 'length' do
