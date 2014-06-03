@@ -28,10 +28,10 @@
           <legend><%= t '.route_type' %></legend>
           <div>
             <%= f.label :route_digital do %>
-              <%= f.check_box :route_digital %> <%= t '.route_digital' %>
+              <%= f.check_box :route_digital, {}, "DIGITAL", "" %> <%= t '.route_digital' %>
             <% end %>
             <%= f.label :route_assisted_digital do %>
-              <%= f.check_box :route_assisted_digital %> <%= t '.route_assisted_digital' %>
+              <%= f.check_box :route_assisted_digital, {}, "ASSISTED_DIGITAL", "" %> <%= t '.route_assisted_digital' %>
             <% end %>
           </div>
         </fieldset>
