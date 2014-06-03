@@ -39,6 +39,12 @@ class Registration < ActiveResource::Base
     string :administrativeArea
     string :royalMailUpdateDate
     string :localAuthorityUpdateDate
+    string :company_no
+
+    integer :total_fee
+    integer :registration_fee
+    integer :copy_card_fee
+    integer :copy_cards
 
     # Non UK fields
     string :streetLine3
@@ -67,16 +73,17 @@ class Registration < ActiveResource::Base
     string :routeName
     string :accessCode
     # upper registration attributes
-    string :alt_first_name
-    string :alt_last_name
-    string :alt_job_title
-    string :alt_telephone_number
-    string :alt_email_address
-    string :primary_first_name
-    string :primary_last_name
-    string :primary_job_title
-    string :primary_telephone_number
-    string :primary_email_address
+     string :alt_first_name
+     string :alt_last_name
+     string :alt_job_title
+     string :alt_telephone_number
+     string :alt_email_address
+     string :primary_first_name
+     string :primary_last_name
+     string :primary_job_title
+     string :primary_telephone_number
+     string :primary_email_address
+    string :company_house_no
 
     # Used as a trigger value to force validation of the revoke reason field
     # When this value contains any value, the revokeReason field is validated
@@ -128,9 +135,9 @@ class Registration < ActiveResource::Base
   validate :validate_postcodeSearch, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
   validate :validate_selectedMoniker, :if => lambda { |o| o.current_step == "contact" and !o.addressMode}
 =end
-  
+
   validate :validate_addressMode
-  
+
   # validate :validate_title, :if => lambda { |o| o.current_step == "contact" }
   # validate :validate_otherTitle, :if => lambda { |o| o.current_step == "contact" and o.title == "other"}
   validate :validate_firstName, :if => lambda { |o| o.current_step == "contact" }
@@ -138,7 +145,7 @@ class Registration < ActiveResource::Base
   validate :validate_position, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_phoneNumber, :if => lambda { |o| o.current_step == "contact" }
   validate :validate_contactEmail, :if => lambda { |o| o.current_step == "contact" }
-  
+
   # Confirmation fields
   validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
 
@@ -637,11 +644,11 @@ class Registration < ActiveResource::Base
   def boxClassSuffix
     case metaData.status
       when 'REVOKED'
-        'revoked'
+      'revoked'
       when 'PENDING'
-        'pending'
-      else
-        ''
+      'pending'
+    else
+      ''
     end
   end
 

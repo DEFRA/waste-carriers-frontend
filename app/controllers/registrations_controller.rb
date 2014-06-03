@@ -70,6 +70,7 @@ class RegistrationsController < ApplicationController
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newBusinessType", :status => '400'
+      #redirect_to newBusinessDetails_path
     end
   end
 
@@ -142,6 +143,7 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/construction-demolition
   def newConstructionDemolition
     new_step_action 'constructiondemolition'
+    session[:registration_phase] = 'smart'
   end
 
   # POST /your-registration/construction-demolition
@@ -152,8 +154,10 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
         when 'yes'
+        session[:registration_phase] = 'upper'
           redirect_to :newRegistrationType
         when 'no'
+        session[:registration_phase] = 'lower'
           redirect_to :newBusinessDetails
       end
     elsif @registration.new_record?
@@ -235,9 +239,10 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/registration-type
   def updateNewRegistrationType
     setup_registration 'registrationtype'
-
+    @registration.registration_phase = 'upper'
     if @registration.valid?
-      redirect_to :newBusinessDetails
+        redirect_to :upper_contact_details
+
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -261,6 +266,11 @@ class RegistrationsController < ApplicationController
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newConfirmation", :status => '400'
     end
+  end
+
+  # GET /registrations/data-protection
+  def dataProtection
+    # Renders static data proctection page
   end
 
   def new_step_action current_step
@@ -387,6 +397,7 @@ class RegistrationsController < ApplicationController
       renderNotFound
       return
     end
+    #render the confirmed page
   end
 
 
@@ -442,6 +453,7 @@ class RegistrationsController < ApplicationController
   def new
     renderNotFound
   end
+
 
   # GET /registrations/1/edit
   def edit
@@ -753,6 +765,9 @@ class RegistrationsController < ApplicationController
     end
   end
 
+
+
+
   #PUT...
   def ncccupdate
     @registration = Registration.find(params[:id])
@@ -842,6 +857,8 @@ class RegistrationsController < ApplicationController
     regFromParams.attributes
   end
 
+
+
   # DELETE /registrations/1
   # DELETE /registrations/1.json
   def destroy
@@ -906,25 +923,67 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     # session[:registration_params].deep_merge!(upper_reg_params) if params[:upper_registration]
 
-
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = current_step
   end
 
-  # GET your-registration/upper/contact-detail
-  def contact_detail
-    update_model("contact_detail")
+ # GET your-registration/upper-tier-contact-details
+  def newUpperContactDetails
+    new_step_action 'upper_contact_details'
+    logger.debug 'upper_contact_details'
+    # update_model("contact_detail")
   end
 
-  # POST your-registration/upper/contact-detail
-  def contact_detail_update
+  # POST your-registration/upper-tier-contact-details
+  def updateNewUpperContactDetails
 
-    update_model("contact_detail")
+    setup_registration 'upper_contact_details'
 
     if @registration.valid?
-      redirect_to :upper_relevant_conviction
-    else
-      redirect_to :upper_contact_detail
+      redirect_to :upper_payment
+
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newUpperContactDetails", :status => '400'
+    end
+  end
+
+   # GET upper-registrations/payment
+  def newPayment
+    new_step_action 'payment'
+   @registration.registration_fee = 154
+   @registration.copy_cards = 2
+    @registration.copy_card_fee = @registration.copy_cards * 5
+     @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
+    # update_model("payment")
+  end
+
+  # POST upper-registrations/payment
+  def updateNewPayment
+    setup_registration 'payment'
+    # update_model("payment")
+
+    if @registration.valid?
+      redirect_to :upper_summary
+    else render 'newPayment', :status => '400'
+
+    end
+  end
+
+  # GET upper-registrations/summary
+  def newUpperSummary
+       new_step_action 'upper_summary'
+  end
+
+  # POST upper-registrations/summary
+  def updateNewUpperSummary
+
+    setup_registration 'upper_summary'
+
+    if @registration.valid?
+      redirect_to :newSignup
+    else render 'newUpperSummary', :status => '400'
     end
   end
 ######################################
@@ -976,6 +1035,12 @@ private
       :password,
       :password_confirmation,
       :accountEmail_confirmation,
+      :registration_phase,
+      :company_no,
+      :registration_fee,
+      :copy_card_fee,
+      :copy_cards,
+      :total_fee,
       :sign_up_mode)
   end
 
