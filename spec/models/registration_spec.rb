@@ -126,8 +126,8 @@ describe Registration do
       end
 
       describe 'format' do
-        it { should allow_value('1', '1a', 'Cloud-Base').for(:houseNumber) }
-        it { should_not allow_value('£2', "Lockeeper's Cottage").for(:houseNumber).with_message(/can only contain letters, spaces, numbers and hyphens and be no longer than 35 characters/) }
+        it { should allow_value('1', '1a', 'Cloud-Base', "Lockeeper's Cottage").for(:houseNumber) }
+        it { should_not allow_value('£2').for(:houseNumber).with_message(/can only contain letters, spaces, numbers and hyphens and be no longer than 35 characters/) }
       end
 
       describe 'length' do
