@@ -230,19 +230,19 @@ describe Registration do
 
         it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail) }
         it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail) }
-      end
 
-      context 'sign_up signup mode' do
-        before { subject.signup_mode = 'sign_up' }
+        context 'unpersisted' do
+          before { allow(subject).to receive(:persisted?).and_return(false) }
 
-        xit { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
-        xit { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
+          xit { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
+          xit { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
 
-        xit { should allow_value('myPass145', 'myPass145$').for(:password) }
-        xit { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
+          it { should allow_value('myPass145', 'myPass145$').for(:password) }
+          it { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
 
-        xit { should allow_value('myPass145', 'myPass145$').for(:password_confirmation) }
-        xit { should_not allow_value('123', '123abc', 'aaaaa').for(:password_confirmation) }
+          xit { should allow_value('myPass145', 'myPass145$').for(:password_confirmation) }
+          xit { should_not allow_value('123', '123abc', 'aaaaa').for(:password_confirmation) }
+        end
       end
 
       context 'unpersisted' do
