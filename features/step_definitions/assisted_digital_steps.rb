@@ -44,7 +44,7 @@ end
 Given(/^the caller declares the information provided is correct$/) do
   check 'registration_declaration'
 
-  click_on 'Next'
+  click_on 'Confirm'
 end
 
 Given(/^the user confirms his account details$/) do
@@ -71,11 +71,13 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   choose 'registration_businessType_charity'
   click_on 'Next'
 
-  fill_in 'Business or organisation trading name', with: 'Grades'
-  fill_in 'sPostcode', with: 'BS1 2EP'
-  click_on 'Find UK address'
-
-  select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
+  click_on 'I want to add an address myself'
+  fill_in 'registration_companyName', with: 'Grades & Co'
+  fill_in 'registration_houseNumber', with: '12'
+  fill_in 'registration_streetLine1', with: 'Deanery Road'
+  fill_in 'registration_streetLine2', with: 'EA Building'
+  fill_in 'registration_townCity', with: 'Bristol'
+  fill_in 'registration_postcode', with: 'BS1 5AH'
   click_on 'Next'
 
   fill_in 'First name', with: 'Joe'
@@ -86,7 +88,7 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   click_on 'Next'
 
   check 'registration_declaration'
-  click_on 'Next'
+  click_on 'Confirm'
 
   click_on 'Next'
 end
