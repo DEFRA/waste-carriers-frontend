@@ -226,7 +226,7 @@ class Registration < ActiveResource::Base
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
 
   #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
-  #validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
+  validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
 
   def self.business_type_options_for_select
     (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})

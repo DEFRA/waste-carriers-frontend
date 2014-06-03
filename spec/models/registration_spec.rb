@@ -244,6 +244,13 @@ describe Registration do
         xit { should allow_value('myPass145', 'myPass145$').for(:password_confirmation) }
         xit { should_not allow_value('123', '123abc', 'aaaaa').for(:password_confirmation) }
       end
+
+      context 'unpersisted' do
+        before { allow(subject).to receive(:persisted?).and_return(false) }
+
+        it { should allow_value('sign_up', 'sign_in').for(:sign_up_mode) }
+        it { should_not allow_value('signup', 'signin').for(:sign_up_mode) }
+      end
     end
   end
 end
