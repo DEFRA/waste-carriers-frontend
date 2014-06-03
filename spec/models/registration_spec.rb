@@ -123,11 +123,14 @@ describe Registration do
 
       describe 'presence' do
         it { should validate_presence_of(:houseNumber).with_message(/must be completed/) }
+        it { should validate_presence_of(:townCity).with_message(/must be completed/) }
       end
 
       describe 'format' do
         it { should allow_value('1', '1a', 'Cloud-Base', "Lockeeper's Cottage").for(:houseNumber) }
         it { should_not allow_value('£2').for(:houseNumber).with_message(/can only contain letters, spaces, numbers and hyphens and be no longer than 35 characters/) }
+        it { should allow_value('Bristol', 'Newcastle-upon-Type', 'Leamington Spa', "Gerrard's Cross").for(:townCity)}
+        it { should_not allow_value('Bristol!', 'District 9').for(:townCity) }
       end
 
       describe 'length' do
