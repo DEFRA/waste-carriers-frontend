@@ -40,7 +40,7 @@
           <legend><%= t '.status' %></legend>
           <p class="group<%if @report.errors[:statuses].any?%> validation<% end %>">
             <%= validation_for(@report, :statuses) %>
-            <%= f.select :statuses, Report.status_options, {}, :multiple => true %>
+            <%= f.select :statuses, Report.status_options, {}, { :multiple => true, :include_blank => false, :size => 3, :class => 'select-boxes' } %>
           </p>
         </fieldset>
 
@@ -48,7 +48,7 @@
           <legend><%= t '.business_type' %></legend>
           <p class="group<%if @report.errors[:business_types].any?%> validation<% end %>">
             <%= validation_for(@report, :business_types) %>
-            <%= f.select :business_types, Registration.business_type_options_for_select, {}, :multiple => true %>
+            <%= f.select :business_types, Registration.business_type_options_for_select, {}, { :multiple => true, :include_blank => false, :size => 7, :class => 'select-boxes' } %>
           </p>
         </fieldset>
 
