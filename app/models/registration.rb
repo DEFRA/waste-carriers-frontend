@@ -107,10 +107,10 @@ class Registration < ActiveResource::Base
   validates :companyName, presence: true, format: { with: /\A[a-zA-Z0-9\s\.\-&\']+\z/, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: :businessdetails_step?
 
   with_options if: :contactdetails_step? do |registration|
-    registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
-    registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }, length: { maximum: 35 }
-    registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']*\z/ }
-    registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9\-+()\s]*\z/ }, length: { maximum: 20 }
+    registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }, length: { maximum: 35 }
+    registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }, length: { maximum: 35 }
+    registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }
+    registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9\-+()\s]+\z/ }, length: { maximum: 20 }
   end
 
   validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\'\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }, if: [:businessdetails_step?, :manual_uk_address?]
