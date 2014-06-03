@@ -165,8 +165,9 @@ class Registration < ActiveResource::Base
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
 
-  validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
-  validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, :unpersisted?]
+  # TODO not sure whether to keep this validation or not
+  # validates :sign_up_mode, presence: true, if: [:signup_step?, :unpersisted?, :account_email_present?]
+  # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, :unpersisted?]
 
   def businesstype_step?
     current_step.inquiry.businesstype?
@@ -222,6 +223,10 @@ class Registration < ActiveResource::Base
 
   def address_mode_blank?
     addressMode.blank?
+  end
+
+  def account_email_present?
+    accountEmail.present?
   end
 
   def unpersisted?
