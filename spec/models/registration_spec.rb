@@ -117,6 +117,8 @@ describe Registration do
 
       describe 'presence' do
         it { should validate_presence_of(:houseNumber).with_message(/must be completed/) }
+        it { should validate_presence_of(:streetLine1).with_message(/must be completed/) }
+        it { should_not validate_presence_of(:streetLine2).with_message(/must be completed/) }
         it { should validate_presence_of(:townCity).with_message(/must be completed/) }
         it { should validate_presence_of(:postcode).with_message(/must be completed/) }
       end
@@ -132,6 +134,8 @@ describe Registration do
 
       describe 'length' do
         it { should ensure_length_of(:houseNumber).is_at_most(35) }
+        it { should ensure_length_of(:streetLine1).is_at_most(35) }
+        it { should ensure_length_of(:streetLine2).is_at_most(35) }
       end
     end
 
@@ -139,12 +143,16 @@ describe Registration do
       before { subject.addressMode = 'manual-foreign' }
 
       describe 'presence' do
+        it { should validate_presence_of(:streetLine1).with_message(/must be completed/) }
+        it { should_not validate_presence_of(:streetLine2).with_message(/must be completed/) }
         it { should_not validate_presence_of(:streetLine3) }
         it { should_not validate_presence_of(:streetLine4) }
         it { should validate_presence_of(:country).with_message(/must be completed/) }
       end
 
       describe 'length' do
+        it { should ensure_length_of(:streetLine1).is_at_most(35) }
+        it { should ensure_length_of(:streetLine2).is_at_most(35) }
         it { should ensure_length_of(:streetLine3).is_at_most(35) }
         it { should ensure_length_of(:streetLine4).is_at_most(35) }
         it { should ensure_length_of(:country).is_at_most(35) }
