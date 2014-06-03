@@ -148,6 +148,26 @@ class Registration < ActiveResource::Base
 
   validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:signup_step?, :sign_up_mode_present?]
 
+  # Business Step fields
+  # TODO: FIX this Test All routes!! IS this needed
+  #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
+
+  # Confirmation fields
+  # validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
+
+  # Sign up / Sign in fields
+  #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
+  validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
+  # validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
+  validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
+
+  # Validate Revoke Reason
+  # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
+
+  #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
+  validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }, allow_blank: true
+
   def businesstype_step?
     current_step.inquiry.businesstype?
   end
@@ -207,26 +227,6 @@ class Registration < ActiveResource::Base
   def unpersisted?
     not persisted?
   end
-
-  # Business Step fields
-  # TODO: FIX this Test All routes!! IS this needed
-  #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
-  
-  # Confirmation fields
-  # validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
-
-  # Sign up / Sign in fields
-  #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
-  validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
-  # validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
-  validate :validate_password, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-  validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
-
-  # Validate Revoke Reason
-  # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
-
-  #validates_presence_of :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && !o.accountEmail.nil? }
-  validates :sign_up_mode, :if => lambda { |o| o.current_step == "signup" && !o.persisted? }, :inclusion => {:in => %w[sign_up sign_in] }
 
   def self.business_type_options_for_select
     (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
