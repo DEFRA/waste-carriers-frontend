@@ -170,6 +170,15 @@ describe Registration do
         it { should allow_value('BS1 5AH', 'BS22 5AH').for(:postcodeSearch) }
         it { should_not allow_value('1234', 'blah').for(:postcodeSearch) }
       end
+
+      context 'with postcodeSearch but no address found' do
+        before do
+          subject.postcodeSearch = 'BS11 JAH'
+          subject.uprn = nil
+        end
+
+        it { should validate_presence_of(:selectedMoniker) }
+      end
     end
   end
 
