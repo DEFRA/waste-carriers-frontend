@@ -141,7 +141,6 @@ class Registration < ActiveResource::Base
   # with_options if: [:signup_step?, :sign_up_mode_present?, :unpersisted?] do |registration|
   #   registration.validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
   #   registration.validates :accountEmail_confirmation, presence: true, format: { with: VALID_EMAIL_REGEX }
-  #   registration.validates :password, presence: true
   #   registration.validates_strength_of [:password, :password_confirmation], with: :accountEmail
   #   registration.validates :password_confirmation, presence: true
   # end
@@ -161,8 +160,10 @@ class Registration < ActiveResource::Base
   # validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
   validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
 
-  validates :password, presence: true, length: { in: 8..128 }, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-  validates_strength_of :password, with: :accountEmail, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
+  with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
+    registration.validates :password, presence: true, length: { in: 8..128 }
+    registration.validates_strength_of :password, with: :accountEmail
+  end
 
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
