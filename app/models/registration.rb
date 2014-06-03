@@ -129,8 +129,10 @@ class Registration < ActiveResource::Base
     registration.validates :streetLine2, length: { maximum: 35 }
   end
 
-  validates :postcodeSearch, presence: true, uk_postcode: true, if: [:businessdetails_step?, :address_mode_blank?]
-  validates :selectedMoniker, presence: true, if: [:businessdetails_step?, :address_mode_blank?]
+  with_options if: [:businessdetails_step?, :address_mode_blank?] do |registration|
+    registration.validates :postcodeSearch, presence: true, uk_postcode: true
+    registration.validates :selectedMoniker, presence: true
+  end
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
 
