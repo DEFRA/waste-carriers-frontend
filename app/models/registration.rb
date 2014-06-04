@@ -135,15 +135,8 @@ class Registration < ActiveResource::Base
   end
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
-
-  # with_options if: [:signup_step?, :sign_up_mode_present?, :unpersisted?] do |registration|
-  #   registration.validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }
-  #   registration.validates :accountEmail_confirmation, presence: true, format: { with: VALID_EMAIL_REGEX }
-  #   registration.validates_strength_of [:password, :password_confirmation], with: :accountEmail
-  #   registration.validates :password_confirmation, presence: true
-  # end
-
   validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:signup_step?, :sign_up_mode_present?]
+  validates :accountEmail, confirmation: true, if: [:signup_step?, :unpersisted?, :do_sign_up?]
 
   # Business Step fields
   # TODO: FIX this Test All routes!! IS this needed
@@ -161,8 +154,6 @@ class Registration < ActiveResource::Base
     registration.validates_strength_of :password, with: :accountEmail
     registration.validates :password, confirmation: true
   end
-
-  validates :accountEmail, confirmation: true, if: [:signup_step?, :unpersisted?, :do_sign_up?]
 
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
