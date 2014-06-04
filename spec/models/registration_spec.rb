@@ -242,13 +242,12 @@ describe Registration do
         context 'unpersisted' do
           before { allow(subject).to receive(:persisted?).and_return(false) }
 
-          xit { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
-          xit { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail_confirmation) }
-
           it { should allow_value(*GOOD_PASSWORDS).for(:password) }
           it { should_not allow_value(*WEAK_PASSWORDS).for(:password) }
 
           it { should ensure_length_of(:password).is_at_least(8).is_at_most(128) }
+
+          it { should validate_confirmation_of(:accountEmail) }
         end
       end
 

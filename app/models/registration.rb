@@ -58,7 +58,6 @@ class Registration < ActiveResource::Base
     string :uprn
     string :address
 
-    string :accountEmail_confirmation
     string :password
     string :sign_up_mode
     string :routeName
@@ -156,13 +155,14 @@ class Registration < ActiveResource::Base
   # Sign up / Sign in fields
   #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
-  # validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
 
   with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
     registration.validates :password, presence: true, length: { in: 8..128 }
     registration.validates_strength_of :password, with: :accountEmail
     registration.validates :password, confirmation: true
   end
+
+  validates :accountEmail, confirmation: true, if: [:signup_step?, :unpersisted?, :do_sign_up?]
 
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
@@ -355,17 +355,6 @@ class Registration < ActiveResource::Base
       unless User.where(email: accountEmail).count == 0
         Rails.logger.debug "adding error - email already taken"
         errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') )
-      end
-    end
-  end
-
-  def validate_accountEmail_confirmation
-    if !persisted? && do_sign_up?
-      #Note: this method may be called (again?) after the password properties have been deleted
-      if accountEmail != nil && accountEmail_confirmation != nil
-        if accountEmail != accountEmail_confirmation
-          errors.add(:accountEmail_confirmation, I18n.t('errors.messages.matchEmail') )
-        end
       end
     end
   end
