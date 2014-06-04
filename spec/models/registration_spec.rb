@@ -217,8 +217,6 @@ describe Registration do
           it { should validate_confirmation_of(:password) }
         end
       end
-
-      xit { should validate_presence_of(:accountEmail_confirmation).with_message(/must be completed/) }
     end
 
     context 'format' do
