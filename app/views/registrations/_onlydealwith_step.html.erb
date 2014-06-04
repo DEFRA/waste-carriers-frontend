@@ -7,6 +7,7 @@
     Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste
    -->
   <fieldset>
+    <legend></legend>
     <p class="group<%if @registration.errors[:onlyAMF].any?%> validation<%end%>">
   	  <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
         <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> <%= f.label t 'form.yes_option_label', :class => "label" %>
