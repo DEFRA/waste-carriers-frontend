@@ -7,14 +7,15 @@
     Whose waste do you deal with?
    -->
   <fieldset>
-    <p class="group<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>">
-      <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
+    <legend></legend>
+    <div class="inline<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>">
+      <label class="block-label"><!-- GDS have an 'option' class but we prefer this simplified version -->
         <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %> <%= f.label t 'form.yes_option_label', :class => "label" %>
-      </span>
-  	  <span class="inline">
+      </label>
+  	  <label class="block-label">
   	    <%= f.radio_button :otherBusinesses, "no", :class => "radio" %> <%= f.label t 'form.no_option_label', :class => "label" %>
-  	  </span>
-    </p>
+  	  </label>
+    </div>
   </fieldset>
 
 </div>

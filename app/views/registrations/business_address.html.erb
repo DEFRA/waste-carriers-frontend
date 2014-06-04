@@ -20,6 +20,7 @@
       <%= render "upper_errors" %>
 
       <fieldset>
+        <legend></legend>
         <p class="group<%if @registration.errors[:company_house_number].any?%> validation<%end%>">
           <%= validation_for(@registration, :company_house_number) %>
           <%= f.label t '.companies_house_label' %>

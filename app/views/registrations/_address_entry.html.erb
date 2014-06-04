@@ -1,4 +1,5 @@
 <fieldset>
+<legend></legend>  
 <%if @registration.addressMode%>
 
   <!-- This section handles when the user goes manual. This covers selecting
@@ -118,7 +119,7 @@
     <a href="?sManual=true"><%= t '.manual_address_label'%></a>
   <%else%>
     <!-- This section gets hit when the page is first loaded -->
-    <p class="group<%if @registration.errors[:postcodeSearch].any? or params[:sPostcode]%> validation<%end%>">
+    <p class="form-group<%if @registration.errors[:postcodeSearch].any? or params[:sPostcode]%> validation<%end%>">
 
       <%if params[:sPostcode] and params[:sPostcode]!=""%>
         <!-- The user has entered a postcode but there were no matches -->
@@ -134,7 +135,7 @@
       <%end%>
 
       <!-- Display elements for the entering and submitting the postcode to search for -->
-      <%= f.label :postcode %>
+      <%= f.label :postcode, class: 'form-label' %>
       <input id="sPostcode" name="sPostcode" type="text" class="postcode" value="<%= params[:sPostcode]%>"/>
       <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
     </p>
