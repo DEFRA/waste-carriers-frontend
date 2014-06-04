@@ -214,23 +214,7 @@ describe Registration do
           before { allow(subject).to receive(:persisted?).and_return(false) }
 
           it { should validate_presence_of(:password).with_message(/must be completed/) }
-          it { should validate_presence_of(:password_confirmation).with_message(/must be completed/) }
-
-          context 'passwords' do
-            before { subject.accountEmail = VALID_EMAIL_ADDRESSES.first }
-
-            context 'password and password_confirmation match' do
-              before { subject.password = subject.password_confirmation = GOOD_PASSWORDS.first }
-
-              it { should be_valid }
-            end
-
-            context 'password and password_confirmation mismatch' do
-              before { subject.password, subject.password_confirmation = GOOD_PASSWORDS.first, GOOD_PASSWORDS.second }
-
-              it { should_not be_valid }
-            end
-          end
+          it { should validate_confirmation_of(:password) }
         end
       end
 
@@ -265,11 +249,6 @@ describe Registration do
           it { should_not allow_value(*WEAK_PASSWORDS).for(:password) }
 
           it { should ensure_length_of(:password).is_at_least(8).is_at_most(128) }
-
-          # it { should allow_value(*GOOD_PASSWORDS).for(:password_confirmation) }
-          # it { should_not allow_value(*WEAK_PASSWORDS).for(:password_confirmation) }
-
-          it { should ensure_length_of(:password_confirmation).is_at_least(8).is_at_most(128) }
         end
       end
 

@@ -60,7 +60,6 @@ class Registration < ActiveResource::Base
 
     string :accountEmail_confirmation
     string :password
-    string :password_confirmation
     string :sign_up_mode
     string :routeName
     string :accessCode
@@ -160,8 +159,8 @@ class Registration < ActiveResource::Base
   # validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
 
   with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
-    registration.validates :password, :password_confirmation, presence: true, length: { in: 8..128 }
-    registration.validates_strength_of :password, :password_confirmation, with: :accountEmail
+    registration.validates :password, presence: true, length: { in: 8..128 }
+    registration.validates_strength_of :password, with: :accountEmail
     registration.validates :password, confirmation: true
   end
 
