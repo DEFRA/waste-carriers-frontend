@@ -98,7 +98,6 @@ en:
       35characters: "can not be longer than 35 characters"
       70characters: "can not be longer than 70 characters"
       accepted: "must be accepted"
-      matchPassword: "must match the password provided"
       matchEmail: "must match the email provided"
       weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
       emailTaken: "has already been taken"

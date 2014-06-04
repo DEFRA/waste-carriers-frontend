@@ -162,7 +162,7 @@ class Registration < ActiveResource::Base
   with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
     registration.validates :password, :password_confirmation, presence: true, length: { in: 8..128 }
     registration.validates_strength_of :password, :password_confirmation, with: :accountEmail
-    registration.validate :password_and_password_confirmation_must_match
+    registration.validates :password, confirmation: true
   end
 
   # Validate Revoke Reason
@@ -327,12 +327,6 @@ class Registration < ActiveResource::Base
   def activate!
     #Note: the actual status update will be performed in the service
     metaData.status = 'ACTIVATE'
-  end
-
-  def password_and_password_confirmation_must_match
-    unless password == password_confirmation
-      errors.add :password_confirmation, I18n.t('errors.messages.matchPassword')
-    end
   end
 
   # ----------------------------------------------------------
