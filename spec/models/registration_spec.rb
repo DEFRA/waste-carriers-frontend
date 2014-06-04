@@ -215,6 +215,14 @@ describe Registration do
 
           it { should validate_presence_of(:password).with_message(/must be completed/) }
           it { should validate_confirmation_of(:password) }
+
+          describe 'unique user registration using accountEmail' do
+            context 'User exists with supplied accountEmail' do
+              let(:user) { FactoryGirl.create :user }
+
+              it { should_not allow_value(user.email).for(:accountEmail) }
+            end
+          end
         end
       end
     end
