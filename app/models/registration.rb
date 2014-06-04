@@ -158,11 +158,11 @@ class Registration < ActiveResource::Base
   #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
   validate :validate_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
   # validate :validate_accountEmail_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up"}
-  validate :validate_password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
 
   with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
-    registration.validates :password, presence: true, length: { in: 8..128 }
-    registration.validates_strength_of :password, with: :accountEmail
+    registration.validates :password, :password_confirmation, presence: true, length: { in: 8..128 }
+    registration.validates_strength_of :password, :password_confirmation, with: :accountEmail
+    registration.validate :password_and_password_confirmation_must_match
   end
 
   # Validate Revoke Reason
@@ -329,27 +329,15 @@ class Registration < ActiveResource::Base
     metaData.status = 'ACTIVATE'
   end
 
+  def password_and_password_confirmation_must_match
+    unless password == password_confirmation
+      errors.add :password_confirmation, I18n.t('errors.messages.matchPassword')
+    end
+  end
+
   # ----------------------------------------------------------
   # FIELD VALIDATIONS
   # ----------------------------------------------------------
-
-  def validate_password_confirmation
-    #validates_presence_of :password_confirmation, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode == "sign_up" }
-    if password_confirmation == ""
-      Rails.logger.debug 'password_confirmation is empty'
-      errors.add(:password_confirmation, I18n.t('errors.messages.blank') )
-    #validate :validate_passwords, :if => lambda { |o| o.current_step == "signup" && !o.persisted? && o.sign_up_mode != ""}
-    elsif !persisted? && do_sign_up?
-      #Note: this method may be called (again?) after the password properties have been deleted
-      if password != nil && password_confirmation != nil
-        if password != password_confirmation
-          errors.add(:password_confirmation, I18n.t('errors.messages.matchPassword') )
-        end
-      end
-    else
-      Rails.logger.debug "validate_passwords: not validating, sign_up_mode = " + (sign_up_mode || '')
-    end
-  end
 
   def validate_revokedReason
     #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
