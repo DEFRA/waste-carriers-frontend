@@ -272,4 +272,8 @@ describe Registration do
     it { should allow_value('carrier_dealer', 'broker_dealer', 'carrier_broker_dealer').for(:registrationType) }
     it { should_not allow_value('CARRIER_DEALER', 'BROKER_DEALER', 'CARRIER_BROKER_DEALER').for(:registrationType) }
   end
+
+  context 'payment step' do
+    before { subject.current_step = 'payment' }
+  end
 end
