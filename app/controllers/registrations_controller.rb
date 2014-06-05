@@ -29,7 +29,7 @@ class RegistrationsController < ApplicationController
       format.html # index.html.erb
       format.json { render json: @registrations }
     end
-end
+  end
 
   # GET /your-registration/business-type
   def newBusinessType
@@ -340,8 +340,7 @@ end
   # GET /registrations/1.json
   def show
     renderNotFound
- end
-
+  end
 
   def print
   	begin
