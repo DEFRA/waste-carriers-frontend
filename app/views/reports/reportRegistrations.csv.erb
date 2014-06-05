@@ -27,7 +27,7 @@
 ] %>
 <%= CSV.generate_line(registrationHeaders + metatDataHeaders, { :row_sep => nil, :force_quotes => true }).html_safe %>
 <% @registrations.each do |registration| %>
-  <% row = registration.attributes.values_at(*regMagic) %>
+  <% row = registration.attributes.values_at(*registrationHeaders) %>
   <% row += registration.metaData.attributes.values_at(*metatDataHeaders) %>
   <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <%end%>
