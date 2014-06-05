@@ -153,17 +153,13 @@ class Registration < ActiveResource::Base
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
-  # Confirmation fields
-  # validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
-
-  # Sign up / Sign in fields
-
-
   with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
     registration.validates :password, presence: true, length: { in: 8..128 }
     registration.validates_strength_of :password, with: :accountEmail
     registration.validates :password, confirmation: true
   end
+
+  validates :declaration, acceptance: true, if: :confirmation_step?
 
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
