@@ -7,6 +7,7 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
+require "csv"
 # require "rails/test_unit/railtie"
 
 if defined?(Bundler)
@@ -39,7 +40,7 @@ module Registrations
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    
+
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
 
@@ -92,16 +93,16 @@ module Registrations
     #have been made via the 'internal' domain URL 'https://admin.wastecarriersregistration.service.gov.uk'
     #rather than via the public domain and URL 'https://www.wastecarriersregistration.service.gov.uk'
     config.require_admin_requests = Rails.env.production? || ENV["WCRS_FRONTEND_REQUIRE_ADMIN_REQUESTS"] || false
-    
+
     # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
     config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"
     config.waste_exemplar_eaupper_url = "https://integrated-regulation.environment-agency.gov.uk/EAIntegratedRegulationInternet/?_flowId=carriersandbrokers-flow"
     config.waste_exemplar_eaPrivacyCookies_url = "http://www.environment-agency.gov.uk/help/35770.aspx"
-    
+
     # Set configuration for error pages to manual, to enable more user friendly error pages
     config.exceptions_app = self.routes
 
-    # Update this whenever the reported version number is supposed to have changed - particularly before any new releases. 
+    # Update this whenever the reported version number is supposed to have changed - particularly before any new releases.
     # Note: This is the version of the frontend application. The version number of the services application may change separately.
     # Use semantic versioning (Major.Minor.Patch)
     config.application_version = '1.2.0_alpha'
@@ -109,7 +110,7 @@ module Registrations
     # The e-mail address shown on the Finish page and used in e-mails sent by the application
     config.registrations_service_email = 'registrations@wastecarriersregistration.service.gov.uk'
     config.registrations_service_emailName = 'EA Waste Carrier Service'
-    
+
     # The phone number shown on the certificate and used in e-mails sent by the application
     config.registrations_service_phone = '03708 506506'
     config.registrations_cy_service_phone = '03000 653000'

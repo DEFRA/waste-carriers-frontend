@@ -1,5 +1,7 @@
+<% @registrations.fred_wants_this %>
 <% @registrations.each do |registration| %>
-  <% line = registration.to_comma.to_s[1..-2]
+  <%
+    line = registration.to_comma.to_s[1..-2]
     if line.include? ' nil,'
       line = line.gsub!(' nil,',',')
     end
