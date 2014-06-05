@@ -37,16 +37,4 @@ describe RegistrationsHelper do
 
     specify { helper.format_date('31 Jan 2014'.to_date).should == 'Friday 31st January 2014' }
   end
-
-  describe "#format_name_title" do
-    specify { helper.format_name_title(Registration.new(title: nil)).should be_nil }
-    specify { helper.format_name_title(Registration.new(title: '')).should be_nil }
-    specify { helper.format_name_title(Registration.new(title: 'mr')).should == 'Mr' }
-    specify { helper.format_name_title(Registration.new(title: 'mrs')).should == 'Mrs' }
-
-    specify { helper.format_name_title(Registration.new(title: 'other', otherTitle: nil)).should be_nil }
-    specify { helper.format_name_title(Registration.new(title: 'other', otherTitle: '')).should be_nil }
-    specify { helper.format_name_title(Registration.new(title: 'other', otherTitle: 'bishop')).should == 'Bishop' }
-    specify { helper.format_name_title(Registration.new(title: 'other', otherTitle: 'lt col')).should == 'Lt Col' }
-  end
 end
