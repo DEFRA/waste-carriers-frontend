@@ -269,4 +269,12 @@ describe Registration do
       end
     end
   end
+
+  context 'confirmation step' do
+    subject { Registration.new }
+
+    before { subject.current_step = 'confirmation' }
+
+    it { should validate_acceptance_of(:declaration) }
+  end
 end
