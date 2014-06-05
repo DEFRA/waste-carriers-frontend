@@ -138,14 +138,20 @@ en:
     '50': "50 Miles"
     '100': "100 Miles"
 
+  route_options:
+    digital: "Active"
+    assisted_digital: "Assisted Digital"
+
   status_options:
     active: "Active"
     pending: "Pending"
     revoked: "Revoked"
 
-  route_options:
-    digital: "Active"
-    assisted_digital: "Assisted Digital"
+  format_options:
+    csv: "csv"
+    json: "json"
+    xml: "xml"
+    html: "html"
 
   #Standard form controls/options
   form:
@@ -322,6 +328,7 @@ en:
       route_assisted_digital: "Assisted Digital"
       status: "Status"
       business_type: "Business type"
+      results_format: "Results format"
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"

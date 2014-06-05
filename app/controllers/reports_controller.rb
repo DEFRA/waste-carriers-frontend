@@ -26,38 +26,22 @@ class ReportsController < ApplicationController
             :businessType => @report.business_types,
             :ac => params[:email]}
         )
-        respond_to do |format|
-          format.json { render json: @registrations }
-          format.csv
-          format.html
+
+        if @report.format == 'csv'
+          render "reportRegistrations.csv"
+          #render text: @registrations.fred_wants_this
+        elsif @report.format == 'json'
+          render json: @registrations.to_json
+        elsif @report.format == 'xml'
+          render json: @registrations.to_xml
+        else
+          render "reportRegistrations"
         end
       else
         logger.info 'Report filters are not valid'
         render "reportRegistrations", :status => '400'
       end
     end
-
-    # fromParam = params[:from]
-    # untilParam = params[:until]
-    # @registrations = []
-    # @hasErrors = false
-    # if !fromParam.nil? and !untilParam.nil?
-    #   if fromParam =~ /^\d\d\/\d\d\/\d\d\d\d$/ and untilParam =~ /^\d\d\/\d\d\/\d\d\d\d$/
-    #   @registrations = Registration.find(:all, :params => {:from => fromParam, :until => untilParam, :route => params[:route], :status => params[:status], :businessType => params[:businessType], :ac => params[:email]})
-    # else
-    #   @hasErrors = true
-    #   if request.format == 'csv'
-    #       redirect_to reports_registrations_path(format: 'html', from: fromParam, until: untilParam, route: params[:route], status: params[:status], businessType: params[:businessType] )
-    #     end
-    # end
-    # end
-    # if !@hasErrors
-    #   respond_to do |format|
-    #     format.json { render json: @registrations }
-    #     format.csv
-    #     format.html
-    #   end
-    # end
   end
 
   # TODO Helper/Shared functions which should be refactored out
@@ -76,12 +60,33 @@ class ReportsController < ApplicationController
 
   private
 
+    def render_csv(filename = nil)
+      filename ||= params[:action]
+      filename += '.csv'
+
+      if request.env['HTTP_USER_AGENT'] =~ /msie/i
+        headers['Pragma'] = 'public'
+        headers["Content-type"] = "text/plain"
+        headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+        headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+        headers['Expires'] = "0"
+      else
+        headers["Content-Type"] ||= 'text/csv'
+        headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
+      end
+
+      render "reportRegistrations.csv", :layout => false
+    end
+
     def report_params
       params.require(:report).permit(
         :from,
         :to,
         :route_digital,
-        :route_assisted_digital)
+        :route_assisted_digital,
+        :statuses,
+        :business_types,
+        :format)
     end
 
 end
