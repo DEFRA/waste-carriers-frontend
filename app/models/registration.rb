@@ -39,6 +39,12 @@ class Registration < ActiveResource::Base
     string :administrativeArea
     string :royalMailUpdateDate
     string :localAuthorityUpdateDate
+    string :company_no
+
+    integer :total_fee
+    integer :registration_fee
+    integer :copy_card_fee
+    integer :copy_cards
 
     # Non UK fields
     string :streetLine3
@@ -73,7 +79,8 @@ class Registration < ActiveResource::Base
     string :primary_job_title
     string :primary_telephone_number
     string :primary_email_address
-
+    string :company_house_no
+    
     # Used as a trigger value to force validation of the revoke reason field
     # When this value contains any value, the revokeReason field is validated
     string :revoked

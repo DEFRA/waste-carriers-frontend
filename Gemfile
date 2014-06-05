@@ -27,7 +27,6 @@ gem 'password_strength', '~>0.3.2'
 gem 'govuk_frontend_toolkit'
 
 gem 'country_select'
-
 # Gems used only for assets and not required
 # in production environments by default.
 
@@ -41,6 +40,7 @@ gem 'uglifier', '>= 1.3.0'
 
 
 gem 'jquery-rails'
+gem 'jquery-turbolinks'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -68,7 +68,7 @@ end
 
 group :development do
   gem 'letter_opener', '~> 1.2.0'
-  gem 'meta_request'
+  gem 'meta_request'   #gem needed for Chrome's RailsPanel plugin
 end
 
 group :test, :development do
