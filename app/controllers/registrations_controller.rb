@@ -1037,8 +1037,6 @@ private
       :townCity,
       :postcode,
       :postcodeSearch,
-      :title,
-      :otherTitle,
       :firstName,
       :lastName,
       :position,

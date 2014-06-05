@@ -27,7 +27,7 @@ Given(/^I have completed the lower tier registration form$/) do
   click_on 'Next'
 
   check 'registration_declaration'
-  click_on 'Next'
+  click_on 'Confirm'
 
   fill_in 'Confirm email', with: my_email_address
   fill_in 'Create password', with: my_password
@@ -48,14 +48,14 @@ And(/^I provide my company name$/) do
   fill_in 'registration_companyName', with: 'Grades'
 end
 
-Given(/^I autocomplete my address$/) do
+Given(/^I autocomplete my business address$/) do
   fill_in 'sPostcode', with: 'BS1 2EP'
   click_on 'Find UK address'
   select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
   click_on 'Next'
 end
 
-Given(/^I want my address autocompleted but I provide an unrecognised postcode$/) do
+Given(/^I want my business address autocompleted but I provide an unrecognised postcode$/) do
   fill_in 'sPostcode', with: my_unrecognised_postcode
 end
 
@@ -67,9 +67,10 @@ When(/^I try to select an address$/) do
   click_on 'Find UK address'
 end
 
-Given(/^I enter my address manually$/) do
+Given(/^I enter my business address manually$/) do
   click_on 'I want to add an address myself'
 
+  fill_in 'registration_companyName', with: 'Grades'
   fill_in 'registration_houseNumber', with: '44'
   fill_in 'registration_streetLine1', with: 'Broad Street'
   fill_in 'registration_streetLine2', with: 'City Centre'
@@ -79,8 +80,10 @@ Given(/^I enter my address manually$/) do
   click_on 'Next'
 end
 
-Given(/^I enter my foreign address manually$/) do
+Given(/^I enter my foreign business address manually$/) do
   click_on 'I have an address outside the United Kingdom'
+
+  fill_in 'registration_companyName', with: 'IWC'
 
   fill_in 'registration_streetLine1', with: 'Broad Street'
   fill_in 'registration_streetLine2', with: 'City Centre'
@@ -105,7 +108,7 @@ end
 And(/^I check the declaration$/) do
   check 'registration_declaration'
 
-  click_on 'Next'
+  click_on 'Confirm'
 end
 
 And(/^I provide my email address and create a password$/) do
@@ -118,7 +121,7 @@ And(/^I provide my email address and create a password$/) do
 end
 
 When(/^I confirm account creation via email$/) do
-  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  sleep 0.5 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'Confirm your account'
 end
