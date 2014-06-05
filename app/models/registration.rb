@@ -163,6 +163,8 @@ class Registration < ActiveResource::Base
 
   validates :declaration, acceptance: true, if: :confirmation_step?
 
+  validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }
+
   # TODO the following validations were problematic or possibly redundant
 
   # TODO: FIX this Test All routes!! IS this needed
