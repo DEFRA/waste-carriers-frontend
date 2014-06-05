@@ -88,6 +88,7 @@ en:
     messages:
       blank: "must be completed"
       invalid: "is not valid"
+      invalid_date: "is not a valid date (dd/mm/yyyy)"
       invalid_selection: "has an invalid selection"
       invalidEmail: "must be a valid email address"
       letters: "can only contain letters"
@@ -125,7 +126,22 @@ en:
     '10': "10 Miles"
     '50': "50 Miles"
     '100': "100 Miles"
-  #Standard form labels
+
+  route_options:
+    digital: "Active"
+    assisted_digital: "Assisted Digital"
+
+  status_options:
+    active: "Active"
+    pending: "Pending"
+    revoked: "Revoked"
+
+  format_options:
+    csv: "csv"
+    json: "json"
+    xml: "xml"
+
+  #Standard form controls/options
   form:
     yes_option_label: "Yes"
     no_option_label: "No"
@@ -137,7 +153,6 @@ en:
   activemodel:
     models:
       registration: "Registration"
-      discover: "Discover"
     attributes:
       registration:
        #upper-tier-registration
@@ -181,20 +196,6 @@ en:
         password: "Password"
         password_confirmation: "Confirm password"
         revokedReason: "Why do you wish to revoke this registration"
-      discover:
-        businessType: "What kind of business or organisation are you?"
-        otherBusinesses: "Whose waste do you deal with?"
-        otherBusinesses_yes: "Waste from other businesses, organisations or households"
-        otherBusinesses_no: "Only waste from our own business or organisation"
-        isMainService: "What kind of service do you provide?"
-        isMainService_yes: "Waste disposal is the main service we provide"
-        isMainService_no: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
-        onlyAMF: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
-        onlyAMF_yes: "Yes"
-        onlyAMF_no: "No"
-        constructionWaste: "Do you ever deal with waste from building or demolition work?"
-        constructionWaste_yes: "Yes"
-        constructionWaste_no: "No"
       upper_registration:
         business_name: "Business or organisation trading name"
         postcode: "Postcode"
@@ -205,6 +206,11 @@ en:
         carrier_dealer: "carrier/dealer"
         broker_dealer: "broker/dealer"
         carrier_broker_dealer: "carrier/broker/dealer"
+      report:
+        from: "From"
+        to:   "To"
+        route_digital: "Digital"
+        route_assisted_digital: "Assisted Digital"
 
   shared:
     current_user:
@@ -215,6 +221,7 @@ en:
       signed_in_as: "Signed in as"
       signed_in_as_agency_user: "Signed in as agency user"
       signed_in_as_admin: "Signed in as admin"
+      report_export: "Create data report"
     progress:
       progress: "Progress"
 
@@ -242,12 +249,22 @@ en:
       title: "Relevant conviction"
       subtitle: "Do you have any relevant convictions?"
       form_legend: "A relevant offence would be."
+    payment:
+      title: "Payment"
+      subtitle: "Payment"
+      total_label: "Total to pay"
+      new_reg_label: "New registration"
+      copy_card_label: "Copy cards cost £5 each"
+      copy_card_info_link: "What are copy cards?"
+      payment_method_label: "Choose payment method"
+      payment_method_debit_credit: "Pay by debit or credit card"
+      payment_method_elec_transfer: "Pay by electronic transfer"
+      trouble_paying_link: "Trouble paying?"
     summary:
       title: "Summary"
       subtitle: "Summary"
       check_details_label: "Check your details"
       amount_paid: "You have paid"
-      amount_to_pay: "You are about to pay"
       main_contact_legend: "Main contact"
       alternate_contact_legend: "Alternative contact"
       agree_declaration_label: "Tick this box to agree with declaration"
@@ -259,7 +276,6 @@ en:
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
       progress: "Progress: "
       find_address_button_label: "Find address"
-      find_address_button_label_2: "Find details"
       find_details_button_label: "Find details"
       next_button_label: "Next"
       back_button_label: "Back"
@@ -284,33 +300,21 @@ en:
     waste_elec_equip_2013: "Waste Electrical and Electronic Equipment Regulations 2013"
     water_resources: "Water Resources Act 1991: Sections 85, 202 and 206"
     no_convictions: "No relevant convictions"
-  discovers:
-    new:
-      title: "Find out if you need to register and which category applies"
-      back: "Back"
-    findAnswers:
-      businessType_default: "Please select..."
-      businessType_soleTrader: "Sole trader"
-      businessType_partnership: "Partnership"
-      businessType_limitedCompany: "Limited company"
-      businessType_publicBody: "Public body"
-      businessType_charity: "Charity or voluntary organisation"
-      businessType_collectionAuthority: "Waste collection authority"
-      businessType_disposalAuthority: "Waste disposal authority"
-      businessType_regulationAuthority: "Waste regulation authority"
-      businessType_other: "Other"
-      businessHeading: "What your business or organisation does"
-      selectApply: "Select all that apply."
-      contactTextHeading: "Contact the Environment Agency"
-      contactTextLine1: "We need some more information about your organisation before we can register you as a waste carrier."
-      contactTextLine2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
-      upperTextHeading: "Register in the upper tier"
-      upperTextLine1: "You need to register as an upper tier carrier, broker or dealer on the Environment Agency website."
-      upperTextLine2_html: "Or to apply by post, download and complete the <a href='%{pdflocation}' target='_blank'>upper tier registration form</a> [PDF, 180KB]."
-      lowerTextHeading: "Register in the lower tier"
-      lowerTextLine1: "You need to register as a lower tier carrier/broker/dealer."
-      notRegisterText: "You do not need to register as a waste carrier, broker or dealer."
-      buttonText: "Continue"
+
+  reports:
+    errors:
+      error: "error"
+      error_message: "You have %{count} on this page"
+    reportRegistrations:
+      title: "Registrations Export"
+      subtitle: "Registrations Export"
+      date_filters: "Date filters"
+      route_type: "Route"
+      route_digital: "Digital"
+      route_assisted_digital: "Assisted Digital"
+      status: "Status"
+      business_type: "Business type"
+      results_format: "Results format"
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
