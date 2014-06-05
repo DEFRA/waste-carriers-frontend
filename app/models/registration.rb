@@ -143,7 +143,11 @@ class Registration < ActiveResource::Base
 
   validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
   validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:signup_step?, :sign_up_mode_present?]
-  validates :accountEmail, confirmation: true, if: [:signup_step?, :unpersisted?, :do_sign_up?]
+
+  with_options if: [:signup_step?, :unpersisted?, :do_sign_up?] do |registration|
+    registration.validates :accountEmail, confirmation: true
+    registration.validate :validate_account_email_unique
+  end
 
   # Business Step fields
   # TODO: FIX this Test All routes!! IS this needed
@@ -153,8 +157,7 @@ class Registration < ActiveResource::Base
   # validates :declaration, :if => lambda { |o| o.current_step == "confirmation" }, format:{with:/\A1\Z/,message:I18n.t('errors.messages.accepted') }
 
   # Sign up / Sign in fields
-  #Note: there is no uniqueness validation out of the box in ActiveResource - only in ActiveRecord. Therefore validating with custom method.
-  validate :validate_account_email_unique, :if => lambda { |o| o.current_step == "signup" && do_sign_up? && !o.persisted? }
+
 
   with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
     registration.validates :password, presence: true, length: { in: 8..128 }
