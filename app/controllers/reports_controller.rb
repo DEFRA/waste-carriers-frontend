@@ -28,8 +28,7 @@ class ReportsController < ApplicationController
         )
 
         if @report.format == 'csv'
-          render "reportRegistrations.csv"
-          #render text: @registrations.fred_wants_this
+          render_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
         elsif @report.format == 'json'
           render json: @registrations.to_json
         elsif @report.format == 'xml'
@@ -44,22 +43,18 @@ class ReportsController < ApplicationController
     end
   end
 
-  # TODO Helper/Shared functions which should be refactored out
-
   def authenticate_admin_request!
     if is_admin_request?
       authenticate_agency_user!
     end
   end
 
-  def new_action
-    session[:report_params] ||= {}
-    session[:report_params].deep_merge!(report_params) if params[:report]
-    @report = Report.new(session[:report_params])
-  end
-
   private
 
+    # This method and the majority of the code in the reportRegistrations view
+    # can be attributed to http://stackoverflow.com/a/94626. FasterCSV is now
+    # as of Ruby since 1.9 part of the language and not a Gem. ou simply have to
+    # require CSV in config/application.rb.
     def render_csv(filename = nil)
       filename ||= params[:action]
       filename += '.csv'

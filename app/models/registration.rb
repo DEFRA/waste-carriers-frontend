@@ -90,60 +90,6 @@ class Registration < ActiveResource::Base
     string :revoked
   end
 
-  comma do
-    businessType
-    companyName
-    individualsType
-    publicBodyType
-    publicBodyTypeOther
-    houseNumber
-
-    addressMode
-    postcodeSearch
-    selectedMoniker
-    streetLine1
-    streetLine2
-    townCity
-    postcode
-    easting
-    northing
-    dependentLocality
-    dependentThroughfare
-    administrativeArea
-    royalMailUpdateDate
-    localAuthorityUpdateDate
-    streetLine3
-    streetLine4
-    country
-
-    title
-    otherTitle
-    firstName
-    lastName
-    position
-    phoneNumber
-    contactEmail
-    accountEmail
-    regIdentifier
-    uprn
-
-    location :lat, :lon
-    metaData :route, :status, :dateRegistered
-  end
-
-  def self.to_csv(options = {})
-    CSV.generate(options) do |csv|
-      csv << ["firstName", "lastName"]
-      all.each do |product|
-        csv << product.attributes.values_at(*column_names)
-      end
-    end
-  end
-
-  def fred_wants_this
-    logger.debug "Hello Fred"
-  end
-
   BUSINESS_TYPES = %w[
     soleTrader
     partnership
@@ -227,15 +173,6 @@ class Registration < ActiveResource::Base
 
   def self.distance_options_for_select
     (DISTANCES.collect {|d| [I18n.t('distances.'+d), d]})
-  end
-
-  def self.to_csv
-    CSV.generate do |csv|
-      csv << column_names
-      all.each do |registration|
-        csv << registration.attributes.values_at(*column_names)
-      end
-    end
   end
 
   def initialize_sign_up_mode(userEmail, signedIn)

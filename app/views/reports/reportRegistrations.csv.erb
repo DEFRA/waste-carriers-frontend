@@ -1,10 +1,33 @@
-<% @registrations.fred_wants_this %>
+<% registrationHeaders = [
+  "regIdentifier",
+  "companyName",
+  "houseNumber",
+  "streetLine1",
+  "streetLine2",
+  "streetLine3",
+  "streetLine4",
+  "townCity",
+  "postcode",
+  "firstName",
+  "lastName",
+  "position",
+  "phoneNumber",
+  "contactEmail",
+  "businessType",
+  "otherBusinesses",
+  "isMainService",
+  "constructionWaste",
+  "onlyAMF"
+] %>
+<% metatDataHeaders = [
+  "dateRegistered",
+  "dateActivated",
+  "status",
+  "route"
+] %>
+<%= CSV.generate_line(registrationHeaders + metatDataHeaders, { :row_sep => nil, :force_quotes => true }).html_safe %>
 <% @registrations.each do |registration| %>
-  <%
-    line = registration.to_comma.to_s[1..-2]
-    if line.include? ' nil,'
-      line = line.gsub!(' nil,',',')
-    end
-  %>
-  <%= line.html_safe %>
+  <% row = registration.attributes.values_at(*regMagic) %>
+  <% row += registration.metaData.attributes.values_at(*metatDataHeaders) %>
+  <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <%end%>
