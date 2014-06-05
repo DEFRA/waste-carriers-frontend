@@ -15,7 +15,6 @@ The registration form has the following fields to be entered by the user:
   * Town or city
   * Postcode
 * Contact Information:
-  * Title (dropdown select)
   * First name
   * Last name
   * Job title

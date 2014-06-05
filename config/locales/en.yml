@@ -97,9 +97,6 @@ en:
       alpha70: "can only contain alpha numeric characters and be no longer than 70 characters"
       35characters: "can not be longer than 35 characters"
       70characters: "can not be longer than 70 characters"
-      accepted: "must be accepted"
-      matchPassword: "must match the password provided"
-      matchEmail: "must match the email provided"
       weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
       emailTaken: "has already been taken"
       max128: "is too long (maximum is 128 characters)"
@@ -121,14 +118,6 @@ en:
     publicBody: "Public body"
     charity: "Charity or voluntary organisation"
     authority: "Waste collection, disposal or regulation authority"
-    other: "Other"
-
-  titles:
-    mr: "Mr"
-    mrs: "Mrs"
-    miss: "Miss"
-    ms: "Ms"
-    dr: "Dr"
     other: "Other"
 
   distances:
@@ -178,9 +167,7 @@ en:
         phoneNumber: "Phone number"
         contactEmail: "Email address"
         accountEmail: "Email"
-        otherTitle: "Other title"
         position: "Job title"
-        title: "Title"
         postcodeSearch: "Address"
         selectedMoniker: "Select address"
         postcode: "Postcode"
@@ -444,12 +431,6 @@ en:
       no_results_error: "There are no addresses for the given postcode"
       postcode_search_error: "A postcode must be provided"
       contact_information_legend: "Contact information"
-      title_mr: "Mr"
-      title_mrs: "Mrs"
-      title_miss: "Miss"
-      title_ms: "Ms"
-      title_dr: "Dr"
-      title_other: "Other"
     signup_step:
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
       complete: "Account details"
