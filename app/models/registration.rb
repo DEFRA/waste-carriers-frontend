@@ -98,6 +98,7 @@ class Registration < ActiveResource::Base
   GENERAL_WORD_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
   DISTANCES = %w[any 10 50 100]
+  VALID_HOUSE_NAME_OR_NUMBER_REGEX = /\A[a-zA-Z0-9\'\s-]+\z/
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
   VALID_EMAIL_REGEX = Devise.email_regexp
@@ -120,7 +121,7 @@ class Registration < ActiveResource::Base
   end
 
   with_options if: [:businessdetails_step?, :manual_uk_address?] do |registration|
-    registration.validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\'\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
+    registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
     registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }
     registration.validates :postcode, presence: true, uk_postcode: true
   end
