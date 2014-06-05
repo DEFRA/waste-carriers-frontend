@@ -94,6 +94,10 @@ class Registration < ActiveResource::Base
     other
   ]
 
+  # TODO this regexs need to be rethought if allowing foreign waste carriers.
+  # My advice is to not check the format for free text fields but keep them only for those things where the form is
+  # well-defined such as for UK postcodes
+
   VALID_CHARACTERS = /\A[A-Za-z0-9\s\'\.&!%]*\Z/
   GENERAL_WORD_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
@@ -159,13 +163,15 @@ class Registration < ActiveResource::Base
 
   validates :declaration, acceptance: true, if: :confirmation_step?
 
+  # TODO the following validations were problematic or possibly redundant
+
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
 
-  # TODO not sure whether to keep this validation or not
+  # TODO not sure whether to keep this validation or not since the sign_up mode is not supplied by the user
   # validates :sign_up_mode, presence: true, if: [:signup_step?, :unpersisted?, :account_email_present?]
   # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, :unpersisted?]
 
@@ -403,5 +409,4 @@ class Registration < ActiveResource::Base
     }
     Rails.logger.info("Activated registration(s) for user with email " +  user.email)
   end
-
 end
