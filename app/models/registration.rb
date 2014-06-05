@@ -1,8 +1,6 @@
 require 'active_resource'
 
 class Registration < ActiveResource::Base
-# Note: In Rails 4, attr_accessible has been replaced by strong parameters in controllers
-#  attr_accessible :address, :email, :firstName, :houseNumber, :individualsType, :lastName, :companyName, :businessType, :phoneNumber, :postcode, :publicBodyType, :registerAs, :title, :uprn, :publicBodyTypeOther, :streetLine1, :streetLine2, :townCity, :declaration
 
   #The services URL can be configured in config/application.rb and/or in the config/environments/*.rb files.
   self.site = Rails.configuration.waste_exemplar_services_url
@@ -325,10 +323,6 @@ class Registration < ActiveResource::Base
     metaData.status = 'ACTIVATE'
   end
 
-  # ----------------------------------------------------------
-  # FIELD VALIDATIONS
-  # ----------------------------------------------------------
-
   def validate_revokedReason
     #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
     Rails.logger.debug 'validate revokedReason, revoked:' + revoked.to_s
@@ -340,10 +334,6 @@ class Registration < ActiveResource::Base
       end
     end
   end
-
-  # ----------------------------------------------------------
-  # GENERAL VALIDATIONS
-  # ----------------------------------------------------------
 
   def user_cannot_exist_with_same_account_email
     errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') ) if User.where(email: accountEmail).exists?
