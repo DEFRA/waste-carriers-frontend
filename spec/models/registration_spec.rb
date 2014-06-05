@@ -277,4 +277,15 @@ describe Registration do
 
     it { should validate_acceptance_of(:declaration) }
   end
+
+  context 'registrationtype step' do
+    subject { Registration.new }
+
+    before { subject.current_step = 'registrationtype' }
+
+    it { should validate_presence_of(:registrationType) }
+
+    it { should allow_value('carrier_dealer', 'broker_dealer', 'carrier_broker_dealer').for(:registrationType) }
+    it { should_not allow_value('CARRIER_DEALER', 'BROKER_DEALER', 'CARRIER_BROKER_DEALER').for(:registrationType) }
+  end
 end
