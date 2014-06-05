@@ -121,7 +121,7 @@ class Registration < ActiveResource::Base
 
   with_options if: [:businessdetails_step?, :manual_uk_address?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\'\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
-    registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX}
+    registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }
     registration.validates :postcode, presence: true, uk_postcode: true
   end
 
