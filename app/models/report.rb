@@ -24,7 +24,6 @@ class Report
     csv
     json
     xml
-    html
   ]
 
   def self.route_options

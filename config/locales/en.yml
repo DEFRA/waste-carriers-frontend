@@ -151,7 +151,6 @@ en:
     csv: "csv"
     json: "json"
     xml: "xml"
-    html: "html"
 
   #Standard form controls/options
   form:
