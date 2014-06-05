@@ -95,6 +95,7 @@ class Registration < ActiveResource::Base
   ]
 
   VALID_CHARACTERS = /\A[A-Za-z0-9\s\'\.&!%]*\Z/
+  GENERAL_WORD_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
   DISTANCES = %w[any 10 50 100]
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
@@ -109,16 +110,17 @@ class Registration < ActiveResource::Base
 
   validates :companyName, presence: true, format: { with: /\A[a-zA-Z0-9\s\.\-&\']+\z/, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: :businessdetails_step?
 
+
   with_options if: :contactdetails_step? do |registration|
-    registration.validates :firstName, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }, length: { maximum: 35 }
-    registration.validates :lastName, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }, length: { maximum: 35 }
-    registration.validates :position, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }
+    registration.validates :firstName, presence: true, format: { with: GENERAL_WORD_REGEX}, length: { maximum: 35 }
+    registration.validates :lastName, presence: true, format: { with: GENERAL_WORD_REGEX}, length: { maximum: 35 }
+    registration.validates :position, presence: true, format: { with: GENERAL_WORD_REGEX}
     registration.validates :phoneNumber, presence: true, format: { with: /\A[0-9\-+()\s]+\z/ }, length: { maximum: 20 }
   end
 
   with_options if: [:businessdetails_step?, :manual_uk_address?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: /\A[a-zA-Z0-9\'\s-]+\z/, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
-    registration.validates :townCity, presence: true, format: { with: /\A[a-zA-Z\s\-\']+\z/ }
+    registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX}
     registration.validates :postcode, presence: true, uk_postcode: true
   end
 
@@ -147,10 +149,6 @@ class Registration < ActiveResource::Base
     registration.validate :user_cannot_exist_with_same_account_email
   end
 
-  # Business Step fields
-  # TODO: FIX this Test All routes!! IS this needed
-  #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
-
   with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
     registration.validates :password, presence: true, length: { in: 8..128 }
     registration.validates_strength_of :password, with: :accountEmail
@@ -158,6 +156,9 @@ class Registration < ActiveResource::Base
   end
 
   validates :declaration, acceptance: true, if: :confirmation_step?
+
+  # TODO: FIX this Test All routes!! IS this needed
+  #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
