@@ -146,7 +146,7 @@ class Registration < ActiveResource::Base
 
   with_options if: [:signup_step?, :unpersisted?, :do_sign_up?] do |registration|
     registration.validates :accountEmail, confirmation: true
-    registration.validate :validate_account_email_unique
+    registration.validate :user_cannot_exist_with_same_account_email
   end
 
   # Business Step fields
@@ -349,7 +349,7 @@ class Registration < ActiveResource::Base
   # GENERAL VALIDATIONS
   # ----------------------------------------------------------
 
-  def validate_account_email_unique
+  def user_cannot_exist_with_same_account_email
     errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') ) if User.where(email: accountEmail).exists?
   end
 
