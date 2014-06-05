@@ -350,14 +350,7 @@ class Registration < ActiveResource::Base
   # ----------------------------------------------------------
 
   def validate_account_email_unique
-    Rails.logger.debug "entering validate_email_unique"
-    if do_sign_up?
-      Rails.logger.debug "validate_email_unique - do_sign_up is true"
-      unless User.where(email: accountEmail).count == 0
-        Rails.logger.debug "adding error - email already taken"
-        errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') )
-      end
-    end
+    errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') ) if User.where(email: accountEmail).exists?
   end
 
   def do_sign_in?
