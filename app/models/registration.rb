@@ -109,6 +109,7 @@ class Registration < ActiveResource::Base
   VALID_EMAIL_REGEX = Devise.email_regexp
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
   VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\']+\z/
+  VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|(NI|RO|SC|OC|SO|NC)\d{6}\z/i
 
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: :businesstype_step?
   validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :otherbusinesses_step?
@@ -166,6 +167,8 @@ class Registration < ActiveResource::Base
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
+  validates :company_no, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }, if: :upper_contact_details_step?
+
   # TODO the following validations were problematic or possibly redundant
 
   # TODO: FIX this Test All routes!! IS this needed
@@ -212,6 +215,10 @@ class Registration < ActiveResource::Base
 
   def registrationtype_step?
     current_step.inquiry.registrationtype?
+  end
+
+  def upper_contact_details_step?
+    current_step.inquiry.upper_contact_details?
   end
 
   def sign_up_mode_present?
