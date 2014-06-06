@@ -79,7 +79,6 @@ class Registration < ActiveResource::Base
     string :primary_job_title
     string :primary_telephone_number
     string :primary_email_address
-    string :company_house_no
 
     # Used as a trigger value to force validation of the revoke reason field
     # When this value contains any value, the revokeReason field is validated
