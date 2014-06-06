@@ -164,7 +164,7 @@ class Registration < ActiveResource::Base
 
   validates :declaration, acceptance: true, if: :confirmation_step?
 
-  validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }
+  validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
   # TODO the following validations were problematic or possibly redundant
 
@@ -208,6 +208,10 @@ class Registration < ActiveResource::Base
 
   def signup_step?
     current_step.inquiry.signup?
+  end
+
+  def registrationtype_step?
+    current_step.inquiry.registrationtype?
   end
 
   def sign_up_mode_present?
