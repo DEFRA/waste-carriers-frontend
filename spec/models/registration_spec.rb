@@ -278,7 +278,7 @@ describe Registration do
 
     it { should_not validate_presence_of(:company_no) }
 
-    it { should allow_value('06731292', '6731292', '07589628', '7589628', '00000001', '1', 'NI123456', 'RO123456', 'SC123456', 'OC123456', 'SO123456', 'NC123456').for(:company_no) }
+    it { should allow_value('06731292', '6731292', '07589628', '7589628', '00000001', '1', 'ni123456', 'NI123456', 'RO123456', 'SC123456', 'OC123456', 'SO123456', 'NC123456').for(:company_no) }
     it { should_not allow_value('AC097609', 'NII12345', 'NI1234567', '123456789', '0', '-12345678', '-1234567').for(:company_no) }
   end
 
