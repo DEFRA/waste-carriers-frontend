@@ -49,6 +49,8 @@ class Registration < ActiveResource::Base
     string :streetLine4
     string :country
 
+    string :title
+    string :otherTitle
     string :firstName
     string :lastName
     string :position
@@ -78,7 +80,7 @@ class Registration < ActiveResource::Base
     string :primary_telephone_number
     string :primary_email_address
     string :company_house_no
-    
+
     # Used as a trigger value to force validation of the revoke reason field
     # When this value contains any value, the revokeReason field is validated
     string :revoked
