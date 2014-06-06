@@ -167,7 +167,7 @@ class Registration < ActiveResource::Base
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
-  validates :company_no, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }, if: :upper_contact_details_step?
+  validates :company_no, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }, allow_blank: true, if: :upper_contact_details_step?
 
   # TODO the following validations were problematic or possibly redundant
 
