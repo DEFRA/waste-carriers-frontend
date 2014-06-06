@@ -163,7 +163,7 @@ class Registration < ActiveResource::Base
     registration.validates :password, confirmation: true
   end
 
-  validates :declaration, acceptance: true, if: :confirmation_step?
+  validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
@@ -225,6 +225,10 @@ class Registration < ActiveResource::Base
 
   def payment_step?
     current_step.inquiry.payment?
+  end
+
+  def upper_summary_step?
+    current_step.inquiry.upper_summary?
   end
 
   def sign_up_mode_present?

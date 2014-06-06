@@ -287,4 +287,10 @@ describe Registration do
 
     it { should validate_numericality_of(:copy_cards).is_greater_than_or_equal_to(0).only_integer }
   end
+
+  context 'upper_summary step' do
+    before { subject.current_step = 'upper_summary' }
+
+    it { should validate_acceptance_of(:declaration) }
+  end
 end
