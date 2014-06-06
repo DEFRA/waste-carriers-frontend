@@ -169,6 +169,8 @@ class Registration < ActiveResource::Base
 
   validates :company_no, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }, allow_blank: true, if: :upper_contact_details_step?
 
+  validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
+
   # TODO the following validations were problematic or possibly redundant
 
   # TODO: FIX this Test All routes!! IS this needed
@@ -219,6 +221,10 @@ class Registration < ActiveResource::Base
 
   def upper_contact_details_step?
     current_step.inquiry.upper_contact_details?
+  end
+
+  def payment_step?
+    current_step.inquiry.payment?
   end
 
   def sign_up_mode_present?

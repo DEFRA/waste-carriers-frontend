@@ -284,5 +284,7 @@ describe Registration do
 
   context 'payment step' do
     before { subject.current_step = 'payment' }
+
+    it { should validate_numericality_of(:copy_cards).is_greater_than_or_equal_to(0).only_integer }
   end
 end
