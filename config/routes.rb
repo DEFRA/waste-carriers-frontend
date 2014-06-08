@@ -88,8 +88,11 @@ Registrations::Application.routes.draw do
   get "your-registration/upper/business-address" => "registrations#business_address", :as => :upper_business_address
   post "your-registration/upper/business-address" => "registrations#business_address_update"
 
-  get "your-registration/upper-tier-contact-details" => "registrations#newUpperContactDetails", :as => :upper_contact_details
+  get "your-registration/upper-tier-contact-details" => "registrations#newUpperContactDetails", :as => :newUpperContactDetails
   post "your-registration/upper-tier-contact-details" => "registrations#updateNewUpperContactDetails"
+
+    get "your-registration/upper-tier-business-details" => "registrations#newUpperBusinessDetails", :as => :newUpperBusinessDetails
+  post "your-registration/upper-tier-business-details" => "registrations#updateNewUpperBusinessDetails"
 
   get "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction", :as => :upper_relevant_conviction
   post "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction_update"
