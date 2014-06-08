@@ -314,6 +314,7 @@ en:
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
+    registration_step: "Step %{step_no} of 8"
     errors:
       error: "error"
       errorMessage: "You have %{count} on this page"
@@ -364,10 +365,10 @@ en:
       legend_upper_simple: "Your contact details"
       legend_upper_director: "Director contact details"
     registrationtype_step:
-      title: "Business type"
+      title: "Registration type"
       subtitle: "Carrier, broker or dealer"
       step: "Step 5 of 8"
-      legend: "Type of registration to register"
+      legend: "Type of registration:"
       carrier_dealer: "carrier/dealer"
       broker_dealer: "broker/dealer"
       carrier_broker_dealer: "carrier/broker/dealer"
@@ -422,7 +423,8 @@ en:
       selectAddress: "Select address"
       findAddressUsingPostcode: "Find address using postcode"
       manual_address_label: "I want to add an address myself"
-      manual_address_label_2: "Enter details manually"
+      manual_company_details: "Enter company details manually"
+      auto_company_details: "FInd company details by Company Number"
       streetLine1Foreign: "Address"
       change: "Change"
       foreignAddressLink: "I have an address outside the United Kingdom"

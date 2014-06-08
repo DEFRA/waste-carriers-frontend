@@ -1,9 +1,3 @@
-/*$('#copy_cards').change(function() {
-    var one = this.val();
-    alert(one);
-    $('#copy_card_fee').val(one * 5);
-});*/
-
 
 $(function() {
   $(document).on('change', '#registration_copy_cards', function() {
@@ -20,20 +14,3 @@ $(function() {
   });
 });
 
-
-
-/*
-var ready;
-ready = function() {
-
-
-
-no_of_cards_obj.onkeypress=function(){
-  alert('change');
-};
-
-};
-
-$(document).ready(ready);
-$(document).on('page:load', ready);
-*/
