@@ -1,16 +1,10 @@
+
+
 <p class="group">
-  <% case  @registration.businessType %>
-  <% when 'limitedCompany' %>
-  <%= f.label :company_number %>
-  <%= f.text_field :company_no, :size => 14, :maxlength => 10 %>
-  <input type="submit" class="button" name="findCompanyDetails" value="<%=t 'upper_registrations.form.find_address_button_label_2'%>"/></br>
-    <a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label_2'%></a></br>
-  <% else %>
   <%= validation_for(@registration, :postcode) %>
   <%= f.label :postcode %>
   <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
   <input type="submit" class="button" name="findAddress" value="<%=t 'upper_registrations.form.find_address_button_label'%>"/></br>
     <a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a></br>
     <a href="?manualOtherAddress=true"><%= t 'registrations.contact_step.foreignAddressLink'%></a>
-  <% end %>
-</p>
+  </p>
