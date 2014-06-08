@@ -1,5 +1,7 @@
 
+<fieldset>
 
+<% if  !params[:manualUkAddress] %>
 <p class="group">
   <%= validation_for(@registration, :postcode) %>
   <%= f.label :postcode %>
@@ -8,3 +10,15 @@
     <a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a></br>
     <a href="?manualOtherAddress=true"><%= t 'registrations.contact_step.foreignAddressLink'%></a>
   </p>
+<% end %>
+
+
+<% if params[:manualUkAddress] %>
+ <%= render 'uk_address_entry', f: f  %>
+    <a href="?autoUkAddress=true"><%= t 'registrations.contact_step.findAddressUsingPostcode'%></a>
+
+
+<% end %>
+
+
+</fieldset>

@@ -208,7 +208,7 @@ class RegistrationsController < ApplicationController
     if params[:findAddress]
       render "newBusinessDetails"
     elsif @registration.valid?
-      session[:registration_phase] == 'upper' ? (redirect_to :upper_contact_details) : (redirect_to :newContact)
+      session[:registration_phase] == 'upper' ? (redirect_to :newUpperBusinessDetails) : (redirect_to :newContact)
 
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -247,11 +247,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'registrationtype'
     @registration.registration_phase = 'upper'
     if @registration.valid?
-      if ['soleTrader', 'publicBody'].include? @registration.businessType
-        redirect_to :newBusinessDetails
-      else #ltd company
-        redirect_to :upper_contact_details
-      end
+      redirect_to :newUpperBusinessDetails
 
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -942,23 +938,39 @@ class RegistrationsController < ApplicationController
   end
 
   # GET your-registration/upper-tier-contact-details
-  def newUpperContactDetails
-=begin
-    new_step_action 'upper_contact_details'
-    logger.debug 'upper_contact_details'
-=end
-    new_step_action 'upper_contact_details'
+  def newUpperBusinessDetails
+    new_step_action 'upper_business_details'
+  end
+
+  # POST your-registration/upper-tier-contact-details
+  def updateNewUpperBusinessDetails
+
+    setup_registration 'upper_business_details'
     addressSearchLogic @registration
 
+    if @registration.valid?
+      redirect_to :newUpperContactDetails
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newUpperBusinessDetails", :status => '400'
+    end
 
-    # update_model("contact_detail")
+  end
+
+
+
+# GET your-registration/upper-tier-contact-details
+  def newUpperContactDetails
+    new_step_action 'upper_contact_details'
+    addressSearchLogic @registration
   end
 
   # POST your-registration/upper-tier-contact-details
   def updateNewUpperContactDetails
 
     setup_registration 'upper_contact_details'
-    addressSearchLogic @registration
+       addressSearchLogic @registration
 
     if params[:findAddress]
       render "newBusinessDetails"
@@ -967,21 +979,10 @@ class RegistrationsController < ApplicationController
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render "newBusinessDetails", :status => '400'
+      render "updateNewUpperContactDetails", :status => '400'
     end
-
-=begin
-    if @registration.valid?
-      redirect_to :upper_payment
-
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newUpperContactDetails", :status => '400'
-    end
-=end
-
   end
+
 
   # GET upper-registrations/payment
   def newPayment
