@@ -79,7 +79,6 @@ class Registration < ActiveResource::Base
     string :primary_job_title
     string :primary_telephone_number
     string :primary_email_address
-    string :company_house_no
 
     # Used as a trigger value to force validation of the revoke reason field
     # When this value contains any value, the revokeReason field is validated
@@ -110,6 +109,7 @@ class Registration < ActiveResource::Base
   VALID_EMAIL_REGEX = Devise.email_regexp
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
   VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\']+\z/
+  VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|(NI|RO|SC|OC|SO|NC)\d{6}\z/i
 
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: :businesstype_step?
   validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :otherbusinesses_step?
@@ -163,7 +163,13 @@ class Registration < ActiveResource::Base
     registration.validates :password, confirmation: true
   end
 
-  validates :declaration, acceptance: true, if: :confirmation_step?
+  validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
+
+  validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
+
+  validates :company_no, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }, allow_blank: true, if: :upper_contact_details_step?
+
+  validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
 
   # TODO the following validations were problematic or possibly redundant
 
@@ -207,6 +213,22 @@ class Registration < ActiveResource::Base
 
   def signup_step?
     current_step.inquiry.signup?
+  end
+
+  def registrationtype_step?
+    current_step.inquiry.registrationtype?
+  end
+
+  def upper_contact_details_step?
+    current_step.inquiry.upper_contact_details?
+  end
+
+  def payment_step?
+    current_step.inquiry.payment?
+  end
+
+  def upper_summary_step?
+    current_step.inquiry.upper_summary?
   end
 
   def sign_up_mode_present?
