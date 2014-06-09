@@ -1,17 +1,48 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-    <% content_for :page_title, createTitle('registrations.contactdetails_step.title') %>
+    <% content_for :page_title, createTitle('.title') %>
     <%= form_for(@registration, :url => newUpperBusinessDetails_path) do |f| %>
     <div class="step"><%= t 'registrations.contactdetails_step.step' %></div>
 
+
+
     <% case  @registration.businessType %>
-    <% when 'soleTrader' %>
-      <h1 class="subtitle"><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'business' %></h1>
+    <% when 'soleTrader', 'partnership' %>
+      <%= render 'company_name', f: f %>
       <%= render "address_finder", f: f  %>
     <% when 'limitedCompany' %>
       <h1 class="subtitle"><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'business' %></h1>
-      <%= render 'company_details_finder', f: f %>
+      <fieldset>
+      <legend></legend>
+        <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :companyName) %>
+      <%= f.label :companyName %>
+      <%= f.text_field :companyName, :size => 20, :maxlength => 35 %>
+      </p>
+    </fieldset>
+        <%= render 'company_details_finder', f: f %>
+           <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
+     <%= validation_for(@registration, :streetLine1) %>
+     <%= f.label :streetLine1 %>
+     <%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
+ </p>
+ <p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
+     <%= validation_for(@registration, :streetLine2) %>
+     <%= f.label :streetLine2, :class=>"offscreen" %>
+     <%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %>
+ </p>
+<p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
+       <%= validation_for(@registration, :townCity) %>
+       <%= f.label :townCity %>
+       <%= f.text_field :townCity, :size => 20, :maxlength => 35 %>
+   </p>
+   <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
+       <%= validation_for(@registration, :postcode) %>
+       <%= f.label :postcode %>
+       <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
+   </p>
     <% when 'publicBody' %>
+      <%= render 'company_name', f: f %>
       <h1 class="subtitle"><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'organisation' %></h1>
       <%= render "address_finder", f: f %>
     <% end %>

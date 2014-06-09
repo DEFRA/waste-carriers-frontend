@@ -6,7 +6,7 @@
 
       <fieldset>
 
-      <% if ['soleTrader', 'publicBody'].include? @registration.businessType %>
+      <% if ['soleTrader', 'publicBody', 'partnership'].include? @registration.businessType %>
      <legend><%= t 'registrations.contactdetails_step.legend_upper_simple' %></legend>
      <% elsif @registration.businessType == 'limitedCompany' %>
       <legend><%= t 'registrations.contactdetails_step.legend_upper_director' %></legend>
