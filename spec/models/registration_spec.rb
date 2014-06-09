@@ -8,7 +8,7 @@ describe Registration do
   WEAK_PASSWORDS = ['123', '123abc', 'aaaaa']
 
   context 'businesstype step' do
-    subject { Registration.new }
+    before { subject.current_step = 'businesstype' }
 
     it { should validate_presence_of(:businessType).with_message(/must be completed/) }
     it { should allow_value('soleTrader', 'partnership', 'limitedCompany', 'publicBody', 'charity', 'authority', 'other').for(:businessType) }
@@ -16,8 +16,6 @@ describe Registration do
   end
 
   context 'otherbusinesses step' do
-    subject { Registration.new }
-
     before { subject.current_step = 'otherbusinesses' }
 
     it { should validate_presence_of(:otherBusinesses).with_message(/must be completed/) }
@@ -26,8 +24,6 @@ describe Registration do
   end
 
   context 'serviceprovided step' do
-    subject { Registration.new }
-
     before { subject.current_step = 'serviceprovided' }
 
     it { should validate_presence_of(:isMainService).with_message(/must be completed/) }
@@ -36,8 +32,6 @@ describe Registration do
   end
 
   context 'constructiondemolition step' do
-    subject { Registration.new }
-
     before { subject.current_step = 'constructiondemolition' }
 
     it { should validate_presence_of(:constructionWaste).with_message(/must be completed/) }
@@ -46,8 +40,6 @@ describe Registration do
   end
 
   context 'onlydealwith step' do
-    subject { Registration.new }
-
     before { subject.current_step = 'onlydealwith' }
 
     it { should validate_presence_of(:onlyAMF).with_message(/must be completed/) }
@@ -57,8 +49,6 @@ describe Registration do
 
   context 'contactdetails step' do
     describe 'presence' do
-      subject { Registration.new }
-
       before { subject.current_step = 'contactdetails' }
 
       it { should validate_presence_of(:firstName).with_message(/must be completed/) }
@@ -189,8 +179,6 @@ describe Registration do
   end
 
   context 'signup step' do
-    subject { Registration.new }
-
     before { subject.current_step = 'signup' }
 
     describe 'presence' do
@@ -271,9 +259,37 @@ describe Registration do
   end
 
   context 'confirmation step' do
-    subject { Registration.new }
-
     before { subject.current_step = 'confirmation' }
+
+    it { should validate_acceptance_of(:declaration) }
+  end
+
+  context 'registrationtype step' do
+    before { subject.current_step = 'registrationtype' }
+
+    it { should validate_presence_of(:registrationType) }
+
+    it { should allow_value('carrier_dealer', 'broker_dealer', 'carrier_broker_dealer').for(:registrationType) }
+    it { should_not allow_value('CARRIER_DEALER', 'BROKER_DEALER', 'CARRIER_BROKER_DEALER').for(:registrationType) }
+  end
+
+  context 'upper_contact_details step' do
+    before { subject.current_step = 'upper_contact_details' }
+
+    it { should_not validate_presence_of(:company_no) }
+
+    it { should allow_value('06731292', '6731292', '07589628', '7589628', '00000001', '1', 'ni123456', 'NI123456', 'RO123456', 'SC123456', 'OC123456', 'SO123456', 'NC123456').for(:company_no) }
+    it { should_not allow_value('AC097609', 'NII12345', 'NI1234567', '123456789', '0', '00000000', '-12345678', '-1234567').for(:company_no) }
+  end
+
+  context 'payment step' do
+    before { subject.current_step = 'payment' }
+
+    it { should validate_numericality_of(:copy_cards).is_greater_than_or_equal_to(0).only_integer }
+  end
+
+  context 'upper_summary step' do
+    before { subject.current_step = 'upper_summary' }
 
     it { should validate_acceptance_of(:declaration) }
   end
