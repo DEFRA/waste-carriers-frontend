@@ -327,6 +327,10 @@ en:
       contactName: "Contact name"
       phoneNumber: "Phone number"
       address: "Address"
+    company_details_finder:
+      company_no_search_button: "Find Details"
+    newUpperBusinessDetails:
+      title: "Business Details"
     businesstype_step:
       title: "Business type"
       subtitle: "What type of business or organisation are you?"

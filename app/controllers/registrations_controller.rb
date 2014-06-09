@@ -933,13 +933,14 @@ end
  # GET your-registration/upper-tier-contact-details
   def newUpperBusinessDetails
     new_step_action 'upper_business_details'
+        addressSearchLogic @registration
   end
 
   # POST your-registration/upper-tier-contact-details
   def updateNewUpperBusinessDetails
 
     setup_registration 'upper_business_details'
-    addressSearchLogic @registration
+
 
     if @registration.valid?
       redirect_to :newUpperContactDetails
