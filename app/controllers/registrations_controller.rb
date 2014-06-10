@@ -13,11 +13,11 @@ class RegistrationsController < ApplicationController
     authenticate_agency_user!
     searchWithin = params[:searchWithin]
     searchString = params[:q]
-    if validate_search_parameters?(searchString,searchWithin)
-      if searchString != nil && !searchString.empty?
-        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
+    if valid_search_parameters?(searchString,searchWithin)
+      @registrations = if searchString.present?
+        Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
       else
-        @registrations = []
+        []
       end
     else
       @registrations = []
@@ -294,25 +294,24 @@ end
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = current_step
   end
-  def validate_search_parameters?(searchString, searchWithin)
-    searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
-    searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
+
+  def valid_search_parameters?(searchString, searchWithin)
+    searchString_valid = searchString.nil? || searchString.match(Registration::VALID_CHARACTERS)
+    searchWithin_valid = searchWithin.blank? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
   end
 
-  def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
-    searchString_valid = searchString == nil || !searchString.empty? && (!searchString.match(Registration::VALID_CHARACTERS).nil?)
-    searchWithin_valid = searchWithin == nil || !searchWithin.empty? && (['any','companyName','contactName','postcode'].include? searchWithin)
-    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance)
-    searchPostcode_valid = searchPostcode == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
+  def valid_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
+    searchString_valid = searchString.nil? || (!searchString.match(Registration::VALID_CHARACTERS).nil?)
+    searchWithin_valid = searchWithin.nil? || (['any','companyName','contactName','postcode'].include? searchWithin)
+    searchDistance_valid = searchDistance.nil? || (Registration::DISTANCES.include? searchDistance)
+    searchPostcode_valid = searchPostcode.blank? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
 
     searchCrossField_valid = true
     # Add cross field check, to ensure that correct params supplied if needed
-    if !searchString.nil?
-      if !searchString.empty?
-        if searchDistance.nil? || searchPostcode.nil?
-          searchCrossField_valid = false
-        end
+    if searchString.present?
+      if searchDistance.nil? || searchPostcode.nil?
+        searchCrossField_valid = false
       end
     end
 
@@ -545,7 +544,7 @@ end
     end
 
     postcodeSearch = registration.postcodeSearch
-    if postcodeSearch and postcodeSearch != ""
+    if postcodeSearch.present?
       postcode = registration.postcodeSearch
       logger.info "getting addresses for: "+postcode
       begin
@@ -573,11 +572,11 @@ end
       end
     end
 
-    if params[:sSelect] and params[:sSelect] != ""
+    if params[:sSelect].present?
       registration.selectedMoniker = params[:sSelect]
     end
     selectedMoniker = registration.selectedMoniker
-    if selectedMoniker and selectedMoniker!="" and !@address
+    if selectedMoniker.present? and !@address
       logger.info "Getting address for: "+selectedMoniker
       @address = Address.find(selectedMoniker)
     end
@@ -887,11 +886,11 @@ end
     distance = params[:distance]
     searchString = params[:q]
     postcode = params[:postcode]
-    if validate_public_search_parameters?(searchString,"any",distance, postcode)
-      if searchString != nil && !searchString.empty?
-        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode, :excludeRegId => 'true' })
+    if valid_public_search_parameters?(searchString,"any",distance, postcode)
+      @registrations = if searchString.present?
+        Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode, :excludeRegId => 'true' })
       else
-        @registrations = []
+        []
       end
     else
       @registrations = []
