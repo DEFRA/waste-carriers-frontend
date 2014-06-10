@@ -294,17 +294,18 @@ end
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = current_step
   end
+
   def valid_search_parameters?(searchString, searchWithin)
-    searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
-    searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
+    searchString_valid = searchString.nil? || searchString.match(Registration::VALID_CHARACTERS)
+    searchWithin_valid = searchWithin.blank? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
   end
 
   def valid_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
-    searchString_valid = searchString == nil || !searchString.empty? && (!searchString.match(Registration::VALID_CHARACTERS).nil?)
-    searchWithin_valid = searchWithin == nil || !searchWithin.empty? && (['any','companyName','contactName','postcode'].include? searchWithin)
-    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance)
-    searchPostcode_valid = searchPostcode == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
+    searchString_valid = searchString.nil? || (!searchString.match(Registration::VALID_CHARACTERS).nil?)
+    searchWithin_valid = searchWithin.nil? || (['any','companyName','contactName','postcode'].include? searchWithin)
+    searchDistance_valid = searchDistance.nil? || (Registration::DISTANCES.include? searchDistance)
+    searchPostcode_valid = searchPostcode.blank? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
 
     searchCrossField_valid = true
     # Add cross field check, to ensure that correct params supplied if needed
