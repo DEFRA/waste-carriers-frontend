@@ -358,10 +358,10 @@ class Registration < ActiveResource::Base
 
   def validate_revokedReason
     #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
-    Rails.logger.debug 'validate revokedReason, revoked:' + revoked.to_s
+    Rails.logger.debug 'validate revokedReason, revoked:' + revoked
     # If revoke question is Yes, and revoke reason is empty, then error
-    if revoked.to_s != ''
-      if metaData.revokedReason == '' || metaData.revokedReason.nil?
+    if revoked.present?
+      if metaData.revokedReason.blank?
         Rails.logger.debug 'revokedReason is empty'
         errors.add(:revokedReason, I18n.t('errors.messages.blank') )
       end
