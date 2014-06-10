@@ -13,7 +13,7 @@ class RegistrationsController < ApplicationController
     authenticate_agency_user!
     searchWithin = params[:searchWithin]
     searchString = params[:q]
-    if validate_search_parameters?(searchString,searchWithin)
+    if valid_search_parameters?(searchString,searchWithin)
       @registrations = if searchString.present?
         Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
       else
@@ -294,7 +294,7 @@ end
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = current_step
   end
-  def validate_search_parameters?(searchString, searchWithin)
+  def valid_search_parameters?(searchString, searchWithin)
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
