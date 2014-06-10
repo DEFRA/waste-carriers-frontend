@@ -24,7 +24,7 @@
 
 
 <%= @registration.houseNumber %> <%= @registration.streetLine1 %>
-<% if @registration.streetLine2 != "" %><%= @registration.streetLine2 %><% end %>
+<% if @registration.streetLine2.present? %><%= @registration.streetLine2 %><% end %>
 <%= @registration.townCity%>
 <%= @registration.postcode%>
 
