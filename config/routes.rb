@@ -102,6 +102,9 @@ Registrations::Application.routes.draw do
     get "your-registration/upper-tier-summary" => "registrations#newUpperSummary", :as => :upper_summary
     post "your-registration/upper-tier-summary" => "registrations#updateNewUpperSummary"
 
+    # Data reporting urls - Authenticated agency users only
+    get "reports/:from/:until/registrations" => 'reports#reportRegistrations'
+    get "reports/registrations" => 'reports#reportRegistrations', :as => :reports_registrations
 
 	  
 
