@@ -545,7 +545,7 @@ end
     end
 
     postcodeSearch = registration.postcodeSearch
-    if postcodeSearch and postcodeSearch != ""
+    if postcodeSearch.present?
       postcode = registration.postcodeSearch
       logger.info "getting addresses for: "+postcode
       begin
@@ -573,11 +573,11 @@ end
       end
     end
 
-    if params[:sSelect] and params[:sSelect] != ""
+    if params[:sSelect].present?
       registration.selectedMoniker = params[:sSelect]
     end
     selectedMoniker = registration.selectedMoniker
-    if selectedMoniker and selectedMoniker!="" and !@address
+    if selectedMoniker.present? and !@address
       logger.info "Getting address for: "+selectedMoniker
       @address = Address.find(selectedMoniker)
     end
