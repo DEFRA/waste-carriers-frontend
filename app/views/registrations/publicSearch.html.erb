@@ -31,12 +31,12 @@
 
 <form method="get" action="/registrations/search">
 <div class="box" data-journey="waste-carriers-registration:search-register">
-	<p class="group">
-		<label for="q"><%= t '.search_label' %></label>
-		<input id="q" name="q" type="text" placeholder="<%=t '.placeholder'%>" value="<%= params[:q]%>" />
-	</p>
+	<div class="form-group">
+		<label for="q" class="form-label"><%= t '.search_label' %></label>
+		<input id="q" name="q" type="text" value="<%= params[:q]%>" />
+	</div>
 	<div id="onelinewrapper">
-		<label for="oneline"><%=t '.filterLabel'%></label>
+		<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
 		<div id="oneline">
 			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
 			<% defaultDistance='any'%>
@@ -48,9 +48,9 @@
 			<input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
 		</div>
 	</div>
-	<p class="action group">
+	<div class="form-group">
 		<input type="submit" id="reg-search" class="button" value="<%= t '.search_button_label' %>" />
-	</p>
+	</div>
 </div>
 </form>
 
