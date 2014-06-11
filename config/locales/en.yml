@@ -18,7 +18,7 @@ en:
     timeout:
       heading: "Your session has expired"
       message1: "This service times out after 20 minutes of inactivity, or you may not have cookies enabled in your browser."
-      message2_html: "<a href='/your-registration/business-type'>Start your registration from the beginning</a>"
+      message2: "Start your registration from the beginning"
       message3_html: "If you have completed your registration, you can <a href='/users/sign_in'>sign in</a> to view or amend your existing certificates."
     unauthorised:
       heading: "You are not authorised to access this page"
