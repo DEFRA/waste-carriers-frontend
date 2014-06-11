@@ -1,25 +1,65 @@
+
+@import 'design-patterns/_alpha-beta';
+@import '_url-helpers';
+
 @import '_grid_layout';
 @import '_conditionals';
+@import '_measurements';
+@import '_shims';
+
+@import 'design-patterns/_buttons';
+@import '_device-pixels';
+
 @import '_colours';
 @import '_css3';
 @import '_typography';
-@import '_shims';
-@import 'design-patterns/_buttons';
-@import 'design-patterns/_alpha-beta';
-@import '_url-helpers';
 @import '_font_stack';
-@import '_device-pixels';
+
 
 //scss includes
-.js-enabled { @include media; }
-.js-enabled { @include device-pixel-ratio($ratio: 2)}
-.js-enabled { @include core-16; }
-.beta-banner { @include phase-banner (beta); }
+#content { @include media; }
+#content { @include device-pixel-ratio($ratio: 2)}
+#content h1 { @include core-36; }
+#content h2 {@include core-27}
+#content p {@include core-19}
 #content { @include inner-block; }
 #content { @include outer-block; }
+.beta-banner { @include phase-banner (beta); }
 .button  { @include button; }
 
-//CUSTOM STYLES
+
+//CUSTOM STYLES	
+
+//GLOBAL 
+
+p {
+    margin-bottom: 1.05263em;
+    margin-top: 0.26316em;
+}
+
+h2 {
+    margin-top: 0.26316em;
+}
+
+
+.js-enabled .selected {
+    background: none repeat scroll 0 0 rgb(255, 255, 255);
+    border-color: rgb(11, 12, 12);
+}
+
+// .js-enabled .block-label input:focus {
+//     outline: medium none;
+// }
+
+.step {
+	color: rgb(111, 119, 123);
+    display: block;
+    font-family: "nta",Arial,sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.11111;
+    text-transform: none;
+}
 
 
 //header section
@@ -31,10 +71,15 @@
     margin: 10px 0 2px;
 }
 
+#global-header-bar .header-bar {
+	margin-bottom:20px;
+}
+
 // beta banner
 .header_text span {
   background-color: rgb(244, 119, 56);
-  padding: 0.05em 0.3em
+  padding: 0 0.2em;
+  border-radius:10px;
 }
 
 .header_text span {
@@ -66,9 +111,13 @@
 
 // forms
 
+legend {
+	margin-bottom:10px;
+}
+
 .subtitle {
-	margin-top: 20px;
-	margin-bottom: 10px;
+	
+	margin-bottom: 15px;
 }
 
 .form-group:after {
@@ -81,6 +130,7 @@
     clear: both;
     float: left;
     width: 100%;
+    margin-bottom:20px;
 }
 
 
@@ -131,7 +181,20 @@
     top: 18px;
 }
 
+.block-label:hover {
+    border-color: rgb(11, 12, 12);
+}
 
+.block-label:focus {
+    border-color: rgb(11, 12, 12);
+}
+
+.buttons {
+    float: left;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 3px;
+}
 
 
 

@@ -29,7 +29,7 @@
   <div class="form-group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
       <%= validation_for(@registration, :streetLine1) %>
       <% if @registration.addressMode == "manual-uk"%>
-        <%= f.label :streetLine1 %>
+        <%= f.label :streetLine1, class: 'form-label'%>
       <%else%>
         <label for="registration_streetLine1"><%= t '.streetLine1Foreign' %></label>
       <%end%>
@@ -37,7 +37,7 @@
   </div>
   <div class="form-group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
       <%= validation_for(@registration, :streetLine2) %>
-      <%= f.label :streetLine2, :class=>"offscreen" %>
+      <%= f.label :streetLine2, :class=>"form-label offscreen" %>
       <%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %>
   </div>
 
@@ -46,12 +46,12 @@
       town or city and Post Code -->
     <div class="form-group<%if @registration.errors[:townCity].any?%> validation<%end%>">
         <%= validation_for(@registration, :townCity) %>
-        <%= f.label :townCity %>
+        <%= f.label :townCity, class: 'form-label' %>
         <%= f.text_field :townCity, :size => 20, :maxlength => 35 %>
     </div>
     <div class="form-group<%if @registration.errors[:postcode].any?%> validation<%end%>">
         <%= validation_for(@registration, :postcode) %>
-        <%= f.label :postcode %>
+        <%= f.label :postcode, class: 'form-label' %>
         <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
     </div>
   <%else%>

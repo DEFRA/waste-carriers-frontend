@@ -1,3 +1,13 @@
+<% content_for :head do %><%= render "shared/head" %><% end %>
+<% content_for :html_lang do %><%= render "shared/html_lang" %><% end %>
+<% content_for :page_title do %><%= render "shared/page_title" %><% end %>
+<% content_for :inside_header do %><%= render "shared/inside_header" %><% end %>
+<% content_for :cookie_message do %><%= render "shared/cookie_message" %><% end %>
+<% content_for :after_header do %><%= render "shared/after_header" %><% end %>
+<% content_for :footer_top do %><%= render "shared/footer_top" %><% end %>
+<% content_for :body_end do %><%= render "shared/body_end" %><% end %>
+
+
 <main id="content" role="main" class="group"><article role="article" class="group">
 <h2><%= t 'devise.confirmations.resendHeading'%></h2>
 
