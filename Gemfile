@@ -57,6 +57,8 @@ gem 'capistrano', '~> 3.0.0'
 # To use debugger
 # gem 'debugger'
 
+gem 'rest-client'
+
 group :test do
   gem 'ci_reporter'
   gem 'cucumber-rails', require: false
