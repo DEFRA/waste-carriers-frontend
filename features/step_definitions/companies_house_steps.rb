@@ -36,6 +36,10 @@ Given(/^I enter an inactive company number$/) do
   fill_in 'registration_company_no', with: '00733662'
 end
 
+Given(/^I enter a company number which does not exist$/) do
+  fill_in 'registration_company_no', with: '99999999'
+end
+
 When(/^I click to advance$/) do
   click_on 'Next'
 end
