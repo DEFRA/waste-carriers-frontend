@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe CompaniesHouseCaller do
-  describe 'url' do
+  describe '#url' do
     context '8 characters' do
       subject { CompaniesHouseCaller.new '02050399' }
 
@@ -12,6 +12,20 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new '2050399' }
 
       its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/02050399.json' }
+    end
+  end
+
+  describe '#active?' do
+    context 'active' do
+      subject { CompaniesHouseCaller.new '02050399' }
+
+      it { should be_active }
+    end
+
+    context 'not active' do
+      subject { CompaniesHouseCaller.new '05868270' }
+
+      it { should_not be_active }
     end
   end
 end
