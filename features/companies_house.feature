@@ -5,43 +5,38 @@ Feature: Companies House
 
   Scenarios can be split into four main categories, valid, invalid, unavailable and company number missing. Any check not passed as valid will stop navigation onto contact details page
 
+  Background:
+    Given I am registering as a limited company
+      And I am on the upper tier business details page
+      And I enter my company name and address
+
   @happy_days
   Scenario: Active company
-    Given I am on the upper tier business details page
-      And I enter my company name and address
-      And I enter an active company number
+    Given I enter an active company number
     When I click to advance
     Then I proceed to the next wizard step
 
   Scenario: Inactive company
-    Given I am on the upper tier business details page
-      And I enter my company name and address
-      And I enter an inactive company number
+    Given I enter an inactive company number
     When I click to advance
     Then I am told the company number is problematic
       And I remain on the upper tier business details page
 
   Scenario: Company not found
-    Given I am on the upper tier business details page
-      And I enter my company name and address
-      And I enter a company number which does not exist
+    Given I enter a company number which does not exist
     When I click to advance
     Then I am told the company number is problematic
       And I remain on the upper tier business details page
 
   Scenario: Not entering company number
-    Given I am on the upper tier business details page
-      And I enter my company name and address
-      But I leave the company number blank
+    Given I leave the company number blank
     When I click to advance
     Then I am told the company number needs to be filled in
       And I remain on the upper tier business details page
 
   Scenario: Service unavailable
-    Given I am on the upper tier business details page
-      And I enter my company name and address
-      And I enter an active company number
-      But the Companies House service is unavailable
+    Given I enter an active company number
+      But the external service is unavailable
     When I click to advance
     Then I am told to retry when the external service is available
       And I remain on the upper tier business details page
