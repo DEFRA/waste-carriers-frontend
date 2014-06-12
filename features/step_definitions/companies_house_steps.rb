@@ -39,3 +39,7 @@ end
 When(/^I click to advance$/) do
   click_on 'Next'
 end
+
+And(/^I remain on the upper tier business details page$/) do
+  page.should have_content 'Enter your business details'
+end
