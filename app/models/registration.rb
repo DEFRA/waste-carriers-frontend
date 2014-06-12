@@ -272,18 +272,12 @@ class Registration < ActiveResource::Base
   end
 
   def initialize_sign_up_mode(userEmail, signedIn)
-    Rails.logger.debug "Entering initialize_sign_up_mode"
     if signedIn
-      Rails.logger.debug "User already signed in with email = " + userEmail + "."
       ''
+    elsif User.where(email: accountEmail).exists?
+      'sign_in'
     else
-      if User.where(email: userEmail).count == 0
-        Rails.logger.debug "No user found in database with email = " + userEmail + ". Signing up..."
-        'sign_up'
-      else
-        Rails.logger.debug "Found user with email = " + userEmail + ". Directing to Sign in..."
-        'sign_in'
-      end
+      'sign_up'
     end
   end
 
