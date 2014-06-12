@@ -27,3 +27,11 @@ And(/^I enter my company name and address$/) do
   fill_in 'registration_townCity', with: 'Bristol'
   fill_in 'registration_postcode', with: 'BS1 5AH'
 end
+
+Given(/^I enter an active company number$/) do
+  pending
+end
+
+Given(/^I enter an inactive company number$/) do
+  pending
+end
