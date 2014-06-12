@@ -28,4 +28,8 @@ describe CompaniesHouseCaller do
       it { should_not be_active }
     end
   end
+
+  describe 'external service unavailable' do
+    it "it should indicate this"
+  end
 end
