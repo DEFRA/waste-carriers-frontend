@@ -44,17 +44,13 @@ end
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
-      # TODO set steps
 
       case @registration.businessType
         when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
-          @registration.steps = %w[businesstype otherbusinesses]
           redirect_to :newOtherBusinesses
         when 'charity', 'authority'
-          @registration.steps = %w[businesstype business]
           redirect_to :newBusinessDetails
         when 'other'
-          @registration.steps = %w[businesstype noregistration]
           redirect_to :newNoRegistration
       end
     elsif @registration.new_record?
@@ -74,8 +70,6 @@ end
   def updateNewNoRegistration
     setup_registration 'noregistration'
 
-    # TODO set steps
-
     if @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -93,7 +87,6 @@ end
     setup_registration 'otherbusinesses'
 
     if @registration.valid?
-      # TODO this is where you need to make the choice and update the steps
       case @registration.otherBusinesses
         when 'yes'
           redirect_to :newServiceProvided
@@ -117,7 +110,6 @@ end
     setup_registration 'serviceprovided'
 
     if @registration.valid?
-      # TODO this is where you need to make the choice and update the steps
       case @registration.isMainService
         when 'yes'
           redirect_to :newOnlyDealWith
@@ -142,7 +134,6 @@ end
     setup_registration 'constructiondemolition'
 
     if @registration.valid?
-      # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
         when 'yes'
         session[:registration_phase] = 'upper'
@@ -168,7 +159,6 @@ end
     setup_registration 'onlydealwith'
 
     if @registration.valid?
-      # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
         when 'yes'
           redirect_to :newBusinessDetails
