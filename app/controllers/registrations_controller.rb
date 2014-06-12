@@ -595,10 +595,7 @@ end
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
 
-    # Pass in current page to check previous page is valid
-    if !@registration.valid?
-      redirect_to_failed_page(@registration.current_step)
-    else
+    if @registration.valid?
       logger.debug 'Previous pages are valid'
 
       # Prepopulate Email field/Set registration account
@@ -615,6 +612,8 @@ end
       # Get signup mode
       @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
       logger.debug 'registration mode: ' + @registration.sign_up_mode
+    else
+      redirect_to_failed_page(@registration.current_step)
     end
   end
 
