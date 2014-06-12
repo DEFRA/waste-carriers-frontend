@@ -43,7 +43,7 @@ Registrations::Application.configure do
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.delivery_method =  config.use_letter_opener ? :letter_opener : :smtp
 
   # Overriding 'Done' URL for development
   #config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"
