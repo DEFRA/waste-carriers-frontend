@@ -11,8 +11,8 @@
     <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
         <% Registration.business_type_options_for_select.each do |option| %>
           <%= f.label :business_type, class: 'block-label' do %>
-            <%= f.radio_button :businessType, option.second %> <%= option.first %>
-          <% end %></br>
+            <%= f.radio_button :businessType, option.second, class: 'radio' %><%= f.label "businessType_#{option.second.downcase}", option.first, class: 'label' %>
+          <% end %>
         <% end %>
     </div>
 

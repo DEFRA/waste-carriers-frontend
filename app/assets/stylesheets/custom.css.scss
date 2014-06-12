@@ -1,4 +1,3 @@
-
 @import 'design-patterns/_alpha-beta';
 @import '_url-helpers';
 
@@ -21,6 +20,7 @@
 #content { @include device-pixel-ratio($ratio: 2)}
 #content h1 { @include core-36; }
 #content h2 {@include core-27}
+#content h3 {@include core-24}
 #content p {@include core-19}
 #content { @include inner-block; }
 #content { @include outer-block; }
@@ -28,28 +28,30 @@
 .button  { @include button; }
 
 
-//CUSTOM STYLES	
+//CUSTOM STYLES
 
-//GLOBAL 
-
-p {
-    margin-bottom: 1.05263em;
-    margin-top: 0.26316em;
+ul, ol {
+    list-style-type: none;
 }
 
 h2 {
-    margin-top: 0.26316em;
+    margin-bottom:10px;
 }
 
+
+.back_link, .next_link, .button {
+    margin-bottom:20px;
+    margin-top:20px;
+}
 
 .js-enabled .selected {
     background: none repeat scroll 0 0 rgb(255, 255, 255);
     border-color: rgb(11, 12, 12);
 }
 
-// .js-enabled .block-label input:focus {
-//     outline: medium none;
-// }
+.js-enabled .block-label input:focus {
+    outline: medium none;
+}
 
 .step {
 	color: rgb(111, 119, 123);
@@ -174,6 +176,18 @@ legend {
 
 }
 
+.form-label-postcode {
+    display: block;
+    font-family: "nta",Arial,sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.31579;
+    margin-bottom: 5px;
+    text-transform: none;
+    margin-top: 20px;
+    margin-bottom:-20px;
+}
+
 .block-label input {
     cursor: pointer;
     left: 15px;
@@ -197,6 +211,15 @@ legend {
 }
 
 
+//Layout
+
+.panel-indent {
+    border-left: 5px solid rgb(222, 224, 226);
+    clear: both;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left:20px;
+}
 
 
 

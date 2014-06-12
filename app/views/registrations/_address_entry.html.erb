@@ -135,12 +135,14 @@
       <%end%>
 
       <!-- Display elements for the entering and submitting the postcode to search for -->
-      <%= f.label :postcode, class: 'form-label' %>
+      <%= f.label :postcode, class: 'form-label-postcode' %>
       <input id="sPostcode" name="sPostcode" type="text" class="postcode" value="<%= params[:sPostcode]%>"/>
       <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
     </div>
-    <p><a href="?sManual=true"><%= t '.manual_address_label'%></a></p>
-    <a href="?sManualForeign=true"><%= t '.foreignAddressLink'%></a>
+    <div class='form-group'>
+      <a href="?sManual=true"><%= t '.manual_address_label'%></a><br>
+      <a href="?sManualForeign=true"><%= t '.foreignAddressLink'%></a>
+    </div>
   <%end%>
 <%end%>
 </fieldset>

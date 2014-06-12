@@ -8,7 +8,7 @@
    -->
   <fieldset>
     <legend></legend>
-    <div class="form-group<%if @registration.errors[:onlyAMF].any?%> validation<%end%>">
+    <div class="inline<%if @registration.errors[:onlyAMF].any?%> validation<%end%>">
   	  <label class="block-label"><!-- GDS have an 'option' class but we prefer this simplified version -->
         <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> <%= f.label t 'form.yes_option_label', :class => "label" %>
       </label>
