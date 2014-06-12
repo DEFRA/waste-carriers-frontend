@@ -40,6 +40,10 @@ Given(/^I enter a company number which does not exist$/) do
   fill_in 'registration_company_no', with: '99999999'
 end
 
+Given(/^I leave the company number blank$/) do
+  # no-op
+end
+
 When(/^I click to advance$/) do
   click_on 'Next'
 end
