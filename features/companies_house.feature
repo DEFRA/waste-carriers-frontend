@@ -7,12 +7,11 @@ Feature: Companies House
 
   @happy_days
   Scenario Outline: Successful lookup of valid company details
-    Given I'm on Upper Tier Business details page
+    Given I am on the upper tier business details page
       And I enter my company name and address
-      And I enter my <company_number> in the relevant field
-    When I press the 'Company Check' button
-    Then I see a message that the company number is valid
-      And I can proceed to the contact details page
+      And I enter my <company_number>
+    When I click to advance
+    Then I proceed to the next wizard step
 
   Examples:
   |	company_number	|
@@ -23,12 +22,12 @@ Feature: Companies House
   |	SC875432		|
 
   Scenario: Lookup of invalid company details
-    Given I'm on Upper Tier Business details page
+    Given I am on the upper tier business details page
       And I enter my company name and address
-      And I enter my <company_number> in the relevant field
-    When I press the 'Company Check' button
-    Then I see a message that the company number is invalid
-      And I can't proceed to the contact details page
+      And I enter my <company_number>
+    When I click to advance
+    Then I am told the company number is invalid
+      And I remain on the upper tier business details page
 
     Examples:
     |	company_number	|
@@ -43,18 +42,18 @@ Feature: Companies House
     |	SC209426		|
 
   Scenario: Service not available
-    Given I'm on Upper Tier Business details page
+    Given I am on the upper tier business details page
     When a companies house number is entered
       But the connection to companies house is lost
     Then an error message is displayed to the system user
 
   Scenario: Ignoring company check
-    Given I'm on Upper Tier Business details page
+    Given I am on the upper tier business details page
       And I enter my company name and address
-      But I leave the company number field blank
-    When I press the 'Company Check' button
-    Then I see a message that the company number is invalid
-      And I can't proceed to the contact details page
+      But I leave the company number blank
+    When I click to advance
+    Then I am told the company number needs to be filled in
+      And I remain on the upper tier business details page
 
 
 
