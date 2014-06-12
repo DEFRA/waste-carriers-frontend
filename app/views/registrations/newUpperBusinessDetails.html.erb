@@ -1,5 +1,6 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+    <%= render "errors" %>
     <% content_for :page_title, createTitle('.title') %>
     <%= form_for(@registration, :url => newUpperBusinessDetails_path) do |f| %>
     <div class="step"><%= t 'registrations.contactdetails_step.step' %></div>
@@ -46,7 +47,6 @@
       <h1 class="subtitle"><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'organisation' %></h1>
       <%= render "address_finder", f: f %>
     <% end %>
-
 
 <%= render "wizard_links" %>
   <% end %>

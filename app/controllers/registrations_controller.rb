@@ -13,11 +13,11 @@ class RegistrationsController < ApplicationController
     authenticate_agency_user!
     searchWithin = params[:searchWithin]
     searchString = params[:q]
-    if valid_search_parameters?(searchString,searchWithin)
-      @registrations = if searchString.present?
-        Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
+    if validate_search_parameters?(searchString,searchWithin)
+      if searchString != nil && !searchString.empty?
+        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
       else
-        []
+        @registrations = []
       end
     else
       @registrations = []
@@ -33,9 +33,18 @@ end
 
   # GET /your-registration/business-type
   def newBusinessType
-    new_step_action 'businesstype'
+    logger.info 'Request New Registration'
+    session[:registration_params] ||= {}
+    @registration = Registration.new(session[:registration_params])
 
-    @registration.routeName = params[:agency].present? ? 'ASSISTED_DIGITAL' : 'DIGITAL'
+    @registration.steps = %w[businesstype]
+
+    # Set route name based on agency paramenter
+    @registration.routeName = 'DIGITAL'
+    if !params[:agency].nil?
+      @registration.routeName = 'ASSISTED_DIGITAL'
+      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
+    end
   end
 
   # POST /your-registration/business-type
@@ -44,13 +53,17 @@ end
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
+      # TODO set steps
 
       case @registration.businessType
         when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
+          @registration.steps = %w[businesstype otherbusinesses]
           redirect_to :newOtherBusinesses
         when 'charity', 'authority'
+          @registration.steps = %w[businesstype business]
           redirect_to :newBusinessDetails
         when 'other'
+          @registration.steps = %w[businesstype noregistration]
           redirect_to :newNoRegistration
       end
     elsif @registration.new_record?
@@ -70,6 +83,8 @@ end
   def updateNewNoRegistration
     setup_registration 'noregistration'
 
+    # TODO set steps
+
     if @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -87,6 +102,7 @@ end
     setup_registration 'otherbusinesses'
 
     if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
       case @registration.otherBusinesses
         when 'yes'
           redirect_to :newServiceProvided
@@ -110,6 +126,7 @@ end
     setup_registration 'serviceprovided'
 
     if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
       case @registration.isMainService
         when 'yes'
           redirect_to :newOnlyDealWith
@@ -134,6 +151,7 @@ end
     setup_registration 'constructiondemolition'
 
     if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
         when 'yes'
         session[:registration_phase] = 'upper'
@@ -159,6 +177,7 @@ end
     setup_registration 'onlydealwith'
 
     if @registration.valid?
+      # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
         when 'yes'
           redirect_to :newBusinessDetails
@@ -275,24 +294,25 @@ end
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = current_step
   end
-
-  def valid_search_parameters?(searchString, searchWithin)
-    searchString_valid = searchString.nil? || searchString.match(Registration::VALID_CHARACTERS)
-    searchWithin_valid = searchWithin.blank? || (['any','companyName','contactName','postcode'].include? searchWithin)
+  def validate_search_parameters?(searchString, searchWithin)
+    searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
+    searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
   end
 
-  def valid_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
-    searchString_valid = searchString.nil? || (!searchString.match(Registration::VALID_CHARACTERS).nil?)
-    searchWithin_valid = searchWithin.nil? || (['any','companyName','contactName','postcode'].include? searchWithin)
-    searchDistance_valid = searchDistance.nil? || (Registration::DISTANCES.include? searchDistance)
-    searchPostcode_valid = searchPostcode.blank? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
+  def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
+    searchString_valid = searchString == nil || !searchString.empty? && (!searchString.match(Registration::VALID_CHARACTERS).nil?)
+    searchWithin_valid = searchWithin == nil || !searchWithin.empty? && (['any','companyName','contactName','postcode'].include? searchWithin)
+    searchDistance_valid = searchDistance == nil || !searchDistance.empty? && (Registration::DISTANCES.include? searchDistance)
+    searchPostcode_valid = searchPostcode == nil || searchPostcode.empty? || searchPostcode.match(Registration::POSTCODE_CHARACTERS)
 
     searchCrossField_valid = true
     # Add cross field check, to ensure that correct params supplied if needed
-    if searchString.present?
-      if searchDistance.nil? || searchPostcode.nil?
-        searchCrossField_valid = false
+    if !searchString.nil?
+      if !searchString.empty?
+        if searchDistance.nil? || searchPostcode.nil?
+          searchCrossField_valid = false
+        end
       end
     end
 
@@ -443,7 +463,7 @@ end
     session[:registration_params] ||= {}
     @registration = Registration.find(params[:id])
     authorize! :update, @registration
-    if @registration.metaData.status == "REVOKED"
+    if !@registration.metaData.status.nil? && @registration.metaData.status == "REVOKED"
       logger.info "Edit not allowed, as registration has been revoked"
       redirect_to userRegistrations_path(current_user.id)
     end
@@ -455,6 +475,14 @@ end
     @registration.routeName = @registration.metaData.route
     addressSearchLogic @registration
     authorize! :update, @registration
+  end
+
+  def check_steps_are_valid_up_until_current current_step
+    if !@registration.steps_valid?(current_step)
+      redirect_to_failed_page(@registration.current_step)
+    else
+      logger.debug 'Previous pages are valid'
+    end
   end
 
   def clearAddressNonManual(registration)
@@ -595,25 +623,26 @@ end
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
 
-    if @registration.valid?
+    # Pass in current page to check previous page is valid
+    if !@registration.steps_valid?("signup")
+      redirect_to_failed_page(@registration.current_step)
+    else
       logger.debug 'Previous pages are valid'
 
-      # Prepopulate Email field/Set registration account
-      if user_signed_in?
-        logger.debug 'User already signed in using current email: ' + current_user.email
-        @registration.accountEmail = current_user.email
-      elsif agency_user_signed_in?
-        logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
-        @registration.accountEmail = current_agency_user.email
-      else
-        logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
-        @registration.accountEmail = @registration.contactEmail
-      end
-      # Get signup mode
-      @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-      logger.debug 'registration mode: ' + @registration.sign_up_mode
-    else
-      redirect_to_failed_page(@registration.current_step)
+	  # Prepopulate Email field/Set registration account
+	  if user_signed_in?
+	    logger.debug 'User already signed in using current email: ' + current_user.email
+	    @registration.accountEmail = current_user.email
+	  elsif agency_user_signed_in?
+	    logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
+	    @registration.accountEmail = current_agency_user.email
+	  else
+	    logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
+	    @registration.accountEmail = @registration.contactEmail
+	  end
+	  # Get signup mode
+	  @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
+	  logger.debug 'registration mode: ' + @registration.sign_up_mode
     end
   end
 
@@ -675,7 +704,7 @@ end
       end
 
 	    logger.debug "Now asking whether registration is all valid"
-      if @registration.valid?
+      if @registration.all_valid?
         logger.debug "The registration is all valid. About to save the registration..."
         @registration.save!
         logger.info 'Perform an additional save, to set the Route Name in metadata'
@@ -767,7 +796,7 @@ end
           @registration.revoked = 'true'
         end
 
-        if @registration.valid?
+        if @registration.all_valid?
           @registration.metaData.status = "REVOKED"
           @registration.revoked = ''
           @registration.save
@@ -802,7 +831,7 @@ end
       end
       # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
       @registration.routeName = @registration.metaData.route
-      if @registration.valid?
+      if @registration.all_valid?
         @registration.save
         if agency_user_signed_in?
           redirect_to registrations_path(:note => I18n.t('registrations.form.reg_updated') )
@@ -858,11 +887,11 @@ end
     distance = params[:distance]
     searchString = params[:q]
     postcode = params[:postcode]
-    if valid_public_search_parameters?(searchString,"any",distance, postcode)
-      @registrations = if searchString.present?
-        Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode, :excludeRegId => 'true' })
+    if validate_public_search_parameters?(searchString,"any",distance, postcode)
+      if searchString != nil && !searchString.empty?
+        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => 'companyName', :distance => distance, :activeOnly => 'true', :postcode => postcode, :excludeRegId => 'true' })
       else
-        []
+        @registrations = []
       end
     else
       @registrations = []
@@ -904,7 +933,8 @@ end
  # GET your-registration/upper-tier-contact-details
   def newUpperBusinessDetails
     new_step_action 'upper_business_details'
-        addressSearchLogic @registration
+
+     logger.debug session[:registration_params].to_s
   end
 
   # POST your-registration/upper-tier-contact-details
@@ -912,8 +942,29 @@ end
 
     setup_registration 'upper_business_details'
 
+     session[:registration_params][:company_name] = params[:companyName] if params[:companyName]
+         @registration= Registration.new(session[:registration_params])
 
-    if @registration.valid?
+    logger.debug params.to_s
+
+     if params[:selected_business_address]
+       logger.debug(params[:selected_business_address].to_s)
+     end
+
+    if params[:findAddress]
+      logger.debug 'findAddress'
+
+      begin
+        @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
+      rescue ActiveResource::ServerError
+        logger.info 'activeresource error'
+      end
+
+      render "newUpperBusinessDetails", status: '200', foo: "yes"
+
+    elsif @registration.valid?
+      logger.debug 'registration.valid'
+       logger.debug params.keys.to_s
       redirect_to :newUpperContactDetails
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -928,7 +979,7 @@ end
 # GET your-registration/upper-tier-contact-details
   def newUpperContactDetails
     new_step_action 'upper_contact_details'
-    addressSearchLogic @registration
+  logger.debug  session[:registration_params][:company_name].to_s
   end
 
   # POST your-registration/upper-tier-contact-details
@@ -955,13 +1006,11 @@ end
    @registration.copy_cards = 2
     @registration.copy_card_fee = @registration.copy_cards * 5
      @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
-    # update_model("payment")
   end
 
   # POST upper-registrations/payment
   def updateNewPayment
     setup_registration 'payment'
-    # update_model("payment")
 
     if @registration.valid?
       redirect_to :upper_summary
@@ -1038,6 +1087,8 @@ private
       :copy_card_fee,
       :copy_cards,
       :total_fee,
+      :address_match_list,
+      :selected_business_address,
       :sign_up_mode)
   end
 

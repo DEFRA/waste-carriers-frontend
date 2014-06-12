@@ -14,3 +14,9 @@ $(function() {
   });
 });
 
+
+$("#addressSelector").change(function(){
+    $("#addressSelector").removeAttr("size");
+    $("#selected_business_address").val( $( "#addressSelector option:selected" ).text() );
+});
+
