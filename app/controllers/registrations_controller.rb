@@ -33,7 +33,7 @@ end
 
   # GET /your-registration/business-type
   def newBusinessType
-    new_step_action 'otherbusinesses'
+    new_step_action 'businesstype'
 
     # Set route name based on agency paramenter
     @registration.routeName = 'DIGITAL'
