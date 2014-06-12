@@ -366,7 +366,7 @@ class Registration < ActiveResource::Base
   end
 
   def date_registered
-    metaData.dateRegistered if metaData
+    metaData.try :dateRegistered
   end
 
   #TODO Replace with method from helper or have decorator
