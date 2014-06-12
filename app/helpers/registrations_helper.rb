@@ -34,7 +34,7 @@ module RegistrationsHelper
       if user_signed_in?
         userRegistrations_path current_user.id
       else
-        newBusinessType_path
+        find_path
       end
     else
       registrations_path
