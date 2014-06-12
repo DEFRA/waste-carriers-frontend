@@ -457,14 +457,6 @@ end
     authorize! :update, @registration
   end
 
-  def check_steps_are_valid_up_until_current current_step
-    if !@registration.steps_valid?(current_step)
-      redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-    end
-  end
-
   def clearAddressNonManual(registration)
     registration.uprn = nil
     registration.postcodeSearch = nil
