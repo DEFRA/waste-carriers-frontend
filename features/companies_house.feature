@@ -6,40 +6,28 @@ Feature: Companies House
   Scenarios can be split into four main categories, valid, invalid, unavailable and company number missing. Any check not passed as valid will stop navigation onto contact details page
 
   @happy_days
-  Scenario Outline: Successful lookup of valid company details
+  Scenario: Active company
     Given I am on the upper tier business details page
       And I enter my company name and address
-      And I enter my <company_number>
+      And I enter an active company number
     When I click to advance
     Then I proceed to the next wizard step
 
-  Examples:
-  |	company_number	|
-  |	00996877		|
-  |	67543213		|
-  |	7656223			|
-  |	NI898346		|
-  |	SC875432		|
-
-  Scenario: Lookup of invalid company details
+  Scenario: Inactive company
     Given I am on the upper tier business details page
       And I enter my company name and address
-      And I enter my <company_number>
+      And I enter an inactive company number
     When I click to advance
-    Then I am told the company number is invalid
+    Then I am told the company number is problematic
       And I remain on the upper tier business details page
 
-    Examples:
-    |	company_number	|
-    |	00733662		|
-    |	67543213		|
-    |	7656223			|
-    |	NI898346		|
-    |	SC875432		|
-    |	01070877		|
-    |	07197040		|
-    |	01812800		|
-    |	SC209426		|
+  Scenario: Company not found
+    Given I am on the upper tier business details page
+      And I enter my company name and address
+      And I enter a company number which does not exist
+    When I click to advance
+    Then I am told the company number is problematic
+      And I remain on the upper tier business details page
 
   Scenario: Service not available
     Given I am on the upper tier business details page
