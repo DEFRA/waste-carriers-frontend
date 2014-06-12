@@ -335,13 +335,11 @@ class Registration < ActiveResource::Base
   end
 
   def do_sign_in?
-    Rails.logger.debug "do_sign_in? - sign_up_mode = " + (sign_up_mode || '')
-    'sign_in' == sign_up_mode
+    sign_up_mode == 'sign_in'
   end
 
   def do_sign_up?
-    Rails.logger.debug "do_sign_up? - sign_up_mode = " + (sign_up_mode || '')
-    'sign_up' == sign_up_mode
+    sign_up_mode == 'sign_up'
   end
 
   def user
