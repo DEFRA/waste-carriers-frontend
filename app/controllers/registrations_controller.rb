@@ -596,7 +596,7 @@ end
     @registration = Registration.new(session[:registration_params])
 
     # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("signup")
+    if !@registration.valid?
       redirect_to_failed_page(@registration.current_step)
     else
       logger.debug 'Previous pages are valid'
