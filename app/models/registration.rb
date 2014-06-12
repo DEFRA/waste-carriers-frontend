@@ -272,18 +272,12 @@ class Registration < ActiveResource::Base
   end
 
   def initialize_sign_up_mode(userEmail, signedIn)
-    Rails.logger.debug "Entering initialize_sign_up_mode"
     if signedIn
-      Rails.logger.debug "User already signed in with email = " + userEmail + "."
       ''
+    elsif User.where(email: accountEmail).exists?
+      'sign_in'
     else
-      if User.where(email: userEmail).count == 0
-        Rails.logger.debug "No user found in database with email = " + userEmail + ". Signing up..."
-        'sign_up'
-      else
-        Rails.logger.debug "Found user with email = " + userEmail + ". Directing to Sign in..."
-        'sign_in'
-      end
+      'sign_up'
     end
   end
 
@@ -299,10 +293,6 @@ class Registration < ActiveResource::Base
     current_step == first_step
   end
 
-  def businesstype?
-    current_step == 'businesstype'
-  end
-
   def last_step?
     noregistration?
   end
@@ -313,24 +303,6 @@ class Registration < ActiveResource::Base
 
   def confirmation_step?
     current_step == 'confirmation'
-  end
-
-  def steps_valid?(uptostep)
-    # TODO This needs to be properly sorted and changed to handle a branching workflow.
-    # For now we simply return true.
-    true
-    # Rails.logger.debug 'steps_valid() uptostep: ' + uptostep
-    # steps.all? do |step|
-    #   if steps.index(step) < steps.index(uptostep)
-    #     Rails.logger.debug 'about to validate step: ' + step
-    #     self.current_step = step
-    #     valid?
-    #   else
-    #     # set default to true to ensure remaining steps return true
-    #     Rails.logger.debug 'WHEN AM I CALLED'
-    #     true
-    #   end
-    # end
   end
 
   def pending?
@@ -363,13 +335,11 @@ class Registration < ActiveResource::Base
   end
 
   def do_sign_in?
-    Rails.logger.debug "do_sign_in? - sign_up_mode = " + (sign_up_mode || '')
-    'sign_in' == sign_up_mode
+    sign_up_mode == 'sign_in'
   end
 
   def do_sign_up?
-    Rails.logger.debug "do_sign_up? - sign_up_mode = " + (sign_up_mode || '')
-    'sign_up' == sign_up_mode
+    sign_up_mode == 'sign_up'
   end
 
   def user
@@ -396,7 +366,7 @@ class Registration < ActiveResource::Base
   end
 
   def date_registered
-    metaData.dateRegistered if metaData
+    metaData.try :dateRegistered
   end
 
   #TODO Replace with method from helper or have decorator
