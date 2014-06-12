@@ -299,10 +299,6 @@ class Registration < ActiveResource::Base
     current_step == first_step
   end
 
-  def businesstype?
-    current_step == 'businesstype'
-  end
-
   def last_step?
     noregistration?
   end
