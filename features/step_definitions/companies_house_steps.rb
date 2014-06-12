@@ -29,11 +29,11 @@ And(/^I enter my company name and address$/) do
 end
 
 Given(/^I enter an active company number$/) do
-  fill_in 'registration_company_no', with: '00996877'
+  fill_in 'registration_company_no', with: '02050399'
 end
 
 Given(/^I enter an inactive company number$/) do
-  fill_in 'registration_company_no', with: '00733662'
+  fill_in 'registration_company_no', with: '05868270'
 end
 
 Given(/^I enter a company number which does not exist$/) do
