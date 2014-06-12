@@ -704,7 +704,7 @@ end
       end
 
 	    logger.debug "Now asking whether registration is all valid"
-      if @registration.all_valid?
+      if @registration.valid?
         logger.debug "The registration is all valid. About to save the registration..."
         @registration.save!
         logger.info 'Perform an additional save, to set the Route Name in metadata'
@@ -796,7 +796,7 @@ end
           @registration.revoked = 'true'
         end
 
-        if @registration.all_valid?
+        if @registration.valid?
           @registration.metaData.status = "REVOKED"
           @registration.revoked = ''
           @registration.save
@@ -831,7 +831,7 @@ end
       end
       # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
       @registration.routeName = @registration.metaData.route
-      if @registration.all_valid?
+      if @registration.valid?
         @registration.save
         if agency_user_signed_in?
           redirect_to registrations_path(:note => I18n.t('registrations.form.reg_updated') )
