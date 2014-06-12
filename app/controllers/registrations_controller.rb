@@ -443,7 +443,7 @@ end
     session[:registration_params] ||= {}
     @registration = Registration.find(params[:id])
     authorize! :update, @registration
-    if !@registration.metaData.status.nil? && @registration.metaData.status == "REVOKED"
+    if @registration.metaData.status == "REVOKED"
       logger.info "Edit not allowed, as registration has been revoked"
       redirect_to userRegistrations_path(current_user.id)
     end
