@@ -29,13 +29,7 @@ Feature: Companies House
     Then I am told the company number is problematic
       And I remain on the upper tier business details page
 
-  Scenario: Service not available
-    Given I am on the upper tier business details page
-    When a companies house number is entered
-      But the connection to companies house is lost
-    Then an error message is displayed to the system user
-
-  Scenario: Ignoring company check
+  Scenario: Not entering company number
     Given I am on the upper tier business details page
       And I enter my company name and address
       But I leave the company number blank
@@ -43,6 +37,13 @@ Feature: Companies House
     Then I am told the company number needs to be filled in
       And I remain on the upper tier business details page
 
-
+  Scenario: Service unavailable
+    Given I am on the upper tier business details page
+      And I enter my company name and address
+      And I enter an active company number
+      But the Companies House service is unavailable
+    When I click to advance
+    Then I am told to retry when the external service is available
+      And I remain on the upper tier business details page
 
 
