@@ -315,16 +315,6 @@ class Registration < ActiveResource::Base
     current_step == 'confirmation'
   end
 
-  def all_valid?
-    # TODO This needs to be properly sorted and changed to handle a branching workflow.
-    # For now we simply return true.
-    true
-    # steps.all? do |step|
-    #   self.current_step = step
-    #   valid?
-    # end
-  end
-
   def steps_valid?(uptostep)
     # TODO This needs to be properly sorted and changed to handle a branching workflow.
     # For now we simply return true.
