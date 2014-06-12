@@ -8,7 +8,7 @@ class CompaniesHouseCaller
   end
 
   def active?
-    json = JSON.parse RestClient.get url
+    json = JSON.parse RestClient.get @url
     company_status = json['primaryTopic']['CompanyStatus']
     company_status == 'Active'
   end
