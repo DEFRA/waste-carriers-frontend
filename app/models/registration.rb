@@ -315,24 +315,6 @@ class Registration < ActiveResource::Base
     current_step == 'confirmation'
   end
 
-  def steps_valid?(uptostep)
-    # TODO This needs to be properly sorted and changed to handle a branching workflow.
-    # For now we simply return true.
-    true
-    # Rails.logger.debug 'steps_valid() uptostep: ' + uptostep
-    # steps.all? do |step|
-    #   if steps.index(step) < steps.index(uptostep)
-    #     Rails.logger.debug 'about to validate step: ' + step
-    #     self.current_step = step
-    #     valid?
-    #   else
-    #     # set default to true to ensure remaining steps return true
-    #     Rails.logger.debug 'WHEN AM I CALLED'
-    #     true
-    #   end
-    # end
-  end
-
   def pending?
     metaData && metaData.status == 'PENDING'
   end
