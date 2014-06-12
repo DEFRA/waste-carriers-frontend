@@ -29,9 +29,9 @@ And(/^I enter my company name and address$/) do
 end
 
 Given(/^I enter an active company number$/) do
-  pending
+  fill_in 'registration_company_no', with: '00996877'
 end
 
 Given(/^I enter an inactive company number$/) do
-  pending
+  fill_in 'registration_company_no', with: '00733662'
 end
