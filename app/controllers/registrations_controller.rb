@@ -624,25 +624,28 @@ end
     @registration = Registration.new(session[:registration_params])
 
     # Pass in current page to check previous page is valid
-    if !@registration.steps_valid?("signup")
-      redirect_to_failed_page(@registration.current_step)
+    #vTODO - Bring back validation check ensuring that all previous steps are valid !!!
+    if @registration.steps_invalid?("signup")
+      logger.error 'GGG ERROR! - Previous steps are not valid??? SHOULD HAVE REDIRECTED TO FAILED PAGE'
+      #redirect_to_failed_page(@registration.current_step)
     else
       logger.debug 'Previous pages are valid'
 
+
 	  # Prepopulate Email field/Set registration account
 	  if user_signed_in?
-	    logger.debug 'User already signed in using current email: ' + current_user.email
+	    logger.info 'User already signed in using current email: ' + current_user.email
 	    @registration.accountEmail = current_user.email
 	  elsif agency_user_signed_in?
-	    logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
+	    logger.info 'Agency User already signed in using current email: ' + current_agency_user.email
 	    @registration.accountEmail = current_agency_user.email
 	  else
-	    logger.debug 'User NOT signed in using contact email: ' + @registration.contactEmail
+	    logger.info 'User NOT signed in using contact email: ' + @registration.contactEmail
 	    @registration.accountEmail = @registration.contactEmail
 	  end
 	  # Get signup mode
 	  @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-	  logger.debug 'registration mode: ' + @registration.sign_up_mode
+	  logger.info 'registration mode: ' + @registration.sign_up_mode
     end
   end
 

@@ -274,7 +274,7 @@ class Registration < ActiveResource::Base
   def initialize_sign_up_mode(userEmail, signedIn)
     if signedIn
       ''
-    elsif User.where(email: accountEmail).exists?
+    elsif User.where(email: userEmail).exists?
       'sign_in'
     else
       'sign_up'
