@@ -21,7 +21,7 @@
 
       <fieldset>
         <legend></legend>
-        <p class="group<%if @registration.errors[:company_house_number].any?%> validation<%end%>">
+        <div class="form-group<%if @registration.errors[:company_house_number].any?%> validation<%end%>">
           <%= validation_for(@registration, :company_house_number) %>
           <%= f.label t '.companies_house_label' %>
           <%= f.text_field :company_house_number, :size => 20, :maxlength => 35 %>

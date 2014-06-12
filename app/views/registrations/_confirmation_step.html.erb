@@ -3,41 +3,36 @@
 <!-- WF 4.3.3 -->
 <div id="page9"  data-journey="waste-carriers-registration:confirmation">
 
-  <h3><%= t '.smart_answers_heading' %></h3>
-  <p>
+  <h2><%= t '.smart_answers_heading' %></h2>
     <%= render 'smartanswers_display' %>
     <%= link_to t('form.edit_these_details'), newBusinessType_path %>
-  </p>
 
-  <h3><%= t 'registrations.address_entry.businessAddress' %></h3>
-  <p>
+
+  <h2><%= t 'registrations.address_entry.businessAddress' %></h2>
     <%= render 'address_display' %>
     <%= link_to t('form.edit_these_details'), newBusinessDetails_path %>
-  </p>
+  
 
-  <h3><%= t 'registrations.contactdetails_step.title' %></h3>
-  <p>
+  <h2><%= t 'registrations.contactdetails_step.title' %></h2>
     <%= render 'contactdetails_display' %>
     <%= link_to t('form.edit_these_details'), newContact_path %>
-  </p>
+  
+  <hr>
 
-  <h3><%= t '.declaration_heading' %></h3>
+  <h2><%= t '.declaration_heading' %></h2>
   <div class="form-group<%if @registration.errors[:declaration].any?%> validation<%end%>">
     <%= validation_for(@registration, :declaration) %>
-    <%= f.check_box :declaration%><%= t '.declaration_text' %>
+    <div class='text panel-indent'><%= f.check_box :declaration%><%= t '.declaration_text' %></div>
   </div>
 
   <h3><%= t '.data_protection_heading' %></h3>
-  <p>
-    <span style="font-size:90%}">
-      <%= t '.data_protection_text1' %> <%= link_to t('registrations.dataProtection.subtitle'), dataProtection_path, :target => "_blank" %>
-    </span>
-  </p>
-  <p>
-    <span style="font-size:90%}">
+    <p><%= t '.data_protection_text1' %></p> 
+
+      <%= link_to t('registrations.dataProtection.subtitle'), dataProtection_path, :target => "_blank" %>
+
+  </br>  
       <%= link_to t('.privacy_policy'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %>
-    </span>
-  </p>
+   
 
 </div>
 

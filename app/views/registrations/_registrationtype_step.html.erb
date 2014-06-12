@@ -5,15 +5,18 @@
 
   <fieldset>
     <legend><%= t '.legend' %></legend>
-    <div class="inline<%if @registration.errors[:registrationType].any?%> validation<%end%>">
+    <div class="form-group<%if @registration.errors[:registrationType].any?%> validation<%end%>">
       <label class="block-label"><!-- GDS have an 'option' class but we prefer this simplified version -->
-        <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %><%= f.label :carrier_dealer, :class => "label" %>
+        <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %>
+        <%= f.label :carrier_dealer, :class => "label" %>
       </label>
       <label class="block-label">
-        <%= f.radio_button :registrationType, "broker_dealer", :class => "radio" %><%= f.label :broker_dealer, :class => "label" %>
+        <%= f.radio_button :registrationType, "broker_dealer", :class => "radio" %>
+        <%= f.label :broker_dealer, :class => "label" %>
       </label>
       <label class="block-label">
-        <%= f.radio_button :registrationType, "carrier_broker_dealer", :class => "radio" %><%= f.label :carrier_broker_dealer, :class => "label" %>
+        <%= f.radio_button :registrationType, "carrier_broker_dealer", :class => "radio" %>
+        <%= f.label :carrier_broker_dealer, :class => "label" %>
       </label>
     </div>
   </fieldset>
