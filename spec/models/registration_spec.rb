@@ -288,11 +288,15 @@ describe Registration do
       it { should validate_presence_of(:company_no) }
 
       it 'should not allow company which is not active' do
-        subject.should_not allow_value('05868270').for(:company_no)
+        VCR.use_cassette 'companies_house/05868270' do
+          subject.should_not allow_value('05868270').for(:company_no)
+        end
       end
 
       it 'should allow active company' do
-        subject.should allow_value('02050399').for(:company_no)
+        VCR.use_cassette 'companies_house/02050399' do
+          subject.should allow_value('02050399').for(:company_no)
+        end
       end
 
       context 'check format only' do
