@@ -20,6 +20,6 @@ class CompaniesHouseCaller
 private
 
   def pad_with_zeroes_to_make_it_eight_characters companies_house_registration_number
-    companies_house_registration_number.rjust(8, '0')
+    companies_house_registration_number.try(:rjust, 8, '0')
   end
 end
