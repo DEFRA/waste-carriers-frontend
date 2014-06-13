@@ -167,7 +167,7 @@ class Registration < ActiveResource::Base
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
-  validates :company_no, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }, allow_blank: true, if: :upper_contact_details_step?
+  validates :company_no, presence: true, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }, if: [:upper_contact_details_step?, :limited_company?]
 
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
 
@@ -245,6 +245,10 @@ class Registration < ActiveResource::Base
 
   def manual_foreign_address?
     addressMode == 'manual-foreign'
+  end
+
+  def limited_company?
+    businessType == 'limitedCompany'
   end
 
   def address_mode_present?
