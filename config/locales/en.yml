@@ -327,8 +327,6 @@ en:
       contactName: "Contact name"
       phoneNumber: "Phone number"
       address: "Address"
-    company_details_finder:
-      company_no_search_button: "Find Details"
     newUpperBusinessDetails:
       title: "Business Details"
     businesstype_step:
@@ -435,8 +433,6 @@ en:
       selectAddress: "Select address"
       findAddressUsingPostcode: "Find address using postcode"
       manual_address_label: "I want to add an address myself"
-      manual_company_details: "Enter company details manually"
-      auto_company_details: "FInd company details by Company Number"
       streetLine1Foreign: "Address"
       change: "Change"
       foreignAddressLink: "I have an address outside the United Kingdom"
