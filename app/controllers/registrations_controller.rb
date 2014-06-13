@@ -941,6 +941,7 @@ end
      session[:registration_params][:company_name] = params[:companyName] if params[:companyName]
          @registration= Registration.new(session[:registration_params])
 
+    @registration.current_step = 'upper_business_details'
     logger.debug params.to_s
 
      if params[:selected_business_address]
