@@ -425,6 +425,8 @@ en:
       search_address_label: "Search for address by postcode"
       no_results_error: "There are no addresses for the given postcode"
       postcode_search_error: "A postcode must be provided"
+    address_finder:
+      selectAddress: "Select address"
     contact_step:
       contactHeading: "Address and contact details"
       businessAddress: "Main business, organisation or trading address"
