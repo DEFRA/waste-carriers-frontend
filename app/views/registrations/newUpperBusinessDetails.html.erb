@@ -6,7 +6,6 @@
     <div class="step"><%= t 'registrations.contactdetails_step.step' %></div>
 
 
-
     <% case  @registration.businessType %>
     <% when 'soleTrader', 'partnership' %>
       <%= render 'company_name', f: f %>
@@ -48,7 +47,7 @@
       <%= render "address_finder", f: f %>
     <% end %>
 
-<%= render "wizard_links" %>
+  <%= render "wizard_links" %>
   <% end %>
 
 
