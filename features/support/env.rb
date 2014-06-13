@@ -54,3 +54,4 @@ DatabaseCleaner.strategy = :truncation
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
+WebMock.disable_net_connect! allow_localhost: true
