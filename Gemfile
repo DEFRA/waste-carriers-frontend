@@ -66,6 +66,8 @@ group :test do
   gem 'timecop', '~> 0.7.1'
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'shoulda-matchers'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
