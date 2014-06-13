@@ -53,5 +53,19 @@ And(/^I remain on the upper tier business details page$/) do
 end
 
 Then(/^I proceed to the next wizard step$/) do
-  page.should have_content 'Payment'
+  page.should have_content 'Director contact details'
+end
+
+Then(/^I am told the company is not active$/) do
+  page.should have_content 'is not the companies house registration number of an active limited company'
+end
+
+Then(/^I am told the company was not found$/) do
+  save_and_open_page
+  pending
+end
+
+Then(/^I am told the company number needs to be filled in$/) do
+  save_and_open_page
+  pending
 end
