@@ -19,16 +19,16 @@ Feature: Companies House
   Scenario: Inactive company
     Given I enter an inactive company number
     When I click to advance
-    Then I am told the company number is problematic
+    Then I am told the company is not active
       And I remain on the upper tier business details page
 
   Scenario: Company not found
     Given I enter a company number which does not exist
     When I click to advance
-    Then I am told the company number is problematic
+    Then I am told the company was not found
       And I remain on the upper tier business details page
 
-  Scenario: Not entering company number
+  Scenario: Left blank
     Given I leave the company number blank
     When I click to advance
     Then I am told the company number needs to be filled in
