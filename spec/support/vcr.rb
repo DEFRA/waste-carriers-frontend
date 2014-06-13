@@ -1,4 +1,4 @@
 VCR.configure do |c|
   c.cassette_library_dir = Rails.root.join('spec', 'vcr')
-  c.stub_with :webmock
+  c.hook_into :webmock
 end
