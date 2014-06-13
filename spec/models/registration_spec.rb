@@ -273,8 +273,8 @@ describe Registration do
     it { should_not allow_value('CARRIER_DEALER', 'BROKER_DEALER', 'CARRIER_BROKER_DEALER').for(:registrationType) }
   end
 
-  context 'upper_contact_details step' do
-    before { subject.current_step = 'upper_contact_details' }
+  context 'upper_business_details step' do
+    before { subject.current_step = 'upper_business_details' }
 
     context 'not a limited company' do
       before { subject.businessType = 'soleTrader' }

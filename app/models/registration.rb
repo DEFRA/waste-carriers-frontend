@@ -167,7 +167,7 @@ class Registration < ActiveResource::Base
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
-  with_options if: [:upper_contact_details_step?, :limited_company?] do |registration|
+  with_options if: [:upper_business_details_step?, :limited_company?] do |registration|
     registration.validates :company_no, presence: true, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }
     registration.validate :limited_company_must_be_active
   end
@@ -222,8 +222,8 @@ class Registration < ActiveResource::Base
     current_step.inquiry.registrationtype?
   end
 
-  def upper_contact_details_step?
-    current_step.inquiry.upper_contact_details?
+  def upper_business_details_step?
+    current_step.inquiry.upper_business_details?
   end
 
   def payment_step?
@@ -314,7 +314,7 @@ class Registration < ActiveResource::Base
 
   def limited_company_must_be_active
     unless CompaniesHouseCaller.new(company_no).active?
-      errors.add(:company_no, t('registrations.upper_contact_details.not_active_company_error'))
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.not_active_company_error'))
     end
   end
 
