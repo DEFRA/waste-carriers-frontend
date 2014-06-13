@@ -61,8 +61,7 @@ Then(/^I am told the company is not active$/) do
 end
 
 Then(/^I am told the company was not found$/) do
-  save_and_open_page
-  pending
+  page.should have_content 'is not the companies house registration number of an active limited company'
 end
 
 Then(/^I am told the company number needs to be filled in$/) do
