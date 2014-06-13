@@ -276,13 +276,23 @@ describe Registration do
   context 'upper_contact_details step' do
     before { subject.current_step = 'upper_contact_details' }
 
-    it { should_not validate_presence_of(:company_no) }
+    context 'not a limited company' do
+      before { subject.businessType = 'soleTrader' }
 
-    it { should allow_value('06731292', '6731292', '07589628', '7589628', '00000001', '1', 'ni123456', 'NI123456', 'RO123456', 'SC123456', 'OC123456', 'SO123456', 'NC123456').for(:company_no) }
-    it { should_not allow_value('AC097609', 'NII12345', 'NI1234567', '123456789', '0', '00000000', '-12345678', '-1234567').for(:company_no) }
+      it { should_not validate_presence_of(:company_no) }
+    end
 
-    it 'should not allow company which is not active' do
-      subject.should_not allow_value('05868270')
+    context 'limited company' do
+      before { subject.businessType = 'limitedCompany' }
+
+      it { should validate_presence_of(:company_no) }
+
+      it { should allow_value('06731292', '6731292', '07589628', '7589628', '00000001', '1', 'ni123456', 'NI123456', 'RO123456', 'SC123456', 'OC123456', 'SO123456', 'NC123456').for(:company_no) }
+      it { should_not allow_value('AC097609', 'NII12345', 'NI1234567', '123456789', '0', '00000000', '-12345678', '-1234567').for(:company_no) }
+
+      it 'should not allow company which is not active' do
+        subject.should_not allow_value('05868270')
+      end
     end
   end
 
