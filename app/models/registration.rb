@@ -167,7 +167,10 @@ class Registration < ActiveResource::Base
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
-  validates :company_no, presence: true, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }, if: [:upper_contact_details_step?, :limited_company?]
+  with_options if: [:upper_contact_details_step?, :limited_company?] do |registration|
+    registration.validates :company_no, presence: true, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }
+    registration.validate :limited_company_must_be_active
+  end
 
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
 
@@ -307,6 +310,12 @@ class Registration < ActiveResource::Base
 
   def confirmation_step?
     current_step == 'confirmation'
+  end
+
+  def limited_company_must_be_active
+    unless CompaniesHouseCaller.new(company_no).active?
+      errors.add(:company_no, 'is not an active limited company') # TODO i18n
+    end
   end
 
   def pending?
