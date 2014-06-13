@@ -314,7 +314,7 @@ class Registration < ActiveResource::Base
 
   def limited_company_must_be_active
     unless CompaniesHouseCaller.new(company_no).active?
-      errors.add(:company_no, 'is not an active limited company') # TODO i18n
+      errors.add(:company_no, t('registrations.upper_contact_details.not_active_company_error'))
     end
   end
 
