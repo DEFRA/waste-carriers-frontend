@@ -9,17 +9,20 @@ Feature: Companies House
       And I enter my company name and address
 
   @happy_days
+  @vcr
   Scenario: Active company
     Given I enter an active company number
     When I click to advance
     Then I proceed to the next wizard step
 
+  @vcr
   Scenario: Inactive company
     Given I enter an inactive company number
     When I click to advance
     Then I am told the company is not active
       And I remain on the upper tier business details page
 
+  @vcr
   Scenario: Company not found
     Given I enter a company number which does not exist
     When I click to advance
