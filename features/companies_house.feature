@@ -35,11 +35,12 @@ Feature: Companies House
     Then I am told the company number needs to be filled in
       And I remain on the upper tier business details page
 
-  Scenario: Service unavailable
-    Given I enter an active company number
-      But the external service is unavailable
-    When I click to advance
-    Then I am told to retry when the external service is available
-      And I remain on the upper tier business details page
+  # TODO work on this after show-and-tell
+#  Scenario: Service unavailable
+#    Given I enter an active company number
+#      But the external service is unavailable
+#    When I click to advance
+#    Then I am told to retry when the external service is available
+#      And I remain on the upper tier business details page
 
 
