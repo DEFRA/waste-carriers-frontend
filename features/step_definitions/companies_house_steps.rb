@@ -66,6 +66,5 @@ Then(/^I am told the company was not found$/) do
 end
 
 Then(/^I am told the company number needs to be filled in$/) do
-  save_and_open_page
-  pending
+  page.should have_content 'Company no must be completed'
 end
