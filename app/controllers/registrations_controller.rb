@@ -33,11 +33,7 @@ end
 
   # GET /your-registration/business-type
   def newBusinessType
-    logger.info 'Request New Registration'
-    session[:registration_params] ||= {}
-    @registration = Registration.new(session[:registration_params])
-
-    @registration.steps = %w[businesstype]
+    new_step_action 'businesstype'
 
     # Set route name based on agency paramenter
     @registration.routeName = 'DIGITAL'
