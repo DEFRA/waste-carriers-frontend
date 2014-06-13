@@ -291,7 +291,7 @@ describe Registration do
       it { should_not allow_value('AC097609', 'NII12345', 'NI1234567', '123456789', '0', '00000000', '-12345678', '-1234567').for(:company_no) }
 
       it 'should not allow company which is not active' do
-        subject.should_not allow_value('05868270')
+        subject.should_not allow_value('05868270').for(:company_no)
       end
     end
   end

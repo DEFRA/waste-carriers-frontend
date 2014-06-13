@@ -27,6 +27,12 @@ describe CompaniesHouseCaller do
 
       it { should_not be_active }
     end
+
+    context 'not found' do
+      subject { CompaniesHouseCaller.new '99999999' }
+
+      it { should_not be_active }
+    end
   end
 
   describe 'external service unavailable' do
