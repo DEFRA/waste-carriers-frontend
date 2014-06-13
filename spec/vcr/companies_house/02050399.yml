@@ -1,0 +1,175 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://data.companieshouse.gov.uk/doc/company/02050399.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 13 Jun 2014 13:30:00 GMT
+      Server:
+      - Apache
+      X-Powered-By:
+      - Quantum Mechanics; author="(c)2011 Companies House"
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "primaryTopic" : {
+              "CompanyName" : "ZENITH PRINT (UK) LIMITED",
+              "CompanyNumber" : "02050399",
+              "RegAddress" : {
+                 "AddressLine1" : "ZENITH HOUSE",
+                 "AddressLine2" : "MOY ROAD INDUSTRIAL ESTATE",
+                 "PostTown" : "TAFFS WELL",
+                 "County" : "CARDIFF",
+                 "Postcode" : "CF15 7QR"
+              },
+              "CompanyCategory" : "Private Limited Company",
+              "CompanyStatus" : "Active",
+              "CountryOfOrigin" : "United Kingdom",
+              "IncorporationDate" : "28/08/1986",
+              "PreviousNames" : [
+                 {
+                    "CONDate" : "22/03/1996",
+                    "CompanyName" : "ZENITH TREFOREST PRESS LIMITED"
+                 }
+              ],
+              "Accounts" : {
+                 "AccountRefDay" : "31",
+                 "AccountRefMonth" : "03",
+                 "NextDueDate" : "31/12/2014",
+                 "LastMadeUpDate" : "31/03/2013",
+                 "AccountCategory" : "TOTAL EXEMPTION SMALL"
+              },
+              "Returns" : {
+                 "NextDueDate" : "28/01/2015",
+                 "LastMadeUpDate" : "31/12/2013"
+              },
+              "Mortgages" : {
+                 "NumMortCharges" : "6",
+                 "NumMortOutstanding" : "2",
+                 "NumMortPartSatisfied" : "0",
+                 "NumMortSatisfied" : "4"
+              },
+              "SICCodes" : {
+                 "SicText" : [
+                    "70100 - Activities of head offices"
+                 ]
+              }
+           }
+        }
+    http_version: 
+  recorded_at: Fri, 13 Jun 2014 13:30:00 GMT
+- request:
+    method: get
+    uri: http://data.companieshouse.gov.uk/doc/company/02050399.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Fri, 13 Jun 2014 13:30:00 GMT
+      Server:
+      - Apache
+      X-Powered-By:
+      - Quantum Mechanics; author="(c)2011 Companies House"
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "primaryTopic" : {
+              "CompanyName" : "ZENITH PRINT (UK) LIMITED",
+              "CompanyNumber" : "02050399",
+              "RegAddress" : {
+                 "AddressLine1" : "ZENITH HOUSE",
+                 "AddressLine2" : "MOY ROAD INDUSTRIAL ESTATE",
+                 "PostTown" : "TAFFS WELL",
+                 "County" : "CARDIFF",
+                 "Postcode" : "CF15 7QR"
+              },
+              "CompanyCategory" : "Private Limited Company",
+              "CompanyStatus" : "Active",
+              "CountryOfOrigin" : "United Kingdom",
+              "IncorporationDate" : "28/08/1986",
+              "PreviousNames" : [
+                 {
+                    "CONDate" : "22/03/1996",
+                    "CompanyName" : "ZENITH TREFOREST PRESS LIMITED"
+                 }
+              ],
+              "Accounts" : {
+                 "AccountRefDay" : "31",
+                 "AccountRefMonth" : "03",
+                 "NextDueDate" : "31/12/2014",
+                 "LastMadeUpDate" : "31/03/2013",
+                 "AccountCategory" : "TOTAL EXEMPTION SMALL"
+              },
+              "Returns" : {
+                 "NextDueDate" : "28/01/2015",
+                 "LastMadeUpDate" : "31/12/2013"
+              },
+              "Mortgages" : {
+                 "NumMortCharges" : "6",
+                 "NumMortOutstanding" : "2",
+                 "NumMortPartSatisfied" : "0",
+                 "NumMortSatisfied" : "4"
+              },
+              "SICCodes" : {
+                 "SicText" : [
+                    "70100 - Activities of head offices"
+                 ]
+              }
+           }
+        }
+    http_version: 
+  recorded_at: Fri, 13 Jun 2014 13:30:01 GMT
+recorded_with: VCR 2.9.2

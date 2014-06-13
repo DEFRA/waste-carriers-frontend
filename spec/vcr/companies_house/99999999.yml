@@ -1,0 +1,56 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://data.companieshouse.gov.uk/doc/company/99999999.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Resource not found
+    headers:
+      Date:
+      - Fri, 13 Jun 2014 13:38:39 GMT
+      Server:
+      - Apache
+      X-Powered-By:
+      - Quantum Mechanics; author="(c)2011 Companies House"
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: "<html>\n  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html;
+        charset=iso-8859-1\" />\n    <title>Error Page</title>\n    <style>\nbody
+        {\n\tcolor:#000080;\n    font-size:x-small;\n    font-family: Arial, Helvetica,
+        sans-serif;\n    background-color:#FFFFFF;\n}\n.error {\n    color: #ff0000;\n\tfont-weight:bold;\n}\n.errortitle
+        {\n\tcolor:#ff0000;\n    font-size:medium;\n    font-weight:bold;\n}\n.link
+        {\n    color: #00144d;\n}\n.link:hover {\n    color: #737e9d;\n}\n    </style>\n
+        \ </head>\n  <body bgcolor=\"#ffffff\">\n    <p align=\"center\">\n      <br/><br/><span
+        class=\"errortitle\">Request Failure</span><br/><br/>\n      \n       <strong>The
+        following FAILURE message was generated:</strong><br/><br/>\n       <span
+        class=\"error\">\n                            Resource not found\n                            <br>Error
+        Code: 9001\n                            <br/>\n\t\t\t\t\t\t\t\n\t\t</span>\n\n
+        \   <br/><br/>\n    <!-- <a href=\"http://data.companieshouse.gov.uk\" class=\"link\">Click
+        here to restart</a> -->\n  </p>\n  </body>\n</html>\n"
+    http_version: 
+  recorded_at: Fri, 13 Jun 2014 13:38:39 GMT
+recorded_with: VCR 2.9.2
