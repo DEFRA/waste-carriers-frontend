@@ -425,6 +425,8 @@ en:
       search_address_label: "Search for address by postcode"
       no_results_error: "There are no addresses for the given postcode"
       postcode_search_error: "A postcode must be provided"
+    upper_contact_details:
+      not_active_company_error: "is not the companies house registration number of an active limited company"
     contact_step:
       contactHeading: "Address and contact details"
       businessAddress: "Main business, organisation or trading address"
