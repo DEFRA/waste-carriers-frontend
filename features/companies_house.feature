@@ -3,8 +3,6 @@ Feature: Companies House
   I want the system to cross check a company with companies house data
   So that I can ensure that valid companies are registering as a waste carrier
 
-  Scenarios can be split into four main categories, valid, invalid, unavailable and company number missing. Any check not passed as valid will stop navigation onto contact details page
-
   Background:
     Given I am registering as a limited company
       And I am on the upper tier business details page
