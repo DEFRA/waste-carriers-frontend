@@ -134,5 +134,8 @@ module Registrations
     #If the developer index is not to be shown (as in production), then the application
     #will redirect the user to a suitable entry point, such as the 'Find out if I need to register' page
     config.show_developer_index_page = false
+
+    #Use the letter opener gem if the environment variable is set. Don't use the letter opener in production!
+    config.use_letter_opener = ENV["WCRS_FRONTEND_USE_LETTER_OPENER"] || false
   end
 end

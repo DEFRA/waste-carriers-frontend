@@ -1,5 +1,6 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+    <%= render "errors" %>
     <% content_for :page_title, createTitle('registrations.contactdetails_step.title') %>
     <%= form_for(@registration, :url => newUpperContactDetails_path) do |f| %>
     <div class="step"><%= t 'registrations.contactdetails_step.step' %>
@@ -14,15 +15,9 @@
 
       <%= render 'simple_contact_details', f: f%>
 
-      <!-- TODO: back button doesn't work with wizard link, but works with the code below. Thing is, we can't have bothj
-     wizard_links and this code as this places two back buttons on screen       -->
-        <p class="action group">
-        <%= link_to t('upper_registrations.form.back_button_label'), :newUpperBusinessDetails, :class => 'button-secondary' %>
-        <%= link_to t('upper_registrations.form.next_button_label'), :upper_payment, :class => 'button-secondary' %>
-      </p>
-
       </fieldset>
 </div>
+<%= render "wizard_links" %>
   <% end %>
 
 
