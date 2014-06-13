@@ -53,13 +53,10 @@ end
 
       case @registration.businessType
         when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
-          @registration.steps = %w[businesstype otherbusinesses]
           redirect_to :newOtherBusinesses
         when 'charity', 'authority'
-          @registration.steps = %w[businesstype business]
           redirect_to :newBusinessDetails
         when 'other'
-          @registration.steps = %w[businesstype noregistration]
           redirect_to :newNoRegistration
       end
     elsif @registration.new_record?
