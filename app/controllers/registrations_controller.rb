@@ -945,8 +945,8 @@ end
 
     setup_registration 'upper_business_details'
 
-     session[:registration_params][:company_name] = params[:companyName] if params[:companyName]
-         @registration= Registration.new(session[:registration_params])
+     # session[:registration_params][:company_name] = params[:companyName] if params[:companyName]
+     #     @registration= Registration.new(session[:registration_params])
 
     logger.debug params.to_s
 
