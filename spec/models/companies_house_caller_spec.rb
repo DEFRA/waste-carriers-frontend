@@ -19,30 +19,24 @@ describe CompaniesHouseCaller do
     context 'active' do
       subject { CompaniesHouseCaller.new '02050399' }
 
-      it 'is active' do
-        VCR.use_cassette 'companies_house/02050399' do
-          subject.should be_active
-        end
+      it 'is active', :vcr do
+        subject.should be_active
       end
     end
 
     context 'not active' do
       subject { CompaniesHouseCaller.new '05868270' }
 
-      it 'is active' do
-        VCR.use_cassette 'companies_house/05868270' do
-          subject.should_not be_active
-        end
+      it 'is active', :vcr do
+        subject.should_not be_active
       end
     end
 
     context 'not found' do
       subject { CompaniesHouseCaller.new '99999999' }
 
-      it 'is active' do
-        VCR.use_cassette 'companies_house/99999999' do
-          subject.should_not be_active
-        end
+      it 'is active', :vcr do
+        subject.should_not be_active
       end
     end
   end
