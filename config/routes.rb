@@ -106,6 +106,11 @@ Registrations::Application.routes.draw do
     get "reports/:from/:until/registrations" => 'reports#reportRegistrations'
     get "reports/registrations" => 'reports#reportRegistrations', :as => :reports_registrations
 
+  # Worldpay response messages
+  get "worldpay/success"
+  get "worldpay/failure"
+  get "worldpay/pending"
+  get "worldpay/cancel"
 
 
 #  end
