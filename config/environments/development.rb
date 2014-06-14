@@ -55,4 +55,7 @@ Registrations::Application.configure do
   #will redirect the user to a suitable entry point, such as the 'Find out if I need to register' page
   config.show_developer_index_page = true
 
+  # this allows WEBrick to handle caret symbols in query parameters; needed for Worldpay
+  URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '^')
+
 end

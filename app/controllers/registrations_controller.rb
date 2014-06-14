@@ -1,5 +1,7 @@
 class RegistrationsController < ApplicationController
 
+  include WorldpayHelper
+
   #We require authentication (and authorisation) largely only for editing registrations,
   #and for viewing the finished/completed registration.
 
@@ -1027,7 +1029,8 @@ end
     setup_registration 'upper_summary'
 
     if @registration.valid?
-      redirect_to :newSignup
+      #redirect_to :newSignup
+      redirect_to_worldpay
     else render 'newUpperSummary', :status => '400'
     end
   end
