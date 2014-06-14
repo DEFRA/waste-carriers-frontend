@@ -141,15 +141,15 @@ module Registrations
     # Worldpay configuration: 
     # using the e-commerce (ECOM) channel configuration for external users (Waste Carriers),
     # using the integrated MOTO channel configuration for internal user (assisted digital)
-    config.worldpay_ecom_merchantcode = ENV['WCRS_WORLDPAY_ECOM_MERCHANTCODE']
-    config.worldpay_ecom_username = ENV['WCRS_WORLDPAY_ECOM_USERNAME']
-    config.worldpay_ecom_password = ENV['WCRS_WORLDPAY_ECOM_PASSWORD']
-    config.worldpay_ecom_macsecret = ENV['WCRS_WORLDPAY_ECOM_MACSECRET']
+    config.worldpay_ecom_merchantcode = ENV['WCRS_WORLDPAY_ECOM_MERCHANTCODE'] || 'MERCHANTCODE'
+    config.worldpay_ecom_username = ENV['WCRS_WORLDPAY_ECOM_USERNAME'] || 'USERNAME'
+    config.worldpay_ecom_password = ENV['WCRS_WORLDPAY_ECOM_PASSWORD'] || 'PASSWORD'
+    config.worldpay_ecom_macsecret = ENV['WCRS_WORLDPAY_ECOM_MACSECRET'] || 'MACSECRET'
 
-    config.worldpay_moto_merchantcode = ENV['WCRS_WORLDPAY_MOTO_MERCHANTCODE']
-    config.worldpay_moto_username = ENV['WCRS_WORLDPAY_MOTO_USERNAME']
-    config.worldpay_moto_password = ENV['WCRS_WORLDPAY_MOTO_PASSWORD']
-    config.worldpay_moto_macsecret = ENV['WCRS_WORLDPAY_MOTO_MACSECRET']
+    config.worldpay_moto_merchantcode = ENV['WCRS_WORLDPAY_MOTO_MERCHANTCODE'] || 'MERCHANTCODE'
+    config.worldpay_moto_username = ENV['WCRS_WORLDPAY_MOTO_USERNAME'] || 'USERNAME'
+    config.worldpay_moto_password = ENV['WCRS_WORLDPAY_MOTO_PASSWORD'] || 'PASSWORD'
+    config.worldpay_moto_macsecret = ENV['WCRS_WORLDPAY_MOTO_MACSECRET'] || 'MACSECRET'
 
   end
 end
