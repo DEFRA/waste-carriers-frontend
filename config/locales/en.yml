@@ -426,7 +426,9 @@ en:
     address_finder:
       selectAddress: "Select address"
     upper_contact_details:
-      not_active_company_error: "is not the companies house registration number of an active limited company"
+      companies_house_registration_number_not_found: "is not listed by Companies House"
+      companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
+      companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
     contact_step:
       contactHeading: "Address and contact details"
       businessAddress: "Main business, organisation or trading address"
