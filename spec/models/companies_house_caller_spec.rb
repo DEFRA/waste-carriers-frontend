@@ -41,7 +41,7 @@ describe CompaniesHouseCaller do
     context 'not found' do
       subject { CompaniesHouseCaller.new '99999999' }
 
-      it 'is not active', :vcr do
+      it 'is not found', :vcr do
         subject.status.should == :not_found
       end
     end
@@ -53,9 +53,7 @@ describe CompaniesHouseCaller do
 
       subject { CompaniesHouseCaller.new '02050399' }
 
-      it 'flags error' do
-        subject.status.should == :error_calling_service
-      end
+      its(:status) { should == :error_calling_service }
     end
 
     context 'server error' do
@@ -63,9 +61,7 @@ describe CompaniesHouseCaller do
 
       subject { CompaniesHouseCaller.new '02050399' }
 
-      it 'flags error' do
-        subject.status.should == :error_calling_service
-      end
+      its(:status) { should == :error_calling_service }
     end
   end
 end
