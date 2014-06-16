@@ -78,10 +78,10 @@ module WorldpayHelper
     end
 
     def set_redirect_arguments(url)
-      success_url = URI::encode("http://localhost:3000/worldpay/success")
-      failure_url = URI::encode("http://localhost:3000/worldpay/failure")
-      pending_url = URI::encode("http://localhost:3000/worldpay/pending")
-      cancel_url = URI::encode("http://localhost:3000/worldpay/cancel")
+      success_url = URI::encode(worldpay_success_url)
+      failure_url = URI::encode(worldpay_failure_url)
+      pending_url = URI::encode(worldpay_pending_url)
+      cancel_url = URI::encode(worldpay_cancel_url)
 
       # Note: The URL returned from WP already has some query parameters e.g. for the orderCode
       redirect_args = ''
