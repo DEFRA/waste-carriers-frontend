@@ -21,12 +21,12 @@ describe CompaniesHouseCaller do
     end
   end
 
-  describe '#active?' do
+  describe '#status' do
     context 'active' do
       subject { CompaniesHouseCaller.new '02050399' }
 
       it 'is active', :vcr do
-        subject.should be_active
+        subject.status.should == :active
       end
     end
 
@@ -34,7 +34,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new '05868270' }
 
       it 'is not active', :vcr do
-        subject.should_not be_active
+        subject.status.should == :inactive
       end
     end
 
@@ -42,7 +42,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new '99999999' }
 
       it 'is not active', :vcr do
-        subject.should_not be_active
+        subject.status.should == :not_found
       end
     end
   end
