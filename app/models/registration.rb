@@ -109,7 +109,7 @@ class Registration < ActiveResource::Base
   VALID_EMAIL_REGEX = Devise.email_regexp
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
   VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\']+\z/
-  VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|(NI|RO|SC|OC|SO|NC)\d{6}\z/i
+  VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|[a-zA-Z]{2}\d{6}\z/i
 
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: :businesstype_step?
   validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :otherbusinesses_step?
@@ -313,8 +313,13 @@ class Registration < ActiveResource::Base
   end
 
   def limited_company_must_be_active
-    unless CompaniesHouseCaller.new(company_no).active?
-      errors.add(:company_no, I18n.t('registrations.upper_contact_details.not_active_company_error'))
+    case CompaniesHouseCaller.new(company_no).status
+      when :not_found
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+      when :inactive
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+      when :error_calling_service
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
     end
   end
 
