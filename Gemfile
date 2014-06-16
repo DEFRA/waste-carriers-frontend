@@ -30,6 +30,9 @@ gem 'country_select'
 # Gems used only for assets and not required
 # in production environments by default.
 
+# Using Nokogiri for parsing XML retrieved from WorldPay
+gem 'nokogiri', '~> 1.6.2.1'
+
 gem 'sass-rails',   '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
 

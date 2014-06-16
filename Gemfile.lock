@@ -301,6 +301,7 @@ DEPENDENCIES
   letter_opener (~> 1.2.0)
   meta_request
   mongoid!
+  nokogiri (~> 1.6.2.1)
   parallel_tests
   password_strength (~> 0.3.2)
   rails (= 4.0.2)
