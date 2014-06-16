@@ -48,6 +48,24 @@ describe CompaniesHouseCaller do
   end
 
   describe 'external service unavailable' do
-    it "it should indicate this"
+    context 'timeout' do
+      before { stub_request(:any, 'data.companieshouse.gov.uk').to_timeout }
+
+      subject { CompaniesHouseCaller.new '02050399' }
+
+      it 'flags error' do
+        subject.status.should == :error_calling_service
+      end
+    end
+
+    context 'server error' do
+      before { stub_request(:any, 'data.companieshouse.gov.uk').to_raise }
+
+      subject { CompaniesHouseCaller.new '02050399' }
+
+      it 'flags error' do
+        subject.status.should == :error_calling_service
+      end
+    end
   end
 end
