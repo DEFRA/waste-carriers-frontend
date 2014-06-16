@@ -109,7 +109,7 @@ class Registration < ActiveResource::Base
   VALID_EMAIL_REGEX = Devise.email_regexp
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
   VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\']+\z/
-  VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|(NI|RO|SC|OC|SO|NC)\d{6}\z/i
+  VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|[a-zA-Z]{2}\d{6}\z/i
 
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: :businesstype_step?
   validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :otherbusinesses_step?
