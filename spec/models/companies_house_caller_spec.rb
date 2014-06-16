@@ -13,6 +13,12 @@ describe CompaniesHouseCaller do
 
       its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/02050399.json' }
     end
+
+    context 'lowercase prefix' do
+      subject { CompaniesHouseCaller.new 'sc002180' }
+
+      its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/SC002180.json' }
+    end
   end
 
   describe '#active?' do
