@@ -8,13 +8,15 @@ class CompaniesHouseCaller
     @url = "#{@@COMPANIES_HOUSE_URL}#{formatted_companies_house_registration_number}.json"
   end
 
-  def active?
+  def status
     begin
       json = JSON.parse RestClient.get @url
       company_status = json['primaryTopic']['CompanyStatus']
-      company_status == 'Active'
+      company_status == 'Active' ? :active : :inactive
+    rescue RestClient::ResourceNotFound
+      :not_found
     rescue
-      false
+      :error_calling_service
     end
   end
 

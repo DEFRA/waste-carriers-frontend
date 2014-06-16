@@ -313,8 +313,13 @@ class Registration < ActiveResource::Base
   end
 
   def limited_company_must_be_active
-    unless CompaniesHouseCaller.new(company_no).active?
-      errors.add(:company_no, I18n.t('registrations.upper_contact_details.not_active_company_error'))
+    case CompaniesHouseCaller.new(company_no).status
+      when :not_found
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+      when :inactive
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+      when :error_calling_service
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
     end
   end
 
