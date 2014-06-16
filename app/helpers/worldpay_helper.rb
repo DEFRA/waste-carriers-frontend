@@ -11,7 +11,9 @@ module WorldpayHelper
 
     def redirect_to_worldpay
       xml = create_xml
+      logger.info 'Sending XML to Worldpay: ' + xml
       response = send_xml(xml)
+      logger.info 'Received response from Worldpay: ' + response.body.to_s
       redirect_url = get_redirect_url(parse_xml(response.body))
       redirect_to redirect_url
     end
