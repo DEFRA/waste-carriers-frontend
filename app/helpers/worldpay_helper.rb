@@ -23,9 +23,9 @@ module WorldpayHelper
     def create_xml
       merchantCode = Rails.configuration.worldpay_moto_merchantcode
       orderCode = Time.now.to_i.to_s
-      orderValue = '12345'
+      orderValue = '15400'
       orderDescription = 'Your Waste Carrier Registration'
-      orderContent = 'Your lovely new Waste Carrier Registration'
+      orderContent = 'Your new Waste Carrier Registration'
       xml = "<?xml version=\"1.0\"?>"
       xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>"
       xml << "<paymentService version=\"1.4\" merchantCode=\"" + merchantCode + "\">"
@@ -90,8 +90,6 @@ module WorldpayHelper
       redirect_args << '&pendingURL=' + pending_url
       redirect_args << '&cancelURL=' + cancel_url
       url_with_args = url + redirect_args
-
-      puts 'GGG ' + url_with_args
 
       url_with_args
     end
