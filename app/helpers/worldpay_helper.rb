@@ -11,6 +11,7 @@ module WorldpayHelper
 
     def redirect_to_worldpay
       xml = create_xml
+      logger.info 'About to contact WorldPay: XML username = ' + Rails.configuration.worldpay_moto_username
       logger.info 'Sending XML to Worldpay: ' + xml
       response = send_xml(xml)
       logger.info 'Received response from Worldpay: ' + response.body.to_s
