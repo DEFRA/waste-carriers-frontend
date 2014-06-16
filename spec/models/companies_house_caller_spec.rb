@@ -33,7 +33,7 @@ describe CompaniesHouseCaller do
     context 'not active' do
       subject { CompaniesHouseCaller.new '05868270' }
 
-      it 'is active', :vcr do
+      it 'is not active', :vcr do
         subject.should_not be_active
       end
     end
@@ -41,7 +41,7 @@ describe CompaniesHouseCaller do
     context 'not found' do
       subject { CompaniesHouseCaller.new '99999999' }
 
-      it 'is active', :vcr do
+      it 'is not active', :vcr do
         subject.should_not be_active
       end
     end
