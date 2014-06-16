@@ -90,7 +90,7 @@ Given(/^I enter my foreign business address manually$/) do
   fill_in 'registration_streetLine3', with: 'Bristol'
   fill_in 'registration_streetLine4', with: 'BS1 2EP'
 
-  select 'France', from: 'registration_country'
+  fill_in 'registration_country', with: 'France'
 
   click_on 'Next'
 end

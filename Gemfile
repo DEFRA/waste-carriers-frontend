@@ -26,7 +26,6 @@ gem 'password_strength', '~>0.3.2'
 
 gem 'govuk_frontend_toolkit'
 
-gem 'country_select'
 # Gems used only for assets and not required
 # in production environments by default.
 
