@@ -55,7 +55,6 @@ describe Registration do
       it { should validate_presence_of(:lastName).with_message(/must be completed/) }
       it { should validate_presence_of(:position).with_message(/must be completed/) }
       it { should validate_presence_of(:phoneNumber).with_message(/must be completed/) }
-      it { should_not validate_presence_of(:contactEmail) }
     end
 
     describe 'format' do
