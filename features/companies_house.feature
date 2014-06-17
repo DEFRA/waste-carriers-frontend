@@ -3,6 +3,9 @@ Feature: Companies House
   I want the system to cross check a company with companies house data
   So that I can ensure that valid companies are registering as a waste carrier
 
+  If the Companies House Web service is unavailable or there is some other error, waste carriers will not be able to
+  proceed. Such scenarios are covered in a separate RSpec (it was difficult to get WebMock working with Cucumber).
+
   Background:
     Given I am registering as a limited company
       And I am on the upper tier business details page
