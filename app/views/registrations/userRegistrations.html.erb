@@ -1,3 +1,6 @@
+<%= render 'shared/content_for_pages' %>
+<%= render "shared/current_user" %>
+
 <% content_for :page_title, createTitle('.subtitle') %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
@@ -30,7 +33,7 @@
 
 		<dt><%= t 'activemodel.attributes.registration.postcode' %></dt>
 		<dd><%= registration.postcode %></dd>
-		
+
 		<dt><%= t 'activemodel.models.registration' %></dt>
 		<dd><%= registration.regIdentifier %></dd>
 	</dl>
