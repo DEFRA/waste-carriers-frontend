@@ -143,26 +143,36 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
 
   page.should have_content 'MasterCard'
 
+  # Note TODO Click does not work, find a better way of identifying the input to click on?
   #click_button 'op-DPChoose-ECMC^SSL'
-  click('op-DPChoose-VISA^SSL')
+  first(:xpath, '/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/table/tbody/tr[4]/td[1]/table/tbody/tr/td[2]/span/input').click
 
   #These are valid card numbers for the WorldPay Test Service. See the WorldPay XML Redirect Guide for details
   fill_in 'cardNoInput', with: '4444333322221111'
   fill_in 'cardCVV', with: '123'
-  fill_in 'cardExp.month', with: '12'
-  fill_in 'cardExp.year', with: '2015'
+  select('12', from: 'cardExp.month')
+  select('2015', from: 'cardExp.year')
   fill_in 'name', with: 'Mr Waste Carrier'
   fill_in 'address1', with: 'Upper Waste Carrier Street'
   fill_in 'town', with: 'Upper Town'
   fill_in 'postcode', with: 'BS1 5AH'
   click_on 'op-PMMakePayment'
 
+  sleep 1.0
   #By now we should be on the Test Simulator page...
-  click_on 'continue'
+  page.should have_content 'Secure Test Simulator Page'
+  #The standard 'approved' etc. should already be selected, just click the 'continue' button (input) 
+  #click_on 'continue'
+  first(:xpath,'/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/label/nobr/input').click
+
+  # This is the 'Continue' link on our provisional Worldpay Success page. 
+  # Later this should redirect automatically to another page showing the payment confirmation.
+  click_on 'Continue'
+
+  #By now we should be on the (internal version of the) Signup page
+  page.should have_content 'Account details'
+  click_on 'Next'
 
 end
 
-Then(/^I should be ready to pay on behalf of the caller$/) do
-  #pending # express the regexp above with the code you wish you had
-end
 
