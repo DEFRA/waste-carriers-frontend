@@ -117,7 +117,7 @@ class Registration < ActiveResource::Base
   validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :constructiondemolition_step?
   validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :onlydealwith_step?
 
-  validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: :businessdetails_step?
+  validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: 'businessdetails_step? or upperbusinessdetails_step?'
 
   with_options if: :contactdetails_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
@@ -208,6 +208,10 @@ class Registration < ActiveResource::Base
 
   def businessdetails_step?
     current_step.inquiry.businessdetails?
+  end
+
+  def upperbusinessdetails_step?
+    current_step.inquiry.upper_business_details?
   end
 
   def contactdetails_step?
