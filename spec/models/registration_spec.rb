@@ -326,6 +326,9 @@ describe Registration do
     it { should_not allow_value(*INVALID_TELEPHONE_NUMBERS).for(:phoneNumber) }
     it { should ensure_length_of(:phoneNumber).is_at_most(20) }
 
+    it { should allow_value(*VALID_JOB_TITLES).for(:position) }
+    it { should_not allow_value(*INVALID_JOB_TITLES).for(:position) }
+
     context 'digital route' do
       before { subject.routeName = 'DIGITAL' }
 
