@@ -70,7 +70,7 @@
     <div class="form-group<%if @registration.errors[:country].any?%> validation<%end%>">
         <%= validation_for(@registration, :country) %>
         <%= f.label :country %>
-        <%= f.country_select :country %>
+        <%= f.text_field :country %>
     </div>
   <%end%>
 <%else%>

@@ -6,7 +6,7 @@ class Address < ActiveResource::Base
 
   self.format = :json
 
-  #The schema is not strictly necessary for a model based on ActiveRessource, but helpful for documentation
+  #The schema is not strictly necessary for a model based on ActiveResource, but helpful for documentation
   schema do
     string :moniker
     string :uprn

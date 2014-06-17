@@ -13,7 +13,7 @@ Registrations::Application.configure do
   # config.whiny_nils = true
 
   config.eager_load = false
-  
+
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
@@ -39,11 +39,11 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { :host => 'localhost:3000', :protocol => 'http' }
+  config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'], :protocol => config.use_letter_opener ? 'http' : 'https' }
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.delivery_method =  config.use_letter_opener ? :letter_opener : :smtp
 
   # Overriding 'Done' URL for development
   #config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"
@@ -54,5 +54,8 @@ Registrations::Application.configure do
   #If the developer index is not to be shown (as in production), then the application
   #will redirect the user to a suitable entry point, such as the 'Find out if I need to register' page
   config.show_developer_index_page = true
+
+  # this allows WEBrick to handle caret symbols in query parameters; needed for Worldpay
+  URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '^')
 
 end

@@ -27,15 +27,14 @@ gem 'password_strength', '~>0.3.2'
 gem 'govuk_template'
 gem 'govuk_frontend_toolkit'
 
-gem 'country_select'
-
 # Gems used only for assets and not required
 # in production environments by default.
 
+# Using Nokogiri for parsing XML retrieved from WorldPay
+gem 'nokogiri', '~> 1.6.2.1'
+
 gem 'sass-rails',   '~> 4.0.0'
 gem 'coffee-rails', '~> 4.0.0'
-
-gem 'sprockets', '2.11.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', :platforms => :ruby
@@ -44,6 +43,7 @@ gem 'uglifier', '>= 1.3.0'
 
 
 gem 'jquery-rails'
+gem 'jquery-turbolinks'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -60,6 +60,8 @@ gem 'capistrano', '~> 3.0.0'
 # To use debugger
 # gem 'debugger'
 
+gem 'rest-client'
+
 group :test do
   gem 'ci_reporter'
   gem 'cucumber-rails', require: false
@@ -67,11 +69,13 @@ group :test do
   gem 'timecop', '~> 0.7.1'
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'shoulda-matchers'
+  gem 'vcr'
+  gem 'webmock'
 end
 
 group :development do
   gem 'letter_opener', '~> 1.2.0'
-  gem 'meta_request'
+  gem 'meta_request'   #gem needed for Chrome's RailsPanel plugin
 end
 
 group :test, :development do
