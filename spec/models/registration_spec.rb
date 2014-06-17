@@ -311,6 +311,15 @@ describe Registration do
     end
   end
 
+  context 'upper_contact_details step' do
+    before { subject.current_step = 'upper_contact_details' }
+
+    it { should validate_presence_of(:firstName) }
+    it { should validate_presence_of(:lastName) }
+    it { should validate_presence_of(:position) }
+    it { should validate_presence_of(:phoneNumber) }
+  end
+
   context 'payment step' do
     before { subject.current_step = 'payment' }
 
