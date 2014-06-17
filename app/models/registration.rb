@@ -124,8 +124,9 @@ class Registration < ActiveResource::Base
     registration.validates :lastName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :position, presence: true, format: { with: GENERAL_WORD_REGEX }
     registration.validates :phoneNumber, presence: true, format: { with: VALID_TELEPHONE_NUMBER_REGEX }, length: { maximum: 20 }
-    registration.validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: :digital_route?
   end
+
+  validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:digital_route?, :lower_or_upper_contact_details_step?]
 
   with_options if: [:businessdetails_step?, :manual_uk_address?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
