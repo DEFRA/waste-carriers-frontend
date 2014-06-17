@@ -17,7 +17,7 @@ Feature: Registrations - Assisted Digital
       And the print page contains the six-digit access code for the user
       But the registration confirmation email should not be sent
 
-  @georg
+  @worldpay
   Scenario: Upper tier
     When I create an upper tier registration on behalf of a caller
       And I provide valid credit card payment details on behalf of a caller
