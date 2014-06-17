@@ -4,6 +4,8 @@ describe Registration do
   VALID_EMAIL_ADDRESSES = ['user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn']
   INVALID_EMAIL_ADDRESSES = ['barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com']
 
+  VALID_TELEPHONE_NUMBERS = ['0117 9109099', '(0)117 9109099', '+44 (0)117 9109099', '+44 (0)117 91-09099']
+
   GOOD_PASSWORDS = ['myPass145', 'myPass145$']
   WEAK_PASSWORDS = ['123', '123abc', 'aaaaa']
 
@@ -73,7 +75,7 @@ describe Registration do
       it { should allow_value('Foreman', 'Ruby Dev', 'Change-manager').for(:position) }
       it { should_not allow_value('Big Guy 1').for(:position) }
 
-      it { should allow_value('0117 9109099', '(0)117 9109099', '+44 (0)117 9109099', '+44 (0)117 91-09099').for(:phoneNumber) }
+      it { should allow_value(*VALID_TELEPHONE_NUMBERS).for(:phoneNumber) }
       it { should_not allow_value('999', 'my landline', 'home').for(:phoneNumber) }
       it { should ensure_length_of(:phoneNumber).is_at_most(20) }
 
