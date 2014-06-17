@@ -107,5 +107,62 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   choose 'registration_onlyAMF_no'
   click_on 'Next'
 
-  pending 'Have to complete upper tier work and find out more about assisted digital before filling rest in'
+  choose 'registration_registrationType_carrier_dealer'
+  click_on 'Next'
+
+  click_on 'I want to add an address myself'
+  fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
+  fill_in 'registration_houseNumber', with: '123'
+  fill_in 'registration_streetLine1', with: 'Deanery Road'
+  fill_in 'registration_streetLine2', with: 'EA Building'
+  fill_in 'registration_townCity', with: 'Bristol'
+  fill_in 'registration_postcode', with: 'BS1 5AH'
+  click_on 'Next'
+
+  fill_in 'First name', with: 'Antony'
+  fill_in 'Last name', with: 'Assisted'
+  fill_in 'Job title', with: 'Chief'
+  fill_in 'Phone number', with: '0123 456 789'
+  #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
+  fill_in 'Email address', with: ''
+  click_on 'Next'
+
+  #Do nothing (yet) on the Payment page
+  click_on 'Next'
+
+  check 'registration_declaration'
+  click_on 'Confirm'
+
 end
+
+When(/^I provide valid credit card payment details on behalf of a caller$/) do
+  #Select MasterCard by clicking on the button:
+  sleep 1.0
+
+  page.should have_content 'Secure Payment Page'
+
+  page.should have_content 'MasterCard'
+
+  #click_button 'op-DPChoose-ECMC^SSL'
+  click('op-DPChoose-VISA^SSL')
+
+  #These are valid card numbers for the WorldPay Test Service. See the WorldPay XML Redirect Guide for details
+  fill_in 'cardNoInput', with: '4444333322221111'
+  fill_in 'cardCVV', with: '123'
+  fill_in 'cardExp.month', with: '12'
+  fill_in 'cardExp.year', with: '2015'
+  fill_in 'name', with: 'Mr Waste Carrier'
+  fill_in 'address1', with: 'Upper Waste Carrier Street'
+  fill_in 'town', with: 'Upper Town'
+  fill_in 'postcode', with: 'BS1 5AH'
+  click_on 'op-PMMakePayment'
+
+  #By now we should be on the Test Simulator page...
+  click_on 'continue'
+
+end
+
+Then(/^I should be ready to pay on behalf of the caller$/) do
+  #pending # express the regexp above with the code you wish you had
+end
+
