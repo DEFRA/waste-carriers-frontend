@@ -11,13 +11,6 @@
 --------------------------------
 
 <%=t 'registration_mailer.welcome_email.contactName'%>:
-<% unless @registration.title.blank? %>
-  <% if @registration.title == "other" %>
-    <%= @registration.otherTitle.camelize %>
-  <% elsif @registration.title %>
-    <%= @registration.title.camelize %>
-  <% end %>
-<% end %>
 <%= @registration.firstName %> <%= @registration.lastName %>
 
 <%=t 'registration_mailer.welcome_email.phoneNumber'%>:
@@ -31,7 +24,7 @@
 
 
 <%= @registration.houseNumber %> <%= @registration.streetLine1 %>
-<% if @registration.streetLine2 != "" %><%= @registration.streetLine2 %><% end %>
+<% if @registration.streetLine2.present? %><%= @registration.streetLine2 %><% end %>
 <%= @registration.townCity%>
 <%= @registration.postcode%>
 

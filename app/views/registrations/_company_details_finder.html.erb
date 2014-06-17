@@ -1,0 +1,25 @@
+<fieldset>
+
+<% if params[:autoCompanyDetails] ||  !params[:manualCompanyDetails] %>
+<p class="group">
+  <%= f.label :company_number %>
+  <%= f.text_field :company_no, :size => 14, :maxlength => 10 %>
+</p>
+<% end %>
+
+
+<% if params[:manualCompanyDetails] %>
+
+    <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+        <%= validation_for(@registration, :companyName) %>
+        <%= f.label :companyName %>
+        <%= f.text_field :companyName, :size => 20, :maxlength => 35 %>
+    </p>
+  <%= render 'uk_address_entry', f: f  %>
+    <a href="?autoCompanyDetails=true"><%= t 'registrations.contact_step.auto_company_details'%></a>
+
+
+<% end %>
+
+
+</fieldset>

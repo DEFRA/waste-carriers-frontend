@@ -53,7 +53,7 @@
 </form>
 
 
-<form method="get" action="<%=newBusinessType_path%>">
+<form method="get" action="<%= find_path %>">
 <div style="max-width:510px"><input name="agency" type="submit" class="button" style="float:right" value="New registration" /></div>
 </form>
 
@@ -80,9 +80,7 @@
 					data-organisationType="<%= registration.businessType%>" 
 					data-organisationName="<%=registration.companyName%>" 
 					data-individualsType="<%=registration.individualsType%>" 
-					data-publicBodyType="<%=registration.publicBodyType%>" 
-					data-title="<%=registration.title%>" 
-					data-otherTitle="<%=registration.otherTitle%>" 
+					data-publicBodyType="<%=registration.publicBodyType%>"
 					data-firstName="<%=registration.firstName%>" 
 					data-lastName="<%=registration.lastName%>" 
 					data-phoneNumber="<%=registration.phoneNumber%>" 
