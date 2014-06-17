@@ -119,7 +119,7 @@ class Registration < ActiveResource::Base
 
   validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: 'businessdetails_step? or upperbusinessdetails_step?'
 
-  with_options if: :contactdetails_step? do |registration|
+  with_options if: 'contactdetails_step? or uppercontactdetails_step?' do |registration|
     registration.validates :firstName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :lastName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :position, presence: true, format: { with: GENERAL_WORD_REGEX }
@@ -216,6 +216,10 @@ class Registration < ActiveResource::Base
 
   def contactdetails_step?
     current_step.inquiry.contactdetails?
+  end
+
+  def uppercontactdetails_step?
+    current_step.inquiry.upper_contact_details?
   end
 
   def signup_step?
