@@ -124,6 +124,7 @@ class Registration < ActiveResource::Base
     registration.validates :lastName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :position, presence: true, format: { with: GENERAL_WORD_REGEX }
     registration.validates :phoneNumber, presence: true, format: { with: VALID_TELEPHONE_NUMBER_REGEX }, length: { maximum: 20 }
+    registration.validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: :digital_route?
   end
 
   with_options if: [:businessdetails_step?, :manual_uk_address?] do |registration|
@@ -149,7 +150,6 @@ class Registration < ActiveResource::Base
     registration.validates :selectedMoniker, presence: true
   end
 
-  validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:contactdetails_step?, :digital_route?]
   validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:signup_step?, :sign_up_mode_present?]
 
   with_options if: [:signup_step?, :unpersisted?, :do_sign_up?] do |registration|
