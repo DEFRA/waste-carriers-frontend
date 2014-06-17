@@ -276,6 +276,8 @@ describe Registration do
   context 'upper_business_details step' do
     before { subject.current_step = 'upper_business_details' }
 
+    it { should validate_presence_of(:companyName) }
+
     context 'not a limited company' do
       before { subject.businessType = 'soleTrader' }
 
@@ -283,7 +285,10 @@ describe Registration do
     end
 
     context 'limited company' do
-      before { subject.businessType = 'limitedCompany' }
+      before do
+        subject.businessType = 'limitedCompany'
+        subject.companyName = 'Biffa'
+      end
 
       it { should validate_presence_of(:company_no) }
 
