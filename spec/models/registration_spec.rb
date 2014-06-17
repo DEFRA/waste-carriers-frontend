@@ -319,6 +319,10 @@ describe Registration do
     it { should validate_presence_of(:position) }
     it { should validate_presence_of(:phoneNumber) }
 
+    it { should allow_value(*VALID_TELEPHONE_NUMBERS).for(:phoneNumber) }
+    it { should_not allow_value(*INVALID_TELEPHONE_NUMBERS).for(:phoneNumber) }
+    it { should ensure_length_of(:phoneNumber).is_at_most(20) }
+
     context 'digital route' do
       before { subject.routeName = 'DIGITAL' }
 
