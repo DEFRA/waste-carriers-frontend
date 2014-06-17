@@ -908,9 +908,7 @@ class RegistrationsController < ApplicationController
 
   # POST your-registration/upper-tier-contact-details
   def updateNewUpperBusinessDetails
-
     setup_registration 'upper_business_details'
-    @registration.current_step = 'upper_business_details'
 
     if params[:addressSelector]  #user selected an address from drop-down list
       @selected_address = Address.find(params[:addressSelector])
@@ -952,7 +950,6 @@ class RegistrationsController < ApplicationController
 
   # POST your-registration/upper-tier-contact-details
   def updateNewUpperContactDetails
-
     setup_registration 'upper_contact_details'
     addressSearchLogic @registration
 
