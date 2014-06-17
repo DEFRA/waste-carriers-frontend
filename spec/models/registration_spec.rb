@@ -315,6 +315,21 @@ describe Registration do
     it { should validate_presence_of(:lastName) }
     it { should validate_presence_of(:position) }
     it { should validate_presence_of(:phoneNumber) }
+
+    context 'digital route' do
+      before { subject.routeName = 'DIGITAL' }
+
+      it { should validate_presence_of(:contactEmail) }
+
+      it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:contactEmail) }
+      it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:contactEmail) }
+    end
+
+    context 'assisted digital route' do
+      before { subject.routeName = 'ASSISTED_DIGITAL' }
+
+      it { should_not validate_presence_of(:contactEmail) }
+    end
   end
 
   context 'payment step' do
