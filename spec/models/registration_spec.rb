@@ -8,6 +8,7 @@ describe Registration do
   INVALID_TELEPHONE_NUMBERS = ['999', 'my landline', 'home']
 
   VALID_JOB_TITLES = ['Foreman', 'Ruby Dev', 'Change-manager']
+  INVALID_JOB_TITLES = ['Big Guy 1', 'Employee #1']
 
   GOOD_PASSWORDS = ['myPass145', 'myPass145$']
   WEAK_PASSWORDS = ['123', '123abc', 'aaaaa']
@@ -76,7 +77,7 @@ describe Registration do
       it { should ensure_length_of(:lastName).is_at_most(35) }
 
       it { should allow_value(*VALID_JOB_TITLES).for(:position) }
-      it { should_not allow_value('Big Guy 1', 'Employee #1').for(:position) }
+      it { should_not allow_value(*INVALID_JOB_TITLES).for(:position) }
 
       it { should allow_value(*VALID_TELEPHONE_NUMBERS).for(:phoneNumber) }
       it { should_not allow_value(*INVALID_TELEPHONE_NUMBERS).for(:phoneNumber) }
