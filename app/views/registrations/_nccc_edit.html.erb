@@ -49,7 +49,7 @@
 <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
 	<%= validation_for(@registration, :phoneNumber) %>
     <%= f.label :phoneNumber %>
-    <%= f.text_field :phoneNumber %>
+    <%= f.telephone_field :phoneNumber %>
 </p>
 <p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
 	<%= validation_for(@registration, :contactEmail) %>
