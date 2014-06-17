@@ -1,52 +1,46 @@
 <%= render 'shared/content_for_pages' %>
 
 <main id="content" role="main" class="group">
-<article role="article" class="group">
-<div class='inner'>
-  <h1>GOV.UK Waste Carriers Registration Service - Development Home Page</h1>
-      <p>You are seeing this page because the application is deployed in development mode.
-      Users in the production environment will be redirected to the "Find out if I need to register" page.
-      </p>
-  <% if alert %>
-<div id="error_explanation" class="validation-summary">
-  <h2><%= t '.standard_error' %></h2>
-  <ul>
-    <li><%= alert %></li>
-  </ul>
-</div>
-<% end %>
+  <article role="article" class="group">
+    <div class='inner'>
+      <h1>GOV.UK Waste Carriers Registration Service - Development Home Page</h1>
+      <p>You are seeing this page because the application is deployed in development mode. Users in the production environment will be redirected to the "Find out if I need to register" page.</p>
+      <% if alert %>
+        <div id="error_explanation" class="validation-summary">
+          <h2><%= t '.standard_error' %></h2>
+          <ul>
+            <li><%= alert %></li>
+          </ul>
+        </div>
+      <% end %>
 
-<% if notice %>
-<div id="notice_explanation" class="validation-summary">
-  <!--
-  <h2><%= t '.standard_error' %></h2>
-  -->
-  <ul>
-    <li><%= notice %></li>
-  </ul>
-</div>
-<% end %>
+      <% if notice %>
+        <div id="notice_explanation" class="validation-summary">
+          <!--
+          <h2><%= t '.standard_error' %></h2>
+          -->
+          <ul>
+            <li><%= notice %></li>
+          </ul>
+        </div>
+      <% end %>
 
-<h2>Waste Carrier Entry points (typically redirected from GOV.UK)</h2>
-<ul>
-  <a href='/registrations/find'>Find out if I have to register </a><br/>
-  <a href='/users/sign_in'>Waste Carrier Login </a><br/>
-  <a href='/registrations/search'>Public Register</a><br/>
-</ul>
+      <h2>Waste Carrier Entry points (typically redirected from GOV.UK)</h2>
+      <a href='/registrations/find'>Find out if I have to register </a><br/>
+      <a href='/users/sign_in'>Waste Carrier Login </a><br/>
+      <a href='/registrations/search'>Public Register</a><br/>
 
-<hr>
+      <hr>
 
-<h2>NCCC Entry points</h2>
-<a href='/agency_users/sign_in'>Agency/NCCC Login </a><br/>
+      <h2>NCCC Entry points</h2>
+      <a href='/agency_users/sign_in'>Agency/NCCC Login </a><br/>
 
-<hr>
+      <hr>
 
-<h2>Administration Entry points</h2>
-<a href='/admins/sign_in'>Administration Login </a><br/>
+      <h2>Administration Entry points</h2>
+      <a href='/admins/sign_in'>Administration Login </a><br/>
 
-<div id="includedContent"></div>
-</div>
-</article>
+      <div id="includedContent"></div>
+    </div>
+  </article>
 </main>
-
-
