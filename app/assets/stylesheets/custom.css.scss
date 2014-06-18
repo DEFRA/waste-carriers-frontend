@@ -36,8 +36,21 @@ ul, ol {
 
 h2 {
     margin-bottom:10px;
+    margin-top:10px;
 }
 
+hr {
+    margin-bottom:30px;
+    margin-top:30px;
+}
+
+.search-address {
+    margin-bottom:30px;
+}
+
+#smartanswers_display, #data_protection {
+    list-style-type: inherit;
+}
 
 .back_link, .next_link, .button {
     margin-bottom:20px;

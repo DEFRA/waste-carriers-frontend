@@ -8,12 +8,15 @@
 <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
   <%= devise_error_messages! %>
 
-  <p class="group"><%= f.label :email %>
-  <%= f.email_field :email, :autofocus => true %></p>
+  <div class="form-group">
+  	<%= f.label :email, class: 'form-label' %>
+  	<%= f.email_field :email, :autofocus => true %>
+  </div>
 
-  <p class="action group">
-  <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
-  <%= f.submit t('devise.passwords.sendInstructions'), :class => "button" %></p>
+  <div class="form-group">
+  	<%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
+  	<%= f.submit t('devise.passwords.sendInstructions'), :class => "button" %>
+  </div>
 <% end %>
 
 </article></main>
