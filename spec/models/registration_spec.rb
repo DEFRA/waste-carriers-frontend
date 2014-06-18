@@ -126,7 +126,7 @@ describe Registration do
   context 'confirmation step' do
     before { subject.current_step = 'confirmation' }
 
-    it { should validate_acceptance_of(:declaration) }
+    it_behaves_like 'an acceptance step'
   end
 
   context 'registrationtype step' do
@@ -193,6 +193,6 @@ describe Registration do
   context 'upper_summary step' do
     before { subject.current_step = 'upper_summary' }
 
-    it { should validate_acceptance_of(:declaration) }
+    it_behaves_like 'an acceptance step'
   end
 end
