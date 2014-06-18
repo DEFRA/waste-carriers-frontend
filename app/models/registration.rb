@@ -130,23 +130,23 @@ class Registration < ActiveResource::Base
 
   validates :addressMode, allow_blank: true, inclusion: { in: %w(manual-uk manual-foreign) }, if: :businessdetails_step?
 
-  with_options if: [:businessdetails_step?, :manual_uk_address?] do |registration|
+  with_options if: [:address_step?, :manual_uk_address?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
     registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }
     registration.validates :postcode, presence: true, uk_postcode: true
   end
 
-  with_options if: [:businessdetails_step?, :manual_foreign_address?] do |registration|
+  with_options if: [:address_step?, :manual_foreign_address?] do |registration|
     registration.validates :streetLine3, :streetLine4, length: { maximum: 35 }
     registration.validates :country, presence: true, length: { maximum: 35 }
   end
 
-  with_options if: [:businessdetails_step?, :address_mode_present?] do |registration|
+  with_options if: [:address_step?, :address_mode_present?] do |registration|
     registration.validates :streetLine1, presence: true, length: { maximum: 35 }
     registration.validates :streetLine2, length: { maximum: 35 }
   end
 
-  with_options if: [:businessdetails_step?, :address_mode_blank?] do |registration|
+  with_options if: [:address_step?, :address_mode_blank?] do |registration|
     registration.validates :postcodeSearch, presence: true, uk_postcode: true
     registration.validates :selectedMoniker, presence: true
   end
@@ -168,7 +168,7 @@ class Registration < ActiveResource::Base
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
-  with_options if: [:upper_business_details_step?, :limited_company?] do |registration|
+  with_options if: [:upperbusinessdetails_step?, :limited_company?] do |registration|
     registration.validates :company_no, presence: true, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }
     registration.validate :limited_company_must_be_active
   end
@@ -207,6 +207,10 @@ class Registration < ActiveResource::Base
     current_step.inquiry.onlydealwith?
   end
 
+  def address_step?
+    businessdetails_step? or upperbusinessdetails_step?
+  end
+
   def businessdetails_step?
     current_step.inquiry.businessdetails?
   end
@@ -233,10 +237,6 @@ class Registration < ActiveResource::Base
 
   def registrationtype_step?
     current_step.inquiry.registrationtype?
-  end
-
-  def upper_business_details_step?
-    current_step.inquiry.upper_business_details?
   end
 
   def payment_step?

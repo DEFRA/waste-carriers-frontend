@@ -203,6 +203,8 @@ describe Registration do
 
     it { should validate_presence_of(:companyName) }
 
+    it_behaves_like 'all addresses'
+
     context 'not a limited company' do
       before { subject.businessType = 'soleTrader' }
 
