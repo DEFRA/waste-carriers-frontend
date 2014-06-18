@@ -592,6 +592,13 @@ class RegistrationsController < ApplicationController
     session[:registration_params][:streetLine4] = @selected_address.lines[3] if @selected_address.lines[3]
     session[:registration_params][:townCity] = @selected_address.townCity  if @selected_address.town
     session[:registration_params][:postcode] = @selected_address.postcode  if @selected_address.postcode
+
+    @registration.houseNumber = @selected_address.lines[0] if @selected_address.lines[0]
+    @registration.streetLine1 = @selected_address.lines[1] if @selected_address.lines[1]
+    @registration.streetLine2 = @selected_address.lines[2] if @selected_address.lines[2]
+    @registration.streetLine3 = @selected_address.lines[3] if @selected_address.lines[3]
+    @registration.townCity = @selected_address.townCity  if @selected_address.town
+    @registration.postcode = @selected_address.postcode  if @selected_address.postcode
   end
 
 
@@ -921,6 +928,7 @@ class RegistrationsController < ApplicationController
 
    if params[:findAddress] #user clicked on Find Address button
 
+      @registration.postcode = params[:registration][:postcode]
       begin
         @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
         logger.debug @address_match_list.size.to_s
@@ -1056,7 +1064,6 @@ class RegistrationsController < ApplicationController
       :copy_cards,
       :total_fee,
       :address_match_list,
-      :selected_business_address,
     :sign_up_mode)
   end
 
