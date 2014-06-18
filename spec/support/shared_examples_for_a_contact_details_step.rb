@@ -1,6 +1,3 @@
-VALID_EMAIL_ADDRESSES = ['user@foo.COM', 'A_US-ER@f.b.org', 'frst.lst@foo.jp', 'a+b@baz.cn']
-INVALID_EMAIL_ADDRESSES = ['barry@butler@foo.com' 'user@foo,com', 'user_at_foo.org', 'example.user@foo.', 'foo@bar_baz.com', 'foo@bar+baz.com']
-
 VALID_TELEPHONE_NUMBERS = ['0117 9109099', '(0)117 9109099', '+44 (0)117 9109099', '+44 (0)117 91-09099']
 INVALID_TELEPHONE_NUMBERS = ['999', 'my landline', 'home']
 
@@ -36,10 +33,7 @@ shared_examples_for 'a contact details step' do
     context 'digital route' do
       before { subject.routeName = 'DIGITAL' }
 
-      it { should validate_presence_of(:contactEmail).with_message(/must be completed/) }
-
-      it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:contactEmail) }
-      it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:contactEmail) }
+      it_behaves_like 'email validation', :contactEmail
     end
 
     context 'assisted digital route' do
