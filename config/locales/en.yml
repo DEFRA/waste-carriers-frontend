@@ -329,6 +329,8 @@ en:
       address: "Address"
     newUpperBusinessDetails:
       title: "Business Details"
+    company_name:
+      businessAddressingMode: "%{addressing_mode} trading name"
     businesstype_step:
       title: "Business type"
       subtitle: "What type of business or organisation are you?"
