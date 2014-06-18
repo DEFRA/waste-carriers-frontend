@@ -1,4 +1,5 @@
 <fieldset>
+<legend></legend>  
 <%if @registration.addressMode%>
 
   <!-- This section handles when the user goes manual. This covers selecting
@@ -11,11 +12,11 @@
       This creates a hidden field to record that choice and displays the
       house number (Building name or number) field -->
     <input type="hidden" name="registration[addressMode]" value="manual-uk"/>
-    <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
+    <div class="form-group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
         <%= validation_for(@registration, :houseNumber) %>
-        <%= f.label :houseNumber %>
+        <%= f.label :houseNumber, class: 'form-label'%>
         <%= f.text_field :houseNumber, :size => 20, :maxlength => 35 %>
-    </p>
+    </div>
   <%else%>
     <!-- Else the user selected address outside the UK link so again we record
       it in a hidden field -->
@@ -25,52 +26,52 @@
   <!-- For the both the manual and overseas address streetLine1 and 2 are used
     so there is no logic around whether to display them, but there is around
     how to label them. -->
-  <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
+  <div class="form-group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
       <%= validation_for(@registration, :streetLine1) %>
       <% if @registration.addressMode == "manual-uk"%>
-        <%= f.label :streetLine1 %>
+        <%= f.label :streetLine1, class: 'form-label'%>
       <%else%>
         <label for="registration_streetLine1"><%= t '.streetLine1Foreign' %></label>
       <%end%>
       <%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
-  </p>
-  <p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
+  </div>
+  <div class="form-group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
       <%= validation_for(@registration, :streetLine2) %>
-      <%= f.label :streetLine2, :class=>"offscreen" %>
+      <%= f.label :streetLine2, :class=>"form-label offscreen" %>
       <%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %>
-  </p>
+  </div>
 
   <%if @registration.addressMode == "manual-uk" %>
     <!-- If we are dealing with a manual UK address then the next 2 fields are
       town or city and Post Code -->
-    <p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
+    <div class="form-group<%if @registration.errors[:townCity].any?%> validation<%end%>">
         <%= validation_for(@registration, :townCity) %>
-        <%= f.label :townCity %>
+        <%= f.label :townCity, class: 'form-label' %>
         <%= f.text_field :townCity, :size => 20, :maxlength => 35 %>
-    </p>
-    <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
+    </div>
+    <div class="form-group<%if @registration.errors[:postcode].any?%> validation<%end%>">
         <%= validation_for(@registration, :postcode) %>
-        <%= f.label :postcode %>
+        <%= f.label :postcode, class: 'form-label' %>
         <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
-    </p>
+    </div>
   <%else%>
     <!-- Else we are dealing with an overseas address so the fields are simply
       street 3, 4 and country -->
-    <p class="group<%if @registration.errors[:streetLine3].any?%> validation<%end%>">
+    <div class="form-group<%if @registration.errors[:streetLine3].any?%> validation<%end%>">
         <%= validation_for(@registration, :streetLine3) %>
         <%= f.label :streetLine3, :class=>"offscreen" %>
         <%= f.text_field :streetLine3, :size => 20, :maxlength => 35 %>
-    </p>
-    <p class="group<%if @registration.errors[:streetLine4].any?%> validation<%end%>">
+    </div>
+    <div class="form-group<%if @registration.errors[:streetLine4].any?%> validation<%end%>">
         <%= validation_for(@registration, :streetLine4) %>
         <%= f.label :streetLine4, :class=>"offscreen" %>
         <%= f.text_field :streetLine4, :size => 20, :maxlength => 35 %>
-    </p>
-    <p class="group<%if @registration.errors[:country].any?%> validation<%end%>">
+    </div>
+    <div class="form-group<%if @registration.errors[:country].any?%> validation<%end%>">
         <%= validation_for(@registration, :country) %>
         <%= f.label :country %>
         <%= f.text_field :country %>
-    </p>
+    </div>
   <%end%>
 <%else%>
   <!-- This section covers when the page is first loaded, and when the user is dealing
@@ -95,7 +96,7 @@
     <!-- If the user enters a postcode which returns matches they arrive here.
       The selectedMoniker appears to be a unique key for the address, and the first bit of code
       checks for any errors in the model on its selectedMoniker. -->
-    <p class="group<%if @registration.errors[:selectedMoniker].any?%> validation<%end%>">
+    <div class="form-group<%if @registration.errors[:selectedMoniker].any?%> validation<%end%>">
       <%= validation_for(@registration, :selectedMoniker) %>
 
       <!-- Display elements for selecting an address from the results, including retaining
@@ -114,11 +115,11 @@
           <option value="<%=address.moniker%>"<%if address.moniker==@registration.selectedMoniker%> selected="selected"<%end%>><%=address.partial%></option>
         <%end%>
       </select>
-    </p>
+    </div>
     <a href="?sManual=true"><%= t '.manual_address_label'%></a>
   <%else%>
     <!-- This section gets hit when the page is first loaded -->
-    <p class="group<%if @registration.errors[:postcodeSearch].any? or params[:sPostcode]%> validation<%end%>">
+    <div class="form-group<%if @registration.errors[:postcodeSearch].any? or params[:sPostcode]%> validation<%end%>">
 
       <%if params[:sPostcode] and params[:sPostcode]!=""%>
         <!-- The user has entered a postcode but there were no matches -->
@@ -134,12 +135,14 @@
       <%end%>
 
       <!-- Display elements for the entering and submitting the postcode to search for -->
-      <%= f.label :postcode %>
+      <%= f.label :postcode, class: 'form-label-postcode' %>
       <input id="sPostcode" name="sPostcode" type="text" class="postcode" value="<%= params[:sPostcode]%>"/>
       <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
-    </p>
-    <p><a href="?sManual=true"><%= t '.manual_address_label'%></a></p>
-    <a href="?sManualForeign=true"><%= t '.foreignAddressLink'%></a>
+    </div>
+    <div class='form-group'>
+      <a href="?sManual=true"><%= t '.manual_address_label'%></a><br>
+      <a href="?sManualForeign=true"><%= t '.foreignAddressLink'%></a>
+    </div>
   <%end%>
 <%end%>
 </fieldset>

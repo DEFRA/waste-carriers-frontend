@@ -2,7 +2,7 @@ Registrations::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   config.eager_load = false
-  
+
   # Code is not reloaded between requests
   config.cache_classes = true
 
@@ -87,5 +87,13 @@ Registrations::Application.configure do
   #The Google Tag Manager ID used with Google Analytics and the Google Tag Manager.
   #We use a different ID in production vs development; this here is the production ID.
   config.google_tag_manager_id = 'GTM-5DSHV4'
+
+  config.assets.precompile += %w(
+    application.css
+    application-ie8.css
+    application-ie7.css
+    application-ie6.css
+    application.js
+  )
 
 end

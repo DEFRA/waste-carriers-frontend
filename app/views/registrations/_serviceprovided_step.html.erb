@@ -7,14 +7,15 @@
     What kind of service do you provide?
    -->
   <fieldset>
-    <p class="group<%if @registration.errors[:isMainService].any?%> validation<%end%>">
-      <span class="inline"><!-- GDS have an 'option' class but we prefer this simplified version -->
+    <legend></legend>
+    <div class="inline <%if @registration.errors[:isMainService].any?%> validation<%end%>">
+      <label class="block-label"><!-- GDS have an 'option' class but we prefer this simplified version -->
         <%= f.radio_button :isMainService, "no", :class => "radio" %> <%= f.label t '.part_of_service_label', :class => "label" %>
-      </span>
-      <span class="inline">
+      </label>
+      <label class="block-label">
         <%= f.radio_button :isMainService, "yes", :class => "radio" %> <%= f.label t '.main_service_label', :class => "label" %>
-      </span>
-    </p>
+      </label>
+    </div>
   </fieldset>
 
 </div>

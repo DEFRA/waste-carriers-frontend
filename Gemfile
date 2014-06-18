@@ -24,6 +24,7 @@ gem 'activeresource', '~>4.0.0'
 
 gem 'password_strength', '~>0.3.2'
 
+gem 'govuk_template'
 gem 'govuk_frontend_toolkit'
 
 # Gems used only for assets and not required

@@ -1,3 +1,6 @@
+<%= render 'shared/content_for_pages' %>
+<%= render "shared/current_user" %>
+
 <% content_for :page_title, createTitle('registrations.form.agency_search_label') %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
@@ -76,18 +79,18 @@
 			<% if registration.metaData.status == "REVOKED" %><div class="detailHeading">Registration Status: Revoked</div><% end %>
 			<% if registration.metaData.status == "PENDING" %><div class="detailHeading">Registration Status: Pending</div><% end %>
 			<div class="detail">
-				<div class="data" 
-					data-organisationType="<%= registration.businessType%>" 
-					data-organisationName="<%=registration.companyName%>" 
-					data-individualsType="<%=registration.individualsType%>" 
+				<div class="data"
+					data-organisationType="<%= registration.businessType%>"
+					data-organisationName="<%=registration.companyName%>"
+					data-individualsType="<%=registration.individualsType%>"
 					data-publicBodyType="<%=registration.publicBodyType%>"
-					data-firstName="<%=registration.firstName%>" 
-					data-lastName="<%=registration.lastName%>" 
-					data-phoneNumber="<%=registration.phoneNumber%>" 
-					data-emailAddress="<%=registration.contactEmail%>" 
-					data-houseNumber="<%=registration.houseNumber%>" 
-					data-postcode="<%=registration.postcode%>" 
-					data-uprn="<%=registration.uprn%>" 
+					data-firstName="<%=registration.firstName%>"
+					data-lastName="<%=registration.lastName%>"
+					data-phoneNumber="<%=registration.phoneNumber%>"
+					data-emailAddress="<%=registration.contactEmail%>"
+					data-houseNumber="<%=registration.houseNumber%>"
+					data-postcode="<%=registration.postcode%>"
+					data-uprn="<%=registration.uprn%>"
 					data-address="<%=registration.address%>"
 					data-status="<%=registration.metaData.status%>"
 					data-regIdentifier="<%=registration.regIdentifier%>"
