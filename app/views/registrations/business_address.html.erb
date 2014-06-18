@@ -1,3 +1,5 @@
+<%= render 'shared/content_for_pages' %>
+
 <main id="content" role="main" class="group">
   <article role="article" class="group">
 
@@ -11,16 +13,17 @@
       <%= render "upper_errors" %>
 
       <fieldset>
-        <p class="group<%if @registration.errors[:company_house_number].any?%> validation<%end%>">
+        <legend></legend>
+        <div class="form-group<%if @registration.errors[:company_house_number].any?%> validation<%end%>">
           <%= validation_for(@registration, :company_house_number) %>
-          <%= f.label t '.companies_house_label' %>
+          <%= f.label t '.companies_house_label', class: 'form-label' %>
           <%= f.text_field :company_house_number, :size => 20, :maxlength => 35 %>
           <input type="submit" class="button" name="findCompany" value="<%=t 'upper_registrations.form.find_details_button_label'%>"/></br>
           <a href="?manualCompHouse=true"><%= t '.manual_companies_house_link'%></a>
         </p>
         <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
           <%= validation_for(@registration, :postcode) %>
-          <%= f.label :postcode %>
+          <%= f.label :postcode, class: 'form-label'%>
           <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
           <input type="submit" class="button" name="findAddress" value="<%=t 'upper_registrations.form.find_address_button_label'%>"/></br>
           <a href="?manualUkAddress=true"><%= t '.manual_uk_address_link'%></a></br>

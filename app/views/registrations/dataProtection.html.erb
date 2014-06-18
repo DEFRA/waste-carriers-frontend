@@ -1,13 +1,14 @@
+<%= render 'shared/content_for_pages' %>
+
 <% content_for :page_title, createTitle('.title') %>
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-
+    
     <h1><%= t '.subtitle' %></h1>
 
     <p><%= t '.text1' %></p>
-    <p>
-      <ul>
+      <ul id='data_protection'>
         <li><%= t '.point1' %></li>
         <li><%= t '.point2' %></li>
         <li><%= t '.point3' %></li>
@@ -15,7 +16,6 @@
         <li><%= t '.point5' %></li>
         <li><%= t '.point6' %></li>
         <li><%= t '.point7' %></li>
-      </ul>
     </p>
     <p><%= t '.text2' %></p>
 
