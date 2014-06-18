@@ -7,11 +7,13 @@
     <%= render 'smartanswers_display' %>
     <%= link_to t('form.edit_these_details'), newBusinessType_path %>
 
+  <hr>
 
   <h2><%= t 'registrations.address_entry.businessAddress' %></h2>
     <%= render 'address_display' %>
     <%= link_to t('form.edit_these_details'), newBusinessDetails_path %>
   
+  <hr>
 
   <h2><%= t 'registrations.contactdetails_step.title' %></h2>
     <%= render 'contactdetails_display' %>
@@ -25,7 +27,9 @@
     <div class='text panel-indent'><%= f.check_box :declaration%><%= t '.declaration_text' %></div>
   </div>
 
-  <h3><%= t '.data_protection_heading' %></h3>
+  <hr>
+
+  <h2><%= t '.data_protection_heading' %></h2>
     <p><%= t '.data_protection_text1' %></p> 
 
       <%= link_to t('registrations.dataProtection.subtitle'), dataProtection_path, :target => "_blank" %>

@@ -5,11 +5,11 @@
 
   <fieldset>
   	<legend></legend>
-    <label for="form-label<%if @registration.errors[:companyName].any?%> validation<%end%>">
+    <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
       <%= validation_for(@registration, :companyName) %>
       <div class="form-label"><%= f.label :companyName %></div>
       <%= f.text_field :companyName, :size => 20, :maxlength => 70 %>
-    </label>
+    </div>
   </fieldset>
 
   <%= render "address_entry", :f => f %>
