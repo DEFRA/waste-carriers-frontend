@@ -44,10 +44,6 @@ describe Registration do
     before { subject.current_step = 'businessdetails' }
 
     it_behaves_like 'a company name step'
-
-    it { should allow_value('manual-uk', 'manual-foreign').for(:addressMode) }
-    it { should_not allow_value('uk', 'foreign').for(:addressMode) }
-
     it_behaves_like 'a physical address step'
   end
 
