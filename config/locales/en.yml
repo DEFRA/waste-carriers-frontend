@@ -329,6 +329,8 @@ en:
       address: "Address"
     newUpperBusinessDetails:
       title: "Business Details"
+    company_name:
+      businessAddressingMode: "%{addressing_mode} trading name"
     businesstype_step:
       title: "Business type"
       subtitle: "What type of business or organisation are you?"
@@ -425,6 +427,8 @@ en:
       postcode_search_error: "A postcode must be provided"
     address_finder:
       selectAddress: "Select address"
+      no_results_error: "There are no addresses for the given postcode"
+
     upper_contact_details:
       companies_house_registration_number_not_found: "is not listed by Companies House"
       companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"

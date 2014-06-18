@@ -1,4 +1,4 @@
-<ul>
+<ul id='smartanswers_display'>
   <% unless @registration.businessType.blank? %>
     <li>
       <%= t '.business_type', :businessType => t('business_types.' + @registration.businessType).downcase %>
