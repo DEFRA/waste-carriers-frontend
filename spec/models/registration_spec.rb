@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Registration do
-  GOOD_PASSWORDS = ['myPass145', 'myPass145$']
-  WEAK_PASSWORDS = ['123', '123abc', 'aaaaa']
 
   context 'businesstype step' do
     before { subject.current_step = 'businesstype' }
@@ -114,8 +112,8 @@ describe Registration do
         context 'unpersisted' do
           before { allow(subject).to receive(:persisted?).and_return(false) }
 
-          it { should allow_value(*GOOD_PASSWORDS).for(:password) }
-          it { should_not allow_value(*WEAK_PASSWORDS).for(:password) }
+          it { should allow_value('myPass145', 'myPass145$').for(:password) }
+          it { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
 
           it { should ensure_length_of(:password).is_at_least(8).is_at_most(128) }
 
