@@ -58,8 +58,6 @@ describe Registration do
       before { subject.sign_up_mode = 'sign_in' }
 
       it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
-      it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail) }
-      it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail) }
     end
 
     context 'sign_up signup mode' do
