@@ -1,0 +1,25 @@
+ <p class="group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
+       <%= validation_for(@registration, :houseNumber) %>
+       <%= f.label :houseNumber %>
+       <%= f.text_field :houseNumber, :size => 20, :maxlength => 35 %>
+   </p>
+    <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
+     <%= validation_for(@registration, :streetLine1) %>
+     <%= f.label :streetLine1 %>
+     <%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
+ </p>
+ <p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
+     <%= validation_for(@registration, :streetLine2) %>
+     <%= f.label :streetLine2, :class=>"offscreen" %>
+     <%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %>
+ </p>
+<p class="group<%if @registration.errors[:townCity].any?%> validation<%end%>">
+       <%= validation_for(@registration, :townCity) %>
+       <%= f.label :townCity %>
+       <%= f.text_field :townCity, :size => 20, :maxlength => 35 %>
+   </p>
+   <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
+       <%= validation_for(@registration, :postcode) %>
+       <%= f.label :postcode %>
+       <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
+   </p>

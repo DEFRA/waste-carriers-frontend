@@ -96,6 +96,12 @@ if [ "${WCRS_FRONTEND_RAILS_ENV}" != "production" ]; then
   xvfb-run cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
 fi
 
+## re-Seed the database again after tests have cleared the database
+if [ ${WCRS_FRONTEND_RAILS_ENV} == "development" -o ${WCRS_FRONTEND_RAILS_ENV} == "test" ]; then
+  echo "Re-seeding the database."
+  rake db:seed
+fi
+
 if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
   echo "Copying cucumber report to Jenkins."
   scp ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json \

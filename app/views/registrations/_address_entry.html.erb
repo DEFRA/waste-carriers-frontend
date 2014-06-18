@@ -4,7 +4,7 @@
 
   <!-- This section handles when the user goes manual. This covers selecting
     the enter address manually link, or the address not in the UK link. -->
-  <div class='search-address'><a href="?sSearch=true"><%= t '.search_address_label' %></a></div>
+  <a href="?sSearch=true"><%= t '.search_address_label'%></a>
 
   <%if @registration.addressMode == "manual-uk"%>
 
@@ -31,11 +31,10 @@
       <% if @registration.addressMode == "manual-uk"%>
         <%= f.label :streetLine1, class: 'form-label'%>
       <%else%>
-        <div class="form-label"><%= t '.streetLine1Foreign' %></div>
+        <label for="registration_streetLine1"><%= t '.streetLine1Foreign' %></label>
       <%end%>
       <%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
   </div>
-
   <div class="form-group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
       <%= validation_for(@registration, :streetLine2) %>
       <%= f.label :streetLine2, :class=>"form-label offscreen" %>
@@ -60,18 +59,18 @@
       street 3, 4 and country -->
     <div class="form-group<%if @registration.errors[:streetLine3].any?%> validation<%end%>">
         <%= validation_for(@registration, :streetLine3) %>
-        <%= f.label :streetLine3, :class=>"form-label offscreen" %>
+        <%= f.label :streetLine3, :class=>"offscreen" %>
         <%= f.text_field :streetLine3, :size => 20, :maxlength => 35 %>
     </div>
     <div class="form-group<%if @registration.errors[:streetLine4].any?%> validation<%end%>">
         <%= validation_for(@registration, :streetLine4) %>
-        <%= f.label :streetLine4, :class=>"form-label offscreen" %>
+        <%= f.label :streetLine4, :class=>"offscreen" %>
         <%= f.text_field :streetLine4, :size => 20, :maxlength => 35 %>
     </div>
     <div class="form-group<%if @registration.errors[:country].any?%> validation<%end%>">
         <%= validation_for(@registration, :country) %>
-        <%= f.label :country, class: 'form-label' %>
-        <%= f.country_select :country %>
+        <%= f.label :country %>
+        <%= f.text_field :country %>
     </div>
   <%end%>
 <%else%>
