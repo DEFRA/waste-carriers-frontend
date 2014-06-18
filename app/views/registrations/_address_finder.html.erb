@@ -1,28 +1,20 @@
-<%= render "errors" %>
 
 <fieldset>
- <%= hidden_field_tag(:selected_business_address) %>
 
-    <%if params[:addressSelector]%>
-      <%=  params[:addressSelector] %>
-    <%end%>
+<% unless  params[:manualUkAddress] || params[:findAddress] %>
+   <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: false  %>
+  <% end %>
 
 <% case %>
-<% when  !params[:manualUkAddress] && !params[:findAddress] %>
-<p class="group">
-  <%= validation_for(@registration, :postcode) %>
-  <%= f.label :postcode %>
-  <%= f.text_field :postcode,  id: 'postcode',  :size => 14, :maxlength => 10 %>
-     <input type="submit" class="button" name="findAddress"  value="<%=t 'upper_registrations.form.find_address_button_label'%>" onclick="addressFinder()"/></br>
-     <% name = t 'upper_registrations.form.find_address_button_label' %>
-    <a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a></br>
-    <a href="?manualOtherAddress=true"><%= t 'registrations.contact_step.foreignAddressLink'%></a>
-  </p>
-
-
 <% when  params[:findAddress] %>
+   <% if  @address_match_list.size  < 1 %>
+       <span class="error-text"><%= t '.no_results_error'%></span>
+       <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: true  %>
+
+  <% else %>
 <p class="group">
   <%= t '.selectAddress' %></br>
+  <a href="?changeAddress=true"><%= t 'registrations.contact_step.change'%></a></br>
 
    <select id="addressSelector" name="addressSelector" size="<%=[10,@address_match_list.elements.count].min%>"
    required autofocus>
@@ -31,13 +23,14 @@
     <%end%>
   </select></br>
   <a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a>
+
   </p>
 
+      <% end %>
 
 <% when params[:manualUkAddress] %>
  <%= render 'uk_address_entry', f: f  %>
     <a href="?autoUkAddress=true"><%= t 'registrations.contact_step.findAddressUsingPostcode'%></a>
-
 
 <% end %>
 
