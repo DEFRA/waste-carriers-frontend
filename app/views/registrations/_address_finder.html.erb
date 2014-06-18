@@ -14,6 +14,7 @@
   <% else %>
 <p class="group">
   <%= t '.selectAddress' %></br>
+  <a href="?changeAddress=true"><%= t 'registrations.contact_step.change'%></a></br>
 
    <select id="addressSelector" name="addressSelector" size="<%=[10,@address_match_list.elements.count].min%>"
    required autofocus>
@@ -22,6 +23,7 @@
     <%end%>
   </select></br>
   <a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a>
+
   </p>
 
       <% end %>
