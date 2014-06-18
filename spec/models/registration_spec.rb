@@ -24,33 +24,25 @@ describe Registration do
   context 'otherbusinesses step' do
     before { subject.current_step = 'otherbusinesses' }
 
-    it { should validate_presence_of(:otherBusinesses).with_message(/must be completed/) }
-    it { should allow_value('yes', 'no').for(:otherBusinesses) }
-    it { should_not allow_value('y', 'n').for(:otherBusinesses) }
+    it_behaves_like 'a yes or a no', :otherBusinesses
   end
 
   context 'serviceprovided step' do
     before { subject.current_step = 'serviceprovided' }
 
-    it { should validate_presence_of(:isMainService).with_message(/must be completed/) }
-    it { should allow_value('yes', 'no').for(:isMainService) }
-    it { should_not allow_value('y', 'n').for(:isMainService) }
+    it_behaves_like 'a yes or a no', :isMainService
   end
 
   context 'constructiondemolition step' do
     before { subject.current_step = 'constructiondemolition' }
 
-    it { should validate_presence_of(:constructionWaste).with_message(/must be completed/) }
-    it { should allow_value('yes', 'no').for(:constructionWaste) }
-    it { should_not allow_value('y', 'n').for(:constructionWaste) }
+    it_behaves_like 'a yes or a no', :constructionWaste
   end
 
   context 'onlydealwith step' do
     before { subject.current_step = 'onlydealwith' }
 
-    it { should validate_presence_of(:onlyAMF).with_message(/must be completed/) }
-    it { should allow_value('yes', 'no').for(:onlyAMF) }
-    it { should_not allow_value('y', 'n').for(:onlyAMF) }
+    it_behaves_like 'a yes or a no', :onlyAMF
   end
 
   context 'contactdetails step' do
