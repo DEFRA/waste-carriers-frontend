@@ -111,7 +111,7 @@ describe Registration do
     it { should allow_value('manual-uk', 'manual-foreign').for(:addressMode) }
     it { should_not allow_value('uk', 'foreign').for(:addressMode) }
 
-    it_behaves_like 'all addresses'
+    it_behaves_like 'a physical address step'
   end
 
   context 'signup step' do
@@ -203,7 +203,7 @@ describe Registration do
 
     it { should validate_presence_of(:companyName) }
 
-    it_behaves_like 'all addresses'
+    it_behaves_like 'a physical address step'
 
     context 'not a limited company' do
       before { subject.businessType = 'soleTrader' }
