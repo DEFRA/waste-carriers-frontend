@@ -66,6 +66,7 @@ describe Registration do
         before { subject.sign_up_mode = 'sign_up' }
 
         it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
+        it { should validate_confirmation_of(:accountEmail) }
 
         context 'unpersisted' do
           before { allow(subject).to receive(:persisted?).and_return(false) }
