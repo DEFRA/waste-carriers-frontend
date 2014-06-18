@@ -1,9 +1,3 @@
-VALID_TELEPHONE_NUMBERS = ['0117 9109099', '(0)117 9109099', '+44 (0)117 9109099', '+44 (0)117 91-09099']
-INVALID_TELEPHONE_NUMBERS = ['999', 'my landline', 'home']
-
-VALID_JOB_TITLES = ['Foreman', 'Ruby Dev', 'Change-manager']
-INVALID_JOB_TITLES = ['Big Guy 1', 'Employee #1']
-
 shared_examples_for 'a contact details step' do
   describe 'presence' do
     it { should validate_presence_of(:firstName).with_message(/must be completed/) }
@@ -23,11 +17,11 @@ shared_examples_for 'a contact details step' do
     it { should_not allow_value('1').for(:lastName) }
     it { should ensure_length_of(:lastName).is_at_most(35) }
 
-    it { should allow_value(*VALID_JOB_TITLES).for(:position) }
-    it { should_not allow_value(*INVALID_JOB_TITLES).for(:position) }
+    it { should allow_value('Foreman', 'Ruby Dev', 'Change-manager').for(:position) }
+    it { should_not allow_value('Big Guy 1', 'Employee #1').for(:position) }
 
-    it { should allow_value(*VALID_TELEPHONE_NUMBERS).for(:phoneNumber) }
-    it { should_not allow_value(*INVALID_TELEPHONE_NUMBERS).for(:phoneNumber) }
+    it { should allow_value('0117 9109099', '(0)117 9109099', '+44 (0)117 9109099', '+44 (0)117 91-09099').for(:phoneNumber) }
+    it { should_not allow_value('999', 'my landline', 'home').for(:phoneNumber) }
     it { should ensure_length_of(:phoneNumber).is_at_most(20) }
 
     context 'digital route' do
