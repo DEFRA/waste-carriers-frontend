@@ -106,7 +106,6 @@ class Registration < ActiveResource::Base
   VALID_HOUSE_NAME_OR_NUMBER_REGEX = /\A[a-zA-Z0-9\'\s-]+\z/
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
-  VALID_EMAIL_REGEX = Devise.email_regexp
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
   VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\']+\z/
   VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|[a-zA-Z]{2}\d{6}\z/i
@@ -126,7 +125,7 @@ class Registration < ActiveResource::Base
     registration.validates :phoneNumber, presence: true, format: { with: VALID_TELEPHONE_NUMBER_REGEX }, length: { maximum: 20 }
   end
 
-  validates :contactEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:digital_route?, :lower_or_upper_contact_details_step?]
+  validates :contactEmail, presence: true, email: true, if: [:digital_route?, :lower_or_upper_contact_details_step?]
 
   validates :addressMode, allow_blank: true, inclusion: { in: %w(manual-uk manual-foreign) }, if: :businessdetails_step?
 
@@ -151,7 +150,7 @@ class Registration < ActiveResource::Base
     registration.validates :selectedMoniker, presence: true
   end
 
-  validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:signup_step?, :sign_up_mode_present?]
+  validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
   with_options if: [:signup_step?, :unpersisted?, :do_sign_up?] do |registration|
     registration.validates :accountEmail, confirmation: true
