@@ -4,11 +4,12 @@
 <div id="page6"  data-journey="waste-carriers-registration:business-details">
 
   <fieldset>
-    <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+  	<legend></legend>
+    <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
       <%= validation_for(@registration, :companyName) %>
-      <%= f.label :companyName %>
+      <div class="form-label"><%= f.label :companyName %></div>
       <%= f.text_field :companyName, :size => 20, :maxlength => 70 %>
-    </p>
+    </div>
   </fieldset>
 
   <%= render "address_entry", :f => f %>

@@ -136,6 +136,8 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
 end
 
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
+  pending
+
   #Select MasterCard by clicking on the button:
   sleep 1.0
 
@@ -161,11 +163,11 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   sleep 1.0
   #By now we should be on the Test Simulator page...
   page.should have_content 'Secure Test Simulator Page'
-  #The standard 'approved' etc. should already be selected, just click the 'continue' button (input) 
+  #The standard 'approved' etc. should already be selected, just click the 'continue' button (input)
   #click_on 'continue'
   first(:xpath,'/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/label/nobr/input').click
 
-  # This is the 'Continue' link on our provisional Worldpay Success page. 
+  # This is the 'Continue' link on our provisional Worldpay Success page.
   # Later this should redirect automatically to another page showing the payment confirmation.
   click_on 'Continue'
 

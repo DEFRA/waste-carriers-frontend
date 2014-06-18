@@ -374,7 +374,6 @@ class RegistrationsController < ApplicationController
         logger.debug 'Save Print state in the print page (go to Finish)'
         flash[:alert] = 'Finish'
       end
-      render :layout => 'printview'
     end
   end
 
