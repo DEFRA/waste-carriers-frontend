@@ -1,4 +1,4 @@
-shared_examples_for 'all addresses' do
+shared_examples_for 'a physical address step' do
   context 'manual-uk addressMode' do
     before { subject.addressMode = 'manual-uk' }
 
