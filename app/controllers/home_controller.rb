@@ -15,7 +15,7 @@ class HomeController < ApplicationController
           redirect_to agency_users_path
         else
           if Rails.env.production?
-            redirect_to newBusinessType_path
+            redirect_to find_path
           else
             #not redirecting - show the developer index page...
           end

@@ -36,17 +36,6 @@
 
 <fieldset>
 <legend><%= t 'registrations.contact_step.contact_information_legend' %></legend>
-
-<div class="form-group<%if @registration.errors[:title].any?%> validation<%end%>">
-	<%= validation_for(@registration, :title) %>
-	<%= f.label :title %>
-	<%= f.select :title , options_for_select(Registration.title_options_for_select,f.object.title ) %>
-</div>
-<div id="titleOtherWrapper" class="group js-hidden<%if @registration.errors[:otherTitle].any?%> validation<%end%>">
-	<%= validation_for(@registration, :otherTitle) %>
-    <%= f.label :otherTitle, "Other title" %>
-    <%= f.text_field :otherTitle %>
-</div>
 <div class="form-group<%if @registration.errors[:firstName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :firstName) %>
     <%= f.label :firstName %>

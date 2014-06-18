@@ -36,7 +36,6 @@ Given(/^the caller provides his contact details$/) do
   fill_in 'Last name', with: 'Assisted'
   fill_in 'Job title', with: 'Chief'
   fill_in 'Phone number', with: '0123 456 789'
-  fill_in 'Email address', with: ''
 
   click_on 'Next'
 end
@@ -44,7 +43,7 @@ end
 Given(/^the caller declares the information provided is correct$/) do
   check 'registration_declaration'
 
-  click_on 'Next'
+  click_on 'Confirm'
 end
 
 Given(/^the user confirms his account details$/) do
@@ -71,11 +70,13 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   choose 'registration_businessType_charity'
   click_on 'Next'
 
-  fill_in 'Business or organisation trading name', with: 'Grades'
-  fill_in 'sPostcode', with: 'BS1 2EP'
-  click_on 'Find UK address'
-
-  select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
+  click_on 'I want to add an address myself'
+  fill_in 'registration_companyName', with: 'Grades & Co'
+  fill_in 'registration_houseNumber', with: '12'
+  fill_in 'registration_streetLine1', with: 'Deanery Road'
+  fill_in 'registration_streetLine2', with: 'EA Building'
+  fill_in 'registration_townCity', with: 'Bristol'
+  fill_in 'registration_postcode', with: 'BS1 5AH'
   click_on 'Next'
 
   fill_in 'First name', with: 'Joe'
@@ -86,7 +87,7 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   click_on 'Next'
 
   check 'registration_declaration'
-  click_on 'Next'
+  click_on 'Confirm'
 
   click_on 'Next'
 end
@@ -110,25 +111,68 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   click_on 'Next'
 
   click_on 'I want to add an address myself'
-
-  fill_in 'registration_companyName', with: 'Grades'
-  fill_in 'registration_houseNumber', with: '1'
-  fill_in 'registration_streetLine1', with: 'Something St.'
-  fill_in 'registration_streetLine2', with: 'Easton'
+  fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
+  fill_in 'registration_houseNumber', with: '123'
+  fill_in 'registration_streetLine1', with: 'Deanery Road'
+  fill_in 'registration_streetLine2', with: 'EA Building'
   fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS11 2AB'
-
+  fill_in 'registration_postcode', with: 'BS1 5AH'
   click_on 'Next'
 
-  fill_in 'First name', with: 'Joe'
-  fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Job title', with: 'Chief Barber'
-  fill_in 'Phone number', with: '0117 926 8332'
-  fill_in 'Email address', with: my_email_address
+  fill_in 'First name', with: 'Antony'
+  fill_in 'Last name', with: 'Assisted'
+  fill_in 'Job title', with: 'Chief'
+  fill_in 'Phone number', with: '0123 456 789'
+  #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
+  fill_in 'Email address', with: ''
+  click_on 'Next'
+
+  #Do nothing (yet) on the Payment page
   click_on 'Next'
 
   check 'registration_declaration'
+  click_on 'Confirm'
+
+end
+
+When(/^I provide valid credit card payment details on behalf of a caller$/) do
+  #Select MasterCard by clicking on the button:
+  sleep 1.0
+
+  page.should have_content 'Secure Payment Page'
+
+  page.should have_content 'MasterCard'
+
+  # Note TODO Click does not work, find a better way of identifying the input to click on?
+  #click_button 'op-DPChoose-ECMC^SSL'
+  first(:xpath, '/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/table/tbody/tr[4]/td[1]/table/tbody/tr/td[2]/span/input').click
+
+  #These are valid card numbers for the WorldPay Test Service. See the WorldPay XML Redirect Guide for details
+  fill_in 'cardNoInput', with: '4444333322221111'
+  fill_in 'cardCVV', with: '123'
+  select('12', from: 'cardExp.month')
+  select('2015', from: 'cardExp.year')
+  fill_in 'name', with: 'Mr Waste Carrier'
+  fill_in 'address1', with: 'Upper Waste Carrier Street'
+  fill_in 'town', with: 'Upper Town'
+  fill_in 'postcode', with: 'BS1 5AH'
+  click_on 'op-PMMakePayment'
+
+  sleep 1.0
+  #By now we should be on the Test Simulator page...
+  page.should have_content 'Secure Test Simulator Page'
+  #The standard 'approved' etc. should already be selected, just click the 'continue' button (input) 
+  #click_on 'continue'
+  first(:xpath,'/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/label/nobr/input').click
+
+  # This is the 'Continue' link on our provisional Worldpay Success page. 
+  # Later this should redirect automatically to another page showing the payment confirmation.
+  click_on 'Continue'
+
+  #By now we should be on the (internal version of the) Signup page
+  page.should have_content 'Account details'
   click_on 'Next'
 
-  click_on 'Next'
 end
+
+
