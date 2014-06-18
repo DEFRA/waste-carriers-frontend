@@ -50,68 +50,44 @@ describe Registration do
   context 'signup step' do
     before { subject.current_step = 'signup' }
 
-    describe 'presence' do
-
-      context 'without signup mode' do
-        it { should_not validate_presence_of(:accountEmail) }
-      end
-
-      context 'sign_in signup mode' do
-        before { subject.sign_up_mode = 'sign_in' }
-
-        it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
-      end
-
-      context 'sign_up signup mode' do
-        before { subject.sign_up_mode = 'sign_up' }
-
-        it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
-        it { should validate_confirmation_of(:accountEmail) }
-
-        context 'unpersisted' do
-          before { allow(subject).to receive(:persisted?).and_return(false) }
-
-          it { should validate_presence_of(:password).with_message(/must be completed/) }
-          it { should validate_confirmation_of(:password) }
-
-          describe 'unique user registration using accountEmail' do
-            context 'User exists with supplied accountEmail' do
-              let(:user) { FactoryGirl.create :user }
-
-              it { should_not allow_value(user.email).for(:accountEmail) }
-            end
-          end
-        end
-      end
+    context 'without signup mode' do
+      it { should_not validate_presence_of(:accountEmail) }
     end
 
-    context 'format' do
-      subject { Registration.new(accountEmail: 'a@b.com', accountEmail_confirmation: 'a@b.com', password: 'please123', password_confirmation: 'please123') }
+    context 'sign_in signup mode' do
+      before { subject.sign_up_mode = 'sign_in' }
 
-      before { subject.current_step = 'signup' }
+      it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
+      it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail) }
+      it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail) }
+    end
 
-      context 'sign_in signup mode' do
-        before { subject.sign_up_mode = 'sign_in' }
+    context 'sign_up signup mode' do
+      before { subject.sign_up_mode = 'sign_up' }
 
-        it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail) }
-        it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail) }
-      end
+      it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
+      it { should validate_confirmation_of(:accountEmail) }
 
-      context 'sign_up signup mode' do
-        before { subject.sign_up_mode = 'sign_up' }
+      it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail) }
+      it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail) }
 
-        it { should allow_value(*VALID_EMAIL_ADDRESSES).for(:accountEmail) }
-        it { should_not allow_value(*INVALID_EMAIL_ADDRESSES).for(:accountEmail) }
+      context 'unpersisted' do
+        before { allow(subject).to receive(:persisted?).and_return(false) }
 
-        context 'unpersisted' do
-          before { allow(subject).to receive(:persisted?).and_return(false) }
+        it { should validate_presence_of(:password).with_message(/must be completed/) }
+        it { should validate_confirmation_of(:password) }
 
-          it { should allow_value('myPass145', 'myPass145$').for(:password) }
-          it { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
+        it { should allow_value('myPass145', 'myPass145$').for(:password) }
+        it { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
 
-          it { should ensure_length_of(:password).is_at_least(8).is_at_most(128) }
+        it { should ensure_length_of(:password).is_at_least(8).is_at_most(128) }
 
-          it { should validate_confirmation_of(:accountEmail) }
+        describe 'unique user registration using accountEmail' do
+          context 'User exists with supplied accountEmail' do
+            let(:user) { FactoryGirl.create :user }
+
+            it { should_not allow_value(user.email).for(:accountEmail) }
+          end
         end
       end
     end
