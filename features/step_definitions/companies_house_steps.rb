@@ -20,6 +20,8 @@ Given(/^I am on the upper tier business details page$/) do
 end
 
 And(/^I enter my company name and address$/) do
+  click_on 'I want to add an address myself'
+
   fill_in 'registration_companyName', with: 'The Ladd Company'
 
   fill_in 'registration_streetLine1', with: 'Horizon House'
@@ -49,7 +51,7 @@ When(/^I click to advance$/) do
 end
 
 And(/^I remain on the upper tier business details page$/) do
-  page.should have_content 'Enter your business details'
+  page.should have_content 'Enter your company details'
 end
 
 Then(/^I proceed to the next wizard step$/) do
