@@ -45,26 +45,4 @@ shared_examples_for 'a physical address step' do
       it { should ensure_length_of(:country).is_at_most(35) }
     end
   end
-
-  context 'without addressMode' do
-    before { subject.addressMode = nil }
-
-    describe 'presence' do
-      it { should validate_presence_of(:postcodeSearch) }
-    end
-
-    describe 'format' do
-      it { should allow_value('BS1 5AH', 'BS22 5AH').for(:postcodeSearch) }
-      it { should_not allow_value('1234', 'blah').for(:postcodeSearch) }
-    end
-
-    context 'with postcodeSearch but no address found' do
-      before do
-        subject.postcodeSearch = 'BS11 JAH'
-        subject.uprn = nil
-      end
-
-      it { should validate_presence_of(:selectedMoniker) }
-    end
-  end
 end
