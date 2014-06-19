@@ -73,18 +73,5 @@ describe RegistrationsHelper do
         helper.one_full_message_per_invalid_attribute(@registration).should == ['First name too short', 'Last name too posh', 'Error 1', 'Error 2']
       end
     end
-
-    context 'real example' do
-      before do
-        @registration = Registration.new
-        @registration.businessType = 'limitedCompany'
-        @registration.current_step = 'upper_business_details'
-        @registration.valid?
-      end
-
-      it 'should only have one error for the company_no' do
-        helper.one_full_message_per_invalid_attribute(@registration).should == ['Company no must be completed']
-      end
-    end
   end
 end

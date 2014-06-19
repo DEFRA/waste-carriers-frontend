@@ -20,14 +20,12 @@ Given(/^I am on the upper tier business details page$/) do
 end
 
 And(/^I enter my company name and address$/) do
-  click_on 'I want to add an address myself'
-
   fill_in 'registration_companyName', with: 'The Ladd Company'
 
-  fill_in 'registration_streetLine1', with: 'Horizon House'
-  fill_in 'registration_streetLine2', with: 'Deanery Street'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 5AH'
+  fill_in 'postcode', with: 'HP10 9BX'
+  click_on 'Find address'
+  select '33 Fennels Way, Flackwell Heath HP10 9BX'
+  click_on 'Next'
 end
 
 Given(/^I enter an active company number$/) do

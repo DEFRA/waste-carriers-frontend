@@ -13,16 +13,16 @@
 <fieldset>
 <legend><%= t 'registrations.business_step.business_or_org_details' %></legend>
 
-<div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
+<p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
 	<%= validation_for(@registration, :businessType) %>
 	<%= f.label :businessType %>
 	<%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
-</div>
-<div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+</p>
+<p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :companyName) %>
 	<%= f.label :companyName %>
 	<%= f.text_field :companyName%>
-</div>
+</p>
 
 </fieldset>
 
@@ -36,42 +36,42 @@
 
 <fieldset>
 <legend><%= t 'registrations.contact_step.contact_information_legend' %></legend>
-<div class="form-group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+<p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :firstName) %>
     <%= f.label :firstName %>
     <%= f.text_field :firstName %>
-</div>
-<div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+</p>
+<p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :lastName) %>
     <%= f.label :lastName %>
     <%= f.text_field :lastName %>
-</div>
-<div class="form-group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
+</p>
+<p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
 	<%= validation_for(@registration, :phoneNumber) %>
     <%= f.label :phoneNumber %>
-    <%= f.text_field :phoneNumber %>
-</div>
-<div class="form-group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
+    <%= f.telephone_field :phoneNumber %>
+</p>
+<p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
 	<%= validation_for(@registration, :contactEmail) %>
     <%= f.label :contactEmail %>
-    <%= f.text_field :contactEmail%>
-</div>
+    <%= f.email_field :contactEmail%>
+</p>
 
 <% if agency_user_signed_in? %>
 <!-- // START -->
 <%= f.fields_for :metaData do |ff| %>
-<div id="revoke_question" class="group">
+<p id="revoke_question" class="group">
   <label for="revoke_question"><%= t('.revokedQuestion') %></label>
-  <div class="inline">
+  <span class="inline">
     <input class="radio" id="revoke_question_yes" name="revoke_question" type="radio" value="yes" 
     	<% if @registration.metaData.revokedReason != '' && !@registration.metaData.revokedReason.nil? || @registration.errors[:revokedReason].any? %>checked="true"<%end%> <% if @registration.metaData.status == "REVOKED" %>disabled="true"<%end%>>
-    <label for="label" for="revoke_question_yes">Yes</label>
+    <label class="label" for="revoke_question_yes">Yes</label>
     <input class="radio" id="revoke_question_no" name="revoke_question" type="radio" value="no" 
     	<% if !((@registration.metaData.revokedReason != '' && !@registration.metaData.revokedReason.nil?) || @registration.errors[:revokedReason].any?) %>checked="true"<%end%> <% if @registration.metaData.status == "REVOKED" %>disabled="true"<%end%>>
-    <label for="label" for="revoke_question_no">No</label>
-  </div>
-</div>
-<div class="form-group <%if @registration.errors[:revokedReason].any?%> validation<%end%>">
+    <label class="label" for="revoke_question_no">No</label>
+  </span>
+</p>
+<p class="group <%if @registration.errors[:revokedReason].any?%> validation<%end%>">
   <%= validation_for(@registration, :revokedReason) %>
   <%= ff.label :revokedReason, t('.revokedReason') %>
   <span>This will appear as the reason sent in the email to the registrant</span>
@@ -81,20 +81,20 @@
     <%# Comment: For some reason the revokedReason field cannot detect it's own value on page render, as such the value is retrieved and set manually in this field. %>
   	<%= ff.text_area :revokedReason, :value => @registration.metaData.revokedReason %>
   <% end %>
-</div>
+</p>
 <% end %>
 
 <!-- // END -->
 <% end %>
 
-<div class="form-group">
+<p class="group">
 	<i><%= t '.registeredOn',:date=>format_date(@registration.metaData.dateRegistered) %></i>
 	<!--<br/><i>Created by: <%= @registration.metaData.route %> (<%= @registration.routeName %>)</i>-->
-</div>
+</p>
 </fieldset>
 
 </div>
-<div class="form-group">
+<p class="action group">
 <% if agency_user_signed_in? %>
   <%= link_to t('registrations.form.back_button_label'), registrations_path, :class => 'button-secondary' %>
 <% else logger.debug 'User not signed in so Redirect back to my account page' %>
@@ -109,4 +109,4 @@
 <% else %>
 <input name="unrevoke" class="button" type="submit" value="<%= t 'registrations.form.unrevoke_button_label' %>"/>
 <% end %>
-</div>
+</p>
