@@ -134,4 +134,4 @@ Apache Maven: http://www.elasticsearch.org
 
 ##License
 
-TBD
+TBD - MIT License
