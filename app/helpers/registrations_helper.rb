@@ -28,6 +28,10 @@ module RegistrationsHelper
     end
   end
 
+  def one_full_message_per_invalid_attribute registration
+    registration.errors.full_messages
+  end
+
   # TODO not sure what this should do now smart answers and lower tier have been merged
   def first_back_link registration
     path = if registration.routeName == 'DIGITAL'
