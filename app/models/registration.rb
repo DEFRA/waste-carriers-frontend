@@ -127,7 +127,7 @@ class Registration < ActiveResource::Base
 
   validates :contactEmail, presence: true, email: true, if: [:digital_route?, :lower_or_upper_contact_details_step?]
 
-  with_options if: [:address_step?] do |registration|
+  with_options if: [:address_step?, :manual_uk_address?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
     registration.validates :streetLine1, presence: true, length: { maximum: 35 }
     registration.validates :streetLine2, length: { maximum: 35 }
@@ -136,7 +136,8 @@ class Registration < ActiveResource::Base
   end
 
   with_options if: [:address_step?, :manual_foreign_address?] do |registration|
-    registration.validates :streetLine3, :streetLine4, length: { maximum: 35 }
+    registration.validates :streetLine1, presence: true, length: { maximum: 35 }
+    registration.validates :streetLine2, :streetLine3, :streetLine4, length: { maximum: 35 }
     registration.validates :country, presence: true, length: { maximum: 35 }
   end
 
