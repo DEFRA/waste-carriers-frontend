@@ -130,8 +130,9 @@ class Registration < ActiveResource::Base
 
   validates :addressMode, allow_blank: true, inclusion: { in: %w(manual-uk manual-foreign) }, if: :businessdetails_step?
 
-  with_options if: [:address_step?, :manual_uk_address?] do |registration|
+  with_options if: [:address_step?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
+    registration.validates :streetLine1, presence: true, length: { maximum: 35 }
     registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }
     registration.validates :postcode, presence: true, uk_postcode: true
   end
@@ -141,15 +142,8 @@ class Registration < ActiveResource::Base
     registration.validates :country, presence: true, length: { maximum: 35 }
   end
 
-  with_options if: [:address_step?, :address_mode_present?] do |registration|
-    registration.validates :streetLine1, presence: true, length: { maximum: 35 }
-    registration.validates :streetLine2, length: { maximum: 35 }
-  end
 
-  with_options if: [:address_step?, :address_mode_blank?] do |registration|
-    registration.validates :postcodeSearch, presence: true, uk_postcode: true
-    registration.validates :selectedMoniker, presence: true
-  end
+
 
   validates :accountEmail, presence: true, format: { with: VALID_EMAIL_REGEX }, if: [:signup_step?, :sign_up_mode_present?]
 
