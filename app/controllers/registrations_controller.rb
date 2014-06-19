@@ -586,18 +586,19 @@ class RegistrationsController < ApplicationController
   end
 
   def copyAddressToSession
-    session[:registration_params][:streetLine1] = @selected_address.lines[0] if @selected_address.lines[0]
-    session[:registration_params][:streetLine2] = @selected_address.lines[1] if @selected_address.lines[1]
-    session[:registration_params][:streetLine3] = @selected_address.lines[2] if @selected_address.lines[2]
-    session[:registration_params][:streetLine4] = @selected_address.lines[3] if @selected_address.lines[3]
-    session[:registration_params][:townCity] = @selected_address.townCity  if @selected_address.town
+
+    session[:registration_params][:houseNumber] = @selected_address.lines[0] if @selected_address.lines[0]
+    session[:registration_params][:streetLine1] = @selected_address.lines[1] if @selected_address.lines[1]
+    session[:registration_params][:streetLine2] = @selected_address.lines[2] if @selected_address.lines[2]
+    session[:registration_params][:streetLine3] = @selected_address.lines[3] if @selected_address.lines[3]
+    session[:registration_params][:townCity] = @selected_address.town  if @selected_address.town
     session[:registration_params][:postcode] = @selected_address.postcode  if @selected_address.postcode
 
     @registration.houseNumber = @selected_address.lines[0] if @selected_address.lines[0]
     @registration.streetLine1 = @selected_address.lines[1] if @selected_address.lines[1]
     @registration.streetLine2 = @selected_address.lines[2] if @selected_address.lines[2]
     @registration.streetLine3 = @selected_address.lines[3] if @selected_address.lines[3]
-    @registration.townCity = @selected_address.townCity  if @selected_address.town
+    @registration.townCity = @selected_address.town  if @selected_address.town
     @registration.postcode = @selected_address.postcode  if @selected_address.postcode
   end
 
