@@ -1,7 +1,7 @@
 
 <fieldset>
 
-<% unless  params[:manualUkAddress] || params[:findAddress] %>
+<% unless  params[:manualUkAddress] || params[:findAddress] ||  params[:foreignAddress]  %>
    <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: false  %>
   <% end %>
 
@@ -31,6 +31,12 @@
 <% when params[:manualUkAddress] %>
  <%= render 'uk_address_entry', f: f  %>
     <a href="?autoUkAddress=true"><%= t 'registrations.contact_step.findAddressUsingPostcode'%></a>
+
+<% when params[:foreignAddress] %>
+
+   <%= render 'foreign_address_entry', f: f  %>
+    <a href="?autoUkAddress=true"><%= t '.ukAddressLink'%></a>
+
 
 <% end %>
 
