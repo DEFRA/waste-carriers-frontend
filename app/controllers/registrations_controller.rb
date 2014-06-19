@@ -251,7 +251,11 @@ class RegistrationsController < ApplicationController
     #session[:registration_params] = {} # TODO Move this to the post of the smart answers before the redirect to here
     session[:registration_params] ||= {}
     @registration = Registration.new(session[:registration_params])
-    
+
+    # Assign a sufficiently unique number to the registration - make the insert idempotent
+    session[:registration_uuid] = SecureRandom.uuid
+    logger.info 'Created new registration with uuid = ' + session[:registration_uuid]
+
     # Set route name based on agency paramenter
     @registration.routeName = 'DIGITAL'
     if !params[:agency].nil?
@@ -525,7 +529,10 @@ class RegistrationsController < ApplicationController
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
     @registration.current_step = "signup"
-    
+
+    logger.info 'Assigning a unique id to the new registration to be created in the database. uuid = ' + session[:registration_uuid]
+    @registration.uuid = session[:registration_uuid]
+
     # Prepopulate Email field/Set registration account
     if user_signed_in? 
       logger.debug 'User already signed in using current email: ' + current_user.email
@@ -791,17 +798,21 @@ class RegistrationsController < ApplicationController
 
   #PUT...
   def ncccupdate
+    logger.info 'Entering ncccupdate - Updating registration...'
     @registration = Registration.find(params[:id])
     addressSearchLogic @registration
     authorize! :update, @registration
 
 
     if params[:findAddress]
+      logger.info 'ncccupdate - findAddress clicked'
       render "ncccedit"
     elsif params[:reprint]
+      logger.info 'ncccupdate - reprint clicked'
       logger.debug 'Redirect to Print page'
       redirect_to print_url(:id => params[:id], :reprint => params[:reprint])
     elsif params[:revoke]
+      logger.info 'ncccupdate - revoke clicked'
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
         
@@ -831,6 +842,7 @@ class RegistrationsController < ApplicationController
         renderAccessDenied
       end
     elsif params[:unrevoke] && agency_user_signed_in?
+      logger.info 'ncccupdate - unrevoke clicked'
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
         @registration.metaData.status = "ACTIVE"
@@ -850,11 +862,21 @@ class RegistrationsController < ApplicationController
       # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
       @registration.routeName = @registration.metaData.route
       if @registration.all_valid?
-        @registration.save
+        logger.info 'ncccupdate - saving registration'
+        begin
+          @registration.save!
+          logger.info 'ncccupdate - registration saved/updated'
+          note = I18n.t('registrations.form.reg_updated')
+        rescue Exception => e
+          logger.warn 'ERROR: Could not update registration! Exception:' + e.to_s
+          note = 'Error! Could not update registration!'
+        end
         if agency_user_signed_in?
-          redirect_to registrations_path(:note => I18n.t('registrations.form.reg_updated') )
+          logger.info "Redirecting agency user to the registrations path."
+          redirect_to registrations_path(:note => note )
         else
-          redirect_to userRegistrations_path(:id => current_user.id, :note => I18n.t('registrations.form.reg_updated') )
+          logger.info "Redirecting user to the user's registration path."
+          redirect_to userRegistrations_path(:id => current_user.id, :note => note )
         end
       else
         render "ncccedit"
@@ -922,15 +944,19 @@ class RegistrationsController < ApplicationController
   # DELETE /registrations/1
   # DELETE /registrations/1.json
   def destroy
-    #TODO re-introduce when needed
-    #renderAccessDenied
     @registration = Registration.find(params[:id])
     deletedCompany = @registration.companyName
     authorize! :update, @registration
     @registration.destroy
 
     respond_to do |format|
-      format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) }
+      format.html { 
+        if user_signed_in?
+          redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) 
+        else
+          redirect_to registrations_path, :note => 'Deleted ' + deletedCompany
+        end
+      }
       format.json { head :no_content }
     end
   end
