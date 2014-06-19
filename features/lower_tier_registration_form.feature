@@ -2,7 +2,7 @@ Feature: Lower tier
 
   As a lower tier waste carrier
   I want to complete the lower tier form
-  So that my registration is left with the Environment Agency
+  So that my registration is processed by the Environment Agency
 
   Background:
     Given I have been funneled into the lower tier path
