@@ -29,6 +29,13 @@ module RegistrationsHelper
   end
 
   def one_full_message_per_invalid_attribute registration
+    hash_without_base = registration.errors.messages.except :base
+
+    hash_without_base.each_key do |key|
+      singleton_array_of_first_element = Array.wrap(registration.errors.get(key).first)
+      registration.errors.set key, singleton_array_of_first_element
+    end
+
     registration.errors.full_messages
   end
 
