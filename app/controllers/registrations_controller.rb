@@ -925,7 +925,7 @@ class RegistrationsController < ApplicationController
       end
     end
 
-   if params[:findAddress] #user clicked on Find Address button
+    if params[:findAddress] #user clicked on Find Address button
 
       @registration.postcode = params[:registration][:postcode]
       begin
@@ -933,8 +933,11 @@ class RegistrationsController < ApplicationController
         logger.debug @address_match_list.size.to_s
       rescue ActiveResource::ServerError
         logger.info 'activeresource error'
+      rescue Errno::ECONNREFUSED
+        logger.error 'ERROR: Address Lookup Not running, or not Found'
       end
       render "newUpperBusinessDetails", status: '200'
+
 
     elsif @registration.valid?
       logger.debug 'registration.valid'
