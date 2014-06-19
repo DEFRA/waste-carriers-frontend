@@ -37,4 +37,17 @@ describe RegistrationsHelper do
 
     specify { helper.format_date('31 Jan 2014'.to_date).should == 'Friday 31st January 2014' }
   end
+
+  describe '#set_errors_to_one_error_per_invalid_attribute' do
+    before do
+      @registration = Registration.new
+      @registration.businessType = 'limitedCompany'
+      @registration.current_step = 'upper_business_details'
+      @registration.valid?
+    end
+
+    it 'should only have one error for the company_no' do
+      @registration.errors.full_messages.should == ['Company no must be completed']
+    end
+  end
 end
