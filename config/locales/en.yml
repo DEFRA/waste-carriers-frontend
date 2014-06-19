@@ -429,6 +429,7 @@ en:
       selectAddress: "Select address"
       no_results_error: "There are no addresses for the given postcode"
       ukAddressLink: "I have an address in the United Kingdom"
+      address_service_error: "Address lookup service cannot be contacted!"
     foreign_address_entry:
       streetLine1: "Address line 1"
       streetLine2: "Address line 2"
