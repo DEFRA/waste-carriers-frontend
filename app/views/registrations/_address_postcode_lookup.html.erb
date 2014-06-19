@@ -1,16 +1,16 @@
 
 
 <% if  show_error %>
-   <p class="group validation">
+<div class="form-group validation">
 <% else %>
-  <p class="group<%if @registration.errors[:postcode].any?%> validation<%end%>">
+<div class="form-group<%if @registration.errors[:postcode].any?%> validation<%end%>">
 
 <% end %>
 
-<%= f.label :postcode %>
-<%= f.text_field :postcode,  id: 'postcode',  :size => 14, :maxlength => 10 %>
-   <input type="submit" class="button" name="findAddress"  value="<%=t 'upper_registrations.form.find_address_button_label'%>" onclick="addressFinder()"/></br>
-   <% name = t 'upper_registrations.form.find_address_button_label' %>
-  <a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a></br>
-  <a href="?manualOtherAddress=true"><%= t 'registrations.contact_step.foreignAddressLink'%></a>
-</p>
+	<%= f.label :postcode, class:'form-label' %>
+	<%= f.text_field :postcode,  id: 'postcode',  :size => 14, :maxlength => 10 %>
+   		<input type="submit" class="button find_address" name="findAddress" value="<%=t 'upper_registrations.form.find_address_button_label'%>" onclick="addressFinder()"/></br>
+   	<% name = t 'upper_registrations.form.find_address_button_label' %>
+  		<p class='link_margin'><a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a></p>
+  		<p class='link_margin'><a href="?manualOtherAddress=true"><%= t 'registrations.contact_step.foreignAddressLink'%></a></p>
+</div>
