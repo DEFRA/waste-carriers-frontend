@@ -37,4 +37,54 @@ describe RegistrationsHelper do
 
     specify { helper.format_date('31 Jan 2014'.to_date).should == 'Friday 31st January 2014' }
   end
+
+  describe '#one_full_message_per_invalid_attribute' do
+    context 'multiple errors on base' do
+      before do
+        @registration = Registration.new
+        @registration.errors[:base] << 'Error 1' << 'Error 2'
+      end
+
+      it 'should have both base errors' do
+        helper.one_full_message_per_invalid_attribute(@registration).should == ['Error 1', 'Error 2']
+      end
+    end
+
+    context 'multiple errors on one attibute' do
+      before do
+        @registration = Registration.new
+        @registration.errors[:first_name] << 'too short' << 'too common'
+      end
+
+      it 'should have first error' do
+        helper.one_full_message_per_invalid_attribute(@registration).should == ['First name too short']
+      end
+    end
+
+    context 'multiple errors on two attributes and base' do
+      before do
+        @registration = Registration.new
+        @registration.errors[:first_name] << 'too short' << 'too common'
+        @registration.errors[:last_name] << 'too posh' << 'too weird'
+        @registration.errors[:base] << 'Error 1' << 'Error 2'
+      end
+
+      it 'should have both base errors' do
+        helper.one_full_message_per_invalid_attribute(@registration).should == ['First name too short', 'Last name too posh', 'Error 1', 'Error 2']
+      end
+    end
+
+    context 'real example' do
+      before do
+        @registration = Registration.new
+        @registration.businessType = 'limitedCompany'
+        @registration.current_step = 'upper_business_details'
+        @registration.valid?
+      end
+
+      it 'should only have one error for the company_no' do
+        helper.one_full_message_per_invalid_attribute(@registration).should == ['Company no must be completed']
+      end
+    end
+  end
 end
