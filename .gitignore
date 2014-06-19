@@ -17,5 +17,6 @@ rerun.txt
 pickle-email-*.html
 /features/reports/*.html
 /features/reports/*.xml
+/spec/reports/*.xml
 sauce_connect.*
 
