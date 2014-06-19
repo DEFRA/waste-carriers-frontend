@@ -130,6 +130,7 @@ class Registration < ActiveResource::Base
   with_options if: [:address_step?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
     registration.validates :streetLine1, presence: true, length: { maximum: 35 }
+    registration.validates :streetLine2, length: { maximum: 35 }
     registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }
     registration.validates :postcode, presence: true, uk_postcode: true
   end
