@@ -14,7 +14,7 @@ gem 'debugger', :require => false
 gem 'mongoid', :git => "https://github.com/mongoid/mongoid.git"
 
 #Using devise for authentication
-gem 'devise', '~>3.1.1'
+gem 'devise', '~> 3.1.1'
 
 #Using cancan for authorisation
 gem "cancan", "~> 1.6.10"

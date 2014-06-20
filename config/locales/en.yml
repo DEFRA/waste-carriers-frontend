@@ -428,6 +428,14 @@ en:
     address_finder:
       selectAddress: "Select address"
       no_results_error: "There are no addresses for the given postcode"
+      ukAddressLink: "I have an address in the United Kingdom"
+      address_service_error: "Address lookup service cannot be contacted!"
+    foreign_address_entry:
+      streetLine1: "Address line 1"
+      streetLine2: "Address line 2"
+      streetLine3: "Address line 3"
+      streetLine4: "Address line 4"
+      country: "Country"
 
     upper_contact_details:
       companies_house_registration_number_not_found: "is not listed by Companies House"

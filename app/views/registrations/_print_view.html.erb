@@ -130,7 +130,7 @@
 </p>
 <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
     <%= f.label :phoneNumber, "Phone number" %>
-    <%= f.text_field :phoneNumber, :readOnly => true, :size => 100 %>
+    <%= f.telephone_field :phoneNumber, :readOnly => true, :size => 100 %>
 </p>
 <p class="group<%if @registration.errors[:email].any?%> validation<%end%>">
     <%= f.label :email, "Email address" %>

@@ -586,18 +586,19 @@ class RegistrationsController < ApplicationController
   end
 
   def copyAddressToSession
-    session[:registration_params][:streetLine1] = @selected_address.lines[0] if @selected_address.lines[0]
-    session[:registration_params][:streetLine2] = @selected_address.lines[1] if @selected_address.lines[1]
-    session[:registration_params][:streetLine3] = @selected_address.lines[2] if @selected_address.lines[2]
-    session[:registration_params][:streetLine4] = @selected_address.lines[3] if @selected_address.lines[3]
-    session[:registration_params][:townCity] = @selected_address.townCity  if @selected_address.town
+
+    session[:registration_params][:houseNumber] = @selected_address.lines[0] if @selected_address.lines[0]
+    session[:registration_params][:streetLine1] = @selected_address.lines[1] if @selected_address.lines[1]
+    session[:registration_params][:streetLine2] = @selected_address.lines[2] if @selected_address.lines[2]
+    session[:registration_params][:streetLine3] = @selected_address.lines[3] if @selected_address.lines[3]
+    session[:registration_params][:townCity] = @selected_address.town  if @selected_address.town
     session[:registration_params][:postcode] = @selected_address.postcode  if @selected_address.postcode
 
     @registration.houseNumber = @selected_address.lines[0] if @selected_address.lines[0]
     @registration.streetLine1 = @selected_address.lines[1] if @selected_address.lines[1]
     @registration.streetLine2 = @selected_address.lines[2] if @selected_address.lines[2]
     @registration.streetLine3 = @selected_address.lines[3] if @selected_address.lines[3]
-    @registration.townCity = @selected_address.townCity  if @selected_address.town
+    @registration.townCity = @selected_address.town  if @selected_address.town
     @registration.postcode = @selected_address.postcode  if @selected_address.postcode
   end
 
@@ -914,9 +915,7 @@ class RegistrationsController < ApplicationController
 
   # POST your-registration/upper-tier-contact-details
   def updateNewUpperBusinessDetails
-
     setup_registration 'upper_business_details'
-    @registration.current_step = 'upper_business_details'
 
     if params[:addressSelector]  #user selected an address from drop-down list
       @selected_address = Address.find(params[:addressSelector])
@@ -926,7 +925,7 @@ class RegistrationsController < ApplicationController
       end
     end
 
-   if params[:findAddress] #user clicked on Find Address button
+    if params[:findAddress] #user clicked on Find Address button
 
       @registration.postcode = params[:registration][:postcode]
       begin
@@ -934,8 +933,11 @@ class RegistrationsController < ApplicationController
         logger.debug @address_match_list.size.to_s
       rescue ActiveResource::ServerError
         logger.info 'activeresource error'
+      rescue Errno::ECONNREFUSED
+        logger.error 'ERROR: Address Lookup Not running, or not Found'
       end
       render "newUpperBusinessDetails", status: '200'
+
 
     elsif @registration.valid?
       logger.debug 'registration.valid'
@@ -959,7 +961,6 @@ class RegistrationsController < ApplicationController
 
   # POST your-registration/upper-tier-contact-details
   def updateNewUpperContactDetails
-
     setup_registration 'upper_contact_details'
     addressSearchLogic @registration
 
@@ -970,7 +971,7 @@ class RegistrationsController < ApplicationController
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render "updateNewUpperContactDetails", :status => '400'
+      render "newUpperContactDetails", :status => '400'
     end
   end
 

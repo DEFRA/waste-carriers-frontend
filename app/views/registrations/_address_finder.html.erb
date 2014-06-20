@@ -1,38 +1,45 @@
 
 <fieldset>
 
-<% unless  params[:manualUkAddress] || params[:findAddress] %>
-   <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: false  %>
+  <% unless  params[:manualUkAddress] || params[:findAddress] ||  params[:foreignAddress]  %>
+      <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: false  %>
   <% end %>
 
-<% case %>
-<% when  params[:findAddress] %>
-   <% if  @address_match_list.size  < 1 %>
-       <span class="error-text"><%= t '.no_results_error'%></span>
-       <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: true  %>
+  <% case %>
+  <% when  params[:findAddress] %>
+      <% if  @address_match_list %>
+          <% if  @address_match_list.size  < 1 %> <!-- no addresses found for postcode -->
+              <span class="error-text"><%= t '.no_results_error'%></span>
+              <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: true  %>
+          <% else %> <!-- addresses were found for postcode -->
+              <p class="group">
+                <%= t '.selectAddress' %></br>
+                <a href="?changeAddress=true"><%= t 'registrations.contact_step.change'%></a></br>
 
-  <% else %>
-<p class="group">
-  <%= t '.selectAddress' %></br>
-  <a href="?changeAddress=true"><%= t 'registrations.contact_step.change'%></a></br>
+                <select id="addressSelector" name="addressSelector" size="<%=[10,@address_match_list.elements.count].min%>"
+                        required autofocus>
+                  <% @address_match_list.elements.each do |address| %>
+                      <option value="<%=address.moniker%>"><%=address.partial%></option>
+                  <%end%>
+                </select></br>
+                <a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a>
 
-   <select id="addressSelector" name="addressSelector" size="<%=[10,@address_match_list.elements.count].min%>"
-   required autofocus>
-    <% @address_match_list.elements.each do |address| %>
-      <option value="<%=address.moniker%>"><%=address.partial%></option>
-    <%end%>
-  </select></br>
-  <a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a>
+              </p>
+          <% end %>  <!-- if -->
+      <% else %>  <!-- @address_match_list is nil, address service lookup failed -->
+          <span class="error-text"><%= t '.address_service_error'%></span>
+          <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: true  %>
+      <% end %>  <!-- if -->
 
-  </p>
+  <% when params[:manualUkAddress] %>
+      <%= render 'uk_address_entry', f: f  %>
+      <a href="?autoUkAddress=true"><%= t 'registrations.contact_step.findAddressUsingPostcode'%></a>
 
-      <% end %>
+  <% when params[:foreignAddress] %>
+      <%= render 'foreign_address_entry', f: f  %>
+      <a href="?autoUkAddress=true"><%= t '.ukAddressLink'%></a>
 
-<% when params[:manualUkAddress] %>
- <%= render 'uk_address_entry', f: f  %>
-    <a href="?autoUkAddress=true"><%= t 'registrations.contact_step.findAddressUsingPostcode'%></a>
-
-<% end %>
+  <% end %>
 
 
 </fieldset>
