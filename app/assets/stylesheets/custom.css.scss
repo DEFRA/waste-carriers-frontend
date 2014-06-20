@@ -190,7 +190,20 @@ legend {
     padding-left:20px;
 }
 
+.postcode {
+    margin-right:15px;
+}
 
+.form-label-postcode  {
+    display: block;
+    font-family: "nta",Arial,sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.31579;
+    margin-bottom: 5px;
+    text-transform: none;
+    margin-bottom: -20px;
+}
 
 
 // .search-address {
@@ -238,15 +251,8 @@ legend {
 //     border-color: rgb(11, 12, 12);
 // }
 
-// .form-label-postcode {
-//     display: block;
-//     font-family: "nta",Arial,sans-serif;
-//     font-size: 19px;
-//     font-weight: 400;
-//     line-height: 1.31579;
-//     text-transform: none;
-//     margin-top: 20px;
-// }
+
+
 
 
 // //buttons

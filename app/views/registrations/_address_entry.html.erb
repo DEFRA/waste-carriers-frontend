@@ -139,9 +139,9 @@
       <input id="sPostcode" name="sPostcode" type="text" class="postcode" value="<%= params[:sPostcode]%>"/>
       <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
     </div>
-    <div class='form-group'>
-      <a href="?sManual=true"><%= t '.manual_address_label'%></a><br>
-      <a href="?sManualForeign=true"><%= t '.foreignAddressLink'%></a>
+    <div class='inline'>
+      <p><a href="?sManual=true"><%= t '.manual_address_label'%></a><p>
+      <p><a href="?sManualForeign=true"><%= t '.foreignAddressLink'%><p></a>
     </div>
   <%end%>
 <%end%>
