@@ -275,7 +275,7 @@ en:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
       progress: "Progress: "
-      find_address_button_label: "Find address"
+      find_address_button_label: "Find UK address"
       find_details_button_label: "Find details"
       next_button_label: "Next"
       back_button_label: "Back"
