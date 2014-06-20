@@ -1,22 +1,25 @@
 <hr>
-  <h3><%= t 'registrations.confirmation_step.declaration_heading' %></h3>
-  <p class="group<%if @registration.errors[:declaration].any?%> validation<%end%>">
+  <h2><%= t 'registrations.confirmation_step.declaration_heading' %></h2>
+  <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
     <%= validation_for(@registration, :declaration) %>
-    <%= f.check_box :declaration%> <span style="display: inline; font-size:90%}"><%= t 'registrations.confirmation_step.declaration_text' %></span>
+    <p><%= f.check_box :declaration%> 
+    <%= t 'registrations.confirmation_step.declaration_text' %></p>
+  </div>
+
+  <br>
+
+  <h2><%= t 'registrations.confirmation_step.data_protection_heading' %></h2>
+  <p>
+      <%= t 'registrations.confirmation_step.data_protection_text1' %> <%= link_to t('registrations.dataProtection.subtitle'), dataProtection_path, :target => "_blank" %>
   </p>
 
-  <h3><%= t 'registrations.confirmation_step.data_protection_heading' %></h3>
+  <br>
+
   <p>
-    <span style="font-size:90%}">
-      <%= t 'registrations.confirmation_step.data_protection_text1' %> <%= link_to t('registrations.dataProtection.subtitle'), dataProtection_path, :target => "_blank" %>
-    </span>
-  </p>
-  <p>
-    <span style="font-size:90%}">
       <%= link_to t('.privacy_policy'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %>
-    </span>
   </p>
-  <%= render 'back_link' %>
+
+  <p><%= render 'back_link' %></p>
   <input name="confirm" class="button" type="submit" value="<%= t 'upper_registrations.form.confirm_button_label' %>"/>
 </p>
 </div>
