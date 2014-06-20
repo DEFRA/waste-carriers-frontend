@@ -5,22 +5,45 @@
 
   <!-- Smart Answers
     What kind of business or organisation are you?
-   -->
+  -->
+
   <fieldset>
     <legend></legend>
     <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-        <% Registration.business_type_options_for_select.each do |option| %>
-          <%= f.label :business_type, class: 'block-label' do %>
-            <%= f.radio_button :businessType, option.second, class: 'radio' %><%= f.label "businessType_#{option.second.downcase}", option.first, class: 'label' %>
-          <% end %>
-        <% end %>
+        <label class="block-label" for="registration_businessType_soleTrader">
+          <input type="radio" value="soleTrader" name="registration[businessType]" id="registration_businessType_soleTrader">
+          Sole trader
+        </label>
+        <label class="block-label" for="registration_businessType_partnership">
+          <input type="radio" value="partnership" name="registration[businessType]" id="registration_businessType_partnership">
+          Partnership
+        </label>
+        <label class="block-label" for="registration_businessType_limitedcompany">
+          <input type="radio" value="limitedCompany" name="registration[businessType]" id="registration_businessType_limitedcompany">
+          Limited company
+        </label>
+        <label class="block-label" for="registration_businessType_publicbody">
+          <input type="radio" value="publicBody" name="registration[businessType]" id="registration_businessType_publicbody">
+          Public body
+        </label>
+        <label class="block-label" for="registration_businessType_charity">
+          <input type="radio" value="charity" name="registration[businessType]" id="registration_businessType_charity">
+          Charity or voluntary organisation
+        </label>
+        <label class="block-label" for="registration_businessType_authority">
+          <input type="radio" value="authority" name="registration[businessType]" id="registration_businessType_authority">
+          Waste collection, disposal or regulation authority
+        </label>
+        <label class="block-label" for="registration_businessType_other">
+          <input type="radio" value="other" name="registration[businessType]" id="registration_businessType_other">
+          Other
+        </label>  
     </div>
 
     <%= f.hidden_field :routeName %>
 
   </fieldset>
 
-</div>
+  </div>
 
-<%= render 'wizard_links' %>
-
+  <%= render 'wizard_links' %>

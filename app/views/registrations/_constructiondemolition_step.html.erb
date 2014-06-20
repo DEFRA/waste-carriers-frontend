@@ -1,4 +1,4 @@
-<a href="?whatisconstruction=true"><%= t '.explanation_link'%></a>
+<p><a href="?whatisconstruction=true"><%= t '.explanation_link'%></a></p>
 
 <%= render "errors" %>
 
@@ -11,7 +11,7 @@
   <fieldset>
     <legend></legend>
     <div class="inline<%if @registration.errors[:constructionWaste].any?%> validation<%end%>">
-  	  <label class='block-label'><!-- GDS have an 'option' class but we prefer this simplified version -->
+  	  <label class='block-label'>
   	    <%= f.radio_button :constructionWaste, "yes", :class => "radio" %> 
         <%= f.label t 'form.yes_option_label', :class => "label" %>
       </label>
