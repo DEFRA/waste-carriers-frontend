@@ -1,14 +1,16 @@
+<%= render 'shared/content_for_pages' %>
 <main id="content" role="main" class="group">
   <article role="article" class="group">
     <%= render "errors" %>
     <% content_for :page_title, createTitle('registrations.contactdetails_step.title') %>
     <%= form_for(@registration, :url => newUpperContactDetails_path) do |f| %>
-    <div class="step"><%= t 'registrations.contactdetails_step.step' %>
+    <div class="step"><%= t 'registrations.contactdetails_step.step' %></div>
 
       <fieldset>
 
       <% if ['soleTrader', 'publicBody', 'partnership'].include? @registration.businessType %>
-     <legend><%= t 'registrations.contactdetails_step.legend_upper_simple' %></legend>
+     <legend></legend>
+     <h1><%= t 'registrations.contactdetails_step.legend_upper_simple' %></h1?
      <% elsif @registration.businessType == 'limitedCompany' %>
       <legend><%= t 'registrations.contactdetails_step.legend_upper_director' %></legend>
     <% end %>
@@ -16,7 +18,7 @@
       <%= render 'simple_contact_details', f: f%>
 
       </fieldset>
-</div>
+
 <%= render "wizard_links" %>
   <% end %>
 
