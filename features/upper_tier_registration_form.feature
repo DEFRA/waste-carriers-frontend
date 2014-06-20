@@ -28,6 +28,7 @@ Feature: Upper tier
   Scenario: Manually enter UK address
     Given I enter my business address manually
       And I provide my personal contact details
+      And I go past the payment page
       And I check the declaration
       And I provide my email address and create a password
     When I confirm account creation via email
@@ -36,6 +37,7 @@ Feature: Upper tier
   Scenario: Foreign waste carrier
     Given I enter my foreign business address manually
       And I provide my personal contact details
+      And I go past the payment page
       And I check the declaration
       And I provide my email address and create a password
     When I confirm account creation via email
