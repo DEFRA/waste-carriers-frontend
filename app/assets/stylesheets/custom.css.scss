@@ -22,6 +22,12 @@
 #content h2 {@include core-27}
 #content h3 {@include core-24}
 #content p {@include core-19}
+#content legend {@include core-36}
+#content input {@include core-19}
+#content label {@include core-19}
+#content .step {@include core-19}
+#content .error-text {@include core-19}
+#content li {@include core-19}
 #content { @include inner-block; }
 #content { @include outer-block; }
 .beta-banner { @include phase-banner (beta); }
@@ -30,8 +36,14 @@
 
 //CUSTOM STYLES
 
+//GLOBAL
+
 ul, ol {
     list-style-type: none;
+}
+
+#smartanswers_display, #data_protection {
+    list-style-type: inherit;
 }
 
 h2 {
@@ -44,40 +56,9 @@ hr {
     margin-top:30px;
 }
 
-.search-address {
-    margin-bottom:30px;
-}
-
-#smartanswers_display, #data_protection {
-    list-style-type: inherit;
-}
-
-.back_link, .next_link, .button {
-    margin-bottom:20px;
-}
-
-.back_link {
-   display:inline;
-}
-
-
-.js-enabled .selected {
-    background: none repeat scroll 0 0 rgb(255, 255, 255);
-    border-color: rgb(11, 12, 12);
-}
-
-.js-enabled .block-label input:focus {
-    outline: medium none;
-}
-
-.step {
-	color: rgb(111, 119, 123);
-    display: block;
-    font-family: "nta",Arial,sans-serif;
-    font-size: 20px;
-    font-weight: 400;
-    line-height: 1.11111;
-    text-transform: none;
+p {
+    margin-bottom: 1.05263em;
+    margin-top: 0.26316em;
 }
 
 
@@ -91,7 +72,7 @@ hr {
 }
 
 #global-header-bar .header-bar {
-	margin-bottom:20px;
+    margin-bottom:20px;
 }
 
 // beta banner
@@ -102,7 +83,7 @@ hr {
 }
 
 .header_text span {
-	text-transform: uppercase;
+    text-transform: uppercase;
 }
 
 #global-beta-message p {
@@ -122,57 +103,13 @@ hr {
 
 // footer section
 .footer-top {
-	padding-left: 30px;
-	clear: left;
-	position: relative;
+    padding-left: 30px;
+    clear: left;
+    position: relative;
 }
 
 
-// forms
-
-legend {
-	margin-bottom:10px;
-}
-
-.subtitle {
-	margin-bottom: 15px;
-}
-
-.form-group:after {
-    clear: both;
-    content: "";
-    display: block;
-}
-
-.form-group {
-    clear: both;
-    float: left;
-    width: 100%;
-    margin-bottom:20px;
-}
-
-
-.form-label {
-    display: block;
-    font-family: "nta",Arial,sans-serif;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 1.31579;
-    margin-bottom: 5px;
-    text-transform: none;
-}
-
-#postcode, .link_to {
-	margin-right:15px;
-}
-
-
-// labels
-
-.inline .block-label {
-	clear: none;
-	margin-right:15px;
-}
+//CUSTOM FORM STYLES
 
 .block-label {
     float: left;
@@ -192,18 +129,6 @@ legend {
 
 }
 
-.form-label-postcode {
-    display: block;
-    font-family: "nta",Arial,sans-serif;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 1.31579;
-    margin-bottom: 5px;
-    text-transform: none;
-    margin-top: 20px;
-    margin-bottom:-20px;
-}
-
 .block-label input {
     cursor: pointer;
     left: 15px;
@@ -211,23 +136,51 @@ legend {
     top: 18px;
 }
 
-.block-label:hover {
-    border-color: rgb(11, 12, 12);
+#postcode, .link_to {
+    margin-right:15px;
 }
 
-.block-label:focus {
-    border-color: rgb(11, 12, 12);
+//Navigation
+
+.back_link {
+   display:inline;
 }
 
-.buttons {
+.back_link, .next_link, .button {
+    margin-bottom:20px;
+    margin-top:20px;
+}
+
+.inline .block-label {
+    clear: none;
+    margin-right:15px;
+}
+
+//Form labels
+
+legend {
+    margin-bottom:10px;
+}
+
+.form-label {
+    display: block;
+    font-family: "nta",Arial,sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.31579;
+    margin-bottom: 5px;
+    text-transform: none;
+}
+
+.form-group {
+    clear: both;
     float: left;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-left: 3px;
+    width: 100%;
+    margin-bottom:20px;
 }
 
 
-//Layout
+//Summary page
 
 .panel-indent {
     border-left: 5px solid rgb(222, 224, 226);
@@ -236,6 +189,77 @@ legend {
     padding-top: 10px;
     padding-left:20px;
 }
+
+
+
+
+// .search-address {
+//     margin-bottom:30px;
+// }
+
+
+// // forms
+
+// .subtitle {
+// 	margin-bottom: 15px;
+// }
+
+// .form-group:after {
+//     clear: both;
+//     content: "";
+//     display: block;
+// }
+
+// .js-enabled .block-label:focus {
+//  outline: 3px solid rgb(255, 191, 71);
+
+// }
+
+// // labels
+
+// .js-enabled .selected {
+//     background: none repeat scroll 0 0 rgb(255, 255, 255);
+//     border-color: rgb(11, 12, 12);
+// }
+
+// .js-enabled .add-focus {
+//     outline: 3px solid rgb(255, 191, 71);
+// }
+
+// .js-enabled .block-label input:focus {
+//     outline: medium none;
+// }
+
+// .block-label:hover {
+//     border-color: rgb(11, 12, 12);
+// }
+
+// .block-label:focus {
+//     border-color: rgb(11, 12, 12);
+// }
+
+// .form-label-postcode {
+//     display: block;
+//     font-family: "nta",Arial,sans-serif;
+//     font-size: 19px;
+//     font-weight: 400;
+//     line-height: 1.31579;
+//     text-transform: none;
+//     margin-top: 20px;
+// }
+
+
+// //buttons
+
+// .buttons {
+//     float: left;
+//     margin-bottom: 20px;
+//     margin-top: 20px;
+//     margin-left: 3px;
+// }
+
+
+
 
 
 
