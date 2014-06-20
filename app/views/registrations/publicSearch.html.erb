@@ -24,26 +24,29 @@
 
 <form method="get" action="/registrations/search">
 <div class="box" data-journey="waste-carriers-registration:search-register">
-	<div class="form-group">
-		<label for="q" class="form-label"><%= t '.search_label' %></label>
-		<input id="q" name="q" type="text" value="<%= params[:q]%>" />
-	</div>
-	<div id="onelinewrapper">
-		<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
-		<div id="oneline">
-			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
-			<% defaultDistance='any'%>
-			<% if !params[:distance].nil?
-			defaultDistance=params[:distance] 
-			end %>
-			<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
-			<span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
-			<input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
+	<fieldset>
+	<legend></legend>	
+		<div class="form-group">
+			<label for="q" class="form-label"><%= t '.search_label' %></label>
+			<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 		</div>
-	</div>
-	<div class="form-group">
-		<input type="submit" id="reg-search" class="button" value="<%= t '.search_button_label' %>" />
-	</div>
+		<div id="onelinewrapper">
+			<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
+			<div id="oneline">
+			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
+				<% defaultDistance='any'%>
+				<% if !params[:distance].nil?
+				defaultDistance=params[:distance] 
+				end %>
+				<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
+			<span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
+		    <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
+			</div>
+		</div>
+		<div class="form-group">
+		 <input type="submit" id="reg-search" class="button" value="<%= t '.search_button_label' %>" />
+		</div>
+	</fieldset>
 </div>
 </form>
 
