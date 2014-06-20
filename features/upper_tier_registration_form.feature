@@ -12,6 +12,7 @@ Feature: Upper tier
   Scenario: Autocomplete address
     Given I autocomplete my business address
       And I provide my personal contact details
+      And I go past the payment page
       And I check the declaration
       And I provide my email address and create a password
     When I confirm account creation via email

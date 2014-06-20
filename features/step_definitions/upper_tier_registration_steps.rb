@@ -16,6 +16,10 @@ And(/^I am a carrier dealer$/) do
   click_on 'Next'
 end
 
+And(/^I go past the payment page$/) do
+  click_on 'Next'
+end
+
 Then(/^I am registered as an upper tier waste carrier$/) do
   pending
 end
