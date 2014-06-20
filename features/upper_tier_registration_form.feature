@@ -6,6 +6,7 @@ Feature: Upper tier
 
   Background:
     Given I have been funneled into the upper tier path
+      And I am a carrier dealer
       And I provide my company name
 
   Scenario: Autocomplete address
@@ -39,4 +40,4 @@ Feature: Upper tier
     When I confirm account creation via email
     Then I am registered as an upper tier waste carrier
 
-  # TODO ltd company version asks for companies house number
+  # TODO ltd company version asks for companies house number and directors
