@@ -127,12 +127,8 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   fill_in 'Email address', with: ''
   click_on 'Next'
 
-  #Do nothing (yet) on the Payment page
-  click_on 'Next'
-
   check 'registration_declaration'
   click_on 'Confirm'
-
 end
 
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
