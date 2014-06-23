@@ -996,7 +996,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'payment'
 
     if @registration.valid?
-      redirect_to :upper_summary
+      redirect_to_worldpay
     else
       render 'newPayment', :status => '400'
     end
