@@ -21,5 +21,5 @@ And(/^I go past the payment page$/) do
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
-  pending
+  page.should have_content 'Registration complete'
 end
