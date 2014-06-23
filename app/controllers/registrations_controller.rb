@@ -967,7 +967,7 @@ class RegistrationsController < ApplicationController
     if params[:findAddress]
       render "newBusinessDetails"
     elsif @registration.valid?
-      redirect_to :upper_payment
+      redirect_to :upper_summary
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -1006,9 +1006,9 @@ class RegistrationsController < ApplicationController
     setup_registration 'upper_summary'
 
     if @registration.valid?
-      #redirect_to :newSignup
-      redirect_to_worldpay
-    else render 'newUpperSummary', :status => '400'
+      redirect_to :newSignup
+    else
+      render 'newUpperSummary', :status => '400'
     end
   end
   ######################################
