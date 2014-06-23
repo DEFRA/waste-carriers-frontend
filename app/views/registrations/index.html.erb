@@ -1,9 +1,9 @@
 <%= render 'shared/content_for_pages' %>
-<%= render "shared/current_user" %>
 
 <% content_for :page_title, createTitle('registrations.form.agency_search_label') %>
-
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
+	<article role="article" class="group">
+<aside>
 
 <% if params[:error] %>
 <div id="error_explanation" class="validation-summary">
@@ -24,21 +24,21 @@
 </div>
 <% end %>
 
-
+<fieldset>
+<legend></legend>
 <h1><%= t 'registrations.form.agency_search_label' %></h1>
 
-<%= render "shared/meta_phases"%>
-<form method="get" action="/registrations">
-<div class="box"  data-journey="waste-carriers-registration:registrations">
-<p class="group">
-	<label for="q">Find a registration</label>
-	<input id="q" name="q" type="text" value="<%= params[:q]%>" />
-</p>
+<%= render "shared/meta_phases"%><!-- what is this rendering? -->
 
+<form method="get" action="/registrations">
+
+<div class="form-group"  data-journey="waste-carriers-registration:registrations">
+    <div class='form-label'><label for="q">Find a registration</label></div>
+	<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 
 <div id="advanced-options" style="<% if params[:searchWithin]=='any'||!params[:searchWithin] %>display:none<% end %>">
 
-<p class="group">
+<div class="form-group">
 	<label for="searchWithin">Search only within</label>
 	<select id="searchWithin" name="searchWithin">
 		<option value="any"<% if params[:searchWithin]=='any'||!params[:searchWithin] %>selected="selected"<%end%>>Any</option>
@@ -46,18 +46,19 @@
 		<option value="contactName" <% if params[:searchWithin]=='contactName' %>selected="selected"<%end%>>Contact Name</option>
 		<option value="postcode" <% if params[:searchWithin]=='postcode' %>selected="selected"<%end%>>Postcode</option>
 	</select>
-</p>
 </div>
-<p class="action group">
-<input type="submit" id="reg-search" class="button" value="Search" />
-<a href="#" id="toggle-search"><% if params[:searchWithin]=='any'||!params[:searchWithin] %>Refine<% else %>Full<% end %> search</a>
-</p>
+</div>
+</fieldset>
+
+<div class="form-group">
+	<input type="submit" id="reg-search" class="button" value="Search" />
+	<p><a href="#" id="toggle-search"><% if params[:searchWithin]=='any'||!params[:searchWithin] %>Refine<% else %>Full<% end %> search</a><p>
+</div>
 </div>
 </form>
 
-
 <form method="get" action="<%= find_path %>">
-<div style="max-width:510px"><input name="agency" type="submit" class="button" style="float:right" value="New registration" /></div>
+<input name="agency" type="submit" class="button" value="New registration" /></div>
 </form>
 
 <% if params[:q]%>
@@ -107,6 +108,18 @@
 <% end %>
 </div>
 <% end %>
+
+</div>
+</aside>
+
+<div class='related-positioning'>
+	<div class='related-container'>
+		<div class='related'>
+			<div class='inner group related-subsection'>
+<%= render "shared/current_user" %>
+</div>
+</div>
+</div>
 
 
 </article></main>
