@@ -724,7 +724,14 @@ class RegistrationsController < ApplicationController
         if agency_user_signed_in? || user_signed_in?
           redirect_to finish_url(:id => @registration.id)
         else
-          redirect_to pending_url
+          next_step = case session[:registration_phase]
+            when 'lower'
+              pending_url
+            when 'upper'
+              :upper_payment
+            end
+
+          redirect_to next_step
         end
       else
         # Registration Id not found, must have done something wrong
@@ -990,8 +997,8 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       redirect_to :upper_summary
-    else render 'newPayment', :status => '400'
-
+    else
+      render 'newPayment', :status => '400'
     end
   end
 
