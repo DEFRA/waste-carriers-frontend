@@ -490,7 +490,6 @@ en:
       subtitle: "Summary"
       check_details_label: "Check your details"
       amount_paid: "You have paid"
-      amount_to_pay: "You are about to pay"
       main_contact_legend: "Main contact"
       alternate_contact_legend: "Alternative contact"
       agree_declaration_label: "Tick this box to agree with declaration"
