@@ -136,8 +136,6 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
 end
 
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
-  pending
-
   #Select MasterCard by clicking on the button:
   sleep 1.0
 
