@@ -9,10 +9,7 @@
       <div class="step"><%= t 'registrations.contactdetails_step.step' %></div>
       <h1><%= t 'registrations.contactdetails_step.legend_upper_simple' %></h1>
 
-      <fieldset>
-        <legend></legend>
-        <%= render 'simple_contact_details', f: f%>
-      </fieldset>
+      <%= render 'simple_contact_details', f: f%>
       <%= render "wizard_links" %>
     <% end %>
   </article>
