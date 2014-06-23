@@ -6,7 +6,9 @@
 
 <div id="wrapper" data-journey="waste-carriers-registration:sign-in"></div>
 
-<h2><%= t '.sign_in_heading' %></h2>
+<fieldset>
+<legend></legend>
+<h1><%= t '.sign_in_heading' %></h1>
 
 <% if request.original_url.include? "agency_users/sign_in" %>
 <h4><%= t '.agency_heading' %></h4>
@@ -31,6 +33,7 @@
   </ul>
 </div>
 <% end %>
+</fieldset>
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
   <div class="form-group<% if alert %> validation<% end %>"><%= f.label :email %>
