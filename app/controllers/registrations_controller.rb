@@ -138,7 +138,6 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/construction-demolition
   def newConstructionDemolition
     new_step_action 'constructiondemolition'
-    session[:registration_phase] = 'smart'
   end
 
   # POST /your-registration/construction-demolition
@@ -149,10 +148,8 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
       when 'yes'
-        session[:registration_phase] = 'upper'
         redirect_to :newRegistrationType
       when 'no'
-        session[:registration_phase] = 'lower'
         redirect_to :newBusinessDetails
       end
     elsif @registration.new_record?
@@ -200,7 +197,14 @@ class RegistrationsController < ApplicationController
     if params[:findAddress]
       render "newBusinessDetails"
     elsif @registration.valid?
-      session[:registration_phase] == 'upper' ? (redirect_to :newUpperBusinessDetails) : (redirect_to :newContact)
+      next_step = case @registration.tier
+                    when 'upper'
+                      :newUpperBusinessDetails
+                    when 'lower'
+                      :newContact
+                  end
+
+      redirect_to next_step
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -230,13 +234,11 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/registration-type
   def newRegistrationType
     new_step_action 'registrationtype'
-    session[:registration_phase] = 'upper'
   end
 
   # POST /your-registration/registration-type
   def updateNewRegistrationType
     setup_registration 'registrationtype'
-    @registration.registration_phase = 'upper'
     if @registration.valid?
       redirect_to :newUpperBusinessDetails
 
@@ -724,7 +726,7 @@ class RegistrationsController < ApplicationController
         if agency_user_signed_in? || user_signed_in?
           redirect_to finish_url(:id => @registration.id)
         else
-          next_step = case session[:registration_phase]
+          next_step = case @registration.tier
             when 'lower'
               pending_url
             when 'upper'
@@ -1065,7 +1067,7 @@ class RegistrationsController < ApplicationController
       :password,
       :password_confirmation,
       :accountEmail_confirmation,
-      :registration_phase,
+      :tier,
       :company_no,
       :registration_fee,
       :copy_card_fee,
