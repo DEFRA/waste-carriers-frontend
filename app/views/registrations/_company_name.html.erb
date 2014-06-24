@@ -1,10 +1,9 @@
 <fieldset>
   <legend></legend>
-
-  <h1 class="subtitle"><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'business' %></h1>
-      <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
-    <%= validation_for(@registration, :companyName) %>
-    <%= f.label :companyName %>
-    <%= f.text_field :companyName, :size => 20, :maxlength => 35 %>
-</p>
-    </fieldset>
+    <h1 class="subtitle"><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'business' %></h1>
+      <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+    	<%= validation_for(@registration, :companyName) %>
+    	<%= f.label t('.businessAddressingMode', addressing_mode: mode), class: 'form-label' %>
+    	<%= f.text_field :companyName, :size => 20, :maxlength => 35 %>
+	  </div>
+</fieldset>

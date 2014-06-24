@@ -11,7 +11,7 @@ module WorldpayHelper
 
     def redirect_to_worldpay
       xml = create_xml
-      logger.info 'About to contact WorldPay: XML username = ' + Rails.configuration.worldpay_moto_username
+      logger.info 'About to contact WorldPay: XML username = ' + worldpay_xml_username
       logger.info 'Sending XML to Worldpay: ' + xml
       response = send_xml(xml)
       logger.info 'Received response from Worldpay: ' + response.body.to_s
@@ -21,11 +21,11 @@ module WorldpayHelper
 
     # Construct an XML message according to the Worldpay DTD    
     def create_xml
-      merchantCode = Rails.configuration.worldpay_moto_merchantcode
+      merchantCode = worldpay_merchant_code
       orderCode = Time.now.to_i.to_s
-      orderValue = '12345'
+      orderValue = '15400'
       orderDescription = 'Your Waste Carrier Registration'
-      orderContent = 'Your lovely new Waste Carrier Registration'
+      orderContent = 'Your new Waste Carrier Registration'
       xml = "<?xml version=\"1.0\"?>"
       xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>"
       xml << "<paymentService version=\"1.4\" merchantCode=\"" + merchantCode + "\">"
@@ -46,8 +46,8 @@ module WorldpayHelper
     end
 
     def send_xml(xml)
-      username = Rails.configuration.worldpay_moto_username
-      password = Rails.configuration.worldpay_moto_password
+      username = worldpay_xml_username
+      password = worldpay_xml_password
       test_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
       uri = URI(test_uri)
       https = Net::HTTP.new(uri.host,uri.port)
@@ -91,9 +91,32 @@ module WorldpayHelper
       redirect_args << '&cancelURL=' + cancel_url
       url_with_args = url + redirect_args
 
-      puts 'GGG ' + url_with_args
-
       url_with_args
+    end
+
+    # Select the merchant code to use based on the request. For assisted digital, an agency user must be signed in.
+    def worldpay_merchant_code
+      if agency_user_signed_in?
+        Rails.configuration.worldpay_moto_merchantcode
+      else
+        Rails.configuration.worldpay_ecom_merchantcode
+      end
+    end  
+
+    def worldpay_xml_username
+      if agency_user_signed_in?
+        Rails.configuration.worldpay_moto_username
+      else
+        Rails.configuration.worldpay_ecom_username
+      end
+    end
+
+    def worldpay_xml_password
+      if agency_user_signed_in?
+        Rails.configuration.worldpay_moto_password
+      else
+        Rails.configuration.worldpay_ecom_password
+      end
     end
 
 end

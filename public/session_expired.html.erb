@@ -1,14 +1,15 @@
+<%= render 'shared/content_for_pages' %>
+
 <% content_for :page_title, createTitle('global.timeout.heading') %>
+
 	<main id="content" role="main" class="group">
-		<br/>
-		<header class="page-header group">
-			<div>
-				<h1><%=t 'global.timeout.heading'%></h1>
-			</div>
-		</header>
-		<article role="article" class="group">
-			<p><%=t 'global.timeout.message1'%></p>
-			<p><%= link_to t('global.timeout.message2'), find_path %></p>
-			<p><%=t 'global.timeout.message3_html'%></p>
+	   <article role="article" class="group">
+
+			<h1><%=t 'global.timeout.heading'%></h1>
+			
+				<p><%=t 'global.timeout.message1'%></p>
+				<p><%=t 'global.timeout.message2'%></p>
+				<p><%=t 'global.timeout.message3_html'%></p>
+
 		</article>
 	</main>

@@ -329,6 +329,8 @@ en:
       address: "Address"
     newUpperBusinessDetails:
       title: "Business Details"
+    company_name:
+      businessAddressingMode: "%{addressing_mode} trading name"
     businesstype_step:
       title: "Business type"
       subtitle: "What type of business or organisation are you?"
@@ -425,8 +427,20 @@ en:
       postcode_search_error: "A postcode must be provided"
     address_finder:
       selectAddress: "Select address"
+      no_results_error: "There are no addresses for the given postcode"
+      ukAddressLink: "I have an address in the United Kingdom"
+      address_service_error: "Address lookup service cannot be contacted!"
+    foreign_address_entry:
+      streetLine1: "Address line 1"
+      streetLine2: "Address line 2"
+      streetLine3: "Address line 3"
+      streetLine4: "Address line 4"
+      country: "Country"
+
     upper_contact_details:
-      not_active_company_error: "is not the companies house registration number of an active limited company"
+      companies_house_registration_number_not_found: "is not listed by Companies House"
+      companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
+      companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
     contact_step:
       contactHeading: "Address and contact details"
       businessAddress: "Main business, organisation or trading address"

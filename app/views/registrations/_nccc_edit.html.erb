@@ -49,12 +49,12 @@
 <p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
 	<%= validation_for(@registration, :phoneNumber) %>
     <%= f.label :phoneNumber %>
-    <%= f.text_field :phoneNumber %>
+    <%= f.telephone_field :phoneNumber %>
 </p>
 <p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
 	<%= validation_for(@registration, :contactEmail) %>
     <%= f.label :contactEmail %>
-    <%= f.text_field :contactEmail%>
+    <%= f.email_field :contactEmail%>
 </p>
 
 <% if agency_user_signed_in? %>
