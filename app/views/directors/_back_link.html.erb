@@ -1,0 +1,6 @@
+<% unless @registration.first_step? %>
+    <noscript>
+      <%= content_tag :p, t('registrations.back_link_unavailable') %>
+    </noscript>
+    <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'link_to' %>
+<% end %>
