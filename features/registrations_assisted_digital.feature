@@ -1,3 +1,4 @@
+@assisted_digital
 Feature: Registrations - Assisted Digital
 
   As a worker in the NCCC contact centre
@@ -16,13 +17,14 @@ Feature: Registrations - Assisted Digital
       And the print page contains the six-digit access code for the user
       But the registration confirmation email should not be sent
 
+  @worldpay
   Scenario: Upper tier
     When I create an upper tier registration on behalf of a caller
+      And I provide valid credit card payment details on behalf of a caller
     Then I should see the Confirmation page
       And the print page contains the six-digit access code for the user
       But the registration confirmation email should not be sent
 
-  @assisted_digital
   Scenario: Valid registration on behalf of a caller
     Given I start a new registration on behalf of a caller
       And the caller provides initial answers for the lower tier

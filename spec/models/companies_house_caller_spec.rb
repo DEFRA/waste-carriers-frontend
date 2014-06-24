@@ -13,35 +13,55 @@ describe CompaniesHouseCaller do
 
       its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/02050399.json' }
     end
+
+    context 'lowercase prefix' do
+      subject { CompaniesHouseCaller.new 'sc002180' }
+
+      its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/SC002180.json' }
+    end
   end
 
-  describe '#active?' do
+  describe '#status' do
     context 'active' do
       subject { CompaniesHouseCaller.new '02050399' }
 
       it 'is active', :vcr do
-        subject.should be_active
+        subject.status.should == :active
       end
     end
 
     context 'not active' do
       subject { CompaniesHouseCaller.new '05868270' }
 
-      it 'is active', :vcr do
-        subject.should_not be_active
+      it 'is not active', :vcr do
+        subject.status.should == :inactive
       end
     end
 
     context 'not found' do
       subject { CompaniesHouseCaller.new '99999999' }
 
-      it 'is active', :vcr do
-        subject.should_not be_active
+      it 'is not found', :vcr do
+        subject.status.should == :not_found
       end
     end
   end
 
   describe 'external service unavailable' do
-    it "it should indicate this"
+    context 'timeout' do
+      before { stub_request(:any, 'data.companieshouse.gov.uk').to_timeout }
+
+      subject { CompaniesHouseCaller.new '02050399' }
+
+      its(:status) { should == :error_calling_service }
+    end
+
+    context 'server error' do
+      before { stub_request(:any, 'data.companieshouse.gov.uk').to_raise }
+
+      subject { CompaniesHouseCaller.new '02050399' }
+
+      its(:status) { should == :error_calling_service }
+    end
   end
 end

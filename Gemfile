@@ -14,7 +14,7 @@ gem 'debugger', :require => false
 gem 'mongoid', :git => "https://github.com/mongoid/mongoid.git"
 
 #Using devise for authentication
-gem 'devise', '~>3.1.1'
+gem 'devise', '~> 3.1.1'
 
 #Using cancan for authorisation
 gem "cancan", "~> 1.6.10"
@@ -24,9 +24,9 @@ gem 'activeresource', '~>4.0.0'
 
 gem 'password_strength', '~>0.3.2'
 
+gem 'govuk_template'
 gem 'govuk_frontend_toolkit'
 
-gem 'country_select'
 # Gems used only for assets and not required
 # in production environments by default.
 

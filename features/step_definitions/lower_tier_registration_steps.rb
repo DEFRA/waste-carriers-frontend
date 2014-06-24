@@ -49,9 +49,9 @@ And(/^I provide my company name$/) do
 end
 
 Given(/^I autocomplete my business address$/) do
-  fill_in 'sPostcode', with: 'BS1 2EP'
+  fill_in 'sPostcode', with: 'HP10 9BX'
   click_on 'Find UK address'
-  select 'Grades Gents Hairdressers, 44 Broad Street, City Centre, Bristol BS1 2EP'
+  select '33 Fennels Way, Flackwell Heath HP10 9BX'
   click_on 'Next'
 end
 
@@ -90,7 +90,7 @@ Given(/^I enter my foreign business address manually$/) do
   fill_in 'registration_streetLine3', with: 'Bristol'
   fill_in 'registration_streetLine4', with: 'BS1 2EP'
 
-  select 'France', from: 'registration_country'
+  fill_in 'registration_country', with: 'France'
 
   click_on 'Next'
 end

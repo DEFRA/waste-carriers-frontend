@@ -13,7 +13,7 @@ Registrations::Application.configure do
   # config.whiny_nils = true
 
   config.eager_load = false
-  
+
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
@@ -39,7 +39,7 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { :host => 'localhost:3000', :protocol => 'http' }
+  config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'], :protocol => config.use_letter_opener ? 'http' : 'https' }
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false

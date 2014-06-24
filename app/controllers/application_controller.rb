@@ -1,18 +1,20 @@
 require 'active_resource'
 
 class ApplicationController < ActionController::Base
+  layout "govuk_template"
+
   protect_from_forgery
-  
+
   before_action :set_i18n_locale_from_params
 
   before_filter :validate_session_total_timeout!
   before_filter :validate_session_inactivity_timeout!
-  
+
   before_filter :require_admin_url, if: :devise_controller?
 
   ## TODO activate filter (fix for pen test issue 3.4)
   before_filter :set_no_cache
-  
+
 
   include ApplicationHelper
 
@@ -27,7 +29,7 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
+
   def default_url_options
     {locale: I18n.locale}
   end
@@ -41,7 +43,7 @@ class ApplicationController < ActionController::Base
     reset_session
     Rails.configuration.waste_exemplar_end_url
   end
-  
+
   def logger
     Rails.logger
   end
@@ -76,11 +78,11 @@ class ApplicationController < ActionController::Base
   end
 
   def renderAccessDenied
-    render :file => "/public/403.html", :status => 403 
+    render :file => "/public/403.html", :status => 403
   end
 
   def renderNotFound
-    render :file => "/public/404.html", :status => 404     
+    render :file => "/public/404.html", :status => 404
   end
 
   #Total session timeout. No session is allowed to be longer than this.
@@ -88,7 +90,7 @@ class ApplicationController < ActionController::Base
     session[:expires_at] ||= Time.current + Rails.application.config.app_session_total_timeout
     if session[:expires_at] < Time.current
       reset_session
-      render :file => "/public/session_expired.html", :status => 400    
+      render :file => "/public/session_expired.html", :status => 400
     end
   end
 
@@ -97,7 +99,7 @@ class ApplicationController < ActionController::Base
     if !agency_user_signed_in?
       if session[:last_seen_at] != nil && session_inactivity_timeout_time < Time.current
         reset_session
-        render :file => "/public/session_expired.html", :status => 400    
+        render :file => "/public/session_expired.html", :status => 400
       end
     end
     session[:last_seen_at] = Time.current
@@ -117,14 +119,14 @@ class ApplicationController < ActionController::Base
   end
 
 
-  rescue_from CanCan::AccessDenied do |exception| 
+  rescue_from CanCan::AccessDenied do |exception|
     renderAccessDenied
   end
 
   rescue_from ActiveResource::ResourceNotFound do |exception|
-    renderNotFound   
-  end  
-  
+    renderNotFound
+  end
+
   rescue_from Errno::ECONNREFUSED do |exception|
     render :file => "/public/503.html", :status => 503
   end
