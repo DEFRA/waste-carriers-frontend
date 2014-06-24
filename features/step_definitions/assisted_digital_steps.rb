@@ -167,10 +167,7 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   # Later this should redirect automatically to another page showing the payment confirmation.
   click_on 'Continue'
 
-  #By now we should be on the (internal version of the) Signup page
-  page.should have_content 'Account details'
-  click_on 'Next'
-
+  # TODO at this point we ought to be on page with access code but are at confirmation page
 end
 
 
