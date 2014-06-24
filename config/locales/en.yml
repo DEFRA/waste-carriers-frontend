@@ -316,6 +316,13 @@ en:
       business_type: "Business type"
       results_format: "Results format"
 
+  directors:
+    directordetails_step:
+      title: "Director details"
+      subtitle: "Provide details for all your directors"
+      step: "Step 7 of 8"
+      legend: "These will not be made public"
+
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     registration_step: "Step %{step_no} of 8"
@@ -367,11 +374,8 @@ en:
     contactdetails_step:
       title: "Contact details"
       subtitle: "Provide contact details for your business or organisation"
-      subtitle_upper: "Enter your %{business_caption} details"
       step: "Step 6 of 8"
       legend: "These will not be made public"
-      legend_upper_simple: "Your contact details"
-      legend_upper_director: "Director contact details"
     registrationtype_step:
       title: "Registration type"
       subtitle: "Carrier, broker or dealer"
