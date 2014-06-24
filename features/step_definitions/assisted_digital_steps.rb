@@ -129,6 +129,8 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
 
   check 'registration_declaration'
   click_on 'Confirm'
+  click_on 'Next'
+  click_on 'Next'
 end
 
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
