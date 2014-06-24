@@ -608,29 +608,20 @@ class RegistrationsController < ApplicationController
   def newSignup
     new_step_action 'signup'
 
-    #vTODO - Bring back validation check ensuring that all previous steps are valid !!!
-    if @registration.steps_invalid?("signup")
-      logger.error 'GGG ERROR! - Previous steps are not valid??? SHOULD HAVE REDIRECTED TO FAILED PAGE'
-      #redirect_to_failed_page(@registration.current_step)
+    # Prepopulate Email field/Set registration account
+    if user_signed_in?
+      logger.info 'User already signed in using current email: ' + current_user.email
+      @registration.accountEmail = current_user.email
+    elsif agency_user_signed_in?
+      logger.info 'Agency User already signed in using current email: ' + current_agency_user.email
+      @registration.accountEmail = current_agency_user.email
     else
-      logger.debug 'Previous pages are valid'
-
-
-      # Prepopulate Email field/Set registration account
-      if user_signed_in?
-        logger.info 'User already signed in using current email: ' + current_user.email
-        @registration.accountEmail = current_user.email
-      elsif agency_user_signed_in?
-        logger.info 'Agency User already signed in using current email: ' + current_agency_user.email
-        @registration.accountEmail = current_agency_user.email
-      else
-        logger.info 'User NOT signed in using contact email: ' + @registration.contactEmail
-        @registration.accountEmail = @registration.contactEmail
-      end
-      # Get signup mode
-      @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-      logger.info 'registration mode: ' + @registration.sign_up_mode
+      logger.info 'User NOT signed in using contact email: ' + @registration.contactEmail
+      @registration.accountEmail = @registration.contactEmail
     end
+    # Get signup mode
+    @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
+    logger.info 'registration mode: ' + @registration.sign_up_mode
   end
 
   def updateNewSignup
