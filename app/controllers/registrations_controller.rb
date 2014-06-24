@@ -634,7 +634,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewSignup
-    setup_step_action 'signup'
+    setup_registration 'signup'
 
     # Prepopulate Email field/Set registration account
     if user_signed_in?
