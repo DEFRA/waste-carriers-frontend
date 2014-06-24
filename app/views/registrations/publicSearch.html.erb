@@ -13,10 +13,8 @@
 <% if !notice.nil? %>
 <div id="note_explanation" class="note-summary">
   <h1>Information</h1>
-  <ul>
-  <li><%= notice %></li>
-  </ul>
-</div>
+  <p><%= notice %></p>
+ </div>
 <% end %>
 
 <h1><%= t '.heading' %></h1>
@@ -30,6 +28,11 @@
 			<label for="q" class="form-label"><%= t '.search_label' %></label>
 			<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 		</div>
+
+			<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
+			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
+
+		<!-- 
 		<div id="onelinewrapper">
 			<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
 			<div id="oneline">
@@ -41,8 +44,34 @@
 				<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
 			<span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
 		    <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
-			</div>
+
+		-->
+
+			
+		    <div class='inline'>
+
+        		 <label class="block-label" for="registration_searchRegister_ten_miles">
+        		 <input type="radio" value="postcode" name="registration[searchRegister]" id="registration_searchRegister_ten_miles">
+          		 10 Miles
+        		 </label>
+        		 <label class="block-label" for="registration_searchRegister_20_miles">
+        		 <input type="radio" value="postcode" name="registration[searchRegister]" id="registration_searchRegister_20_miles">
+          		 20 Miles
+        		 </label>
+        		 <label class="block-label" for="registration_searchRegister_30_miles">
+        		 <input type="radio" value="postcode" name="registration[searchRegister]" id="registration_searchRegister_30_miles">
+          		 30 Miles
+        		 </label>
+
+        	</div> 
+
+        	<div class='form-group'>
+        		 <span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
+		    	 <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" 
+		    	 type="text">
+		    </div>
 		</div>
+
 		<div class="form-group">
 		 <input type="submit" id="reg-search" class="button" value="<%= t '.search_button_label' %>" />
 		</div>
