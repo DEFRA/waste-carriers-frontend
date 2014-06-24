@@ -49,6 +49,10 @@ h2 {
     margin-top:10px;
 }
 
+h2.subtitle {
+    color: rgb(111, 119, 123);
+}
+
 hr {
     margin-bottom:30px;
     margin-top:30px;
@@ -244,11 +248,58 @@ legend {
 }
 
 
+//Registration page
 
+.js-enabled .related-positioning {
+    top: 10em;
+}
 
+.related-positioning {
+    height: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 0;
+}
 
+.related-container {
+    height: 0;
+    margin: 0 auto;
+    max-width: 1020px;
+    position: relative;
+    z-index: 50;
+}
 
+.related {
+    border-top: 10px solid rgb(0, 94, 165);
+    margin: 3em 0 0;
+    position: absolute;
+    right: 1.75em;
+    width: 18.75em;
+}
 
+.related .inner {
+    padding: 0.5em 1em 0 0;
+    width: auto;
+}
+
+.inner {
+    margin: 0 auto;
+    padding: 1em;
+    position: relative;
+}
+
+.related h2 {
+    color: rgb(11, 12, 12);
+    font-family: "nta",Arial,sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 0.5em;
+    margin-top: 0.3em;
+    position: relative;
+    text-transform: none;
+}
 
 
 
