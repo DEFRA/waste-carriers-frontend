@@ -704,8 +704,8 @@ class RegistrationsController < ApplicationController
         logger.error "GGG - The registration is NOT valid!"
       end
 
-      # Clear session and redirect to Finish
-      session[:registration_step] = session[:registration_params] = nil
+      session[:registration_step] = session[:registration_params] = nil if @registration.tier.inquiry.lower?
+
       if !@registration.id.nil?
         ## Account not yet activated for new user. Cannot redirect to the finish URL
         if agency_user_signed_in? || user_signed_in?
