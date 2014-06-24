@@ -624,11 +624,14 @@ class RegistrationsController < ApplicationController
   def updateNewSignup
     setup_registration 'signup'
 
-    @registration.accountEmail = if user_signed_in?
-                                   current_user.email
-                                 elsif agency_user_signed_in?
-                                   current_agency_user.email
-                                 end
+    # Prepopulate Email field/Set registration account
+    if user_signed_in?
+      logger.debug 'User already signed in using current email: ' + current_user.email
+      @registration.accountEmail = current_user.email
+    elsif agency_user_signed_in?
+      logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
+      @registration.accountEmail = current_agency_user.email
+    end
 
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
 
