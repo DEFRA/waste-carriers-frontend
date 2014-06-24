@@ -606,11 +606,8 @@ class RegistrationsController < ApplicationController
 
 
   def newSignup
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
+    new_step_action 'signup'
 
-    # Pass in current page to check previous page is valid
     #vTODO - Bring back validation check ensuring that all previous steps are valid !!!
     if @registration.steps_invalid?("signup")
       logger.error 'GGG ERROR! - Previous steps are not valid??? SHOULD HAVE REDIRECTED TO FAILED PAGE'
@@ -637,11 +634,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewSignup
-    logger.info 'updateNewSignup()'
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-    @registration.current_step = "signup"
+    setup_step_action 'signup'
 
     # Prepopulate Email field/Set registration account
     if user_signed_in?
