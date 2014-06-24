@@ -631,6 +631,7 @@ class RegistrationsController < ApplicationController
                                  end
 
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
+
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       if @registration.sign_up_mode == 'sign_up'
@@ -663,11 +664,13 @@ class RegistrationsController < ApplicationController
           end
         else
           logger.debug "User signed in, set account email to user email and get user"
-          if user_signed_in?
-            @registration.accountEmail = current_user.email
-          elsif agency_user_signed_in?
-            @registration.accountEmail = current_agency_user.email
-          end
+
+          @registration.accountEmail = if user_signed_in?
+                                         current_user.email
+                                       elsif agency_user_signed_in?
+                                         current_agency_user.email
+                                       end
+
           @user = User.find_by_email(@registration.accountEmail)
         end
       end
