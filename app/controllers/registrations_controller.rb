@@ -709,7 +709,14 @@ class RegistrationsController < ApplicationController
       if !@registration.id.nil?
         ## Account not yet activated for new user. Cannot redirect to the finish URL
         if agency_user_signed_in? || user_signed_in?
-          redirect_to finish_url(:id => @registration.id)
+          next_step = case @registration.tier
+            when 'lower'
+              finish_url(:id => @registration.id)
+            when 'upper'
+              :upper_payment
+            end
+
+          redirect_to next_step
         else
           next_step = case @registration.tier
             when 'lower'
