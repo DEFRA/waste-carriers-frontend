@@ -275,6 +275,7 @@ class RegistrationsController < ApplicationController
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
 
+
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
     @registration.current_step = current_step
@@ -694,6 +695,7 @@ class RegistrationsController < ApplicationController
       logger.debug "Now asking whether registration is all valid"
       if @registration.valid?
         logger.debug "The registration is all valid. About to save the registration..."
+        @registration.expires_on = Date.current
         @registration.save!
         logger.info 'Perform an additional save, to set the Route Name in metadata'
         logger.info 'routeName = ' + @registration.routeName
