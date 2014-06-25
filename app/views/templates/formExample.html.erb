@@ -1,0 +1,17 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <% content_for :page_title, createTitle('templates.formExample_step.title') %>
+    <%= form_for(@registration, :url => newContact_path) do |f| %>
+
+      <div class="step"><%= t 'templates.formExample_step.step' %></div>
+      <h1 class="subtitle"><%= t 'templates.formExample_step.subtitle' %></h1>
+
+      <%= render "formExample_step", f: f %>
+
+    <% end %>
+
+  </article>
+</main>

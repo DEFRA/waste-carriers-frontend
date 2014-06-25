@@ -1,0 +1,22 @@
+<%= render "errors" %>
+
+<!-- WF 4.3.2 -->
+<div id="page0"  data-journey="waste-carriers-registration:template">
+
+  <fieldset>
+    <legend><%= t '.legend' %></legend>
+    <div class="form-group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :firstName) %>
+      <%= f.label :firstName, class: 'form-label' %>
+      <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
+    </div>
+    <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :lastName) %>
+      <%= f.label :lastName, class: 'form-label' %>
+      <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
+    </div>
+  </fieldset>
+
+</div>
+
+<%= render 'wizard_links' %>
