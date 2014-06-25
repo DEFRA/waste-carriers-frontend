@@ -22,8 +22,8 @@ end
 And(/^I enter my company name and address$/) do
   fill_in 'registration_companyName', with: 'The Ladd Company'
 
-  fill_in 'postcode', with: 'HP10 9BX'
-  click_on 'Find address'
+  fill_in 'sPostcode', with: 'HP10 9BX'
+  click_on 'Find UK address'
   select '33 Fennels Way, Flackwell Heath HP10 9BX'
   click_on 'Next'
 end
