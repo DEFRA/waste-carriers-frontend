@@ -316,6 +316,13 @@ en:
       business_type: "Business type"
       results_format: "Results format"
 
+  templates:
+    formExample_step:
+      title: "Example Template"
+      subtitle: "A reference page for WCR team"
+      step: "Step 1 of 10"
+      legend: An example legend
+
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     registration_step: "Step %{step_no} of 8"
