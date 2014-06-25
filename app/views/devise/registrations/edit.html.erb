@@ -1,3 +1,5 @@
+<%= render 'shared/content_for_pages' %>
+
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <fieldset>
@@ -17,23 +19,30 @@
   <%= devise_error_messages! %>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <p class="group"><%= t 'devise.registrations.emailConfirm',:email=>resource.unconfirmed_email %></p>
+  <%= t 'devise.registrations.emailConfirm',:email=>resource.unconfirmed_email %>
   <% end %>
   
-  <p class="group<% if resource.errors[:current_password].any? %> validation<% end %>"><%= f.label :current_password %><%=t 'devise.registrations.confirmMessage'%><br />
-  <%= f.password_field :current_password %>
-  </p>
+  <div class="form-group<% if resource.errors[:current_password].any? %> validation<% end %>">
+      <div class='form-label'><%= f.label :current_password %></div>
+        <span class='form-hint'><%=t 'devise.registrations.confirmMessage'%></span>
+        <%= f.password_field :current_password %>
+  </div>
 
-  <p class="group"><%= f.label :password, t('devise.registrations.newPassword') %><%=t 'devise.registrations.lengthMessage'%><br/>
-  <%= f.password_field :password, :autocomplete => "off" %>
-  </p>
+  <div class="form-group">
+      <div class='form-label'><%= f.label :password, t('devise.registrations.newPassword') %></div>
+         <span class='form-hint'><%=t 'devise.registrations.lengthMessage'%></span>
+         <%= f.password_field :password, :autocomplete => "off" %>
+  </div>
 
-  <p class="group"><%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %></p>
+  <div class='form-group'>
+      <div class='form-label'><%= f.label :password_confirmation %></div>
+      <%= f.password_field :password_confirmation %>
+  </div>
 
-  <p class="action group">
-  <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
-  <%= f.submit t('devise.registrations.update'), :class => "button" %></p>
+      <p><%= link_to t('registrations.form.back_button_label') %></p>
+      <%= f.submit t('devise.registrations.update'), :class => "button" %>
+
+
 <% end %>
 </fieldset>
 
