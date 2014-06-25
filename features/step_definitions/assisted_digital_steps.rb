@@ -127,12 +127,10 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   fill_in 'Email address', with: ''
   click_on 'Next'
 
-  #Do nothing (yet) on the Payment page
-  click_on 'Next'
-
   check 'registration_declaration'
   click_on 'Confirm'
-
+  click_on 'Next'
+  click_on 'Next'
 end
 
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
@@ -169,10 +167,13 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   # Later this should redirect automatically to another page showing the payment confirmation.
   click_on 'Continue'
 
-  #By now we should be on the (internal version of the) Signup page
-  page.should have_content 'Account details'
-  click_on 'Next'
-
+  # TODO at this point we ought to be on page with access code but are at confirmation page
 end
 
+And(/^the waste carrier registation number$/) do
+  page.should have_content 'Your registration number is:'
+end
 
+Then(/^I see the six\-character access code for the user$/) do
+  page.should have_content 'Your access code is:'
+end

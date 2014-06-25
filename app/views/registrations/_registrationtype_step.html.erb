@@ -18,6 +18,7 @@
         <%= f.radio_button :registrationType, "carrier_broker_dealer", :class => "radio" %>
         <%= f.label :carrier_broker_dealer, :class => "label" %>
       </label>
+      <%= f.hidden_field :tier, value: 'upper' %>
     </div>
   </fieldset>
 
