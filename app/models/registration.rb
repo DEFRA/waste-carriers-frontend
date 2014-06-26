@@ -134,7 +134,7 @@ class Registration < ActiveResource::Base
     registration.validates :country, presence: true, length: { maximum: 35 }
   end
 
-  validates :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
+  validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
