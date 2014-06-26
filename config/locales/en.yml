@@ -149,6 +149,8 @@ en:
     back_button_label: "Back"
     edit_these_details: "Edit these details"
     find_companies_house_details:  "Companies House number"
+    add_button_label: "Add"
+    delete_button_label: "Delete"
 
   activemodel:
     models:
@@ -211,6 +213,12 @@ en:
         to:   "To"
         route_digital: "Digital"
         route_assisted_digital: "Assisted Digital"
+      director:
+        first_name: "First name"
+        last_name: "Last name"
+        dob_day: "Day"
+        dob_month: "Month"
+        dob_year: "Year"
 
   shared:
     current_user:
@@ -317,11 +325,14 @@ en:
       results_format: "Results format"
 
   directors:
-    directordetails_step:
+    directorDetails:
       title: "Director details"
       subtitle: "Provide details for all your directors"
       step: "Step 7 of 8"
+    directordetails_step:
       legend: "These will not be made public"
+    directordetails_step:
+      legend: "List of directors"
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
