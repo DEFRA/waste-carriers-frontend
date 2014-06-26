@@ -50,6 +50,10 @@ describe Registration do
   context 'signup step' do
     before { subject.current_step = 'signup' }
 
+    it { should validate_presence_of(:tier) }
+    it { should allow_value('LOWER', 'UPPER').for(:tier) }
+    it { should_not allow_value('lower', 'upper').for(:tier) }
+
     context 'without signup mode' do
       it { should_not validate_presence_of(:accountEmail) }
     end

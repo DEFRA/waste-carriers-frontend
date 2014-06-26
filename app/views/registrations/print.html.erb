@@ -8,7 +8,11 @@
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
 <%= render "shared/meta_phases"%>
 
-<h1 class="registered"><%= t '.isRegistered', :companyName => @registration.companyName %></h1>
+<% if @registration.tier.inquiry.LOWER? %>
+    <h1 class="registered"><%= t '.isRegistered', :companyName => @registration.companyName %></h1>
+<% else %>
+    <h1>Upper tier waste carrier</h1>
+<% end %>
 
 <h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 
