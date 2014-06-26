@@ -13,7 +13,7 @@
       <% end %>
 
       <%= form_for(@directors, url: {action: "done"} ) do |f| %>
-        <% unless @directors.last.last_name.blank? %>
+        <% unless @directors.first.last_name.blank? %>
           <%= render 'directorlist_step', f: f%>
         <% end %>
         <%= render 'wizard_links' %>
