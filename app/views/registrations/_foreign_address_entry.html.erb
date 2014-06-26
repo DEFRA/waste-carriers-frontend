@@ -1,4 +1,6 @@
- <p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
+<%= f.hidden_field :addressMode, value: 'manual-foreign' %>
+
+<p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
      <%= validation_for(@registration, :streetLine1) %>
      <%= f.label t('.streetLine1') %>
      <%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
