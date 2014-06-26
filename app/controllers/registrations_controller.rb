@@ -138,7 +138,6 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/construction-demolition
   def newConstructionDemolition
     new_step_action 'constructiondemolition'
-    session[:registration_phase] = 'smart'
   end
 
   # POST /your-registration/construction-demolition
@@ -149,10 +148,8 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
       when 'yes'
-        session[:registration_phase] = 'upper'
         redirect_to :newRegistrationType
       when 'no'
-        session[:registration_phase] = 'lower'
         redirect_to :newBusinessDetails
       end
     elsif @registration.new_record?
@@ -200,7 +197,14 @@ class RegistrationsController < ApplicationController
     if params[:findAddress]
       render "newBusinessDetails"
     elsif @registration.valid?
-      session[:registration_phase] == 'upper' ? (redirect_to :newUpperBusinessDetails) : (redirect_to :newContact)
+      next_step = case @registration.tier
+                    when 'upper'
+                      :newUpperBusinessDetails
+                    when 'lower'
+                      :newContact
+                  end
+
+      redirect_to next_step
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -230,13 +234,11 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/registration-type
   def newRegistrationType
     new_step_action 'registrationtype'
-    session[:registration_phase] = 'upper'
   end
 
   # POST /your-registration/registration-type
   def updateNewRegistrationType
     setup_registration 'registrationtype'
-    @registration.registration_phase = 'upper'
     if @registration.valid?
       redirect_to :newUpperBusinessDetails
 
@@ -274,6 +276,7 @@ class RegistrationsController < ApplicationController
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration = Registration.new(session[:registration_params])
+
 
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
@@ -604,42 +607,23 @@ class RegistrationsController < ApplicationController
 
 
   def newSignup
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
+    new_step_action 'signup'
 
-    # Pass in current page to check previous page is valid
-    #vTODO - Bring back validation check ensuring that all previous steps are valid !!!
-    if @registration.steps_invalid?("signup")
-      logger.error 'GGG ERROR! - Previous steps are not valid??? SHOULD HAVE REDIRECTED TO FAILED PAGE'
-      #redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-
-
-      # Prepopulate Email field/Set registration account
-      if user_signed_in?
-        logger.info 'User already signed in using current email: ' + current_user.email
-        @registration.accountEmail = current_user.email
+    @registration.accountEmail = if user_signed_in?
+        current_user.email
       elsif agency_user_signed_in?
-        logger.info 'Agency User already signed in using current email: ' + current_agency_user.email
-        @registration.accountEmail = current_agency_user.email
+        current_agency_user.email
       else
-        logger.info 'User NOT signed in using contact email: ' + @registration.contactEmail
-        @registration.accountEmail = @registration.contactEmail
+        @registration.contactEmail
       end
-      # Get signup mode
-      @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-      logger.info 'registration mode: ' + @registration.sign_up_mode
-    end
+
+    # Get signup mode
+    @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
+    logger.info 'registration mode: ' + @registration.sign_up_mode
   end
 
   def updateNewSignup
-    logger.info 'updateNewSignup()'
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
-    @registration.current_step = "signup"
+    setup_registration 'signup'
 
     # Prepopulate Email field/Set registration account
     if user_signed_in?
@@ -649,7 +633,9 @@ class RegistrationsController < ApplicationController
       logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
       @registration.accountEmail = current_agency_user.email
     end
+
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
+
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
       if @registration.sign_up_mode == 'sign_up'
@@ -682,11 +668,13 @@ class RegistrationsController < ApplicationController
           end
         else
           logger.debug "User signed in, set account email to user email and get user"
-          if user_signed_in?
-            @registration.accountEmail = current_user.email
-          elsif agency_user_signed_in?
-            @registration.accountEmail = current_agency_user.email
-          end
+
+          @registration.accountEmail = if user_signed_in?
+                                         current_user.email
+                                       elsif agency_user_signed_in?
+                                         current_agency_user.email
+                                       end
+
           @user = User.find_by_email(@registration.accountEmail)
         end
       end
@@ -694,6 +682,7 @@ class RegistrationsController < ApplicationController
       logger.debug "Now asking whether registration is all valid"
       if @registration.valid?
         logger.debug "The registration is all valid. About to save the registration..."
+        @registration.expires_on = Date.current
         @registration.save!
         logger.info 'Perform an additional save, to set the Route Name in metadata'
         logger.info 'routeName = ' + @registration.routeName
@@ -717,14 +706,28 @@ class RegistrationsController < ApplicationController
         logger.error "GGG - The registration is NOT valid!"
       end
 
-      # Clear session and redirect to Finish
       session[:registration_step] = session[:registration_params] = nil
+
       if !@registration.id.nil?
         ## Account not yet activated for new user. Cannot redirect to the finish URL
         if agency_user_signed_in? || user_signed_in?
-          redirect_to finish_url(:id => @registration.id)
+          next_step = case @registration.tier
+            when 'lower'
+              finish_url(:id => @registration.id)
+            when 'upper'
+              :upper_payment
+            end
+
+          redirect_to next_step
         else
-          redirect_to pending_url
+          next_step = case @registration.tier
+            when 'lower'
+              pending_url
+            when 'upper'
+              :upper_payment
+            end
+
+          redirect_to next_step
         end
       else
         # Registration Id not found, must have done something wrong
@@ -967,7 +970,6 @@ class RegistrationsController < ApplicationController
     if params[:findAddress]
       render "newBusinessDetails"
     elsif @registration.valid?
-      #redirect_to :upper_payment
       redirect_to :directorDetails
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -990,9 +992,9 @@ class RegistrationsController < ApplicationController
     setup_registration 'payment'
 
     if @registration.valid?
-      redirect_to :upper_summary
-    else render 'newPayment', :status => '400'
-
+      redirect_to_worldpay
+    else
+      render 'newPayment', :status => '400'
     end
   end
 
@@ -1007,9 +1009,9 @@ class RegistrationsController < ApplicationController
     setup_registration 'upper_summary'
 
     if @registration.valid?
-      #redirect_to :newSignup
-      redirect_to_worldpay
-    else render 'newUpperSummary', :status => '400'
+      redirect_to :newSignup
+    else
+      render 'newUpperSummary', :status => '400'
     end
   end
   ######################################
@@ -1059,7 +1061,7 @@ class RegistrationsController < ApplicationController
       :password,
       :password_confirmation,
       :accountEmail_confirmation,
-      :registration_phase,
+      :tier,
       :company_no,
       :registration_fee,
       :copy_card_fee,
