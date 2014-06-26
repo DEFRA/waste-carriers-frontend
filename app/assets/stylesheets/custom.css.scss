@@ -17,23 +17,24 @@
 
 
 //SCSS include links to application elements.
-#content { @include media; }
-#content { @include device-pixel-ratio($ratio: 2)}
-#content h1 { @include core-36; }
-#content h2 {@include core-27}
-#content h3 {@include core-24}
+#content {@include media}
+#content {@include device-pixel-ratio($ratio: 2)}
 #content p {@include core-19}
-#content legend {@include core-36}
 #content input {@include core-19}
 #content label {@include core-19}
 #content form-label {@include core-19}
 #content .step {@include core-19}
 #content .error-text {@include core-19}
 #content li {@include core-19}
-#content { @include inner-block; }
-#content { @include outer-block; }
-.beta-banner { @include phase-banner (beta); }
-.button  { @include button; }
+#content h1 {@include core-48}
+#content h2 {@include core-36}
+#content h3 {@include core-24}
+#content h4 {@include core-19}
+#content legend {@include core-36}
+#content {@include inner-block}
+#content {@include outer-block}
+.beta-banner {@include phase-banner (beta)}
+.button {@include button}
 
 
 //** WASTE CARRIERS ** CUSTOM STYLES ** //
@@ -49,6 +50,12 @@
 
 ul, ol {
     list-style-type: none;
+}
+
+.menu, ol, ul {
+    margin-bottom: 20px;
+    margin-top: 5px;
+    padding: 0;
 }
 
 h2 {
@@ -348,7 +355,65 @@ main#content, section#content {
     margin-right:10px;
 }
 
+//Example Template
 
+.example:before {
+    background: none repeat scroll 0 0 rgb(191, 193, 195);
+    color: rgb(255, 255, 255);
+    content: "EXAMPLE";
+    font-family: "nta",Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    left: 0;
+    line-height: 1.42857;
+    padding: 0.21053em 0.78947em;
+    position: absolute;
+    text-transform: none;
+    top: 0;
+}
+.example:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+.example {
+    padding-bottom: 30px;
+    padding-top: 45px;
+}
+.example {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.example {
+    border: 1px solid rgb(191, 193, 195);
+    margin-bottom: 45px;
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+
+// Table Styles
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+table th {
+    font-weight: 700;
+}
+table th, table td {
+    border-bottom: 1px solid rgb(191, 193, 195);
+    color: rgb(11, 12, 12);
+    font-family: "nta",Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    padding: 0.73684em 1.05263em 0.52632em 0;
+    text-align: left;
+    text-transform: none;
+}
 
 
 
