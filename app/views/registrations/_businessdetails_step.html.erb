@@ -9,7 +9,7 @@
       <%= validation_for(@registration, :companyName) %>
       <div class="form-label"><%= f.label :companyName %></div>
       <%= f.text_field :companyName, :size => 20, :maxlength => 70 %>
-      <%= f.hidden_field :tier, value: 'lower' %>
+      <%= f.hidden_field :tier, value: 'LOWER' %>
     </div>
   </fieldset>
 

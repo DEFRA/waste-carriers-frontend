@@ -198,9 +198,9 @@ class RegistrationsController < ApplicationController
       render "newBusinessDetails"
     elsif @registration.valid?
       next_step = case @registration.tier
-                    when 'upper'
+                    when 'UPPER'
                       :newUpperBusinessDetails
-                    when 'lower'
+                    when 'LOWER'
                       :newContact
                   end
 
@@ -710,18 +710,18 @@ class RegistrationsController < ApplicationController
         ## Account not yet activated for new user. Cannot redirect to the finish URL
         if agency_user_signed_in? || user_signed_in?
           next_step = case @registration.tier
-            when 'lower'
+            when 'LOWER'
               finish_url(:id => @registration.id)
-            when 'upper'
+            when 'UPPER'
               :upper_payment
             end
 
           redirect_to next_step
         else
           next_step = case @registration.tier
-            when 'lower'
+            when 'LOWER'
               pending_url
-            when 'upper'
+            when 'UPPER'
               :upper_payment
             end
 
