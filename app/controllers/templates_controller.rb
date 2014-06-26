@@ -11,7 +11,7 @@ class TemplatesController < ApplicationController
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
-      redirect_to :formExample
+      redirect_to :root
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -37,6 +37,60 @@ class TemplatesController < ApplicationController
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
     @registration= Registration.new(session[:registration_params])
     @registration.current_step = current_step
+  end
+  private
+
+  ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
+  def registration_params
+    params.require(:registration).permit(
+      :company_house_number,
+      :alt_first_name,
+      :alt_last_name,
+      :alt_job_title,
+      :alt_telephone_number,
+      :alt_email_address,
+      :primary_first_name,
+      :primary_last_name,
+      :primary_job_title,
+      :primary_telephone_number,
+      :primary_email_address,
+      :businessType,
+      :registrationType,
+      :otherBusinesses,
+      :isMainService,
+      :constructionWaste,
+      :onlyAMF,
+      :companyName,
+      :routeName,
+      :addressMode,
+      :houseNumber,
+      :streetLine1,
+      :streetLine2,
+      :streetLine3,
+      :streetLine4,
+      :country,
+      :townCity,
+      :postcode,
+      :postcodeSearch,
+      :firstName,
+      :lastName,
+      :position,
+      :phoneNumber,
+      :contactEmail,
+      :accountEmail,
+      :declaration,
+      :uprn,
+      :password,
+      :password_confirmation,
+      :accountEmail_confirmation,
+      :registration_phase,
+      :company_no,
+      :registration_fee,
+      :copy_card_fee,
+      :copy_cards,
+      :total_fee,
+      :address_match_list,
+    :sign_up_mode)
   end
 
 end
