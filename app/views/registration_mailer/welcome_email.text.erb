@@ -1,3 +1,7 @@
+<% if @registration.tier.inquiry.UPPER? %>
+Upper tier waste carrier
+<% end %>
+
 <%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %>
 ===============================================================================
 

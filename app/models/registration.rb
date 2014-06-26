@@ -71,6 +71,8 @@ class Registration < ActiveResource::Base
     string :routeName
     string :accessCode
 
+    string :tier
+
     # Used as a trigger value to force validation of the revoke reason field
     # When this value contains any value, the revokeReason field is validated
     string :revoked
@@ -131,6 +133,8 @@ class Registration < ActiveResource::Base
     registration.validates :streetLine2, :streetLine3, :streetLine4, length: { maximum: 35 }
     registration.validates :country, presence: true, length: { maximum: 35 }
   end
+
+  validates :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
