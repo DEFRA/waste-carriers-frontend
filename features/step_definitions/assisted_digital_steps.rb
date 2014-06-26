@@ -170,8 +170,8 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   # TODO at this point we ought to be on page with access code but are at confirmation page
 end
 
-And(/^the waste carrier registration number$/) do
-  page.should have_content 'Your registration number is:'
+And(/^the upper tier waste carrier registration number$/) do
+  page.should have_content 'Your registration number is: CBDU'
 end
 
 Then(/^I see the six\-character access code for the user$/) do
