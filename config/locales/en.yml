@@ -331,7 +331,7 @@ en:
       step: "Step 7 of 8"
     directordetails_step:
       legend: "These will not be made public"
-    directordetails_step:
+    directorlist_step:
       legend: "List of directors"
 
   registrations:
