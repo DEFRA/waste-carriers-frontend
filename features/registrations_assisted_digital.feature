@@ -22,7 +22,7 @@ Feature: Registrations - Assisted Digital
     When I create an upper tier registration on behalf of a caller
       And I provide valid credit card payment details on behalf of a caller
     Then I see the six-character access code for the user
-      And the upper tier waste carrier registration number
+      And the upper tier waste carrier registration id
       But the registration confirmation email should not be sent
 
   Scenario: Valid registration on behalf of a caller
