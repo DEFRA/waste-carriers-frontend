@@ -3,20 +3,53 @@
 <!-- WF 4.3.2 -->
 <div id="page0"  data-journey="waste-carriers-registration:template">
 
+  <hr> <!-- creates visual line to show sections of page -->
+  
   <fieldset>
+    <!-- A legend must be included with all fieldsets for good form structure -->
     <legend><%= t '.legend' %></legend>
+
+    <!-- The H1 element is used at the beginning of form allow screen readers to recognise they are at beginning of the page -->
+
+    <!-- Use the class of .form-group to wrap form sections -->
     <div class="form-group<%if @registration.errors[:firstName].any?%> validation<%end%>">
       <%= validation_for(@registration, :firstName) %>
+      <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
       <%= f.label :firstName, class: 'form-label' %>
       <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
     </div>
+
     <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
       <%= validation_for(@registration, :lastName) %>
+      <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
       <%= f.label :lastName, class: 'form-label' %>
       <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
+      <hr>
     </div>
+
+
+    <!-- memorable dates -->
+
+    <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+      <h1>An example of date</h1>
+      <p class='subtitle'>For example, 26 5 1976</p>
+      <div class='inline-date'>
+        <%= f.label :Day, class: 'form-label' %>
+        <%= f.text_field :lastName, :size => 2, :maxlength => 2 %>
+      </div>
+      <div class='inline-date'>
+        <%= f.label :Month, class: 'form-label' %>
+        <%= f.text_field :lastName, :size => 2, :maxlength => 2 %>
+      </div>
+      <div class='inline-date'>
+        <%= f.label :Year, class: 'form-label' %>
+        <%= f.text_field :lastName, :size => 4, :maxlength => 4 %>
+      </div>
+    </div>
+
+    <!-- tables --> 
   </fieldset>
 
-</div>
+ </div>
 
 <%= render 'wizard_links' %>

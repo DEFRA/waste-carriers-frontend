@@ -40,6 +40,13 @@
 
 //GLOBAL
 
+#content {
+    padding-bottom:100px;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
 ul, ol {
     list-style-type: none;
 }
@@ -50,6 +57,10 @@ h2 {
 }
 
 h2.subtitle {
+    color: rgb(111, 119, 123);
+}
+
+p.subtitle {
     color: rgb(111, 119, 123);
 }
 
@@ -107,8 +118,8 @@ p {
 //FOOTER STYLES
 
 .footer-top {
-    padding-left: 30px;
     clear: left;
+    padding-left: 30px;
     position: relative;
 }
 
@@ -321,23 +332,28 @@ legend {
 
 //Reports page
 
-#report_statuses, #report_business_types {
-    width: 300px;
-}
-
-.find-location-for-service, .find-location-for-licence {
-    background: url("https://assets.digital.cabinet-office.gov.uk/static/icon-locator-8782227fac15fe8df3295c200ef16955.png") no-repeat scroll 1em 1em rgb(234, 237, 239);
-    line-height: 2;
-    margin: 2em -1em 0;
-    min-height: 2em;
-    padding: 1em 0.75em 1em 3.5em;
-    position: relative;
-}
-
 main#content, section#content {
     display: block;
     margin: 0 auto;
     max-width: 1020px;
     position: relative;
 }
+
+//Date Example
+
+.inline-date {
+    float: left;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-right:10px;
+}
+
+
+
+
+
+
+
+
+
 
