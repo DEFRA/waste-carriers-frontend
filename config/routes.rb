@@ -91,8 +91,11 @@ Registrations::Application.routes.draw do
     get "your-registration/upper-tier-contact-details" => "registrations#newUpperContactDetails", :as => :newUpperContactDetails
     post "your-registration/upper-tier-contact-details" => "registrations#updateNewUpperContactDetails"
 
-    get "your-registration/directors" => "directors#newDirectorDetails", :via => [:get], :as => :newDirectorDetails
-    post "your-registration/directors" => "directors#updateNewDirectorDetails"
+    get "your-registration/directors" => "directors#directorDetails", :via => [:get], :as => :directorDetails
+    post "your-registration/directors" => "directors#create"
+    match "your-registration/directors" => "directors#update", :via => [:put,:patch]
+    delete "your-registration/directors" => "directors#delete"
+    post "your-registration/directors/done" => "directors#done"
 
     match "your-registration/upper-tier-business-details" => "registrations#newUpperBusinessDetails", :via => [:get], :as => :newUpperBusinessDetails
     match "your-registration/upper-tier-business-details" => "registrations#updateNewUpperBusinessDetails", :via => [:post,:put,:patch]
