@@ -5,6 +5,10 @@
   </head>
   <body>
 
+  <% if @registration.tier.inquiry.UPPER? %>
+    <h1>Upper tier waste carrier</h1>
+  <% end %>
+
 	<h2 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h2>
 	<h3><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>. <!--Your username is your email: <%= @registration.accountEmail %>--></h3>
 
