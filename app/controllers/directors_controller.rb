@@ -10,13 +10,19 @@ class DirectorsController < ApplicationController
   def create
     set_action
 
+    logger.debug @directors.length
+    @directors.each { |d| logger.debug "#{d.first_name} #{d.last_name}" }
+
+    @director = Director.new(params[:director])
+
     if @director.valid?
+      @directors[-1] = @director
       logger.info 'Director is valid so far, go to next page'
-      redirect_to :upper_payment
-    elsif @director.new_record?
+      redirect_to action: 'directorDetails'
+    else
       # there is an error (but data not yet saved)
       logger.info 'Director is not valid, and data is not yet saved'
-      render "newDirectorDetails", :status => '400'
+      render "directorDetails", :status => '400'
     end
   end
 
@@ -30,7 +36,7 @@ class DirectorsController < ApplicationController
     elsif @director.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Director is not valid, and data is not yet saved'
-      render "newDirectorDetails", :status => '400'
+      render "directorDetails", :status => '400'
     end
   end
 
@@ -49,7 +55,7 @@ class DirectorsController < ApplicationController
     elsif @director.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Director is not valid, and data is not yet saved'
-      render "newDirectorDetails", :status => '400'
+      render "directorDetails", :status => '400'
     end
   end
 
