@@ -5,9 +5,8 @@
   	<fieldset>
   		<legend></legend>
 
-  		
-    	<% content_for :page_title, createTitle('templates.formExample_step.title') %>
-    	<%= form_for(@registration, :url => newContact_path) do |f| %>
+        <% content_for :page_title, createTitle('templates.formExample_step.title') %>
+        <%= form_for(@registration, :url => formExample_path) do |f| %>
 
       	<div class="step"><%= t 'templates.formExample_step.step' %></div>
       	<h1><%= t 'templates.formExample_step.subtitle' %></h1>

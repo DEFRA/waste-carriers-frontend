@@ -108,7 +108,7 @@ Registrations::Application.routes.draw do
 
     # Template URLS - These are just for the devs as working examples
     get "templates/form" => "templates#formExample", :as => :formExample
-    post "templates/form" => "template#updateFormExample"
+    post "templates/form" => "templates#updateFormExample"
 
   # Worldpay response messages
   get "worldpay/success"
