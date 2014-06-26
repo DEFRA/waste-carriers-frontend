@@ -21,8 +21,8 @@ Feature: Registrations - Assisted Digital
   Scenario: Upper tier
     When I create an upper tier registration on behalf of a caller
       And I provide valid credit card payment details on behalf of a caller
-    Then I should see the Confirmation page
-      And the print page contains the six-digit access code for the user
+    Then I see the six-character access code for the user
+      And the waste carrier registation number
       But the registration confirmation email should not be sent
 
   Scenario: Valid registration on behalf of a caller

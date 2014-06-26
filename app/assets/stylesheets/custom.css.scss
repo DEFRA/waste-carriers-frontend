@@ -138,6 +138,15 @@ legend {
 }
 
 
+.form-hint {
+    color: rgb(111, 119, 123);
+    display: block;
+    font-size: 19px;
+    margin-bottom: 5px;
+    margin-top: 8px;
+}
+
+
 //LABEL STYLES
 
 .block-label {
@@ -251,7 +260,7 @@ legend {
 //Registration page
 
 .js-enabled .related-positioning {
-    top: 10em;
+    top: 7em;
 }
 
 .related-positioning {
@@ -301,11 +310,34 @@ legend {
     text-transform: none;
 }
 
+//validation 
+
+.validation-summary {
+    background: none repeat scroll 0 0 rgb(254, 247, 247);
+    border: 3px solid rgb(223, 48, 52);
+    padding: 1em 0.7em;
+}
 
 
+//Reports page
 
+#report_statuses, #report_business_types {
+    width: 300px;
+}
 
+.find-location-for-service, .find-location-for-licence {
+    background: url("https://assets.digital.cabinet-office.gov.uk/static/icon-locator-8782227fac15fe8df3295c200ef16955.png") no-repeat scroll 1em 1em rgb(234, 237, 239);
+    line-height: 2;
+    margin: 2em -1em 0;
+    min-height: 2em;
+    padding: 1em 0.75em 1em 3.5em;
+    position: relative;
+}
 
-
-
+main#content, section#content {
+    display: block;
+    margin: 0 auto;
+    max-width: 1020px;
+    position: relative;
+}
 
