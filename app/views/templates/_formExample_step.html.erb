@@ -14,10 +14,10 @@
       <!-- The H1 element is used at the beginning of form allow screen readers to recognise they are at beginning of the page -->
         <h2>Example headings</h2><br>
         <ul>
-          <li><h1>H1 headings use font size 48px</h1></li>
-          <li><h2>H2 headings use font size 36px</h2></li>
-          <li><h3>H3 headings use font size 24px</h3></li>
-          <li><h4>H4 headings use font size 19px</h4></li>
+          <li><h1 class='heading-xlarge'>H1 headings use font size 48px</h1></li>
+          <li><h2 class='heading-large'>H2 headings use font size 36px</h2></li>
+          <li><h3 class='heading-medium'>H3 headings use font size 24px</h3></li>
+          <li><h4 class='heading-small'>H4 headings use font size 19px</h4></li>
         <ul>
       </div>
   </fieldset>
@@ -56,15 +56,15 @@
       <%= validation_for(@registration, :firstName) %>
       <!-- Form Label Styles -->
       <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
-      <%= f.label :firstName, class: 'form-label' %>
-      <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
+      <label class='form-label' for='firstName'><%= f.label :firstName %></label>
+      <div class='form-control'><%= f.text_field :firstName, :size => 20, :maxlength => 35 %></div>
     </div>
 
     <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
       <%= validation_for(@registration, :lastName) %>
       <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
-      <%= f.label :lastName, class: 'form-label' %>
-      <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
+      <label class='form-label' for='lastName'><%= f.label :lastName %></label>
+      <%= f.text_field :lastName, :class => 'form-control', :size => 20, :maxlength => 35 %>
     </div>
   </div>
   </fieldset>
@@ -72,13 +72,43 @@
 <!-- Radio Button Styles -->
 
   <fieldset>
-    <legend>Example Radio Button</legend>
+    <legend>Radio Button Example</legend>
     <div class='example'>
     <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-        <label class="block-label" for="registration_businessType_soletrader">
-          <input type="radio" value="soleTrader" name="registration[businessType]" id="registration_businessType_soletrader">
-          Radio Button
-        </label> 
+        <label class="block-label" for="registration_businessType_radio-1">
+          <input type="radio" value="radio-1" name="registration[businessType]" id="registration_businessType_radio-1">
+          Radio Button 1
+        </label>
+        <label class="block-label" for="registration_businessType_radio-2">
+          <input type="radio" value="radio-2" name="registration[businessType]" id="registration_businessType_radio-2">
+          Radio Button 2
+        </label>
+        <label class="block-label" for="registration_businessType_radio-3">
+          <input type="radio" value="radio-3" name="registration[businessType]" id="registration_businessType_radio-3">
+          Radio Button 3
+        </label>   
+    </div>
+  </div>
+  </fieldset>
+
+  <!-- Check Box Styles -->
+
+  <fieldset>
+    <legend>Checkbox Example</legend>
+    <div class='example'>
+    <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
+        <label class="block-label" for="registration_businessType_checkbox-1">
+          <input type="checkbox" value="checkbox-1" name="registration[businessType]" id="registration_businessType_checkbox-1">
+          Checkbox 1
+        </label>
+        <label class="block-label" for="registration_businessType_checkbox-2">
+          <input type="checkbox" value="checkbox-2" name="registration[businessType]" id="registration_businessType_checkbox-2">
+          Checkbox 2
+        </label>
+        <label class="block-label" for="registration_businessType_checkbox-3">
+          <input type="checkbox" value="checkbox-3" name="registration[businessType]" id="registration_businessType_checkbox-3">
+          Checkbox 3
+        </label>   
     </div>
   </div>
   </fieldset>

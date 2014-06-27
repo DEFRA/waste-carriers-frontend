@@ -26,11 +26,6 @@
 #content .step {@include core-19}
 #content .error-text {@include core-19}
 #content li {@include core-19}
-#content h1 {@include core-48}
-#content h2 {@include core-36}
-#content h3 {@include core-24}
-#content h4 {@include core-19}
-#content legend {@include core-36}
 #content {@include inner-block}
 #content {@include outer-block}
 .beta-banner {@include phase-banner (beta)}
@@ -53,14 +48,14 @@ ul, ol {
 }
 
 .menu, ol, ul {
-    margin-bottom: 20px;
-    margin-top: 5px;
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
     padding: 0;
 }
 
 h2 {
-    margin-bottom:10px;
-    margin-top:10px;
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
 }
 
 h2.subtitle {
@@ -72,18 +67,19 @@ p.subtitle {
 }
 
 hr {
-    margin-bottom:30px;
-    margin-top:30px;
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
 }
 
 p {
-    margin-bottom: 1.05263em;
-    margin-top: 0.26316em;
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
 }
 
 #smartanswers_display, #data_protection {
     list-style-type: inherit;
 }
+
 
 //HEADER STYLES
 
@@ -130,11 +126,66 @@ p {
     position: relative;
 }
 
+//HEADING Styles
+
+.heading-xlarge, legend {
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
+}
+
+.heading-xlarge, legend {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.04167;
+    text-transform: none;
+}
+
+.heading-large {
+    margin-bottom: 0.55556em;
+    margin-top: 1.25em;
+}
+
+.heading-large {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.11111;
+    text-transform: none;
+}
+
+.heading-medium {
+    margin-bottom: 0.83333em;
+    margin-top: 1.875em;
+}
+
+.heading-medium {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-transform: none;
+}
+
+.heading-small {
+    margin-top: 1.05263em;
+}
+
+.heading-small {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.31579;
+    margin-bottom: 0.3125em;
+    text-transform: none;
+}
+
 
 //FORM STYLES
 
 legend {
     margin-bottom:10px;
+    font-weight:700;
 }
 
 .form-group {
