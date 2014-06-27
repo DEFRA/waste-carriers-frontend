@@ -1,82 +1,103 @@
-require 'active_resource'
 
-class Registration < ActiveResource::Base
+require 'active_model'
 
+class Registration
+
+  include ActiveModel::Validations
+  include ActiveModel::Conversion
   #The services URL can be configured in config/application.rb and/or in the config/environments/*.rb files.
+=begin
   self.site = Rails.configuration.waste_exemplar_services_url
 
   self.format = :json
 
-  attr_writer :current_step
 
-  #The schema is not strictly necessary for a model based on ActiveRessource, but helpful for documentation
-  schema do
-    string :businessType
-    string :otherBusinesses
-    string :isMainService
-    string :constructionWaste
-    string :onlyAMF
-    string :companyName
-    string :individualsType
-    string :publicBodyType
-    string :publicBodyTypeOther
-    string :registrationType
-    string :houseNumber
+=end
 
-    string :addressMode
-    string :postcodeSearch
-    string :selectedMoniker
-    string :streetLine1
-    string :streetLine2
-    string :townCity
-    string :postcode
-    string :easting
-    string :northing
-    string :dependentLocality
-    string :dependentThroughfare
-    string :administrativeArea
-    string :royalMailUpdateDate
-    string :localAuthorityUpdateDate
-    string :company_no
-    date :expires_on
+attr_writer :current_step
 
-    #payment
-    integer :total_fee
-    integer :registration_fee
-    integer :copy_card_fee
-    integer :copy_cards
+attr_accessor  :businessType,
+:otherBusinesses,
+:isMainService,
+:constructionWaste,
+:onlyAMF,
+:companyName,
+:individualsType,
+:publicBodyType,
+:publicBodyTypeOthe,
+:registrationType,
+:houseNumber,
+:addressMode,
+:postcodeSearch,
+:selectedMoniker,
+:streetLine1,
+:streetLine2,
+:townCity,
+:postcode,
+:easting,
+:northing,
+:dependentLocality,
+:dependentThroughfa,
+:administrativeArea,
+:royalMailUpdateDate,
+:localAuthorityUpdate,
+:company_no,
+:expires_on,
+#payment
+ :total_fee,
+ :registration_fee,
+ :copy_card_fee,
+ :copy_cards,
+# Non UK fields
+  :streetLine3,
+:streetLine4,
+:country,
+#
+:title,
+:otherTitle,
+:firstName,
+:lastName,
+:position,
+:phoneNumber,
+:contactEmail,
+:accountEmail,
+:declaration,
+:regIdentifier,
+:status,
+ :password,
+ :sign_up_mode,
+ :routeName,
+ :accessCode,
+ :tier,
+ :metaData,
+# Used as a trigger value to force validation of the revoke reason field
+# When this value contains any value, the revokeReason field is validated
+:revoked
 
-    # Non UK fields
-    string :streetLine3
-    string :streetLine4
-    string :country
-
-    string :title
-    string :otherTitle
-    string :firstName
-    string :lastName
-    string :position
-    string :phoneNumber
-    string :contactEmail
-    string :accountEmail
-    string :declaration
-    string :regIdentifier
-    string :status
+=begin
     # TODO: Determine if this is needed?
     string :uprn
     string :address
+=end
 
-    string :password
-    string :sign_up_mode
-    string :routeName
-    string :accessCode
 
-    string :tier
 
-    # Used as a trigger value to force validation of the revoke reason field
-    # When this value contains any value, the revokeReason field is validated
-    string :revoked
+  def initialize(session_params)
+   session_params.each do |k, v|
+    self.send("#{k}=",v)
+   end
+   metaData = {}
   end
+
+   def save!
+    @title = 'Mr'
+     Rails.logger.debug self.to_json
+      self.to_json
+   end
+
+
+
+
 
   BUSINESS_TYPES = %w[
     soleTrader
@@ -138,12 +159,12 @@ class Registration < ActiveResource::Base
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
-  with_options if: [:signup_step?, :unpersisted?, :do_sign_up?] do |registration|
+  with_options if: [:signup_step?,  :do_sign_up?] do |registration|
     registration.validates :accountEmail, confirmation: true
     registration.validate :user_cannot_exist_with_same_account_email
   end
 
-  with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
+  with_options if: [:signup_step?, :sign_up_mode_present?] do |registration|
     registration.validates :password, presence: true, length: { in: 8..128 }
     registration.validates_strength_of :password, with: :accountEmail
     registration.validates :password, confirmation: true
@@ -165,12 +186,10 @@ class Registration < ActiveResource::Base
   # TODO: FIX this Test All routes!! IS this needed
   #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
 
-  # Validate Revoke Reason
-  # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
 
   # TODO not sure whether to keep this validation or not since the sign_up mode is not supplied by the user
-  # validates :sign_up_mode, presence: true, if: [:signup_step?, :unpersisted?, :account_email_present?]
-  # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, :unpersisted?]
+  # validates :sign_up_mode, presence: true, if: [:signup_step?, , :account_email_present?]
+  # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, ]
 
   def businesstype_step?
     current_step.inquiry.businesstype?
@@ -256,10 +275,6 @@ class Registration < ActiveResource::Base
     accountEmail.present?
   end
 
-  def unpersisted?
-    not persisted?
-  end
-
   def self.business_type_options_for_select
     (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
   end
@@ -327,7 +342,6 @@ class Registration < ActiveResource::Base
   end
 
   def validate_revokedReason
-    #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
     Rails.logger.debug 'validate revokedReason, revoked:' + revoked
     # If revoke question is Yes, and revoke reason is empty, then error
     if revoked.present?

@@ -61,7 +61,7 @@ class RegistrationsController < ApplicationController
       when 'other'
         redirect_to :newNoRegistration
       end
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newBusinessType", :status => '400'
@@ -80,11 +80,14 @@ class RegistrationsController < ApplicationController
 
     # TODO set steps
 
+=begin
     if @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newNoRegistration", :status => '400'
     end
+=end
+
   end
 
   # GET /your-registration/other-businesses
@@ -104,7 +107,7 @@ class RegistrationsController < ApplicationController
       when 'no'
         redirect_to :newConstructionDemolition
       end
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newOtherBusinesses", :status => '400'
@@ -128,7 +131,7 @@ class RegistrationsController < ApplicationController
       when 'no'
         redirect_to :newConstructionDemolition
       end
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newServiceProvided", :status => '400'
@@ -152,7 +155,7 @@ class RegistrationsController < ApplicationController
       when 'no'
         redirect_to :newBusinessDetails
       end
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newConstructionDemolition", :status => '400'
@@ -176,7 +179,7 @@ class RegistrationsController < ApplicationController
       when 'no'
         redirect_to :newRegistrationType
       end
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newOnlyDealWith", :status => '400'
@@ -205,7 +208,7 @@ class RegistrationsController < ApplicationController
                   end
 
       redirect_to next_step
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newBusinessDetails", :status => '400'
@@ -224,7 +227,7 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       redirect_to :newConfirmation
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newContactDetails", :status => '400'
@@ -242,7 +245,7 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       redirect_to :newUpperBusinessDetails
 
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newRegistrationType", :status => '400'
@@ -260,7 +263,7 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       redirect_to :newSignup
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newConfirmation", :status => '400'
@@ -609,6 +612,8 @@ class RegistrationsController < ApplicationController
   def newSignup
     new_step_action 'signup'
 
+            Rails.logger.debug @registration.to_json
+
     @registration.accountEmail = if user_signed_in?
         current_user.email
       elsif agency_user_signed_in?
@@ -624,6 +629,8 @@ class RegistrationsController < ApplicationController
 
   def updateNewSignup
     setup_registration 'signup'
+
+        Rails.logger.debug @registration.to_json
 
     # Prepopulate Email field/Set registration account
     if user_signed_in?
@@ -686,7 +693,7 @@ class RegistrationsController < ApplicationController
         @registration.save!
         logger.info 'Perform an additional save, to set the Route Name in metadata'
         logger.info 'routeName = ' + @registration.routeName
-        @registration.metaData.route = @registration.routeName
+        # @registration.metaData.route = @registration.routeName
         if agency_user_signed_in?
           @registration.accessCode = @registration.generate_random_access_code
         end
@@ -696,7 +703,7 @@ class RegistrationsController < ApplicationController
           @registration.activate!
         end
         @registration.save!
-        session[:registration_id] = @registration.id
+        # session[:registration_id] = @registration.id
         logger.debug "The registration has been saved. About to send e-mail..."
         if user_signed_in?
           RegistrationMailer.welcome_email(@user, @registration).deliver
@@ -708,7 +715,11 @@ class RegistrationsController < ApplicationController
 
       session[:registration_step] = session[:registration_params] = nil
 
-      if !@registration.id.nil?
+
+  # if !@registration.id.nil?
+   unless @registration.status.eql? 'ACTIVE'
+
+
         ## Account not yet activated for new user. Cannot redirect to the finish URL
         if agency_user_signed_in? || user_signed_in?
           next_step = case @registration.tier
@@ -734,12 +745,14 @@ class RegistrationsController < ApplicationController
         logger.info 'Registration Id not found, must have done something wrong'
         render :file => "/public/session_expired.html", :status => 400
       end
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newSignup", :status => '400'
     end
   end
+
+
 
   def pending
     @registration = Registration.find(session[:registration_id])
@@ -946,7 +959,7 @@ class RegistrationsController < ApplicationController
       logger.debug 'registration.valid'
       logger.debug params.keys.to_s
       redirect_to :newUpperContactDetails
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newUpperBusinessDetails", :status => '400'
@@ -971,7 +984,7 @@ class RegistrationsController < ApplicationController
       render "newBusinessDetails"
     elsif @registration.valid?
       redirect_to :upper_summary
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newUpperContactDetails", :status => '400'
@@ -1021,17 +1034,6 @@ class RegistrationsController < ApplicationController
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
     params.require(:registration).permit(
-      :company_house_number,
-      :alt_first_name,
-      :alt_last_name,
-      :alt_job_title,
-      :alt_telephone_number,
-      :alt_email_address,
-      :primary_first_name,
-      :primary_last_name,
-      :primary_job_title,
-      :primary_telephone_number,
-      :primary_email_address,
       :businessType,
       :registrationType,
       :otherBusinesses,

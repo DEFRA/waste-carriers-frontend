@@ -1,22 +1,18 @@
-<% if @registration.persisted? %>
-    <% content_for :page_title, createTitle('.update') %>
-<% else %>
-    <% content_for :page_title, createTitle('.complete') %>
-<% end %>
+  <% content_for :page_title, createTitle('.complete') %>
 
 
 <%= render "errors" %>
 
 <!-- WF 4.3.4 -->
 <div id="page4"  data-journey="waste-carriers-registration:confirm">
-    
-<h2><% if !@registration.persisted? %><%= t '.complete' %><% else %><%= t '.update' %><% end %></h2>
+
+<h2><%= t '.complete' %></h2>
 
 <fieldset>
 <ledend></ledend>
 <% if user_signed_in? || agency_user_signed_in? %>
 <!--<legend>User Account</legend>-->
-	
+
 <p><%= t '.signedInAsText' %> <strong><% if user_signed_in? %><%= current_user.email %><% elsif agency_user_signed_in? %><%= current_agency_user.email %><% end %></strong></p>
 <p><%= t '.notYouText_html' %></p>
 
@@ -77,5 +73,5 @@
 
 <div class="form-group">
     <%= render 'back_link' %>
-    <input name="register" class="button" type="submit" value="<% if @registration.persisted? %><%= t '.update' %><% else %><%= t 'registrations.form.next_button_label' %><% end %>"/>
+    <input name="register" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
 </div>
