@@ -2,23 +2,22 @@ class DirectorsController < ApplicationController
 
   # GET /your-registration/directors
   def directorDetails
-    get_action
-    @directors.push(Director.new)
+    @director = Director.new
   end
 
   # POST /your-registration/directors
   def create
-    set_action
+    get_registration
 
-    logger.debug @directors.length
-    @directors.each { |d| logger.debug "#{d.first_name} #{d.last_name}" }
+    logger.debug @registration.directors.length
+    @registration.directors.each { |d| logger.debug "#{d.first_name} #{d.last_name}" }
 
-    @director = Director.new(params[:director])
+    director = Director.new(params[:director])
 
-    if @director.valid?
-      @directors[-1] = @director
+    if director.valid?
+      @registration.directors << director
       logger.info 'Director is valid so far, go to next page'
-      redirect_to action: 'directorDetails'
+      render :directorDetails
     else
       # there is an error (but data not yet saved)
       logger.info 'Director is not valid, and data is not yet saved'
@@ -56,6 +55,15 @@ class DirectorsController < ApplicationController
       # there is an error (but data not yet saved)
       logger.info 'Director is not valid, and data is not yet saved'
       render "directorDetails", :status => '400'
+    end
+  end
+
+  def get_registration
+    session[:registration_params] ||= {}
+    @registration = Registration.new(session[:registration_params])
+    unless @registration.has_attribute?(:directors)
+      @registration.directors = []
+      session[:registration_params] = @registration
     end
   end
 

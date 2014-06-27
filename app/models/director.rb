@@ -3,7 +3,7 @@ require 'active_resource'
 class Director
   include ActiveModel::Model
 
-  attr_accessor :first_name, :last_name, :dob_day, :dob_month, :dob_year
+  attr_accessor :first_name, :last_name, :dob_day, :dob_month, :dob_year, :dob
   attr_writer :current_step
 
   VALID_DAY = /\A[0-9]{2}/

@@ -1,5 +1,8 @@
 
 <fieldset>
   <legend><%= t '.legend' %></legend>
+  <% l.each do |l| %>
+    <div><%= "#{l.first_name} #{l.last_name}" %>
+  <% end %>
 
 </fieldset>
