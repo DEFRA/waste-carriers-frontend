@@ -5,8 +5,8 @@ en:
   global:
     siteHeader_html: "Register as a waste carrier &nbsp;<span class='beta'>beta</span>"
     headerLinkTitle: "Go to the GOV.UK homepage"
-    betaMessage_html: "<b>BETA:</b> this is a new service. Please give us your feedback once you have finished."
-    cookieMessage_html: "GOV.UK uses cookies to make the site simpler. <a href='http://www.environment-agency.gov.uk/help/35770.aspx'>Find out more about cookies</a>"
+    betaMessage_html: "<strong>BETA:</strong> this is a new service. Please give us your feedback once you have finished."
+    cookieMessage_html: "<a href='http://www.environment-agency.gov.uk/help/35770.aspx'>GOV.UK uses cookies to make the site simpler. Find out more about cookies</a>"
     helpline: "Helpline"
     england: "England"
     wales: "Wales"
@@ -315,6 +315,13 @@ en:
       status: "Status"
       business_type: "Business type"
       results_format: "Results format"
+
+  templates:
+    formExample_step:
+      title: "Example Template"
+      subtitle: "A reference page for WCR team"
+      step: "Step 1 of 10"
+      legend: An example legend
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
