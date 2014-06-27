@@ -7,7 +7,7 @@
     What kind of service do you provide?
    -->
   <fieldset>
-    <legend></legend>
+    <legend><%= t 'registrations.serviceprovided_step.subtitle' %></legend>
     <div class="inline <%if @registration.errors[:isMainService].any?%> validation<%end%>">
       <label class="block-label"><!-- GDS have an 'option' class but we prefer this simplified version -->
         <%= f.radio_button :isMainService, "no", :class => "radio" %> <%= f.label t '.part_of_service_label', :class => "label" %>

@@ -8,7 +8,7 @@
   -->
 
   <fieldset>
-    <legend></legend>
+    <legend><%= t 'registrations.businesstype_step.subtitle' %></legend>
     <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
         <label class="block-label" for="registration_businessType_soletrader">
           <input type="radio" value="soleTrader" name="registration[businessType]" id="registration_businessType_soletrader">
@@ -45,5 +45,4 @@
   </fieldset>
 
   </div>
-
-  <%= render 'wizard_links' %>
+  <div class='margin-control'><%= render 'wizard_links' %></div>
