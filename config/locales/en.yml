@@ -327,10 +327,10 @@ en:
   directors:
     directorDetails:
       title: "Director details"
-      subtitle: "Provide details for all your directors"
       step: "Step 7 of 8"
     directordetails_step:
-      legend: "These will not be made public"
+      legend: "Provide details for all your directors"
+      subtitle: "These will not be made public"
     directorlist_step:
       legend: "List of directors"
 

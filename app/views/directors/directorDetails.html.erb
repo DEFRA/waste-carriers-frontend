@@ -1,23 +1,14 @@
 <%= render 'shared/content_for_pages' %>
+
 <main id="content" role="main" class="group">
   <article role="article" class="group">
 
     <% content_for :page_title, createTitle('directors.directorDetails.title') %>
     <div class="step"><%= t 'directors.directorDetails.step' %></div>
-    <h1><%= t 'directors.directorDetails.subtitle' %></h1>
 
-    <!-- WF 4.3.2 -->
-    <div id="page7"  data-journey="waste-carriers-registration:director-details">
-      <%= form_for(@directors.last, url: {action: "create"} ) do |f| %>
-        <%= render 'directordetails_step', f: f%>
-      <% end %>
+    <%= form_for(@director, url: {action: "create"} ) do |f| %>
+      <%= render 'directordetails_step', f: f, d: @director %>
+    <% end %>
 
-      <%= form_for(@directors, url: {action: "done"} ) do |f| %>
-        <% unless @directors.first.last_name.blank? %>
-          <%= render 'directorlist_step', f: f%>
-        <% end %>
-        <%= render 'wizard_links' %>
-      <% end %>
-    </div>
   </article>
 </main>
