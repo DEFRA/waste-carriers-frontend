@@ -57,7 +57,7 @@
       <!-- Form Label Styles -->
       <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
       <label class='form-label' for='firstName'><%= f.label :firstName %></label>
-      <div class='form-control'><%= f.text_field :firstName, :size => 20, :maxlength => 35 %></div>
+      <%= f.text_field :firstName, :class => 'form-control', :size => 20, :maxlength => 35 %>
     </div>
 
     <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
