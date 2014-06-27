@@ -10,13 +10,13 @@
 
 <% if params[:manualCompanyDetails] %>
 
-    <p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+    <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
         <%= validation_for(@registration, :companyName) %>
-        <%= f.label :companyName %>
-        <%= f.text_field :companyName, :size => 20, :maxlength => 35 %>
-    </p>
+        <label class='form-label'><%= f.label :companyName %></label>
+        <%= f.text_field :companyName, :class => 'form-control', :size => 20, :maxlength => 35 %>
+    </div>
   <%= render 'uk_address_entry', f: f  %>
-    <a href="?autoCompanyDetails=true"><%= t 'registrations.contact_step.auto_company_details'%></a>
+    </p><a href="?autoCompanyDetails=true"><%= t 'registrations.contact_step.auto_company_details'%></a></p>
 
 
 <% end %>

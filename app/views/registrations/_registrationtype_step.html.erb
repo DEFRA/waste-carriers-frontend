@@ -5,6 +5,7 @@
 
   <fieldset>
     <legend><%= t '.legend' %></legend>
+    <h2 class="subtitle"><%= t 'registrations.registrationtype_step.subtitle' %></h2>
     <div class="form-group<%if @registration.errors[:registrationType].any?%> validation<%end%>">
       <label class="block-label"><!-- GDS have an 'option' class but we prefer this simplified version -->
         <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %>
