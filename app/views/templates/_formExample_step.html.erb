@@ -1,0 +1,184 @@
+<%= render "errors" %>
+
+<!-- WF 4.3.2 -->
+<div id="page0"  data-journey="waste-carriers-registration:template">
+
+ <hr> <!-- creates visual line to show sections of page -->
+
+  <!-- Heading examples -->
+
+ <fieldset>
+    <!-- A legend must be included with all fieldsets for good form structure -->
+    <legend>Example Legend</legend>
+      <div class='example'>
+      <!-- The H1 element is used at the beginning of form allow screen readers to recognise they are at beginning of the page -->
+        <h2>Example headings</h2><br>
+        <ul>
+          <li><h1 class='heading-xlarge'>H1 headings use font size 48px</h1></li>
+          <li><h2 class='heading-large'>H2 headings use font size 36px</h2></li>
+          <li><h3 class='heading-medium'>H3 headings use font size 24px</h3></li>
+          <li><h4 class='heading-small'>H4 headings use font size 19px</h4></li>
+        <ul>
+      </div>
+  </fieldset>
+
+  <!-- Link examples -->
+
+  <fieldset>
+     <legend>Example Links</legend> 
+     <div class='example'>
+      <ol>
+        <li><a href='http://govuk-elements.herokuapp.com'>This is an example link to the GDS design pages.</a></li>
+        <li><a href='https://gds.blog.gov.uk'>This is an example link to the GDS Blog.</a></li>
+        <li><a href='https://www.gov.uk/government/organisations/environment-agency'>This is an example link to the Environment page on GOV.UK website.</a></li>
+      </ol>
+    </div>
+  </fieldset>
+
+  <!-- Inset text -->
+
+    <fieldset>
+     <legend>Example of Indent Text</legend> 
+     <div class='example'>
+        <div class='text panel-indent'>
+          <p>This is an example of indent text. It is used to bring attention to a section of text in a page.</p>
+        </div>
+    </div>
+  </fieldset>
+
+  <!-- Form Label Examples -->
+
+  <fieldset>
+    <legend>Form Label Examples</legend>
+    <!-- Use the class of .form-group to wrap form sections -->
+    <div class='example'>
+    <div class="form-group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :firstName) %>
+      <!-- Form Label Styles -->
+      <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
+      <label class='form-label' for='firstName'><%= f.label :firstName %></label>
+      <div class='form-control'><%= f.text_field :firstName, :size => 20, :maxlength => 35 %></div>
+    </div>
+
+    <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+      <%= validation_for(@registration, :lastName) %>
+      <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
+      <label class='form-label' for='lastName'><%= f.label :lastName %></label>
+      <%= f.text_field :lastName, :class => 'form-control', :size => 20, :maxlength => 35 %>
+    </div>
+  </div>
+  </fieldset>
+
+<!-- Radio Button Styles -->
+
+  <fieldset>
+    <legend>Radio Button Example</legend>
+    <div class='example'>
+    <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
+        <label class="block-label" for="registration_businessType_radio-1">
+          <input type="radio" value="radio-1" name="registration[businessType]" id="registration_businessType_radio-1">
+          Radio Button 1
+        </label>
+        <label class="block-label" for="registration_businessType_radio-2">
+          <input type="radio" value="radio-2" name="registration[businessType]" id="registration_businessType_radio-2">
+          Radio Button 2
+        </label>
+        <label class="block-label" for="registration_businessType_radio-3">
+          <input type="radio" value="radio-3" name="registration[businessType]" id="registration_businessType_radio-3">
+          Radio Button 3
+        </label>   
+    </div>
+  </div>
+  </fieldset>
+
+  <!-- Check Box Styles -->
+
+  <fieldset>
+    <legend>Checkbox Example</legend>
+    <div class='example'>
+    <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
+        <label class="block-label" for="registration_businessType_checkbox-1">
+          <input type="checkbox" value="checkbox-1" name="registration[businessType]" id="registration_businessType_checkbox-1">
+          Checkbox 1
+        </label>
+        <label class="block-label" for="registration_businessType_checkbox-2">
+          <input type="checkbox" value="checkbox-2" name="registration[businessType]" id="registration_businessType_checkbox-2">
+          Checkbox 2
+        </label>
+        <label class="block-label" for="registration_businessType_checkbox-3">
+          <input type="checkbox" value="checkbox-3" name="registration[businessType]" id="registration_businessType_checkbox-3">
+          Checkbox 3
+        </label>   
+    </div>
+  </div>
+  </fieldset>
+
+  <!-- Date Styles -->
+
+  <fieldset>
+  <legend>Example Date</legend>
+    <div class='example'>
+    <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+        <p class='subtitle'>For example, 26 5 1976</p>
+        <div class='inline-date'>
+          <%= f.label :Day, class: 'form-label' %>
+          <%= f.text_field :lastName, :size => 2, :maxlength => 2 %>
+        </div>
+        <div class='inline-date'>
+          <%= f.label :Month, class: 'form-label' %>
+          <%= f.text_field :lastName, :size => 2, :maxlength => 2 %>
+        </div>
+        <div class='inline-date'>
+          <%= f.label :Year, class: 'form-label' %>
+          <%= f.text_field :lastName, :size => 4, :maxlength => 4 %>
+        </div>
+    </div>
+    </div>
+  </fieldset>
+
+  <!-- Table Styles --> 
+
+  <fieldset>
+    <legend>Example Table</legend>
+      <div class='example'>
+        <table summary='This is an example table'>
+          <thead>
+            <tr>
+              <th>Table Heading</th>
+              <th>Table Heading</th>
+              <th>Table Heading</th>
+              <th>Table Heading</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Payment 1</td>
+              <td>Payment 2</td>
+              <td>Example 3</td>
+              <td>Example 4</td>
+            </tr>
+            <tr>
+              <td>Payment 1</td>
+              <td>Payment 2</td>
+              <td>Example 3</td>
+              <td>Example 4</td>
+            </tr>
+            <tr>
+              <td>Payment 1</td>
+              <td>Payment 2</td>
+              <td>Example 3</td>
+              <td>Example 4</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </fieldset>
+
+
+    <!-- Typography Styles -->
+
+
+ </div>
+
+<%= render 'wizard_links' %>

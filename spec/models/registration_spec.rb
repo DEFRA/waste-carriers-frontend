@@ -48,11 +48,36 @@ describe Registration do
   end
 
   context 'signup step' do
-    before { subject.current_step = 'signup' }
+    before do
+      subject.current_step = 'signup'
+      subject.tier = 'UPPER'
+    end
 
-    it { should validate_presence_of(:tier) }
     it { should allow_value('LOWER', 'UPPER').for(:tier) }
-    it { should_not allow_value('lower', 'upper').for(:tier) }
+
+    context 'nil tier' do
+      before { subject.tier = nil }
+
+      it 'errors' do
+        expect { subject.valid? }.to raise_error ActiveModel::StrictValidationFailed
+      end
+    end
+
+    context 'empty tier' do
+      before { subject.tier = '' }
+
+      it 'errors' do
+        expect { subject.valid? }.to raise_error ActiveModel::StrictValidationFailed
+      end
+    end
+
+    context 'unrecognised tier' do
+      before { subject.tier = 'lower' }
+
+      it 'errors' do
+        expect { subject.valid? }.to raise_error ActiveModel::StrictValidationFailed
+      end
+    end
 
     context 'without signup mode' do
       it { should_not validate_presence_of(:accountEmail) }

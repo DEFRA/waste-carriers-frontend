@@ -57,6 +57,8 @@
   <%else%>
     <!-- Else we are dealing with an overseas address so the fields are simply
       street 3, 4 and country -->
+
+    <%= f.hidden_field :addressMode, value: 'manual-foreign' %>
     <div class="form-group<%if @registration.errors[:streetLine3].any?%> validation<%end%>">
         <%= validation_for(@registration, :streetLine3) %>
         <%= f.label :streetLine3, :class=>"offscreen" %>
