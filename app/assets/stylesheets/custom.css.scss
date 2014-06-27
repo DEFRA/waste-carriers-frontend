@@ -17,55 +17,69 @@
 
 
 //SCSS include links to application elements.
-#content { @include media; }
-#content { @include device-pixel-ratio($ratio: 2)}
-#content h1 { @include core-36; }
-#content h2 {@include core-27}
-#content h3 {@include core-24}
+#content {@include media}
+#content {@include device-pixel-ratio($ratio: 2)}
 #content p {@include core-19}
-#content legend {@include core-36}
 #content input {@include core-19}
 #content label {@include core-19}
 #content form-label {@include core-19}
 #content .step {@include core-19}
 #content .error-text {@include core-19}
 #content li {@include core-19}
-#content { @include inner-block; }
-#content { @include outer-block; }
-.beta-banner { @include phase-banner (beta); }
-.button  { @include button; }
+#content {@include inner-block}
+#content {@include outer-block}
+.beta-banner {@include phase-banner (beta)}
+.button {@include button}
 
 
 //** WASTE CARRIERS ** CUSTOM STYLES ** //
 
 //GLOBAL
 
+#content {
+    padding-bottom:100px;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
 ul, ol {
     list-style-type: none;
 }
 
+.menu, ol, ul {
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
+    padding: 0;
+}
+
 h2 {
-    margin-bottom:10px;
-    margin-top:10px;
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
 }
 
 h2.subtitle {
     color: rgb(111, 119, 123);
 }
 
+p.subtitle {
+    color: rgb(111, 119, 123);
+}
+
 hr {
-    margin-bottom:30px;
-    margin-top:30px;
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
 }
 
 p {
-    margin-bottom: 1.05263em;
-    margin-top: 0.26316em;
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
 }
 
 #smartanswers_display, #data_protection {
     list-style-type: inherit;
 }
+
 
 //HEADER STYLES
 
@@ -107,9 +121,63 @@ p {
 //FOOTER STYLES
 
 .footer-top {
-    padding-left: 30px;
     clear: left;
+    padding-left: 30px;
     position: relative;
+}
+
+//HEADING Styles
+
+.heading-xlarge, legend {
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
+}
+
+.heading-xlarge, legend {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.04167;
+    text-transform: none;
+}
+
+.heading-large {
+    margin-bottom: 0.55556em;
+    margin-top: 1.25em;
+}
+
+.heading-large {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.11111;
+    text-transform: none;
+}
+
+.heading-medium {
+    margin-bottom: 0.83333em;
+    margin-top: 1.875em;
+}
+
+.heading-medium {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    text-transform: none;
+}
+
+.heading-small {
+    margin-top: 1.05263em;
+}
+
+.heading-small {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.31579;
+    margin-bottom: 0.3125em;
+    text-transform: none;
 }
 
 
@@ -117,6 +185,7 @@ p {
 
 legend {
     margin-bottom:10px;
+    font-weight:700;
 }
 
 .form-group {
@@ -217,7 +286,7 @@ legend {
     border-color: rgb(11, 12, 12);
 }
 
-.js-enabled .add-focus {
+.js-enabled .add focus {
     outline: 3px solid rgb(255, 191, 71);
 }
 
@@ -321,23 +390,86 @@ legend {
 
 //Reports page
 
-#report_statuses, #report_business_types {
-    width: 300px;
-}
-
-.find-location-for-service, .find-location-for-licence {
-    background: url("https://assets.digital.cabinet-office.gov.uk/static/icon-locator-8782227fac15fe8df3295c200ef16955.png") no-repeat scroll 1em 1em rgb(234, 237, 239);
-    line-height: 2;
-    margin: 2em -1em 0;
-    min-height: 2em;
-    padding: 1em 0.75em 1em 3.5em;
-    position: relative;
-}
-
 main#content, section#content {
     display: block;
     margin: 0 auto;
     max-width: 1020px;
     position: relative;
 }
+
+//Date Example
+
+.inline-date {
+    float: left;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-right:10px;
+}
+
+//Example Template
+
+.example:before {
+    background: none repeat scroll 0 0 rgb(191, 193, 195);
+    color: rgb(255, 255, 255);
+    content: "EXAMPLE";
+    font-family: "nta",Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    left: 0;
+    line-height: 1.42857;
+    padding: 0.21053em 0.78947em;
+    position: absolute;
+    text-transform: none;
+    top: 0;
+}
+.example:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+.example {
+    padding-bottom: 30px;
+    padding-top: 45px;
+}
+.example {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.example {
+    border: 1px solid rgb(191, 193, 195);
+    margin-bottom: 45px;
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+
+// Table Styles
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+table th {
+    font-weight: 700;
+}
+table th, table td {
+    border-bottom: 1px solid rgb(191, 193, 195);
+    color: rgb(11, 12, 12);
+    font-family: "nta",Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    padding: 0.73684em 1.05263em 0.52632em 0;
+    text-align: left;
+    text-transform: none;
+}
+
+
+
+
+
+
+
 
