@@ -14,65 +14,67 @@ class Registration
 
 =end
 
-attr_writer :current_step
+  SERVICES_URL = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
 
-attr_accessor  :businessType,
-:otherBusinesses,
-:isMainService,
-:constructionWaste,
-:onlyAMF,
-:companyName,
-:individualsType,
-:publicBodyType,
-:publicBodyTypeOthe,
-:registrationType,
-:houseNumber,
-:addressMode,
-:postcodeSearch,
-:selectedMoniker,
-:streetLine1,
-:streetLine2,
-:townCity,
-:postcode,
-:easting,
-:northing,
-:dependentLocality,
-:dependentThroughfa,
-:administrativeArea,
-:royalMailUpdateDate,
-:localAuthorityUpdate,
-:company_no,
-:expires_on,
-#payment
- :total_fee,
- :registration_fee,
- :copy_card_fee,
- :copy_cards,
-# Non UK fields
-  :streetLine3,
-:streetLine4,
-:country,
-#
-:title,
-:otherTitle,
-:firstName,
-:lastName,
-:position,
-:phoneNumber,
-:contactEmail,
-:accountEmail,
-:declaration,
-:regIdentifier,
-:status,
- :password,
- :sign_up_mode,
- :routeName,
- :accessCode,
- :tier,
- :metaData,
-# Used as a trigger value to force validation of the revoke reason field
-# When this value contains any value, the revokeReason field is validated
-:revoked
+  attr_writer :current_step
+
+  attr_accessor  :businessType,
+    :otherBusinesses,
+    :isMainService,
+    :constructionWaste,
+    :onlyAMF,
+    :companyName,
+    :individualsType,
+    :publicBodyType,
+    :publicBodyTypeOthe,
+    :registrationType,
+    :houseNumber,
+    :addressMode,
+    :postcodeSearch,
+    :selectedMoniker,
+    :streetLine1,
+    :streetLine2,
+    :townCity,
+    :postcode,
+    :easting,
+    :northing,
+    :dependentLocality,
+    :dependentThroughfa,
+    :administrativeArea,
+    :royalMailUpdateDate,
+    :localAuthorityUpdate,
+    :company_no,
+    :expires_on,
+    #payment
+    :total_fee,
+    :registration_fee,
+    :copy_card_fee,
+    :copy_cards,
+    # Non UK fields
+    :streetLine3,
+    :streetLine4,
+    :country,
+    #
+    :title,
+    :otherTitle,
+    :firstName,
+    :lastName,
+    :position,
+    :phoneNumber,
+    :contactEmail,
+    :accountEmail,
+    :declaration,
+    :regIdentifier,
+    :status,
+    :password,
+    :sign_up_mode,
+    :routeName,
+    :accessCode,
+    :tier,
+    :metaData,
+    # Used as a trigger value to force validation of the revoke reason field
+    # When this value contains any value, the revokeReason field is validated
+    :revoked
 
 =begin
     # TODO: Determine if this is needed?
@@ -83,17 +85,23 @@ attr_accessor  :businessType,
 
 
   def initialize(session_params)
-   session_params.each do |k, v|
-    self.send("#{k}=",v)
-   end
-   metaData = {}
+    session_params.each do |k, v|
+      self.send("#{k}=",v)
+    end
+    metaData = {}
   end
 
-   def save!
+  def save!
     @title = 'Mr'
-     Rails.logger.debug self.to_json
-      self.to_json
-   end
+    Rails.logger.debug self.to_json
+
+    response = RestClient.post  SERVICES_URL,  self.to_json, :content_type => :json, :accept => :json
+
+
+
+    Rails.logger.debug "services responded: #{response.code}"
+    Rails.logger.debug "services body: #{response.body}"
+  end
 
 
 
@@ -319,12 +327,12 @@ attr_accessor  :businessType,
 
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
-      when :not_found
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
-      when :inactive
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
-      when :error_calling_service
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
+    when :not_found
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+    when :inactive
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+    when :error_calling_service
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
     end
   end
 
@@ -378,12 +386,12 @@ attr_accessor  :businessType,
 
   def boxClassSuffix
     case metaData.status
-      when 'REVOKED'
-        'revoked'
-      when 'PENDING'
-        'pending'
-      else
-        ''
+    when 'REVOKED'
+      'revoked'
+    when 'PENDING'
+      'pending'
+    else
+      ''
     end
   end
 
