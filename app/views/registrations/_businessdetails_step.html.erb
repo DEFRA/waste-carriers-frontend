@@ -5,7 +5,7 @@
   <legend><%= t 'registrations.businessdetails_step.subtitle' %></legend>
     <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
       <%= validation_for(@registration, :companyName) %>
-      <label class="form-label" for='companyName'><%= f.label :companyName %></label>
+      <%= f.label :companyName, class: 'form-label' %>
       <%= f.text_field :companyName, :size => 20, :maxlength => 70 %>
       <%= f.hidden_field :tier, value: 'LOWER' %>
     </div>
