@@ -151,6 +151,8 @@ en:
     find_companies_house_details:  "Companies House number"
     add_button_label: "Add"
     delete_button_label: "Delete"
+    edit_button_label: "Edit"
+    update_button_label: "Update"
 
   activemodel:
     models:
@@ -325,14 +327,20 @@ en:
       results_format: "Results format"
 
   directors:
-    directorDetails:
+    new:
       title: "Director details"
       step: "Step 7 of 8"
-    directordetails_step:
-      legend: "Provide details for all your directors"
+    index:
+      title: "Directors"
+      step: "Step 7 of 8"
+      legend: "Existing directors"
       subtitle: "These will not be made public"
-    directorlist_step:
-      legend: "List of directors"
+    edit:
+      title: "Edit director details"
+      step: "Step 7 of 8"
+    form:
+        legend: "Director details"
+        subtitle: "These will not be made public"
 
   templates:
     formExample_step:

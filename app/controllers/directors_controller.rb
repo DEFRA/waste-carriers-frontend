@@ -1,61 +1,88 @@
+require 'securerandom'
+
 class DirectorsController < ApplicationController
 
   # GET /your-registration/directors
-  def directorDetails
+  def index
+    get_directors
+  end
+
+  # GET /your-registration/directors/:id
+  def show
+  end
+
+  # GET /your-registration/directors/new
+  def new
     @director = Director.new
+  end
+
+  # GET /directors/edit/:id
+  def edit
+    get_directors
+
+    @director = @directors.find { |d| d.temp_id == params[:id]}
+  end
+
+  # GET /directors/delete/:id
+  def delete
+    get_directors
+
+    @director = @directors.find { |d| d.temp_id == params[:id]}
+
+    index = @directors.index { |d| d.temp_id == params[:id]}
+    @directors.delete_at index
+
+    render 'index'
   end
 
   # POST /your-registration/directors
   def create
-    get_registration
-
-    logger.debug @registration.directors.length
-    @registration.directors.each { |d| logger.debug "#{d.first_name} #{d.last_name}" }
+    get_directors
 
     director = Director.new(params[:director])
 
     if director.valid?
-      @registration.directors << director
+      director.temp_id = SecureRandom.hex(4)
+      @directors << director
       logger.info 'Director is valid so far, go to next page'
-      render :directorDetails
+      render 'index'
     else
       # there is an error (but data not yet saved)
       logger.info 'Director is not valid, and data is not yet saved'
-      render "directorDetails", :status => '400'
+      render :new, :status => '400'
     end
   end
 
   # PATCH/PUT /your-registration/directors/:id
   def update
-    set_action
+    get_directors
+
+    @director = Director.new(params[:director])
 
     if @director.valid?
+
+      index = @directors.index { |d| d.temp_id == @director.temp_id}
+      logger.debug "Index was #{index}"
+      @directors[index] = @director
       logger.info 'Director is valid so far, go to next page'
-      redirect_to :upper_payment
+      render 'index'
     elsif @director.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Director is not valid, and data is not yet saved'
-      render "directorDetails", :status => '400'
+      render "edit", :status => '400'
     end
   end
 
-  # DELETE /your-registration/directors/:id
-  def delete
-    redirect_to :upper_payment
+  # DELETE /directors/:id
+  def destroy
+    get_directors
+
+
   end
 
   # POST /your-registration/directors/done
   def done
-    set_action
-
-    if @director.valid?
-      logger.info 'Director is valid so far, go to next page'
-      redirect_to :upper_payment
-    elsif @director.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Director is not valid, and data is not yet saved'
-      render "directorDetails", :status => '400'
-    end
+    redirect_to :upper_payment
   end
 
   def get_registration
@@ -67,9 +94,13 @@ class DirectorsController < ApplicationController
     end
   end
 
-  def get_action
+  def get_directors
     session[:directors] ||= []
     @directors = session[:directors]
+  end
+
+  def set_directors
+    session[:directors] ||= @directors
   end
 
   def set_action

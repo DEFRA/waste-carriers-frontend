@@ -1,0 +1,15 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <% content_for :page_title, createTitle('.title') %>
+    <div class="step"><%= t '.step' %></div>
+
+    <%= form_for(@directors, :url => done_directors_path ) do |f| %>
+      <%= render 'index', f: f, l: @directors %>
+      <%= render 'wizard_links' %>
+    <% end %>
+
+  </article>
+</main>
