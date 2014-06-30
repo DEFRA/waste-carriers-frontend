@@ -15,12 +15,12 @@
 
 <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
 	<%= validation_for(@registration, :businessType) %>
-	<label class='form-group' for='businessType'><%= f.label :businessType %></label>
+	<%= f.label :businessType, class: 'form-label' %>
 	<%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
 </div>
 <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :companyName) %>
-	<label class='form=label' for='companyName'><%= f.label :companyName %></label>
+	<%= f.label :companyName, class: 'form-label' %>
 	<%= f.text_field :companyName%>
 </div>
 
@@ -38,22 +38,22 @@
 <legend><%= t 'registrations.contact_step.contact_information_legend' %></legend>
 <div class="form-group<%if @registration.errors[:firstName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :firstName) %>
-    <label class='form-label' for='firstName'><%= f.label :firstName %></label>
+    <%= f.label :firstName, class: 'form-label' %>
     <%= f.text_field :firstName %>
 </div>
 <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :lastName) %>
-    <label class='form-group' for='lastName'><%= f.label :lastName %></label>
+    <%= f.label :lastName, class: 'form-label' %>
     <%= f.text_field :lastName %>
 </div>
 <div class="form-group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
 	<%= validation_for(@registration, :phoneNumber) %>
-    <label class='form-label' for='phoneNumber'><%= f.label :phoneNumber %></label>
+    <%= f.label :phoneNumber, class: 'form-label' %>
     <%= f.telephone_field :phoneNumber %>
 </div>
 <div class="form-group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
 	<%= validation_for(@registration, :contactEmail) %>
-    <label class='form-label' for='contactEmail'><%= f.label :contactEmail %></label>
+    <%= f.label :contactEmail, class: 'form-label' %>
     <%= f.email_field :contactEmail%>
 </div>
 
