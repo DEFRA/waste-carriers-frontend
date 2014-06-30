@@ -3,16 +3,14 @@
 <!-- WF 4.3.2 -->
 <div id="page0"  data-journey="waste-carriers-registration:template">
 
- <hr> <!-- creates visual line to show sections of page -->
-
   <!-- Heading examples -->
 
  <fieldset>
     <!-- A legend must be included with all fieldsets for good form structure -->
-    <legend>Example Legend</legend>
+    <legend><%= t 'templates.formExample_step.subtitle' %></legend>
       <div class='example'>
       <!-- The H1 element is used at the beginning of form allow screen readers to recognise they are at beginning of the page -->
-        <h2>Example headings</h2><br>
+        <h2>Example headings</h2>
         <ul>
           <li><h1 class='heading-xlarge'>H1 headings use font size 48px</h1></li>
           <li><h2 class='heading-large'>H2 headings use font size 36px</h2></li>
@@ -56,15 +54,15 @@
       <%= validation_for(@registration, :firstName) %>
       <!-- Form Label Styles -->
       <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
-      <label class='form-label' for='firstName'><%= f.label :firstName %></label>
-      <%= f.text_field :firstName, :class => 'form-control', :size => 20, :maxlength => 35 %>
+      <%= f.label :firstName, class: 'form-label' %>
+      <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
     </div>
 
     <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
       <%= validation_for(@registration, :lastName) %>
       <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
-      <label class='form-label' for='lastName'><%= f.label :lastName %></label>
-      <%= f.text_field :lastName, :class => 'form-control', :size => 20, :maxlength => 35 %>
+      <%= f.label :lastName, class: 'form-label' %>
+      <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
     </div>
   </div>
   </fieldset>

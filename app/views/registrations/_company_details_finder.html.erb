@@ -1,10 +1,9 @@
-<fieldset>
 
 <% if params[:autoCompanyDetails] ||  !params[:manualCompanyDetails] %>
-<p class="group">
-  <%= f.label :company_number %>
+<div class="form-group">
+  <%= f.label :company_number, class: 'form-label' %>
   <%= f.text_field :company_no, :size => 14, :maxlength => 10 %>
-</p>
+</div>
 <% end %>
 
 
@@ -12,8 +11,8 @@
 
     <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
         <%= validation_for(@registration, :companyName) %>
-        <label class='form-label'><%= f.label :companyName %></label>
-        <%= f.text_field :companyName, :class => 'form-control', :size => 20, :maxlength => 35 %>
+        <%= f.label :companyName, class: 'form-label' %>
+        <%= f.text_field :companyName, :size => 20, :maxlength => 35 %>
     </div>
   <%= render 'uk_address_entry', f: f  %>
     </p><a href="?autoCompanyDetails=true"><%= t 'registrations.contact_step.auto_company_details'%></a></p>
@@ -21,5 +20,3 @@
 
 <% end %>
 
-
-</fieldset>
