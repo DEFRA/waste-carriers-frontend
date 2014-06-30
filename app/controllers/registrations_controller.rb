@@ -970,7 +970,7 @@ class RegistrationsController < ApplicationController
     if params[:findAddress]
       render "newBusinessDetails"
     elsif @registration.valid?
-      redirect_to :directorDetails
+      redirect_to :new_director
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
