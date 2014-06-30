@@ -39,34 +39,35 @@
 <p><span id="emailSignUpText"><%= t '.emailUsernameText' %><br/></span></p>
 <% end %>
 
-<p class="group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
+<div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
     <%= validation_for(@registration, :accountEmail) %>
-    <%= f.label :accountEmail %>
+    <%= f.label :accountEmail, class: 'form-label' %>
     <% if @registration.sign_up_mode == "sign_in" %>
     <%= f.email_field :accountEmail, :autofocus => true, :readonly => true %>
     <% else %>
     <%= f.email_field :accountEmail, :autofocus => true %>
     <% end %>
-</p>
+</div>
 <% if @registration.sign_up_mode == "sign_up" %>
-<p class="group <%if @registration.errors[:accountEmail_confirmation].any?%> validation<%end%>">
+<div class="form-group <%if @registration.errors[:accountEmail_confirmation].any?%> validation<%end%>">
     <%= validation_for(@registration, :accountEmail_confirmation) %>
-    <%= f.label :accountEmail_confirmation %>
+    <%= f.label :accountEmail_confirmation, class: 'form-label' %>
     <%= f.email_field :accountEmail_confirmation %>
-</p>
+</div>
 <% end %>
-<p class="group <%if @registration.errors[:password].any?%> validation<%end%>">
+<div class="form-group <%if @registration.errors[:password].any?%> validation<%end%>">
     <%= validation_for(@registration, :password) %>
-    <% if @registration.sign_up_mode == "sign_up" %><%= f.label :password, t('.createPassword') %><% else %><%= f.label :password %><% end %>
+    <% if @registration.sign_up_mode == "sign_up" %><%= f.label :password, t('.createPassword') %><% else %>
+    <%= f.label :password, class: 'form-label' %><% end %>
     <%= f.password_field :password %>
     <span class="strength_icon none">&#9650;<span class="strength_message"></span></span>
-</p>
+</div>
 <% if @registration.sign_up_mode == "sign_up" %>
-<p class="group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
+<div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
     <%= validation_for(@registration, :password_confirmation) %>
-    <%= f.label :password_confirmation %>
+    <%= f.label :password_confirmation, class: 'form-label' %>
     <%= f.password_field :password_confirmation %>
-</p>
+</div>
 <% end %>
 
 <% end %>

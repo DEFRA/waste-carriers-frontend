@@ -19,6 +19,10 @@
 //SCSS include links to application elements.
 #content {@include media}
 #content {@include device-pixel-ratio($ratio: 2)}
+#content h1 {@include core-48}
+#content h2 {@include core-36}
+#content h3 {@include core-27}
+#content h4 {@include core-19}
 #content p {@include core-19}
 #content input {@include core-19}
 #content label {@include core-19}
@@ -54,11 +58,6 @@ ul, ol {
     padding: 0;
 }
 
-h2 {
-    margin-bottom: 1.25em;
-    margin-top: 0.625em;
-}
-
 h2.subtitle {
     color: rgb(111, 119, 123);
 }
@@ -72,9 +71,13 @@ hr {
     margin-top: 0.625em;
 }
 
-p {
+p, h1, h2 {
     margin-bottom: 1.25em;
     margin-top: 0.625em;
+}
+
+h1, h2, h3 {
+    margin-bottom: 0.625em;
 }
 
 #smartanswers_display, #data_protection {
@@ -141,59 +144,6 @@ legend {
     line-height: 1.11111;
     text-transform: none;
 }
-
-.heading-xlarge {
-    margin-bottom: 1.25em;
-    margin-top: 0.625em;
-}
-
-.heading-xlarge {
-    font-family: "nta",Arial,sans-serif;
-    font-size: 48px;
-    font-weight: 700;
-    line-height: 1.04167;
-    text-transform: none;
-}
-
-.heading-large {
-    margin-bottom: 0.55556em;
-    margin-top: 1.25em;
-}
-
-.heading-large {
-    font-family: "nta",Arial,sans-serif;
-    font-size: 36px;
-    font-weight: 700;
-    line-height: 1.11111;
-    text-transform: none;
-}
-
-.heading-medium {
-    margin-bottom: 0.83333em;
-    margin-top: 1.875em;
-}
-
-.heading-medium {
-    font-family: "nta",Arial,sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1.25;
-    text-transform: none;
-}
-
-.heading-small {
-    margin-top: 1.05263em;
-}
-
-.heading-small {
-    font-family: "nta",Arial,sans-serif;
-    font-size: 19px;
-    font-weight: 700;
-    line-height: 1.31579;
-    margin-bottom: 0.3125em;
-    text-transform: none;
-}
-
 
 //FORM STYLES
 
@@ -284,9 +234,8 @@ legend {
     font-size: 19px;
     font-weight: 400;
     line-height: 1.31579;
-    margin-bottom: 5px;
     text-transform: none;
-    margin-bottom: -20px;
+    margin-bottom: -10px;
 }
 
 .js-enabled .selected {
@@ -306,8 +255,8 @@ legend {
 }
 
 .back_link, .next_link, .button {
-    margin-bottom:20px;
-    margin-top:20px;
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
 }
 
 .inline .block-label {
@@ -394,8 +343,13 @@ legend {
     background: none repeat scroll 0 0 rgb(254, 247, 247);
     border: 3px solid rgb(223, 48, 52);
     padding: 1em 0.7em;
+    margin-bottom:20px;
+    margin-top:20px;
 }
 
+.error-text {
+    color: rgb(223, 48, 52);
+}
 
 
 //EXAMPLE TEMPLATE STYLES

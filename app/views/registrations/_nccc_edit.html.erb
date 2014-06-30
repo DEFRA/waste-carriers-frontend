@@ -13,16 +13,16 @@
 <fieldset>
 <legend><%= t 'registrations.business_step.business_or_org_details' %></legend>
 
-<p class="group<%if @registration.errors[:businessType].any?%> validation<%end%>">
+<div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
 	<%= validation_for(@registration, :businessType) %>
-	<%= f.label :businessType %>
+	<%= f.label :businessType, class: 'form-label' %>
 	<%= f.select :businessType, options_for_select(Registration.business_type_options_for_select,f.object.businessType) %>
-</p>
-<p class="group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+</div>
+<div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :companyName) %>
-	<%= f.label :companyName %>
+	<%= f.label :companyName, class: 'form-label' %>
 	<%= f.text_field :companyName%>
-</p>
+</div>
 
 </fieldset>
 
@@ -36,26 +36,26 @@
 
 <fieldset>
 <legend><%= t 'registrations.contact_step.contact_information_legend' %></legend>
-<p class="group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+<div class="form-group<%if @registration.errors[:firstName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :firstName) %>
-    <%= f.label :firstName %>
+    <%= f.label :firstName, class: 'form-label' %>
     <%= f.text_field :firstName %>
-</p>
-<p class="group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+</div>
+<div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
 	<%= validation_for(@registration, :lastName) %>
-    <%= f.label :lastName %>
+    <%= f.label :lastName, class: 'form-label' %>
     <%= f.text_field :lastName %>
-</p>
-<p class="group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
+</div>
+<div class="form-group<%if @registration.errors[:phoneNumber].any?%> validation<%end%>">
 	<%= validation_for(@registration, :phoneNumber) %>
-    <%= f.label :phoneNumber %>
+    <%= f.label :phoneNumber, class: 'form-label' %>
     <%= f.telephone_field :phoneNumber %>
-</p>
-<p class="group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
+</div>
+<div class="form-group<%if @registration.errors[:contactEmail].any?%> validation<%end%>">
 	<%= validation_for(@registration, :contactEmail) %>
-    <%= f.label :contactEmail %>
+    <%= f.label :contactEmail, class: 'form-label' %>
     <%= f.email_field :contactEmail%>
-</p>
+</div>
 
 <% if agency_user_signed_in? %>
 <!-- // START -->

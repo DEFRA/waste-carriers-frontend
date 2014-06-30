@@ -1,19 +1,15 @@
 <%= render "errors" %>
 
 <!-- WF 4.3.2 -->
-<div id="page6"  data-journey="waste-carriers-registration:business-details">
-
-  <fieldset>
-  	<legend></legend>
+<fieldset id="page6"  data-journey="waste-carriers-registration:business-details">
+  <legend><%= t 'registrations.businessdetails_step.subtitle' %></legend>
     <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
       <%= validation_for(@registration, :companyName) %>
-      <div class="form-label"><%= f.label :companyName %></div>
+      <%= f.label :companyName, class: 'form-label' %>
       <%= f.text_field :companyName, :size => 20, :maxlength => 70 %>
       <%= f.hidden_field :tier, value: 'LOWER' %>
     </div>
-  </fieldset>
-
   <%= render "address_entry", :f => f %>
-</div>
+</fieldset>
 
 <%= render 'wizard_links' %>
