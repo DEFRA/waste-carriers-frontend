@@ -1,7 +1,7 @@
 
 <% if params[:autoCompanyDetails] ||  !params[:manualCompanyDetails] %>
 <div class="form-group">
-  <label class='form-label' for='company_number'><%= f.label :company_number %></label>
+  <%= f.label :company_number, class: 'form-label' %>
   <%= f.text_field :company_no, :size => 14, :maxlength => 10 %>
 </div>
 <% end %>
@@ -11,7 +11,7 @@
 
     <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
         <%= validation_for(@registration, :companyName) %>
-        <label class='form-label' for='companyName'><%= f.label :companyName %></label>
+        <%= f.label :companyName, class: 'form-label' %>
         <%= f.text_field :companyName, :size => 20, :maxlength => 35 %>
     </div>
   <%= render 'uk_address_entry', f: f  %>
