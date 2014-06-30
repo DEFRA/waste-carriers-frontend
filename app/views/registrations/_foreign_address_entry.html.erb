@@ -1,27 +1,29 @@
 <%= f.hidden_field :addressMode, value: 'manual-foreign' %>
 
-<p class="group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
+<!-- Label select input does not work due to f.label t strong -->
+  <div class="form-group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
      <%= validation_for(@registration, :streetLine1) %>
-     <%= f.label t('.streetLine1') %>
+     <label class='form-label' for='streetLine1'><%= f.label t('.streetLine1') %></label>
      <%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
- </p>
- <p class="group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
+  </div>
+  <div class="form-group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
      <%= validation_for(@registration, :streetLine2) %>
-     <%= f.label t('.streetLine2'), :class=>"offscreen" %>
+     <label class='form-label' for='streetLine2'><%= f.label t('.streetLine2'), :class=>"offscreen" %></label>
      <%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %>
- </p>
-  <p class="group<%if @registration.errors[:streetLine3].any?%> validation<%end%>">
+  </div>
+  <div class="form-group<%if @registration.errors[:streetLine3].any?%> validation<%end%>">
      <%= validation_for(@registration, :streetLine3) %>
-     <%= f.label t('.streetLine3'), :class=>"offscreen" %>
+     <label class='form-label' for='streetLine3'><%= f.label t('.streetLine3'), :class=>"offscreen" %></label>
      <%= f.text_field :streetLine3, :size => 20, :maxlength => 35 %>
- </p>
-  <p class="group<%if @registration.errors[:streetLine4].any?%> validation<%end%>">
+  </div>
+  <div class="form-group<%if @registration.errors[:streetLine4].any?%> validation<%end%>">
      <%= validation_for(@registration, :streetLine4) %>
-     <%= f.label t('.streetLine4'), :class=>"offscreen" %>
+     <label class='form-label' for='streetLine4'><%= f.label t('.streetLine4'), :class=>"offscreen" %></label>
      <%= f.text_field :streetLine4, :size => 20, :maxlength => 35 %>
- </p>
-<p class="group<%if @registration.errors[:country].any?%> validation<%end%>">
+  </div>
+  <div class="form-group<%if @registration.errors[:country].any?%> validation<%end%>">
        <%= validation_for(@registration, :country) %>
-       <%= f.label t('.country') %>
+       <label class='form-label' for='country'><%= f.label t('.country') %></label>
        <%= f.text_field :country, :size => 20, :maxlength => 35 %>
-   </p>
+  </div>
+
