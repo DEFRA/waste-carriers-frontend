@@ -22,6 +22,7 @@
 #content p {@include core-19}
 #content input {@include core-19}
 #content label {@include core-19}
+#content select {@include core-19}
 #content form-label {@include core-19}
 #content .step {@include core-19}
 #content .error-text {@include core-19}
@@ -128,12 +129,25 @@ p {
 
 //HEADING Styles
 
-.heading-xlarge, legend {
+legend {
+    margin-bottom: 0.55556em;
+    margin-top: 0.55556em;
+}
+
+legend {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.11111;
+    text-transform: none;
+}
+
+.heading-xlarge {
     margin-bottom: 1.25em;
     margin-top: 0.625em;
 }
 
-.heading-xlarge, legend {
+.heading-xlarge {
     font-family: "nta",Arial,sans-serif;
     font-size: 48px;
     font-weight: 700;
@@ -183,11 +197,6 @@ p {
 
 //FORM STYLES
 
-legend {
-    margin-bottom:10px;
-    font-weight:700;
-}
-
 .form-group {
     clear: both;
     float: left;
@@ -213,6 +222,22 @@ legend {
     font-size: 19px;
     margin-bottom: 5px;
     margin-top: 8px;
+}
+
+.form-control {
+    width: 50%;
+}
+.form-control {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(191, 193, 195);
+    border-radius: 0;
+    box-sizing: border-box;
+    font-family: "nta",Arial,sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.31579;
+    padding: 4px;
+    text-transform: none;
 }
 
 
@@ -264,34 +289,14 @@ legend {
     margin-bottom: -20px;
 }
 
-
-.js-enabled .block-label input:focus {
-    outline: medium none;
-}
-
-.js-enabled .block-label:focus {
- outline: 3px solid rgb(255, 191, 71);
-
-}
-.block-label:hover {
-    border-color: rgb(11, 12, 12);
-}
-
-.block-label:focus {
-    border-color: rgb(11, 12, 12);
-}
-
 .js-enabled .selected {
     background: none repeat scroll 0 0 rgb(255, 255, 255);
     border-color: rgb(11, 12, 12);
 }
 
-.js-enabled .add focus {
+.js-enabled .add-focus {
     outline: 3px solid rgb(255, 191, 71);
-}
 
-#postcode, .link_to {
-    margin-right:15px;
 }
 
 //NAVIGATION STYLES
@@ -310,6 +315,15 @@ legend {
     margin-right:15px;
 }
 
+.back_link, #sPostcode {
+    margin-right:15px;
+}
+
+.margin-control {
+    position:relative;
+    left:-10px;
+    top:0;
+}
 
 //PAGE STYLES
 
@@ -320,11 +334,6 @@ legend {
     padding-top: 10px;
     padding-left:20px;
 }
-
-.postcode {
-    margin-right:15px;
-}
-
 
 //Registration page
 
@@ -388,25 +397,8 @@ legend {
 }
 
 
-//Reports page
 
-main#content, section#content {
-    display: block;
-    margin: 0 auto;
-    max-width: 1020px;
-    position: relative;
-}
-
-//Date Example
-
-.inline-date {
-    float: left;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    margin-right:10px;
-}
-
-//Example Template
+//EXAMPLE TEMPLATE STYLES
 
 .example:before {
     background: none repeat scroll 0 0 rgb(191, 193, 195);
@@ -443,6 +435,23 @@ main#content, section#content {
     position: relative;
 }
 
+//Reports page
+
+main#content, section#content {
+    display: block;
+    margin: 0 auto;
+    max-width: 1020px;
+    position: relative;
+}
+
+//Date Example
+
+.inline-date {
+    float: left;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-right:10px;
+}
 
 // Table Styles
 
