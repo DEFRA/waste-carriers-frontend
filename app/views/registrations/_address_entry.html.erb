@@ -30,7 +30,7 @@
       <% if @registration.addressMode == "manual-uk"%>
         <%= f.label :streetLine1, class: 'form-label' %>
       <%else%>
-        <%= t '.streetLine1Foreign', class: 'form-label' %>
+        <%= f.label :streetLine1, t('.streetLine1Foreign'), class: 'form-label' %>
       <%end%>
       <%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
   </div>
