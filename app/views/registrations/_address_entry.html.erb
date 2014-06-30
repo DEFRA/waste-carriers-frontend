@@ -1,10 +1,8 @@
-<fieldset>
-<legend></legend>  
-<%if @registration.addressMode%>
+ <%if @registration.addressMode%>
 
   <!-- This section handles when the user goes manual. This covers selecting
     the enter address manually link, or the address not in the UK link. -->
-  <a href="?sSearch=true"><%= t '.search_address_label'%></a>
+  <p><a href="?sSearch=true"><%= t '.search_address_label'%></a></p>
 
   <%if @registration.addressMode == "manual-uk"%>
 
@@ -14,7 +12,7 @@
     <input type="hidden" name="registration[addressMode]" value="manual-uk"/>
     <div class="form-group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
         <%= validation_for(@registration, :houseNumber) %>
-        <%= f.label :houseNumber, class: 'form-label'%>
+        <label class='form-label' for='houseNumber'><%= f.label :houseNumber %></label>
         <%= f.text_field :houseNumber, :size => 20, :maxlength => 35 %>
     </div>
   <%else%>
@@ -26,18 +24,19 @@
   <!-- For the both the manual and overseas address streetLine1 and 2 are used
     so there is no logic around whether to display them, but there is around
     how to label them. -->
+    <!-- Label to select and highlight input does not work with this logic -->
   <div class="form-group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
       <%= validation_for(@registration, :streetLine1) %>
       <% if @registration.addressMode == "manual-uk"%>
-        <%= f.label :streetLine1, class: 'form-label'%>
+        <label class='form-label' for='streetLine1'><%= f.label :streetLine1 %></label>
       <%else%>
-        <label for="registration_streetLine1"><%= t '.streetLine1Foreign' %></label>
+        <label class='form-label' for='streetLine1Foreign'><%= t '.streetLine1Foreign' %></label>
       <%end%>
       <%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
   </div>
   <div class="form-group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
       <%= validation_for(@registration, :streetLine2) %>
-      <%= f.label :streetLine2, :class=>"form-label offscreen" %>
+      <label class='form-label offscreen' for='streetLine2'><%= f.label :streetLine2 %></label>
       <%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %>
   </div>
 
@@ -46,12 +45,12 @@
       town or city and Post Code -->
     <div class="form-group<%if @registration.errors[:townCity].any?%> validation<%end%>">
         <%= validation_for(@registration, :townCity) %>
-        <%= f.label :townCity, class: 'form-label' %>
+        <label class='form-label' for='townCity'><%= f.label :townCity %></label>
         <%= f.text_field :townCity, :size => 20, :maxlength => 35 %>
     </div>
     <div class="form-group<%if @registration.errors[:postcode].any?%> validation<%end%>">
         <%= validation_for(@registration, :postcode) %>
-        <%= f.label :postcode, class: 'form-label' %>
+        <label class='form-label' for='postcode'><%= f.label :postcode %></label>
         <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
     </div>
   <%else%>
@@ -61,17 +60,17 @@
     <%= f.hidden_field :addressMode, value: 'manual-foreign' %>
     <div class="form-group<%if @registration.errors[:streetLine3].any?%> validation<%end%>">
         <%= validation_for(@registration, :streetLine3) %>
-        <%= f.label :streetLine3, :class=>"offscreen" %>
+        <label class='form-label offscreen' for='streetLine3'><%= f.label :streetLine3 %></label>
         <%= f.text_field :streetLine3, :size => 20, :maxlength => 35 %>
     </div>
     <div class="form-group<%if @registration.errors[:streetLine4].any?%> validation<%end%>">
         <%= validation_for(@registration, :streetLine4) %>
-        <%= f.label :streetLine4, :class=>"offscreen" %>
+        <label class='form-label offscreen' for='streetLine4'><%= f.label :streetLine4 %></label>
         <%= f.text_field :streetLine4, :size => 20, :maxlength => 35 %>
     </div>
     <div class="form-group<%if @registration.errors[:country].any?%> validation<%end%>">
         <%= validation_for(@registration, :country) %>
-        <%= f.label :country %>
+        <label class='form-label' for='country'><%= f.label :country %></label>
         <%= f.text_field :country %>
     </div>
   <%end%>
@@ -84,7 +83,7 @@
       address was populated via addressLookup when created/last updated. You therefore get
       a link to change it displayed, and the current address displayed as text.
       N.B. I believe uprn stands for Unique Postcode Record Number -->
-    <label for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
+    <label class='form-label' for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
     <div><%= render "address_display",:newline=>false%></div>
 
     <%if params[:sPostcode]%>
@@ -104,7 +103,7 @@
       <!-- Display elements for selecting an address from the results, including retaining
         the postcode submitted in a hidden field -->
       <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
-      <label for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
+      <label class='form-label' for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
 
       <!-- Explanation of the ruby for the uninitiated; the first bit creates an an array of 2
         values, 10 and the count of addresses. It then says return which is the smallest [].min. This is used to determine
@@ -137,7 +136,7 @@
       <%end%>
 
       <!-- Display elements for the entering and submitting the postcode to search for -->
-      <%= f.label :postcode, class: 'form-label-postcode' %>
+      <label class='form-label-postcode' for='postcode'><%= f.label :postcode %></label>
       <input id="sPostcode" name="sPostcode" type="text" class="postcode" value="<%= params[:sPostcode]%>"/>
       <input type="submit" class="button" name="findAddress" value="<%=t '.findAddress'%>"/>
     </div>
@@ -147,4 +146,3 @@
     </div>
   <%end%>
 <%end%>
-</fieldset>

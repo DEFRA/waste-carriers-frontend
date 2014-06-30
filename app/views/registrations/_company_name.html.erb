@@ -3,7 +3,7 @@
     <h1 class="subtitle"></h1>
       <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
     	<%= validation_for(@registration, :companyName) %>
-    	<%= f.label t('.businessAddressingMode', addressing_mode: mode), class: 'form-label' %>
-    	<%= f.text_field :companyName, :class => 'form-control', :size => 20, :maxlength => 35 %>
+    	<label class='form-label' for='companyName'><%= f.label t('.businessAddressingMode', addressing_mode: mode) %></label>
+    	<%= f.text_field :companyName, :maxlength => 35 %>
 	  </div>
 </fieldset>
