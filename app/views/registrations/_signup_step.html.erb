@@ -41,7 +41,7 @@
 
 <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
     <%= validation_for(@registration, :accountEmail) %>
-    <label class='form-group' for='accountEmail'><%= f.label :accountEmail %></label>
+    <%= f.label :accountEmail, class: 'form-label' %>
     <% if @registration.sign_up_mode == "sign_in" %>
     <%= f.email_field :accountEmail, :autofocus => true, :readonly => true %>
     <% else %>
@@ -51,21 +51,21 @@
 <% if @registration.sign_up_mode == "sign_up" %>
 <div class="form-group <%if @registration.errors[:accountEmail_confirmation].any?%> validation<%end%>">
     <%= validation_for(@registration, :accountEmail_confirmation) %>
-    <label class='form-label' for='accountEmail_confirmation'><%= f.label :accountEmail_confirmation %></label>
+    <%= f.label :accountEmail_confirmation, class: 'form-label' %>
     <%= f.email_field :accountEmail_confirmation %>
 </div>
 <% end %>
 <div class="form-group <%if @registration.errors[:password].any?%> validation<%end%>">
     <%= validation_for(@registration, :password) %>
     <% if @registration.sign_up_mode == "sign_up" %><%= f.label :password, t('.createPassword') %><% else %>
-    <label class='form-label' for='password'><%= f.label :password %><% end %></label>
+    <%= f.label :password, class: 'form-label' %><% end %>
     <%= f.password_field :password %>
     <span class="strength_icon none">&#9650;<span class="strength_message"></span></span>
 </div>
 <% if @registration.sign_up_mode == "sign_up" %>
 <div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
     <%= validation_for(@registration, :password_confirmation) %>
-    <label class='form=label' for='password_confirmation'><%= f.label :password_confirmation %></label>
+    <%= f.label :password_confirmation, class: 'form-label' %>
     <%= f.password_field :password_confirmation %>
 </div>
 <% end %>

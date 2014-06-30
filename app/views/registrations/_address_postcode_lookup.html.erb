@@ -4,7 +4,7 @@
 
 	<div class="form-group<%if @registration.errors[:postcode].any?%> validation<%end%>">
 	<% end %>
-	<label class='form-label' for='postcode'><%= f.label :postcode %></label>
+	<%= f.label :postcode, class: 'form-label' %>
 	<%= f.text_field :postcode,  id: 'sPostcode',  :size => 14, :maxlength => 10 %>
 	</div><!-- Label select input does not work if id:sPostcode is in text_field string -->
 

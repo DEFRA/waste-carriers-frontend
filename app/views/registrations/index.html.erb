@@ -33,13 +33,13 @@
 <form method="get" action="/registrations">
 
 <div class="form-group"  data-journey="waste-carriers-registration:registrations">
-    <div class='form-label'><label for="q">Find a registration</label></div>
+    <label for="q", class: 'form-label' >Find a registration</label>
 	<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 
 <div id="advanced-options" style="<% if params[:searchWithin]=='any'||!params[:searchWithin] %>display:none<% end %>">
 
 <div class="form-group">
-	<label for="searchWithin">Search only within</label>
+	<label for="searchWithin", class: 'form-label'>Search only within</label>
 	<select id="searchWithin" name="searchWithin">
 		<option value="any"<% if params[:searchWithin]=='any'||!params[:searchWithin] %>selected="selected"<%end%>>Any</option>
 		<option value="companyName" <% if params[:searchWithin]=='companyName' %>selected="selected"<%end%>>Company Name</option>
@@ -99,7 +99,7 @@
 				</div>
 			</div>
 			<form action="<%=ncccedit_url(registration.id)%>">
-				<p class="action group"><input type="submit" class="button" value="Edit registration"/></p>
+				<div class="action group"><input type="submit" class="button" value="Edit registration"/></div>
 			</form>
 			<%# button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :data => "{ :confirm => 'are you sure?' }"%>
 		</div>
