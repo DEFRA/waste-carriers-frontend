@@ -28,7 +28,7 @@
 <%= render "details", :f => f %>
 </div>
 
-<p><%=t '.renew_html'%><% if !@registration.assisted_digital? %><%=t '.website_html'%><% else %><%=t '.calling'%><% end %></p>
+<p><%=t 'registration_mailer.welcome_email.renewal_html'%><% if !@registration.assisted_digital? %><%=t '.website_html'%><% else %><%=t '.calling'%><% end %></p>
 
 <p><%= t '.enquiries'%></p>
 
