@@ -632,6 +632,7 @@ en:
       emailAddress_label: "E-mail address"
 
       next_button_label: "Next"
+      pay_offline_button_label: "Pay offline"
       back_button_label: "Back"
       register_button_label: "Register"
       finish_button_label: "Finished"
