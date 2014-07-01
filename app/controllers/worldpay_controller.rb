@@ -33,7 +33,7 @@ class WorldpayController < ApplicationController
       paymentCurrency = params[:paymentCurrency] || ''
       paymentStatus = params[:paymentStatus] || ''
       mac = params[:mac] || ''
-      if !validate_worldpay_parameters(orderKey,paymentAmount,paymentCurrency,paymentStatus,mac)
+      if !validate_worldpay_return_parameters(orderKey,paymentAmount,paymentCurrency,paymentStatus,mac)
         redirect_to worldpay_error_path
       end
     end
