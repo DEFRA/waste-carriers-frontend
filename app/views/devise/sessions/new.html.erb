@@ -3,15 +3,14 @@
 <% content_for :page_title, t('devise.sessions.title') %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
-
 <div id="wrapper" data-journey="waste-carriers-registration:sign-in"></div>
-
-<h1><%= t '.sign_in_heading' %></h1>
+<fieldset>
+<legend><%= t '.sign_in_heading' %></legend>
 
 <% if request.original_url.include? "agency_users/sign_in" %>
-<h2><%= t '.agency_heading' %></h2>
+<h3><%= t '.agency_heading' %></h3></br>
 <% elsif request.original_url.include? "admins/sign_in" %>
-<h2><%= t '.admin_heading' %></h2>
+<h3><%= t '.admin_heading' %></h3></br>
 <% end%>
 
 <% if alert %>
@@ -46,6 +45,8 @@
 
   <div class="form-group"><%= f.submit t('shared.current_user.sign_in'), :class => "button" %></div>
 <% end %>
+
+</fieldset>
 
 <%= render "devise/shared/links" %>
 
