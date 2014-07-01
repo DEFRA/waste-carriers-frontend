@@ -110,6 +110,9 @@ Registrations::Application.routes.draw do
     get "templates/form" => "templates#formExample", :as => :formExample
     post "templates/form" => "templates#updateFormExample"
 
+    get 'your-registration/offline_payment' => 'registrations#newOfflinePayment', :as => :offline_payment
+    post 'your-registration/offline_payment' => 'registrations#updateNewOfflinePayment'
+
   # Worldpay response messages
   get "worldpay/success"
   get "worldpay/failure"
