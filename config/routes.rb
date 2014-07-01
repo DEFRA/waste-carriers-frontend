@@ -111,6 +111,7 @@ Registrations::Application.routes.draw do
   get "worldpay/failure"
   get "worldpay/pending"
   get "worldpay/cancel"
+  get "worldpay/error"
 
 
 #  end
