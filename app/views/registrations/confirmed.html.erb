@@ -9,7 +9,9 @@
 <h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 <%# render "shared/meta_phases"%>
 
-<h3 class="registered"><%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %></h3>
+
+<% isRegisteredMessageKey = @registration.tier.inquiry.LOWER? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
+<h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
 
 
 <!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
