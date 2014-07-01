@@ -420,6 +420,24 @@ table th, table td {
     text-transform: none;
 }
 
+//Hidden Text
+
+details summary {
+    color: rgb(0, 94, 165);
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0.26316em;
+    position: relative;
+}
+
+details .arrow {
+    margin-right: 0.35em;
+}
+
+details .summary {
+    text-decoration: underline;
+    font-size: 19px;
+}
 
 
 
