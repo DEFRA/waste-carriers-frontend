@@ -1,7 +1,8 @@
 <%= render 'shared/content_for_pages' %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
-<h2><%=t 'devise.unlocks.resendUnlockInstructions'%></h2>
+<fieldset>	
+<legend><%=t 'devise.unlocks.resendUnlockInstructions'%></legend>
 
 <div id="wrapper" data-journey="waste-carriers-registration:unlock-account"></div>
 
@@ -9,7 +10,7 @@
   <%= devise_error_messages! %>
 
   <div class="form-group">
-  	<label class='form-label' for='email'><%= f.label :email %></label>
+  	<%= f.label :email, class: 'form-label' %>
   	<%= f.email_field :email, :autofocus => true %>
   </div>
 
@@ -19,5 +20,5 @@
   </div>
   
 <% end %>
-
+</fieldset>
 </article></main>
