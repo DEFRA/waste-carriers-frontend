@@ -2,13 +2,13 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
 
-    <h2>How to pay</h2>
+    <h2><%= t '.heading' %></h2>
 
-    <p>Please initiate a bank transfer for £X to</p>
+    <p><%= t '.amount' %></p>
 
     <ul>
-      <li>Sort code: Y</li>
-      <li>Account Number: Z</li>
+      <li><%= t '.sort_code' %></li>
+      <li><%= t '.account_number' %></li>
     </ul>
 
     <%= render 'wizard_links' %>
