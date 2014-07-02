@@ -318,10 +318,16 @@ en:
 
   templates:
     formExample_step:
-      title: "Example Template"
+      title: "Example form controls and content"
       subtitle: "A reference page for WCR team"
       step: "Step 1 of 10"
       legend: An example legend
+    formTemplate:
+      title: "Example form template"
+      step: "Step 1 of 10"
+    formTemplate_step:
+      legend: "An example legend"
+      subtitle: "All pages should follow this structure"
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
