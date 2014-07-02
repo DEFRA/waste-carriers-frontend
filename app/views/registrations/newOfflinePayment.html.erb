@@ -9,6 +9,7 @@
     <ul>
       <li><%= t '.sort_code', sort_code: 'XX-XX-XX' %></li>
       <li><%= t '.account_number', account_number: '00000000' %></li>
+      <li><%= t '.reference', reference: @registration.regIdentifier %></li>
     </ul>
 
     <%= render 'wizard_links' %>
