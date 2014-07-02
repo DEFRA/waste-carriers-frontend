@@ -494,9 +494,9 @@ en:
       trouble_paying_link: "Trouble paying?"
     newOfflinePayment:
       heading: "How to pay"
-      amount: "Please initiate a bank transfer for £X to"
-      sort_code: "Sort code: Y"
-      account_number: "Account Number: Z"
+      amount: "Please initiate a bank transfer for %{amount_with_currency_symbol} to"
+      sort_code: "Sort code: %{sort_code}"
+      account_number: "Account Number: %{account_number}"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"

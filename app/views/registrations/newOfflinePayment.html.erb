@@ -4,11 +4,11 @@
 
     <h2><%= t '.heading' %></h2>
 
-    <p><%= t '.amount' %></p>
+    <p><%= t '.amount', amount_with_currency_symbol: '£999.99' %></p>
 
     <ul>
-      <li><%= t '.sort_code' %></li>
-      <li><%= t '.account_number' %></li>
+      <li><%= t '.sort_code', sort_code: 'XX-XX-XX' %></li>
+      <li><%= t '.account_number', account_number: '00000000' %></li>
     </ul>
 
     <%= render 'wizard_links' %>
