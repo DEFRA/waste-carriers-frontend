@@ -141,9 +141,7 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
 
   page.should have_content 'MasterCard'
 
-  # Note TODO Click does not work, find a better way of identifying the input to click on?
-  #click_button 'op-DPChoose-ECMC^SSL'
-  first(:xpath, '/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/table/tbody/tr[4]/td[1]/table/tbody/tr/td[2]/span/input').click
+  click_on 'MasterCard'
 
   #These are valid card numbers for the WorldPay Test Service. See the WorldPay XML Redirect Guide for details
   fill_in 'cardNoInput', with: '4444333322221111'
