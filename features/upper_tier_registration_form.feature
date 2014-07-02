@@ -56,8 +56,9 @@ Feature: Upper tier
       And I provide my personal contact details
       And I check the declaration
       And I provide my email address and create a password
-      And I choose to pay by bank transfer
-    When I go to the next step
+    When I choose to pay by bank transfer
+      And make a note of the details
+      And I go to the next step
     Then my upper tier waste carrier registration is pending until payment is received by the Environment Agency
 
   # TODO ltd company version asks for companies house number and directors
