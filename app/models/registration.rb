@@ -1,24 +1,76 @@
 
-require 'active_model'
+class Registration < ActiveRecord::Base
 
-class Registration
+  has_no_table
 
-  include ActiveModel::Validations
-  include ActiveModel::Conversion
+  # include ActiveModel::Validations
+  # include ActiveModel::Conversion
   #The services URL can be configured in config/application.rb and/or in the config/environments/*.rb files.
-=begin
-  self.site = Rails.configuration.waste_exemplar_services_url
+  # SERVICES_URL = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
 
-  self.format = :json
+  column :businessType, :string
+  column :otherBusinesses, :string
+  column :isMainService, :string
+  column  :constructionWaste,:string
+  column  :onlyAMF, :string
+  column  :companyName, :string
+  column  :individualsType,:string
+  column  :publicBodyType,:string
+  column  :publicBodyTypeOther,:string
+  column  :registrationType,:string
+  column  :houseNumber, :string
+  column  :addressMode, :string
+  column  :postcodeSearch,:string
+  column  :selectedMoniker,:string
+  column  :streetLine1,:string
+  column  :streetLine2,:string
+  column  :townCity,:string
+  column  :postcode,:string
+  column  :easting,:string
+  column  :northing,:string
+  column  :dependentLocality,:string
+  column  :dependentThroughfa,:string
+  column  :administrativeArea,:string
+  column  :royalMailUpdateDate,:string
+  column  :localAuthorityUpdate,:string
+  column  :company_no, :string
+  column  :expires_on, :string
+#payment
+  column  :total_fee, :integer
+  column  :registration_fee,  :integer
+  column  :copy_card_fee, :integer
+  column  :copy_cards, :integer
+# Non UK fields
+  column  :streetLine3, :string
+  column  :streetLine4,  :string
+  column  :country, :string
+#
+  column  :title, :string
+  column  :otherTitle,:string
+  column  :firstName,:string
+  column  :lastName,:string
+  column  :position,:string
+  column  :phoneNumber,:string
+  column  :contactEmail,:string
+  column  :accountEmail,:string
+  column  :declaration,:string
+  column  :regIdentifier,:string
+  column  :status, :string
+  column  :password,:string
+  column  :sign_up_mode,:string
+  column  :routeName,:string
+  column  :accessCode,:string
+  column  :tier, :string
+  column  :metaData,:string
+# Used as a trigger value to force validation of the revoke reason field
+# When this value contains any value, the revokeReason field is validated
+  column  :revoked, :string
 
-
-=end
-
-  SERVICES_URL = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
 
   attr_writer :current_step
 
-  attr_accessor  :businessType,
+=begin
+attr_accessor  :businessType,
     :otherBusinesses,
     :isMainService,
     :constructionWaste,
@@ -26,7 +78,7 @@ class Registration
     :companyName,
     :individualsType,
     :publicBodyType,
-    :publicBodyTypeOthe,
+    :publicBodyTypeOther,
     :registrationType,
     :houseNumber,
     :addressMode,
@@ -75,6 +127,8 @@ class Registration
     # Used as a trigger value to force validation of the revoke reason field
     # When this value contains any value, the revokeReason field is validated
     :revoked
+=end
+
 
 =begin
     # TODO: Determine if this is needed?
@@ -84,12 +138,15 @@ class Registration
 
 
 
+=begin
   def initialize(session_params)
     session_params.each do |k, v|
       self.send("#{k}=",v)
     end
     metaData = {}
   end
+=end
+
 
   def save!
     @title = 'Mr'
@@ -97,14 +154,9 @@ class Registration
 
     response = RestClient.post  SERVICES_URL,  self.to_json, :content_type => :json, :accept => :json
 
-
-
     Rails.logger.debug "services responded: #{response.code}"
     Rails.logger.debug "services body: #{response.body}"
   end
-
-
-
 
 
   BUSINESS_TYPES = %w[
