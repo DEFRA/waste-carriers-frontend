@@ -61,7 +61,11 @@ And(/^I choose to pay by bank transfer$/) do
 end
 
 Then(/^I can make a note of the details$/) do
-  pending
+  page.text.should match /Sort code: \d{2}-\d{2}-\d{2}/
+  page.text.should match /Account number: \d+/
+  page.text.should match /Reference: CBDU\d+/
+
+  click_on 'Next'
 end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
