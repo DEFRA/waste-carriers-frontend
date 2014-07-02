@@ -57,5 +57,17 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
 end
 
 And(/^I choose to pay by bank transfer$/) do
+  click_on 'Pay via electronic transfer'
+end
+
+And(/^make a note of the details$/) do
   pending
+end
+
+And(/^go to the next step$/) do
+  pending
+end
+
+Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
+  pending # express the regexp above with the code you wish you had
 end
