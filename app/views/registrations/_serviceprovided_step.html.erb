@@ -6,17 +6,22 @@
   <!-- Smart Answers
     What kind of service do you provide?
    -->
-  <fieldset>
-    <legend><%= t 'registrations.serviceprovided_step.subtitle' %></legend>
+
+<fieldset>
+  <legend><%= t 'registrations.serviceprovided_step.subtitle' %></legend>
     <div class="inline <%if @registration.errors[:isMainService].any?%> validation<%end%>">
-      <label class="block-label"><!-- GDS have an 'option' class but we prefer this simplified version -->
-        <%= f.radio_button :isMainService, "no", :class => "radio" %> <%= f.label t '.part_of_service_label', :class => "label" %>
-      </label>
-      <label class="block-label">
-        <%= f.radio_button :isMainService, "yes", :class => "radio" %> <%= f.label t '.main_service_label', :class => "label" %>
-      </label>
+
+        <%=f.label :part_of_service_label, for: "registration_isMainService_no", :class => "block-label" do %>
+        <%= f.radio_button :isMainService, "no", :class => "radio" %> 
+        <%= f.label t '.part_of_service_label', :class => "label" %>
+          <% end %>
+ 
+        <%= f.label :main_service_label, for: "registration_isMainService_yes", :class => "block-label" do %>
+        <%= f.radio_button :isMainService, "yes", :class => "radio" %> 
+        <%= f.label t '.main_service_label', :class => "label" %>
+          <% end %>
     </div>
-  </fieldset>
+</fieldset>
 
 </div>
 
