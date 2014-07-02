@@ -998,6 +998,16 @@ class RegistrationsController < ApplicationController
   end
   ######################################
 
+  def newOfflinePayment
+    new_step_action 'offline_payment'
+  end
+
+  def updateNewOfflinePayment
+    setup_registration 'offline_payment'
+
+    redirect_to :root_path # TODO
+  end
+
   private
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages

@@ -499,6 +499,11 @@ en:
       payment_method_debit_credit: "Pay by debit or credit card"
       payment_method_elec_transfer: "Pay by electronic transfer"
       trouble_paying_link: "Trouble paying?"
+    newOfflinePayment:
+      heading: "How to pay"
+      amount: "Please initiate a bank transfer for %{amount_with_currency_symbol} to:"
+      sort_code: "Sort code: %{sort_code}"
+      account_number: "Account Number: %{account_number}"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
@@ -640,6 +645,8 @@ en:
       emailAddress_label: "E-mail address"
 
       next_button_label: "Next"
+      pay_by_worldpay_button_label: "Pay by debit/credit card"
+      pay_offline_button_label: "Pay via electronic transfer"
       back_button_label: "Back"
       register_button_label: "Register"
       finish_button_label: "Finished"
