@@ -3,7 +3,7 @@
 class WorldpayController < ApplicationController
 
   def success
-    @registration = Registration.find(session[:registration_id])
+    redirect_to pending_path
   end
 
   def failure
