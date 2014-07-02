@@ -260,6 +260,16 @@ class Registration < ActiveResource::Base
     not persisted?
   end
 
+  def upper?
+    return false if tier.blank?
+    tier.inquiry.UPPER?
+  end
+
+  def lower?
+    return true if tier.blank?
+    tier.inquiry.LOWER?
+  end
+
   def self.business_type_options_for_select
     (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
   end
