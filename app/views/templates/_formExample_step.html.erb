@@ -67,19 +67,19 @@
 <fieldset>
   <legend>Radio Button Example</legend>
   <div class='example'>
-  <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-      <label class="block-label" for="registration_businessType_radio-1">
-        <input type="radio" value="radio-1" name="registration[businessType]" id="registration_businessType_radio-1">
-        Radio Button 1
-      </label>
-      <label class="block-label" for="registration_businessType_radio-2">
-        <input type="radio" value="radio-2" name="registration[businessType]" id="registration_businessType_radio-2">
-        Radio Button 2
-      </label>
-      <label class="block-label" for="registration_businessType_radio-3">
-        <input type="radio" value="radio-3" name="registration[businessType]" id="registration_businessType_radio-3">
-        Radio Button 3
-      </label>
+  <div class="form-group<%if @registration.errors[:registrationType].any?%> validation<%end%>">
+    <%= f.label :carrier_dealer, for: "registration_registrationType_carrier_dealer", :class => "block-label" do %>
+      <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %>
+      <%= t 'activemodel.attributes.upper_registration.carrier_dealer' %>
+    <% end %>
+    <%= f.label :carrier_dealer, for: "registration_registrationType_broker_dealer", :class => "block-label" do %>
+      <%= f.radio_button :registrationType, "broker_dealer", :class => "radio" %>
+      <%= t 'activemodel.attributes.upper_registration.broker_dealer' %>
+    <% end %>
+    <%= f.label :carrier_dealer, for: "registration_registrationType_carrier_broker_dealer", :class => "block-label" do %>
+      <%= f.radio_button :registrationType, "carrier_broker_dealer", :class => "radio" %>
+      <%= t 'activemodel.attributes.upper_registration.carrier_broker_dealer' %>
+    <% end %>
   </div>
 </div>
 </fieldset>
