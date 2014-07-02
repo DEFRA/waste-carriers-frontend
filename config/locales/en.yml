@@ -343,11 +343,18 @@ en:
         subtitle: "These will not be made public"
 
   templates:
-    formExample_step:
-      title: "Example Template"
-      subtitle: "A reference page for WCR team"
+    formExample:
+      title: "Example form controls and content"
       step: "Step 1 of 10"
+    formExample_step:
       legend: An example legend
+      subtitle: "A reference page for WCR team"
+    formTemplate:
+      title: "Example form template"
+      step: "Step 1 of 10"
+    formTemplate_step:
+      legend: "An example legend"
+      subtitle: "All pages should follow this structure"
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
@@ -515,6 +522,11 @@ en:
       payment_method_debit_credit: "Pay by debit or credit card"
       payment_method_elec_transfer: "Pay by electronic transfer"
       trouble_paying_link: "Trouble paying?"
+    newOfflinePayment:
+      heading: "How to pay"
+      amount: "Please initiate a bank transfer for %{amount_with_currency_symbol} to:"
+      sort_code: "Sort code: %{sort_code}"
+      account_number: "Account Number: %{account_number}"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
@@ -656,6 +668,8 @@ en:
       emailAddress_label: "E-mail address"
 
       next_button_label: "Next"
+      pay_by_worldpay_button_label: "Pay by debit/credit card"
+      pay_offline_button_label: "Pay via electronic transfer"
       back_button_label: "Back"
       register_button_label: "Register"
       finish_button_label: "Finished"

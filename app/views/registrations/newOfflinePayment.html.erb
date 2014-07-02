@@ -1,0 +1,16 @@
+<%= render 'shared/content_for_pages' %>
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <h2><%= t '.heading' %></h2>
+
+    <p><%= t '.amount', amount_with_currency_symbol: '£999.99' %></p>
+
+    <ul>
+      <li><%= t '.sort_code', sort_code: 'XX-XX-XX' %></li>
+      <li><%= t '.account_number', account_number: '00000000' %></li>
+    </ul>
+
+    <%= render 'wizard_links' %>
+  </article>
+</main>
