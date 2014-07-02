@@ -43,4 +43,13 @@ Feature: Upper tier
     When I confirm account creation via email
     Then I am registered as an upper tier waste carrier
 
+  Scenario: Card payment
+    Given I autocomplete my business address
+    And I provide my personal contact details
+    And I check the declaration
+    And I provide my email address and create a password
+    And I pay by card
+
+  Scenario: Bank transfer
+
   # TODO ltd company version asks for companies house number and directors
