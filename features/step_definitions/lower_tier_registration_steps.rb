@@ -128,6 +128,8 @@ end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
   page.should have_content 'is registered as a lower tier waste carrier'
+  open_email my_email_address
+  current_email.should have_content 'is registered as a lower tier waste carrier'
 end
 
 But(/^I can edit this postcode$/) do
