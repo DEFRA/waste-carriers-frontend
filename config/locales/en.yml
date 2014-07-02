@@ -317,11 +317,12 @@ en:
       results_format: "Results format"
 
   templates:
-    formExample_step:
+    formExample:
       title: "Example form controls and content"
-      subtitle: "A reference page for WCR team"
       step: "Step 1 of 10"
+    formExample_step:
       legend: An example legend
+      subtitle: "A reference page for WCR team"
     formTemplate:
       title: "Example form template"
       step: "Step 1 of 10"
