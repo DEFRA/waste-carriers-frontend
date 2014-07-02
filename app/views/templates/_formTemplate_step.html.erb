@@ -1,0 +1,21 @@
+<fieldset>
+  <legend><%= t '.legend' %></legend>
+  <h2><%= t '.subtitle' %></h2>
+
+  <!-- Use the class of .form-group to wrap form sections -->
+  <div class="form-group<%if @registration.errors[:firstName].any?%> validation<%end%>">
+    <%= validation_for(@registration, :firstName) %>
+    <!-- Form Label Styles -->
+    <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
+    <%= f.label :firstName, class: 'form-label' %>
+    <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
+  </div>
+
+  <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
+    <%= validation_for(@registration, :lastName) %>
+    <!-- Use the .form-label class - when the user clicks on the form-label the matching input will show a yellow border focus -->
+    <%= f.label :lastName, class: 'form-label' %>
+    <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
+  </div>
+
+</fieldset>

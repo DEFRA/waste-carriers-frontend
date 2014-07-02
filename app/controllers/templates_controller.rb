@@ -19,6 +19,24 @@ class TemplatesController < ApplicationController
     end
   end
 
+  def formTemplate
+    new_step_action 'formTemplate'
+  end
+
+  # POST /templates/form-template
+  def updateFormTemplate
+    setup_registration 'formTemplate'
+
+    if @registration.valid?
+      logger.info 'Registration is valid so far, go to next page'
+      redirect_to :root
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "formTemplate", :status => '400'
+    end
+  end
+
   def new_step_action current_step
     session[:registration_params] ||= {}
     session[:registration_params].deep_merge!(registration_params) if params[:registration]
