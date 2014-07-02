@@ -45,10 +45,10 @@ Feature: Upper tier
 
   Scenario: Card payment
     Given I autocomplete my business address
-    And I provide my personal contact details
-    And I check the declaration
-    And I provide my email address and create a password
-    And I pay by card
+      And I provide my personal contact details
+      And I check the declaration
+      And I provide my email address and create a password
+      And I pay by card
 
   Scenario: Bank transfer
 
