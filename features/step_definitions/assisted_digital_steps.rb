@@ -147,14 +147,14 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   fill_in 'cardNoInput', with: '4444333322221111'
   fill_in 'cardCVV', with: '123'
   select('12', from: 'cardExp.month')
-  select('2015', from: 'cardExp.year')
+  select(Date.current.year + 2, from: 'cardExp.year')
   fill_in 'name', with: 'Mr Waste Carrier'
   fill_in 'address1', with: 'Upper Waste Carrier Street'
   fill_in 'town', with: 'Upper Town'
   fill_in 'postcode', with: 'BS1 5AH'
   click_on 'op-PMMakePayment'
 
-  sleep 1.0
+  sleep 1.5
   #By now we should be on the Test Simulator page...
   page.should have_content 'Secure Test Simulator Page'
   #The standard 'approved' etc. should already be selected, just click the 'continue' button (input)
