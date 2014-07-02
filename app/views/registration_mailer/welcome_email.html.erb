@@ -5,7 +5,7 @@
   </head>
   <body>
 
-    <% isRegisteredMessageKey = @registration.tier.inquiry.LOWER? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
+    <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
 
 	<h2 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h2>
 	<h3><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>. <!--Your username is your email: <%= @registration.accountEmail %>--></h3>
