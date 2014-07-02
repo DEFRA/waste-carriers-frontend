@@ -48,3 +48,7 @@ And(/^I pay by card$/) do
 
   save_and_open_page
 end
+
+And(/^I choose to pay by bank transfer$/) do
+  pending
+end

@@ -51,5 +51,10 @@ Feature: Upper tier
       And I pay by card
 
   Scenario: Bank transfer
+    Given I autocomplete my business address
+      And I provide my personal contact details
+      And I check the declaration
+      And I provide my email address and create a password
+      And I choose to pay by bank transfer
 
   # TODO ltd company version asks for companies house number and directors
