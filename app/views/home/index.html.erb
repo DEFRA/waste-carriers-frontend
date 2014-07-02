@@ -46,6 +46,9 @@
       <p><a href='/templates/form'>Form example</a></p>
       <p><a href='/templates/form-template'>Form template</a></p>
 
+      <h2>Other</h2>
+      <p><%= button_to 'Reset session', destroy_user_session_path, :method => :delete %></p>
+
       <div id="includedContent"></div>
   </article>
 </main>
