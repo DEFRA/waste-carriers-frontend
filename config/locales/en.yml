@@ -323,6 +323,12 @@ en:
       step: "Step 1 of 10"
       legend: An example legend
 
+  buttons:
+    carrier_dealer: "We carry the waste ourselves"
+    broker_dealer: "We arrange for other people to carry it"
+    carrier_broker_dealer: "We do both"
+
+
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     registration_step: "Step %{step_no} of 8"
