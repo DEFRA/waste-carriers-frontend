@@ -46,8 +46,8 @@
       </fieldset>
 
       <p>
-        <%= link_to t('upper_registrations.form.back_button_label'), :newUpperContactDetails, :class => 'button-secondary' %>
-        <input name="next" class="button" type="submit" value="<%= t 'upper_registrations.form.next_button_label' %>"/>
+        <%= render 'back_link' %>
+        <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
         <%= link_to t('registrations.form.pay_offline_button_label'), offline_payment_path, class: 'button-secondary' %>
       </p>
 

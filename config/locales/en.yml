@@ -633,7 +633,8 @@ en:
       emailAddress_label: "E-mail address"
 
       next_button_label: "Next"
-      pay_offline_button_label: "Pay offline"
+      pay_by_worldpay_button_label: "Pay by debit/credit card"
+      pay_offline_button_label: "Pay via electronic transfer"
       back_button_label: "Back"
       register_button_label: "Register"
       finish_button_label: "Finished"
