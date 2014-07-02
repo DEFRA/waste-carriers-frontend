@@ -555,7 +555,8 @@ en:
     print:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."
-      isRegistered: "%{companyName} is registered as a lower tier waste carrier/broker/dealer with the Environment Agency"
+      isRegisteredAsLower: "%{companyName} is registered as a lower tier waste carrier/broker/dealer with the Environment Agency"
+      isRegisteredAsUpper: "%{companyName} is registered as an upper tier waste carrier/broker/dealer with the Environment Agency"
       title: "Waste carrier registration certificate"
       detailsHeading: "Business or organisation details"
       contactHeading: "Address and contact details"

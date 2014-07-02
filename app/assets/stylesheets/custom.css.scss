@@ -71,15 +71,6 @@ hr {
     margin-top: 0.625em;
 }
 
-p, h1, h2 {
-    margin-bottom: 1.25em;
-    margin-top: 0.625em;
-}
-
-h1, h2, h3 {
-    margin-bottom: 0.625em;
-}
-
 #smartanswers_display, #data_protection {
     list-style-type: inherit;
 }
@@ -429,6 +420,24 @@ table th, table td {
     text-transform: none;
 }
 
+//Hidden Text
+
+details summary {
+    color: rgb(0, 94, 165);
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0.26316em;
+    position: relative;
+}
+
+details .arrow {
+    margin-right: 0.35em;
+}
+
+details .summary {
+    text-decoration: underline;
+    font-size: 19px;
+}
 
 
 
