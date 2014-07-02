@@ -17,9 +17,11 @@ And(/^I am a carrier dealer$/) do
 end
 
 And(/^I go past the payment page$/) do
-  click_on 'Next'
+  click_on 'Pay by debit/credit card'
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
-  page.should have_content 'Registration complete'
+  page.should have_content 'is registered as an upper tier waste carrier'
+  open_email my_email_address
+  current_email.should have_content 'is registered as an upper tier waste carrier'
 end
