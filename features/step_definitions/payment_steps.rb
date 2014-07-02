@@ -60,11 +60,7 @@ And(/^I choose to pay by bank transfer$/) do
   click_on 'Pay via electronic transfer'
 end
 
-And(/^make a note of the details$/) do
-  pending
-end
-
-And(/^go to the next step$/) do
+Then(/^I can make a note of the details$/) do
   pending
 end
 
