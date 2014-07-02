@@ -3,6 +3,19 @@ require 'securerandom'
 class DirectorsController < ApplicationController
 
   # GET /your-registration/directors
+  def registration
+    get_registration
+    unless @registration.businessType == "limitedCompany"
+      redirect_to :upper_payment
+    end
+    get_directors
+    unless @directors.empty?
+      render 'index'
+    end
+    render 'new'
+  end
+
+  # GET /your-registration/directors
   def index
     get_directors
   end
@@ -88,10 +101,6 @@ class DirectorsController < ApplicationController
   def get_registration
     session[:registration_params] ||= {}
     @registration = Registration.new(session[:registration_params])
-    unless @registration.has_attribute?(:directors)
-      @registration.directors = []
-      session[:registration_params] = @registration
-    end
   end
 
   def get_directors

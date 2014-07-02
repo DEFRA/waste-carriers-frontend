@@ -98,12 +98,10 @@ Registrations::Application.routes.draw do
     get "your-registration/directors/edit" => "directors#edit", :as => :edit_director
     get "your-registration/directors/delete" => "directors#delete", :as => :delete_director
     get "your-registration/directors" => "directors#show", :as => :director
-
     match "your-registration/directors" => "directors#update", :via => [:put,:patch]
-
     delete "your-registration/directors" => "directors#destroy"
-
     get "your-registration/directors/done" => "directors#done", :as => :done_directors
+    get "your-registration/directors/registration" => "directors#registration", :as => :registration_directors
 
     match "your-registration/upper-tier-business-details" => "registrations#newUpperBusinessDetails", :via => [:get], :as => :newUpperBusinessDetails
     match "your-registration/upper-tier-business-details" => "registrations#updateNewUpperBusinessDetails", :via => [:post,:put,:patch]
