@@ -6,7 +6,7 @@
     <% content_for :page_title, createTitle('.title') %>
     <div class="step"><%= t '.step' %></div>
 
-    <%= form_for(@directors, :url => done_directors_path ) do |f| %>
+    <%= form_for(@directors, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
       <%= render 'index', f: f, l: @directors %>
       <%= render 'wizard_links' %>
     <% end %>

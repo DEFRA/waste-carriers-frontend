@@ -7,12 +7,14 @@ class DirectorsController < ApplicationController
     get_registration
     unless @registration.businessType == "limitedCompany"
       redirect_to :upper_payment
+      return
     end
     get_directors
     unless @directors.empty?
-      render 'index'
+      redirect_to action: 'index'
+      return
     end
-    render 'new'
+    redirect_to action: 'new'
   end
 
   # GET /your-registration/directors
@@ -45,7 +47,12 @@ class DirectorsController < ApplicationController
     index = @directors.index { |d| d.temp_id == params[:id]}
     @directors.delete_at index
 
-    render 'index'
+    if @directors.empty?
+      redirect_to action: 'registration'
+    else
+      redirect_to action: 'index'
+    end
+
   end
 
   # POST /your-registration/directors
