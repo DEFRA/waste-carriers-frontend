@@ -497,6 +497,7 @@ en:
       amount: "Please initiate a bank transfer for %{amount_with_currency_symbol} to:"
       sort_code: "Sort code: %{sort_code}"
       account_number: "Account Number: %{account_number}"
+      reference: "Reference: %{reference}"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
