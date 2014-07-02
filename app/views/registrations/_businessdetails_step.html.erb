@@ -5,15 +5,12 @@
 
   <fieldset>
   	<legend></legend>
-    <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
-      <%= validation_for(@registration, :companyName) %>
-      <div class="form-label"><%= f.label :companyName %></div>
-      <%= f.text_field :companyName, :size => 20, :maxlength => 70 %>
+    <div class="form-group">
       <%= f.hidden_field :tier, value: 'LOWER' %>
     </div>
   </fieldset>
-
-  <%= render "address_entry", :f => f %>
+  <%= render 'company_name', f: f, mode: 'business' %>
+  <%= render "address_finder", :f => f %>
 </div>
 
 <%= render 'wizard_links' %>
