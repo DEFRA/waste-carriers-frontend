@@ -3,8 +3,8 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
 
-      <!-- WF 4.3.2 -->
-      <div id="page0"  data-journey="waste-carriers-registration:template">
+    <!-- WF 4.3.2 -->
+    <div id="page0"  data-journey="waste-carriers-registration:template">
 
       <% content_for :page_title, createTitle('.title') %>
       <div class="inline">
@@ -12,10 +12,13 @@
         <div class="step"><%= t '.step' %></div>
       </div>
 
+      <%= render "errors" %>
+
       <%= form_for(@registration, :url => formExample_path) do |f| %>
         <%= render "formTemplate_step", f: f %>
         <span class="next_link"><%= render 'next_link' %></span>
       <% end %>
 
+    </div>
   </article>
 </main>
