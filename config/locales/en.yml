@@ -492,6 +492,11 @@ en:
       payment_method_debit_credit: "Pay by debit or credit card"
       payment_method_elec_transfer: "Pay by electronic transfer"
       trouble_paying_link: "Trouble paying?"
+    newOfflinePayment:
+      heading: "How to pay"
+      amount: "Please initiate a bank transfer for £X to"
+      sort_code: "Sort code: Y"
+      account_number: "Account Number: Z"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
