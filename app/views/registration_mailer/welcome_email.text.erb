@@ -1,8 +1,6 @@
-<% if @registration.tier.inquiry.UPPER? %>
-Upper tier waste carrier
-<% end %>
+<% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
 
-<%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %>
+<%= t isRegisteredMessageKey, :companyName => @registration.companyName %>
 ===============================================================================
 
 <%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>.

@@ -197,13 +197,7 @@ class RegistrationsController < ApplicationController
     if params[:findAddress]
       render "newBusinessDetails"
     elsif @registration.valid?
-      next_step = case @registration.tier
-                    when 'UPPER'
-                      :newUpperBusinessDetails
-                    when 'LOWER'
-                      :newContact
-                  end
-
+      next_step = @registration.upper? ? :newUpperBusinessDetails : :newContact
       redirect_to next_step
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
@@ -711,22 +705,10 @@ class RegistrationsController < ApplicationController
       if !@registration.id.nil?
         ## Account not yet activated for new user. Cannot redirect to the finish URL
         if agency_user_signed_in? || user_signed_in?
-          next_step = case @registration.tier
-            when 'LOWER'
-              finish_url(:id => @registration.id)
-            when 'UPPER'
-              :upper_payment
-            end
-
+          next_step = @registration.upper? ? :upper_payment : finish_url(:id => @registration.id)
           redirect_to next_step
         else
-          next_step = case @registration.tier
-            when 'LOWER'
-              pending_url
-            when 'UPPER'
-              :upper_payment
-            end
-
+          next_step = @registration.upper? ? :upper_payment : pending_url
           redirect_to next_step
         end
       else
