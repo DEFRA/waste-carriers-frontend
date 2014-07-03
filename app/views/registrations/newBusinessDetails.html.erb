@@ -7,7 +7,6 @@
     <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
 
       <div class="step"><%= t 'registrations.businessdetails_step.step' %></div>
-      <h1 class="subtitle"><%= t 'registrations.businessdetails_step.subtitle' %></h1>
 
       <%= render "businessdetails_step", :f => f %>
 

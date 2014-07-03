@@ -2,6 +2,22 @@ require 'spec_helper'
 
 describe Registration do
 
+  describe '#upper?' do
+    specify { Registration.new(tier: 'UPPER').should be_upper }
+    specify { Registration.new(tier: 'upper').should_not be_upper }
+    specify { Registration.new(tier: '').should_not be_upper }
+    specify { Registration.new(tier: nil).should_not be_upper }
+    specify { Registration.new(tier: 'LOWER').should_not be_upper }
+  end
+
+  describe '#lower?' do
+    specify { Registration.new(tier: 'LOWER').should be_lower }
+    specify { Registration.new(tier: 'lower').should_not be_lower }
+    specify { Registration.new(tier: '').should be_lower }
+    specify { Registration.new(tier: nil).should be_lower }
+    specify { Registration.new(tier: 'UPPER').should_not be_lower }
+  end
+
   context 'businesstype step' do
     before { subject.current_step = 'businesstype' }
 
@@ -48,7 +64,36 @@ describe Registration do
   end
 
   context 'signup step' do
-    before { subject.current_step = 'signup' }
+    before do
+      subject.current_step = 'signup'
+      subject.tier = 'UPPER'
+    end
+
+    it { should allow_value('LOWER', 'UPPER').for(:tier) }
+
+    context 'nil tier' do
+      before { subject.tier = nil }
+
+      it 'errors' do
+        expect { subject.valid? }.to raise_error ActiveModel::StrictValidationFailed
+      end
+    end
+
+    context 'empty tier' do
+      before { subject.tier = '' }
+
+      it 'errors' do
+        expect { subject.valid? }.to raise_error ActiveModel::StrictValidationFailed
+      end
+    end
+
+    context 'unrecognised tier' do
+      before { subject.tier = 'lower' }
+
+      it 'errors' do
+        expect { subject.valid? }.to raise_error ActiveModel::StrictValidationFailed
+      end
+    end
 
     context 'without signup mode' do
       it { should_not validate_presence_of(:accountEmail) }

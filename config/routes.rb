@@ -106,6 +106,15 @@ Registrations::Application.routes.draw do
     get "reports/:from/:until/registrations" => 'reports#reportRegistrations'
     get "reports/registrations" => 'reports#reportRegistrations', :as => :reports_registrations
 
+    # Template URLS - These are just for the devs as working examples
+    get "templates/form" => "templates#formExample", :as => :formExample
+    post "templates/form" => "templates#updateFormExample"
+    get "templates/form-template" => "templates#formTemplate", :as => :formTemplate
+    post "templates/form-template" => "templates#updateFormTemplate"
+
+    get 'your-registration/offline_payment' => 'registrations#newOfflinePayment', :as => :offline_payment
+    post 'your-registration/offline_payment' => 'registrations#updateNewOfflinePayment'
+
   # Worldpay response messages
   get "worldpay/success"
   get "worldpay/failure"

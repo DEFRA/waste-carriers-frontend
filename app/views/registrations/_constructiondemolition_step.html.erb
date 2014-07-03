@@ -1,5 +1,3 @@
-<p><a href="?whatisconstruction=true"><%= t '.explanation_link'%></a></p>
-
 <%= render "errors" %>
 
 <!-- WF 4.3.1 -->
@@ -9,16 +7,17 @@
     Do you ever deal with construction or demolition waste
    -->
   <fieldset>
-    <legend></legend>
+    <legend><%= t 'registrations.constructiondemolition_step.subtitle' %></legend>
+    <p><a href="?whatisconstruction=true"><%= t '.explanation_link'%></a></p>
     <div class="inline<%if @registration.errors[:constructionWaste].any?%> validation<%end%>">
-  	  <label class='block-label'>
+  	   <%= f.label :yes_option_label, for: "registration_constructionWaste_yes", :class => 'block-label' do %>
   	    <%= f.radio_button :constructionWaste, "yes", :class => "radio" %> 
-        <%= f.label t 'form.yes_option_label', :class => "label" %>
-      </label>
-      <label class='block-label'>
+        <%= t 'form.yes_option_label' %>
+          <% end %>
+       <%= f.label :no_option_label, for: "registration_constructionWaste_no", :class => 'block-label' do %>
         <%= f.radio_button :constructionWaste, "no", :class => "radio" %> 
-        <%= f.label t 'form.no_option_label', :class => "label" %>
-  	  </label>
+        <%= t 'form.no_option_label' %>
+  	      <% end %>
     </div>
   </fieldset>
 

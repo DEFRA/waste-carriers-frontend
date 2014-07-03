@@ -1,4 +1,6 @@
-<%= t 'registrations.print.isRegistered', :companyName => @registration.companyName %>
+<% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
+
+<%= t isRegisteredMessageKey, :companyName => @registration.companyName %>
 ===============================================================================
 
 <%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %>.

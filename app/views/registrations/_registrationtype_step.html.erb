@@ -5,19 +5,21 @@
 
   <fieldset>
     <legend><%= t '.legend' %></legend>
+    <h2 class="subtitle"><%= t 'registrations.registrationtype_step.subtitle' %></h2>
     <div class="form-group<%if @registration.errors[:registrationType].any?%> validation<%end%>">
-      <label class="block-label"><!-- GDS have an 'option' class but we prefer this simplified version -->
+        <%= f.label :yes_option_label, for: "registration_registrationType_carrier_dealer", :class => "block-label" do %>
         <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %>
-        <%= f.label :carrier_dealer, :class => "label" %>
-      </label>
-      <label class="block-label">
+        <%= t "buttons.carrier_dealer" %>
+          <% end %>
+        <%= f.label :yes_option_label, for: "registration_registrationType_broker_dealer", :class => "block-label" do %>
         <%= f.radio_button :registrationType, "broker_dealer", :class => "radio" %>
-        <%= f.label :broker_dealer, :class => "label" %>
-      </label>
-      <label class="block-label">
+        <%= t "buttons.broker_dealer" %>
+          <% end %>
+        <%= f.label :yes_option_label, for: "registration_registrationType_carrier_broker_dealer", :class => "block-label" do %>
         <%= f.radio_button :registrationType, "carrier_broker_dealer", :class => "radio" %>
-        <%= f.label :carrier_broker_dealer, :class => "label" %>
-      </label>
+        <%= t "buttons.carrier_broker_dealer" %>
+          <% end %>
+      <%= f.hidden_field :tier, value: 'UPPER' %>
     </div>
   </fieldset>
 
