@@ -44,10 +44,6 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   #click_on 'continue'
   first(:xpath,'/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/label/nobr/input').click
 
-  # This is the 'Continue' link on our provisional Worldpay Success page.
-  # Later this should redirect automatically to another page showing the payment confirmation.
-  click_on 'Continue'
-
   # TODO at this point we ought to be on page with access code but are at confirmation page
 end
 
