@@ -26,7 +26,7 @@ module WorldpayHelper
       orderValue = '15400'
       orderDescription = 'Your Waste Carrier Registration'
       orderContent = 'Your new Waste Carrier Registration'
-      shopperEmail = 'gmueller@caci.co.uk'
+      shopperEmail = ''
       shopperFirstName = 'Joe'
       shopperLastName = 'Bloggs'
       shopperAddress1 = 'Test Street 123'
@@ -43,10 +43,10 @@ module WorldpayHelper
       xml << "<amount currencyCode=\"GBP\" value=\"" + orderValue + "\" exponent=\"2\"/>"
       xml << '<orderContent>' + orderContent + '</orderContent>'
       xml << '<paymentMethodMask>'
-      xml << "<include code=\"ONLINE\"/>"
-      xml << "<exclude code=\"MAESTRO-SSL\"/>"
-      xml << "<exclude code=\"AMEX-SSL\"/>"
-#      xml << "<include code=\"VISA-SSL\"/>"
+#      xml << "<include code=\"ONLINE\"/>"
+      xml << "<include code=\"VISA-SSL\"/>"
+      xml << "<include code=\"MAESTRO-SSL\"/>"
+      xml << "<include code=\"ECMC-SSL\"/>"
       xml << '</paymentMethodMask>'
       xml << '<shopper>'
       xml << '<shopperEmailAddress>' + shopperEmail + '</shopperEmailAddress>'
