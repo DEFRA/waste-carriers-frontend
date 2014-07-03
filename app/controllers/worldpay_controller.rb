@@ -6,7 +6,7 @@ class WorldpayController < ApplicationController
     @registration = Registration.find session[:registration_id]
 
     next_step = if @registration.assisted_digital?
-                  print_url(@registration.id)
+                  print_path(@registration)
                 else
                   pending_path
                 end
