@@ -60,5 +60,5 @@ end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
   page.should have_content 'Your registration number is: CBDU'
-  # TODO what else should this page say?
+  page.should have_content 'Your registration is pending payment'
 end
