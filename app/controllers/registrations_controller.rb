@@ -1004,7 +1004,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewOfflinePayment
-    redirect_to :pending # but eventually this'll be a pending path for not paying yet
+    redirect_to :pending_payment
   end
 
   private
