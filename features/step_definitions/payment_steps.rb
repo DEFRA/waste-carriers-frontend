@@ -55,7 +55,7 @@ And(/^I choose to pay by bank transfer$/) do
   click_on 'Pay via electronic transfer'
 end
 
-Then(/^I can make a note of the details$/) do
+Then(/^I make a note of the details$/) do
   page.text.should match /£\d+\.\d{2}/
   page.text.should match /Sort code: \d{2}-\d{2}-\d{2}/
   page.text.should match /Account number: \d+/
@@ -65,5 +65,6 @@ Then(/^I can make a note of the details$/) do
 end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
-  pending # express the regexp above with the code you wish you had
+  page.should have_content 'Your registration number is: CBDU'
+  # TODO what else should this page say?
 end
