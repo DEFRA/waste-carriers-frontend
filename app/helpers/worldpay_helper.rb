@@ -26,6 +26,14 @@ module WorldpayHelper
       orderValue = '15400'
       orderDescription = 'Your Waste Carrier Registration'
       orderContent = 'Your new Waste Carrier Registration'
+      shopperEmail = ''
+      shopperFirstName = 'Joe'
+      shopperLastName = 'Bloggs'
+      shopperAddress1 = 'Test Street 123'
+      shopperPostalCode = 'BS1 5AH'
+      shopperCity = 'Bristol'
+      shopperCountryCode = 'GB'
+
       xml = "<?xml version=\"1.0\"?>"
       xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>"
       xml << "<paymentService version=\"1.4\" merchantCode=\"" + merchantCode + "\">"
@@ -35,10 +43,24 @@ module WorldpayHelper
       xml << "<amount currencyCode=\"GBP\" value=\"" + orderValue + "\" exponent=\"2\"/>"
       xml << '<orderContent>' + orderContent + '</orderContent>'
       xml << '<paymentMethodMask>'
-      xml << "<include code=\"ONLINE\"/>"
-      xml << "<exclude code=\"MAESTRO-SSL\"/>"
-      xml << "<exclude code=\"AMEX-SSL\"/>"
+#      xml << "<include code=\"ONLINE\"/>"
+      xml << "<include code=\"VISA-SSL\"/>"
+      xml << "<include code=\"MAESTRO-SSL\"/>"
+      xml << "<include code=\"ECMC-SSL\"/>"
       xml << '</paymentMethodMask>'
+      xml << '<shopper>'
+      xml << '<shopperEmailAddress>' + shopperEmail + '</shopperEmailAddress>'
+      xml << '</shopper>'
+      xml << '<billingAddress>'
+      xml << '<address>'
+      xml << '<firstName>' + shopperFirstName + '</firstName>'
+      xml << '<lastName>' + shopperLastName + '</lastName>'
+      xml << '<address1>' + shopperAddress1 + '</address1>'
+      xml << '<postalCode>' + shopperPostalCode + '</postalCode>'
+      xml << '<city>' + shopperCity + '</city>'
+      xml << '<countryCode>' + shopperCountryCode + '</countryCode>'
+      xml << '</address>'
+      xml << '</billingAddress>'
       xml << '</order>'
       xml << '</submit>'
       xml << '</paymentService>'
@@ -119,4 +141,22 @@ module WorldpayHelper
       end
     end
 
+    def worldpay_mac_secret
+      if agency_user_signed_in?
+        Rails.configuration.worldpay_moto_macsecret
+      else
+        Rails.configuration.worldpay_ecom_macsecret
+      end
+    end
+
+    # Validate the MAC, as per section 7.2.2. of the Worldpay XML Redirection Guide
+    # (see http://support.worldpay.com/support/kb/gg/pdf/rxml.pdf)
+    def validate_worldpay_return_parameters(orderKey, paymentAmount, paymentCurrency, paymentStatus, mac)
+      mac_secret = worldpay_mac_secret
+      data = orderKey + paymentAmount + paymentCurrency + paymentStatus + mac_secret
+      digest = Digest::MD5.hexdigest(data)
+      logger.info 'MD5 digest = ' + digest.to_s
+      logger.info 'MAC = ' + mac
+      digest.to_s.eql? mac
+    end
 end
