@@ -1,0 +1,19 @@
+<%= render 'shared/content_for_pages' %>
+
+<% content_for :page_title, createTitle('.heading') %>
+
+<main id="content" role="main" class="group"><article role="article" class="group">
+
+  <h2><%= t '.heading' %></h2>
+
+  <p>Your registration is pending payment</p>
+
+  <div id="wrapper" data-journey="waste-carriers-registration:confirm-account"></div>
+
+  <p><%= t '.pendingText', :email => @registration.accountEmail %></p>
+
+  <p><%= t '.pendingText2' %></p>
+
+  <p><%= t '.pendingText3' %></p>
+
+</article></main>
