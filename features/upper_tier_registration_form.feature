@@ -48,7 +48,8 @@ Feature: Upper tier
       And I provide my personal contact details
       And I check the declaration
       And I provide my email address and create a password
-    When I pay by card
+      And I pay by card
+    When I confirm account creation via email
     Then I am registered as an upper tier waste carrier
 
   Scenario: Bank transfer
