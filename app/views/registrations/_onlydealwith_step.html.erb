@@ -9,12 +9,14 @@
   <fieldset>
     <legend><%= t 'registrations.onlydealwith_step.subtitle' %></legend>
     <div class="inline<%if @registration.errors[:onlyAMF].any?%> validation<%end%>">
-  	  <label class="block-label"><!-- GDS have an 'option' class but we prefer this simplified version -->
-        <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> <%= f.label t 'form.yes_option_label', :class => "label" %>
-      </label>
-      <label class="block-label">
-        <%= f.radio_button :onlyAMF, "no", :class => "radio" %> <%= f.label t 'form.no_option_label', :class => "label" %>
-  	  </label>
+  	  <%= f.label :yes_option_label, for: "registration_onlyAMF_yes", :class => "block-label" do %>
+        <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> 
+        <%= f.label t 'form.yes_option_label' %>
+          <% end %>
+      <%= f.label :yes_option_label, for: "registration_onlyAMF_no", :class => "block-label" do %>
+        <%= f.radio_button :onlyAMF, "no", :class => "radio" %> 
+        <%= f.label t 'form.no_option_label' %>
+  	       <% end %>
     </div>
   </fieldset>
 
