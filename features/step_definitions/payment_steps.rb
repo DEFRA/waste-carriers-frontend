@@ -14,11 +14,6 @@ And(/^I pay by card$/) do
 
   sleep 1.5
   click_on 'Continue'
-
-  # click through temporary page but eventually this page should disappear
-  # click_on 'Continue'
-
-  save_and_open_page
 end
 
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
