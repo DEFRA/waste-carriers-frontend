@@ -3,7 +3,15 @@
 class WorldpayController < ApplicationController
 
   def success
-    redirect_to pending_path
+    @registration = Registration.find session[:registration_id]
+
+    next_step = if @registration.assisted_digital?
+                  print_url(@registration.id)
+                else
+                  pending_path
+                end
+
+    redirect_to next_step
   end
 
   def failure
