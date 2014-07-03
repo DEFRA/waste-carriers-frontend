@@ -700,6 +700,7 @@ class RegistrationsController < ApplicationController
         logger.error "GGG - The registration is NOT valid!"
       end
 
+      session[:registration_id] = @registration.id
       session[:registration_step] = session[:registration_params] = nil
 
       if !@registration.id.nil?
@@ -999,13 +1000,11 @@ class RegistrationsController < ApplicationController
   ######################################
 
   def newOfflinePayment
-    new_step_action 'offline_payment'
+    @registration = Registration.find session[:registration_id]
   end
 
   def updateNewOfflinePayment
-    setup_registration 'offline_payment'
-
-    redirect_to :root_path # TODO
+    redirect_to :pending # but eventually this'll be a pending path for not paying yet
   end
 
   private
