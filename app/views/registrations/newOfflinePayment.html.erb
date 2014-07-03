@@ -7,8 +7,8 @@
     <p><%= t '.amount', amount_with_currency_symbol: '£999.99' %></p>
 
     <ul>
-      <li><%= t '.sort_code', sort_code: '99-99-99' %></li>
-      <li><%= t '.account_number', account_number: '00000000' %></li>
+      <li><%= t '.sort_code', sort_code: Rails.configuration.bank_transfer_sort_code %></li>
+      <li><%= t '.account_number', account_number: Rails.configuration.bank_transfer_account_number %></li>
       <li><%= t '.reference', reference: @registration.regIdentifier %></li>
     </ul>
 
