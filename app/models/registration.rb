@@ -38,7 +38,9 @@ class Registration < ActiveResource::Base
     string :royalMailUpdateDate
     string :localAuthorityUpdateDate
     string :company_no
+    date :expires_on
 
+    #payment
     integer :total_fee
     integer :registration_fee
     integer :copy_card_fee
@@ -68,17 +70,8 @@ class Registration < ActiveResource::Base
     string :sign_up_mode
     string :routeName
     string :accessCode
-    # upper registration attributes
-    string :alt_first_name
-    string :alt_last_name
-    string :alt_job_title
-    string :alt_telephone_number
-    string :alt_email_address
-    string :primary_first_name
-    string :primary_last_name
-    string :primary_job_title
-    string :primary_telephone_number
-    string :primary_email_address
+
+    string :tier
 
     # Used as a trigger value to force validation of the revoke reason field
     # When this value contains any value, the revokeReason field is validated
@@ -127,7 +120,7 @@ class Registration < ActiveResource::Base
 
   validates :contactEmail, presence: true, email: true, if: [:digital_route?, :lower_or_upper_contact_details_step?]
 
-  with_options if: [:address_step?, :manual_uk_address?] do |registration|
+  with_options if: [:address_step?, 'manual_uk_address? or addressMode.blank?'] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
     registration.validates :streetLine1, presence: true, length: { maximum: 35 }
     registration.validates :streetLine2, length: { maximum: 35 }
@@ -140,6 +133,8 @@ class Registration < ActiveResource::Base
     registration.validates :streetLine2, :streetLine3, :streetLine4, length: { maximum: 35 }
     registration.validates :country, presence: true, length: { maximum: 35 }
   end
+
+  validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
@@ -263,6 +258,16 @@ class Registration < ActiveResource::Base
 
   def unpersisted?
     not persisted?
+  end
+
+  def upper?
+    return false if tier.blank?
+    tier.inquiry.UPPER?
+  end
+
+  def lower?
+    return true if tier.blank?
+    tier.inquiry.LOWER?
   end
 
   def self.business_type_options_for_select

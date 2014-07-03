@@ -2,17 +2,23 @@
 
 
 <main id="content" role="main" class="group"><article role="article" class="group">
-<h2><%= t 'devise.confirmations.resendHeading'%></h2>
+<fieldset>
+<legend><%= t 'devise.confirmations.resendHeading'%></legend>
 
 <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
   <%= devise_error_messages! %>
 
-  <p class="group"><%= f.label :email %>
-  <%= f.email_field :email, :autofocus => true %></p>
+  <div class="form-group">
+  	<%= f.label :email, class: 'form-label' %>
+  	<%= f.email_field :email, :autofocus => true %>
+  </div>
 
-  <p class="action group">
-  <%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
-  <%= f.submit t('devise.confirmations.resendHeading'), :class => "button" %></p>
+  <div class="inline">
+  	<p><%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %></p>
+  	<%= f.submit t('devise.confirmations.resendHeading'), :class => "button" %>
+  </div>
 <% end %>
+
+</fieldset>
 
 </article></main>

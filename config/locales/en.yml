@@ -5,8 +5,8 @@ en:
   global:
     siteHeader_html: "Register as a waste carrier &nbsp;<span class='beta'>beta</span>"
     headerLinkTitle: "Go to the GOV.UK homepage"
-    betaMessage_html: "<b>BETA:</b> this is a new service. Please give us your feedback once you have finished."
-    cookieMessage_html: "GOV.UK uses cookies to make the site simpler. <a href='http://www.environment-agency.gov.uk/help/35770.aspx'>Find out more about cookies</a>"
+    betaMessage_html: "<strong>BETA:</strong> this is a new service. Please give us your feedback once you have finished."
+    cookieMessage_html: "<a href='http://www.environment-agency.gov.uk/help/35770.aspx'>GOV.UK uses cookies to make the site simpler. Find out more about cookies</a>"
     helpline: "Helpline"
     england: "England"
     wales: "Wales"
@@ -275,7 +275,7 @@ en:
       title: "Waste Carrier Registration"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
       progress: "Progress: "
-      find_address_button_label: "Find address"
+      find_address_button_label: "Find UK address"
       find_details_button_label: "Find details"
       next_button_label: "Next"
       back_button_label: "Back"
@@ -315,6 +315,26 @@ en:
       status: "Status"
       business_type: "Business type"
       results_format: "Results format"
+
+  templates:
+    formExample:
+      title: "Example form controls and content"
+      step: "Step 1 of 10"
+    formExample_step:
+      legend: An example legend
+      subtitle: "A reference page for WCR team"
+    formTemplate:
+      title: "Example form template"
+      step: "Step 1 of 10"
+    formTemplate_step:
+      legend: "An example legend"
+      subtitle: "All pages should follow this structure"
+
+  buttons:
+    carrier_dealer: "We carry the waste ourselves"
+    broker_dealer: "We arrange for other people to carry it"
+    carrier_broker_dealer: "We do both"
+
 
   registrations:
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
@@ -485,12 +505,16 @@ en:
       payment_method_debit_credit: "Pay by debit or credit card"
       payment_method_elec_transfer: "Pay by electronic transfer"
       trouble_paying_link: "Trouble paying?"
+    newOfflinePayment:
+      heading: "How to pay"
+      amount: "Please initiate a bank transfer for %{amount_with_currency_symbol} to:"
+      sort_code: "Sort code: %{sort_code}"
+      account_number: "Account Number: %{account_number}"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
       check_details_label: "Check your details"
       amount_paid: "You have paid"
-      amount_to_pay: "You are about to pay"
       main_contact_legend: "Main contact"
       alternate_contact_legend: "Alternative contact"
       agree_declaration_label: "Tick this box to agree with declaration"
@@ -526,7 +550,8 @@ en:
     print:
       accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
       proof: "This is proof of your registration."
-      isRegistered: "%{companyName} is registered as a lower tier waste carrier/broker/dealer with the Environment Agency"
+      isRegisteredAsLower: "%{companyName} is registered as a lower tier waste carrier/broker/dealer with the Environment Agency"
+      isRegisteredAsUpper: "%{companyName} is registered as an upper tier waste carrier/broker/dealer with the Environment Agency"
       title: "Waste carrier registration certificate"
       detailsHeading: "Business or organisation details"
       contactHeading: "Address and contact details"
@@ -626,6 +651,8 @@ en:
       emailAddress_label: "E-mail address"
 
       next_button_label: "Next"
+      pay_by_worldpay_button_label: "Pay by debit/credit card"
+      pay_offline_button_label: "Pay via electronic transfer"
       back_button_label: "Back"
       register_button_label: "Register"
       finish_button_label: "Finished"

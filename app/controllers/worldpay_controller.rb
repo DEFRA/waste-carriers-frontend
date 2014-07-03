@@ -7,6 +7,7 @@ class WorldpayController < ApplicationController
   def success
   	#TODO - redirect to some other page after processing/saving the payment
   	#redirect_to paid_path
+    @registration = Registration.find(session[:registration_id])
     process_payment
   end
 

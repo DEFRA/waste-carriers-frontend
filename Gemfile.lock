@@ -1,13 +1,3 @@
-GIT
-  remote: https://github.com/mongoid/mongoid.git
-  revision: 86b642722dd2b6e17456a3007196addda3799f4d
-  specs:
-    mongoid (4.0.0)
-      activemodel (~> 4.0.0)
-      moped (~> 2.0.beta3)
-      origin (~> 1.0)
-      tzinfo (~> 0.3.37)
-
 GEM
   remote: https://rubygems.org/
   remote: https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/
@@ -44,7 +34,7 @@ GEM
     arel (4.0.1)
     atomic (1.1.14)
     bcrypt-ruby (3.1.2)
-    bson (2.0.0.rc3)
+    bson (2.3.0)
     builder (3.1.4)
     callsite (0.0.11)
     cancan (1.6.10)
@@ -77,6 +67,7 @@ GEM
       execjs
     coffee-script-source (1.6.3)
     columnize (0.3.6)
+    connection_pool (2.0.0)
     crack (0.4.2)
       safe_yaml (~> 1.0.0)
     cucumber (1.3.14)
@@ -143,9 +134,15 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.6.0)
     minitest (4.7.5)
-    moped (2.0.0.beta3)
-      bson (~> 2.0.0.rc3)
-      optionable (~> 0.1.1)
+    mongoid (4.0.0)
+      activemodel (~> 4.0)
+      moped (~> 2.0.0)
+      origin (~> 2.1)
+      tzinfo (>= 0.3.37)
+    moped (2.0.0)
+      bson (~> 2.2)
+      connection_pool (~> 2.0)
+      optionable (~> 0.2.0)
     multi_json (1.9.2)
     multi_test (0.1.1)
     net-http-persistent (2.9.4)
@@ -156,8 +153,8 @@ GEM
       net-ssh (>= 2.6.5)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
-    optionable (0.1.1)
-    origin (1.1.0)
+    optionable (0.2.0)
+    origin (2.1.1)
     orm_adapter (0.4.0)
     parallel (1.0.0)
     parallel_tests (0.16.6)
@@ -297,7 +294,7 @@ DEPENDENCIES
   launchy (~> 2.4.2)
   letter_opener (~> 1.2.0)
   meta_request
-  mongoid!
+  mongoid (~> 4.0.0)
   nokogiri (~> 1.6.2.1)
   parallel_tests
   password_strength (~> 0.3.2)

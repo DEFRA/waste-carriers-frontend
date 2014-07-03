@@ -1,7 +1,8 @@
 <%= render 'shared/content_for_pages' %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
-<h2><%=t 'devise.unlocks.resendUnlockInstructions'%></h2>
+<fieldset>	
+<legend><%=t 'devise.unlocks.resendUnlockInstructions'%></legend>
 
 <div id="wrapper" data-journey="waste-carriers-registration:unlock-account"></div>
 
@@ -13,11 +14,11 @@
   	<%= f.email_field :email, :autofocus => true %>
   </div>
 
-  <div class="form-group">
-  	<%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %>
+  <div class="inline">
+  	<p><%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %></p>
   	<%= f.submit t('devise.unlocks.resendUnlockInstructions'), :class => "button" %>
   </div>
   
 <% end %>
-
+</fieldset>
 </article></main>

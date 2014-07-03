@@ -17,55 +17,64 @@
 
 
 //SCSS include links to application elements.
-#content { @include media; }
-#content { @include device-pixel-ratio($ratio: 2)}
-#content h1 { @include core-36; }
-#content h2 {@include core-27}
-#content h3 {@include core-24}
+#content {@include media}
+#content {@include device-pixel-ratio($ratio: 2)}
+#content h1 {@include core-48}
+#content h2 {@include core-36}
+#content h3 {@include core-27}
+#content h4 {@include core-19}
 #content p {@include core-19}
-#content legend {@include core-36}
 #content input {@include core-19}
 #content label {@include core-19}
+#content select {@include core-19}
 #content form-label {@include core-19}
 #content .step {@include core-19}
 #content .error-text {@include core-19}
 #content li {@include core-19}
-#content { @include inner-block; }
-#content { @include outer-block; }
-.beta-banner { @include phase-banner (beta); }
-.button  { @include button; }
+#content {@include inner-block}
+#content {@include outer-block}
+.beta-banner {@include phase-banner (beta)}
+.button {@include button}
 
 
 //** WASTE CARRIERS ** CUSTOM STYLES ** //
 
 //GLOBAL
 
+#content {
+    padding-bottom:100px;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
 ul, ol {
     list-style-type: none;
 }
 
-h2 {
-    margin-bottom:10px;
-    margin-top:10px;
+.menu, ol, ul {
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
+    padding: 0;
 }
 
 h2.subtitle {
     color: rgb(111, 119, 123);
 }
 
-hr {
-    margin-bottom:30px;
-    margin-top:30px;
+p.subtitle {
+    color: rgb(111, 119, 123);
 }
 
-p {
-    margin-bottom: 1.05263em;
-    margin-top: 0.26316em;
+hr {
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
 }
 
 #smartanswers_display, #data_protection {
     list-style-type: inherit;
 }
+
 
 //HEADER STYLES
 
@@ -107,17 +116,27 @@ p {
 //FOOTER STYLES
 
 .footer-top {
-    padding-left: 30px;
     clear: left;
+    padding-left: 30px;
     position: relative;
 }
 
-
-//FORM STYLES
+//HEADING Styles
 
 legend {
-    margin-bottom:10px;
+    margin-bottom: 0.55556em;
+    margin-top: 0.55556em;
 }
+
+legend {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.11111;
+    text-transform: none;
+}
+
+//FORM STYLES
 
 .form-group {
     clear: both;
@@ -135,6 +154,31 @@ legend {
 .group {
     padding-left: 30px;
     padding-right: 30px;
+}
+
+
+.form-hint {
+    color: rgb(111, 119, 123);
+    display: block;
+    font-size: 19px;
+    margin-bottom: 5px;
+    margin-top: 8px;
+}
+
+.form-control {
+    width: 50%;
+}
+.form-control {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(191, 193, 195);
+    border-radius: 0;
+    box-sizing: border-box;
+    font-family: "nta",Arial,sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.31579;
+    padding: 4px;
+    text-transform: none;
 }
 
 
@@ -181,26 +225,8 @@ legend {
     font-size: 19px;
     font-weight: 400;
     line-height: 1.31579;
-    margin-bottom: 5px;
     text-transform: none;
-    margin-bottom: -20px;
-}
-
-
-.js-enabled .block-label input:focus {
-    outline: medium none;
-}
-
-.js-enabled .block-label:focus {
- outline: 3px solid rgb(255, 191, 71);
-
-}
-.block-label:hover {
-    border-color: rgb(11, 12, 12);
-}
-
-.block-label:focus {
-    border-color: rgb(11, 12, 12);
+    margin-bottom: -10px;
 }
 
 .js-enabled .selected {
@@ -210,10 +236,7 @@ legend {
 
 .js-enabled .add-focus {
     outline: 3px solid rgb(255, 191, 71);
-}
 
-#postcode, .link_to {
-    margin-right:15px;
 }
 
 //NAVIGATION STYLES
@@ -223,8 +246,8 @@ legend {
 }
 
 .back_link, .next_link, .button {
-    margin-bottom:20px;
-    margin-top:20px;
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
 }
 
 .inline .block-label {
@@ -232,6 +255,15 @@ legend {
     margin-right:15px;
 }
 
+.back_link, #sPostcode {
+    margin-right:15px;
+}
+
+.margin-control {
+    position:relative;
+    left:-10px;
+    top:0;
+}
 
 //PAGE STYLES
 
@@ -243,15 +275,10 @@ legend {
     padding-left:20px;
 }
 
-.postcode {
-    margin-right:15px;
-}
-
-
 //Registration page
 
 .js-enabled .related-positioning {
-    top: 10em;
+    top: 7em;
 }
 
 .related-positioning {
@@ -301,7 +328,116 @@ legend {
     text-transform: none;
 }
 
+//validation 
 
+.validation-summary {
+    background: none repeat scroll 0 0 rgb(254, 247, 247);
+    border: 3px solid rgb(223, 48, 52);
+    padding: 1em 0.7em;
+    margin-bottom:20px;
+    margin-top:20px;
+}
+
+.error-text {
+    color: rgb(223, 48, 52);
+}
+
+
+//EXAMPLE TEMPLATE STYLES
+
+.example:before {
+    background: none repeat scroll 0 0 rgb(191, 193, 195);
+    color: rgb(255, 255, 255);
+    content: "EXAMPLE";
+    font-family: "nta",Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    left: 0;
+    line-height: 1.42857;
+    padding: 0.21053em 0.78947em;
+    position: absolute;
+    text-transform: none;
+    top: 0;
+}
+.example:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+.example {
+    padding-bottom: 30px;
+    padding-top: 45px;
+}
+.example {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.example {
+    border: 1px solid rgb(191, 193, 195);
+    margin-bottom: 45px;
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+//Reports page
+
+main#content, section#content {
+    display: block;
+    margin: 0 auto;
+    max-width: 1020px;
+    position: relative;
+}
+
+//Date Example
+
+.inline-date {
+    float: left;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-right:10px;
+}
+
+// Table Styles
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+table th {
+    font-weight: 700;
+}
+table th, table td {
+    border-bottom: 1px solid rgb(191, 193, 195);
+    color: rgb(11, 12, 12);
+    font-family: "nta",Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    padding: 0.73684em 1.05263em 0.52632em 0;
+    text-align: left;
+    text-transform: none;
+}
+
+//Hidden Text
+
+details summary {
+    color: rgb(0, 94, 165);
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 0.26316em;
+    position: relative;
+}
+
+details .arrow {
+    margin-right: 0.35em;
+}
+
+details .summary {
+    text-decoration: underline;
+    font-size: 19px;
+}
 
 
 

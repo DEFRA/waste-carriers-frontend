@@ -40,6 +40,15 @@
       <h2>Administration Entry points</h2>
       <p><a href='/admins/sign_in'>Administration Login </a></p>
 
+      <hr>
+
+      <h2>Template examples</h2>
+      <p><a href='/templates/form'>Form example</a></p>
+      <p><a href='/templates/form-template'>Form template</a></p>
+
+      <h2>Other</h2>
+      <p><%= button_to 'Reset session', destroy_user_session_path, :method => :delete %></p>
+
       <div id="includedContent"></div>
   </article>
 </main>
