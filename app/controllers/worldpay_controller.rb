@@ -23,7 +23,7 @@ class WorldpayController < ApplicationController
 
   def cancel
   	#TODO - Process response and edirect...  	
-    process_payment
+    #process_payment
   end
 
   private
