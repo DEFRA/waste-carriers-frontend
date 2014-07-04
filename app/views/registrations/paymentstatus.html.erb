@@ -1,0 +1,180 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+  	<aside>
+		
+	    <% content_for :page_title, createTitle('.heading') %>
+	    
+	    <!-- FIXME: Restyle this to match whatever is decided -->
+	    <% if alert %>
+	    <div id="note_explanation" class="note-summary">
+		  <h3 class='heading-medium'><%= alert%></h3>
+		</div>
+		<% end %>
+	    
+	    <%= form_for(@registration, :url => enterPayment_path) do |f| %>
+
+	      	<!-- Step item not required <div class="step"><%= t '.step' %></div> -->
+	      	<!-- <h1 class="subtitle"></h1> -->
+	      	<%= render "errors" %>
+
+			<!-- WF 4.3.2 -->
+			<div id="paymentStatus"  data-journey="waste-carriers-registration:payment-status">
+
+			    <fieldset>
+			  	    <legend><%= t '.heading' %></legend>
+			        <div class="form-group">
+	                    <div class="form-label"><%= @registration.regIdentifier %></div>
+				        <div class="form-label"><%= @registration.companyName %></div>
+				        <div class="form-label"><%= format_address(@registration) %></div>
+			        </div>
+			        
+			        <% if @registration.respond_to? :financeDetails %>
+				        <div class="form-group">
+				        	<div class="form-label"><%= amountPaymentSummary_for(@registration) %></div>
+				        </div>
+			        <% end %>
+			        
+			        <div class="form-group">
+				  	    <legend><%= t'.chargehistory_table_heading' %></legend>
+						<table class="" summary='This table details the charge history of a registration' style="width:65%"> <!-- Remove this style once styles working -->
+							<thead class="">
+								<tr>
+									<th class="" ><%= t '.chargehistory_date_table_heading' %></th>
+									<th class="" ><%= t '.chargehistory_charge_table_heading' %></th>
+									<th class="" ><%= t '.chargehistory_reference_table_heading' %></th>
+									<th class="" ><%= t '.chargehistory_amount_table_heading' %></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% regCount = 1; %>
+								<% if @registration.respond_to?('financeDetails') %>
+									<% @registration.financeDetails.orders.each do |order| %>
+									  <% if order.respond_to?('orderItems') and !order.orderItems.nil? %>
+									  	<% order.orderItems.each do |orderItem| %>
+											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
+												<td class="" ><%= orderItem.lastUpdated %></td>
+												<td class="" ><%= orderItem.description %></td>
+												<td class="" ><%= orderItem.reference %></td>
+												<td class="" ><%= number_with_precision(orderItem.amount, :precision => 2) %></td>
+											</tr>
+										  <% regCount = regCount + 1; %>
+									    <% end %>
+									  <% else %>
+										  <tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
+											<td class="" >ORDER::<%= order.dateLastUpdated %></td>
+											<td class="" ><%= order.description %></td>
+											<td class="" ><%= order.orderCode %></td>
+											<td class="" ><%= number_with_precision(order.totalAmount, :precision => 2) %></td>
+										  </tr>
+										<% regCount = regCount + 1; %>
+									  <% end %>
+									<% end %>
+								<% else %>
+									<tr class="solid-box">
+											<td class="" >No Change History</td>
+											<td class="" > </td>
+											<td class="" > </td>
+											<td class="" > </td>
+										</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+			        
+			        <div class="form-group">
+		            	<legend><%= t'.paymenthistory_table_heading' %></legend>
+						<table class="" summary='This table details the payment history of a registration' style="width:65%"> <!-- Remove this style once styles working -->
+							<thead class="">
+								<tr>
+									<th class="" ><%= t '.paymenthistory_date_table_heading' %></th>
+									<th class="" ><%= t '.paymenthistory_charge_table_heading' %></th>
+									<th class="" ><%= t '.paymenthistory_reference_table_heading' %></th>
+									<th class="" ><%= t '.paymenthistory_amount_table_heading' %></th>
+									<th class="" ><%= t '.paymenthistory_comments_table_heading' %></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% regCount = 1; %>
+								<% if @registration.respond_to?('financeDetails') \
+								and @registration.financeDetails.respond_to?('payments') \
+								and !@registration.financeDetails.payments.nil?%>
+									<% @registration.financeDetails.payments.each do |payment| %>
+										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
+											<td class="" ><%= payment.dateReceived %></td>
+											<td class="" ><%= payment.paymentType %></td>
+											<td class="" ><%= payment.registrationReference %></td>
+											<td class="" ><%= number_with_precision(payment.amount, :precision => 2) %></td>
+											<td class="" ><%= payment.comment %></td>
+										</tr>
+									<% regCount = regCount + 1; %>
+									<% end %>
+								<% else %>
+									<tr class="solid-box">
+										<td class="" >No Payment History</td>
+										<td class="" > </td>
+										<td class="" > </td>
+										<td class="" > </td>
+										<td class="" > </td>
+									</tr>
+								<% end %>
+							</tbody>
+						</table>
+					</div>
+			        
+			        <div class="form-group">
+		            	<legend><%= t'.balance_table_heading' %></legend>
+						<table class="" summary='This table details the balance due on a registration' style="width:65%"> <!-- Remove this style once styles working -->
+							<thead class="">
+								<tr>
+									<th class="" ></th>
+									<th class="" ><%= t '.balance_cost_table_heading' %></th>
+								</tr>
+							</thead>
+							<tbody>
+								<% if @registration.respond_to? :financeDetails %>
+								<tr class="">
+									<td class="" >
+						        	<%= amountSummary_for(@registration, false) %>
+									</td>
+									<td class="" ><%= number_with_precision(@registration.financeDetails.balance.abs, :precision => 2) %></td>
+								</tr>
+								<%# Assume if financeDetails are not available it is because no charges are present on the account therefore must have a zero balance %>
+								<% else %>
+							    <tr class="">
+									<td class="" ><%= t 'registrations.form.balanceDue_text' %></td>
+									<td class="" >0.00</td>
+								</tr>
+							    <% end %>
+							</tbody>
+						</table>
+					</div>
+	            
+	            </fieldset>
+		    </div>
+		    
+	    <% end %>
+	    
+	    <div class="inline">
+		    <noscript>
+		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+		    </noscript>
+		    <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'link_to' %>
+		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button' %></span>
+		</div>
+
+    </aside>
+
+	<div class='related-positioning'>
+		<div class='related-container'>
+			<div class='related'>
+				<div class='inner group related-subsection'>
+				<%= render "shared/current_user" %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  </article>
+</main>

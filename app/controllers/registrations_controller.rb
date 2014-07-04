@@ -467,6 +467,12 @@ class RegistrationsController < ApplicationController
     addressSearchLogic @registration
     authorize! :update, @registration
   end
+  
+  def paymentstatus
+    @registration = Registration.find(:one, :from => "/registrations/"+params[:id]+".json")
+    @registration.routeName = @registration.metaData.route
+    authorize! :update, @registration
+  end
 
   def check_steps_are_valid_up_until_current current_step
     if !@registration.steps_valid?(current_step)
