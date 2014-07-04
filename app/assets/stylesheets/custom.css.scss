@@ -46,68 +46,27 @@
     vertical-align: baseline;
 }
 
-ul, ol {
-    list-style-type: none;
+#content legend {
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
-.menu, ol, ul {
-    margin-bottom: 1.25em;
-    margin-top: 0.625em;
-    padding: 0;
+.step, h1, h2, h3, h4 {
+    margin-bottom:5px;
+    margin-top:5px;
 }
-
-h2.subtitle {
-    color: rgb(111, 119, 123);
-}
-
-p.subtitle {
-    color: rgb(111, 119, 123);
-}
-
-hr {
-    margin-bottom: 1.25em;
-    margin-top: 0.625em;
-}
-
-h2 {
-    margin-bottom: 1.25em;
-    margin-top: 0.625em;
-}
-
-h2, h3 {
-    margin-bottom: 0.625em;
-}
-
-legend {
-    margin-bottom: 0.55556em;
-    margin-top: 0.55556em;
-}
-
-#smartanswers_display, #data_protection {
-    list-style-type: inherit;
-}
-
 
 //HEADER STYLES
 
-.header_text {
+.header_text h1 {
   color: #FFFFFF;
+  font-size: 27px;
 }
-
-#global-header .header-wrapper .header-global .header-logo {
-    margin: 10px 0 2px;
-}
-
-#global-header-bar .header-bar {
-    margin-bottom:20px;
-}
-
-//BANNER (BETA) STYLES
 
 .header_text span {
   background-color: rgb(244, 119, 56);
   padding: 0 0.2em;
-  border-radius:10px;
+  border-radius:5px;
 }
 
 .header_text span {
