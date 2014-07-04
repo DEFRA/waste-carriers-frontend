@@ -51,6 +51,9 @@ en:
     newLabel: "New agency user"
     editHeading: "Editing agency user"
 
+    form:
+      test: "fred"
+
   registration_mailer:
     revoke_email:
       p1: "To %{name} (%{id})"

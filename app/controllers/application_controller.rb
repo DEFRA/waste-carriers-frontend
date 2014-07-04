@@ -1,4 +1,3 @@
-require 'active_resource'
 
 class ApplicationController < ActionController::Base
   layout "govuk_template"
@@ -123,9 +122,6 @@ class ApplicationController < ActionController::Base
     renderAccessDenied
   end
 
-  rescue_from ActiveResource::ResourceNotFound do |exception|
-    renderNotFound
-  end
 
   rescue_from Errno::ECONNREFUSED do |exception|
     render :file => "/public/503.html", :status => 503

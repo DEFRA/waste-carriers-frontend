@@ -617,3 +617,11 @@
 
 	});
 }());
+
+
+$('input[type="radio"]').click(function(){
+          $(this).toggleClass('red');
+});
+
+
+

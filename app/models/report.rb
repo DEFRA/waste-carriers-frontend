@@ -1,4 +1,3 @@
-require 'active_resource'
 
 class Report
   include ActiveModel::Model
