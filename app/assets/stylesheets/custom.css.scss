@@ -1,15 +1,12 @@
-//@ import design styles from GOV.UK github
+//@ Imported design styles from GOV.UK github
 @import 'design-patterns/_alpha-beta';
 @import '_url-helpers';
-
 @import '_grid_layout';
 @import '_conditionals';
 @import '_measurements';
 @import '_shims';
-
 @import 'design-patterns/_buttons';
 @import '_device-pixels';
-
 @import '_colours';
 @import '_css3';
 @import '_typography';
@@ -19,6 +16,7 @@
 //SCSS include links to application elements.
 #content {@include media}
 #content {@include device-pixel-ratio($ratio: 2)}
+#content legend {@include core-36}
 #content h1 {@include core-48}
 #content h2 {@include core-36}
 #content h3 {@include core-27}
@@ -71,6 +69,20 @@ hr {
     margin-top: 0.625em;
 }
 
+h2 {
+    margin-bottom: 1.25em;
+    margin-top: 0.625em;
+}
+
+h2, h3 {
+    margin-bottom: 0.625em;
+}
+
+legend {
+    margin-bottom: 0.55556em;
+    margin-top: 0.55556em;
+}
+
 #smartanswers_display, #data_protection {
     list-style-type: inherit;
 }
@@ -121,124 +133,6 @@ hr {
     position: relative;
 }
 
-//HEADING Styles
-
-legend {
-    margin-bottom: 0.55556em;
-    margin-top: 0.55556em;
-}
-
-legend {
-    font-family: "nta",Arial,sans-serif;
-    font-size: 36px;
-    font-weight: 700;
-    line-height: 1.11111;
-    text-transform: none;
-}
-
-//FORM STYLES
-
-.form-group {
-    clear: both;
-    float: left;
-    width: 100%;
-    margin-bottom:20px;
-}
-
-.form-group:after {
-    clear: both;
-    content: "";
-    display: block;
-}
-
-.group {
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
-
-.form-hint {
-    color: rgb(111, 119, 123);
-    display: block;
-    font-size: 19px;
-    margin-bottom: 5px;
-    margin-top: 8px;
-}
-
-.form-control {
-    width: 50%;
-}
-.form-control {
-    background-color: rgb(255, 255, 255);
-    border: 1px solid rgb(191, 193, 195);
-    border-radius: 0;
-    box-sizing: border-box;
-    font-family: "nta",Arial,sans-serif;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 1.31579;
-    padding: 4px;
-    text-transform: none;
-}
-
-
-//LABEL STYLES
-
-.block-label {
-    float: left;
-    margin-bottom: 5px;
-    margin-top: 5px;
-
-}
-
-.block-label {
-    background: none repeat scroll 0 0 rgb(222, 224, 226);
-    border: 1px solid rgb(222, 224, 226);
-    clear: left;
-    cursor: pointer;
-    display: block;
-    padding: 18px 30px 15px 45px;
-    position: relative;    
-
-}
-
-.block-label input {
-    cursor: pointer;
-    left: 15px;
-    position: absolute;
-    top: 18px;
-}
-
-.form-label, #disLabel, #postLabel  {
-    display: block;
-    font-family: "nta",Arial,sans-serif;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 1.31579;
-    margin-bottom: 5px;
-    text-transform: none;
-}
-
-.form-label-postcode  {
-    display: block;
-    font-family: "nta",Arial,sans-serif;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 1.31579;
-    text-transform: none;
-    margin-bottom: -10px;
-}
-
-.js-enabled .selected {
-    background: none repeat scroll 0 0 rgb(255, 255, 255);
-    border-color: rgb(11, 12, 12);
-}
-
-.js-enabled .add-focus {
-    outline: 3px solid rgb(255, 191, 71);
-
-}
-
 //NAVIGATION STYLES
 
 .back_link {
@@ -265,120 +159,8 @@ legend {
     top:0;
 }
 
-//PAGE STYLES
+// ** WASTE CARRIER PAGE STYLES ** //
 
-.panel-indent {
-    border-left: 5px solid rgb(222, 224, 226);
-    clear: both;
-    padding-bottom: 10px;
-    padding-top: 10px;
-    padding-left:20px;
-}
-
-//Registration page
-
-.js-enabled .related-positioning {
-    top: 7em;
-}
-
-.related-positioning {
-    height: 0;
-    left: 0;
-    position: absolute;
-    width: 100%;
-    z-index: 0;
-}
-
-.related-container {
-    height: 0;
-    margin: 0 auto;
-    max-width: 1020px;
-    position: relative;
-    z-index: 50;
-}
-
-.related {
-    border-top: 10px solid rgb(0, 94, 165);
-    margin: 3em 0 0;
-    position: absolute;
-    right: 1.75em;
-    width: 18.75em;
-}
-
-.related .inner {
-    padding: 0.5em 1em 0 0;
-    width: auto;
-}
-
-.inner {
-    margin: 0 auto;
-    padding: 1em;
-    position: relative;
-}
-
-.related h2 {
-    color: rgb(11, 12, 12);
-    font-family: "nta",Arial,sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 1.25;
-    margin-bottom: 0.5em;
-    margin-top: 0.3em;
-    position: relative;
-    text-transform: none;
-}
-
-//validation 
-
-.validation-summary {
-    background: none repeat scroll 0 0 rgb(254, 247, 247);
-    border: 3px solid rgb(223, 48, 52);
-    padding: 1em 0.7em;
-    margin-bottom:20px;
-    margin-top:20px;
-}
-
-.error-text {
-    color: rgb(223, 48, 52);
-}
-
-
-//EXAMPLE TEMPLATE STYLES
-
-.example:before {
-    background: none repeat scroll 0 0 rgb(191, 193, 195);
-    color: rgb(255, 255, 255);
-    content: "EXAMPLE";
-    font-family: "nta",Arial,sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    left: 0;
-    line-height: 1.42857;
-    padding: 0.21053em 0.78947em;
-    position: absolute;
-    text-transform: none;
-    top: 0;
-}
-.example:after {
-    clear: both;
-    content: "";
-    display: block;
-}
-.example {
-    padding-bottom: 30px;
-    padding-top: 45px;
-}
-.example {
-    padding-left: 30px;
-    padding-right: 30px;
-}
-.example {
-    border: 1px solid rgb(191, 193, 195);
-    margin-bottom: 45px;
-    margin-top: 15px;
-    overflow: hidden;
-    position: relative;
-}
 
 //Reports page
 
@@ -389,55 +171,7 @@ main#content, section#content {
     position: relative;
 }
 
-//Date Example
 
-.inline-date {
-    float: left;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    margin-right:10px;
-}
-
-// Table Styles
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    width: 100%;
-}
-
-table th {
-    font-weight: 700;
-}
-table th, table td {
-    border-bottom: 1px solid rgb(191, 193, 195);
-    color: rgb(11, 12, 12);
-    font-family: "nta",Arial,sans-serif;
-    font-size: 16px;
-    line-height: 1.25;
-    padding: 0.73684em 1.05263em 0.52632em 0;
-    text-align: left;
-    text-transform: none;
-}
-
-//Hidden Text
-
-details summary {
-    color: rgb(0, 94, 165);
-    cursor: pointer;
-    display: inline-block;
-    margin-bottom: 0.26316em;
-    position: relative;
-}
-
-details .arrow {
-    margin-right: 0.35em;
-}
-
-details .summary {
-    text-decoration: underline;
-    font-size: 19px;
-}
 
 
 
