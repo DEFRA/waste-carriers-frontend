@@ -108,7 +108,7 @@ fi
 
 if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
   echo "Copying rspec reports to Jenkins"
-  scp ${WCRS_FRONTEND_HOME}/live/spec/reports/\*.xml \
+  scp ${WCRS_FRONTEND_HOME}/live/spec/reports \
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/spec/reports/  
   echo "Copying cucumber report to Jenkins."
   scp ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json \
