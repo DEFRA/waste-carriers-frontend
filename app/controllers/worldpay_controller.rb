@@ -8,7 +8,8 @@ class WorldpayController < ApplicationController
     #TODO - redirect to some other page after processing/saving the payment
     #redirect_to paid_path
     @registration = Registration.find session[:registration_id]
-    process_payment
+    # TODO had to comment call to process_payment out to stop Worldpay error and multiple render
+    # process_payment
     
     next_step = if @registration.assisted_digital?
                   print_path(@registration)
