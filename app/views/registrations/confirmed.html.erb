@@ -14,7 +14,7 @@
 <h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
 
 <% if @payment_pending %>
-  <p>Your registration is pending payment</p>
+  <p><%= t '.payment_pending' %></p>
 <% end %>
 
 <!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
