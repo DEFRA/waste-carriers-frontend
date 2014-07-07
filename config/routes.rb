@@ -34,6 +34,10 @@ Registrations::Application.routes.draw do
 	  match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
 	  get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
 	  get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
+	  get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
+	  
+	  get "registrations/:id/payment" => 'payment#enterPayment', :via => [:get], :as => :enterPayment
+      match "registrations/:id/payment" => 'payment#savePayment', :via => [:post], :as => :savePayment
 
 	  # Add routing for confirm delete registration
 	  get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
@@ -121,6 +125,7 @@ Registrations::Application.routes.draw do
   get "worldpay/failure"
   get "worldpay/pending"
   get "worldpay/cancel"
+  get "worldpay/error"
 
 
 #  end

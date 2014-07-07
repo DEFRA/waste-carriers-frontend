@@ -8,7 +8,15 @@
    -->
   <fieldset>
     <legend><%= t 'registrations.constructiondemolition_step.subtitle' %></legend>
-    <p><a href="?whatisconstruction=true"><%= t '.explanation_link'%></a></p>
+    <!-- <p><a href="?whatisconstruction=true"><%= t '.explanation_link'%></a></p> -->
+    <details>
+      <summary aria controls='details-content-0' tabindex='0'>
+        <span class='summary'>What is construction waste?</span>
+        </summary>
+        <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
+          <p>Construction and demolition wastes typically include soils, concrete, bricks, glass, wood, plasterboard, asbestos, metals and plastics.</p>
+        </div>
+    </details>
     <div class="inline<%if @registration.errors[:constructionWaste].any?%> validation<%end%>">
   	   <%= f.label :yes_option_label, for: "registration_constructionWaste_yes", :class => 'block-label' do %>
   	    <%= f.radio_button :constructionWaste, "yes", :class => "radio" %> 

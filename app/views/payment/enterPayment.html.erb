@@ -1,0 +1,100 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+    <article role="article" class="group">
+    <% content_for :page_title, createTitle('.heading') %>
+    
+    <!-- Usefult for showing default messages -->
+    <% if alert %><%= alert %><% end %>
+    
+    <%= form_for @payment, url: {action: "savePayment"}, :method => 'post' do |f| %>
+
+      	<div class="step"><%= t '.step' %></div>
+      	
+      	<%# render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
+	  	<% if @payment.errors.any? %>
+		    <% full_messages = one_full_message_per_invalid_attribute(@payment) %>
+		    <div id="error_explanation" class="validation-summary">
+		      <h2><%= t 'registrations.errors.errorMessage', :count => pluralize(full_messages.count, t('registrations.errors.error')) %></h2>
+		        <% full_messages.each do |msg| %>
+		            <a class="error-text" href="#payment<%= msg %>"><%= msg %></a>
+		        <% end %>
+		    </div>
+		<% end %>
+		<!-- end of manual errors -->
+
+		<!-- WF X.X.X -->
+		<div id="payment" data-journey="waste-carriers-registration:payment">
+
+		    <fieldset>
+		  	    <legend><%= t '.heading' %></legend>
+		  	    
+		  	    <div class="form-group">
+                    <div class="form-label"><%= @registration.regIdentifier %></div>
+			        <div class="form-label"><%= @registration.companyName %></div>
+			        <div class="form-label"><%= format_address(@registration) %></div>
+		        </div>
+		        
+		        <% if @registration.respond_to? :financeDetails %>
+			        <div class="form-group">
+			        	<div class="form-label"><%= amountSummary_for(@registration, true) %></div>
+			        </div>
+		        <% end %>
+		  	    
+		        <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
+					<%= validation_for(@payment, :amount) %>
+					<%= f.label :amount, class: 'form-label' %>
+					<%= f.text_field :amount, :size => 7, :value => number_with_precision(f.object.amount, :precision => 2) %>
+				</div>
+				
+				<div class="form-group<%if @payment.errors[:dateReceived].any?%> validation<%end%>">
+					<%= validation_for(@payment, :dateReceived) %>
+					<%= f.label :dateReceived, class: 'form-label' %>
+			        <p class='subtitle'>For example, 17 8 2001</p>
+			        <div class='inline-date'>
+			          <%= f.label :dateReceived_day, class: 'form-label' %>
+			          <%= f.text_field :dateReceived_day, :size => 2, :maxlength => 2 %>
+			        </div>
+			        <div class='inline-date'>
+			          <%= f.label :dateReceived_month, class: 'form-label' %>
+			          <%= f.text_field :dateReceived_month, :size => 2, :maxlength => 2 %>
+			        </div>
+			        <div class='inline-date'>
+			          <%= f.label :dateReceived_year, class: 'form-label' %>
+			          <%= f.text_field :dateReceived_year, :size => 4, :maxlength => 4 %>
+			        </div>
+			    </div>			    
+				
+				<div class="form-group<%if @payment.errors[:registrationReference].any?%> validation<%end%>">
+					<%= validation_for(@payment, :registrationReference) %>
+					<%= f.label :registrationReference, class: 'form-label' %>
+					<%= f.text_field :registrationReference %>
+				</div>
+				
+				<div class="form-group<%if @payment.errors[:paymentType].any?%> validation<%end%>">
+					<%= validation_for(@payment, :paymentType) %>
+					<%= f.label :paymentType, class: 'form-label' %>
+					<%= f.select :paymentType, options_for_select(Payment.payment_type_options_for_select,f.object.paymentType) %>
+				</div>
+				
+				<div class="form-group<%if @payment.errors[:comment].any?%> validation<%end%>">
+					<%= validation_for(@payment, :comment) %>
+					<%= f.label :comment, class: 'form-label' %>
+					<p class='subtitle'><%= t '.fields.commentGuidance' %></p>
+					<%= f.text_area :comment, :size => "40x10" %>
+		        </div>
+		    </fieldset>
+		</div>
+		
+		<div class="inline">
+		    <noscript>
+		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+		    </noscript>
+		    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+		    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enterpayment_button_label' %>"/></span>
+		</div>
+		
+	<% end %>
+    
+    </article>
+</main>
