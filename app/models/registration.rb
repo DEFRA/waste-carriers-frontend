@@ -96,7 +96,7 @@ class Registration < ActiveResource::Base
   GENERAL_WORD_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
   DISTANCES = %w[any 10 50 100]
-  VALID_HOUSE_NAME_OR_NUMBER_REGEX = /\A[a-zA-Z0-9\'\s-]+\z/
+  VALID_HOUSE_NAME_OR_NUMBER_REGEX = /\A[a-zA-Z0-9\'\s\,-]+\z/
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
