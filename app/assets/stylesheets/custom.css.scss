@@ -14,26 +14,24 @@
 
 
 //SCSS include links to application elements.
+#content {@include core-19}
 #content {@include media}
 #content {@include device-pixel-ratio($ratio: 2)}
-#content legend {@include core-36}
-#content h1 {@include core-48}
-#content h2 {@include core-36}
-#content h3 {@include core-27}
-#content h4 {@include core-19}
-#content p {@include core-19}
-#content input {@include core-19}
-#content label {@include core-19}
-#content select {@include core-19}
-#content form-label {@include core-19}
-#content .step {@include core-19}
-#content .error-text {@include core-19}
-#content li {@include core-19}
+#content legend {@include heading-36}
+#content h1 {@include heading-36}
+#content h2 {@include heading-27}
+#content h3 {@include heading-24}
+#content h4 {@include copy-19}
+#content p {@include copy-19}
+#content select {@include copy-19}
+#content .step {@include copy-19}
+#content .error-text {@include copy-19}
 #content {@include inner-block}
 #content {@include outer-block}
 .beta-banner {@include phase-banner (beta)}
 .button {@include button}
-
+.outer-block {@include outer-block;}
+.inner-block {@include inner-block;}
 
 //** WASTE CARRIERS ** CUSTOM STYLES ** //
 
@@ -46,12 +44,7 @@
     vertical-align: baseline;
 }
 
-#content legend {
-    margin-top:10px;
-    margin-bottom:10px;
-}
-
-.step, h1, h2, h3, h4 {
+.step {
     margin-bottom:5px;
     margin-top:5px;
 }
@@ -60,7 +53,6 @@
 
 .header_text h1 {
   color: #FFFFFF;
-  font-size: 27px;
 }
 
 .header_text span {
@@ -81,6 +73,7 @@
     margin: 0 auto;
     max-width: 960px;
     text-transform: none;
+    padding-left:5px;
 }
 
 
@@ -120,6 +113,11 @@
 
 // ** WASTE CARRIER PAGE STYLES ** //
 
+//Summary page
+
+.summary-items, .form-group-dataprotection {
+    list-style: none;
+}
 
 //Reports page
 

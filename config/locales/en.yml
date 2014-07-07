@@ -157,6 +157,7 @@ en:
     edit_these_details: "Edit these details"
     find_companies_house_details:  "Companies House number"
 
+  
   activemodel:
     models:
       registration: "Registration"
@@ -420,7 +421,7 @@ en:
       carrier_broker_dealer: "carrier/broker/dealer"
     confirmation_step:
       title: "Confirmation"
-      subtitle: "Checking your details before registering"
+      subtitle: "Check your details before registering"
       step: "Step 7 of 8"
       smart_answers_heading: "You told us"
       declaration_heading: "Declaration"
