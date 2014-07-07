@@ -19,8 +19,8 @@ time, mark {
   padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-small, strike, strong, sub, sup, tt, var,
+blockquote, pre,
+small, strike, sub, sup, tt, var,
 b, u, i, center,
 input, textarea,
 table, caption, tbody, tfoot, thead, tr, th, td {
@@ -32,6 +32,29 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 
 //Example Box
+
+.summary-box:before {
+    background: none repeat scroll 0 0 rgb(191, 193, 195);
+    color: rgb(255, 255, 255);
+    content: "SUMMARY";
+    font-family: "nta",Arial,sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    left: 0;
+    line-height: 1.42857;
+    padding: 0.21053em 0.78947em;
+    position: absolute;
+    text-transform: none;
+    top: 0;
+}
+
+.summary-box {
+    border: 1px solid rgb(191, 193, 195);
+    margin-bottom: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+    position: relative;
+}
 
 .example:before {
     background: none repeat scroll 0 0 rgb(191, 193, 195);
@@ -47,16 +70,16 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     text-transform: none;
     top: 0;
 }
-.example:after {
+.summary-box:after, .example:after {
     clear: both;
     content: "";
     display: block;
 }
-.example {
+.summary-box, .example {
     padding-bottom: 30px;
     padding-top: 45px;
 }
-.example {
+.summary-box, .example {
     padding-left: 30px;
     padding-right: 30px;
 }
@@ -69,6 +92,16 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 
 // GDS FORMS
+
+.subtitle {
+    color: rgb(111, 119, 123);
+    font-family: "nta",Arial,sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.25;
+    margin: 0;
+    text-transform: none;
+}
 
 //Form Styles
 
@@ -169,21 +202,21 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 .form-label, #disLabel, #postLabel  {
     display: block;
     font-family: "nta",Arial,sans-serif;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 1.31579;
-    margin-bottom: 5px;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0;
     text-transform: none;
 }
 
 .form-label-postcode  {
     display: block;
     font-family: "nta",Arial,sans-serif;
-    font-size: 19px;
-    font-weight: 400;
-    line-height: 1.31579;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0;
     text-transform: none;
-    margin-bottom: -10px;
 }
 
 
@@ -331,6 +364,7 @@ details .summary {
     border-left: 4px solid rgb(191, 193, 195);
     clear: both;
     padding: 10px 0 10px 15px;
+    margin-bottom: 20px;
 }
 
 
