@@ -101,6 +101,9 @@
 			<form action="<%=ncccedit_url(registration.id)%>">
 				<div class="action group"><input type="submit" class="button" value="Edit registration"/></div>
 			</form>
+			<form action="<%=paymentstatus_url(registration.id)%>">
+				<p class="action group"><input type="submit" class="button" value="Payment Status"/></p>
+			</form>
 			<%# button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :data => "{ :confirm => 'are you sure?' }"%>
 		</div>
 	</div>

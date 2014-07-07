@@ -120,6 +120,13 @@ en:
     charity: "Charity or voluntary organisation"
     authority: "Waste collection, disposal or regulation authority"
     other: "Other"
+    
+  payment_types:
+    CASH: "Cash"
+    CHEQUE: "Cheque"
+    POSTALORDER: "Postal order"
+    OTHERONLINEPAYMENT: "Online payment"
+    OTHER: "Other"
 
   distances:
     any: "Any"
@@ -150,9 +157,11 @@ en:
     edit_these_details: "Edit these details"
     find_companies_house_details:  "Companies House number"
 
+  
   activemodel:
     models:
       registration: "Registration"
+      payment: "Payment"
     attributes:
       registration:
        #upper-tier-registration
@@ -211,6 +220,16 @@ en:
         to:   "To"
         route_digital: "Digital"
         route_assisted_digital: "Assisted Digital"
+      payment:
+        # Payment fields
+        amount: "Amount Received (£)"
+        dateReceived: "Date Received"
+        dateReceived_day: "Day"
+        dateReceived_month: "Month"
+        dateReceived_year: "Year"
+        registrationReference: "Reference"
+        paymentType: "Payment via"
+        comment: "Comment"
 
   shared:
     current_user:
@@ -402,7 +421,7 @@ en:
       carrier_broker_dealer: "carrier/broker/dealer"
     confirmation_step:
       title: "Confirmation"
-      subtitle: "Checking your details before registering"
+      subtitle: "Check your details before registering"
       step: "Step 7 of 8"
       smart_answers_heading: "You told us"
       declaration_heading: "Declaration"
@@ -590,6 +609,21 @@ en:
       revokedQuestion: "Do you wish to revoke this registration?"
       revokedReason: "Why do you wish to revoke this registration"
       registeredOn: "Registered on: %{date}"
+    paymentstatus:
+      heading: "Payment status"
+      chargehistory_table_heading: "Charge History"
+      chargehistory_date_table_heading: "Date"
+      chargehistory_charge_table_heading: "Charge"
+      chargehistory_reference_table_heading: "Reference"
+      chargehistory_amount_table_heading: "£"
+      paymenthistory_table_heading: "Payment History"
+      paymenthistory_date_table_heading: "Date"
+      paymenthistory_charge_table_heading: "Payment"
+      paymenthistory_reference_table_heading: "Reference"
+      paymenthistory_amount_table_heading: "£"
+      paymenthistory_comments_table_heading: "Comments"
+      balance_table_heading: "Balance"
+      balance_cost_table_heading: "£"
     publicSearch:
       heading: "Check an organisation is registered as a lower tier waste carrier/broker/dealer"
       search_label: "Name of organisation"
@@ -664,12 +698,18 @@ en:
       revoke_button_label: "Revoke"
       unrevoke_button_label: "Un-revoke"
       delete_button_label: "Delete"
+      enterpayment_button_label: "Enter Payment"
 
       root_site: "GOV.UK"
 
       reg_updated: "Registration updated"
       reg_revoked: "Registration revoked"
       reg_unrevoked: "Registration un-revoked"
+      
+      awaitingPayment_text: "Awaiting payment"
+      balanceDue_text: "Balance due"
+      overpaid_text: "Overpaid by"
+      paidInFull_text: "Paid in full"
 
       invalid_public_params: "You must provide a business or trading name. This must only use letters, numbers, or any of \' . & ! %."
 
@@ -678,3 +718,10 @@ en:
       declaration_legend: "Declaration"
       declaration_label: "I declare that as far as I know and believe, the information in this registration is true."
       declaration_legal_text: "...(TBD) some legal text to go here..."
+
+  payment:
+    enterPayment:
+      heading: "Enter payment"
+      step: "Enter a manual payment into the system"
+      fields:
+        commentGuidance: "Maximum 250 characters"
