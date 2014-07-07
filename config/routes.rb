@@ -78,6 +78,7 @@ Registrations::Application.routes.draw do
 	  match "your-registration/signup" => 'registrations#updateNewSignup', :via => [:post,:put,:patch]
 
 	  get "your-registration/confirm-account" => 'registrations#pending', :as => :pending
+    get 'your-registration/pending-payment' => 'registrations#pending_payment', :as => :pending_payment
 	  match "your-registration/print" => 'registrations#print_confirmed', :via => [:get,:patch], :as => :print_confirmed
 
 	  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
@@ -116,8 +117,8 @@ Registrations::Application.routes.draw do
     get "templates/form-template" => "templates#formTemplate", :as => :formTemplate
     post "templates/form-template" => "templates#updateFormTemplate"
 
-    get 'your-registration/offline_payment' => 'registrations#newOfflinePayment', :as => :offline_payment
-    post 'your-registration/offline_payment' => 'registrations#updateNewOfflinePayment'
+    get 'your-registration/offline-payment' => 'registrations#newOfflinePayment', :as => :newOfflinePayment
+    post 'your-registration/offline-payment' => 'registrations#updateNewOfflinePayment'
 
   # Worldpay response messages
   get "worldpay/success"
