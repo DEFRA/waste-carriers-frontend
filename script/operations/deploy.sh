@@ -90,9 +90,12 @@ sudo service nginx start
 
 ## Test.
 if [ "${WCRS_FRONTEND_RAILS_ENV}" != "production" ]; then
+  set -e
   echo "Running tests."
   rake db:test:prepare
+  echo "Running unit tests (using rspec)"
   rake spec SPEC_OPTS=". --tag ~sauce"
+  echo "Running integration tests (using cucumber)"
   xvfb-run cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
 fi
 
