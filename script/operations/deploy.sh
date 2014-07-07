@@ -90,7 +90,8 @@ sudo service nginx start
 
 ## Test.
 if [ "${WCRS_FRONTEND_RAILS_ENV}" != "production" ]; then
-  set -e
+  # Wanted to use the -e option to stop the build if RSpec tests fail, but this would also stop publishing test reports further down
+  # set -e
   echo "Running tests."
   rake db:test:prepare
   echo "Running unit tests (using rspec)"
