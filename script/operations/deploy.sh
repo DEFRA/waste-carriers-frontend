@@ -108,7 +108,8 @@ fi
 
 if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
   echo "Copying RSpec reports to Jenkins"
-  scp ${WCRS_FRONTEND_HOME}/live/spec/reports/\*.xml \
+  #TODO How to copy with wildcards???
+  scp ${WCRS_FRONTEND_HOME}/live/spec/reports/SPEC-Registration-lower-.xml \
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/spec/reports/  
   echo "Copying cucumber report to Jenkins."
   scp ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json \
