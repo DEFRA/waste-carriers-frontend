@@ -30,6 +30,7 @@
 #content {@include outer-block}
 .beta-banner {@include phase-banner (beta)}
 .button {@include button}
+.button-secondary {@include button}
 .outer-block {@include outer-block;}
 .inner-block {@include inner-block;}
 
