@@ -11,7 +11,7 @@ describe Registration do
   end
 
   describe '#lower?' do
-    specify { Registration.new(tier: 'LOWER').should be_lower }
+    specify { Registration.new(tier: 'LOWER').should_not be_lower }
     specify { Registration.new(tier: 'lower').should_not be_lower }
     specify { Registration.new(tier: '').should be_lower }
     specify { Registration.new(tier: nil).should be_lower }
