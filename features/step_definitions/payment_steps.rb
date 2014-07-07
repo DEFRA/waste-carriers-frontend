@@ -44,6 +44,7 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   #click_on 'continue'
   first(:xpath,'/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/label/nobr/input').click
 
+  #add some sleep to avoid failing tests
   sleep 1.0
 end
 
