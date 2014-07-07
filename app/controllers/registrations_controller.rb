@@ -415,7 +415,8 @@ class RegistrationsController < ApplicationController
       logger.debug 'Default, redirecting back to Finish page'
       redirect_to confirmed_url
     else
-      render :layout => 'printview'
+      #TODO - Print view layout?
+      render
     end
   end
 
