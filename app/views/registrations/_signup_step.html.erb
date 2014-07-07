@@ -10,10 +10,10 @@
 <!-- WF 4.3.4 -->
 <div id="page4"  data-journey="waste-carriers-registration:confirm">
     
-<h2><% if !@registration.persisted? %><%= t '.complete' %><% else %><%= t '.update' %><% end %></h2>
+
 
 <fieldset>
-<ledend></ledend>
+<legend><% if !@registration.persisted? %><%= t '.complete' %><% else %><%= t '.update' %><% end %></legend>
 <% if user_signed_in? || agency_user_signed_in? %>
 <!--<legend>User Account</legend>-->
 	
@@ -36,7 +36,7 @@
 <p id="accountExists" class="group"><%= t '.accountExists' %></p>
 <% end %>
 <% if @registration.sign_up_mode == "sign_up" %>
-<p><span id="emailSignUpText"><%= t '.emailUsernameText' %><br/></span></p>
+<div class='subtitle'><p id="emailSignUpText"><%= t '.emailUsernameText' %></p></div>
 <% end %>
 
 <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
@@ -57,10 +57,13 @@
 <% end %>
 <div class="form-group <%if @registration.errors[:password].any?%> validation<%end%>">
     <%= validation_for(@registration, :password) %>
-    <% if @registration.sign_up_mode == "sign_up" %><%= f.label :password, t('.createPassword') %><% else %>
+    <% if @registration.sign_up_mode == "sign_up" %>
+    <%= f.label :password, t('.createPassword'), class: 'form-label' %><% else %>
     <%= f.label :password, class: 'form-label' %><% end %>
-    <%= f.password_field :password %>
-    <span class="strength_icon none">&#9650;<span class="strength_message"></span></span>
+    <%= f.password_field :password, class: 'form-label' %>
+    <p class='subtitle'>Password must be at least 8 characters long using upper and lower case letters.</p>
+    <!-- <span class="strength_icon none">&#9650;</span> -->
+    <span class="strength_message"></span>
 </div>
 <% if @registration.sign_up_mode == "sign_up" %>
 <div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
