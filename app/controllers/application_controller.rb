@@ -87,16 +87,19 @@ class ApplicationController < ActionController::Base
 
   #Total session timeout. No session is allowed to be longer than this.
   def validate_session_total_timeout!
-    session[:expires_at] ||= Time.current + Rails.application.config.app_session_total_timeout
-    if session[:expires_at] < Time.current
-      reset_session
-      render :file => "/public/session_expired.html", :status => 400
-    end
+    if user_signed_in? || agency_user_signed_in? || admin_signed_in?
+      session[:expires_at] ||= Time.current + Rails.application.config.app_session_total_timeout
+      if session[:expires_at] < Time.current
+        reset_session
+        render :file => "/public/session_expired.html", :status => 400
+      end
+    end 
   end
 
   #Session inactivity timeout.
+  #Note: There is no inactivity timeout for agency users due to expected work patterns
   def validate_session_inactivity_timeout!
-    if !agency_user_signed_in?
+    if user_signed_in? || admin_signed_in?
       if session[:last_seen_at] != nil && session_inactivity_timeout_time < Time.current
         reset_session
         render :file => "/public/session_expired.html", :status => 400
