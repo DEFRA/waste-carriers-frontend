@@ -383,6 +383,8 @@ class RegistrationsController < ApplicationController
       return
     end
     @registrations = Registration.find(:all, :params => {:ac => @user.email})
+    @payment_pending = session[:payment_pending]
+
     if @registrations.size > 0
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
@@ -970,6 +972,7 @@ class RegistrationsController < ApplicationController
   # GET upper-registrations/payment
   def newPayment
     new_step_action 'payment'
+    session[:payment_pending] = false
     @registration.registration_fee = 154
     @registration.copy_cards = 2
     @registration.copy_card_fee = @registration.copy_cards * 5
@@ -1006,6 +1009,7 @@ class RegistrationsController < ApplicationController
   ######################################
 
   def newOfflinePayment
+    session[:payment_pending] = true
     @registration = Registration.find session[:registration_id]
   end
 
