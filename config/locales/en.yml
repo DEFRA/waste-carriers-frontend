@@ -552,6 +552,7 @@ en:
       detailsEmailed: "Your certificate and guidance have been emailed to %{email}."
       detailsChange: "If any of your details change you must update your registration within 28 days."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
+      payment_pending: "Your registration is pending payment. Please initiate it as soon as possible"
     pending:
       heading: "Confirm your account"
       pendingText: "An email has been sent to %{email}."
