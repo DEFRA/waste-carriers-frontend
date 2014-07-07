@@ -43,6 +43,8 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   #The standard 'approved' etc. should already be selected, just click the 'continue' button (input)
   #click_on 'continue'
   first(:xpath,'/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/label/nobr/input').click
+
+  sleep 1.0
 end
 
 And(/^I choose to pay by bank transfer$/) do
