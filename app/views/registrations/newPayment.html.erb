@@ -39,7 +39,7 @@
                 <%= f.text_field :total_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %> 
               </div>
           </div>
-<<<<<<< Updated upstream
+         </div> 
 
       </fieldset>
         
@@ -48,20 +48,8 @@
           <li><input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/></li>
           <li><%= link_to t('registrations.form.pay_offline_button_label'), offline_payment_path, class: 'button-secondary' %></li>
           <li><p><%= render 'back_link' %></p></li>
+        <ul>
       </div>
-=======
-
-
-      </fieldset>
-        
-      <div class='inline'>
-        <ul>  
-          <li><input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/></li>
-          <li><%= link_to t('registrations.form.pay_offline_button_label'), offline_payment_path, class: 'button-secondary' %></li>
-          <li><p><%= render 'back_link' %></p></li>
-      </div>
-
->>>>>>> Stashed changes
 
     <% end %>
   </article>
