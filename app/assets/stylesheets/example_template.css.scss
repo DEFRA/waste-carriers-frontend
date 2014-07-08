@@ -30,13 +30,16 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   font-weight: normal;
 }
 
+#content {
+    list-style-type:none;
+}
 
-//Example Box
 
-.summary-box:before {
+//BOX STYLES
+
+.inner-payment-box:before, .payment-box:before, .summary-box:before, .example:before {
     background: none repeat scroll 0 0 rgb(191, 193, 195);
     color: rgb(255, 255, 255);
-    content: "SUMMARY";
     font-family: "nta",Arial,sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -48,48 +51,62 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     top: 0;
 }
 
-.summary-box {
+.inner-payment-box {
     border: 1px solid rgb(191, 193, 195);
-    margin-bottom: 10px;
-    margin-top: 10px;
-    overflow: hidden;
-    position: relative;
 }
-
-.example:before {
-    background: none repeat scroll 0 0 rgb(191, 193, 195);
-    color: rgb(255, 255, 255);
-    content: "EXAMPLE";
-    font-family: "nta",Arial,sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    left: 0;
-    line-height: 1.42857;
-    padding: 0.21053em 0.78947em;
-    position: absolute;
-    text-transform: none;
-    top: 0;
-}
-.summary-box:after, .example:after {
-    clear: both;
-    content: "";
-    display: block;
-}
-.summary-box, .example {
-    padding-bottom: 30px;
-    padding-top: 45px;
-}
-.summary-box, .example {
-    padding-left: 30px;
-    padding-right: 30px;
-}
-.example {
+.payment-box, .summary-box, .example {
     border: 1px solid rgb(191, 193, 195);
     margin-bottom: 45px;
     margin-top: 15px;
     overflow: hidden;
     position: relative;
 }
+.inner-payment-box, .payment-box, .summary-box:after, .example:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+.inner-payment-box, .payment-box, .summary-box, .example {
+    padding-bottom: 30px;
+    padding-top: 45px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+//Example box
+
+.example:before {
+    content: "EXAMPLE";
+}
+.example {
+    margin-bottom: 45px;
+    margin-top: 15px; 
+}
+
+//Summary box
+
+.summary-box:before {
+    content: "SUMMARY";
+}
+.summary-box {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+//Payment box
+
+.payment-box {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+//Inner payment box
+
+.payment-box {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
 
 // GDS FORMS
 
@@ -220,7 +237,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 
 
-//Validation 
+//VALIDATION 
 
 .validation-summary {
     background: none repeat scroll 0 0 rgb(254, 247, 247);
@@ -230,12 +247,14 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     margin-top:20px;
 }
 
+//Error text
+
 .error-text {
     color: rgb(223, 48, 52);
 }
 
 
-//Panel Indent
+//PANEL INDENT
 
 .panel-indent {
     border-left: 5px solid rgb(222, 224, 226);
@@ -245,7 +264,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     padding-left:20px;
 }
 
-//Related Positioning
+//RELATED POSITIONING
 
 .js-enabled .related-positioning {
     top: 7em;
@@ -298,6 +317,15 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     text-transform: none;
 }
 
+//Payment Summary Page
+
+.inline-payment {
+    float: right;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-right:10px;
+}
+
 
 // ** EXAMPLE TEMPLATE STYLES ** //
 
@@ -310,6 +338,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     margin-top: 5px;
     margin-right:10px;
 }
+
 
 // Table Styles Example
 
@@ -335,7 +364,7 @@ table th, table td {
 
 //Hidden Text Example
 
-details summary {
+details .summary {
     color: rgb(0, 94, 165);
     cursor: pointer;
     display: inline-block;
