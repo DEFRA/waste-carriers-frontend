@@ -974,7 +974,6 @@ class RegistrationsController < ApplicationController
   # GET upper-registrations/payment
   def newPayment
     new_step_action 'payment'
-    session[:payment_pending] = false
     @registration.registration_fee = 154
     @registration.copy_cards = 0
     @registration.copy_card_fee = @registration.copy_cards * 5
@@ -1011,7 +1010,6 @@ class RegistrationsController < ApplicationController
   ######################################
 
   def newOfflinePayment
-    session[:payment_pending] = true
     @registration = Registration.find session[:registration_id]
   end
 
