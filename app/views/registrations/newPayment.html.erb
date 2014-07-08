@@ -47,7 +47,9 @@
       <div class='inline'>
         <ul>  
           <li><input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/></li>
-          <li><%= link_to t('registrations.form.pay_offline_button_label'), offline_payment_path, class: 'button-secondary' %></li>
+
+          <li><%= link_to t('registrations.form.pay_offline_button_label'), newOfflinePayment_path, class: 'button-secondary' %></li>
+
           <li><p><%= render 'back_link' %></p></li>
       </div>
 
