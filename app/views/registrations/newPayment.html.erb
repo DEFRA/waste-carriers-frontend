@@ -1,16 +1,16 @@
 <%= render 'shared/content_for_pages' %>
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-
+    
     <%= form_for(@registration, :url => :upper_payment) do |f| %>
       <% content_for :page_title, createTitle('.title') %>
 
       <div class="step">Step 7 of 8</div>
-
       <%= render "errors" %>
 
       <fieldset>
         <legend><%= t '.subtitle' %></legend>
+
 
         <div class="payment-box">
           <div class="form-group">
@@ -20,7 +20,6 @@
             </div>
           </div>
         </div>
-       
 
         <div class="payment-box">
           <div class="form-group">
@@ -41,15 +40,14 @@
                 <%= f.text_field :total_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %> 
               </div>
           </div>
-        </div>
 
       </fieldset>
 
       
-        <%= render 'back_link' %>
+        
         <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-        <%= link_to t('registrations.form.pay_offline_button_label'), offline_payment_path, class: 'button-secondary' %>
-
+        <%= link_to t('registrations.form.pay_offline_button_label'), offline_payment_path, class: 'button-secondary' %><br>
+        <%= render 'back_link' %>
     <% end %>
   </article>
 </main>
