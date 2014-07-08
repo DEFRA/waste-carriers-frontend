@@ -57,7 +57,7 @@ class User
 #  end
 
   def confirmed?
-    confirmed_at?
+    confirmed_at_present?
   end
 
   def is_admin?
@@ -79,6 +79,12 @@ class User
 
   def subdomain
     Rails.application.config.waste_exemplar_frontend_public_subdomain
+  end
+
+private
+
+  def confirmed_at_present?
+    confirmed_at?
   end
   
 end
