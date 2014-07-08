@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Registration do
 
+  it { should respond_to :paid? }
+
   describe '#upper?' do
     specify { Registration.new(tier: 'UPPER').should be_upper }
     specify { Registration.new(tier: 'upper').should_not be_upper }
