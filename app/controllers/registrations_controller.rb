@@ -975,7 +975,7 @@ class RegistrationsController < ApplicationController
     new_step_action 'payment'
     session[:payment_pending] = false
     @registration.registration_fee = 154
-    @registration.copy_cards = 2
+    @registration.copy_cards = 0
     @registration.copy_card_fee = @registration.copy_cards * 5
     @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
   end
