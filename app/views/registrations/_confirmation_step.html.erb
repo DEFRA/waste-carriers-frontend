@@ -3,13 +3,13 @@
 <!-- WF 4.3.3 -->
 <div id="page9"  data-journey="waste-carriers-registration:confirmation"></div>
 
-<fieldset>
+<fieldset class='registration-summary-page'>
   <legend><%= t '.subtitle' %></legend>
 
   <div class='form-group'>
   <h2><%= t '.smart_answers_heading' %></h2>
     <ul class='summary-box'>
-      <li><%= render 'smartanswers_display' %></li>
+      <li class='list-bullets'><%= render 'smartanswers_display' %></li>
     </ul>
        <p><%= link_to t('.edit_smart_answers_link'), find_path %></p>
   </div>

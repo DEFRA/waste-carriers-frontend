@@ -11,7 +11,6 @@
       <fieldset>
         <legend><%= t '.subtitle' %></legend>
 
-
         <div class="payment-box">
           <div class="form-group">
             <%= f.label :registration_fee, class: 'form-label' %>
@@ -26,7 +25,7 @@
               <%= validation_for(@registration, :copy_cards) %>
               <%= f.label :copy_cards, class: 'form-label' %>
               <p class='subtitle'><%= t '.copy_card_info' %></p>
-                <%= f.number_field :copy_cards, :min => 0, :max => 3 %>
+             <%= f.number_field :copy_cards, :min => 0, :max => 3 %>
               <div class='inline-payment'>
                 <%= f.text_field :copy_cards, :size =>5, :maxlength => 4, disabled: 'disabled' %>
               </div>
@@ -42,12 +41,14 @@
           </div>
 
       </fieldset>
-
-      
         
-        <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-        <%= link_to t('registrations.form.pay_offline_button_label'), offline_payment_path, class: 'button-secondary' %><br>
-        <%= render 'back_link' %>
+      <div class='inline'>
+        <ul>  
+          <li><input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/></li>
+          <li><%= link_to t('registrations.form.pay_offline_button_label'), offline_payment_path, class: 'button-secondary' %></li>
+          <li><p><%= render 'back_link' %></p></li>
+      </div>
+
     <% end %>
   </article>
 </main>
