@@ -735,6 +735,7 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration.find(session[:registration_id])
+    @payment_pending = session[:payment_pending]
   end
 
 
