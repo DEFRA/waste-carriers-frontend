@@ -8,7 +8,7 @@
 
 <div id="wrapper" data-journey="waste-carriers-registration:confirm-account"></div>
 
-<% if @payment_pending %>
+<% unless @paid_in_full %>
   <p><%= t '.paymentPending' %></p>
 <% end %>
 
