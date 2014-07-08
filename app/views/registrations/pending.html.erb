@@ -9,7 +9,7 @@
 <div id="wrapper" data-journey="waste-carriers-registration:confirm-account"></div>
 
 <% if @payment_pending %>
-  <p>Your registration is pending payment.</p>
+  <p><%= t '.paymentPending' %></p>
 <% end %>
 
 <p><%= t '.pendingText', :email => @registration.accountEmail %></p>
