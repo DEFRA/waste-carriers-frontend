@@ -30,6 +30,10 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   font-weight: normal;
 }
 
+#content {
+    list-style-type:none;
+}
+
 
 //BOX STYLES
 
@@ -91,9 +95,6 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 //Payment box
 
-.payment-box:before {
-    content: "PAYMENT SUMMARY";
-}
 .payment-box {
     margin-bottom: 10px;
     margin-top: 10px;
