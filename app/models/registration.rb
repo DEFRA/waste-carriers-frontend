@@ -270,7 +270,7 @@ class Registration < ActiveResource::Base
     tier.inquiry.LOWER?
   end
 
-  def paid?
+  def paid_in_full?
 
   end
 

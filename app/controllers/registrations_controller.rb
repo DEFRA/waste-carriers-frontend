@@ -387,7 +387,7 @@ class RegistrationsController < ApplicationController
     if @registrations.any?
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
-      @payment_pending = !@registration.paid?
+      @payment_pending = !@registration.paid_in_full?
       session[:registration_id] = @registration.id
     else
       renderNotFound
@@ -735,7 +735,7 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration.find(session[:registration_id])
-    @payment_pending = !@registration.paid?
+    @payment_pending = !@registration.paid_in_full?
   end
 
 
