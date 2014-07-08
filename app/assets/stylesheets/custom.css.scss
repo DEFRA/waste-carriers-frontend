@@ -30,6 +30,7 @@
 #content {@include outer-block}
 .beta-banner {@include phase-banner (beta)}
 .button {@include button}
+.button-secondary {@include button}
 .outer-block {@include outer-block;}
 .inner-block {@include inner-block;}
 
@@ -111,12 +112,15 @@
     top:0;
 }
 
+//PAGE LAYOUT
+
+
 // ** WASTE CARRIER PAGE STYLES ** //
 
 //Summary page
 
-.summary-items, .form-group-dataprotection {
-    list-style: none;
+.list-bullets {
+    list-style-type: square;
 }
 
 //Reports page
