@@ -4,7 +4,7 @@
 
     <h2><%= t '.heading' %></h2>
 
-    <p><%= t '.amount', amount_with_currency_symbol: '£999.99' %></p>
+    <p><%= t '.amount', amount_with_currency_symbol: '£154.00' %></p>
 
     <ul>
       <li><%= t '.sort_code', sort_code: Rails.configuration.bank_transfer_sort_code %></li>
@@ -12,6 +12,6 @@
       <li><%= t '.reference', reference: @registration.regIdentifier %></li>
     </ul>
 
-    <%= link_to 'Next', pending_payment_path %>
+    <%= link_to 'Next', pending_path %>
   </article>
 </main>

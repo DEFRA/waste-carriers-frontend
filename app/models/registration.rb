@@ -270,6 +270,10 @@ class Registration < ActiveResource::Base
     tier.inquiry.LOWER?
   end
 
+  def paid_in_full?
+
+  end
+
   def self.business_type_options_for_select
     (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
   end
