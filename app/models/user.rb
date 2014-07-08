@@ -56,6 +56,10 @@ class User
 #    end
 #  end
 
+  def confirmed?
+    confirmed_at?
+  end
+
   def is_admin?
     false
   end
