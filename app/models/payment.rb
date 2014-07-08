@@ -10,10 +10,11 @@ class Payment < ActiveResource::Base
   
   PAYMENT_TYPES = %w[
     CASH
-	CHEQUE
-	POSTALORDER
-	OTHERONLINEPAYMENT
-	OTHER
+    CHEQUE
+    POSTALORDER
+    OTHERONLINEPAYMENT
+    OTHER
+    WORLDPAY
   ]
   
   VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/ 		# This does not allow for a decimal point and currently works in pence only
@@ -47,7 +48,9 @@ class Payment < ActiveResource::Base
   end
 
   def validate_dateReceived
-    errors.add(:dateReceived, I18n.t('errors.messages.invalid') ) unless convert_dateReceived
+    if (paymentType != 'WORLDPAY')
+      errors.add(:dateReceived, I18n.t('errors.messages.invalid') ) unless convert_dateReceived
+    end
   end
   
 end
