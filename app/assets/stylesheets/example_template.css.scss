@@ -33,7 +33,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 
 //BOX STYLES
 
-.payment-box:before, .summary-box:before, .example:before {
+.inner-payment-box:before, .payment-box:before, .summary-box:before, .example:before {
     background: none repeat scroll 0 0 rgb(191, 193, 195);
     color: rgb(255, 255, 255);
     font-family: "nta",Arial,sans-serif;
@@ -46,6 +46,10 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     text-transform: none;
     top: 0;
 }
+
+.inner-payment-box {
+    border: 1px solid rgb(191, 193, 195);
+}
 .payment-box, .summary-box, .example {
     border: 1px solid rgb(191, 193, 195);
     margin-bottom: 45px;
@@ -53,12 +57,12 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     overflow: hidden;
     position: relative;
 }
-.payment-box, .summary-box:after, .example:after {
+.inner-payment-box, .payment-box, .summary-box:after, .example:after {
     clear: both;
     content: "";
     display: block;
 }
-.payment-box, .summary-box, .example {
+.inner-payment-box, .payment-box, .summary-box, .example {
     padding-bottom: 30px;
     padding-top: 45px;
     padding-left: 30px;
@@ -88,8 +92,15 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 //Payment box
 
 .payment-box:before {
-    content: "ITEM";
+    content: "PAYMENT SUMMARY";
 }
+.payment-box {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+//Inner payment box
+
 .payment-box {
     margin-bottom: 10px;
     margin-top: 10px;

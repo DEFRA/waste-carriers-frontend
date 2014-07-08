@@ -430,6 +430,9 @@ en:
       data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
       privacy_policy: "Privacy policy and cookies"
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
+      edit_smart_answers_link: "Edit what you told us"
+      edit_business_address_link: "Edit your business or organisation address"
+      edit_contact_details_link: "Edit your contact details"
     dataProtection:
       title: "The Data Protection Act 1998"
       subtitle: "Find out about other ways in which we may use your information."
