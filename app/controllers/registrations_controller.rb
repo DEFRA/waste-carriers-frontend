@@ -387,7 +387,7 @@ class RegistrationsController < ApplicationController
     if @registrations.any?
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
-      @paid_in_full = @registration.paid_in_full?
+      @paid_up = @registration.paid_in_full? and @registration.upper?
       session[:registration_id] = @registration.id
     else
       renderNotFound
@@ -395,7 +395,6 @@ class RegistrationsController < ApplicationController
     end
     #render the confirmed page
   end
-
 
   def print_confirmed
     begin
@@ -735,7 +734,7 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration.find(session[:registration_id])
-    @paid_in_full = @registration.paid_in_full?
+    @paid_up = @registration.paid_in_full? and @registration.upper?
   end
 
 

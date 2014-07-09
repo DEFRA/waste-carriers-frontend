@@ -13,7 +13,7 @@
 <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
 <h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
 
-<% unless @paid_in_full %>
+<% unless @paid_up %>
   <p><%= t '.payment_pending' %></p>
 <% end %>
 
