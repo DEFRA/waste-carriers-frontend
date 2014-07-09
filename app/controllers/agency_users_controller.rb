@@ -37,6 +37,7 @@ class AgencyUsersController < ApplicationController
 
     respond_to do |format|
       if @agency_user.save
+        addRemoveRoles
         format.html { redirect_to @agency_user, notice: 'Agency user was successfully created.' }
         format.json { render action: 'show', status: :created, location: @agency_user }
       else
@@ -53,13 +54,7 @@ class AgencyUsersController < ApplicationController
       logger.info 'GET HERE'+agency_user_params.to_s
       
       if @agency_user.update(agency_user_params)
-
-        # This list of roles should match that in the role.rb ROLE_TYPES list
-        addRemoveRole(:Role_admin)
-        addRemoveRole(:Role_financeBasic)
-        addRemoveRole(:Role_financeAdmin)
-        addRemoveRole(:Role_ncccRefund)
-        
+        addRemoveRoles
         format.html { redirect_to @agency_user, notice: 'Agency user was successfully updated.' }
         format.json { head :no_content }
       else
@@ -75,6 +70,7 @@ class AgencyUsersController < ApplicationController
   # DELETE /agency_users/1
   # DELETE /agency_users/1.json
   def destroy
+    addRemoveRoles
     @agency_user.destroy
     respond_to do |format|
       format.html { redirect_to agency_users_url, notice: 'Agency user was successfully deleted.' }
@@ -103,6 +99,15 @@ class AgencyUsersController < ApplicationController
           renderNotFound
         end
       end
+    end
+    
+    # This functions adds or removes the roles from the user
+    def addRemoveRoles
+      # This list of roles should match that in the role.rb ROLE_TYPES list
+      addRemoveRole(:Role_admin)
+      addRemoveRole(:Role_financeBasic)
+      addRemoveRole(:Role_financeAdmin)
+      addRemoveRole(:Role_ncccRefund)
     end
     
     # Adds or removes a role from a user
