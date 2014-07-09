@@ -144,5 +144,40 @@ And(/^add my address manually if I wanted to$/) do
 end
 
 Given(/^I have gone through the lower tier waste carrier process$/) do
-  pending
+  visit find_path
+
+  choose 'registration_businessType_soletrader'
+  click_on 'Next'
+
+  choose 'registration_otherBusinesses_no'
+  click_on 'Next'
+
+  choose 'registration_constructionWaste_no'
+  click_on 'Next'
+
+  click_on 'I want to add an address myself'
+  fill_in 'registration_companyName', with: 'Grades & Co'
+  fill_in 'registration_houseNumber', with: '12'
+  fill_in 'registration_streetLine1', with: 'Deanery Road'
+  fill_in 'registration_streetLine2', with: 'EA Building'
+  fill_in 'registration_townCity', with: 'Bristol'
+  fill_in 'registration_postcode', with: 'BS1 5AH'
+  click_on 'Next'
+
+  fill_in 'First name', with: 'Joe'
+  fill_in 'Last name', with: 'Bloggs'
+  fill_in 'Job title', with: 'Chief Barber'
+  fill_in 'Phone number', with: '0117 926 8332'
+  fill_in 'Email address', with: my_email_address
+  click_on 'Next'
+
+  check 'registration_declaration'
+  click_on 'Confirm'
+
+  fill_in 'Confirm email', with: my_email_address
+  fill_in 'Create password', with: my_password
+  fill_in 'Confirm password', with: my_password
+  click_on 'Next'
+
+  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
 end
