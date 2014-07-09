@@ -12,6 +12,9 @@
       <li><%= t '.reference', reference: @registration.regIdentifier %></li>
     </ul>
 
-    <%= render 'wizard_links' %>
+    <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>
+      <%= render 'wizard_links' %>
+    <% end %>
+
   </article>
 </main>
