@@ -9,7 +9,7 @@ Feature: Email confirmation
     When I have not confirmed my email address
     Then I am told to confirm my email address
 
-  Scenario: lower tier unconfirmed
+  Scenario: lower tier confirmed
     Given I have gone through the lower tier waste carrier process
     When I have confirmed my email address
     Then I am shown my confirmed registration
@@ -19,7 +19,7 @@ Feature: Email confirmation
     When I have not confirmed my email address
     Then I am told to confirm my email address
 
-  Scenario: upper tier unconfirmed
+  Scenario: upper tier confirmed
     Given I have gone through the upper tier waste carrier process
     When I have confirmed my email address
     Then I am shown my confirmed registration
