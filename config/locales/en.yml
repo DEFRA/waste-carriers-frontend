@@ -518,7 +518,7 @@ en:
       deleteLabel: "Delete registration"
     newPayment:
       title: "Payment"
-      subtitle: "Payment"
+      subtitle: "Payment Summary"
       total_label: "Total to pay"
       new_reg_label: "New registration"
       copy_card_label: "Copy cards cost £5 each"

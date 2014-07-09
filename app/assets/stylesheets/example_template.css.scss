@@ -52,7 +52,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 
 .inner-payment-box {
-    border: 1px solid rgb(191, 193, 195);
+    border-bottom: 1px solid rgb(191, 193, 195);
 }
 .payment-box, .summary-box, .example {
     border: 1px solid rgb(191, 193, 195);
@@ -66,11 +66,50 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     content: "";
     display: block;
 }
-.inner-payment-box, .payment-box, .summary-box, .example {
-    padding-bottom: 30px;
-    padding-top: 45px;
-    padding-left: 30px;
-    padding-right: 30px;
+.inner-payment-box, .inner-payment-box-total, .payment-box, .summary-box, .example {
+    padding:20px;
+}
+
+.payment-box .form-label, input {
+    display: inline;
+}
+
+.inner .inline input {
+    float:right;
+}
+
+.inner-payment-box-total .inner .inline input {
+    float:none;
+}
+
+#registration_copy_cards, #registration_registration_fee {
+    margin-left:10px;
+    margin-right:10px;
+}
+
+#payment-buttons {
+    position:relative;
+    float:right;
+    top:-12px;
+}
+
+.payment-box #registration_registration_fee, #registration_copy_cards, #registration_total_fee {
+    background: none repeat scroll 0 0 rgb(222, 224, 226);
+    border: 1px solid rgb(222, 224, 226);
+    cursor: pointer;
+    display: block;
+    padding: 18px 0 15px 25px;
+    position: relative;
+}
+
+.payment-box .add-focus {
+    outline: none;
+
+}
+
+.payment-box input:focus {
+  outline: none;
+  cursor:none;
 }
 
 //Example box
@@ -96,17 +135,9 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 //Payment box
 
 .payment-box {
-    margin-bottom: 10px;
+    margin-bottom: 40px;
     margin-top: 10px;
 }
-
-//Inner payment box
-
-.payment-box {
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
 
 // GDS FORMS
 
@@ -397,7 +428,16 @@ details .summary {
 }
 
 
+//Back Links Positioning
 
+.back_link, .step {
+    display:inline;
+    padding-top:10px;
+}
+
+.inline {
+      margin-top:10px;
+}
 
 
 
