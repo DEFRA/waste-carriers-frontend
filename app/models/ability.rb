@@ -44,6 +44,12 @@ class Ability
         false
       end
     end
+    
+    if user.has_role? :admin
+	  can :manage, :all
+	else
+	  can :read, :all
+	end
 
   end #initialize
 

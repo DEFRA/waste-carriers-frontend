@@ -50,6 +50,10 @@ en:
     name: "Name"
     newLabel: "New agency user"
     editHeading: "Editing agency user"
+    Role_admin: "Administrator"
+    Role_financeBasic: "Financial Basic"
+    Role_financeAdmin: "Financial Admin"
+    Role_ncccRefund: "Agency Refund"
 
   registration_mailer:
     revoke_email:
