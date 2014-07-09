@@ -5,7 +5,7 @@
     <%= form_for(@registration, :url => :upper_payment) do |f| %>
       <% content_for :page_title, createTitle('.title') %>
 
-      <div class='inline'><%= render 'back_link' %><div class="step">Step 7 of 8</div></div>
+      <div class='back-button-position'><%= render 'back_link' %><div class="step">Step 7 of 8</div></div>
       <%= render "errors" %>
 
       <fieldset>
@@ -35,20 +35,25 @@
          </div>
         </div>
 
-        <div class="inner-payment-box-total">
-          <div class="inner">
-            <div class='inline'>
-              <%= f.label :total_fee, class: 'form-label' %>
-              <%= f.text_field :total_fee, :size =>5, :maxlength => 4 %>
-              
+          <div class="inner-payment-box-total">
+            <div class="inner">
+              <div class='inline'>
+                <%= f.label :total_fee, class: 'form-label' %>
+                <%= f.text_field :total_fee, :size =>5, :maxlength => 4 %>
+              </div>
+             </div> 
+          </div>
+       
+          <div class="inner-payment-box-buttons">
+            <div class="inner">
+              <div class='payment-buttons'>
                 <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-                <span>or</span>
+                  <span>or</span>
                 <%= link_to t('registrations.form.pay_offline_button_label'), newOfflinePayment_path, class: 'button-secondary' %>
-         
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      </div>
 
       </fieldset>
       
