@@ -27,15 +27,16 @@ Then(/^I need to request a new confirmation email to activate my account$/) do
 end
 
 When(/^I have not confirmed my email address$/) do
-  pending
+  # no-op
 end
 
 When(/^I have confirmed my email address$/) do
-  pending
+  open_email my_email_address
+  current_email.click_link 'Confirm your account'
 end
 
 Then(/^I am told to confirm my email address$/) do
-  pending
+  page.should have_content 'Follow the instructions in the email to confirm your account'
 end
 
 Then(/^I am shown my confirmed registration$/) do
