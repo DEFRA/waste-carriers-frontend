@@ -5,21 +5,21 @@ Feature: Email confirmation
   So that I get the added security this provides and aren't continually asked for it when it's no longer relevant
 
   Scenario: lower tier unconfirmed
-    Given I am deemed a lower tier waste carrier
+    Given I have gone through the lower tier waste carrier process
     When I have not confirmed my email address
     Then I am told to confirm my email address
 
   Scenario: lower tier unconfirmed
-    Given I am deemed a lower tier waste carrier
+    Given I have gone through the lower tier waste carrier process
     When I have confirmed my email address
     Then I am shown my confirmed registration
 
   Scenario: upper tier unconfirmed
-    Given I am deemed a lower tier waste carrier
+    Given I have gone through the upper tier waste carrier process
     When I have not confirmed my email address
     Then I am told to confirm my email address
 
   Scenario: upper tier unconfirmed
-    Given I am deemed a lower tier waste carrier
+    Given I have gone through the upper tier waste carrier process
     When I have confirmed my email address
     Then I am shown my confirmed registration
