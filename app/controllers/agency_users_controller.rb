@@ -50,7 +50,16 @@ class AgencyUsersController < ApplicationController
   # PATCH/PUT /agency_users/1.json
   def update
     respond_to do |format|
+      logger.info 'GET HERE'+agency_user_params.to_s
+      
       if @agency_user.update(agency_user_params)
+
+        # This list of roles should match that in the role.rb ROLE_TYPES list
+        addRemoveRole(:Role_admin)
+        addRemoveRole(:Role_financeBasic)
+        addRemoveRole(:Role_financeAdmin)
+        addRemoveRole(:Role_ncccRefund)
+        
         format.html { redirect_to @agency_user, notice: 'Agency user was successfully updated.' }
         format.json { head :no_content }
       else
@@ -84,7 +93,7 @@ class AgencyUsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def agency_user_params
-      params.require(:agency_user).permit(:email, :password)
+      params.require(:agency_user).permit(:email, :password, :admin, :financeBasic)
     end
 
     def require_admin_request!
@@ -93,6 +102,15 @@ class AgencyUsersController < ApplicationController
           #renderAccessDenied
           renderNotFound
         end
+      end
+    end
+    
+    # Adds or removes a role from a user
+    def addRemoveRole(role)
+      if params[role] == '1'
+        @agency_user.add_role role
+      else
+        @agency_user.remove_role role
       end
     end
 

@@ -83,6 +83,17 @@
 					<p class='subtitle'><%= t '.fields.commentGuidance' %></p>
 					<%= f.text_area :comment, :size => "40x10" %>
 		        </div>
+		        
+		        <!-- TEST: add logic if role found -->
+		        <p>start</p>
+		        <% if current_agency_user.has_role? :admin %>
+				  <p>has role admin, Success!!</p>
+				  <% current_agency_user.roles.each do |role| %>
+				  	<p>> Role: <%= role.name %></p>
+				  <% end %>
+				<% end %>
+				<p>end</p>
+				
 		    </fieldset>
 		</div>
 		
