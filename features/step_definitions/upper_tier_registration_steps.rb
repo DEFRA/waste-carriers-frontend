@@ -25,3 +25,7 @@ Then(/^I am registered as an upper tier waste carrier$/) do
   open_email my_email_address
   current_email.should have_content 'is registered as an upper tier waste carrier'
 end
+
+Given(/^I have gone through the upper tier waste carrier process$/) do
+  pending
+end
