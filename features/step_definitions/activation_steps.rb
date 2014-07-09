@@ -26,3 +26,18 @@ Then(/^I need to request a new confirmation email to activate my account$/) do
   page.should have_content 'Your registration number is: CBD'
 end
 
+When(/^I have not confirmed my email address$/) do
+  pending
+end
+
+When(/^I have confirmed my email address$/) do
+  pending
+end
+
+Then(/^I am told to confirm my email address$/) do
+  pending
+end
+
+Then(/^I am shown my confirmed registration$/) do
+  pending
+end
