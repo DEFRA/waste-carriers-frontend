@@ -42,5 +42,4 @@ end
 Then(/^I am shown my confirmed registration$/) do
   page.should_not have_content 'confirm your account'
   page.should have_content 'Registration complete'
-  page.should have_content 'is registered as an upper tier waste carrier'
 end
