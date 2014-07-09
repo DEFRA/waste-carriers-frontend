@@ -38,8 +38,8 @@ Given(/^I have gone through the upper tier waste carrier process$/) do
   choose 'registration_onlyAMF_no'
   click_on 'Next'
 
-  click_on 'registration_registrationType_carrier_dealer'
-  click_pn 'Next'
+  choose 'registration_registrationType_carrier_dealer'
+  click_on 'Next'
 
   fill_in 'registration_companyName', with: 'Bespoke'
   fill_in 'sPostcode', with: 'BS1 5AH'
@@ -65,6 +65,6 @@ Given(/^I have gone through the upper tier waste carrier process$/) do
 
   click_on 'Next'
 
-  click_on 'Pay by electronic transfer'
+  click_on 'Pay via electronic transfer'
   click_on 'Next'
 end
