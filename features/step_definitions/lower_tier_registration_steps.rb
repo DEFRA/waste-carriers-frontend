@@ -142,3 +142,7 @@ end
 And(/^add my address manually if I wanted to$/) do
   page.should have_link 'I want to add an address myself'
 end
+
+Given(/^I have gone through the lower tier waste carrier process$/) do
+  pending
+end
