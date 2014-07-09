@@ -387,7 +387,7 @@ class RegistrationsController < ApplicationController
     if @registrations.any?
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
-      @owe_money = !@registration.paid_in_full? and @registration.upper?
+      @owe_money = owe_money? @registration
       session[:registration_id] = @registration.id
     else
       renderNotFound
@@ -734,7 +734,7 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration.find(session[:registration_id])
-    @owe_money = @registration.paid_in_full? and @registration.upper?
+    @owe_money = owe_money? @registration
   end
 
 
@@ -1017,6 +1017,10 @@ class RegistrationsController < ApplicationController
   end
 
   private
+
+  def owe_money? registration
+    registration.upper? and !registration.paid_in_full?
+  end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
