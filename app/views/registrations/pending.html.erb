@@ -8,8 +8,8 @@
 
 <div id="wrapper" data-journey="waste-carriers-registration:confirm-account"></div>
 
-<% unless @paid_in_full %>
-  <p><%= t '.paymentPending' %></p>
+<% unless @paid_up %>
+  <p><%= t '.payment_pending' %></p>
 <% end %>
 
 <p><%= t '.pendingText', :email => @registration.accountEmail %></p>
