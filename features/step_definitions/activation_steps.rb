@@ -36,9 +36,11 @@ When(/^I have confirmed my email address$/) do
 end
 
 Then(/^I am told to confirm my email address$/) do
-  page.should have_content 'Follow the instructions in the email to confirm your account'
+  page.should have_content 'confirm your account'
 end
 
 Then(/^I am shown my confirmed registration$/) do
-  pending
+  page.should_not have_content 'confirm your account'
+  page.should have_content 'Registration complete'
+  page.should have_content 'is registered as an upper tier waste carrier'
 end
