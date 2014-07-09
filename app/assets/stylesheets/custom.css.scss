@@ -39,15 +39,19 @@
 //GLOBAL
 
 #content {
-    padding-bottom:100px;
-    margin: 0;
-    padding: 0;
-    vertical-align: baseline;
+  padding-bottom:100px;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
 }
 
-.step {
-    margin-bottom:5px;
-    margin-top:5px;
+.list-bullets {
+    list-style-type: square;
+}
+
+.inline .block-label {
+    clear: none;
+    margin-right:15px;
 }
 
 //HEADER STYLES
@@ -88,21 +92,13 @@
 
 //NAVIGATION STYLES
 
-.back_link {
-   display:inline;
-}
-
-.back_link, .next_link, .button {
+.back_link, .next_link, .button, .step {
     margin-bottom: 1.25em;
     margin-top: 0.625em;
+    display:inline;
 }
 
-.inline .block-label {
-    clear: none;
-    margin-right:15px;
-}
-
-.back_link, #sPostcode, .link_to {
+#sPostcode, .link_to {
     margin-right:15px;
 }
 
@@ -112,16 +108,7 @@
     top:0;
 }
 
-//PAGE LAYOUT
-
-
 // ** WASTE CARRIER PAGE STYLES ** //
-
-//Summary page
-
-.list-bullets {
-    list-style-type: square;
-}
 
 //Reports page
 

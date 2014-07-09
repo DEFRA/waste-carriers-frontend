@@ -4,6 +4,7 @@
     <%= render "errors" %>
     <% content_for :page_title, createTitle('.title') %>
     <%= form_for(@registration, :url => newUpperBusinessDetails_path) do |f| %>
+    <p class="back_link"><%= render 'back_link' %></p>
     <div class="step"><%= t 'registrations.contactdetails_step.step' %></div>
 
     <% case  @registration.businessType %>
@@ -18,7 +19,6 @@
 
     <%= render "address_finder", f: f  %>
 
-  <%= render "wizard_links" %>
   <% end %>
 
 
