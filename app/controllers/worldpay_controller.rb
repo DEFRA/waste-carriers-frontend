@@ -13,6 +13,8 @@ class WorldpayController < ApplicationController
 
     next_step = if @registration.assisted_digital?
                   print_path(@registration)
+                elsif @registration.user.confirmed?
+                  confirmed_path
                 else
                   pending_path
                 end
