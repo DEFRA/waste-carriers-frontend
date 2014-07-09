@@ -854,7 +854,8 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(params[:id])
     deletedCompany = @registration.companyName
     authorize! :update, @registration
-    @registration.destroy
+    @registration.metaData.status = 'DELETED'
+    @registration.save!
 
     respond_to do |format|
       format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) }
