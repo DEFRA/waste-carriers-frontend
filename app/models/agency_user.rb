@@ -2,6 +2,7 @@
 
 class AgencyUser
   include Mongoid::Document
+  resourcify :resources
   rolify
 
   # Note: Devise standard default modules are 

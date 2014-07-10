@@ -30,7 +30,7 @@
 	<% Role.roles.each do |role| %>
 		<div class=''>
         	<%= f.label t('agencyUsers.'+role), class: 'field-label' %>
-        	<%= check_box_tag(role, 1, @agency_user.has_role?(role)) %>
+        	<%= check_box_tag(role, 1, @agency_user.has_role?(role, AgencyUser)) %>
 		</div>
 	<% end %>
 	<%#= f.select :roles, options_from_collection_for_select(Role.all,"name","name") %>
