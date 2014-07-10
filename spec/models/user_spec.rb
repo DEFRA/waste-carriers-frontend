@@ -5,7 +5,7 @@ describe User do
   describe 'abilities' do
     context 'waste carrier user' do
       context 'own certificate' do
-        let(:user) { FactoryGirl.build :user }
+        let(:user) { FactoryGirl.create :user }
         let(:registration) { double(user: user) }
         subject(:ability) { Ability.new(user) }
 
@@ -13,7 +13,7 @@ describe User do
       end
 
       context 'certificate for other waste carrier' do
-        let(:user) { FactoryGirl.build :user }
+        let(:user) { FactoryGirl.create :user }
         let(:other_user) { FactoryGirl.build :user }
         let(:registration) { double(user: other_user) }
         subject(:ability) { Ability.new(user) }
@@ -23,7 +23,7 @@ describe User do
 
       context 'upper tier' do
         context 'paid' do
-          let(:user) { FactoryGirl.build :user }
+          let(:user) { FactoryGirl.create :user }
           let(:registration) { double(user: user, paid_in_full?: true, tier: 'UPPER' ) }
           subject(:ability) { Ability.new(user) }
 
@@ -31,7 +31,7 @@ describe User do
         end
 
         context 'unpaid' do
-          let(:user) { FactoryGirl.build :user }
+          let(:user) { FactoryGirl.create :user }
           let(:registration) { double(user: user, paid_in_full?: false, tier: 'UPPER' ) }
           subject(:ability) { Ability.new(user) }
 
