@@ -6,6 +6,7 @@
     <% content_for :page_title, createTitle('registrations.serviceprovided_step.title') %>
     <%= form_for(@registration, :url => newServiceProvided_path) do |f| %>
 
+      <p class="back_link"><%= render 'back_link' %></p>
       <div class="step"><%= t 'registrations.serviceprovided_step.step' %></div>
 
       <%= render "serviceprovided_step", :f => f %>

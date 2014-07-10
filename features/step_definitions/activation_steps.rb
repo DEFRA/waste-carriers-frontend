@@ -1,6 +1,7 @@
 When(/^I activate the account within (\d+) hours$/) do |number_of_hours|
   Timecop.travel(number_of_hours.to_i.hours.from_now - 1.minute) do
     visit find_path # refreshes page so don't get timed out after 20 minutes
+    sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
     open_email my_email_address
     current_email.click_link 'Confirm your account'
   end
@@ -9,6 +10,7 @@ end
 When(/^I attempt to activate the account after (\d+) hours$/) do |number_of_hours|
   Timecop.travel(number_of_hours.to_i.hours.from_now + 1.minute) do
     visit find_path # refreshes page so don't get timed out after 20 minutes
+    sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
     open_email my_email_address
     current_email.click_link 'Confirm your account'
   end
@@ -31,6 +33,7 @@ When(/^I have not confirmed my email address$/) do
 end
 
 When(/^I have confirmed my email address$/) do
+  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'Confirm your account'
 end

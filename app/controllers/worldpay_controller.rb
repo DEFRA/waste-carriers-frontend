@@ -11,8 +11,12 @@ class WorldpayController < ApplicationController
 
     process_payment
 
-    next_step = if @registration.assisted_digital?
+    next_step = if @registration.assisted_digital? || user_signed_in?
                   print_path(@registration)
+                  #Note from Georg: I think we will eventually want to show the 'finish' path 
+                  #finish_path(@registration)
+                elsif @registration.user.confirmed?
+                  confirmed_path
                 else
                   pending_path
                 end
