@@ -56,7 +56,9 @@ class Ability
     #
     # TODO: Adjust this later if a particular agency user is not allowed to add payments
     #
-    can :update, Payment if user.is_agency_user?
+    if !user.nil? and user.is_agency_user?
+      can :manage, Payment
+    end
 
   end #initialize
 
