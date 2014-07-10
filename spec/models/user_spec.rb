@@ -59,6 +59,24 @@ describe User do
         end
       end
     end
+
+    context 'NCCC user' do
+      let(:agency_user) { FactoryGirl.create :agency_user }
+
+      context 'unpaid upper tier' do
+        let(:waste_carrier_user) { FactoryGirl.create :user }
+        let(:registration) { Registration.new }
+        subject(:ability) { Ability.new(agency_user) }
+
+        before do
+          allow(registration).to receive(:user).and_return(waste_carrier_user)
+          allow(registration).to receive(:paid_in_full?).and_return(false)
+          allow(registration).to receive(:tier).and_return('UPPER')
+        end
+
+        it { should be_able_to(:print, registration) }
+      end
+    end
   end
 
   describe '#confirmed?' do
