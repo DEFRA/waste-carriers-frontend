@@ -717,7 +717,14 @@ class RegistrationsController < ApplicationController
           next_step = @registration.upper? ? :upper_payment : finish_url(:id => @registration.id)
           redirect_to next_step
         else
-          next_step = @registration.upper? ? :upper_payment : pending_url
+          next_step = if @registration.upper?
+                        :upper_payment
+                      elsif @registration.user.confirmed?
+                        confirmed_path
+                      else
+                        pending_path
+                      end
+
           redirect_to next_step
         end
       else
