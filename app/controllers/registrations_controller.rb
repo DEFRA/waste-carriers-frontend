@@ -678,7 +678,7 @@ class RegistrationsController < ApplicationController
 
 
   def pending
-    @registration = Registration.find(session[:registration_id])
+    @registration = Registration[session[:registration_id]]
     @owe_money = owe_money? @registration
   end
 
@@ -952,7 +952,7 @@ class RegistrationsController < ApplicationController
   ######################################
 
   def newOfflinePayment
-    @registration = Registration.find session[:registration_id]
+    @registration = Registration[session[:registration_id]]
   end
 
   def updateNewOfflinePayment
