@@ -33,10 +33,10 @@
 </p>-->
 
 <% if @registration.sign_up_mode == "sign_in" %>
-<p id="accountExists" class="form-group"><%= t '.accountExists' %></p>
+<h2 id="accountExists" class="form-group"><%= t '.accountExists' %></h2>
 <% end %>
 <% if @registration.sign_up_mode == "sign_up" %>
-<div class='subtitle'><p id="emailSignUpText"><%= t '.emailUsernameText' %></p></div>
+<h2 id="emailSignUpText"><%= t '.emailUsernameText' %></h2>
 <% end %>
 
 <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
