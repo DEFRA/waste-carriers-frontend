@@ -1,6 +1,6 @@
 <fieldset>
   <legend><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'business' %></legend>
-    <h1 class="subtitle"></h1>
+    <h2 class="subtitle"></h2>
       <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
     	<%= validation_for(@registration, :companyName) %>
     	<%= f.label t('.businessAddressingMode', addressing_mode: mode), for: 'registration_companyName', class: 'form-label' %>
