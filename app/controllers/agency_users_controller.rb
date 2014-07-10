@@ -113,9 +113,9 @@ class AgencyUsersController < ApplicationController
     # Adds or removes a role from a user
     def addRemoveRole(role)
       if params[role] == '1'
-        @agency_user.add_role role
+        @agency_user.add_role role, AgencyUser
       else
-        @agency_user.remove_role role
+        @agency_user.remove_role role, AgencyUser
       end
     end
 
