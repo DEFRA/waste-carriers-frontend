@@ -9,31 +9,31 @@ describe User do
     context 'waste carrier user' do
       let(:user) { FactoryGirl.build :user }
 
-
-
       context 'own certificate' do
+        let(:registration) { double(user: user) }
 
+        it { should be_able_to(:print, registration) }
       end
 
       context 'certificate for other waste carrier' do
+        let(:registration) { double(user: FactoryGirl.build(:user) ) }
 
+        it { should_not be_able_to(:print, registration) }
       end
 
       context 'upper tier' do
         context 'paid' do
-          it { should be_able_to(:print, Registration.new) }
+          let(:registration) { double(user: user, paid_in_full?: true ) }
+
+          it { should be_able_to(:print, registration) }
         end
 
         context 'unpaid' do
-          it { should_not be_able_to(:print, Registration.new) }
+          let(:registration) { double(user: user, paid_in_full?: false ) }
+
+          it { should_not be_able_to(:print, registration) }
         end
       end
-    end
-
-    context 'NCCC agency user' do
-      let(:user) { FactoryGirl.build :agency_user }
-
-      it { should be_able_to(:x, Registration.new) }
     end
   end
 
