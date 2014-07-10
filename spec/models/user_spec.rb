@@ -41,8 +41,14 @@ describe User do
         end
 
         context 'unpaid' do
-          let(:registration) { double(user: user, paid_in_full?: false, tier: 'UPPER' ) }
+          let(:registration) { Registration.new }
           subject(:ability) { Ability.new(user) }
+
+          before do
+            allow(registration).to receive(:user).and_return(user)
+            allow(registration).to receive(:paid_in_full?).and_return(false)
+            allow(registration).to receive(:tier).and_return('UPPER')
+          end
 
           it { should_not be_able_to(:print, registration) }
         end
