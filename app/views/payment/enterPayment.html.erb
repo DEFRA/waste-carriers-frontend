@@ -7,6 +7,7 @@
     <!-- Usefult for showing default messages -->
     <% if alert %><%= alert %><% end %>
     
+    <aside>
     <%= form_for @payment, url: {action: "savePayment"}, :method => 'post' do |f| %>
 
       	<div class="step"><%= t '.step' %></div>
@@ -71,11 +72,21 @@
 					<%= f.text_field :registrationReference %>
 				</div>
 				
-				<div class="form-group<%if @payment.errors[:paymentType].any?%> validation<%end%>">
+				<!-- Show a different list of payment types if role is financeBasic -->
+		        <% if current_agency_user.has_role? :Role_financeBasic, AgencyUser %>
+		          <p>TODO: Update with financeBasic payment types => electronic transfer only? </p>
+				  <div class="form-group<%if @payment.errors[:paymentType].any?%> validation<%end%>">
 					<%= validation_for(@payment, :paymentType) %>
 					<%= f.label :paymentType, class: 'form-label' %>
 					<%= f.select :paymentType, options_for_select(Payment.payment_type_options_for_select,f.object.paymentType) %>
-				</div>
+				  </div>
+				<% else %>
+				  <div class="form-group<%if @payment.errors[:paymentType].any?%> validation<%end%>">
+					<%= validation_for(@payment, :paymentType) %>
+					<%= f.label :paymentType, class: 'form-label' %>
+					<%= f.select :paymentType, options_for_select(Payment.payment_type_options_for_select,f.object.paymentType) %>
+				  </div>
+				<% end %>
 				
 				<div class="form-group<%if @payment.errors[:comment].any?%> validation<%end%>">
 					<%= validation_for(@payment, :comment) %>
@@ -83,16 +94,6 @@
 					<p class='subtitle'><%= t '.fields.commentGuidance' %></p>
 					<%= f.text_area :comment, :size => "40x10" %>
 		        </div>
-		        
-		        <!-- TEST: add logic if role found -->
-		        <p>start</p>
-		        <% if current_agency_user.has_role? :admin %>
-				  <p>has role admin, Success!!</p>
-				  <% current_agency_user.roles.each do |role| %>
-				  	<p>> Role: <%= role.name %></p>
-				  <% end %>
-				<% end %>
-				<p>end</p>
 				
 		    </fieldset>
 		</div>
@@ -106,6 +107,18 @@
 		</div>
 		
 	<% end %>
+	
+	</aside>
+
+	<div class='related-positioning'>
+		<div class='related-container'>
+			<div class='related'>
+				<div class='inner group related-subsection'>
+				<%= render "shared/current_user" %>
+				</div>
+			</div>
+		</div>
+	</div>
     
     </article>
 </main>
