@@ -8,9 +8,9 @@
 <legend><%= t '.sign_in_heading' %></legend>
 
 <% if request.original_url.include? "agency_users/sign_in" %>
-<h3><%= t '.agency_heading' %></h3></br>
+<h2><%= t '.agency_heading' %></h2></br>
 <% elsif request.original_url.include? "admins/sign_in" %>
-<h3><%= t '.admin_heading' %></h3></br>
+<h2><%= t '.admin_heading' %></h2></br>
 <% end%>
 
 <% if alert %>
@@ -33,17 +33,25 @@
 
 
 <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div class="form-group<% if alert %> validation<% end %>"><%= f.label :email %>
-  <%= f.email_field :email, class: 'form-label', :autofocus => true, :autocomplete => :off %></div>
+  <div class="form-group<% if alert %> validation<% end %>">
+    <%= f.label :email, class: 'form-label' %>
+    <%= f.email_field :email, :autofocus => true, :autocomplete => :off %>
+  </div>
 
-  <div class="form-group<% if alert %> validation<% end %>"><%= f.label :password %>
-  <%= f.password_field :password, class: 'form-label' %></div>
+  <div class="form-group<% if alert %> validation<% end %>">
+    <%= f.label :password, class: 'form-label' %>
+    <%= f.password_field :password %>
+  </div>
 
   <% if devise_mapping.rememberable? -%>
-    <div class="form-group"><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+    <div class="form-group">
+      <%= f.check_box :remember_me %> 
+      <%= f.label :remember_me, class: 'form-label' %>
+    </div>
   <% end -%>
 
-  <div class="form-group"><%= f.submit t('shared.current_user.sign_in'), :class => "button" %></div>
+    <%= f.submit t('shared.current_user.sign_in'), :class => "button" %>
+
 <% end %>
 
 </fieldset>

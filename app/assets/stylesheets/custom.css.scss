@@ -17,7 +17,7 @@
 #content {@include core-19}
 #content {@include media}
 #content {@include device-pixel-ratio($ratio: 2)}
-#content legend {@include heading-36}
+#content legend {@include bold-36}
 #content h1 {@include heading-36}
 #content h2 {@include heading-27}
 #content h3 {@include heading-24}
@@ -48,6 +48,14 @@
 #content p {
     line-height: 1.50;
 }
+
+
+#content legend {
+    line-height: 1.04167;
+    padding-bottom: 2.7rem;
+    padding-top: 2.3rem;
+}
+
 
 .list-bullets {
     list-style-type: square;
