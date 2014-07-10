@@ -5,7 +5,7 @@
     <%= form_for(@registration, :url => :upper_summary) do |f| %>
 
       <% content_for :page_title, createTitle('.title') %>
-
+	  <p class="back_link"><%= render 'back_link' %></p>
       <div class="step">Step 8 of 8</div>
        <%= render "confirmation_step", f: f, registration_class: 'upper_tier'  %>
       <%= render 'declaration_and_data_protection', f: f %>
