@@ -31,6 +31,7 @@ When(/^I have not confirmed my email address$/) do
 end
 
 When(/^I have confirmed my email address$/) do
+  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'Confirm your account'
 end
