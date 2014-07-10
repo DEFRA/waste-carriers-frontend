@@ -474,6 +474,7 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(:one, :from => "/registrations/"+params[:id]+".json")
     @registration.routeName = @registration.metaData.route
     authorize! :read, @registration
+    authorize! :read, Payment
   end
 
   def check_steps_are_valid_up_until_current current_step
