@@ -20,8 +20,13 @@ describe User do
 
       context 'certificate for other waste carrier' do
         let(:other_user) { FactoryGirl.build :user }
-        let(:registration) { double(user: other_user) }
+        let(:registration) { Registration.new }
         subject(:ability) { Ability.new(user) }
+
+        before do
+          allow(registration).to receive(:user).and_return(other_user)
+          allow(registration).to receive(:tier).and_return('LOWER')
+        end
 
         it { should_not be_able_to(:print, registration) }
       end
