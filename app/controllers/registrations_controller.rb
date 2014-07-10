@@ -646,6 +646,8 @@ class RegistrationsController < ApplicationController
         @user.email = @registration.accountEmail
         @user.password = @registration.password
         logger.debug "About to save the new user."
+        # Don't send the confirmation email when the user gets saved.
+        @user.skip_confirmation!
         @user.save!
         logger.debug "User has been saved."
         ## the newly created user has to active his account before being able to sign in
