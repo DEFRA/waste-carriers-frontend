@@ -43,6 +43,7 @@ Feature: Upper tier
     When I confirm account creation via email
     Then I am registered as an upper tier waste carrier
 
+  @worldpay
   Scenario: Card payment
     Given I autocomplete my business address
       And I provide my personal contact details
