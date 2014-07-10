@@ -29,11 +29,8 @@ class Ability
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
-    if user.is_agency_user?
-      can :print, Registration
-    else
-      can :print, Registration, user: user, tier: 'UPPER', paid_in_full?: true
-      can :print, Registration, user: user, tier: 'LOWER'
+    can :print, Registration do |registration|
+      (registration.user == user) and ((registration.tier == 'UPPER' and registration.paid_in_full?) or (registration.tier == 'LOWER'))
     end
 
     can :read, Registration do |registration|
