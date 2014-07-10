@@ -1,24 +1,20 @@
 <%= render 'shared/content_for_pages' %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
-<fieldset>	
-<legend><%= t 'devise.passwords.forgotHeading'%></legend>
+<%= link_to t('registrations.form.back_button_label'), :back %>
+	<fieldset>	
+		<legend><%= t 'devise.passwords.forgotHeading'%></legend>
+			<div id="wrapper" data-journey="waste-carriers-registration:forgot-password"></div>
 
-<div id="wrapper" data-journey="waste-carriers-registration:forgot-password"></div>
+			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+  			<%= devise_error_messages! %>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
-  <%= devise_error_messages! %>
+  			<div class="form-group">
+  			<%= f.label :email, class: 'form-label' %>
+  			<%= f.email_field :email, :autofocus => true %>
+  			</div>
+  			<%= f.submit t('devise.passwords.sendInstructions'), :class => "button" %>
+		<% end %>
 
-  <div class="form-group">
-  	<%= f.label :email, class: 'form-label' %>
-  	<%= f.email_field :email, :autofocus => true %>
-  </div>
-
-  <div class="form-group">
-  	<p><%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %><p>
-  	<%= f.submit t('devise.passwords.sendInstructions'), :class => "button" %>
-  </div>
-<% end %>
-
-</fieldset>
+	</fieldset>
 </article></main>
