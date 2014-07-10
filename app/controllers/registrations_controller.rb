@@ -1021,7 +1021,7 @@ class RegistrationsController < ApplicationController
 
   def updateNewOfflinePayment
     @registration = Registration.find session[:registration_id]
-    redirect_to @registration.user.confirmed? ? confirmed_path : pending_path
+    redirect_to @registration.user.confirmed? ? print_confirmed_path : pending_path
   end
 
   private
