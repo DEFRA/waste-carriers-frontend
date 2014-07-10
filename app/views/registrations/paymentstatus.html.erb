@@ -161,7 +161,21 @@
 		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
 		    </noscript>
 		    <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'link_to' %>
+		    <%
+		    isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
+		    isRefundOrBasic = current_agency_user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
+		    %>
+		    <% if !isFinanceAdmin %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.writeoffsmall_button_label'), :enterPayment, :class => 'button' %></span>
+		    <% end %>
+		    <% if isFinanceAdmin %>
+		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterPayment, :class => 'button' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button' %></span>
+		    <% end %>
+		    <% if isRefundOrBasic %>
+		    <span class="next_link"><%= link_to t('registrations.form.refund_button_label'), :enterPayment, :class => 'button' %></span>
+		    <% end %>
 		</div>
 
     </aside>
