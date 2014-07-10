@@ -1,5 +1,7 @@
 class PaymentController < ApplicationController
 
+  before_filter :authenticate_agency_user!
+
   def enterPayment
     @registration = Registration.find(params[:id])
     @payment = Payment.find(:one, :from => "/registrations/"+params[:id]+"/payments/new.json")
@@ -16,6 +18,9 @@ class PaymentController < ApplicationController
       @payment.dateReceived_year = ''
       logger.info 'set date recieved manually'
     end
+    
+    authorize! :read, @registration
+    authorize! :update, @payment
     
   end
   

@@ -38,18 +38,25 @@ class Ability
     end
 
     can :update, Registration do |registration|
+      isEitherFinance = user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
       if user
-        user.is_agency_user? || user.email == registration.accountEmail
+        # 
+        # Note: This is a negative check for neither financeBasic or financeAdmin, thus any other role can perform updates
+        # 
+        if !(isEitherFinance)
+          user.is_agency_user? || user.email == registration.accountEmail
+        else
+          false
+        end
       else
         false
       end
     end
     
-    if user.has_role? :admin
-	  can :manage, :all
-	else
-	  can :read, :all
-	end
+    #
+    # TODO: Adjust this later if a particular agency user is not allowed to add payments
+    #
+    can :update, Payment if user.is_agency_user?
 
   end #initialize
 
