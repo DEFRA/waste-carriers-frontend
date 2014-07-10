@@ -15,8 +15,9 @@ class WorldpayController < ApplicationController
                   print_path(@registration)
                   #Note from Georg: I think we will eventually want to show the 'finish' path 
                   #finish_path(@registration)
+                elsif @registration.user.confirmed?
+                  confirmed_path
                 else
-                  # The (new) user needs to confirm his account
                   pending_path
                 end
 
