@@ -50,9 +50,28 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     text-transform: none;
     top: 0;
 }
-
-.inner-payment-box {
+.payment-box #registration_registration_fee, #registration_copy_cards, #registration_total_fee {
+    background: none repeat scroll 0 0 rgb(222, 224, 226);
     border: 1px solid rgb(191, 193, 195);
+    cursor: pointer;
+    display: block;
+    padding: 18px 0 15px 25px;
+    position: relative;
+}
+.inner-payment-box, .inner-payment-box-total, .payment-box {
+    padding: 10px 20px 20px 10px;
+}
+
+.summary-box, .example {
+   padding: 30px 0 10px 30px;
+}
+
+.payment-box {
+    padding-bottom:0px;
+}
+
+.inner-payment-box, .inner-payment-box-total {
+    border-bottom: 1px solid rgb(191, 193, 195);
 }
 .payment-box, .summary-box, .example {
     border: 1px solid rgb(191, 193, 195);
@@ -61,16 +80,30 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     overflow: hidden;
     position: relative;
 }
-.inner-payment-box, .payment-box, .summary-box:after, .example:after {
-    clear: both;
-    content: "";
-    display: block;
+.inner .inline input {
+    float:right;
 }
-.inner-payment-box, .payment-box, .summary-box, .example {
-    padding-bottom: 30px;
-    padding-top: 45px;
-    padding-left: 30px;
-    padding-right: 30px;
+.payment-box .form-label, input {
+    display: inline;
+}
+#registration_copy_cards, #registration_registration_fee {
+    margin-left:10px;
+}
+#payment-buttons {
+    float:left;
+    position:relative;
+    vertical-align: baseline;
+}
+.payment-box .add-focus {
+    outline: none;
+}
+.payment-box input:focus {
+  outline: none;
+  cursor:none;
+}
+#registration_copy_cards {
+    border: 1px solid rgb(191, 193, 195);
+    width: 8%;
 }
 
 //Example box
@@ -93,21 +126,6 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     margin-top: 10px;
 }
 
-//Payment box
-
-.payment-box {
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-//Inner payment box
-
-.payment-box {
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-
-
 // GDS FORMS
 
 .subtitle {
@@ -115,7 +133,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     font-family: "nta",Arial,sans-serif;
     font-size: 19px;
     font-weight: 400;
-    line-height: 1.25;
+    line-height: 1.50;
     margin: 0;
     text-transform: none;
 }
@@ -220,8 +238,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     display: block;
     font-family: "nta",Arial,sans-serif;
     font-size: 24px;
-    font-weight: 700;
-    line-height: 1.25;
+    font-weight: 500;
+    line-height: 1.50;
     margin-bottom: 0;
     text-transform: none;
 }
@@ -230,8 +248,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     display: block;
     font-family: "nta",Arial,sans-serif;
     font-size: 24px;
-    font-weight: 700;
-    line-height: 1.25;
+    font-weight: 500;
+    line-height: 1.50;
     margin-bottom: 0;
     text-transform: none;
 }
@@ -317,15 +335,6 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     text-transform: none;
 }
 
-//Payment Summary Page
-
-.inline-payment {
-    float: right;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    margin-right:10px;
-}
-
 
 // ** EXAMPLE TEMPLATE STYLES ** //
 
@@ -397,8 +406,16 @@ details .summary {
 }
 
 
+//Back Links Positioning
 
+.back_link, .step {
+    display:inline;
+    padding-top: 10px;
+}
 
-
+.back-button-position {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
 
