@@ -1,0 +1,16 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+
+    <% content_for :page_title, createTitle('.title') %>
+    <div class="step"><%= t '.step' %></div>
+
+    <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+      <%= render 'index', f: f, l: @registration.directors %>
+      <%= link_to t('form.add_button_label'), url_for({ :controller => 'directors', :action => 'new' }), :class => 'link_to' %>
+      <%= render 'wizard_links' %>
+    <% end %>
+
+  </article>
+</main>

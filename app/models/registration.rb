@@ -1,86 +1,100 @@
-require 'active_resource'
+class Registration < Ohm::Model
 
-class Registration < ActiveResource::Base
-
-  #The services URL can be configured in config/application.rb and/or in the config/environments/*.rb files.
-  self.site = Rails.configuration.waste_exemplar_services_url
-
-  self.format = :json
+  include ActiveModel::Conversion
+  include ActiveModel::Validations
+  extend ActiveModel::Naming
 
   attr_writer :current_step
 
-  #The schema is not strictly necessary for a model based on ActiveRessource, but helpful for documentation
-  schema do
-    string :businessType
-    string :otherBusinesses
-    string :isMainService
-    string :constructionWaste
-    string :onlyAMF
-    string :companyName
-    string :individualsType
-    string :publicBodyType
-    string :publicBodyTypeOther
-    string :registrationType
-    string :houseNumber
+  attribute :businessType
+  attribute :otherBusinesses
+  attribute :isMainService
+  attribute :constructionWaste
+  attribute :onlyAMF
+  attribute :companyName
+  attribute :individualsType
+  attribute :publicBodyType
+  attribute :publicBodyTypeOther
+  attribute :registrationType
+  attribute :houseNumber
 
-    string :addressMode
-    string :postcodeSearch
-    string :selectedMoniker
-    string :streetLine1
-    string :streetLine2
-    string :townCity
-    string :postcode
-    string :easting
-    string :northing
-    string :dependentLocality
-    string :dependentThroughfare
-    string :administrativeArea
-    string :royalMailUpdateDate
-    string :localAuthorityUpdateDate
-    string :company_no
-    date :expires_on
+  attribute :addressMode
+  attribute :postcodeSearch
+  attribute :selectedMoniker
+  attribute :streetLine1
+  attribute :streetLine2
+  attribute :townCity
+  attribute :postcode
+  attribute :easting
+  attribute :northing
+  attribute :dependentLocality
+  attribute :dependentThroughfare
+  attribute :administrativeArea
+  attribute :royalMailUpdateDate
+  attribute :localAuthorityUpdateDate
+  attribute :company_no
+  attribute :expires_on
 
-    #payment
-    integer :total_fee
-    integer :registration_fee
-    integer :copy_card_fee
-    integer :copy_cards
+  #payment
+  attribute :total_fee
+  attribute :registration_fee
+  attribute :copy_card_fee
+  attribute :copy_cards
 
-    # Non UK fields
-    string :streetLine3
-    string :streetLine4
-    string :country
+  # Non UK fields
+  attribute :streetLine3
+  attribute :streetLine4
+  attribute :country
 
-    string :title
-    string :otherTitle
-    string :firstName
-    string :lastName
-    string :position
-    string :phoneNumber
-    string :contactEmail
-    string :accountEmail
-    string :declaration
-    string :regIdentifier
-    string :status
-    # TODO: Determine if this is needed?
-    string :uprn
-    string :address
+  attribute :title
+  attribute :otherTitle
+  attribute :firstName
+  attribute :lastName
+  attribute :position
+  attribute :phoneNumber
+  attribute :contactEmail
+  attribute :accountEmail
+  attribute :declaration
+  attribute :regIdentifier
+  attribute :status
 
-    string :password
-    string :sign_up_mode
-    string :routeName
-    string :accessCode
 
-    string :tier
+  attribute :password
+  attribute :sign_up_mode
+  attribute :routeName
+  attribute :accessCode
 
-    # Used as a trigger value to force validation of the revoke reason field
-    # When this value contains any value, the revokeReason field is validated
-    string :revoked
+  attribute :tier
+
+  set :directors, :Director
+
+
+  def persisted?
+    false
   end
+
+  def add(a_hash)
+    a_hash.each do |prop_name, prop_value|
+      # Rails.logger.debug "key: #{prop_name}"
+      # Rails.logger.debug "val: #{prop_value}"
+      self.send("#{prop_name}=",prop_value)
+    end
+  end
+
 
   BUSINESS_TYPES = %w[
     soleTrader
     partnership
+    limitedCompany
+    publicBody
+    charity
+    authority
+    other
+  ]
+
+  STEPS = %w[
+    business_type
+    other_businesses
     limitedCompany
     publicBody
     charity
@@ -120,7 +134,7 @@ class Registration < ActiveResource::Base
 
   validates :contactEmail, presence: true, email: true, if: [:digital_route?, :lower_or_upper_contact_details_step?]
 
-  with_options if: [:address_step?, 'manual_uk_address? or addressMode.blank?'] do |registration|
+  with_options if: [:address_step?, :manual_uk_address?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
     registration.validates :streetLine1, presence: true, length: { maximum: 35 }
     registration.validates :streetLine2, length: { maximum: 35 }
@@ -138,12 +152,12 @@ class Registration < ActiveResource::Base
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
-  with_options if: [:signup_step?, :unpersisted?, :do_sign_up?] do |registration|
+  with_options if: [:signup_step?,  :do_sign_up?] do |registration|
     registration.validates :accountEmail, confirmation: true
     registration.validate :user_cannot_exist_with_same_account_email
   end
 
-  with_options if: [:signup_step?, :unpersisted?, :sign_up_mode_present?] do |registration|
+  with_options if: [:signup_step?, :sign_up_mode_present?] do |registration|
     registration.validates :password, presence: true, length: { in: 8..128 }
     registration.validates_strength_of :password, with: :accountEmail
     registration.validates :password, confirmation: true
@@ -169,8 +183,8 @@ class Registration < ActiveResource::Base
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
 
   # TODO not sure whether to keep this validation or not since the sign_up mode is not supplied by the user
-  # validates :sign_up_mode, presence: true, if: [:signup_step?, :unpersisted?, :account_email_present?]
-  # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, :unpersisted?]
+  # validates :sign_up_mode, presence: true, if: [:signup_step?, , :account_email_present?]
+  # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, ]
 
   def businesstype_step?
     current_step.inquiry.businesstype?
@@ -256,10 +270,6 @@ class Registration < ActiveResource::Base
     accountEmail.present?
   end
 
-  def unpersisted?
-    not persisted?
-  end
-
   def upper?
     return false if tier.blank?
     tier.inquiry.UPPER?
@@ -271,7 +281,6 @@ class Registration < ActiveResource::Base
   end
 
   def paid_in_full?
-
   end
 
   def self.business_type_options_for_select
@@ -318,12 +327,12 @@ class Registration < ActiveResource::Base
 
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
-      when :not_found
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
-      when :inactive
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
-      when :error_calling_service
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
+    when :not_found
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+    when :inactive
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+    when :error_calling_service
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
     end
   end
 
@@ -378,12 +387,12 @@ class Registration < ActiveResource::Base
 
   def boxClassSuffix
     case metaData.status
-      when 'REVOKED'
-        'revoked'
-      when 'PENDING'
-        'pending'
-      else
-        ''
+    when 'REVOKED'
+      'revoked'
+    when 'PENDING'
+      'pending'
+    else
+      ''
     end
   end
 
@@ -415,4 +424,6 @@ class Registration < ActiveResource::Base
     }
     Rails.logger.info("Activated registration(s) for user with email " +  user.email)
   end
+
+
 end
