@@ -120,14 +120,13 @@ en:
     charity: "Charity or voluntary organisation"
     authority: "Waste collection, disposal or regulation authority"
     other: "Other"
-    
+
   payment_types:
     CASH: "Cash"
     CHEQUE: "Cheque"
     POSTALORDER: "Postal order"
     OTHERONLINEPAYMENT: "Online payment"
     OTHER: "Other"
-
   distances:
     any: "Any"
     '10': "10 Miles"
@@ -156,8 +155,11 @@ en:
     back_button_label: "Back"
     edit_these_details: "Edit these details"
     find_companies_house_details:  "Companies House number"
+    add_button_label: "Add"
+    delete_button_label: "Delete"
+    edit_button_label: "Edit"
+    update_button_label: "Update"
 
-  
   activemodel:
     models:
       registration: "Registration"
@@ -220,16 +222,12 @@ en:
         to:   "To"
         route_digital: "Digital"
         route_assisted_digital: "Assisted Digital"
-      payment:
-        # Payment fields
-        amount: "Amount Received (£)"
-        dateReceived: "Date Received"
-        dateReceived_day: "Day"
-        dateReceived_month: "Month"
-        dateReceived_year: "Year"
-        registrationReference: "Reference"
-        paymentType: "Payment via"
-        comment: "Comment"
+      director:
+        first_name: "First name"
+        last_name: "Last name"
+        dob_day: "Day"
+        dob_month: "Month"
+        dob_year: "Year"
 
   shared:
     current_user:
@@ -334,6 +332,21 @@ en:
       status: "Status"
       business_type: "Business type"
       results_format: "Results format"
+  directors:
+    new:
+      title: "Director details"
+      step: "Step 7 of 8"
+    index:
+      title: "Directors"
+      step: "Step 7 of 8"
+      legend: "Existing directors"
+      subtitle: "These will not be made public"
+    edit:
+      title: "Edit director details"
+      step: "Step 7 of 8"
+    form:
+        legend: "Director details"
+        subtitle: "These will not be made public"
 
   templates:
     formExample:
@@ -421,7 +434,7 @@ en:
       carrier_broker_dealer: "carrier/broker/dealer"
     confirmation_step:
       title: "Confirmation"
-      subtitle: "Check your details before registering"
+      subtitle: "Checking your details before registering"
       step: "Step 7 of 8"
       smart_answers_heading: "You told us"
       declaration_heading: "Declaration"
@@ -710,12 +723,11 @@ en:
       reg_updated: "Registration updated"
       reg_revoked: "Registration revoked"
       reg_unrevoked: "Registration un-revoked"
-      
+
       awaitingPayment_text: "Awaiting payment"
       balanceDue_text: "Balance due"
       overpaid_text: "Overpaid by"
       paidInFull_text: "Paid in full"
-
       invalid_public_params: "You must provide a business or trading name. This must only use letters, numbers, or any of \' . & ! %."
 
       check_details_and_register_heading: "Check details and register"
@@ -723,7 +735,6 @@ en:
       declaration_legend: "Declaration"
       declaration_label: "I declare that as far as I know and believe, the information in this registration is true."
       declaration_legal_text: "...(TBD) some legal text to go here..."
-
   payment:
     enterPayment:
       heading: "Enter payment"

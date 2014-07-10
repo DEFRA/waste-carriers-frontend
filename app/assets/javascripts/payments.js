@@ -19,3 +19,11 @@ $("#addressSelector").change(function(){
     $("#addressSelector").removeAttr("size");
 });
 
+
+
+$('input[type="radio"]').click(function(){
+          $(this).toggleClass('yeller');
+});
+
+
+
