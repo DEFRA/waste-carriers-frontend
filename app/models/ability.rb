@@ -29,6 +29,13 @@ class Ability
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
+    if user.is_agency_user?
+      can :print, Registration
+    else
+      can :print, Registration, user: user, tier: 'UPPER', paid_in_full?: true
+      can :print, Registration, user: user, tier: 'LOWER'
+    end
+
     can :read, Registration do |registration|
       if user
         user.is_agency_user? || user.email == registration.accountEmail
