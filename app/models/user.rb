@@ -2,7 +2,6 @@
 
 class User
   include Mongoid::Document
-  rolify
 
   # Note: Devise standard default modules are 
   # :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
