@@ -369,7 +369,7 @@ class Registration < ActiveResource::Base
   end
 
   def user
-    @user
+    @user || User.find_by_email(accountEmail)
   end
 
   def generate_random_access_code
