@@ -3,33 +3,37 @@ require 'cancan/matchers'
 
 describe User do
   describe 'abilities' do
-    subject(:ability) { Ability.new(user) }
-    let(:user) { nil }
-
     context 'waste carrier user' do
-      let(:user) { FactoryGirl.build :user }
-
       context 'own certificate' do
+        let(:user) { FactoryGirl.build :user }
         let(:registration) { double(user: user) }
+        subject(:ability) { Ability.new(user) }
 
         it { should be_able_to(:print, registration) }
       end
 
       context 'certificate for other waste carrier' do
-        let(:registration) { double(user: FactoryGirl.build(:user) ) }
+        let(:user) { FactoryGirl.build :user }
+        let(:other_user) { FactoryGirl.build :user }
+        let(:registration) { double(user: other_user) }
+        subject(:ability) { Ability.new(user) }
 
         it { should_not be_able_to(:print, registration) }
       end
 
       context 'upper tier' do
         context 'paid' do
-          let(:registration) { double(user: user, paid_in_full?: true ) }
+          let(:user) { FactoryGirl.build :user }
+          let(:registration) { double(user: user, paid_in_full?: true, tier: 'UPPER' ) }
+          subject(:ability) { Ability.new(user) }
 
           it { should be_able_to(:print, registration) }
         end
 
         context 'unpaid' do
-          let(:registration) { double(user: user, paid_in_full?: false ) }
+          let(:user) { FactoryGirl.build :user }
+          let(:registration) { double(user: user, paid_in_full?: false, tier: 'UPPER' ) }
+          subject(:ability) { Ability.new(user) }
 
           it { should_not be_able_to(:print, registration) }
         end
