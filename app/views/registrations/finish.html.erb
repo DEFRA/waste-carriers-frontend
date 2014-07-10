@@ -14,7 +14,10 @@
 <!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
 
 <form action="<%=print_url(@registration.id)%>">
-<div class="action group"><input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/></div>
+
+<% if can? :print, @registration %>
+  <div class="action group"><input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/></div>
+<% end %>
 
 <p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
 
