@@ -30,7 +30,7 @@ class Ability
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     can :print, Registration do |registration|
-      user.is_agency_user? or ((registration.user == user) and ((registration.upper? and registration.paid_in_full?) or (registration.lower?)))
+      user.is_agency_user? or ((registration.user == user) and owe_nothing?(registration))
     end
 
     can :read, Registration do |registration|
@@ -50,5 +50,11 @@ class Ability
     end
 
   end #initialize
+
+private
+
+  def owe_nothing? registration
+    registration.lower? or (registration.upper? and registration.paid_in_full?)
+  end
 
 end
