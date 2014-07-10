@@ -7,15 +7,33 @@ describe User do
     let(:user) { nil }
 
     context 'waste carrier user' do
-      let(:user) { Factory(:user) }
+      let(:user) { FactoryGirl.build :user }
 
-      it{ should be_able_to(:x, Registration.new) }
+
+
+      context 'own certificate' do
+
+      end
+
+      context 'certificate for other waste carrier' do
+
+      end
+
+      context 'upper tier' do
+        context 'paid' do
+          it { should be_able_to(:print, Registration.new) }
+        end
+
+        context 'unpaid' do
+          it { should_not be_able_to(:print, Registration.new) }
+        end
+      end
     end
 
     context 'NCCC agency user' do
-      let(:user) { Factory(:agency_user) }
+      let(:user) { FactoryGirl.build :agency_user }
 
-      it{ should be_able_to(:x, Registration.new) }
+      it { should be_able_to(:x, Registration.new) }
     end
   end
 
