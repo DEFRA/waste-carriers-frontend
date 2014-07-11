@@ -23,7 +23,7 @@ class Order < ActiveResource::Base
   validates :currency, presence: true
   validates :dateCreated, presence: true, length: { minimum: 8 }
   validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }
-  validates :dateLastUpdated, presence: true, length: { minimum: 8 }
+#  validates :dateLastUpdated, presence: true, length: { minimum: 8 }
   validate :validate_dateLastUpdated
   validates :updatedByUser, presence: true
   validates :description, presence: true, length: { maximum: 250 }

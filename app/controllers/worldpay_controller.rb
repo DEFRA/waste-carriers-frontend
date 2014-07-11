@@ -38,6 +38,7 @@ class WorldpayController < ApplicationController
   def cancel
   	#TODO - Process response and edirect...  	
     #process_payment
+    flash[:notice] = 'You have cancelled your payment.'
   end
 
   private
