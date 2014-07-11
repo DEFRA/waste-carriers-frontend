@@ -900,7 +900,6 @@ class RegistrationsController < ApplicationController
   # GET your-registration/upper-tier-contact-details
   def newUpperContactDetails
     new_step_action 'upper_contact_details'
-    logger.debug  session[:registration_params][:company_name].to_s
   end
 
   # POST your-registration/upper-tier-contact-details
