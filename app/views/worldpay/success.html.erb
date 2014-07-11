@@ -4,5 +4,10 @@
 <p>
 <%= params.inspect %>
 </p>
-<%= link_to 'Next Step - Confirm your account', pending_path %>
+<% if @registration.user.confirmed? %>
+  <%= link_to 'Next Step - Finish', finish_path(@registration) %>
+<% else %>
+  <%= link_to 'Next Step - Confirm your account', pending_path %>
+<% end %>
+
 </article></main>
