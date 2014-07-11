@@ -294,7 +294,7 @@ class RegistrationsController < ApplicationController
       @registration = Registration[ session[:registration_id]]
     end
 
-    logger.debug "id: #{@registration.id}"
+    logger.debug "reg: #{@registration.to_json}"
 
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
@@ -304,13 +304,13 @@ class RegistrationsController < ApplicationController
     # check_steps_are_valid_up_until_current current_step
   end
 
-  def setup_registration current_step
+  def setup_registration current_step, no_update=false
     # session[:registration_params] ||= {}
     # session[:registration_params].deep_merge!(registration_params) if params[:registration]
     # @registration= Registration.new(session[:registration_params])
 
     @registration = Registration[ session[:registration_id]]
-    @registration.add( params[:registration] )
+    @registration.add( params[:registration] ) unless no_update
     @registration.save
     logger.debug  @registration.attributes.to_s
 
@@ -354,7 +354,8 @@ class RegistrationsController < ApplicationController
       renderAccessDenied
     else
       # Search for users registrations
-      @registrations = Registration.find(:all, :params => {:ac => tmpUser.email}).sort_by { |r| r.date_registered}
+      # @registrations = Registration.find(:all, :params => {:ac => tmpUser.email}).sort_by { |r| r.date_registered}
+      @registrations = Registration.find(accountEmail: tmpUser.email)
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -551,9 +552,7 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewSignup
-    setup_registration 'signup'
-
-    Rails.logger.debug @registration.to_json
+    setup_registration 'signup', true
 
     # Prepopulate Email field/Set registration account
     if user_signed_in?
@@ -612,14 +611,20 @@ class RegistrationsController < ApplicationController
       logger.debug "Now asking whether registration is all valid"
       if @registration.valid?
         logger.debug "The registration is all valid. About to save the registration..."
-        @registration.expires_on = Date.current
-        @registration.save!
+        @registration.expires_on = Date.current + 3.years
+        @registration.save
+        # @registration.save!
+        logger.debug "reg: #{@registration.attributes.to_s}"
+        commit_to_java_api
         logger.info 'Perform an additional save, to set the Route Name in metadata'
+=begin
         logger.info 'routeName = ' + @registration.routeName
         # @registration.metaData.route = @registration.routeName
         if agency_user_signed_in?
           @registration.accessCode = @registration.generate_random_access_code
         end
+=end
+
         # The user is signed in at this stage if he activated his e-mail/account (for a previous registration)
         # Assisted Digital registrations (made by the signed in agency user) do not need verification either.
         if agency_user_signed_in? || user_signed_in?
@@ -963,6 +968,18 @@ class RegistrationsController < ApplicationController
 
   def owe_money? registration
     registration.upper? and !registration.paid_in_full?
+  end
+
+  def commit_to_java_api
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registration.json"
+    logger.debug url.to_s
+    response = RestClient.post url,
+                    @registration.attributes.to_json,
+                    content_type: json,
+                    accept: json
+
+    Rails.logger.debug "response code: #{ response.code.to_s}"
+    Rails.logger.debug "response body: #{ response.body.to_s}"
   end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
