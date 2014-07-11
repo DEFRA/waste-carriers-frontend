@@ -74,11 +74,10 @@
 				
 				<!-- Show a different list of payment types if role is financeBasic -->
 		        <% if current_agency_user.has_role? :Role_financeBasic, AgencyUser %>
-		          <p>TODO: Update with financeBasic payment types => electronic transfer only? </p>
 				  <div class="form-group<%if @payment.errors[:paymentType].any?%> validation<%end%>">
 					<%= validation_for(@payment, :paymentType) %>
 					<%= f.label :paymentType, class: 'form-label' %>
-					<%= f.select :paymentType, options_for_select(Payment.payment_type_options_for_select,f.object.paymentType) %>
+					<%= f.select :paymentType, options_for_select(Payment.payment_type_financeBasic_options_for_select,f.object.paymentType) %>
 				  </div>
 				<% else %>
 				  <div class="form-group<%if @payment.errors[:paymentType].any?%> validation<%end%>">
