@@ -12,8 +12,14 @@ class Payment < ActiveResource::Base
     CASH
     CHEQUE
     POSTALORDER
+  ]
+  
+  PAYMENT_TYPES_FINANCE_BASIC = %w[
     OTHERONLINEPAYMENT
     OTHER
+  ]
+  
+  PAYMENT_TYPES_WORLDPAY = %w[
     WORLDPAY
   ]
   
@@ -24,11 +30,16 @@ class Payment < ActiveResource::Base
   validates :dateReceived, presence: true, length: { minimum: 8 }
   validate :validate_dateReceived
   validates :registrationReference, presence: true
-  validates :paymentType, presence: true, inclusion: { in: PAYMENT_TYPES }
-  validates :comment, presence: true, length: { maximum: 250 }
+  # This concatanates all the PAYMENT_TYPE lists. Ideally the user role should be checked to determine which list the user was given.
+  validates :paymentType, presence: true, inclusion: { in: %w[].concat(PAYMENT_TYPES).concat(PAYMENT_TYPES_FINANCE_BASIC).concat(PAYMENT_TYPES_WORLDPAY), message: I18n.t('errors.messages.invalid_selection') } 
+  validates :comment, length: { maximum: 250 }
   
   def self.payment_type_options_for_select
     (PAYMENT_TYPES.collect {|d| [I18n.t('payment_types.'+d), d]})
+  end
+  
+  def self.payment_type_financeBasic_options_for_select
+    (PAYMENT_TYPES_FINANCE_BASIC.collect {|d| [I18n.t('payment_types.'+d), d]})
   end
   
   private
