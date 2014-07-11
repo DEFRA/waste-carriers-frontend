@@ -68,6 +68,8 @@ class Registration < Ohm::Model
 
   set :directors, :Director
 
+  index :accountEmail
+  index :companyName
 
   def persisted?
     false
@@ -80,7 +82,6 @@ class Registration < Ohm::Model
       self.send("#{prop_name}=",prop_value)
     end
   end
-
 
   BUSINESS_TYPES = %w[
     soleTrader
