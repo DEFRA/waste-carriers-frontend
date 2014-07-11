@@ -719,7 +719,14 @@ class RegistrationsController < ApplicationController
           next_step = @registration.upper? ? :upper_payment : finish_url(:id => @registration.id)
           redirect_to next_step
         else
-          next_step = @registration.upper? ? :upper_payment : pending_url
+          next_step = if @registration.upper?
+                        :upper_payment
+                      elsif @registration.user.confirmed?
+                        confirmed_path
+                      else
+                        pending_path
+                      end
+
           redirect_to next_step
         end
       else
@@ -1019,7 +1026,8 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewOfflinePayment
-    redirect_to :pending_payment
+    @registration = Registration.find session[:registration_id]
+    redirect_to @registration.user.confirmed? ? print_confirmed_path : pending_path
   end
 
   private
