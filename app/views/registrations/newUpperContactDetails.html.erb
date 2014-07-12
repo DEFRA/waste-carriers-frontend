@@ -5,8 +5,6 @@
     <% content_for :page_title, createTitle('registrations.contactdetails_step.title') %>
 
     <%= form_for(@registration, :url => newUpperContactDetails_path) do |f| %>
-      <div class="step"><%= t 'registrations.contactdetails_step.step' %></div>
-      <h1><%= t 'registrations.contactdetails_step.subtitle' %></h1>
 
       <%= render 'contactdetails_step', f: f%>
 

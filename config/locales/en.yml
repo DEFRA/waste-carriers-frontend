@@ -446,6 +446,7 @@ en:
       edit_smart_answers_link: "Edit what you told us"
       edit_business_address_link: "Edit your business or organisation address"
       edit_contact_details_link: "Edit your contact details"
+      edit_director_details_link: "Edit your directors' details"
     dataProtection:
       title: "The Data Protection Act 1998"
       subtitle: "Find out about other ways in which we may use your information."

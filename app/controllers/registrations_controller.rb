@@ -355,7 +355,10 @@ class RegistrationsController < ApplicationController
     else
       # Search for users registrations
       # @registrations = Registration.find(:all, :params => {:ac => tmpUser.email}).sort_by { |r| r.date_registered}
-      @registrations = Registration.find(accountEmail: tmpUser.email)
+      @registrations = Registration.find_all
+      logger.debug "#{@registrations[0][:id].to_s}"
+      logger.debug "#{@registrations[0][:metaData].class.to_s}"
+      logger.debug "#{@registrations.size} registrations for #{ tmpUser.email}"
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -371,12 +374,8 @@ class RegistrationsController < ApplicationController
 
 
   def print
-    begin
-      @registration = Registration.find(params[:id])
-    rescue ActiveResource::ResourceNotFound
-      redirect_to registrations_path(:error => 'Could not find registration: ' + params[:id])
-      return
-    end
+    @registration = Registration.find_by_id(params[:id])
+    redirect_to registrations_path and return if @registration.empty?
 
     authorize! :read, @registration
     if params[:finish]
@@ -391,10 +390,10 @@ class RegistrationsController < ApplicationController
     elsif params[:back]
       if params[:from] == "NCCCEdit"
         logger.debug 'From page found, redirecting back to NCCC edit'
-        redirect_to ncccedit_path(:id => @registration.id)
+        redirect_to ncccedit_path(:id => @registration['id'])
       else
         logger.debug 'Default, redirecting back to Finish page'
-        redirect_to finish_url(:id => @registration.id)
+        redirect_to finish_url(:id => @registration['id'])
       end
     else
       if params[:reprint]
@@ -412,29 +411,26 @@ class RegistrationsController < ApplicationController
     @user = session[:confirmed_user]
     if !@user
       logger.warn "Could not retrieve the activated user. Showing 404."
-      renderNotFound
-      return
+      renderNotFound and  return
     end
-    @registrations = Registration.find(:all, :params => {:ac => @user.email})
+    # @registrations = Registration.find(:all, :params => {:ac => @user.email})
+    @registrations = Registration.find_all
 
-    if @registrations.any?
-      @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
+    unless @registrations.empty?
+      @sorted = @registrations.sort_by { |r| r['date_registered']}.reverse!
       @registration = @sorted.first
       @owe_money = owe_money? @registration
-      session[:registration_id] = @registration.id
+      session[:registration_mongoid] = @registration.id
     else
-      renderNotFound
-      return
+      renderNotFound and return
     end
     #render the confirmed page
   end
 
   def print_confirmed
-    begin
-      @registration = Registration.find(session[:registration_id])
-    rescue ActiveResource::ResourceNotFound
-      renderNotFound
-      return
+    @registration = Registration.find_by_id(session[:registration_mongoid])
+    if @registration.empty?
+      renderNotFound and return
     end
 
     if params[:finish]
@@ -456,7 +452,8 @@ class RegistrationsController < ApplicationController
 
 
   def finish
-    @registration = Registration.find(params[:id])
+    # @registration = Registration.find(params[:id])
+    @registration = Registration.find_by_id(params[:id])
     authorize! :read, @registration
   end
 
@@ -486,10 +483,10 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/1/edit
   def edit
-    session[:registration_params] ||= {}
-    @registration = Registration.find(params[:id])
+    # @registration = Registration.find(params[:id])
+    @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
-    if !@registration.metaData.status.nil? && @registration.metaData.status == "REVOKED"
+    if  @registration['metaData']['status'] == "REVOKED"
       logger.info "Edit not allowed, as registration has been revoked"
       redirect_to userRegistrations_path(current_user.id)
     end
@@ -497,14 +494,17 @@ class RegistrationsController < ApplicationController
   end
 
   def ncccedit
-    @registration = Registration.find(params[:id])
-    @registration.routeName = @registration.metaData.route
+    @registration = Registration.find_by_id(params[:id])
+    logger.debug  "registration found@ #{@registration['id']}"
+    @registration['routeName'] = @registration['metaData']['route']
+
     authorize! :update, @registration
   end
 
   def paymentstatus
-    @registration = Registration.find(:one, :from => "/registrations/"+params[:id]+".json")
-    @registration.routeName = @registration.metaData.route
+    @registration = Registration.find_by_id(params[:id])
+    # @registration.routeName = @registration.metaData.route
+    @registration['routeName'] = @registration['metaData']['route']
     authorize! :update, @registration
   end
 
@@ -615,7 +615,7 @@ class RegistrationsController < ApplicationController
         @registration.save
         # @registration.save!
         logger.debug "reg: #{@registration.attributes.to_s}"
-        commit_to_java_api
+        @registration.commit
         logger.info 'Perform an additional save, to set the Route Name in metadata'
 =begin
         logger.info 'routeName = ' + @registration.routeName
@@ -706,7 +706,7 @@ class RegistrationsController < ApplicationController
 
   #PUT...
   def ncccupdate
-    @registration = Registration.find(params[:id])
+    @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
 
 
@@ -725,13 +725,12 @@ class RegistrationsController < ApplicationController
         # Forceably set the revoked value in the registration to now check for a revoke reason
         if params[:revoke_question] == 'yes'
           logger.info 'Revoke set, so should now run additional rule'
-          @registration.revoked = 'true'
         end
 
         if @registration.valid?
-          @registration.metaData.status = "REVOKED"
-          @registration.revoked = ''
-          @registration.save
+          @registration['metaData']['status'] = "REVOKED"
+          # @registration.save
+          @registration.commit
 
           logger.info 'About to send revoke email'
           @user = User.find_by_email(@registration.accountEmail)
@@ -747,8 +746,10 @@ class RegistrationsController < ApplicationController
     elsif params[:unrevoke] && agency_user_signed_in?
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
-        @registration.metaData.status = "ACTIVE"
-        @registration.save
+        @registration['metaData']['status']  = "ACTIVE"
+        # @registration.save
+        @registration.commit
+
         redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_unrevoked'))
       else
         renderAccessDenied
@@ -969,17 +970,6 @@ class RegistrationsController < ApplicationController
     registration.upper? and !registration.paid_in_full?
   end
 
-  def commit_to_java_api
-    url = "#{Rails.configuration.waste_exemplar_services_url}/registration.json"
-    logger.debug url.to_s
-    response = RestClient.post url,
-                    @registration.attributes.to_json,
-                    content_type: json,
-                    accept: json
-
-    Rails.logger.debug "response code: #{ response.code.to_s}"
-    Rails.logger.debug "response body: #{ response.body.to_s}"
-  end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
