@@ -19,7 +19,7 @@
   <h2><%= t 'registrations.address_entry.businessAddress' %></h2>
     <ul class='summary-box'>
       <li class='summary-items'><%= render 'address_display' %></li>
-    </ul> 
+    </ul>
         <% if  registration_class == 'upper_tier' %>
       <p><%= link_to t('.edit_business_address_link'), newUpperBusinessDetails_path %></p>
         <% else %>
@@ -40,7 +40,15 @@
          <% end %>
   </div>
 
-
+  <% if @registration.businessType == 'limitedCompany' %>
+    <div class='form-group'>
+  <h2><%= t 'registrations.contactdetails_step.title' %></h2>
+    <ul class='summary-box'>
+      <li class='summary-items'><%= render 'contactdetails_display' %></li>
+    </ul>
+      <p><%= link_to t('.edit_director_details_link'), newUpperContactDetails_path %></p>
+  </div>
+  <% end %>
 </fieldset>
 
 

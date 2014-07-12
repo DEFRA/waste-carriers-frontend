@@ -108,13 +108,11 @@ logger.debug "director_to_remove is: #{director_to_remove.id}"
   # DELETE /directors/:id
   def destroy
     get_directors
-
-
   end
 
   # POST /your-registration/directors/done
   def done
-    redirect_to :upper_payment
+    redirect_to :upper_summary
   end
 
   def get_registration

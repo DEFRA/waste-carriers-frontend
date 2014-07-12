@@ -6,6 +6,9 @@ class Registration < Ohm::Model
 
   attr_writer :current_step
 
+  #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
+  attribute :uuid
+
   attribute :businessType
   attribute :otherBusinesses
   attribute :isMainService
@@ -41,7 +44,7 @@ class Registration < Ohm::Model
   attribute :copy_card_fee
   attribute :copy_cards
 
-  # Non UK fields
+  # Non UK address fields
   attribute :streetLine3
   attribute :streetLine4
   attribute :country
@@ -65,7 +68,9 @@ class Registration < Ohm::Model
   attribute :accessCode
 
   attribute :tier
+  attribute :location
 
+  set :metaData, :Metadata
   set :directors, :Director
 
   index :accountEmail
@@ -77,11 +82,137 @@ class Registration < Ohm::Model
 
   def add(a_hash)
     a_hash.each do |prop_name, prop_value|
-      # Rails.logger.debug "key: #{prop_name}"
-      # Rails.logger.debug "val: #{prop_value}"
       self.send("#{prop_name}=",prop_value)
     end
   end
+
+  def commit
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
+    begin
+      response = RestClient.post url,
+        @registration.attributes.to_json,
+        :content_type => :json,
+        :accept => :json
+
+
+            Rails.logger.debug "response code: #{ response.code.to_s}"
+    Rails.logger.debug "response body: #{ response.body.to_s}"
+    rescue => e
+      Rails.logger.error e.to_s
+    end
+
+
+  end
+
+
+  # Retrieves all registration objects from the Java Service
+  #
+  # @param none
+  # @return  [Array] an array of
+  class << self
+    def find_all
+      result = []
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
+      begin
+        response = RestClient.get url
+        if response.code == 200
+          result = JSON.parse(response.body) #result should be Array
+          Rails.logger.info "find_all returned: #{ result.size.to_s} registrations"
+        else
+          Rails.logger.error "Registration.find_all failed with a #{response.code} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      result
+    end
+  end
+
+
+  # Retrieves a specific registration object from the Java Service based on the value of an attribute
+  #
+  # @param search_hash [Hash] the search criterion, in the form: <attr:  'value'>
+  # @return
+  class << self
+    def find_by_attrib(search_hash)
+      found = []
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
+      begin
+        response = RestClient.get url
+        if response.code == 200
+          all_regs = JSON.parse(response.body) #all_regs should be Array
+          search_key =search_hash.keys[0].to_s
+          search_value =search_hash.values[0]
+          Rails.logger.debug "#{search_key}, #{search_value}"
+          found = all_regs.select {|r| r[search_key] == search_value}
+        else
+          Rails.logger.error "Registration.find_by_attrib(#{k}, #{v}) failed with a #{response.code} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      found
+    end
+  end
+
+
+  # Reteives a specific registration object from the Java Service based on its uuid
+  #
+  # @param registration_id [String] the Java Service response JSON object uuid
+  # @return
+  class << self
+    def find_by_id(registration_id)
+      result = {}
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_id}.json"
+      begin
+        response = RestClient.get url
+        if response.code == 200
+          result = JSON.parse(response.body) #result should be Hash
+        else
+          Rails.logger.error "Registration.find_by_id failed with a #{response.code.to_s} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      Rails.logger.debug "found reg: #{result.to_s}"
+      Registration.init(result)
+    end
+  end
+
+
+  # Creates a new Registration object from a JSON payload received from the Java Service
+  #
+  # @param response_hash [Hash] the Java Service response JSON object
+  # @return [Registration] the Java Service object converted into a Registration object.
+  class << self
+    def init (response_hash)
+      new_reg = Registration.new
+      new_reg.save
+
+      response_hash.each do |k, v|
+        case k
+        when 'id'
+          new_reg.uuid = v
+        when 'address', 'uprn'
+          #TODO: do nothing for now, but these API fields are redundant and should be removed
+        when 'Directors'
+        when 'metaData'
+          m = Metadata.new
+          m.save
+
+          v.each do |k1, v1|
+            m.send("#{k1}=",v1)
+          end
+          new_reg.metaData.add m
+          new_reg.save
+        else
+          new_reg.send("#{k}=",v)
+        end
+      end #each
+      new_reg
+    end #method
+  end
+
 
   BUSINESS_TYPES = %w[
     soleTrader
