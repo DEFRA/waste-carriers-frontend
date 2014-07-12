@@ -514,7 +514,12 @@ class Registration < Ohm::Model
   end
 
   def assisted_digital?
-    metaData.try(:route) == 'ASSISTED_DIGITAL'
+    #TODO Initialise and get from metadata
+    begin
+      metaData.try(:route) == 'ASSISTED_DIGITAL'
+    rescue
+      false
+    end
   end
 
   def boxClassSuffix
