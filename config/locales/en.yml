@@ -437,6 +437,7 @@ en:
       subtitle: "Checking your details before registering"
       step: "Step 7 of 8"
       smart_answers_heading: "You told us"
+      directors_summary_heading: "Director details"
       declaration_heading: "Declaration"
       declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as a Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
       data_protection_heading: "How we use your personal information"

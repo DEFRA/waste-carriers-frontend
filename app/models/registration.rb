@@ -132,7 +132,7 @@ class Registration < Ohm::Model
     if self.directors &&  self.directors.size > 0
       self.directors.each do  |dir|
         director = {}
-        dir.first.attributes.each do |k, v|
+        dir.attributes.each do |k, v|
           director[k] = v
         end
         directors << director

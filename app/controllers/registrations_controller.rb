@@ -635,7 +635,7 @@ class RegistrationsController < ApplicationController
           @registration.activate!
         end
         @registration.save
-         @registration.commit
+        # @registration.commit
         # session[:registration_id] = @registration.id
         logger.debug "The registration has been saved. About to send e-mail..."
         if user_signed_in?
@@ -913,9 +913,15 @@ class RegistrationsController < ApplicationController
     setup_registration 'upper_contact_details'
 
     if params[:findAddress]
-      render "newBusinessDetails"
-    elsif @registration.valid?
-      redirect_to :registration_directors
+      render "newBusinessDetails" and return
+    end
+
+    if @registration.valid?
+      if @registration.businessType.eql? 'limitedCompany'
+        redirect_to :registration_directors
+      else
+        redirect_to :upper_summary
+      end
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
