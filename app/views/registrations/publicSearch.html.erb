@@ -23,7 +23,7 @@
 <form method="get" action="/registrations/search">
 <div class="box" data-journey="waste-carriers-registration:search-register">
 	<fieldset>
-	<legend></legend>	
+	<legend></legend>
 		<div class="form-group">
 			<label for="q" class="form-label"><%= t '.search_label' %></label>
 			<input id="q" name="q" type="text" value="<%= params[:q]%>" />
@@ -32,14 +32,14 @@
 			<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
 			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
 
-		<!-- 
+		<!--
 		<div id="onelinewrapper">
 			<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
 			<div id="oneline">
 			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
 				<% defaultDistance='any'%>
 				<% if !params[:distance].nil?
-				defaultDistance=params[:distance] 
+				defaultDistance=params[:distance]
 				end %>
 				<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
 			<span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
@@ -47,7 +47,7 @@
 
 		-->
 
-			
+
 		    <div class='inline'>
 
         		 <label class="block-label" for="registration_searchRegister_ten_miles">
@@ -63,11 +63,11 @@
           		 30 Miles
         		 </label>
 
-        	</div> 
+        	</div>
 
         	<div class='form-group'>
         		 <span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
-		    	 <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" 
+		    	 <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>"
 		    	 type="text">
 		    </div>
 		</div>
@@ -104,7 +104,7 @@
 		<td class="search-body-field" style="width:30%"><%= registration.companyName %></td>
 		<td class="search-body-field" style="width:40%"><%= format_address(registration) %></td>
 		<td class="search-body-field" style="width:20%"><%= registration.regIdentifier %></td>
-		<% if params[:distance]!='any' %><td class="search-body-field" style="width:10%"><%= registration.metaData.distance %> <%= t '.miles' %></td><% end %>
+		<% if params[:distance]!='any' %><td class="search-body-field" style="width:10%"><%= registration.metaData.first.distance %> <%= t '.miles' %></td><% end %>
 	</tr>
 <% regCount = regCount + 1; %>
 <% end %>
