@@ -86,45 +86,87 @@ class Registration < Ohm::Model
     end
   end
 
+
+  # posts registration to Java/Dropwizard service
+  #
+  # @param none
+  # @return  [Boolean] true if Posyt is successful (200), false if npot
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
+     Rails.logger.debug "about to post: #{ to_json.to_s}"
+     commited = true
     begin
       response = RestClient.post url,
-        @registration.attributes.to_json,
+        to_json.to_s,
         :content_type => :json,
         :accept => :json
 
 
-            Rails.logger.debug "response code: #{ response.code.to_s}"
-    Rails.logger.debug "response body: #{ response.body.to_s}"
     rescue => e
       Rails.logger.error e.to_s
+      commited = false
+    end
+    commited
+  end
+
+  # return a JSON Java/DropWizard APi compatible representation of the registration object
+  #
+  # @param none
+  # @return  [Hash]  the registration object in JSON form
+  def to_json
+    json_form = {}
+    self.attributes.each do |k, v|
+      json_form[k] = v
     end
 
+    metadata = {}
+    if self.metaData.size == 1
+      self.metaData.first.attributes.each do |k, v|
+        metadata[k] = v
+      end
+    end
+    json_form['metaData'] = metadata
 
+    directors = []
+
+    if self.directors &&  self.directors.size > 0
+      self.directors.each do  |dir|
+        director = {}
+        dir.first.attributes.each do |k, v|
+          director[k] = v
+        end
+        directors << director
+      end
+      json_form['directors'] = directors
+    end #if
+
+    json_form.to_json
   end
 
 
   # Retrieves all registration objects from the Java Service
   #
   # @param none
-  # @return  [Array] an array of
+  # @return  [Array]  list of all registrations in MongoDB
   class << self
     def find_all
-      result = []
+      result = registrations = []
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
       begin
         response = RestClient.get url
         if response.code == 200
           result = JSON.parse(response.body) #result should be Array
           Rails.logger.info "find_all returned: #{ result.size.to_s} registrations"
+          result.each do |r|
+            registrations << Registration.init(r)
+          end
         else
           Rails.logger.error "Registration.find_all failed with a #{response.code} response from server"
         end
       rescue => e
         Rails.logger.error e.to_s
       end
-      result
+      registrations
     end
   end
 
@@ -132,10 +174,10 @@ class Registration < Ohm::Model
   # Retrieves a specific registration object from the Java Service based on the value of an attribute
   #
   # @param search_hash [Hash] the search criterion, in the form: <attr:  'value'>
-  # @return
+  # @return [Array] list of registrations in MongoDB matching the search criterion
   class << self
     def find_by_attrib(search_hash)
-      found = []
+      found = registrations = []
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
       begin
         response = RestClient.get url
@@ -145,25 +187,28 @@ class Registration < Ohm::Model
           search_value =search_hash.values[0]
           Rails.logger.debug "#{search_key}, #{search_value}"
           found = all_regs.select {|r| r[search_key] == search_value}
+          found.each do |r|
+            registrations << Registration.init(r)
+          end
         else
           Rails.logger.error "Registration.find_by_attrib(#{k}, #{v}) failed with a #{response.code} response from server"
         end
       rescue => e
         Rails.logger.error e.to_s
       end
-      found
+      registrations
     end
   end
 
 
-  # Reteives a specific registration object from the Java Service based on its uuid
+  # Retrieves a specific registration object from the Java Service based on its uuid
   #
   # @param registration_id [String] the Java Service response JSON object uuid
-  # @return
+  # @return [Registration] the registration in MongoDB matching the uuid
   class << self
-    def find_by_id(registration_id)
+    def find_by_id(mongo_id)
       result = {}
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_id}.json"
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{mongo_id}.json"
       begin
         response = RestClient.get url
         if response.code == 200
@@ -196,19 +241,29 @@ class Registration < Ohm::Model
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'Directors'
+          if v
+            v.each do |dir|
+              d = Director.new
+              dir.each do |k1, v1|
+                d.send("#{k1}=",v1)
+              end
+              d.save
+              new_reg.directors.add d
+            end
+          end #if
         when 'metaData'
           m = Metadata.new
-          m.save
-
           v.each do |k1, v1|
             m.send("#{k1}=",v1)
           end
+          m.save
+
           new_reg.metaData.add m
-          new_reg.save
-        else
+        else  #normal attribute'
           new_reg.send("#{k}=",v)
         end
       end #each
+      new_reg.save
       new_reg
     end #method
   end
@@ -282,7 +337,7 @@ class Registration < Ohm::Model
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
 
-  validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
+  validates :accountEmail, presence: true, if: [:signup_step?, :sign_up_mode_present?]
 
   with_options if: [:signup_step?,  :do_sign_up?] do |registration|
     registration.validates :accountEmail, confirmation: true
@@ -469,16 +524,17 @@ class Registration < Ohm::Model
   end
 
   def pending?
-    metaData && metaData.status == 'PENDING'
+    metaData.size == 1 && metaData.first.status == 'PENDING'
   end
 
   def pending!
-    metaData.status = 'PENDING'
+    metaData.first.status = 'PENDING'
   end
 
   def activate!
     #Note: the actual status update will be performed in the service
-    metaData.status = 'ACTIVATE'
+    Rails.logger.debug "id to activate: #{self.id}"
+    metaData.first.status = 'ACTIVATE'
   end
 
   def validate_revokedReason
@@ -516,14 +572,14 @@ class Registration < Ohm::Model
   def assisted_digital?
     #TODO Initialise and get from metadata
     begin
-      metaData.try(:route) == 'ASSISTED_DIGITAL'
+      metaData.first.try(:route) == 'ASSISTED_DIGITAL'
     rescue
       false
     end
   end
 
   def boxClassSuffix
-    case metaData.status
+    case metaData.first.status
     when 'REVOKED'
       'revoked'
     when 'PENDING'
@@ -534,7 +590,7 @@ class Registration < Ohm::Model
   end
 
   def date_registered
-    metaData.try :dateRegistered
+    metaData.first.try :dateRegistered
   end
 
   #TODO Replace with method from helper or have decorator

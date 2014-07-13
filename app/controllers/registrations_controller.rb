@@ -290,6 +290,8 @@ class RegistrationsController < ApplicationController
     if this_is_first_step
       @registration = Registration.create
       session[:registration_id]= @registration.id
+      m = Metadata.create
+      @registration.metaData.add m
     else
       @registration = Registration[ session[:registration_id]]
     end
@@ -355,10 +357,7 @@ class RegistrationsController < ApplicationController
     else
       # Search for users registrations
       # @registrations = Registration.find(:all, :params => {:ac => tmpUser.email}).sort_by { |r| r.date_registered}
-      @registrations = Registration.find_all
-      logger.debug "#{@registrations[0][:id].to_s}"
-      logger.debug "#{@registrations[0][:metaData].class.to_s}"
-      logger.debug "#{@registrations.size} registrations for #{ tmpUser.email}"
+      @registrations = Registration.find_by_attrib(accountEmail: tmpUser.email).sort_by { |r| r.date_registered}
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -414,7 +413,7 @@ class RegistrationsController < ApplicationController
       renderNotFound and  return
     end
     # @registrations = Registration.find(:all, :params => {:ac => @user.email})
-    @registrations = Registration.find_all
+    @registrations = Registration.find_by_attrib(accountEmail: @user.email)
 
     unless @registrations.empty?
       @sorted = @registrations.sort_by { |r| r['date_registered']}.reverse!
@@ -486,7 +485,7 @@ class RegistrationsController < ApplicationController
     # @registration = Registration.find(params[:id])
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
-    if  @registration['metaData']['status'] == "REVOKED"
+    if  @registration.metaData.first.status == "REVOKED"
       logger.info "Edit not allowed, as registration has been revoked"
       redirect_to userRegistrations_path(current_user.id)
     end
@@ -496,7 +495,7 @@ class RegistrationsController < ApplicationController
   def ncccedit
     @registration = Registration.find_by_id(params[:id])
     logger.debug  "registration found@ #{@registration['id']}"
-    @registration['routeName'] = @registration['metaData']['route']
+    @registration.routeName = @registration.metaData.first.route
 
     authorize! :update, @registration
   end
@@ -504,7 +503,7 @@ class RegistrationsController < ApplicationController
   def paymentstatus
     @registration = Registration.find_by_id(params[:id])
     # @registration.routeName = @registration.metaData.route
-    @registration['routeName'] = @registration['metaData']['route']
+    @registration.routeName = @registration.metaData.first.route
     authorize! :update, @registration
   end
 
@@ -549,10 +548,12 @@ class RegistrationsController < ApplicationController
     # Get signup mode
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
     logger.info 'registration mode: ' + @registration.sign_up_mode
+
+    @registration.save
   end
 
   def updateNewSignup
-    setup_registration 'signup', true
+    setup_registration 'signup'
 
     # Prepopulate Email field/Set registration account
     if user_signed_in?
@@ -564,6 +565,8 @@ class RegistrationsController < ApplicationController
     end
 
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
+
+    @registration.save
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
@@ -616,8 +619,9 @@ class RegistrationsController < ApplicationController
         # @registration.save!
         logger.debug "reg: #{@registration.attributes.to_s}"
         @registration.commit
-        logger.info 'Perform an additional save, to set the Route Name in metadata'
 =begin
+        logger.info 'Perform an additional save, to set the Route Name in metadata'
+
         logger.info 'routeName = ' + @registration.routeName
         # @registration.metaData.route = @registration.routeName
         if agency_user_signed_in?
@@ -630,7 +634,8 @@ class RegistrationsController < ApplicationController
         if agency_user_signed_in? || user_signed_in?
           @registration.activate!
         end
-        @registration.save!
+        @registration.save
+         @registration.commit
         # session[:registration_id] = @registration.id
         logger.debug "The registration has been saved. About to send e-mail..."
         if user_signed_in?
@@ -728,8 +733,8 @@ class RegistrationsController < ApplicationController
         end
 
         if @registration.valid?
-          @registration['metaData']['status'] = "REVOKED"
-          # @registration.save
+          @registration.metaData.first.status = "REVOKED"
+          @registration.save
           @registration.commit
 
           logger.info 'About to send revoke email'
@@ -746,8 +751,8 @@ class RegistrationsController < ApplicationController
     elsif params[:unrevoke] && agency_user_signed_in?
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
-        @registration['metaData']['status']  = "ACTIVE"
-        # @registration.save
+        @registration.metaData.first.status = "ACTIVE"
+        @registration.save
         @registration.commit
 
         redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_unrevoked'))
@@ -758,12 +763,12 @@ class RegistrationsController < ApplicationController
       logger.info 'About to Update Registration'
       if agency_user_signed_in?
         # Merge param information with registration from DB
-        @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
+        @registration.update_attributes(updatedParameters(@registration.metaData.first, params[:registration]))
       else
         @registration.update_attributes(params[:registration])
       end
       # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
-      @registration.routeName = @registration.metaData.route
+      @registration.routeName = @registration.metaData.first.route
       if @registration.valid?
         @registration.save
         if agency_user_signed_in?
@@ -800,7 +805,7 @@ class RegistrationsController < ApplicationController
   def destroy
     #TODO re-introduce when needed
     #renderAccessDenied
-    @registration = Registration.find(params[:id])
+    @registration = Registration.find_by_id(params[:id])
     deletedCompany = @registration.companyName
     authorize! :update, @registration
     @registration.destroy
@@ -812,7 +817,7 @@ class RegistrationsController < ApplicationController
   end
 
   def confirmDelete
-    @registration = Registration.find(params[:id])
+    @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
   end
 

@@ -11,7 +11,7 @@
 
 <h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 
-<p><i>Registered on: <%= format_date(@registration.metaData.dateRegistered) %></i></p>
+<p><i>Registered on: <%= format_date(@registration.metaData.first.dateRegistered) %></i></p>
 
 <p><%= t 'registrations.print.proof' %></p>
 
