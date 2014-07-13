@@ -116,8 +116,6 @@ logger.debug "director_to_remove is: #{director_to_remove.id}"
   end
 
   def get_registration
-    # session[:registration_params] ||= {}
-    # @registration = Registration.new(session[:registration_params])
 
     @registration = Registration[ session[:registration_id]]
     logger.debug  @registration.attributes.to_s
