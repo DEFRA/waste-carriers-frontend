@@ -19,8 +19,10 @@ class Payment < ActiveResource::Base
     OTHER
   ]
   
-  PAYMENT_TYPES_WORLDPAY = %w[
+  PAYMENT_TYPES_NONVISIBLE = %w[
     WORLDPAY
+    WRITEOFFSMALL
+    WRITEOFFLARGE
   ]
   
   VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/ 		# This does not allow for a decimal point and currently works in pence only
@@ -31,7 +33,7 @@ class Payment < ActiveResource::Base
   validate :validate_dateReceived
   validates :registrationReference, presence: true
   # This concatanates all the PAYMENT_TYPE lists. Ideally the user role should be checked to determine which list the user was given.
-  validates :paymentType, presence: true, inclusion: { in: %w[].concat(PAYMENT_TYPES).concat(PAYMENT_TYPES_FINANCE_BASIC).concat(PAYMENT_TYPES_WORLDPAY), message: I18n.t('errors.messages.invalid_selection') } 
+  validates :paymentType, presence: true, inclusion: { in: %w[].concat(PAYMENT_TYPES).concat(PAYMENT_TYPES_FINANCE_BASIC).concat(PAYMENT_TYPES_NONVISIBLE), message: I18n.t('errors.messages.invalid_selection') } 
   validates :comment, length: { maximum: 250 }
   
   def self.payment_type_options_for_select
@@ -40,6 +42,51 @@ class Payment < ActiveResource::Base
   
   def self.payment_type_financeBasic_options_for_select
     (PAYMENT_TYPES_FINANCE_BASIC.collect {|d| [I18n.t('payment_types.'+d), d]})
+  end
+  
+  # Represents the minimum balance needed for a finance basic user to make a write off
+  def self.basicMinimum
+    0
+  end
+  
+  # Represents the maximum balance needed for a finance basic user to make a write off
+  def self.basicMaximum
+    100
+  end
+  
+  # Represents the maximum balance needed for a finance admin user to make a write off
+  def self.adminMaximum
+    200
+  end
+  
+  # Returns true if balance is in range for a small write off, otherwise returns an 
+  # error message representing why it failed.
+  def self.isSmallWriteOff(balance)
+    Rails.logger.info 'balance: ' + balance.to_s
+    if balance <= Payment.basicMinimum
+      Rails.logger.info 'Balance is paid or overpaid'
+      I18n.t('payment.newWriteOff.writeOffNotApplicable')
+    elsif balance > Payment.basicMaximum
+      Rails.logger.info 'Balance is too great'
+      I18n.t('payment.newWriteOff.writeOffUnavailable')
+    else
+      true
+    end
+  end
+
+  # Returns true if balance is in range for a large write off, otherwise returns an 
+  # error message representing why it failed.
+  def self.isLargeWriteOff(balance)
+    Rails.logger.info 'balance: ' + balance.to_s
+    if balance <= Payment.basicMaximum
+      Rails.logger.info 'Balance is in range for a finance basic user'
+      I18n.t('payment.newWriteOff.writeOffNotApplicable')
+    elsif balance > Payment.adminMaximum
+      Rails.logger.info 'Balance is too great for even a finance admin'
+      I18n.t('payment.newWriteOff.writeOffNotAvailable')
+    else
+      true
+    end
   end
   
   private
@@ -59,7 +106,7 @@ class Payment < ActiveResource::Base
   end
 
   def validate_dateReceived
-    if (paymentType != 'WORLDPAY')
+    if (!PAYMENT_TYPES_NONVISIBLE.include? paymentType)
       errors.add(:dateReceived, I18n.t('errors.messages.invalid') ) unless convert_dateReceived
     end
   end

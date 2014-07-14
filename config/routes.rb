@@ -36,8 +36,10 @@ Registrations::Application.routes.draw do
 	  get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
 	  get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
 	  
-	  get "registrations/:id/payment" => 'payment#enterPayment', :via => [:get], :as => :enterPayment
-      match "registrations/:id/payment" => 'payment#savePayment', :via => [:post], :as => :savePayment
+	  get   "registrations/:id/payments" => 'payment#new', :via => [:get], :as => :enterPayment
+	  match "registrations/:id/payments" => 'payment#create', :via => [:post], :as => :savePayment
+	  get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
+      match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
 
 	  # Add routing for confirm delete registration
 	  get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
