@@ -536,6 +536,7 @@ en:
       bank_address: "Bank address: %{bank_address}"
       sort_code: "Sort code: %{sort_code}"
       account_number: "Account number: %{account_number}"
+      iban_instructions: "If you are paying from outside the United Kingdom, you must pay in sterling and include:"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
