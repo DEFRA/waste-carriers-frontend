@@ -10,7 +10,7 @@ end
 
 Given(/^I start a new registration on behalf of a caller$/) do
   visit registrations_path
-  click_button 'New registration'
+  click_on 'New registration'
 end
 
 Given(/^the caller provides initial answers for the lower tier$/) do

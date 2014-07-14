@@ -3,7 +3,7 @@
 <% content_for :page_title, createTitle('registrations.form.agency_search_label') %>
 <main id="content" role="main" class="group">
 	<article role="article" class="group">
-<aside>
+
 
 <% if params[:error] %>
 <div id="error_explanation" class="validation-summary">
@@ -13,21 +13,19 @@
 
 <% if !notice.nil? %>
 <div id="note_explanation" class="note-summary">
-  <h1><%= notice%></h1>
+  <h2><%= notice%></h2>
 </div>
 <% end %>
 
 
 <% if params[:note] %>
 <div id="note_explanation" class="note-summary">
-  <h1><%= params[:note]%></h1>
+  <h2><%= params[:note]%></h2>
 </div>
 <% end %>
 
-<fieldset>
-<legend></legend>
-<h1><%= t 'registrations.form.agency_search_label' %></h1>
-
+<fieldset id='find-registration'>
+	<legend><%= t 'registrations.form.agency_search_label' %></legend>
 <%= render "shared/meta_phases"%><!-- what is this rendering? -->
 
 <form method="get" action="/registrations">
@@ -35,6 +33,7 @@
 <div class="form-group"  data-journey="waste-carriers-registration:registrations">
     <label for="q", class: 'form-label' >Find a registration</label>
 	<input id="q" name="q" type="text" value="<%= params[:q]%>" />
+	</div>
 
 <div id="advanced-options" style="<% if params[:searchWithin]=='any'||!params[:searchWithin] %>display:none<% end %>">
 
@@ -48,25 +47,25 @@
 	</select>
 </div>
 </div>
-</fieldset>
 
+
+<%= link_to 'New registration', find_path %>
+
+<div class='inline'>
 <div class="form-group">
 	<input type="submit" id="reg-search" class="button" value="Search" />
-	<p><a href="#" id="toggle-search"><% if params[:searchWithin]=='any'||!params[:searchWithin] %>Refine<% else %>Full<% end %> search</a><p>
+	<a href="#" id="toggle-search"><% if params[:searchWithin]=='any'||!params[:searchWithin] %>Refine<% else %>Full<% end %> search</a>
 </div>
 </div>
-</form>
 
-<form method="get" action="<%= find_path %>">
-<input name="agency" type="submit" class="button" value="New registration" /></div>
-</form>
 
 <% if params[:q]%>
 <div id="reg-search-result" style="">
 <h2>Found <%=pluralize(@registrations.count,"registration")%></h2>
 <p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
+    <% @registrations.each do |registration| %>
+</div>
 
-<% @registrations.each do |registration| %>
 <div class="box <%= registration.boxClassSuffix %>">
 	<dl>
 		<dt>Name</dt>
@@ -77,8 +76,10 @@
 	</dl>
 	<div class="detailsBoxWrapper">
 		<div class="detailsBox <%= registration.boxClassSuffix %>">
-			<% if registration.metaData.first.status == "REVOKED" %><div class="detailHeading">Registration Status: Revoked</div><% end %>
-			<% if registration.metaData.first.status == "PENDING" %><div class="detailHeading">Registration Status: Pending</div><% end %>
+			<% if registration.metaData.first.status == "REVOKED" %>
+			<div class="detailHeading">Registration Status: Revoked</div><% end %>
+				<% if registration.metaData.first.status == "PENDING" %>
+			<div class="detailHeading">Registration Status: Pending</div><% end %>
 			<div class="detail">
 				<div class="data"
 					data-organisationType="<%= registration.businessType%>"
@@ -99,21 +100,19 @@
 				</div>
 			</div>
 			<form action="<%=ncccedit_url(registration.id)%>">
-				<div class="action group"><input type="submit" class="button" value="Edit registration"/></div>
+				<input type="submit" class="button" value="Edit registration"/>
 			</form>
 			<form action="<%=paymentstatus_url(registration.id)%>">
-				<p class="action group"><input type="submit" class="button" value="Payment Status"/></p>
+				<input type="submit" class="button" value="Payment Status"/>
 			</form>
 			<%# button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :data => "{ :confirm => 'are you sure?' }"%>
 		</div>
 	</div>
 </div>
 <% end %>
-</div>
+
 <% end %>
 
-</div>
-</aside>
 
 <div class='related-positioning'>
 	<div class='related-container'>
@@ -123,6 +122,9 @@
 </div>
 </div>
 </div>
+</div>
 
+</form>
+</fieldset>
 
 </article></main>

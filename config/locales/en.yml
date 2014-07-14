@@ -50,6 +50,10 @@ en:
     name: "Name"
     newLabel: "New agency user"
     editHeading: "Editing agency user"
+    Role_admin: "Administrator"
+    Role_financeBasic: "Financial Basic"
+    Role_financeAdmin: "Financial Admin"
+    Role_ncccRefund: "Agency Refund"
 
   registration_mailer:
     revoke_email:
@@ -544,10 +548,20 @@ en:
       trouble_paying_link: "Trouble paying?"
     newOfflinePayment:
       heading: "How to pay"
-      amount: "Please initiate a bank transfer for %{amount_with_currency_symbol} to:"
+      bank_transfer_instructions: "Please arrange your bank transfer using the following details:"
+      reference: "Payment reference number: %{reference}"
+      account_name: "Account name: %{account_name}"
+      bank_name: "Bank name: %{bank_name}"
+      bank_address: "Bank address: %{bank_address}"
       sort_code: "Sort code: %{sort_code}"
       account_number: "Account number: %{account_number}"
-      reference: "Reference: %{reference}"
+      iban_instructions: "If you are paying from outside the United Kingdom, you must pay in sterling and include:"
+      iban_number: "IBAN number: %{iban_number}"
+      swiftbic_number: "SWIFTBIC number: %{swiftbic_number}"
+      bank_transfer_contact_instructions: "Please contact us with the details of your bank transfer by either:"
+      email_preamble: "Email: "
+      fax_number: "Fax: %{fax_number}"
+      postal_address: "Post: %{postal_address}"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
@@ -570,10 +584,10 @@ en:
       detailsEmailed: "Your certificate and guidance have been emailed to %{email}."
       detailsChange: "If any of your details change you must update your registration within 28 days."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
-      payment_pending: "Your registration is pending payment. Please initiate it as soon as possible."
+      payment_pending: "Your registration is pending payment. Please initiate it as soon as possible"
     pending:
       heading: "Confirm your account"
-      payment_pending: "Your registration is pending payment. Please initiate it as soon as possible."
+      paymentPending: "Your registration is pending payment."
       pendingText: "An email has been sent to %{email}."
       pendingText2: "Follow the instructions in the email to confirm your account and complete your registration."
       pendingText3: "Once you have confirmed your account and completed your registration, please close this web page."
@@ -719,6 +733,13 @@ en:
       unrevoke_button_label: "Un-revoke"
       delete_button_label: "Delete"
       enterpayment_button_label: "Enter Payment"
+      writeoff_button_label: "Write off"
+      writeoffsmall_button_label: "Write off (small)"
+      writeofflarge_button_label: "Write off (large)"
+      refund_button_label: "Refund"
+      select_button_label: "Select (Online)"
+      manual_payment_button_label: "Select (Manual)"
+      back_to_status_button_label: "Back to payment status"
 
       root_site: "GOV.UK"
 
@@ -738,8 +759,23 @@ en:
       declaration_label: "I declare that as far as I know and believe, the information in this registration is true."
       declaration_legal_text: "...(TBD) some legal text to go here..."
   payment:
-    enterPayment:
+    new:
       heading: "Enter payment"
       step: "Enter a manual payment into the system"
       fields:
         commentGuidance: "Maximum 250 characters"
+    newWriteOff:
+      heading: "Write off difference"
+      step: "Write off the difference into the system"
+      writeOffNotApplicable: "Write off unavailable as balance has been paid"
+      writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"
+      writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
+      fields:
+        commentGuidance: "Maximum 250 characters"
+    newRefund:
+      heading: "Refunds"
+      step: "Select a payment to refund"
+    manualRefund:
+      heading: "Manual Refunds"
+    worldpayRefund:
+      heading: "Worldpay Refunds"

@@ -1,0 +1,104 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+	<article role="article" class="group">
+	<% content_for :page_title, createTitle('.heading') %>
+
+	<!-- Usefull for showing default messages -->
+	<% if alert %><%= alert %><% end %>
+
+	<aside>
+	<%#= form_for @payment, url: {action: "createRefund"}, :method => 'post' do |f| %>
+
+		<div class="step"><%= t '.step' %></div>
+
+		<%#= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
+
+		<!-- WF X.X.X -->
+		<div id="payment" data-journey="waste-carriers-registration:refunds">
+
+			<fieldset>
+				<legend><%= t '.heading' %></legend>
+				
+				<table class="" summary='This table details the orders available for a refund' style="width:60%"> <!-- Remove this style once styles working -->
+					<thead class="">
+						<tr>
+							<th class="">Date</th>
+							<th class="">Order Code</th>
+							<th class="">Type</th>
+							<th class="">Amount</th>
+							<th class=""></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% regCount = 1; %>
+						<% if @registration.respond_to?('financeDetails') and !@registration.financeDetails.payments.nil? %>
+							<% @registration.financeDetails.payments.each do |payment| %>
+								<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
+									<td class=""><%= payment.dateReceived %></td>
+									<td class="">
+									<% if !payment.orderKey.nil? %>
+									<%= payment.orderKey %>
+									<% else %>
+									n/a
+									<% end %>
+									</td>
+									<td class=""><%= t('payment_types.'+payment.paymentType) %></td>
+									<td class=""><%= number_with_precision(payment.amount, :precision => 2) %></td>
+									<td class="">
+									<% if !payment.orderKey.nil? %>
+									<%= link_to t('registrations.form.select_button_label'), {controller: 'payment', action: 'createWorldpay', id: @registration.id, orderCode: payment.orderKey }, class: 'link_to' %>
+									<% else %>
+									<%= link_to t('registrations.form.manual_payment_button_label'), :manualRefund, :class => 'link_to' %>
+									<% end %>
+									</td>
+								</tr>
+							<% regCount = regCount + 1; %>
+							<% end %>
+						<% else %>
+							<tr class="solid-box">
+								<td class="">No Payment History</td>
+								<td class=""> </td>
+								<td class=""> </td>
+								<td class=""> </td>
+								<td class=""> </td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+				
+				<br/>
+				<br/>
+				<br/>
+
+				<div class="inline">
+				    <noscript>
+				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+				    </noscript>
+				    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+				</div>
+				
+				<br/>
+				<br/>
+				<br/>
+				
+			</fieldset>
+			
+		</div>
+
+	<%# end %>
+	
+	</aside>
+
+	<div class='related-positioning'>
+		<div class='related-container'>
+			<div class='related'>
+				<div class='inner group related-subsection'>
+				<%= render "shared/current_user" %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</article>
+</main>

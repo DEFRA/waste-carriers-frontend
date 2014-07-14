@@ -4,14 +4,32 @@
 
     <h2><%= t '.heading' %></h2>
 
-    <p><%= t '.amount', amount_with_currency_symbol: '£154.00' %></p>
-
+    <p><%= t '.bank_transfer_instructions' %></p>
     <ul>
+      <li><%= t '.reference', reference: @registration.regIdentifier %></li>
+      <li><%= t '.account_name', account_name: Rails.configuration.environment_agency_bank_account_name %></li>
+      <li><%= t '.bank_name', bank_name: Rails.configuration.environment_agency_bank_name %></li>
+      <li><%= t '.bank_address', bank_address: Rails.configuration.environment_agency_bank_address %></li>
       <li><%= t '.sort_code', sort_code: Rails.configuration.bank_transfer_sort_code %></li>
       <li><%= t '.account_number', account_number: Rails.configuration.bank_transfer_account_number %></li>
-      <li><%= t '.reference', reference: @registration.regIdentifier %></li>
     </ul>
 
-    <%= link_to 'Next', pending_path %>
+    <p><%= t '.iban_instructions' %></p>
+    <ul>
+      <li><%= t '.iban_number', iban_number: Rails.configuration.iban_number %></li>
+      <li><%= t '.swiftbic_number', swiftbic_number: Rails.configuration.swiftbic_number %></li>
+    </ul>
+
+    <p><%= t '.bank_transfer_contact_instructions' %></p>
+    <ul>
+      <li><%= t '.email_preamble' %><%= mail_to Rails.configuration.income_email_address %></li>
+      <li><%= t '.fax_number', fax_number: Rails.configuration.income_fax_number %></li>
+      <li><%= t '.postal_address', postal_address: Rails.configuration.income_postal_address %></li>
+    </ul>
+
+    <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>
+      <%= render 'wizard_links' %>
+    <% end %>
+
   </article>
 </main>

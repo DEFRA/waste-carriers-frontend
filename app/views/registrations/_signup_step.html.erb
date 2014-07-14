@@ -1,17 +1,14 @@
 
-    <% content_for :page_title, createTitle('.complete') %>
 
-
-
+<%= render 'back_link' %>
 <%= render "errors" %>
 
 <!-- WF 4.3.4 -->
 <div id="page4"  data-journey="waste-carriers-registration:confirm">
     
-<h2><%= t '.complete' %></h2>
+
 
 <fieldset>
-<legend></legend>
 <% if user_signed_in? || agency_user_signed_in? %>
 <!--<legend>User Account</legend>-->
 	
@@ -31,10 +28,10 @@
 </p>-->
 
 <% if @registration.sign_up_mode == "sign_in" %>
-<p id="accountExists" class="group"><%= t '.accountExists' %></p>
+<h2 id="accountExists" class="form-group"><%= t '.accountExists' %></h2>
 <% end %>
 <% if @registration.sign_up_mode == "sign_up" %>
-<div class='subtitle'><p id="emailSignUpText"><%= t '.emailUsernameText' %></p></div>
+<h2 id="emailSignUpText"><%= t '.emailUsernameText' %></h2>
 <% end %>
 
 <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
@@ -55,12 +52,13 @@
 <% end %>
 <div class="form-group <%if @registration.errors[:password].any?%> validation<%end%>">
     <%= validation_for(@registration, :password) %>
-    <% if @registration.sign_up_mode == "sign_up" %><%= f.label :password, t('.createPassword') %><% else %>
+    <% if @registration.sign_up_mode == "sign_up" %>
+    <%= f.label :password, t('.createPassword'), class: 'form-label' %><% else %>
     <%= f.label :password, class: 'form-label' %><% end %>
     <%= f.password_field :password, class: 'form-label' %>
     <p class='subtitle'>Password must be at least 8 characters long using upper and lower case letters.</p>
-    <!-- <span class="strength_icon none">&#9650;</span> -->
-    <span class="strength_message"></span>
+    <!--     <span class="strength_icon none">&#9650;</span>
+    <span class="strength_message"></span> -->
 </div>
 <% if @registration.sign_up_mode == "sign_up" %>
 <div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
@@ -76,7 +74,4 @@
 
 </div>
 
-<div class="form-group">
-    <%= render 'back_link' %>
     <input name="register" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
-</div>
