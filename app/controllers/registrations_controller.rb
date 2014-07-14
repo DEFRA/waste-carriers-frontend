@@ -987,8 +987,12 @@ class RegistrationsController < ApplicationController
   def updateNewPayment
     setup_registration 'payment'
 
-    #createAndSaveOrder
-
+    #if !createAndSaveOrder
+    #  flash[:notice] = 'The order is invalid!'
+    #  redirect_to upper_payment_path
+    #  return
+    #end
+ 
     if @registration.valid?
       redirect_to_worldpay
     else
@@ -1011,11 +1015,10 @@ class RegistrationsController < ApplicationController
 
     if @order.valid?
       @order.save!
+      true
     else
       logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
-      flash[:notice] = 'The order is invalid!'
-      redirect_to upper_payment_path
-      return
+      false
     end
 
   end
