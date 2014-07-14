@@ -274,6 +274,7 @@ class Registration < ActiveResource::Base
   def paid_in_full?
     # TODO apparently Georg expects to set a balance variable
     # DELME to keep suite passing we give it a positive value for the moment
+    #balance = financeDetails.balance
     balance = 15400
     balance <= 0
   end
