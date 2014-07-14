@@ -8,21 +8,11 @@
     <% if alert %><%= alert %><% end %>
     
     <aside>
-    <%= form_for @payment, url: {action: "savePayment"}, :method => 'post' do |f| %>
+    <%= form_for @payment, url: {action: "create"}, :method => 'post' do |f| %>
 
       	<div class="step"><%= t '.step' %></div>
       	
-      	<%# render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
-	  	<% if @payment.errors.any? %>
-		    <% full_messages = one_full_message_per_invalid_attribute(@payment) %>
-		    <div id="error_explanation" class="validation-summary">
-		      <h2><%= t 'registrations.errors.errorMessage', :count => pluralize(full_messages.count, t('registrations.errors.error')) %></h2>
-		        <% full_messages.each do |msg| %>
-		            <a class="error-text" href="#payment<%= msg %>"><%= msg %></a>
-		        <% end %>
-		    </div>
-		<% end %>
-		<!-- end of manual errors -->
+      	<%= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
 		<!-- WF X.X.X -->
 		<div id="payment" data-journey="waste-carriers-registration:payment">

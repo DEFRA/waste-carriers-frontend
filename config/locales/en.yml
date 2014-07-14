@@ -708,6 +708,7 @@ en:
       unrevoke_button_label: "Un-revoke"
       delete_button_label: "Delete"
       enterpayment_button_label: "Enter Payment"
+      writeoff_button_label: "Write off"
 
       root_site: "GOV.UK"
 
@@ -729,8 +730,16 @@ en:
       declaration_legal_text: "...(TBD) some legal text to go here..."
 
   payment:
-    enterPayment:
+    new:
       heading: "Enter payment"
       step: "Enter a manual payment into the system"
+      fields:
+        commentGuidance: "Maximum 250 characters"
+    newWriteOff:
+      heading: "Write off difference"
+      step: "Write off the difference into the system"
+      writeOffNotApplicable: "Write off unavailable as balance has been paid"
+      writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"
+      writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
       fields:
         commentGuidance: "Maximum 250 characters"
