@@ -22,7 +22,7 @@
 
     <p><%= t '.bank_transfer_contact_instructions' %></p>
     <ul>
-      <li><%= t '.email_address', email_address: Rails.configuration.income_email_address %></li>
+      <li><%= t '.email_preamble' %><%= mail_to Rails.configuration.income_email_address %></li>
       <li><%= t '.fax_number', fax_number: 'xxx' %></li>
       <li><%= t '.postal_address', postal_address: 'xxx' %></li>
     </ul>

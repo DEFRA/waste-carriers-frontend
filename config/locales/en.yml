@@ -540,7 +540,7 @@ en:
       iban_number: "IBAN number: %{iban_number}"
       swiftbic_number: "SWIFTBIC number: %{swiftbic_number}"
       bank_transfer_contact_instructions: "Please contact us with the details of your bank transfer by either:"
-      email_address: "Email: %{email_address}"
+      email_preamble: "Email: "
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
