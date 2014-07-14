@@ -157,7 +157,7 @@ class PaymentController < ApplicationController
   
   # GET /worldpayRefund/:orderCode
   def createWorldpay
-    logger.info 'TEST: createWorldpay, id:' + params[:id] + ' orderCode:' + params[:orderCode]
+    logger.info 'Request to createWorldpay, id:' + params[:id] + ' orderCode:' + params[:orderCode]
     
     #
     # TODO: Use order code value to create a negative payment of the amount requested in the order
@@ -169,7 +169,7 @@ class PaymentController < ApplicationController
   
   # GET /worldpayRefund/:orderCode/refundComplete
   def worldpayRefund
-    logger.info 'TEST: worldpayRefund'
+    logger.info 'Request to worldpayRefund'
     @registration = Registration.find(params[:id])
     @orderCode = params[:orderCode]
     
