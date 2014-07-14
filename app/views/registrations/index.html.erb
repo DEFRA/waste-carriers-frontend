@@ -46,6 +46,8 @@
 	</div>
 </div>
 
+<%= link_to 'New registration', find_path(agency: 'true') %>
+
 <div class='inline'>
 <div class="form-group">
 	<input type="submit" id="reg-search" class="button" value="Search" />
@@ -53,15 +55,11 @@
 </div>
 </div>
 
-
-<div class='form-group'>
-	<input name="agency" type="submit" class="button" value="New registration" />
-	<% if params[:q]%>
-	<div id="reg-search-result" style="">
-		<h2>Found <%=pluralize(@registrations.count,"registration")%></h2>
-		<p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
-		<% @registrations.each do |registration| %>
-	</div>
+<% if params[:q]%>
+<div id="reg-search-result" style="">
+    <h2>Found <%=pluralize(@registrations.count,"registration")%></h2>
+    <p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
+    <% @registrations.each do |registration| %>
 </div>
 
 <div class="box <%= registration.boxClassSuffix %>">
