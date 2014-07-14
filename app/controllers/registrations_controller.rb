@@ -298,9 +298,12 @@ class RegistrationsController < ApplicationController
 
     logger.debug "reg: #{@registration.to_json}"
 
+    if  session[:registration_progress].eql? 'IN_EDIT'
+    end
+
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
-    @registration.current_step = current_step
+    @registration.current_step = current_step unless   session[:registration_progress].eql? 'IN_EDIT'
     # Pass in current page to check previous page is valid
     # TODO had to comment this out for now because causing problems but will probably need to reinstate
     # check_steps_are_valid_up_until_current current_step
@@ -452,7 +455,8 @@ class RegistrationsController < ApplicationController
 
   def finish
     # @registration = Registration.find(params[:id])
-    @registration = Registration.find_by_id(params[:id])
+    @registration = Registration.find_by_id(params[:uuid]) if params[:uuid]
+    @registration = Registration[params[:id]] if params[:id]
     authorize! :read, @registration
   end
 
@@ -483,13 +487,19 @@ class RegistrationsController < ApplicationController
   # GET /registrations/1/edit
   def edit
     # @registration = Registration.find(params[:id])
+    Rails.logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
     if  @registration.metaData.first.status == "REVOKED"
       logger.info "Edit not allowed, as registration has been revoked"
       redirect_to userRegistrations_path(current_user.id)
+    else #proceed to edit ther registration
+      session[:registration_progress] = 'IN_EDIT'
+      session[:registration_id] = @registration.id
+      redirect_to :upper_summary
+      # redirect_to :action => "newUpperSummary", :id => 5
     end
-    @registration.current_step = session[:registration_step]
+    # @registration.current_step = session[:registration_step]
   end
 
   def ncccedit
@@ -614,7 +624,7 @@ class RegistrationsController < ApplicationController
       logger.debug "Now asking whether registration is all valid"
       if @registration.valid?
         logger.debug "The registration is all valid. About to save the registration..."
-        @registration.expires_on = Date.current + 3.years
+        @registration.expires_on = (Date.current + 3.years).to_s
         @registration.save
         # @registration.save!
         logger.debug "reg: #{@registration.attributes.to_s}"
@@ -658,7 +668,8 @@ class RegistrationsController < ApplicationController
         if agency_user_signed_in? || user_signed_in?
           next_step = case @registration.tier
           when 'LOWER'
-            finish_url(:id => @registration.id)
+            @registration.uuid ?  finish_url(:uuid => @registration.uuid) :  finish_url(:id => @registration.id)
+
           when 'UPPER'
             :upper_payment
           end
