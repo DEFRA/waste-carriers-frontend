@@ -16,7 +16,7 @@
 
     <p><%= t '.iban_instructions' %></p>
     <ul>
-      <li><%= t '.iban_number', iban_number: 'xxx' %></li>
+      <li><%= t '.iban_number', iban_number: Rails.configuration.iban_number %></li>
       <li><%= t '.swiftbic_number', swiftbic_number: 'xxx' %></li>
     </ul>
 
