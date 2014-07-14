@@ -151,7 +151,16 @@ module Registrations
     config.worldpay_moto_password = ENV['WCRS_WORLDPAY_MOTO_PASSWORD'] || 'PASSWORD'
     config.worldpay_moto_macsecret = ENV['WCRS_WORLDPAY_MOTO_MACSECRET'] || 'MACSECRET'
 
-    config.bank_transfer_account_number = '99999999'
-    config.bank_transfer_sort_code = '99-99-99'
+    # Offline payment
+    config.environment_agency_bank_account_name = 'Environment Agency'
+    config.environment_agency_bank_name = 'Citibank'
+    config.environment_agency_bank_address = 'Citigroup Centre, Canada Square, London, E14 5LB'
+    config.bank_transfer_sort_code = '08-33-00'
+    config.bank_transfer_account_number = '12800543'
+    config.iban_number = 'GB23 CITI0833 0012 8005 43'
+    config.swiftbic_number = 'CITI GB2LXXX'
+    config.income_email_address = 'fsc-income@environment-agency.gov.uk'
+    config.income_fax_number = '01733 464892'
+    config.income_postal_address = 'Environment Agency, Income Dept 311, PO Box 263, Peterborough, PE2 8YD'
   end
 end
