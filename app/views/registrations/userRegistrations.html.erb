@@ -28,15 +28,15 @@
 <div class="box full<% if registration.metaData.first.status == "REVOKED" %> revoked_status<% end %>">
 	<dl>
 		<dt>Name</dt>
-		<dd><%= registration['companyName'] %></dd>
+		<dd><%= registration.companyName %></dd>
 
 		<dt><%= t 'activemodel.attributes.registration.postcode' %></dt>
-		<dd><%= registration['postcode'] %></dd>
+		<dd><%= registration.postcode %></dd>
 
 		<dt><%= t 'activemodel.models.registration' %></dt>
-		<dd><%= registration['regIdentifier'] %></dd>
+		<dd><%= registration.regIdentifier %></dd>
 	</dl>
-	<% if registration['metaData']['status'] == "REVOKED" %>
+	<% if registration.metaData.first.status == "REVOKED" %>
 	<div class="status registered_status">
 		<%= t '.revoked' %>
 	</div>
@@ -47,13 +47,9 @@
 	<% end %>
 	<% if registration.metaData.first.status  != "REVOKED" %>
 	<div class="actions">
-		<%= link_to 'View Certificate', print_path(registration['id']) %>
-	</div>
-	<div class="actions" >
-		<%= button_to t('registrations.form.delete_button_label'), confirmDelete_path(registration['id']), :method => :get, :class => "button", :id => "delete" %>
-	</div>
-	<div class="actions">
-		<form action="<%=ncccedit_url(registration['id'])%>"><input type="submit" class="button" value="<%= t 'registrations.form.change_button_label' %>" /></form>
+		<%= link_to 'View Certificate', print_path(registration.uuid) %>
+		<%= button_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :class => "button", :id => "delete" %>
+		<form action="<%=edit_url(registration.uuid)%>"><input type="submit" class="button" value="<%= t 'registrations.form.change_button_label' %>" /></form>
 	</div>
 	<% end %>
 	<div class="clr"></div>

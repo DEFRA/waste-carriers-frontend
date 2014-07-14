@@ -80,6 +80,10 @@ class Registration < Ohm::Model
     false
   end
 
+  def empty?
+    attributes.empty?
+  end
+
   def add(a_hash)
     a_hash.each do |prop_name, prop_value|
       self.send("#{prop_name}=",prop_value)
@@ -93,8 +97,8 @@ class Registration < Ohm::Model
   # @return  [Boolean] true if Posyt is successful (200), false if npot
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
-     Rails.logger.debug "about to post: #{ to_json.to_s}"
-     commited = true
+    Rails.logger.debug "about to post: #{ to_json.to_s}"
+    commited = true
     begin
       response = RestClient.post url,
         to_json.to_s,
@@ -102,6 +106,14 @@ class Registration < Ohm::Model
         :accept => :json
 
 
+      result = JSON.parse(response.body)
+      Rails.logger.debug  result.class.to_s
+      # our registration's uuid is the java service object's id
+      uuid = result['id']
+      # our registration's code is also provided by the java service
+      regIdentifier = result['regIdentifier']
+      save
+      Rails.logger.debug "Commited to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
       commited = false
@@ -605,7 +617,9 @@ class Registration < Ohm::Model
 
   def self.activate_registrations(user)
     Rails.logger.info("Activating pending registrations for user with email " + user.email)
-    Registration.find(:all, :params => {:ac => user.email}).each { |r|
+    rs = Registration.find_by_attrib(accountEmail: user.email)
+    # Registration.find(:all, :params => {:ac => user.email}).each { |r|
+    rs.each do |r|
       if r.pending?
         Rails.logger.info("Activating registration " + r.regIdentifier)
         r.activate!
@@ -614,7 +628,7 @@ class Registration < Ohm::Model
       else
         Rails.logger.info("Skipping non-pending registration " + r.regIdentifier)
       end
-    }
+    end #each
     Rails.logger.info("Activated registration(s) for user with email " +  user.email)
   end
 

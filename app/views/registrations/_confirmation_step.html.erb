@@ -40,7 +40,7 @@
          <% end %>
   </div>
 
-  <% if @registration.businessType == 'limitedCompany' %>
+  <% if @registration.businessType.eql?('limitedCompany') &&   @registration.tier.eql?('UPPER') %>
     <div class='form-group'>
   <h2><%= t '.directors_summary_heading' %></h2>
     <ul class='summary-box'>
