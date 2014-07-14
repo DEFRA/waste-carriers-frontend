@@ -529,6 +529,7 @@ en:
       trouble_paying_link: "Trouble paying?"
     newOfflinePayment:
       heading: "How to pay"
+      bank_transfer_instructions: "Please arrange your bank transfer using the following details:"
       sort_code: "Sort code: %{sort_code}"
       account_number: "Account number: %{account_number}"
       reference: "Payment reference number: %{reference}"
