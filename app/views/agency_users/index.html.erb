@@ -1,8 +1,10 @@
 <%= render 'shared/content_for_pages' %>
-<%= render "shared/current_user" %>
+<%#= render "shared/current_user" %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
 <h1>Listing agency users</h1>
+
+<aside style="width:60%"> <!-- TMP: Replace with a better way to represent the layout of the signed in box -->
 
 <% if !notice.nil? %>
 <div id="note_explanation" class="note-summary">
@@ -38,5 +40,17 @@
 <form method="get" action="<%=new_agency_user_path%>">
 <div><input type="submit" class="button" value="<%=t 'agencyUsers.newLabel'%>" /></div>
 </form>
+
+</aside>
+
+<div class='related-positioning'>
+	<div class='related-container'>
+		<div class='related'>
+			<div class='inner group related-subsection'>
+			<%= render "shared/current_user" %>
+			</div>
+		</div>
+	</div>
+</div>
 
 </article></main>

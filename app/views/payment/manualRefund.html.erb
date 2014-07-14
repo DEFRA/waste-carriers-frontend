@@ -1,0 +1,26 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+    <article role="article" class="group">
+    <% content_for :page_title, createTitle('.heading') %>
+    
+    <!-- Usefult for showing default messages -->
+    <% if alert %><%= alert %><% end %>
+    
+	<h1>You have selected manual refund</h1>
+	
+	<p>This page is a W.I.P.</p>
+	
+	<p>The system has been updated to reflect that a refund has been made.</p>
+	
+	<p>Please follow external guidance as to how to complete a refund form.</p>
+	
+	<div class="inline">
+	    <noscript>
+	        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+	    </noscript>
+	    <%= link_to t('registrations.form.back_to_status_button_label'), :paymentstatus, :class => 'link_to' %>
+	</div>
+	
+	</article>
+</main>
