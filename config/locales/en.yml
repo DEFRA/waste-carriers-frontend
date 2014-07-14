@@ -709,6 +709,9 @@ en:
       delete_button_label: "Delete"
       enterpayment_button_label: "Enter Payment"
       writeoff_button_label: "Write off"
+      writeoffsmall_button_label: "Write off (small)"
+      writeofflarge_button_label: "Write off (large)"
+      refund_button_label: "Refund"
 
       root_site: "GOV.UK"
 
