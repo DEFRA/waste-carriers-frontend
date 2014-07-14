@@ -743,8 +743,8 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration.find(session[:registration_id])
-    @user = @registration.user
-    @user.send_confirmation_instructions unless @user.confirmed?
+    user = @registration.user
+    user.send_confirmation_instructions unless user.confirmed?
     @owe_money = owe_money? @registration
   end
 
