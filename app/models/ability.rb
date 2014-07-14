@@ -42,13 +42,15 @@ class Ability
     end
 
     can :update, Registration do |registration|
-      isEitherFinance = user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
       if user
         # 
         # Note: This is a negative check for neither financeBasic or financeAdmin, thus any other role can perform updates
         # 
-        if !(isEitherFinance)
-          user.is_agency_user? || user.email == registration.accountEmail
+        if user.email == registration.accountEmail 
+          true
+        elsif user.is_agency_user?
+          isEitherFinance = user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
+          !isEitherFinance
         else
           false
         end
