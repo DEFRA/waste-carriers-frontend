@@ -17,7 +17,8 @@ And(/^I am a carrier dealer$/) do
 end
 
 And(/^I go past the payment page$/) do
-  click_on 'Pay by debit/credit card'
+  click_on 'Pay via electronic transfer'
+  click_on 'Next'
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
