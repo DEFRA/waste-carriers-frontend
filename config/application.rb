@@ -160,5 +160,6 @@ module Registrations
     config.swiftbic_number = "CITI GB2LXXX"
     config.income_email_address = "fsc-income@environment-agency.gov.uk"
     config.income_fax_number = "01733 464892"
+    config.income_postal_address = "Environment Agency, Income Dept 311, PO Box 263, Peterborough, PE2 8YD"
   end
 end
