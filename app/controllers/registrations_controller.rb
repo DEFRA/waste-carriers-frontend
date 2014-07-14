@@ -37,12 +37,7 @@ class RegistrationsController < ApplicationController
   def newBusinessType
     new_step_action 'businesstype'
 
-    # Set route name based on agency paramenter
-    @registration.routeName = 'DIGITAL'
-    if !params[:agency].nil?
-      @registration.routeName = 'ASSISTED_DIGITAL'
-      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
-    end
+    @registration.routeName = agency_user_signed_in? ? 'ASSISTED_DIGITAL' : 'DIGITAL'
   end
 
   # POST /your-registration/business-type
@@ -648,7 +643,7 @@ class RegistrationsController < ApplicationController
         @user.password = @registration.password
         logger.debug "About to save the new user."
         # Don't send the confirmation email when the user gets saved.
-        @user.skip_confirmation_notification!
+        @user.skip_confirmation_notification! if @user.confirmed?
         @user.save!
         logger.debug "User has been saved."
         ## the newly created user has to active his account before being able to sign in
@@ -744,10 +739,6 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration.find(session[:registration_id])
-    @user = User.find_by_email(@registration.accountEmail)
-    unless @user.confirmed?
-      @user.send_confirmation_instructions
-    end
     @owe_money = owe_money? @registration
   end
 
@@ -997,8 +988,12 @@ class RegistrationsController < ApplicationController
   def updateNewPayment
     setup_registration 'payment'
 
-    #createAndSaveOrder
-
+    #if !createAndSaveOrder
+    #  flash[:notice] = 'The order is invalid!'
+    #  redirect_to upper_payment_path
+    #  return
+    #end
+ 
     if @registration.valid?
       redirect_to_worldpay
     else
@@ -1021,11 +1016,10 @@ class RegistrationsController < ApplicationController
 
     if @order.valid?
       @order.save!
+      true
     else
       logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
-      flash[:notice] = 'The order is invalid!'
-      redirect_to upper_payment_path
-      return
+      false
     end
 
   end
