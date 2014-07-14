@@ -167,10 +167,10 @@
 		    %>
 		    <% if !isFinanceAdmin %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button' %></span>
-		    <span class="next_link"><%= link_to t('registrations.form.writeoffsmall_button_label'), :enterPayment, :class => 'button' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.writeoffsmall_button_label'), :enterWriteOff, :class => 'button' %></span>
 		    <% end %>
 		    <% if isFinanceAdmin %>
-		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterPayment, :class => 'button' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button' %></span>
 		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button' %></span>
 		    <% end %>
 		    <% if isRefundOrBasic %>
@@ -179,6 +179,7 @@
 		</div>
 
     </aside>
+    <br/> <!-- gives better spacing in safair -->
 
 	<div class='related-positioning'>
 		<div class='related-container'>
