@@ -23,38 +23,37 @@
 
 <p class="group"><%= t '.summaryText' %></p>
 
+
+
 <p class="group"><b><%= t '.registrationCountText', :count => pluralize(@registrations.count,"registration") %></b></p>
-<% @registrations.each do |registration| %>
-<div class="box full<% if registration.metaData.first.status == "REVOKED" %> revoked_status<% end %>">
-	<dl>
-		<dt>Name</dt>
-		<dd><%= registration.companyName %></dd>
 
-		<dt><%= t 'activemodel.attributes.registration.postcode' %></dt>
-		<dd><%= registration.postcode %></dd>
-
-		<dt><%= t 'activemodel.models.registration' %></dt>
-		<dd><%= registration.regIdentifier %></dd>
-	</dl>
-	<% if registration.metaData.first.status == "REVOKED" %>
-	<div class="status registered_status">
-		<%= t '.revoked' %>
-	</div>
-	<% else %>
-	<div class="status registered_status">
-		<%= t '.registered' %>
-	</div>
-	<% end %>
-	<% if registration.metaData.first.status  != "REVOKED" %>
-	<div class="actions">
-		<%= link_to 'View Certificate', print_path(registration.uuid) %>
-		<%= button_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :class => "button", :id => "delete" %>
+<table>
+  <tr>
+    <th>Name</th>
+    <th><%= t 'activemodel.attributes.registration.postcode' %></th>
+    <th>Identifier</th>
+    <th>Status</th>
+    <th>Expiry Date</th>
+    <th>Action</th>
+  </tr>
+<% @registrations.each do |registration| %>en
+  <tr>
+    <td><%= registration.companyName %></td>
+    <td><%= registration.postcode %></td>
+    <td><%= registration.regIdentifier %></td>
+    <td><%= registration.metaData.first.status %></td>
+    <td><%= registration.expires_on %></td>
+    <td>	<div class="actions">
+		<div class="left"> <%= link_to 'View Certificate', print_path(registration.uuid) %> </div>
+		<div class="right"><%= button_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :class => "button", :id => "delete" %></div>
 		<form action="<%=edit_url(registration.uuid)%>"><input type="submit" class="button" value="<%= t 'registrations.form.change_button_label' %>" /></form>
 	</div>
-	<% end %>
-	<div class="clr"></div>
-</div>
+	</td>
+  </tr>
 <% end %>
+</table>
+
+
 
 <form method="get" action="<%= find_path %>" class="action group">
 	<input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />
