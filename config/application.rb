@@ -154,7 +154,7 @@ module Registrations
     config.environment_agency_bank_account_name = 'Environment Agency'
     config.environment_agency_bank_name = "Citibank"
     config.environment_agency_bank_address = "Citigroup Centre, Canada Square, London, E14 5LB"
-    config.bank_transfer_sort_code = '99-99-99'
+    config.bank_transfer_sort_code = '08-33-00'
     config.bank_transfer_account_number = '99999999'
   end
 end
