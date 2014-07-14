@@ -6,10 +6,27 @@
 
     <p><%= t '.amount', amount_with_currency_symbol: '£154.00' %></p>
 
+    <p><%= t '.bank_transfer_instructions' %></p>
     <ul>
+      <li><%= t '.reference', reference: @registration.regIdentifier %></li>
+      <li><%= t '.account_name', account_name: 'xxx' %></li>
+      <li><%= t '.bank_name', bank_name: 'xxx' %></li>>
+      <li><%= t '.bank_address', bank_address: 'xxx' %></li>
       <li><%= t '.sort_code', sort_code: Rails.configuration.bank_transfer_sort_code %></li>
       <li><%= t '.account_number', account_number: Rails.configuration.bank_transfer_account_number %></li>
-      <li><%= t '.reference', reference: @registration.regIdentifier %></li>
+    </ul>
+
+    <p><%= t '.iban_instructions', iban_number: 'xxx' %></p>
+    <ul>
+      <li><%= t '.iban_number', iban_number: 'xxx' %></li>
+      <li><%= t '.swiftbic_number', swiftbic_number: 'xxx' %></li>
+    </ul>
+
+    <p><%= t '.bank_transfer_contact_instructions' %></p>
+    <ul>
+      <li><%= t '.email_address', email_address: 'xxx' %></li>
+      <li><%= t '.fax_number', fax_number: 'xxx' %></li>
+      <li><%= t '.postal_address', postal_address: 'xxx' %></li>
     </ul>
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>
