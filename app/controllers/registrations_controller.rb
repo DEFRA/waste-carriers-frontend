@@ -647,6 +647,8 @@ class RegistrationsController < ApplicationController
         @user.email = @registration.accountEmail
         @user.password = @registration.password
         logger.debug "About to save the new user."
+        # Don't send the confirmation email when the user gets saved.
+        @user.skip_confirmation_notification!
         @user.save!
         logger.debug "User has been saved."
         ## the newly created user has to active his account before being able to sign in
@@ -742,6 +744,10 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration.find(session[:registration_id])
+    @user = User.find_by_email(@registration.accountEmail)
+    unless @user.confirmed?
+      @user.send_confirmation_instructions
+    end
     @owe_money = owe_money? @registration
   end
 
@@ -991,11 +997,37 @@ class RegistrationsController < ApplicationController
   def updateNewPayment
     setup_registration 'payment'
 
+    #createAndSaveOrder
+
     if @registration.valid?
       redirect_to_worldpay
     else
       render 'newPayment', :status => '400'
     end
+  end
+
+  def createAndSaveOrder
+    @order = Order.new
+    @order.orderCode = 'NNN'
+    @order.merchantId = 'NNN'
+    @order.totalAmount = '17400'
+    @order.currency = 'GBP'
+    @order.worldPayStatus = 'PENDING'
+    @order.description = 'GGG Test order description'
+    @order.dateCreated = Time.now.utc.xmlschema
+    @order.dateLastUpdated = @order.dateCreated
+    @order.updatedByUser = 'testuser@example.com'
+    @order.prefix_options[:id] = session[:registration_id]
+
+    if @order.valid?
+      @order.save!
+    else
+      logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
+      flash[:notice] = 'The order is invalid!'
+      redirect_to upper_payment_path
+      return
+    end
+
   end
 
   # GET upper-registrations/summary
