@@ -530,9 +530,9 @@ en:
     newOfflinePayment:
       heading: "How to pay"
       bank_transfer_instructions: "Please arrange your bank transfer using the following details:"
+      reference: "Payment reference number: %{reference}"
       sort_code: "Sort code: %{sort_code}"
       account_number: "Account number: %{account_number}"
-      reference: "Payment reference number: %{reference}"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
