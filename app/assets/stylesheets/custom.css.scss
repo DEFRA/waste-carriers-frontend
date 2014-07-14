@@ -61,7 +61,7 @@
     list-style-type: square;
 }
 
-.inline .block-label {
+.inline .block-label, #reg-search {
     clear: none;
     margin-right:15px;
 }
@@ -131,7 +131,9 @@ main#content, section#content {
     position: relative;
 }
 
-
+#find-registration {
+    margin-bottom:8em;
+}
 
 
 
