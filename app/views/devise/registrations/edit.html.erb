@@ -38,6 +38,26 @@
       <div class='form-label'><%= f.label :password_confirmation %></div>
       <%= f.password_field :password_confirmation %>
   </div>
+  
+	<!-- TEST 1: add logic if role found -->
+    <p>start agency user list</p>
+    <% if !current_agency_user.nil? and current_agency_user.has_role? :admin %>
+	  <p>has role admin, Success!!</p>
+	  <% current_agency_user.roles.each do |role| %>
+	  	<p>> Role: <%= role.name %></p>
+	  <% end %>
+	<% end %>
+	<p>end agency user list</p>
+	
+	<!-- TEST 2: add logic if role found -->
+    <p>start normal user list</p>
+    <% if !current_user.nil? and current_user.has_role? :admin %>
+	  <p>has role admin, Success!!</p>
+	  <% current_user.roles.each do |role| %>
+	  	<p>> Role: <%= role.name %></p>
+	  <% end %>
+	<% end %>
+	<p>end normal user list</p>
 
       <p><%= link_to t('registrations.form.back_button_label') %></p>
       <%= f.submit t('devise.registrations.update'), :class => "button" %>

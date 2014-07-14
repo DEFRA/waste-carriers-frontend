@@ -1,13 +1,28 @@
 <%= render 'shared/content_for_pages' %>
-<%= render "shared/current_user" %>
+<%#= render "shared/current_user" %>
 
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
+	<article role="article" class="group">
 
-<h1><%=t 'agencyUsers.editHeading'%></h1>
+	<h1><%=t 'agencyUsers.editHeading'%></h1>
 
-<%= render 'form' %>
+	<aside>
+	<%= render 'form' %>
+	
 
-<%# link_to t('agencyUsers.show'), @agency_user %>
-<%= link_to t('agencyUsers.back'), agency_users_path %>
+	<%# link_to t('agencyUsers.show'), @agency_user %>
+	<%= link_to t('agencyUsers.back'), agency_users_path %>
 
-</article></main>
+	</aside>
+	<div class='related-positioning'>
+		<div class='related-container'>
+			<div class='related'>
+				<div class='inner group related-subsection'>
+				<%= render "shared/current_user" %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</article>
+</main>
