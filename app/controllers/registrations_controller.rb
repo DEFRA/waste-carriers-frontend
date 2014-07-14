@@ -37,12 +37,7 @@ class RegistrationsController < ApplicationController
   def newBusinessType
     new_step_action 'businesstype'
 
-    # Set route name based on agency paramenter
-    @registration.routeName = 'DIGITAL'
-    if params[:agency].present?
-      @registration.routeName = 'ASSISTED_DIGITAL'
-      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
-    end
+    @registration.routeName = agency_user_signed_in? ? 'ASSISTED_DIGITAL' : 'DIGITAL'
   end
 
   # POST /your-registration/business-type
