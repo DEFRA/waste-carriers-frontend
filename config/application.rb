@@ -151,6 +151,7 @@ module Registrations
     config.worldpay_moto_password = ENV['WCRS_WORLDPAY_MOTO_PASSWORD'] || 'PASSWORD'
     config.worldpay_moto_macsecret = ENV['WCRS_WORLDPAY_MOTO_MACSECRET'] || 'MACSECRET'
 
+    config.environment_agency_bank_account_name = 'Environment Agency'
     config.bank_transfer_account_number = '99999999'
     config.bank_transfer_sort_code = '99-99-99'
   end
