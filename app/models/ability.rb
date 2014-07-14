@@ -65,6 +65,10 @@ class Ability
     if !user.nil? and user.is_agency_user?
       can :manage, Payment
     end
+    
+	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
+	  can :newRefund, Order
+	end
 
   end #initialize
 
