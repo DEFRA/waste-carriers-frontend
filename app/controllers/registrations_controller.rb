@@ -183,7 +183,7 @@ class RegistrationsController < ApplicationController
     if params[:addressSelector]  #user selected an address from drop-down list
       @selected_address = Address.find(params[:addressSelector])
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
-   
+
   end
 
     if params[:findAddress] #user clicked on Find Address button
@@ -272,8 +272,11 @@ class RegistrationsController < ApplicationController
     # Renders static data proctection page
   end
 
-  def new_step_action current_step
-  
+    def new_step_action current_step, this_is_first_step=false
+    # session[:registration_params] ||= {}
+    # session[:registration_params].deep_merge!(registration_params) if params[:registration]
+    # @registration = Registration.new(session[:registration_params])
+
     if this_is_first_step
       @registration = Registration.create
       session[:registration_id]= @registration.id
@@ -302,8 +305,12 @@ class RegistrationsController < ApplicationController
     @registration.add( params[:registration] ) unless no_update
     @registration.save
     logger.debug  @registration.attributes.to_s
- @registration.current_step = current_step
+
+    @registration.current_step = current_step
   end
+
+
+
   def validate_search_parameters?(searchString, searchWithin)
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
@@ -476,7 +483,7 @@ class RegistrationsController < ApplicationController
       session[:registration_progress] = 'IN_EDIT'
       session[:registration_id] = @registration.id
       redirect_to :upper_summary
-      
+
     end
     # @registration.current_step = session[:registration_step]
   end
@@ -485,10 +492,10 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     logger.debug  "registration found@ #{@registration['id']}"
     @registration.routeName = @registration.metaData.first.route
-    
+
     authorize! :update, @registration
   end
-  
+
   def paymentstatus
     @registration = Registration.find_by_id(params[:id])
     @registration.routeName = @registration.metaData.route
@@ -834,7 +841,7 @@ class RegistrationsController < ApplicationController
       authenticate_user!
     end
   end
-  
+
   # GET your-registration/upper-tier-contact-details
   def newUpperBusinessDetails
     new_step_action 'upper_business_details'

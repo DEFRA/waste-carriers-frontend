@@ -38,12 +38,12 @@ class Registration < Ohm::Model
   attribute :company_no
   attribute :expires_on
 
-    #payment
-    attribute :total_fee
-    attribute :registration_fee
-    attribute :copy_card_fee
-    attribute :copy_cards
-    attribute :balance
+  #payment
+  attribute :total_fee
+  attribute :registration_fee
+  attribute :copy_card_fee
+  attribute :copy_cards
+  attribute :balance
 
   # Non UK address fields
   attribute :streetLine3
@@ -62,10 +62,10 @@ class Registration < Ohm::Model
   attribute :regIdentifier
   attribute :status
 
-    string :password
-    string :sign_up_mode
-    string :routeName
-    string :accessCode
+  attribute :password
+  attribute :sign_up_mode
+  attribute :routeName
+  attribute :accessCode
 
   attribute :password
   attribute :sign_up_mode
@@ -524,12 +524,12 @@ class Registration < Ohm::Model
 
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
-      when :not_found
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
-      when :inactive
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
-      when :error_calling_service
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
+    when :not_found
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+    when :inactive
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+    when :error_calling_service
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
     end
   end
 
@@ -590,12 +590,12 @@ class Registration < Ohm::Model
 
   def boxClassSuffix
     case metaData.first.status
-      when 'REVOKED'
-        'revoked'
-      when 'PENDING'
-        'pending'
-      else
-        ''
+    when 'REVOKED'
+      'revoked'
+    when 'PENDING'
+      'pending'
+    else
+      ''
     end
   end
 
