@@ -712,6 +712,9 @@ en:
       writeoffsmall_button_label: "Write off (small)"
       writeofflarge_button_label: "Write off (large)"
       refund_button_label: "Refund"
+      select_button_label: "Select (Online)"
+      manual_payment_button_label: "Select (Manual)"
+      back_to_status_button_label: "Back to payment status"
 
       root_site: "GOV.UK"
 
@@ -746,3 +749,10 @@ en:
       writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
       fields:
         commentGuidance: "Maximum 250 characters"
+    newRefund:
+      heading: "Refunds"
+      step: "Select a payment to refund"
+    manualRefund:
+      heading: "Manual Refunds"
+    worldpayRefund:
+      heading: "Worldpay Refunds"

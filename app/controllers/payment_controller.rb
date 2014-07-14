@@ -127,5 +127,53 @@ class PaymentController < ApplicationController
       render "newWriteOff", :status => '400'
 	end
   end
+  
+  # GET /refunds
+  def newRefund
+	@registration = Registration.find(params[:id])
+
+    authorize! :read, @registration
+    
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    authorize! :newRefund, Order
+    
+  end
+  
+  # POST /refunds
+  def createRefund
+  
+  end
+  
+  # GET /manualRefund
+  def manualRefund
+  
+    #
+    # TODO: Use order code value to create a negative payment of the amount requested in the order
+    #
+  
+  end
+  
+  # GET /worldpayRefund/:orderCode
+  def createWorldpay
+    logger.info 'TEST: createWorldpay, id:' + params[:id] + ' orderCode:' + params[:orderCode]
+    
+    #
+    # TODO: Use order code value to create a negative payment of the amount requested in the order
+    #
+    
+    # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
+    redirect_to ({ action: 'worldpayRefund', id: params[:id], orderCode: params[:orderCode] })
+  end
+  
+  # GET /worldpayRefund/:orderCode/refundComplete
+  def worldpayRefund
+    logger.info 'TEST: worldpayRefund'
+    @registration = Registration.find(params[:id])
+    @orderCode = params[:orderCode]
+    
+    authorize! :read, @registration
+  end
 
 end
