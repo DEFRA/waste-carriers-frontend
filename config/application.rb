@@ -157,5 +157,6 @@ module Registrations
     config.bank_transfer_sort_code = '08-33-00'
     config.bank_transfer_account_number = '12800543'
     config.iban_number = "GB23 CITI0833 0012 8005 43"
+    config.swiftbic_number = "CITI GB2LXXX"
   end
 end
