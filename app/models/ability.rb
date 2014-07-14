@@ -29,6 +29,10 @@ class Ability
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
+    can :print, Registration do |registration|
+      user.try(:is_agency_user?) or ((registration.user == user) and owe_nothing?(registration))
+    end
+
     can :read, Registration do |registration|
       if user
         user.is_agency_user? || user.email == registration.accountEmail
@@ -39,12 +43,39 @@ class Ability
 
     can :update, Registration do |registration|
       if user
-        user.is_agency_user? || user.email == registration.accountEmail
+        # 
+        # Note: This is a negative check for neither financeBasic or financeAdmin, thus any other role can perform updates
+        # 
+        if user.email == registration.accountEmail 
+          true
+        elsif user.is_agency_user?
+          isEitherFinance = user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
+          !isEitherFinance
+        else
+          false
+        end
       else
         false
       end
     end
+    
+    #
+    # TODO: Adjust this later if a particular agency user is not allowed to add payments
+    #
+    if !user.nil? and user.is_agency_user?
+      can :manage, Payment
+    end
+    
+	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
+	  can :newRefund, Order
+	end
 
   end #initialize
+
+private
+
+  def owe_nothing? registration
+    registration.lower? or (registration.upper? and registration.paid_in_full?)
+  end
 
 end

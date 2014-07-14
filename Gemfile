@@ -22,6 +22,8 @@ gem "cancan", "~> 1.6.10"
 gem 'activeresource', '~>4.0.0'
 gem 'password_strength', '~>0.3.2'
 
+gem 'rolify'
+
 gem 'govuk_template'
 gem 'govuk_frontend_toolkit'
 

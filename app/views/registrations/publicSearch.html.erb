@@ -23,23 +23,24 @@
 <form method="get" action="/registrations/search">
 <div class="box" data-journey="waste-carriers-registration:search-register">
 	<fieldset>
-	<legend></legend>
+	<legend></legend>	
 		<div class="form-group">
 			<label for="q" class="form-label"><%= t '.search_label' %></label>
 			<input id="q" name="q" type="text" value="<%= params[:q]%>" />
 		</div>
 
+		<div class="hidden">
 			<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
 			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
 
-		<!--
+		<!-- // Original - outdated when replaced drop down witg radio buttons
 		<div id="onelinewrapper">
 			<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
 			<div id="oneline">
 			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
 				<% defaultDistance='any'%>
 				<% if !params[:distance].nil?
-				defaultDistance=params[:distance]
+				defaultDistance=params[:distance] 
 				end %>
 				<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
 			<span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
@@ -47,27 +48,27 @@
 
 		-->
 
-
+			
 		    <div class='inline'>
 
-        		 <label class="block-label" for="registration_searchRegister_ten_miles">
-        		 <input type="radio" value="postcode" name="registration[searchRegister]" id="registration_searchRegister_ten_miles">
-          		 10 Miles
+        		 <% 
+        		 defaultDistance='any'
+        		 if !params[:distance].nil?
+				   defaultDistance=params[:distance] 
+				 end 
+				 %>
+        		 <% Registration.distance_options_for_select.each do |dist| %>
+        		 	<label class="block-label" for="<%= dist[1] %>">
+					<input type="radio" value="<%= dist[1] %>" name="distance" id="<%= dist[1] %>" <% if defaultDistance==dist[1] %>checked="checked"<% end %>>
+					<%= dist[0] %>
         		 </label>
-        		 <label class="block-label" for="registration_searchRegister_20_miles">
-        		 <input type="radio" value="postcode" name="registration[searchRegister]" id="registration_searchRegister_20_miles">
-          		 20 Miles
-        		 </label>
-        		 <label class="block-label" for="registration_searchRegister_30_miles">
-        		 <input type="radio" value="postcode" name="registration[searchRegister]" id="registration_searchRegister_30_miles">
-          		 30 Miles
-        		 </label>
+        		 <% end %>
 
-        	</div>
+        	</div> 
 
         	<div class='form-group'>
         		 <span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
-		    	 <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>"
+		    	 <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" 
 		    	 type="text">
 		    </div>
 		</div>

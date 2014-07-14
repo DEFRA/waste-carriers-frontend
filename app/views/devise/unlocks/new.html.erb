@@ -1,6 +1,7 @@
 <%= render 'shared/content_for_pages' %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
+<%= link_to t('registrations.form.back_button_label'), :back %>
 <fieldset>	
 <legend><%=t 'devise.unlocks.resendUnlockInstructions'%></legend>
 
@@ -13,11 +14,8 @@
   	<%= f.label :email, class: 'form-label' %>
   	<%= f.email_field :email, :autofocus => true %>
   </div>
-
-  <div class="inline">
-  	<p><%= link_to t('registrations.form.back_button_label'), :back, :class => 'button-secondary' %></p>
+  
   	<%= f.submit t('devise.unlocks.resendUnlockInstructions'), :class => "button" %>
-  </div>
   
 <% end %>
 </fieldset>
