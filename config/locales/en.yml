@@ -539,6 +539,7 @@ en:
       iban_instructions: "If you are paying from outside the United Kingdom, you must pay in sterling and include:"
       iban_number: "IBAN number: %{iban_number}"
       swiftbic_number: "SWIFTBIC number: %{swiftbic_number}"
+      bank_transfer_contact_instructions: "Please contact us with the details of your bank transfer by either:"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
