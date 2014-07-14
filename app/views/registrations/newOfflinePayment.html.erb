@@ -24,7 +24,7 @@
     <ul>
       <li><%= t '.email_preamble' %><%= mail_to Rails.configuration.income_email_address %></li>
       <li><%= t '.fax_number', fax_number: Rails.configuration.income_fax_number %></li>
-      <li><%= t '.postal_address', postal_address: 'xxx' %></li>
+      <li><%= t '.postal_address', postal_address: Rails.configuration.income_postal_address %></li>
     </ul>
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>

@@ -542,6 +542,7 @@ en:
       bank_transfer_contact_instructions: "Please contact us with the details of your bank transfer by either:"
       email_preamble: "Email: "
       fax_number: "Fax number: %{fax_number}"
+      postal_address: "Post: %{postal_address}"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
