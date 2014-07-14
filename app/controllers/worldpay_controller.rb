@@ -41,6 +41,10 @@ class WorldpayController < ApplicationController
     flash[:notice] = 'You have cancelled your payment.'
   end
 
+  def dateReceived
+    Date.current
+  end
+
   private
 
     def process_payment
@@ -56,26 +60,35 @@ class WorldpayController < ApplicationController
       end
       orderCode = orderKey.split('^').at(2)
 
-      now = Time.now.utc.xmlschema
+      now = Time.now.utc
+      #now = Time.now.utc.xmlschema
+
       @payment = Payment.new
       @payment.dateReceived = now
-      #We don't nned to set the dateEntered; this is done within the service
+      @payment.dateReceived_year = now.year
+      @payment.dateReceived_month = now.month
+      @payment.dateReceived_day = now.day
+      #We don't need to set the dateEntered; this is done within the service
       #@payment.dateEntered = now
       # TODO get the user if not yet logged in (still to be activated)
       @payment.updatedByUser = current_any_user
-      @payment.amount = paymentAmount
+      @payment.amount = paymentAmount.to_i
+      @payment.orderKey = orderCode
       @payment.currency = paymentCurrency
       @payment.paymentType = 'WORLDPAY'
       @payment.worldPayPaymentStatus = paymentStatus
       @payment.mac_code = mac
-      @payment.registrationReference = ''
+      @payment.registrationReference = 'Worldpay'
       @payment.comment = 'Paid via Worldpay'
       @payment.prefix_options[:id] = session[:registration_id]
 
+      #TODO re-enable validation - current validation rules are geared towards offline payments
       if @payment.valid?
-        @payment.save!
+        #@payment.save!
+        @payment.save(:validate => false)
       else
         logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
+        @payment.save(:validate => false)
       end
     end
 

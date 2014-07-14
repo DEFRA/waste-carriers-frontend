@@ -92,7 +92,7 @@ class Payment < ActiveResource::Base
   private
   
   def validate_amount
-    if self.amount.include? "."
+    if self.amount.to_s.include? "."
       errors.add(:amount, I18n.t('errors.messages.invalid')+ '. This is currently a Defect, Workaround, enter a value in pence only!' )
     end
   end
