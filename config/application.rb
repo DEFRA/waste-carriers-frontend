@@ -158,5 +158,6 @@ module Registrations
     config.bank_transfer_account_number = '12800543'
     config.iban_number = "GB23 CITI0833 0012 8005 43"
     config.swiftbic_number = "CITI GB2LXXX"
+    config.income_email_address = "fsc-income@environment-agency.gov.uk"
   end
 end
