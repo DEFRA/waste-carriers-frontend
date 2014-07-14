@@ -151,6 +151,7 @@ module Registrations
     config.worldpay_moto_password = ENV['WCRS_WORLDPAY_MOTO_PASSWORD'] || 'PASSWORD'
     config.worldpay_moto_macsecret = ENV['WCRS_WORLDPAY_MOTO_MACSECRET'] || 'MACSECRET'
 
+    # Offline payment
     config.environment_agency_bank_account_name = 'Environment Agency'
     config.environment_agency_bank_name = 'Citibank'
     config.environment_agency_bank_address = 'Citigroup Centre, Canada Square, London, E14 5LB'
