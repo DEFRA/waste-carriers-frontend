@@ -532,6 +532,7 @@ en:
       bank_transfer_instructions: "Please arrange your bank transfer using the following details:"
       reference: "Payment reference number: %{reference}"
       account_name: "Account name: %{account_name}"
+      bank_name: "Bank name: %{bank_name}"
       sort_code: "Sort code: %{sort_code}"
       account_number: "Account number: %{account_number}"
     newUpperSummary:

@@ -8,7 +8,7 @@
     <ul>
       <li><%= t '.reference', reference: @registration.regIdentifier %></li>
       <li><%= t '.account_name', account_name: Rails.configuration.environment_agency_bank_account_name %></li>
-      <li><%= t '.bank_name', bank_name: 'xxx' %></li>>
+      <li><%= t '.bank_name', bank_name: Rails.configuration.environment_agency_bank_name %></li>
       <li><%= t '.bank_address', bank_address: 'xxx' %></li>
       <li><%= t '.sort_code', sort_code: Rails.configuration.bank_transfer_sort_code %></li>
       <li><%= t '.account_number', account_number: Rails.configuration.bank_transfer_account_number %></li>
