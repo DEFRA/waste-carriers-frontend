@@ -7,13 +7,21 @@
     <!-- Usefult for showing default messages -->
     <% if alert %><%= alert %><% end %>
     
-	<h1>You have selected worldpay refund for order code: <%= @orderCode %></h1>
+    <div class="step"><%= t '.step' %></div>
+    
+    <div id="payment" data-journey="waste-carriers-registration:refund-complete">
+
+			<fieldset>
+				<legend><%= t '.heading' %></legend>
+				
+				<h1>You have completed worldpay refund for order code: <%= @orderCode %></h1>
+				
+				<p>You will now be redirected to worldpay to continue with the refund. [MAYBE?]</p>
+				
+				<p>The registration has been updated to reflect that a refund has been made.</p>
 	
-	<p>This page is a W.I.P.</p>
-	
-	<p>You will now be redirected to worldpay to continue with the refund.</p>
-	
-	<p>The registration has been updated to reflect that a refund has been made.</p>
+			</fieldset>
+	</div>
 	
 	<div class="inline">
 	    <noscript>

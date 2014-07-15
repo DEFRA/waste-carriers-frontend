@@ -316,8 +316,9 @@ class RegistrationsController < ApplicationController
     elsif current_user.email != tmpUser.email
       renderAccessDenied
     else
+      logger.debug 'I got here'
       # Search for users registrations
-      @registrations = Registration.find(:all, :params => {:ac => tmpUser.email}).sort_by { |r| r.date_registered}
+      @registrations = Registration.find(:all, :params => {:ac => tmpUser.email, :status => ['ACTIVE']}).sort_by { |r| r.date_registered}
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -860,7 +861,8 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(params[:id])
     deletedCompany = @registration.companyName
     authorize! :update, @registration
-    @registration.destroy
+    @registration.metaData.status = 'INACTIVE'
+    @registration.save!
 
     respond_to do |format|
       format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) }
