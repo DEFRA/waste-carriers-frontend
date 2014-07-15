@@ -8,21 +8,16 @@ module PaymentsHelper
   def amountSummary_for(model, includeBalance)
     balance = model.financeDetails.balance
 
-    if balance > 0
-      if includeBalance
-        t('registrations.form.awaitingPayment_text') + ' ' + pence_to_currency(balance)
-      else
-        t('registrations.form.awaitingPayment_text')
-      end
-    elsif balance < 0
-      if includeBalance
-        t('registrations.form.overpaid_text') + ' ' + pence_to_currency(balance.abs)
-      else
-        t('registrations.form.overpaid_text')
-      end
-    else
-      t('registrations.form.paidInFull_text')
-    end
+    prefix = if balance > 0
+               t('registrations.form.awaitingPayment_text')
+             elsif balance < 0
+               t('registrations.form.overpaid_text')
+             else
+               t('registrations.form.paidInFull_text')
+             end
+
+    suffix = " #{pence_to_currency balance.abs}" unless balance.zero?
+    includeBalance ? "#{prefix}#{suffix}" : prefix
   end
 
   # This is shown in the payment status view, the difference to amountSummary_for is it has awaiting payment text instead of balance due text
