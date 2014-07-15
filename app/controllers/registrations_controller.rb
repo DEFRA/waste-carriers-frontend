@@ -859,7 +859,7 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(params[:id])
     deletedCompany = @registration.companyName
     authorize! :update, @registration
-    @registration.metaData.status = 'DELETED'
+    @registration.metaData.status = 'INACTIVE'
     @registration.save!
 
     respond_to do |format|
