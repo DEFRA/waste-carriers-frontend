@@ -13,6 +13,26 @@ unless Rails.env.production?
   end
 
   AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: 'secret123'
+
+  # Adds a agency user associated with the finance basic role
+  agencyUser = AgencyUser.find_or_create_by email: 'financebasic1@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser.add_role :Role_financeBasic, AgencyUser
+
+  agencyUser = AgencyUser.find_or_create_by email: 'financebasic2@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser.add_role :Role_financeBasic, AgencyUser
+
+  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin1@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser.add_role :Role_financeAdmin, AgencyUser
+
+  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin2@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser.add_role :Role_financeAdmin, AgencyUser
+
+  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefund1@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser.add_role :Role_ncccRefund, AgencyUser
+
+  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefund2@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser.add_role :Role_ncccRefund, AgencyUser
+
 end
 
 if !Admin.find_by_email('jamie.dempster@environment-agency.gov.uk')
