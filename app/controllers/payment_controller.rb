@@ -82,15 +82,20 @@ class PaymentController < ApplicationController
       end
     else
       # Redirect to paymentstatus is balance is negative or paid
-      logger.info 'balance: ' + @registration.financeDetails.balance.to_s
-      isSmallMessage = Payment.isSmallWriteOff( @registration.financeDetails.balance)
-      if isSmallMessage == true
-        logger.info 'Balance is in range for a small write off'
-        # Set fixed Amount at exactly negative outstanding balance
-        @payment.amount = @registration.financeDetails.balance.abs
+      if @registration.respond_to? :financeDetails
+        logger.info 'balance: ' + @registration.financeDetails.balance.to_s
+        isSmallMessage = Payment.isSmallWriteOff( @registration.financeDetails.balance)
+        if isSmallMessage == true
+          logger.info 'Balance is in range for a small write off'
+          # Set fixed Amount at exactly negative outstanding balance
+          @payment.amount = @registration.financeDetails.balance.abs
+        else
+          logger.info 'Balance is out of range for a small write off'
+          redirect_to :paymentstatus, :alert => isSmallMessage
+        end
       else
-        logger.info 'Balance is out of range for a small write off'
-        redirect_to :paymentstatus, :alert => isSmallMessage
+        logger.info 'Balance is not available'
+        redirect_to :paymentstatus, :alert => I18n.t('payment.newWriteOff.writeOffNotAppropriate')
       end
     end
     
