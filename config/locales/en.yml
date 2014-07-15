@@ -758,12 +758,17 @@ en:
       writeOffNotApplicable: "Write off unavailable as balance has been paid"
       writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"
       writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
+      writeOffNotAppropriate: 'Write off unavailable for current registration'
       fields:
         commentGuidance: "Maximum 250 characters"
-    newRefund:
+    index:
       heading: "Refunds"
       step: "Select a payment to refund"
     manualRefund:
       heading: "Manual Refunds"
-    worldpayRefund:
-      heading: "Worldpay Refunds"
+    newWPRefund:
+      heading: "Worldpay refund confirmation"
+      step: "Confirm your actions"
+    completeWPRefund:
+      heading: "Worldpay refund complete"
+      step: "You have completed the refund for this payment"
