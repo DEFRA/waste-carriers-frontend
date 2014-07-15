@@ -17,7 +17,7 @@
 #content {@include core-19}
 #content {@include media}
 #content {@include device-pixel-ratio($ratio: 2)}
-#content legend {@include heading-36}
+#content legend {@include bold-36}
 #content h1 {@include heading-36}
 #content h2 {@include heading-27}
 #content h3 {@include heading-24}
@@ -30,6 +30,7 @@
 #content {@include outer-block}
 .beta-banner {@include phase-banner (beta)}
 .button {@include button}
+.button-secondary {@include button}
 .outer-block {@include outer-block;}
 .inner-block {@include inner-block;}
 
@@ -38,15 +39,31 @@
 //GLOBAL
 
 #content {
-    padding-bottom:100px;
-    margin: 0;
-    padding: 0;
-    vertical-align: baseline;
+  padding-bottom:100px;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
 }
 
-.step {
-    margin-bottom:5px;
-    margin-top:5px;
+#content p {
+    line-height: 1.50;
+}
+
+
+#content legend {
+    line-height: 1.04167;
+    padding-bottom: 2.7rem;
+    padding-top: 2.3rem;
+}
+
+
+.list-bullets {
+    list-style-type: square;
+}
+
+.inline .block-label, #reg-search {
+    clear: none;
+    margin-right:15px;
 }
 
 //HEADER STYLES
@@ -87,21 +104,13 @@
 
 //NAVIGATION STYLES
 
-.back_link {
-   display:inline;
-}
-
-.back_link, .next_link, .button {
+.back_link, .next_link, .button, .step {
     margin-bottom: 1.25em;
     margin-top: 0.625em;
+    display:inline;
 }
 
-.inline .block-label {
-    clear: none;
-    margin-right:15px;
-}
-
-.back_link, #sPostcode, .link_to {
+#sPostcode, .link_to {
     margin-right:15px;
 }
 
@@ -113,12 +122,6 @@
 
 // ** WASTE CARRIER PAGE STYLES ** //
 
-//Summary page
-
-.summary-items, .form-group-dataprotection {
-    list-style: none;
-}
-
 //Reports page
 
 main#content, section#content {
@@ -128,7 +131,9 @@ main#content, section#content {
     position: relative;
 }
 
-
+#find-registration {
+    margin-bottom:8em;
+}
 
 
 

@@ -13,7 +13,7 @@
 <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
 <h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
 
-<% if @payment_pending %>
+<% if @owe_money %>
   <p><%= t '.payment_pending' %></p>
 <% end %>
 
@@ -23,10 +23,9 @@
 
 <form action="<%=print_confirmed_url%>">
 <div class="action group">
-	<!--
-	<input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/>
-	-->
+  <% if can? :print, @registration %>
 	<p><%= link_to t('registrations.form.print_button_label'), print_confirmed_url, :class => 'link-button-secondary' %></p>
+  <% end %>
 </div>
 
 <p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>

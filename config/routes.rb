@@ -36,8 +36,15 @@ Registrations::Application.routes.draw do
 	  get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
 	  get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
 	  
-	  get "registrations/:id/payment" => 'payment#enterPayment', :via => [:get], :as => :enterPayment
-      match "registrations/:id/payment" => 'payment#savePayment', :via => [:post], :as => :savePayment
+	  get   "registrations/:id/payments" => 'payment#new', :via => [:get], :as => :enterPayment
+	  match "registrations/:id/payments" => 'payment#create', :via => [:post], :as => :savePayment
+	  get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
+      match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
+      get   "registrations/:id/refunds" => 'payment#newRefund', :via => [:get], :as => :refund
+###   match "registrations/:id/refunds" => 'payment#createRefund', :via => [:post], :as => :saveRefund
+      get   "registrations/:id/manualRefund" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
+      get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#createWorldpay', :via => [:get]
+      get   "registrations/:id/worldpayRefund/:orderCode/refundComplete" => 'payment#worldpayRefund', :via => [:get]
 
 	  # Add routing for confirm delete registration
 	  get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete

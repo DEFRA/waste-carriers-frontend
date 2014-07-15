@@ -5,7 +5,7 @@
 
     <% content_for :page_title, createTitle('registrations.onlydealwith_step.title') %>
     <%= form_for(@registration, :url => newOnlyDealWith_path) do |f| %>
-
+     <p class="back_link"><%= render 'back_link' %></p>	
       <div class="step"><%= t 'registrations.onlydealwith_step.step' %></div>
 
       <%= render "onlydealwith_step", :f => f %>

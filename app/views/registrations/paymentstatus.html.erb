@@ -38,7 +38,7 @@
 			        
 			        <div class="form-group">
 				  	    <legend><%= t'.chargehistory_table_heading' %></legend>
-						<table class="" summary='This table details the charge history of a registration' style="width:65%"> <!-- Remove this style once styles working -->
+						<table class="" summary='This table details the charge history of a registration' style="width:60%"> <!-- Remove this style once styles working -->
 							<thead class="">
 								<tr>
 									<th class="" ><%= t '.chargehistory_date_table_heading' %></th>
@@ -49,7 +49,7 @@
 							</thead>
 							<tbody>
 								<% regCount = 1; %>
-								<% if @registration.respond_to?('financeDetails') %>
+								<% if @registration.respond_to?('financeDetails') and !@registration.financeDetails.orders.nil? %>
 									<% @registration.financeDetails.orders.each do |order| %>
 									  <% if order.respond_to?('orderItems') and !order.orderItems.nil? %>
 									  	<% order.orderItems.each do |orderItem| %>
@@ -85,7 +85,7 @@
 			        
 			        <div class="form-group">
 		            	<legend><%= t'.paymenthistory_table_heading' %></legend>
-						<table class="" summary='This table details the payment history of a registration' style="width:65%"> <!-- Remove this style once styles working -->
+						<table class="" summary='This table details the payment history of a registration' style="width:60%"> <!-- Remove this style once styles working -->
 							<thead class="">
 								<tr>
 									<th class="" ><%= t '.paymenthistory_date_table_heading' %></th>
@@ -125,7 +125,7 @@
 			        
 			        <div class="form-group">
 		            	<legend><%= t'.balance_table_heading' %></legend>
-						<table class="" summary='This table details the balance due on a registration' style="width:65%"> <!-- Remove this style once styles working -->
+						<table class="" summary='This table details the balance due on a registration' style="width:60%"> <!-- Remove this style once styles working -->
 							<thead class="">
 								<tr>
 									<th class="" ></th>
@@ -161,10 +161,25 @@
 		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
 		    </noscript>
 		    <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'link_to' %>
+		    <%
+		    isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
+		    isRefundOrBasic = current_agency_user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
+		    %>
+		    <% if !isFinanceAdmin %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.writeoffsmall_button_label'), :enterWriteOff, :class => 'button' %></span>
+		    <% end %>
+		    <% if isFinanceAdmin %>
+		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button' %></span>
+		    <% end %>
+		    <% if isRefundOrBasic %>
+		    <span class="next_link"><%= link_to t('registrations.form.refund_button_label'), :refund, :class => 'button' %></span>
+		    <% end %>
 		</div>
 
     </aside>
+    <br/> <!-- gives better spacing in safair -->
 
 	<div class='related-positioning'>
 		<div class='related-container'>
