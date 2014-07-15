@@ -1,7 +1,7 @@
 module PaymentsHelper
 
   def pence_to_currency pence
-    number_to_currency pence, unit: '£', precision: 0
+    Money.new(pence).format
   end
 
   # This is shown in the enter payment view and payment status view
