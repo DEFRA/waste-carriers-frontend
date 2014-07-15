@@ -11,6 +11,8 @@ ActionMailer::Base.smtp_settings = {
   :enable_starttls_auto => true
 }
 
+Money.default_currency = Money::Currency.new 'GBP'
+
 # Initialize the rails application
 Registrations::Application.initialize!
 
