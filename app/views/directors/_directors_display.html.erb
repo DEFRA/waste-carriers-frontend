@@ -1,0 +1,10 @@
+<ul id='directors_display'>
+
+<% @registration.directors.each do |d| %>
+    <li>
+      <%= d.first_name %> <%= d.last_name %> , <%= d.dob %>
+    </li>
+
+<% end %>
+
+</ul>
