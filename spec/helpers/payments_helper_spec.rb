@@ -53,7 +53,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(10000)
         end
 
-        specify { helper.amountSummary_for(registration, true).should == 'Awaiting payment £100.00' }
+        specify { helper.amount_summary_for(registration, true).should == 'Awaiting payment £100.00' }
       end
 
       context 'negative balance' do
@@ -61,7 +61,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(-10000)
         end
 
-        specify { helper.amountSummary_for(registration, true).should == 'Overpaid by £100.00' }
+        specify { helper.amount_summary_for(registration, true).should == 'Overpaid by £100.00' }
       end
 
       context 'zero balance' do
@@ -69,7 +69,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(0)
         end
 
-        specify { helper.amountSummary_for(registration, true).should == 'Paid in full' }
+        specify { helper.amount_summary_for(registration, true).should == 'Paid in full' }
       end
     end
 
@@ -79,7 +79,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(10000)
         end
 
-        specify { helper.amountSummary_for(registration, false).should == 'Awaiting payment' }
+        specify { helper.amount_summary_for(registration, false).should == 'Awaiting payment' }
       end
 
       context 'negative balance' do
@@ -87,7 +87,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(-10000)
         end
 
-        specify { helper.amountSummary_for(registration, false).should == 'Overpaid by' }
+        specify { helper.amount_summary_for(registration, false).should == 'Overpaid by' }
       end
 
       context 'zero balance' do
@@ -95,7 +95,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(0)
         end
 
-        specify { helper.amountSummary_for(registration, false).should == 'Paid in full' }
+        specify { helper.amount_summary_for(registration, false).should == 'Paid in full' }
       end
     end
   end

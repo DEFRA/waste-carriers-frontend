@@ -136,7 +136,7 @@
 								<% if @registration.respond_to? :financeDetails %>
 								<tr class="">
 									<td class="" >
-						        	<%= amountSummary_for(@registration, false) %>
+						        	<%= amount_summary_for(@registration, false) %>
 									</td>
 									<td class="" ><%= number_with_precision(@registration.financeDetails.balance.abs, :precision => 2) %></td>
 								</tr>
