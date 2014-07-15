@@ -1,4 +1,4 @@
-module PaymentHelper
+module PaymentsHelper
 
   # This is shown in the enter payment view and payment status view
   def amountSummary_for(model, includeBalance)
