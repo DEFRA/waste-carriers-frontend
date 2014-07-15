@@ -643,7 +643,7 @@ class RegistrationsController < ApplicationController
         @user.password = @registration.password
         logger.debug "About to save the new user."
         # Don't send the confirmation email when the user gets saved.
-        @user.skip_confirmation_notification! if @user.confirmed?
+        @user.skip_confirmation_notification!
         @user.save!
         logger.debug "User has been saved."
         ## the newly created user has to active his account before being able to sign in
@@ -739,6 +739,8 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration.find(session[:registration_id])
+    user = @registration.user
+    user.send_confirmation_instructions unless user.confirmed?
     @owe_money = owe_money? @registration
   end
 
