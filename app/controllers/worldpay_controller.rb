@@ -79,7 +79,7 @@ class WorldpayController < ApplicationController
         #We don't need to set the dateEntered; this is done within the service
         #@payment.dateEntered = now
         # TODO get the user if not yet logged in (still to be activated)
-        @payment.updatedByUser = current_any_user
+        @payment.updatedByUser = 'you@example.com'
         @payment.amount = paymentAmount.to_i
         @payment.orderKey = orderCode
         @payment.currency = paymentCurrency
@@ -92,12 +92,12 @@ class WorldpayController < ApplicationController
 
         #TODO re-enable validation and saving - current validation rules are geared towards offline payments
         if @payment.valid?
-          #@payment.save!
+          @payment.save!
           #@payment.save(:validate => false)
         else
           logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
           payment_processed = false
-          #@payment.save(:validate => false)
+          @payment.save(:validate => false)
         end
       end
 
