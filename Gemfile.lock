@@ -185,6 +185,7 @@ GEM
     rake (10.1.0)
     rest-client (1.6.7)
       mime-types (>= 1.16)
+    rolify (3.4.0)
     rspec-core (2.14.5)
     rspec-expectations (2.14.3)
       diff-lcs (>= 1.1.3, < 2.0)
@@ -300,6 +301,7 @@ DEPENDENCIES
   password_strength (~> 0.3.2)
   rails (= 4.0.2)
   rest-client
+  rolify
   rspec-rails (~> 2.12)
   sass-rails (~> 4.0.0)
   sauce

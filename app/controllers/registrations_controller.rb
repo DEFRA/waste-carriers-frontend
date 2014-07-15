@@ -37,12 +37,7 @@ class RegistrationsController < ApplicationController
   def newBusinessType
     new_step_action 'businesstype'
 
-    # Set route name based on agency paramenter
-    @registration.routeName = 'DIGITAL'
-    if !params[:agency].nil?
-      @registration.routeName = 'ASSISTED_DIGITAL'
-      logger.info 'Set route as Assisted Digital: ' + @registration.routeName
-    end
+    @registration.routeName = agency_user_signed_in? ? 'ASSISTED_DIGITAL' : 'DIGITAL'
   end
 
   # POST /your-registration/business-type
@@ -384,11 +379,11 @@ class RegistrationsController < ApplicationController
       return
     end
     @registrations = Registration.find(:all, :params => {:ac => @user.email})
-    @payment_pending = session[:payment_pending]
 
-    if @registrations.size > 0
+    if @registrations.any?
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
+      @owe_money = owe_money? @registration
       session[:registration_id] = @registration.id
     else
       renderNotFound
@@ -396,7 +391,6 @@ class RegistrationsController < ApplicationController
     end
     #render the confirmed page
   end
-
 
   def print_confirmed
     begin
@@ -475,7 +469,8 @@ class RegistrationsController < ApplicationController
   def paymentstatus
     @registration = Registration.find(:one, :from => "/registrations/"+params[:id]+".json")
     @registration.routeName = @registration.metaData.route
-    authorize! :update, @registration
+    authorize! :read, @registration
+    authorize! :read, Payment
   end
 
   def check_steps_are_valid_up_until_current current_step
@@ -648,6 +643,8 @@ class RegistrationsController < ApplicationController
         @user.email = @registration.accountEmail
         @user.password = @registration.password
         logger.debug "About to save the new user."
+        # Don't send the confirmation email when the user gets saved.
+        @user.skip_confirmation_notification! if @user.confirmed?
         @user.save!
         logger.debug "User has been saved."
         ## the newly created user has to active his account before being able to sign in
@@ -719,7 +716,14 @@ class RegistrationsController < ApplicationController
           next_step = @registration.upper? ? :upper_payment : finish_url(:id => @registration.id)
           redirect_to next_step
         else
-          next_step = @registration.upper? ? :upper_payment : pending_url
+          next_step = if @registration.upper?
+                        :upper_payment
+                      elsif @registration.user.confirmed?
+                        confirmed_path
+                      else
+                        pending_path
+                      end
+
           redirect_to next_step
         end
       else
@@ -736,7 +740,7 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration.find(session[:registration_id])
-    @payment_pending = session[:payment_pending]
+    @owe_money = owe_money? @registration
   end
 
 
@@ -976,7 +980,6 @@ class RegistrationsController < ApplicationController
   # GET upper-registrations/payment
   def newPayment
     new_step_action 'payment'
-    session[:payment_pending] = false
     @registration.registration_fee = 154
     @registration.copy_cards = 0
     @registration.copy_card_fee = @registration.copy_cards * 5
@@ -987,11 +990,40 @@ class RegistrationsController < ApplicationController
   def updateNewPayment
     setup_registration 'payment'
 
+    #if !createAndSaveOrder
+    #  flash[:notice] = 'The order is invalid!'
+    #  redirect_to upper_payment_path
+    #  return
+    #end
+ 
     if @registration.valid?
       redirect_to_worldpay
     else
       render 'newPayment', :status => '400'
     end
+  end
+
+  def createAndSaveOrder
+    @order = Order.new
+    @order.orderCode = 'NNN'
+    @order.merchantId = 'NNN'
+    @order.totalAmount = '17400'
+    @order.currency = 'GBP'
+    @order.worldPayStatus = 'PENDING'
+    @order.description = 'GGG Test order description'
+    @order.dateCreated = Time.now.utc.xmlschema
+    @order.dateLastUpdated = @order.dateCreated
+    @order.updatedByUser = 'testuser@example.com'
+    @order.prefix_options[:id] = session[:registration_id]
+
+    if @order.valid?
+      @order.save!
+      true
+    else
+      logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
+      false
+    end
+
   end
 
   # GET upper-registrations/summary
@@ -1013,15 +1045,19 @@ class RegistrationsController < ApplicationController
   ######################################
 
   def newOfflinePayment
-    session[:payment_pending] = true
     @registration = Registration.find session[:registration_id]
   end
 
   def updateNewOfflinePayment
-    redirect_to :pending_payment
+    @registration = Registration.find session[:registration_id]
+    redirect_to @registration.user.confirmed? ? print_confirmed_path : pending_path
   end
 
   private
+
+  def owe_money? registration
+    registration.upper? and !registration.paid_in_full?
+  end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params

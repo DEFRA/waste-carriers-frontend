@@ -1,56 +1,62 @@
 <%= render 'shared/content_for_pages' %>
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-
+    
     <%= form_for(@registration, :url => :upper_payment) do |f| %>
+    <% content_for :page_title, createTitle('.title') %>
 
-      <% content_for :page_title, createTitle('.title') %>
+    <p class='back_link'><%= render 'back_link' %></div>
+    <div class="step">Step 7 of 8</div>
+    <%= render "errors" %>
 
-      <div class="step">Step 7 of 8</div>
-      <h1 class="subtitle"><%= t '.subtitle' %></h1>
+    <fieldset>
+      <legend><%= t '.subtitle' %></legend>
 
-      <%= render "errors" %>
-
-      <fieldset>
-        <div>&nbsp;</div>
-        <div class="boxed">
-        <p class="group">
-          <div class="label_clone left"><%= t '.new_reg_label' %>
-            <div class="boxed_pay_small right"> <%= f.text_field :registration_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %>
+      <div class='payment-box'>
+        <div class="inner-payment-box">
+          <div class='inner'>
+            <div class='inline'>
+              <%= f.label :registration_fee, class: 'form-label' %>
+              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4 %>
             </div>
-        </p>
-          </div>
-        </div>
-        <div>&nbsp;</div>
-        <div class="boxed">
-          <p class="group">
-            <%= validation_for(@registration, :copy_cards) %>
-            <div class="label_clone left"><%= f.label t '.copy_card_label' %>
-            <div class="left"><%= f.number_field :copy_cards, :min => 0, :max => 3 %>
-            <div class="boxed_pay_small right"> <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %> </div>
-            </div>
-          </p>
-        </div>
-        </div>
-        <p> <%= t '.copy_card_info' %> </p>
-        <div class="boxed">
-        <p class="group">
-          <div class="label_clone_big left"><%= t '.total_label' %>
-           <div class="boxed_pay_small right">
-
-           <%= f.text_field :total_fee, :size =>5, :maxlength => 4, disabled: 'disabled' %> </div>
-         </p>
+            <p class='subtitle'>Cost of Waste Carrier registration</p>
          </div>
         </div>
 
-      </fieldset>
+        <div class="inner-payment-box">
+          <div class='inner'>
+            <%= validation_for(@registration, :copy_cards) %>
+              <div class='inline'>
+                <%= f.label :copy_cards, class: 'form-label' %>
+                <%= f.text_field :copy_cards, :size =>5, :maxlength => 4 %>
+                <%= f.number_field :copy_cards, :min => 0, :max => 3 %>
+              </div>
+            <p class='subtitle'><%= t '.copy_card_info' %></p>
+          </div>
+        </div>
 
-      <p>
-        <%= render 'back_link' %>
-        <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-        <%= link_to t('registrations.form.pay_offline_button_label'), newOfflinePayment_path, class: 'button-secondary' %>
-      </p>
+        <div class="inner-payment-box-total">
+          <div class="inner">
+            <div class='inline'>
+              <%= f.label :total_fee, class: 'form-label' %>
+              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4 %>
+            </div>
+          </div> 
+        </div>
+       
+        <div class="inner-payment-box-buttons">
+          <div class="inner">
+            <div class='payment-buttons'>
+              <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
+                  <span>or</span>
+                <%= link_to t('registrations.form.pay_offline_button_label'), newOfflinePayment_path, class: 'button-secondary' %>
+            </div>
+          </div>
+        </div>
+      </div>
 
+    </fieldset>
+      
     <% end %>
   </article>
 </main>

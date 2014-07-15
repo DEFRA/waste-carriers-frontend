@@ -30,13 +30,16 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   font-weight: normal;
 }
 
+#content {
+    list-style-type:none;
+}
 
-//Example Box
 
-.summary-box:before {
+//BOX STYLES
+
+.inner-payment-box:before, .payment-box:before, .summary-box:before, .example:before {
     background: none repeat scroll 0 0 rgb(191, 193, 195);
     color: rgb(255, 255, 255);
-    content: "SUMMARY";
     font-family: "nta",Arial,sans-serif;
     font-size: 14px;
     font-weight: 400;
@@ -47,48 +50,80 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     text-transform: none;
     top: 0;
 }
-
-.summary-box {
+.payment-box #registration_registration_fee, #registration_copy_cards, #registration_total_fee {
+    background: none repeat scroll 0 0 rgb(222, 224, 226);
     border: 1px solid rgb(191, 193, 195);
-    margin-bottom: 10px;
-    margin-top: 10px;
-    overflow: hidden;
+    cursor: pointer;
+    display: block;
+    padding: 18px 0 15px 25px;
     position: relative;
 }
+.inner-payment-box, .inner-payment-box-total, .payment-box {
+    padding: 10px 20px 20px 10px;
+}
 
-.example:before {
-    background: none repeat scroll 0 0 rgb(191, 193, 195);
-    color: rgb(255, 255, 255);
-    content: "EXAMPLE";
-    font-family: "nta",Arial,sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    left: 0;
-    line-height: 1.42857;
-    padding: 0.21053em 0.78947em;
-    position: absolute;
-    text-transform: none;
-    top: 0;
-}
-.summary-box:after, .example:after {
-    clear: both;
-    content: "";
-    display: block;
-}
 .summary-box, .example {
-    padding-bottom: 30px;
-    padding-top: 45px;
+   padding: 30px 0 10px 30px;
 }
-.summary-box, .example {
-    padding-left: 30px;
-    padding-right: 30px;
+
+.payment-box {
+    padding-bottom:0px;
 }
-.example {
+
+.inner-payment-box, .inner-payment-box-total {
+    border-bottom: 1px solid rgb(191, 193, 195);
+}
+.payment-box, .summary-box, .example {
     border: 1px solid rgb(191, 193, 195);
     margin-bottom: 45px;
     margin-top: 15px;
     overflow: hidden;
     position: relative;
+}
+.inner .inline input {
+    float:right;
+}
+.payment-box .form-label, input {
+    display: inline;
+}
+#registration_copy_cards, #registration_registration_fee {
+    margin-left:10px;
+}
+#payment-buttons {
+    float:left;
+    position:relative;
+    vertical-align: baseline;
+}
+.payment-box .add-focus {
+    outline: none;
+}
+.payment-box input:focus {
+  outline: none;
+  cursor:none;
+}
+#registration_copy_cards {
+    border: 1px solid rgb(191, 193, 195);
+    width: 8%;
+}
+
+//Example box
+
+.example:before {
+    content: "EXAMPLE";
+}
+.example {
+    margin-bottom: 45px;
+    margin-top: 15px; 
+}
+
+//Summary box
+
+.summary-box:before {
+    content: "SUMMARY";
+}
+.summary-box {
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 // GDS FORMS
@@ -98,7 +133,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     font-family: "nta",Arial,sans-serif;
     font-size: 19px;
     font-weight: 400;
-    line-height: 1.25;
+    line-height: 1.50;
     margin: 0;
     text-transform: none;
 }
@@ -203,8 +238,8 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     display: block;
     font-family: "nta",Arial,sans-serif;
     font-size: 24px;
-    font-weight: 700;
-    line-height: 1.25;
+    font-weight: 500;
+    line-height: 1.50;
     margin-bottom: 0;
     text-transform: none;
 }
@@ -213,14 +248,14 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     display: block;
     font-family: "nta",Arial,sans-serif;
     font-size: 24px;
-    font-weight: 700;
-    line-height: 1.25;
+    font-weight: 500;
+    line-height: 1.50;
     margin-bottom: 0;
     text-transform: none;
 }
 
 
-//Validation 
+//VALIDATION 
 
 .validation-summary {
     background: none repeat scroll 0 0 rgb(254, 247, 247);
@@ -230,12 +265,14 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     margin-top:20px;
 }
 
+//Error text
+
 .error-text {
     color: rgb(223, 48, 52);
 }
 
 
-//Panel Indent
+//PANEL INDENT
 
 .panel-indent {
     border-left: 5px solid rgb(222, 224, 226);
@@ -245,7 +282,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     padding-left:20px;
 }
 
-//Related Positioning
+//RELATED POSITIONING
 
 .js-enabled .related-positioning {
     top: 7em;
@@ -270,8 +307,9 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 .related {
     border-top: 10px solid rgb(0, 94, 165);
     margin: 3em 0 0;
-    position: absolute;
-    right: 1.75em;
+    position: relative;
+    right: -33.44em;
+    top: -6em;
     width: 18.75em;
 }
 
@@ -311,6 +349,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     margin-right:10px;
 }
 
+
 // Table Styles Example
 
 table {
@@ -335,7 +374,7 @@ table th, table td {
 
 //Hidden Text Example
 
-details summary {
+details .summary {
     color: rgb(0, 94, 165);
     cursor: pointer;
     display: inline-block;
@@ -368,8 +407,16 @@ details .summary {
 }
 
 
+//Back Links Positioning
 
+.back_link, .step {
+    display:inline;
+    padding-top: 10px;
+}
 
-
+.back-button-position {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
 
 

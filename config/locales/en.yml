@@ -50,6 +50,10 @@ en:
     name: "Name"
     newLabel: "New agency user"
     editHeading: "Editing agency user"
+    Role_admin: "Administrator"
+    Role_financeBasic: "Financial Basic"
+    Role_financeAdmin: "Financial Admin"
+    Role_ncccRefund: "Agency Refund"
 
   registration_mailer:
     revoke_email:
@@ -430,6 +434,9 @@ en:
       data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
       privacy_policy: "Privacy policy and cookies"
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
+      edit_smart_answers_link: "Edit what you told us"
+      edit_business_address_link: "Edit your business or organisation address"
+      edit_contact_details_link: "Edit your contact details"
     dataProtection:
       title: "The Data Protection Act 1998"
       subtitle: "Find out about other ways in which we may use your information."
@@ -515,7 +522,7 @@ en:
       deleteLabel: "Delete registration"
     newPayment:
       title: "Payment"
-      subtitle: "Payment"
+      subtitle: "Payment Summary"
       total_label: "Total to pay"
       new_reg_label: "New registration"
       copy_card_label: "Copy cards cost £5 each"
@@ -526,10 +533,20 @@ en:
       trouble_paying_link: "Trouble paying?"
     newOfflinePayment:
       heading: "How to pay"
-      amount: "Please initiate a bank transfer for %{amount_with_currency_symbol} to:"
+      bank_transfer_instructions: "Please arrange your bank transfer using the following details:"
+      reference: "Payment reference number: %{reference}"
+      account_name: "Account name: %{account_name}"
+      bank_name: "Bank name: %{bank_name}"
+      bank_address: "Bank address: %{bank_address}"
       sort_code: "Sort code: %{sort_code}"
       account_number: "Account number: %{account_number}"
-      reference: "Reference: %{reference}"
+      iban_instructions: "If you are paying from outside the United Kingdom, you must pay in sterling and include:"
+      iban_number: "IBAN number: %{iban_number}"
+      swiftbic_number: "SWIFTBIC number: %{swiftbic_number}"
+      bank_transfer_contact_instructions: "Please contact us with the details of your bank transfer by either:"
+      email_preamble: "Email: "
+      fax_number: "Fax: %{fax_number}"
+      postal_address: "Post: %{postal_address}"
     newUpperSummary:
       title: "Summary"
       subtitle: "Summary"
@@ -701,6 +718,13 @@ en:
       unrevoke_button_label: "Un-revoke"
       delete_button_label: "Delete"
       enterpayment_button_label: "Enter Payment"
+      writeoff_button_label: "Write off"
+      writeoffsmall_button_label: "Write off (small)"
+      writeofflarge_button_label: "Write off (large)"
+      refund_button_label: "Refund"
+      select_button_label: "Select (Online)"
+      manual_payment_button_label: "Select (Manual)"
+      back_to_status_button_label: "Back to payment status"
 
       root_site: "GOV.UK"
 
@@ -722,8 +746,23 @@ en:
       declaration_legal_text: "...(TBD) some legal text to go here..."
 
   payment:
-    enterPayment:
+    new:
       heading: "Enter payment"
       step: "Enter a manual payment into the system"
       fields:
         commentGuidance: "Maximum 250 characters"
+    newWriteOff:
+      heading: "Write off difference"
+      step: "Write off the difference into the system"
+      writeOffNotApplicable: "Write off unavailable as balance has been paid"
+      writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"
+      writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
+      fields:
+        commentGuidance: "Maximum 250 characters"
+    newRefund:
+      heading: "Refunds"
+      step: "Select a payment to refund"
+    manualRefund:
+      heading: "Manual Refunds"
+    worldpayRefund:
+      heading: "Worldpay Refunds"

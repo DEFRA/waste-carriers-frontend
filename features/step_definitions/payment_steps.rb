@@ -53,10 +53,9 @@ And(/^I choose to pay by bank transfer$/) do
 end
 
 Then(/^I make a note of the details$/) do
-  page.text.should match /£\d+\.\d{2}/
+  page.text.should match /Payment reference number: CBDU\d+/
   page.text.should match /Sort code: \d{2}-\d{2}-\d{2}/
   page.text.should match /Account number: \d+/
-  page.text.should match /Reference: CBDU\d+/
 
   click_on 'Next'
 end
