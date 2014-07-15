@@ -1,5 +1,9 @@
 module PaymentsHelper
 
+  def pence_to_currency pence
+    number_to_currency pence, unit: '£', precision: 0
+  end
+
   # This is shown in the enter payment view and payment status view
   def amountSummary_for(model, includeBalance)
     if model.financeDetails.balance > 0
