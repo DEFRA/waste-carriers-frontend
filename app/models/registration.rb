@@ -256,7 +256,7 @@ class Registration < Ohm::Model
           new_reg.uuid = v
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
-        when 'Directors'
+        when 'directors'
           if v
             v.each do |dir|
               d = Director.new
@@ -621,7 +621,7 @@ class Registration < Ohm::Model
       if r.pending?
         Rails.logger.info("Activating registration " + r.regIdentifier)
         r.activate!
-        r.save!
+        r.commit
         RegistrationMailer.welcome_email(user,r).deliver
       else
         Rails.logger.info("Skipping non-pending registration " + r.regIdentifier)
