@@ -134,7 +134,7 @@ class PaymentController < ApplicationController
   end
   
   # GET /refunds
-  def newRefund
+  def index
 	@registration = Registration.find(params[:id])
 
     authorize! :read, @registration
@@ -161,19 +161,69 @@ class PaymentController < ApplicationController
   end
   
   # GET /worldpayRefund/:orderCode
-  def createWorldpay
+  def newWPRefund
+    logger.info 'Request to worldpayRefund'
+    @registration = Registration.find(params[:id])
+    @orderCode = params[:orderCode]
+    
+	# Get payment from registration
+    @payment = Payment.getPayment(@registration, params[:orderCode])
+    
+    authorize! :read, @registration
+  end
+  
+  # POST /worldpayRefund/:orderCode
+  def createWPRefund
     logger.info 'Request to createWorldpay, id:' + params[:id] + ' orderCode:' + params[:orderCode]
     
     #
     # TODO: Use order code value to create a negative payment of the amount requested in the order
     #
+
+	# Get selected payment from registration by order code
+	@registration = Registration.find(params[:id])
+	@foundPayment = Payment.getPayment(@registration, params[:orderCode])
+	@payment = Payment.new(@foundPayment.attributes)
+	logger.info 'found payment:' + @foundPayment.attributes.to_s
+	
+	# Flip the value of the selected payment to be a negative payment, ie a refund
+	@payment.amount = -@payment.amount.abs
+	logger.info 'payment amount:' + @payment.amount.to_s
+	
+	# Set automatic Payment values
+	@payment.paymentType = 'REFUND'
+	@payment.dateReceived = Date.current
+    @payment.updatedByUser = current_agency_user.id.to_s
+
+    # Add registration Id as a prefix option
+	@payment.prefix_options[:id] = params[:id]
+	
+	if @payment.valid?
+	  logger.info 'payment is valid'
+	  @payment.save!
+	  
+	  # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
+      redirect_to ({ action: 'completeWPRefund', id: params[:id], orderCode: params[:orderCode] })
+      
+	else
+	  logger.info 'payment is not valid'
+	  if @payment.errors.any?
+	    logger.info 'has errors'
+	    @payment.errors.each do |error|
+	      logger.info 'error: ' + error.to_s
+	    end
+	  else
+	    logger.info 'no errors???'
+	  end
+	  
+	  render "newWPRefund", :status => '400'
+	end
     
-    # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
-    redirect_to ({ action: 'worldpayRefund', id: params[:id], orderCode: params[:orderCode] })
+    
   end
   
   # GET /worldpayRefund/:orderCode/refundComplete
-  def worldpayRefund
+  def completeWPRefund
     logger.info 'Request to worldpayRefund'
     @registration = Registration.find(params[:id])
     @orderCode = params[:orderCode]
