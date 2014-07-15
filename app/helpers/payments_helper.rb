@@ -25,11 +25,13 @@ module PaymentsHelper
 
   # This is shown in the payment status view, the difference to amountSummary_for is it has awaiting payment text instead of balance due text
   def amountPaymentSummary_for(model)
-    if model.financeDetails.balance > 0
-      t('registrations.form.awaitingPayment_text') + ' ' + number_to_currency(model.financeDetails.balance, :unit => "£")
-    elsif model.financeDetails.balance < 0
-      t('registrations.form.overpaid_text') + ' ' + number_to_currency(model.financeDetails.balance.abs, :unit => "£")
-    elsif model.financeDetails.balance == 0
+    balance = model.financeDetails.balance
+
+    if balance > 0
+      t('registrations.form.awaitingPayment_text') + ' ' + pence_to_currency(balance)
+    elsif balance < 0
+      t('registrations.form.overpaid_text') + ' ' + pence_to_currency(balance.abs)
+    else
       t('registrations.form.paidInFull_text')
     end
   end
