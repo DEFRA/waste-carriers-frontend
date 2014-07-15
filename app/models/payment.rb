@@ -52,12 +52,12 @@ class Payment < ActiveResource::Base
   
   # Represents the maximum balance needed for a finance basic user to make a write off
   def self.basicMaximum
-    100
+    10000
   end
   
   # Represents the maximum balance needed for a finance admin user to make a write off
   def self.adminMaximum
-    200
+    20000
   end
   
   # Returns true if balance is in range for a small write off, otherwise returns an 
