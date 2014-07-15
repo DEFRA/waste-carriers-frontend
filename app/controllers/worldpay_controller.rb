@@ -82,13 +82,13 @@ class WorldpayController < ApplicationController
       @payment.comment = 'Paid via Worldpay'
       @payment.prefix_options[:id] = session[:registration_id]
 
-      #TODO re-enable validation - current validation rules are geared towards offline payments
+      #TODO re-enable validation and saving - current validation rules are geared towards offline payments
       if @payment.valid?
         #@payment.save!
-        @payment.save(:validate => false)
+        #@payment.save(:validate => false)
       else
         logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
-        @payment.save(:validate => false)
+        #@payment.save(:validate => false)
       end
     end
 
