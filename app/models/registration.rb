@@ -272,10 +272,7 @@ class Registration < ActiveResource::Base
   end
 
   def paid_in_full?
-    # TODO apparently Georg expects to set a balance variable
-    # DELME to keep suite passing we give it a positive value for the moment
-    balance = 15400
-    balance <= 0
+    financeDetails.balance <= 0
   end
 
   def self.business_type_options_for_select
