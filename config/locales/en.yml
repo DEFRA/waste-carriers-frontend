@@ -760,10 +760,14 @@ en:
       writeOffNotAppropriate: 'Write off unavailable for current registration'
       fields:
         commentGuidance: "Maximum 250 characters"
-    newRefund:
+    index:
       heading: "Refunds"
       step: "Select a payment to refund"
     manualRefund:
       heading: "Manual Refunds"
-    worldpayRefund:
-      heading: "Worldpay Refunds"
+    newWPRefund:
+      heading: "Worldpay refund confirmation"
+      step: "Confirm your actions"
+    completeWPRefund:
+      heading: "Worldpay refund complete"
+      step: "You have completed the refund for this payment"
