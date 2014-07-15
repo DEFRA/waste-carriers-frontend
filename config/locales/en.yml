@@ -535,6 +535,7 @@ en:
       heading: "How to pay"
       bank_transfer_instructions: "Please arrange your bank transfer using the following details:"
       reference: "Payment reference number: %{reference}"
+      payment_due: "Payment due: %{payment_due}"
       account_name: "Account name: %{account_name}"
       bank_name: "Bank name: %{bank_name}"
       bank_address: "Bank address: %{bank_address}"
