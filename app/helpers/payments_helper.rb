@@ -6,19 +6,21 @@ module PaymentsHelper
 
   # This is shown in the enter payment view and payment status view
   def amountSummary_for(model, includeBalance)
-    if model.financeDetails.balance > 0
+    balance = model.financeDetails.balance
+
+    if balance > 0
       if includeBalance
-        t('registrations.form.balanceDue_text') + ' ' + number_to_currency(model.financeDetails.balance, :unit => "£")
+        t('registrations.form.awaitingPayment_text') + ' ' + pence_to_currency(balance)
       else
-        t('registrations.form.balanceDue_text')
+        t('registrations.form.awaitingPayment_text')
       end
-    elsif model.financeDetails.balance < 0
+    elsif balance < 0
       if includeBalance
-        t('registrations.form.overpaid_text') + ' ' + number_to_currency(model.financeDetails.balance.abs, :unit => "£")
+        t('registrations.form.overpaid_text') + ' ' + pence_to_currency(balance.abs)
       else
         t('registrations.form.overpaid_text')
       end
-    elsif model.financeDetails.balance == 0
+    else
       t('registrations.form.paidInFull_text')
     end
   end
