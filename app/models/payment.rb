@@ -23,6 +23,7 @@ class Payment < ActiveResource::Base
     WORLDPAY
     WRITEOFFSMALL
     WRITEOFFLARGE
+    REFUND
   ]
   
   VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/ 		# This does not allow for a decimal point and currently works in pence only
@@ -87,6 +88,19 @@ class Payment < ActiveResource::Base
     else
       true
     end
+  end
+  
+  # Returns the payment from the registration matching the orderCode
+  def self.getPayment(registration, orderCode)
+    foundPayment = nil
+    registration.financeDetails.payments.each do |payment|
+      Rails.logger.info 'Payment getPayment ' + payment.orderKey.to_s
+      if orderCode == payment.orderKey
+        Rails.logger.info 'Payment getPayment foundPayment'
+        foundPayment = payment
+      end
+    end
+    foundPayment
   end
   
   private

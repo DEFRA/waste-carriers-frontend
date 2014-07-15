@@ -1,0 +1,58 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+	<article role="article" class="group">
+	<% content_for :page_title, createTitle('.heading') %>
+
+	<!-- Usefull for showing default messages -->
+	<% if alert %><%= alert %><% end %>
+
+	<aside>
+	<%= form_for @payment, url: {action: "createWPRefund"}, :method => 'post' do |f| %>
+
+		<div class="step"><%= t '.step' %></div>
+
+		<%= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
+
+		<!-- WF X.X.X -->
+		<div id="payment" data-journey="waste-carriers-registration:refunds">
+
+			<fieldset>
+				<legend><%= t '.heading' %></legend>
+				
+				<p>Are you sure you want to make a Worldpay refund?</p>
+				
+				<p>For order: <%= f.object.orderKey %>, in the amount of <%= number_to_currency(f.object.amount, :unit => "£") %></p>
+				
+				<p>To confirm this refund, click the Refund button below.</p>
+
+				<div class="inline">
+				    <noscript>
+				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+				    </noscript>
+				    <%= link_to t('registrations.form.back_button_label'), :refund, :class => 'link_to' %>
+				    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.refund_button_label' %>"/></span>
+				</div>
+				
+				<br/>
+				
+			</fieldset>
+			
+		</div>
+
+	<% end %>
+	
+	</aside>
+
+	<div class='related-positioning'>
+		<div class='related-container'>
+			<div class='related'>
+				<div class='inner group related-subsection'>
+				<%= render "shared/current_user" %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</article>
+</main>
