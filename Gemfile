@@ -63,6 +63,8 @@ gem 'capistrano', '~> 3.0.0'
 
 gem 'rest-client'
 
+gem 'money'
+
 group :test do
   gem 'ci_reporter'
   gem 'cucumber-rails', require: false
