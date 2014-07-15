@@ -6,7 +6,7 @@ module PaymentsHelper
   end
 
   # This is shown in the enter payment view and payment status view
-  def amountSummary_for model, includeBalance
+  def amountSummary_for model, include_balance
     balance = model.financeDetails.balance
 
     prefix = if balance > 0
@@ -18,7 +18,7 @@ module PaymentsHelper
              end
 
     suffix = " #{pence_to_currency balance.abs}" unless balance.zero?
-    includeBalance ? "#{prefix}#{suffix}" : prefix
+    include_balance ? "#{prefix}#{suffix}" : prefix
   end
 
   def pence_to_currency pence
