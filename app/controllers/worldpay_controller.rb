@@ -54,7 +54,7 @@ class WorldpayController < ApplicationController
 
     def process_payment
 
-      payment_processed = false
+      payment_processed = true
 
       orderKey = params[:orderKey] || ''
       paymentAmount = params[:paymentAmount] || ''
@@ -64,6 +64,7 @@ class WorldpayController < ApplicationController
       if !validate_worldpay_return_parameters(orderKey,paymentAmount,paymentCurrency,paymentStatus,mac)
         logger.error 'Validation of Worldpay return parameters failed. MAC verification failed!'
         # TODO Possibly need to do something more meaningful with the fact the MAC check has failed
+        payment_processed = false
       else
         orderCode = orderKey.split('^').at(2)
 
@@ -91,18 +92,16 @@ class WorldpayController < ApplicationController
 
         #TODO re-enable validation and saving - current validation rules are geared towards offline payments
         if @payment.valid?
-          payment_processed = true
           #@payment.save!
           #@payment.save(:validate => false)
         else
           logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
+          payment_processed = false
           #@payment.save(:validate => false)
         end
       end
 
       payment_processed
-
-      return
     end
 
 end
