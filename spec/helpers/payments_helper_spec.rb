@@ -19,7 +19,7 @@ describe PaymentsHelper do
         allow(finance_details).to receive(:balance).and_return(10000)
       end
 
-      specify { helper.amountPaymentSummary_for(registration).should == 'Awaiting payment £10,000.00' }
+      specify { helper.amountPaymentSummary_for(registration).should == 'Awaiting payment £100.00' }
     end
 
     context 'negative balance' do
@@ -27,7 +27,7 @@ describe PaymentsHelper do
         allow(finance_details).to receive(:balance).and_return(-10000)
       end
 
-      specify { helper.amountPaymentSummary_for(registration).should == 'Overpaid by £10,000.00' }
+      specify { helper.amountPaymentSummary_for(registration).should == 'Overpaid by £100.00' }
     end
 
     context 'zero balance' do
