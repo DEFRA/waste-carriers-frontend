@@ -1,7 +1,7 @@
 module PaymentsHelper
 
   # This is shown in the payment status view, the difference to amountSummary_for is it has awaiting payment text instead of balance due text
-  def amountPaymentSummary_for model
+  def amount_payment_summary_for model
     amountSummary_for model, true
   end
 
