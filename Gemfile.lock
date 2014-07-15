@@ -134,6 +134,8 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.6.0)
     minitest (4.7.5)
+    money (6.1.1)
+      i18n (~> 0.6.4)
     mongoid (4.0.0)
       activemodel (~> 4.0)
       moped (~> 2.0.0)
@@ -295,6 +297,7 @@ DEPENDENCIES
   launchy (~> 2.4.2)
   letter_opener (~> 1.2.0)
   meta_request
+  money
   mongoid (~> 4.0.0)
   nokogiri (~> 1.6.2.1)
   parallel_tests
