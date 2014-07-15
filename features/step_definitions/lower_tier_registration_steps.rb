@@ -34,7 +34,7 @@ Given(/^I have completed the lower tier registration form$/) do
   fill_in 'Confirm password', with: my_password
   click_on 'Next'
 
-  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  sleep 0.2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
 end
 
 Given(/^I have been funneled into the lower tier path$/) do
