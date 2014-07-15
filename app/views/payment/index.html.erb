@@ -46,9 +46,10 @@
 									<td class=""><%= t('payment_types.'+payment.paymentType) %></td>
 									<td class=""><%= number_with_precision(payment.amount, :precision => 2) %></td>
 									<td class="">
-									<% if !payment.orderKey.nil? %>
-									<%= link_to t('registrations.form.select_button_label'), {controller: 'payment', action: 'createWorldpay', id: @registration.id, orderCode: payment.orderKey }, class: 'link_to' %>
-									<% else %>
+									<% isNotRefund = payment.paymentType != 'REFUND' %>
+									<% if !payment.orderKey.nil? and isNotRefund %>
+									<%= link_to t('registrations.form.select_button_label'), {controller: 'payment', action: 'newWPRefund', id: @registration.id, orderCode: payment.orderKey }, class: 'link_to' %>
+									<% elsif isNotRefund %>
 									<%= link_to t('registrations.form.manual_payment_button_label'), :manualRefund, :class => 'link_to' %>
 									<% end %>
 									</td>
