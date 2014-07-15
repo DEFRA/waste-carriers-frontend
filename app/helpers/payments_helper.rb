@@ -1,7 +1,8 @@
 module PaymentsHelper
 
-  def pence_to_currency pence
-    Money.new(pence).format
+  # This is shown in the payment status view, the difference to amountSummary_for is it has awaiting payment text instead of balance due text
+  def amountPaymentSummary_for(model)
+    amountSummary_for model, true
   end
 
   # This is shown in the enter payment view and payment status view
@@ -20,9 +21,7 @@ module PaymentsHelper
     includeBalance ? "#{prefix}#{suffix}" : prefix
   end
 
-  # This is shown in the payment status view, the difference to amountSummary_for is it has awaiting payment text instead of balance due text
-  def amountPaymentSummary_for(model)
-    amountSummary_for model, true
+  def pence_to_currency pence
+    Money.new(pence).format
   end
-
 end
