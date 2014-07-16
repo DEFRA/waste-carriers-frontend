@@ -4,7 +4,9 @@ class Registration < Ohm::Model
   include ActiveModel::Validations
   extend ActiveModel::Naming
 
-  attr_writer :current_step
+  FIRST_STEP = 'businesstype'
+
+  attribute :current_step
 
   #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
   attribute :uuid
@@ -256,7 +258,7 @@ class Registration < Ohm::Model
           new_reg.uuid = v
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
-        when 'Directors'
+        when 'directors'
           if v
             v.each do |dir|
               d = Director.new
@@ -407,6 +409,7 @@ class Registration < Ohm::Model
   end
 
   def upperbusinessdetails_step?
+    Rails.logger.debug "current_step:  #{current_step.to_s}"
     current_step.inquiry.upper_business_details?
   end
 

@@ -35,7 +35,7 @@ class RegistrationsController < ApplicationController
 
   # GET /your-registration/business-type
   def newBusinessType
-    new_step_action 'businesstype', true
+    new_step_action 'businesstype'
 
     @registration.routeName = agency_user_signed_in? ? 'ASSISTED_DIGITAL' : 'DIGITAL'
   end
@@ -184,7 +184,7 @@ class RegistrationsController < ApplicationController
       @selected_address = Address.find(params[:addressSelector])
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
 
-  end
+    end
 
     if params[:findAddress] #user clicked on Find Address button
 
@@ -272,28 +272,31 @@ class RegistrationsController < ApplicationController
     # Renders static data proctection page
   end
 
-    def new_step_action current_step, this_is_first_step=false
-    # session[:registration_params] ||= {}
-    # session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    # @registration = Registration.new(session[:registration_params])
+  def new_step_action current_step
 
-    if this_is_first_step
+    if current_step.eql? Registration::FIRST_STEP
       @registration = Registration.create
       session[:registration_id]= @registration.id
+      logger.debug "creating new registration #{@registration.id}"
       m = Metadata.create
       @registration.metaData.add m
     else
       @registration = Registration[ session[:registration_id]]
+       logger.debug "retireving registration #{@registration.id}"
+      m = Metadata.create
     end
 
-    logger.debug "reg: #{@registration.to_json}"
+    logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
 
     if  session[:registration_progress].eql? 'IN_EDIT'
     end
 
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
-    @registration.current_step = current_step unless   session[:registration_progress].eql? 'IN_EDIT'
+    @registration.current_step = current_step
+    # @registration.save
+    logger.debug "new step action: #{current_step}"
+    logger.debug "curret step: #{ @registration.current_step}"
     # Pass in current page to check previous page is valid
     # TODO had to comment this out for now because causing problems but will probably need to reinstate
     # check_steps_are_valid_up_until_current current_step
@@ -530,12 +533,12 @@ class RegistrationsController < ApplicationController
     new_step_action 'signup'
 
     @registration.accountEmail = if user_signed_in?
-        current_user.email
-      elsif agency_user_signed_in?
-        current_agency_user.email
-      else
-        @registration.contactEmail
-      end
+      current_user.email
+    elsif agency_user_signed_in?
+      current_agency_user.email
+    else
+      @registration.contactEmail
+    end
 
     # Get signup mode
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
@@ -594,10 +597,10 @@ class RegistrationsController < ApplicationController
           logger.debug "User signed in, set account email to user email and get user"
 
           @registration.accountEmail = if user_signed_in?
-                                         current_user.email
-                                       elsif agency_user_signed_in?
-                                         current_agency_user.email
-                                       end
+            current_user.email
+          elsif agency_user_signed_in?
+            current_agency_user.email
+          end
 
           @user = User.find_by_email(@registration.accountEmail)
         end
@@ -877,7 +880,7 @@ class RegistrationsController < ApplicationController
       logger.debug 'registration.valid'
       logger.debug params.keys.to_s
       redirect_to :newUpperContactDetails
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newUpperBusinessDetails", :status => '400'
@@ -904,7 +907,7 @@ class RegistrationsController < ApplicationController
       if @registration.businessType.eql? 'limitedCompany'
         redirect_to :registration_directors
       else
-      redirect_to :upper_summary
+        redirect_to :upper_summary
       end
     else
       # there is an error (but data not yet saved)
