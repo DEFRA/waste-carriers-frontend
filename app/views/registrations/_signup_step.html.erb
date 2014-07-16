@@ -60,7 +60,7 @@
     <% if @registration.sign_up_mode == "sign_up" %>
     <%= f.label :password, t('.createPassword'), class: 'form-label' %><% else %>
     <%= f.label :password, class: 'form-label' %><% end %>
-    <%= f.password_field :password, class: 'form-label' %>
+    <%= f.password_field :password %>
     <p class='subtitle'>Password must be at least 8 characters long using upper and lower case letters.</p>
     <!--     <span class="strength_icon none">&#9650;</span>
     <span class="strength_message"></span> -->
