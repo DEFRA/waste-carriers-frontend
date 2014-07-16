@@ -461,17 +461,17 @@ class Registration < Ohm::Model
   end
 
   def account_email_present?
-    accountEmail.present?
+    accountEmail ? true : false
   end
 
   def upper?
-    return false if tier.blank?
-    tier.eql? .UPPER?
+    return false if tier.empty?
+    tier.eql? 'UPPER'
   end
 
   def lower?
-    return true if tier.blank?
-    tier.eql? .LOWER?
+    return true if tier.empty?
+    tier.eql? 'LOWER'
   end
 
   def paid_in_full?
