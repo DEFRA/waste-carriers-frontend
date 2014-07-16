@@ -1,4 +1,4 @@
-<% unless @registration.first_step? %>
+<% unless @registration.current_step.eql? Registration::FIRST_STEP %>
     <noscript>
       <%= content_tag :p, t('registrations.back_link_unavailable') %>
     </noscript>
