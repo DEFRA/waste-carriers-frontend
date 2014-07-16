@@ -1,9 +1,9 @@
 <%= render 'shared/content_for_pages' %>
-<%= render "shared/current_user" %>
+<%#= render "shared/current_user" %>
 
 <% content_for :page_title, createTitle('.subtitle') %>
 
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group"><article role="article" class="group"><aside>
 
 <% if params[:note] %>
 <div id="note_explanation" class="note-summary">
@@ -18,10 +18,11 @@
 <% end %>
 
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
-<h1 class="subtitle"><%= t '.subtitle' %></h1>
+<!--<h1 class="subtitle"><%= t '.subtitle' %></h1>-->
+<legend><%= t '.subtitle' %></legend>
 <%= render "shared/meta_phases"%>
 
-<p class="group"><%= t '.summaryText' %></p>
+<p class="group" style="width:60%"><%= t '.summaryText' %></p><!-- FIXME: Force indent as to not wrap over user status box -->
 
 <p class="group"><b><%= t '.registrationCountText', :count => pluralize(@registrations.count,"registration") %></b></p>
 
@@ -66,5 +67,18 @@
 <form method="get" action="<%= find_path %>" class="action group">
 	<input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />
 </form>
+
+</aside>
+<br/> <!-- gives better spacing in safair -->
+
+<div class='related-positioning'>
+	<div class='related-container'>
+		<div class='related'>
+			<div class='inner group related-subsection'>
+			<%= render "shared/current_user" %>
+			</div>
+		</div>
+	</div>
+</div>
 
 </article></main>
