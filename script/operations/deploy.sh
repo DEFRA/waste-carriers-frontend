@@ -101,7 +101,7 @@ if [ "${WCRS_FRONTEND_RAILS_ENV}" != "production" ]; then
 fi
 
 ## re-Seed the database again after tests have cleared the database
-if [ ${WCRS_FRONTEND_RAILS_ENV} == "development" -o ${WCRS_FRONTEND_RAILS_ENV} == "test" ]; then
+if [ ${WCRS_FRONTEND_RAILS_ENV} == "development" -o ${WCRS_FRONTEND_RAILS_ENV} == "test" -o ${WCRS_FRONTEND_RAILS_ENV} == "sandbox" ]; then
   echo "Re-seeding the database."
   rake db:seed
 fi
