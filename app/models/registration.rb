@@ -466,12 +466,12 @@ class Registration < Ohm::Model
 
   def upper?
     return false if tier.blank?
-    tier.eql? .UPPER?
+    tier.inquiry.UPPER?
   end
 
   def lower?
     return true if tier.blank?
-    tier.eql? .LOWER?
+    tier.inquiry.LOWER?
   end
 
   def paid_in_full?
