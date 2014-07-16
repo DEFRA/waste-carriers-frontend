@@ -110,7 +110,6 @@ class Payment < ActiveResource::Base
   end
   
   def isManualPayment?
-    Rails.logger.info 'manual payment: ' + self.manualPayment.to_s
     self.manualPayment
   end
   
