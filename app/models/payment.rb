@@ -7,6 +7,9 @@ class Payment < ActiveResource::Base
   self.format = :json
   self.prefix = "/registrations/:id/"	# Overrides default prefix url or /payments/<id>
 #  self.collection_name = "payment"		# Overrides default collection name of 'payments'
+
+  before_save :multiplyAmount, :only => [:amount]
+  after_save :divideAmount, :only => [:amount]
   
   PAYMENT_TYPES = %w[
     CASH
@@ -26,10 +29,13 @@ class Payment < ActiveResource::Base
     REFUND
   ]
   
-  VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/ 		# This does not allow for a decimal point and currently works in pence only
+  attr_accessor :manualPayment
   
-  validates :amount, presence: true, format: { with: VALID_CURRENCY_REGEX }
-  validate :validate_amount
+  VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
+  VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
+  
+  validates :amount, presence: true, format: { with: VALID_CURRENCY_POUNDS_REGEX }, :if => :isManualPayment?
+  validates :amount, presence: true, format: { with: VALID_CURRENCY_PENCE_REGEX },  :if => :isAutomatedPayment?
   validates :dateReceived, presence: true, length: { minimum: 8 }
   validate :validate_dateReceived
   validates :registrationReference, presence: true
@@ -103,14 +109,30 @@ class Payment < ActiveResource::Base
     foundPayment
   end
   
+  def isManualPayment?
+    Rails.logger.info 'manual payment: ' + self.manualPayment.to_s
+    self.manualPayment
+  end
+  
+  def isAutomatedPayment?
+    !isManualPayment?
+  end
+  
   private
   
-  def validate_amount
-    if self.amount.to_s.include? "."
-      errors.add(:amount, I18n.t('errors.messages.invalid')+ '. This is currently a Defect, Workaround, enter a value in pence only!' )
-    end
+  # This multiplies the amount up from pounds to pence
+  def multiplyAmount
+    self.amount = (Float(self.amount)*100).to_i
+    Rails.logger.info 'multiplyAmount result:' + self.amount.to_s
+  end
+  
+  # This divides the amount down from pence back to pounds
+  def divideAmount
+    self.amount = (Float(self.amount)/100).to_s
+    Rails.logger.info 'divideAmount result:' + self.amount.to_s
   end
 
+  # Converts the three data input fields from a manual payment into an overal date
   def convert_dateReceived
     begin
       self.dateReceived = Date.civil(self.dateReceived_year.to_i, self.dateReceived_month.to_i, self.dateReceived_day.to_i)
