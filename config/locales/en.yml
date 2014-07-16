@@ -54,6 +54,8 @@ en:
     Role_financeBasic: "Financial Basic"
     Role_financeAdmin: "Financial Admin"
     Role_ncccRefund: "Agency Refund"
+    roleGuidance_1: "Select a role only if you wish to change this user to a different role."
+    roleGuidance_2: "If no role is selected the user has by default, nccc agency user permissions."
 
   registration_mailer:
     revoke_email:
