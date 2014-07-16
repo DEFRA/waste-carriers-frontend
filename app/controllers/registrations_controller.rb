@@ -294,7 +294,7 @@ class RegistrationsController < ApplicationController
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
     @registration.current_step = current_step
-    # @registration.save
+    @registration.save
     logger.debug "new step action: #{current_step}"
     logger.debug "curret step: #{ @registration.current_step}"
     # Pass in current page to check previous page is valid

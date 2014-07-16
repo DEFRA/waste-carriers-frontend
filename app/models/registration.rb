@@ -381,23 +381,23 @@ class Registration < Ohm::Model
   # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, ]
 
   def businesstype_step?
-    current_step.inquiry.businesstype?
+    current_step.eql? 'businesstype'
   end
 
   def otherbusinesses_step?
-    current_step.inquiry.otherbusinesses?
+    current_step.eql? 'otherbusinesses'
   end
 
   def serviceprovided_step?
-    current_step.inquiry.serviceprovided?
+    current_step.eql? 'serviceprovided'
   end
 
   def constructiondemolition_step?
-    current_step.inquiry.constructiondemolition?
+    current_step.eql? 'constructiondemolition'
   end
 
   def onlydealwith_step?
-    current_step.inquiry.onlydealwith?
+    current_step.eql? 'onlydealwith'
   end
 
   def address_step?
@@ -405,12 +405,11 @@ class Registration < Ohm::Model
   end
 
   def businessdetails_step?
-    current_step.inquiry.businessdetails?
+    current_step.eql? 'businessdetails'
   end
 
   def upperbusinessdetails_step?
-    Rails.logger.debug "current_step:  #{current_step.to_s}"
-    current_step.inquiry.upper_business_details?
+    current_step.eql? 'upper_business_details'
   end
 
   def lower_or_upper_contact_details_step?
@@ -418,27 +417,27 @@ class Registration < Ohm::Model
   end
 
   def contactdetails_step?
-    current_step.inquiry.contactdetails?
+    current_step.eql? 'contactdetails'
   end
 
   def uppercontactdetails_step?
-    current_step.inquiry.upper_contact_details?
+    current_step.eql? 'upper_contact_details'
   end
 
   def signup_step?
-    current_step.inquiry.signup?
+    current_step.eql? 'signup'
   end
 
   def registrationtype_step?
-    current_step.inquiry.registrationtype?
+    current_step.eql? 'registrationtype'
   end
 
   def payment_step?
-    current_step.inquiry.payment?
+    current_step.eql? 'payment'
   end
 
   def upper_summary_step?
-    current_step.inquiry.upper_summary?
+    current_step.eql? 'upper_summary'
   end
 
   def sign_up_mode_present?
@@ -467,12 +466,12 @@ class Registration < Ohm::Model
 
   def upper?
     return false if tier.blank?
-    tier.inquiry.UPPER?
+    tier.eql? .UPPER?
   end
 
   def lower?
     return true if tier.blank?
-    tier.inquiry.LOWER?
+    tier.eql? .LOWER?
   end
 
   def paid_in_full?
@@ -501,17 +500,6 @@ class Registration < Ohm::Model
     end
   end
 
-  def current_step
-    @current_step || first_step
-  end
-
-  def first_step
-    'businesstype'
-  end
-
-  def first_step?
-    current_step == first_step
-  end
 
   def last_step?
     noregistration?
