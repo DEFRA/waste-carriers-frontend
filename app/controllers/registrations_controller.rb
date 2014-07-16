@@ -410,7 +410,7 @@ class RegistrationsController < ApplicationController
     @registrations = Registration.find_by_attrib(accountEmail: @user.email)
 
     unless @registrations.empty?
-      @sorted = @registrations.sort_by { |r| r['date_registered']}.reverse!
+      @sorted = @registrations.sort_by { |r| r.date_registered }.reverse!
       @registration = @sorted.first
       @owe_money = owe_money? @registration
       session[:registration_mongoid] = @registration.id

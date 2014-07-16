@@ -624,7 +624,7 @@ class Registration < Ohm::Model
       if r.pending?
         Rails.logger.info("Activating registration " + r.regIdentifier)
         r.activate!
-        r.save!
+        r.commit
         RegistrationMailer.welcome_email(user,r).deliver
       else
         Rails.logger.info("Skipping non-pending registration " + r.regIdentifier)
