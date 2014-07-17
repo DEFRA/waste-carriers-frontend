@@ -25,6 +25,8 @@ gem 'password_strength', '~>0.3.2'
 
 gem 'rolify'
 
+gem 'indefinite_article'
+
 gem 'govuk_template'
 gem 'govuk_frontend_toolkit'
 
