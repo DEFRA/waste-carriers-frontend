@@ -113,6 +113,8 @@ GEM
     highline (1.6.21)
     hike (1.2.3)
     i18n (0.6.9)
+    indefinite_article (0.2.0)
+      activesupport
     jquery-rails (3.0.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -292,6 +294,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.4.1)
   govuk_frontend_toolkit
   govuk_template
+  indefinite_article
   jquery-rails
   jquery-turbolinks
   launchy (~> 2.4.2)
