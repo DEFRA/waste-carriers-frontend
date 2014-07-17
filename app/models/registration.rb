@@ -525,7 +525,7 @@ class Registration < Ohm::Model
   end
 
   def pending?
-    metaData.size == 1 && metaData.first.status == 'PENDING'
+    metaData && metaData.first.status == 'PENDING'
   end
 
   def pending!
@@ -603,6 +603,8 @@ class Registration < Ohm::Model
       ''
     end
   end
+
+
 
   def self.activate_registrations(user)
     Rails.logger.info("Activating pending registrations for user with email " + user.email)
