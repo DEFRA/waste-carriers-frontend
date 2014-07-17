@@ -5,8 +5,8 @@ Feature: user route summary dynamic panel
 
   Scenario: lower tier
     Given I have come to the lower tier summary page
-    Then I am told I am a lower tier waste carrier
+    Then I see I am a lower tier waste carrier
 
   Scenario: upper tier
     Given I have come to the upper tier summary page
-    Then I am told I am an upper tier waste carrier
+    Then I see I am an upper tier waste carrier
