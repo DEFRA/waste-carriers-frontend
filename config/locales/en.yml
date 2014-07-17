@@ -439,6 +439,8 @@ en:
       edit_smart_answers_link: "Edit what you told us"
       edit_business_address_link: "Edit your business or organisation address"
       edit_contact_details_link: "Edit your contact details"
+      dynamic_panel_heading: "Dynamic panel: to provide context of user route"
+      tier_description: "You are %{tier_with_article} tier waste carrier..."
     dataProtection:
       title: "The Data Protection Act 1998"
       subtitle: "Find out about other ways in which we may use your information."
