@@ -79,6 +79,7 @@ class Registration < Ohm::Model
 
   set :metaData, :Metadata
   set :directors, :Director
+  set :finance_details, :FinanceDetails
 
   index :accountEmail
   index :companyName
@@ -158,6 +159,34 @@ class Registration < Ohm::Model
       json_form['directors'] = directors
     end #if
 
+    finance_details = {}
+    if self.finance_details.size == 1
+      self.finance_details.first.attributes.each do |k, v|
+        case k
+          when 'balance'
+            finance_details[k] = v
+          when 'orders'
+            finance_details[k] = []
+            v.each do |o|
+              order = {}
+              o.attributes.each do |k, v|
+                order[k] = v
+              end
+              finance_details[k] << order
+            end
+          when 'payments'
+            finance_details[k] = []
+            v.each do |o|
+              payment = {}
+              o.attributes.each do |k, v|
+                payment[k] = v
+              end
+              finance_details[k] << payment
+            end
+        end
+      end
+    end
+    json_form['financedetails'] = finance_details
     json_form.to_json
   end
 
@@ -277,6 +306,29 @@ class Registration < Ohm::Model
           m.save
 
           new_reg.metaData.add m
+        when 'financeDetails'
+          f = FinanceDetails.new
+          v.each do |k1, v1|
+            case k1
+              when 'orders'
+                v1.each do |k, v|
+                  order = Order.new
+                  order.send("#{k}=",v)
+                  order.save
+                  f.orders.add order
+                end
+              when 'payments'
+                v1.each do |k, v|
+                  payment = Payment.new
+                  payment.send("#{k}=",v)
+                  payment.save
+                  f.payments.add payment
+                end
+              else #normal attribute'
+                f.send("#{k}=",v)
+            end
+            new_reg.finance_details.add f
+          end
         else  #normal attribute'
           new_reg.send("#{k}=",v)
         end
@@ -603,8 +655,6 @@ class Registration < Ohm::Model
       ''
     end
   end
-
-
 
   def self.activate_registrations(user)
     Rails.logger.info("Activating pending registrations for user with email " + user.email)
