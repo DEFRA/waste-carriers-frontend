@@ -577,7 +577,7 @@ en:
       payment_pending: "Your registration is pending payment. Please initiate it as soon as possible"
     pending:
       heading: "Confirm your account"
-      paymentPending: "Your registration is pending payment."
+      paymentPending: "Please remember to pay for this registration via electronic transfer. Details on how to pay have been included in your email."
       pendingText: "An email has been sent to %{email}."
       pendingText2: "Follow the instructions in the email to confirm your account and complete your registration."
       pendingText3: "Once you have confirmed your account and completed your registration, please close this web page."
