@@ -21,3 +21,5 @@ pickle-email-*.html
 sauce_connect.*
 *.sublime-*
 
+
+runCucumber.sh
