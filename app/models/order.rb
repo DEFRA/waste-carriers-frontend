@@ -17,6 +17,36 @@ class Order < Ohm::Model
 
   set :order_Items, :OrderItem
 
+=begin
+{"orderItems"=>[{"amount"=>2, "currency"=>"GBP", "reference"=>"KJ65"}], "orderCode"=>"1405600713639", "paymentMethod"=>"UNKNOWN", "merchantId"=>nil,
+  "totalAmount"=>15400, "currency"=>"GBP", "dateCreated"=>nil, "worldPayStatus"=>nil, "dateLastUpdated"=>nil,
+  "updatedByUser"=>nil, "description"=>"Initial Registration"}
+=end
+
+  class << self
+    def init (order_hash)
+      order = Order.create
+
+      order_hash.each do |k, v|
+        case k
+        when 'orderItems'
+            if v
+              v.each do |item|
+                orderItem = OrderItem.create
+                item.each {|k1, v1| orderItem.send("#{k1}=",v1)}
+                orderItem.save
+              end
+              order.orderItem.add orderItem
+            end #if
+        else
+           order.send("#{k}=",v)
+        end #case
+      end
+      order.save
+      order
+    end
+  end
+
   WORLDPAY_STATUS = %w[
     PENDING
     ACTIVE

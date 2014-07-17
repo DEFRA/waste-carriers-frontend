@@ -77,9 +77,9 @@ class Registration < Ohm::Model
   attribute :tier
   attribute :location
 
-  set :metaData, :Metadata
+  set :metaData, :Metadata #will always be size=1
   set :directors, :Director
-  set :finance_details, :FinanceDetails
+  set :finance_details, :FinanceDetails #will always be size=1
 
   index :accountEmail
   index :companyName
@@ -133,61 +133,44 @@ class Registration < Ohm::Model
   # @param none
   # @return  [Hash]  the registration object in JSON form
   def to_json
-    json_form = {}
+    result_hash = {}
     self.attributes.each do |k, v|
-      json_form[k] = v
+      result_hash[k] = v
     end
 
-    metadata = {}
-    if self.metaData.size == 1
-      self.metaData.first.attributes.each do |k, v|
-        metadata[k] = v
-      end
-    end
-    json_form['metaData'] = metadata
+    result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
 
     directors = []
 
     if self.directors &&  self.directors.size > 0
       self.directors.each do  |dir|
-        director = {}
-        dir.attributes.each do |k, v|
-          director[k] = v
-        end
-        directors << director
+        directors <<  dir.attributes.to_hash
       end
-      json_form['directors'] = directors
+      result_hash['directors'] = directors
     end #if
 
     finance_details = {}
     if self.finance_details.size == 1
       self.finance_details.first.attributes.each do |k, v|
         case k
-          when 'balance'
-            finance_details[k] = v
-          when 'orders'
-            finance_details[k] = []
-            v.each do |o|
-              order = {}
-              o.attributes.each do |k, v|
-                order[k] = v
-              end
-              finance_details[k] << order
-            end
-          when 'payments'
-            finance_details[k] = []
-            v.each do |o|
-              payment = {}
-              o.attributes.each do |k, v|
-                payment[k] = v
-              end
-              finance_details[k] << payment
-            end
+        when 'orders'
+          finance_details[k] = []
+          v.each do |order|
+            finance_details[k] << order.attributes.to_hash
+          end
+        when 'payments'
+          finance_details[k] = []
+          v.each do |o|
+            finance_details[k] << payment.attributes.to_hash
+          end
+        else #simple attribute
+          finance_details[k] = v
         end
       end
     end
-    json_form['financedetails'] = finance_details
-    json_form.to_json
+    result_hash['financedetails'] = finance_details
+
+    result_hash.to_json
   end
 
 
@@ -234,6 +217,8 @@ class Registration < Ohm::Model
           search_value =search_hash.values[0]
           Rails.logger.debug "#{search_key}, #{search_value}"
           found = all_regs.select {|r| r[search_key] == search_value}
+          Rails.logger.debug "find found #{found.size.to_s} items"
+          Rails.logger.debug " #{found.to_s} "
           found.each do |r|
             registrations << Registration.init(r)
           end
@@ -278,8 +263,7 @@ class Registration < Ohm::Model
   # @return [Registration] the Java Service object converted into a Registration object.
   class << self
     def init (response_hash)
-      new_reg = Registration.new
-      new_reg.save
+      new_reg = Registration.create
 
       response_hash.each do |k, v|
         case k
@@ -290,45 +274,13 @@ class Registration < Ohm::Model
         when 'directors'
           if v
             v.each do |dir|
-              d = Director.new
-              dir.each do |k1, v1|
-                d.send("#{k1}=",v1)
-              end
-              d.save
-              new_reg.directors.add d
+              new_reg.directors.add HashToObject(dir, 'Director')
             end
           end #if
         when 'metaData'
-          m = Metadata.new
-          v.each do |k1, v1|
-            m.send("#{k1}=",v1)
-          end
-          m.save
-
-          new_reg.metaData.add m
+          new_reg.metaData.add HashToObject(v, 'Metadata')
         when 'financeDetails'
-          f = FinanceDetails.new
-          v.each do |k1, v1|
-            case k1
-              when 'orders'
-                v1.each do |k, v|
-                  order = Order.new
-                  order.send("#{k}=",v)
-                  order.save
-                  f.orders.add order
-                end
-              when 'payments'
-                v1.each do |k, v|
-                  payment = Payment.new
-                  payment.send("#{k}=",v)
-                  payment.save
-                  f.payments.add payment
-                end
-              else #normal attribute'
-                f.send("#{k}=",v)
-            end
-            new_reg.finance_details.add f
-          end
+          new_reg.finance_details.add FinanceDetails.init(v)
         else  #normal attribute'
           new_reg.send("#{k}=",v)
         end
@@ -337,6 +289,19 @@ class Registration < Ohm::Model
       new_reg
     end #method
   end
+
+  class << self
+    def HashToObject(hash, klass_name)
+      klass = Object.const_get( klass_name )
+      obj = klass.new
+      hash.each do |k, v|
+        obj.send("#{k.to_s}=",v)
+      end
+      obj.save
+      obj
+    end
+  end
+
 
   BUSINESS_TYPES = %w[
     soleTrader
@@ -659,13 +624,18 @@ class Registration < Ohm::Model
   def self.activate_registrations(user)
     Rails.logger.info("Activating pending registrations for user with email " + user.email)
     rs = Registration.find_by_attrib(accountEmail: user.email)
-    # Registration.find(:all, :params => {:ac => user.email}).each { |r|
+    Rails.logger.info("found: #{rs.size} pending registrations")
     rs.each do |r|
       if r.pending?
+        Rails.logger.debug "debug: #{r.attributes.to_s}"
         Rails.logger.info("Activating registration " + r.regIdentifier)
         r.activate!
-        r.commit
-        RegistrationMailer.welcome_email(user,r).deliver
+        Rails.logger.debug "registration #{r.id} activated!"
+        if r.commit
+          RegistrationMailer.welcome_email(user,r).deliver
+        else
+          #TO-DO: what happens here?
+        end
       else
         Rails.logger.info("Skipping non-pending registration " + r.regIdentifier)
       end

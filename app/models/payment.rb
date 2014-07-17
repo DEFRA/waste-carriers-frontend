@@ -11,10 +11,25 @@ class Payment < Ohm::Model
   attribute :dateReceived
   attribute :dateEntered
   attribute :registrationReference
-  attribute :worldPayPaymentStatu
+  attribute :worldPayPaymentStatus
   attribute :updatedByUser
   attribute :comment
   attribute :paymentType
+
+
+
+  class << self
+    def init (payment_hash)
+      payment = Payment.create
+
+      payment_hash.each do |k, v|
+        payment.send("#{k}=",v)
+      end
+      payment.save
+      payment
+    end
+  end
+
 
 
   PAYMENT_TYPES = %w[
@@ -34,7 +49,7 @@ class Payment < Ohm::Model
     WRITEOFFLARGE
   ]
 
-  VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/ 		# This does not allow for a decimal point and currently works in pence only
+  VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/    # This does not allow for a decimal point and currently works in pence only
 
   validates :amount, presence: true, format: { with: VALID_CURRENCY_REGEX }
   validate :validate_amount
