@@ -4,9 +4,9 @@ Feature: user route summary dynamic panel
   So that I can be confident I've filled out the form correctly
 
   Scenario: lower tier
-    Given I have landed on the lower tier summary page
+    Given I have come to the lower tier summary page
     Then I am told I am a lower tier waste carrier
 
   Scenario: upper tier
-    Given I have landed on the upper tier summary page
+    Given I have come to the upper tier summary page
     Then I am told I am an upper tier waste carrier
