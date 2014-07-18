@@ -17,7 +17,7 @@
           <div class='inner'>
             <div class='inline'>
               <%= f.label :registration_fee, class: 'form-label' %>
-              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4 %>
+              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true %>
             </div>
             <p class='subtitle'>Cost of Waste Carrier registration</p>
          </div>
@@ -28,7 +28,7 @@
             <%= validation_for(@registration, :copy_cards) %>
               <div class='inline'>
                 <%= f.label :copy_cards, class: 'form-label' %>
-                <%= f.text_field :copy_cards, :size =>5, :maxlength => 4 %>
+                <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true %>
                 <%= f.number_field :copy_cards, :min => 0, :max => 3 %>
               </div>
             <p class='subtitle'><%= t '.copy_card_info' %></p>
@@ -39,7 +39,7 @@
           <div class="inner">
             <div class='inline'>
               <%= f.label :total_fee, class: 'form-label' %>
-              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4 %>
+              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true %>
             </div>
           </div> 
         </div>
