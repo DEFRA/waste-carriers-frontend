@@ -50,7 +50,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     text-transform: none;
     top: 0;
 }
-.payment-box #registration_registration_fee, #registration_copy_cards, #registration_total_fee {
+.payment-box #registration_registration_fee, #registration_copy_cards, #registration_total_fee, #registration_copy_card_fee {
     background: none repeat scroll 0 0 rgb(222, 224, 226);
     border: 1px solid rgb(191, 193, 195);
     cursor: pointer;
@@ -86,7 +86,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 .payment-box .form-label, input {
     display: inline;
 }
-#registration_copy_cards, #registration_registration_fee {
+#registration_copy_cards, #registration_registration_fee, #registration_copy_card_fee {
     margin-left:10px;
 }
 #payment-buttons {
@@ -101,7 +101,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   outline: none;
   cursor:none;
 }
-#registration_copy_cards {
+#registration_copy_cards, #registration_copy_card_fee {
     border: 1px solid rgb(191, 193, 195);
     width: 8%;
 }
