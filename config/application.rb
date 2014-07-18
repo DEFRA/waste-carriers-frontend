@@ -105,7 +105,7 @@ module Registrations
     # Update this whenever the reported version number is supposed to have changed - particularly before any new releases.
     # Note: This is the version of the frontend application. The version number of the services application may change separately.
     # Use semantic versioning (Major.Minor.Patch)
-    config.application_version = '1.2.0_alpha'
+    config.application_version = '2.0.0-alpha.1'
 
     # The e-mail address shown on the Finish page and used in e-mails sent by the application
     config.registrations_service_email = 'registrations@wastecarriersregistration.service.gov.uk'
