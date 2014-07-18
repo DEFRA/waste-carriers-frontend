@@ -5,7 +5,7 @@ Given(/^I have completed the upper tier and chosen to pay by bank transfer$/) do
   step 'I enter my contact details'
   step 'I confirm the declaration'
   step 'I enter new user account details'
-  step 'I pay via electronic transfer'
+  step 'I choose pay via electronic transfer'
 end
 
 Given(/^I have been funneled into the upper tier path$/) do
@@ -57,7 +57,7 @@ Given(/^I enter new user account details$/) do
   click_on 'Next'
 end
 
-And(/^I pay via electronic transfer$/) do
+And(/^I choose pay via electronic transfer$/) do
   click_on 'Pay via electronic transfer'
   click_on 'Next'
 end
