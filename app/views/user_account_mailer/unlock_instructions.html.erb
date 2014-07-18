@@ -1,0 +1,9 @@
+<h2><%= t 'devise.mailer.unlock_instructions.heading'%></h2>
+
+<p><%= t 'devise.mailer.unlock_instructions.paragraph1',:email=>@resource.email%></p>
+
+<p><%= t 'devise.mailer.unlock_instructions.paragraph2'%></p>
+
+<p><%= t 'devise.mailer.unlock_instructions.paragraph3'%></p>
+
+<p><%= link_to t('devise.mailer.unlock_instructions.unlockLabel'), unlock_url(@resource, :unlock_token => @token) %></p>
