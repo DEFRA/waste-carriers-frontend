@@ -96,4 +96,10 @@ Registrations::Application.configure do
     application.js
   )
 
+    #Using the Worldpay TEST service in all environments - even in Production (for now at least)
+    config.worldpay_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
+
+    #The Worldpay Production payment service is located here:
+    #config.worldpay_uri = 'https://secure.worldpay.com/jsp/merchant/xml/paymentService.jsp'
+
 end
