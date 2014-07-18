@@ -6,13 +6,40 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-unless Rails.env.production?
+# TODO - REMOVE AFTER COMPLETION OF PENETRATION SECURITY TESTS
+# ATTENTION - TEST ACCOUNTS TO BE REMOVED !!!
+
+#unless Rails.env.production?
   unless Admin.find_by_email('admin@waste-exemplar.gov.uk')
     admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'secret123')
     admin.save!
   end
 
+  unless Admin.find_by_email('admin1@waste-exemplar.gov.uk')
+    admin = Admin.new(:email => 'admin1@waste-exemplar.gov.uk', :password => 'MyS3cr3t!')
+    admin.save!
+  end
+
+  unless Admin.find_by_email('admin2@waste-exemplar.gov.uk')
+    admin = Admin.new(:email => 'admin2@waste-exemplar.gov.uk', :password => 'MyS3cr3t!')
+    admin.save!
+  end
+
+  unless Admin.find_by_email('rob.mcelvanney@irmplc.com')
+    admin = Admin.new(:email => 'rob.mcelvanney@irmplc.com', :password => 'MyS3cr3t!')
+    admin.save!
+  end
+
+  unless Admin.find_by_email('gmueller@caci.co.uk')
+    admin = Admin.new(:email => 'gmueller@caci.co.uk', :password => 'MyS3cr3t!')
+    admin.save!
+  end
+
   AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: 'secret123'
+
+  AgencyUser.find_or_create_by email: 'nccc1@waste-exemplar.gov.uk', password: 'secret123'
+
+  AgencyUser.find_or_create_by email: 'nccc2@waste-exemplar.gov.uk', password: 'secret123'
 
   # Adds a agency user associated with the finance basic role
   agencyUser = AgencyUser.find_or_create_by email: 'financebasic1@waste-exemplar.gov.uk', password: 'secret123'
@@ -33,8 +60,9 @@ unless Rails.env.production?
   agencyUser = AgencyUser.find_or_create_by email: 'agencyrefund2@waste-exemplar.gov.uk', password: 'secret123'
   agencyUser.add_role :Role_ncccRefund, AgencyUser
 
-end
+#end  #unless Rails.env.production?
 
+#Environment Agency Administrators
 if !Admin.find_by_email('jamie.dempster@environment-agency.gov.uk')
   admin = Admin.new(:email => 'jamie.dempster@environment-agency.gov.uk', :password => AgencyUser.random_password)
   admin.save!
@@ -43,10 +71,7 @@ if !Admin.find_by_email('beverley.patterson@environment-agency.gov.uk')
   admin = Admin.new(:email => 'beverley.patterson@environment-agency.gov.uk', :password => AgencyUser.random_password)
   admin.save!
 end
-if !Admin.find_by_email("dermot.o'regan@environment-agency.gov.uk")
-  admin = Admin.new(:email => "dermot.o'regan@environment-agency.gov.uk", :password => AgencyUser.random_password)
-  admin.save!
-end
+
 
 #TODO Remove after testing
 #if !Admin.find_by_email('gmueller@caci.co.uk')
