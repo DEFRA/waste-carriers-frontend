@@ -35,6 +35,8 @@
 		<div class="clr"></div>
 	</div>
 
+    <% if @registration.lower? %>
+
 	<p><%= t 'registration_mailer.welcome_email.renewal_html'%><% if !@registration.assisted_digital? %><%=t 'registration_mailer.welcome_email.updateWebsite_html',:link=>link_to('sign in', new_user_session_url)%><% else %><%=t 'registration_mailer.welcome_email.updatePhone'%><% end %></p>
 
     <div class="finish-section">
@@ -71,6 +73,10 @@
 		<li><%=t 'registration_mailer.welcome_email.responsibilities4'%></li>
 		</ul>
 	</div>
+
+    <% else %>
+    <p>Upper tier text placeholder (TBC)</p>
+    <% end %>
 
   </body>
 </html>
