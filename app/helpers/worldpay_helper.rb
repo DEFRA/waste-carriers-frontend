@@ -76,7 +76,7 @@ module WorldpayHelper
     def send_xml(xml)
       username = worldpay_xml_username
       password = worldpay_xml_password
-      test_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
+      test_uri = Rails.configuration.worldpay_uri
       uri = URI(test_uri)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
