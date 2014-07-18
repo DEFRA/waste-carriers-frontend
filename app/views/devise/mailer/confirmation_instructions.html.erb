@@ -2,13 +2,39 @@
 
 <p><%= t 'devise.mailer.confirmation_instructions.paragraph1',:email=>@email%></p>
 
-<p>Company name is <%= @resource.current_registration.companyName %></p>
-
 <p><%= t 'devise.mailer.confirmation_instructions.paragraph2'%></p>
  
 <p><%= link_to t('devise.mailer.confirmation_instructions.confirmLabel'), confirmation_url(@resource, :confirmation_token => @token) %></p>
 
 <p><%= t 'devise.mailer.confirmation_instructions.paragraph3'%>
 <%= link_to t('devise.mailer.confirmation_instructions.newInstructionsLabel'), new_confirmation_url(:user) %>
-<br/>
+<% unless @resource.current_registration.paid_in_full? %>
+    <h2><%= t 'devise.mailer.confirmation_instructions.pay_heading' %></h2>
+
+    <p><%= t 'devise.mailer.confirmation_instructions.bank_transfer_instructions' %></p>
+    <ul>
+      <li><%= t 'devise.mailer.confirmation_instructions.reference', reference: @resource.current_registration.regIdentifier %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.payment_due', payment_due: @resource.current_registration.financeDetails.balance %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.account_name', account_name: Rails.configuration.environment_agency_bank_account_name %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.bank_name', bank_name: Rails.configuration.environment_agency_bank_name %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.bank_address', bank_address: Rails.configuration.environment_agency_bank_address %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.sort_code', sort_code: Rails.configuration.bank_transfer_sort_code %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.account_number', account_number: Rails.configuration.bank_transfer_account_number %></li>
+    </ul>
+
+    <p><%= t 'devise.mailer.confirmation_instructions.iban_instructions' %></p>
+    <ul>
+      <li><%= t 'devise.mailer.confirmation_instructions.iban_number', iban_number: Rails.configuration.iban_number %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.swiftbic_number', swiftbic_number: Rails.configuration.swiftbic_number %></li>
+    </ul>
+
+    <p><%= t 'devise.mailer.confirmation_instructions.bank_transfer_contact_instructions' %></p>
+    <ul>
+      <li><%= t 'devise.mailer.confirmation_instructions.email_preamble' %><%= mail_to Rails.configuration.income_email_address %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.fax_number', fax_number: Rails.configuration.income_fax_number %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.postal_address', postal_address: Rails.configuration.income_postal_address %></li>
+    </ul>
+    <p>Alternatively after confirming your account you can login and choose to pay by debit/credit card.</p>
+<% end %>
+  <br/>
 <p><%= t 'devise.mailer.confirmation_instructions.paragraph4'%></p>
