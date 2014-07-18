@@ -30,8 +30,9 @@
 <%= @registration.townCity%>
 <%= @registration.postcode%>
 
+<% if @registration.lower? %>
 <%=t 'registration_mailer.welcome_email.renewal_html'%>
-<%=t 'registration_mailer.welcome_email.updateWebsite_html',:link=>link_to('sign in', new_user_session_url)%>
+<%=t 'registration_mailer.welcome_email.updateWebsite_html', link: new_user_session_url %>
 
 <%=t 'registration_mailer.welcome_email.enquiresMessage'%>
 <%=t 'registration_mailer.welcome_email.telephone'%> <%= Rails.configuration.registrations_service_phone %>
@@ -54,3 +55,6 @@
 - <%=t 'registration_mailer.welcome_email.responsibilities2'%>
 - <%=t 'registration_mailer.welcome_email.responsibilities3'%>
 - <%=t 'registration_mailer.welcome_email.responsibilities4'%>
+<% else %>
+Upper tier text placeholder (TBC)
+<% end %>
