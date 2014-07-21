@@ -5,7 +5,8 @@ class PaymentController < ApplicationController
   # GET /payments
   def new
     @registration = Registration.find_by_id(session[:uuid])
-    @payment = Payment.find(:one, :from => "/registrations/"+params[:id]+"/payments/new.json")
+    @payment = Payment.find_by_registration(session[:uuid])
+
 
     # Override amount to be empty as payment object from services will return an amount of 0
     if @payment.amount == 0
@@ -13,11 +14,11 @@ class PaymentController < ApplicationController
     end
 
     # If dateReceived is empty reset split up values
-    if @payment.dateReceived.nil?
+    unless @payment.dateReceived
       @payment.dateReceived_day = ''
       @payment.dateReceived_month = ''
       @payment.dateReceived_year = ''
-      logger.info 'set date recieved manually'
+      logger.info 'set date received manually'
     end
 
     authorize! :read, @registration
@@ -37,31 +38,31 @@ class PaymentController < ApplicationController
     @payment.updatedByUser = current_agency_user.id.to_s
 
 
-	if @payment.valid?
-	  logger.info 'payment is valid'
-	  @payment.save!
+    if @payment.valid?
+      logger.info 'payment is valid'
+      @payment.save!
 
-	  # Redirect user back to payment status
+      # Redirect user back to payment status
       redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
-	else
-	  logger.info 'payment is invalid'
+    else
+      logger.info 'payment is invalid'
 
-	  # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
-	  @registration = Registration.find_by_id(params[:id])
+      # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
+      @registration = Registration.find_by_id(session[:uuid])
 
-	  # Need to also re-populate split dateRecieved parameters
-	  @payment.dateReceived_day = params[:payment][:dateReceived_day]
+      # Need to also re-populate split dateRecieved parameters
+      @payment.dateReceived_day = params[:payment][:dateReceived_day]
       @payment.dateReceived_month = params[:payment][:dateReceived_month]
       @payment.dateReceived_year = params[:payment][:dateReceived_year]
 
       render "new", :status => '400'
-	end
-	end
+    end
+  end
 
   # GET /writeOffs
   def newWriteOff
-    @registration = Registration.find(params[:id])
-    @payment = Payment.find(:one, :from => "/registrations/"+params[:id]+"/payments/new.json")
+    @registration = Registration.find_by_id(session[:uuid])
+    @payment = Payment.find_by_registration(session[:uuid])
 
     isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
 
@@ -108,25 +109,25 @@ class PaymentController < ApplicationController
     @payment.paymentType = 'WRITEOFFSMALL'
 
 
-	if @payment.valid?
-	  logger.info 'writeOff is valid'
-	  @payment.save!
+    if @payment.valid?
+      logger.info 'writeOff is valid'
+      @payment.save!
 
-	  # Redirect user back to payment status
+      # Redirect user back to payment status
       redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
-	else
-	  logger.info 'writeOff is invalid'
+    else
+      logger.info 'writeOff is invalid'
 
-	  # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
-	  @registration = Registration.find(params[:id])
+      # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
+      @registration = Registration.find_by_id(session[:uuid])
 
       render "newWriteOff", :status => '400'
-	end
+    end
   end
 
   # GET /refunds
   def newRefund
-	@registration = Registration.find(params[:id])
+     @registration = Registration.find_by_id(session[:uuid])
 
     authorize! :read, @registration
 
@@ -166,7 +167,7 @@ class PaymentController < ApplicationController
   # GET /worldpayRefund/:orderCode/refundComplete
   def worldpayRefund
     logger.info 'Request to worldpayRefund'
-    @registration = Registration.find(params[:id])
+     @registration = Registration.find_by_id(session[:uuid])
     @orderCode = params[:orderCode]
 
     authorize! :read, @registration

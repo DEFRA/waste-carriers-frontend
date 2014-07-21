@@ -152,6 +152,27 @@ class Payment < Ohm::Model
     end
   end
 
+
+  class << self
+    def find_by_registration(registration_uuid)
+
+      result = registrations = []
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/payments/new.json"
+      begin
+        response = RestClient.get url
+        if response.code == 200
+          result = JSON.parse(response.body) #result should be Hash
+          payment =  Payment.init(result)
+        else
+          Rails.logger.error "Payment.find_by_registration for #{registration_uuid} failed with a #{response.code} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      payment
+
+    end
+  end
   private
 
   def validate_amount

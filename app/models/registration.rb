@@ -67,7 +67,6 @@ class Registration < Ohm::Model
   attribute :password
   attribute :sign_up_mode
   attribute :routeName
-  attribute :accessCode
 
   attribute :password
   attribute :sign_up_mode
@@ -108,6 +107,8 @@ class Registration < Ohm::Model
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
     commited = true
+    metaData.first.update(route: routeName)
+
     begin
       response = RestClient.post url,
         to_json,
@@ -116,11 +117,16 @@ class Registration < Ohm::Model
 
 
       result = JSON.parse(response.body)
-      Rails.logger.debug  result.class.to_s
-      # our registration's uuid is the java service object's id
-      uuid = result['id']
-      # our registration's code is also provided by the java service
-      regIdentifier = result['regIdentifier']
+      Rails.logger.debug  "saved response: #{result.to_s}"
+
+
+      # following fields are set by the java service
+      self.uuid = result['id']
+      # metaData.first.dateRegistered = result['metaData']['dateRegistered']
+      self.metaData.first.update(dateRegistered: result['metaData']['dateRegistered'])
+       Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
+      self.regIdentifier = result['regIdentifier']
+
       save
       Rails.logger.debug "Commited to service: #{attributes.to_s}"
     rescue => e
@@ -142,7 +148,7 @@ class Registration < Ohm::Model
       response = RestClient.delete url
 
       # result = JSON.parse(response.body)
-      uuid = nil
+      self.uuid = nil
       save
 
     rescue => e
@@ -158,16 +164,19 @@ class Registration < Ohm::Model
   # @return  [Boolean] true if registration updated
   def save!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
-    Rails.logger.debug "Registration: about to PUT: #{ to_json}"
+    Rails.logger.debug "Registration: #{uuid} about to PUT: #{ to_json}"
     saved = true
     begin
-      response = RestClient.put url
+      response = RestClient.put url,
+        to_json,
+        :content_type => :json
 
       # result = JSON.parse(response.body)
       save
 
     rescue => e
       Rails.logger.error e.to_s
+      puts e
       saved = false
     end
     saved
@@ -598,8 +607,9 @@ class Registration < Ohm::Model
 
   def activate!
     #Note: the actual status update will be performed in the service
-    Rails.logger.debug "id to activate: #{self.uuid}"
+    Rails.logger.debug "id to activate: #{uuid}"
     metaData.first.update(status: 'ACTIVE')
+    save
     save!
   end
 
@@ -636,12 +646,8 @@ class Registration < Ohm::Model
   end
 
   def assisted_digital?
-    #TODO Initialise and get from metadata
-    begin
-      metaData.first.try(:route) == 'ASSISTED_DIGITAL'
-    rescue
-      false
-    end
+    metaData.first.route.eql? 'ASSISTED_DIGITAL'
+    # routeName.eql? 'ASSISTED_DIGITAL'
   end
 
   def boxClassSuffix
@@ -656,7 +662,7 @@ class Registration < Ohm::Model
   end
 
   def date_registered
-    metaData.first.try :dateRegistered
+    metaData.first.dateRegistered
   end
 
   #TODO Replace with method from helper or have decorator
@@ -679,11 +685,8 @@ class Registration < Ohm::Model
         Rails.logger.info("Activating registration " + r.regIdentifier)
         r.activate!
         Rails.logger.debug "registration #{r.id} activated!"
-        if r.commit
-          RegistrationMailer.welcome_email(user,r).deliver
-        else
-          #TO-DO: what happens here?
-        end
+        RegistrationMailer.welcome_email(user,r).deliver
+
       else
         Rails.logger.info("Skipping non-pending registration " + r.regIdentifier)
       end
