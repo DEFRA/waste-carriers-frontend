@@ -27,6 +27,12 @@ class HomeController < ApplicationController
   def version
     @railsVersion = Rails.configuration.application_version
 
+    begin
+      @jenkins_build_number = File.read('jenkins_build_number')
+    rescue
+      @jenkins_build_number = "not available"
+    end
+
     # Request version from REST api
     @apiVersionObj = Version.find(:one, :from => "/version.json" )
     if !@apiVersionObj.nil?
