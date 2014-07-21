@@ -80,6 +80,8 @@ class Registration < Ohm::Model
   set :metaData, :Metadata #will always be size=1
   set :directors, :Director
   set :finance_details, :FinanceDetails #will always be size=1
+  set :payments, :Payment
+  set :orders, :Order
 
   index :accountEmail
   index :companyName
@@ -98,17 +100,17 @@ class Registration < Ohm::Model
   end
 
 
-  # posts registration to Java/Dropwizard service
+  # POSTs registration to Java/Dropwizard service - creates new registration to DB
   #
   # @param none
-  # @return  [Boolean] true if Posyt is successful (200), false if npot
+  # @return  [String] the uuid assigned by MongoDB
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
-    Rails.logger.debug "about to post: #{ to_json.to_s}"
+    Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
     commited = true
     begin
       response = RestClient.post url,
-        to_json.to_s,
+        to_json,
         :content_type => :json,
         :accept => :json
 
@@ -125,13 +127,56 @@ class Registration < Ohm::Model
       Rails.logger.error e.to_s
       commited = false
     end
-    commited
+    uuid
   end
 
-  # return a JSON Java/DropWizard APi compatible representation of the registration object
+  # DELETEs registration to Java/Dropwizard service - deletes registration from DB
   #
   # @param none
-  # @return  [Hash]  the registration object in JSON form
+  # @return  [Boolean] true if registration removed
+  def delete!
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
+    Rails.logger.debug "Registration: about to DELETE: #{ to_json.to_s}"
+    deleted = true
+    begin
+      response = RestClient.delete url
+
+      # result = JSON.parse(response.body)
+      uuid = nil
+      save
+
+    rescue => e
+      Rails.logger.error e.to_s
+      deleted = false
+    end
+    deleted
+  end
+
+  # PUTs registration to Java/Dropwizard service - updates registration to DB
+  #
+  # @param none
+  # @return  [Boolean] true if registration updated
+  def save!
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
+    Rails.logger.debug "Registration: about to PUT: #{ to_json}"
+    saved = true
+    begin
+      response = RestClient.put url
+
+      # result = JSON.parse(response.body)
+      save
+
+    rescue => e
+      Rails.logger.error e.to_s
+      saved = false
+    end
+    saved
+  end
+
+  # return a JSON Java/DropWizard API compatible representation of the registration object
+  #
+  # @param none
+  # @return  [String]  the registration object in JSON form
   def to_json
     result_hash = {}
     self.attributes.each do |k, v|
@@ -242,6 +287,7 @@ class Registration < Ohm::Model
       result = {}
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{mongo_id}.json"
       begin
+        Rails.logger.debug "about to GET: #{mongo_id.to_s}"
         response = RestClient.get url
         if response.code == 200
           result = JSON.parse(response.body) #result should be Hash
@@ -252,7 +298,7 @@ class Registration < Ohm::Model
         Rails.logger.error e.to_s
       end
       Rails.logger.debug "found reg: #{result.to_s}"
-      Registration.init(result)
+      result.size > 0 ? Registration.init(result) : nil
     end
   end
 
@@ -546,13 +592,15 @@ class Registration < Ohm::Model
   end
 
   def pending!
-    metaData.first.status = 'PENDING'
+    metaData.first.update(status: 'PENDING')
+    save!
   end
 
   def activate!
     #Note: the actual status update will be performed in the service
-    Rails.logger.debug "id to activate: #{self.id}"
-    metaData.first.status = 'ACTIVATE'
+    Rails.logger.debug "id to activate: #{self.uuid}"
+    metaData.first.update(status: 'ACTIVE')
+    save!
   end
 
   def validate_revokedReason

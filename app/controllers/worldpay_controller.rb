@@ -13,7 +13,7 @@ class WorldpayController < ApplicationController
 
     next_step = if @registration.assisted_digital? || user_signed_in?
                   print_path(@registration)
-                  #Note from Georg: I think we will eventually want to show the 'finish' path 
+                  #Note from Georg: I think we will eventually want to show the 'finish' path
                   #finish_path(@registration)
                 elsif @registration.user.confirmed?
                   confirmed_path
@@ -36,7 +36,7 @@ class WorldpayController < ApplicationController
   end
 
   def cancel
-  	#TODO - Process response and edirect...  	
+  	#TODO - Process response and edirect...
     #process_payment
     flash[:notice] = 'You have cancelled your payment.'
   end
@@ -70,7 +70,6 @@ class WorldpayController < ApplicationController
       @payment.mac_code = mac
       @payment.registrationReference = ''
       @payment.comment = 'Paid via Worldpay'
-      @payment.prefix_options[:id] = session[:registration_id]
 
       if @payment.valid?
         @payment.save!

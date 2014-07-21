@@ -17,7 +17,10 @@ class Payment < Ohm::Model
   attribute :paymentType
 
 
-
+  # Creates a new Payment object from a payment-formatted hash
+  #
+  # @param payment_hash [Hash] the payment-formatted hash
+  # @return [Payment] the Ohm-derived Payment object.
   class << self
     def init (payment_hash)
       payment = Payment.create
@@ -30,6 +33,42 @@ class Payment < Ohm::Model
     end
   end
 
+
+  # POSTs payment to Java/Dropwizard service
+  #
+  # @param none
+  # @return  [Boolean] true if Post is successful (200), false if not
+  def save!(registration_uuid)
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/payments.json"
+    Rails.logger.debug "about to post payment: #{to_json.to_s}"
+    commited = true
+    begin
+      response = RestClient.post url,
+        to_json,
+        :content_type => :json,
+        :accept => :json
+
+
+      result = JSON.parse(response.body)
+      Rails.logger.debug  result.class.to_s
+      save
+      Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
+    rescue => e
+      Rails.logger.error e.to_s
+      commited = false
+    end
+    commited
+  end
+
+
+
+  # returns a JSON Java/DropWizard API compatible representation of the Payment object
+  #
+  # @param none
+  # @return  [String]  the payment object in JSON form
+  def to_json
+    attributes.to_json
+  end
 
 
   PAYMENT_TYPES = %w[

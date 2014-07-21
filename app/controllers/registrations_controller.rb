@@ -282,7 +282,7 @@ class RegistrationsController < ApplicationController
       @registration.metaData.add m
     else
       @registration = Registration[ session[:registration_id]]
-       logger.debug "retireving registration #{@registration.id}"
+      logger.debug "retireving registration #{@registration.id}"
       m = Metadata.create
     end
 
@@ -367,7 +367,8 @@ class RegistrationsController < ApplicationController
 
 
   def print
-    @registration = Registration.find_by_id(params[:id])
+    renderNotFound and  return unless session[:uuid]
+    @registration = Registration.find_by_id( session[:uuid])
     redirect_to registrations_path and return if @registration.empty?
 
     authorize! :read, @registration
@@ -413,7 +414,7 @@ class RegistrationsController < ApplicationController
       @sorted = @registrations.sort_by { |r| r.date_registered }.reverse!
       @registration = @sorted.first
       @owe_money = owe_money? @registration
-      session[:registration_mongoid] = @registration.id
+      session[:registration_mongoid] = @registration.uuid
     else
       renderNotFound and return
     end
@@ -445,7 +446,8 @@ class RegistrationsController < ApplicationController
 
 
   def finish
-    @registration = Registration.find(params[:id])
+    @registration = Registration[params[:id]]
+     logger.debug "finish: #{@registration.attributes.to_s}"
     authorize! :read, @registration
   end
 
@@ -492,6 +494,7 @@ class RegistrationsController < ApplicationController
   end
 
   def ncccedit
+    logger.debug  "nccedit looking for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
     logger.debug  "registration found@ #{@registration['id']}"
     @registration.routeName = @registration.metaData.first.route
@@ -611,9 +614,9 @@ class RegistrationsController < ApplicationController
         logger.debug "The registration is all valid. About to save the registration..."
         @registration.expires_on = (Date.current + 3.years).to_s
         @registration.save
-        # @registration.save!
         logger.debug "reg: #{@registration.attributes.to_s}"
-        @registration.commit
+        logger.debug "COMMIT line: #{__LINE__}"
+        session[:uuid] = @registration.commit
 =begin
         logger.info 'Perform an additional save, to set the Route Name in metadata'
         logger.info 'routeName = ' + @registration.routeName
@@ -722,8 +725,9 @@ class RegistrationsController < ApplicationController
         end
 
         if @registration.valid?
-          @registration.metaData.first.status = "REVOKED"
+          @registration.metaData.first.update(status: 'REVOKED')
           @registration.save
+          logger.debug "COMMIT line: #{__LINE__}"
           @registration.commit
 
           logger.info 'About to send revoke email'
@@ -740,8 +744,8 @@ class RegistrationsController < ApplicationController
     elsif params[:unrevoke] && agency_user_signed_in?
       if agency_user_signed_in?
         logger.info 'Revoke action detected'
-        @registration.metaData.first.status = "ACTIVE"
-        @registration.save
+        @registration.metaData.first.update(status: 'ACTIVE')
+        logger.debug "COMMIT line: #{__LINE__}"
         @registration.commit
         redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_unrevoked'))
       else
@@ -947,7 +951,6 @@ class RegistrationsController < ApplicationController
     @order.dateCreated = Time.now.utc.xmlschema
     @order.dateLastUpdated = @order.dateCreated
     @order.updatedByUser = 'testuser@example.com'
-    @order.prefix_options[:id] = session[:registration_id]
 
     if @order.valid?
       @order.save!
