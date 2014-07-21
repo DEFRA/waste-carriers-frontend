@@ -14,7 +14,7 @@ Feature: Upper tier
       And I provide my personal contact details
       And I check the declaration
       And I provide my email address and create a password
-      And I go past the payment page
+      And I choose pay via electronic transfer
     When I confirm account creation via email
     Then I am registered as an upper tier waste carrier
 
@@ -30,7 +30,7 @@ Feature: Upper tier
       And I provide my personal contact details
       And I check the declaration
       And I provide my email address and create a password
-      And I go past the payment page
+      And I choose pay via electronic transfer
     When I confirm account creation via email
     Then I am registered as an upper tier waste carrier
 
@@ -39,7 +39,7 @@ Feature: Upper tier
       And I provide my personal contact details
       And I check the declaration
       And I provide my email address and create a password
-      And I go past the payment page
+      And I choose pay via electronic transfer
     When I confirm account creation via email
     Then I am registered as an upper tier waste carrier
 
