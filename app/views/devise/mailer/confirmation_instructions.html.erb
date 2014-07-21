@@ -8,7 +8,7 @@
 
 <p><%= t 'devise.mailer.confirmation_instructions.paragraph3'%>
 <%= link_to t('devise.mailer.confirmation_instructions.newInstructionsLabel'), new_confirmation_url(:user) %>
-<% unless @resource.current_registration.paid_in_full? %>
+<% unless @resource.current_registration.nil? || @resource.current_registration.paid_in_full? %>
     <h2><%= t 'devise.mailer.confirmation_instructions.pay_heading' %></h2>
 
     <p><%= t 'devise.mailer.confirmation_instructions.bank_transfer_instructions' %></p>
