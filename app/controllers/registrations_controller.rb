@@ -447,7 +447,7 @@ class RegistrationsController < ApplicationController
 
   def finish
     @registration = Registration[params[:id]]
-     logger.debug "finish: #{@registration.attributes.to_s}"
+    logger.debug "finish: #{@registration.attributes.to_s}"
     authorize! :read, @registration
   end
 
@@ -615,24 +615,23 @@ class RegistrationsController < ApplicationController
         @registration.expires_on = (Date.current + 3.years).to_s
         @registration.save
         logger.debug "reg: #{@registration.attributes.to_s}"
-        logger.debug "COMMIT line: #{__LINE__}"
         session[:uuid] = @registration.commit
-=begin
-        logger.info 'Perform an additional save, to set the Route Name in metadata'
-        logger.info 'routeName = ' + @registration.routeName
-        # @registration.metaData.route = @registration.routeName
+        logger.debug "uuid: #{@registration.uuid}"
+        logger.debug "session uuid: #{session[:uuid]}"
+
         if agency_user_signed_in?
           @registration.accessCode = @registration.generate_random_access_code
+          @registration.save
+          logger.debug "accessCode: #{@registration.accessCode }"
+
         end
-=end
+
         # The user is signed in at this stage if he activated his e-mail/account (for a previous registration)
         # Assisted Digital registrations (made by the signed in agency user) do not need verification either.
         if agency_user_signed_in? || user_signed_in?
           @registration.activate!
         end
         @registration.save
-        # @registration.commit
-        # session[:registration_id] = @registration.id
         logger.debug "The registration has been saved. About to send e-mail..."
         if user_signed_in?
           RegistrationMailer.welcome_email(@user, @registration).deliver
@@ -651,8 +650,7 @@ class RegistrationsController < ApplicationController
         if agency_user_signed_in? || user_signed_in?
           next_step = case @registration.tier
           when 'LOWER'
-            @registration.uuid ?  finish_url(:uuid => @registration.uuid) :  finish_url(:id => @registration.id)
-
+            finish_url(:id => @registration.id)
           when 'UPPER'
             :upper_payment
           end
@@ -727,8 +725,9 @@ class RegistrationsController < ApplicationController
         if @registration.valid?
           @registration.metaData.first.update(status: 'REVOKED')
           @registration.save
-          logger.debug "COMMIT line: #{__LINE__}"
+
           @registration.commit
+          logger.debug "uuid: #{@registration.uuid}"
 
           logger.info 'About to send revoke email'
           @user = User.find_by_email(@registration.accountEmail)
@@ -747,6 +746,8 @@ class RegistrationsController < ApplicationController
         @registration.metaData.first.update(status: 'ACTIVE')
         logger.debug "COMMIT line: #{__LINE__}"
         @registration.commit
+        logger.debug "uuid: #{@registration.uuid}"
+
         redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_unrevoked'))
       else
         renderAccessDenied
