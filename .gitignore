@@ -21,3 +21,4 @@ pickle-email-*.html
 sauce_connect.*
 *.sublime-*
 
+jenkins_build_number
