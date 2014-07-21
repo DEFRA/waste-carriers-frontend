@@ -983,9 +983,15 @@ class RegistrationsController < ApplicationController
   # GET upper-registrations/payment
   def newPayment
     new_step_action 'payment'
+    if !@registration.copy_cards
+      @registration.copy_cards = 0
+    end
+    calculate_fees
+  end
+
+  def calculate_fees
     @registration.registration_fee = 154
-    @registration.copy_cards = 0
-    @registration.copy_card_fee = @registration.copy_cards * 5
+    @registration.copy_card_fee = @registration.copy_cards.to_i * 5
     @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
   end
 
@@ -999,13 +1005,19 @@ class RegistrationsController < ApplicationController
     #  return
     #end
  
+    calculate_fees
+    logger.info "copy cards: " + @registration.copy_cards.to_s
+    logger.info "total fee: " + @registration.total_fee.to_s
+
     if @registration.valid?
-      redirect_to_worldpay
+      redirect_to_worldpay(@registration)
     else
       render 'newPayment', :status => '400'
     end
   end
 
+  #We should not use this as part of updating the payment page. 
+  #We should rather update the existing order and set the payment method and number of copycards.
   def createAndSaveOrder
     @order = Order.new
     @order.orderCode = 'NNN'
