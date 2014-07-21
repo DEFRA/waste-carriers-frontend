@@ -105,7 +105,7 @@ module Registrations
     # Update this whenever the reported version number is supposed to have changed - particularly before any new releases.
     # Note: This is the version of the frontend application. The version number of the services application may change separately.
     # Use semantic versioning (Major.Minor.Patch)
-    config.application_version = '1.2.0_alpha'
+    config.application_version = '2.0.0-alpha.1'
 
     # The e-mail address shown on the Finish page and used in e-mails sent by the application
     config.registrations_service_email = 'registrations@wastecarriersregistration.service.gov.uk'
@@ -150,6 +150,9 @@ module Registrations
     config.worldpay_moto_username = ENV['WCRS_WORLDPAY_MOTO_USERNAME'] || 'USERNAME'
     config.worldpay_moto_password = ENV['WCRS_WORLDPAY_MOTO_PASSWORD'] || 'PASSWORD'
     config.worldpay_moto_macsecret = ENV['WCRS_WORLDPAY_MOTO_MACSECRET'] || 'MACSECRET'
+
+    #Using the Worldpay TEST service in all environments by default
+    config.worldpay_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
 
     # Offline payment
     config.environment_agency_bank_account_name = 'Environment Agency'
