@@ -165,5 +165,13 @@ module Registrations
     config.income_email_address = 'FSC.AR@environment-agency.gov.uk'
     config.income_fax_number = '01733 464892'
     config.income_postal_address = 'Environment Agency, Income Dept 311, PO Box 263, Peterborough, PE2 8YD'
+
+    #fees/charges - please provide as a number expressed in pounds
+    #TODO Have a more elaborate fee structure (and/or the fees in the database?) which allows us to set new fees in advance 
+    #so that this configuration file does not need to be edited at new years eve late or whenever new fees come into place
+    config.fee_registration = 154
+    config.fee_renewal = 110
+    config.fee_copycard = 5
+
   end
 end
