@@ -272,17 +272,9 @@ class Registration < ActiveResource::Base
   end
 
   def paid_in_full?
-    if self.upper?
-      if financeDetails.nil?
-        result = true
-      else
-        result = financeDetails.balance <= 0
-      end
-    else
-      result = true
-    end
-
-    result
+    the_balance = self.try(:financeDetails).try(:balance)
+    return true if the_balance.nil?
+    the_balance <= 0
   end
 
   def self.business_type_options_for_select
