@@ -990,8 +990,8 @@ class RegistrationsController < ApplicationController
   end
 
   def calculate_fees
-    @registration.registration_fee = 154
-    @registration.copy_card_fee = @registration.copy_cards.to_i * 5
+    @registration.registration_fee = Rails.configuration.fee_registration
+    @registration.copy_card_fee = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
     @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
   end
 
