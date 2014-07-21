@@ -15,14 +15,19 @@ class Order < Ohm::Model
   attribute :updatedByUser
   attribute :description
 
-  set :order_Items, :OrderItem
+  set :order_items, :OrderItem
 
 =begin
-{"orderItems"=>[{"amount"=>2, "currency"=>"GBP", "reference"=>"KJ65"}], "orderCode"=>"1405600713639", "paymentMethod"=>"UNKNOWN", "merchantId"=>nil,
-  "totalAmount"=>15400, "currency"=>"GBP", "dateCreated"=>nil, "worldPayStatus"=>nil, "dateLastUpdated"=>nil,
-  "updatedByUser"=>nil, "description"=>"Initial Registration"}
+{"orderCode"=>"1405600713639", "paymentMethod"=>"UNKNOWN", "merchantId"=>nil, "totalAmount"=>15400, "currency"=>"GBP",
+"dateCreated"=>nil, "worldPayStatus"=>nil, "dateLastUpdated"=>nil, "orderItems"=>[{"amount"=>2, "currency"=>"GBP",
+"reference"=>"KJ65"}],  "updatedByUser"=>nil, "description"=>"Initial Registration"}
 =end
 
+
+  # Creates a new Order object from an order-formatted hash
+  #
+  # @param order_hash [Hash] the order-formatted hash
+  # @return [Order] the Ohm-derived Order object.
   class << self
     def init (order_hash)
       order = Order.create
@@ -30,22 +35,64 @@ class Order < Ohm::Model
       order_hash.each do |k, v|
         case k
         when 'orderItems'
-            if v
-              v.each do |item|
-                orderItem = OrderItem.create
-                item.each {|k1, v1| orderItem.send("#{k1}=",v1)}
-                orderItem.save
-              end
-              order.orderItem.add orderItem
-            end #if
+          if v
+            v.each do |item|
+              orderItem = OrderItem.create
+              item.each {|k1, v1| orderItem.send("#{k1}=",v1)}
+              orderItem.save
+              order.order_items.add orderItem
+            end
+
+          end #if
         else
-           order.send("#{k}=",v)
+          order.send("#{k}=",v)
         end #case
       end
       order.save
       order
     end
   end
+
+
+  # returns a JSON Java/DropWizard API compatible representation of the Order object
+  #
+  # @param none
+  # @return  [String]  the order object in JSON form
+  def to_json
+    h = attributes
+    h["orderItems"] = order_items.map { |x| x.attributes.to_json }  if order_items && order_items.size > 0
+    h.to_json
+  end
+
+
+  # POSTs order to Java/Dropwizard service
+  #
+  # @param none
+  # @return  [Boolean] true if Post is successful (200), false if not
+  def save!(registration_uuid)
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
+    Rails.logger.debug "about to post payment: #{to_json.to_s}"
+    commited = true
+    begin
+      response = RestClient.post url,
+        to_json,
+        :content_type => :json,
+        :accept => :json
+
+
+      result = JSON.parse(response.body)
+      Rails.logger.debug  result.class.to_s
+      save
+      Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
+    rescue => e
+      Rails.logger.error e.to_s
+      commited = false
+    end
+    commited
+  end
+
+
+
 
   WORLDPAY_STATUS = %w[
     PENDING
