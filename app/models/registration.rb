@@ -122,7 +122,6 @@ class Registration < Ohm::Model
 
       # following fields are set by the java service
       self.uuid = result['id']
-      # metaData.first.dateRegistered = result['metaData']['dateRegistered']
       self.metaData.first.update(dateRegistered: result['metaData']['dateRegistered'])
        Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
       self.regIdentifier = result['regIdentifier']
