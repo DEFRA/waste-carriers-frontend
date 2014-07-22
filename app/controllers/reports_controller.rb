@@ -15,7 +15,7 @@ class ReportsController < ApplicationController
       if @report.valid?
 
         routes = [ @report.route_digital, @report.route_assisted_digital ]
-
+#TODO: fix this
         @registrations = Registration.find(
           :all,
           :params => {

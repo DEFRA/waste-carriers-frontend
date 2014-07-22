@@ -7,7 +7,7 @@ module PaymentsHelper
 
   # This is shown in the enter payment view and payment status view
   def amount_summary_for model, include_balance
-    balance = model.financeDetails.balance
+    balance = (model.finance_details ? model.finance_details.first.balance : nil)
 
     prefix = if balance > 0
                t 'registrations.form.awaitingPayment_text'
