@@ -415,7 +415,7 @@ class Registration < Ohm::Model
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
 
-  validates :accountEmail, presence: true, if: [:signup_step?, :sign_up_mode_present?]
+  validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
   with_options if: [:signup_step?,  :do_sign_up?] do |registration|
     registration.validates :accountEmail, confirmation: true
