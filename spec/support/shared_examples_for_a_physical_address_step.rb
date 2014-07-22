@@ -1,9 +1,4 @@
 shared_examples_for 'a physical address step' do
-  context 'no addressMode' do
-    before { subject.addressMode = nil }
-
-    it_behaves_like 'a uk address'
-  end
 
   context 'manual-uk addressMode' do
     before { subject.addressMode = 'manual-uk' }
