@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe PaymentsHelper do
+
+  describe 'money parsing' do
+    specify { Monetize.parse('£100').should be_a Money }
+    specify { Monetize.parse('£99').cents.should == 9900 }
+    specify { Monetize.parse('£9.99').cents.should == 999 }
+  end
+
   describe '#pence_to_currency' do
     specify { helper.pence_to_currency(15400).should == '£154.00' }
     specify { helper.pence_to_currency(15900).should == '£159.00' }
