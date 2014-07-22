@@ -3,6 +3,7 @@ class Payment < Ohm::Model
   include ActiveModel::Conversion
   include ActiveModel::Validations
   extend ActiveModel::Naming
+  extend ActiveModel::Callbacks
 
   attribute :orderKey
   attribute :amount
@@ -15,11 +16,13 @@ class Payment < Ohm::Model
   attribute :updatedByUser
   attribute :comment
   attribute :paymentType
-  attribute	:manualPayment
- 
-before_save :multiplyAmount, :only => [:amount]
+  attribute :manualPayment
+
+  define_model_callbacks :save
+
+  before_save :multiplyAmount, :only => [:amount]
   after_save :divideAmount, :only => [:amount]
- 
+
 
   # Creates a new Payment object from a payment-formatted hash
   #
@@ -43,25 +46,27 @@ before_save :multiplyAmount, :only => [:amount]
   # @param none
   # @return  [Boolean] true if Post is successful (200), false if not
   def save!(registration_uuid)
-    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/payments.json"
-    Rails.logger.debug "about to post payment: #{to_json.to_s}"
-    commited = true
-    begin
-      response = RestClient.post url,
-        to_json,
-        :content_type => :json,
-        :accept => :json
+    run_callbacks :save do
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/payments.json"
+      Rails.logger.debug "about to post payment: #{to_json.to_s}"
+      commited = true
+      begin
+        response = RestClient.post url,
+          to_json,
+          :content_type => :json,
+          :accept => :json
 
 
-      result = JSON.parse(response.body)
-      Rails.logger.debug  result.class.to_s
-      save
-      Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
-    rescue => e
-      Rails.logger.error e.to_s
-      commited = false
+        result = JSON.parse(response.body)
+        Rails.logger.debug  result.class.to_s
+        save
+        Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
+      rescue => e
+        Rails.logger.error e.to_s
+        commited = false
+      end
+      commited
     end
-    commited
   end
 
 
@@ -73,63 +78,63 @@ before_save :multiplyAmount, :only => [:amount]
   def to_json
     attributes.to_json
   end
-  
+
   PAYMENT_TYPES = %w[
     CASH
     CHEQUE
     POSTALORDER
   ]
-  
+
   PAYMENT_TYPES_FINANCE_BASIC = %w[
     OTHERONLINEPAYMENT
     OTHER
   ]
-  
+
   PAYMENT_TYPES_NONVISIBLE = %w[
     WORLDPAY
     WRITEOFFSMALL
     WRITEOFFLARGE
     REFUND
   ]
-  
-  VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/ 		# This does not allow for a decimal point and currently works in pence only
-  
+
+  VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/    # This does not allow for a decimal point and currently works in pence only
+
   VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
   VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
-  
+
   validates :amount, presence: true, format: { with: VALID_CURRENCY_POUNDS_REGEX }, :if => :isManualPayment?
   validates :amount, presence: true, format: { with: VALID_CURRENCY_PENCE_REGEX },  :if => :isAutomatedPayment?
   validates :dateReceived, presence: true, length: { minimum: 8 }
   validate :validate_dateReceived
   validates :registrationReference, presence: true
   # This concatanates all the PAYMENT_TYPE lists. Ideally the user role should be checked to determine which list the user was given.
-  validates :paymentType, presence: true, inclusion: { in: %w[].concat(PAYMENT_TYPES).concat(PAYMENT_TYPES_FINANCE_BASIC).concat(PAYMENT_TYPES_NONVISIBLE), message: I18n.t('errors.messages.invalid_selection') } 
+  validates :paymentType, presence: true, inclusion: { in: %w[].concat(PAYMENT_TYPES).concat(PAYMENT_TYPES_FINANCE_BASIC).concat(PAYMENT_TYPES_NONVISIBLE), message: I18n.t('errors.messages.invalid_selection') }
   validates :comment, length: { maximum: 250 }
-  
+
   def self.payment_type_options_for_select
     (PAYMENT_TYPES.collect {|d| [I18n.t('payment_types.'+d), d]})
   end
-  
+
   def self.payment_type_financeBasic_options_for_select
     (PAYMENT_TYPES_FINANCE_BASIC.collect {|d| [I18n.t('payment_types.'+d), d]})
   end
-  
+
   # Represents the minimum balance needed for a finance basic user to make a write off
   def self.basicMinimum
     0
   end
-  
+
   # Represents the maximum balance needed for a finance basic user to make a write off
   def self.basicMaximum
     10000
   end
-  
+
   # Represents the maximum balance needed for a finance admin user to make a write off
   def self.adminMaximum
     20000
   end
-  
-  # Returns true if balance is in range for a small write off, otherwise returns an 
+
+  # Returns true if balance is in range for a small write off, otherwise returns an
   # error message representing why it failed.
   def self.isSmallWriteOff(balance)
     Rails.logger.info 'balance: ' + balance.to_s
@@ -144,7 +149,7 @@ before_save :multiplyAmount, :only => [:amount]
     end
   end
 
-  # Returns true if balance is in range for a large write off, otherwise returns an 
+  # Returns true if balance is in range for a large write off, otherwise returns an
   # error message representing why it failed.
   def self.isLargeWriteOff(balance)
     Rails.logger.info 'balance: ' + balance.to_s
@@ -158,7 +163,7 @@ before_save :multiplyAmount, :only => [:amount]
       true
     end
   end
-  
+
   class << self
     def find_by_registration(registration_uuid)
 
@@ -192,21 +197,21 @@ before_save :multiplyAmount, :only => [:amount]
     end
     foundPayment
   end
-  
+
   def isManualPayment?
     self.manualPayment
   end
-  
+
   def isAutomatedPayment?
     !isManualPayment?
   end
   private
-  
+
   # This multiplies the amount up from pounds to pence
   def multiplyAmount
     self.amount = (Float(self.amount)*100).to_i
     Rails.logger.info 'multiplyAmount result:' + self.amount.to_s
-    end
+  end
   # This divides the amount down from pence back to pounds
   def divideAmount
     self.amount = (Float(self.amount)/100).to_s
@@ -227,5 +232,5 @@ before_save :multiplyAmount, :only => [:amount]
       errors.add(:dateReceived, I18n.t('errors.messages.invalid') ) unless convert_dateReceived
     end
   end
-  
+
 end
