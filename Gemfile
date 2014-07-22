@@ -24,6 +24,8 @@ gem 'password_strength', '~>0.3.2'
 
 gem 'rolify'
 
+gem 'indefinite_article'
+
 gem 'govuk_template'
 gem 'govuk_frontend_toolkit'
 
@@ -58,6 +60,8 @@ gem 'capistrano', '~> 3.0.0'
 
 gem 'rest-client'
 gem 'ohm'
+
+gem 'money'
 
 group :test do
   gem 'ci_reporter'

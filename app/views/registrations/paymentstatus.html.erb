@@ -32,7 +32,7 @@
 			        
 			        <% if @registration.respond_to? :financeDetails %>
 				        <div class="form-group">
-				        	<div class="form-label"><%= amountPaymentSummary_for(@registration) %></div>
+				        	<div class="form-label"><%= amount_payment_summary_for(@registration) %></div>
 				        </div>
 			        <% end %>
 			        
@@ -66,7 +66,7 @@
 											<td class="" >ORDER::<%= order.dateLastUpdated %></td>
 											<td class="" ><%= order.description %></td>
 											<td class="" ><%= order.orderCode %></td>
-											<td class="" ><%= number_with_precision(order.totalAmount, :precision => 2) %></td>
+											<td class="" ><%= Money.new(order.totalAmount) %></td>
 										  </tr>
 										<% regCount = regCount + 1; %>
 									  <% end %>
@@ -105,7 +105,7 @@
 											<td class="" ><%= payment.dateReceived %></td>
 											<td class="" ><%= payment.paymentType %></td>
 											<td class="" ><%= payment.registrationReference %></td>
-											<td class="" ><%= number_with_precision(payment.amount, :precision => 2) %></td>
+											<td class="" ><%= Money.new(payment.amount) %></td>
 											<td class="" ><%= payment.comment %></td>
 										</tr>
 									<% regCount = regCount + 1; %>
@@ -136,9 +136,9 @@
 								<% if @registration.respond_to? :financeDetails %>
 								<tr class="">
 									<td class="" >
-						        	<%= amountSummary_for(@registration, false) %>
+						        	<%= amount_summary_for(@registration, false) %>
 									</td>
-									<td class="" ><%= number_with_precision(@registration.financeDetails.balance.abs, :precision => 2) %></td>
+									<td class="" ><%= Money.new(@registration.financeDetails.balance.abs) %></td>
 								</tr>
 								<%# Assume if financeDetails are not available it is because no charges are present on the account therefore must have a zero balance %>
 								<% else %>

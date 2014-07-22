@@ -73,6 +73,13 @@ class RegistrationsController < ApplicationController
   def updateNewNoRegistration
     setup_registration 'noregistration'
 
+    # TODO set steps
+
+    if @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newNoRegistration", :status => '400'
+    end
   end
 
   # GET /your-registration/other-businesses
@@ -183,7 +190,6 @@ class RegistrationsController < ApplicationController
     end
 
     @registration.save
-
   end
 
   # POST /your-registration/business-details
@@ -209,7 +215,6 @@ class RegistrationsController < ApplicationController
         logger.error 'ERROR: ActiveResource Server error!'
       end
       render "newBusinessDetails", status: '200'
-
     elsif @registration.valid?
       next_step = case @registration.tier
       when 'UPPER'
@@ -224,6 +229,7 @@ class RegistrationsController < ApplicationController
       render "newBusinessDetails", :status => '400'
     end
   end
+
   # GET /your-registration/contact-details
   def newContactDetails
     new_step_action 'contactdetails'
@@ -319,12 +325,8 @@ class RegistrationsController < ApplicationController
     @registration.add( params[:registration] ) unless no_update
     @registration.save
     logger.debug  @registration.attributes.to_s
-
     @registration.current_step = current_step
   end
-
-
-
   def validate_search_parameters?(searchString, searchWithin)
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
@@ -422,7 +424,7 @@ class RegistrationsController < ApplicationController
     @registrations = Registration.find_by_attrib(accountEmail: @user.email)
 
     unless @registrations.empty?
-      @sorted = @registrations.sort_by { |r| r.date_registered }.reverse!
+      @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
       @owe_money = owe_money? @registration
       session[:registration_mongoid] = @registration.uuid
@@ -499,7 +501,6 @@ class RegistrationsController < ApplicationController
       session[:registration_progress] = 'IN_EDIT'
       session[:registration_id] = @registration.id
       redirect_to :upper_summary
-
     end
     # @registration.current_step = session[:registration_step]
   end
@@ -509,10 +510,9 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     logger.debug  "registration found@ #{@registration['id']}"
     @registration.routeName = @registration.metaData.first.route
-
     authorize! :update, @registration
   end
-
+  
   def paymentstatus
     @registration = Registration.find_by_id(params[:id])
     @registration.routeName = @registration.metaData.route
@@ -547,12 +547,12 @@ class RegistrationsController < ApplicationController
     new_step_action 'signup'
 
     @registration.accountEmail = if user_signed_in?
-      current_user.email
-    elsif agency_user_signed_in?
-      current_agency_user.email
-    else
-      @registration.contactEmail
-    end
+        current_user.email
+      elsif agency_user_signed_in?
+        current_agency_user.email
+      else
+        @registration.contactEmail
+      end
 
     # Get signup mode
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
@@ -611,10 +611,10 @@ class RegistrationsController < ApplicationController
           logger.debug "User signed in, set account email to user email and get user"
 
           @registration.accountEmail = if user_signed_in?
-            current_user.email
-          elsif agency_user_signed_in?
-            current_agency_user.email
-          end
+                                         current_user.email
+                                       elsif agency_user_signed_in?
+                                         current_agency_user.email
+                                       end
 
           @user = User.find_by_email(@registration.accountEmail)
         end
@@ -629,20 +629,18 @@ class RegistrationsController < ApplicationController
         session[:uuid] = @registration.commit
         logger.debug "uuid: #{@registration.uuid}"
         logger.debug "session uuid: #{session[:uuid]}"
-
         if agency_user_signed_in?
           @registration.accessCode = @registration.generate_random_access_code
           @registration.save
           logger.debug "accessCode: #{@registration.accessCode }"
-
         end
-
         # The user is signed in at this stage if he activated his e-mail/account (for a previous registration)
         # Assisted Digital registrations (made by the signed in agency user) do not need verification either.
         if agency_user_signed_in? || user_signed_in?
           @registration.activate!
         end
         @registration.save
+		session[:registration_id] = @registration.id
         logger.debug "The registration has been saved. About to send e-mail..."
         if user_signed_in?
           RegistrationMailer.welcome_email(@user, @registration).deliver
@@ -654,7 +652,6 @@ class RegistrationsController < ApplicationController
 
       session[:registration_id] = @registration.id
       session[:registration_step] = session[:registration_params] = nil
-
 
       unless @registration.status.eql? 'ACTIVE'
         ## Account not yet activated for new user. Cannot redirect to the finish URL
@@ -671,8 +668,13 @@ class RegistrationsController < ApplicationController
           when 'LOWER'
             pending_url
           when 'UPPER'
-            :upper_payment
-          end
+                        :upper_payment
+                    #TODO: test  elsif @registration.user.confirmed?
+                      #  confirmed_path
+                     # else
+                       # pending_path
+                      end
+
           redirect_to next_step
         end
       else
@@ -689,6 +691,10 @@ class RegistrationsController < ApplicationController
 
   def pending
     @registration = Registration[session[:registration_id]]
+    user = @registration.user
+    user.current_registration = @registration
+    user.send_confirmation_instructions unless user.confirmed?
+ 
     @owe_money = owe_money? @registration
   end
 
@@ -736,7 +742,6 @@ class RegistrationsController < ApplicationController
         if @registration.valid?
           @registration.metaData.first.update(status: 'REVOKED')
           @registration.save
-
           @registration.commit
           logger.debug "uuid: #{@registration.uuid}"
 
@@ -758,7 +763,6 @@ class RegistrationsController < ApplicationController
         logger.debug "COMMIT line: #{__LINE__}"
         @registration.commit
         logger.debug "uuid: #{@registration.uuid}"
-
         redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_unrevoked'))
       else
         renderAccessDenied
@@ -812,7 +816,8 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     deletedCompany = @registration.companyName
     authorize! :update, @registration
-    @registration.destroy
+    @registration.metaData.status = 'INACTIVE'
+    @registration.save!
 
     respond_to do |format|
       format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) }
@@ -860,11 +865,10 @@ class RegistrationsController < ApplicationController
       authenticate_user!
     end
   end
-
+ 
   # GET your-registration/upper-tier-contact-details
   def newUpperBusinessDetails
     new_step_action 'upper_business_details'
-
     if params[:manualUkAddress] #we're in the manual uk address page
       @registration.addressMode = 'manual-uk'
     elsif params[:foreignAddress] #we're in the manual foreign address page
@@ -920,7 +924,7 @@ class RegistrationsController < ApplicationController
   # GET your-registration/upper-tier-contact-details
   def newUpperContactDetails
     new_step_action 'upper_contact_details'
-  end
+    end
 
   # POST your-registration/upper-tier-contact-details
   def updateNewUpperContactDetails
@@ -934,7 +938,7 @@ class RegistrationsController < ApplicationController
       if @registration.businessType.eql? 'limitedCompany'
         redirect_to :registration_directors
       else
-        redirect_to :upper_summary
+      redirect_to :upper_summary
       end
     else
       # there is an error (but data not yet saved)
@@ -946,9 +950,15 @@ class RegistrationsController < ApplicationController
   # GET upper-registrations/payment
   def newPayment
     new_step_action 'payment'
-    @registration.registration_fee = 154
+    if !@registration.copy_cards
     @registration.copy_cards = 0
-    @registration.copy_card_fee = @registration.copy_cards * 5
+    end
+    calculate_fees
+  end
+
+  def calculate_fees
+    @registration.registration_fee = Rails.configuration.fee_registration
+    @registration.copy_card_fee = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
     @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
   end
 
@@ -956,13 +966,24 @@ class RegistrationsController < ApplicationController
   def updateNewPayment
     setup_registration 'payment'
 
+    #if !createAndSaveOrder
+    #  flash[:notice] = 'The order is invalid!'
+    #  redirect_to upper_payment_path
+    #  return
+    #end
+    calculate_fees
+    logger.info "copy cards: " + @registration.copy_cards.to_s
+    logger.info "total fee: " + @registration.total_fee.to_s
+ 
     if @registration.valid?
-      redirect_to_worldpay
+      redirect_to_worldpay(@registration)
     else
       render 'newPayment', :status => '400'
     end
   end
 
+  #We should not use this as part of updating the payment page. 
+  #We should rather update the existing order and set the payment method and number of copycards.
   def createAndSaveOrder
     @order = Order.new
     @order.orderCode = 'NNN'
@@ -974,6 +995,7 @@ class RegistrationsController < ApplicationController
     @order.dateCreated = Time.now.utc.xmlschema
     @order.dateLastUpdated = @order.dateCreated
     @order.updatedByUser = 'testuser@example.com'
+    @order.prefix_options[:id] = session[:registration_id]
 
     if @order.valid?
       @order.save!
@@ -984,6 +1006,7 @@ class RegistrationsController < ApplicationController
     end
 
   end
+
   # GET upper-registrations/summary
   def newUpperSummary
     new_step_action 'upper_summary'

@@ -8,7 +8,7 @@ Feature: Discovery
   https://docs.google.com/spreadsheets/d/15SbDNrVbwh7nhQoEus-I5mv3RDIW_6nzwyxknUOuAXs/edit?usp=sharing
 
   Scenario Outline: Lower tier with own waste and no building waste
-    Given I am on the discovery page
+    Given I start a new registration
       And I enter my business type as <business_type>
       And I indicate I deal only with my own waste
       And I indicate I never deal with waste from building or demolition work
@@ -22,7 +22,7 @@ Feature: Discovery
       | publicbody     |
 
   Scenario Outline: Upper tier with own waste and building waste
-    Given I am on the discovery page
+    Given I start a new registration
       And I enter my business type as <business_type>
       And I indicate I deal only with my own waste
       And I indicate I sometimes deal with waste from building or demolition work
@@ -36,7 +36,7 @@ Feature: Discovery
       | publicbody     |
 
   Scenario Outline: Lower tier with other people's waste and main service and animal waste
-    Given I am on the discovery page
+    Given I start a new registration
       And I enter my business type as <business_type>
       And I indicate I deal with other people's waste too
       And I indicate disposing waste is my main service
@@ -51,7 +51,7 @@ Feature: Discovery
       | publicbody     |
 
   Scenario Outline: Upper tier with other people's waste and main service and no animal waste
-    Given I am on the discovery page
+    Given I start a new registration
       And I enter my business type as <business_type>
       And I indicate I deal with other people's waste too
       And I indicate disposing waste is my main service
@@ -66,7 +66,7 @@ Feature: Discovery
       | publicbody     |
 
   Scenario Outline: Upper tier with other people's waste and no main service and building waste
-    Given I am on the discovery page
+    Given I start a new registration
       And I enter my business type as <business_type>
       And I indicate I deal with other people's waste too
       And I indicate disposing waste is not my main service
@@ -81,7 +81,7 @@ Feature: Discovery
       | publicbody     |
 
   Scenario Outline: Lower tier with other people's waste and no main service and no building waste
-    Given I am on the discovery page
+    Given I start a new registration
       And I enter my business type as <business_type>
       And I indicate I deal with other people's waste too
       And I indicate disposing waste is not my main service
@@ -96,7 +96,7 @@ Feature: Discovery
       | publicbody     |
 
   Scenario Outline: Definite lower tier determined just by business type
-    Given I am on the discovery page
+    Given I start a new registration
       And I enter my business type as <business_type>
     Then I will be on the lower tier waste carrier registration path
 
@@ -106,12 +106,12 @@ Feature: Discovery
       | authority     |
 
   Scenario: First wizard page
-    Given I am on the discovery page
+    Given I start a new registration
     Then there is no back button on the page
       But there is a next button on the page
 
   Scenario: Some other business type
-    Given I am on the discovery page
+    Given I start a new registration
       And I enter my business type as other
     Then I am told to ring the Environment Agency
 

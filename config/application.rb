@@ -105,7 +105,7 @@ module Registrations
     # Update this whenever the reported version number is supposed to have changed - particularly before any new releases.
     # Note: This is the version of the frontend application. The version number of the services application may change separately.
     # Use semantic versioning (Major.Minor.Patch)
-    config.application_version = '1.2.0_alpha'
+    config.application_version = '2.0.0-alpha.1'
 
     # The e-mail address shown on the Finish page and used in e-mails sent by the application
     config.registrations_service_email = 'registrations@wastecarriersregistration.service.gov.uk'
@@ -151,6 +151,9 @@ module Registrations
     config.worldpay_moto_password = ENV['WCRS_WORLDPAY_MOTO_PASSWORD'] || 'PASSWORD'
     config.worldpay_moto_macsecret = ENV['WCRS_WORLDPAY_MOTO_MACSECRET'] || 'MACSECRET'
 
+    #Using the Worldpay TEST service in all environments by default
+    config.worldpay_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
+
     # Offline payment
     config.environment_agency_bank_account_name = 'Environment Agency'
     config.environment_agency_bank_name = 'Citibank'
@@ -159,8 +162,16 @@ module Registrations
     config.bank_transfer_account_number = '12800543'
     config.iban_number = 'GB23 CITI0833 0012 8005 43'
     config.swiftbic_number = 'CITI GB2LXXX'
-    config.income_email_address = 'fsc-income@environment-agency.gov.uk'
+    config.income_email_address = 'FSC.AR@environment-agency.gov.uk'
     config.income_fax_number = '01733 464892'
     config.income_postal_address = 'Environment Agency, Income Dept 311, PO Box 263, Peterborough, PE2 8YD'
+
+    #fees/charges - please provide as a number expressed in pounds
+    #TODO Have a more elaborate fee structure (and/or the fees in the database?) which allows us to set new fees in advance 
+    #so that this configuration file does not need to be edited at new years eve late or whenever new fees come into place
+    config.fee_registration = 154
+    config.fee_renewal = 110
+    config.fee_copycard = 5
+
   end
 end

@@ -9,10 +9,15 @@ require 'open-uri'
 
 module WorldpayHelper
 
-    def redirect_to_worldpay
-      xml = create_xml
+    def redirect_to_worldpay(registration)
+      #puts '*******'
+      #puts registration.to_s
+      #puts '*******'
+
+      xml = create_xml(registration)
       logger.info 'About to contact WorldPay: XML username = ' + worldpay_xml_username
       logger.info 'Sending XML to Worldpay: ' + xml
+
       response = send_xml(xml)
       logger.info 'Received response from Worldpay: ' + response.body.to_s
       redirect_url = get_redirect_url(parse_xml(response.body))
@@ -20,37 +25,38 @@ module WorldpayHelper
     end
 
     # Construct an XML message according to the Worldpay DTD    
-    def create_xml
+    def create_xml(registration)
       merchantCode = worldpay_merchant_code
       orderCode = Time.now.to_i.to_s
-      orderValue = '15400'
+      orderValue = registration.total_fee * 100
+      #TODO Remove pre-populated shopper values once Worldpay has been reconfigured not to require address details
       orderDescription = 'Your Waste Carrier Registration'
-      orderContent = 'Your new Waste Carrier Registration'
-      shopperEmail = ''
+      orderContent = 'Waste Carrier Registration' + ' ' + registration.regIdentifier.to_s + ' ' + registration.companyName.to_s
+      shopperEmail = registration.accountEmail || ''
       shopperFirstName = 'Joe'
       shopperLastName = 'Bloggs'
-      shopperAddress1 = 'Test Street 123'
+      shopperAddress1 = 'Test Street 123 - To be removed'
       shopperPostalCode = 'BS1 5AH'
       shopperCity = 'Bristol'
       shopperCountryCode = 'GB'
 
-      xml = "<?xml version=\"1.0\"?>"
-      xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>"
-      xml << "<paymentService version=\"1.4\" merchantCode=\"" + merchantCode + "\">"
-      xml << "<submit>"
-      xml << "<order orderCode=\"" + orderCode + "\">"
-      xml << "<description>" + orderDescription + "</description>"
-      xml << "<amount currencyCode=\"GBP\" value=\"" + orderValue + "\" exponent=\"2\"/>"
-      xml << '<orderContent>' + orderContent + '</orderContent>'
+      xml = "<?xml version=\"1.0\"?>\n"
+      xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>\n"
+      xml << "<paymentService version=\"1.4\" merchantCode=\"" + merchantCode + "\">\n"
+      xml << "<submit>\n"
+      xml << "<order orderCode=\"" + orderCode + "\">\n"
+      xml << "<description>" + orderDescription + "</description>\n"
+      xml << "<amount currencyCode=\"GBP\" value=\"" + orderValue.to_s + "\" exponent=\"2\"/>\n"
+      xml << '<orderContent>' + orderContent + '</orderContent>' + "\n"
       xml << '<paymentMethodMask>'
 #      xml << "<include code=\"ONLINE\"/>"
       xml << "<include code=\"VISA-SSL\"/>"
       xml << "<include code=\"MAESTRO-SSL\"/>"
       xml << "<include code=\"ECMC-SSL\"/>"
-      xml << '</paymentMethodMask>'
-      xml << '<shopper>'
-      xml << '<shopperEmailAddress>' + shopperEmail + '</shopperEmailAddress>'
-      xml << '</shopper>'
+      xml << '</paymentMethodMask>' + "\n"
+      xml << '<shopper>' + "\n"
+      xml << '<shopperEmailAddress>' + shopperEmail + '</shopperEmailAddress>' + "\n"
+      xml << '</shopper>' + "\n"
       xml << '<billingAddress>'
       xml << '<address>'
       xml << '<firstName>' + shopperFirstName + '</firstName>'
@@ -60,17 +66,17 @@ module WorldpayHelper
       xml << '<city>' + shopperCity + '</city>'
       xml << '<countryCode>' + shopperCountryCode + '</countryCode>'
       xml << '</address>'
-      xml << '</billingAddress>'
-      xml << '</order>'
-      xml << '</submit>'
-      xml << '</paymentService>'
+      xml << '</billingAddress>' + "\n"
+      xml << '</order>' + "\n"
+      xml << '</submit>' + "\n"
+      xml << '</paymentService>' + "\n"
       xml
     end
 
     def send_xml(xml)
       username = worldpay_xml_username
       password = worldpay_xml_password
-      test_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
+      test_uri = Rails.configuration.worldpay_uri
       uri = URI(test_uri)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
