@@ -9,10 +9,12 @@ class WorldpayController < ApplicationController
     #redirect_to paid_path
     @registration = Registration[session[:registration_id]]
 
+ logger.debug "session reg id #{session[:registration_id]}"
+  logger.debug "reg id: #{ @registration.id} -- reg uuid: #{ @registration.uuid}"
     process_payment
 
     next_step = if @registration.assisted_digital? || user_signed_in?
-                  print_path(@registration)
+                  print_path(@registration.id)
                   #Note from Georg: I think we will eventually want to show the 'finish' path
                   #finish_path(@registration)
                 elsif @registration.user.confirmed?
@@ -72,6 +74,7 @@ class WorldpayController < ApplicationController
       @payment.comment = 'Paid via Worldpay'
 
       if @payment.valid?
+          logger.error 'Payment is valid! '
         @payment.save!
       else
         logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
