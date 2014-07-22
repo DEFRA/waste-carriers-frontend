@@ -85,9 +85,7 @@ class Registration < Ohm::Model
   index :accountEmail
   index :companyName
 
-  def persisted?
-    false
-  end
+
   def empty?
     attributes.empty?
   end
@@ -568,22 +566,6 @@ class Registration < Ohm::Model
     else
       'sign_up'
     end
-  end
-
-  def current_step
-    @current_step || first_step
-  end
-
-  def first_step
-    'businesstype'
-  end
-
-  def first_step?
-    current_step == first_step
-  end
-
-  def last_step?
-    noregistration?
   end
 
   def noregistration?
