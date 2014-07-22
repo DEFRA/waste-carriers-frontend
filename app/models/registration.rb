@@ -40,7 +40,7 @@ class Registration < Ohm::Model
   attribute :company_no
   attribute :expires_on
 
-    #payment
+  #payment
   attribute :total_fee
   attribute :registration_fee
   attribute :copy_card_fee
@@ -85,7 +85,9 @@ class Registration < Ohm::Model
   index :accountEmail
   index :companyName
 
-
+  def persisted?
+    false
+  end
   def empty?
     attributes.empty?
   end
@@ -121,7 +123,7 @@ class Registration < Ohm::Model
       # following fields are set by the java service
       self.uuid = result['id']
       self.metaData.first.update(dateRegistered: result['metaData']['dateRegistered'])
-       Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
+      Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
       self.regIdentifier = result['regIdentifier']
 
       save
@@ -543,10 +545,10 @@ class Registration < Ohm::Model
   end
 
   def paid_in_full?
-   # the_balance = self.try(:financeDetails).try(:balance)
-   # return true if the_balance.nil?
-   # the_balance <= 0
-	self.financeDetails ? (self.financeDetails.first.balance <= 0) : true
+    # the_balance = self.try(:financeDetails).try(:balance)
+    # return true if the_balance.nil?
+    # the_balance <= 0
+    self.finance_details && self.finance_details.first ? (self.finance_details.first.balance <= 0) : true
 
   end
 
@@ -568,9 +570,11 @@ class Registration < Ohm::Model
     end
   end
 
-  def noregistration?
+
+  def last_step?
     current_step == 'noregistration'
   end
+
 
   def confirmation_step?
     current_step == 'confirmation'
@@ -578,12 +582,12 @@ class Registration < Ohm::Model
 
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
-      when :not_found
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
-      when :inactive
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
-      when :error_calling_service
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
+    when :not_found
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+    when :inactive
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+    when :error_calling_service
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
     end
   end
 
@@ -643,12 +647,12 @@ class Registration < Ohm::Model
 
   def boxClassSuffix
     case metaData.first.status
-      when 'REVOKED'
-        'revoked'
-      when 'PENDING'
-        'pending'
-      else
-        ''
+    when 'REVOKED'
+      'revoked'
+    when 'PENDING'
+      'pending'
+    else
+      ''
     end
   end
 
@@ -668,7 +672,9 @@ class Registration < Ohm::Model
 
   def self.activate_registrations(user)
     Rails.logger.info("Activating pending registrations for user with email " + user.email)
-    Registration.find(:all, :params => {:ac => user.email}).each do |r|
+    rs = Registration.find_by_attrib(accountEmail: user.email)
+    Rails.logger.info("found: #{rs.size} pending registrations")
+    rs.each do |r|
       if r.pending?
         Rails.logger.debug "debug: #{r.attributes.to_s}"
         Rails.logger.info("Activating registration " + r.regIdentifier)

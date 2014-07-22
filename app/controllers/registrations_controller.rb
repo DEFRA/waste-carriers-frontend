@@ -427,7 +427,7 @@ class RegistrationsController < ApplicationController
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
       @owe_money = owe_money? @registration
-      session[:registration_mongoid] = @registration.uuid
+      session[:registration_uuid] = @registration.uuid
     else
       renderNotFound and return
     end
@@ -435,7 +435,7 @@ class RegistrationsController < ApplicationController
   end
 
   def print_confirmed
-    @registration = Registration.find_by_id(session[:registration_mongoid])
+    @registration = Registration.find_by_id(session[:registration_uuid])
     if @registration.empty?
       renderNotFound and return
     end
@@ -512,7 +512,7 @@ class RegistrationsController < ApplicationController
     @registration.routeName = @registration.metaData.first.route
     authorize! :update, @registration
   end
-  
+
   def paymentstatus
     @registration = Registration.find_by_id(params[:id])
     @registration.routeName = @registration.metaData.route
@@ -694,7 +694,7 @@ class RegistrationsController < ApplicationController
     user = @registration.user
     user.current_registration = @registration
     user.send_confirmation_instructions unless user.confirmed?
- 
+
     @owe_money = owe_money? @registration
   end
 
@@ -865,7 +865,7 @@ class RegistrationsController < ApplicationController
       authenticate_user!
     end
   end
- 
+
   # GET your-registration/upper-tier-contact-details
   def newUpperBusinessDetails
     new_step_action 'upper_business_details'
@@ -974,7 +974,7 @@ class RegistrationsController < ApplicationController
     calculate_fees
     logger.info "copy cards: " + @registration.copy_cards.to_s
     logger.info "total fee: " + @registration.total_fee.to_s
- 
+
     if @registration.valid?
       redirect_to_worldpay(@registration)
     else
@@ -982,7 +982,7 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  #We should not use this as part of updating the payment page. 
+  #We should not use this as part of updating the payment page.
   #We should rather update the existing order and set the payment method and number of copycards.
   def createAndSaveOrder
     @order = Order.new

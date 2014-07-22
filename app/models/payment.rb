@@ -188,7 +188,7 @@ class Payment < Ohm::Model
   # Returns the payment from the registration matching the orderCode
   def self.getPayment(registration, orderCode)
     foundPayment = nil
-    registration.financeDetails.payments.each do |payment|
+    registration.finance_details.first.payments.each do |payment|
       Rails.logger.info 'Payment getPayment ' + payment.orderKey.to_s
       if orderCode == payment.orderKey
         Rails.logger.info 'Payment getPayment foundPayment'
