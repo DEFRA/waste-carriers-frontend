@@ -1,10 +1,9 @@
 
-<% unless  params[:manualUkAddress] || params[:findAddress] ||  params[:foreignAddress]  %>
-      <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: false  %>
-  <% end %>
-
   <% case %>
-  <% when  params[:findAddress] %>
+<% when  !@registration.addressMode  %>
+      <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: false  %>
+
+  <% when  @registration.addressMode == 'address-results' %>
       <% if  @address_match_list %>
           <% if  @address_match_list.size  < 1 %> <!-- no addresses found for postcode -->
               <span class="error-text"><%= t '.no_results_error'%></span>
@@ -29,11 +28,11 @@
           <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: true  %>
       <% end %>  <!-- if -->
 
-  <% when params[:manualUkAddress] %>
+  <% when @registration.addressMode == 'manual-uk' %>
       <%= render 'uk_address_entry', f: f  %>
       <p><a href="?autoUkAddress=true"><%= t 'registrations.contact_step.findAddressUsingPostcode'%></a></p>
 
-  <% when params[:foreignAddress] %>
+  <% when @registration.addressMode == 'manual-foreign'  %>
       <%= render 'foreign_address_entry', f: f  %>
       <p><a href="?autoUkAddress=true"><%= t '.ukAddressLink'%></a></p>
 
