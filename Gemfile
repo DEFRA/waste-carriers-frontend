@@ -66,6 +66,7 @@ gem 'capistrano', '~> 3.0.0'
 gem 'rest-client'
 
 gem 'money'
+gem 'monetize'
 
 group :test do
   gem 'ci_reporter'
