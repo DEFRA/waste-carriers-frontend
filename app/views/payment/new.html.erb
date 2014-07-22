@@ -28,14 +28,14 @@
 		        
 		        <% if @registration.respond_to? :financeDetails %>
 			        <div class="form-group">
-			        	<div class="form-label"><%= amountSummary_for(@registration, true) %></div>
+			        	<div class="form-label"><%= amount_summary_for(@registration, true) %></div>
 			        </div>
 		        <% end %>
 		  	    
 		        <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
 					<%= validation_for(@payment, :amount) %>
 					<%= f.label :amount, class: 'form-label' %>
-					<%= f.text_field :amount, :size => 7, :value => number_with_precision(f.object.amount, :precision => 2) %>
+					<%= f.text_field :amount, :size => 7 %>
 				</div>
 				
 				<div class="form-group<%if @payment.errors[:dateReceived].any?%> validation<%end%>">

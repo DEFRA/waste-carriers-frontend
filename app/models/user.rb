@@ -43,18 +43,9 @@ class User
   field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
   field :locked_at,       :type => Time
 
+  attr_accessor :current_registration
 
   validates_strength_of :password, :with => :email
-
-## Note: now sending the e-mails from the controller...
-#  def confirm!
-#    super
-#    if confirmed?
-#      Registration.activate_registrations(self)
-#    else
-#      Rails.logger.info "Confirmation failed for user. Not activating registrations for user email = " + email
-#    end
-#  end
 
   def confirmed?
     confirmed_at_present?
@@ -67,7 +58,6 @@ class User
   def is_agency_user?
     false
   end
-
   
   def self.find_by_email(some_email)
     User.find_by(email: some_email)

@@ -1,4 +1,4 @@
-Given(/^I am on the discovery page$/) do
+Given(/^I start a new registration$/) do
   visit find_path
 end
 

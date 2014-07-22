@@ -27,6 +27,8 @@
   <div class="form-group<% if @agency_user.errors[:roles].any? %> validation<% end %>">
     <%= validation_for(@agency_user, :roles) %>
   	<%= f.label :roles, class: 'form-label' %>
+  	<p class='subtitle'><%= t 'agencyUsers.roleGuidance_1' %></p>
+  	<p class='subtitle'><%= t 'agencyUsers.roleGuidance_2' %></p>
 	<% Role.roles.each do |role| %>
 		<div class=''>
         	<%= f.label t('agencyUsers.'+role), class: 'field-label' %>
