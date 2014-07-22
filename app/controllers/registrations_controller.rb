@@ -864,11 +864,16 @@ class RegistrationsController < ApplicationController
   # GET your-registration/upper-tier-contact-details
   def newUpperBusinessDetails
     new_step_action 'upper_business_details'
+
     if params[:manualUkAddress] #we're in the manual uk address page
       @registration.addressMode = 'manual-uk'
     elsif params[:foreignAddress] #we're in the manual foreign address page
       @registration.addressMode = 'manual-foreign'
+    elsif params[:autoUkAddress] #user clicked to go back to address lookup
+      @registration.addressMode = nil
     end
+
+    @registration.save
   end
 
   # POST your-registration/upper-tier-contact-details
@@ -885,8 +890,8 @@ class RegistrationsController < ApplicationController
 
     if params[:findAddress] #user clicked on Find Address button
 
+      @registration.addressMode = 'address-results'
       @registration.postcode = params[:registration][:postcode]
-      @registration.addressMode = nil
       begin
         @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
         logger.debug @address_match_list.size.to_s
