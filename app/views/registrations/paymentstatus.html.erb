@@ -32,7 +32,7 @@
 			        
 			        <% if @registration.respond_to? :financeDetails %>
 				        <div class="form-group">
-				        	<div class="form-label"><%= amount_payment_summary_for(@registration) %></div>
+				        	<div class="form-label" id="amountSummary"><%= amount_payment_summary_for(@registration) %></div>
 				        </div>
 			        <% end %>
 			        
@@ -138,13 +138,13 @@
 									<td class="" >
 						        	<%= amount_summary_for(@registration, false) %>
 									</td>
-									<td class="" ><%= Money.new(@registration.financeDetails.balance.abs) %></td>
+									<td class="" id="balanceDue"><%= Money.new(@registration.financeDetails.balance.abs) %></td>
 								</tr>
 								<%# Assume if financeDetails are not available it is because no charges are present on the account therefore must have a zero balance %>
 								<% else %>
 							    <tr class="">
 									<td class="" ><%= t 'registrations.form.balanceDue_text' %></td>
-									<td class="" >0.00</td>
+									<td class="" id="balanceDue">0.00</td>
 								</tr>
 							    <% end %>
 							</tbody>
@@ -166,15 +166,15 @@
 		    isRefundOrBasic = current_agency_user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
 		    %>
 		    <% if !isFinanceAdmin %>
-		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button' %></span>
-		    <span class="next_link"><%= link_to t('registrations.form.writeoffsmall_button_label'), :enterWriteOff, :class => 'button' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.writeoffsmall_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffSmall' %></span>
 		    <% end %>
 		    <% if isFinanceAdmin %>
-		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button' %></span>
-		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffLarge' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button', :id => 'adjustments' %></span>
 		    <% end %>
 		    <% if isRefundOrBasic %>
-		    <span class="next_link"><%= link_to t('registrations.form.refund_button_label'), :refund, :class => 'button' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.refund_button_label'), :refund, :class => 'button', :id => 'refund' %></span>
 		    <% end %>
 		</div>
 

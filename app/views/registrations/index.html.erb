@@ -101,7 +101,7 @@
 			</form>
 
 			<form action="<%=paymentstatus_url(registration.id)%>">
-				<input type="submit" class="button" value="Payment Status"/>
+				<input id="paymentStatus<%=regCount%>" name="paymentStatus<%=regCount%>" type="submit" class="button" value="Payment Status"/>
 			</form>
 
 			<%# button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :data => "{ :confirm => 'are you sure?' }"%>

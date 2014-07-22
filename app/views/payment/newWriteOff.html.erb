@@ -27,8 +27,8 @@
 		        </div>
 		        
 		        <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
-					<div class="form-label">Amount to write off <%= number_to_currency(f.object.amount, :unit => "£") %></div>
-					<%= f.hidden_field :amount, :size => 7, :value => number_with_precision(f.object.amount, :precision => 2) %>
+					<div class="form-label" id="amountSummary">Amount to write off <span id="amountDue"><%= pence_to_currency(f.object.amount) %></span></div>
+					<%= f.hidden_field :amount, :size => 7, :value => number_with_precision((Float(f.object.amount)/100), :precision => 2) %>
 				</div>
 				
 				<div class="form-group<%if @payment.errors[:registrationReference].any?%> validation<%end%>">

@@ -120,6 +120,9 @@ class PaymentController < ApplicationController
     # Add registration Id as a prefix option
 	@payment.prefix_options[:id] = params[:id]
 	
+	# Set override to validate amount as pounds as came from user screen and was converted to display as pounds
+	@payment.manualPayment = true
+	
 	if @payment.valid?
 	  logger.info 'writeOff is valid'
 	  @payment.save!
