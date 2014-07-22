@@ -28,7 +28,7 @@
 		        
 		        <% if @registration.respond_to? :financeDetails %>
 			        <div class="form-group">
-			        	<div class="form-label"><%= amount_summary_for(@registration, true) %></div>
+			        	<div class="form-label" id="amountSummary"><%= amount_summary_for(@registration, true) %></div>
 			        </div>
 		        <% end %>
 		  	    

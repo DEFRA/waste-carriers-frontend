@@ -17,8 +17,8 @@ module PaymentsHelper
                t 'registrations.form.paidInFull_text'
              end
 
-    suffix = " #{pence_to_currency balance.abs}" unless balance.zero?
-    include_balance ? "#{prefix}#{suffix}" : prefix
+    suffix = "#{pence_to_currency balance.abs}" unless balance.zero?
+    include_balance ? raw("#{prefix} <span id=\"amountDue\">#{suffix}</span>") : prefix
   end
 
   def pence_to_currency pence
