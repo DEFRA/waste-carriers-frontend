@@ -59,6 +59,7 @@
 <div id="reg-search-result" style="">
     <h2>Found <%=pluralize(@registrations.count,"registration")%></h2>
     <p>Showing 1-<%= @registrations.count %>  of <%=pluralize(@registrations.count,"record")%></p>
+    <% regCount = 1 %>
     <% @registrations.each do |registration| %>
 </div>
 
@@ -110,7 +111,7 @@
 </div>
 
 
-
+<% regCount = regCount + 1 %>
 <% end %>
 <% end %>
 
