@@ -17,7 +17,7 @@
           <div class='inner'>
             <div class='inline'>
               <%= f.label :registration_fee, class: 'form-label' %>
-              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true %>
+              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Rails.configuration.fee_registration / 100 %>
             </div>
             <p class='subtitle'>Cost of Waste Carrier registration</p>
          </div>
@@ -39,7 +39,7 @@
           <div class="inner">
             <div class='inline'>
               <%= f.label :total_fee, class: 'form-label' %>
-              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true %>
+              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Rails.configuration.fee_registration / 100  %>
             </div>
           </div> 
         </div>

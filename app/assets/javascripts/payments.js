@@ -13,7 +13,7 @@ $(function() {
    var total_fee_obj = document.getElementById('registration_total_fee');
    var registration_fee_obj = document.getElementById('registration_registration_fee');
 
-    card_fee_obj.value = no_of_cards * 500;
+    card_fee_obj.value = no_of_cards * 5; // FIXME this monetary value duplicates amother Rails variable
     total_fee_obj.value =  Number(card_fee_obj.value) + Number(registration_fee_obj.value)
 
   });
