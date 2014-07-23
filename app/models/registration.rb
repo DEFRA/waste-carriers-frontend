@@ -550,7 +550,7 @@ class Registration < Ohm::Model
     # the_balance = self.try(:financeDetails).try(:balance)
     # return true if the_balance.nil?
     # the_balance <= 0
-    self.finance_details && self.finance_details.first ? (self.finance_details.first.balance <= 0) : true
+    (self.finance_details && self.finance_details.first) ? (self.finance_details.first.balance.to_i <= 0) : true
 
   end
 
