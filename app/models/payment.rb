@@ -11,6 +11,9 @@ class Payment < Ohm::Model
   attribute :mac_code
   attribute :dateReceived
   attribute :dateEntered
+  attribute :dateReceived_year
+  attribute :dateReceived_month
+  attribute :dateReceived_day
   attribute :registrationReference
   attribute :worldPayPaymentStatus
   attribute :updatedByUser

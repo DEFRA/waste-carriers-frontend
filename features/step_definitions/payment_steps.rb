@@ -20,7 +20,7 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   #Select MasterCard by clicking on the button:
   sleep 1.0
 
-  page.should have_content 'Secure Payment Page'
+  page.should have_content 'Secure Test Simulator Page'
 
   page.should have_content 'MasterCard'
 
