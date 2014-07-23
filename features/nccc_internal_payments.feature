@@ -46,23 +46,23 @@ Examples:
 
 
 
-Scenario: Renewal charge changes
-  When payment balance is underpaid
-  And renewal charge changes
-  Then payment balance will not change
+#Scenario: Renewal charge changes
+#  When payment balance is underpaid
+#  And renewal charge changes
+#  Then payment balance will not change
 
-Scenario: Registration charge changes	
-  When payment balance is underpaid
-  And registration charge changes
-  Then payment balance will not change
+#Scenario: Registration charge changes	
+#  When payment balance is underpaid
+#  And registration charge changes
+#  Then payment balance will not change
 
 ##should this be a unit test?
-Scenario: Negative charge amount
-  When I select to enter payment
-  And I enter negative payment amount
-  And I enter payment details
-  And I confirm payment
-  Then the system will reject payment
+#Scenario: Negative charge amount
+#  When I select to enter payment
+#  And I enter negative payment amount
+#  And I enter payment details
+#  And I confirm payment
+#  Then the system will reject payment
 
 
 
