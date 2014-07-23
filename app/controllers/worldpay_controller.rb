@@ -12,8 +12,8 @@ class WorldpayController < ApplicationController
     if process_payment
 
     next_step = if @registration.assisted_digital? || user_signed_in?
-                  print_path(@registration)
-                  #Note from Georg: I think we will eventually want to show the 'finish' path 
+                  print_path(@registration.id)
+                  #Note from Georg: I think we will eventually want to show the 'finish' path
                   #finish_path(@registration)
                 elsif @registration.user.confirmed?
                   confirmed_path
@@ -42,7 +42,7 @@ class WorldpayController < ApplicationController
   end
 
   def cancel
-  	#TODO - Process response and edirect...  	
+  	#TODO - Process response and edirect...
     #process_payment
     flash[:notice] = 'You have cancelled your payment.'
   end
@@ -85,11 +85,12 @@ class WorldpayController < ApplicationController
       @payment.mac_code = mac
         @payment.registrationReference = 'Worldpay'
       @payment.comment = 'Paid via Worldpay'
-      @payment.prefix_options[:id] = session[:registration_id]
 
         #TODO re-enable validation and saving - current validation rules are geared towards offline payments
       if @payment.valid?
-        @payment.save!
+        logger.debug "registration uuid: #{@registration.uuid}"
+
+        @payment.save! @registration.uuid
           #@payment.save(:validate => false)
       else
         logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
