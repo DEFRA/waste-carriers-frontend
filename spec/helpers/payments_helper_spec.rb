@@ -9,9 +9,11 @@ describe PaymentsHelper do
   describe '#amountPaymentSummary_for' do
     let(:registration) { Registration.create }
     let(:finance_details) { double 'finance_details' }
+    let(:finance_details_array) { double 'finance_details_array' }
 
     before do
-      allow(registration).to receive(:finance_details).and_return(finance_details)
+      allow(registration).to receive(:finance_details).and_return(finance_details_array)
+      allow(finance_details_array).to receive(:first).and_return(finance_details)
     end
 
     context 'positive balance' do
@@ -40,11 +42,13 @@ describe PaymentsHelper do
   end
 
   describe '#amountSummary_for' do
-    let(:registration) { Registration.new }
+    let(:registration) { Registration.create }
     let(:finance_details) { double 'finance_details' }
+    let(:finance_details_array) { double 'finance_details_array' }
 
     before do
-      allow(registration).to receive(:finance_details).and_return(finance_details)
+      allow(registration).to receive(:finance_details).and_return(finance_details_array)
+      allow(finance_details_array).to receive(:first).and_return(finance_details)
     end
 
     context 'include balance' do
