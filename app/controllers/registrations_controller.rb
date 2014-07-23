@@ -421,7 +421,7 @@ class RegistrationsController < ApplicationController
       renderNotFound and  return
     end
     # @registrations = Registration.find(:all, :params => {:ac => @user.email})
-    @registrations = Registration.find_by_attrib(accountEmail: @user.email)
+    @registrations = Registration.find_by_email(@user.email)
 
     unless @registrations.empty?
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!

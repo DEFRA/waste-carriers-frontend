@@ -287,6 +287,28 @@ class Registration < Ohm::Model
     end
   end
 
+  class << self
+    def find_by_email(email)
+      registrations = []
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?ac=#{email}"
+      begin
+        response = RestClient.get url
+        if response.code == 200
+          all_regs = JSON.parse(response.body) #all_regs should be Array
+          Rails.logger.debug " #{all_regs.to_s} "
+          Rails.logger.debug "find found #{all_regs.size.to_s} items"
+          all_regs.each do |r|
+            registrations << Registration.init(r)
+          end
+        else
+          Rails.logger.error "Registration.find_by_email(#{email}) failed with a #{response.code} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      registrations
+    end
+  end
 
   # Retrieves a specific registration object from the Java Service based on its uuid
   #
