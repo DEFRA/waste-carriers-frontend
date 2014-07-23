@@ -8,8 +8,8 @@ class Payment < ActiveResource::Base
   self.prefix = "/registrations/:id/"	# Overrides default prefix url or /payments/<id>
 #  self.collection_name = "payment"		# Overrides default collection name of 'payments'
 
-  before_save :multiplyAmount, :only => [:amount]
-  after_save :divideAmount, :only => [:amount]
+  before_save :multiplyAmount, :only => [:amount], :if => :manualPayment
+  after_save :divideAmount, :only => [:amount], :if => :manualPayment
   
   PAYMENT_TYPES = %w[
     CASH
