@@ -13,6 +13,11 @@ describe PaymentsHelper do
     specify { helper.pence_to_currency(15900).should == '£159.00' }
   end
 
+  describe '#money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes' do
+    specify { helper.money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(15400).should == '154' }
+    specify { helper.money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(15450).should == '154.50' }
+  end
+
   describe '#amountPaymentSummary_for' do
     let(:registration) { Registration.new }
     let(:finance_details) { double 'finance_details' }

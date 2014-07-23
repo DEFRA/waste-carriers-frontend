@@ -65,7 +65,7 @@ gem 'capistrano', '~> 3.0.0'
 
 gem 'rest-client'
 
-gem 'money'
+gem 'money-rails'
 gem 'monetize'
 
 group :test do
