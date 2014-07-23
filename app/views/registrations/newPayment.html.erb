@@ -17,7 +17,7 @@
           <div class='inner'>
             <div class='inline'>
               <%= f.label :registration_fee, class: 'form-label' %>
-              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Rails.configuration.fee_registration / 100 %>
+              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(Rails.configuration.fee_registration) %>
             </div>
             <p class='subtitle'>Cost of Waste Carrier registration</p>
          </div>
@@ -39,7 +39,7 @@
           <div class="inner">
             <div class='inline'>
               <%= f.label :total_fee, class: 'form-label' %>
-              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Rails.configuration.fee_registration / 100  %>
+              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(Rails.configuration.fee_registration) %>
             </div>
           </div> 
         </div>
