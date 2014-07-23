@@ -18,7 +18,7 @@ module PaymentsHelper
              end
 
     suffix = "#{pence_to_currency balance.abs}" unless balance.zero?
-    include_balance ? raw("#{prefix} <span id=\"amountDue\">#{suffix}</span>") : prefix
+    (include_balance and balance != 0) ? raw("#{prefix} <span id=\"amountDue\">#{suffix}</span>") : prefix
   end
 
   def pence_to_currency pence
