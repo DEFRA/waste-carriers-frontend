@@ -101,9 +101,11 @@
 				<input type="submit" class="button" value="Edit registration"/>
 			</form>
 
+			<% if registration.try(:tier).try(:downcase) == "upper" %>
 			<form action="<%=paymentstatus_url(registration.id)%>">
 				<input id="paymentStatus<%=regCount%>" name="paymentStatus<%=regCount%>" type="submit" class="button" value="Payment Status"/>
 			</form>
+			<% end %>
 
 			<%# button_to "Delete", registration_path(registration.id), :method => :delete, :class => "button", :data => "{ :confirm => 'are you sure?' }"%>
 		</div>
