@@ -24,4 +24,8 @@ module PaymentsHelper
   def pence_to_currency pence
     Money.new(pence).format
   end
+
+  def money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes pence
+    humanized_money Money.new pence
+  end
 end
