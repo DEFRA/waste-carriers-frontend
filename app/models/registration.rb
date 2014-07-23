@@ -125,6 +125,8 @@ class Registration < Ohm::Model
       self.metaData.first.update(dateRegistered: result['metaData']['dateRegistered'])
       Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
       self.regIdentifier = result['regIdentifier']
+      self.finance_details.add FinanceDetails.init(result['financeDetails'])
+
 
       save
       Rails.logger.debug "Commited to service: #{attributes.to_s}"
