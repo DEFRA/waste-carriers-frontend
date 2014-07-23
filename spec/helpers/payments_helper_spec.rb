@@ -7,7 +7,7 @@ describe PaymentsHelper do
   end
 
   describe '#amountPaymentSummary_for' do
-    let(:registration) { Registration.new }
+    let(:registration) { Registration.create }
     let(:finance_details) { double 'finance_details' }
 
     before do
