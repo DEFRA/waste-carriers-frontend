@@ -4,6 +4,11 @@ $(function() {
 
    var no_of_cards_obj = document.getElementById('registration_copy_cards');
    var no_of_cards = no_of_cards_obj.value;
+
+   if (no_of_cards < 0) {
+       no_of_cards = 0;
+   }
+
    var card_fee_obj = document.getElementById('registration_copy_card_fee');
    var total_fee_obj = document.getElementById('registration_total_fee');
    var registration_fee_obj = document.getElementById('registration_registration_fee');
