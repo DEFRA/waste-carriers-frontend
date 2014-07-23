@@ -7,7 +7,7 @@
     <p><%= t '.bank_transfer_instructions' %></p>
     <ul>
       <li><%= t '.reference', reference: @registration.regIdentifier %></li>
-      <li><%= t '.payment_due', payment_due: pence_to_currency(@registration.financeDetails.balance) %></li>
+      <li><%= t '.payment_due', payment_due: pence_to_currency(@registration.finance_details.first.balance) %></li>
       <li><%= t '.account_name', account_name: Rails.configuration.environment_agency_bank_account_name %></li>
       <li><%= t '.bank_name', bank_name: Rails.configuration.environment_agency_bank_name %></li>
       <li><%= t '.bank_address', bank_address: Rails.configuration.environment_agency_bank_address %></li>
