@@ -18,6 +18,18 @@ module KnowsTheDomain
   def agency_password
     @agency_password ||= 'secret123'
   end
+  
+  def my_finance_admin_user
+    @my_finance_admin_user ||= FactoryGirl.create :finance_admin_user
+  end
+  
+  def my_finance_basic_user
+    @my_finance_basic_user ||= FactoryGirl.create :finance_basic_user
+  end
+  
+  def my_agency_refund_user
+    @my_agency_refund_user ||= FactoryGirl.create :agency_refund_user
+  end
 
   def my_admin
     @my_admin ||= FactoryGirl.create :admin
