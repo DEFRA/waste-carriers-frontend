@@ -11,7 +11,7 @@ describe PaymentsHelper do
     let(:finance_details) { double 'finance_details' }
 
     before do
-      allow(registration).to receive(:financeDetails).and_return(finance_details)
+      allow(registration).to receive(:finance_details).and_return(finance_details)
     end
 
     context 'positive balance' do
@@ -44,7 +44,7 @@ describe PaymentsHelper do
     let(:finance_details) { double 'finance_details' }
 
     before do
-      allow(registration).to receive(:financeDetails).and_return(finance_details)
+      allow(registration).to receive(:finance_details).and_return(finance_details)
     end
 
     context 'include balance' do
