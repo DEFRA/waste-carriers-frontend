@@ -30,7 +30,7 @@
 				        <div class="form-label"><%= format_address(@registration) %></div>
 			        </div>
 			        
-			        <% if @registration.respond_to? :financeDetails %>
+			        <% if @registration.respond_to? :finance_details %>
 				        <div class="form-group">
 				        	<div class="form-label"><%= amount_payment_summary_for(@registration) %></div>
 				        </div>
@@ -98,9 +98,9 @@
 							<tbody>
 								<% regCount = 1; %>
 								<% if @registration.respond_to?('financeDetails') \
-								and @registration.financeDetails.respond_to?('payments') \
-								and !@registration.financeDetails.payments.nil?%>
-									<% @registration.financeDetails.payments.each do |payment| %>
+								and @registration.finance_details.first.respond_to?('payments') \
+								and !@registration.finance_details.first.payments.nil?%>
+									<% @registration.finance_details.first.payments.each do |payment| %>
 										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 											<td class="" ><%= payment.dateReceived %></td>
 											<td class="" ><%= payment.paymentType %></td>
@@ -138,7 +138,7 @@
 									<td class="" >
 						        	<%= amount_summary_for(@registration, false) %>
 									</td>
-									<td class="" ><%= Money.new(@registration.financeDetails.balance.abs) %></td>
+									<td class="" ><%= Money.new(@registration.finance_details.first.balance.abs) %></td>
 								</tr>
 								<%# Assume if financeDetails are not available it is because no charges are present on the account therefore must have a zero balance %>
 								<% else %>
