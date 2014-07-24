@@ -514,7 +514,7 @@ class RegistrationsController < ApplicationController
   end
 
   def paymentstatus
-    @registration = Registration.find_by_id(session[:uuid])
+    @registration = Registration.find_by_id(params[:id])
     @registration.routeName = @registration.metaData.first.route
     authorize! :read, @registration
     authorize! :read, Payment

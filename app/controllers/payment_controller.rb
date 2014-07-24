@@ -4,8 +4,8 @@ class PaymentController < ApplicationController
 
   # GET /payments
   def new
-    @registration = Registration.find_by_id(session[:uuid])
-    @payment = Payment.find_by_registration(session[:uuid])
+    @registration = Registration.find_by_id(params[:id])
+    @payment = Payment.find_by_registration(params[:id])
 
     # Override amount to be empty as payment object from services will return an amount of 0
     if @payment.amount == 0
@@ -42,7 +42,7 @@ class PaymentController < ApplicationController
 	if @payment.valid?
 	  logger.info 'payment is valid'
     puts @payment.to_json
-	  @payment.save! session[:uuid]
+	  @payment.save! params[:id]
 
 	  # Redirect user back to payment status
       redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
