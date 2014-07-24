@@ -43,6 +43,10 @@ class Payment < Ohm::Model
     end
   end
 
+  def to_hash
+    self.attributes.to_hash
+  end
+
 
   # POSTs payment to Java/Dropwizard service
   #

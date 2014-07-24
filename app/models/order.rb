@@ -59,9 +59,17 @@ class Order < Ohm::Model
   # @param none
   # @return  [String]  the order object in JSON form
   def to_json
+    to_hash.to_json
+  end
+
+  # returns a hash representation of the Order object
+  #
+  # @param none
+  # @return  [Hash]  the order object as a hash
+  def to_hash
     h = attributes
     h["orderItems"] = order_items.map { |x| x.attributes.to_json }  if order_items && order_items.size > 0
-    h.to_json
+    h
   end
 
 

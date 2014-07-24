@@ -10,4 +10,9 @@ class OrderItem < Ohm::Model
   attribute :description
   attribute :reference
 
+
+  def to_hash
+    self.attributes.to_hash
+  end
+
 end

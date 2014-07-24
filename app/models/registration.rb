@@ -165,6 +165,7 @@ class Registration < Ohm::Model
   # @return  [Boolean] true if registration updated
   def save!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
+    Rails.logger.debug "Registration financeDetails to PUT: #{self.finance_details}"
     Rails.logger.debug "Registration: #{uuid} about to PUT: #{ to_json}"
     saved = true
     begin
@@ -172,12 +173,10 @@ class Registration < Ohm::Model
         to_json,
         :content_type => :json
 
-      # result = JSON.parse(response.body)
       save
 
     rescue => e
       Rails.logger.error e.to_s
-      puts e
       saved = false
     end
     saved
@@ -204,26 +203,9 @@ class Registration < Ohm::Model
       result_hash['directors'] = directors
     end #if
 
-    finance_details = {}
     if self.finance_details.size == 1
-      self.finance_details.first.attributes.each do |k, v|
-        case k
-        when 'orders'
-          finance_details[k] = []
-          v.each do |order|
-            finance_details[k] << order.attributes.to_hash
-          end
-        when 'payments'
-          finance_details[k] = []
-          v.each do |o|
-            finance_details[k] << payment.attributes.to_hash
-          end
-        else #simple attribute
-          finance_details[k] = v
-        end
-      end
+      result_hash['financeDetails'] = self.finance_details.first.to_hash
     end
-    result_hash['financedetails'] = finance_details
 
     result_hash.to_json
   end
@@ -628,7 +610,6 @@ class Registration < Ohm::Model
     #Note: the actual status update will be performed in the service
     Rails.logger.debug "id to activate: #{uuid}"
     metaData.first.update(status: 'ACTIVE')
-    save
     save!
   end
 

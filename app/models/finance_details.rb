@@ -39,4 +39,15 @@ class FinanceDetails < Ohm::Model
     end
   end
 
+  def to_hash
+    h = attributes
+    h['payments'] =  payments.map { |payment| payment.to_hash}
+    h['orders'] = orders.map { |order| order.to_hash}
+    h
+  end
+
+  def to_json
+    to_hash.to_json
+  end
+
 end
