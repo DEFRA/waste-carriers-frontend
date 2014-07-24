@@ -305,27 +305,6 @@ en:
       next_button_label: "Next"
       back_button_label: "Back"
       confirm_button_label: "Confirm"
-
-  convictions:
-    major_accident_hazards: "Control of Major Accident Hazards Regulations 1999"
-    customs_excise: "Customs and Excise Management Act 1979: Section 170 and 170B (where the offence relates to scrap metal)"
-    env_protection: "Environmental Protection Act 1990: Section 34B"
-    food_env_protection: "Food and Environment Protection Act 1985: Section 9"
-    fraud: "Fraud Act 2006: Section 1 (for environmental/metal theft related offences only)"
-    landfill: "Landfill (England and Wales) Regulations 2002 : Regulation 17(1)"
-    legal_aid: "Legal Aid, Sentencing and Punishment of Offenders Act 2012: Section 146"
-    pollution_prev_control: "Pollution Prevention and Control (England and Wales) Regulations 2000"
-    proceeds_crime: "Proceeds of Crime Act 2002: Sections 327, 328, 330, 331 and 332"
-    producer_responsibility: "Producer Responsibility Obligations (Packaging Waste) Regulations 2007"
-    scrap_metal_1964: "Scrap Metal Dealers Act 1964"
-    scrap_metal_2013: "Scrap Metal Dealers Act 2013"
-    theft_act: "Theft Act 1968: Sections 1, 8, 9, 10, 11, 17, 18, 22 and 25 (for environmental/metal theft related offences only)"
-    vehicles: "Vehicles (Crimes) Act 2001: Part 1"
-    waste_elec_equip_2006: "Waste Electrical and Electronic Equipment Regulations 2006"
-    waste_elec_equip_2013: "Waste Electrical and Electronic Equipment Regulations 2013"
-    water_resources: "Water Resources Act 1991: Sections 85, 202 and 206"
-    no_convictions: "No relevant convictions"
-
   reports:
     errors:
       error: "error"
