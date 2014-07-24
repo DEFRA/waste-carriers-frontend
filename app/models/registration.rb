@@ -676,20 +676,20 @@ class Registration < Ohm::Model
   end
 
   def self.activate_registrations(user)
-    Rails.logger.info("Activating pending registrations for user with email " + user.email)
-    rs = Registration.find_by_attrib(accountEmail: user.email)
+    Rails.logger.info "Activating pending registrations for user with email #{user.email}"
+    rs = Registration.find_by_email(user.email)
     Rails.logger.info("found: #{rs.size} pending registrations")
     rs.each do |r|
       if r.pending?
         Rails.logger.debug "debug: #{r.attributes.to_s}"
-        Rails.logger.info("Activating registration " + r.regIdentifier)
+        Rails.logger.info "Activating registration #{r.regIdentifier}"
         r.activate!
         Rails.logger.debug "registration #{r.id} activated!"
         RegistrationMailer.welcome_email(user,r).deliver
       else
-        Rails.logger.info("Skipping non-pending registration " + r.regIdentifier)
+        Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
       end
     end #each
-    Rails.logger.info("Activated registration(s) for user with email " +  user.email)
+    Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
 end
