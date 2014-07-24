@@ -49,10 +49,10 @@
 							</thead>
 							<tbody>
 								<% regCount = 1; %>
-								<% if @registration.respond_to?('finance_details') and !@registration.finance_details.orders %>
-								<% if @registration.finance_details.size > 0 && @registration.finance_details.first.orders %>
-									<% @registration.finance_details.orders.each do |order| %>
-									  <% if order.respond_to?('order_items') and !order.order_items.nil? %>
+								<% if @registration.respond_to?('finance_details') and @registration.finance_details.first \
+								   && @registration.finance_details.size > 0 && @registration.finance_details.first.orders %>
+									<% @registration.finance_details.first.orders.each do |order| %>
+									  <% if order.respond_to?('order_items') and !order.order_items %>
 									  	<% order.order_items.each do |orderItem| %>
 											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 												<td class="" ><%= orderItem.lastUpdated %></td>
