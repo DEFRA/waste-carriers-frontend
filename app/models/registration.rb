@@ -16,6 +16,7 @@ class Registration < ActiveResource::Base
     string :isMainService
     string :constructionWaste
     string :onlyAMF
+    string :declaredConvictions
     string :companyName
     string :individualsType
     string :publicBodyType
@@ -109,6 +110,7 @@ class Registration < ActiveResource::Base
   validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :serviceprovided_step?
   validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :constructiondemolition_step?
   validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :onlydealwith_step?
+  validates :declaredConvictions, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :convictions_step?
 
   validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: 'businessdetails_step? or upperbusinessdetails_step?'
 
@@ -227,6 +229,10 @@ class Registration < ActiveResource::Base
 
   def payment_step?
     current_step.inquiry.payment?
+  end
+
+  def convictions_step?
+    current_step.inquiry.convictions?
   end
 
   def upper_summary_step?
