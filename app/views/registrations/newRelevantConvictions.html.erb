@@ -4,7 +4,7 @@
   <article role="article" class="group">
 
     <% content_for :page_title, createTitle('registrations.convictions_step.title') %>
-    <%= form_for(@registration, :url => newConvictions_path) do |f| %>
+    <%= form_for(@registration, :url => newRelevantConvictions_path) do |f| %>
 
         <p class="back_link"><%= render 'back_link' %></p>
         <div class="step"><%= t 'registrations.convictions_step.step' %></div>
