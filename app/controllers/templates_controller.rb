@@ -97,7 +97,6 @@ class TemplatesController < ApplicationController
       :contactEmail,
       :accountEmail,
       :declaration,
-      :uprn,
       :password,
       :password_confirmation,
       :accountEmail_confirmation,

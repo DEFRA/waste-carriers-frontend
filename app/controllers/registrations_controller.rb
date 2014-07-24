@@ -16,8 +16,9 @@ class RegistrationsController < ApplicationController
     searchWithin = params[:searchWithin]
     searchString = params[:q]
     if validate_search_parameters?(searchString,searchWithin)
-      if searchString != nil && !searchString.empty?
-        @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
+      if searchString && !searchString.empty?
+        # @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
+        @registrations = Registration.find_all_by(searchString, searchWithin)
       else
         @registrations = []
       end
@@ -363,8 +364,7 @@ class RegistrationsController < ApplicationController
       renderAccessDenied
     else
       # Search for users registrations
-      # @registrations = Registration.find(:all, :params => {:ac => tmpUser.email}).sort_by { |r| r.date_registered}
-      @registrations = Registration.find_by_attrib(accountEmail: tmpUser.email).sort_by { |r| r.date_registered}
+      @registrations = Registration.find_by_email(tmpUser.email).sort_by { |r| r.date_registered}
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -507,15 +507,14 @@ class RegistrationsController < ApplicationController
 
   def ncccedit
     logger.debug  "nccedit looking for: #{params[:id]}"
-    @registration = Registration.find_by_id(params[:id])
+    @registration = Registration.find_by_id(session[:uuid])
     logger.debug  "registration found@ #{@registration['id']}"
     @registration.routeName = @registration.metaData.first.route
     authorize! :update, @registration
   end
 
   def paymentstatus
-    @registration = Registration.find_by_id(params[:id])
-    @registration.routeName = @registration.metaData.route
+    @registration = Registration.find_by_id(session[:uuid])
     @registration.routeName = @registration.metaData.first.route
     authorize! :read, @registration
     authorize! :read, Payment
@@ -995,7 +994,6 @@ class RegistrationsController < ApplicationController
     @order.dateCreated = Time.now.utc.xmlschema
     @order.dateLastUpdated = @order.dateCreated
     @order.updatedByUser = 'testuser@example.com'
-    @order.prefix_options[:id] = session[:registration_id]
 
     if @order.valid?
       @order.save!
@@ -1068,7 +1066,6 @@ class RegistrationsController < ApplicationController
       :contactEmail,
       :accountEmail,
       :declaration,
-      :uprn,
       :password,
       :password_confirmation,
       :accountEmail_confirmation,

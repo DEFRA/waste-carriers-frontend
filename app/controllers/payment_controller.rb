@@ -36,15 +36,13 @@ class PaymentController < ApplicationController
     # Add user id of user who made the payment to the payment record
     @payment.updatedByUser = current_agency_user.id.to_s
 
-    # Add registration Id as a prefix option
-	@payment.prefix_options[:id] = params[:id]
-
 	# Set override to validate amount as pounds as came from user screen in pounds not in pence from Worldpay
 	@payment.manualPayment = true
 
 	if @payment.valid?
 	  logger.info 'payment is valid'
-	  @payment.save!
+    puts @payment.to_json
+	  @payment.save! session[:uuid]
 
 	  # Redirect user back to payment status
       redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
@@ -78,24 +76,24 @@ class PaymentController < ApplicationController
       if isLargeMessage == true
         logger.info 'Balance is in range for a large write off'
         # Set fixed Amount at exactly negative outstanding balance
-        @payment.amount = @registration.finance_details.first.balance.abs
+        @payment.amount = @registration.finance_details.first.balance.to_f.abs
       else
         logger.info 'Balance is out of range for a large write off'
         redirect_to :paymentstatus, :alert => isLargeMessage
       end
     else
       # Redirect to paymentstatus is balance is negative or paid
-      if @registration.respond_to? :finance_details.first
+      if @registration.finance_details.first
       logger.info 'balance: ' + @registration.finance_details.first.balance.to_s
       isSmallMessage = Payment.isSmallWriteOff( @registration.finance_details.first.balance)
-      if isSmallMessage == true
-        logger.info 'Balance is in range for a small write off'
-        # Set fixed Amount at exactly negative outstanding balance
-        @payment.amount = @registration.finance_details.first.balance.abs
-      else
-        logger.info 'Balance is out of range for a small write off'
-        redirect_to :paymentstatus, :alert => isSmallMessage
-      end
+        if isSmallMessage == true
+          logger.info 'Balance is in range for a small write off'
+          # Set fixed Amount at exactly negative outstanding balance
+        @payment.amount = @registration.finance_details.first.balance.to_f.abs
+        else
+          logger.info 'Balance is out of range for a small write off'
+          redirect_to :paymentstatus, :alert => isSmallMessage
+        end
       else
         logger.info 'Balance is not available'
         redirect_to :paymentstatus, :alert => I18n.t('payment.newWriteOff.writeOffNotAppropriate')
@@ -117,12 +115,13 @@ class PaymentController < ApplicationController
     @payment.updatedByUser = current_agency_user.id.to_s
     @payment.paymentType = 'WRITEOFFSMALL'
 
-    # Add registration Id as a prefix option
-	@payment.prefix_options[:id] = params[:id]
+
+	# Set override to validate amount as pounds as came from user screen and was converted to display as pounds
+	@payment.manualPayment = true
 
 	if @payment.valid?
 	  logger.info 'writeOff is valid'
-	  @payment.save!
+	  @payment.save! session[:uuid]
 
 	  # Redirect user back to payment status
       redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
@@ -182,6 +181,7 @@ class PaymentController < ApplicationController
     #
     # TODO: Use order code value to create a negative payment of the amount requested in the order
     #
+
 	# Get selected payment from registration by order code
 	@registration = Registration.find(params[:id])
 	@foundPayment = Payment.getPayment(@registration, params[:orderCode])
@@ -197,14 +197,12 @@ class PaymentController < ApplicationController
 	@payment.dateReceived = Date.current
     @payment.updatedByUser = current_agency_user.id.to_s
 
-    # Add registration Id as a prefix option
-	@payment.prefix_options[:id] = params[:id]
 
 	if @payment.valid?
 	  logger.info 'payment is valid'
-	  @payment.save!
+	  @payment.save! session[:uuid]
 
-    # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
+	  # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
       redirect_to ({ action: 'completeWPRefund', id: params[:id], orderCode: params[:orderCode] })
 
 	else
@@ -220,6 +218,8 @@ class PaymentController < ApplicationController
 
 	  render "newWPRefund", :status => '400'
 	end
+
+
   end
 
   # GET /worldpayRefund/:orderCode/refundComplete

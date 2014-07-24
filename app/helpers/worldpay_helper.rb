@@ -28,7 +28,7 @@ module WorldpayHelper
     def create_xml(registration)
       merchantCode = worldpay_merchant_code
       orderCode = Time.now.to_i.to_s
-      orderValue = registration.total_fee * 100
+      orderValue = registration.total_fee
       #TODO Remove pre-populated shopper values once Worldpay has been reconfigured not to require address details
       orderDescription = 'Your Waste Carrier Registration'
       orderContent = 'Waste Carrier Registration' + ' ' + registration.regIdentifier.to_s
