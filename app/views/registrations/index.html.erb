@@ -100,8 +100,8 @@
 			</form>
 
 			<% if registration.try(:tier).try(:downcase) == "upper" %>
-			<form action="<%=paymentstatus_url(registration.id)%>">
-				<input id="paymentStatus<%=regCount%>" name="paymentStatus<%=regCount%>" type="submit" class="button" value="Payment Status"/>
+			<form action="<%=paymentstatus_url(registration.uuid)%>">
+				<input id="paymentStatus<%=regCount%>" type="submit" class="button" value="Payment Status"/>
 			</form>
 			<% end %>
 
