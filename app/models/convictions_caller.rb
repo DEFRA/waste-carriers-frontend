@@ -7,8 +7,8 @@ class ConvictionsCaller
 
   def convicted?
     begin
-      json = JSON.parse RestClient.get RestClient.get 'http://localhost/convictions', params: @params
-      json['suspect']
+      json = JSON.parse RestClient.get 'http://localhost/convictions', params: @params
+      json['isSuspect']
     rescue
       :error_calling_service
     end
