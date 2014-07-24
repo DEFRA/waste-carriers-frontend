@@ -277,8 +277,8 @@ end
 #
 When(/^I create an upper tier registration on behalf of a caller for payments$/) do
 
-  # Increment registration count
-  registrationCount = registrationCount + 1
+  # Change registration to be unique
+  registrationCount = SecureRandom.uuid.delete "-"
 
   click_on 'New registration'
 
