@@ -419,6 +419,7 @@ en:
       legend_upper_director: "Director contact details"
     convictions_step:
       title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
+      convictions_link_text: "Check here for a list of relevant convictions"
     registrationtype_step:
       title: "Registration type"
       subtitle: "Carrier, broker or dealer"
