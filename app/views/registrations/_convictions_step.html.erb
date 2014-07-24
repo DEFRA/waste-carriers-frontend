@@ -7,12 +7,12 @@
     <legend><%= t 'registrations.convictions_step.title' %></legend>
 
     <div class="inline<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
-      <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", :class => "block-label" do %>
-          <%= f.radio_button :declaredConvictions, "yes", :class => "radio" %>
+      <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
+          <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
           <%= t 'form.yes_option_label' %>
       <% end %>
-      <%= f.label :no_option_label, for: "registration_declaredConvictions_no", :class => "block-label" do %>
-          <%= f.radio_button :declaredConvictions, "no", :class => "radio" %>
+      <%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
+          <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
           <%= t 'form.no_option_label' %>
       <% end %>
     </div>
