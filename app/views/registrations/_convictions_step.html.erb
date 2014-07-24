@@ -6,14 +6,14 @@
   <fieldset>
     <legend><%= t '.legend' %></legend>
     <h2 class="subtitle"><%= t 'registrations.convictions_step.subtitle' %></h2>
-    <div class="form-group<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
-      <%= f.label :yes_option_label, for: "registration_declaredConvictions", :class => "block-label" do %>
-          <%= f.radio_button :declaredConvictions, "carrier_dealer", :class => "radio" %>
-          <%= t "buttons.carrier_dealer" %>
+    <div class="inline<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
+      <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", :class => "block-label" do %>
+          <%= f.radio_button :declaredConvictions, "yes", :class => "radio" %>
+          <%= f.label t 'form.yes_option_label' %>
       <% end %>
-      <%= f.label :no_option_label, for: "registration_declaredConvictions", :class => "block-label" do %>
-          <%= f.radio_button :declaredConvictions, "broker_dealer", :class => "radio" %>
-          <%= t "buttons.broker_dealer" %>
+      <%= f.label :yes_option_label, for: "registration_declaredConvictions_no", :class => "block-label" do %>
+          <%= f.radio_button :declaredConvictions, "no", :class => "radio" %>
+          <%= f.label t 'form.no_option_label' %>
       <% end %>
     </div>
   </fieldset>
