@@ -1,7 +1,16 @@
 class ConvictionsCaller
-  attr_reader :url
+  attr_reader :params
 
   def initialize options={}
-    @url = 'foo'
+    @params = options
+  end
+
+  def convicted?
+    begin
+      json = JSON.parse RestClient.get RestClient.get 'http://localhost/convictions', params: @params
+      json['suspect']
+    rescue
+      :error_calling_service
+    end
   end
 end
