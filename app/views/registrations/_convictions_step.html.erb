@@ -4,8 +4,7 @@
 <div id="page8"  data-journey="waste-carriers-registration:convictions">
 
   <fieldset>
-    <legend><%= t '.legend' %></legend>
-    <h2 class="subtitle"><%= t 'registrations.convictions_step.subtitle' %></h2>
+    <legend><%= t 'registrations.convictions_step.title' %></legend>
     <div class="inline<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
       <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", :class => "block-label" do %>
           <%= f.radio_button :declaredConvictions, "yes", :class => "radio" %>

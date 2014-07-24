@@ -417,6 +417,8 @@ en:
       legend: "These will not be made public"
       legend_upper_simple: "Your contact details"
       legend_upper_director: "Director contact details"
+    convictions_step:
+      title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
     registrationtype_step:
       title: "Registration type"
       subtitle: "Carrier, broker or dealer"
