@@ -3,7 +3,6 @@ class Payment < Ohm::Model
   include ActiveModel::Conversion
   include ActiveModel::Validations
   extend ActiveModel::Naming
-  extend ActiveModel::Callbacks
 
   attribute :orderKey
   attribute :amount
@@ -21,11 +20,11 @@ class Payment < Ohm::Model
   attribute :paymentType
   attribute :manualPayment
 
-  define_model_callbacks :save
 
-  before_save :multiplyAmount, :only => [:amount]
-  after_save :divideAmount, :only => [:amount]
 
+  def balance
+    self.balance.to_i
+  end
 
   # Creates a new Payment object from a payment-formatted hash
   #
@@ -47,33 +46,38 @@ class Payment < Ohm::Model
     self.attributes.to_hash
   end
 
+  def to_json
+    to_hash.to_json
+  end
+
 
   # POSTs payment to Java/Dropwizard service
   #
   # @param none
   # @return  [Boolean] true if Post is successful (200), false if not
   def save!(registration_uuid)
-    run_callbacks :save do
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/payments.json"
-      Rails.logger.debug "about to post payment: #{to_json.to_s}"
-      commited = true
-      begin
-        response = RestClient.post url,
-          to_json,
-          :content_type => :json,
-          :accept => :json
+    raise ArgumentError, 'Registration uuid cannot be nil' unless registration_uuid
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/payments.json"
+    multiplyAmount #pounds to pennies
+    Rails.logger.debug "about to post payment: #{to_json.to_s}"
+    commited = true
+    begin
+      response = RestClient.post url,
+        to_json,
+        :content_type => :json,
+        :accept => :json
 
 
-        result = JSON.parse(response.body)
-        Rails.logger.debug  result.class.to_s
-        save
-        Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
-      rescue => e
-        Rails.logger.error e.to_s
-        commited = false
-      end
-      commited
+      result = JSON.parse(response.body)
+
+      save
+      Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
+    rescue => e
+      Rails.logger.error e.to_s
+      commited = false
     end
+    divideAmount #pennies to pounds
+    commited
   end
 
 
@@ -104,7 +108,6 @@ class Payment < Ohm::Model
     REFUND
   ]
 
-  VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/    # This does not allow for a decimal point and currently works in pence only
 
   VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
   VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
@@ -145,10 +148,10 @@ class Payment < Ohm::Model
   # error message representing why it failed.
   def self.isSmallWriteOff(balance)
     Rails.logger.info 'balance: ' + balance.to_s
-    if balance <= Payment.basicMinimum
+    if balance.to_f <= Payment.basicMinimum
       Rails.logger.info 'Balance is paid or overpaid'
       I18n.t('payment.newWriteOff.writeOffNotApplicable')
-    elsif balance > Payment.basicMaximum
+    elsif balance.to_f > Payment.basicMaximum
       Rails.logger.info 'Balance is too great'
       I18n.t('payment.newWriteOff.writeOffUnavailable')
     else
@@ -160,10 +163,10 @@ class Payment < Ohm::Model
   # error message representing why it failed.
   def self.isLargeWriteOff(balance)
     Rails.logger.info 'balance: ' + balance.to_s
-    if balance <= Payment.basicMaximum
+    if balance.to_f <= Payment.basicMaximum
       Rails.logger.info 'Balance is in range for a finance basic user'
       I18n.t('payment.newWriteOff.writeOffNotApplicable')
-    elsif balance > Payment.adminMaximum
+    elsif balance.to_f > Payment.adminMaximum
       Rails.logger.info 'Balance is too great for even a finance admin'
       I18n.t('payment.newWriteOff.writeOffNotAvailable')
     else
@@ -191,7 +194,6 @@ class Payment < Ohm::Model
 
     end
   end
-
   # Returns the payment from the registration matching the orderCode
   def self.getPayment(registration, orderCode)
     foundPayment = nil
@@ -212,6 +214,7 @@ class Payment < Ohm::Model
   def isAutomatedPayment?
     !isManualPayment?
   end
+
   private
 
   # This multiplies the amount up from pounds to pence
@@ -219,6 +222,7 @@ class Payment < Ohm::Model
     self.amount = (Float(self.amount)*100).to_i
     Rails.logger.info 'multiplyAmount result:' + self.amount.to_s
   end
+
   # This divides the amount down from pence back to pounds
   def divideAmount
     self.amount = (Float(self.amount)/100).to_s

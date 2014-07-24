@@ -88,13 +88,14 @@ class WorldpayController < ApplicationController
 
         #TODO re-enable validation and saving - current validation rules are geared towards offline payments
       if @payment.valid?
-        logger.debug "registration uuid: #{@registration.uuid}"
+        logger.debug "registration uuid: #{session[:uuid]}"
 
-        @payment.save! @registration.uuid
+        @payment.save! session[:uuid]
           #@payment.save(:validate => false)
       else
         logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
           payment_processed = false
+          #TODO: what does this do? -need to replace it with explicit save
           @payment.save(:validate => false)
       end
       end

@@ -85,9 +85,7 @@ class Registration < Ohm::Model
   index :accountEmail
   index :companyName
 
-  def persisted?
-    false
-  end
+
   def empty?
     attributes.empty?
   end
@@ -238,37 +236,10 @@ class Registration < Ohm::Model
   end
 
 
-  # Retrieves a specific registration object from the Java Service based on the value of an attribute
+  # Retrieves a specific registration object from the Java Service based on its email value
   #
-  # @param search_hash [Hash] the search criterion, in the form: <attr:  'value'>
-  # @return [Array] list of registrations in MongoDB matching the search criterion
-  class << self
-    def find_by_attrib(search_hash)
-      found = registrations = []
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
-      begin
-        response = RestClient.get url
-        if response.code == 200
-          all_regs = JSON.parse(response.body) #all_regs should be Array
-          search_key =search_hash.keys[0].to_s
-          search_value =search_hash.values[0]
-          Rails.logger.debug "#{search_key}, #{search_value}"
-          found = all_regs.select {|r| r[search_key] == search_value}
-          Rails.logger.debug "find found #{found.size.to_s} items"
-          Rails.logger.debug " #{found.to_s} "
-          found.each do |r|
-            registrations << Registration.init(r)
-          end
-        else
-          Rails.logger.error "Registration.find_by_attrib(#{k}, #{v}) failed with a #{response.code} response from server"
-        end
-      rescue => e
-        Rails.logger.error e.to_s
-      end
-      registrations
-    end
-  end
-
+  # @param email [String] the accountEmail to search for
+  # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
     def find_by_email(email)
       registrations = []
@@ -291,6 +262,35 @@ class Registration < Ohm::Model
       registrations
     end
   end
+
+
+  # Retrieves a specific registration object from the Java Service based on its email value
+  #
+  # @param some_text [String] the text to search for
+  # @param within_field [String] within this specific field
+  # @return [Array] list of registrations in MongoDB matching the specified email
+  class << self
+    def find_all_by(some_text, within_field)
+      registrations = []
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?q=#{some_text}&searchWithin=#{within_field}"
+      begin
+        response = RestClient.get url
+        if response.code == 200
+          all_regs = JSON.parse(response.body) #all_regs should be Array
+          Rails.logger.debug "find_all_by found #{all_regs.size.to_s} items"
+          all_regs.each do |r|
+            registrations << Registration.init(r)
+          end
+        else
+          Rails.logger.error "Registration.find_all_by(#{some_text}, #{within_field}) failed with a #{response.code} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      registrations
+    end
+  end
+
 
   # Retrieves a specific registration object from the Java Service based on its uuid
   #
@@ -554,7 +554,7 @@ class Registration < Ohm::Model
     # the_balance = self.try(:financeDetails).try(:balance)
     # return true if the_balance.nil?
     # the_balance <= 0
-    (self.finance_details && self.finance_details.first) ? (self.finance_details.first.balance.to_i <= 0) : true
+    (self.finance_details && self.finance_details.first) ? (self.finance_details.first.balance.to_f  <= 0) : true
 
   end
 
