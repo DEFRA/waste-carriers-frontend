@@ -50,7 +50,7 @@ class PaymentController < ApplicationController
 	  logger.info 'payment is invalid'
 
 	  # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
-      @registration = Registration.find_by_id(session[:uuid])
+      @registration = Registration.find_by_id(params[:id])
 
 	  # Need to also re-populate split dateRecieved parameters
 	  @payment.dateReceived_day = params[:payment][:dateReceived_day]
@@ -63,8 +63,8 @@ class PaymentController < ApplicationController
 
   # GET /writeOffs
   def newWriteOff
-    @registration = Registration.find_by_id(session[:uuid])
-    @payment = Payment.find_by_registration(session[:uuid])
+    @registration = Registration.find_by_id(params[:id])
+    @payment = Payment.find_by_registration(params[:id])
 
     isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
 
@@ -121,7 +121,7 @@ class PaymentController < ApplicationController
 
 	if @payment.valid?
 	  logger.info 'writeOff is valid'
-	  @payment.save! session[:uuid]
+	  @payment.save! params[:id]
 
 	  # Redirect user back to payment status
       redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
@@ -129,7 +129,7 @@ class PaymentController < ApplicationController
 	  logger.info 'writeOff is invalid'
 
 	  # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
-      @registration = Registration.find_by_id(session[:uuid])
+      @registration = Registration.find_by_id(params[:id])
 
       render "newWriteOff", :status => '400'
 	end
@@ -137,7 +137,7 @@ class PaymentController < ApplicationController
 
   # GET /refunds
   def index
-	@registration = Registration.find(params[:id])
+	@registration = Registration.find_by_id(params[:id])
 
     authorize! :read, @registration
 
@@ -200,7 +200,7 @@ class PaymentController < ApplicationController
 
 	if @payment.valid?
 	  logger.info 'payment is valid'
-	  @payment.save! session[:uuid]
+	  @payment.save! params[:id]
 
 	  # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
       redirect_to ({ action: 'completeWPRefund', id: params[:id], orderCode: params[:orderCode] })
@@ -225,7 +225,7 @@ class PaymentController < ApplicationController
   # GET /worldpayRefund/:orderCode/refundComplete
   def completeWPRefund
     logger.info 'Request to worldpayRefund'
-    @registration = Registration.find(params[:id])
+    @registration = Registration.find_by_id(params[:id])
     @orderCode = params[:orderCode]
 
     authorize! :read, @registration
