@@ -553,11 +553,9 @@ class Registration < Ohm::Model
   end
 
   def paid_in_full?
-    # the_balance = self.try(:financeDetails).try(:balance)
-    # return true if the_balance.nil?
-    # the_balance <= 0
-    (self.finance_details && self.finance_details.first) ? (self.finance_details.first.balance.to_f  <= 0) : true
-
+    the_balance = self.try(:financeDetails).try(:first).try(:balance)
+    return true if the_balance.nil?
+    the_balance <= 0
   end
 
   def self.business_type_options_for_select

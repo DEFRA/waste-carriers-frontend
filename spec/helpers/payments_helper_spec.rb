@@ -25,6 +25,7 @@ describe PaymentsHelper do
 
     before do
       allow(registration).to receive(:finance_details).and_return(finance_details_array)
+      allow(finance_details_array).to receive(:size).and_return(1)
       allow(finance_details_array).to receive(:first).and_return(finance_details)
     end
 
@@ -62,6 +63,7 @@ describe PaymentsHelper do
 
     before do
       allow(registration).to receive(:finance_details).and_return(finance_details_array)
+      allow(finance_details_array).to receive(:size).and_return(1)
       allow(finance_details_array).to receive(:first).and_return(finance_details)
     end
 
