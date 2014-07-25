@@ -1,7 +1,7 @@
 class ConvictionsCaller
   attr_reader :params
 
-  @@URL = 'http://localhost/convictions'
+  @@URL = 'http://localhost:9090/convictions/'
 
   def initialize options={}
     @params = options
