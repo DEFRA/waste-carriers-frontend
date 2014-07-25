@@ -58,7 +58,9 @@ class Payment < Ohm::Model
   def save!(registration_uuid)
     raise ArgumentError, 'Registration uuid cannot be nil' unless registration_uuid
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/payments.json"
-    multiplyAmount #pounds to pennies
+    if isManualPayment?
+      multiplyAmount #pounds to pennies
+    end
     Rails.logger.debug "about to post payment: #{to_json.to_s}"
     commited = true
     begin
@@ -76,7 +78,9 @@ class Payment < Ohm::Model
       Rails.logger.error e.to_s
       commited = false
     end
-    divideAmount #pennies to pounds
+    if isManualPayment?
+      divideAmount #pennies to pounds
+    end
     commited
   end
 
