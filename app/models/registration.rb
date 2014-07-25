@@ -64,6 +64,8 @@ class Registration < Ohm::Model
   attribute :regIdentifier
   attribute :status
 
+  attribute :declaredConvictions
+
   attribute :password
   attribute :sign_up_mode
   attribute :routeName
