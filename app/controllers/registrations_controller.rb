@@ -689,9 +689,14 @@ class RegistrationsController < ApplicationController
   end
 
   def pending
+    #puts "session[:registration_id] = " + session[:registration_id].to_s
     @registration = Registration[session[:registration_id]]
+    #puts "session[:uuid] = " + session[:uuid].to_s
+    # TODO Reading the registration from the database could be removed 
+    # once the financeDetails and/or the order are directly available in the original local registration
+    @registrationFromDB = Registration.find_by_id(session[:uuid])
     user = @registration.user
-    user.current_registration = @registration
+    user.current_registration = @registrationFromDB
     user.send_confirmation_instructions unless user.confirmed?
 
     @owe_money = owe_money? @registration
