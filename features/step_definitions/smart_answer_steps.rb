@@ -28,7 +28,7 @@ And(/^I indicate I sometimes deal with waste from building or demolition work$/)
 end
 
 Then(/^I will be on the lower tier waste carrier registration path$/) do
-  page.should have_content 'Enter your business or organisation address'
+  page.should have_content 'Enter your business details'
 end
 
 Then(/^I will be on the upper tier waste carrier registration path$/) do

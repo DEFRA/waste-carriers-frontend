@@ -3,7 +3,7 @@
 <p><%= t 'devise.mailer.confirmation_instructions.paragraph1',:email=>@email%></p>
 
 <p><%= t 'devise.mailer.confirmation_instructions.paragraph2'%></p>
- 
+
 <p><%= link_to t('devise.mailer.confirmation_instructions.confirmLabel'), confirmation_url(@resource, :confirmation_token => @token) %></p>
 
 <p><%= t 'devise.mailer.confirmation_instructions.paragraph3'%>
@@ -14,7 +14,7 @@
     <p><%= t 'devise.mailer.confirmation_instructions.bank_transfer_instructions' %></p>
     <ul>
       <li><%= t 'devise.mailer.confirmation_instructions.reference', reference: @resource.current_registration.regIdentifier %></li>
-      <li><%= t 'devise.mailer.confirmation_instructions.payment_due', payment_due: @resource.current_registration.financeDetails.balance %></li>
+      <li><%= t 'devise.mailer.confirmation_instructions.payment_due', payment_due: @resource.current_registration.finance_details.first.balance %></li>
       <li><%= t 'devise.mailer.confirmation_instructions.account_name', account_name: Rails.configuration.environment_agency_bank_account_name %></li>
       <li><%= t 'devise.mailer.confirmation_instructions.bank_name', bank_name: Rails.configuration.environment_agency_bank_name %></li>
       <li><%= t 'devise.mailer.confirmation_instructions.bank_address', bank_address: Rails.configuration.environment_agency_bank_address %></li>

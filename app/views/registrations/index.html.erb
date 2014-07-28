@@ -73,9 +73,9 @@
 	</dl>
 	<div class="detailsBoxWrapper">
 		<div class="detailsBox <%= registration.boxClassSuffix %>">
-			<% if registration.metaData.status == "REVOKED" %>
+			<% if registration.metaData.first.status == "REVOKED" %>
 			<div class="detailHeading">Registration Status: Revoked</div><% end %>
-				<% if registration.metaData.status == "PENDING" %>
+				<% if registration.metaData.first.status == "PENDING" %>
 			<div class="detailHeading">Registration Status: Pending</div><% end %>
 				<div class="detail">
 					<div class="data"
@@ -89,9 +89,7 @@
 						data-emailAddress="<%=registration.contactEmail%>"
 						data-houseNumber="<%=registration.houseNumber%>"
 						data-postcode="<%=registration.postcode%>"
-						data-uprn="<%=registration.uprn%>"
-						data-address="<%=registration.address%>"
-						data-status="<%=registration.metaData.status%>"
+					data-status="<%=registration.metaData.first.status%>"
 						data-regIdentifier="<%=registration.regIdentifier%>"
 						data-accessCode="<%=registration.accessCode%>">
 					</div>
@@ -102,8 +100,8 @@
 			</form>
 
 			<% if registration.try(:tier).try(:downcase) == "upper" %>
-			<form action="<%=paymentstatus_url(registration.id)%>">
-				<input id="paymentStatus<%=regCount%>" name="paymentStatus<%=regCount%>" type="submit" class="button" value="Payment Status"/>
+			<form action="<%=paymentstatus_url(registration.uuid)%>">
+				<input id="paymentStatus<%=regCount%>" type="submit" class="button" value="Payment Status"/>
 			</form>
 			<% end %>
 
@@ -116,7 +114,6 @@
 <% regCount = regCount + 1 %>
 <% end %>
 <% end %>
-
 
 </form>
 </fieldset>
