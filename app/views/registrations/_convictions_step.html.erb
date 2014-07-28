@@ -1,0 +1,25 @@
+<%= render "errors" %>
+
+<!-- WF 4.3.2 -->
+<div id="page4"  data-journey="waste-carriers-registration:convictions">
+
+  <fieldset>
+    <legend><%= t 'registrations.convictions_step.title' %></legend>
+
+    <div class="inline<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
+      <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
+          <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
+          <%= t 'form.yes_option_label' %>
+      <% end %>
+      <%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
+          <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
+          <%= t 'form.no_option_label' %>
+      <% end %>
+    </div>
+  </fieldset>
+  <%= link_to t('registrations.convictions_step.convictions_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %>
+</div>
+
+
+
+<span class="next_link"><%= render 'next_link' %></span>
