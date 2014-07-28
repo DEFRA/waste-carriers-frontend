@@ -116,8 +116,8 @@ Registrations::Application.routes.draw do
     match "your-registration/upper-tier-business-details" => "registrations#newUpperBusinessDetails", :via => [:get], :as => :newUpperBusinessDetails
   match "your-registration/upper-tier-business-details" => "registrations#updateNewUpperBusinessDetails", :via => [:post,:put,:patch]
 
-    get "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction", :as => :upper_relevant_conviction
-    post "your-registration/upper/relevant-conviction" => "registrations#relevant_conviction_update"
+    get "your-registration/relevant-convictions" => "registrations#newRelevantConvictions", :via => [:get], :as => :newRelevantConvictions
+    match "your-registration/relevant-convictions" => "registrations#updateNewRelevantConvictions", :via => [:post,:put,:patch]
 
     get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
     post "your-registration/payment" => "registrations#updateNewPayment"

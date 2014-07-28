@@ -179,6 +179,22 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def newRelevantConvictions
+    new_step_action 'convictions'
+  end
+
+  def updateNewRelevantConvictions
+    setup_registration 'convictions'
+
+    if @registration.valid?
+      redirect_to :upper_summary
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newRelevantConvictions", :status => '400'
+    end
+  end
+
   # GET /your-registration/business-details
   def newBusinessDetails
     new_step_action 'businessdetails'

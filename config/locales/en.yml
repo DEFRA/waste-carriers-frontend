@@ -110,25 +110,6 @@ en:
     broker_dealer: "We arrange for other people to carry it"
     carrier_broker_dealer: "We do both"
     carrier_dealer: "We carry the waste ourselves"
-  convictions:
-    customs_excise: "Customs and Excise Management Act 1979: Section 170 and 170B (where the offence relates to scrap metal)"
-    env_protection: "Environmental Protection Act 1990: Section 34B"
-    food_env_protection: "Food and Environment Protection Act 1985: Section 9"
-    fraud: "Fraud Act 2006: Section 1 (for environmental/metal theft related offences only)"
-    landfill: "Landfill (England and Wales) Regulations 2002 : Regulation 17(1)"
-    legal_aid: "Legal Aid, Sentencing and Punishment of Offenders Act 2012: Section 146"
-    major_accident_hazards: "Control of Major Accident Hazards Regulations 1999"
-    no_convictions: "No relevant convictions"
-    pollution_prev_control: "Pollution Prevention and Control (England and Wales) Regulations 2000"
-    proceeds_crime: "Proceeds of Crime Act 2002: Sections 327, 328, 330, 331 and 332"
-    producer_responsibility: "Producer Responsibility Obligations (Packaging Waste) Regulations 2007"
-    scrap_metal_1964: "Scrap Metal Dealers Act 1964"
-    scrap_metal_2013: "Scrap Metal Dealers Act 2013"
-    theft_act: "Theft Act 1968: Sections 1, 8, 9, 10, 11, 17, 18, 22 and 25 (for environmental/metal theft related offences only)"
-    vehicles: "Vehicles (Crimes) Act 2001: Part 1"
-    waste_elec_equip_2006: "Waste Electrical and Electronic Equipment Regulations 2006"
-    waste_elec_equip_2013: "Waste Electrical and Electronic Equipment Regulations 2013"
-    water_resources: "Water Resources Act 1991: Sections 85, 202 and 206"
   directors:
     edit:
       step: "Step 7 of 8"
@@ -373,6 +354,10 @@ en:
       subtitle: "Provide contact details for your business or organisation"
       subtitle_upper: "Enter your %{business_caption} details"
       title: "Contact details"
+    convictions_step:
+      title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
+      convictions_link_text: "Check here for a list of relevant convictions"
+      step: "Step 4 of 10"
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"

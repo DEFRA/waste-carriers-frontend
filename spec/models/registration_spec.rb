@@ -52,6 +52,12 @@ describe Registration do
     it_behaves_like 'a yes or a no', :onlyAMF
   end
 
+  context 'convictions step' do
+    before { subject.current_step = 'convictions' }
+
+    it_behaves_like 'a yes or a no', :declaredConvictions
+  end
+
   context 'contactdetails step' do
     before { subject.current_step = 'contactdetails' }
 
