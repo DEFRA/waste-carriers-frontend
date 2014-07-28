@@ -354,6 +354,10 @@ en:
       subtitle: "Provide contact details for your business or organisation"
       subtitle_upper: "Enter your %{business_caption} details"
       title: "Contact details"
+    convictions_step:
+      title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
+      convictions_link_text: "Check here for a list of relevant convictions"
+      step: "Step 4 of 10"
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
