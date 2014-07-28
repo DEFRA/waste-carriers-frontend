@@ -5,7 +5,7 @@ So that I can view payment status and enter payment from non online payment meth
 
 
 Background:
-Given I am logged in as an NCCC agency user
+Given I am logged in as a finance basic user
   And I create an upper tier registration on behalf of a caller for payments
   And I have found a registrations payment details
 
