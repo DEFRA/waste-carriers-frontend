@@ -10,55 +10,55 @@
 # ATTENTION - TEST ACCOUNTS TO BE REMOVED !!!
 
 #unless Rails.env.production?
-  unless Admin.find_by_email('admin@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'secret123')
-    admin.save!
-  end
+unless Admin.find_by_email('admin@waste-exemplar.gov.uk')
+  admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'secret123')
+  admin.save!
+end
 
-  unless Admin.find_by_email('admin1@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin1@waste-exemplar.gov.uk', :password => 'MyS3cr3t!')
-    admin.save!
-  end
+unless Admin.find_by_email('admin1@waste-exemplar.gov.uk')
+  admin = Admin.new(:email => 'admin1@waste-exemplar.gov.uk', :password => 'MyS3cr3t!')
+  admin.save!
+end
 
-  unless Admin.find_by_email('admin2@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin2@waste-exemplar.gov.uk', :password => 'MyS3cr3t!')
-    admin.save!
-  end
+unless Admin.find_by_email('admin2@waste-exemplar.gov.uk')
+  admin = Admin.new(:email => 'admin2@waste-exemplar.gov.uk', :password => 'MyS3cr3t!')
+  admin.save!
+end
 
-  unless Admin.find_by_email('rob.mcelvanney@irmplc.com')
-    admin = Admin.new(:email => 'rob.mcelvanney@irmplc.com', :password => 'MyS3cr3t!')
-    admin.save!
-  end
+unless Admin.find_by_email('rob.mcelvanney@irmplc.com')
+  admin = Admin.new(:email => 'rob.mcelvanney@irmplc.com', :password => 'MyS3cr3t!')
+  admin.save!
+end
 
-  unless Admin.find_by_email('gmueller@caci.co.uk')
-    admin = Admin.new(:email => 'gmueller@caci.co.uk', :password => 'MyS3cr3t!')
-    admin.save!
-  end
+unless Admin.find_by_email('gmueller@caci.co.uk')
+  admin = Admin.new(:email => 'gmueller@caci.co.uk', :password => 'MyS3cr3t!')
+  admin.save!
+end
 
-  AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: 'secret123'
+AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: 'secret123'
 
-  AgencyUser.find_or_create_by email: 'nccc1@waste-exemplar.gov.uk', password: 'secret123'
+AgencyUser.find_or_create_by email: 'nccc1@waste-exemplar.gov.uk', password: 'secret123'
 
-  AgencyUser.find_or_create_by email: 'nccc2@waste-exemplar.gov.uk', password: 'secret123'
+AgencyUser.find_or_create_by email: 'nccc2@waste-exemplar.gov.uk', password: 'secret123'
 
-  # Adds a agency user associated with the finance basic role
-  agencyUser = AgencyUser.find_or_create_by email: 'financebasic1@waste-exemplar.gov.uk', password: 'secret123'
-  agencyUser.add_role :Role_financeBasic, AgencyUser
+# Adds a agency user associated with the finance basic role
+agencyUser = AgencyUser.find_or_create_by email: 'financebasic1@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_financeBasic, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'financebasic2@waste-exemplar.gov.uk', password: 'secret123'
-  agencyUser.add_role :Role_financeBasic, AgencyUser
+agencyUser = AgencyUser.find_or_create_by email: 'financebasic2@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_financeBasic, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin1@waste-exemplar.gov.uk', password: 'secret123'
-  agencyUser.add_role :Role_financeAdmin, AgencyUser
+agencyUser = AgencyUser.find_or_create_by email: 'financeadmin1@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_financeAdmin, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin2@waste-exemplar.gov.uk', password: 'secret123'
-  agencyUser.add_role :Role_financeAdmin, AgencyUser
+agencyUser = AgencyUser.find_or_create_by email: 'financeadmin2@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_financeAdmin, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefund1@waste-exemplar.gov.uk', password: 'secret123'
-  agencyUser.add_role :Role_ncccRefund, AgencyUser
+agencyUser = AgencyUser.find_or_create_by email: 'agencyrefund1@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_ncccRefund, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefund2@waste-exemplar.gov.uk', password: 'secret123'
-  agencyUser.add_role :Role_ncccRefund, AgencyUser
+agencyUser = AgencyUser.find_or_create_by email: 'agencyrefund2@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_ncccRefund, AgencyUser
 
 #end  #unless Rails.env.production?
 
@@ -85,12 +85,21 @@ end
 #end
 
 
+#load some sample lower tier registrations
+.data =  YAML::load(File.read("db/lower_tier_registrations.json"))
+data.each do |reg|
+  r = Registration.init(reg)
+  puts "waste carrier #{r.companyName} registered!" if r.commit
+end
+
+
+
 
 #Loading agency users from file.
 data = YAML::load(File.read("db/NCCC-Users.txt"))
-data.split(" ").each {|e| 
+data.split(" ").each {|e|
   if AgencyUser.find_by_email(e)
-  	puts "AgencyUser with email " + e + " already exists. Not added again."
+    puts "AgencyUser with email " + e + " already exists. Not added again."
   else
     pw = AgencyUser.random_password
     au = AgencyUser.new(:email => e, :password => pw)
