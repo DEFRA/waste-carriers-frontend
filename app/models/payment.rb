@@ -135,17 +135,17 @@ class Payment < Ohm::Model
 
   # Represents the minimum balance needed for a finance basic user to make a write off
   def self.basicMinimum
-    0
+    -500
   end
 
   # Represents the maximum balance needed for a finance basic user to make a write off
   def self.basicMaximum
-    10000
+    500
   end
 
   # Represents the maximum balance needed for a finance admin user to make a write off
   def self.adminMaximum
-    20000
+    1000000000
   end
 
   # Returns true if balance is in range for a small write off, otherwise returns an

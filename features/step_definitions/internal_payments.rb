@@ -50,11 +50,11 @@ end
 
 Given(/^the registration is valid for a small write off$/) do
   # Here we am running a series of steps to get the registraiton in the state ready for a small write off
-  # A payment of 100.00 puts the excess balance of 54 within the 0-100 (Payment.basicMinimum-Payment.basicMaximum) 
+  # A payment of 150.00 puts the excess balance of 4 within the -5->5 (Payment.basicMinimum-Payment.basicMaximum) 
   # range of the small write off
   steps %Q{
     Given I select to enter payment
-    And I enter 100.00
+    And I enter 150.00
     And I enter payment details
     And I confirm payment
   }

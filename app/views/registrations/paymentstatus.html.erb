@@ -163,18 +163,28 @@
 		    </noscript>
 		    <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'link_to' %>
 		    <%
+		    isFinanceBasic = current_agency_user.has_role? :Role_financeBasic, AgencyUser
 		    isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
+		    isRefund = current_agency_user.has_role? :Role_ncccRefund, AgencyUser
 		    isRefundOrBasic = current_agency_user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
 		    %>
-		    <% if !isFinanceAdmin %>
+		    <% if isFinanceBasic %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
-		    <span class="next_link"><%= link_to t('registrations.form.writeoffsmall_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffSmall' %></span>
+		    <% end %>
+		    <% if isFinanceBasic or isRefund %>
+		      <span class="next_link">
+		      <% if isSmallWriteOffAvailable(@registration) %>
+		        <%= link_to t('registrations.form.writeoffsmall_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffSmall' %>
+		      <% else %>
+		        <%= link_to t('registrations.form.writeoffsmall_button_label'), '#', :class => 'button disabled', :id => 'writeOffSmall' %>
+		      <% end %>
+		      </span>
 		    <% end %>
 		    <% if isFinanceAdmin %>
 		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffLarge' %></span>
 		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button', :id => 'adjustments' %></span>
 		    <% end %>
-		    <% if isRefundOrBasic %>
+		    <% if isRefund %>
 		    <span class="next_link"><%= link_to t('registrations.form.refund_button_label'), :refund, :class => 'button', :id => 'refund' %></span>
 		    <% end %>
 		</div>

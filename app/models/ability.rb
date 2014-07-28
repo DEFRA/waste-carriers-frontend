@@ -63,12 +63,30 @@ class Ability
     # TODO: Adjust this later if a particular agency user is not allowed to add payments
     #
     if !user.nil? and user.is_agency_user?
-      can :manage, Payment
+#      can :manage, Payment
+      can :read, Payment
     end
     
-	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
-	  can :newRefund, Order
+	if !user.nil? and user.is_agency_user? and user.has_role? :Role_ncccRefund, AgencyUser
+	  can :newRefund, Payment
 	end
+	
+	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
+	  can :writeOffPayment, Payment
+	end
+	
+	if !user.nil? and user.is_agency_user? and user.has_role? :Role_financeBasic, AgencyUser
+	  can :enterPayment, Payment
+	end
+	
+	if !user.nil? and user.is_agency_user? and user.has_role? :Role_financeAdmin, AgencyUser
+	  # TMP: make tests pass re:review tests once roles correct?
+	  can :writeOffPayment, Payment
+	  
+	  can :writeOffOrder, Order
+	  can :enterPayment, Payment
+	  can :newRefund, Order
+	end	
 
   end #initialize
 
