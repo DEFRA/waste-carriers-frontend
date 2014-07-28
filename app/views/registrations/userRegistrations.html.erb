@@ -27,7 +27,7 @@
 <p class="group"><b><%= t '.registrationCountText', :count => pluralize(@registrations.count,"registration") %></b></p>
 
 <% @registrations.each do |registration| %>
-<div class="box full<% if registration.metaData.status == "REVOKED" %> revoked_status<% end %>">
+<div class="box full<% if registration.metaData.first.status == "REVOKED" %> revoked_status<% end %>">
 	<dl>
 		<dt>Name</dt>
 		<dd><%= registration.companyName %></dd>
@@ -38,7 +38,7 @@
 		<dt><%= t 'activemodel.models.registration' %></dt>
 		<dd><%= registration.regIdentifier %></dd>
 	</dl>
-	<% if registration.metaData.status == "REVOKED" %>
+	<% if registration.metaData.first.status == "REVOKED" %>
 	<div class="status registered_status">
 		<%= t '.revoked' %>
 	</div>
@@ -47,7 +47,7 @@
 		<%= t '.registered' %>
 	</div>
 	<% end %>
-	<% if registration.metaData.status != "REVOKED" %>
+	<% if registration.metaData.first.status != "REVOKED" %>
 	<div class="actions">
       <% if can? :print, registration %>
 		<%= link_to 'View Certificate', print_path(registration.id) %>

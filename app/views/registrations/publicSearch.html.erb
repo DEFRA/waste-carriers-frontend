@@ -50,7 +50,7 @@
 
 			
 		    <div class='inline'>
-        		 
+
         		 <% 
         		 defaultDistance='any'
         		 if !params[:distance].nil?
@@ -61,9 +61,8 @@
         		 	<label class="block-label" for="<%= dist[1] %>">
 					<input type="radio" value="<%= dist[1] %>" name="distance" id="<%= dist[1] %>" <% if defaultDistance==dist[1] %>checked="checked"<% end %>>
 					<%= dist[0] %>
-					</label>
+        		 </label>
         		 <% end %>
-        		 
 
         	</div> 
 
@@ -106,7 +105,7 @@
 		<td class="search-body-field" style="width:30%"><%= registration.companyName %></td>
 		<td class="search-body-field" style="width:40%"><%= format_address(registration) %></td>
 		<td class="search-body-field" style="width:20%"><%= registration.regIdentifier %></td>
-		<% if params[:distance]!='any' %><td class="search-body-field" style="width:10%"><%= registration.metaData.distance %> <%= t '.miles' %></td><% end %>
+		<% if params[:distance]!='any' %><td class="search-body-field" style="width:10%"><%= registration.metaData.first.distance %> <%= t '.miles' %></td><% end %>
 	</tr>
 <% regCount = regCount + 1; %>
 <% end %>

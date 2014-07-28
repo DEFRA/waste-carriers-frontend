@@ -3,16 +3,16 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
   	<aside>
-		
+
 	    <% content_for :page_title, createTitle('.heading') %>
-	    
+
 	    <!-- FIXME: Restyle this to match whatever is decided -->
 	    <% if alert %>
 	    <div id="note_explanation" class="note-summary">
 		  <h3 class='heading-medium'><%= alert%></h3>
 		</div>
 		<% end %>
-	    
+
 	    <%= form_for(@registration, :url => enterPayment_path) do |f| %>
 
 	      	<!-- Step item not required <div class="step"><%= t '.step' %></div> -->
@@ -29,13 +29,13 @@
 				        <div class="form-label"><%= @registration.companyName %></div>
 				        <div class="form-label"><%= format_address(@registration) %></div>
 			        </div>
-			        
-			        <% if @registration.respond_to? :financeDetails %>
+
+			        <% if @registration.respond_to? :finance_details %>
 				        <div class="form-group">
 				        	<div class="form-label" id="amountSummary"><%= amount_payment_summary_for(@registration) %></div>
 				        </div>
 			        <% end %>
-			        
+
 			        <div class="form-group">
 				  	    <legend><%= t'.chargehistory_table_heading' %></legend>
 						<table class="" summary='This table details the charge history of a registration' style="width:60%"> <!-- Remove this style once styles working -->
@@ -49,10 +49,11 @@
 							</thead>
 							<tbody>
 								<% regCount = 1; %>
-								<% if @registration.respond_to?('financeDetails') and !@registration.financeDetails.orders.nil? %>
-									<% @registration.financeDetails.orders.each do |order| %>
-									  <% if order.respond_to?('orderItems') and !order.orderItems.nil? %>
-									  	<% order.orderItems.each do |orderItem| %>
+								<% if @registration.respond_to?('finance_details') and @registration.finance_details.first \
+								   && @registration.finance_details.size > 0 && @registration.finance_details.first.orders %>
+									<% @registration.finance_details.first.orders.each do |order| %>
+									  <% if order.respond_to?('order_items') and !order.order_items %>
+									  	<% order.order_items.each do |orderItem| %>
 											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 												<td class="" ><%= orderItem.lastUpdated %></td>
 												<td class="" ><%= orderItem.description %></td>
@@ -82,7 +83,7 @@
 							</tbody>
 						</table>
 					</div>
-			        
+
 			        <div class="form-group">
 		            	<legend><%= t'.paymenthistory_table_heading' %></legend>
 						<table class="" summary='This table details the payment history of a registration' style="width:60%"> <!-- Remove this style once styles working -->
@@ -97,10 +98,10 @@
 							</thead>
 							<tbody>
 								<% regCount = 1; %>
-								<% if @registration.respond_to?('financeDetails') \
-								and @registration.financeDetails.respond_to?('payments') \
-								and !@registration.financeDetails.payments.nil?%>
-									<% @registration.financeDetails.payments.each do |payment| %>
+								<% if @registration.finance_details.size > 0 \
+									&& @registration.finance_details.first.payments \
+									&& @registration.finance_details.first.payments.size > 0 %>
+									<% @registration.finance_details.first.payments.each do |payment| %>
 										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 											<td class="" ><%= payment.dateReceived %></td>
 											<td class="" ><%= payment.paymentType %></td>
@@ -122,7 +123,7 @@
 							</tbody>
 						</table>
 					</div>
-			        
+
 			        <div class="form-group">
 		            	<legend><%= t'.balance_table_heading' %></legend>
 						<table class="" summary='This table details the balance due on a registration' style="width:60%"> <!-- Remove this style once styles working -->
@@ -133,14 +134,14 @@
 								</tr>
 							</thead>
 							<tbody>
-								<% if @registration.respond_to? :financeDetails %>
+								<% if @registration.finance_details %>
 								<tr class="">
 									<td class="" >
 						        	<%= amount_summary_for(@registration, false) %>
 									</td>
-									<td class="" id="balanceDue"><%= Money.new(@registration.financeDetails.balance.abs) %></td>
+									<td class="" id="balanceDue"><%= Money.new(@registration.finance_details.first.balance.to_f.abs) %></td>
 								</tr>
-								<%# Assume if financeDetails are not available it is because no charges are present on the account therefore must have a zero balance %>
+								<%# Assume if finance_details are not available it is because no charges are present on the account therefore must have a zero balance %>
 								<% else %>
 							    <tr class="">
 									<td class="" ><%= t 'registrations.form.balanceDue_text' %></td>
@@ -150,12 +151,12 @@
 							</tbody>
 						</table>
 					</div>
-	            
+
 	            </fieldset>
 		    </div>
-		    
+
 	    <% end %>
-	    
+
 	    <div class="inline">
 		    <noscript>
 		        <%= content_tag :p, t('registrations.back_link_unavailable') %>

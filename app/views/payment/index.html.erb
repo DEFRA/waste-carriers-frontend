@@ -32,8 +32,10 @@
 					</thead>
 					<tbody>
 						<% regCount = 1; %>
-						<% if @registration.respond_to?('financeDetails') and !@registration.financeDetails.payments.nil? %>
-							<% @registration.financeDetails.payments.each do |payment| %>
+						<% if @registration.finance_details.size > 0 \
+							&& @registration.finance_details.first.payments \
+							&& @registration.finance_details.first.payments.size > 0 %>
+							<% @registration.finance_details.first.payments.each do |payment| %>
 								<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 									<td class=""><%= payment.dateReceived %></td>
 									<td class="">

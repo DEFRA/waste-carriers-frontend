@@ -31,7 +31,7 @@ module WorldpayHelper
       orderValue = registration.total_fee
       #TODO Remove pre-populated shopper values once Worldpay has been reconfigured not to require address details
       orderDescription = 'Your Waste Carrier Registration'
-      orderContent = 'Waste Carrier Registration' + ' ' + registration.regIdentifier.to_s + ' ' + registration.companyName.to_s
+      orderContent = 'Waste Carrier Registration' + ' ' + registration.regIdentifier.to_s
       shopperEmail = registration.accountEmail || ''
       shopperFirstName = 'Joe'
       shopperLastName = 'Bloggs'

@@ -13,7 +13,7 @@
 
 <h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 
-<p><i><%=t '.registeredOn',:date=>format_date(@registration.metaData.dateRegistered) %></i></p>
+<p><i><%=t '.registeredOn',:date=>format_date(@registration.metaData.first.dateRegistered) %></i></p>
 
 <p><%= t '.proof' %></p>
 
