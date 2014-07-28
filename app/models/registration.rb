@@ -396,6 +396,7 @@ class Registration < Ohm::Model
   validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :serviceprovided_step?
   validates :constructionWaste, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :constructiondemolition_step?
   validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :onlydealwith_step?
+  validates :declaredConvictions, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :convictions_step?
 
   validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: 'businessdetails_step? or upperbusinessdetails_step?'
 
@@ -461,23 +462,23 @@ class Registration < Ohm::Model
   # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, ]
 
   def businesstype_step?
-    current_step.eql? 'businesstype'
+    current_step.inquiry.businesstype?
   end
 
   def otherbusinesses_step?
-    current_step.eql? 'otherbusinesses'
+    current_step.inquiry.otherbusinesses?
   end
 
   def serviceprovided_step?
-    current_step.eql? 'serviceprovided'
+    current_step.inquiry.serviceprovided?
   end
 
   def constructiondemolition_step?
-    current_step.eql? 'constructiondemolition'
+    current_step.inquiry.constructiondemolition?
   end
 
   def onlydealwith_step?
-    current_step.eql? 'onlydealwith'
+    current_step.inquiry.onlydealwith?
   end
 
   def address_step?
@@ -485,11 +486,11 @@ class Registration < Ohm::Model
   end
 
   def businessdetails_step?
-    current_step.eql? 'businessdetails'
+    current_step.inquiry.businessdetails?
   end
 
   def upperbusinessdetails_step?
-    current_step.eql? 'upper_business_details'
+    current_step.inquiry.upper_business_details?
   end
 
   def lower_or_upper_contact_details_step?
@@ -497,27 +498,31 @@ class Registration < Ohm::Model
   end
 
   def contactdetails_step?
-    current_step.eql? 'contactdetails'
+    current_step.inquiry.contactdetails?
   end
 
   def uppercontactdetails_step?
-    current_step.eql? 'upper_contact_details'
+    current_step.inquiry.upper_contact_details?
   end
 
   def signup_step?
-    current_step.eql? 'signup'
+    current_step.inquiry.signup?
   end
 
   def registrationtype_step?
-    current_step.eql? 'registrationtype'
+    current_step.inquiry.registrationtype?
   end
 
   def payment_step?
-    current_step.eql? 'payment'
+    current_step.inquiry.payment?
+  end
+
+  def convictions_step?
+    current_step.inquiry.convictions?
   end
 
   def upper_summary_step?
-    current_step.eql? 'upper_summary'
+    current_step.inquiry.upper_summary?
   end
 
   def sign_up_mode_present?
@@ -541,25 +546,22 @@ class Registration < Ohm::Model
   end
 
   def account_email_present?
-    accountEmail ? true : false
+    accountEmail.present?
   end
 
   def upper?
-    return false if tier.empty?
-    tier.eql? 'UPPER'
+    return false if tier.blank?
+    tier.inquiry.UPPER?
   end
 
   def lower?
-    return true if tier.empty?
-    tier.eql? 'LOWER'
+    return true if tier.blank?
+    tier.inquiry.LOWER?
   end
 
   def paid_in_full?
-    #the_finance_details = self.try(:finance_details)
-    #puts "the_finance_details is " + the_finance_details.to_s
     the_balance = self.try(:finance_details).try(:first).try(:balance)
     return true if the_balance.nil?
-    #puts "balance exists and is " + the_balance.to_s
     the_balance.to_i <= 0
   end
 
@@ -586,19 +588,18 @@ class Registration < Ohm::Model
     current_step == 'noregistration'
   end
 
-
   def confirmation_step?
     current_step == 'confirmation'
   end
 
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
-    when :not_found
-      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
-    when :inactive
-      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
-    when :error_calling_service
-      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
+      when :not_found
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+      when :inactive
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+      when :error_calling_service
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
     end
   end
 
