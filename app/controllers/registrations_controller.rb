@@ -380,8 +380,8 @@ class RegistrationsController < ApplicationController
 
 
   def print
-    renderNotFound and  return unless session[:uuid]
-    @registration = Registration.find_by_id( session[:uuid])
+    renderNotFound and  return unless session[:registration_uuid]
+    @registration = Registration.find_by_id( session[:registration_uuid])
     redirect_to registrations_path and return if @registration.empty?
 
     authorize! :read, @registration
@@ -490,7 +490,6 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/1/edit
   def edit
-    # @registration = Registration.find(params[:id])
     Rails.logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
@@ -500,6 +499,7 @@ class RegistrationsController < ApplicationController
     else #proceed to edit ther registration
       session[:registration_progress] = 'IN_EDIT'
       session[:registration_id] = @registration.id
+      session[:registration_uuid] = @registration.uuid
       redirect_to :upper_summary
     end
     # @registration.current_step = session[:registration_step]
@@ -507,9 +507,11 @@ class RegistrationsController < ApplicationController
 
   def ncccedit
     logger.debug  "nccedit looking for: #{params[:id]}"
-    @registration = Registration.find_by_id(session[:uuid])
+    @registration = Registration.find_by_id(session[:registration_uuid])
     logger.debug  "registration found@ #{@registration['id']}"
     @registration.routeName = @registration.metaData.first.route
+    session[:registration_id] = @registration.id
+    session[:registration_uuid] = @registration.uuid
     authorize! :update, @registration
   end
 
@@ -546,12 +548,12 @@ class RegistrationsController < ApplicationController
     new_step_action 'signup'
 
     @registration.accountEmail = if user_signed_in?
-        current_user.email
-      elsif agency_user_signed_in?
-        current_agency_user.email
-      else
-        @registration.contactEmail
-      end
+      current_user.email
+    elsif agency_user_signed_in?
+      current_agency_user.email
+    else
+      @registration.contactEmail
+    end
 
     # Get signup mode
     @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
@@ -610,10 +612,10 @@ class RegistrationsController < ApplicationController
           logger.debug "User signed in, set account email to user email and get user"
 
           @registration.accountEmail = if user_signed_in?
-                                         current_user.email
-                                       elsif agency_user_signed_in?
-                                         current_agency_user.email
-                                       end
+            current_user.email
+          elsif agency_user_signed_in?
+            current_agency_user.email
+          end
 
           @user = User.find_by_email(@registration.accountEmail)
         end
@@ -625,9 +627,9 @@ class RegistrationsController < ApplicationController
         @registration.expires_on = (Date.current + 3.years).to_s
         @registration.save
         logger.debug "reg: #{@registration.attributes.to_s}"
-        session[:uuid] = @registration.commit
+        session[:registration_uuid] = @registration.commit
         logger.debug "uuid: #{@registration.uuid}"
-        logger.debug "session uuid: #{session[:uuid]}"
+        logger.debug "session uuid: #{session[:registration_uuid]}"
         if agency_user_signed_in?
           @registration.accessCode = @registration.generate_random_access_code
           @registration.save
@@ -639,7 +641,7 @@ class RegistrationsController < ApplicationController
           @registration.activate!
         end
         @registration.save
-		session[:registration_id] = @registration.id
+        session[:registration_id] = @registration.id
         logger.debug "The registration has been saved. About to send e-mail..."
         if user_signed_in?
           RegistrationMailer.welcome_email(@user, @registration).deliver
@@ -667,12 +669,12 @@ class RegistrationsController < ApplicationController
           when 'LOWER'
             pending_url
           when 'UPPER'
-                        :upper_payment
-                    #TODO: test  elsif @registration.user.confirmed?
-                      #  confirmed_path
-                     # else
-                       # pending_path
-                      end
+            :upper_payment
+            #TODO: test  elsif @registration.user.confirmed?
+            #  confirmed_path
+            # else
+            # pending_path
+          end
 
           redirect_to next_step
         end
@@ -691,10 +693,10 @@ class RegistrationsController < ApplicationController
   def pending
     #puts "session[:registration_id] = " + session[:registration_id].to_s
     @registration = Registration[session[:registration_id]]
-    #puts "session[:uuid] = " + session[:uuid].to_s
-    # TODO Reading the registration from the database could be removed 
+    #puts "session[:registration_uuid] = " + session[:registration_uuid].to_s
+    # TODO Reading the registration from the database could be removed
     # once the financeDetails and/or the order are directly available in the original local registration
-    @registrationFromDB = Registration.find_by_id(session[:uuid])
+    @registrationFromDB = Registration.find_by_id(session[:registration_uuid])
     user = @registration.user
     user.current_registration = @registrationFromDB
     user.send_confirmation_instructions unless user.confirmed?
@@ -928,7 +930,7 @@ class RegistrationsController < ApplicationController
   # GET your-registration/upper-tier-contact-details
   def newUpperContactDetails
     new_step_action 'upper_contact_details'
-    end
+  end
 
   # POST your-registration/upper-tier-contact-details
   def updateNewUpperContactDetails
@@ -942,7 +944,7 @@ class RegistrationsController < ApplicationController
       if @registration.businessType.eql? 'limitedCompany'
         redirect_to :registration_directors
       else
-      redirect_to :upper_summary
+        redirect_to :upper_summary
       end
     else
       # there is an error (but data not yet saved)
@@ -955,7 +957,7 @@ class RegistrationsController < ApplicationController
   def newPayment
     new_step_action 'payment'
     if !@registration.copy_cards
-    @registration.copy_cards = 0
+      @registration.copy_cards = 0
     end
     calculate_fees
   end
