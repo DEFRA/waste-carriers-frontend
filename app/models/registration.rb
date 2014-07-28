@@ -89,7 +89,7 @@ class Registration < Ohm::Model
 
 
   def empty?
-    attributes.empty?
+    self.attributes.empty?
   end
 
   def add(a_hash)
@@ -331,6 +331,8 @@ class Registration < Ohm::Model
         case k
         when 'id'
           new_reg.uuid = v
+        when 'expiresOn'
+          new_reg.expires_on = v
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'directors'
