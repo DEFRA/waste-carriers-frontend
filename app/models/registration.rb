@@ -293,6 +293,38 @@ class Registration < Ohm::Model
     end
   end
 
+  # Retrieves a specific registration object from the Java Service based on its email value
+  #
+  # @param some_text [String] the text to search for
+  # @param within_field [String] within this specific field
+  # @return [Array] list of registrations in MongoDB matching the specified email
+  class << self
+    def find_all_by_params(params_hash)
+      registrations = []
+      params_url_part = ''
+      params_hash.each do |k, v|
+        params_url_part << "#{k.to_s}=#{v}&"
+      end
+
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{params_url_part}"
+      begin
+        response = RestClient.get url
+        if response.code == 200
+          all_regs = JSON.parse(response.body) #all_regs should be Array
+          Rails.logger.debug "find_all_by found #{all_regs.size.to_s} items"
+          all_regs.each do |r|
+            registrations << Registration.init(r)
+          end
+        else
+          Rails.logger.error "Registration.find_all_by_params failed with a #{response.code} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      registrations
+    end
+  end
+
 
   # Retrieves a specific registration object from the Java Service based on its uuid
   #
