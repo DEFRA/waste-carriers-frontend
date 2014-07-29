@@ -19,15 +19,15 @@
   "constructionWaste",
   "onlyAMF"
 ] %>
-<% metatDataHeaders = [
+<% metaDataHeaders = [
   "dateRegistered",
   "dateActivated",
   "status",
   "route"
 ] %>
-<%= CSV.generate_line(registrationHeaders + metatDataHeaders, { :row_sep => nil, :force_quotes => true }).html_safe %>
+<%= CSV.generate_line(registrationHeaders + metaDataHeaders, { :row_sep => nil, :force_quotes => true }).html_safe %>
 <% @registrations.each do |registration| %>
-  <% row = registration.attributes.values_at(*registrationHeaders) %>
-  <% row += registration.metaData.first.attributes.values_at(*metatDataHeaders) %>
+  <% row = registration.attributes.values_at(*registrationHeaders.map {|x| x.to_sym}) %>
+  <% row += registration.metaData.first.attributes.values_at(*metaDataHeaders.map {|x| x.to_sym}) %>
   <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <%end%>
