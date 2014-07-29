@@ -858,7 +858,14 @@ class RegistrationsController < ApplicationController
     postcode = params[:postcode]
     if validate_public_search_parameters?(searchString,"any",distance, postcode)
       if searchString && !searchString.empty?
-          @registrations = Registration.find_all_by_params(q: searchString, searchWithin: 'companyName', distance: distance, activeOnly: 'true', postcode: postcode, excludeRegId: 'true' )
+        param_args = {
+            q: searchString,
+            searchWithin: 'companyName',
+            distance: distance,
+            activeOnly: 'true',
+            postcode: postcode,
+            excludeRegId: 'true' }
+        @registrations = Registration.find_by_params(param_args)
       else
         @registrations = []
       end

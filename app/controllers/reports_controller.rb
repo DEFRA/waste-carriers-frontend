@@ -14,18 +14,18 @@ class ReportsController < ApplicationController
 
       if @report.valid?
 
-        routes = [ @report.route_digital, @report.route_assisted_digital ]
-#TODO: fix this
-        @registrations = Registration.find(
-          :all,
-          :params => {
-            :from => @report.from,
-            :until => @report.to,
-            :route => [ @report.route_digital, @report.route_assisted_digital ],
-            :status => @report.statuses,
-            :businessType => @report.business_types,
-            :ac => params[:email]}
-        )
+        param_args = {
+              :from => @report.from,
+              :until => @report.to,
+              :route => [
+                  @report.route_digital,
+                  @report.route_assisted_digital
+              ].reject(&:blank?),
+              :status => @report.statuses.reject(&:blank?),
+              :businessType => @report.business_types.reject(&:blank?),
+              :ac => params[:email]
+        }
+        @registrations = Registration.find_by_params(param_args)
 
         if @report.format == 'csv'
           render_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
