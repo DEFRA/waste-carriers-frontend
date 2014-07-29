@@ -231,7 +231,6 @@ end
 When(/^refund is selected$/) do
   page.should have_content 'Payment status'
   click_link 'refund'
-  page.should have_content 'Refunds'
 end
 
 Then(/^refund is made against original payment card$/) do
@@ -247,8 +246,7 @@ When(/^original payment method was via BACS$/) do
 end
 
 Then(/^refund is rejected$/) do
-  page.should have_content 'Refunds'
-  page.should have_content 'No Payment History'
+  page.should have_content 'Payment status'
 end
 
 When(/^original payment method was via Cheque$/) do
