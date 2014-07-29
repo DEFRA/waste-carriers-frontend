@@ -15,15 +15,15 @@ Given I am logged in as a finance basic user
 #  And I change user to a nccc refunds user
   And I have found a registrations payment details
 
-# Moved to refunds_via_worldpay.feature as user no longer performs this action
-@happy_days
-Scenario: Write off underpayment
-  When I select to enter a small writeoff
-  And I writeoff equal to underpayment amount
-  And I confirm write off
-  Then payment status will be paid
-  And payment history will be updated
-  And payment balance will be 0.00
+# Commented out as does not function as expected given the user signed in
+#@happy_days
+#Scenario: Write off underpayment
+#  When I select to enter a small writeoff
+#  And I writeoff equal to underpayment amount
+#  And I confirm write off
+#  Then payment status will be paid
+#  And payment history will be updated
+#  And payment balance will be 0.00
 
 # Scenario: Financial adjustments - charge transactions
 # When I correct an amount on the system
