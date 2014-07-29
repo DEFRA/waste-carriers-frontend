@@ -960,7 +960,7 @@ class RegistrationsController < ApplicationController
       if @registration.businessType.eql? 'limitedCompany'
         redirect_to :registration_directors
       else
-        redirect_to :upper_summary
+        redirect_to :newRelevantConvictions
       end
     else
       # there is an error (but data not yet saved)
