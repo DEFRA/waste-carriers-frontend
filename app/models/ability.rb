@@ -83,8 +83,13 @@ class Ability
 	  # TMP: make tests pass re:review tests once roles correct?
 	  can :writeOffPayment, Payment
 	  
+	  # Write off Order - TODO
 	  can :writeOffOrder, Order
+	  
+	  # Enter payment of WP payment that failed
 	  can :enterPayment, Payment
+	  
+	  # Start refund process by entering a negative order - TODO
 	  can :newRefund, Order
 	end	
 
