@@ -8,7 +8,7 @@ describe Registration do
     specify { Registration.new(tier: 'UPPER').should be_upper }
     specify { Registration.new(tier: 'upper').should_not be_upper }
     specify { Registration.new(tier: '').should_not be_upper }
-    # specify { Registration.new(tier: nil).should_not be_upper }
+    specify { Registration.new(tier: nil).should_not be_upper }
     specify { Registration.new(tier: 'LOWER').should_not be_upper }
   end
 
@@ -16,7 +16,7 @@ describe Registration do
     specify { Registration.new(tier: 'LOWER').should be_lower }
     specify { Registration.new(tier: 'lower').should_not be_lower }
     specify { Registration.new(tier: '').should be_lower }
-    # specify { Registration.new(tier: nil).should be_lower }
+    specify { Registration.new(tier: nil).should be_lower }
     specify { Registration.new(tier: 'UPPER').should_not be_lower }
   end
 
