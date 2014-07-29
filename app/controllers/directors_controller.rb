@@ -112,7 +112,7 @@ logger.debug "director_to_remove is: #{director_to_remove.id}"
 
   # POST /your-registration/directors/done
   def done
-    redirect_to :upper_summary
+    redirect_to :newRelevantConvictions
   end
 
   def get_registration
