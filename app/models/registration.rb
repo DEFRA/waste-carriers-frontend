@@ -120,9 +120,10 @@ class Registration < Ohm::Model
       Rails.logger.debug  "saved response: #{result.to_s}"
 
 
-      # following fields are set by the java service
+      # following fields are set by the java service, so we assign them from the response hash
       self.uuid = result['id']
       self.metaData.first.update(dateRegistered: result['metaData']['dateRegistered'])
+      self.metaData.first.update(lastModified: result['metaData']['lastModified'])
       Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
       self.regIdentifier = result['regIdentifier']
       self.finance_details.add FinanceDetails.init(result['financeDetails'])
@@ -466,7 +467,7 @@ class Registration < Ohm::Model
     registration.validates :password, confirmation: true
   end
 
-  validates :declaration, format: {with:/\A1\z/,message:I18n.t('errors.messages.accepted') }, if: 'confirmation_step? or upper_summary_step?'
+  validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 

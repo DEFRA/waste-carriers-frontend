@@ -135,17 +135,17 @@ class Payment < Ohm::Model
 
   # Represents the minimum balance needed for a finance basic user to make a write off
   def self.basicMinimum
-    0
+    -500
   end
 
   # Represents the maximum balance needed for a finance basic user to make a write off
   def self.basicMaximum
-    10000
+    500
   end
 
   # Represents the maximum balance needed for a finance admin user to make a write off
   def self.adminMaximum
-    20000
+    10000000000
   end
 
   # Returns true if balance is in range for a small write off, otherwise returns an
@@ -167,10 +167,7 @@ class Payment < Ohm::Model
   # error message representing why it failed.
   def self.isLargeWriteOff(balance)
     Rails.logger.info 'balance: ' + balance.to_s
-    if balance.to_f <= Payment.basicMaximum
-      Rails.logger.info 'Balance is in range for a finance basic user'
-      I18n.t('payment.newWriteOff.writeOffNotApplicable')
-    elsif balance.to_f > Payment.adminMaximum
+    if balance.to_f > Payment.adminMaximum
       Rails.logger.info 'Balance is too great for even a finance admin'
       I18n.t('payment.newWriteOff.writeOffNotAvailable')
     else
