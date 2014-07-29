@@ -14,7 +14,7 @@ class ReportsController < ApplicationController
 
       if @report.valid?
 
-        filters = {
+        param_args = {
               :from => @report.from,
               :until => @report.to,
               :route => [
@@ -25,7 +25,7 @@ class ReportsController < ApplicationController
               :businessType => @report.business_types.reject(&:blank?),
               :ac => params[:email]
         }
-        @registrations = Registration.find_by_filters(filters)
+        @registrations = Registration.find_by_params(param_args)
 
         if @report.format == 'csv'
           render_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
