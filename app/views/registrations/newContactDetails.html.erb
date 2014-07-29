@@ -3,14 +3,22 @@
 <main id="content" role="main" class="group">
   <article role="article" class="group">
 
-    <% content_for :page_title, createTitle('registrations.contactdetails_step.title') %>
-    <%= form_for(@registration, :url => newContact_path) do |f| %>
+    <!-- WF 4.3.2 -->
+    <div id="page7"  data-journey="waste-carriers-registration:contact-details">
+
+      <% content_for :page_title, createTitle('.title') %>
+      <div class="inline">
         <p class="back_link"><%= render 'back_link' %></p>
-      <div class="step"><%= t 'registrations.contactdetails_step.step' %></div>
+        <div class="step"><%= t '.step' %></div>
+      </div>
 
-      <%= render "contactdetails_step", f: f %>
+      <%= render "errors" %>
 
-    <% end %>
+      <%= form_for(@registration, :url => newContact_path) do |f| %>
+        <%= render "contactdetails_step", f: f, r: @registration %>
+        <span class="next_link"><%= render 'next_link' %></span>
+      <% end %>
 
+    </div>
   </article>
 </main>

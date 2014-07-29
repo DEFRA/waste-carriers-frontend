@@ -346,14 +346,12 @@ en:
       search_address_label: "Search for address by postcode"
       selectAddress: "Select address"
       streetLine1Foreign: Address
+    newContactDetails:
+      step: "Step 3 of 8"
+      title: "Contact details"
     contactdetails_step:
       legend: "These will not be made public"
-      legend_upper_director: "Director contact details"
-      legend_upper_simple: "Your contact details"
-      step: "Step 6 of 8"
-      subtitle: "Provide contact details for your business or organisation"
-      subtitle_upper: "Enter your %{business_caption} details"
-      title: "Contact details"
+      subtitle: "Your contact details"
     convictions_step:
       title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
       convictions_link_text: "Check here for a list of relevant convictions"
