@@ -350,6 +350,28 @@ class Registration < Ohm::Model
     end
   end
 
+  class << self
+    def find_by_filters(filters)
+      registrations = []
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{filters.to_query}"
+      Rails.logger.debug "find_by_filters url=#{url}"
+      begin
+        response = RestClient.get url
+        if response.code == 200
+          all_regs = JSON.parse(response.body) #all_regs should be Array
+          Rails.logger.debug "find_all_by found #{all_regs.size.to_s} items"
+          all_regs.each do |r|
+            registrations << Registration.init(r)
+          end
+        else
+          Rails.logger.error "Registration.find_all_filter() [#{url}] failed with a #{response.code} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      registrations
+    end
+  end
 
   # Creates a new Registration object from a JSON payload received from the Java Service
   #
