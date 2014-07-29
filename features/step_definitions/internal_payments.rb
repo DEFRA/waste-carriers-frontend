@@ -39,6 +39,20 @@ Given(/^I am logged in as a nccc refunds user$/) do
   page.should have_content "Signed in as agency user #{my_agency_refund_user.email}"
 end
 
+Given(/^I change user to a nccc refunds user$/) do
+  click_button 'Sign out'
+#  visit new_agency_user_session_path
+#  click_button 'Sign out'
+  visit '/agency_users/sign_in'
+  save_and_open_page
+  page.should have_content 'Sign in'
+  page.should have_content 'NCCC agency login'
+  fill_in 'Email', with: my_agency_refund_user.email
+  fill_in 'Password', with: my_agency_refund_user.password
+  click_button 'Sign in'
+  page.should have_content "Signed in as agency user #{my_agency_refund_user.email}"
+end
+
 Given(/^I have found a registrations payment details$/) do
   visit registrations_path
   page.should have_content 'Find a registration'
@@ -50,14 +64,23 @@ end
 
 Given(/^the registration is valid for a small write off$/) do
   # Here we am running a series of steps to get the registraiton in the state ready for a small write off
-  # A payment of 100.00 puts the excess balance of 54 within the 0-100 (Payment.basicMinimum-Payment.basicMaximum) 
+  # A payment of 150.00 puts the excess balance of 4 within the -5->5 (Payment.basicMinimum-Payment.basicMaximum) 
   # range of the small write off
   steps %Q{
     Given I select to enter payment
-    And I enter 100.00
+    And I enter 150.00
     And I enter payment details
     And I confirm payment
   }
+end
+
+Given(/^I sign out$/) do
+#  save_and_open_page
+  click_button 'Sign out'
+#  save_and_open_page
+#  visit new_agency_user_session_path
+#  page.should have_content 'Sign in'
+#  save_and_open_page
 end
 
 Given(/^I provided a payment type of Cheque$/) do
@@ -208,7 +231,6 @@ end
 When(/^refund is selected$/) do
   page.should have_content 'Payment status'
   click_link 'refund'
-  page.should have_content 'Refunds'
 end
 
 Then(/^refund is made against original payment card$/) do
@@ -224,8 +246,7 @@ When(/^original payment method was via BACS$/) do
 end
 
 Then(/^refund is rejected$/) do
-  page.should have_content 'Refunds'
-  page.should have_content 'No Payment History'
+  page.should have_content 'Payment status'
 end
 
 When(/^original payment method was via Cheque$/) do
