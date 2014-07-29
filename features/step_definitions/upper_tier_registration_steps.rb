@@ -69,5 +69,6 @@ Then(/^I am registered as an upper tier waste carrier$/) do
 end
 
 And(/^no key people in the organisation have convictions$/) do
-  pending
+  choose 'No'
+  click_on 'Next'
 end
