@@ -171,7 +171,7 @@
 		    <% if isFinanceBasic %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
 		    <% end %>
-		    <% if isFinanceBasic or isRefund %>
+		    <% if isRefund %>
 		      <span class="next_link">
 		      <% if isSmallWriteOffAvailable(@registration) %>
 		        <%= link_to t('registrations.form.writeoffsmall_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffSmall' %>
@@ -185,8 +185,14 @@
 		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button', :id => 'adjustments' %></span>
 		    <% end %>
 		    <% if isRefund %>
-		    <span class="next_link"><%= link_to t('registrations.form.refund_button_label'), :refund, :class => 'button', :id => 'refund' %></span>
+		      <span class="next_link">
+		      <% if isRefundAvailable(@registration) %>
+		        <%= link_to t('registrations.form.refund_button_label'), :refund, :class => 'button', :id => 'refund' %>
+		      <% else %>
+		        <%= link_to t('registrations.form.refund_button_label'), '#', :class => 'button disabled', :id => 'refund' %>
+		      <% end %>
 		    <% end %>
+		    </span>
 		</div>
 
     </aside>

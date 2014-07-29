@@ -58,4 +58,8 @@ module RegistrationsHelper
     registration.finance_details.first and (Payment.isSmallWriteOff( registration.finance_details.first.balance) == true)
   end
   
+  def isRefundAvailable(registration)
+    registration.finance_details.first.balance.to_f < 0
+  end
+  
 end
