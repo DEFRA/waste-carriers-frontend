@@ -69,11 +69,12 @@ class Ability
     
 	if !user.nil? and user.is_agency_user? and user.has_role? :Role_ncccRefund, AgencyUser
 	  can :newRefund, Payment
-	end
-	
-	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
 	  can :writeOffPayment, Payment
 	end
+	
+#	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
+#	  can :writeOffPayment, Payment
+#	end
 	
 	if !user.nil? and user.is_agency_user? and user.has_role? :Role_financeBasic, AgencyUser
 	  can :enterPayment, Payment
