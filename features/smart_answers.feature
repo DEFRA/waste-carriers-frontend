@@ -1,4 +1,4 @@
-Feature: Discovery
+Feature: Smart answers
 
   As a waste carrier
   I want to register in the applicable tier
