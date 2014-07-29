@@ -67,3 +67,7 @@ Then(/^I am registered as an upper tier waste carrier$/) do
   open_email my_email_address
   current_email.should have_content 'is registered as an upper tier waste carrier'
 end
+
+And(/^no key people in the organisation have convictions$/) do
+  pending
+end
