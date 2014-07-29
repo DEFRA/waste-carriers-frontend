@@ -6,11 +6,18 @@ So that I can edit payment details
 Background:
 Given I am logged in as a finance basic user
   And I create an upper tier registration on behalf of a caller for payments
+  And I provide valid credit card payment details on behalf of a caller
+  And I have found a registrations payment details
+  And the registration is valid for a small write off
+#
+# FIXME: Comment out test as unable to logout user from one role to another
+#
+#  And I change user to a nccc refunds user
   And I have found a registrations payment details
 
+# Moved to refunds_via_worldpay.feature as user no longer performs this action
 @happy_days
 Scenario: Write off underpayment
-  Given the registration is valid for a small write off
   When I select to enter a small writeoff
   And I writeoff equal to underpayment amount
   And I confirm write off

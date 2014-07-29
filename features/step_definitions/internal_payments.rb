@@ -39,6 +39,20 @@ Given(/^I am logged in as a nccc refunds user$/) do
   page.should have_content "Signed in as agency user #{my_agency_refund_user.email}"
 end
 
+Given(/^I change user to a nccc refunds user$/) do
+  click_button 'Sign out'
+#  visit new_agency_user_session_path
+#  click_button 'Sign out'
+  visit '/agency_users/sign_in'
+  save_and_open_page
+  page.should have_content 'Sign in'
+  page.should have_content 'NCCC agency login'
+  fill_in 'Email', with: my_agency_refund_user.email
+  fill_in 'Password', with: my_agency_refund_user.password
+  click_button 'Sign in'
+  page.should have_content "Signed in as agency user #{my_agency_refund_user.email}"
+end
+
 Given(/^I have found a registrations payment details$/) do
   visit registrations_path
   page.should have_content 'Find a registration'
@@ -58,6 +72,15 @@ Given(/^the registration is valid for a small write off$/) do
     And I enter payment details
     And I confirm payment
   }
+end
+
+Given(/^I sign out$/) do
+#  save_and_open_page
+  click_button 'Sign out'
+#  save_and_open_page
+#  visit new_agency_user_session_path
+#  page.should have_content 'Sign in'
+#  save_and_open_page
 end
 
 Given(/^I provided a payment type of Cheque$/) do
