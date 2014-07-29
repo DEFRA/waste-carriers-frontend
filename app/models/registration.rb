@@ -470,7 +470,7 @@ class Registration < Ohm::Model
     registration.validates :password, confirmation: true
   end
 
-  validates :declaration, format: {with:/\A1\z/,message:I18n.t('errors.messages.accepted') }, if: 'confirmation_step? or upper_summary_step?'
+  validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
