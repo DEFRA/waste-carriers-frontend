@@ -225,7 +225,7 @@ en:
         commentGuidance: "Maximum 250 characters"
       heading: "Write off difference"
       step: "Write off the difference into the system"
-      writeOffNotApplicable: "Write off unavailable as balance has been paid"
+      writeOffNotApplicable: "Write off unavailable as balance is not applicable for a small write off"
       writeOffNotAppropriate: "Write off unavailable for current registration"
       writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
       writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"

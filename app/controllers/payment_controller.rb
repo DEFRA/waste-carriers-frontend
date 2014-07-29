@@ -21,7 +21,7 @@ class PaymentController < ApplicationController
     end
 
     authorize! :read, @registration
-    authorize! :update, @payment
+    authorize! :enterPayment, @payment
   end
 
   # POST /payments
@@ -29,6 +29,7 @@ class PaymentController < ApplicationController
     logger.info 'create request has been made'
     # Get a new payment object from the parameters in the post
     @payment = Payment.new(params[:payment])
+    authorize! :enterPayment, @payment
 
     # Manually set date, as it is saved as a single value in the DB, but 3 values in the rails
     @payment.dateReceived = params[:payment][:dateReceived_day]+'/'+params[:payment][:dateReceived_month]+'/'+params[:payment][:dateReceived_year]
@@ -51,6 +52,7 @@ class PaymentController < ApplicationController
 
 	  # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
       @registration = Registration.find_by_id(params[:id])
+      authorize! :read, @registration
 
 	  # Need to also re-populate split dateRecieved parameters
 	  @payment.dateReceived_day = params[:payment][:dateReceived_day]
@@ -84,8 +86,8 @@ class PaymentController < ApplicationController
     else
       # Redirect to paymentstatus is balance is negative or paid
       if @registration.finance_details.first
-      logger.info 'balance: ' + @registration.finance_details.first.balance.to_s
-      isSmallMessage = Payment.isSmallWriteOff( @registration.finance_details.first.balance)
+        logger.info 'balance: ' + @registration.finance_details.first.balance.to_s
+        isSmallMessage = Payment.isSmallWriteOff( @registration.finance_details.first.balance)
         if isSmallMessage == true
           logger.info 'Balance is in range for a small write off'
           # Set fixed Amount at exactly negative outstanding balance
@@ -101,7 +103,7 @@ class PaymentController < ApplicationController
     end
 
     authorize! :read, @registration
-    authorize! :update, @payment
+    authorize! :writeOffPayment, @payment
   end
 
   # POST /writeOffs
@@ -109,6 +111,7 @@ class PaymentController < ApplicationController
     logger.info 'createWriteOff request has been made'
     # Get a new payment object from the parameters in the post
     @payment = Payment.new(params[:payment])
+    authorize! :writeOffPayment, @payment
 
     # Set fields automatically for write off's
     @payment.dateReceived = Time.new.strftime("%Y-%m-%d")
@@ -130,6 +133,7 @@ class PaymentController < ApplicationController
 
 	  # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
       @registration = Registration.find_by_id(params[:id])
+      authorize! :read, @registration
 
       render "newWriteOff", :status => '400'
 	end
@@ -144,13 +148,14 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    authorize! :newRefund, Order
+    authorize! :newRefund, Payment
 
   end
 
   # POST /refunds
   def createRefund
-
+    
+    authorize! :newRefund, Payment
   end
 
   # GET /manualRefund
@@ -165,7 +170,7 @@ class PaymentController < ApplicationController
   # GET /worldpayRefund/:orderCode
   def newWPRefund
     logger.info 'Request to worldpayRefund'
-    @registration = Registration.find(params[:id])
+    @registration = Registration.find_by_id(params[:id])
     @orderCode = params[:orderCode]
 
 	# Get payment from registration
@@ -183,13 +188,13 @@ class PaymentController < ApplicationController
     #
 
 	# Get selected payment from registration by order code
-	@registration = Registration.find(params[:id])
+	@registration = Registration.find_by_id(params[:id])
 	@foundPayment = Payment.getPayment(@registration, params[:orderCode])
 	@payment = Payment.new(@foundPayment.attributes)
 	logger.info 'found payment:' + @foundPayment.attributes.to_s
 
 	# Flip the value of the selected payment to be a negative payment, ie a refund
-	@payment.amount = -@payment.amount.abs
+	@payment.amount = -@payment.amount.to_i.abs
 	logger.info 'payment amount:' + @payment.amount.to_s
 
 	# Set automatic Payment values
