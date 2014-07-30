@@ -1,0 +1,11 @@
+<h1>TODO - Worldpay Order Notification</h1>
+<p>This page will go away...</p>
+
+
+<%= form_tag(:url => order_notification_path) do |f| %>
+
+  <%= text_field_tag(:notification) %>
+
+  <p class="action group"><%= submit_tag "POST", :class => "button" %></p>
+
+<% end %>

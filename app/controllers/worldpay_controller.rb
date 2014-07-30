@@ -50,6 +50,29 @@ class WorldpayController < ApplicationController
   def dateReceived
     Date.current
   end
+
+  # TODO Remove this method once Worldpay order notifications are integrated
+  def order_notification
+  end
+
+  # TODO Remove this method once Worldpay refunds are integrated into finance details pages
+  def newRefund
+    render "refund"
+  end
+
+  # TODO Remove this method once Worldpay refunds are integrated into finance details pages
+  def updateNewRefund
+    request_refund_from_worldpay
+    render nothing: true
+  end
+
+  # POST from Worldpay
+  def update_order_notification
+    logger.info "Received order notification message from Worldpay..."
+    puts request.body.read
+    render nothing: true
+  end
+
   private
 
     def process_payment
