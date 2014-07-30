@@ -38,7 +38,6 @@ end
 And(/^I enter my contact details$/) do
   fill_in 'First name', with: 'Joe'
   fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 9999'
   fill_in 'Email address', with: my_email_address
   click_on 'Next'

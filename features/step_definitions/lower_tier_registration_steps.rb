@@ -21,7 +21,6 @@ Given(/^I have completed the lower tier registration form$/) do
 
   fill_in 'First name', with: 'Joe'
   fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 8332'
   fill_in 'Email address', with: my_email_address
   click_on 'Next'
@@ -98,7 +97,6 @@ end
 And(/^I provide my personal contact details$/) do
   fill_in 'First name', with: 'Joe'
   fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 8332'
   fill_in 'Email address', with: my_email_address
 
@@ -166,7 +164,6 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
 
   fill_in 'First name', with: 'Joe'
   fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 8332'
   fill_in 'Email address', with: my_email_address
   click_on 'Next'
