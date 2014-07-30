@@ -26,43 +26,62 @@
 
 <p class="group"><b><%= t '.registrationCountText', :count => pluralize(@registrations.count,"registration") %></b></p>
 
-<% @registrations.each do |registration| %>
-<div class="box full<% if registration.metaData.first.status == "REVOKED" %> revoked_status<% end %>">
-	<dl>
-		<dt>Name</dt>
-		<dd><%= registration.companyName %></dd>
 
-		<dt><%= t 'activemodel.attributes.registration.postcode' %></dt>
-		<dd><%= registration.postcode %></dd>
 
-		<dt><%= t 'activemodel.models.registration' %></dt>
-		<dd><%= registration.regIdentifier %></dd>
-	</dl>
-	<% if registration.metaData.first.status == "REVOKED" %>
-	<div class="status registered_status">
-		<%= t '.revoked' %>
-	</div>
-	<% else %>
-	<div class="status registered_status">
-		<%= t '.registered' %>
-	</div>
-	<% end %>
-	<% if registration.metaData.first.status != "REVOKED" %>
-	<div class="actions">
-      <% if can? :print, registration %>
-		<%= link_to 'View Certificate', print_path(registration.id) %>
-      <% end %>
-	</div>
-	<div class="actions" >
-		<%= button_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.id), :method => :get, :class => "button", :id => "delete" %>
-	</div>
-	<div class="actions">
-		<form action="<%=ncccedit_url(registration.id)%>"><input type="submit" class="button" value="<%= t 'registrations.form.change_button_label' %>" /></form>
-	</div>
-	<% end %>
-	<div class="clr"></div>
-</div>
-<% end %>
+<fieldset>
+  <legend></legend>
+    <div class='summary-box'>
+      <table summary=" A list of the user's registrations">
+        <thead>
+          <tr>
+            <th><%= t '.name_header' %></th>
+            <th><%= t '.postcode_header' %></th>
+            <th><%= t '.registration_header' %></th>
+            <th><%= t '.status_header' %></th>
+            <th><%= t '.expiry_header' %></th>
+            <th></th>  <!--  empty column -->
+            <th></th> <!--  header for certificate button -->
+            <th></th> <!--  header for edit button -->
+            <th></th> <!--  header for renew button -->
+          </tr>
+        </thead>
+        <tbody>
+	        <% @registrations.each do |registration| %>
+	            <td><%= registration.companyName %></td>
+	            <td><%= registration.postcode %></td>
+	            <td><%= registration.regIdentifier %></td>
+	            <td><%=  registration.metaData.first.status %></td>
+	            <td>
+		            <% case  registration.metaData.first.status %>
+		            <% when 'ACTIVE' %>
+			            <%= registration.expires_on.strftime("%d-%^B-%Y") %>
+		            <% when 'EXPIRED' %>
+			            <%= t '.status_expired_text' %>
+		            <% when 'REVOKED' %>
+			            <%= t '.status_revoked_text' %>
+		            <% else %>
+			            <%= t '.status_na_text' %>
+		            <% end %>
+	            </td>
+	            <td></td>
+	            <td><%= link_to 'View Certificate', print_path(registration.uuid) %></td>
+	            <td><%= link_to 'Edit Registration', edit_path(registration.uuid) %></td>
+	            <td>
+		            <% if registration.metaData.first.status == 'ACTIVE' && (registration.expires_on - 6.months) < Time.now %>
+	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, process: 'renewal') %>
+	            	<% end %>
+	            </td>
+
+	          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</fieldset>
+
+
+
 
 <form method="get" action="<%= find_path %>" class="action group">
 	<input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />

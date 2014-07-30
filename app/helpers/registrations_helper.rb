@@ -53,4 +53,9 @@ module RegistrationsHelper
 
     link_to t('registrations.form.back_button_label'), path, class: 'button-secondary'
   end
+
+  def convert_java_date millisecs
+    Time.at(millisecs / 1000.0)
+  end
+
 end

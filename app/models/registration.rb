@@ -3,6 +3,7 @@ class Registration < Ohm::Model
   include ActiveModel::Conversion
   include ActiveModel::Validations
   extend ActiveModel::Naming
+  include RegistrationsHelper
 
   FIRST_STEP = 'businesstype'
 
@@ -96,6 +97,17 @@ class Registration < Ohm::Model
     a_hash.each do |prop_name, prop_value|
       self.send("#{prop_name}=",prop_value)
     end
+  end
+
+
+
+  # as far as we're concerned a Registration will be persisted if it has a uuid, since the only way to
+  # gte a uuid is after a successful commit
+  #
+  # @param none
+  # @return  [boolean] true if persisted
+  def persisted?
+    self.uuid
   end
 
 
@@ -364,8 +376,8 @@ class Registration < Ohm::Model
         case k
         when 'id'
           new_reg.uuid = v
-        when 'expiresOn'
-          new_reg.expires_on = v
+        when 'expiresOn', 'expires_on'
+          new_reg.expires_on = Time.at(v / 1000.0)
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'directors'
@@ -627,12 +639,12 @@ class Registration < Ohm::Model
 
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
-      when :not_found
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
-      when :inactive
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
-      when :error_calling_service
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
+    when :not_found
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+    when :inactive
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+    when :error_calling_service
+      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
     end
   end
 
