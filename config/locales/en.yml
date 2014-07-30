@@ -293,6 +293,7 @@ en:
       subtitle: "What type of business or organisation are you?"
       title: "Business type"
     company_name:
+      subtitle_upper: "Enter your %{business_caption} details"
       businessAddressingMode: "%{addressing_mode} trading name"
     confirmDelete:
       deleteLabel: "Delete registration"
@@ -350,8 +351,8 @@ en:
       step: "Step 3 of 8"
       title: "Contact details"
     contactdetails_step:
-      legend: "These will not be made public"
-      subtitle: "Your contact details"
+      legend: "Your contact details"
+      subtitle: "These will not be made public"
     convictions_step:
       title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
       convictions_link_text: "Check here for a list of relevant convictions"
