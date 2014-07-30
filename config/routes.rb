@@ -148,6 +148,14 @@ Registrations::Application.routes.draw do
   get "worldpay/cancel"
   get "worldpay/error"
 
+  #TODO Remove GET after having configured Worldpay order notifications in the WP Merchant Admin Interface
+  get "worldpay/notification" => 'worldpay#order_notification'
+  get "worldpay/refund" => 'worldpay#newRefund'
+  post "worldpay/refund" => 'worldpay#updateNewRefund'
+
+  #To be used by the Worldpay Order Notification service - the service will post to this URL
+  post "worldpay/notification" => 'worldpay#update_order_notification', :as => :order_notification
+
 
 #  end
 
