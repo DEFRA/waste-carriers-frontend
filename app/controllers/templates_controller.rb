@@ -38,24 +38,26 @@ class TemplatesController < ApplicationController
   end
 
   def new_step_action current_step
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration = Registration.new(session[:registration_params])
+
+    @registration = Registration.create
+    session[:registration_id]= @registration.id
+    logger.debug "creating new registration #{@registration.id}"
+    m = Metadata.create
+    @registration.metaData.add m
 
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
     @registration.current_step = current_step
-    # Pass in current page to check previous page is valid
-    # TODO had to comment this out for now because causing problems but will probably need to reinstate
-    # check_steps_are_valid_up_until_current current_step
+    @registration.save
   end
 
-  def setup_registration current_step
-    session[:registration_params] ||= {}
-    session[:registration_params].deep_merge!(registration_params) if params[:registration]
-    @registration= Registration.new(session[:registration_params])
+  def setup_registration current_step, no_update=false
+    @registration = Registration[ session[:registration_id]]
+    @registration.add( params[:registration] ) unless no_update
+    @registration.save
     @registration.current_step = current_step
   end
+
   private
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
