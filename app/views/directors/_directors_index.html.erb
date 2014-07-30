@@ -1,6 +1,6 @@
 <% if @directors.any? %>
     <div>
-      <h2>I18N You have added the following directors</h2>
+      <h2><%= t 'directors.new.you_have_added' %></h2>
       <hr />
       <%= content_tag_for(:p, @directors) do |director| %>
         i18n Director name <%= director.first_name %> <%= director.last_name %>
