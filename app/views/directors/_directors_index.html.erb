@@ -3,7 +3,7 @@
       <h3><%= t 'directors.new.you_have_added' %></h3>
       <hr />
       <%= content_tag_for(:p, @directors) do |director| %>
-        <%= t 'directors.new.director_name_string' %> <%= first_name_last_name(director) %>
+        <%= t 'directors.new.director_name_string' %> <%= first_name_last_name(director) %> <%= link_to t('form.delete_button_label'), url_for(:controller => 'directors', :action => 'delete', :id => director.id), :class => 'link_to' %>
       <% end %>
     </div>
 <% end %>
