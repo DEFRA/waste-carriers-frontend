@@ -506,8 +506,8 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/1/edit
   def edit
-    Rails.logger.debug "registration edit for: #{params[:id]}"
-    @registration = Registration.find_by_id(params[:id])
+    Rails.logger.debug "registration edit for: #{params[:uuid]}"
+    @registration = Registration.find_by_id(params[:uuid])
     authorize! :update, @registration
     if  @registration.metaData.first.status == "REVOKED"
       logger.info "Edit not allowed, as registration has been revoked"
