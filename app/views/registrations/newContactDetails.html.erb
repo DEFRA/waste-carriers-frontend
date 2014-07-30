@@ -12,10 +12,10 @@
         <div class="step"><%= t '.step' %></div>
       </div>
 
-      <%= render "errors" %>
+      <%= render 'errors' %>
 
       <%= form_for(@registration, :url => newContact_path) do |f| %>
-        <%= render "contactdetails_step", f: f, r: @registration %>
+        <%= render 'contactdetails_step', f: f, r: @registration %>
         <span class="next_link"><%= render 'next_link' %></span>
       <% end %>
 
