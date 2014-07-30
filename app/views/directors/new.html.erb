@@ -7,6 +7,7 @@
     <div id="page7"  data-journey="waste-carriers-registration:director-details">
 
       <% content_for :page_title, createTitle('.title') %>
+      <p class="back_link"><%= render 'back_link' %></p>
       <div class="step"><%= t '.step' %></div>
 
       <%= form_for(@director, url: {action: "create"} ) do |f| %>
@@ -20,7 +21,7 @@
     </div>
 
     <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
-        <%= render 'wizard_links' %>
+        <div class="next_link"><%= render 'next_link' %></div>
     <% end %>
 
     <%= render 'directors_index' %>
