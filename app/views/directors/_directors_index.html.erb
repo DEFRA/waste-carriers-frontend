@@ -1,6 +1,6 @@
 <% if @directors.any? %>
     <div>
-      <h2><%= t 'directors.new.you_have_added' %></h2>
+      <h3><%= t 'directors.new.you_have_added' %></h3>
       <hr />
       <%= content_tag_for(:p, @directors) do |director| %>
         <%= t 'directors.new.director_name_string' %> <%= first_name_last_name(director) %>
