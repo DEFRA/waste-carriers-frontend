@@ -3,7 +3,7 @@
       <h2><%= t 'directors.new.you_have_added' %></h2>
       <hr />
       <%= content_tag_for(:p, @directors) do |director| %>
-        i18n Director name <%= director.first_name %> <%= director.last_name %>
+        <%= t 'directors.new.director_name_string' %><%= director.first_name %> <%= director.last_name %>
       <% end %>
     </div>
 <% end %>
