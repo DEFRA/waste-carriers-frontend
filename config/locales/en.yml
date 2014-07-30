@@ -348,7 +348,7 @@ en:
       selectAddress: "Select address"
       streetLine1Foreign: Address
     newContactDetails:
-      step: "Step 3 of 8"
+      step: "Step 3 of 9"
       title: "Contact details"
     contactdetails_step:
       legend: "Your contact details"
