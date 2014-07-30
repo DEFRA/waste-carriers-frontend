@@ -31,6 +31,7 @@ class DirectorsController < ApplicationController
     # @director = Director.new
     # @registration = Registration[ session[:registration_id]]
     @director = Registration::Director.create
+    get_directors
   end
 
   # GET /directors/edit/:id
