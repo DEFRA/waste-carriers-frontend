@@ -100,8 +100,6 @@ Registrations::Application.routes.draw do
     get "your-registration/upper/business-address" => "registrations#business_address", :as => :upper_business_address
     post "your-registration/upper/business-address" => "registrations#business_address_update"
 
-  get "your-registration/upper-tier-contact-details" => "registrations#newUpperContactDetails", :as => :newUpperContactDetails
-    post "your-registration/upper-tier-contact-details" => "registrations#updateNewUpperContactDetails"
   get "your-registration/directors" => "directors#index", :as => :directors
   post "your-registration/directors" => "directors#create"
 

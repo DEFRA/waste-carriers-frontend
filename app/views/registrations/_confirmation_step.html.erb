@@ -35,11 +35,7 @@
     <ul class='summary-box'>
       <li class='summary-items'><%= render 'contactdetails_display' %></li>
     </ul>
-         <% if  registration_class == 'upper_tier' %>
-      <p><%= link_to t('.edit_contact_details_link'), newUpperContactDetails_path %></p>
-         <% else %>
       <p><%= link_to t('.edit_contact_details_link'), newContact_path %></p>
-         <% end %>
   </div>
 
   <% if @registration.businessType.eql?('limitedCompany') &&   @registration.tier.eql?('UPPER') %>
