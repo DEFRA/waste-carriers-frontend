@@ -1,9 +1,20 @@
 <fieldset>
-  <legend><%= t '.subtitle_upper', business_caption: 'business' %></legend>
-    <h2 class="subtitle"></h2>
-      <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
-    	<%= validation_for(@registration, :companyName) %>
-    	<%= f.label t('.businessAddressingMode', addressing_mode: mode), for: 'registration_companyName', class: 'form-label' %>
-    	<%= f.text_field :companyName, :maxlength => 35 %>
-	  </div>
+  <% case r.businessType %>
+  <% when 'limitedCompany' %>
+    <% legend = t '.legend_limited'  %>
+    <% name_field = t '.name_field_limited'  %>
+  <% when 'publicBody' %>
+    <% legend = t '.legend_public'  %>
+    <% name_field = t '.name_field_public'  %>
+  <% else %>
+    <% legend = t '.legend'  %>
+    <% name_field = t '.name_field'  %>
+  <% end %>
+
+  <legend><%= legend %></legend>
+  <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+    <%= validation_for(@registration, :companyName) %>
+    <%= f.label name_field, for: 'registration_companyName', class: 'form-label' %>
+    <%= f.text_field :companyName, :maxlength => 35 %>
+  </div>
 </fieldset>

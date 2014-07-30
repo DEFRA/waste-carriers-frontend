@@ -2,15 +2,28 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-  	
-    <% content_for :page_title, createTitle('registrations.businessdetails_step.title') %>
-    <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
-     <p class="back_link"><%= render 'back_link' %></p>
-      <div class="step"><%= t 'registrations.businessdetails_step.step' %></div>
 
-      <%= render "businessdetails_step", :f => f %>
+    <!-- WF 4.3.2 -->
+    <div id="page6"  data-journey="waste-carriers-registration:business-details">
 
-    <% end %>
+      <% content_for :page_title, createTitle('.title') %>
+      <div class="inline">
+        <p class="back_link"><%= render 'back_link' %></p>
+        <div class="step"><%= t '.step' %></div>
+      </div>
 
+      <%= render 'errors' %>
+
+      <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
+
+        <%= render 'company_name', :f => f, :r => @registration %>
+          <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
+              <%= render 'company_details_finder', f: f, r: @registration %>
+        <% end %>
+
+        <span class="next_link"><%= render 'next_link' %></span>
+      <% end %>
+
+    </div>
   </article>
 </main>

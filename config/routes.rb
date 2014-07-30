@@ -111,8 +111,6 @@ Registrations::Application.routes.draw do
   delete "your-registration/directors" => "directors#destroy"
   get "your-registration/directors/done" => "directors#done", :as => :done_directors
   get "your-registration/directors/registration" => "directors#registration", :as => :registration_directors
-    match "your-registration/upper-tier-business-details" => "registrations#newUpperBusinessDetails", :via => [:get], :as => :newUpperBusinessDetails
-  match "your-registration/upper-tier-business-details" => "registrations#updateNewUpperBusinessDetails", :via => [:post,:put,:patch]
 
     get "your-registration/relevant-convictions" => "registrations#newRelevantConvictions", :via => [:get], :as => :newRelevantConvictions
     match "your-registration/relevant-convictions" => "registrations#updateNewRelevantConvictions", :via => [:post,:put,:patch]
