@@ -2,15 +2,18 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-
-    <!-- WF 4.3.2 -->
-    <div id="page0"  data-journey="waste-carriers-registration:example">
+    <section>
+      <div class="inner">
+      <div class="col-1">
+      <!-- WF 4.3.2 -->
+      <div id="page0"  data-journey="waste-carriers-registration:example">
 
       <% content_for :page_title, createTitle('.title') %>
-      <div class="inline">
-        <p class="back_link"><%= render 'back_link' %></p>
-        <div class="step"><%= t '.step' %></div>
-      </div>
+
+      <ol class="back_step">
+         <li class="back_link"><%= render 'back_link' %></li>
+         <li class="step"><%= t '.step' %></li>
+      </ol>
 
       <%= render "errors" %>
 
@@ -20,5 +23,17 @@
     	<% end %>
 
   	</div>
+  </div>
+</div>
+</section>
+
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+          <p>This is an aside section</p>
+        </div>
+      </div>
+    </aside>
+
   </article>
 </main>

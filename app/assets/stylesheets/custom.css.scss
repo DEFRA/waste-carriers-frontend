@@ -26,8 +26,6 @@
 #content select {@include copy-19}
 #content .step {@include copy-19}
 #content .error-text {@include copy-19}
-#content {@include inner-block}
-#content {@include outer-block}
 .beta-banner {@include phase-banner (beta)}
 .button {@include button}
 .button-secondary {@include button}
@@ -36,13 +34,41 @@
 
 //** WASTE CARRIERS ** CUSTOM STYLES ** //
 
+//RESET
+
+div, span, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark {
+  border: none;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+}
+
 //GLOBAL
+
+main#content, section#content {
+    display: block;
+    margin: 0 auto;
+    max-width: 1020px;
+    position: relative;
+}
 
 #content {
   padding-bottom:100px;
   margin: 0;
   padding: 0;
   vertical-align: baseline;
+  list-style-type:none; 
 }
 
 #content p {
@@ -56,9 +82,8 @@
     padding-top: 2.3rem;
 }
 
-
 .list-bullets {
-    list-style-type: square;
+    list-style-type: circle;
 }
 
 .inline .block-label, #reg-search {
@@ -93,7 +118,6 @@
     padding-left:5px;
 }
 
-
 //FOOTER STYLES
 
 .footer-top {
@@ -120,22 +144,74 @@
     top:0;
 }
 
-// ** WASTE CARRIER PAGE STYLES ** //
+//Back Link Positioning
 
-//Reports page
-
-main#content, section#content {
-    display: block;
-    margin: 0 auto;
-    max-width: 1020px;
-    position: relative;
+.back_link, .step {
+    display:inline;
+    padding-top: 10px;
 }
 
-#find-registration {
-    margin-bottom:8em;
+.back-button-position {
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
+//CUSTOM REPSPONSIVE LAYOUT
 
+//Resets
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.row {
+  margin: 0 -10px;
+  margin-bottom: 20px;
+}
+.row:last-child {
+  margin-bottom: 0;
+}
+[class*="col-"] {
+  padding: 0px;
+}
+
+@media all and ( min-width: 600px ) {
+  
+  .col-1 {
+    float: left;
+    width: 60%;
+  }
+  
+   .col-2 {
+    float: right;
+    width: 25%;
+  }
+
+}
+
+@media all and ( min-width: 960px ) {
+  
+  .col-1 {
+    width: 60%%;
+  }
+  
+  .col-2 {
+    float: right;
+    width: 25%;
+  }
+  
+}
+
+.inner .col-2 {
+    border-top: 10px solid rgb(0, 94, 165);
+    margin: 2em 0 0;
+}
 
 
 
