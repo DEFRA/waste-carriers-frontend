@@ -127,6 +127,7 @@ en:
       title: "Director details"
       you_have_added: "You have added the following directors"
       director_name_string: "Director name"
+      add_director_button_text: "Add another director"
   distances:
     ? "10"
     : "10 Miles"
