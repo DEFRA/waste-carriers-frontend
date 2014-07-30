@@ -52,12 +52,7 @@ logger.debug "director_to_remove is: #{director_to_remove.id}"
 
     @registration.directors.delete(director_to_remove)
 
-    if @registration.directors.to_a.empty?
-      redirect_to action: 'registration'
-    else
-      redirect_to action: 'index'
-    end
-
+    redirect_to action: 'new'
   end
 
   # POST /your-registration/directors
@@ -75,8 +70,7 @@ logger.debug "director_to_remove is: #{director_to_remove.id}"
       @registration.directors.add(director )
       @registration.save
 
-      logger.info 'Director is valid so far, go to next page'
-      render 'index'
+      redirect_to action: 'new'
     else
       # there is an error (but data not yet saved)
       logger.info 'Director is not valid, and data is not yet saved'
