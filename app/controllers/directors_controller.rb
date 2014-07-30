@@ -10,10 +10,6 @@ class DirectorsController < ApplicationController
       return
     end
     get_directors
-    unless @directors.empty?
-      redirect_to action: 'index'
-      return
-    end
     redirect_to action: 'new'
   end
 
