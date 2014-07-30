@@ -53,7 +53,7 @@ class RegistrationsController < ApplicationController
       when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
         redirect_to :newOtherBusinesses
       when 'charity', 'authority'
-        redirect_to :newBusinessDetails
+        proceed_as_lower
       when 'other'
         redirect_to :newNoRegistration
       end
@@ -61,7 +61,6 @@ class RegistrationsController < ApplicationController
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newBusinessType", :status => '400'
-      #redirect_to newBusinessDetails_path
     end
   end
 
@@ -144,9 +143,9 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
       when 'yes'
-        redirect_to :newRegistrationType
+        proceed_as_upper
       when 'no'
-        redirect_to :newBusinessDetails
+        proceed_as_lower
       end
     else
       # there is an error (but data not yet saved)
@@ -168,30 +167,14 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
       when 'yes'
-        redirect_to :newBusinessDetails
+        proceed_as_lower
       when 'no'
-        redirect_to :newRegistrationType
+        proceed_as_upper
       end
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newOnlyDealWith", :status => '400'
-    end
-  end
-
-  def newRelevantConvictions
-    new_step_action 'convictions'
-  end
-
-  def updateNewRelevantConvictions
-    setup_registration 'convictions'
-
-    if @registration.valid?
-      redirect_to :upper_summary
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newRelevantConvictions", :status => '400'
     end
   end
 
@@ -292,6 +275,22 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def newRelevantConvictions
+    new_step_action 'convictions'
+  end
+
+  def updateNewRelevantConvictions
+    setup_registration 'convictions'
+
+    if @registration.valid?
+      redirect_to :upper_summary
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newRelevantConvictions", :status => '400'
+    end
+  end
+
   # GET /your-registration/confirmation
   def newConfirmation
     new_step_action 'confirmation'
@@ -357,6 +356,18 @@ class RegistrationsController < ApplicationController
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
+  end
+
+  def proceed_as_upper
+    @registration.tier = 'UPPER'
+    @registration.save
+    redirect_to action: 'newRegistrationType'
+  end
+
+  def proceed_as_lower
+    @registration.tier = 'LOWER'
+    @registration.save
+    redirect_to action: 'newBusinessDetails'
   end
 
   def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)

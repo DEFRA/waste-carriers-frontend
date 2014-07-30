@@ -9,7 +9,11 @@
       <% content_for :page_title, createTitle('.title') %>
       <div class="inline">
         <p class="back_link"><%= render 'back_link' %></p>
-        <div class="step"><%= t '.step' %></div>
+        <% if @registration.tier.eql?('UPPER') %>
+          <div class="step"><%= t '.step', :step_x => '2', :step_y => '9' %></div>
+        <% else %>
+          <div class="step"><%= t '.step', :step_x => '1', :step_y => '4' %></div>
+        <% end %>
       </div>
 
       <%= render 'errors' %>
@@ -17,9 +21,10 @@
       <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
 
         <%= render 'company_name', :f => f, :r => @registration %>
-          <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
-              <%= render 'company_details_finder', f: f, r: @registration %>
+        <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
+          <%= render 'company_details_finder', f: f, r: @registration %>
         <% end %>
+        <%= render "address_finder", :f => f, :r => @registration %>
 
         <span class="next_link"><%= render 'next_link' %></span>
       <% end %>
