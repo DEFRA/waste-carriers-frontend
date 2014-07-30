@@ -432,7 +432,7 @@ class Registration < Ohm::Model
   with_options if: :lower_or_upper_contact_details_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :lastName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
-    registration.validates :position, presence: true, format: { with: GENERAL_WORD_REGEX }
+    registration.validates :position, format: { with: GENERAL_WORD_REGEX }, :allow_nil => true, :allow_blank => true
     registration.validates :phoneNumber, presence: true, format: { with: VALID_TELEPHONE_NUMBER_REGEX }, length: { maximum: 20 }
   end
 

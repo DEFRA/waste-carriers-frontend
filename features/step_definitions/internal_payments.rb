@@ -329,7 +329,6 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
 
   fill_in 'First name', with: 'Antony'
   fill_in 'Last name', with: 'Assisted'
-  fill_in 'Job title', with: 'Chief'
   fill_in 'Phone number', with: '0123 456 789'
   #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
   fill_in 'Email address', with: ''
