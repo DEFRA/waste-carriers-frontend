@@ -127,6 +127,9 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   fill_in 'Email address', with: ''
   click_on 'Next'
 
+  choose 'No'
+  click_on 'Next'
+
   check 'registration_declaration'
   click_on 'Confirm'
   click_on 'Next'

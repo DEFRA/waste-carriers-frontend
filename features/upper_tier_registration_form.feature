@@ -12,6 +12,7 @@ Feature: Upper tier
   Scenario: Autocomplete address
     Given I autocomplete my business address
       And I provide my personal contact details
+      And no key people in the organisation have convictions
       And I check the declaration
       And I provide my email address and create a password
       And I choose pay via electronic transfer
@@ -28,6 +29,7 @@ Feature: Upper tier
   Scenario: Manually enter UK address
     Given I enter my business address manually
       And I provide my personal contact details
+      And no key people in the organisation have convictions
       And I check the declaration
       And I provide my email address and create a password
       And I choose pay via electronic transfer
@@ -37,6 +39,7 @@ Feature: Upper tier
   Scenario: Foreign waste carrier
     Given I enter my foreign business address manually
       And I provide my personal contact details
+      And no key people in the organisation have convictions
       And I check the declaration
       And I provide my email address and create a password
       And I choose pay via electronic transfer
@@ -47,6 +50,7 @@ Feature: Upper tier
   Scenario: Card payment
     Given I autocomplete my business address
       And I provide my personal contact details
+      And no key people in the organisation have convictions
       And I check the declaration
       And I provide my email address and create a password
       And I pay by card
@@ -56,6 +60,7 @@ Feature: Upper tier
   Scenario: Bank transfer
     Given I autocomplete my business address
       And I provide my personal contact details
+      And no key people in the organisation have convictions
       And I check the declaration
       And I provide my email address and create a password
       And I choose to pay by bank transfer
