@@ -231,19 +231,13 @@ class RegistrationsController < ApplicationController
       rescue ActiveResource::ServerError
         logger.error 'ERROR: ActiveResource Server error!'
       end
-      render "newBusinessDetails", status: '200'
+      render 'newBusinessDetails', status: '200'
     elsif @registration.valid?
-      next_step = case @registration.tier
-      when 'UPPER'
-        :newUpperBusinessDetails
-      when 'LOWER'
-        :newContact
-      end
-      redirect_to next_step
+      redirect_to :newContact
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render "newBusinessDetails", :status => '400'
+      render 'newBusinessDetails', :status => '400'
     end
   end
 
@@ -276,7 +270,7 @@ class RegistrationsController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render "newContactDetails", :status => '400'
+      render 'newContactDetails', :status => '400'
     end
   end
 
@@ -289,12 +283,12 @@ class RegistrationsController < ApplicationController
   def updateNewRegistrationType
     setup_registration 'registrationtype'
     if @registration.valid?
-      redirect_to :newUpperBusinessDetails
+      redirect_to :newBusinessDetails
 
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render "newRegistrationType", :status => '400'
+      render 'newRegistrationType', :status => '400'
     end
   end
 
@@ -908,59 +902,6 @@ class RegistrationsController < ApplicationController
     if !is_admin_request? && !agency_user_signed_in?
       authenticate_user!
     end
-  end
-
-  # GET your-registration/upper-tier-contact-details
-  def newUpperBusinessDetails
-    new_step_action 'upper_business_details'
-    if params[:manualUkAddress] #we're in the manual uk address page
-      @registration.addressMode = 'manual-uk'
-    elsif params[:foreignAddress] #we're in the manual foreign address page
-      @registration.addressMode = 'manual-foreign'
-    elsif params[:autoUkAddress] #user clicked to go back to address lookup
-      @registration.addressMode = nil
-    end
-
-    @registration.save
-  end
-
-  # POST your-registration/upper-tier-contact-details
-  def updateNewUpperBusinessDetails
-    setup_registration 'upper_business_details'
-
-    if params[:addressSelector]  #user selected an address from drop-down list
-      @selected_address = Address.find(params[:addressSelector])
-      if @selected_address
-        copyAddressToSession
-      else logger.error "Couldn't match address #{params[:addressSelector]}"
-      end
-    end
-
-    if params[:findAddress] #user clicked on Find Address button
-
-      @registration.addressMode = 'address-results'
-      @registration.postcode = params[:registration][:postcode]
-      begin
-        @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
-        logger.debug @address_match_list.size.to_s
-      rescue ActiveResource::ServerError
-        logger.info 'activeresource error'
-      rescue Errno::ECONNREFUSED
-        logger.error 'ERROR: Address Lookup Not running, or not Found'
-      end
-      render "newUpperBusinessDetails", status: '200'
-
-
-    elsif @registration.valid?
-      logger.debug 'registration.valid'
-      logger.debug params.keys.to_s
-      redirect_to action: 'newContactDetails'
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newUpperBusinessDetails", :status => '400'
-    end
-
   end
 
   # GET upper-registrations/payment

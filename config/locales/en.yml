@@ -28,7 +28,7 @@ en:
         businessType: "Business or organisation type"
         business_type: "Business type"
         companyName: "Business or organisation trading name"
-        company_house_number: "Companies house number"
+        company_no: "Companies House number"
         contactEmail: "Email address"
         country: Country
         declaration: Declaration
@@ -67,7 +67,6 @@ en:
         business_name: "Business or organisation trading name"
         carrier_broker_dealer: carrier/broker/dealer
         carrier_dealer: carrier/dealer
-        company_no: "Company Number"
         copy_cards: "Copy card"
         payment_method: "Choose payment method"
         postcode: Postcode
@@ -292,9 +291,6 @@ en:
       step: "Step 1 of 8"
       subtitle: "What type of business or organisation are you?"
       title: "Business type"
-    company_name:
-      subtitle_upper: "Enter your %{business_caption} details"
-      businessAddressingMode: "%{addressing_mode} trading name"
     confirmDelete:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
@@ -347,6 +343,17 @@ en:
       search_address_label: "Search for address by postcode"
       selectAddress: "Select address"
       streetLine1Foreign: Address
+    newBusinessDetails:
+      step: "Step 2 of 9"
+      title: "Business details"
+    company_name:
+      legend: "Enter your business or organisation details"
+      legend_limited: "Enter your business details"
+      legend_public: "Enter your organisation details"
+      name_field: "Business or organisation trading name"
+      name_field_limited: "Business trading name"
+      name_field_public: "Public body name"
+      subtitle: ""
     newContactDetails:
       step: "Step 3 of 9"
       title: "Contact details"

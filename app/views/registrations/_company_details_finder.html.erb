@@ -1,22 +1,8 @@
-
-<% if params[:autoCompanyDetails] ||  !params[:manualCompanyDetails] %>
-<div class="form-group">
-  <%= f.label :company_number, class: 'form-label' %>
-  <%= f.text_field :company_no, :size => 14, :maxlength => 10 %>
-</div>
-<% end %>
-
-
-<% if params[:manualCompanyDetails] %>
-
-    <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
-        <%= validation_for(@registration, :companyName) %>
-        <%= f.label :companyName, class: 'form-label' %>
-        <%= f.text_field :companyName, :size => 20, :maxlength => 35 %>
-    </div>
-  <%= render 'uk_address_entry', f: f  %>
-    </p><a href="?autoCompanyDetails=true"><%= t 'registrations.contact_step.auto_company_details'%></a></p>
-
-
-<% end %>
+<fieldset>
+  <div class="form-group<%if r.errors[:company_no].any?%> validation<%end%>">
+    <%= validation_for(r, :company_no) %>
+    <%= f.label :company_no, class: 'form-label' %>
+    <%= f.text_field :company_no, :size => 14, :maxlength => 10 %>
+  </div>
+</fieldset>
 
