@@ -126,6 +126,7 @@ en:
       step: "Step 7 of 8"
       title: "Director details"
       you_have_added: "You have added the following directors"
+      director_name_string: "Director name"
   distances:
     ? "10"
     : "10 Miles"
