@@ -59,6 +59,9 @@ Given(/^I have come to the upper tier summary page$/) do
   fill_in 'Phone number', with: '0117 926 9999'
   fill_in 'Email address', with: my_email_address
   click_on 'Next'
+
+  choose 'No'
+  click_on 'Next'
 end
 
 Then(/^I see I am an upper tier waste carrier$/) do
