@@ -9,12 +9,12 @@
       <% content_for :page_title, createTitle('.title') %>
       <div class="step"><%= t '.step' %></div>
 
-      <%= form_for(@director, url: {action: "update"}, method: "patch" ) do |f| %>
-        <%= render 'form', f: f, d: @director %>
+      <%= form_for(@key_person, url: {action: "create"} ) do |f| %>
+        <%= render 'form', f: f, d: @key_person %>
         <div class="inline">
           <p class="back_link"><%= render 'back_link' %></p>
           <span class="next_link">
-            <input name="next" class="button button-get-started" type="submit" value="<%= t 'form.update_button_label' %>"/>
+            <input name="next" class="button button-get-started" type="submit" value="<%= t 'form.add_button_label' %>"/>
           </span>
         </div>
       <% end %>

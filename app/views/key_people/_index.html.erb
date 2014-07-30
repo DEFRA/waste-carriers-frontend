@@ -10,8 +10,8 @@
         <span><%= "#{d.first_name}" %></span>
         <span><%= "#{d.last_name}" %></span>
         <span><%= "#{d.dob}" %></span>
-        <span><%= link_to t('form.edit_button_label'), url_for(:controller => 'directors', :action => 'edit', :id => d.id), :class => 'link_to' %></span>
-        <span><%= link_to t('form.delete_button_label'), url_for(:controller => 'directors', :action => 'delete', :id => d.id), :class => 'link_to' %></span>
+        <span><%= link_to t('form.edit_button_label'), url_for(:controller => 'key_people', :action => 'edit', :id => d.id), :class => 'link_to' %></span>
+        <span><%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'delete', :id => d.id), :class => 'link_to' %></span>
       </div>
     <% end %>
 

@@ -1,6 +1,6 @@
 require 'securerandom'
 
-class DirectorsController < ApplicationController
+class KeyPeopleController < ApplicationController
 
   # GET /your-registration/directors
   def registration
@@ -10,7 +10,7 @@ class DirectorsController < ApplicationController
       return
     end
     get_directors
-    unless @directors.empty?
+    unless @key_people.empty?
       redirect_to action: 'index'
       return
     end
@@ -30,13 +30,13 @@ class DirectorsController < ApplicationController
   def new
     # @director = Director.new
     # @registration = Registration[ session[:registration_id]]
-    @director = Registration::Director.create
+    @key_person = Registration::KeyPerson.create
   end
 
   # GET /directors/edit/:id
   def edit
     get_directors
-    @director = Registration::Director[params[:id]]
+    @key_person = Registration::KeyPerson[params[:id]]
     logger.debug "id to update: #{params[:id]}"
     session[:director_update_id] = params[:id]
     # @director = @directors.find { |d| d.temp_id == params[:id]}
@@ -45,13 +45,13 @@ class DirectorsController < ApplicationController
   # GET /directors/delete/:id
   def delete
     get_directors
-    director_to_remove = Registration::Director[params[:id]]
+    director_to_remove = Registration::KeyPerson[params[:id]]
 logger.debug "reg is: #{@registration.id}"
 logger.debug "director_to_remove is: #{director_to_remove.id}"
 
-    @registration.directors.delete(director_to_remove)
+    @registration.key_people.delete(director_to_remove)
 
-    if @registration.directors.to_a.empty?
+    if @registration.key_people.to_a.empty?
       redirect_to action: 'registration'
     else
       redirect_to action: 'index'
@@ -63,15 +63,15 @@ logger.debug "director_to_remove is: #{director_to_remove.id}"
   def create
     get_directors
 
-    director = Registration::Director.create
-    director.set_attribs(params[:director])
+    director = Registration::KeyPerson.create
+    director.set_attribs(params[:key_person])
 
 
 
     if director.valid?
       director.save
       logger.debug @registration.id
-      @registration.directors.add(director )
+      @registration.key_people.add(director )
       @registration.save
 
       logger.info 'Director is valid so far, go to next page'
@@ -89,8 +89,8 @@ logger.debug "director_to_remove is: #{director_to_remove.id}"
 
     # @director = Director.new(params[:director])
 
-    director = Registration::Director[ session[:director_update_id]]
-    director.set_attribs(params[:director])
+    director = Registration::KeyPerson[ session[:director_update_id]]
+    director.set_attribs(params[:key_person])
 
 
     if director.valid?
@@ -125,19 +125,19 @@ logger.debug "director_to_remove is: #{director_to_remove.id}"
     # session[:directors] ||= []
     # @directors = session[:directors]
     @registration = Registration[ session[:registration_id]]
-    @directors = @registration.directors.to_a
-    logger.debug  @directors.to_s
+    @key_people = @registration.key_people.to_a
+    logger.debug  @key_people.to_s
   end
 
   def set_directors
-    session[:directors] ||= @directors
+    session[:key_people] ||= @key_people
   end
 
   private
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def director_params
-    params.require(:director).permit(
+    params.require(:key_person).permit(
       :first_name,
       :last_name,
       :dob_day,

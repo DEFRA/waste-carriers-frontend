@@ -79,7 +79,7 @@ class Registration < Ohm::Model
   attribute :location
 
   set :metaData, :Metadata #will always be size=1
-  set :directors, :Director
+  set :key_people, :KeyPerson
   set :key_persons, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
   set :payments, :Payment
@@ -198,8 +198,8 @@ class Registration < Ohm::Model
 
     directors = []
 
-    if self.directors &&  self.directors.size > 0
-      self.directors.each do  |dir|
+    if self.key_people &&  self.key_people.size > 0
+      self.key_people.each do  |dir|
         directors <<  dir.attributes.to_hash
       end
       result_hash['directors'] = directors
@@ -377,7 +377,7 @@ class Registration < Ohm::Model
         when 'directors'
           if v
             v.each do |dir|
-              new_reg.directors.add HashToObject(dir, 'Director')
+              new_reg.key_people.add HashToObject(dir, 'Director')
             end
           end #if
         when 'key_persons'
