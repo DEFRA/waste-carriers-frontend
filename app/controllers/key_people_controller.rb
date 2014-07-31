@@ -9,11 +9,7 @@ class KeyPeopleController < ApplicationController
       redirect_to :upper_payment
       return
     end
-    get_key_people
-    unless @key_people.empty?
-      redirect_to action: 'index'
-      return
-    end
+    get_directors
     redirect_to action: 'new'
   end
 
@@ -48,12 +44,7 @@ class KeyPeopleController < ApplicationController
 
     @registration.key_people.delete(key_person_to_remove)
 
-    if @registration.key_people.to_a.empty?
-      redirect_to action: 'registration'
-    else
-      redirect_to action: 'index'
-    end
-
+    redirect_to action: 'new'
   end
 
   # POST /your-registration/key-people
@@ -71,8 +62,7 @@ class KeyPeopleController < ApplicationController
       @registration.key_people.add(key_person)
       @registration.save
 
-      logger.info 'Key person is valid so far, go to next page'
-      render 'index'
+      redirect_to action: 'new'
     else
       # there is an error (but data not yet saved)
       logger.info 'Key person is not valid, and data is not yet saved'
