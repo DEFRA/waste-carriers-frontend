@@ -38,7 +38,7 @@ en:
         lastName: "Last name"
         password: Password
         password_confirmation: "Confirm password"
-        phoneNumber: "Phone number"
+        phoneNumber: "Telephone number"
         position: "Job title"
         postcode: Postcode
         postcodeSearch: Address
@@ -252,7 +252,7 @@ en:
       email: "Email:"
       enquiresMessage: "Please contact the Environment Agency if you have any enquiries."
       lowerTierRegistration: "Lower tier registration"
-      phoneNumber: "Phone number"
+      phoneNumber: "Telephone number"
       registeredOn: "Registered on: %{date}"
       renewal_html: "Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. "
       responsibilities1: "If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier"
@@ -327,7 +327,7 @@ en:
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Business details"
-      legend: "Enter your business or organisation details"
+      legend: "Enter your business or organisation address"
       legend_limited: "Enter your business details"
       legend_public: "Enter your organisation details"
       name_field: "Business or organisation trading name"
@@ -356,7 +356,7 @@ en:
       step: "Step 3 of 9"
       title: "Contact details"
     contactdetails_step:
-      legend: "Your contact details"
+      legend: "Enter your contact details"
       subtitle: "These will not be made public"
     convictions_step:
       title: "Has any owner, partner, manager, director or relevant person had any relevant convictions in the last 12 months?"
@@ -378,7 +378,7 @@ en:
       address: Address
       contactName: "Contact name"
       heading: "Business or organisation details"
-      phoneNumber: "Phone number"
+      phoneNumber: "Telephone number"
     errors:
       error: error
       errorMessage: "You have %{count} on this page"
@@ -436,7 +436,7 @@ en:
       paidInFull_text: "Paid in full"
       pay_by_worldpay_button_label: "Pay by debit/credit card"
       pay_offline_button_label: "Pay via electronic transfer"
-      phoneNumber_label: "Phone number"
+      phoneNumber_label: "Telephone number"
       please_select_address: "Please select an address.."
       postcode_label: "Post code"
       print_button_label: "View certificate"
@@ -608,7 +608,7 @@ en:
       broker_dealer: broker/dealer
       carrier_broker_dealer: carrier/broker/dealer
       carrier_dealer: carrier/dealer
-      legend: "Type of registration:"
+      legend: "Do you carry the waste yourselves or arrange for other people to transport it?"
       step: "Step 1 of 9"
       subtitle_carrier_dealer: "You are a carrier/dealer"
       subtitle_broker_dealer: "You are a broker/dealer"
