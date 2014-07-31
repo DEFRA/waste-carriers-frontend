@@ -327,7 +327,6 @@ en:
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Business details"
-    company_name:
       legend: "Enter your business or organisation details"
       legend_limited: "Enter your business details"
       legend_public: "Enter your organisation details"
@@ -336,6 +335,8 @@ en:
       name_field_public: "Public body name"
       subtitle: ""
     company_details_finder:
+      companies_house_explain: "This is your company registration number"
+      companies_house_link: "Don't know your Companies House number?"
       companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
       companies_house_registration_number_not_found: "is not listed by Companies House"
       companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."

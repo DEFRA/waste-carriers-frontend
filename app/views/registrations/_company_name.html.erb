@@ -1,20 +1,5 @@
-<fieldset>
-  <% case r.businessType %>
-  <% when 'limitedCompany' %>
-    <% legend = t '.legend_limited'  %>
-    <% name_field = t '.name_field_limited'  %>
-  <% when 'publicBody' %>
-    <% legend = t '.legend_public'  %>
-    <% name_field = t '.name_field_public'  %>
-  <% else %>
-    <% legend = t '.legend'  %>
-    <% name_field = t '.name_field'  %>
-  <% end %>
-
-  <legend><%= legend %></legend>
-  <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
+<div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
     <%= validation_for(@registration, :companyName) %>
-    <%= f.label name_field, for: 'registration_companyName', class: 'form-label' %>
-    <%= f.text_field :companyName, :maxlength => 35 %>
-  </div>
-</fieldset>
+    <%= f.label n, for: 'registration_companyName', class: 'form-label' %>
+    <%= f.text_field :companyName, :size => 35, :maxlength => 35 %>
+</div>

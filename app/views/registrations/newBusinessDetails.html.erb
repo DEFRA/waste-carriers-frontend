@@ -21,13 +21,27 @@
               <%= render 'errors' %>
         
               <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
-        
-                <%= render 'company_name', :f => f, :r => @registration %>
-                <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
-                  <%= render 'company_details_finder', f: f, r: @registration %>
-                <% end %>
+
+                  <% case @registration.businessType %>
+                  <% when 'limitedCompany' %>
+                    <% legend = t '.legend_limited'  %>
+                    <% name_field = t '.name_field_limited'  %>
+                  <% when 'publicBody' %>
+                    <% legend = t '.legend_public'  %>
+                    <% name_field = t '.name_field_public'  %>
+                  <% else %>
+                    <% legend = t '.legend'  %>
+                    <% name_field = t '.name_field'  %>
+                  <% end %>
+
+                  <fieldset>
+                    <legend><%= legend %></legend>
+                  <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
+                      <%= render 'company_details_finder', f: f, r: @registration %>
+                  <% end %>
+                <%= render 'company_name', :f => f, :r => @registration, n: name_field %>
                 <%= render 'address_finder', :f => f, :r => @registration %>
-        
+                  </fieldset>
                 <span class="next_link"><%= render 'next_link' %></span>
               <% end %>
             </div>
