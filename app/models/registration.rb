@@ -762,5 +762,4 @@ class Registration < Ohm::Model
     end
   end
 
-
 end
