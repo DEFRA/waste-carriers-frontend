@@ -639,6 +639,14 @@ en:
       companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
     userRegistrations:
       registered: "Status: Registered"
+      name_header: "Name"
+      status_header: "Status"
+      postcode_header: 'Postcode'
+      registration_header: 'Registration'
+      expiry_header: 'Expiry Date'
+      status_expired_text: 'Expired'
+      status_revoked_text: 'Revoked'
+      status_na_text: 'N/A'
       registrationCountText: "You have %{count}"
       revoked: "Status: Revoked"
       subtitle: "Your registrations"

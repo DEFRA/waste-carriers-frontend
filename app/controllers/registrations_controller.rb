@@ -17,7 +17,6 @@ class RegistrationsController < ApplicationController
     searchString = params[:q]
     if validate_search_parameters?(searchString,searchWithin)
       if searchString && !searchString.empty?
-        # @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
         @registrations = Registration.find_all_by(searchString, searchWithin)
       else
         @registrations = []
@@ -27,6 +26,7 @@ class RegistrationsController < ApplicationController
       flash.now[:notice] = 'You must provide valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
     end
     session[:registration_step] = session[:registration_params] = nil
+    logger.debug "index: #{ @registrations.size.to_s} items"
 
     respond_to do |format|
       format.html # index.html.erb
