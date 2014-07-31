@@ -24,6 +24,7 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-people/new
   def new
+    get_key_people
     @key_person = Registration::KeyPerson.create
   end
 
