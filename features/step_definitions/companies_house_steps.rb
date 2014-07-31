@@ -53,7 +53,7 @@ And(/^I remain on the upper tier business details page$/) do
 end
 
 Then(/^I proceed to the next wizard step$/) do
-  page.should have_content 'Director contact details'
+  page.should_not have_field 'registration_company_no'
 end
 
 Then(/^I am told the company is not active$/) do

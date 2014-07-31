@@ -3,6 +3,7 @@ Given(/^I have completed the upper tier and chosen to pay by bank transfer$/) do
   step 'I am a carrier dealer'
   step 'I enter my business details'
   step 'I enter my contact details'
+  step 'no key people in the organisation have convictions'
   step 'I confirm the declaration'
   step 'I enter new user account details'
   step 'I choose pay via electronic transfer'
@@ -37,7 +38,6 @@ end
 And(/^I enter my contact details$/) do
   fill_in 'First name', with: 'Joe'
   fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 9999'
   fill_in 'Email address', with: my_email_address
   click_on 'Next'
@@ -66,4 +66,9 @@ Then(/^I am registered as an upper tier waste carrier$/) do
   page.should have_content 'is registered as an upper tier waste carrier'
   open_email my_email_address
   current_email.should have_content 'is registered as an upper tier waste carrier'
+end
+
+And(/^no key people in the organisation have convictions$/) do
+  choose 'No'
+  click_on 'Next'
 end

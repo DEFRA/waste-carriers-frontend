@@ -256,8 +256,23 @@ class RegistrationsController < ApplicationController
   def updateNewContactDetails
     setup_registration 'contactdetails'
 
+    # TODO Check why this is here with Fred. Was in Upper Tier
+    # version of update contact details but don't see how you
+    # get to this post and need to check for findAddress
+    # if params[:findAddress]
+    #   render "newBusinessDetails" and return
+    # end
+
     if @registration.valid?
-      redirect_to :newConfirmation
+      if @registration.tier.eql? 'LOWER'
+        redirect_to :newConfirmation
+      else
+        if @registration.businessType.eql? 'limitedCompany'
+          redirect_to :registration_key_people
+        else
+          redirect_to :newRelevantConvictions
+        end
+      end
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -858,7 +873,14 @@ class RegistrationsController < ApplicationController
     postcode = params[:postcode]
     if validate_public_search_parameters?(searchString,"any",distance, postcode)
       if searchString && !searchString.empty?
-          @registrations = Registration.find_all_by_params(q: searchString, searchWithin: 'companyName', distance: distance, activeOnly: 'true', postcode: postcode, excludeRegId: 'true' )
+        param_args = {
+            q: searchString,
+            searchWithin: 'companyName',
+            distance: distance,
+            activeOnly: 'true',
+            postcode: postcode,
+            excludeRegId: 'true' }
+        @registrations = Registration.find_by_params(param_args)
       else
         @registrations = []
       end
@@ -932,41 +954,13 @@ class RegistrationsController < ApplicationController
     elsif @registration.valid?
       logger.debug 'registration.valid'
       logger.debug params.keys.to_s
-      redirect_to :newUpperContactDetails
+      redirect_to action: 'newContactDetails'
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newUpperBusinessDetails", :status => '400'
     end
 
-  end
-
-
-
-  # GET your-registration/upper-tier-contact-details
-  def newUpperContactDetails
-    new_step_action 'upper_contact_details'
-  end
-
-  # POST your-registration/upper-tier-contact-details
-  def updateNewUpperContactDetails
-    setup_registration 'upper_contact_details'
-
-    if params[:findAddress]
-      render "newBusinessDetails" and return
-    end
-
-    if @registration.valid?
-      if @registration.businessType.eql? 'limitedCompany'
-        redirect_to :registration_directors
-      else
-        redirect_to :upper_summary
-      end
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newUpperContactDetails", :status => '400'
-    end
   end
 
   # GET upper-registrations/payment
