@@ -194,16 +194,6 @@ class Registration < Ohm::Model
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
-
-    directors = []
-
-    if self.key_people &&  self.key_people.size > 0
-      self.key_people.each do  |dir|
-        directors <<  dir.attributes.to_hash
-      end
-      result_hash['directors'] = directors
-    end #if
-
     key_people = []
 
     if self.key_people &&  self.key_people.size > 0
@@ -373,12 +363,6 @@ class Registration < Ohm::Model
           new_reg.expires_on = v
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
-        when 'directors'
-          if v
-            v.each do |dir|
-              new_reg.key_people.add HashToObject(dir, 'Director')
-            end
-          end #if
         when 'key_people'
           if v
             v.each do |dir|
