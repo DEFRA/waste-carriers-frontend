@@ -5,6 +5,7 @@
 
   <fieldset>
     <legend><%= t 'registrations.convictions_step.title' %></legend>
+    
 
     <div class="inline<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
       <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
@@ -17,7 +18,11 @@
       <% end %>
     </div>
   </fieldset>
-  <p><%= link_to t('registrations.convictions_step.convictions_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %></p>
+
+  <div class='subtitle'><%= t 'registrations.convictions_step.subtitle' %></div>
+  <p><%= link_to t('registrations.convictions_step.relevant_convictions_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %></p>
+  <p><%= link_to t('registrations.convictions_step.relevant_person_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %></p>
+
 </div>
 
 <%= render 'next_link' %>
