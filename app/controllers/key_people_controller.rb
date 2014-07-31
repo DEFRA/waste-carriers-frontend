@@ -67,7 +67,7 @@ class KeyPeopleController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.info 'Key person is not valid, and data is not yet saved'
-      render :new, :status => '400'
+      redirect_to action: 'new'
     end
   end
 
