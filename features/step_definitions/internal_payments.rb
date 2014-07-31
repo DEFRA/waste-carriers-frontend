@@ -43,6 +43,7 @@ Given(/^I have found a registrations payment details$/) do
   visit registrations_path
   page.should have_content 'Find a registration'
   fill_in 'q', with: 'PaymentReg'+registrationCount.to_s
+  puts  'PaymentReg'+registrationCount.to_s
   click_button 'Search'
   find_button('paymentStatus1').click
   page.should have_content 'Payment status'
@@ -50,7 +51,7 @@ end
 
 Given(/^the registration is valid for a small write off$/) do
   # Here we am running a series of steps to get the registraiton in the state ready for a small write off
-  # A payment of 100.00 puts the excess balance of 54 within the 0-100 (Payment.basicMinimum-Payment.basicMaximum) 
+  # A payment of 100.00 puts the excess balance of 54 within the 0-100 (Payment.basicMinimum-Payment.basicMaximum)
   # range of the small write off
   steps %Q{
     Given I select to enter payment
@@ -161,7 +162,7 @@ Then(/^payment status will be pending$/) do
   page.should have_content 'Awaiting payment'
 end
 
-When(/^payment status is pending$/) do 
+When(/^payment status is pending$/) do
   page.should have_content 'Awaiting payment'
 end
 
@@ -261,8 +262,8 @@ When(/^I don't have refund user role$/) do
 end
 
 #
-# This helper function is usefull for debugging pages, 
-# alternatively just call the containing save_and_open_page line 
+# This helper function is usefull for debugging pages,
+# alternatively just call the containing save_and_open_page line
 # from within a step
 #
 Then /^show me the page$/ do
@@ -270,7 +271,7 @@ Then /^show me the page$/ do
 end
 
 #
-# This is a copy from assisted_digital_steps.rb line 95 
+# This is a copy from assisted_digital_steps.rb line 95
 # When(/^I create an upper tier registration on behalf of a caller$/) do
 # But has a unique companyName, such that each payment scenario can find and use a unique registration.
 # And increments a registration count
