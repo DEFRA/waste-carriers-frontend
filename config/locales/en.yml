@@ -270,6 +270,8 @@ en:
       updatePhone: "You can do this by calling the Environment Agency and providing your access code."
       updateWebsite_html: "You can do this by going to the website %{link} and logging in using your email and password."
   registrations:
+    step:
+      step: "Step %{step_x} of %{step_y}"
     address_entry:
       businessAddress: "Main business or organisation address"
       change: Change
@@ -334,6 +336,10 @@ en:
       title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
       convictions_link_text: "Check here for a list of relevant convictions"
       step: "Step 4 of 10"
+    newConfirmation:
+      step: "Step %{step_x} of %{step_y}"
+      title: "Confirmation"
+      subtitle: "Checking your details before registering"
     confirmation_step:
       data_protection_heading: "How we use your personal information"
       data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
@@ -348,10 +354,7 @@ en:
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
       privacy_policy: "Privacy policy and cookies"
       smart_answers_heading: "You told us"
-      step: "Step 7 of 8"
-      subtitle: "Checking your details before registering"
       tier_description: "You are %{tier_with_article} tier waste carrier..."
-      title: Confirmation
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
