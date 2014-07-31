@@ -736,8 +736,6 @@ class RegistrationsController < ApplicationController
     user = @registration.user
     user.current_registration = @registrationFromDB
     user.send_confirmation_instructions unless user.confirmed?
-
-    @owe_money = owe_money? @registration
   end
 
 
