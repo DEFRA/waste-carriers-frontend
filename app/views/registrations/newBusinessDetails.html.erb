@@ -2,15 +2,19 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-  	
-    <% content_for :page_title, createTitle('registrations.businessdetails_step.title') %>
-    <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
-     <p class="back_link"><%= render 'back_link' %></p>
-      <div class="step"><%= t 'registrations.businessdetails_step.step' %></div>
-
-      <%= render "businessdetails_step", :f => f %>
-
-    <% end %>
-
+  	  <section>
+      	<div class="inner">
+      		<div class="col-1">
+    			<% content_for :page_title, createTitle('registrations.businessdetails_step.title') %>
+    			<%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
+    			<ol>
+     				<li class="back_link"><%= render 'back_link' %></li>
+      				<li class="step"><%= t 'registrations.businessdetails_step.step' %></li>
+      				<%= render "businessdetails_step", :f => f %>
+      			</ol>
+    			<% end %>
+    	    </div>
+  		</div>
+	</section>
   </article>
 </main>

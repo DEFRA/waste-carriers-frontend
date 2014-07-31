@@ -79,7 +79,7 @@ class Registration < Ohm::Model
   attribute :location
 
   set :metaData, :Metadata #will always be size=1
-  set :directors, :Director
+  set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
   set :payments, :Payment
   set :orders, :Order
@@ -144,7 +144,6 @@ class Registration < Ohm::Model
       Rails.logger.debug "Commited to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
-      puts e.to_s
       commited = false
     end
     uuid
@@ -206,14 +205,13 @@ class Registration < Ohm::Model
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
+    key_people = []
 
-    directors = []
-
-    if self.directors &&  self.directors.size > 0
-      self.directors.each do  |dir|
-        directors <<  dir.attributes.to_hash
+    if self.key_people &&  self.key_people.size > 0
+      self.key_people.each do  |per|
+        key_people <<  per.attributes.to_hash
       end
-      result_hash['directors'] = directors
+      result_hash['key_people'] = key_people
     end #if
 
     if self.finance_details.size == 1
@@ -288,16 +286,13 @@ class Registration < Ohm::Model
     def find_all_by(some_text, within_field)
       registrations = []
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?q=#{some_text}&searchWithin=#{within_field}"
-      Rails.logger.debug url
       begin
         response = RestClient.get url
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug "find_all_by - found #{all_regs.size.to_s} items"
+          Rails.logger.debug "find_all_by found #{all_regs.size.to_s} items"
           all_regs.each do |r|
-            Rails.logger.debug r['id'].to_s
             registrations << Registration.init(r)
-            Rails.logger.debug "#{registrations.size.to_s}"
           end
         else
           Rails.logger.error "Registration.find_all_by(#{some_text}, #{within_field}) failed with a #{response.code} response from server"
@@ -309,37 +304,7 @@ class Registration < Ohm::Model
     end
   end
 
-  # Retrieves a specific registration object from the Java Service based on its email value
-  #
-  # @param some_text [String] the text to search for
-  # @param within_field [String] within this specific field
-  # @return [Array] list of registrations in MongoDB matching the specified email
-  class << self
-    def find_all_by_params(params_hash)
-      registrations = []
-      params_url_part = ''
-      params_hash.each do |k, v|
-        params_url_part << "#{k.to_s}=#{v}&"
-      end
-
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{params_url_part}"
-      begin
-        response = RestClient.get url
-        if response.code == 200
-          all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug "find_all_by found #{all_regs.size.to_s} items"
-          all_regs.each do |r|
-            registrations << Registration.init(r)
-          end
-        else
-          Rails.logger.error "Registration.find_all_by_params failed with a #{response.code} response from server"
-        end
-      rescue => e
-        Rails.logger.error e.to_s
-      end
-      registrations
-    end
-  end
+ 
 
 
   # Retrieves a specific registration object from the Java Service based on its uuid
@@ -366,6 +331,35 @@ class Registration < Ohm::Model
     end
   end
 
+  # Retrieves registration objects from the Java Service based on the values
+  # included in the params hash
+  #
+  # @params a hash of params and their arguments to use in the find. Values can
+  # be arrays
+  # @return [Array] list of registrations in MongoDB matching the specified email
+  class << self
+    def find_by_params(params)
+      registrations = []
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{params.to_query}"
+      Rails.logger.debug "find_by_filters url=#{url}"
+      begin
+        response = RestClient.get url
+        if response.code == 200
+          all_regs = JSON.parse(response.body) #all_regs should be Array
+          Rails.logger.debug "find_all_by found #{all_regs.size.to_s} items"
+          all_regs.each do |r|
+            registrations << Registration.init(r)
+          end
+        else
+          Rails.logger.error "Registration.find_all_filter() [#{url}] failed with a #{response.code} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      registrations
+    end
+  end
+
 
   # Creates a new Registration object from a JSON payload received from the Java Service
   #
@@ -383,10 +377,10 @@ class Registration < Ohm::Model
           new_reg.expires_on = convert_date(v)
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
-        when 'directors'
+        when 'key_people'
           if v
             v.each do |dir|
-              new_reg.directors.add HashToObject(dir, 'Director')
+              new_reg.key_people.add HashToObject(dir, 'KeyPerson')
             end
           end #if
         when 'metaData'
@@ -451,7 +445,7 @@ class Registration < Ohm::Model
   with_options if: :lower_or_upper_contact_details_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :lastName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
-    registration.validates :position, presence: true, format: { with: GENERAL_WORD_REGEX }
+    registration.validates :position, format: { with: GENERAL_WORD_REGEX }, :allow_nil => true, :allow_blank => true
     registration.validates :phoneNumber, presence: true, format: { with: VALID_TELEPHONE_NUMBER_REGEX }, length: { maximum: 20 }
   end
 
@@ -472,6 +466,7 @@ class Registration < Ohm::Model
   end
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
+  validate :validate_key_people, if: :key_person_step?
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
@@ -551,6 +546,10 @@ class Registration < Ohm::Model
 
   def uppercontactdetails_step?
     current_step.inquiry.upper_contact_details?
+  end
+
+  def key_person_step?
+    current_step.inquiry.key_person?
   end
 
   def signup_step?
@@ -642,12 +641,12 @@ class Registration < Ohm::Model
 
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
-    when :not_found
-      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
-    when :inactive
-      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
-    when :error_calling_service
-      errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
+      when :not_found
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+      when :inactive
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+      when :error_calling_service
+        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
     end
   end
 
@@ -767,6 +766,11 @@ class Registration < Ohm::Model
     end
   end
 
+  def validate_key_people
+    if key_people.blank?
+      errors.add('Key people', 'is invalid.') unless convert_dob
+    end
+  end
 
 
 end

@@ -39,11 +39,23 @@ Given(/^I am logged in as a nccc refunds user$/) do
   page.should have_content "Signed in as agency user #{my_agency_refund_user.email}"
 end
 
+Given(/^I change user to a nccc refunds user$/) do
+  click_button 'Sign out'
+#  visit new_agency_user_session_path
+#  click_button 'Sign out'
+  visit '/agency_users/sign_in'
+  save_and_open_page
+  page.should have_content 'Sign in'
+  page.should have_content 'NCCC agency login'
+  fill_in 'Email', with: my_agency_refund_user.email
+  fill_in 'Password', with: my_agency_refund_user.password
+  click_button 'Sign in'
+  page.should have_content "Signed in as agency user #{my_agency_refund_user.email}"
+end
 Given(/^I have found a registrations payment details$/) do
   visit registrations_path
   page.should have_content 'Find a registration'
   fill_in 'q', with: 'PaymentReg'+registrationCount.to_s
-  puts  'PaymentReg'+registrationCount.to_s
   click_button 'Search'
   find_button('paymentStatus1').click
   page.should have_content 'Payment status'
@@ -51,14 +63,23 @@ end
 
 Given(/^the registration is valid for a small write off$/) do
   # Here we am running a series of steps to get the registraiton in the state ready for a small write off
-  # A payment of 100.00 puts the excess balance of 54 within the 0-100 (Payment.basicMinimum-Payment.basicMaximum)
+  # A payment of 150.00 puts the excess balance of 4 within the -5->5 (Payment.basicMinimum-Payment.basicMaximum) 
   # range of the small write off
   steps %Q{
     Given I select to enter payment
-    And I enter 100.00
+    And I enter 150.00
     And I enter payment details
     And I confirm payment
   }
+end
+
+Given(/^I sign out$/) do
+#  save_and_open_page
+  click_button 'Sign out'
+#  save_and_open_page
+#  visit new_agency_user_session_path
+#  page.should have_content 'Sign in'
+#  save_and_open_page
 end
 
 Given(/^I provided a payment type of Cheque$/) do
@@ -162,7 +183,7 @@ Then(/^payment status will be pending$/) do
   page.should have_content 'Awaiting payment'
 end
 
-When(/^payment status is pending$/) do
+When(/^payment status is pending$/) do 
   page.should have_content 'Awaiting payment'
 end
 
@@ -225,8 +246,7 @@ When(/^original payment method was via BACS$/) do
 end
 
 Then(/^refund is rejected$/) do
-  page.should have_content 'Refunds'
-  page.should have_content 'No Payment History'
+  page.should have_content 'Payment status'
 end
 
 When(/^original payment method was via Cheque$/) do
@@ -262,8 +282,8 @@ When(/^I don't have refund user role$/) do
 end
 
 #
-# This helper function is usefull for debugging pages,
-# alternatively just call the containing save_and_open_page line
+# This helper function is usefull for debugging pages, 
+# alternatively just call the containing save_and_open_page line 
 # from within a step
 #
 Then /^show me the page$/ do
@@ -271,7 +291,7 @@ Then /^show me the page$/ do
 end
 
 #
-# This is a copy from assisted_digital_steps.rb line 95
+# This is a copy from assisted_digital_steps.rb line 95 
 # When(/^I create an upper tier registration on behalf of a caller$/) do
 # But has a unique companyName, such that each payment scenario can find and use a unique registration.
 # And increments a registration count
@@ -313,6 +333,9 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   fill_in 'Phone number', with: '0123 456 789'
   #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
   fill_in 'Email address', with: ''
+  click_on 'Next'
+
+  choose 'No'
   click_on 'Next'
 
   check 'registration_declaration'

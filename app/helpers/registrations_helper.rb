@@ -53,9 +53,11 @@ module RegistrationsHelper
 
     link_to t('registrations.form.back_button_label'), path, class: 'button-secondary'
   end
-
-  def convert_java_date millisecs
-    Time.at(millisecs / 1000.0)
+  def isSmallWriteOffAvailable(registration)
+    registration.finance_details.first and (Payment.isSmallWriteOff( registration.finance_details.first.balance) == true)
   end
-
+  
+  def isRefundAvailable(registration)
+    registration.finance_details.first.balance.to_f < 0
+  end
 end

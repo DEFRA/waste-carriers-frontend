@@ -34,7 +34,6 @@ end
 Given(/^the caller provides his contact details$/) do
   fill_in 'First name', with: 'Antony'
   fill_in 'Last name', with: 'Assisted'
-  fill_in 'Job title', with: 'Chief'
   fill_in 'Phone number', with: '0123 456 789'
 
   click_on 'Next'
@@ -81,7 +80,6 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
 
   fill_in 'First name', with: 'Joe'
   fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 8332'
   fill_in 'Email address', with: my_email_address
   click_on 'Next'
@@ -121,10 +119,12 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
 
   fill_in 'First name', with: 'Antony'
   fill_in 'Last name', with: 'Assisted'
-  fill_in 'Job title', with: 'Chief'
   fill_in 'Phone number', with: '0123 456 789'
   #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
   fill_in 'Email address', with: ''
+  click_on 'Next'
+
+  choose 'No'
   click_on 'Next'
 
   check 'registration_declaration'

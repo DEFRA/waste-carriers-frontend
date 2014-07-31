@@ -1,5 +1,5 @@
 <fieldset>
-  <legend><%= t 'registrations.contactdetails_step.subtitle_upper', business_caption: 'business' %></legend>
+  <legend><%= t '.subtitle_upper', business_caption: 'business' %></legend>
     <h2 class="subtitle"></h2>
       <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>">
     	<%= validation_for(@registration, :companyName) %>

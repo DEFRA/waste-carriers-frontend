@@ -89,6 +89,22 @@ module WorldpayHelper
       response
     end
 
+
+    def send_xml_with_username_password(xml, username, password)
+      worldpay_service_uri = Rails.configuration.worldpay_uri
+      uri = URI(worldpay_service_uri)
+      https = Net::HTTP.new(uri.host,uri.port)
+      https.use_ssl = true
+      headers = 
+      {
+        "Authorization" => 'Basic ' + Base64.encode64(username + ':' + password).to_s
+      }
+      response = https.post(uri.path, xml, headers)
+
+      response
+    end
+
+
     def parse_xml(xml)
       doc = Nokogiri::XML(xml)
     end
@@ -165,4 +181,45 @@ module WorldpayHelper
       logger.info 'MAC = ' + mac
       digest.to_s.eql? mac
     end
+
+
+    def request_refund_from_worldpay
+      #TODO Get values to be refunded from the registration and/or its relevant payment
+      orderCode = 'Georg123'
+      #TODO the merchantCode needs to come from the original payment as well
+      merchantCode = worldpay_merchant_code
+      currencyCode = "GBP"
+      amount = 15400
+      username = worldpay_xml_username
+      password = worldpay_xml_password
+
+      xml = create_refund_request_xml(merchantCode,orderCode,currencyCode,amount)
+      logger.info 'About to contact WorldPay for refund: XML username = ' + worldpay_xml_username
+      logger.info 'Sending refund request XML to Worldpay: ' + xml
+
+      response = send_xml_with_username_password(xml,username,password)
+      @response = response.body
+      logger.info 'Received response from Worldpay: ' + @response
+      @response
+    end
+
+    def create_refund_request_xml(merchantCode, orderCode, currencyCode, amount)
+      xml = "<?xml version=\"1.0\"?>\n"
+      xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>\n"
+      xml << "<paymentService version=\"1.4\" merchantCode=\"" + merchantCode + "\">\n"
+      xml << "<modify>\n"
+      xml << "<orderModification orderCode=\"" + orderCode + "\">\n"
+      xml << "<refund>\n"
+      xml << "<amount value=\""+ amount.to_s + "\" currencyCode=\"" + currencyCode + "\" exponent=\"2\"/>"
+      xml << "</refund>\n"
+      xml << "</orderModification>\n"
+      xml << "</modify>\n"
+      xml << "</paymentService>\n"
+      xml
+    end
+
+    def process_order_notification(notification)
+      logger.info "Processing order notification: " + notification.to_s
+    end
+
 end

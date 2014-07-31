@@ -1,0 +1,83 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://data.companieshouse.gov.uk/doc/company/07540106.json
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 31 Jul 2014 09:37:55 GMT
+      Server:
+      - Apache
+      X-Powered-By:
+      - Quantum Mechanics; author="(c)2011 Companies House"
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - close
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+    body:
+      encoding: UTF-8
+      string: |
+        {
+           "primaryTopic" : {
+              "CompanyName" : "WASTE ACADEMY (2011) LTD",
+              "CompanyNumber" : "07540106",
+              "RegAddress" : {
+                 "AddressLine1" : "74 CANNOCK ROAD",
+                 "AddressLine2" : "NEW INVENTION",
+                 "PostTown" : "WILLENHALL",
+                 "County" : "WEST MIDLANDS",
+                 "Postcode" : "WV12 5RZ"
+              },
+              "CompanyCategory" : "Private Limited Company",
+              "CompanyStatus" : "Active",
+              "CountryOfOrigin" : "United Kingdom",
+              "IncorporationDate" : "23/02/2011",
+              "PreviousNames" : [
+                 {
+                    "CONDate" : "23/02/2011",
+                    "CompanyName" : "WASTE ACADEMY LTD"
+                 }
+              ],
+              "Accounts" : {
+                 "AccountRefDay" : "29",
+                 "AccountRefMonth" : "02",
+                 "NextDueDate" : "30/11/2014",
+                 "LastMadeUpDate" : "28/02/2013",
+                 "AccountCategory" : "DORMANT"
+              },
+              "Returns" : {
+                 "NextDueDate" : "23/03/2015",
+                 "LastMadeUpDate" : "23/02/2014"
+              },
+              "SICCodes" : {
+                 "SicText" : [
+                    "99999 - Dormant Company"
+                 ]
+              }
+           }
+        }
+    http_version: 
+  recorded_at: Thu, 31 Jul 2014 09:37:49 GMT
+recorded_with: VCR 2.9.2

@@ -21,7 +21,6 @@ Given(/^I have come to the lower tier summary page$/) do
 
   fill_in 'First name', with: 'Joe'
   fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 8332'
   fill_in 'Email address', with: my_email_address
   click_on 'Next'
@@ -55,9 +54,11 @@ Given(/^I have come to the upper tier summary page$/) do
 
   fill_in 'First name', with: 'Joe'
   fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Job title', with: 'Chief Barber'
   fill_in 'Phone number', with: '0117 926 9999'
   fill_in 'Email address', with: my_email_address
+  click_on 'Next'
+
+  choose 'No'
   click_on 'Next'
 end
 
