@@ -1,12 +1,16 @@
 <%= render 'shared/content_for_pages' %>
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+    <section>
+      <div class="inner">
+      <div class="col-1">
     
     <%= form_for(@registration, :url => :upper_payment) do |f| %>
     <% content_for :page_title, createTitle('.title') %>
-
-    <p class='back_link'><%= render 'back_link' %></div>
-    <div class="step">Step 7 of 8</div>
+    <ol>
+      <li class='back_link'><%= render 'back_link' %></li>
+      <li class="step">Step 7 of 8</li>
+     </ol> 
     <%= render "errors" %>
 
     <fieldset>
@@ -58,5 +62,8 @@
     </fieldset>
       
     <% end %>
+    </div>
+  </div>
+  </section>
   </article>
 </main>

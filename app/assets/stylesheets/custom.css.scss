@@ -31,7 +31,6 @@
 .button-secondary {@include button}
 .outer-block {@include outer-block;}
 .inner-block {@include inner-block;}
-
 //** WASTE CARRIERS ** CUSTOM STYLES ** //
 
 //RESET
@@ -98,13 +97,9 @@ main#content, section#content {
 }
 
 .header_text span {
-  background-color: rgb(244, 119, 56);
-  padding: 0 0.2em;
-  border-radius:5px;
-}
-
-.header_text span {
     text-transform: uppercase;
+    color: rgb(244, 119, 56);
+    padding: 0 0.2em;
 }
 
 #global-beta-message p {
@@ -142,6 +137,14 @@ main#content, section#content {
     position:relative;
     left:-10px;
     top:0;
+}
+
+input {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 19px;
+    font-weight: 400;
+    line-height: 1.31579;
+    text-transform: none;
 }
 
 //Back Link Positioning
@@ -213,7 +216,14 @@ main#content, section#content {
     margin: 2em 0 0;
 }
 
-
+// .reg-complete-container {
+//   width:35%
+//   height:100px;
+//   background-color:#006435;
+//   display:inline;
+//   padding:2.4em;
+//   color:#FFFFFF;
+// }
 
 
 

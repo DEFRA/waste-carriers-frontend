@@ -1,16 +1,25 @@
 <%= render 'shared/content_for_pages' %>
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+  	 <section>
+      <div class="inner">
+      	 <div class="col-1">
 
-    <%= form_for(@registration, :url => :upper_summary) do |f| %>
+    	<%= form_for(@registration, :url => :upper_summary) do |f| %>
 
-      <% content_for :page_title, createTitle('.title') %>
+      	<% content_for :page_title, createTitle('.title') %>
 
-	  <p class="back_link"><%= render 'back_link' %></p>
-      <div class="step">Step 8 of 8</div>
-       <%= render "confirmation_step", f: f, registration_class: 'upper_tier'  %>
-      <%= render 'declaration_and_data_protection', f: f %>
+      	<ol>
+	  		<li class="back_link"><%= render 'back_link' %></li>
+      		<li class="step">Step 6 of 9</li>
+      	</ol>
+       	<%= render "confirmation_step", f: f, registration_class: 'upper_tier'  %>
+      	<%= render 'declaration_and_data_protection', f: f %>
 
-    <% end %>
+    	<% end %>
+
+       </div>
+	  </div>
+	</section>
   </article>
 </main>
