@@ -245,7 +245,7 @@ class RegistrationsController < ApplicationController
         redirect_to :newConfirmation
       else
         if @registration.businessType.eql? 'limitedCompany'
-          redirect_to :registration_directors
+          redirect_to :registration_key_people
         else
           redirect_to :newRelevantConvictions
         end

@@ -30,6 +30,14 @@ describe CompaniesHouseCaller do
       end
     end
 
+    context 'another active company' do
+      subject { CompaniesHouseCaller.new '7540106' }
+
+      it 'is active', :vcr do
+        subject.status.should == :active
+      end
+    end
+
     context 'not active' do
       subject { CompaniesHouseCaller.new '05868270' }
 

@@ -36,11 +36,11 @@
 
   <% if @registration.businessType.eql?('limitedCompany') &&   @registration.tier.eql?('UPPER') %>
     <div class='form-group'>
-  <h2><%= t '.directors_summary_heading' %></h2>
+  <h2><%= t '.key_people_summary_heading' %></h2>
     <ul class='summary-box'>
-      <li class='summary-items'><%= render '/directors/directors_display' %></li>
+      <li class='summary-items'><%= render '/key_people/key_people_display' %></li>
     </ul>
-      <p><%= link_to t('.edit_director_details_link'), registration_directors_path %></p>
+      <p><%= link_to t('.edit_key_person_details_link'), registration_key_people_path %></p>
   </div>
   <% end %>
 </fieldset>

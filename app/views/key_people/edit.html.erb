@@ -4,13 +4,13 @@
   <article role="article" class="group">
 
     <!-- WF 4.3.2 -->
-    <div id="page7"  data-journey="waste-carriers-registration:director-details">
+    <div id="page7"  data-journey="waste-carriers-registration:key-person-details">
 
       <% content_for :page_title, createTitle('.title') %>
       <div class="step"><%= t '.step' %></div>
 
-      <%= form_for(@director, url: {action: "update"}, method: "patch" ) do |f| %>
-        <%= render 'form', f: f, d: @director %>
+      <%= form_for(@key_person, url: {action: "update"}, method: "patch" ) do |f| %>
+        <%= render 'form', f: f, d: @key_person %>
         <div class="inline">
           <p class="back_link"><%= render 'back_link' %></p>
           <span class="next_link">
