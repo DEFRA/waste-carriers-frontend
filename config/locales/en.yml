@@ -6,6 +6,7 @@ en:
         dob_day: Day
         dob_month: Month
         dob_year: Year
+        dob: "Date of birth"
         first_name: "First name"
         last_name: "Last name"
       payment:
