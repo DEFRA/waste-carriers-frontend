@@ -3,7 +3,9 @@
   <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
     <%= validation_for(@registration, :declaration) %>
     <p><%= f.check_box :declaration%> 
-    <%= t 'registrations.confirmation_step.declaration_text' %></p>
+    <%= t 'registrations.confirmation_step.declaration_text_tick_box' %></p>
+    <p><%= t 'registrations.confirmation_step.declaration_text_submit' %></p>
+    <p><%= t 'registrations.confirmation_step.declaration_text_fined' %></p>
   </div>
 
   <h2><%= t 'registrations.confirmation_step.data_protection_heading' %></h2>
