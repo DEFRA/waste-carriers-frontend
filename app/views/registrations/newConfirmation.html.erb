@@ -2,17 +2,19 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-
-    <% content_for :page_title, createTitle('registrations.confirmation_step.title') %>
-    <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
-
-      <div class="step"><%= t 'registrations.confirmation_step.step' %></div>
-      <h1 class="subtitle"><%= t 'registrations.confirmation_step.subtitle' %></h1>
-
-      <%= render "confirmation_step", f: f, registration_class: 'lower_tier' %>
-      <%= render 'declaration_and_data_protection', f: f %>
-
-    <% end %>
-
+  	<section>
+      <div class="inner">
+      <div class="col-1">
+    	<% content_for :page_title, createTitle('registrations.confirmation_step.title') %>
+    	<%= form_for(@registration, :url => newConfirmation_path) do |f| %>
+    	<ol>
+      		<li class="step"><%= t 'registrations.confirmation_step.step' %></li>
+      	</ol>
+      		<%= render "confirmation_step", f: f, registration_class: 'lower_tier' %>
+      		<%= render 'declaration_and_data_protection', f: f %>
+    	<% end %>
+    	</div>
+ 	 	</div>
+	</section>
   </article>
 </main>
