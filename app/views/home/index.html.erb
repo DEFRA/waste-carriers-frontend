@@ -2,6 +2,9 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+      <section>
+      <div class="inner">
+      <div class="col-1">
       <fieldset>
       <legend>GOV.UK Waste Carriers Registration Service - Development Home Page</legend>
       <p>You are seeing this page because the application is deployed in development mode.</br>
@@ -41,16 +44,22 @@
       <h3>Administration Entry points</h3>
       <p><a href='/admins/sign_in'>Administration Login </a></p>
 
-      <hr>
+          </div>
+        </div>
+    </section>
+    </fieldset>
 
-      <h3>Template examples</h3>
-      <p><a href='/templates/form'>Form example</a></p>
-      <p><a href='/templates/form-template'>Form template</a></p>
-
-      <h3>Other</h3>
-      <p><%= button_to 'Reset session', destroy_user_session_path, :method => :delete %></p>
-
-      <div id="includedContent"></div>
-      </fieldset>
+      <aside role='note'>
+          <div class="inner">
+            <div class="col-2"> 
+              <h3>Template examples</h3>
+                <p><a href='/templates/form'>Form example</a></p>
+                <p><a href='/templates/form-template'>Form template</a></p>
+                <h3>Other</h3>
+                <p><%= button_to 'Reset session', destroy_user_session_path, :method => :delete %></p>
+                <div id="includedContent"></div>
+            </div>
+          </div>
+      </aside>
   </article>
 </main>

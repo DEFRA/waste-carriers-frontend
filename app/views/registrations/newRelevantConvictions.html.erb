@@ -2,16 +2,19 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-
-    <% content_for :page_title, createTitle('registrations.convictions_step.title') %>
-    <%= form_for(@registration, :url => newRelevantConvictions_path) do |f| %>
-
-        <p class="back_link"><%= render 'back_link' %></p>
-        <div class="step"><%= t 'registrations.convictions_step.step' %></div>
-
-        <%= render "convictions_step", :f => f %>
-
-    <% end %>
-
+  	<section>
+      <div class="inner">
+      	 <div class="col-1">
+    		<% content_for :page_title, createTitle('registrations.convictions_step.title') %>
+    		<%= form_for(@registration, :url => newRelevantConvictions_path) do |f| %>
+    		<ol>
+        		<li class='back_link'><%= render 'back_link' %></li>
+       			<li class="step"><%= t 'registrations.convictions_step.step' %></li>
+       		</ol>
+        	<%= render "convictions_step", :f => f %>
+    		  <% end %>
+  		  </div>
+	  </div>
+	</section>
   </article>
 </main>
