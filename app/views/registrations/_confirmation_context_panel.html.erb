@@ -1,0 +1,11 @@
+<div class='form-group'>
+  <ul class='summary-box'>
+    <% case r.tier %>
+      <% when 'UPPER' %>
+        <% message = "#{t('.tier_result_message', tier_with_article: r.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
+      <% else %>
+        <% message = t '.tier_result_message', tier_with_article: r.tier.downcase.with_indefinite_article %>
+    <% end %>
+    <li><%= message %></li>
+  </ul>
+</div>
