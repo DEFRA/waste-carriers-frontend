@@ -292,7 +292,7 @@ en:
       title: "Confirm delete registration"
     confirmation_step:
       data_protection_heading: "How we use your personal information"
-      data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
+      data_protection_text1: "See the privacy and shared cookies policy to find out how the Environment Agency will use this information."
       declaration_heading: Declaration
       declaration_text_tick_box: "By ticking this box I understand that:"
       declaration_text_submit: "By ticking this box I understand that:"

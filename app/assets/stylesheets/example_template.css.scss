@@ -28,7 +28,7 @@
 }
 
 .summary-box, .example {
-   padding: 30px 0 10px 30px;
+   padding: 20px 0 10px 30px;
 }
 
 .payment-box {
@@ -83,9 +83,7 @@
 
 //Summary box
 
-.summary-box:before {
-    content: "SUMMARY";
-}
+
 .summary-box {
     margin-bottom: 10px;
     margin-top: 10px;
