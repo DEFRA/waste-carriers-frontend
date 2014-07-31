@@ -7,18 +7,25 @@
     <div id="page7"  data-journey="waste-carriers-registration:key-person-details">
 
       <% content_for :page_title, createTitle('.title') %>
+      <p class="back_link"><%= render 'back_link' %></p>
       <div class="step"><%= t '.step' %></div>
 
       <%= form_for(@key_person, url: {action: "create"} ) do |f| %>
         <%= render 'form', f: f, d: @key_person %>
         <div class="inline">
-          <p class="back_link"><%= render 'back_link' %></p>
           <span class="next_link">
-            <input name="next" class="button button-get-started" type="submit" value="<%= t 'form.add_button_label' %>"/>
+            <input name="next" class="button button-get-started" type="submit" value="<%= t '.add_key_person_button_text' %>"/>
           </span>
         </div>
       <% end %>
-
     </div>
+
+    <% if @key_people.any? %>
+        <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+            <div class="next_link"><%= render 'next_link' %></div>
+        <% end %>
+
+        <%= render 'key_people_index' %>
+    <% end %>
   </article>
 </main>

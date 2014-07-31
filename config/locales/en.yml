@@ -6,6 +6,7 @@ en:
         dob_day: Day
         dob_month: Month
         dob_year: Year
+        dob: "Date of birth"
         first_name: "First name"
         last_name: "Last name"
       payment:
@@ -124,6 +125,9 @@ en:
     new:
       step: "Step 7 of 8"
       title: "Key person details"
+      you_have_added: "You have added the following key people"
+      key_person_name_string: "Key person name"
+      add_key_person_button_text: "Add another key person"
   distances:
     ? "10"
     : "10 Miles"
@@ -143,6 +147,7 @@ en:
       invalidEmail: "must be a valid email address"
       invalid_characters: "contains invalid characters. Please only use letters, numbers, or \\'&%!."
       invalid_date: "is not a valid date (dd/mm/yyyy)"
+      date_not_in_past: "must be in the past"
       invalid_selection: "has an invalid selection"
       letters: "can only contain letters"
       lettersSpaces: "can only contain letters and spaces"

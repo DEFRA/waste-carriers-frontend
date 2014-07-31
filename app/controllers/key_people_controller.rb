@@ -10,10 +10,6 @@ class KeyPeopleController < ApplicationController
       return
     end
     get_key_people
-    unless @key_people.empty?
-      redirect_to action: 'index'
-      return
-    end
     redirect_to action: 'new'
   end
 
@@ -28,6 +24,7 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-people/new
   def new
+    get_key_people
     @key_person = Registration::KeyPerson.create
   end
 
@@ -48,35 +45,29 @@ class KeyPeopleController < ApplicationController
 
     @registration.key_people.delete(key_person_to_remove)
 
-    if @registration.key_people.to_a.empty?
-      redirect_to action: 'registration'
-    else
-      redirect_to action: 'index'
-    end
-
+    redirect_to action: 'new'
   end
 
   # POST /your-registration/key-people
   def create
     get_key_people
 
-    key_person = Registration::KeyPerson.create
-    key_person.set_attribs(params[:key_person])
+    @key_person = Registration::KeyPerson.create
+    @key_person.set_attribs(params[:key_person])
 
 
 
-    if key_person.valid?
-      key_person.save
+    if @key_person.valid?
+      @key_person.save
       logger.debug @registration.id
-      @registration.key_people.add(key_person)
+      @registration.key_people.add(@key_person)
       @registration.save
 
-      logger.info 'Key person is valid so far, go to next page'
-      render 'index'
+      redirect_to action: 'new'
     else
       # there is an error (but data not yet saved)
       logger.info 'Key person is not valid, and data is not yet saved'
-      render :new, :status => '400'
+      render 'new'
     end
   end
 
@@ -111,13 +102,12 @@ class KeyPeopleController < ApplicationController
   end
 
   def get_registration
-
-    @registration = Registration[ session[:registration_id]]
+    @registration = Registration[session[:registration_id]]
     logger.debug  @registration.attributes.to_s
   end
 
   def get_key_people
-    @registration = Registration[ session[:registration_id]]
+    @registration = Registration[session[:registration_id]]
     @key_people = @registration.key_people.to_a
     logger.debug  @key_people.to_s
   end
