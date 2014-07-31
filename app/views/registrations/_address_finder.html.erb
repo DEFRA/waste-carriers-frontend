@@ -1,39 +1,37 @@
+<% case %>
+<% when  !r.addressMode  %>
+  <%= render 'address_postcode_lookup', f: f, postcode: r.postcode, show_error: false  %>
+<% when  r.addressMode == 'address-results' %>
+  <% if @address_match_list %>
+      <% if @address_match_list.size  < 1 %> <!-- no addresses found for postcode -->
+          <span class="error-text"><%= t '.no_results_error'%></span>
+          <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
+      <% else %> <!-- addresses were found for postcode -->
+          <div class="form-group">
+            <h2><%= t '.select_address' %></h2>
+            <p><a href="?changeAddress=true"><%= t '.change_link'%></a></p>
 
-  <% case %>
-<% when  !@registration.addressMode  %>
-      <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: false  %>
+            <select id="addressSelector" name="addressSelector" size="<%=[10,@address_match_list.elements.count].min%>"
+                    required autofocus>
+              <% @address_match_list.elements.each do |address| %>
+                  <option value="<%=address.moniker%>"><%=address.partial%></option>
+              <%end%>
+            </select>
+            <p><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></p>
 
-  <% when  @registration.addressMode == 'address-results' %>
-      <% if  @address_match_list %>
-          <% if  @address_match_list.size  < 1 %> <!-- no addresses found for postcode -->
-              <span class="error-text"><%= t '.no_results_error'%></span>
-              <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: true  %>
-          <% else %> <!-- addresses were found for postcode -->
-              <div class="form-group">
-                <h2><%= t '.selectAddress' %></h2>
-                <p><a href="?changeAddress=true"><%= t 'registrations.contact_step.change'%></a></p>
-
-                <select id="addressSelector" name="addressSelector" size="<%=[10,@address_match_list.elements.count].min%>"
-                        required autofocus>
-                  <% @address_match_list.elements.each do |address| %>
-                      <option value="<%=address.moniker%>"><%=address.partial%></option>
-                  <%end%>
-                </select>
-                <p><a href="?manualUkAddress=true"><%= t 'registrations.contact_step.manual_address_label'%></a></p>
-
-              </div>
-          <% end %>  <!-- if -->
-      <% else %>  <!-- @address_match_list is nil, address service lookup failed -->
-          <span class="error-text"><%= t '.address_service_error'%></span>
-          <%= render 'address_postcode_lookup', f: f , postcode: @registration.postcode, show_error: true  %>
+          </div>
       <% end %>  <!-- if -->
+  <% else %>  <!-- @address_match_list is nil, address service lookup failed -->
+      <span class="error-text"><%= t '.address_service_error'%></span>
+      <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
+  <% end %>  <!-- if -->
 
-  <% when @registration.addressMode == 'manual-uk' %>
-      <%= render 'uk_address_entry', f: f  %>
-      <p><a href="?autoUkAddress=true"><%= t 'registrations.contact_step.findAddressUsingPostcode'%></a></p>
+<% when r.addressMode == 'manual-uk' %>
+  <%= render 'uk_address_entry', f: f  %>
+  <p><a href="?autoUkAddress=true"><%= t '.find_address_using_postcode'%></a></p>
 
-  <% when @registration.addressMode == 'manual-foreign'  %>
-      <%= render 'foreign_address_entry', f: f  %>
-      <p><a href="?autoUkAddress=true"><%= t '.ukAddressLink'%></a></p>
+<% when r.addressMode == 'manual-foreign'  %>
+  <%= render 'foreign_address_entry', f: f  %>
+  <p><a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a></p>
 
-  <% end %>
+<% end %>

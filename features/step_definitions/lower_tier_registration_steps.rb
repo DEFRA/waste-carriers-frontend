@@ -19,18 +19,18 @@ Given(/^I have completed the lower tier registration form$/) do
   fill_in 'registration_postcode', with: 'BS1 5AH'
   click_on 'Next'
 
-  fill_in 'First name', with: 'Joe'
-  fill_in 'Last name', with: 'Bloggs'
-  fill_in 'Phone number', with: '0117 926 8332'
-  fill_in 'Email address', with: my_email_address
+  fill_in 'registration_firstName', with: 'Joe'
+  fill_in 'registration_lastName', with: 'Bloggs'
+  fill_in 'registration_phoneNumber', with: '0117 926 8332'
+  fill_in 'registration_contactEmail', with: my_email_address
   click_on 'Next'
 
   check 'registration_declaration'
   click_on 'Confirm'
 
-  fill_in 'Confirm email', with: my_email_address
-  fill_in 'Create password', with: my_password
-  fill_in 'Confirm password', with: my_password
+  fill_in 'registration_accountEmail_confirmation', with: my_email_address
+  fill_in 'registration_password', with: my_password
+  fill_in 'registration_password_confirmation', with: my_password
   click_on 'Next'
 
   sleep 0.2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
