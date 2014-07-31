@@ -1,27 +1,27 @@
 <ul id='smartanswers_display'>
-  <% unless @registration.businessType.blank? %>
+  <% unless r.businessType.blank? %>
     <li>
-      <%= t '.business_type', :businessType => t('business_types.' + @registration.businessType).downcase %>
+      <%= t '.business_type', :businessType => t('business_types.' + r.businessType).downcase %>
     </li>
   <% end %>
-  <% unless @registration.otherBusinesses.blank? %>
+  <% unless r.otherBusinesses.blank? %>
     <li>
-      <%= t('.other_businesses_' + @registration.otherBusinesses) %>
+      <%= t('.other_businesses_' + r.otherBusinesses) %>
     </li>
   <% end %>
-  <% unless @registration.isMainService.blank? %>
+  <% unless r.isMainService.blank? %>
     <li>
-      <%= t('.service_provided_' + @registration.isMainService) %>
+      <%= t('.service_provided_' + r.isMainService) %>
     </li>
   <% end %>
-  <% unless @registration.onlyAMF.blank? %>
+  <% unless r.onlyAMF.blank? %>
     <li>
-      <%= t('.only_deal_with_' + @registration.onlyAMF) %>
+      <%= t('.only_deal_with_' + r.onlyAMF) %>
     </li>
   <% end %>
-  <% unless @registration.constructionWaste.blank? %>
+  <% unless r.constructionWaste.blank? %>
     <li>
-      <%= t('.construction_demolition_' + @registration.constructionWaste) %>
+      <%= t('.construction_demolition_' + r.constructionWaste) %>
     </li>
   <% end %>
 </ul>

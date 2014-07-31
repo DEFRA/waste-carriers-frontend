@@ -32,7 +32,7 @@ en:
         company_no: "Companies House number"
         contactEmail: "Email address"
         country: Country
-        declaration: Declaration
+        declaration: "Declaration"
         firstName: "First name"
         houseNumber: "Building name or number"
         individualsType: "Organisation type"
@@ -170,6 +170,7 @@ en:
     no_option_label: "No"
     update_button_label: Update
     yes_option_label: "Yes"
+    confirm_button_label: "Confirm"
   format_options:
     csv: csv
     json: json
@@ -340,21 +341,29 @@ en:
       step: "Step %{step_x} of %{step_y}"
       title: "Confirmation"
       subtitle: "Checking your details before registering"
-    confirmation_step:
-      data_protection_heading: "How we use your personal information"
-      data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
-      declaration_heading: Declaration
-      declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as a Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
-      key_person_summary_heading: "Key person details"
-      dynamic_panel_heading: "Dynamic panel: to provide context of user route"
-      edit_business_address_link: "Edit your business or organisation address"
-      edit_contact_details_link: "Edit your contact details"
-      edit_key_person_details_link: "Edit your key peoples details"
-      edit_smart_answers_link: "Edit what you told us"
-      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
-      privacy_policy: "Privacy policy and cookies"
       smart_answers_heading: "You told us"
-      tier_description: "You are %{tier_with_article} tier waste carrier..."
+      edit_smart_answers_link: "Edit what you told us"
+      business_details_heading: "Business or organisation address"
+      business_details_limited_heading: "Business address"
+      business_details_public_heading: "Organisation address"
+      edit_business_details_link: "Edit your business or organisation address"
+      contact_details_heading: "Your contact details"
+      edit_contact_details_link: "Edit your contact details"
+      data_protection_text1: "See the"
+      privacy_policy_link: "Privacy and shared cookies policy"
+      data_protection_text2: "to find out how the Environment Agency will use this information."
+    confirmation_context_panel:
+      tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
+      payment_message: "You are required to pay for an upper tier registration."
+    confirmation_declaration:
+      legend: "Declaration"
+      check_box_label: "By ticking this box I understand that:"
+      declaration_text1: "By submitting this registration I confirm that, as far as I know, the information I have given above is true."
+      declaration_text2: "I can be fined up to £5,000 if I give false or misleading information."
+    confirmation_step:
+      key_person_summary_heading: "Key person details"
+      edit_key_person_details_link: "Edit your key peoples details"
+      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
@@ -489,18 +498,6 @@ en:
       title: Payment
       total_label: "Total to pay"
       trouble_paying_link: "Trouble paying?"
-    newUpperSummary:
-      agree_declaration_label: "Tick this box to agree with declaration"
-      alternate_contact_legend: "Alternative contact"
-      amount_paid: "You have paid"
-      check_details_label: "Check your details"
-      confirm_label: "Confirm registration"
-      declaration_link: Declaration
-      main_contact_legend: "Main contact"
-      payment_label: "You are about to pay"
-      subtitle: Summary
-      title: Summary
-      use_your_information_link: "How we use your personal information"
     noregistration_step:
       contact_Line_1: "We need some more information about your organisation before we can register you as a waste carrier."
       contact_Line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
@@ -705,22 +702,10 @@ en:
       legend: "An example legend"
       subtitle: "All pages should follow this structure"
   upper_registrations:
-    business_address:
-      companies_house_label: "Find your companies house number"
-      manual_companies_house_link: "Enter details manually"
-      manual_other_address_link: "I am a company from outside the United Kingdom"
-      manual_uk_address_link: "Enter address manually"
-      subtitle: "Enter your business or organisation address"
-      title: "Business address"
     business_type:
       form_legend: "Type of registration to register"
       subtitle: "Carrier, broker or dealer"
       title: "Business type"
-    contact_detail:
-      alternate_form_legend: "Alternative contact (if required)"
-      key_person_form_legend: "Key person or main contact"
-      subtitle: "Enter your business or organisation contact details"
-      title: "Contact details"
     errors:
       error: error
       errorMessage: "You have %{count} on this page"
@@ -730,7 +715,6 @@ en:
       find_address_button_label: "Find UK address"
       find_details_button_label: "Find details"
       next_button_label: Next
-      progress: "Progress: "
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
       title: "Waste Carrier Registration"
     payment:

@@ -117,8 +117,6 @@ Registrations::Application.routes.draw do
     get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
     match "your-registration/payment" => "registrations#updateNewPayment", :via => [:post,:put,:patch]
 
-    get "your-registration/upper-tier-summary" => "registrations#newUpperSummary", :as => :upper_summary
-    post "your-registration/upper-tier-summary" => "registrations#updateNewUpperSummary"
   # routes for renewals and edits
   match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
   match "registrations/:uuid/edit" => 'registrations#update', :via => [:post,:put,:patch]
