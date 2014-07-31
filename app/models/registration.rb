@@ -604,6 +604,7 @@ class Registration < Ohm::Model
 
   def paid_in_full?
     the_balance = self.try(:finance_details).try(:first).try(:balance)
+    Rails.logger.debug "The registrations balance is #{the_balance}"
     return true if the_balance.nil?
     the_balance.to_i <= 0
   end

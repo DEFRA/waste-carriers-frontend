@@ -10,6 +10,7 @@
           <div id="page0"  data-journey="waste-carriers-registration:confirm-account">
 
             <% content_for :page_title, createTitle('.title') %>
+            <h2><%= t '.subtitle' %></h2>
             <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
             <p><%= t '.close_page' %></p>
             <% unless @registration.paid_in_full? %>
