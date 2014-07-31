@@ -597,7 +597,7 @@ en:
       distance_table_heading: Distance
       feedback_link: "Provide feedback about this service"
       filterLabel: "Filter by area (optional)"
-      heading: "Check an organisation is registered as a lower tier waste carrier/broker/dealer"
+      heading: "Check an organisation is registered as a waste carrier/broker/dealer"
       miles: Miles
       placeholder: "eg Bristol Flowers Ltd or Luton Mill"
       postcode_label: "of this postcode"
