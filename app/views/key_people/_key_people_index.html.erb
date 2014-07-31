@@ -1,0 +1,7 @@
+<div>
+  <h3><%= t 'key_people.new.you_have_added' %></h3>
+  <hr />
+  <%= content_tag_for(:p, @key_people) do |key_person| %>
+    <%= t 'key_people.new.key_person_name_string' %> <%= first_name_last_name(key_person) %> <%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'delete', :id => key_person.id), :class => 'link_to' %>
+  <% end %>
+</div>
