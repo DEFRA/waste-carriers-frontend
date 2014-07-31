@@ -442,14 +442,14 @@ class Registration < Ohm::Model
 
   validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: 'businessdetails_step?'
 
-  with_options if: :lower_or_upper_contact_details_step? do |registration|
+  with_options if: :contactdetails_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :lastName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :position, format: { with: GENERAL_WORD_REGEX }, :allow_nil => true, :allow_blank => true
     registration.validates :phoneNumber, presence: true, format: { with: VALID_TELEPHONE_NUMBER_REGEX }, length: { maximum: 20 }
   end
 
-  validates :contactEmail, presence: true, email: true, if: [:digital_route?, :lower_or_upper_contact_details_step?]
+  validates :contactEmail, presence: true, email: true, if: [:digital_route?, :contactdetails_step?]
 
   with_options if: [:address_step?, :manual_uk_address?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
@@ -532,16 +532,8 @@ class Registration < Ohm::Model
     current_step.inquiry.businessdetails?
   end
 
-  def lower_or_upper_contact_details_step?
-    contactdetails_step? or uppercontactdetails_step?
-  end
-
   def contactdetails_step?
     current_step.inquiry.contactdetails?
-  end
-
-  def uppercontactdetails_step?
-    current_step.inquiry.upper_contact_details?
   end
 
   def key_person_step?
@@ -604,6 +596,7 @@ class Registration < Ohm::Model
 
   def paid_in_full?
     the_balance = self.try(:finance_details).try(:first).try(:balance)
+    Rails.logger.debug "The registrations balance is #{the_balance}"
     return true if the_balance.nil?
     the_balance.to_i <= 0
   end
