@@ -33,18 +33,20 @@ class KeyPerson < Ohm::Model
     end
   end
 
-  private
+private
 
-  def convert_dob
+  def validate_dob
+    set_dob
+    errors.add(:dob, 'is invalid i18n') unless dob
+    errors.add(:dob, 'must be in the past i18n') unless dob.try(:past?)
+  end
+
+  def set_dob
     begin
       self.dob = Date.civil(self.dob_year.to_i, self.dob_month.to_i, self.dob_day.to_i)
     rescue ArgumentError
-      false
+      nil
     end
-  end
-
-  def validate_dob
-    errors.add('Date of birth', 'is invalid.') unless convert_dob
   end
 
 end
