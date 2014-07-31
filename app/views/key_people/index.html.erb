@@ -7,8 +7,8 @@
     <div class="step"><%= t '.step' %></div>
 
     <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
-      <%= render 'index', f: f, l: @registration.directors %>
-      <%= link_to t('form.add_button_label'), url_for({ :controller => 'directors', :action => 'new' }), :class => 'link_to' %>
+      <%= render 'index', f: f, l: @registration.key_people %>
+      <%= link_to t('form.add_button_label'), url_for({ :controller => 'key_people', :action => 'new' }), :class => 'link_to' %>
       <%= render 'wizard_links' %>
     <% end %>
 

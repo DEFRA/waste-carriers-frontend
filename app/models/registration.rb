@@ -79,8 +79,7 @@ class Registration < Ohm::Model
   attribute :location
 
   set :metaData, :Metadata #will always be size=1
-  set :directors, :Director
-  set :key_persons, :KeyPerson # is a true set
+  set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
   set :payments, :Payment
   set :orders, :Order
@@ -195,23 +194,13 @@ class Registration < Ohm::Model
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
+    key_people = []
 
-    directors = []
-
-    if self.directors &&  self.directors.size > 0
-      self.directors.each do  |dir|
-        directors <<  dir.attributes.to_hash
+    if self.key_people &&  self.key_people.size > 0
+      self.key_people.each do  |per|
+        key_people <<  per.attributes.to_hash
       end
-      result_hash['directors'] = directors
-    end #if
-
-    key_persons = []
-
-    if self.key_persons &&  self.key_persons.size > 0
-      self.key_persons.each do  |per|
-        key_persons <<  per.attributes.to_hash
-      end
-      result_hash['key_persons'] = key_persons
+      result_hash['key_people'] = key_people
     end #if
 
     if self.finance_details.size == 1
@@ -374,16 +363,10 @@ class Registration < Ohm::Model
           new_reg.expires_on = v
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
-        when 'directors'
+        when 'key_people'
           if v
             v.each do |dir|
-              new_reg.directors.add HashToObject(dir, 'Director')
-            end
-          end #if
-        when 'key_persons'
-          if v
-            v.each do |dir|
-              new_reg.key_persons.add HashToObject(dir, 'KeyPerson')
+              new_reg.key_people.add HashToObject(dir, 'KeyPerson')
             end
           end #if
         when 'metaData'
@@ -470,7 +453,7 @@ class Registration < Ohm::Model
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
 
-  validate :validate_key_persons, if: :key_person_step?
+  validate :validate_key_people, if: :key_person_step?
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
@@ -748,9 +731,9 @@ class Registration < Ohm::Model
 
   private
 
-  def validate_key_persons
-    if key_persons.blank?
-      errors.add('Key persons', 'is invalid.') unless convert_dob
+  def validate_key_people
+    if key_people.blank?
+      errors.add('Key people', 'is invalid.') unless convert_dob
     end
   end
 
