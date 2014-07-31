@@ -335,6 +335,10 @@ en:
       name_field_limited: "Business trading name"
       name_field_public: "Public body name"
       subtitle: ""
+    company_details_finder:
+      companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
+      companies_house_registration_number_not_found: "is not listed by Companies House"
+      companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
     address_finder:
       address_service_error: "Address lookup service cannot be contacted!"
       no_results_error: "There are no addresses for the given postcode"
@@ -491,8 +495,6 @@ en:
       title: Payment
       total_label: "Total to pay"
       trouble_paying_link: "Trouble paying?"
-    newUpperBusinessDetails:
-      title: "Business Details"
     newUpperSummary:
       agree_declaration_label: "Tick this box to agree with declaration"
       alternate_contact_legend: "Alternative contact"
@@ -633,10 +635,6 @@ en:
       other_businesses_yes: "You deal with waste from other businesses or households"
       service_provided_no: "You just dispose of clients' waste as part of another service"
       service_provided_yes: "This is the main service you provide"
-    upper_contact_details:
-      companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
-      companies_house_registration_number_not_found: "is not listed by Companies House"
-      companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
     userRegistrations:
       registered: "Status: Registered"
       registrationCountText: "You have %{count}"

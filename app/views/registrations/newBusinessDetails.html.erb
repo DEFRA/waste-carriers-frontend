@@ -2,22 +2,21 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-
-    <!-- WF 4.3.2 -->
-    <div id="page6"  data-journey="waste-carriers-registration:business-details">
-
       <section>
         <div class="inner">
           <div class="col-1">
+
+            <!-- WF 4.3.2 -->
+            <div id="page6"  data-journey="waste-carriers-registration:business-details">
               <% content_for :page_title, createTitle('.title') %>
-              <div class="inline">
-                <p class="back_link"><%= render 'back_link' %></p>
+              <ol>
+                <li class="back_link"><%= render 'back_link' %></li>
                 <% if @registration.tier.eql?('UPPER') %>
-                  <div class="step"><%= t '.step', :step_x => '2', :step_y => '9' %></div>
+                  <li class="step"><%= t '.step', :step_x => '2', :step_y => '9' %></li>
                 <% else %>
-                  <div class="step"><%= t '.step', :step_x => '1', :step_y => '4' %></div>
+                  <li class="step"><%= t '.step', :step_x => '1', :step_y => '4' %></li>
                 <% end %>
-              </div>
+              </ol>
         
               <%= render 'errors' %>
         
@@ -31,9 +30,9 @@
         
                 <span class="next_link"><%= render 'next_link' %></span>
               <% end %>
+            </div>
           </div>
         </div>
       </section>
-    </div>
   </article>
 </main>
