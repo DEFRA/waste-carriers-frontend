@@ -148,6 +148,7 @@ en:
       invalidEmail: "must be a valid email address"
       invalid_characters: "contains invalid characters. Please only use letters, numbers, or \\'&%!."
       invalid_date: "is not a valid date (dd/mm/yyyy)"
+      date_not_in_past: "must be in the past"
       invalid_selection: "has an invalid selection"
       letters: "can only contain letters"
       lettersSpaces: "can only contain letters and spaces"
