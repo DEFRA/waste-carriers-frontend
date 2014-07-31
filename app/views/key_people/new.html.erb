@@ -20,10 +20,12 @@
       <% end %>
     </div>
 
-    <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
-        <div class="next_link"><%= render 'next_link' %></div>
-    <% end %>
+    <% if @key_people.any? %>
+        <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+            <div class="next_link"><%= render 'next_link' %></div>
+        <% end %>
 
-    <%= render 'key_people_index' %>
+        <%= render 'key_people_index' %>
+    <% end %>
   </article>
 </main>
