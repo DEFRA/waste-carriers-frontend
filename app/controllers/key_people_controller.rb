@@ -9,7 +9,7 @@ class KeyPeopleController < ApplicationController
       redirect_to :upper_payment
       return
     end
-    get_directors
+    get_key_people
     redirect_to action: 'new'
   end
 
