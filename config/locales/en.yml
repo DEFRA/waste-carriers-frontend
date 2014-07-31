@@ -28,7 +28,7 @@ en:
         businessType: "Business or organisation type"
         business_type: "Business type"
         companyName: "Business or organisation trading name"
-        company_house_number: "Companies house number"
+        company_no: "Companies House number"
         contactEmail: "Email address"
         country: Country
         declaration: Declaration
@@ -67,7 +67,6 @@ en:
         business_name: "Business or organisation trading name"
         carrier_broker_dealer: carrier/broker/dealer
         carrier_dealer: carrier/dealer
-        company_no: "Company Number"
         copy_cards: "Copy card"
         payment_method: "Choose payment method"
         postcode: Postcode
@@ -278,11 +277,6 @@ en:
       search_address_label: "Search for address by postcode"
       selectAddress: "Select address"
       streetLine1Foreign: Address
-    address_finder:
-      address_service_error: "Address lookup service cannot be contacted!"
-      no_results_error: "There are no addresses for the given postcode"
-      selectAddress: "Select address"
-      ukAddressLink: "I have an address in the United Kingdom"
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     businessdetails_step:
       step: "Step 5 of 8"
@@ -292,9 +286,6 @@ en:
       step: "Step 1 of 8"
       subtitle: "What type of business or organisation are you?"
       title: "Business type"
-    company_name:
-      subtitle_upper: "Enter your %{business_caption} details"
-      businessAddressingMode: "%{addressing_mode} trading name"
     confirmDelete:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
@@ -333,20 +324,34 @@ en:
       step: "Step 3 of 8"
       subtitle: "Do you ever deal with construction or demolition waste?"
       title: "Construction or demolition"
-    contact_step:
-      businessAddress: "Main business, organisation or trading address"
-      change: Change
-      contactHeading: "Address and contact details"
-      contact_information_legend: "Contact information"
-      findAddress: "Find address"
-      findAddressUsingPostcode: "Find address using postcode"
-      foreignAddressLink: "I have an address outside the United Kingdom"
-      manual_address_label: "I want to add an address myself"
+    newBusinessDetails:
+      step: "Step %{step_x} of %{step_y}"
+      title: "Business details"
+      legend: "Enter your business or organisation details"
+      legend_limited: "Enter your business details"
+      legend_public: "Enter your organisation details"
+      name_field: "Business or organisation trading name"
+      name_field_limited: "Business trading name"
+      name_field_public: "Public body name"
+      subtitle: ""
+    company_details_finder:
+      companies_house_explain: "This is your company registration number"
+      companies_house_link: "Don't know your Companies House number?"
+      companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
+      companies_house_registration_number_not_found: "is not listed by Companies House"
+      companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
+    address_finder:
+      address_service_error: "Address lookup service cannot be contacted!"
       no_results_error: "There are no addresses for the given postcode"
-      postcode_search_error: "A postcode must be provided"
-      search_address_label: "Search for address by postcode"
-      selectAddress: "Select address"
-      streetLine1Foreign: Address
+      select_address: "Select address"
+      change_link: Change
+      uk_address_link: "I have an address in the United Kingdom"
+      find_address_using_postcode: "Find address using postcode"
+      manual_address_link: "I want to add an address myself"
+    address_postcode_lookup:
+      find_address_button: "Find UK address"
+      manual_address_link: "I want to add an address myself"
+      foreign_address_link: "I have an address outside the United Kingdom"
     newContactDetails:
       step: "Step 3 of 9"
       title: "Contact details"
@@ -491,8 +496,6 @@ en:
       title: Payment
       total_label: "Total to pay"
       trouble_paying_link: "Trouble paying?"
-    newUpperBusinessDetails:
-      title: "Business Details"
     newUpperSummary:
       agree_declaration_label: "Tick this box to agree with declaration"
       alternate_contact_legend: "Alternative contact"
@@ -633,10 +636,6 @@ en:
       other_businesses_yes: "You deal with waste from other businesses or households"
       service_provided_no: "You just dispose of clients' waste as part of another service"
       service_provided_yes: "This is the main service you provide"
-    upper_contact_details:
-      companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
-      companies_house_registration_number_not_found: "is not listed by Companies House"
-      companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
     userRegistrations:
       registered: "Status: Registered"
       name_header: "Name"

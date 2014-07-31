@@ -89,6 +89,8 @@ module Registrations
     config.waste_exemplar_frontend_public_subdomain = ENV["WCRS_FRONTEND_PUBLIC_APP_SUBDOMAIN"] || "www.wastecarriersregistration.service"
     config.waste_exemplar_frontend_admin_subdomain = ENV["WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN"] || "admin.wastecarriersregistration.service"
 
+    config.waste_exemplar_companies_house_url = 'http://wck2.companieshouse.gov.uk//wcframe?name=accessCompanyInfo'
+
     #In Production we want to verify that requests to agency user and administration functionality
     #have been made via the 'internal' domain URL 'https://admin.wastecarriersregistration.service.gov.uk'
     #rather than via the public domain and URL 'https://www.wastecarriersregistration.service.gov.uk'
