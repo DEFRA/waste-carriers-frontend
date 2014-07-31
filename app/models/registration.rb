@@ -3,7 +3,6 @@ class Registration < Ohm::Model
   include ActiveModel::Conversion
   include ActiveModel::Validations
   extend ActiveModel::Naming
-  include RegistrationsHelper
 
   FIRST_STEP = 'businesstype'
 
@@ -145,6 +144,7 @@ class Registration < Ohm::Model
       Rails.logger.debug "Commited to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
+      puts e.to_s
       commited = false
     end
     uuid
@@ -288,13 +288,16 @@ class Registration < Ohm::Model
     def find_all_by(some_text, within_field)
       registrations = []
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?q=#{some_text}&searchWithin=#{within_field}"
+      Rails.logger.debug url
       begin
         response = RestClient.get url
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug "find_all_by found #{all_regs.size.to_s} items"
+          Rails.logger.debug "find_all_by - found #{all_regs.size.to_s} items"
           all_regs.each do |r|
+            Rails.logger.debug r['id'].to_s
             registrations << Registration.init(r)
+            Rails.logger.debug "#{registrations.size.to_s}"
           end
         else
           Rails.logger.error "Registration.find_all_by(#{some_text}, #{within_field}) failed with a #{response.code} response from server"
@@ -377,7 +380,7 @@ class Registration < Ohm::Model
         when 'id'
           new_reg.uuid = v
         when 'expiresOn', 'expires_on'
-          new_reg.expires_on = Time.at(v / 1000.0)
+          new_reg.expires_on = convert_date(v)
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'directors'
@@ -743,4 +746,27 @@ class Registration < Ohm::Model
     end #each
     Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
+
+
+  # Retrieves a date from either a String or Java(ms) format to a Time object
+  #
+  # @param d [String, Numeric] the date to convert
+  # @return [Time]
+  class << self
+    def convert_date d
+      res = Time.new(1970,1,1)
+      if d
+        begin
+          res = Time.at(d / 1000.0)
+          # if d is String the NoMethodError will be raised
+        rescue NoMethodError
+          res = Time.parse(d)
+        end
+      end #if
+      res
+    end
+  end
+
+
+
 end

@@ -93,7 +93,12 @@ Registrations::Application.routes.draw do
     get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
-	   # resources :registrations,  only: [:edit, :update]
+	  resources :registrations
+        # get "registrations(.:format)" => "registrations#index", :as => :registrations
+        # post  "registrations(.:format)" => "registrations#create"
+        # get "your-registration/payment(.:format)" => "registrations#newPayment", :as => :upper_payment
+        # post  "your-registration/payment(.:format)" => "registrations#updateNewPayment"
+
 
     get "your-registration/upper/business-type" => "registrations#business_type", :as => :upper_business_type
     post "your-registration/upper/business-type" => "registrations#business_type_update"
@@ -121,7 +126,7 @@ Registrations::Application.routes.draw do
     match "your-registration/relevant-convictions" => "registrations#updateNewRelevantConvictions", :via => [:post,:put,:patch]
 
     get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
-    post "your-registration/payment" => "registrations#updateNewPayment"
+    match "your-registration/payment" => "registrations#updateNewPayment", :via => [:post,:put,:patch]
 
     get "your-registration/upper-tier-summary" => "registrations#newUpperSummary", :as => :upper_summary
     post "your-registration/upper-tier-summary" => "registrations#updateNewUpperSummary"

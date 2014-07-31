@@ -68,7 +68,7 @@ class Order < Ohm::Model
   # @return  [Hash]  the order object as a hash
   def to_hash
     h = attributes
-    h["orderItems"] = order_items.map { |x| x.attributes.to_json }  if order_items && order_items.size > 0
+    h["orderItems"] = order_items.map { |x| x.attributes }  if self.order_items && self.order_items.size > 0
     h
   end
 
