@@ -63,7 +63,7 @@ end
 
 Given(/^the registration is valid for a small write off$/) do
   # Here we am running a series of steps to get the registraiton in the state ready for a small write off
-  # A payment of 150.00 puts the excess balance of 4 within the -5->5 (Payment.basicMinimum-Payment.basicMaximum) 
+  # A payment of 150.00 puts the excess balance of 4 within the -5->5 (Payment.basicMinimum-Payment.basicMaximum)
   # range of the small write off
   steps %Q{
     Given I select to enter payment
@@ -183,7 +183,7 @@ Then(/^payment status will be pending$/) do
   page.should have_content 'Awaiting payment'
 end
 
-When(/^payment status is pending$/) do 
+When(/^payment status is pending$/) do
   page.should have_content 'Awaiting payment'
 end
 
@@ -230,7 +230,6 @@ end
 When(/^refund is selected$/) do
   page.should have_content 'Payment status'
   click_link 'refund'
-  page.should have_content 'Refunds'
 end
 
 Then(/^refund is made against original payment card$/) do
@@ -282,8 +281,8 @@ When(/^I don't have refund user role$/) do
 end
 
 #
-# This helper function is usefull for debugging pages, 
-# alternatively just call the containing save_and_open_page line 
+# This helper function is usefull for debugging pages,
+# alternatively just call the containing save_and_open_page line
 # from within a step
 #
 Then /^show me the page$/ do
@@ -291,7 +290,7 @@ Then /^show me the page$/ do
 end
 
 #
-# This is a copy from assisted_digital_steps.rb line 95 
+# This is a copy from assisted_digital_steps.rb line 95
 # When(/^I create an upper tier registration on behalf of a caller$/) do
 # But has a unique companyName, such that each payment scenario can find and use a unique registration.
 # And increments a registration count
@@ -329,7 +328,6 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
 
   fill_in 'First name', with: 'Antony'
   fill_in 'Last name', with: 'Assisted'
-  fill_in 'Job title', with: 'Chief'
   fill_in 'Phone number', with: '0123 456 789'
   #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
   fill_in 'Email address', with: ''
