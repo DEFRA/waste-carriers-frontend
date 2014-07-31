@@ -17,7 +17,6 @@ class RegistrationsController < ApplicationController
     searchString = params[:q]
     if validate_search_parameters?(searchString,searchWithin)
       if searchString && !searchString.empty?
-        # @registrations = Registration.find(:all, :params => {:q => searchString, :searchWithin => searchWithin})
         @registrations = Registration.find_all_by(searchString, searchWithin)
       else
         @registrations = []
@@ -27,6 +26,7 @@ class RegistrationsController < ApplicationController
       flash.now[:notice] = 'You must provide valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
     end
     session[:registration_step] = session[:registration_params] = nil
+    logger.debug "index: #{ @registrations.size.to_s} items"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -53,7 +53,7 @@ class RegistrationsController < ApplicationController
       when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
         redirect_to :newOtherBusinesses
       when 'charity', 'authority'
-        redirect_to :newBusinessDetails
+        proceed_as_lower
       when 'other'
         redirect_to :newNoRegistration
       end
@@ -61,7 +61,6 @@ class RegistrationsController < ApplicationController
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newBusinessType", :status => '400'
-      #redirect_to newBusinessDetails_path
     end
   end
 
@@ -144,9 +143,9 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
       when 'yes'
-        redirect_to :newRegistrationType
+        proceed_as_upper
       when 'no'
-        redirect_to :newBusinessDetails
+        proceed_as_lower
       end
     else
       # there is an error (but data not yet saved)
@@ -168,30 +167,14 @@ class RegistrationsController < ApplicationController
       # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
       when 'yes'
-        redirect_to :newBusinessDetails
+        proceed_as_lower
       when 'no'
-        redirect_to :newRegistrationType
+        proceed_as_upper
       end
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newOnlyDealWith", :status => '400'
-    end
-  end
-
-  def newRelevantConvictions
-    new_step_action 'convictions'
-  end
-
-  def updateNewRelevantConvictions
-    setup_registration 'convictions'
-
-    if @registration.valid?
-      redirect_to :upper_summary
-    elsif @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newRelevantConvictions", :status => '400'
     end
   end
 
@@ -231,19 +214,13 @@ class RegistrationsController < ApplicationController
       rescue ActiveResource::ServerError
         logger.error 'ERROR: ActiveResource Server error!'
       end
-      render "newBusinessDetails", status: '200'
+      render 'newBusinessDetails', status: '200'
     elsif @registration.valid?
-      next_step = case @registration.tier
-      when 'UPPER'
-        :newUpperBusinessDetails
-      when 'LOWER'
-        :newContact
-      end
-      redirect_to next_step
+      redirect_to :newContact
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render "newBusinessDetails", :status => '400'
+      render 'newBusinessDetails', :status => '400'
     end
   end
 
@@ -276,7 +253,7 @@ class RegistrationsController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render "newContactDetails", :status => '400'
+      render 'newContactDetails', :status => '400'
     end
   end
 
@@ -289,12 +266,28 @@ class RegistrationsController < ApplicationController
   def updateNewRegistrationType
     setup_registration 'registrationtype'
     if @registration.valid?
-      redirect_to :newUpperBusinessDetails
+      redirect_to :newBusinessDetails
 
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render "newRegistrationType", :status => '400'
+      render 'newRegistrationType', :status => '400'
+    end
+  end
+
+  def newRelevantConvictions
+    new_step_action 'convictions'
+  end
+
+  def updateNewRelevantConvictions
+    setup_registration 'convictions'
+
+    if @registration.valid?
+      redirect_to :upper_summary
+    elsif @registration.new_record?
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newRelevantConvictions", :status => '400'
     end
   end
 
@@ -363,6 +356,18 @@ class RegistrationsController < ApplicationController
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
+  end
+
+  def proceed_as_upper
+    @registration.tier = 'UPPER'
+    @registration.save
+    redirect_to action: 'newRegistrationType'
+  end
+
+  def proceed_as_lower
+    @registration.tier = 'LOWER'
+    @registration.save
+    redirect_to action: 'newBusinessDetails'
   end
 
   def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
@@ -722,19 +727,16 @@ class RegistrationsController < ApplicationController
   end
 
   def pending
-    #puts "session[:registration_id] = " + session[:registration_id].to_s
-    @registration = Registration[session[:registration_id]]
-    #puts "session[:registration_uuid] = " + session[:registration_uuid].to_s
-    # TODO Reading the registration from the database could be removed
-    # once the financeDetails and/or the order are directly available in the original local registration
-    @registrationFromDB = Registration.find_by_id(session[:registration_uuid])
+    @registration = Registration.find_by_id(session[:registration_uuid])
+
+    # May not be necessary but seeing as we get a fuller object from services
+    # at this point thought as a 'just in case' we should update the one in redis
+    @registration.save
+
     user = @registration.user
-    user.current_registration = @registrationFromDB
+    user.current_registration = @registration
     user.send_confirmation_instructions unless user.confirmed?
-
-    @owe_money = owe_money? @registration
   end
-
 
   def redirect_to_failed_page(failedStep)
     logger.debug 'redirect_to_failed_page(failedStep) failedStep: ' +  failedStep
@@ -908,59 +910,6 @@ class RegistrationsController < ApplicationController
     if !is_admin_request? && !agency_user_signed_in?
       authenticate_user!
     end
-  end
-
-  # GET your-registration/upper-tier-contact-details
-  def newUpperBusinessDetails
-    new_step_action 'upper_business_details'
-    if params[:manualUkAddress] #we're in the manual uk address page
-      @registration.addressMode = 'manual-uk'
-    elsif params[:foreignAddress] #we're in the manual foreign address page
-      @registration.addressMode = 'manual-foreign'
-    elsif params[:autoUkAddress] #user clicked to go back to address lookup
-      @registration.addressMode = nil
-    end
-
-    @registration.save
-  end
-
-  # POST your-registration/upper-tier-contact-details
-  def updateNewUpperBusinessDetails
-    setup_registration 'upper_business_details'
-
-    if params[:addressSelector]  #user selected an address from drop-down list
-      @selected_address = Address.find(params[:addressSelector])
-      if @selected_address
-        copyAddressToSession
-      else logger.error "Couldn't match address #{params[:addressSelector]}"
-      end
-    end
-
-    if params[:findAddress] #user clicked on Find Address button
-
-      @registration.addressMode = 'address-results'
-      @registration.postcode = params[:registration][:postcode]
-      begin
-        @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
-        logger.debug @address_match_list.size.to_s
-      rescue ActiveResource::ServerError
-        logger.info 'activeresource error'
-      rescue Errno::ECONNREFUSED
-        logger.error 'ERROR: Address Lookup Not running, or not Found'
-      end
-      render "newUpperBusinessDetails", status: '200'
-
-
-    elsif @registration.valid?
-      logger.debug 'registration.valid'
-      logger.debug params.keys.to_s
-      redirect_to action: 'newContactDetails'
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newUpperBusinessDetails", :status => '400'
-    end
-
   end
 
   # GET upper-registrations/payment
