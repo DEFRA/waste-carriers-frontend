@@ -727,19 +727,16 @@ class RegistrationsController < ApplicationController
   end
 
   def pending
-    #puts "session[:registration_id] = " + session[:registration_id].to_s
-    @registration = Registration[session[:registration_id]]
-    #puts "session[:registration_uuid] = " + session[:registration_uuid].to_s
-    # TODO Reading the registration from the database could be removed
-    # once the financeDetails and/or the order are directly available in the original local registration
-    @registrationFromDB = Registration.find_by_id(session[:registration_uuid])
+    @registration = Registration.find_by_id(session[:registration_uuid])
+
+    # May not be necessary but seeing as we get a fuller object from services
+    # at this point thought as a 'just in case' we should update the one in redis
+    @registration.save
+
     user = @registration.user
-    user.current_registration = @registrationFromDB
+    user.current_registration = @registration
     user.send_confirmation_instructions unless user.confirmed?
-
-    @owe_money = owe_money? @registration
   end
-
 
   def redirect_to_failed_page(failedStep)
     logger.debug 'redirect_to_failed_page(failedStep) failedStep: ' +  failedStep
