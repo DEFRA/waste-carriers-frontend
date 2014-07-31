@@ -375,5 +375,9 @@ details .summary {
     margin-bottom: 20px;
 }
 
-
+.inline p {
+    display:block;
+    float:left;
+    position:relative;
+}
 
