@@ -6,29 +6,34 @@
     <!-- WF 4.3.2 -->
     <div id="page6"  data-journey="waste-carriers-registration:business-details">
 
-      <% content_for :page_title, createTitle('.title') %>
-      <div class="inline">
-        <p class="back_link"><%= render 'back_link' %></p>
-        <% if @registration.tier.eql?('UPPER') %>
-          <div class="step"><%= t '.step', :step_x => '2', :step_y => '9' %></div>
-        <% else %>
-          <div class="step"><%= t '.step', :step_x => '1', :step_y => '4' %></div>
-        <% end %>
-      </div>
-
-      <%= render 'errors' %>
-
-      <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
-
-        <%= render 'company_name', :f => f, :r => @registration %>
-        <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
-          <%= render 'company_details_finder', f: f, r: @registration %>
-        <% end %>
-        <%= render "address_finder", :f => f, :r => @registration %>
-
-        <span class="next_link"><%= render 'next_link' %></span>
-      <% end %>
-
+      <section>
+        <div class="inner">
+          <div class="col-1">
+              <% content_for :page_title, createTitle('.title') %>
+              <div class="inline">
+                <p class="back_link"><%= render 'back_link' %></p>
+                <% if @registration.tier.eql?('UPPER') %>
+                  <div class="step"><%= t '.step', :step_x => '2', :step_y => '9' %></div>
+                <% else %>
+                  <div class="step"><%= t '.step', :step_x => '1', :step_y => '4' %></div>
+                <% end %>
+              </div>
+        
+              <%= render 'errors' %>
+        
+              <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
+        
+                <%= render 'company_name', :f => f, :r => @registration %>
+                <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
+                  <%= render 'company_details_finder', f: f, r: @registration %>
+                <% end %>
+                <%= render 'address_finder', :f => f, :r => @registration %>
+        
+                <span class="next_link"><%= render 'next_link' %></span>
+              <% end %>
+          </div>
+        </div>
+      </section>
     </div>
   </article>
 </main>
