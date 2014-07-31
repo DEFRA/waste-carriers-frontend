@@ -283,10 +283,6 @@ en:
       selectAddress: "Select address"
       streetLine1Foreign: Address
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
-    businessdetails_step:
-      step: "Step 5 of 8"
-      subtitle: "Enter your business or organisation address"
-      title: "Business details"
     businesstype_step:
       step: "Step 1 of 8"
       subtitle: "What type of business or organisation are you?"
@@ -295,24 +291,6 @@ en:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
       title: "Confirm delete registration"
-    confirmation_step:
-      data_protection_heading: "How we use your personal information"
-      data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
-      declaration_heading: Declaration
-      declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as a Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
-      key_person_summary_heading: "Key person details"
-      dynamic_panel_heading: "Dynamic panel: to provide context of user route"
-      edit_business_address_link: "Edit your business or organisation address"
-      edit_contact_details_link: "Edit your contact details"
-      edit_key_person_details_link: "Edit your key peoples details"
-      edit_smart_answers_link: "Edit what you told us"
-      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
-      privacy_policy: "Privacy policy and cookies"
-      smart_answers_heading: "You told us"
-      step: "Step 7 of 8"
-      subtitle: "Checking your details before registering"
-      tier_description: "You are %{tier_with_article} tier waste carrier..."
-      title: Confirmation
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
       step: "Step 3 of 8"
@@ -347,7 +325,7 @@ en:
       manual_address_link: "I want to add an address myself"
       foreign_address_link: "I have an address outside the United Kingdom"
     newContactDetails:
-      step: "Step 3 of 9"
+      step: "Step %{step_x} of %{step_y}"
       title: "Contact details"
     contactdetails_step:
       legend: "Your contact details"
@@ -356,6 +334,24 @@ en:
       title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
       convictions_link_text: "Check here for a list of relevant convictions"
       step: "Step 4 of 10"
+    confirmation_step:
+      data_protection_heading: "How we use your personal information"
+      data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
+      declaration_heading: Declaration
+      declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as a Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
+      key_person_summary_heading: "Key person details"
+      dynamic_panel_heading: "Dynamic panel: to provide context of user route"
+      edit_business_address_link: "Edit your business or organisation address"
+      edit_contact_details_link: "Edit your contact details"
+      edit_key_person_details_link: "Edit your key peoples details"
+      edit_smart_answers_link: "Edit what you told us"
+      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
+      privacy_policy: "Privacy policy and cookies"
+      smart_answers_heading: "You told us"
+      step: "Step 7 of 8"
+      subtitle: "Checking your details before registering"
+      tier_description: "You are %{tier_with_article} tier waste carrier..."
+      title: Confirmation
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
