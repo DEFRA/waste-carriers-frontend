@@ -85,7 +85,7 @@ end
 #end
 
 
-if (Rails.env == "development") && ENV["WCRS_LT_SEED"]
+if (Rails.env == "development") && ENV["WCRS_REG_SEED"]
 
   #load some sample lower tier registrations
   data =  YAML::load(File.read("db/lower_tier_registrations.json"))
@@ -94,11 +94,7 @@ if (Rails.env == "development") && ENV["WCRS_LT_SEED"]
     puts "waste carrier #{r.companyName} registered!" if r.commit
   end
 
-end  #if
-
-if (Rails.env == "development") && ENV["WCRS_UT_SEED"]
-
-  #load some sample lower tier registrations
+    #load some sample lower tier registrations
   data =  YAML::load(File.read("db/upper_tier_registrations.json"))
   data.each do |reg|
     r = Registration.init(reg)
@@ -106,6 +102,7 @@ if (Rails.env == "development") && ENV["WCRS_UT_SEED"]
   end
 
 end  #if
+
 
 
 #Loading agency users from file.
