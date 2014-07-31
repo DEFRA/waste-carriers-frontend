@@ -106,7 +106,7 @@ en:
     publicBody: "Public body"
     soleTrader: "Sole trader"
   buttons:
-    broker_dealer: "We arrange for other people to carry it"
+    broker_dealer: "We arrange for other people to it or we deal in waste"
     carrier_broker_dealer: "We do both"
     carrier_dealer: "We carry the waste ourselves"
   key_people:
@@ -359,9 +359,9 @@ en:
       legend: "Your contact details"
       subtitle: "These will not be made public"
     convictions_step:
-      title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
+      title: "Has any owner, partner, manager, director or relevant person had any relevant convictions in the last 12 months?"
       convictions_link_text: "Check here for a list of relevant convictions"
-      step: "Step 4 of 10"
+      step: "Step 5 of 9"
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
@@ -609,8 +609,10 @@ en:
       carrier_broker_dealer: carrier/broker/dealer
       carrier_dealer: carrier/dealer
       legend: "Type of registration:"
-      step: "Step 5 of 8"
-      subtitle: "Carrier, broker or dealer"
+      step: "Step 1 of 9"
+      subtitle_carrier_dealer: "You are a carrier/dealer"
+      subtitle_broker_dealer: "You are a broker/dealer"
+      subtitle_carrier_broker_dealer: "You are a carrier, broker and dealer"
       title: "Registration type"
     serviceprovided_step:
       main_service_label: "Waste disposal is the main service we provide"
