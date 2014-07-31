@@ -2,7 +2,7 @@
 en:
   activemodel:
     attributes:
-      director:
+      key_person:
         dob_day: Day
         dob_month: Month
         dob_year: Year
@@ -110,24 +110,24 @@ en:
     broker_dealer: "We arrange for other people to carry it"
     carrier_broker_dealer: "We do both"
     carrier_dealer: "We carry the waste ourselves"
-  directors:
+  key_people:
     edit:
       step: "Step 7 of 8"
-      title: "Edit director details"
+      title: "Edit key person details"
     form:
-      legend: "Director details"
+      legend: "Key person details"
       subtitle: "These will not be made public"
     index:
-      legend: "Existing directors"
+      legend: "Existing key people"
       step: "Step 7 of 8"
       subtitle: "These will not be made public"
-      title: Directors
+      title: "Key people"
     new:
       step: "Step 7 of 8"
-      title: "Director details"
-      you_have_added: "You have added the following directors"
-      director_name_string: "Director name"
-      add_director_button_text: "Add another director"
+      title: "Key person details"
+      you_have_added: "You have added the following key people"
+      director_name_string: "Key person name"
+      add_director_button_text: "Add another key person"
   distances:
     ? "10"
     : "10 Miles"
@@ -307,11 +307,11 @@ en:
       data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
       declaration_heading: Declaration
       declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as a Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
-      directors_summary_heading: "Director details"
+      key_person_summary_heading: "Key person details"
       dynamic_panel_heading: "Dynamic panel: to provide context of user route"
       edit_business_address_link: "Edit your business or organisation address"
       edit_contact_details_link: "Edit your contact details"
-      edit_director_details_link: "Edit your directors' details"
+      edit_key_person_details_link: "Edit your key peoples details"
       edit_smart_answers_link: "Edit what you told us"
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
       privacy_policy: "Privacy policy and cookies"
@@ -706,7 +706,7 @@ en:
       title: "Business type"
     contact_detail:
       alternate_form_legend: "Alternative contact (if required)"
-      director_form_legend: "Director or main contact"
+      key_person_form_legend: "Key person or main contact"
       subtitle: "Enter your business or organisation contact details"
       title: "Contact details"
     errors:
