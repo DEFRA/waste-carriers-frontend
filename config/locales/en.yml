@@ -126,8 +126,8 @@ en:
       step: "Step 7 of 8"
       title: "Key person details"
       you_have_added: "You have added the following key people"
-      director_name_string: "Key person name"
-      add_director_button_text: "Add another key person"
+      key_person_name_string: "Key person name"
+      add_key_person_button_text: "Add another key person"
   distances:
     ? "10"
     : "10 Miles"
