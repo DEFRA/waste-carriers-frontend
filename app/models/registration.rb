@@ -735,9 +735,10 @@ class Registration < Ohm::Model
 
   private
 
+  # FIXME why is this validation necessary?
   def validate_key_people
     if key_people.blank?
-      errors.add('Key people', 'is invalid.') unless convert_dob
+      errors.add('Key people', 'is invalid.') unless set_dob
     end
   end
 
