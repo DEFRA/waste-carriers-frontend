@@ -101,13 +101,12 @@ class KeyPeopleController < ApplicationController
   end
 
   def get_registration
-
-    @registration = Registration[ session[:registration_id]]
+    @registration = Registration[session[:registration_id]]
     logger.debug  @registration.attributes.to_s
   end
 
   def get_key_people
-    @registration = Registration[ session[:registration_id]]
+    @registration = Registration[session[:registration_id]]
     @key_people = @registration.key_people.to_a
     logger.debug  @key_people.to_s
   end
