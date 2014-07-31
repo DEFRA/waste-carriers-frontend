@@ -99,12 +99,22 @@ class Registration < Ohm::Model
   end
 
 
+
+  # as far as we're concerned a Registration will be persisted if it has a uuid, since the only way to
+  # gte a uuid is after a successful commit
+  #
+  # @param none
+  # @return  [boolean] true if persisted
+  def persisted?
+    self.uuid
+  end
+
+
   # POSTs registration to Java/Dropwizard service - creates new registration to DB
   #
   # @param none
   # @return  [String] the uuid assigned by MongoDB
   def commit
-
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
     commited = true
@@ -128,6 +138,7 @@ class Registration < Ohm::Model
       Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
       self.regIdentifier = result['regIdentifier']
       self.finance_details.add FinanceDetails.init(result['financeDetails'])
+
 
       save
       Rails.logger.debug "Commited to service: #{attributes.to_s}"
@@ -293,6 +304,8 @@ class Registration < Ohm::Model
     end
   end
 
+ 
+
 
   # Retrieves a specific registration object from the Java Service based on its uuid
   #
@@ -347,6 +360,7 @@ class Registration < Ohm::Model
     end
   end
 
+
   # Creates a new Registration object from a JSON payload received from the Java Service
   #
   # @param response_hash [Hash] the Java Service response JSON object
@@ -359,8 +373,8 @@ class Registration < Ohm::Model
         case k
         when 'id'
           new_reg.uuid = v
-        when 'expiresOn'
-          new_reg.expires_on = v
+        when 'expiresOn', 'expires_on'
+          new_reg.expires_on = convert_date(v)
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'key_people'
@@ -426,16 +440,16 @@ class Registration < Ohm::Model
   validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :onlydealwith_step?
   validates :declaredConvictions, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :convictions_step?
 
-  validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: 'businessdetails_step? or upperbusinessdetails_step?'
+  validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: 'businessdetails_step?'
 
-  with_options if: :lower_or_upper_contact_details_step? do |registration|
+  with_options if: :contactdetails_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :lastName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
     registration.validates :position, format: { with: GENERAL_WORD_REGEX }, :allow_nil => true, :allow_blank => true
     registration.validates :phoneNumber, presence: true, format: { with: VALID_TELEPHONE_NUMBER_REGEX }, length: { maximum: 20 }
   end
 
-  validates :contactEmail, presence: true, email: true, if: [:digital_route?, :lower_or_upper_contact_details_step?]
+  validates :contactEmail, presence: true, email: true, if: [:digital_route?, :contactdetails_step?]
 
   with_options if: [:address_step?, :manual_uk_address?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
@@ -452,7 +466,6 @@ class Registration < Ohm::Model
   end
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
-
   validate :validate_key_people, if: :key_person_step?
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
@@ -472,7 +485,7 @@ class Registration < Ohm::Model
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
-  with_options if: [:upperbusinessdetails_step?, :limited_company?] do |registration|
+  with_options if: [:businessdetails_step?, :limited_company?] do |registration|
     registration.validates :company_no, presence: true, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }
     registration.validate :limited_company_must_be_active
   end
@@ -512,27 +525,15 @@ class Registration < Ohm::Model
   end
 
   def address_step?
-    businessdetails_step? or upperbusinessdetails_step?
+    businessdetails_step?
   end
 
   def businessdetails_step?
     current_step.inquiry.businessdetails?
   end
 
-  def upperbusinessdetails_step?
-    current_step.inquiry.upper_business_details?
-  end
-
-  def lower_or_upper_contact_details_step?
-    contactdetails_step? or uppercontactdetails_step?
-  end
-
   def contactdetails_step?
     current_step.inquiry.contactdetails?
-  end
-
-  def uppercontactdetails_step?
-    current_step.inquiry.upper_contact_details?
   end
 
   def key_person_step?
@@ -595,6 +596,7 @@ class Registration < Ohm::Model
 
   def paid_in_full?
     the_balance = self.try(:finance_details).try(:first).try(:balance)
+    Rails.logger.debug "The registrations balance is #{the_balance}"
     return true if the_balance.nil?
     the_balance.to_i <= 0
   end
@@ -629,11 +631,11 @@ class Registration < Ohm::Model
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
       when :not_found
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_not_found'))
       when :inactive
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_inactive'))
       when :error_calling_service
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
+        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_service_error'))
     end
   end
 
@@ -733,7 +735,25 @@ class Registration < Ohm::Model
     Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
 
-  private
+
+  # Retrieves a date from either a String or Java(ms) format to a Time object
+  #
+  # @param d [String, Numeric] the date to convert
+  # @return [Time]
+  class << self
+    def convert_date d
+      res = Time.new(1970,1,1)
+      if d
+        begin
+          res = Time.at(d / 1000.0)
+          # if d is String the NoMethodError will be raised
+        rescue NoMethodError
+          res = Time.parse(d)
+        end
+      end #if
+      res
+    end
+  end
 
   # FIXME why is this validation necessary?
   def validate_key_people
@@ -741,5 +761,6 @@ class Registration < Ohm::Model
       errors.add('Key people', 'is invalid.') unless set_dob
     end
   end
+
 
 end

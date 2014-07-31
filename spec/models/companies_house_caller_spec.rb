@@ -2,6 +2,18 @@ require 'spec_helper'
 
 describe CompaniesHouseCaller do
   describe '#url' do
+    context '8 characters in total with whitespace leading whitespace' do
+      subject { CompaniesHouseCaller.new ' 2050399' }
+
+      its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/02050399.json' }
+    end
+
+    context '8 characters in total with whitespace trailing whitespace' do
+      subject { CompaniesHouseCaller.new '2050399 ' }
+
+      its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/02050399.json' }
+    end
+
     context '8 characters' do
       subject { CompaniesHouseCaller.new '02050399' }
 
@@ -24,6 +36,14 @@ describe CompaniesHouseCaller do
   describe '#status' do
     context 'active' do
       subject { CompaniesHouseCaller.new '02050399' }
+
+      it 'is active', :vcr do
+        subject.status.should == :active
+      end
+    end
+
+    context 'another active company' do
+      subject { CompaniesHouseCaller.new '7540106' }
 
       it 'is active', :vcr do
         subject.status.should == :active

@@ -23,7 +23,7 @@ class CompaniesHouseCaller
 private
 
   def format_companies_house_registration_number companies_house_registration_number
-    eight_characters = pad_with_zeroes_to_make_it_eight_characters companies_house_registration_number
+    eight_characters = pad_with_zeroes_to_make_it_eight_characters companies_house_registration_number.try(:strip)
     eight_characters.try :upcase
   end
 
