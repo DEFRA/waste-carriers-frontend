@@ -52,22 +52,22 @@ class KeyPeopleController < ApplicationController
   def create
     get_key_people
 
-    key_person = Registration::KeyPerson.create
-    key_person.set_attribs(params[:key_person])
+    @key_person = Registration::KeyPerson.create
+    @key_person.set_attribs(params[:key_person])
 
 
 
-    if key_person.valid?
-      key_person.save
+    if @key_person.valid?
+      @key_person.save
       logger.debug @registration.id
-      @registration.key_people.add(key_person)
+      @registration.key_people.add(@key_person)
       @registration.save
 
       redirect_to action: 'new'
     else
       # there is an error (but data not yet saved)
       logger.info 'Key person is not valid, and data is not yet saved'
-      redirect_to action: 'new'
+      render 'new'
     end
   end
 
