@@ -37,8 +37,8 @@ private
 
   def validate_dob
     set_dob
-    errors.add(:dob, 'is invalid i18n') unless dob
-    errors.add(:dob, 'must be in the past i18n') unless dob.try(:past?)
+    errors.add(:dob, I18n.t('errors.messages.invalid_date')) unless dob
+    errors.add(:dob, I18n.t('errors.messages.date_not_in_past')) unless dob.try(:past?)
   end
 
   def set_dob
