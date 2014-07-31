@@ -1,3 +1,4 @@
+[
 {
     "tier" : "UPPER",
     "registrationType" : "carrier_dealer",
@@ -5,7 +6,7 @@
     "otherBusinesses" : "yes",
     "isMainService" : "no",
     "constructionWaste" : "yes",
-    "companyName" : "Bloomberg",
+    "companyName" : "Carafe ",
     "houseNumber" : "7",
     "streetLine1" : "Aston Place",
     "townCity" : "CARDIFF",
@@ -30,10 +31,58 @@
                 "paymentMethod" : "UNKNOWN",
                 "totalAmount" : 15400,
                 "currency" : "GBP",
-                "description" : "Initial Registration"
+                "description" : "Initial Registration",
+                "orderItems":[{"amount": 2,
+                                        "currency":"GBP",
+                                        "reference":"KJ65"}
+                                        ]
             }
         ],
         "payments" : [],
         "balance" : 15400
     }
-}
+},
+{
+    "tier" : "UPPER",
+    "registrationType" : "carrier_dealer",
+    "businessType" : "soleTrader",
+    "otherBusinesses" : "yes",
+    "isMainService" : "no",
+    "constructionWaste" : "yes",
+    "companyName" : "Bloomberg",
+    "houseNumber" : "7",
+    "streetLine1" : "Aston Place",
+    "townCity" : "CARDIFF",
+    "postcode" : "CF3 0PH",
+    "firstName" : "Fred",
+    "lastName" : "Heath",
+    "position" : "Code Monkey",
+    "phoneNumber" : "447988234833",
+    "contactEmail" : "fred@sky.com",
+    "accountEmail" : "fred1@gov.uk",
+    "declaration" : "1",
+    "expiresOn" : "2018-12-16T00:00:00.000Z",
+    "metaData" : {
+        "status" : "ACTIVE",
+        "route" : "DIGITAL",
+        "distance" : "n/a"
+    },
+    "financeDetails" : {
+        "orders" : [
+            {
+                "orderCode" : "1406548455777",
+                "paymentMethod" : "UNKNOWN",
+                "totalAmount" : 15400,
+                "currency" : "GBP",
+                "description" : "Initial Registration",
+                "orderItems":[{"amount": 2,
+                                        "currency":"GBP",
+                                        "reference":"KJ65"}
+                                        ]
+            }
+        ],
+        "payments" : [],
+        "balance" : 15400
+    }
+},
+]

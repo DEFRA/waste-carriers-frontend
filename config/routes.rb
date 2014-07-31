@@ -35,7 +35,7 @@ Registrations::Application.routes.draw do
 	  get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
 	  get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
 	  get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
-	  
+
 	  get   "registrations/:id/payments" => 'payment#new', :via => [:get], :as => :enterPayment
 	  match "registrations/:id/payments" => 'payment#create', :via => [:post], :as => :savePayment
 	  get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
@@ -94,6 +94,12 @@ Registrations::Application.routes.draw do
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
 	  resources :registrations
+        # get "registrations(.:format)" => "registrations#index", :as => :registrations
+        # post  "registrations(.:format)" => "registrations#create"
+        # get "your-registration/payment(.:format)" => "registrations#newPayment", :as => :upper_payment
+        # post  "your-registration/payment(.:format)" => "registrations#updateNewPayment"
+
+
     get "your-registration/upper/business-type" => "registrations#business_type", :as => :upper_business_type
     post "your-registration/upper/business-type" => "registrations#business_type_update"
 
@@ -118,13 +124,13 @@ Registrations::Application.routes.draw do
     match "your-registration/relevant-convictions" => "registrations#updateNewRelevantConvictions", :via => [:post,:put,:patch]
 
     get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
-    post "your-registration/payment" => "registrations#updateNewPayment"
+    match "your-registration/payment" => "registrations#updateNewPayment", :via => [:post,:put,:patch]
 
     get "your-registration/upper-tier-summary" => "registrations#newUpperSummary", :as => :upper_summary
     post "your-registration/upper-tier-summary" => "registrations#updateNewUpperSummary"
   # routes for renewals and edits
-  match "registrations/:id/edit" => 'registrations#edit', :via => [:get], :as => :edit
-  match "registrations/:id/edit" => 'registrations#update', :via => [:post,:put,:patch]
+  match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
+  match "registrations/:uuid/edit" => 'registrations#update', :via => [:post,:put,:patch]
 
     # Data reporting urls - Authenticated agency users only
     get "reports/:from/:until/registrations" => 'reports#reportRegistrations'

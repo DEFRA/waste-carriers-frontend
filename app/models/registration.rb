@@ -99,12 +99,22 @@ class Registration < Ohm::Model
   end
 
 
+
+  # as far as we're concerned a Registration will be persisted if it has a uuid, since the only way to
+  # gte a uuid is after a successful commit
+  #
+  # @param none
+  # @return  [boolean] true if persisted
+  def persisted?
+    self.uuid
+  end
+
+
   # POSTs registration to Java/Dropwizard service - creates new registration to DB
   #
   # @param none
   # @return  [String] the uuid assigned by MongoDB
   def commit
-
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
     commited = true
@@ -128,6 +138,7 @@ class Registration < Ohm::Model
       Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
       self.regIdentifier = result['regIdentifier']
       self.finance_details.add FinanceDetails.init(result['financeDetails'])
+
 
       save
       Rails.logger.debug "Commited to service: #{attributes.to_s}"
@@ -293,6 +304,8 @@ class Registration < Ohm::Model
     end
   end
 
+ 
+
 
   # Retrieves a specific registration object from the Java Service based on its uuid
   #
@@ -347,6 +360,7 @@ class Registration < Ohm::Model
     end
   end
 
+
   # Creates a new Registration object from a JSON payload received from the Java Service
   #
   # @param response_hash [Hash] the Java Service response JSON object
@@ -359,8 +373,8 @@ class Registration < Ohm::Model
         case k
         when 'id'
           new_reg.uuid = v
-        when 'expiresOn'
-          new_reg.expires_on = v
+        when 'expiresOn', 'expires_on'
+          new_reg.expires_on = convert_date(v)
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'key_people'
@@ -452,7 +466,6 @@ class Registration < Ohm::Model
   end
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
-
   validate :validate_key_people, if: :key_person_step?
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
@@ -733,12 +746,31 @@ class Registration < Ohm::Model
     Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
 
-  private
+
+  # Retrieves a date from either a String or Java(ms) format to a Time object
+  #
+  # @param d [String, Numeric] the date to convert
+  # @return [Time]
+  class << self
+    def convert_date d
+      res = Time.new(1970,1,1)
+      if d
+        begin
+          res = Time.at(d / 1000.0)
+          # if d is String the NoMethodError will be raised
+        rescue NoMethodError
+          res = Time.parse(d)
+        end
+      end #if
+      res
+    end
+  end
 
   def validate_key_people
     if key_people.blank?
       errors.add('Key people', 'is invalid.') unless convert_dob
     end
   end
+
 
 end
