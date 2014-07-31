@@ -443,7 +443,7 @@ class Registration < Ohm::Model
   validates :onlyAMF, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :onlydealwith_step?
   validates :declaredConvictions, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :convictions_step?
 
-  validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: 'businessdetails_step? or upperbusinessdetails_step?'
+  validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.alpha70') }, length: { maximum: 70 }, if: 'businessdetails_step?'
 
   with_options if: :lower_or_upper_contact_details_step? do |registration|
     registration.validates :firstName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
@@ -489,7 +489,7 @@ class Registration < Ohm::Model
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
-  with_options if: [:upperbusinessdetails_step?, :limited_company?] do |registration|
+  with_options if: [:businessdetails_step?, :limited_company?] do |registration|
     registration.validates :company_no, presence: true, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }
     registration.validate :limited_company_must_be_active
   end
@@ -529,15 +529,11 @@ class Registration < Ohm::Model
   end
 
   def address_step?
-    businessdetails_step? or upperbusinessdetails_step?
+    businessdetails_step?
   end
 
   def businessdetails_step?
     current_step.inquiry.businessdetails?
-  end
-
-  def upperbusinessdetails_step?
-    current_step.inquiry.upper_business_details?
   end
 
   def lower_or_upper_contact_details_step?
@@ -646,11 +642,11 @@ class Registration < Ohm::Model
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
       when :not_found
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_not_found'))
+        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_not_found'))
       when :inactive
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_registration_number_inactive'))
+        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_inactive'))
       when :error_calling_service
-        errors.add(:company_no, I18n.t('registrations.upper_contact_details.companies_house_service_error'))
+        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_service_error'))
     end
   end
 
