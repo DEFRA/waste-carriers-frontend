@@ -1,17 +1,15 @@
-<fieldset>
-  <% if show_error %>
+<% if show_error %>
     <div class="form-group validation">
-  <% else %>
+<% else %>
     <div class="form-group">
-  <% end %>
+<% end %>
     <%= f.label :postcode, class: 'form-label' %>
     <%= f.text_field :postcode, id: 'sPostcode', :size => 14, :maxlength => 10 %>
-  </div><!-- Label select input does not work if id:sPostcode is in text_field string -->
-  <input type="submit" class="button find_address" name="findAddress" value="<%=t '.find_address_button'%>" onclick="addressFinder()"/>
-  <p class='link_margin'>
+</div><!-- Label select input does not work if id:sPostcode is in text_field string -->
+<input type="submit" class="button find_address" name="findAddress" value="<%=t '.find_address_button'%>" onclick="addressFinder()"/>
+<p class='link_margin'>
     <a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a>
-  </p>
-  <p class='link_margin'>
+</p>
+<p class='link_margin'>
     <a href="?foreignAddress=true"><%= t '.foreign_address_link'%></a>
-  </p>
-</fieldset>
+</p>

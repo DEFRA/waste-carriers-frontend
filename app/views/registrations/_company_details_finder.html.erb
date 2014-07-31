@@ -1,8 +1,10 @@
-<fieldset>
-  <div class="form-group<%if r.errors[:company_no].any?%> validation<%end%>">
+<div class="form-group<%if r.errors[:company_no].any?%> validation<%end%>">
     <%= validation_for(r, :company_no) %>
     <%= f.label :company_no, class: 'form-label' %>
-    <%= f.text_field :company_no, :size => 14, :maxlength => 10 %>
-  </div>
-</fieldset>
+    <p class="subtitle"><%= t '.companies_house_explain' %></p>
+    <%= f.text_field :company_no, :size => 35, :maxlength => 10 %>
+</div>
+<p class='link_margin'>
+    <a href="<%= Rails.configuration.waste_exemplar_companies_house_url %>" target="_blank"><%= t '.companies_house_link'%></a>
+</p>
 
