@@ -5,7 +5,7 @@ Given(/^I am registering as a limited company$/) do
   click_on 'Next'
 end
 
-Given(/^I am on the upper tier business details page$/) do
+Given(/^I am on the business details page as an upper tier$/) do
   choose 'registration_otherBusinesses_yes'
   click_on 'Next'
 
@@ -19,13 +19,20 @@ Given(/^I am on the upper tier business details page$/) do
   click_on 'Next'
 end
 
+Given(/^I am on the business details page as an lower tier$/) do
+  choose 'registration_otherBusinesses_no'
+  click_on 'Next'
+
+  choose 'registration_constructionWaste_no'
+  click_on 'Next'
+end
+
 And(/^I enter my company name and address$/) do
   fill_in 'registration_companyName', with: 'The Ladd Company'
 
   fill_in 'sPostcode', with: 'HP10 9BX'
   click_on 'Find UK address'
   select '33 Fennels Way, Flackwell Heath HP10 9BX'
-  click_on 'Next'
 end
 
 Given(/^I enter an active company number$/) do
@@ -65,5 +72,10 @@ Then(/^I am told the company was not found$/) do
 end
 
 Then(/^I am told the company number needs to be filled in$/) do
-  page.should have_content 'Company no must be completed'
+  page.should have_content 'Companies House number must be completed'
+end
+
+
+Then(/^I am not asked for my company number$/) do
+  page.should_not have_field 'registration_company_no'
 end

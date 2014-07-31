@@ -12,8 +12,17 @@ And(/^I pay by card$/) do
   fill_in 'Postcode/ZIP', with: 'BS1 5AH'
   click_on 'op-PMMakePayment'
 
-  sleep 1.5
+  step 'I set test simulator page to all okay'
+end
+
+Then(/^I set test simulator page to all okay$/) do
+  sleep 2.5
+  #By now we should be on the Test Simulator page...
+  page.should have_content 'Secure Test Simulator Page'
   click_on 'Continue'
+
+  #add some sleep to avoid failing tests
+  sleep 1.0
 end
 
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
@@ -37,15 +46,7 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   fill_in 'postcode', with: 'BS1 5AH'
   click_on 'op-PMMakePayment'
 
-  sleep 2.5
-  #By now we should be on the Test Simulator page...
-  page.should have_content 'Secure Test Simulator Page'
-  #The standard 'approved' etc. should already be selected, just click the 'continue' button (input)
-  #click_on 'continue'
-  first(:xpath,'/html/body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[6]/td/label/nobr/input').click
-
-  #add some sleep to avoid failing tests
-  sleep 1.0
+  step 'I set test simulator page to all okay'
 end
 
 And(/^I choose to pay by bank transfer$/) do
