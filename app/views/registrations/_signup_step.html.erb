@@ -1,12 +1,11 @@
-
-
-<%= render 'back_link' %>
+<ol>
+    <li class='back_link'><%= render 'back_link' %></li>
+</ol>
 <%= render "errors" %>
 
 <!-- WF 4.3.4 -->
 <div id="page4"  data-journey="waste-carriers-registration:confirm">
     
-
 
 <fieldset>
 <% if user_signed_in? || agency_user_signed_in? %>

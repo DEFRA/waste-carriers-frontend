@@ -1,10 +1,15 @@
 <%= render 'shared/content_for_pages' %>
 
-<main id="content" role="main" class="group"><article role="article" class="group">
-
-<%= form_for(@registration, :url => newSignup_path) do |f| %>
-
-<%= render "signup_step", :f => f %>
-
-<% end %>
-</article></main>
+<main id="content" role="main" class="group">
+	<article role="article" class="group">
+	   <section>
+          <div class="inner">
+          	<div class="col-1">
+				<%= form_for(@registration, :url => newSignup_path) do |f| %>
+				<%= render "signup_step", :f => f %>
+			   <% end %>
+			  </div>
+			</div>
+		</section>
+	</article>
+</main>

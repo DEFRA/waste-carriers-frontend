@@ -79,7 +79,7 @@ class Registration < Ohm::Model
   attribute :location
 
   set :metaData, :Metadata #will always be size=1
-  set :directors, :Director
+  set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
   set :payments, :Payment
   set :orders, :Order
@@ -104,6 +104,7 @@ class Registration < Ohm::Model
   # @param none
   # @return  [String] the uuid assigned by MongoDB
   def commit
+
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
     commited = true
@@ -127,7 +128,6 @@ class Registration < Ohm::Model
       Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
       self.regIdentifier = result['regIdentifier']
       self.finance_details.add FinanceDetails.init(result['financeDetails'])
-
 
       save
       Rails.logger.debug "Commited to service: #{attributes.to_s}"
@@ -194,14 +194,13 @@ class Registration < Ohm::Model
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
+    key_people = []
 
-    directors = []
-
-    if self.directors &&  self.directors.size > 0
-      self.directors.each do  |dir|
-        directors <<  dir.attributes.to_hash
+    if self.key_people &&  self.key_people.size > 0
+      self.key_people.each do  |per|
+        key_people <<  per.attributes.to_hash
       end
-      result_hash['directors'] = directors
+      result_hash['key_people'] = key_people
     end #if
 
     if self.finance_details.size == 1
@@ -364,10 +363,10 @@ class Registration < Ohm::Model
           new_reg.expires_on = v
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
-        when 'directors'
+        when 'key_people'
           if v
             v.each do |dir|
-              new_reg.directors.add HashToObject(dir, 'Director')
+              new_reg.key_people.add HashToObject(dir, 'KeyPerson')
             end
           end #if
         when 'metaData'
@@ -454,6 +453,8 @@ class Registration < Ohm::Model
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
 
+  validate :validate_key_people, if: :key_person_step?
+
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
   with_options if: [:signup_step?,  :do_sign_up?] do |registration|
@@ -532,6 +533,10 @@ class Registration < Ohm::Model
 
   def uppercontactdetails_step?
     current_step.inquiry.upper_contact_details?
+  end
+
+  def key_person_step?
+    current_step.inquiry.key_person?
   end
 
   def signup_step?
@@ -727,4 +732,13 @@ class Registration < Ohm::Model
     end #each
     Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
+
+  private
+
+  def validate_key_people
+    if key_people.blank?
+      errors.add('Key people', 'is invalid.') unless convert_dob
+    end
+  end
+
 end

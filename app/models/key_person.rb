@@ -1,11 +1,4 @@
-# require 'active_resource'
-
-# class Director
-#   include ActiveModel::Model
-
-
-
-class Director < Ohm::Model
+class KeyPerson < Ohm::Model
 
   include ActiveModel::Conversion
   include ActiveModel::Validations
@@ -13,15 +6,12 @@ class Director < Ohm::Model
 
   attribute :first_name
   attribute :last_name
+  attribute :position
   attribute :dob_day
   attribute :dob_month
   attribute :dob_year
   attribute :dob
-
-  index :first_name
-  index :last_name
-
-  attr_writer :current_step
+  attribute :person_type
 
   VALID_DAY = /\A[0-9]{2}/
   VALID_MONTH = /\A[0-9]{2}/
@@ -43,7 +33,6 @@ class Director < Ohm::Model
 
   private
 
-
   def convert_dob
     begin
       self.dob = Date.civil(self.dob_year.to_i, self.dob_month.to_i, self.dob_day.to_i)
@@ -53,7 +42,7 @@ class Director < Ohm::Model
   end
 
   def validate_dob
-    errors.add("Date of birth", "is invaid.") unless convert_dob
+    errors.add('Date of birth', 'is invalid.') unless convert_dob
   end
 
 end

@@ -4,14 +4,14 @@
   <article role="article" class="group">
 
     <!-- WF 4.3.2 -->
-    <div id="page7"  data-journey="waste-carriers-registration:director-details">
+    <div id="page7"  data-journey="waste-carriers-registration:key-person-details">
 
       <% content_for :page_title, createTitle('.title') %>
       <p class="back_link"><%= render 'back_link' %></p>
       <div class="step"><%= t '.step' %></div>
 
-      <%= form_for(@director, url: {action: "create"} ) do |f| %>
-        <%= render 'form', f: f, d: @director %>
+      <%= form_for(@key_person, url: {action: "create"} ) do |f| %>
+        <%= render 'form', f: f, d: @key_person %>
         <div class="inline">
           <span class="next_link">
             <input name="next" class="button button-get-started" type="submit" value="<%= t '.add_director_button_text' %>"/>

@@ -1,5 +1,5 @@
-<% if @director.errors.any? %>
-  <% full_messages = one_full_message_per_invalid_attribute(@director) %>
+<% if @key_person.errors.any? %>
+  <% full_messages = one_full_message_per_invalid_attribute(@key_person) %>
   <div id="error_explanation" class="validation-summary">
     <h2><%= t '.errorMessage', :count => pluralize(full_messages.count, t('.error')) %></h2>
       <% full_messages.each do |msg| %>

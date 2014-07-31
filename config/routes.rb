@@ -100,17 +100,17 @@ Registrations::Application.routes.draw do
     get "your-registration/upper/business-address" => "registrations#business_address", :as => :upper_business_address
     post "your-registration/upper/business-address" => "registrations#business_address_update"
 
-  get "your-registration/directors" => "directors#index", :as => :directors
-  post "your-registration/directors" => "directors#create"
+  get "your-registration/key-people" => "key_people#index", :as => :key_people
+  post "your-registration/key-people" => "key_people#create"
 
-  get "your-registration/directors/new" => "directors#new", :as => :new_director
-  get "your-registration/directors/edit" => "directors#edit", :as => :edit_director
-  get "your-registration/directors/delete" => "directors#delete", :as => :delete_director
-  get "your-registration/directors" => "directors#show", :as => :director
-  match "your-registration/directors" => "directors#update", :via => [:put,:patch]
-  delete "your-registration/directors" => "directors#destroy"
-  get "your-registration/directors/done" => "directors#done", :as => :done_directors
-  get "your-registration/directors/registration" => "directors#registration", :as => :registration_directors
+  get "your-registration/key-people/new" => "key_people#new", :as => :new_key_person
+  get "your-registration/key-people/edit" => "key_people#edit", :as => :edit_key_person
+  get "your-registration/key-people/delete" => "key_people#delete", :as => :delete_key_person
+  get "your-registration/key-people" => "key_people#show", :as => :key_person
+  match "your-registration/key-people" => "key_people#update", :via => [:put,:patch]
+  delete "your-registration/key-people" => "key_people#destroy"
+  get "your-registration/key-people/done" => "key_people#done", :as => :done_key_people
+  get "your-registration/key-people/registration" => "key_people#registration", :as => :registration_key_people
     match "your-registration/upper-tier-business-details" => "registrations#newUpperBusinessDetails", :via => [:get], :as => :newUpperBusinessDetails
   match "your-registration/upper-tier-business-details" => "registrations#updateNewUpperBusinessDetails", :via => [:post,:put,:patch]
 
