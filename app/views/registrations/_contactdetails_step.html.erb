@@ -1,6 +1,5 @@
 <fieldset>
   <legend><%= t '.legend' %></legend>
-  <p class='subtitle'><%= t '.subtitle' %></p>
   <div class="form-group<%if r.errors[:firstName].any?%> validation<%end%>">
     <%= validation_for(r, :firstName) %>
     <%= f.label :firstName, class: 'form-label' %>

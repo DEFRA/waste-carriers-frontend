@@ -3,6 +3,9 @@
 <% content_for :page_title, createTitle('.heading') %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
+ <section>
+ <div class="inner">
+ <div class="col-1">
 
 <% if params[:error] %>
 <div id="error_explanation" class="validation-summary">
@@ -121,4 +124,7 @@
 <p><a href="<%= Rails.configuration.waste_exemplar_end_url %>"><%= t '.feedback_link' %></a></p>
 <% end %>
 
+</div>
+</div>
+</section>
 </article></main>

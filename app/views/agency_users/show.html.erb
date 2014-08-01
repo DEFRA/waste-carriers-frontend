@@ -1,10 +1,13 @@
 <%= render 'shared/content_for_pages' %>
-<%= render "shared/current_user" %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
+<section>
+<div class="inner">
+<div class="col-1">
+
 <% if !notice.nil? %>
 <div id="note_explanation" class="note-summary">
-  <h1><%= notice%></h1>
+  <h2><%= notice%></h2>
 </div>
 <% end %>
 
@@ -16,4 +19,17 @@
 <%= link_to t('agencyUsers.edit'), edit_agency_user_path(@agency_user) %> |
 <%= link_to t('agencyUsers.delete'), confirm_delete_agency_user_path(@agency_user) %> |
 <%= link_to t('agencyUsers.back'), agency_users_path %>
+
+    </div>
+  </div>
+</section>
+
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+        <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
+
 </article></main>

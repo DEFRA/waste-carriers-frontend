@@ -3,7 +3,11 @@
 
 <% content_for :page_title, createTitle('.subtitle') %>
 
-<main id="content" role="main" class="group"><article role="article" class="group"><aside>
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+  <section>
+  <div class="inner">
+  <div class="col-1">
 
 <% if params[:note] %>
 <div id="note_explanation" class="note-summary">
@@ -81,14 +85,13 @@
 </fieldset>
 
 
-
+</div>
+</div>
+</section>
 
 <form method="get" action="<%= find_path %>" class="action group">
 	<input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />
 </form>
-
-</aside>
-<br/> <!-- gives better spacing in safair -->
 
     <aside>
       <div class="inner">
