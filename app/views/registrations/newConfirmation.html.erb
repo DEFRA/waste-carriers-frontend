@@ -42,11 +42,11 @@
               <div class='form-group'>
                 <% case @registration.businessType %>
                   <% when 'limitedCompany' %>
-                    <h2><%= t 'business_details_limited_heading' %></h2>
+                    <h2><%= t '.business_details_limited_heading' %></h2>
                   <% when 'publicBody' %>
-                    <h2><%= t 'business_details_public_heading' %></h2>
+                    <h2><%= t '.business_details_public_heading' %></h2>
                   <% else %>
-                    <h2><%= t 'business_details_heading' %></h2>
+                    <h2><%= t '.business_details_heading' %></h2>
                 <% end %>
                 <ul class='summary-box'>
                   <li class='summary-items'><%= render 'address_display', r: @registration %></li>
@@ -86,9 +86,12 @@
                 <legend><%= t '.declaration_legend' %></legend>
                 <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
                   <%= validation_for(@registration, :declaration) %>
-                  <p><%= f.check_box :declaration%> <%= t '.check_box_label' %></p>
-                  <p><%= t '.declaration_text1' %></p>
-                  <p><%= t '.declaration_text2' %></p>
+                  <ol>
+                    <li><p><%= f.check_box :declaration%> <%= t '.check_box_label' %></p></li>
+                    <li><p><%= t '.declaration_text1' %></p></li>
+                    <div class='notice-icon'></div>
+                    <li><p><%= t '.declaration_text2' %></p></li>
+                  </ol>
                 </div>
                </div>
               </fieldset>
