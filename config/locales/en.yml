@@ -39,7 +39,7 @@ en:
         lastName: "Last name"
         password: Password
         password_confirmation: "Confirm password"
-        phoneNumber: "Phone number"
+        phoneNumber: "Telephone number"
         position: "Job title"
         postcode: Postcode
         postcodeSearch: Address
@@ -107,7 +107,7 @@ en:
     publicBody: "Public body"
     soleTrader: "Sole trader"
   buttons:
-    broker_dealer: "We arrange for other people to carry it"
+    broker_dealer: "We arrange for other people to it or we deal in waste"
     carrier_broker_dealer: "We do both"
     carrier_dealer: "We carry the waste ourselves"
   key_people:
@@ -257,7 +257,7 @@ en:
       email: "Email:"
       enquiresMessage: "Please contact the Environment Agency if you have any enquiries."
       lowerTierRegistration: "Lower tier registration"
-      phoneNumber: "Phone number"
+      phoneNumber: "Telephone number"
       registeredOn: "Registered on: %{date}"
       renewal_html: "Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. "
       responsibilities1: "If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier"
@@ -297,9 +297,11 @@ en:
       title: "Confirm delete registration"
     confirmation_step:
       data_protection_heading: "How we use your personal information"
-      data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
+      data_protection_text1: "See the privacy and shared cookies policy to find out how the Environment Agency will use this information."
       declaration_heading: Declaration
-      declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as a Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
+      declaration_text_tick_box: "By ticking this box I understand that:"
+      declaration_text_submit: "By submitting this registration I can confirm that, as far as I know, the information I have given above is true."
+      declaration_text_fined: "I can be fined up to £5,000 if I give false or misleading information."
       key_person_summary_heading: "Key person details"
       dynamic_panel_heading: "Dynamic panel: to provide context of user route"
       edit_business_address_link: "Edit your business or organisation address"
@@ -309,8 +311,8 @@ en:
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
       privacy_policy: "Privacy policy and cookies"
       smart_answers_heading: "You told us"
-      step: "Step 7 of 8"
-      subtitle: "Checking your details before registering"
+      step: "Step 7 of 9"
+      subtitle: "Check your details before registering"
       tier_description: "You are %{tier_with_article} tier waste carrier..."
       title: Confirmation
     constructiondemolition_step:
@@ -321,7 +323,7 @@ en:
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Business details"
-      legend: "Enter your business or organisation details"
+      legend: "Enter your business or organisation address"
       legend_limited: "Enter your business details"
       legend_public: "Enter your organisation details"
       name_field: "Business or organisation trading name"
@@ -350,12 +352,14 @@ en:
       step: "Step 3 of 9"
       title: "Contact details"
     contactdetails_step:
-      legend: "Your contact details"
+      legend: "Enter your contact details"
       subtitle: "These will not be made public"
     convictions_step:
-      title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
-      convictions_link_text: "Check here for a list of relevant convictions"
-      step: "Step 4 of 10"
+      title: "Has any owner, partner, manager, director or relevant person had any relevant convictions in the last 12 months?"
+      subtitle: "Relevant person is someone who has a relevant conviction, if you are unsure click on the links below for more information."
+      relevant_convictions_link_text: "What are relevant convictions?"
+      relevant_person_link_text: "What is a relevant person?"
+      step: "Step 5 of 9"
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
@@ -372,7 +376,7 @@ en:
       address: Address
       contactName: "Contact name"
       heading: "Business or organisation details"
-      phoneNumber: "Phone number"
+      phoneNumber: "Telephone number"
     errors:
       error: error
       errorMessage: "You have %{count} on this page"
@@ -430,7 +434,7 @@ en:
       paidInFull_text: "Paid in full"
       pay_by_worldpay_button_label: "Pay by debit/credit card"
       pay_offline_button_label: "Pay via electronic transfer"
-      phoneNumber_label: "Phone number"
+      phoneNumber_label: "Telephone number"
       please_select_address: "Please select an address.."
       postcode_label: "Post code"
       print_button_label: "View certificate"
@@ -449,7 +453,7 @@ en:
       root_site: GOV.UK
       select_button_label: "Select (Online)"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"
-      summary_of_registreation: "Summary of information"
+      summary_of_registration: "Summary of information"
       title: "Waste Carrier Registration"
       unrevoke_button_label: Un-revoke
       update_button_label: Update
@@ -468,10 +472,10 @@ en:
       bank_address: "Bank address: %{bank_address}"
       bank_name: "Bank name: %{bank_name}"
       bank_transfer_contact_instructions: "Please contact us with the details of your bank transfer by either:"
-      bank_transfer_instructions: "Please arrange your bank transfer using the following details:"
+      bank_transfer_instructions: "Please arrange your bank transfer by completing the next two steps"
       email_preamble: "Email: "
       fax_number: "Fax: %{fax_number}"
-      heading: "How to pay"
+      heading: "Pay by bank transfer"
       iban_instructions: "If you are paying from outside the United Kingdom, you must pay in sterling and include:"
       iban_number: "IBAN number: %{iban_number}"
       payment_due: "Payment due: %{payment_due}"
@@ -617,9 +621,11 @@ en:
       broker_dealer: broker/dealer
       carrier_broker_dealer: carrier/broker/dealer
       carrier_dealer: carrier/dealer
-      legend: "Type of registration:"
-      step: "Step 5 of 8"
-      subtitle: "Carrier, broker or dealer"
+      legend: "Do you carry the waste yourselves or arrange for other people to transport it?"
+      step: "Step 1 of 9"
+      subtitle_carrier_dealer: "You are a carrier/dealer"
+      subtitle_broker_dealer: "You are a broker/dealer"
+      subtitle_carrier_broker_dealer: "You are a carrier, broker and dealer"
       title: "Registration type"
     serviceprovided_step:
       main_service_label: "Waste disposal is the main service we provide"
@@ -635,6 +641,7 @@ en:
       notYouText_html: "If this is not you, <a href='#' id='secondaryButton' onclick='document.getElementById(\"signout_button\").click()'>sign out and start again</a>"
       signedInAsText: "You are currently signed in as"
       update: "Update registration"
+      step: "Step 7 of 9"
     smartanswers_display:
       business_type: "You are a %{businessType}"
       construction_demolition_no: "You never deal with construction or demolition waste"
