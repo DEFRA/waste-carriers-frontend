@@ -11,15 +11,11 @@
               <% content_for :page_title, createTitle('.title') %>
               <ol>
                 <li class="back_link"><%= render 'back_link' %></li>
-                <% if @registration.tier.eql?('UPPER') %>
-                  <li class="step"><%= t '.step', :step_x => '2', :step_y => '9' %></li>
-                <% else %>
-                  <li class="step"><%= t '.step', :step_x => '1', :step_y => '4' %></li>
-                <% end %>
+                <%= render 'step', r: @registration, upper_step: '2', lower_step: '1' %>
               </ol>
-        
+
               <%= render 'errors' %>
-        
+
               <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
 
                   <% case @registration.businessType %>
