@@ -17,7 +17,7 @@
 
             <%= render 'errors' %>
 
-              <%= form_for(@registration, :url => formExample_path) do |f| %>
+            <%= form_for(@registration, :url => formExample_path) do |f| %>
               <%= render 'formTemplate_step', f: f, r: @registration %>
               <span class="next_link"><%= render 'next_link' %></span>
             <% end %>

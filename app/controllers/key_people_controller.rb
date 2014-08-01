@@ -51,8 +51,6 @@ class KeyPeopleController < ApplicationController
     @key_person = Registration::KeyPerson.create
     @key_person.set_attribs(params[:key_person])
 
-
-
     if @key_person.valid?
       @key_person.save
       logger.debug @registration.id
@@ -73,7 +71,6 @@ class KeyPeopleController < ApplicationController
 
     key_person = Registration::KeyPerson[ session[:key_person_update_id]]
     key_person.set_attribs(params[:key_person])
-
 
     if key_person.valid?
       key_person.save
@@ -121,7 +118,7 @@ class KeyPeopleController < ApplicationController
       :last_name,
       :dob_day,
       :dob_month,
-    :dob_year)
+      :dob_year)
   end
 
 end
