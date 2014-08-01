@@ -5,10 +5,6 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/key-people
   def registration
     get_registration
-    unless @registration.businessType == "limitedCompany"
-      redirect_to :upper_payment
-      return
-    end
     get_key_people
     redirect_to action: 'new'
   end
