@@ -3,26 +3,31 @@
 
 <main id="content" role="main" class="group">
 	<article role="article" class="group">
+	<section>
+      <div class="inner">
+      <div class="col-1">
 
 	<h1><%=t 'agencyUsers.editHeading'%></h1>
 
-	<aside>
+	<section>
 	<%= render 'form' %>
 	
-
 	<%# link_to t('agencyUsers.show'), @agency_user %>
 	<%= link_to t('agencyUsers.back'), agency_users_path %>
 
-	</aside>
-	<div class='related-positioning'>
-		<div class='related-container'>
-			<div class='related'>
-				<div class='inner group related-subsection'>
-				<%= render "shared/current_user" %>
-				</div>
-			</div>
-		</div>
+	</section>
+
 	</div>
+  </div>
+</section>
+
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+          <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
 
 	</article>
 </main>

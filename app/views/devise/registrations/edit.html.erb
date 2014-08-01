@@ -1,6 +1,12 @@
 <%= render 'shared/content_for_pages' %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
+<section>
+<div class="inner">
+<div class="col-1">
+  <ol>
+    <li><%= link_to t('registrations.form.back_button_label') %></li>
+  </ol>
 
 <fieldset>
 <legend><%= t 'devise.registrations.changePassword'%></legend>
@@ -39,11 +45,14 @@
       <%= f.password_field :password_confirmation %>
   </div>
 
-      <p><%= link_to t('registrations.form.back_button_label') %></p>
       <%= f.submit t('devise.registrations.update'), :class => "button" %>
   </div>
 
 <% end %>
 </fieldset>
+
+</div>
+</div>
+</section>
 
 </article></main>
