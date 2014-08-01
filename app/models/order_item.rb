@@ -10,6 +10,17 @@ class OrderItem < Ohm::Model
   attribute :description
   attribute :reference
 
+  class << self
+    def init (order_items_hash)
+      orderItem = OrderItem.create
+      order_items_hash.each do |k, v|
+        orderItem.send("#{k}=",v)
+      end
+      orderItem.save
+      orderItem
+    end
+  end
+
   # returns a hash representation of the OrderItem object
   #
   # @param none
