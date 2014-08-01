@@ -16,8 +16,20 @@
             <h2><%= t '.subtitle' %></h2>
             <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
 
-              <%= render 'confirmation_context_panel', f: f, r: @registration %>
+              <!-- Dynamic context section -->
+              <div class='form-group'>
+                <ul class='summary-box'>
+                  <% case @registration.tier %>
+                    <% when 'UPPER' %>
+                      <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
+                    <% else %>
+                      <% message = t '.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article %>
+                  <% end %>
+                  <li><%= message %></li>
+                </ul>
+              </div>
 
+              <!-- Smart answers section -->
               <div class='form-group'>
                 <h2><%= t '.smart_answers_heading' %></h2>
                 <ul class='summary-box'>
@@ -26,6 +38,7 @@
                 <p><%= link_to t('.edit_smart_answers_link'), find_path %></p>
               </div>
 
+              <!-- Business details section -->
               <div class='form-group'>
                 <% case @registration.businessType %>
                   <% when 'limitedCompany' %>
@@ -41,6 +54,7 @@
                 <p><%= link_to t('.edit_business_details_link'), newBusinessDetails_path %></p>
               </div>
 
+              <!-- Contact details section -->
               <div class='form-group'>
                 <h2><%= t '.contact_details_heading' %></h2>
                 <ul class='summary-box'>
@@ -49,7 +63,17 @@
                 <p><%= link_to t('.edit_contact_details_link'), newContact_path %></p>
               </div>
 
-          		<%= render 'confirmation_declaration', f: f, r: @registration %>
+          		<fieldset>
+                <legend><%= t '.declaration_legend' %></legend>
+                <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
+                  <%= validation_for(@registration, :declaration) %>
+                  <p><%= f.check_box :declaration%> <%= t '.check_box_label' %></p>
+                  <p><%= t '.declaration_text1' %></p>
+                  <p><%= t '.declaration_text2' %></p>
+                </div>
+               </div>
+              </fieldset>
+
               <p><%= t '.data_protection_text1' %> <%= link_to t('.privacy_policy_link'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %> <%= t '.data_protection_text2' %>
               </p>
 
