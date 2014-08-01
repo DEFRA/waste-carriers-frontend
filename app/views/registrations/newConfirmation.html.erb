@@ -2,19 +2,111 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-  	<section>
+    <section>
       <div class="inner">
-      <div class="col-1">
-    	<% content_for :page_title, createTitle('registrations.confirmation_step.title') %>
-    	<%= form_for(@registration, :url => newConfirmation_path) do |f| %>
-    	<ol>
-      		<li class="step"><%= t 'registrations.confirmation_step.step' %></li>
-      	</ol>
-      		<%= render "confirmation_step", f: f, registration_class: 'lower_tier' %>
-      		<%= render 'declaration_and_data_protection', f: f %>
-    	<% end %>
-    	</div>
- 	 	</div>
-	</section>
+        <div class="col-1">
+          <!-- WF 4.3.3 -->
+          <div id="page9"  data-journey="waste-carriers-registration:confirmation">
+            <% content_for :page_title, createTitle('.title') %>
+            <ol>
+              <li class="back_link"><%= render 'back_link' %></li>
+              <%= render 'step', r: @registration, upper_step: '6', lower_step: '3' %>
+            </ol>
+            <%= render 'errors' %>
+            <h2><%= t '.subtitle' %></h2>
+            <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
+
+              <!-- Dynamic context section -->
+              <div class='form-group'>
+                <ul class='summary-box'>
+                  <% case @registration.tier %>
+                    <% when 'UPPER' %>
+                      <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
+                    <% else %>
+                      <% message = t '.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article %>
+                  <% end %>
+                  <li><%= message %></li>
+                </ul>
+              </div>
+
+              <!-- Smart answers section -->
+              <div class='form-group'>
+                <h2><%= t '.smart_answers_heading' %></h2>
+                <ul class='summary-box'>
+                  <li class='list-bullets'><%= render 'smartanswers_display', r: @registration %></li>
+                </ul>
+                <p><%= link_to t('.edit_smart_answers_link'), find_path %></p>
+              </div>
+
+              <!-- Business details section -->
+              <div class='form-group'>
+                <% case @registration.businessType %>
+                  <% when 'limitedCompany' %>
+                    <h2><%= t '.business_details_limited_heading' %></h2>
+                  <% when 'publicBody' %>
+                    <h2><%= t '.business_details_public_heading' %></h2>
+                  <% else %>
+                    <h2><%= t '.business_details_heading' %></h2>
+                <% end %>
+                <ul class='summary-box'>
+                  <li class='summary-items'><%= render 'address_display', r: @registration %></li>
+                </ul>
+                <p><%= link_to t('.edit_business_details_link'), newBusinessDetails_path %></p>
+              </div>
+
+              <!-- Contact details section -->
+              <div class='form-group'>
+                <h2><%= t '.contact_details_heading' %></h2>
+                <ul class='summary-box'>
+                  <li class='summary-items'><%= render 'contactdetails_display', r: @registration %></li>
+                </ul>
+                <p><%= link_to t('.edit_contact_details_link'), newContact_path %></p>
+              </div>
+
+              <!-- Key people section -->
+              <% unless @registration.tier.eql?('LOWER') %>
+                <div class='form-group'>
+                  <% case @registration.businessType %>
+                    <% when 'limitedCompany' %>
+                      <h2><%= t '.key_person_limited_heading' %></h2>
+                    <% when 'partnership' %>
+                      <h2><%= t '.key_person_partnership_heading' %></h2>
+                    <% when 'publicBody' %>
+                      <h2><%= t '.key_person_public_heading' %></h2>
+                    <% else %>
+                      <h2><%= t '.key_person_heading' %></h2>
+                  <% end %>
+                  <ul class='summary-box'>
+                    <li class='summary-items'><%= render '/key_people/key_people_display' %></li>
+                  </ul>
+                  <p><%= link_to t('.edit_key_person_link'), registration_key_people_path %></p>
+                </div>
+              <% end %>
+
+              <!-- Declaration section -->
+          		<fieldset>
+                <legend><%= t '.declaration_legend' %></legend>
+                <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
+                  <%= validation_for(@registration, :declaration) %>
+                  <ol>
+                    <li><p><%= f.check_box :declaration%> <%= t '.check_box_label' %></p></li>
+                    <li><p><%= t '.declaration_text1' %></p></li>
+                    <div class='notice-icon'></div>
+                    <li><p><%= t '.declaration_text2' %></p></li>
+                  </ol>
+                </div>
+               </div>
+              </fieldset>
+
+              <!-- Privacy notice -->
+              <p><%= t '.data_protection_text1' %> <%= link_to t('.privacy_policy_link'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %> <%= t '.data_protection_text2' %>
+              </p>
+
+              <input name="confirm" class="button" type="submit" value="<%= t 'form.confirm_button_label' %>"/>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
   </article>
 </main>

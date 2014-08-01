@@ -99,13 +99,6 @@ Registrations::Application.routes.draw do
         # get "your-registration/payment(.:format)" => "registrations#newPayment", :as => :upper_payment
         # post  "your-registration/payment(.:format)" => "registrations#updateNewPayment"
 
-
-    get "your-registration/upper/business-type" => "registrations#business_type", :as => :upper_business_type
-    post "your-registration/upper/business-type" => "registrations#business_type_update"
-
-    get "your-registration/upper/business-address" => "registrations#business_address", :as => :upper_business_address
-    post "your-registration/upper/business-address" => "registrations#business_address_update"
-
   get "your-registration/key-people" => "key_people#index", :as => :key_people
   post "your-registration/key-people" => "key_people#create"
 
@@ -117,8 +110,6 @@ Registrations::Application.routes.draw do
   delete "your-registration/key-people" => "key_people#destroy"
   get "your-registration/key-people/done" => "key_people#done", :as => :done_key_people
   get "your-registration/key-people/registration" => "key_people#registration", :as => :registration_key_people
-    match "your-registration/upper-tier-business-details" => "registrations#newUpperBusinessDetails", :via => [:get], :as => :newUpperBusinessDetails
-  match "your-registration/upper-tier-business-details" => "registrations#updateNewUpperBusinessDetails", :via => [:post,:put,:patch]
 
     get "your-registration/relevant-convictions" => "registrations#newRelevantConvictions", :via => [:get], :as => :newRelevantConvictions
     match "your-registration/relevant-convictions" => "registrations#updateNewRelevantConvictions", :via => [:post,:put,:patch]
@@ -126,8 +117,6 @@ Registrations::Application.routes.draw do
     get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
     match "your-registration/payment" => "registrations#updateNewPayment", :via => [:post,:put,:patch]
 
-    get "your-registration/upper-tier-summary" => "registrations#newUpperSummary", :as => :upper_summary
-    post "your-registration/upper-tier-summary" => "registrations#updateNewUpperSummary"
   # routes for renewals and edits
   match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
   match "registrations/:uuid/edit" => 'registrations#update', :via => [:post,:put,:patch]

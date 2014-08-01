@@ -32,7 +32,7 @@ en:
         company_no: "Companies House number"
         contactEmail: "Email address"
         country: Country
-        declaration: Declaration
+        declaration: "Declaration"
         firstName: "First name"
         houseNumber: "Building name or number"
         individualsType: "Organisation type"
@@ -170,6 +170,7 @@ en:
     no_option_label: "No"
     update_button_label: Update
     yes_option_label: "Yes"
+    confirm_button_label: "Confirm"
   format_options:
     csv: csv
     json: json
@@ -270,6 +271,8 @@ en:
       updatePhone: "You can do this by calling the Environment Agency and providing your access code."
       updateWebsite_html: "You can do this by going to the website %{link} and logging in using your email and password."
   registrations:
+    step:
+      step: "Step %{step_x} of %{step_y}"
     address_entry:
       businessAddress: "Main business or organisation address"
       change: Change
@@ -283,10 +286,6 @@ en:
       selectAddress: "Select address"
       streetLine1Foreign: Address
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
-    businessdetails_step:
-      step: "Step 5 of 8"
-      subtitle: "Enter your business or organisation address"
-      title: "Business details"
     businesstype_step:
       step: "Step 1 of 8"
       subtitle: "What type of business or organisation are you?"
@@ -295,26 +294,6 @@ en:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
       title: "Confirm delete registration"
-    confirmation_step:
-      data_protection_heading: "How we use your personal information"
-      data_protection_text1: "See the privacy and shared cookies policy to find out how the Environment Agency will use this information."
-      declaration_heading: Declaration
-      declaration_text_tick_box: "By ticking this box I understand that:"
-      declaration_text_submit: "By submitting this registration I can confirm that, as far as I know, the information I have given above is true."
-      declaration_text_fined: "I can be fined up to £5,000 if I give false or misleading information."
-      key_person_summary_heading: "Key person details"
-      dynamic_panel_heading: "Dynamic panel: to provide context of user route"
-      edit_business_address_link: "Edit your business or organisation address"
-      edit_contact_details_link: "Edit your contact details"
-      edit_key_person_details_link: "Edit your key peoples details"
-      edit_smart_answers_link: "Edit what you told us"
-      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
-      privacy_policy: "Privacy policy and cookies"
-      smart_answers_heading: "You told us"
-      step: "Step 7 of 9"
-      subtitle: "Check your details before registering"
-      tier_description: "You are %{tier_with_article} tier waste carrier..."
-      title: Confirmation
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
       step: "Step 3 of 8"
@@ -349,7 +328,7 @@ en:
       manual_address_link: "I want to add an address myself"
       foreign_address_link: "I have an address outside the United Kingdom"
     newContactDetails:
-      step: "Step 3 of 9"
+      step: "Step %{step_x} of %{step_y}"
       title: "Contact details"
     contactdetails_step:
       legend: "Enter your contact details"
@@ -360,6 +339,36 @@ en:
       relevant_convictions_link_text: "What are relevant convictions?"
       relevant_person_link_text: "What is a relevant person?"
       step: "Step 5 of 9"
+    newConfirmation:
+      step: "Step %{step_x} of %{step_y}"
+      title: "Confirmation"
+      subtitle: "Checking your details before registering"
+      tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
+      payment_message: "You are required to pay for an upper tier registration."
+      smart_answers_heading: "You told us"
+      edit_smart_answers_link: "Edit what you told us"
+      business_details_heading: "Business or organisation address"
+      business_details_limited_heading: "Business address"
+      business_details_public_heading: "Organisation address"
+      edit_business_details_link: "Edit your business or organisation address"
+      contact_details_heading: "Your contact details"
+      edit_contact_details_link: "Edit your contact details"
+      key_person_heading: "Business or organisation owners"
+      key_person_limited_heading: "Directors"
+      key_person_partnership_heading: "Partners"
+      key_person_public_heading: "CEO's"
+      edit_key_person_link: "Edit these details"
+      declaration_legend: "Declaration"
+      check_box_label: "By ticking this box I understand that:"
+      declaration_text1: "By submitting this registration I confirm that, as far as I know, the information I have given above is true."
+      declaration_text2: "I can be fined up to £5,000 if I give false or misleading information."
+      data_protection_text1: "See the"
+      privacy_policy_link: "Privacy and shared cookies policy"
+      data_protection_text2: "to find out how the Environment Agency will use this information."
+    confirmation_step:
+      key_person_summary_heading: "Key person details"
+      edit_key_person_details_link: "Edit your key peoples details"
+      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
@@ -494,18 +503,6 @@ en:
       title: Payment
       total_label: "Total to pay"
       trouble_paying_link: "Trouble paying?"
-    newUpperSummary:
-      agree_declaration_label: "Tick this box to agree with declaration"
-      alternate_contact_legend: "Alternative contact"
-      amount_paid: "You have paid"
-      check_details_label: "Check your details"
-      confirm_label: "Confirm registration"
-      declaration_link: Declaration
-      main_contact_legend: "Main contact"
-      payment_label: "You are about to pay"
-      subtitle: Summary
-      title: Summary
-      use_your_information_link: "How we use your personal information"
     noregistration_step:
       contact_Line_1: "We need some more information about your organisation before we can register you as a waste carrier."
       contact_Line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
@@ -713,22 +710,10 @@ en:
       legend: "An example legend"
       subtitle: "All pages should follow this structure"
   upper_registrations:
-    business_address:
-      companies_house_label: "Find your companies house number"
-      manual_companies_house_link: "Enter details manually"
-      manual_other_address_link: "I am a company from outside the United Kingdom"
-      manual_uk_address_link: "Enter address manually"
-      subtitle: "Enter your business or organisation address"
-      title: "Business address"
     business_type:
       form_legend: "Type of registration to register"
       subtitle: "Carrier, broker or dealer"
       title: "Business type"
-    contact_detail:
-      alternate_form_legend: "Alternative contact (if required)"
-      key_person_form_legend: "Key person or main contact"
-      subtitle: "Enter your business or organisation contact details"
-      title: "Contact details"
     errors:
       error: error
       errorMessage: "You have %{count} on this page"
@@ -738,7 +723,6 @@ en:
       find_address_button_label: "Find UK address"
       find_details_button_label: "Find details"
       next_button_label: Next
-      progress: "Progress: "
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
       title: "Waste Carrier Registration"
     payment:

@@ -1,0 +1,5 @@
+<% if r.tier.eql?('UPPER') %>
+  <li class="step"><%= t '.step', :step_x => upper_step, :step_y => '9' %></li>
+<% else %>
+  <li class="step"><%= t '.step', :step_x => lower_step, :step_y => '4' %></li>
+<% end %>

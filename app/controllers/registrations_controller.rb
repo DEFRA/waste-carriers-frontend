@@ -283,7 +283,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'convictions'
 
     if @registration.valid?
-      redirect_to :upper_summary
+      redirect_to :newConfirmation
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -971,22 +971,6 @@ class RegistrationsController < ApplicationController
 
   end
 
-  # GET upper-registrations/summary
-  def newUpperSummary
-    new_step_action 'upper_summary'
-  end
-
-  # POST upper-registrations/summary
-  def updateNewUpperSummary
-
-    setup_registration 'upper_summary'
-
-    if @registration.valid?
-      redirect_to :newSignup
-    else
-      render 'newUpperSummary', :status => '400'
-    end
-  end
   ######################################
 
   def newOfflinePayment
