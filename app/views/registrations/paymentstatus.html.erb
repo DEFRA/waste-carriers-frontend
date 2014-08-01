@@ -2,7 +2,10 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-  	<aside>
+  	<section>
+      <div class="inner">
+      <div class="col-1">
+
 
 	    <% content_for :page_title, createTitle('.heading') %>
 
@@ -38,7 +41,7 @@
 
 			        <div class="form-group">
 				  	    <legend><%= t'.chargehistory_table_heading' %></legend>
-						<table class="" summary='This table details the charge history of a registration' style="width:60%"> <!-- Remove this style once styles working -->
+						<table class="" summary='This table details the charge history of a registration'
 							<thead class="">
 								<tr>
 									<th class="" ><%= t '.chargehistory_date_table_heading' %></th>
@@ -126,7 +129,7 @@
 
 			        <div class="form-group">
 		            	<legend><%= t'.balance_table_heading' %></legend>
-						<table class="" summary='This table details the balance due on a registration' style="width:60%"> <!-- Remove this style once styles working -->
+						<table class="" summary='This table details the balance due on a registration'
 							<thead class="">
 								<tr>
 									<th class="" ></th>
@@ -194,19 +197,17 @@
 		    <% end %>
 		    </span>
 		</div>
+       </div>
+  </div>
+</section>
 
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+         <%= render "shared/current_user" %>
+        </div>
+      </div>
     </aside>
-    <br/> <!-- gives better spacing in safair -->
-
-	<div class='related-positioning'>
-		<div class='related-container'>
-			<div class='related'>
-				<div class='inner group related-subsection'>
-				<%= render "shared/current_user" %>
-				</div>
-			</div>
-		</div>
-	</div>
 
   </article>
 </main>

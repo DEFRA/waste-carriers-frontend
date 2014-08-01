@@ -2,6 +2,9 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+    <section>
+      <div class="inner">
+      <div class="col-1">
 
     <%= form_for(@report, :url => "registrations", :html => { :method => 'GET'} ) do |f| %>
       <h1><%= t '.subtitle' %></h1>
@@ -35,12 +38,15 @@
             <% end %></label>
           </div>
         </fieldset>
+        
+    </div>
+  </div>
+</section>  
 
 
-        <div class='related-positioning'>
-        <div class='related-container'>
-        <div class='related'>
-          <div class='inner-group related-subsection'>
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
 
 
 
@@ -73,9 +79,9 @@
 
         </div>
       </div>
-    </div>
-  </div>
+    </aside>
 
+    
       <input type="submit" value="Export" class="button">
 
       </div>

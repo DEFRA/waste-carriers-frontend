@@ -1,7 +1,11 @@
 <%= render 'shared/content_for_pages' %>
 
 <% content_for :page_title, createTitle('.title') %>
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
+	<article role="article" class="group">
+	  <section>
+      <div class="inner">
+      <div class="col-1">
 
 <%= form_for(@registration, url: print_url(:id => @registration.id)) do |f| %>
 
@@ -78,4 +82,7 @@
 <% end %>
 <br/>
 <br/>
+    </div>
+  </div>
+</section>
 </article></main>

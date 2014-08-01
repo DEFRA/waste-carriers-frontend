@@ -1,10 +1,26 @@
 <%= render 'shared/content_for_pages' %>
-<%= render "shared/current_user" %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
-<h1><%=t 'agencyUsers.newLabel'%></h1>
+<section>
+<div class="inner">
+<div class="col-1">
+
+<h2><%=t 'agencyUsers.newLabel'%></h2>
 
 <%= render 'form' %>
-
 <%= link_to t('agencyUsers.back'), agency_users_path %>
+
+</div>
+</div>
+</section>
+
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+       <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
+
+
 </article></main>

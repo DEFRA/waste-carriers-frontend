@@ -1,5 +1,8 @@
 <% content_for :page_title, createTitle('.title') %>
 <main id="content" role="main" class="group"><article role="article" class="group">
+	<section>
+      <div class="inner">
+      <div class="col-1">
 
 <%= form_for(@registration, url: print_confirmed_url) do |f| %>
 
@@ -76,4 +79,7 @@ You are registered as a lower tier waste carrier/broker/dealer under The Waste (
 <% end %>
 <br/>
 <br/>
+    </div>
+  </div>
+</section>
 </article></main>
