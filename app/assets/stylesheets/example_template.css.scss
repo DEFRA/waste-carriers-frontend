@@ -2,7 +2,7 @@
 
 //BOX STYLES
 
-.inner-payment-box:before, .payment-box:before, .summary-box:before, .example:before {
+.inner-payment-box:before, .payment-box:before, .summary-box:before, .example:before, .line-divider:before {
     background: none repeat scroll 0 0 rgb(191, 193, 195);
     color: rgb(255, 255, 255);
     font-family: "nta",Arial,sans-serif;
@@ -23,22 +23,22 @@
     padding: 18px 0 15px 25px;
     position: relative;
 }
-.inner-payment-box, .inner-payment-box-total, .payment-box {
+.inner-payment-box, .inner-payment-box-total, .payment-box, .line-divider {
     padding: 10px 20px 20px 10px;
 }
 
-.summary-box, .example {
-   padding: 30px 0 10px 30px;
+.summary-box, .example, .line-divider {
+   padding: 20px 0 10px 30px;
 }
 
-.payment-box {
+.payment-box, .line-divider {
     padding-bottom:0px;
 }
 
 .inner-payment-box, .inner-payment-box-total {
     border-bottom: 1px solid rgb(191, 193, 195);
 }
-.payment-box, .summary-box, .example {
+.payment-box, .summary-box, .example, .line-divider {
     border: 1px solid rgb(191, 193, 195);
     margin-bottom: 45px;
     margin-top: 15px;
@@ -83,9 +83,7 @@
 
 //Summary box
 
-.summary-box:before {
-    content: "SUMMARY";
-}
+
 .summary-box {
     margin-bottom: 10px;
     margin-top: 10px;
@@ -375,5 +373,9 @@ details .summary {
     margin-bottom: 20px;
 }
 
-
+.inline p {
+    display:block;
+    float:left;
+    position:relative;
+}
 

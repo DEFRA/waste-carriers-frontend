@@ -1,13 +1,116 @@
 <%= render 'shared/content_for_pages' %>
+
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+    <section class='bank_section'>
+      <div class="inner">
+      <div class="col-1">
+      <ol>
+        <li class='back_link'><%= render 'back_link' %></li>
+        <li class="step">Step 9 of 9</li>
+      </ol> 
 
-    <h2><%= t '.heading' %></h2>
+<div id='bank_transfer_table'>
+  <legend><%= t '.heading' %></legend>
+    <h2><%= t '.bank_transfer_instructions' %></h2>
+      <table summary='Bank transfer details' role='presentation'>
+        <thead>
+          <tr>
+            <th class="subtitle"><strong>Step one</strong></th>
+            <th></th>
+          </tr>
+        </thead>
 
+        <tbody>
+          <tr>
+            <td><%= t '.reference', reference: @registration.regIdentifier %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><%= t '.payment_due', payment_due: pence_to_currency(@registration.finance_details.first.balance) %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><p></p></td>
+            <td><p></p></td>
+          </tr>
+          <tr>
+            <td><%= t '.account_name', account_name: Rails.configuration.environment_agency_bank_account_name %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><%= t '.bank_name', bank_name: Rails.configuration.environment_agency_bank_name %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><%= t '.bank_address', bank_address: Rails.configuration.environment_agency_bank_address %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><p></p></td>
+            <td><p></p></td>
+          </tr>
+          <tr>
+            <td><%= t '.sort_code', sort_code: Rails.configuration.bank_transfer_sort_code %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><%= t '.account_number', account_number: Rails.configuration.bank_transfer_account_number %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><p><strong><%= t '.iban_instructions' %></strong></p></td>
+            <td><p></p></td>
+          </tr>
+          <tr>
+          <tr>
+            <td><%= t '.iban_number', iban_number: Rails.configuration.iban_number %></td>
+            <td>Payment2</td>
+          </tr>
+          <tr>
+            <td><%= t '.swiftbic_number', swiftbic_number: Rails.configuration.swiftbic_number %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><p></p></td>
+            <td><p></p></td>
+          </tr>
+          <tr>
+            <td class='subtitle'></div><strong>Step two</strong></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><h2><%= t '.bank_transfer_contact_instructions' %></h2></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><%= t '.email_preamble' %><%= mail_to Rails.configuration.income_email_address %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><%= t '.fax_number', fax_number: Rails.configuration.income_fax_number %></td>
+            <td>Payment 2</td>
+          </tr>
+          <tr>
+            <td><%= t '.postal_address', postal_address: Rails.configuration.income_postal_address %></td>
+            <td>Payment 2</td>
+          </tr>
+
+        </tbody>
+      </table>
+</div>
+
+<br>
+<br>
+<br>
+
+<!--     <h2><%= t '.heading' %></h2>
     <p><%= t '.bank_transfer_instructions' %></p>
+
     <ul>
       <li><%= t '.reference', reference: @registration.regIdentifier %></li>
-      <li><%= t '.payment_due', payment_due: pence_to_currency(@registration.finance_details.first.balance) %></li>
+      <li><%= t '.payment_due', payment_due: pence_to_currency(@registration.finance_details.first.balance) %>
+      </li>
       <li><%= t '.account_name', account_name: Rails.configuration.environment_agency_bank_account_name %></li>
       <li><%= t '.bank_name', bank_name: Rails.configuration.environment_agency_bank_name %></li>
       <li><%= t '.bank_address', bank_address: Rails.configuration.environment_agency_bank_address %></li>
@@ -26,11 +129,15 @@
       <li><%= t '.email_preamble' %><%= mail_to Rails.configuration.income_email_address %></li>
       <li><%= t '.fax_number', fax_number: Rails.configuration.income_fax_number %></li>
       <li><%= t '.postal_address', postal_address: Rails.configuration.income_postal_address %></li>
-    </ul>
+    </ul> -->
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>
-      <%= render 'wizard_links' %>
+  
     <% end %>
 
+
+    </div>
+  </div>
+</section>
   </article>
 </main>
