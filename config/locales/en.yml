@@ -110,24 +110,6 @@ en:
     broker_dealer: "We arrange for other people to it or we deal in waste"
     carrier_broker_dealer: "We do both"
     carrier_dealer: "We carry the waste ourselves"
-  key_people:
-    edit:
-      step: "Step 7 of 8"
-      title: "Edit key person details"
-    form:
-      legend: "Key person details"
-      subtitle: "These will not be made public"
-    index:
-      legend: "Existing key people"
-      step: "Step 7 of 8"
-      subtitle: "These will not be made public"
-      title: "Key people"
-    new:
-      step: "Step 7 of 8"
-      title: "Key person details"
-      you_have_added: "You have added the following key people"
-      key_person_name_string: "Key person name"
-      add_key_person_button_text: "Add another key person"
   distances:
     ? "10"
     : "10 Miles"
@@ -270,6 +252,28 @@ en:
       telephone: "Telephone:"
       updatePhone: "You can do this by calling the Environment Agency and providing your access code."
       updateWebsite_html: "You can do this by going to the website %{link} and logging in using your email and password."
+  key_people:
+    edit:
+      step: "Step 7 of 8"
+      title: "Edit key person details"
+    form:
+      legend: "Key person details"
+      subtitle: "These will not be made public"
+    index:
+      legend: "Existing key people"
+      step: "Step 7 of 8"
+      subtitle: "These will not be made public"
+      title: "Key people"
+    new:
+      step: "Step 4 of 9"
+      title: "Key person details"
+      legend: "Business owner details"
+      legend_limited: "Director details"
+      legend_partner: "Partner details"
+      legend_public: "CEO details"
+      you_have_added: "You have added the following key people"
+      key_person_name_string: "Key person name"
+      add_key_person_button_text: "Add another key person"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"

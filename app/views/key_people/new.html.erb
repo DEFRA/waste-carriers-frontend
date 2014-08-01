@@ -2,30 +2,55 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+    <section>
+      <div class="inner">
+        <div class="col-1">
 
-    <!-- WF 4.3.2 -->
-    <div id="page7"  data-journey="waste-carriers-registration:key-person-details">
+          <!-- WF 4.3.2 -->
+          <div id="page7"  data-journey="waste-carriers-registration:key-person-details">
 
-      <% content_for :page_title, createTitle('.title') %>
-      <p class="back_link"><%= render 'back_link' %></p>
-      <div class="step"><%= t '.step' %></div>
+            <% content_for :page_title, createTitle('.title') %>
+            <ol>
+               <li class="back_link"><%= render 'back_link' %></li>
+               <li class="step"><%= t '.step' %></li>
+            </ol>
 
-      <%= form_for(@key_person, url: {action: "create"} ) do |f| %>
-        <%= render 'form', f: f, d: @key_person %>
-        <div class="inline">
-          <span class="next_link">
-            <input name="next" class="button button-get-started" type="submit" value="<%= t '.add_key_person_button_text' %>"/>
-          </span>
+            <%= render 'errors' %>
+
+            <%= form_for(@key_person, url: {action: "create"} ) do |f| %>
+
+              <% case @registration.businessType %>
+                <% when 'limitedCompany' %>
+                  <% legend = t '.legend_limited'  %>
+                <% when 'partnership' %>
+                  <% legend = t '.legend_partner'  %>
+                <% when 'publicBody' %>
+                  <% legend = t '.legend_public'  %>
+                <% else %>
+                  <% legend = t '.legend'  %>
+              <% end %>
+
+              <%= render 'form', f: f, d: @key_person, legend: legend %>
+              <div class="inline">
+                <span class="next_link">
+                  <input name="next" class="button button-get-started" type="submit" value="<%= t '.add_key_person_button_text' %>"/>
+                </span>
+              </div>
+            <% end %>
+
+            <% if @key_people.any? %>
+
+                <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+                    <div class="next_link"><%= render 'next_link' %></div>
+                <% end %>
+
+                <%= render 'key_people_index' %>
+            <% end %>
+
+          </div>
+
         </div>
-      <% end %>
-    </div>
-
-    <% if @key_people.any? %>
-        <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
-            <div class="next_link"><%= render 'next_link' %></div>
-        <% end %>
-
-        <%= render 'key_people_index' %>
-    <% end %>
+      </div>
+    </section>
   </article>
 </main>

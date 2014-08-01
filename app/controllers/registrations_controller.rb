@@ -239,14 +239,10 @@ class RegistrationsController < ApplicationController
     # if params[:findAddress]
     #   render "newBusinessDetails" and return
     # end
-    logger.debug "Okay I'm here"
     if @registration.valid?
-      logger.debug "I'm valid"
       if @registration.tier.eql? 'LOWER'
-        logger.debug "I'm lower"
         redirect_to :newConfirmation
       else
-        logger.debug "I'm upper"
         redirect_to :registration_key_people
       end
     else
