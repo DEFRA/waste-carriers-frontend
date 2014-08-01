@@ -294,29 +294,6 @@ en:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
       title: "Confirm delete registration"
-<<<<<<< HEAD
-=======
-    confirmation_step:
-      data_protection_heading: "How we use your personal information"
-      data_protection_text1: "See the privacy and shared cookies policy to find out how the Environment Agency will use this information."
-      declaration_heading: Declaration
-      declaration_text_tick_box: "By ticking this box I understand that:"
-      declaration_text_submit: "By submitting this registration I can confirm that, as far as I know, the information I have given above is true."
-      declaration_text_fined: "I can be fined up to £5,000 if I give false or misleading information."
-      key_person_summary_heading: "Key person details"
-      dynamic_panel_heading: "Dynamic panel: to provide context of user route"
-      edit_business_address_link: "Edit your business or organisation address"
-      edit_contact_details_link: "Edit your contact details"
-      edit_key_person_details_link: "Edit your key peoples details"
-      edit_smart_answers_link: "Edit what you told us"
-      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
-      privacy_policy: "Privacy policy and cookies"
-      smart_answers_heading: "You told us"
-      step: "Step 7 of 9"
-      subtitle: "Check your details before registering"
-      tier_description: "You are %{tier_with_article} tier waste carrier..."
-      title: Confirmation
->>>>>>> origin/develop
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
       step: "Step 3 of 8"
@@ -357,10 +334,11 @@ en:
       legend: "Enter your contact details"
       subtitle: "These will not be made public"
     convictions_step:
-<<<<<<< HEAD
-      title: "Have you or any partners, managers or directors been convicted of waste offences in the last 12 months?"
-      convictions_link_text: "Check here for a list of relevant convictions"
-      step: "Step 4 of 10"
+      title: "Has any owner, partner, manager, director or relevant person had any relevant convictions in the last 12 months?"
+      subtitle: "Relevant person is someone who has a relevant conviction, if you are unsure click on the links below for more information."
+      relevant_convictions_link_text: "What are relevant convictions?"
+      relevant_person_link_text: "What is a relevant person?"
+      step: "Step 5 of 9"
     newConfirmation:
       step: "Step %{step_x} of %{step_y}"
       title: "Confirmation"
@@ -388,13 +366,6 @@ en:
       key_person_summary_heading: "Key person details"
       edit_key_person_details_link: "Edit your key peoples details"
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
-=======
-      title: "Has any owner, partner, manager, director or relevant person had any relevant convictions in the last 12 months?"
-      subtitle: "Relevant person is someone who has a relevant conviction, if you are unsure click on the links below for more information."
-      relevant_convictions_link_text: "What are relevant convictions?"
-      relevant_person_link_text: "What is a relevant person?"
-      step: "Step 5 of 9"
->>>>>>> origin/develop
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
