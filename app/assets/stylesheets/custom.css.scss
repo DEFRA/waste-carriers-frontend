@@ -202,7 +202,7 @@ input {
 @media all and ( min-width: 960px ) {
   
   .col-1 {
-    width: 60%%;
+    width: 60%;
   }
   
   .col-2 {
@@ -220,6 +220,39 @@ input {
 .form-group-type {
   width:58%;
 }
+
+.bank_section .col-1 {
+  width:60%;
+}
+
+.notice-icon {
+    background: url("https://assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png") 
+    no-repeat scroll 0 0.5em rgba(0, 0, 0, 0);
+    height:50px;
+    width:50px;
+    position:relative;
+
+}
+
+.step-one-icon {
+  background: url("govuk_frontend_toolkit-master/images/icon-steps/icon-step-1.png")
+  no-repeat scroll 0 0.5em rgba(0, 0, 0, 0);
+  height:50px;
+  width:50px;
+  position:relative;
+}
+
+.step-two-icon {
+  background: url("govuk_frontend_toolkit-master/images/icon-steps/icon-step-2.png")
+  no-repeat scroll 0 0.5em rgba(0, 0, 0, 0);
+  height:50px;
+  width:50px;
+  position:relative;
+}
+
+
+
+
 
 // .reg-complete-container {
 //   width:35%
