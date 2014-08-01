@@ -1,6 +1,10 @@
 <%= render 'shared/content_for_pages' %>
 
 <main id="content" role="main" class="group"><article role="article" class="group">
+ <section>
+      <div class="inner">
+      <div class="col-1">
+
 <%= link_to t('registrations.form.back_button_label'), :back %>
 	<fieldset>	
 		<legend><%= t 'devise.passwords.forgotHeading'%></legend>
@@ -17,4 +21,8 @@
 		<% end %>
 
 	</fieldset>
+
+	</div>
+  </div>
+</section>
 </article></main>
