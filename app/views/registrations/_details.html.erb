@@ -10,7 +10,7 @@
 </dl>
 <dl class="data">
   <dt><%=t 'registrations.details.address'%></dt>
-  <dd><%= render "address_display",:newline=>true%></dd>
+  <dd><%= render "address_display", r: @registration, :newline=>true%></dd>
 </dl>
 
 <!--
