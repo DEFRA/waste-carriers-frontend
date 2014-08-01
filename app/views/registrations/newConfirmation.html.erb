@@ -63,6 +63,25 @@
                 <p><%= link_to t('.edit_contact_details_link'), newContact_path %></p>
               </div>
 
+              <% unless @registration.tier.eql?('LOWER') %>
+                <div class='form-group'>
+                  <% case @registration.businessType %>
+                    <% when 'limitedCompany' %>
+                      <h2><%= t '.key_person_limited_heading' %></h2>
+                    <% when 'partnership' %>
+                      <h2><%= t '.key_person_partnership_heading' %></h2>
+                    <% when 'publicBody' %>
+                      <h2><%= t '.key_person_public_heading' %></h2>
+                    <% else %>
+                      <h2><%= t '.key_person_heading' %></h2>
+                  <% end %>
+                  <ul class='summary-box'>
+                    <li class='summary-items'><%= render '/key_people/key_people_display' %></li>
+                  </ul>
+                  <p><%= link_to t('.edit_key_person_link'), registration_key_people_path %></p>
+                </div>
+              <% end %>
+
           		<fieldset>
                 <legend><%= t '.declaration_legend' %></legend>
                 <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
