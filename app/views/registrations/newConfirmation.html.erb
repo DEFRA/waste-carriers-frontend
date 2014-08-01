@@ -63,6 +63,7 @@
                 <p><%= link_to t('.edit_contact_details_link'), newContact_path %></p>
               </div>
 
+              <!-- Key people section -->
               <% unless @registration.tier.eql?('LOWER') %>
                 <div class='form-group'>
                   <% case @registration.businessType %>
@@ -82,6 +83,7 @@
                 </div>
               <% end %>
 
+              <!-- Declaration section -->
           		<fieldset>
                 <legend><%= t '.declaration_legend' %></legend>
                 <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
@@ -96,6 +98,7 @@
                </div>
               </fieldset>
 
+              <!-- Privacy notice -->
               <p><%= t '.data_protection_text1' %> <%= link_to t('.privacy_policy_link'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %> <%= t '.data_protection_text2' %>
               </p>
 
