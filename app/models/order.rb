@@ -36,10 +36,19 @@ class Order < Ohm::Model
         case k
         when 'orderItems'
           if v
-            v.each do |item|
-              orderItem = OrderItem.create
-              item.each {|k1, v1| orderItem.send("#{k1}=",v1)}
-              orderItem.save
+            #Rails.logger.info '+++++++++++++++++++++++++++'
+            #Rails.logger.info 'k: ' + k.to_s + ' v: ' + v.to_s
+            
+            # Important! Need to delete the order_items before new ones are added as this list exponentially grows
+            order.order_items.each do |orderItem|
+              order.order_items.delete orderItem
+            end
+            
+            v.each do |item_hash|
+#              orderItem = OrderItem.create
+#              item_hash.each {|k1, v1| orderItem.send("#{k1}=",v1)}
+#              orderItem.save
+              orderItem = OrderItem.init(item_hash)
               order.order_items.add orderItem
             end
 
@@ -68,7 +77,7 @@ class Order < Ohm::Model
   # @return  [Hash]  the order object as a hash
   def to_hash
     h = attributes
-    h["orderItems"] = order_items.map { |x| x.attributes }  if self.order_items && self.order_items.size > 0
+    h["orderItems"] = order_items.map { |orderItem| orderItem.to_hash }  if self.order_items && self.order_items.size > 0
     h
   end
 
