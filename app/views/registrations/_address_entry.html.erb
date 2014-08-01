@@ -84,7 +84,7 @@
       a link to change it displayed, and the current address displayed as text.
       N.B. I believe uprn stands for Unique Postcode Record Number -->
     <label class='form-label' for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
-    <div><%= render "address_display",:newline=>false%></div>
+    <div><%= render "address_display", :r @registration, :newline=>false%></div>
 
     <%if params[:sPostcode]%>
       <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
