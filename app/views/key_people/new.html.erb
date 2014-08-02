@@ -44,18 +44,9 @@
               <% end %>
             <% end %>
 
-            <!-- If button_label is blank just show the next button else show the list biut only show the
-              next button if at least one person has been added -->
-            <% if button_label.blank? %>
+            <% if button_label.blank? || @key_people.any? %>
               <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
                 <div class="next_link"><%= render 'next_link' %></div>
-              <% end %>
-            <% else %>
-              <% if @key_people.any? %>
-                <%= render 'key_people_index' %>
-                <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
-                  <div class="next_link"><%= render 'next_link' %></div>
-                <% end %>
               <% end %>
             <% end %>
 
@@ -64,5 +55,21 @@
         </div>
       </div>
     </section>
+
+    <% if @key_people.any? %>
+      <aside role='note'>
+        <div class="inner">
+          <div class="col-2">
+            <h3><%= t '.you_have_added' %></h3>
+            <hr />
+            <%= content_tag_for(:p, @key_people) do |key_person| %>
+              <%= first_name_last_name(key_person) %> <%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'delete', :id => key_person.id), :class => 'link_to' %>
+            <% end %>
+            <div id="includedContent"></div>
+          </div>
+        </div>
+      </aside>
+    <% end %>
+
   </article>
 </main>
