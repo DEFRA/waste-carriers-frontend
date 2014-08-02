@@ -253,6 +253,11 @@ en:
       updatePhone: "You can do this by calling the Environment Agency and providing your access code."
       updateWebsite_html: "You can do this by going to the website %{link} and logging in using your email and password."
   key_people:
+    newKeyPerson:
+      step: "Step 4 of 9"
+      title: "Key person details"
+      subtitle: "These will not be made public"
+      legend: "Business owner details"
     edit:
       step: "Step 7 of 8"
       title: "Edit key person details"

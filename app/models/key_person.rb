@@ -25,10 +25,8 @@ class KeyPerson < Ohm::Model
 
   validate :validate_dob
 
-  def set_attribs(a_hash)
+  def add(a_hash)
     a_hash.each do |prop_name, prop_value|
-      Rails.logger.debug "key: #{prop_name}"
-      Rails.logger.debug "val: #{prop_value}"
       self.send("#{prop_name}=",prop_value)
     end
   end
