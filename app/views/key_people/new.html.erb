@@ -17,34 +17,46 @@
 
             <%= render 'errors' %>
 
+            <% legend = t '.legend' %>
+            <!-- A blank button_label denotes a scenario where we only
+              expect to collect one entry -->
+            <% button_label = nil %>
+
             <%= form_for(@key_person, url: {action: "create"} ) do |f| %>
 
               <% case @registration.businessType %>
                 <% when 'limitedCompany' %>
-                  <% legend = t '.legend_limited'  %>
+                  <% legend = t '.legend_limited' %>
+                  <% button_label = t '.button_label_limited' %>
                 <% when 'partnership' %>
-                  <% legend = t '.legend_partner'  %>
+                  <% legend = t '.legend_partner' %>
+                  <% button_label = t '.button_label_partner' %>
                 <% when 'publicBody' %>
-                  <% legend = t '.legend_public'  %>
-                <% else %>
-                  <% legend = t '.legend'  %>
+                  <% legend = t '.legend_public' %>
+                  <% button_label = t '.button_label_public' %>
               <% end %>
 
               <%= render 'form', f: f, d: @key_person, legend: legend %>
-              <div class="inline">
+              <% unless button_label.blank? %>
                 <span class="next_link">
-                  <input name="next" class="button button-get-started" type="submit" value="<%= t '.add_key_person_button_text' %>"/>
+                  <input name="add" class="button button-get-started" type="submit" value="<%= button_label %>"/>
                 </span>
-              </div>
+              <% end %>
             <% end %>
 
-            <% if @key_people.any? %>
-
-                <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
-                    <div class="next_link"><%= render 'next_link' %></div>
-                <% end %>
-
+            <!-- If button_label is blank just show the next button else show the list biut only show the
+              next button if at least one person has been added -->
+            <% if button_label.blank? %>
+              <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+                <div class="next_link"><%= render 'next_link' %></div>
+              <% end %>
+            <% else %>
+              <% if @key_people.any? %>
                 <%= render 'key_people_index' %>
+                <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+                  <div class="next_link"><%= render 'next_link' %></div>
+                <% end %>
+              <% end %>
             <% end %>
 
           </div>
