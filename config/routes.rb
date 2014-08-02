@@ -99,6 +99,9 @@ Registrations::Application.routes.draw do
         # get "your-registration/payment(.:format)" => "registrations#newPayment", :as => :upper_payment
         # post  "your-registration/payment(.:format)" => "registrations#updateNewPayment"
 
+    get "your-registration/key-person" => "key_people#newKeyPerson", :as => :newKeyPerson
+    post "your-registration/key-person" => "key_people#updateNewKeyPerson"
+
   get "your-registration/key-people" => "key_people#index", :as => :key_people
   post "your-registration/key-people" => "key_people#create"
 
