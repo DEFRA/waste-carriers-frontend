@@ -275,9 +275,7 @@ en:
       button_label_limited: "Add another director"
       button_label_partner: "Add another partner"
       button_label_public: "Add another CEO"
-      you_have_added: "You have added the following key people"
-      key_person_name_string: "Key person name"
-      add_key_person_button_text: "Add another key person"
+      you_have_added: "You have added the following"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
