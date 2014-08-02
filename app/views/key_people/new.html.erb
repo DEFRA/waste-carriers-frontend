@@ -7,7 +7,7 @@
         <div class="col-1">
 
           <!-- WF 4.3.2 -->
-          <div id="page7"  data-journey="waste-carriers-registration:key-person-details">
+          <div id="page7"  data-journey="waste-carriers-registration:key-people-details">
 
             <% content_for :page_title, createTitle('.title') %>
             <ol>
@@ -18,8 +18,6 @@
             <%= render 'errors' %>
 
             <% legend = t '.legend' %>
-            <!-- A blank button_label denotes a scenario where we only
-              expect to collect one entry -->
             <% button_label = nil %>
 
             <%= form_for(@key_person, url: {action: "create"} ) do |f| %>
@@ -37,16 +35,17 @@
               <% end %>
 
               <%= render 'form', f: f, d: @key_person, legend: legend %>
-              <% unless button_label.blank? %>
-                <span class="next_link">
-                  <input name="add" class="button button-get-started" type="submit" value="<%= button_label %>"/>
-                </span>
-              <% end %>
+
+              <span class="next_link">
+                <input name="add" class="button button-get-started" type="submit" value="<%= button_label %>"/>
+              </span>
             <% end %>
 
-            <% if button_label.blank? || @key_people.any? %>
+            <!-- This next button only gets displayed for businesses that can collect
+              more than one person and where at least one already has. -->
+            <% if @key_people.any? %>
               <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
-                <div class="next_link"><%= render 'next_link' %></div>
+                <span class="next_link"><%= render 'next_link' %></span>
               <% end %>
             <% end %>
 
