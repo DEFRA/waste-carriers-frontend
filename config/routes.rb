@@ -39,13 +39,13 @@ Registrations::Application.routes.draw do
 	  get   "registrations/:id/payments" => 'payment#new', :via => [:get], :as => :enterPayment
 	  match "registrations/:id/payments" => 'payment#create', :via => [:post], :as => :savePayment
 	  get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
-      match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
-      get   "registrations/:id/refunds" => 'payment#index', :via => [:get], :as => :refund
-###   match "registrations/:id/refunds" => 'payment#createRefund', :via => [:post], :as => :saveRefund
-      get   "registrations/:id/manualRefund" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
-      get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#newWPRefund', :via => [:get]
-      match "registrations/:id/worldpayRefund/:orderCode" => 'payment#createWPRefund', :via => [:post]
-      get   "registrations/:id/worldpayRefund/:orderCode/refundComplete" => 'payment#completeWPRefund', :via => [:get]
+    match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
+    get   "registrations/:id/refunds" => 'payment#index', :via => [:get], :as => :refund
+    #   match "registrations/:id/refunds" => 'payment#createRefund', :via => [:post], :as => :saveRefund
+    get   "registrations/:id/manualRefund" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
+    get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#newWPRefund', :via => [:get]
+    match "registrations/:id/worldpayRefund/:orderCode" => 'payment#createWPRefund', :via => [:post]
+    get   "registrations/:id/worldpayRefund/:orderCode/refundComplete" => 'payment#completeWPRefund', :via => [:get]
 
 	  # Add routing for confirm delete registration
 	  get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
@@ -94,25 +94,18 @@ Registrations::Application.routes.draw do
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
 	  resources :registrations
-        # get "registrations(.:format)" => "registrations#index", :as => :registrations
-        # post  "registrations(.:format)" => "registrations#create"
-        # get "your-registration/payment(.:format)" => "registrations#newPayment", :as => :upper_payment
-        # post  "your-registration/payment(.:format)" => "registrations#updateNewPayment"
+    # get "registrations(.:format)" => "registrations#index", :as => :registrations
+    # post  "registrations(.:format)" => "registrations#create"
+    # get "your-registration/payment(.:format)" => "registrations#newPayment", :as => :upper_payment
+    # post  "your-registration/payment(.:format)" => "registrations#updateNewPayment"
 
+    get "your-registration/key-people/registration" => "key_people#registration", :as => :registration_key_people
     get "your-registration/key-person" => "key_people#newKeyPerson", :as => :newKeyPerson
     post "your-registration/key-person" => "key_people#updateNewKeyPerson"
-
-  get "your-registration/key-people" => "key_people#index", :as => :key_people
-  post "your-registration/key-people" => "key_people#create"
-
-  get "your-registration/key-people/new" => "key_people#new", :as => :new_key_person
-  get "your-registration/key-people/edit" => "key_people#edit", :as => :edit_key_person
-  get "your-registration/key-people/delete" => "key_people#delete", :as => :delete_key_person
-  get "your-registration/key-people" => "key_people#show", :as => :key_person
-  match "your-registration/key-people" => "key_people#update", :via => [:put,:patch]
-  delete "your-registration/key-people" => "key_people#destroy"
-  get "your-registration/key-people/done" => "key_people#done", :as => :done_key_people
-  get "your-registration/key-people/registration" => "key_people#registration", :as => :registration_key_people
+    get "your-registration/key-people" => "key_people#newKeyPeople", :as => :newKeyPeople
+    post "your-registration/key-people" => "key_people#updateNewKeyPeople"
+    get "your-registration/key-people/delete" => "key_people#delete", :as => :delete_key_person
+    get "your-registration/key-people/done" => "key_people#done", :as => :done_key_people
 
     get "your-registration/relevant-convictions" => "registrations#newRelevantConvictions", :via => [:get], :as => :newRelevantConvictions
     match "your-registration/relevant-convictions" => "registrations#updateNewRelevantConvictions", :via => [:post,:put,:patch]
@@ -120,9 +113,9 @@ Registrations::Application.routes.draw do
     get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
     match "your-registration/payment" => "registrations#updateNewPayment", :via => [:post,:put,:patch]
 
-  # routes for renewals and edits
-  match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
-  match "registrations/:uuid/edit" => 'registrations#update', :via => [:post,:put,:patch]
+    # routes for renewals and edits
+    match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
+    match "registrations/:uuid/edit" => 'registrations#update', :via => [:post,:put,:patch]
 
     # Data reporting urls - Authenticated agency users only
     get "reports/:from/:until/registrations" => 'reports#reportRegistrations'
@@ -137,20 +130,20 @@ Registrations::Application.routes.draw do
     get 'your-registration/offline-payment' => 'registrations#newOfflinePayment', :as => :newOfflinePayment
     post 'your-registration/offline-payment' => 'registrations#updateNewOfflinePayment'
 
-  # Worldpay response messages
-  get "worldpay/success"
-  get "worldpay/failure"
-  get "worldpay/pending"
-  get "worldpay/cancel"
-  get "worldpay/error"
+    # Worldpay response messages
+    get "worldpay/success"
+    get "worldpay/failure"
+    get "worldpay/pending"
+    get "worldpay/cancel"
+    get "worldpay/error"
 
-  #TODO Remove GET after having configured Worldpay order notifications in the WP Merchant Admin Interface
-  get "worldpay/notification" => 'worldpay#order_notification'
-  get "worldpay/refund" => 'worldpay#newRefund'
-  post "worldpay/refund" => 'worldpay#updateNewRefund'
+    #TODO Remove GET after having configured Worldpay order notifications in the WP Merchant Admin Interface
+    get "worldpay/notification" => 'worldpay#order_notification'
+    get "worldpay/refund" => 'worldpay#newRefund'
+    post "worldpay/refund" => 'worldpay#updateNewRefund'
 
-  #To be used by the Worldpay Order Notification service - the service will post to this URL
-  post "worldpay/notification" => 'worldpay#update_order_notification', :as => :order_notification
+    #To be used by the Worldpay Order Notification service - the service will post to this URL
+    post "worldpay/notification" => 'worldpay#update_order_notification', :as => :order_notification
 
 
 #  end

@@ -255,9 +255,21 @@ en:
   key_people:
     newKeyPerson:
       step: "Step 4 of 9"
-      title: "Key person details"
+      title: "Key person"
       subtitle: "These will not be made public"
       legend: "Business owner details"
+    newKeyPeople:
+      step: "Step 4 of 9"
+      title: "Key people"
+      legend: "Business owner details"
+      legend_limited: "Director details"
+      legend_partner: "Partner details"
+      legend_public: "CEO details"
+      button_label: "Add another person"
+      button_label_limited: "Add another director"
+      button_label_partner: "Add another partner"
+      button_label_public: "Add another CEO"
+      you_have_added: "You have added the following"
     edit:
       step: "Step 7 of 8"
       title: "Edit key person details"
