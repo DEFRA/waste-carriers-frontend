@@ -2,17 +2,18 @@ require 'securerandom'
 
 class KeyPeopleController < ApplicationController
 
-  # GET /your-registration/key-people
+  # GET /your-registration/key-people/registration
   def registration
     get_registration
 
     if @registration.businessType == 'soleTrader'
       redirect_to action: 'newKeyPerson'
     else
-      redirect_to action: 'new'
+      redirect_to action: 'newKeyPeople'
     end
   end
 
+  # GET /your-registration/key-person
   def newKeyPerson
     get_registration
     get_key_people
@@ -24,6 +25,7 @@ class KeyPeopleController < ApplicationController
     end
   end
 
+  # POST /your-registration/key-person
   def updateNewKeyPerson
     get_registration
 
@@ -40,6 +42,51 @@ class KeyPeopleController < ApplicationController
       logger.info 'Key person is not valid, and data is not yet saved'
       render "newKeyPerson", :status => '400'
     end
+  end
+
+  # GET /your-registration/key-people
+  def newKeyPeople
+    get_registration
+    get_key_people
+
+    @key_person = Registration::KeyPerson.create
+  end
+
+  # POST /your-registration/key-people
+  def updateNewKeyPeople
+    get_registration
+
+    @key_person = Registration::KeyPerson.create
+    @key_person.add(params[:key_person])
+
+    if @key_person.valid?
+      @key_person.save
+      @registration.key_people.add(@key_person)
+      @registration.save
+      redirect_to action: 'newKeyPeople'
+    else
+      # there is an error (but data not yet saved)
+      logger.info 'Key person is not valid, and data is not yet saved'
+      render "newKeyPeople", :status => '400'
+    end
+  end
+
+  # GET /key-people/delete/:id
+  def delete
+    get_registration
+
+    key_person_to_remove = Registration::KeyPerson[params[:id]]
+    logger.debug "reg is: #{@registration.id}"
+    logger.debug "key person to remove is: #{key_person_to_remove.id}"
+
+    @registration.key_people.delete(key_person_to_remove)
+
+    redirect_to action: 'registration'
+  end
+
+  # POST /your-registration/key-people/done
+  def done
+    redirect_to :newRelevantConvictions
   end
 
   # GET /your-registration/key-people
@@ -66,61 +113,6 @@ class KeyPeopleController < ApplicationController
     session[:key_person_update_id] = params[:id]
   end
 
-  # GET /key-people/delete/:id
-  def delete
-    get_registration
-    get_key_people
-    key_person_to_remove = Registration::KeyPerson[params[:id]]
-    logger.debug "reg is: #{@registration.id}"
-    logger.debug "key person to remove is: #{key_person_to_remove.id}"
-
-    @registration.key_people.delete(key_person_to_remove)
-
-    redirect_to action: 'new'
-  end
-
-  # POST /your-registration/key-people
-  def create
-    get_registration
-    get_key_people
-
-    @key_person = Registration::KeyPerson.create
-    @key_person.add(params[:key_person])
-
-    if @key_person.valid?
-      @key_person.save
-      logger.debug @registration.id
-      @registration.key_people.add(@key_person)
-      @registration.save
-
-      redirect_to action: 'new'
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Key person is not valid, and data is not yet saved'
-      render 'new'
-    end
-  end
-
-  # PATCH/PUT /your-registration/key-person/:id
-  def update
-    get_registration
-    get_key_people
-
-    key_person = Registration::KeyPerson[ session[:key_person_update_id]]
-    key_person.add(params[:key_person])
-
-    if key_person.valid?
-      key_person.save
-      logger.debug  key_person.attributes.to_s
-      logger.info 'Key person is valid so far, go to next page'
-      render 'index'
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Key person is not valid, and data is not yet saved'
-      render "edit", :status => '400'
-    end
-  end
-
   # DELETE /key-person/:id
   def destroy
     get_key_person
@@ -139,10 +131,6 @@ class KeyPeopleController < ApplicationController
   def get_key_people
     @key_people = @registration.key_people.to_a
     logger.debug "get_key_people: #{@key_people.to_s}"
-  end
-
-  def set_key_people
-    session[:key_people] ||= @key_people
   end
 
   private
