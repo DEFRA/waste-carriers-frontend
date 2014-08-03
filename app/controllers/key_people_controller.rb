@@ -19,7 +19,7 @@ class KeyPeopleController < ApplicationController
     get_key_people
 
     if @key_people.empty?
-      @key_person = Registration::KeyPerson.create
+      @key_person = KeyPerson.create
     else
       @key_person = @key_people.first
     end
@@ -29,7 +29,7 @@ class KeyPeopleController < ApplicationController
   def updateNewKeyPerson
     get_registration
 
-    @key_person = Registration::KeyPerson.create
+    @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
 
     if @key_person.valid?
@@ -49,14 +49,14 @@ class KeyPeopleController < ApplicationController
     get_registration
     get_key_people
 
-    @key_person = Registration::KeyPerson.create
+    @key_person = KeyPerson.create
   end
 
   # POST /your-registration/key-people
   def updateNewKeyPeople
     get_registration
 
-    @key_person = Registration::KeyPerson.create
+    @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
 
     if @key_person.valid?
@@ -75,7 +75,7 @@ class KeyPeopleController < ApplicationController
   def delete
     get_registration
 
-    key_person_to_remove = Registration::KeyPerson[params[:id]]
+    key_person_to_remove = KeyPerson[params[:id]]
     logger.debug "reg is: #{@registration.id}"
     logger.debug "key person to remove is: #{key_person_to_remove.id}"
 
