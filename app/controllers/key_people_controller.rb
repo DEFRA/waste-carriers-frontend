@@ -95,24 +95,6 @@ class KeyPeopleController < ApplicationController
     get_key_people
   end
 
-  # GET /your-registration/key-people/:id
-  def show
-  end
-
-  # GET /your-registration/key-people/new
-  def new
-    get_key_people
-    @key_person = Registration::KeyPerson.create
-  end
-
-  # GET /key-people/edit/:id
-  def edit
-    get_key_people
-    @key_person = Registration::KeyPerson[params[:id]]
-    logger.debug "id to update: #{params[:id]}"
-    session[:key_person_update_id] = params[:id]
-  end
-
   # DELETE /key-person/:id
   def destroy
     get_key_person
