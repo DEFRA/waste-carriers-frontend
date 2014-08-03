@@ -3,6 +3,7 @@ Given(/^I have completed the upper tier and chosen to pay by bank transfer$/) do
   step 'I am a carrier dealer'
   step 'I enter my business details'
   step 'I enter my contact details'
+  step 'I enter the details of the business owner'
   step 'no key people in the organisation have convictions'
   step 'I confirm the declaration'
   step 'I enter new user account details'

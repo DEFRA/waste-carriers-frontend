@@ -58,6 +58,8 @@ Given(/^I have come to the upper tier summary page$/) do
   fill_in 'registration_contactEmail', with: my_email_address
   click_on 'Next'
 
+  step 'I enter the details of the business owner'
+
   choose 'No'
   click_on 'Next'
 end
