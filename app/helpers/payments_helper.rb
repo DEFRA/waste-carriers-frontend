@@ -27,4 +27,10 @@ module PaymentsHelper
   def money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes pence
     humanized_money Money.new pence
   end
+
+  def money_value_with_currency_symbol_and_with_pence_part pence
+    value = Money.new pence
+    humanized_money(value, { :no_cents_if_whole => false, :symbol => true })
+  end
+
 end
