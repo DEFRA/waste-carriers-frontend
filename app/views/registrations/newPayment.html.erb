@@ -4,13 +4,13 @@
     <section>
       <div class="inner">
       <div class="col-1">
-    
+
     <%= form_for(@registration, :url => :upper_payment) do |f| %>
     <% content_for :page_title, createTitle('.title') %>
     <ol>
       <li class='back_link'><%= render 'back_link' %></li>
       <li class="step">Step 8 of 9</li>
-     </ol> 
+     </ol>
     <%= render "errors" %>
 
     <fieldset>
@@ -21,7 +21,7 @@
           <div class='inner'>
             <div class='inline'>
               <%= f.label :registration_fee, class: 'form-label' %>
-              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(Rails.configuration.fee_registration) %>
+              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => money_value_with_currency_symbol_and_with_pence_part(Rails.configuration.fee_registration) %>
             </div>
             <p class='subtitle'>Cost of Waste Carrier registration</p>
          </div>
@@ -43,11 +43,11 @@
           <div class="inner">
             <div class='inline'>
               <%= f.label :total_fee, class: 'form-label' %>
-              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(Rails.configuration.fee_registration) %>
+              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => money_value_with_currency_symbol_and_with_pence_part(Rails.configuration.fee_registration) %>
             </div>
-          </div> 
+          </div>
         </div>
-       
+
         <div class="inner-payment-box-buttons">
           <div class="inner">
             <div class='payment-buttons'>
@@ -60,7 +60,7 @@
       </div>
 
     </fieldset>
-      
+
     <% end %>
     </div>
   </div>
