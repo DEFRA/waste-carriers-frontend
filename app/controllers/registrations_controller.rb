@@ -263,7 +263,6 @@ class RegistrationsController < ApplicationController
     setup_registration 'registrationtype'
     if @registration.valid?
       redirect_to :newBusinessDetails
-
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -279,7 +278,11 @@ class RegistrationsController < ApplicationController
     setup_registration 'convictions'
 
     if @registration.valid?
-      redirect_to :newConfirmation
+      if @registration.declaredConvictions == 'yes'
+        redirect_to :newRelevantPeople
+      else
+        redirect_to :newConfirmation
+      end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'

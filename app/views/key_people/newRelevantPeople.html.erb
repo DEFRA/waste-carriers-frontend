@@ -1,0 +1,57 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <section>
+      <div class="inner">
+        <div class="col-1">
+
+          <!-- WF 4.3.2 -->
+          <div id="page7"  data-journey="waste-carriers-registration:relevant-people-details">
+
+            <% content_for :page_title, createTitle('.title') %>
+            <ol>
+               <li class="back_link"><%= render 'back_link' %></li>
+               <li class="step"><%= t '.step' %></li>
+            </ol>
+
+            <%= render 'errors' %>
+
+            <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"} ) do |f| %>
+              <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
+              <span class="next_link">
+                <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= t '.button_label' %>"/>
+              </span>
+            <% end %>
+
+            <!-- This next button only gets displayed when at least one person has already
+              added. -->
+            <% if @relevant_people.any? %>
+              <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+                <span class="next_link"><%= render 'next_link' %></span>
+              <% end %>
+            <% end %>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <% if @relevant_people.any? %>
+      <aside role='note'>
+        <div class="inner">
+          <div class="col-2">
+            <h3><%= t '.you_have_added' %></h3>
+            <hr />
+            <%= content_tag_for(:p, @relevant_people) do |key_person| %>
+              <%= first_name_last_name_position(key_person) %> <%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'deleteRelevantPerson', :id => key_person.id), :class => 'link_to' %>
+            <% end %>
+            <div id="includedContent"></div>
+          </div>
+        </div>
+      </aside>
+    <% end %>
+
+  </article>
+</main>
