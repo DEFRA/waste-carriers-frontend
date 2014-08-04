@@ -2,93 +2,97 @@ require 'securerandom'
 
 class KeyPeopleController < ApplicationController
 
-  # GET /your-registration/key-people
+  # GET /your-registration/key-people/registration
   def registration
     get_registration
-    unless @registration.businessType == "limitedCompany"
-      redirect_to :upper_payment
-      return
+
+    if @registration.businessType == 'soleTrader'
+      redirect_to action: 'newKeyPerson'
+    else
+      redirect_to action: 'newKeyPeople'
     end
+  end
+
+  # GET /your-registration/key-person
+  def newKeyPerson
+    get_registration
     get_key_people
-    redirect_to action: 'new'
+
+    if @key_people.empty?
+      @key_person = KeyPerson.create
+    else
+      @key_person = @key_people.first
+    end
+  end
+
+  # POST /your-registration/key-person
+  def updateNewKeyPerson
+    get_registration
+
+    @key_person = KeyPerson.create
+    @key_person.add(params[:key_person])
+
+    if @key_person.valid?
+      @key_person.save
+      @registration.key_people.replace([@key_person])
+      @registration.save
+      redirect_to :newRelevantConvictions
+    else
+      # there is an error (but data not yet saved)
+      logger.info 'Key person is not valid, and data is not yet saved'
+      render "newKeyPerson", :status => '400'
+    end
   end
 
   # GET /your-registration/key-people
-  def index
+  def newKeyPeople
+    get_registration
     get_key_people
+
+    @key_person = KeyPerson.create
   end
 
-  # GET /your-registration/key-people/:id
-  def show
-  end
+  # POST /your-registration/key-people
+  def updateNewKeyPeople
+    get_registration
 
-  # GET /your-registration/key-people/new
-  def new
-    get_key_people
-    @key_person = Registration::KeyPerson.create
-  end
+    @key_person = KeyPerson.create
+    @key_person.add(params[:key_person])
 
-  # GET /key-people/edit/:id
-  def edit
-    get_key_people
-    @key_person = Registration::KeyPerson[params[:id]]
-    logger.debug "id to update: #{params[:id]}"
-    session[:key_person_update_id] = params[:id]
+    if @key_person.valid?
+      @key_person.save
+      @registration.key_people.add(@key_person)
+      @registration.save
+      redirect_to action: 'newKeyPeople'
+    else
+      # there is an error (but data not yet saved)
+      logger.info 'Key person is not valid, and data is not yet saved'
+      render "newKeyPeople", :status => '400'
+    end
   end
 
   # GET /key-people/delete/:id
   def delete
-    get_key_people
-    key_person_to_remove = Registration::KeyPerson[params[:id]]
+    get_registration
+
+    key_person_to_remove = KeyPerson[params[:id]]
     logger.debug "reg is: #{@registration.id}"
     logger.debug "key person to remove is: #{key_person_to_remove.id}"
 
     @registration.key_people.delete(key_person_to_remove)
 
-    redirect_to action: 'new'
+    redirect_to action: 'registration'
   end
 
-  # POST /your-registration/key-people
-  def create
-    get_key_people
-
-    @key_person = Registration::KeyPerson.create
-    @key_person.set_attribs(params[:key_person])
-
-
-
-    if @key_person.valid?
-      @key_person.save
-      logger.debug @registration.id
-      @registration.key_people.add(@key_person)
-      @registration.save
-
-      redirect_to action: 'new'
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Key person is not valid, and data is not yet saved'
-      render 'new'
-    end
+  # POST /your-registration/key-people/done
+  def done
+    redirect_to :newRelevantConvictions
   end
 
-  # PATCH/PUT /your-registration/key-person/:id
-  def update
+  # GET /your-registration/key-people
+  def index
+    get_registration
     get_key_people
-
-    key_person = Registration::KeyPerson[ session[:key_person_update_id]]
-    key_person.set_attribs(params[:key_person])
-
-
-    if key_person.valid?
-      key_person.save
-      logger.debug  key_person.attributes.to_s
-      logger.info 'Key person is valid so far, go to next page'
-      render 'index'
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Key person is not valid, and data is not yet saved'
-      render "edit", :status => '400'
-    end
   end
 
   # DELETE /key-person/:id
@@ -103,17 +107,12 @@ class KeyPeopleController < ApplicationController
 
   def get_registration
     @registration = Registration[session[:registration_id]]
-    logger.debug  @registration.attributes.to_s
+    logger.debug "get_registration: #{@registration.attributes.to_s}"
   end
 
   def get_key_people
-    @registration = Registration[session[:registration_id]]
     @key_people = @registration.key_people.to_a
-    logger.debug  @key_people.to_s
-  end
-
-  def set_key_people
-    session[:key_people] ||= @key_people
+    logger.debug "get_key_people: #{@key_people.to_s}"
   end
 
   private
@@ -125,7 +124,7 @@ class KeyPeopleController < ApplicationController
       :last_name,
       :dob_day,
       :dob_month,
-    :dob_year)
+      :dob_year)
   end
 
 end

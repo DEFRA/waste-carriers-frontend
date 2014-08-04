@@ -239,16 +239,11 @@ class RegistrationsController < ApplicationController
     # if params[:findAddress]
     #   render "newBusinessDetails" and return
     # end
-
     if @registration.valid?
       if @registration.tier.eql? 'LOWER'
         redirect_to :newConfirmation
       else
-        if @registration.businessType.eql? 'limitedCompany'
-          redirect_to :registration_key_people
-        else
-          redirect_to :newRelevantConvictions
-        end
+        redirect_to :registration_key_people
       end
     else
       # there is an error (but data not yet saved)

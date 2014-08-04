@@ -4,10 +4,10 @@
   <article role="article" class="group">
     <section>
       <div class="inner">
-          <div class="col-1">
+        <div class="col-1">
 
-            <!-- WF 4.3.2 -->
-            <div id="page0"  data-journey="waste-carriers-registration:template">
+          <!-- WF 4.3.2 -->
+          <div id="page7"  data-journey="waste-carriers-registration:key-person-details">
 
             <% content_for :page_title, createTitle('.title') %>
             <ol>
@@ -17,15 +17,14 @@
 
             <%= render 'errors' %>
 
-            <%= form_for(@registration, :url => formExample_path) do |f| %>
-              <%= render 'formTemplate_step', f: f, r: @registration %>
+            <%= form_for(@key_person, url: {action: "updateNewKeyPerson"} ) do |f| %>
+              <%= render 'form', f: f, d: @key_person, :legend => t('.legend') %>
               <span class="next_link"><%= render 'next_link' %></span>
             <% end %>
-
-            </div>
           </div>
+
+        </div>
       </div>
     </section>
-
   </article>
 </main>

@@ -333,6 +333,8 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   fill_in 'registration_contactEmail', with: ''
   click_on 'Next'
 
+  step 'I enter the details of the business owner'
+
   choose 'No'
   click_on 'Next'
 
