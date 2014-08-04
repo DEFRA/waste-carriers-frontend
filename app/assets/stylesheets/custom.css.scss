@@ -31,8 +31,9 @@
 .beta-banner {@include phase-banner (beta)}
 .button {@include button}
 .button-secondary {@include button}
-.outer-block {@include outer-block;}
-.inner-block {@include inner-block;}
+.outer-block {@include outer-block}
+.inner-block {@include inner-block}
+#payment-col-1 .subtitle {@include copy-16}
 //** WASTE CARRIERS ** CUSTOM STYLES ** //
 
 //RESET

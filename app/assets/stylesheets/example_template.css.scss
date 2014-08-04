@@ -16,14 +16,6 @@
     top: 0;
 }
 
-#registration_registration_fee, #registration_copy_cards, #registration_total_fee, #registration_copy_card_fee {
-    background: none repeat scroll 0 0 rgb(222, 224, 226);
-    border: 1px solid rgb(191, 193, 195);
-    cursor: pointer;
-    display: block;
-    position: relative;
-}
-
 
 .example, .line-divider, .payment-group {
    padding: 20px 0 10px 30px;
@@ -67,10 +59,15 @@
     position:relative;
     vertical-align: baseline;
     top:-35px;
+    color: rgb(11, 12, 12);
 }
 
 #registration_copy_cards {
     right:20px;
+}
+
+.payment-group .subtitle {
+    margin-bottom: 30px;
 }
 
 

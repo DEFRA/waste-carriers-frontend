@@ -34,8 +34,9 @@
                 <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true %>
                 <%= f.number_field :copy_cards, :min => 0 %>
             </div>
+                <p class='subtitle'><%= t '.copy_card_note' %></p>
         </div>
-         <p class='subtitle'><%= t '.copy_card_note' %></p>
+     
 
 
 
@@ -44,8 +45,9 @@
               <%= f.label :total_fee, class: 'form-label' %>
               <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => money_value_with_currency_symbol_and_with_pence_part(Rails.configuration.fee_registration) %>
             </div>
+            <p class='subtitle'><%= t '.total_fee_vat' %></p>
         </div>
-
+        
        
 
         <div class="inner-payment-box">
@@ -55,6 +57,7 @@
               <%= link_to t('registrations.form.pay_offline_button_label'), newOfflinePayment_path, class: 'button-secondary' %>
             </div>
         </div>
+        <div class='notice-icon'><p class='subtitle'><%= t '.send_to_worldpay' %></p></div><br>
 
     </fieldset>
       
