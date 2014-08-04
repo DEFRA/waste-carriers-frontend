@@ -18,6 +18,8 @@
 #content {@include media}
 #content {@include device-pixel-ratio($ratio: 2)}
 #content legend {@include bold-36}
+#content .summary-subtitle {@include bold-36}
+#content .summary-page h2 {@include bold-24}
 #content h1 {@include heading-36}
 #content h2 {@include heading-27}
 #content h3 {@include heading-24}
@@ -29,8 +31,9 @@
 .beta-banner {@include phase-banner (beta)}
 .button {@include button}
 .button-secondary {@include button}
-.outer-block {@include outer-block;}
-.inner-block {@include inner-block;}
+.outer-block {@include outer-block}
+.inner-block {@include inner-block}
+#payment-col-1 .subtitle {@include copy-16}
 //** WASTE CARRIERS ** CUSTOM STYLES ** //
 
 //RESET
@@ -163,11 +166,7 @@ input {
 //CUSTOM REPSPONSIVE LAYOUT
 
 //Resets
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
+
 .clearfix:after {
   content: "";
   display: table;
@@ -221,17 +220,17 @@ input {
   width:58%;
 }
 
-.bank_section .col-1 {
-  width:60%;
+#payment-col-1 {
+  width:100%;
 }
-
+  
 .notice-icon {
     background: url("https://assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png") 
     no-repeat scroll 0 0.5em rgba(0, 0, 0, 0);
     height:50px;
-    width:50px;
+    width:100%;
     position:relative;
-
+    padding-left:50px;
 }
 
 .step-one-icon {
