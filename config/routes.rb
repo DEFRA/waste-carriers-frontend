@@ -110,6 +110,10 @@ Registrations::Application.routes.draw do
     get "your-registration/relevant-convictions" => "registrations#newRelevantConvictions", :via => [:get], :as => :newRelevantConvictions
     match "your-registration/relevant-convictions" => "registrations#updateNewRelevantConvictions", :via => [:post,:put,:patch]
 
+    get "your-registration/relevant-people" => "key_people#newRelevantPeople", :as => :newRelevantPeople
+    post "your-registration/relevant-people" => "key_people#updateNewRelevantPeople"
+    get "your-registration/relevant-people/delete" => "key_people#deleteRelevantPerson", :as => :delete_relevant_person
+
     get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
     match "your-registration/payment" => "registrations#updateNewPayment", :via => [:post,:put,:patch]
 

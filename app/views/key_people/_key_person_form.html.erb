@@ -26,4 +26,6 @@
         <%= f.text_field :dob_year, :size => 4, :maxlength => 4 %>
       </div>
   </div>
+  <%= f.hidden_field :position, :value => legend.sub!(' details', '') %>
+  <%= f.hidden_field :person_type, :value => 'KEY' %>
 </fieldset>
