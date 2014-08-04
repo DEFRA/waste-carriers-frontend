@@ -85,3 +85,13 @@ And(/^no key people in the organisation have convictions$/) do
   choose 'No'
   click_on 'Next'
 end
+
+And(/^key people in the organisation have convictions$/) do
+  choose 'Yes'
+  click_on 'Next'
+  # TODO when other feature is done to put in relevant convicted people, will have to put some steps in to put someone in here
+end
+
+But(/^I am told my registration is pending a convictions check$/) do
+  page.should have_content 'Your registration is pending checks'
+end

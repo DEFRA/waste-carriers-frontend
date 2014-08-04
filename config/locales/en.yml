@@ -610,6 +610,7 @@ en:
       heading: "Registration complete"
       nowRegistered: "You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency."
       payment_pending: "Please remember to pay for this registration via electronic transfer. Details on how to pay have been included in your email."
+      pending_convictions_check: "Your registration is pending checks."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
       signIn_html: "<a href='%{link}'>Sign in</a> to view your certificate, check your details or create a new registration."
       yourCertificate: "Your certificate and guidance have been emailed to you."

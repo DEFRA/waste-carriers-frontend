@@ -73,4 +73,15 @@ Feature: Upper tier
     When I confirm account creation via email
     Then my upper tier waste carrier registration is pending until payment is received by the Environment Agency
 
+  Scenario: With convictions
+    Given I autocomplete my business address
+    And I provide my personal contact details
+    And I enter the details of the business owner
+    And key people in the organisation have convictions
+    And I check the declaration
+    And I provide my email address and create a password
+    And I choose pay via electronic transfer
+    When I confirm account creation via email
+    Then I am told my registration is pending a convictions check
+
   # TODO ltd company version asks for companies house number and directors
