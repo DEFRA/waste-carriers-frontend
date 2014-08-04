@@ -3,6 +3,7 @@
 class WorldpayController < ApplicationController
 
   include WorldpayHelper
+  include RegistrationsHelper
 
   def success
     #TODO - redirect to some other page after processing/saving the payment
@@ -18,6 +19,7 @@ class WorldpayController < ApplicationController
                 elsif @registration.user.confirmed?
                   confirmed_path
                 else
+                  send_confirm_email @registration
                   pending_path
                 end
     else
