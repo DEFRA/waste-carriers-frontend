@@ -15,20 +15,14 @@
     text-transform: none;
     top: 0;
 }
-.payment-box #registration_registration_fee, #registration_copy_cards, #registration_total_fee, #registration_copy_card_fee {
-    background: none repeat scroll 0 0 rgb(222, 224, 226);
-    border: 1px solid rgb(191, 193, 195);
-    cursor: pointer;
-    display: block;
-    padding: 18px 0 15px 25px;
-    position: relative;
-}
-.inner-payment-box, .inner-payment-box-total, .payment-box, .line-divider {
-    padding: 10px 20px 20px 10px;
+
+
+.example, .line-divider, .payment-group {
+   padding: 20px 0 10px 30px;
 }
 
-.summary-box, .example, .line-divider {
-   padding: 20px 0 10px 30px;
+.payment-group {
+   padding: 20px 0 10px 0px;
 }
 
 .payment-box, .line-divider {
@@ -45,20 +39,11 @@
     overflow: hidden;
     position: relative;
 }
+
 .inner .inline input {
     float:right;
 }
-.payment-box .form-label, input {
-    display: inline;
-}
-#registration_copy_cards, #registration_registration_fee, #registration_copy_card_fee {
-    margin-left:10px;
-}
-#payment-buttons {
-    float:left;
-    position:relative;
-    vertical-align: baseline;
-}
+
 .payment-box .add-focus {
     outline: none;
 }
@@ -66,10 +51,25 @@
   outline: none;
   cursor:none;
 }
-#registration_copy_cards, #registration_copy_card_fee {
+
+#registration_copy_cards, #registration_copy_card_fee, #registration_registration_fee, #registration_total_fee {
     border: 1px solid rgb(191, 193, 195);
-    width: 8%;
+    width: 10%;
+    float:right;
+    position:relative;
+    vertical-align: baseline;
+    top:-35px;
+    color: rgb(11, 12, 12);
 }
+
+#registration_copy_cards {
+    right:20px;
+}
+
+.payment-group .subtitle {
+    margin-bottom: 30px;
+}
+
 
 //Example box
 
@@ -378,4 +378,5 @@ details .summary {
     float:left;
     position:relative;
 }
+
 
