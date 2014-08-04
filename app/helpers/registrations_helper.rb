@@ -56,8 +56,15 @@ module RegistrationsHelper
   def isSmallWriteOffAvailable(registration)
     registration.finance_details.first and (Payment.isSmallWriteOff( registration.finance_details.first.balance) == true)
   end
-  
+
   def isRefundAvailable(registration)
     registration.finance_details.first.balance.to_f < 0
   end
+
+  def send_confirm_email(registration)
+    user = registration.user
+    user.current_registration = registration
+    user.send_confirmation_instructions unless user.confirmed?
+  end
+
 end

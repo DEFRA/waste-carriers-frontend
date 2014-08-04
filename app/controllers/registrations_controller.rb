@@ -1,6 +1,7 @@
 class RegistrationsController < ApplicationController
 
   include WorldpayHelper
+  include RegistrationsHelper
 
   #We require authentication (and authorisation) largely only for editing registrations,
   #and for viewing the finished/completed registration.
@@ -458,6 +459,7 @@ class RegistrationsController < ApplicationController
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
       @owe_money = owe_money? @registration
+      @pending_convictions_check = @registration.declaredConvictions == 'yes' ? true : false  # TODO or if convictions check says so
       session[:registration_uuid] = @registration.uuid
     else
       renderNotFound and return
@@ -698,13 +700,10 @@ class RegistrationsController < ApplicationController
         else
           next_step = case @registration.tier
           when 'LOWER'
+            send_confirm_email @registration
             pending_url
           when 'UPPER'
             :upper_payment
-            #TODO: test  elsif @registration.user.confirmed?
-            #  confirmed_path
-            # else
-            # pending_path
           end
 
           redirect_to next_step
@@ -728,9 +727,9 @@ class RegistrationsController < ApplicationController
     # at this point thought as a 'just in case' we should update the one in redis
     @registration.save
 
-    user = @registration.user
-    user.current_registration = @registration
-    user.send_confirmation_instructions unless user.confirmed?
+    # user = @registration.user
+    # user.current_registration = @registration
+    # user.send_confirmation_instructions unless user.confirmed?
   end
 
   def redirect_to_failed_page(failedStep)
@@ -974,7 +973,13 @@ class RegistrationsController < ApplicationController
 
   def updateNewOfflinePayment
     @registration = Registration[session[:registration_id]]
-    redirect_to @registration.user.confirmed? ? print_confirmed_path : pending_path
+
+    if @registration.user.confirmed?
+      redirect_to print_confirmed_path
+    else
+      send_confirm_email @registration
+      redirect_to pending_path
+    end
   end
 
   private
