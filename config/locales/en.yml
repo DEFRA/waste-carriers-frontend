@@ -52,6 +52,7 @@ en:
         publicBodyTypeOther: "Other type of public body"
         registrationType: "Registration type"
         registration_fee: "Registration charge"
+        total_fee: "Total charge"
         revokedReason: "Why do you wish to revoke this registration"
         selectedMoniker: "Select address"
         streetLine1: Street
@@ -518,6 +519,7 @@ en:
       swiftbic_number: "SWIFTBIC number: %{swiftbic_number}"
     newPayment:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
+      copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
       copy_card_label: "Copy cards cost £5 each"
       new_reg_label: "New registration"
       payment_method_debit_credit: "Pay by debit or credit card"
