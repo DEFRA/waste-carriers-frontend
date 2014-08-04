@@ -18,6 +18,8 @@
 #content {@include media}
 #content {@include device-pixel-ratio($ratio: 2)}
 #content legend {@include bold-36}
+#content .summary-subtitle {@include bold-36}
+#content .summary-page h2 {@include bold-24}
 #content h1 {@include heading-36}
 #content h2 {@include heading-27}
 #content h3 {@include heading-24}
@@ -163,11 +165,7 @@ input {
 //CUSTOM REPSPONSIVE LAYOUT
 
 //Resets
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
+
 .clearfix:after {
   content: "";
   display: table;
@@ -229,9 +227,9 @@ input {
     background: url("https://assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png") 
     no-repeat scroll 0 0.5em rgba(0, 0, 0, 0);
     height:50px;
-    width:50px;
+    width:100%;
     position:relative;
-
+    padding-left:50px;
 }
 
 .step-one-icon {
