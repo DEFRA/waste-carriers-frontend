@@ -1,77 +1,35 @@
-<ol>
-    <li class='back_link'><%= render 'back_link' %></li>
-    <li class="step"><%= t 'registrations.signup_step.step' %></li>
-</ol>
-<%= render "errors" %>
-
-<!-- WF 4.3.4 -->
-<div id="page4"  data-journey="waste-carriers-registration:confirm">
-    
-
 <fieldset>
-<% if user_signed_in? || agency_user_signed_in? %>
-<!--<legend>User Account</legend>-->
-	
-<p><%= t '.signedInAsText' %> <strong><% if user_signed_in? %><%= current_user.email %><% elsif agency_user_signed_in? %><%= current_agency_user.email %><% end %></strong></p>
-<p><%= t '.notYouText_html' %></p>
-
-
-<%= f.select(:sign_up_mode, options_for_select([["Signed In",""]],f.object.sign_up_mode), {}, { :class => 'js-hidden' }) %>
-
-<% else %>
-<!--<legend>User Registration</legend>-->
-
-<!--
-<p class="group<%if @registration.errors[:sign_up_mode].any?%> validation<%end%> js-hidden">
-    <%= f.label :sign_up_mode, "Sign up or sign in" %>
-    <%= f.select :sign_up_mode, options_for_select([["Please select...",""],["Sign up (new e-mail)","sign_up"],["Sign in (existing e-mail)","sign_in"]],f.object.sign_up_mode) %>
-</p>-->
-
-<% if @registration.sign_up_mode == "sign_in" %>
-<h2 id="accountExists" class="form-group"><%= t '.accountExists' %></h2>
-<% end %>
-<% if @registration.sign_up_mode == "sign_up" %>
-<h2 id="emailSignUpText"><%= t '.emailUsernameText' %></h2>
-<% end %>
-
-<div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
-    <%= validation_for(@registration, :accountEmail) %>
-    <%= f.label :accountEmail, class: 'form-label' %>
-    <% if @registration.sign_up_mode == "sign_in" %>
-    <%= f.email_field :accountEmail, :autofocus => true, :readonly => true %>
-    <% else %>
-    <%= f.email_field :accountEmail, :autofocus => true %>
+    <div class="form-group <%if r.errors[:accountEmail].any?%> validation<%end%>">
+        <%= validation_for(r, :accountEmail) %>
+        <%= f.label :accountEmail, class: 'form-label' %>
+        <% if r.sign_up_mode == "sign_in" %>
+            <%= f.email_field :accountEmail, :autofocus => true, :readonly => true %>
+        <% else %>
+            <%= f.email_field :accountEmail, :autofocus => true %>
+        <% end %>
+    </div>
+    <% if r.sign_up_mode == "sign_up" %>
+        <div class="form-group <%if r.errors[:accountEmail_confirmation].any?%> validation<%end%>">
+            <%= validation_for(r, :accountEmail_confirmation) %>
+            <%= f.label :accountEmail_confirmation, class: 'form-label' %>
+            <%= f.email_field :accountEmail_confirmation %>
+        </div>
     <% end %>
-</div>
-<% if @registration.sign_up_mode == "sign_up" %>
-<div class="form-group <%if @registration.errors[:accountEmail_confirmation].any?%> validation<%end%>">
-    <%= validation_for(@registration, :accountEmail_confirmation) %>
-    <%= f.label :accountEmail_confirmation, class: 'form-label' %>
-    <%= f.email_field :accountEmail_confirmation %>
-</div>
-<% end %>
-<div class="form-group <%if @registration.errors[:password].any?%> validation<%end%>">
-    <%= validation_for(@registration, :password) %>
-    <% if @registration.sign_up_mode == "sign_up" %>
-    <%= f.label :password, t('.createPassword'), class: 'form-label' %><% else %>
-    <%= f.label :password, class: 'form-label' %><% end %>
-    <%= f.password_field :password %>
-    <p class='subtitle'>Password must be at least 8 characters long using upper and lower case letters.</p>
-    <!--     <span class="strength_icon none">&#9650;</span>
-    <span class="strength_message"></span> -->
-</div>
-<% if @registration.sign_up_mode == "sign_up" %>
-<div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
-    <%= validation_for(@registration, :password_confirmation) %>
-    <%= f.label :password_confirmation, class: 'form-label' %>
-    <%= f.password_field :password_confirmation %>
-</div>
-<% end %>
-
-<% end %>
-
+    <div class="form-group <%if r.errors[:password].any?%> validation<%end%>">
+      <%= validation_for(r, :password) %>
+      <% if r.sign_up_mode == "sign_up" %>
+        <%= f.label :password, t('.createPassword'), class: 'form-label' %>
+      <% else %>
+        <%= f.label :password, class: 'form-label' %>
+      <% end %>
+      <%= f.password_field :password %>
+      <p class='subtitle'>Password must be at least 8 characters long using upper and lower case letters.</p>
+    </div>
+    <% if r.sign_up_mode == "sign_up" %>
+      <div class="form-group <%if r.errors[:password_confirmation].any?%> validation<%end%>">
+        <%= validation_for(r, :password_confirmation) %>
+        <%= f.label :password_confirmation, class: 'form-label' %>
+        <%= f.password_field :password_confirmation %>
+      </div>
+    <% end %>
 </fieldset>
-
-</div>
-
-    <input name="register" class="button" type="submit" value="<%= t 'registrations.form.next_button_label' %>"/>
