@@ -394,6 +394,16 @@ en:
       key_person_summary_heading: "Key person details"
       edit_key_person_details_link: "Edit your key peoples details"
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
+    newSignup:
+      step: "Step %{step_x} of %{step_y}"
+      title: "User account"
+      subtitle: ""
+      notYouText_html: "If this is not you, <a href='#' id='secondaryButton' onclick='document.getElementById(\"signout_button\").click()'>sign out and start again</a>"
+      signedInAsText: "You are currently signed in as"
+      accountExists: "An account already exists with the email you have provided, sign in with this email address."
+      emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
+    signup_step:
+      createPassword: "Create password"
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
@@ -659,15 +669,6 @@ en:
       step: "Step 3 of 8"
       subtitle: "What kind of service do you provide?"
       title: "Service provided"
-    signup_step:
-      accountExists: "An account already exists with the email you have provided, sign in with this email address."
-      complete: "Account details"
-      createPassword: "Create password"
-      emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
-      notYouText_html: "If this is not you, <a href='#' id='secondaryButton' onclick='document.getElementById(\"signout_button\").click()'>sign out and start again</a>"
-      signedInAsText: "You are currently signed in as"
-      update: "Update registration"
-      step: "Step 7 of 9"
     smartanswers_display:
       business_type: "You are a %{businessType}"
       construction_demolition_no: "You never deal with construction or demolition waste"
