@@ -3,6 +3,7 @@ Given(/^I have completed the upper tier and chosen to pay by bank transfer$/) do
   step 'I am a carrier dealer'
   step 'I enter my business details'
   step 'I enter my contact details'
+  step 'I enter the details of the business owner'
   step 'no key people in the organisation have convictions'
   step 'I confirm the declaration'
   step 'I enter new user account details'
@@ -12,6 +13,18 @@ end
 Given(/^I have been funneled into the upper tier path$/) do
   visit find_path
   choose 'registration_businessType_soletrader'
+  click_on 'Next'
+  choose 'registration_otherBusinesses_yes'
+  click_on 'Next'
+  choose 'registration_isMainService_yes'
+  click_on 'Next'
+  choose 'registration_onlyAMF_no'
+  click_on 'Next'
+end
+
+Given(/^I am a partnership on the upper tier path$/) do
+  visit find_path
+  choose 'registration_businessType_partnership'
   click_on 'Next'
   choose 'registration_otherBusinesses_yes'
   click_on 'Next'

@@ -1,10 +1,7 @@
 <ul id='key_people_display'>
-
-<% @registration.key_people.each do |d| %>
+  <% @registration.key_people.each do |d| %>
     <li>
       <%= d.first_name %> <%= d.last_name %> , <%= d.dob %>
     </li>
-
-<% end %>
-
+  <% end %>
 </ul>
