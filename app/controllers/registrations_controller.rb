@@ -459,6 +459,7 @@ class RegistrationsController < ApplicationController
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
       @owe_money = owe_money? @registration
+      @pending_convictions_check = @registration.declaredConvictions == 'yes' ? true : false  # TODO or if convictions check says so
       session[:registration_uuid] = @registration.uuid
     else
       renderNotFound and return
