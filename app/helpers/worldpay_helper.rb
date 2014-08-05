@@ -9,12 +9,8 @@ require 'open-uri'
 
 module WorldpayHelper
 
-    def redirect_to_worldpay(registration)
-      #puts '*******'
-      #puts registration.to_s
-      #puts '*******'
-
-      xml = create_xml(registration)
+    def redirect_to_worldpay(registration, order)
+      xml = create_xml(registration, order)
       logger.info 'About to contact WorldPay: XML username = ' + worldpay_xml_username
       logger.info 'Sending XML to Worldpay: ' + xml
 
@@ -25,13 +21,13 @@ module WorldpayHelper
     end
 
     # Construct an XML message according to the Worldpay DTD    
-    def create_xml(registration)
+    def create_xml(registration, order)
       merchantCode = worldpay_merchant_code
-      orderCode = Time.now.to_i.to_s
+      orderCode = order.orderCode
       orderValue = registration.total_fee
       #TODO Remove pre-populated shopper values once Worldpay has been reconfigured not to require address details
-      orderDescription = 'Your Waste Carrier Registration'
-      orderContent = 'Waste Carrier Registration' + ' ' + registration.regIdentifier.to_s
+      orderDescription = 'Your Waste Carrier Registration '+ registration.regIdentifier.to_s
+      orderContent = 'Waste Carrier Registration ' + registration.regIdentifier.to_s + ' ' + registration.companyName.to_s
       shopperEmail = registration.accountEmail || ''
       shopperFirstName = 'Joe'
       shopperLastName = 'Bloggs'
@@ -108,6 +104,20 @@ module WorldpayHelper
     def parse_xml(xml)
       doc = Nokogiri::XML(xml)
     end
+    
+    def send_xml_with_username_password(xml, username, password)
+      worldpay_service_uri = Rails.configuration.worldpay_uri
+      uri = URI(worldpay_service_uri)
+      https = Net::HTTP.new(uri.host,uri.port)
+      https.use_ssl = true
+      headers = 
+      {
+        "Authorization" => 'Basic ' + Base64.encode64(username + ':' + password).to_s
+      }
+      response = https.post(uri.path, xml, headers)
+
+      response
+    end
 
     def get_redirect_url(doc)
       reference = doc.at_css('reference')
@@ -140,7 +150,7 @@ module WorldpayHelper
 
     # Select the merchant code to use based on the request. For assisted digital, an agency user must be signed in.
     def worldpay_merchant_code
-      if agency_user_signed_in?
+      if use_moto?
         Rails.configuration.worldpay_moto_merchantcode
       else
         Rails.configuration.worldpay_ecom_merchantcode
@@ -148,7 +158,7 @@ module WorldpayHelper
     end  
 
     def worldpay_xml_username
-      if agency_user_signed_in?
+      if use_moto?
         Rails.configuration.worldpay_moto_username
       else
         Rails.configuration.worldpay_ecom_username
@@ -156,7 +166,7 @@ module WorldpayHelper
     end
 
     def worldpay_xml_password
-      if agency_user_signed_in?
+      if use_moto?
         Rails.configuration.worldpay_moto_password
       else
         Rails.configuration.worldpay_ecom_password
@@ -164,7 +174,7 @@ module WorldpayHelper
     end
 
     def worldpay_mac_secret
-      if agency_user_signed_in?
+      if use_moto?
         Rails.configuration.worldpay_moto_macsecret
       else
         Rails.configuration.worldpay_ecom_macsecret
@@ -181,7 +191,6 @@ module WorldpayHelper
       logger.info 'MAC = ' + mac
       digest.to_s.eql? mac
     end
-
 
     def request_refund_from_worldpay
       #TODO Get values to be refunded from the registration and/or its relevant payment
@@ -220,6 +229,10 @@ module WorldpayHelper
 
     def process_order_notification(notification)
       logger.info "Processing order notification: " + notification.to_s
+    end
+    
+    def use_moto?
+      agency_user_signed_in?
     end
 
 end

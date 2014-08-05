@@ -11,17 +11,17 @@ class WorldpayController < ApplicationController
     @registration = Registration[session[:registration_id]]
 
     if process_payment
-
-    next_step = if @registration.assisted_digital? || user_signed_in?
-                  print_path(@registration.id)
-                  #Note from Georg: I think we will eventually want to show the 'finish' path
-                  #finish_path(@registration)
-                elsif @registration.user.confirmed?
-                  confirmed_path
-                else
-                  send_confirm_email @registration
-                  pending_path
-                end
+      update_order
+      next_step = if @registration.assisted_digital? || user_signed_in?
+                    print_path(@registration.id)
+                    #Note from Georg: I think we will eventually want to show the 'finish' path
+                    #finish_path(@registration)
+                  elsif @registration.user.confirmed?
+                    confirmed_path
+                  else
+                    send_confirm_email @registration
+                    pending_path
+                  end
     else
       # Used to redirect_to WorldpayController::Error however that doesn't actually
       # exist, plus the plan as discussed with Georg was to redirect back to the payment
@@ -78,7 +78,7 @@ class WorldpayController < ApplicationController
   private
 
     def process_payment
-      payment_processed = true
+      payment_processed = false
       orderKey = params[:orderKey] || ''
       paymentAmount = params[:paymentAmount] || ''
       paymentCurrency = params[:paymentCurrency] || ''
@@ -89,43 +89,89 @@ class WorldpayController < ApplicationController
         # TODO Possibly need to do something more meaningful with the fact the MAC check has failed
         payment_processed = false
       else
-      orderCode = orderKey.split('^').at(2)
+        orderCode = orderKey.split('^').at(2)
 
         now = Time.now.utc
         #now = Time.now.utc.xmlschema
-      @payment = Payment.new
-      @payment.dateReceived = now
+        @payment = Payment.new
+        @payment.dateReceived = now
         @payment.dateReceived_year = now.year
         @payment.dateReceived_month = now.month
         @payment.dateReceived_day = now.day
         #We don't need to set the dateEntered; this is done within the service
-      #@payment.dateEntered = now
-      # TODO get the user if not yet logged in (still to be activated)
-        @payment.updatedByUser = 'you@example.com'
+        #@payment.dateEntered = now
+        # TODO get the user if not yet logged in (still to be activated)
+        @payment.updatedByUser = @registration.accountEmail
         @payment.amount = paymentAmount.to_i
         @payment.orderKey = orderCode
-      @payment.currency = paymentCurrency
-      @payment.paymentType = 'WORLDPAY'
-      @payment.worldPayPaymentStatus = paymentStatus
-      @payment.mac_code = mac
+        @payment.currency = paymentCurrency
+        @payment.paymentType = 'WORLDPAY'
+        @payment.worldPayPaymentStatus = paymentStatus
+        @payment.mac_code = mac
         @payment.registrationReference = 'Worldpay'
-      @payment.comment = 'Paid via Worldpay'
+        @payment.comment = 'Paid via Worldpay'
 
         #TODO re-enable validation and saving - current validation rules are geared towards offline payments
-      if @payment.valid?
-        logger.debug "registration uuid: #{session[:registration_uuid]}"
-
-        @payment.save! session[:registration_uuid]
+        if @payment.valid?
+          logger.debug "registration uuid: #{session[:registration_uuid]}"
+          @payment.save! session[:registration_uuid]
           #@payment.save(:validate => false)
-      else
-        logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
+          payment_processed = true
+        else
+          logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
           payment_processed = false
           #TODO: what does this do? -need to replace it with explicit save
           @payment.save(:validate => false)
-      end
+        end
       end
 
       payment_processed
     end
+    
+    def update_order
+      #TODO better pass in as variables?
+      orderCode = @payment.orderKey
+      status = @payment.worldPayPaymentStatus
+
+      reg = Registration.find_by_id(session[:registration_uuid])
+
+      #TODO have a current_order method on the registration
+      ord = reg.finance_details.first.orders.first
+      
+      @order = Order.init(ord.attributes)
+      
+      #TODO Will need to set other payment methods accordingly
+      now = Time.now.utc.xmlschema
+      #@order.id = ord.id
+      #@order.merchantId = worldpay_merchant_code
+      #@order.totalAmount = reg.total_fee
+      #@order.orderCode = orderCode
+      @order.worldPayStatus = status
+      @order.dateLastUpdated = now
+      @order.updatedByUser = reg.accountEmail
+      @order.description = 'Updated order in WP contorller'
+     #@order.prefix_options[:id] = session[:registration_id]
+     
+      @order.save
+      
+      logger.info '---- Adding to list: ' 
+      ord.order_items.each do |item|
+        logger.info 'item: ' + item.to_json.to_s
+        # Test Re-add order items from original order
+        @order.order_items.add item
+      end
+
+      logger.info  '***** The @order is:'
+      logger.info  @order.attributes
+      logger.info  '*****'
+
+      if @order.valid?
+        @order.save! reg.uuid
+      else
+        logger.error "CODE ERROR: this should not happen if code implemented propery"
+        logger.error "The order is not valid! " + @order.errors.full_messages.to_s
+      end
+
+    end #update_order
 
 end
