@@ -27,7 +27,7 @@
             <!-- This next button only gets displayed when at least one person has already
               added. -->
             <% if @relevant_people.any? %>
-              <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+              <%= form_for(@registration, :url => { :action => 'doneRelevantPeople' }, :method => 'get'  ) do |f| %>
                 <span class="next_link"><%= render 'next_link' %></span>
               <% end %>
             <% end %>
