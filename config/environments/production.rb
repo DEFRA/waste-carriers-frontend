@@ -96,10 +96,13 @@ Registrations::Application.configure do
     application.js
   )
 
+  #Worldpay configuration. Use the Production service unless we want to use the test service (e.g. in staging)
+  if ENV['WCRS_FRONTEND_USE_WORLDPAY_TEST_SERVICE'] == 'true'
     #Using the Worldpay TEST service in all environments - even in Production (for now at least)
     config.worldpay_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
-
+  else
     #The Worldpay Production payment service is located here:
-    #config.worldpay_uri = 'https://secure.worldpay.com/jsp/merchant/xml/paymentService.jsp'
+    config.worldpay_uri = 'https://secure.worldpay.com/jsp/merchant/xml/paymentService.jsp'
+  end
 
 end

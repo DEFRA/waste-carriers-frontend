@@ -4,6 +4,7 @@ class Order < Ohm::Model
   include ActiveModel::Validations
   extend ActiveModel::Naming
 
+  attribute :orderId
   attribute :orderCode
   attribute :paymentMethod
   attribute :merchantId
@@ -36,8 +37,6 @@ class Order < Ohm::Model
         case k
         when 'orderItems'
           if v
-            #Rails.logger.info '+++++++++++++++++++++++++++'
-            #Rails.logger.info 'k: ' + k.to_s + ' v: ' + v.to_s
             
             # Important! Need to delete the order_items before new ones are added as this list exponentially grows
             order.order_items.each do |orderItem|
@@ -52,7 +51,7 @@ class Order < Ohm::Model
               order.order_items.add orderItem
             end
 
-          end #if
+          end #if          
         else
           order.send("#{k}=",v)
         end #case
@@ -76,7 +75,7 @@ class Order < Ohm::Model
   # @param none
   # @return  [Hash]  the order object as a hash
   def to_hash
-    h = attributes
+    h = self.attributes.to_hash
     h["orderItems"] = order_items.map { |orderItem| orderItem.to_hash }  if self.order_items && self.order_items.size > 0
     h
   end
@@ -86,9 +85,9 @@ class Order < Ohm::Model
   #
   # @param none
   # @return  [Boolean] true if Post is successful (200), false if not
-  def save!(registration_uuid)
+  def commit (registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
-    Rails.logger.debug "about to post payment: #{to_json.to_s}"
+    Rails.logger.debug "about to post order: #{to_json.to_s}"
     commited = true
     begin
       response = RestClient.post url,
@@ -100,7 +99,33 @@ class Order < Ohm::Model
       result = JSON.parse(response.body)
       Rails.logger.debug  result.class.to_s
       save
-      Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
+      Rails.logger.debug "Commited order to service: #{attributes.to_s}"
+    rescue => e
+      Rails.logger.error e.to_s
+      commited = false
+    end
+    commited
+  end
+
+  # PUT order to Java/Dropwizard service
+  #
+  # @param none
+  # @return  [Boolean] true if Post is successful (200), false if not
+  def save!(registration_uuid)
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders/#{orderId}.json"
+    Rails.logger.debug "about to put order: #{to_json.to_s}"
+    commited = true
+    begin
+      response = RestClient.put url,
+        to_json,
+        :content_type => :json,
+        :accept => :json
+
+
+      result = JSON.parse(response.body)
+      Rails.logger.debug  result.class.to_s
+      save
+      Rails.logger.debug "Commited order to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
       commited = false
@@ -109,9 +134,10 @@ class Order < Ohm::Model
   end
 
 
-
-
   WORLDPAY_STATUS = %w[
+    IN_PROGRESS
+    AUTHORISED
+    REFUSED
     PENDING
     ACTIVE
     ETC
@@ -119,6 +145,7 @@ class Order < Ohm::Model
 
   VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/    # This does not allow for a decimal point and currently works in pence only
 
+  validates :id, presence: true
   validates :orderCode, presence: true
   validates :merchantId, presence: true
   validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_REGEX }
@@ -138,7 +165,7 @@ class Order < Ohm::Model
   private
 
   def validate_totalAmount
-    if self.totalAmount.include? "."
+    if self.totalAmount.to_s.include? "."
       errors.add(:totalAmount, I18n.t('errors.messages.invalid')+ '. This is currently a Defect, Workaround, enter a value in pence only!' )
     end
   end

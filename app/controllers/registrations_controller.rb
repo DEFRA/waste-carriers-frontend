@@ -341,6 +341,11 @@ class RegistrationsController < ApplicationController
     # Pass in current page to check previous page is valid
     # TODO had to comment this out for now because causing problems but will probably need to reinstate
     # check_steps_are_valid_up_until_current current_step
+    
+#    if (session[:registration_id])
+#      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
+#      renderNotFound
+#    end
   end
 
   def setup_registration current_step, no_update=false
@@ -553,7 +558,12 @@ class RegistrationsController < ApplicationController
 
   def paymentstatus
     @registration = Registration.find_by_id(params[:id])
-    @registration.routeName = @registration.metaData.first.route
+    if @registration.nil?
+      renderNotFound
+      return
+    else
+      @registration.routeName = @registration.metaData.first.route
+    end
     authorize! :read, @registration
     authorize! :read, Payment
   end
@@ -936,35 +946,116 @@ class RegistrationsController < ApplicationController
     calculate_fees
     logger.info "copy cards: " + @registration.copy_cards.to_s
     logger.info "total fee: " + @registration.total_fee.to_s
+    
+    prepareOrder
+
+    if @order.valid?
+      logger.info "Saving the order"
+      @order.save! @registration.uuid
+     #@order.commit @registration.uuid
+    else
+      #We should hardly get into here given we constructed the order just above...
+      logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
+      flash[:notice] = 'The order is invalid!'
+      redirect_to upper_payment_path
+      return
+    end
+
+    logger.info "About to redirect to Worldpay - if the registration is valid." 
 
     if @registration.valid?
-      redirect_to_worldpay(@registration)
+      logger.info "The registration is valid - redirecting to Worldpay..."
+      redirect_to_worldpay(@registration, @order)
+      return
     else
+      logger.error "The registration is not valid! " + @registration.to_s
       render 'newPayment', :status => '400'
     end
   end
 
   #We should not use this as part of updating the payment page.
   #We should rather update the existing order and set the payment method and number of copycards.
-  def createAndSaveOrder
-    @order = Order.new
-    @order.orderCode = 'NNN'
-    @order.merchantId = 'NNN'
-    @order.totalAmount = '17400'
-    @order.currency = 'GBP'
-    @order.worldPayStatus = 'PENDING'
-    @order.description = 'GGG Test order description'
-    @order.dateCreated = Time.now.utc.xmlschema
-    @order.dateLastUpdated = @order.dateCreated
-    @order.updatedByUser = 'testuser@example.com'
+  def prepareOrder
+  
+    logger.info '>>>>>> reg id: ' + session[:registration_uuid]
+    reg = Registration.find_by_id(session[:registration_uuid])
 
-    if @order.valid?
-      @order.save!
-      true
-    else
-      logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
-      false
+    #TODO have a current_order method on the registration
+    ord = reg.finance_details.first.orders.first
+    logger.debug  '*****'
+    logger.debug  ord.to_json
+    logger.debug  '*****'
+
+   #@order = Order.new({},true)
+   #@order = Order.new(ord.attributes)
+   #@order = Order.init(ord.attributes)
+    @order = Order.create
+    
+    #TODO Will need to set other payment methods accordingly
+    now = Time.now.utc.xmlschema
+    
+    #@order.id = '1'
+    @order.paymentMethod = 'ONLINE'
+    # We are assiging a new order code whenever we come off the payment page 
+    # - the previously used code cannot be used again
+    @order.orderCode = Time.now.to_i.to_s
+    @order.merchantId = worldpay_merchant_code
+    @order.totalAmount = @registration.total_fee
+    @order.currency = 'GBP'
+    @order.worldPayStatus = 'IN_PROGRESS'
+    @order.description = 'Updated registrations PRIOR to WP'
+    @order.dateCreated = now
+    @order.dateLastUpdated = now
+    @order.updatedByUser = reg.accountEmail
+    
+    # Ensure Order Id of newly created order remains the same
+    # TODO: Fix later as assumed orderId of first order?
+    @order.orderId = ord.orderId
+    
+    # Get a orderItem object
+    ordItem = ord.order_items.first
+    logger.debug  '*****'
+    logger.debug  ordItem.to_json
+    logger.debug  '*****'
+    
+    isInitialRegistration = true
+    if isInitialRegistration
+      # Add order item for Initial registration
+      
+      # Create Order Item
+      #orderItem = OrderItem.create(ordItem.attributes)
+      orderItem = OrderItem.new
+      #orderItem = OrderItem.create
+      orderItem.amount = Rails.configuration.fee_registration
+      orderItem.currency = 'GBP'
+      orderItem.description = 'Initial Registration'
+      orderItem.reference = 'Reg: ' + @registration.regIdentifier
+      orderItem.save
+    
+      @order.order_items.add orderItem
     end
+    
+    if @registration.copy_cards.to_i > 0
+      # Add additional order items for copy card amount
+      
+      # Create Order Item
+      #orderItem = OrderItem.create(ordItem.attributes)
+      orderItem = OrderItem.new
+      #orderItem = OrderItem.create
+      orderItem.amount = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
+      orderItem.currency = 'GBP'
+      orderItem.description = @registration.copy_cards.to_s + 'x Copy Cards'
+      orderItem.reference = 'Reg: ' + @registration.regIdentifier
+      orderItem.save
+    
+      @order.order_items.add orderItem
+    end
+    
+
+    logger.debug  '***** The @order is:'
+    logger.debug  @order.to_json
+    logger.debug  '*****'
+    @order
 
   end
 
