@@ -467,12 +467,16 @@ class RegistrationsController < ApplicationController
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
       @owe_money = owe_money? @registration
-      @pending_convictions_check = @registration.declaredConvictions == 'yes' ? true : false  # TODO or if convictions check says so
+      @tell_waste_carrier_they_are_pending_convictions_check = declared_convictions? @registration
       session[:registration_uuid] = @registration.uuid
     else
       renderNotFound and return
     end
     #render the confirmed page
+  end
+
+  def declared_convictions? registration
+    registration.declaredConvictions == 'yes'
   end
 
   def print_confirmed
