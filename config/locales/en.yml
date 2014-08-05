@@ -525,7 +525,7 @@ en:
       payment_due: "Payment due"
       postal_address: "Post: %{postal_address}"
       reference: "Payment reference number"
-      sort_code: "Sort code: %{sort_code}"
+      sort_code: "Sort code"
       swiftbic_number: "SWIFTBIC number: %{swiftbic_number}"
     newPayment:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
