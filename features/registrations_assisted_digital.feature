@@ -26,6 +26,13 @@ Feature: Registrations - Assisted Digital
       And the upper tier waste carrier registration id
       But the registration confirmation email should not be sent
 
+  Scenario: Upper tier offline payment
+    When I create an upper tier registration on behalf of a caller who wants to pay offline
+      And I see the payment details to tell the customer
+    Then I see the six-character access code for the user
+      And the upper tier waste carrier registration id
+      But the registration confirmation email should not be sent
+
   Scenario: Valid registration on behalf of a caller
     Given I start a new registration on behalf of a caller
       And the caller provides initial answers for the lower tier
