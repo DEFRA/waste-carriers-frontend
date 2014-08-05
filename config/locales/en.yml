@@ -523,7 +523,7 @@ en:
       iban_instructions: "If you are paying from outside the United Kingdom, you must pay in sterling and include:"
       iban_number: "IBAN number"
       payment_due: "Payment due"
-      postal_address: "Post: %{postal_address}"
+      postal_address: "Postal address"
       reference: "Payment reference number"
       sort_code: "Sort code"
       swiftbic_number: "SWIFTBIC number"
