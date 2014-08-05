@@ -512,7 +512,7 @@ en:
       subtitle: "Change your registration details"
     newOfflinePayment:
       account_name: "Account name"
-      account_number: "Account number: %{account_number}"
+      account_number: "Account number"
       bank_address: "Bank address"
       bank_name: "Bank name: %{bank_name}"
       bank_transfer_contact_instructions: "Please contact us with the details of your bank transfer by either:"
