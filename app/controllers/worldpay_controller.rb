@@ -71,7 +71,11 @@ class WorldpayController < ApplicationController
   # POST from Worldpay
   def update_order_notification
     logger.info "Received order notification message from Worldpay..."
+    puts '++++++++++++++++++++++++++++++++++++++++++++++'
+    puts '+++++ Worldpay Notification Response +++++++++'
+    puts '++++++++++++++++++++++++++++++++++++++++++++++'
     puts request.body.read
+    puts '++++++++++++++++++++++++++++++++++++++++++++++'
     render nothing: true
   end
 
