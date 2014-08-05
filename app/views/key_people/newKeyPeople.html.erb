@@ -34,17 +34,17 @@
                   <% button_label = t '.button_label_public' %>
               <% end %>
 
-              <%= render 'form', f: f, d: @key_person, legend: legend %>
+              <%= render 'key_person_form', f: f, d: @key_person, legend: legend %>
 
               <span class="next_link">
-                <input id="add_key_person_btn" name="add" class="button button-get-started" type="submit" value="<%= button_label %>"/>
+                <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= button_label %>"/>
               </span>
             <% end %>
 
             <!-- This next button only gets displayed for businesses that can collect
               more than one person and where at least one already has. -->
             <% if @key_people.any? %>
-              <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+              <%= form_for(@registration, :url => { :action => 'doneKeyPeople' }, :method => 'get'  ) do |f| %>
                 <span class="next_link"><%= render 'next_link' %></span>
               <% end %>
             <% end %>

@@ -9,6 +9,7 @@ en:
         dob: "Date of birth"
         first_name: "First name"
         last_name: "Last name"
+        positon: "Position in organisation"
       payment:
         amount: "Amount Received (£)"
         comment: Comment
@@ -272,29 +273,23 @@ en:
       button_label_partner: "Add another partner"
       button_label_public: "Add another CEO"
       you_have_added: "You have added the following"
-    edit:
-      step: "Step 7 of 8"
-      title: "Edit key person details"
-    form:
+    key_person_form:
       legend: "Key person details"
+      subtitle: "These will not be made public"
+    newRelevantPeople:
+      step: "Step 5 of 9"
+      title: "Relevant people"
+      legend: "\"Relevant\" person details"
+      button_label: "Add another person"
+      you_have_added: "You have added the following"
+    relevant_person_form:
+      legend: "Relevant person details"
       subtitle: "These will not be made public"
     index:
       legend: "Existing key people"
       step: "Step 7 of 8"
       subtitle: "These will not be made public"
       title: "Key people"
-    new:
-      step: "Step 4 of 9"
-      title: "Key person details"
-      legend: "Business owner details"
-      legend_limited: "Director details"
-      legend_partner: "Partner details"
-      legend_public: "CEO details"
-      button_label: "Add another person"
-      button_label_limited: "Add another director"
-      button_label_partner: "Add another partner"
-      button_label_public: "Add another CEO"
-      you_have_added: "You have added the following"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
