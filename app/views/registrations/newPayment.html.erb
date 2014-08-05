@@ -19,7 +19,7 @@
         <div class="inner-payment-box">
             <div class='payment-group'>
               <%= f.label :registration_fee, class: 'form-label' %>
-              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => money_value_with_currency_symbol_and_with_pence_part(Rails.configuration.fee_registration) %>
+              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(Rails.configuration.fee_registration) %>
             </div>
         </div>
 
@@ -31,7 +31,7 @@
                 <%= f.label :copy_cards, class: 'form-label' %>
                 <p class='subtitle'><%= t '.copy_card_info' %></p>
                 <%= f.label :Enter_the_amount_of_copy_cards, class: 'form-label' %>
-                <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true %>
+                <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>
                 <%= f.number_field :copy_cards, :min => 0 %>
             </div>
                 <p class='subtitle'><%= t '.copy_card_note' %></p>
@@ -43,7 +43,7 @@
         <div class="inner-payment-box">
             <div class='payment-group'>
               <%= f.label :total_fee, class: 'form-label' %>
-              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => money_value_with_currency_symbol_and_with_pence_part(Rails.configuration.fee_registration) %>
+              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
             </div>
             <p class='subtitle'><%= t '.total_fee_vat' %></p>
         </div>
