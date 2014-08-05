@@ -203,7 +203,9 @@ class PaymentController < ApplicationController
 	@payment.paymentType = 'REFUND'
 	@payment.dateReceived = Date.current
     @payment.updatedByUser = current_agency_user.id.to_s
-
+    
+    # This makes the payment a refund by updating the orderCode to include a refund postfix
+    @payment.makeRefund
 
 	if @payment.valid?
 	  logger.info 'payment is valid'
