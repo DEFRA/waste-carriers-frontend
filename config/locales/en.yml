@@ -524,7 +524,7 @@ en:
       iban_number: "IBAN number: %{iban_number}"
       payment_due: "Payment due: %{payment_due}"
       postal_address: "Post: %{postal_address}"
-      reference: "Payment reference number: %{reference}"
+      reference: "Payment reference number"
       sort_code: "Sort code: %{sort_code}"
       swiftbic_number: "SWIFTBIC number: %{swiftbic_number}"
     newPayment:

@@ -23,8 +23,8 @@
 
         <tbody>
           <tr>
-            <td><%= t '.reference', reference: @registration.regIdentifier %></td>
-            <td>Payment 2</td>
+            <td><%= t '.reference' %></td>
+            <td><%= @registration.regIdentifier %></td>
           </tr>
           <tr>
             <td><%= t '.payment_due', payment_due: pence_to_currency(@registration.finance_details.first.balance) %></td>
