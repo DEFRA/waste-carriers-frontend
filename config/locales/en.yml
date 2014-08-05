@@ -526,7 +526,7 @@ en:
       postal_address: "Post: %{postal_address}"
       reference: "Payment reference number"
       sort_code: "Sort code"
-      swiftbic_number: "SWIFTBIC number: %{swiftbic_number}"
+      swiftbic_number: "SWIFTBIC number"
     newPayment:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
