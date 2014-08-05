@@ -200,7 +200,7 @@ class PaymentController < ApplicationController
 	logger.info 'payment amount:' + @payment.amount.to_s
 
 	# Set automatic Payment values
-	@payment.paymentType = 'WORLDPAY REFUND'
+	@payment.paymentType = 'REFUND'
 	@payment.dateReceived = Date.current
     @payment.updatedByUser = current_agency_user.id.to_s
     
