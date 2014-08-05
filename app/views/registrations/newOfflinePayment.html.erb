@@ -43,6 +43,14 @@
             <td class='table-column-text'><%= t '.bank_address' %></td>
             <td class='table-column-data'><%= Rails.configuration.environment_agency_bank_address %></td>
           </tr>
+          <tr>
+            <td class='table-column-text'><%= t '.sort_code' %></td>
+            <td class='table-column-data'><%= Rails.configuration.bank_transfer_sort_code %></td>
+          </tr>
+          <tr>
+            <td class='table-column-text'><%= t '.account_number' %></td>
+            <td class='table-column-data'><%= Rails.configuration.bank_transfer_account_number %></td>
+          </tr>
         </tbody>
       </table>
 </div>
