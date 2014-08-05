@@ -4,101 +4,104 @@
   <article role="article" class="group">
     <section class='bank_section'>
       <div class="inner">
-      <div class="col-1">
+      <div class="col-1" id="col-1-bank-transfer">
       <ol>
         <li class='back_link'><%= render 'back_link' %></li>
         <li class="step">Step 9 of 9</li>
       </ol>
 
 <div id='bank_transfer_table'>
-  <legend><%= t '.heading' %></legend>
-    <h2><%= t '.bank_transfer_instructions' %></h2>
+  <h2 class='legend-title'><%= t '.heading' %></h2>
+    <h3><%= t '.bank_transfer_instructions' %></h3>
+    <br/>
       <table summary='Bank transfer details' role='presentation'>
         <thead>
           <tr>
-            <th class="subtitle"><strong>Step one</strong></th>
+            <th class="subtitle"><h3><strong>Step one</strong></h3></th>
             <th></th>
           </tr>
         </thead>
 
         <tbody>
           <tr>
-            <td><%= t '.reference' %></td>
-            <td><%= @registration.regIdentifier %></td>
+            <td class='table-column-text'><%= t '.reference' %></td>
+            <td class='table-column-data'><%= @registration.regIdentifier %></td>
           </tr>
           <tr>
-            <td><%= t '.payment_due' %></td>
-            <td><%= pence_to_currency @registration.finance_details.try(:first).try(:balance) %></td>
+            <td class='table-column-text'><%= t '.payment_due' %></td>
+            <td class='table-column-data'><%= pence_to_currency @registration.finance_details.try(:first).try(:balance) %></td>
           </tr>
           <tr>
-            <td><p></p></td>
-            <td><p></p></td>
+            <td class='table-column-text'><%= t '.account_name' %></td>
+            <td class='table-column-data'><%= Rails.configuration.environment_agency_bank_account_name %></td>
           </tr>
           <tr>
-            <td><%= t '.account_name' %></td>
-            <td><%= Rails.configuration.environment_agency_bank_account_name %></td>
+            <td class='table-column-text'><%= t '.bank_name' %></td>
+            <td class='table-column-data'><%= Rails.configuration.environment_agency_bank_name %></td>
           </tr>
           <tr>
-            <td><%= t '.bank_name' %></td>
-            <td><%= Rails.configuration.environment_agency_bank_name %></td>
+            <td class='table-column-text'><%= t '.bank_address' %></td>
+            <td class='table-column-data'><%= Rails.configuration.environment_agency_bank_address %></td>
           </tr>
-          <tr>
-            <td><%= t '.bank_address' %></td>
-            <td><%= Rails.configuration.environment_agency_bank_address %></td>
-          </tr>
-          <tr>
-            <td><p></p></td>
-            <td><p></p></td>
-          </tr>
-          <tr>
-            <td><%= t '.sort_code' %></td>
-            <td><%= Rails.configuration.bank_transfer_sort_code %></td>
-          </tr>
-          <tr>
-            <td><%= t '.account_number' %></td>
-            <td><%= Rails.configuration.bank_transfer_account_number %></td>
-          </tr>
-          <tr>
-            <td><p><strong><%= t '.iban_instructions' %></strong></p></td>
-            <td><p></p></td>
-          </tr>
-          <tr>
-          <tr>
-            <td><%= t '.iban_number' %></td>
-            <td><%= Rails.configuration.iban_number %></td>
-          </tr>
-          <tr>
-            <td><%= t '.swiftbic_number' %></td>
-            <td><%= Rails.configuration.swiftbic_number %></td>
-          </tr>
-          <tr>
-            <td><p></p></td>
-            <td><p></p></td>
-          </tr>
-          <tr>
-            <td class='subtitle'><strong>Step two</strong></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><h2><%= t '.bank_transfer_contact_instructions' %></h2></td>
-            <td></td>
-          </tr>
-          <tr>
-            <td><%= t '.email_preamble' %></td>
-            <td><%= mail_to Rails.configuration.income_email_address %></td>
-          </tr>
-          <tr>
-            <td><%= t '.fax_number' %></td>
-            <td><%= Rails.configuration.income_fax_number %></td>
-          </tr>
-          <tr>
-            <td><%= t '.postal_address' %></td>
-            <td><%= Rails.configuration.income_postal_address %></td>
-          </tr>
-
         </tbody>
       </table>
 </div>
+
+<div class='notice-icon'><p><strong><%= t '.iban_instructions' %></strong></p></div></br>
+
+<div id='bank_transfer_table'>
+      <table summary='Bank transfer details' role='presentation'>
+        <thead>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td class='table-column-text'><%= t '.iban_number' %></td>
+            <td class='table-column-data'><%= Rails.configuration.iban_number %></td>
+          </tr>
+          <tr>
+            <td class='table-column-text'><%= t '.swiftbic_number' %></td>
+            <td class='table-column-data'><%= Rails.configuration.swiftbic_number %></td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+
+<br/>
+<br/>
+<br/>
+
+<h2 class="subtitle"><strong>Step two</strong></h2>
+<div><h4><%= t '.bank_transfer_contact_instructions' %></h4></div>
+
+<div id='bank_transfer_table'>
+      <table summary='Bank transfer details' role='presentation'>
+        <thead>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class='table-column-text'><%= t '.email_preamble' %></td>
+            <td class='table-column-data'><%= mail_to Rails.configuration.income_email_address %></td>
+          </tr>
+          <tr>
+            <td class='table-column-text'><%= t '.fax_number' %></td>
+            <td class='table-column-data'><%= Rails.configuration.income_fax_number %></td>
+          </tr>
+          <tr>
+            <td class='table-column-text'><%= t '.postal_address' %></td>
+            <td id='table-column-data-address'><%= Rails.configuration.income_postal_address %></td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<br/>
+
+
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>
       <%= render 'next_link' %>
