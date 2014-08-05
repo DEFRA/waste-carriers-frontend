@@ -19,8 +19,25 @@ class FinanceDetails < Ohm::Model
         when 'orders'
           if v #array of order hashes
             v.each do |order_hash|
-              order = Order.init(order_hash)
-              fd.orders.add order
+              
+              fd_order = Order.init(order_hash)  
+              
+              Rails.logger.info 'orders size before ' + fd.orders.size.to_s
+              fd.orders.each do |checkOrder|
+                Rails.logger.info '-----------------'
+                Rails.logger.info 'before check order: ' + checkOrder.attributes.to_s
+              end
+              
+              # Alan idea
+              fd.orders.replace([fd_order])
+              
+              Rails.logger.info 'orders size after ' + fd.orders.size.to_s
+              fd.orders.each do |checkOrder|
+                Rails.logger.info '-----------------'
+                Rails.logger.info 'FD id: ' + fd.id + ' Order id: ' + checkOrder.id
+                Rails.logger.info 'after check order: ' + checkOrder.to_json.to_s
+              end
+              
             end
           end #if
         when 'payments'
@@ -40,9 +57,9 @@ class FinanceDetails < Ohm::Model
   end
 
   def to_hash
-    h = attributes
-    h['payments'] =  payments.map { |payment| payment.to_hash}
-    h['orders'] = orders.map { |order| order.to_hash}
+    h = self.attributes.to_hash
+    h['payments'] =  payments.map { |payment| payment.to_hash}   if self.payments && self.payments.size > 0
+    h['orders'] = orders.map { |order| order.to_hash}   if self.orders && self.orders.size > 0
     h
   end
 
