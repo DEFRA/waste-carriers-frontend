@@ -19,7 +19,8 @@
 #content {@include device-pixel-ratio($ratio: 2)}
 #content legend {@include bold-36}
 #content .summary-subtitle {@include bold-36}
-#content .summary-page h2 {@include bold-24}
+#content .bank-transfer-table {@include bold-36}
+#content h2 {@include bold-24}
 #content h1 {@include heading-36}
 #content h2 {@include heading-27}
 #content h3 {@include heading-24}
@@ -224,6 +225,10 @@ input {
   width:100%;
 }
 
+#payment-col-1, #col-1-bank-transfer {
+  width:65%;
+}
+
 #confirmation-col-1 .summary-box{
   padding:20px;
 }
@@ -254,18 +259,34 @@ input {
   position:relative;
 }
 
+#content .table-column-text {
+    color: rgb(111, 119, 123);
+    display: block;
+    font-family: "nta",Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: none;
+}
+
+#content .table-column-data {
+  text-align:right;
+}
+
+#content #table-column-data-address {
+  text-align:right;
+  padding-left:100px;
+}
 
 
-
-
-// .reg-complete-container {
-//   width:35%
-//   height:100px;
-//   background-color:#006435;
-//   display:inline;
-//   padding:2.4em;
-//   color:#FFFFFF;
-// }
+#content .legend-title {
+    font-family: "nta",Arial,sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    text-transform: none;
+    line-height: 1.04167;
+    padding-bottom: 2.7rem;
+    padding-top: 2.3rem;
+}
 
 
 
