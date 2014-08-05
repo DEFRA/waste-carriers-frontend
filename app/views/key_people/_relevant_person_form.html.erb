@@ -1,0 +1,35 @@
+<fieldset>
+  <legend><%= legend %></legend>
+  <h2><%= t '.subtitle' %></h2>
+  <div class="form-group<%if d.errors[:first_name].any?%> validation<%end%>">
+    <%= validation_for(d, :first_name) %>
+    <%= f.label :first_name, class: 'form-label' %>
+    <%= f.text_field :first_name, :size => 20, :maxlength => 35 %>
+  </div>
+  <div class="form-group<%if d.errors[:last_name].any?%> validation<%end%>">
+    <%= validation_for(d, :last_name) %>
+    <%= f.label :last_name, class: 'form-label' %>
+    <%= f.text_field :last_name, :size => 20, :maxlength => 35 %>
+  </div>
+  <div class="form-group<%if d.errors[:position].any?%> validation<%end%>">
+    <%= validation_for(d, :position) %>
+    <%= f.label :position, class: 'form-label' %>
+    <%= f.text_field :position, :size => 20, :maxlength => 35 %>
+  </div>
+  <div class="form-group<%if d.errors[:dob].any?%> validation<%end%>">
+      <p class='subtitle'>For example, 26 5 1976</p>
+      <div class='inline-date'>
+        <%= f.label :dob_day, class: 'form-label' %>
+        <%= f.text_field :dob_day, :size => 2, :maxlength => 2 %>
+      </div>
+      <div class='inline-date'>
+        <%= f.label :dob_month, class: 'form-label' %>
+        <%= f.text_field :dob_month, :size => 2, :maxlength => 2 %>
+      </div>
+      <div class='inline-date'>
+        <%= f.label :dob_year, class: 'form-label' %>
+        <%= f.text_field :dob_year, :size => 4, :maxlength => 4 %>
+      </div>
+  </div>
+  <%= f.hidden_field :person_type, :value => 'RELEVANT' %>
+</fieldset>
