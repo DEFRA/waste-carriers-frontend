@@ -514,7 +514,7 @@ en:
       account_name: "Account name"
       account_number: "Account number"
       bank_address: "Bank address"
-      bank_name: "Bank name: %{bank_name}"
+      bank_name: "Bank name"
       bank_transfer_contact_instructions: "Please contact us with the details of your bank transfer by either:"
       bank_transfer_instructions: "Please arrange your bank transfer by completing the next two steps"
       email_preamble: "Email"
