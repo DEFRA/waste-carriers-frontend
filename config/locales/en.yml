@@ -522,7 +522,7 @@ en:
       heading: "Pay by bank transfer"
       iban_instructions: "If you are paying from outside the United Kingdom, you must pay in sterling and include:"
       iban_number: "IBAN number: %{iban_number}"
-      payment_due: "Payment due: %{payment_due}"
+      payment_due: "Payment due"
       postal_address: "Post: %{postal_address}"
       reference: "Payment reference number"
       sort_code: "Sort code: %{sort_code}"
