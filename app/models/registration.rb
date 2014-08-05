@@ -386,12 +386,22 @@ class Registration < Ohm::Model
         when 'metaData'
           new_reg.metaData.add HashToObject(v, 'Metadata')
         when 'financeDetails'
+          
+          Rails.logger.debug '-----------------'
+          Rails.logger.debug 'Create finance details from v: ' + v.to_s
+          Rails.logger.debug '-----------------'
+          
           new_reg.finance_details.add FinanceDetails.init(v)
         else  #normal attribute'
           new_reg.send("#{k}=",v)
         end
       end #each
       new_reg.save
+      
+      Rails.logger.debug '-----------------'
+      Rails.logger.debug 'Finance details from new_reg: ' + new_reg.finance_details.to_json.to_s
+      Rails.logger.debug '-----------------'
+      
       new_reg
     end #method
   end
@@ -680,7 +690,7 @@ class Registration < Ohm::Model
   end
 
   def user
-    @user || User.find_by_email(accountEmail)
+    @user || User.find_by_email(accountEmail) || AgencyUser.find_by_email(accountEmail)
   end
 
   def generate_random_access_code
