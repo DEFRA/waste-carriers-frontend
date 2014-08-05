@@ -16,7 +16,7 @@ And(/^I add a key person to the registration$/) do
   click_on 'add_btn'
 end
 
-And /^I add the following key people:$/ do |table|
+And /^I add the following people:$/ do |table|
   table.hashes.each do |row|
     fill_in 'key_person_first_name', with: row[:first_name]
     fill_in 'key_person_last_name', with: row[:last_name]

@@ -128,8 +128,13 @@ class KeyPeopleController < ApplicationController
   end
 
   # POST /your-registration/key-people/done
-  def done
+  def doneKeyPeople
     redirect_to :newRelevantConvictions
+  end
+
+  # POST /your-registration/relevant-people/done
+  def doneRelevantPeople
+    redirect_to :newConfirmation
   end
 
   # GET /your-registration/key-people

@@ -26,7 +26,7 @@ Feature: Key People
       And I provide my company name
     Given I autocomplete my business address
       And I provide my personal contact details
-      And I add the following key people:
+      And I add the following people:
         | first_name | last_name | dob_day | dob_month | dob_year |
         | James      | Hunt      | 29      | 08        | 1947     |
         | Nikki      | Lauda     | 22      | 02        | 1949     |

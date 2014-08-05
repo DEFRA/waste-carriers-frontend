@@ -44,7 +44,7 @@
             <!-- This next button only gets displayed for businesses that can collect
               more than one person and where at least one already has. -->
             <% if @key_people.any? %>
-              <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+              <%= form_for(@registration, :url => { :action => 'doneKeyPeople' }, :method => 'get'  ) do |f| %>
                 <span class="next_link"><%= render 'next_link' %></span>
               <% end %>
             <% end %>
