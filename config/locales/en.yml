@@ -144,6 +144,7 @@ en:
       min8: "is too short (minimum is 8 characters)"
       numbers: "can only contain numbers"
       weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
+      worldpayFailed: "failed to get a ok response from Worldpay"
   form:
     add_button_label: Add
     back_button_label: Back

@@ -1,5 +1,7 @@
 class PaymentController < ApplicationController
 
+  include WorldpayHelper
+
   before_filter :authenticate_agency_user!
 
   # GET /payments
@@ -205,11 +207,29 @@ class PaymentController < ApplicationController
 
 	if @payment.valid?
 	  logger.info 'payment is valid'
-	  @payment.save! params[:id]
-
-	  # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
-      redirect_to ({ action: 'completeWPRefund', id: params[:id], orderCode: params[:orderCode] })
-
+	  
+	  # Make request to worldpay
+	  response = request_refund_from_worldpay(params[:orderCode], @payment.amount )
+	  
+	  # Check if response from worldpay contains ok message
+	  if responseOk?(response)
+	    
+	    # Save refund payment
+	    @payment.save! params[:id]
+	    
+	    # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
+        redirect_to ({ action: 'completeWPRefund', id: params[:id], orderCode: params[:orderCode] })
+	  else
+	    logger.info 'Failed request from WP'
+	    
+	    # Reset payment to payment from db
+	    @payment = @foundPayment
+	    
+	    # Add refund request failed from WP error
+	    @payment.errors.add(:worldPayPaymentStatus, I18n.t('errors.messages.worldpayFailed'))
+	    
+	    render "newWPRefund", :status => '400'
+	  end
 	else
 	  logger.info 'payment is not valid'
 	  if @payment.errors.any?

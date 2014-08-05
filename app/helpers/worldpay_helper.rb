@@ -211,6 +211,30 @@ module WorldpayHelper
       logger.info 'Received response from Worldpay: ' + @response
       @response
     end
+    
+    def request_refund_from_worldpay(myOrderCode, myAmount)
+      #TODO Get values to be refunded from the registration and/or its relevant payment
+      orderCode = myOrderCode
+      #TODO the merchantCode needs to come from the original payment as well
+      merchantCode = worldpay_merchant_code
+      currencyCode = "GBP"
+      amount = myAmount
+      username = worldpay_xml_username
+      password = worldpay_xml_password
+
+      xml = create_refund_request_xml(merchantCode,orderCode,currencyCode,amount)
+      logger.info 'About to contact WorldPay for refund: XML username = ' + worldpay_xml_username
+      logger.info 'Sending refund request XML to Worldpay: ' + xml
+
+      response = send_xml_with_username_password(xml,username,password)
+      @response = response.body
+      logger.info 'Received response from Worldpay: ' + @response
+      @response
+    end
+    
+    def responseOk? (responseBody)
+      parse_xml(responseBody).css("paymentService reply ok").first.to_s.include?("ok")
+    end
 
     def create_refund_request_xml(merchantCode, orderCode, currencyCode, amount)
       xml = "<?xml version=\"1.0\"?>\n"
