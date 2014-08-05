@@ -215,6 +215,10 @@ class Payment < Ohm::Model
   def isAutomatedPayment?
     !isManualPayment?
   end
+  
+  def makeRefund
+    self.orderKey = self.orderKey + '_REFUND'
+  end
 
   private
 

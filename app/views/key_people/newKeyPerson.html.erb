@@ -18,7 +18,7 @@
             <%= render 'errors' %>
 
             <%= form_for(@key_person, url: {action: "updateNewKeyPerson"} ) do |f| %>
-              <%= render 'form', f: f, d: @key_person, :legend => t('.legend') %>
+              <%= render 'key_person_form', f: f, d: @key_person, :legend => t('.legend') %>
               <span class="next_link"><%= render 'next_link' %></span>
             <% end %>
           </div>

@@ -82,14 +82,13 @@ Then(/^I am registered as an upper tier waste carrier$/) do
 end
 
 And(/^no key people in the organisation have convictions$/) do
-  choose 'No'
+  choose 'registration_declaredConvictions_no'
   click_on 'Next'
 end
 
 And(/^key people in the organisation have convictions$/) do
   choose 'Yes'
   click_on 'Next'
-  # TODO when other feature is done to put in relevant convicted people, will have to put some steps in to put someone in here
 end
 
 But(/^I am told my registration is pending a convictions check$/) do
