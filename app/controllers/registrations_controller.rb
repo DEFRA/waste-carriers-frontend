@@ -263,7 +263,6 @@ class RegistrationsController < ApplicationController
     setup_registration 'registrationtype'
     if @registration.valid?
       redirect_to :newBusinessDetails
-
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -279,7 +278,11 @@ class RegistrationsController < ApplicationController
     setup_registration 'convictions'
 
     if @registration.valid?
-      redirect_to :newConfirmation
+      if @registration.declaredConvictions == 'yes'
+        redirect_to :newRelevantPeople
+      else
+        redirect_to :newConfirmation
+      end
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -464,12 +467,16 @@ class RegistrationsController < ApplicationController
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
       @owe_money = owe_money? @registration
-      @pending_convictions_check = @registration.declaredConvictions == 'yes' ? true : false  # TODO or if convictions check says so
+      @tell_waste_carrier_they_are_pending_convictions_check = declared_convictions? @registration
       session[:registration_uuid] = @registration.uuid
     else
       renderNotFound and return
     end
     #render the confirmed page
+  end
+
+  def declared_convictions? registration
+    registration.declaredConvictions == 'yes'
   end
 
   def print_confirmed

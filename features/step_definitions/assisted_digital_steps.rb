@@ -135,6 +135,52 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   click_on 'Pay by debit/credit card'
 end
 
+When(/^I create an upper tier registration on behalf of a caller who wants to pay offline$/) do
+  click_on 'New registration'
+
+  choose 'registration_businessType_soletrader'
+  click_on 'Next'
+
+  choose 'registration_otherBusinesses_yes'
+  click_on 'Next'
+
+  choose 'registration_isMainService_yes'
+  click_on 'Next'
+
+  choose 'registration_onlyAMF_no'
+  click_on 'Next'
+
+  choose 'registration_registrationType_carrier_dealer'
+  click_on 'Next'
+
+  click_on 'I want to add an address myself'
+  fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
+  fill_in 'registration_houseNumber', with: '123'
+  fill_in 'registration_streetLine1', with: 'Deanery Road'
+  fill_in 'registration_streetLine2', with: 'EA Building'
+  fill_in 'registration_townCity', with: 'Bristol'
+  fill_in 'registration_postcode', with: 'BS1 5AH'
+  click_on 'Next'
+
+  fill_in 'registration_firstName', with: 'Antony'
+  fill_in 'registration_lastName', with: 'Assisted'
+  fill_in 'registration_phoneNumber', with: '0123 456 789'
+  #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
+  fill_in 'registration_contactEmail', with: ''
+  click_on 'Next'
+
+  step 'I enter the details of the business owner'
+
+  choose 'No'
+  click_on 'Next'
+
+  check 'registration_declaration'
+  click_on 'Confirm'
+  click_on 'Next'
+
+  click_on 'Pay via electronic transfer'
+end
+
 And(/^the lower tier waste carrier registration id$/) do
   page.should have_content 'Your registration number is: CBDL'
 end
@@ -145,4 +191,8 @@ end
 
 Then(/^I see the six\-character access code for the user$/) do
   page.should have_content 'Your access code is:'
+end
+
+And(/^I see the payment details to tell the customer$/) do
+  click_on 'Next'
 end
