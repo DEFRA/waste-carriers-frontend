@@ -55,13 +55,13 @@
 								<% if @registration.respond_to?('finance_details') and @registration.finance_details.first \
 								   && @registration.finance_details.size > 0 && @registration.finance_details.first.orders %>
 									<% @registration.finance_details.first.orders.each do |order| %>
-									  <% if order.respond_to?('order_items') and !order.order_items %>
+									  <% if order.respond_to?('order_items') and order.order_items %>
 									  	<% order.order_items.each do |orderItem| %>
 											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-												<td class="" ><%= orderItem.lastUpdated %></td>
+												<td class="" ><%= order.dateLastUpdated %></td>
 												<td class="" ><%= orderItem.description %></td>
 												<td class="" ><%= orderItem.reference %></td>
-												<td class="" ><%= number_with_precision(orderItem.amount, :precision => 2) %></td>
+												<td class="" ><%= Money.new(orderItem.amount) %></td>
 											</tr>
 										  <% regCount = regCount + 1; %>
 									    <% end %>
