@@ -27,8 +27,8 @@
             <td><%= @registration.regIdentifier %></td>
           </tr>
           <tr>
-            <td><%= t '.payment_due', payment_due: pence_to_currency(@registration.finance_details.first.balance) %></td>
-            <td>Payment 2</td>
+            <td><%= t '.payment_due' %></td>
+            <td><%= pence_to_currency @registration.finance_details.first.balance %></td>
           </tr>
           <tr>
             <td><p></p></td>
