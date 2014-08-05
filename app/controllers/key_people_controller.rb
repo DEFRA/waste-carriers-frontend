@@ -28,6 +28,7 @@ class KeyPeopleController < ApplicationController
   # POST /your-registration/key-person
   def updateNewKeyPerson
     get_registration
+    get_key_people
 
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
@@ -36,7 +37,7 @@ class KeyPeopleController < ApplicationController
       @key_person.save
       @registration.key_people.replace([@key_person])
       @registration.save
-      redirect_to :newConfirmation
+      redirect_to :newRelevantConvictions
     else
       # there is an error (but data not yet saved)
       logger.info 'Key person is not valid, and data is not yet saved'
@@ -55,6 +56,7 @@ class KeyPeopleController < ApplicationController
   # POST /your-registration/key-people
   def updateNewKeyPeople
     get_registration
+    get_key_people
 
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
@@ -82,6 +84,7 @@ class KeyPeopleController < ApplicationController
   # POST /your-registration/relevant-people
   def updateNewRelevantPeople
     get_registration
+    get_relevant_people
 
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
