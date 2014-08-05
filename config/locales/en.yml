@@ -511,7 +511,7 @@ en:
     ncccform:
       subtitle: "Change your registration details"
     newOfflinePayment:
-      account_name: "Account name: %{account_name}"
+      account_name: "Account name"
       account_number: "Account number: %{account_number}"
       bank_address: "Bank address: %{bank_address}"
       bank_name: "Bank name: %{bank_name}"
