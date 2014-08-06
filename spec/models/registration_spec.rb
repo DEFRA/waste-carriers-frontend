@@ -7,6 +7,13 @@ describe Registration do
   it { should respond_to :suspect? }
   it { should respond_to :convictions_check_indicates_suspect }
 
+  describe '#suspect?' do
+    specify { Registration.new(convictions_check_indicates_suspect: false, declaredConvictions: false).should_not be_suspect }
+    specify { Registration.new(convictions_check_indicates_suspect: true, declaredConvictions: false).should be_suspect }
+    specify { Registration.new(convictions_check_indicates_suspect: false, declaredConvictions: true).should be_suspect }
+    specify { Registration.new(convictions_check_indicates_suspect: true, declaredConvictions: true).should be_suspect }
+  end
+
   describe '#upper?' do
     specify { Registration.new(tier: 'UPPER').should be_upper }
     specify { Registration.new(tier: 'upper').should_not be_upper }
