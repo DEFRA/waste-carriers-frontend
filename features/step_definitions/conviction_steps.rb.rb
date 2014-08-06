@@ -70,5 +70,5 @@ When(/^I come to the final step$/) do
 end
 
 Then(/^I am told my application is being checked$/) do
-  page.should have_content 'Your registration is being checked'
+  page.should have_content 'Your registration is pending checks.'
 end
