@@ -4,11 +4,18 @@ Given(/^I fill out the upper tier steps$/) do
   step 'I enter my business details'
   step 'I enter my contact details'
   step 'I enter the details of the business owner'
-  step 'no key people in the organisation have convictions'
+end
+
+And(/^I do not declare any convictions$/) do
+  choose 'No'
 end
 
 When(/^I come to the confirmation step$/) do
-  # no-op
+  click_on 'Next'
+end
+
+Then(/^I see my answer to the convictions question$/) do
+  page.should have_content 'You have not declared any convictions'
 end
 
 Then(/^I see a link to edit my conviction declaration$/) do

@@ -1,5 +1,5 @@
-<% if r.declaredConvictions %>
-    <p><%= t '.have_declared_convictions' %></p>
+<% if r.declaredConvictions == 'yes' %>
+    <p><%= t 'registrations.newConfirmation.have_declared_convictions' %></p>
 <% else %>
-    <p><%= t '.have_not_declared_convictions' %></p>
+    <p><%= t 'registrations.newConfirmation.have_not_declared_convictions' %></p>
 <% end %>
