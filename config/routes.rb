@@ -47,6 +47,9 @@ Registrations::Application.routes.draw do
     match "registrations/:id/worldpayRefund/:orderCode" => 'payment#createWPRefund', :via => [:post]
     get   "registrations/:id/worldpayRefund/:orderCode/refundComplete" => 'payment#completeWPRefund', :via => [:get]
     get   "registrations/:id/chargeAdjustments" => 'payment#chargeIndex', :via => [:get], :as => :chargeAdjustment
+    get   "registrations/:id/paymentReversals" => 'payment#reversalIndex', :via => [:get], :as => :paymentReversal
+    get   "registrations/:id/newReversal" => 'payment#newReversal', :via => [:get], :as => :newReversal
+    match "registrations/:id/newReversal" => 'payment#createReversal', :via => [:post], :as => :createReversal
 
 	  # Add routing for confirm delete registration
 	  get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete

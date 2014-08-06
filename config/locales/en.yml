@@ -225,6 +225,12 @@ en:
     chargeIndex:
       heading: "Charge adjustments"
       step: "Select what type of charge adjustment you want to make"
+    reversalIndex:
+      heading: "Reversals"
+      step: "Select which payment you wish to reverse"
+    newReversal:
+      heading: "Enter reversal"
+      step: "Enter a reversal for a payment into the system"
   payment_types:
     CASH: Cash
     CHEQUE: Cheque
@@ -496,8 +502,11 @@ en:
       registerAs_label: "Register as"
       register_button_label: Register
       revoke_button_label: Revoke
+      reversals_button_label: "Reversals"
+      newReversal_button_label: "Enter reversal"
       root_site: GOV.UK
       select_button_label: "Select (Online)"
+      selectReversal_button_label: "Select Payment"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"
       summary_of_registration: "Summary of information"
       title: "Waste Carrier Registration"

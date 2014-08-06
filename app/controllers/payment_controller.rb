@@ -272,5 +272,61 @@ class PaymentController < ApplicationController
     #
     # authorize! :newCharges, Order
   end
+  
+  # GET /paymentReversals
+  def reversalIndex
+    @registration = Registration.find_by_id(params[:id])
+
+    authorize! :read, @registration
+
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newReversal, Payment
+  end
+  
+  # GET /newReversal
+  def newReversal
+    @registration = Registration.find_by_id(params[:id])
+    @payment = Payment.find_by_registration(params[:id])
+    
+    # Update the payment to include a reference to the payment being reverse, and mark this as a reversal or said payment
+    @payment.orderKey = params[:orderCode] + '_REVERSAL'
+    logger.info 'Updated ordercode: ' + @payment.orderKey
+    
+    # Override amount to be empty as payment object from services will return an amount of 0
+    if @payment.amount == 0
+      @payment.amount = ''
+    end
+
+    # If dateReceived is empty reset split up values
+    unless @payment.dateReceived
+      @payment.dateReceived_day = ''
+      @payment.dateReceived_month = ''
+      @payment.dateReceived_year = ''
+      logger.info 'set date received manually'
+    end
+    
+    authorize! :read, @registration
+
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newReversal, Payment
+  end
+  
+  # POST /newReversal
+  def createReversal
+  
+    # TODO : Implement the create payment from the reversal details entered
+    
+    # Tmp: Redirect back to payment status
+    redirect_to :paymentstatus, :flash => { :alert => "TODO: Not yet Implemented!!!, but should say Reversal sucessfully entered" }
+    
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newReversal, Payment
+  end
 
 end
