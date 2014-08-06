@@ -64,8 +64,6 @@ class Registration < Ohm::Model
   attribute :regIdentifier
   attribute :status
 
-  attribute :declaredConvictions
-
   attribute :password
   attribute :sign_up_mode
   attribute :routeName
@@ -78,7 +76,9 @@ class Registration < Ohm::Model
   attribute :tier
   attribute :location
 
+  attribute :declaredConvictions
   attribute :convictions_check_indicates_suspect
+  attribute :criminally_suspect
 
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
