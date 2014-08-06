@@ -278,6 +278,9 @@ class RegistrationsController < ApplicationController
     setup_registration 'convictions'
 
     if @registration.valid?
+      @registration.convictions_check_indicates_suspect = ConvictionsCaller.new().convicted? # TODO call this with correct parameters
+      @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
+
       if @registration.declaredConvictions == 'yes'
         redirect_to :newRelevantPeople
       else
