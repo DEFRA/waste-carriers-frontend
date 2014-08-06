@@ -78,6 +78,8 @@ class Registration < Ohm::Model
   attribute :tier
   attribute :location
 
+  attribute :convictions_check_indicates_suspect
+
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
@@ -609,6 +611,10 @@ class Registration < Ohm::Model
     Rails.logger.debug "The registrations balance is #{the_balance}"
     return true if the_balance.nil?
     the_balance.to_i <= 0
+  end
+
+  def suspect?
+
   end
 
   def self.business_type_options_for_select
