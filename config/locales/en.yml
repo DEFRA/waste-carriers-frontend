@@ -201,7 +201,6 @@ en:
     index:
       heading: Refunds
       step: "Select a payment to refund"
-      notapplicable: "n/a"
       refundStatus: "Refund: %{status}"
     manualRefund:
       heading: "Manual Refunds"
@@ -478,6 +477,7 @@ en:
       manual_payment_button_label: "Select (Manual)"
       new_button_label: "New Registration"
       next_button_label: Next
+      not_applicable: "n/a"
       option_please_select: "Please select..."
       organisationName_label: "Business, organisation or trading name"
       organisationType_individual: "An individual"
