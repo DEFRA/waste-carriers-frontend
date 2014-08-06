@@ -14,5 +14,8 @@ class ConvictionsCaller
     rescue
       :error_calling_service
     end
+
+    # FIXME for now make this return false until service in place
+    false
   end
 end
