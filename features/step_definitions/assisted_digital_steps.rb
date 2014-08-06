@@ -1,7 +1,7 @@
 Given(/^I am logged in as an NCCC agency user$/) do
   visit new_agency_user_session_path
   page.should have_content 'Sign in'
-  page.should have_content 'NCCC agency login'
+  page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_agency_user.email
   fill_in 'Password', with: my_agency_user.password
   click_button 'Sign in'

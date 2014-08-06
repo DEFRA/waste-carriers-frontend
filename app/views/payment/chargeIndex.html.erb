@@ -1,0 +1,59 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+	<article role="article" class="group">
+	<% content_for :page_title, createTitle('.heading') %>
+
+	<!-- Usefull for showing default messages -->
+	<% if alert %><%= alert %><% end %>
+
+	<aside>
+	
+		<div class="step"><%= t '.step' %></div>
+
+		<!-- WF X.X.X -->
+		<div id="payment" data-journey="waste-carriers-registration:refunds">
+
+			<fieldset>
+				<legend><%= t '.heading' %></legend>
+				
+				<div class="form-group">
+						<label>1. <a href="">Add a positive Charge</a></label>
+				</div>
+				<div class="form-group">
+						<label>2. <a href="">Add a negative Charge</a></label>
+				</div>
+	
+				<div class="inline">
+				    <noscript>
+				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+				    </noscript>
+				    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+				</div>
+				
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				
+			</fieldset>
+			
+		</div>
+	
+	</aside>
+
+	<div class='related-positioning'>
+		<div class='related-container'>
+			<div class='related'>
+				<div class='inner group related-subsection'>
+				<%= render "shared/current_user" %>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</article>
+</main>
