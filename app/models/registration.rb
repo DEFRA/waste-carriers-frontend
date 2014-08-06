@@ -614,7 +614,7 @@ class Registration < Ohm::Model
   end
 
   def suspect?
-    declaredConvictions or convictions_check_indicates_suspect
+    declaredConvictions == 'yes' or convictions_check_indicates_suspect
   end
 
   def self.business_type_options_for_select
