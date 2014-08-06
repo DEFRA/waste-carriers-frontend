@@ -39,7 +39,7 @@
 									<% if hasOrderKey(payment) %>
 									    <%= payment.orderKey %>
 									<% else %>
-									    <%= t '.notapplicable' %>
+									    <%= t 'registrations.form.not_applicable' %>
 									<% end %>
 									</td>
 									<td class=""><%= t('payment_types.'+payment.paymentType) %></td>
@@ -48,7 +48,7 @@
 									<% if hasOrderKey(payment) %>
 									    <%= link_to t('registrations.form.selectReversal_button_label'), {controller: 'payment', action: 'newReversal', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
 									<% else %>
-									    <%= t '.notapplicable' %>
+									    <%= t 'registrations.form.not_applicable' %>
 									<% end %>
 									</td>
 								</tr>
