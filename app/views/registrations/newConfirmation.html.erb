@@ -83,6 +83,15 @@
                 </div>
               <% end %>
 
+              <div class='form-group'>
+                  <h2><%= t '.contact_details_heading' %></h2>
+                  <ul class='summary-box'>
+                    <li class='summary-items'><%= render 'conviction_declaration_display', r: @registration %></li>
+                  </ul>
+                  <p><%= link_to t('.edit_convictions_declaration_link_text'), newRelevantConvictions_path %></p>
+              </div>
+
+
               <!-- Declaration section -->
           		<div class='form-group'>
                 <p class='summary-subtitle'><%= t '.declaration_legend' %></p>
