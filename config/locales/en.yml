@@ -201,6 +201,8 @@ en:
     index:
       heading: Refunds
       step: "Select a payment to refund"
+      notapplicable: "n/a"
+      refundStatus: "Refund: %{status}"
     manualRefund:
       heading: "Manual Refunds"
     new:

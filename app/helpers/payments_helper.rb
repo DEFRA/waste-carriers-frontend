@@ -32,5 +32,32 @@ module PaymentsHelper
     value = Money.new pence
     humanized_money(value, { :no_cents_if_whole => false, :symbol => true })
   end
+  
+  def hasOrderKey paymentModel
+    !paymentModel.orderKey.nil?
+  end
+  
+  def isARefund paymentModel
+    hasOrderKey(paymentModel) ? (paymentModel.orderKey.include? "_REFUND") : false
+  end
+  
+  def isAlreadyRefunded paymentModel, registrationModel
+    refundPaymentStatus = getRefundPaymentStatus paymentModel, registrationModel
+    !refundPaymentStatus.nil?
+  end
+  
+  def getRefundPaymentStatus paymentModel, registrationModel
+	refundPaymentStatus = nil
+	if hasOrderKey(paymentModel)
+	    registrationModel.finance_details.first.payments.each do |checkPayment|
+	        checkPaymentHasOrderKey = hasOrderKey(checkPayment)
+	        # Check if another payment exists with the same order key
+	        if checkPaymentHasOrderKey and checkPayment.orderKey == paymentModel.orderKey + "_REFUND"
+	            refundPaymentStatus = checkPayment.worldPayPaymentStatus
+	        end
+	    end
+	end
+	refundPaymentStatus
+  end
 
 end
