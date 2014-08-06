@@ -36,26 +36,33 @@
 							&& @registration.finance_details.first.payments \
 							&& @registration.finance_details.first.payments.size > 0 %>
 							<% @registration.finance_details.first.payments.each do |payment| %>
+							    <% if !isARefund(payment) %>
 								<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 									<td class=""><%= payment.dateReceived %></td>
 									<td class="">
-									<% if !payment.orderKey.nil? %>
-									<%= payment.orderKey %>
+									<% if hasOrderKey(payment) %>
+									    <%= payment.orderKey %>
 									<% else %>
-									n/a
+									    <%= t '.notapplicable' %>
 									<% end %>
 									</td>
 									<td class=""><%= t('payment_types.'+payment.paymentType) %></td>
-									<td class=""><%= number_with_precision(payment.amount, :precision => 2) %></td>
+									<td class=""><%= Money.new(payment.amount) %></td>
 									<td class="">
-									<% isNotRefund = payment.paymentType != 'REFUND' %>
-									<% if !payment.orderKey.nil? and isNotRefund %>
-									<%= link_to t('registrations.form.select_button_label'), {controller: 'payment', action: 'newWPRefund', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
-									<% elsif isNotRefund %>
-									<%= link_to t('registrations.form.manual_payment_button_label'), :manualRefund, :class => 'link_to' %>
+									<%
+									isAlreadyRefunded = isAlreadyRefunded(payment, @registration)
+									refundPaymentStatus = getRefundPaymentStatus(payment, @registration)
+									%>
+									<% if isAlreadyRefunded %>
+									    <%= t '.refundStatus',:status=>refundPaymentStatus %>
+									<% elsif !payment.orderKey.nil? and !isAlreadyRefunded %>
+									    <%= link_to t('registrations.form.select_button_label'), {controller: 'payment', action: 'newWPRefund', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
+									<% elsif !isAlreadyRefunded %>
+									    <%= link_to t('registrations.form.manual_payment_button_label'), :manualRefund, :class => 'link_to' %>
 									<% end %>
 									</td>
 								</tr>
+								<% end %>
 							<% regCount = regCount + 1; %>
 							<% end %>
 						<% else %>
