@@ -56,3 +56,5 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 # To allow the cucumber features to all run, we disable WebMock for everything except the Companies House restclient calls
 WebMock.disable!(:except => [:restclient])
+
+require 'cucumber/rspec/doubles'
