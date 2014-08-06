@@ -1,6 +1,6 @@
 Feature: Displaying convictions check to waste carriers
 
-  Scenario: Edit convictions declaration
+  Scenario: Declared convictions
     Given I fill out the upper tier steps
       And I do not declare any convictions
     When I come to the confirmation step
