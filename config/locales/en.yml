@@ -225,9 +225,9 @@ en:
   payment_types:
     CASH: Cash
     CHEQUE: Cheque
-    OTHER: Other
-    OTHERONLINEPAYMENT: "Online payment"
     POSTALORDER: "Postal order"
+    BANKTRANSFER: "Bank transfer payment"
+    REVERSAL: "Reversal"
   please_select: "Please select..."
   registration_mailer:
     revoke_email:
