@@ -18,7 +18,8 @@ Feature: Displaying convictions check to waste carriers
       And this takes me back to the conviction step
 
   Scenario: Did not declare convictions but our check says suspect
-    Given I do not declare convictions
+    Given I fill out the upper tier steps
+      And I do not declare convictions
       But the convictions service says I am suspect
     When I come to the final step
     Then I am told my application is being checked
