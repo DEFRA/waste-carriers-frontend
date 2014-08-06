@@ -39,12 +39,15 @@ class PaymentController < ApplicationController
     # Add user id of user who made the payment to the payment record
     @payment.updatedByUser = current_agency_user.id.to_s
 
+    # Check the payment type for a reversal payment type, If found negate the amount
+    @payment.negateAmount
+
 	# Set override to validate amount as pounds as came from user screen in pounds not in pence from Worldpay
 	@payment.manualPayment = true
 
 	if @payment.valid?
 	  logger.info 'payment is valid'
-    puts @payment.to_json
+      puts @payment.to_json
 	  @payment.save! params[:id]
 
 	  # Redirect user back to payment status
