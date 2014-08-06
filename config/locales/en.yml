@@ -222,6 +222,15 @@ en:
       writeOffNotAppropriate: "Write off unavailable for current registration"
       writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
       writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"
+    chargeIndex:
+      heading: "Charge adjustments"
+      step: "Select what type of charge adjustment you want to make"
+    reversalIndex:
+      heading: "Reversals"
+      step: "Select which payment you wish to reverse"
+    newReversal:
+      heading: "Enter reversal"
+      step: "Enter a reversal for a payment into the system"
   payment_types:
     CASH: Cash
     CHEQUE: Cheque
@@ -442,6 +451,7 @@ en:
       address_and_contact_details_heading: "Address and contact details"
       addresses_found: " Address(es) found"
       agency_search_label: "Find a registered business, organisation or trader"
+      adjustments_button_label: "Charge adjustments"
       awaitingPayment_text: "Awaiting payment"
       back_button_label: Back
       back_to_status_button_label: "Back to payment status"
@@ -495,8 +505,11 @@ en:
       registerAs_label: "Register as"
       register_button_label: Register
       revoke_button_label: Revoke
+      reversals_button_label: "Reversals"
+      newReversal_button_label: "Enter reversal"
       root_site: GOV.UK
       select_button_label: "Select (Online)"
+      selectReversal_button_label: "Select Payment"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"
       summary_of_registration: "Summary of information"
       title: "Waste Carrier Registration"

@@ -160,7 +160,7 @@
 
 	    <% end %>
 
-	    <div class="inline">
+	    <div class="inline" style="width:130%">
 		    <noscript>
 		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
 		    </noscript>
@@ -184,8 +184,10 @@
 		      </span>
 		    <% end %>
 		    <% if isFinanceAdmin %>
+		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
 		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffLarge' %></span>
-		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button', :id => 'adjustments' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.reversals_button_label'), :paymentReversal, :class => 'button', :id => 'reversals' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :chargeAdjustment, :class => 'button', :id => 'adjustments' %></span>
 		    <% end %>
 		    <% if isRefund %>
 		      <span class="next_link">
@@ -197,6 +199,8 @@
 		    <% end %>
 		    </span>
 		</div>
+		<br/>
+
        </div>
   </div>
 </section>
