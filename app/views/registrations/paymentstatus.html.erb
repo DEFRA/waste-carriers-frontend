@@ -185,7 +185,7 @@
 		    <% end %>
 		    <% if isFinanceAdmin %>
 		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffLarge' %></span>
-		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button', :id => 'adjustments' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :chargeAdjustment, :class => 'button', :id => 'adjustments' %></span>
 		    <% end %>
 		    <% if isRefund %>
 		      <span class="next_link">

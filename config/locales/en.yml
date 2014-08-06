@@ -222,6 +222,9 @@ en:
       writeOffNotAppropriate: "Write off unavailable for current registration"
       writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
       writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"
+    chargeIndex:
+      heading: "Charge adjustments"
+      step: "Select what type of charge adjustment you want to make"
   payment_types:
     CASH: Cash
     CHEQUE: Cheque
@@ -439,6 +442,7 @@ en:
       address_and_contact_details_heading: "Address and contact details"
       addresses_found: " Address(es) found"
       agency_search_label: "Find a registered business, organisation or trader"
+      adjustments_button_label: "Charge adjustments"
       awaitingPayment_text: "Awaiting payment"
       back_button_label: Back
       back_to_status_button_label: "Back to payment status"
