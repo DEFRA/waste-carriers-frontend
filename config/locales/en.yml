@@ -236,6 +236,7 @@ en:
     POSTALORDER: "Postal order"
     BANKTRANSFER: "Bank transfer payment"
     REVERSAL: "Reversal"
+    WORLDPAY_MISSED: "Missed payment from Worldpay"
   please_select: "Please select..."
   registration_mailer:
     revoke_email:
