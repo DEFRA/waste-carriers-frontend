@@ -8,15 +8,15 @@ end
 
 And(/^I declare convictions$/) do
   choose 'Yes'
+  click_on 'Next'
 end
 
 And(/^I do not declare convictions$/) do
   choose 'No'
+  click_on 'Next'
 end
 
 And(/^I enter convictee details$/) do
-  click_on 'Next'
-
   fill_in 'First name', with: 'Barry'
   fill_in 'Last name', with: 'Butler'
   fill_in 'Position', with: 'Janitor'
@@ -26,10 +26,12 @@ And(/^I enter convictee details$/) do
   fill_in 'Year', with: '1970'
 
   click_on 'Add another person'
+
+  click_on 'Next'
 end
 
 When(/^I come to the confirmation step$/) do
-  click_on 'Next'
+  # no-op
 end
 
 Then(/^I see I declared convictions$/) do
