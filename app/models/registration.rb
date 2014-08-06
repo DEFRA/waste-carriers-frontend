@@ -83,8 +83,6 @@ class Registration < Ohm::Model
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
-  set :payments, :Payment
-  set :orders, :Order
 
   index :accountEmail
   index :companyName

@@ -21,11 +21,6 @@ class Payment < Ohm::Model
   attribute :manualPayment
 
 
-
-  def balance
-    self.balance.to_i
-  end
-
   # Creates a new Payment object from a payment-formatted hash
   #
   # @param payment_hash [Hash] the payment-formatted hash
