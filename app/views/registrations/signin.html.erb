@@ -1,0 +1,42 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <section>
+      <div class="inner">
+        <div class="col-1">
+
+          <!-- WF 4.3.4 -->
+          <div id="page4"  data-journey="waste-carriers-registration:signin">
+            <% content_for :page_title, createTitle('.title') %>
+            <ol>
+              <li class="back_link"><%= render 'back_link' %></li>
+              <%= render 'step', r: @registration, upper_step: '7', lower_step: '4' %>
+            </ol>
+
+            <%= render 'errors' %>
+
+            <%= form_for(@registration, :url => newSignup_path) do |f| %>
+
+              <h2 id="accountExists" class="form-group"><%= t '.accountExists' %></h2>
+              <fieldset>
+                <div class="form-group <%if r.errors[:accountEmail].any?%> validation<%end%>">
+                  <%= validation_for(r, :accountEmail) %>
+                  <%= f.label :accountEmail, class: 'form-label' %>
+                  <%= f.email_field :accountEmail, :autofocus => true, :readonly => true %>
+                </div>
+                <div class="form-group <%if r.errors[:password].any?%> validation<%end%>">
+                  <%= validation_for(r, :password) %>
+                  <%= f.label :password, class: 'form-label' %>
+                  <%= f.password_field :password %>
+                  <p class='subtitle'>Password must be at least 8 characters long using upper and lower case letters.</p>
+                </div>
+              </fieldset>
+              <span class="next_link"><%= render 'next_link' %></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>
