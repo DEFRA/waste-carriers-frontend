@@ -260,5 +260,17 @@ class PaymentController < ApplicationController
 
     authorize! :read, @registration
   end
+  
+  # GET /chargeAdjustments
+  def chargeIndex
+    @registration = Registration.find_by_id(params[:id])
+
+    authorize! :read, @registration
+
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newCharges, Order
+  end
 
 end
