@@ -4,16 +4,8 @@ describe Registration do
 
   it { should respond_to :paid_in_full? }
 
-  it { should respond_to :suspect? }
   it { should respond_to :convictions_check_indicates_suspect }
   it { should respond_to :criminally_suspect }
-
-  describe '#suspect?' do
-    specify { Registration.new(convictions_check_indicates_suspect: false, declaredConvictions: 'no').should_not be_suspect }
-    specify { Registration.new(convictions_check_indicates_suspect: true, declaredConvictions: 'no').should be_suspect }
-    specify { Registration.new(convictions_check_indicates_suspect: false, declaredConvictions: 'yes').should be_suspect }
-    specify { Registration.new(convictions_check_indicates_suspect: true, declaredConvictions: 'yes').should be_suspect }
-  end
 
   describe '#upper?' do
     specify { Registration.new(tier: 'UPPER').should be_upper }

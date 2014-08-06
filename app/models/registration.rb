@@ -613,10 +613,6 @@ class Registration < Ohm::Model
     the_balance.to_i <= 0
   end
 
-  def suspect?
-    declaredConvictions == 'yes' or convictions_check_indicates_suspect
-  end
-
   def self.business_type_options_for_select
     (BUSINESS_TYPES.collect {|d| [I18n.t('business_types.'+d), d]})
   end
