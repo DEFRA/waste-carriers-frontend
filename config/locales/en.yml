@@ -579,7 +579,7 @@ en:
       chargehistory_table_heading: "Charge History"
       heading: "Payment status"
       paymenthistory_amount_table_heading: £
-      paymenthistory_charge_table_heading: Payment
+      paymenthistory_charge_table_heading: Payment Method
       paymenthistory_comments_table_heading: Comments
       paymenthistory_date_table_heading: Date
       paymenthistory_reference_table_heading: Reference

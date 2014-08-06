@@ -46,7 +46,6 @@
 								<tr>
 									<th class="" ><%= t '.chargehistory_date_table_heading' %></th>
 									<th class="" ><%= t '.chargehistory_charge_table_heading' %></th>
-									<th class="" ><%= t '.chargehistory_reference_table_heading' %></th>
 									<th class="" ><%= t '.chargehistory_amount_table_heading' %></th>
 								</tr>
 							</thead>
@@ -60,7 +59,6 @@
 											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 												<td class="" ><%= order.dateLastUpdated %></td>
 												<td class="" ><%= orderItem.description %></td>
-												<td class="" ><%= orderItem.reference %></td>
 												<td class="" ><%= Money.new(orderItem.amount) %></td>
 											</tr>
 										  <% regCount = regCount + 1; %>
@@ -69,7 +67,6 @@
 										  <tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 											<td class="" >ORDER::<%= order.dateLastUpdated %></td>
 											<td class="" ><%= order.description %></td>
-											<td class="" ><%= order.orderCode %></td>
 											<td class="" ><%= Money.new(order.totalAmount) %></td>
 										  </tr>
 										<% regCount = regCount + 1; %>
