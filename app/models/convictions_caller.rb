@@ -1,5 +1,4 @@
 class ConvictionsCaller
-  attr_reader :params
 
   def initialize params={}
     params.assert_valid_keys :name, :dateOfBirth, :companyNumber
