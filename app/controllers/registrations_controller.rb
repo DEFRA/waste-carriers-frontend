@@ -356,7 +356,7 @@ class RegistrationsController < ApplicationController
     # Pass in current page to check previous page is valid
     # TODO had to comment this out for now because causing problems but will probably need to reinstate
     # check_steps_are_valid_up_until_current current_step
-    
+
 #    if (session[:registration_id])
 #      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
 #      renderNotFound
@@ -553,15 +553,10 @@ class RegistrationsController < ApplicationController
     Rails.logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
-    if  @registration.metaData.first.status == "REVOKED"
-      logger.info "Edit not allowed, as registration has been revoked"
-      redirect_to userRegistrations_path(current_user.id)
-    else #proceed to edit ther registration
-      session[:registration_progress] = 'IN_EDIT'
+
       session[:registration_id] = @registration.id
       session[:registration_uuid] = @registration.uuid
       redirect_to :upper_summary
-    end
     # @registration.current_step = session[:registration_step]
   end
 
@@ -945,6 +940,7 @@ class RegistrationsController < ApplicationController
       @registration.copy_cards = 0
     end
     calculate_fees
+    @order = Order.new if @order == nil
   end
 
   def calculate_fees
@@ -956,35 +952,36 @@ class RegistrationsController < ApplicationController
   # POST upper-registrations/payment
   def updateNewPayment
     setup_registration 'payment'
-
-    #if !createAndSaveOrder
-    #  flash[:notice] = 'The order is invalid!'
-    #  redirect_to upper_payment_path
-    #  return
-    #end
-    calculate_fees
-    logger.info "copy cards: " + @registration.copy_cards.to_s
-    logger.info "total fee: " + @registration.total_fee.to_s
     
-    prepareOrder
+    # Determine what kind of payment selected and redirect to other action if required
+    if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
+      @order = prepareOfflinePayment
+    else
+      @order = prepareOnlinePayment
+    end
 
     if @order.valid?
       logger.info "Saving the order"
       @order.save! @registration.uuid
-     #@order.commit @registration.uuid
     else
       #We should hardly get into here given we constructed the order just above...
       logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
-      flash[:notice] = 'The order is invalid!'
-      redirect_to upper_payment_path
+      # Replaced flash message with render instead of redirect, so that error messages are retained.
+      #flash[:notice] = 'The order is invalid!'
+      render 'newPayment'
       return
     end
 
-    logger.info "About to redirect to Worldpay - if the registration is valid." 
-
+    logger.info "About to redirect to Worldpay/Offline payment - if the registration is valid."
     if @registration.valid?
-      logger.info "The registration is valid - redirecting to Worldpay..."
-      redirect_to_worldpay(@registration, @order)
+    
+      if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
+        logger.info "The registration is valid - redirecting to Offline payment page..."
+        redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
+      else
+        logger.info "The registration is valid - redirecting to Worldpay..."
+        redirect_to_worldpay(@registration, @order)
+      end
       return
     else
       logger.error "The registration is not valid! " + @registration.to_s
@@ -994,94 +991,113 @@ class RegistrationsController < ApplicationController
 
   #We should not use this as part of updating the payment page.
   #We should rather update the existing order and set the payment method and number of copycards.
-  def prepareOrder
-  
-    logger.info '>>>>>> reg id: ' + session[:registration_uuid]
+  def prepareOrder (useWorldPay = true)
     reg = Registration.find_by_id(session[:registration_uuid])
 
     #TODO have a current_order method on the registration
     ord = reg.finance_details.first.orders.first
-    logger.debug  '*****'
-    logger.debug  ord.to_json
-    logger.debug  '*****'
-
-   #@order = Order.new({},true)
-   #@order = Order.new(ord.attributes)
-   #@order = Order.init(ord.attributes)
+    
     @order = Order.create
     
-    #TODO Will need to set other payment methods accordingly
-    now = Time.now.utc.xmlschema
+    if useWorldPay
+      @order = updateOrderForWorldpay(@order)
+    else
+      @order = updateOrderForOffline(@order)
+    end
     
-    #@order.id = '1'
-    @order.paymentMethod = 'ONLINE'
-    # We are assiging a new order code whenever we come off the payment page 
-    # - the previously used code cannot be used again
-    @order.orderCode = Time.now.to_i.to_s
-    @order.merchantId = worldpay_merchant_code
-    @order.totalAmount = @registration.total_fee
-    @order.currency = 'GBP'
-    @order.worldPayStatus = 'IN_PROGRESS'
-    @order.description = 'Updated registrations PRIOR to WP'
-    @order.dateCreated = now
-    @order.dateLastUpdated = now
-    @order.updatedByUser = reg.accountEmail
-    
+
     # Ensure Order Id of newly created order remains the same
     # TODO: Fix later as assumed orderId of first order?
     @order.orderId = ord.orderId
-    
+
     # Get a orderItem object
     ordItem = ord.order_items.first
-    logger.debug  '*****'
-    logger.debug  ordItem.to_json
-    logger.debug  '*****'
-    
+
     isInitialRegistration = true
     if isInitialRegistration
       # Add order item for Initial registration
-      
+
       # Create Order Item
-      #orderItem = OrderItem.create(ordItem.attributes)
       orderItem = OrderItem.new
-      #orderItem = OrderItem.create
       orderItem.amount = Rails.configuration.fee_registration
       orderItem.currency = 'GBP'
       orderItem.description = 'Initial Registration'
       orderItem.reference = 'Reg: ' + @registration.regIdentifier
       orderItem.save
-    
+
       @order.order_items.add orderItem
     end
-    
+
     if @registration.copy_cards.to_i > 0
       # Add additional order items for copy card amount
-      
+
       # Create Order Item
-      #orderItem = OrderItem.create(ordItem.attributes)
       orderItem = OrderItem.new
-      #orderItem = OrderItem.create
       orderItem.amount = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
       orderItem.currency = 'GBP'
       orderItem.description = @registration.copy_cards.to_s + 'x Copy Cards'
       orderItem.reference = 'Reg: ' + @registration.regIdentifier
       orderItem.save
-    
+
       @order.order_items.add orderItem
     end
-    
 
-    logger.debug  '***** The @order is:'
-    logger.debug  @order.to_json
-    logger.debug  '*****'
     @order
-
+  end
+  
+  def updateOrderForWorldpay myOrder
+  
+    now = Time.now.utc.xmlschema
+    myOrder.paymentMethod = 'ONLINE'
+    myOrder.orderCode = Time.now.to_i.to_s
+    myOrder.merchantId = worldpay_merchant_code
+    myOrder.totalAmount = @registration.total_fee
+    myOrder.currency = 'GBP'
+    myOrder.worldPayStatus = 'IN_PROGRESS'
+    myOrder.description = 'Updated registrations PRIOR to WP'
+    myOrder.dateCreated = now
+    myOrder.dateLastUpdated = now
+    myOrder.updatedByUser = @registration.accountEmail
+    myOrder
+  end
+  
+  def updateOrderForOffline myOrder
+  
+    now = Time.now.utc.xmlschema
+    myOrder.paymentMethod = 'OFFLINE'
+    myOrder.orderCode = Time.now.to_i.to_s
+    myOrder.merchantId = 'n/a'
+    myOrder.totalAmount = @registration.total_fee
+    myOrder.currency = 'GBP'
+    myOrder.worldPayStatus = 'n/a'
+    myOrder.description = 'Updated registrations PRIOR to WP'
+    myOrder.dateCreated = now
+    myOrder.dateLastUpdated = now
+    myOrder.updatedByUser = @registration.accountEmail
+    myOrder
   end
 
   ######################################
+  
+  def prepareOfflinePayment
+    #setup_registration 'payment'
+    calculate_fees    
+    order = prepareOrder false
+    order
+  end
+  
+  def prepareOnlinePayment
+    calculate_fees
+    logger.info "copy cards: " + @registration.copy_cards.to_s
+    logger.info "total fee: " + @registration.total_fee.to_s
+    order = prepareOrder true
+    order
+  end
 
   def newOfflinePayment
-    @registration = Registration[session[:registration_id]]
+    @registration = Registration.find_by_id(session[:registration_uuid])
+    # Get the order just made from the order code param
+    @order = @registration.getOrder(params[:orderCode])
   end
 
   def updateNewOfflinePayment

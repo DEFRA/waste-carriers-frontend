@@ -20,7 +20,6 @@ class Payment < Ohm::Model
   attribute :paymentType
   attribute :manualPayment
 
-
   # Creates a new Payment object from a payment-formatted hash
   #
   # @param payment_hash [Hash] the payment-formatted hash
