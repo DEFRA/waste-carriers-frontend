@@ -1,5 +1,7 @@
 class ConvictionsCaller
 
+  @@URL = 'http://localhost:9290/convictions'
+
   def initialize params={}
     validate_params params
 
@@ -19,7 +21,7 @@ class ConvictionsCaller
   end
 
   def url
-    'http://localhost:9290/convictions'
+    @@URL
   end
 
 private
