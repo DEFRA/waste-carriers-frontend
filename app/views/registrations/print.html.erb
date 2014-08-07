@@ -17,10 +17,17 @@
 
 <h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 
-<p><i><%=t '.registeredOn',:date=>format_date(@registration.metaData.first.dateRegistered) %></i></p>
+<% case  session[:edit_process] %>
+<% when 'renewal' %>
+  <p><i>Renewed on: <%= format_date(@registration.metaData.first.dateRegistered) %></i></p>
+<% when 're-create' %>
+<% when 'edit' %>
+<% else %>  <!-- this is a new registration page -->
+  <p><i><%=t '.registeredOn',:date=>format_date(@registration.metaData.first.dateRegistered) %></i></p>
+<% end %>
+
 
 <p><%= t '.proof' %></p>
-
 <% if @registration.assisted_digital? %>
 <h3><%= t '.accessCode_html', :code => @registration.accessCode %></h3>
 <% end %>
@@ -76,6 +83,9 @@
 <input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
 -->
 <%= link_to t('registrations.form.back_button_label'), :back, :class => 'link-button-secondary' %>
+<% if session[:edit_process]  == 'renewal'  %>
+  <%= link_to t('registrations.form.finish_button_label'), action: "finish_renewal", :class => 'link-button-secondary' %>
+ <% end %>
 </p>
 </div>
 
