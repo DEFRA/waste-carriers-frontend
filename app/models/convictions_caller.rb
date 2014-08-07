@@ -1,8 +1,8 @@
 class ConvictionsCaller
 
   def initialize params={}
-    raise if params.empty?
-    params.assert_valid_keys :name, :dateOfBirth, :companyNumber
+    validate_params(params)
+
     @params = params
   end
 
@@ -20,5 +20,12 @@ class ConvictionsCaller
 
   def url
     'http://localhost:9290/convictions'
+  end
+
+private
+
+  def validate_params(params)
+    raise if params.empty?
+    params.assert_valid_keys :name, :dateOfBirth, :companyNumber
   end
 end
