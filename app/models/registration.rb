@@ -716,6 +716,19 @@ class Registration < Ohm::Model
   def date_registered
     metaData.first.dateRegistered
   end
+  
+  def getOrder( orderCode)
+    Rails.logger.info 'Registration getOrder ' + orderCode.to_s
+    foundOrder = nil
+    self.finance_details.first.orders.each do |order|
+      Rails.logger.info 'Order ' + order.orderCode.to_s
+      if orderCode.to_i == order.orderCode.to_i
+        Rails.logger.info 'Registration Found order ' + orderCode.to_s
+        foundOrder = order
+      end
+    end
+    foundOrder
+  end
 
   #TODO Replace with method from helper or have decorator
   def formatted_registration_date

@@ -152,7 +152,7 @@ class Order < Ohm::Model
   validate :validate_totalAmount
   validates :currency, presence: true
   validates :dateCreated, presence: true, length: { minimum: 8 }
-  validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }
+  validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }, :if => :isOnlinePayment?
   #  validates :dateLastUpdated, presence: true, length: { minimum: 8 }
   validate :validate_dateLastUpdated
   validates :updatedByUser, presence: true
@@ -163,6 +163,10 @@ class Order < Ohm::Model
   end
 
   private
+  
+  def isOnlinePayment?
+    self.paymentMethod == 'ONLINE'
+  end
 
   def validate_totalAmount
     if self.totalAmount.to_s.include? "."
