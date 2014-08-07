@@ -33,7 +33,7 @@ describe ConvictionsCaller do
 
     context 'empty params' do
       it 'does raise error' do
-        expect { ConvictionsCaller.new() }.to raise_error
+        expect { ConvictionsCaller.new({}) }.to raise_error
       end
     end
   end
