@@ -43,7 +43,7 @@
 									<% if hasOrderKey(payment) %>
 									    <%= payment.orderKey %>
 									<% else %>
-									    <%= t '.notapplicable' %>
+									    <%= t 'registrations.form.not_applicable' %>
 									<% end %>
 									</td>
 									<td class=""><%= t('payment_types.'+payment.paymentType) %></td>
