@@ -105,7 +105,7 @@
 										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 											<td class="" ><%= payment.dateReceived %></td>
 											<td class="" ><%= payment.paymentType %></td>
-											<td class="" ><% if hasOrderKey(payment) %><%= payment.orderKey %><%else%><%= t 'registrations.form.not_applicable' %><%end%></td>
+											<td class="" ><% if hasOrderKey(payment) %><%= payment.orderKey %><%else%><%= t 'registrations.form.not_applicable' %><%end%>/<%= payment.registrationReference %></td>
 											<td class="" ><%= Money.new(payment.amount) %></td>
 											<td class="" ><%= payment.comment %></td>
 										</tr>
