@@ -1,6 +1,7 @@
 class ConvictionsCaller
 
   @@URL = 'http://localhost:9290/convictions'
+  @@VALID_KEYS = [:name, :dateOfBirth, :companyNumber]
 
   def initialize params
     validate_params params
@@ -29,6 +30,6 @@ private
   end
 
   def raise_if_have_invalid_keys params
-    params.assert_valid_keys :name, :dateOfBirth, :companyNumber
+    params.assert_valid_keys @@VALID_KEYS
   end
 end
