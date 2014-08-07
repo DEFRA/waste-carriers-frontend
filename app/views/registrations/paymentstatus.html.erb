@@ -46,7 +46,6 @@
 								<tr>
 									<th class="" ><%= t '.chargehistory_date_table_heading' %></th>
 									<th class="" ><%= t '.chargehistory_charge_table_heading' %></th>
-									<th class="" ><%= t '.chargehistory_reference_table_heading' %></th>
 									<th class="" ><%= t '.chargehistory_amount_table_heading' %></th>
 								</tr>
 							</thead>
@@ -60,7 +59,6 @@
 											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 												<td class="" ><%= order.dateLastUpdated %></td>
 												<td class="" ><%= orderItem.description %></td>
-												<td class="" ><%= orderItem.reference %></td>
 												<td class="" ><%= Money.new(orderItem.amount) %></td>
 											</tr>
 										  <% regCount = regCount + 1; %>
@@ -69,7 +67,6 @@
 										  <tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 											<td class="" >ORDER::<%= order.dateLastUpdated %></td>
 											<td class="" ><%= order.description %></td>
-											<td class="" ><%= order.orderCode %></td>
 											<td class="" ><%= Money.new(order.totalAmount) %></td>
 										  </tr>
 										<% regCount = regCount + 1; %>
@@ -108,7 +105,7 @@
 										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 											<td class="" ><%= payment.dateReceived %></td>
 											<td class="" ><%= payment.paymentType %></td>
-											<td class="" ><%= payment.registrationReference %></td>
+											<td class="" ><% if hasOrderKey(payment) %><%= payment.orderKey %><%else%><%= t 'registrations.form.not_applicable' %><%end%>/<%= payment.registrationReference %></td>
 											<td class="" ><%= Money.new(payment.amount) %></td>
 											<td class="" ><%= payment.comment %></td>
 										</tr>
@@ -160,7 +157,7 @@
 
 	    <% end %>
 
-	    <div class="inline">
+	    <div class="inline" style="width:130%">
 		    <noscript>
 		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
 		    </noscript>
@@ -184,8 +181,10 @@
 		      </span>
 		    <% end %>
 		    <% if isFinanceAdmin %>
+		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
 		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffLarge' %></span>
-		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :enterPayment, :class => 'button', :id => 'adjustments' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.reversals_button_label'), :paymentReversal, :class => 'button', :id => 'reversals' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :chargeAdjustment, :class => 'button', :id => 'adjustments' %></span>
 		    <% end %>
 		    <% if isRefund %>
 		      <span class="next_link">
@@ -197,6 +196,8 @@
 		    <% end %>
 		    </span>
 		</div>
+		<br/>
+
        </div>
   </div>
 </section>

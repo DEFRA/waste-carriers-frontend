@@ -13,6 +13,11 @@
             <h2><%= t '.subtitle' %></h2>
             <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
             <p><%= t '.close_page' %></p>
+
+            <% if @registration.criminally_suspect %>
+                <p><%= t 'registrations.confirmed.pending_convictions_check' %></p>
+            <% end %>
+
             <% unless @registration.paid_in_full? %>
                 <h2><%= t '.payment_pending' %></h2>
 

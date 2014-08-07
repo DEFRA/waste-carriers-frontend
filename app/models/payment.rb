@@ -21,11 +21,6 @@ class Payment < Ohm::Model
   attribute :manualPayment
 
 
-
-  def balance
-    self.balance.to_i
-  end
-
   # Creates a new Payment object from a payment-formatted hash
   #
   # @param payment_hash [Hash] the payment-formatted hash
@@ -101,8 +96,12 @@ class Payment < Ohm::Model
   ]
 
   PAYMENT_TYPES_FINANCE_BASIC = %w[
-    OTHERONLINEPAYMENT
-    OTHER
+    BANKTRANSFER
+    REVERSAL
+  ]
+  
+  PAYMENT_TYPES_FINANCE_ADMIN = %w[
+    WORLDPAY_MISSED
   ]
 
   PAYMENT_TYPES_NONVISIBLE = %w[
@@ -122,7 +121,7 @@ class Payment < Ohm::Model
   validate :validate_dateReceived
   validates :registrationReference, presence: true
   # This concatanates all the PAYMENT_TYPE lists. Ideally the user role should be checked to determine which list the user was given.
-  validates :paymentType, presence: true, inclusion: { in: %w[].concat(PAYMENT_TYPES).concat(PAYMENT_TYPES_FINANCE_BASIC).concat(PAYMENT_TYPES_NONVISIBLE), message: I18n.t('errors.messages.invalid_selection') }
+  validates :paymentType, presence: true, inclusion: { in: %w[].concat(PAYMENT_TYPES).concat(PAYMENT_TYPES_FINANCE_BASIC).concat(PAYMENT_TYPES_FINANCE_ADMIN).concat(PAYMENT_TYPES_NONVISIBLE), message: I18n.t('errors.messages.invalid_selection') }
   validates :comment, length: { maximum: 250 }
 
   def self.payment_type_options_for_select
@@ -131,6 +130,10 @@ class Payment < Ohm::Model
 
   def self.payment_type_financeBasic_options_for_select
     (PAYMENT_TYPES_FINANCE_BASIC.collect {|d| [I18n.t('payment_types.'+d), d]})
+  end
+  
+  def self.payment_type_financeAdmin_options_for_select
+    (PAYMENT_TYPES_FINANCE_ADMIN.collect {|d| [I18n.t('payment_types.'+d), d]})
   end
 
   # Represents the minimum balance needed for a finance basic user to make a write off
@@ -218,6 +221,13 @@ class Payment < Ohm::Model
   
   def makeRefund
     self.orderKey = self.orderKey + '_REFUND'
+  end
+  
+  # Ensures if a reversal payment type is selected, then the amount entered is negated
+  def negateAmount
+    if self.paymentType == "REVERSAL"
+      self.amount = -self.amount.to_f.abs
+    end
   end
 
   private
