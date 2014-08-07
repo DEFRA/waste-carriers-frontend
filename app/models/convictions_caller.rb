@@ -10,7 +10,7 @@ class ConvictionsCaller
 
   def convicted?
     begin
-      json = JSON.parse RestClient.get url, params: @params
+      json = JSON.parse RestClient.get @@URL, params: @params
       json['matchFound']
     rescue
       :error_calling_service
