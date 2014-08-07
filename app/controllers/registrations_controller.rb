@@ -311,9 +311,13 @@ class RegistrationsController < ApplicationController
   end
 
   def set_conviction_status
-    @registration.convictions_check_indicates_suspect = true # TODO call convictions service with correct parameters
+    @registration.convictions_check_indicates_suspect = conviction_check_for_company_and_key_people_and_relevant_people
     @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
     @registration.save
+  end
+
+  def conviction_check_for_company_and_key_people_and_relevant_people
+    true
   end
 
   # GET /registrations/data-protection
