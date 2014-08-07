@@ -1,7 +1,7 @@
 class ConvictionsCaller
 
   def initialize params={}
-    validate_params(params)
+    validate_params params
 
     @params = params
   end
@@ -24,16 +24,16 @@ class ConvictionsCaller
 
 private
 
-  def validate_params(params)
-    raise_if_no_params(params)
-    raise_if_have_invalid_keys(params)
+  def validate_params params
+    raise_if_no_params params
+    raise_if_have_invalid_keys params
   end
 
-  def raise_if_no_params(params)
+  def raise_if_no_params params
     raise if params.empty?
   end
 
-  def raise_if_have_invalid_keys(params)
+  def raise_if_have_invalid_keys params
     params.assert_valid_keys :name, :dateOfBirth, :companyNumber
   end
 end
