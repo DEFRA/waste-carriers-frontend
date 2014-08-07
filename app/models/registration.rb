@@ -101,7 +101,7 @@ class Registration < Ohm::Model
 
 
   # as far as we're concerned a Registration will be persisted if it has a uuid, since the only way to
-  # gte a uuid is after a successful commit
+  # get a uuid is after a successful commit
   #
   # @param none
   # @return  [boolean] true if persisted
@@ -304,7 +304,7 @@ class Registration < Ohm::Model
     end
   end
 
- 
+
 
 
   # Retrieves a specific registration object from the Java Service based on its uuid
@@ -384,24 +384,25 @@ class Registration < Ohm::Model
             end
           end #if
         when 'metaData'
-          new_reg.metaData.add HashToObject(v, 'Metadata')
+          # new_reg.metaData.add HashToObject(v, 'Metadata')
+          new_reg.metaData.add Metadata.init(v)
         when 'financeDetails'
-          
+
           Rails.logger.debug '-----------------'
           Rails.logger.debug 'Create finance details from v: ' + v.to_s
           Rails.logger.debug '-----------------'
-          
+
           new_reg.finance_details.add FinanceDetails.init(v)
         else  #normal attribute'
           new_reg.send("#{k}=",v)
         end
       end #each
       new_reg.save
-      
+
       Rails.logger.debug '-----------------'
       Rails.logger.debug 'Finance details from new_reg: ' + new_reg.finance_details.to_json.to_s
       Rails.logger.debug '-----------------'
-      
+
       new_reg
     end #method
   end
