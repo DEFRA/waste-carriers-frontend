@@ -85,21 +85,40 @@ end
 #end
 
 
-if (Rails.env.eql? 'development') && (ENV["WCRS_REG_SEED"].eql? 'true')
+if (Rails.env.eql? 'development')
 
   #load some sample lower tier registrations
-  data =  YAML::load(File.read("db/lower_tier_registrations.json"))
+  data =  YAML::load(File.read("db/lower_tier_registrations.json")) +  YAML::load(File.read("db/upper_tier_registrations.json"))
+
   data.each do |reg|
     r = Registration.init(reg)
-    puts "waste carrier #{r.companyName} registered!" if r.commit
+    if r && r.commit
+      puts "waste carrier #{r.companyName} registered!"
+      case r.companyName
+      when 'Bloomberg'
+        r.update(expires_on: Time.now + 2.months)
+        r.metaData.first.update(status: 'ACTIVE')
+      when 'Carafe'
+        r.update(expires_on: Time.now - 1.months)
+        r.metaData.first.update(status: 'ACTIVE')
+      when 'Craftsmark'
+        r.update(expires_on: Time.now + 2.years)
+        r.metaData.first.update(status: 'ACTIVE')
+      end
+      r.save!
+
+    else puts "Registration failed for #{reg['companyName']}"
+    end
+
   end
 
-    #load some sample upper tier registrations
-  data =  YAML::load(File.read("db/upper_tier_registrations.json"))
-  data.each do |reg|
-    r = Registration.init(reg)
-    puts "waste carrier #{r.companyName} registered!" if r.commit
+  #load some users
+  data =  YAML::load(File.read("db/users.json"))
+  data.each do |usr|
+    u = User.new(usr)
+    puts "user #{u.email} created" if u.save
   end
+
 
 end  #if
 
