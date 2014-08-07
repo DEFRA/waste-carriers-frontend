@@ -216,7 +216,6 @@ en:
     index:
       heading: Refunds
       step: "Select a payment to refund"
-      notapplicable: "n/a"
       refundStatus: "Refund: %{status}"
     manualRefund:
       heading: "Manual Refunds"
@@ -252,6 +251,7 @@ en:
     POSTALORDER: "Postal order"
     BANKTRANSFER: "Bank transfer payment"
     REVERSAL: "Reversal"
+    WORLDPAY_MISSED: "Missed payment from Worldpay"
   please_select: "Please select..."
   registration_mailer:
     revoke_email:
@@ -522,6 +522,7 @@ en:
       manual_payment_button_label: "Select (Manual)"
       new_button_label: "New Registration"
       next_button_label: Next
+      not_applicable: "n/a"
       option_please_select: "Please select..."
       organisationName_label: "Business, organisation or trading name"
       organisationType_individual: "An individual"
@@ -623,7 +624,7 @@ en:
       chargehistory_table_heading: "Charge History"
       heading: "Payment status"
       paymenthistory_amount_table_heading: £
-      paymenthistory_charge_table_heading: Payment
+      paymenthistory_charge_table_heading: Payment Method
       paymenthistory_comments_table_heading: Comments
       paymenthistory_date_table_heading: Date
       paymenthistory_reference_table_heading: Reference
