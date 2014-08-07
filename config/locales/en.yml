@@ -396,12 +396,19 @@ en:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
       subtitle: ""
+      legend: "Provide an email and password to allow you to login and make future changes to your registration details."
       notYouText_html: "If this is not you, <a href='#' id='secondaryButton' onclick='document.getElementById(\"signout_button\").click()'>sign out and start again</a>"
       signedInAsText: "You are currently signed in as"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
-    signup_step:
       createPassword: "Create password"
+      sign_in_link: "I already have an account"
+    newSignin:
+      step: "Step %{step_x} of %{step_y}"
+      title: "User account"
+      subtitle: ""
+      legend: "Sign in to your account"
+      sign_up_link: "I do not have an account"
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
