@@ -276,6 +276,39 @@ class PaymentController < ApplicationController
     # authorize! :newCharges, Order
   end
   
+  # POST /chargeAdjustments
+  def selectAdjustment
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :read, @registration
+
+    if params[:positive_payment] == I18n.t('registrations.form.chargePositive_button_label')
+      logger.info 'Positive Order entry requested'
+      redirect_to newAdjustment_path(:orderType => 'positive' )
+    elsif params[:negative_payment] == I18n.t('registrations.form.chargeNegative_button_label')
+      logger.info 'Negative Order entry requested'
+      redirect_to newAdjustment_path(:orderType => 'negative' )
+    else
+      logger.info 'Unrecognised button found, sending back to chargeIndex page'
+      render 'chargeIndex'
+    end
+
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newCharges, Order
+  end
+  
+  def newAdjustment
+    logger.info 'orderType:' + params[:orderType]
+    @orderType = params[:orderType]
+    
+    @order = Order.create
+  end
+  
+  def createAdjustment
+  
+  end
+  
   # GET /paymentReversals
   def reversalIndex
     @registration = Registration.find_by_id(params[:id])

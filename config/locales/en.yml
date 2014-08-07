@@ -503,6 +503,8 @@ en:
       business_or_org_details: "Business or organisation details"
       change_address_label: "Change address"
       change_button_label: Change
+      chargeNegative_button_label: "Add a negative charge"
+      chargePositive_button_label: "Add a charge"
       check_details_and_register_heading: "Check details and register"
       companyRegistrationNumber_label: "Company registration number"
       declaration_label: "I declare that as far as I know and believe, the information in this registration is true."
