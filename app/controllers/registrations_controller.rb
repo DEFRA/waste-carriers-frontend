@@ -346,7 +346,7 @@ class RegistrationsController < ApplicationController
     # Pass in current page to check previous page is valid
     # TODO had to comment this out for now because causing problems but will probably need to reinstate
     # check_steps_are_valid_up_until_current current_step
-    
+
 #    if (session[:registration_id])
 #      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
 #      renderNotFound
@@ -543,15 +543,10 @@ class RegistrationsController < ApplicationController
     Rails.logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
-    if  @registration.metaData.first.status == "REVOKED"
-      logger.info "Edit not allowed, as registration has been revoked"
-      redirect_to userRegistrations_path(current_user.id)
-    else #proceed to edit ther registration
-      session[:registration_progress] = 'IN_EDIT'
+
       session[:registration_id] = @registration.id
       session[:registration_uuid] = @registration.uuid
       redirect_to :upper_summary
-    end
     # @registration.current_step = session[:registration_step]
   end
 
@@ -955,7 +950,7 @@ class RegistrationsController < ApplicationController
     calculate_fees
     logger.info "copy cards: " + @registration.copy_cards.to_s
     logger.info "total fee: " + @registration.total_fee.to_s
-    
+
     prepareOrder
 
     if @order.valid?
@@ -970,7 +965,7 @@ class RegistrationsController < ApplicationController
       return
     end
 
-    logger.info "About to redirect to Worldpay - if the registration is valid." 
+    logger.info "About to redirect to Worldpay - if the registration is valid."
 
     if @registration.valid?
       logger.info "The registration is valid - redirecting to Worldpay..."
@@ -985,7 +980,7 @@ class RegistrationsController < ApplicationController
   #We should not use this as part of updating the payment page.
   #We should rather update the existing order and set the payment method and number of copycards.
   def prepareOrder
-  
+
     logger.info '>>>>>> reg id: ' + session[:registration_uuid]
     reg = Registration.find_by_id(session[:registration_uuid])
 
@@ -999,13 +994,13 @@ class RegistrationsController < ApplicationController
    #@order = Order.new(ord.attributes)
    #@order = Order.init(ord.attributes)
     @order = Order.create
-    
+
     #TODO Will need to set other payment methods accordingly
     now = Time.now.utc.xmlschema
-    
+
     #@order.id = '1'
     @order.paymentMethod = 'ONLINE'
-    # We are assiging a new order code whenever we come off the payment page 
+    # We are assiging a new order code whenever we come off the payment page
     # - the previously used code cannot be used again
     @order.orderCode = Time.now.to_i.to_s
     @order.merchantId = worldpay_merchant_code
@@ -1016,21 +1011,21 @@ class RegistrationsController < ApplicationController
     @order.dateCreated = now
     @order.dateLastUpdated = now
     @order.updatedByUser = reg.accountEmail
-    
+
     # Ensure Order Id of newly created order remains the same
     # TODO: Fix later as assumed orderId of first order?
     @order.orderId = ord.orderId
-    
+
     # Get a orderItem object
     ordItem = ord.order_items.first
     logger.debug  '*****'
     logger.debug  ordItem.to_json
     logger.debug  '*****'
-    
+
     isInitialRegistration = true
     if isInitialRegistration
       # Add order item for Initial registration
-      
+
       # Create Order Item
       #orderItem = OrderItem.create(ordItem.attributes)
       orderItem = OrderItem.new
@@ -1040,13 +1035,13 @@ class RegistrationsController < ApplicationController
       orderItem.description = 'Initial Registration'
       orderItem.reference = 'Reg: ' + @registration.regIdentifier
       orderItem.save
-    
+
       @order.order_items.add orderItem
     end
-    
+
     if @registration.copy_cards.to_i > 0
       # Add additional order items for copy card amount
-      
+
       # Create Order Item
       #orderItem = OrderItem.create(ordItem.attributes)
       orderItem = OrderItem.new
@@ -1056,10 +1051,10 @@ class RegistrationsController < ApplicationController
       orderItem.description = @registration.copy_cards.to_s + 'x Copy Cards'
       orderItem.reference = 'Reg: ' + @registration.regIdentifier
       orderItem.save
-    
+
       @order.order_items.add orderItem
     end
-    
+
 
     logger.debug  '***** The @order is:'
     logger.debug  @order.to_json
