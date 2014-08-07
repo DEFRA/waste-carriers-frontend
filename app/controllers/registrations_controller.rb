@@ -317,8 +317,10 @@ class RegistrationsController < ApplicationController
   end
 
   def conviction_check_for_company_and_key_people_and_relevant_people
-    # TODO do company check too
-    @registration.key_people.any? {|key_person| ConvictionsCaller.new(name: "#{key_person.first_name} #{key_person.last_name}", dateOfBirth: key_person.dob).convicted? }
+    any_key_or_relevant_people_suspect = @registration.key_people.any? {|key_person| ConvictionsCaller.new(name: "#{key_person.first_name} #{key_person.last_name}", dateOfBirth: key_person.dob).convicted? }
+    company_suspect = ConvictionsCaller.new(name: @registration.companyName, companyNumber: @registration.company_no).convicted?
+
+    any_key_or_relevant_people_suspect or company_suspect
   end
 
   # GET /registrations/data-protection
