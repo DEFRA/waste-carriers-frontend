@@ -110,9 +110,24 @@ en:
     publicBody: "Public body"
     soleTrader: "Sole trader"
   buttons:
-    broker_dealer: "We arrange for other people to it or we deal in waste"
+    broker_dealer: "We arrange for other people to carry it"
     carrier_broker_dealer: "We do both"
     carrier_dealer: "We carry the waste ourselves"
+  key_people:
+    edit:
+      step: "Step 7 of 8"
+      title: "Edit key person details"
+    form:
+      legend: "Key person details"
+      subtitle: "These will not be made public"
+    index:
+      legend: "Existing key people"
+      step: "Step 7 of 8"
+      subtitle: "These will not be made public"
+      title: "Key people"
+    new:
+      step: "Step 7 of 8"
+      title: "Key person details"
   distances:
     ? "10"
     : "10 Miles"
@@ -326,6 +341,35 @@ en:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
       title: "Confirm delete registration"
+    confirmation_step:
+      data_protection_heading: "How we use your personal information"
+      data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
+      declaration_heading: Declaration
+      declaration_text: "By ticking this box I declare that, as far as I know and believe, I am eligible to register as a Waste Carrier, and that the information in this registration is true. I understand that this registration may be revoked if I have given false or misleading information. Making a statement that is false or misleading is an offence under Section 7(3) of the Control of Pollution (Amendment) Act 1989."
+      key_person_summary_heading: "Key person details"
+      dynamic_panel_heading: "Dynamic panel: to provide context of user route"
+      edit_business_address_link: "Edit your business or organisation address"
+      edit_contact_details_link: "Edit your contact details"
+      edit_key_person_details_link: "Edit your key peoples details"
+      edit_smart_answers_link: "Edit what you told us"
+      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
+      privacy_policy: "Privacy policy and cookies"
+      smart_answers_heading: "You told us"
+      step: "Step 7 of 8"
+      subtitle: "Checking your details before registering"
+      tier_description: "You are %{tier_with_article} tier waste carrier..."
+      title: Confirmation
+    confirmed:
+      detailsChange: "If any of your details change you must update your registration within 28 days."
+      detailsEmailed: "Your certificate and guidance have been emailed to %{email}."
+      hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
+      heading: "Registration complete"
+      nowRegistered: "You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency."
+      payment_pending: "Please remember to pay for this registration via electronic transfer. Details on how to pay have been included in your email."
+      problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
+      signIn_html: "<a href='%{link}'>Sign in</a> to view your certificate, check your details or create a new registration."
+      yourCertificate: "Your certificate and guidance have been emailed to you."
+      yourRegNumber: "Your registration number is: %{reg}"
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
       step: "Step 3 of 8"
@@ -591,9 +635,8 @@ en:
       details_emailed: "We have sent an e-mail to %{email}. Please follow the instructions in the email to confirm your account and complete your registration."
       close_page: "Once you have confirmed your account and completed your registration, please close this web page."
       payment_pending: "Payment pending"
-
-
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
+      heading: "Confirm your account"
       isRegisteredPendingActivation: "The lower tier waste carrier registration for %{companyName} has been received by the Environment Agency and an activation email has been sent to you to verify your account."
       onceVerified_point1: "Receive an email confirming registration"
       onceVerified_point2: "Be able to sign in to make changes or create new registrations"
@@ -601,8 +644,8 @@ en:
       onceVerified_text: "Once your account is verified, you will:"
       paymentPending: "Please remember to pay for this registration via electronic transfer. Details on how to pay have been included in your email."
       pendingText: "An email has been sent to %{email}."
-      pendingText2: ""
-
+      pendingText2: "Follow the instructions in the email to confirm your account and complete your registration."
+      pendingText3: "Once you have confirmed your account and completed your registration, please close this web page."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
       yourRegNumber: "Your registration number is: %{reg}"
     print:

@@ -9,39 +9,38 @@
     <div class="col-1">
 
 	<!--<h1><%= t 'registrations.form.title' %></h1>-->
-
     <% if @tell_waste_carrier_they_are_pending_convictions_check %>
         <p><%= t '.pending_convictions_check' %></p>
     <% else %>
-      <div class='complete-container'>
-        <h1 class="subtitle"><%= t '.heading' %></h1>
-      </div>
-      <h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
-      <%# render "shared/meta_phases"%>
+	<div class='complete-container'>
+		<h1 class="subtitle"><%= t '.heading' %></h1>
+	</div>
+	<h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
+	<%# render "shared/meta_phases"%>
 
-      <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
-      <h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
+	<% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
+	<h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
 
-      <!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
 
-      <div id="wrapper" data-journey="waste-carriers-registration:confirmed"></div>
+	<!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
 
-      <form action="<%=print_confirmed_url%>">
-        <div class="action group">
-          <% if can? :print, @registration %>
-              <p><%= link_to t('registrations.form.print_button_label'), print_confirmed_url, :class => 'link-button-secondary' %></p>
-          <% end %>
-        </div>
+	<div id="wrapper" data-journey="waste-carriers-registration:confirmed"></div>
 
-        <p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
+	<form action="<%=print_confirmed_url%>">
+	<div class="action group">
+  		<% if can? :print, @registration %>
+			<p><%= link_to t('registrations.form.print_button_label'), print_confirmed_url, :class => 'link-button-secondary' %></p>
+  		<% end %>
+	</div>
 
-        <div class="finish-section js-hidden"  data-journey="waste-carriers-registration:finish">
-          <%# render "details" %>
-        </div>
+	<p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
+
+	<div class="finish-section js-hidden"  data-journey="waste-carriers-registration:finish">
+	<%# render "details" %>
+	</div>
     <% end %>
 
 	<p><%= t '.detailsChange' %></p>
-
     <% if @owe_money %>
       <p><%= t '.payment_pending' %></p>
     <% end %>
