@@ -1,0 +1,73 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+    <article role="article" class="group">
+    <% content_for :page_title, createTitle('.heading') %>
+    
+    <!-- Usefull for showing default messages -->
+    <% if alert %><%= alert %><% end %>
+    
+    <aside>
+    <%= form_for @payment, url: {action: "createReversal"}, :method => 'post' do |f| %>
+
+      	<div class="step"><%= t '.step' %></div>
+      	
+      	<%= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
+
+		<!-- WF X.X.X -->
+		<div id="payment" data-journey="waste-carriers-registration:writeoff">
+
+		    <fieldset>
+		  	    <legend><%= t '.heading' %></legend>
+		  	    
+		  	    <div class="form-group">
+                    <div class="form-label"><%= @registration.regIdentifier %></div>
+			        <div class="form-label"><%= @registration.companyName %></div>
+			        <div class="form-label"><%= format_address(@registration) %></div>
+		        </div>
+		        
+		        <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
+					<div class="form-label" id="amountSummary">Amount to write off <span id="amountDue"><%= pence_to_currency(f.object.amount) %></span></div>
+					<%= f.hidden_field :amount, :size => 7, :value => f.object.amount %>
+				</div>
+				
+				<div class="form-group<%if @payment.errors[:registrationReference].any?%> validation<%end%>">
+					<%= validation_for(@payment, :registrationReference) %>
+					<%= f.label :registrationReference, class: 'form-label' %>
+					<%= f.text_field :registrationReference %>
+				</div>
+				
+				<div class="form-group<%if @payment.errors[:comment].any?%> validation<%end%>">
+					<%= validation_for(@payment, :comment) %>
+					<%= f.label :comment, class: 'form-label' %>
+					<p class='subtitle'><%= t '.fields.commentGuidance' %></p>
+					<%= f.text_area :comment, :size => "40x10" %>
+		        </div>
+				
+		    </fieldset>
+		</div>
+		
+		<div class="inline">
+		    <noscript>
+		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+		    </noscript>
+		    <%= link_to t('registrations.form.back_button_label'), :paymentReversal, :class => 'link_to' %>
+		    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.newReversal_button_label' %>"/></span>
+		</div>
+		
+	<% end %>
+	
+	</aside>
+
+	<div class='related-positioning'>
+		<div class='related-container'>
+			<div class='related'>
+				<div class='inner group related-subsection'>
+				<%= render "shared/current_user" %>
+				</div>
+			</div>
+		</div>
+	</div>
+    
+    </article>
+</main>

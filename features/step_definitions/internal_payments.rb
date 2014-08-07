@@ -12,7 +12,7 @@ registrationCount = 0
 Given(/^I am logged in as a finance admin user$/) do
   visit new_agency_user_session_path
   page.should have_content 'Sign in'
-  page.should have_content 'NCCC agency login'
+  page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_finance_admin_user.email
   fill_in 'Password', with: my_finance_admin_user.password
   click_button 'Sign in'
@@ -22,7 +22,7 @@ end
 Given(/^I am logged in as a finance basic user$/) do
   visit new_agency_user_session_path
   page.should have_content 'Sign in'
-  page.should have_content 'NCCC agency login'
+  page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_finance_basic_user.email
   fill_in 'Password', with: my_finance_basic_user.password
   click_button 'Sign in'
@@ -32,7 +32,7 @@ end
 Given(/^I am logged in as a nccc refunds user$/) do
   visit new_agency_user_session_path
   page.should have_content 'Sign in'
-  page.should have_content 'NCCC agency login'
+  page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_agency_refund_user.email
   fill_in 'Password', with: my_agency_refund_user.password
   click_button 'Sign in'
@@ -46,7 +46,7 @@ Given(/^I change user to a nccc refunds user$/) do
   visit '/agency_users/sign_in'
   save_and_open_page
   page.should have_content 'Sign in'
-  page.should have_content 'NCCC agency login'
+  page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_agency_refund_user.email
   fill_in 'Password', with: my_agency_refund_user.password
   click_button 'Sign in'
