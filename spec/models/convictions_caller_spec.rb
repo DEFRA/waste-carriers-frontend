@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ConvictionsCaller do
 
+  its(:url) { should == 'http://localhost:9290/convictions' }
+
   describe '.initialize' do
     context 'params for individual' do
       it 'does not raise error' do
