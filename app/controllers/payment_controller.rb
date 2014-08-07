@@ -38,6 +38,9 @@ class PaymentController < ApplicationController
 
     # Add user id of user who made the payment to the payment record
     @payment.updatedByUser = current_agency_user.id.to_s
+    
+    # Manually set the orderkey of the payment to a new orderkey as it needs a key to be reversed. 
+    @payment.orderKey = Time.now.to_i.to_s
 
     # Check the payment type for a reversal payment type, If found negate the amount
     @payment.negateAmount
@@ -293,6 +296,9 @@ class PaymentController < ApplicationController
     # Update the payment to include a reference to the payment being reverse, and mark this as a reversal or said payment
     @payment.orderKey = params[:orderCode] + '_REVERSAL'
     logger.info 'Updated ordercode: ' + @payment.orderKey
+    
+    originalPayment = Payment.getPayment(@registration, params[:orderCode])
+    @payment.amount = originalPayment.amount
     
     # Override amount to be empty as payment object from services will return an amount of 0
     if @payment.amount == 0

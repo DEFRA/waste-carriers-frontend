@@ -39,22 +39,52 @@
 									<% if hasOrderKey(payment) %>
 									    <%= payment.orderKey %>
 									<% else %>
-									    <%= t '.notapplicable' %>
+									    <%= t 'registrations.form.not_applicable' %>
 									<% end %>
 									</td>
 									<td class=""><%= t('payment_types.'+payment.paymentType) %></td>
 									<td class=""><%= Money.new(payment.amount) %></td>
 									<td class="">
-									<%
-									isAlreadyRefunded = isAlreadyRefunded(payment, @registration)
-									refundPaymentStatus = getRefundPaymentStatus(payment, @registration)
+									<% isReversalAppropriateForMe = false 
+									
+									isPayment = current_agency_user.has_role? :Role_ncccPayment, AgencyUser
+									isFinanceBasic = current_agency_user.has_role? :Role_financeBasic, AgencyUser
+		    						isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
+		    						
+		    						if isPayment
+		    						  # Use can only reverse types:
+		    						  # Cheque, cash, postal order payment,
+									  # Refused cheque?
+									  if payment.paymentType == "CASH" \
+									  		or payment.paymentType == "CHEQUE" \
+									  		or payment.paymentType == "POSTALORDER" 
+		    						    isReversalAppropriateForMe = true
+		    						  end
+		    						end
+		    						
+		    						if isFinanceBasic
+		    						  # Use can only reverse types:
+		    						  # Bank transfer payment
+		    						  if payment.paymentType == "BANKTRANSFER"
+		    						    isReversalAppropriateForMe = true
+		    						  end
+		    						end
+		    						
+		    						if isFinanceAdmin
+		    						  # Use can only reverse types:
+		    						  # Worldpay_missed
+		    						  if payment.paymentType == "WORLDPAY_MISSED"
+		    						    isReversalAppropriateForMe = true
+		    						  end
+		    						end
+		    						
+		    						
+									
 									%>
-									<% if isAlreadyRefunded %>
-									    <%= t '.refundStatus',:status=>refundPaymentStatus %>
-									<% elsif !payment.orderKey.nil? and !isAlreadyRefunded %>
+									<% if isReversalAppropriateForMe %>
 									    <%= link_to t('registrations.form.selectReversal_button_label'), {controller: 'payment', action: 'newReversal', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
-									<% elsif !isAlreadyRefunded %>
-									    <%= link_to t('registrations.form.manual_payment_button_label'), :manualRefund, :class => 'link_to' %>
+									<% else %>
+									    <%= t 'registrations.form.not_applicable' %>
 									<% end %>
 									</td>
 								</tr>
