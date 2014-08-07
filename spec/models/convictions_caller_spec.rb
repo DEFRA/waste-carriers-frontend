@@ -38,4 +38,23 @@ describe ConvictionsCaller do
     end
   end
 
+  describe '#convicted?' do
+    describe 'service unavailable' do
+      context 'timeout' do
+        before { stub_request(:any, 'localhost:9290').to_timeout }
+
+        subject { ConvictionsCaller.new name: 'Acme Inc.', companyNumber: '99999999' }
+
+        its(:convicted?) { should == :error_calling_service }
+      end
+
+      context 'server error' do
+        before { stub_request(:any, 'localhost:9290').to_raise }
+
+        subject { ConvictionsCaller.new name: 'Acme Inc.', companyNumber: '99999999' }
+
+        its(:convicted?) { should == :error_calling_service }
+      end
+    end
+  end
 end
