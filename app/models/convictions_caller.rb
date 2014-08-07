@@ -11,7 +11,7 @@ class ConvictionsCaller
   def convicted?
     begin
       json = JSON.parse RestClient.get @@URL, params: @params
-      json['isSuspect']
+      json['matchFound']
     rescue
       :error_calling_service
     end
