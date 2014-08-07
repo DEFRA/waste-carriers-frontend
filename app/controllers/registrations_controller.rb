@@ -277,7 +277,7 @@ class RegistrationsController < ApplicationController
   def updateNewRelevantConvictions
     setup_registration 'convictions'
 
-    @registration.convictions_check_indicates_suspect = ConvictionsCaller.new().convicted? # TODO call this with correct parameters
+    @registration.convictions_check_indicates_suspect = true # TODO call convictions service with correct parameters
     @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
 
     @registration.save
