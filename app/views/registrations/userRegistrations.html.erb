@@ -44,9 +44,9 @@
             <th><%= t '.status_header' %></th>
             <th><%= t '.expiry_header' %></th>
             <th></th>  <!--  empty column -->
-            <th></th> <!--  header for certificate button -->
-            <th></th> <!--  header for edit button -->
-            <th></th> <!--  header for renew button -->
+            <th></th> <!--  column for certificate button -->
+            <th></th> <!--  column for edit button -->
+            <th></th> <!--  column for renew button -->
           </tr>
         </thead>
         <tbody>
@@ -69,10 +69,15 @@
 	            </td>
 	            <td></td>
 	            <td><%= link_to 'View Certificate', print_path(registration.uuid) %></td>
-	            <td><%= link_to 'Edit Registration', edit_path(registration.uuid) %></td>
+	            <td><%= link_to 'Edit Registration', edit_path(registration.uuid, process: 'edit') unless registration.metaData.first.status == 'REVOKED'%></td>
 	            <td>
-		            <% if registration.metaData.first.status == 'ACTIVE' && (registration.expires_on - 6.months) < Time.now %>
+		            <% if (registration.metaData.first.status == 'ACTIVE') && \
+		            	(registration.expires_on - 6.months) < Time.now && \
+		            	registration.expires_on  > Time.now  \
+		            	%>
 	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, process: 'renewal') %>
+	            	<% elsif  (registration.metaData.first.status == 'EXPIRED') || (registration.expires_on  < Time.now) %>
+		            	<%= link_to 'New Registration', edit_path(registration.uuid, process: 're-create') %>
 	            	<% end %>
 	            </td>
 
