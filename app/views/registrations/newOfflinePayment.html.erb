@@ -29,7 +29,7 @@
           </tr>
           <tr>
             <td class='table-column-text'><%= t '.payment_due' %></td>
-            <td class='table-column-data'><%= pence_to_currency @registration.finance_details.try(:first).try(:balance) %></td>
+            <td class='table-column-data'><%= pence_to_currency @order.totalAmount %></td>
           </tr>
           <tr>
             <td class='table-column-text'><%= t '.account_name' %></td>
