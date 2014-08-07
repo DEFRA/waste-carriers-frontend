@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe ConvictionsCaller do
 
+  subject { ConvictionsCaller.new(name: 'Acme Inc.', companyNumber: '99999999') }
+
   its(:url) { should == 'http://localhost:9290/convictions' }
 
   describe '.initialize' do
@@ -26,6 +28,12 @@ describe ConvictionsCaller do
     context 'invalid params' do
       it 'does raise error' do
         expect { ConvictionsCaller.new(name: 'Acme Inc.', companyNo: '99999999') }.to raise_error
+      end
+    end
+
+    context 'empty params' do
+      it 'does raise error' do
+        expect { ConvictionsCaller.new() }.to raise_error
       end
     end
   end

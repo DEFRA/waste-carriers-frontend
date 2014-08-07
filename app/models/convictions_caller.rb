@@ -1,6 +1,7 @@
 class ConvictionsCaller
 
   def initialize params={}
+    raise if params.empty?
     params.assert_valid_keys :name, :dateOfBirth, :companyNumber
     @params = params
   end
