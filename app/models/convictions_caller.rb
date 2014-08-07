@@ -4,6 +4,7 @@ class ConvictionsCaller
   @@URL = 'http://localhost:9090/convictions/'
 
   def initialize options={}
+    options.assert_valid_keys :name, :dateOfBirth, :companyNumber
     @params = options
   end
 
