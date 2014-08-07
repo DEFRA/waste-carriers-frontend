@@ -1,6 +1,6 @@
 class ConvictionsCaller
 
-  @@URL = 'http://localhost:9290/convictions.json'
+  @@URL = 'http://localhost:9290/convictions'
   @@VALID_KEYS = [:name, :dateOfBirth, :companyNumber]
 
   def initialize params

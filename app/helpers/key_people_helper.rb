@@ -9,7 +9,12 @@ module KeyPeopleHelper
   end
 
   def contains_relevant_people? key_people
-    key_people.any? { |key_person| key_person.person_type == 'RELEVANT' }
+    key_people.each do |person|
+      if person.person_type == 'RELEVANT'
+        return true
+      end
+    end
+    return false
   end
 
 end
