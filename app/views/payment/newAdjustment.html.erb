@@ -10,9 +10,12 @@
 
 	  <!-- Usefull for showing default messages -->
 	  <% if alert %><%= alert %><% end %>
-	
-	  <%= form_tag do %>
+	  
+	  <%= form_for @order, url: {action: "createAdjustment", controller: "payment"}, :method => 'post' do |f| %>
+
 		<div class="step"><%= t '.step' %></div>
+
+		<%= render "orderErrors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
 		<!-- WF X.X.X -->
 		<div id="payment" data-journey="waste-carriers-registration:refunds">
@@ -20,33 +23,28 @@
 			<fieldset>
 				<legend><%= t '.heading' %></legend>
 				
-				<div class="form-group">
-						<label>From here you can add additional entries in the Orders list, with either positive or negative values:</label>
-				</div>
+				<p>Adjustment page TODO</p>
 				
-				<div class="form-group">
-						<label>Enter a charge with a positive amount</label><br/>
-						<input name="positive_payment" class="button" type="submit" value="<%= t 'registrations.form.chargePositive_button_label' %>"/>
-				</div>
-				<div class="form-group">
-						<label>Enter a charge with a negative amount</label><br/>
-              			<input name="negative_payment" class="button" type="submit" value="<%= t 'registrations.form.chargeNegative_button_label' %>"/>
-				</div>
+				<p>For order: <%= f.object.orderCode %>, in the amount of <%= number_to_currency(f.object.totalAmount, :unit => "£") %></p>
 				
+				<p>To confirm this refund, click the Refund button below.</p>
+
 				<div class="inline">
 				    <noscript>
 				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
 				    </noscript>
-				    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+				    <%= link_to t('registrations.form.back_button_label'), :refund, :class => 'link_to' %>
+				    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.refund_button_label' %>"/></span>
 				</div>
 				
-				<br/>
 				<br/>
 				
 			</fieldset>
 			
-        </div>	
-      <% end %>
+		</div>
+
+	  <% end %>
+      
       </div>
       </div>
     </section>
