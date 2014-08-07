@@ -995,6 +995,7 @@ class RegistrationsController < ApplicationController
       @order = updateOrderForOffline(@order)
     end
     
+
     # Ensure Order Id of newly created order remains the same
     # TODO: Fix later as assumed orderId of first order?
     @order.orderId = ord.orderId
