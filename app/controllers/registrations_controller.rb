@@ -277,11 +277,6 @@ class RegistrationsController < ApplicationController
   def updateNewRelevantConvictions
     setup_registration 'convictions'
 
-    @registration.convictions_check_indicates_suspect = true # TODO call convictions service with correct parameters
-    @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
-
-    @registration.save
-
     if @registration.valid?
       if @registration.declaredConvictions == 'yes'
         redirect_to :newRelevantPeople
@@ -304,6 +299,8 @@ class RegistrationsController < ApplicationController
   def updateNewConfirmation
     setup_registration 'confirmation'
 
+    set_conviction_status
+
     if @registration.valid?
       redirect_to :newSignup
     else
@@ -311,6 +308,12 @@ class RegistrationsController < ApplicationController
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newConfirmation", :status => '400'
     end
+  end
+
+  def set_conviction_status
+    @registration.convictions_check_indicates_suspect = true # TODO call convictions service with correct parameters
+    @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
+    @registration.save
   end
 
   # GET /registrations/data-protection
