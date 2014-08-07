@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe ConvictionsCaller do
 
-  subject { ConvictionsCaller.new(name: 'Acme Inc.', companyNumber: '99999999') }
-
-  its(:url) { should == 'http://localhost:9290/convictions' }
-
   describe '.initialize' do
     context 'params for individual' do
       it 'does not error' do

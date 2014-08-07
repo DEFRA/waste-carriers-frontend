@@ -17,10 +17,6 @@ class ConvictionsCaller
     end
   end
 
-  def url
-    @@URL
-  end
-
 private
 
   def validate_params params
