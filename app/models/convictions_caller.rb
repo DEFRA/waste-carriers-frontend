@@ -1,8 +1,6 @@
 class ConvictionsCaller
   attr_reader :params
 
-  @@URL = 'http://localhost:9290/convictions'
-
   def initialize params={}
     params.assert_valid_keys :name, :dateOfBirth, :companyNumber
     @params = params
@@ -10,7 +8,7 @@ class ConvictionsCaller
 
   def convicted?
     begin
-      json = JSON.parse RestClient.get @@URL, params: @params
+      json = JSON.parse RestClient.get url, params: @params
       json['matchFound']
     rescue
       :error_calling_service
@@ -18,5 +16,9 @@ class ConvictionsCaller
 
     # FIXME for now make this return false until service in place
     false
+  end
+
+  def url
+    'http://localhost:9290/convictions'
   end
 end
