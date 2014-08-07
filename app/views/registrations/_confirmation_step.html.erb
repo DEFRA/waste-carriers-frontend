@@ -1,0 +1,60 @@
+<%= render "errors" %>
+
+<!-- WF 4.3.3 -->
+<div id="page9"  data-journey="waste-carriers-registration:confirmation"></div>
+
+<fieldset class='registration-summary-page'>
+<% case  session[:edit_process] %>
+<% when 'renewal' %>
+  <legend><%= t '.renew_reg_subtitle' %></legend>
+<% when 're-create' %>
+  <legend><%= t '.recreate_reg_subtitle' %></legend>
+<% when 'edit' %>
+  <legend><%= t '.edit_reg_subtitle' %></legend>
+<% else %>  <!-- this is a new registration page -->
+  <legend><%= t '.new_reg_subtitle' %></legend>
+<% end %>
+
+
+  <%= render 'user_route_context_panel', dynamic_text: t('.route_heading_renew_reg') %>
+
+  <div class='form-group'>
+  <h2><%= t '.smart_answers_heading' %></h2>
+    <ul class='summary-box'>
+      <li class='list-bullets'><%= render 'smartanswers_display' %></li>
+    </ul>
+       <p><%= link_to t('.edit_smart_answers_link'), find_path %></p>
+  </div>
+
+
+  <div class='form-group'>
+  <h2><%= t 'registrations.address_entry.businessAddress' %></h2>
+    <ul class='summary-box'>
+      <li class='summary-items'><%= render 'address_display' %></li>
+    </ul>
+      <p><%= link_to t('.edit_business_address_link'), newBusinessDetails_path %></p>
+  </div>
+
+
+  <div class='form-group'>
+  <h2><%= t 'registrations.contactdetails_step.title' %></h2>
+    <ul class='summary-box'>
+      <li class='summary-items'><%= render 'contactdetails_display' %></li>
+    </ul>
+      <p><%= link_to t('.edit_contact_details_link'), newContact_path %></p>
+  </div>
+
+  <% if @registration.businessType.eql?('limitedCompany') &&   @registration.tier.eql?('UPPER') %>
+    <div class='form-group'>
+  <h2><%= t '.key_people_summary_heading' %></h2>
+    <ul class='summary-box'>
+      <li class='summary-items'><%= render '/key_people/key_people_display' %></li>
+    </ul>
+      <p><%= link_to t('.edit_key_person_details_link'), registration_key_people_path %></p>
+  </div>
+  <% end %>
+</fieldset>
+
+
+
+
