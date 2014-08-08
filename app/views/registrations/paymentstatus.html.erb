@@ -183,7 +183,13 @@
 		    <% end %>
 		    <% if isFinanceAdmin %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
-		    <span class="next_link"><%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffLarge' %></span>
+		    <span class="next_link">
+		    <% if isLargeWriteOffAvailable(@registration) %>
+		      <%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffLarge' %>
+		    <% else %>
+		      <%= link_to t('registrations.form.writeofflarge_button_label'), '#', :class => 'button disabled', :id => 'writeOffLarge' %>
+		    <% end %>
+		    </span>
 		    <span class="next_link"><%= link_to t('registrations.form.reversals_button_label'), :paymentReversal, :class => 'button', :id => 'reversals' %></span>
 		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :chargeAdjustment, :class => 'button', :id => 'adjustments' %></span>
 		    <% end %>
