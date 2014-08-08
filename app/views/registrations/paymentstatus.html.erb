@@ -86,7 +86,7 @@
 
 			        <div class="form-group">
 		            	<legend><%= t'.paymenthistory_table_heading' %></legend>
-						<table class="" summary='This table details the payment history of a registration' style="width:60%"> <!-- Remove this style once styles working -->
+						<table class="" summary='This table details the payment history of a registration'> 
 							<thead class="">
 								<tr>
 									<th class="" ><%= t '.paymenthistory_date_table_heading' %></th>
@@ -170,6 +170,7 @@
 		    %>
 		    <% if isFinanceBasic %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
+		    <span class="next_link"><%= link_to t('registrations.form.reversals_button_label'), :paymentReversal, :class => 'button', :id => 'reversals' %></span>
 		    <% end %>
 		    <% if isRefund %>
 		      <span class="next_link">

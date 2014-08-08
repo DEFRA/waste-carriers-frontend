@@ -96,7 +96,6 @@ class Payment < Ohm::Model
 
   PAYMENT_TYPES_FINANCE_BASIC = %w[
     BANKTRANSFER
-    REVERSAL
   ]
   
   PAYMENT_TYPES_FINANCE_ADMIN = %w[
