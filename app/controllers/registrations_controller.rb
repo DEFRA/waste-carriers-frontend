@@ -317,26 +317,50 @@ class RegistrationsController < ApplicationController
   def account_mode
     new_step_action 'account-mode'
 
-    @registration.accountEmail = if user_signed_in?
-      current_user.email
+    user_signed_in = false
+    agency_user_signed_in = false
+
+    if user_signed_in?
+      @registration.accountEmail = current_user.email
+      user_signed_in = true
     elsif agency_user_signed_in?
-      current_agency_user.email
+      @registration.accountEmail = current_agency_user.email
+      agency_user_signed_in = true
     else
-      @registration.contactEmail
+      @registration.accountEmail = @registration.contactEmail
     end
 
     # Get signup mode
-    account_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-    logger.debug "Account mode is #{account_mode}"
+    account_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in || agency_user_signed_in))
+    
     @registration.sign_up_mode = account_mode
-    logger.info 'registration mode: ' + @registration.sign_up_mode
+    logger.debug "Account mode is #{account_mode} and sign_up_mode is #{@registration.sign_up_mode}"
     @registration.save
 
-    if account_mode == 'sign_in'
-      redirect_to :action => :newSignin
-    else
-      redirect_to :action => :newSignup
+    case account_mode
+      when 'sign_in'
+        next_step = :newSignin
+      when 'sign_up'
+        next_step = :newSignup
+      else
+        if @registration.valid?
+          unless @registration.persisted?
+            commit_new_registration
+          end
+          next_step = case @registration.tier
+            when 'LOWER'
+              finish_url(:id => @registration.id)
+            when 'UPPER'
+              :upper_payment
+          end
+        else
+          render "newConfirmation", :status => '400'
+          return
+        end
     end
+
+    redirect_to next_step
+
   end
 
   # GET /you
@@ -347,6 +371,63 @@ class RegistrationsController < ApplicationController
   def updateNewSignin
     setup_registration 'signin'
 
+    unless user_signed_in?
+      @user = User.find_by_email(@registration.accountEmail)
+      if @registration.valid?
+        sign_in @user
+      else
+        logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
+        render "newSignin", :status => '400'
+        return
+      end
+    end
+
+    if @registration.valid?
+      unless @registration.persisted?
+        commit_new_registration
+      end
+    else
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newSignin", :status => '400'
+      return
+    end
+
+    next_step = case @registration.tier
+      when 'LOWER'
+        finish_url(:id => @registration.id)
+      when 'UPPER'
+        :upper_payment
+    end
+
+    @registration.sign_up_mode = ''
+    @registration.save
+
+    redirect_to next_step
+  end
+
+  def commit_new_registration
+
+    unless @registration.tier == 'LOWER'
+      @registration.expires_on = (Date.current + 3.years).to_s
+    end
+
+    @registration.save
+    session[:registration_uuid] = @registration.commit
+    session[:registration_id] = @registration.id
+
+  end
+
+  def commit_new_user
+
+    @user = User.new
+    @user.email = @registration.accountEmail
+    @user.password = @registration.password
+    logger.debug "About to save the new user."
+    # Don't send the confirmation email when the user gets saved.
+    @user.skip_confirmation_notification!
+    @user.save!
+
   end
 
   # GET /your-registration/signup
@@ -356,6 +437,36 @@ class RegistrationsController < ApplicationController
 
   # POST /your-registration/signup
   def updateNewSignup
+    setup_registration 'signup'
+
+    if @registration.valid?
+      commit_new_user
+      unless @registration.persisted?
+        commit_new_registration
+      end
+    else
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newSignup", :status => '400'
+      return
+    end
+
+    next_step = case @registration.tier
+      when 'LOWER'
+        send_confirm_email @registration
+        pending_url
+      when 'UPPER'
+        :upper_payment
+    end
+
+    @registration.sign_up_mode = ''
+    @registration.save
+
+    redirect_to next_step
+  end
+
+  # POST /your-registration/signup
+  def oldupdateNewSignup
     setup_registration 'signup'
 
     # Prepopulate Email field/Set registration account

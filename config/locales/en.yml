@@ -145,6 +145,8 @@ en:
       numbers: "can only contain numbers"
       weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
       worldpayFailed: "failed to get a ok response from Worldpay"
+      invalidPassword: "Email and/or password is unrecognised"
+      unconfirmedEmail: "This account has not been confirmed"
   form:
     add_button_label: Add
     back_button_label: Back
