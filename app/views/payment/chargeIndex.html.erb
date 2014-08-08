@@ -2,13 +2,16 @@
 
 <main id="content" role="main" class="group">
 	<article role="article" class="group">
-	<% content_for :page_title, createTitle('.heading') %>
-
-	<!-- Usefull for showing default messages -->
-	<% if alert %><%= alert %><% end %>
-
-	<aside>
+	<section>
+      <div class="inner">
+      <div class="col-1">
 	
+	  <% content_for :page_title, createTitle('.heading') %>
+
+	  <!-- Usefull for showing default messages -->
+	  <% if alert %><%= alert %><% end %>
+	
+	  <%= form_tag do %>
 		<div class="step"><%= t '.step' %></div>
 
 		<!-- WF X.X.X -->
@@ -18,12 +21,18 @@
 				<legend><%= t '.heading' %></legend>
 				
 				<div class="form-group">
-						<label>1. <a href="">Add a positive Charge</a></label>
+						<label>From here you can add additional entries in the Orders list, with either positive or negative values:</label>
+				</div>
+				
+				<div class="form-group">
+						<label>Enter a charge with a positive amount</label><br/>
+						<input name="positive_payment" class="button" type="submit" value="<%= t 'registrations.form.chargePositive_button_label' %>"/>
 				</div>
 				<div class="form-group">
-						<label>2. <a href="">Add a negative Charge</a></label>
+						<label>Enter a charge with a negative amount</label><br/>
+              			<input name="negative_payment" class="button" type="submit" value="<%= t 'registrations.form.chargeNegative_button_label' %>"/>
 				</div>
-	
+				
 				<div class="inline">
 				    <noscript>
 				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
@@ -33,27 +42,22 @@
 				
 				<br/>
 				<br/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
-				<br/>
 				
 			</fieldset>
 			
-		</div>
-	
-	</aside>
+        </div>	
+      <% end %>
+      </div>
+      </div>
+    </section>
 
-	<div class='related-positioning'>
-		<div class='related-container'>
-			<div class='related'>
-				<div class='inner group related-subsection'>
-				<%= render "shared/current_user" %>
-				</div>
-			</div>
-		</div>
-	</div>
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+         <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
 
 	</article>
 </main>

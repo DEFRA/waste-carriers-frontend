@@ -1,0 +1,76 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+	<article role="article" class="group">
+	<section>
+      <div class="inner">
+      <div class="col-1">
+	
+	  <% content_for :page_title, createTitle('.heading') %>
+
+	  <!-- Usefull for showing default messages -->
+	  <% if alert %><%= alert %><% end %>
+	  
+	  <%= form_for @order, url: {action: "createAdjustment", controller: "payment"}, :method => 'post' do |f| %>
+
+		<div class="step"><%= t '.step' %></div>
+
+		<%= render "orderErrors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
+
+		<!-- WF X.X.X -->
+		<div id="payment" data-journey="waste-carriers-registration:adjustments">
+
+			<fieldset>
+		  	    <legend><%= t '.heading' %></legend>
+		  	    
+		  	    <div class="form-group">
+		            <label class="form-label">Enter a <%= @orderType.downcase %> charge</label>
+		            <%= hidden_field_tag(:orderType, @orderType) %>
+				</div>
+		  	    
+		        <div class="form-group<%if @order.errors[:totalAmount].any?%> validation<%end%>">
+		            <%= validation_for(@order, :totalAmount) %>
+					<%= f.label :totalAmount, class: 'form-label' %>
+					<%= f.text_field :totalAmount, :size => 7 %>
+				</div>
+				
+				<div class="form-group<%if @order.errors[:paymentMethod].any?%> validation<%end%>">
+					<%= validation_for(@order, :paymentMethod) %>
+					<%= f.label :paymentMethod, class: 'form-label' %>
+					<%= f.text_field :paymentMethod %>
+				</div>
+				
+				<div class="form-group<%if @order.errors[:description].any?%> validation<%end%>">
+					<%= validation_for(@order, :description) %>
+					<%= f.label :description, class: 'form-label' %>
+					<%= f.text_field :description, :size => 40 %>
+		        </div>
+				
+            </fieldset>
+			
+		</div>
+		
+		<div class="inline">
+		    <noscript>
+		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+		    </noscript>
+		    <%= link_to t('registrations.form.back_button_label'), :chargeAdjustment, :class => 'link_to' %>
+		    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enteradjustment_button_label' %>"/></span>
+		</div>
+
+	  <% end %>
+      
+      </div>
+      </div>
+    </section>
+
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+         <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
+
+	</article>
+</main>

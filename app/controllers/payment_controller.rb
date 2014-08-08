@@ -40,13 +40,13 @@ class PaymentController < ApplicationController
     @payment.updatedByUser = current_agency_user.id.to_s
     
     # Manually set the orderkey of the payment to a new orderkey as it needs a key to be reversed. 
-    @payment.orderKey = Time.now.to_i.to_s
+    @payment.orderKey = generateOrderCode
+    
+    # Set override to validate amount as pounds as came from user screen in pounds not in pence from Worldpay
+	@payment.manualPayment = true
 
     # Check the payment type for a reversal payment type, If found negate the amount
     @payment.negateAmount
-
-	# Set override to validate amount as pounds as came from user screen in pounds not in pence from Worldpay
-	@payment.manualPayment = true
 
 	if @payment.valid?
 	  logger.info 'payment is valid'
@@ -185,6 +185,11 @@ class PaymentController < ApplicationController
     @payment = Payment.getPayment(@registration, params[:orderCode])
 
     authorize! :read, @registration
+    
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    authorize! :newRefund, Payment
   end
 
   # POST /worldpayRefund/:orderCode
@@ -252,6 +257,11 @@ class PaymentController < ApplicationController
 	  render "newWPRefund", :status => '400'
 	end
 
+	authorize! :read, @registration
+	#
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    authorize! :newRefund, Payment
 
   end
 
@@ -276,6 +286,69 @@ class PaymentController < ApplicationController
     # authorize! :newCharges, Order
   end
   
+  # POST /chargeAdjustments
+  def selectAdjustment
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :read, @registration
+
+    if params[:positive_payment] == I18n.t('registrations.form.chargePositive_button_label')
+      logger.info 'Positive Order entry requested'
+      redirect_to newAdjustment_path(:orderType => Order.getPositiveType )
+    elsif params[:negative_payment] == I18n.t('registrations.form.chargeNegative_button_label')
+      logger.info 'Negative Order entry requested'
+      redirect_to newAdjustment_path(:orderType => Order.getNegativeType )
+    else
+      logger.info 'Unrecognised button found, sending back to chargeIndex page'
+      render 'chargeIndex'
+    end
+
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newCharges, Order
+  end
+  
+  # GET /newAdjustment
+  def newAdjustment
+    logger.info 'orderType:' + params[:orderType]
+    @orderType = params[:orderType]
+    
+    @order = Order.create
+    
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newAdjustment, Order
+  end
+  
+  # POST /newAdjustment
+  def createAdjustment
+    @orderType = params[:orderType]
+    @order = Order.init(params[:order])
+    
+    # validate orderType
+    if @order.includesOrderType? @orderType
+      if @order.valid?
+        # save
+        @order.save!
+        # Redirect user back to payment status
+        redirect_to paymentstatus_path, alert: "Charge has been successfully entered."
+        return
+      end
+    else
+      @order.errors.add(:orderType, I18n.t('errors.messages.invalid_selection'))
+    end
+    
+    # Return to entry page, as errors must have occured
+    render "newAdjustment", :status => '400', :orderType => @orderType
+    
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newAdjustment, Order
+    
+  end
+  
   # GET /paymentReversals
   def reversalIndex
     @registration = Registration.find_by_id(params[:id])
@@ -291,19 +364,15 @@ class PaymentController < ApplicationController
   # GET /newReversal
   def newReversal
     @registration = Registration.find_by_id(params[:id])
-    @payment = Payment.find_by_registration(params[:id])
+    @payment = Payment.create
+    #find_by_registration(params[:id])
     
     # Update the payment to include a reference to the payment being reverse, and mark this as a reversal or said payment
-    @payment.orderKey = params[:orderCode] + '_REVERSAL'
-    logger.info 'Updated ordercode: ' + @payment.orderKey
+    #@payment.orderKey = params[:orderCode] + '_REVERSAL'
+    #logger.info 'Updated ordercode: ' + @payment.orderKey
     
     originalPayment = Payment.getPayment(@registration, params[:orderCode])
     @payment.amount = originalPayment.amount
-    
-    # Override amount to be empty as payment object from services will return an amount of 0
-    if @payment.amount == 0
-      @payment.amount = ''
-    end
 
     # If dateReceived is empty reset split up values
     unless @payment.dateReceived
@@ -324,10 +393,51 @@ class PaymentController < ApplicationController
   # POST /newReversal
   def createReversal
   
+    @registration = Registration.find_by_id(params[:id])
+    
     # TODO : Implement the create payment from the reversal details entered
+    @payment = Payment.init(params[:payment])
+    
+    # Setup fields automatically for reversal
+    @payment.dateReceived = Time.new.strftime("%Y-%m-%d")
+    @payment.updatedByUser = current_agency_user.id.to_s
+    @payment.paymentType = 'REVERSAL'
+    
+    # Update the payment to include a reference to the payment being reverse, and mark this as a reversal or said payment
+    @payment.orderKey = params[:orderCode] + '_REVERSAL'
+
+	originalPayment = Payment.getPayment(@registration, params[:orderCode])
+    @payment.amount = originalPayment.amount
+
+	# Save original amount     
+    originalAmount = @payment.amount
+    
+    # Set override to validate amount as pounds as came from user screen and was converted to display as pounds
+	@payment.manualPayment = false
+
+    # Negate payment for reversals
+    @payment.negateAmount
+    
+    logger.info 'amount after negation: ' + @payment.amount.to_s
+    
+    logger.info 'Is manual payment: ' + @payment.isManualPayment?.to_s
+    
+    if @payment.valid?
+      @payment.save! @registration.uuid
+      redirect_to :paymentstatus, :flash => { :alert => "Reversal sucessfully entered" }
+      return
+    end
+    
+    # Re-populate the original payment
+    @payment.amount = originalAmount
+    
+    logger.info 'amount after revert: ' + @payment.amount.to_s
+    
+    # Return to entry page, as errors must have occured
+    render "newReversal", :status => '400'
     
     # Tmp: Redirect back to payment status
-    redirect_to :paymentstatus, :flash => { :alert => "TODO: Not yet Implemented!!!, but should say Reversal sucessfully entered" }
+    #redirect_to :paymentstatus, :flash => { :alert => "TODO: Not yet Implemented!!!, but should say Reversal sucessfully entered" }
     
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?

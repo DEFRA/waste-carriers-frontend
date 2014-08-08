@@ -119,6 +119,9 @@ class ApplicationController < ActionController::Base
     response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
   end
 
+  def generateOrderCode
+    Time.now.to_i.to_s
+  end
 
   rescue_from CanCan::AccessDenied do |exception|
     renderAccessDenied

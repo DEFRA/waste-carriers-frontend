@@ -6,6 +6,13 @@ class Registration < Ohm::Model
 
   FIRST_STEP = 'businesstype'
 
+  module Status
+    ACTIVE = 1
+    PENDING = 2
+    REVOKED = 4
+    EXPIRED = 8
+    INACTIVE = 16
+  end
   attribute :current_step
 
   #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
@@ -85,10 +92,10 @@ class Registration < Ohm::Model
   # to an NCCC user that the registraton needs to be checked, and if happy the
   # one they will set to false
   attribute :criminally_suspect
-
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
+
 
   index :accountEmail
   index :companyName
@@ -105,9 +112,17 @@ class Registration < Ohm::Model
   end
 
 
+      def empty_set(a_set)
+        done = false
+        if a_set.kind_of? Ohm::BasicSet && a_set.size > 0
+          a_set.each {|item| a_set.delete(item)}
+          done = true
+        end
+        done
+      end #method
 
   # as far as we're concerned a Registration will be persisted if it has a uuid, since the only way to
-  # gte a uuid is after a successful commit
+  # get a uuid is after a successful commit
   #
   # @param none
   # @return  [boolean] true if persisted
@@ -392,22 +407,18 @@ class Registration < Ohm::Model
         when 'metaData'
           new_reg.metaData.add HashToObject(v, 'Metadata')
         when 'financeDetails'
-
-          Rails.logger.debug '-----------------'
-          Rails.logger.debug 'Create finance details from v: ' + v.to_s
-          Rails.logger.debug '-----------------'
-
+          #Rails.logger.debug '-----------------'
+          #Rails.logger.debug 'Create finance details from v: ' + v.to_s
+          #Rails.logger.debug '-----------------'
           new_reg.finance_details.add FinanceDetails.init(v)
         else  #normal attribute'
           new_reg.send("#{k}=",v)
         end
       end #each
       new_reg.save
-
-      Rails.logger.debug '-----------------'
-      Rails.logger.debug 'Finance details from new_reg: ' + new_reg.finance_details.to_json.to_s
-      Rails.logger.debug '-----------------'
-
+      #Rails.logger.debug '-----------------'
+      #Rails.logger.debug 'Finance details from new_reg: ' + new_reg.finance_details.to_json.to_s
+      #Rails.logger.debug '-----------------'
       new_reg
     end #method
   end
@@ -660,7 +671,6 @@ class Registration < Ohm::Model
     end
   end
 
-
   def last_step?
     current_step == 'noregistration'
   end
@@ -740,6 +750,19 @@ class Registration < Ohm::Model
     metaData.first.dateRegistered
   end
 
+  def getOrder( orderCode)
+    Rails.logger.info 'Registration getOrder ' + orderCode.to_s
+    foundOrder = nil
+    self.finance_details.first.orders.each do |order|
+      Rails.logger.info 'Order ' + order.orderCode.to_s
+      if orderCode.to_i == order.orderCode.to_i
+        Rails.logger.info 'Registration Found order ' + orderCode.to_s
+        foundOrder = order
+      end
+    end
+    foundOrder
+  end
+
   #TODO Replace with method from helper or have decorator
   def formatted_registration_date
     if date_registered
@@ -793,7 +816,7 @@ class Registration < Ohm::Model
   end
 
 
-  # Retrieves a date from either a String or Java(ms) format to a Time object
+  # Converts a date from either a String or Java(ms) format to a Time object
   #
   # @param d [String, Numeric] the date to convert
   # @return [Time]

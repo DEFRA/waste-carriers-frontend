@@ -78,11 +78,21 @@
 		    						  end
 		    						end
 		    						
-		    						
+		    						isAvailableForReversal = true
+		    						@registration.finance_details.first.payments.each do |otherPayment|
+		    						  # Check other payments for a matching reversal, 
+		    						  # ie a payment with a matching orderkey appended with reversal
+		    						  if (payment.orderKey.to_s + '_REVERSAL') == otherPayment.orderKey
+		    						    # Another payment found, this this payment is n/a for a reversal
+		    						    isAvailableForReversal = false
+		    						  end
+		    						end
 									
 									%>
-									<% if isReversalAppropriateForMe %>
+									<% if isReversalAppropriateForMe and isAvailableForReversal %>
 									    <%= link_to t('registrations.form.selectReversal_button_label'), {controller: 'payment', action: 'newReversal', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
+									<% elsif payment.orderKey.to_s.include? '_REVERSAL' %>
+									    <%= t '.alreadyReversed' %>
 									<% else %>
 									    <%= t 'registrations.form.not_applicable' %>
 									<% end %>
