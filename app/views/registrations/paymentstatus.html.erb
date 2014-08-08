@@ -166,7 +166,7 @@
 		    isFinanceBasic = current_agency_user.has_role? :Role_financeBasic, AgencyUser
 		    isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
 		    isRefund = current_agency_user.has_role? :Role_ncccRefund, AgencyUser
-		    isRefundOrBasic = current_agency_user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
+		    #isRefundOrBasic = current_agency_user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
 		    %>
 		    <% if isFinanceBasic %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
