@@ -76,8 +76,14 @@ class Registration < Ohm::Model
   attribute :tier
   attribute :location
 
+  # The value that the waste carrier sets to say whether they admit to having
+  # relevant people with relevant convictions
   attribute :declaredConvictions
+  # Whether a match was made by the convictions service
   attribute :convictions_check_indicates_suspect
+  # Initially set if either of the other 2 are set, it is the flag that denotes
+  # to an NCCC user that the registraton needs to be checked, and if happy the
+  # one they will set to false
   attribute :criminally_suspect
 
   set :metaData, :Metadata #will always be size=1
@@ -304,7 +310,7 @@ class Registration < Ohm::Model
     end
   end
 
- 
+
 
 
   # Retrieves a specific registration object from the Java Service based on its uuid
@@ -386,22 +392,22 @@ class Registration < Ohm::Model
         when 'metaData'
           new_reg.metaData.add HashToObject(v, 'Metadata')
         when 'financeDetails'
-          
+
           Rails.logger.debug '-----------------'
           Rails.logger.debug 'Create finance details from v: ' + v.to_s
           Rails.logger.debug '-----------------'
-          
+
           new_reg.finance_details.add FinanceDetails.init(v)
         else  #normal attribute'
           new_reg.send("#{k}=",v)
         end
       end #each
       new_reg.save
-      
+
       Rails.logger.debug '-----------------'
       Rails.logger.debug 'Finance details from new_reg: ' + new_reg.finance_details.to_json.to_s
       Rails.logger.debug '-----------------'
-      
+
       new_reg
     end #method
   end
@@ -742,6 +748,30 @@ class Registration < Ohm::Model
     else
       ''
     end
+  end
+
+  # Call to determine whether the registration is 'complete' i.e. there are no
+  # outstanding checks, payment has been made and the account has been activated
+  def is_complete?
+    is_confirmed = true
+
+    unless metaData.first.status == 'ACTIVE'
+      is_confirmed = false
+      return
+    end
+
+    if criminally_suspect
+      is_confirmed = false
+      return
+    end
+
+    unless paid_in_full?
+      is_confirmed = false
+      return
+    end
+
+    is_confirmed
+
   end
 
   def self.activate_registrations(user)
