@@ -491,6 +491,8 @@ class Registration < Ohm::Model
     registration.validates :password, confirmation: true
   end
 
+  validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
+
   validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
@@ -513,6 +515,17 @@ class Registration < Ohm::Model
   # TODO not sure whether to keep this validation or not since the sign_up mode is not supplied by the user
   # validates :sign_up_mode, presence: true, if: [:signup_step?, , :account_email_present?]
   # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, ]
+
+  def is_valid_account?
+    user = User.find_by_email(accountEmail)
+    if user.nil? || !user.valid_password?(password)
+      errors.add(:password, I18n.t('errors.messages.invalidPassword'))
+    else
+      unless user.confirmed?
+        errors.add(:accountEmail, I18n.t('errors.messages.unconfirmedEmail'))
+      end
+    end
+  end
 
   def businesstype_step?
     current_step.inquiry.businesstype?
@@ -554,6 +567,10 @@ class Registration < Ohm::Model
     current_step.inquiry.signup?
   end
 
+  def signin_step?
+    current_step.inquiry.signin?
+  end
+
   def registrationtype_step?
     current_step.inquiry.registrationtype?
   end
@@ -572,6 +589,14 @@ class Registration < Ohm::Model
 
   def sign_up_mode_present?
     sign_up_mode.present?
+  end
+
+  def do_sign_in?
+    sign_up_mode == 'sign_in'
+  end
+
+  def do_sign_up?
+    sign_up_mode == 'sign_up'
   end
 
   def digital_route?
@@ -679,14 +704,6 @@ class Registration < Ohm::Model
 
   def user_cannot_exist_with_same_account_email
     errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') ) if User.where(email: accountEmail).exists?
-  end
-
-  def do_sign_in?
-    sign_up_mode == 'sign_in'
-  end
-
-  def do_sign_up?
-    sign_up_mode == 'sign_up'
   end
 
   def user
