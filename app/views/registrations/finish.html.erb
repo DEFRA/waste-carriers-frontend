@@ -1,17 +1,34 @@
-<% content_for :page_title, createTitle('.heading') %>
+<%= render 'shared/content_for_pages' %>
 
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <section>
+      <div class="inner">
+        <div class="col-1">
 
-<!--<h1><%= t 'registrations.form.title' %></h1>-->
-<h1 class="subtitle"><%= t '.heading' %></h1>
-<h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
-<%# render "shared/meta_phases"%>
+          <!-- WF 4.3.4 -->
+          <div id="page4"  data-journey="waste-carriers-registration:finish">
+            <% content_for :page_title, createTitle('.title') %>
 
-<% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
-<h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
+            <% if @is_complete %>
+              <h1 class="subtitle"><%= t '.subtitle_complete' %></h1>
+              <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
+              <p><% t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+            <% else %>
+            <% end %>
 
 
-<!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
+            <%= form_for(@key_person, url: {action: "updateNewKeyPerson"} ) do |f| %>
+              <%= render 'key_person_form', f: f, d: @key_person, :legend => t('.legend') %>
+              <span class="next_link"><%= render 'next_link' %></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>
+
 
 <form action="<%=print_url(@registration.id)%>">
 
@@ -21,9 +38,6 @@
 
 <p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
 
-<div class="finish-section js-hidden"  data-journey="waste-carriers-registration:finish">
-<%# render "details" %>
-</div>
 
 <p><%= t '.detailsChange' %></p>
 
