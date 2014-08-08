@@ -18,29 +18,44 @@
 		<%= render "orderErrors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
 		<!-- WF X.X.X -->
-		<div id="payment" data-journey="waste-carriers-registration:refunds">
+		<div id="payment" data-journey="waste-carriers-registration:adjustments">
 
 			<fieldset>
-				<legend><%= t '.heading' %></legend>
-				
-				<p>Adjustment page TODO</p>
-				
-				<p>For order: <%= f.object.orderCode %>, in the amount of <%= number_to_currency(f.object.totalAmount, :unit => "£") %></p>
-				
-				<p>To confirm this refund, click the Refund button below.</p>
-
-				<div class="inline">
-				    <noscript>
-				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-				    </noscript>
-				    <%= link_to t('registrations.form.back_button_label'), :chargeAdjustment, :class => 'link_to' %>
-				    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.refund_button_label' %>"/></span>
+		  	    <legend><%= t '.heading' %></legend>
+		  	    
+		  	    <div class="form-group">
+		            <label class="form-label">Enter a <%= @orderType.downcase %> charge</label>
+		            <%= hidden_field_tag(:orderType, @orderType) %>
+				</div>
+		  	    
+		        <div class="form-group<%if @order.errors[:totalAmount].any?%> validation<%end%>">
+		            <%= validation_for(@order, :totalAmount) %>
+					<%= f.label :totalAmount, class: 'form-label' %>
+					<%= f.text_field :totalAmount, :size => 7 %>
 				</div>
 				
-				<br/>
+				<div class="form-group<%if @order.errors[:paymentMethod].any?%> validation<%end%>">
+					<%= validation_for(@order, :paymentMethod) %>
+					<%= f.label :paymentMethod, class: 'form-label' %>
+					<%= f.text_field :paymentMethod %>
+				</div>
 				
-			</fieldset>
+				<div class="form-group<%if @order.errors[:description].any?%> validation<%end%>">
+					<%= validation_for(@order, :description) %>
+					<%= f.label :description, class: 'form-label' %>
+					<%= f.text_field :description, :size => 40 %>
+		        </div>
+				
+            </fieldset>
 			
+		</div>
+		
+		<div class="inline">
+		    <noscript>
+		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+		    </noscript>
+		    <%= link_to t('registrations.form.back_button_label'), :chargeAdjustment, :class => 'link_to' %>
+		    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enteradjustment_button_label' %>"/></span>
 		</div>
 
 	  <% end %>
