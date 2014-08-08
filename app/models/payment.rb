@@ -107,6 +107,7 @@ class Payment < Ohm::Model
     WRITEOFFSMALL
     WRITEOFFLARGE
     REFUND
+    REVERSAL
   ]
 
 
@@ -210,7 +211,11 @@ class Payment < Ohm::Model
   end
 
   def isManualPayment?
-    self.manualPayment
+    if !self.manualPayment.nil?
+      self.manualPayment
+    else
+      false
+    end
   end
 
   def isAutomatedPayment?
@@ -224,7 +229,11 @@ class Payment < Ohm::Model
   # Ensures if a reversal payment type is selected, then the amount entered is negated
   def negateAmount
     if self.paymentType == "REVERSAL"
-      self.amount = -self.amount.to_f.abs
+      if self.manualPayment
+        self.amount = -self.amount.to_f.abs
+      else
+        self.amount = -self.amount.to_i.abs
+      end
     end
   end
 

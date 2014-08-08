@@ -2,12 +2,16 @@
 
 <main id="content" role="main" class="group">
     <article role="article" class="group">
+    <section>
+      <div class="inner">
+      <div class="col-1">
+    
+    
     <% content_for :page_title, createTitle('.heading') %>
     
     <!-- Usefull for showing default messages -->
     <% if alert %><%= alert %><% end %>
     
-    <aside>
     <%= form_for @payment, url: {action: "createReversal"}, :method => 'post' do |f| %>
 
       	<div class="step"><%= t '.step' %></div>
@@ -27,8 +31,9 @@
 		        </div>
 		        
 		        <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
-					<div class="form-label" id="amountSummary">Amount to write off <span id="amountDue"><%= pence_to_currency(f.object.amount) %></span></div>
-					<%= f.hidden_field :amount, :size => 7, :value => f.object.amount %>
+					<div class="form-label" id="amountSummary">Reverse entire amount <span id="amountToReverse"><%= pence_to_currency(f.object.amount) %></span></div>
+					<%#= f.text_field :amount, :size => 7, :value => f.object.amount %>
+					<%#= f.text_field :orderKey, :size => 7, :value => f.object.orderKey %>
 				</div>
 				
 				<div class="form-group<%if @payment.errors[:registrationReference].any?%> validation<%end%>">
@@ -57,17 +62,17 @@
 		
 	<% end %>
 	
-	</aside>
+	  </div>
+      </div>
+    </section>
 
-	<div class='related-positioning'>
-		<div class='related-container'>
-			<div class='related'>
-				<div class='inner group related-subsection'>
-				<%= render "shared/current_user" %>
-				</div>
-			</div>
-		</div>
-	</div>
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+         <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
     
     </article>
 </main>
