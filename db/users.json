@@ -1,9 +1,20 @@
-{
-    "email" : "fred1@gov.uk",
-    "encrypted_password" : "$2a$10$wguyI3U2WkDVARV/Pig4mu9Y57YJxrBEpCtnb2e7.IUvO5B7j062a",
-    "sign_in_count" : 0,
-    "failed_attempts" : 0,
-    "confirmation_token" : null,
-    "confirmation_sent_at" : "2014-07-30T14:47:39.187Z",
-    "confirmed_at" : "2014-07-30T14:47:44.454Z"
-}
+[
+  {
+      "email" : "fred1@gov.uk",
+      "password" : "secret123",
+      "sign_in_count" : 0,
+      "failed_attempts" : 0,
+      "confirmation_token" : null,
+      "confirmation_sent_at" : "2014-07-30T14:47:39.187Z",
+      "confirmed_at" : "2014-07-30T14:47:44.454Z"
+  },
+    {
+      "email" : "fred2@gov.uk",
+      "password" : "secret123",
+      "sign_in_count" : 0,
+      "failed_attempts" : 0,
+      "confirmation_token" : null,
+      "confirmation_sent_at" : "2014-07-30T14:47:39.187Z",
+      "confirmed_at" : "2014-07-30T14:47:44.454Z"
+  }
+]

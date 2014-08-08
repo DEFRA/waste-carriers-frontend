@@ -20,7 +20,6 @@ class Payment < Ohm::Model
   attribute :paymentType
   attribute :manualPayment
 
-
   # Creates a new Payment object from a payment-formatted hash
   #
   # @param payment_hash [Hash] the payment-formatted hash
@@ -97,7 +96,6 @@ class Payment < Ohm::Model
 
   PAYMENT_TYPES_FINANCE_BASIC = %w[
     BANKTRANSFER
-    REVERSAL
   ]
   
   PAYMENT_TYPES_FINANCE_ADMIN = %w[
@@ -109,6 +107,7 @@ class Payment < Ohm::Model
     WRITEOFFSMALL
     WRITEOFFLARGE
     REFUND
+    REVERSAL
   ]
 
 
@@ -212,7 +211,11 @@ class Payment < Ohm::Model
   end
 
   def isManualPayment?
-    self.manualPayment
+    if !self.manualPayment.nil?
+      self.manualPayment
+    else
+      false
+    end
   end
 
   def isAutomatedPayment?
@@ -226,7 +229,11 @@ class Payment < Ohm::Model
   # Ensures if a reversal payment type is selected, then the amount entered is negated
   def negateAmount
     if self.paymentType == "REVERSAL"
-      self.amount = -self.amount.to_f.abs
+      if self.manualPayment
+        self.amount = -self.amount.to_f.abs
+      else
+        self.amount = -self.amount.to_i.abs
+      end
     end
   end
 

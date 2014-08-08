@@ -152,7 +152,7 @@ class Order < Ohm::Model
   validate :validate_totalAmount
   validates :currency, presence: true
   validates :dateCreated, presence: true, length: { minimum: 8 }
-  validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }
+  validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }, :if => :isOnlinePayment?
   #  validates :dateLastUpdated, presence: true, length: { minimum: 8 }
   validate :validate_dateLastUpdated
   validates :updatedByUser, presence: true
@@ -161,8 +161,35 @@ class Order < Ohm::Model
   def self.worldpay_status_options_for_select
     (WORLDPAY_STATUS.collect {|d| [I18n.t('worldpay_status.'+d), d]})
   end
+  
+  ORDER_AMOUNT_TYPES = %w[
+    POSITIVE
+    NEGATIVE
+  ]
+  
+  def includesOrderType? orderType
+    Rails.logger.info 'includesOrderType? orderType:' + orderType
+    Rails.logger.info 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
+    ORDER_AMOUNT_TYPES.include? orderType
+  end
+  
+  class << self
+    def getPositiveType
+     ORDER_AMOUNT_TYPES[0]
+    end 
+  end
+  
+  class << self
+    def getNegativeType
+      ORDER_AMOUNT_TYPES[1]
+    end
+  end
 
   private
+  
+  def isOnlinePayment?
+    self.paymentMethod == 'ONLINE'
+  end
 
   def validate_totalAmount
     if self.totalAmount.to_s.include? "."
