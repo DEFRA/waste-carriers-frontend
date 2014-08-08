@@ -3,6 +3,10 @@ class PaymentController < ApplicationController
   include WorldpayHelper
 
   before_filter :authenticate_agency_user!
+  
+  #####################################################################################
+  # Payments
+  #####################################################################################
 
   # GET /payments
   def new
@@ -70,6 +74,10 @@ class PaymentController < ApplicationController
       render "new", :status => '400'
 	end
   end
+  
+  #####################################################################################
+  # Write Off
+  #####################################################################################
 
   # GET /writeOffs
   def newWriteOff
@@ -124,6 +132,9 @@ class PaymentController < ApplicationController
     # Set fields automatically for write off's
     @payment.dateReceived = Time.new.strftime("%Y-%m-%d")
     @payment.updatedByUser = current_agency_user.id.to_s
+    
+    
+    #params[:]
     @payment.paymentType = 'WRITEOFFSMALL'
 
 
@@ -146,6 +157,10 @@ class PaymentController < ApplicationController
       render "newWriteOff", :status => '400'
 	end
   end
+  
+  #####################################################################################
+  # Refunds
+  #####################################################################################
 
   # GET /refunds
   def index
@@ -274,6 +289,10 @@ class PaymentController < ApplicationController
     authorize! :read, @registration
   end
   
+  #####################################################################################
+  # Charge Adjustments
+  #####################################################################################
+  
   # GET /chargeAdjustments
   def chargeIndex
     @registration = Registration.find_by_id(params[:id])
@@ -348,6 +367,10 @@ class PaymentController < ApplicationController
     # authorize! :newAdjustment, Order
     
   end
+  
+  #####################################################################################
+  # Reversals
+  #####################################################################################
   
   # GET /paymentReversals
   def reversalIndex
