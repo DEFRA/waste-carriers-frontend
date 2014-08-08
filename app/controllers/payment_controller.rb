@@ -185,6 +185,11 @@ class PaymentController < ApplicationController
     @payment = Payment.getPayment(@registration, params[:orderCode])
 
     authorize! :read, @registration
+    
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    authorize! :newRefund, Payment
   end
 
   # POST /worldpayRefund/:orderCode
@@ -252,6 +257,11 @@ class PaymentController < ApplicationController
 	  render "newWPRefund", :status => '400'
 	end
 
+	authorize! :read, @registration
+	#
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    authorize! :newRefund, Payment
 
   end
 
@@ -283,10 +293,10 @@ class PaymentController < ApplicationController
 
     if params[:positive_payment] == I18n.t('registrations.form.chargePositive_button_label')
       logger.info 'Positive Order entry requested'
-      redirect_to newAdjustment_path(:orderType => 'positive' )
+      redirect_to newAdjustment_path(:orderType => Order.getPositiveType )
     elsif params[:negative_payment] == I18n.t('registrations.form.chargeNegative_button_label')
       logger.info 'Negative Order entry requested'
-      redirect_to newAdjustment_path(:orderType => 'negative' )
+      redirect_to newAdjustment_path(:orderType => Order.getNegativeType )
     else
       logger.info 'Unrecognised button found, sending back to chargeIndex page'
       render 'chargeIndex'
@@ -298,15 +308,45 @@ class PaymentController < ApplicationController
     # authorize! :newCharges, Order
   end
   
+  # GET /newAdjustment
   def newAdjustment
     logger.info 'orderType:' + params[:orderType]
     @orderType = params[:orderType]
     
     @order = Order.create
+    
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newAdjustment, Order
   end
   
+  # POST /newAdjustment
   def createAdjustment
-  
+    @orderType = params[:orderType]
+    @order = Order.init(params[:order])
+    
+    # validate orderType
+    if @order.includesOrderType? @orderType
+      if @order.valid?
+        # save
+        @order.save!
+        # Redirect user back to payment status
+        redirect_to paymentstatus_path, alert: "Charge has been successfully entered."
+        return
+      end
+    else
+      @order.errors.add(:orderType, I18n.t('errors.messages.invalid_selection'))
+    end
+    
+    # Return to entry page, as errors must have occured
+    render "newAdjustment", :status => '400', :orderType => @orderType
+    
+    #
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    # authorize! :newAdjustment, Order
+    
   end
   
   # GET /paymentReversals

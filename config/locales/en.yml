@@ -10,6 +10,18 @@ en:
         first_name: "First name"
         last_name: "Last name"
         positon: "Position in organisation"
+      order:
+        orderId: "Order Id"
+        orderCode: "Order code"
+        paymentMethod: "Payment method"
+        merchantId: "Merchant id"
+        totalAmount: "Amount (£)"
+        currency: "Currency"
+        dateCreated: "Date created"
+        worldPayStatus: "Worldpay status"
+        dateLastUpdated: "Date updated"
+        updatedByUser: "Placed by user"
+        description: "Description"
       payment:
         amount: "Amount Received (£)"
         comment: Comment
@@ -77,6 +89,7 @@ en:
         relevant_conviction: "Relevant convictions"
     models:
       payment: Payment
+      order: Order
       registration: Registration
   address_select: "Please select an address…"
   agencyUsers:
@@ -242,6 +255,9 @@ en:
     reversalIndex:
       heading: "Reversals"
       step: "Select which payment you wish to reverse"
+    newAdjustment:
+      heading: "Enter charge"
+      step: "Enter an additional charge into the system"
     newReversal:
       heading: "Enter reversal"
       step: "Enter a reversal for a payment into the system"
@@ -513,6 +529,7 @@ en:
       delete_button_label: Delete
       emailAddress_label: "E-mail address"
       enterpayment_button_label: "Enter Payment"
+      enteradjustment_button_label: "Enter charge adjustment"
       error_explanation: "prohibited this registration from being saved:"
       findAddress_label: "Find address"
       finish_button_label: Finished
