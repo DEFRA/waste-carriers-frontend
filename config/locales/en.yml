@@ -255,6 +255,7 @@ en:
     reversalIndex:
       heading: "Reversals"
       step: "Select which payment you wish to reverse"
+      alreadyReversed: "Already reversed"
     newAdjustment:
       heading: "Enter charge"
       step: "Enter an additional charge into the system"

@@ -49,8 +49,8 @@ Registrations::Application.routes.draw do
     get   "registrations/:id/chargeAdjustments" => 'payment#chargeIndex', :via => [:get], :as => :chargeAdjustment
     match "registrations/:id/chargeAdjustments" => 'payment#selectAdjustment', :via => [:post], :as => :selectAdjustment
     get   "registrations/:id/paymentReversals" => 'payment#reversalIndex', :via => [:get], :as => :paymentReversal
-    get   "registrations/:id/newReversal" => 'payment#newReversal', :via => [:get], :as => :newReversal
-    match "registrations/:id/newReversal" => 'payment#createReversal', :via => [:post], :as => :createReversal
+    get   "registrations/:id/newReversal/:orderCode" => 'payment#newReversal', :via => [:get], :as => :newReversal
+    match "registrations/:id/newReversal/:orderCode" => 'payment#createReversal', :via => [:post], :as => :createReversal
     get   "registrations/:id/newAdjustment" => 'payment#newAdjustment', :via => [:get], :as => :newAdjustment
     match "registrations/:id/newAdjustment" => 'payment#createAdjustment', :via => [:post], :as => :createAdjustment
 
