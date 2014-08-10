@@ -507,6 +507,7 @@ en:
       error: error
       errorMessage: "You have %{count} on this page"
     finish:
+      title: "Finished"
       subtitle_complete: "Registration complete"
       subtitle_pending: "Registration pending"
       your_reg_number: "Your registration number is: %{reg}"

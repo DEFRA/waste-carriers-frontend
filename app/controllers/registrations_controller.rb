@@ -322,6 +322,7 @@ class RegistrationsController < ApplicationController
 
     if user_signed_in?
       @registration.accountEmail = current_user.email
+      @user = User.find_by_email(@registration.accountEmail)
       user_signed_in = true
     elsif agency_user_signed_in?
       @registration.accountEmail = current_agency_user.email
@@ -339,27 +340,22 @@ class RegistrationsController < ApplicationController
 
     case account_mode
       when 'sign_in'
-        next_step = :newSignin
+        redirect_to :action => 'newSignin'
       when 'sign_up'
-        next_step = :newSignup
+        redirect_to :action => 'newSignup'
       else
         if @registration.valid?
-          unless @registration.persisted?
-            commit_new_registration
-          end
-          next_step = case @registration.tier
+          complete_new_registration
+          case @registration.tier
             when 'LOWER'
-              finish_url(:id => @registration.id)
+              redirect_to :action => 'finish'
             when 'UPPER'
-              :upper_payment
+              redirect_to :action => 'newPayment'
           end
         else
           render "newConfirmation", :status => '400'
-          return
         end
     end
-
-    redirect_to next_step
 
   end
 
@@ -383,13 +379,8 @@ class RegistrationsController < ApplicationController
     end
 
     if @registration.valid?
-      unless @registration.persisted?
-        commit_new_registration
-        @registration.activate!
-        if @registration.is_complete?
-          RegistrationMailer.welcome_email(@user, @registration).deliver
-        end
-      end
+      logger.debug 'Registration is valid'
+      complete_new_registration
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -397,17 +388,15 @@ class RegistrationsController < ApplicationController
       return
     end
 
-    next_step = case @registration.tier
-      when 'LOWER'
-        finish_url
-      when 'UPPER'
-        :upper_payment
-    end
-
     @registration.sign_up_mode = ''
     @registration.save
 
-    redirect_to next_step
+    case @registration.tier
+      when 'LOWER'
+        redirect_to :action => 'finish'
+      when 'UPPER'
+        redirect_to :action => 'newPayment'
+    end
   end
 
   def commit_new_registration
@@ -419,6 +408,19 @@ class RegistrationsController < ApplicationController
     @registration.save
     session[:registration_uuid] = @registration.commit
     session[:registration_id] = @registration.id
+
+  end
+
+  def complete_new_registration
+
+      unless @registration.persisted?
+        commit_new_registration
+        @registration.activate!
+        @registration.save
+        if @registration.is_complete?
+          RegistrationMailer.welcome_email(@user, @registration).deliver
+        end
+      end
 
   end
 
