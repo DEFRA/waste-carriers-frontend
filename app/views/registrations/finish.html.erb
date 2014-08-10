@@ -17,11 +17,7 @@
               <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
               <% if can? :print, @registration %>
-                <%= form_tag(print_url(@registration.id)) do |f| %>
-                  <span class="next_link">
-                    <input id="print_btn" name="print" class="button button-get-started" type="submit" value="<%= t 'form.print_button_label' %>"/>
-                  </span>
-                <% end %>
+                <p><%= link_to t('form.print_button_label'), print_confirmed_url, :class => 'link-button-secondary' %></p>
               <% end %>
 
             <% else %>
@@ -43,7 +39,7 @@
 
             <% end %>
 
-            <p><%= t '.detailsChange' %></p>
+            <p><%= t '.details_change' %></p>
 
             <%= form_tag(registrations_finish_path) do |f| %>
               <span class="next_link">
