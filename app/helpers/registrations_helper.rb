@@ -56,6 +56,10 @@ module RegistrationsHelper
   def isSmallWriteOffAvailable(registration)
     registration.finance_details.first and (Payment.isSmallWriteOff( registration.finance_details.first.balance) == true)
   end
+  
+  def isLargeWriteOffAvailable(registration)
+    registration.finance_details.first.balance.to_i != 0
+  end
 
   def isRefundAvailable(registration)
     registration.finance_details.first.balance.to_f < 0

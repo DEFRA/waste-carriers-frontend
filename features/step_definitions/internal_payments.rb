@@ -171,7 +171,7 @@ end
 
 Then(/^payment status will be paid$/) do
   page.should have_content 'Paid in full'
-  page.should have_content 'Payment has been successfully entered'
+  page.should have_content 'has been successfully entered'
 end
 
 When(/^payment status is paid$/) do

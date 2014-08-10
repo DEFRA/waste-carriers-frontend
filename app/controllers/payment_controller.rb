@@ -3,6 +3,10 @@ class PaymentController < ApplicationController
   include WorldpayHelper
 
   before_filter :authenticate_agency_user!
+  
+  #####################################################################################
+  # Payments
+  #####################################################################################
 
   # GET /payments
   def new
@@ -70,11 +74,16 @@ class PaymentController < ApplicationController
       render "new", :status => '400'
 	end
   end
+  
+  #####################################################################################
+  # Write Off
+  #####################################################################################
 
   # GET /writeOffs
   def newWriteOff
     @registration = Registration.find_by_id(params[:id])
-    @payment = Payment.find_by_registration(params[:id])
+    @payment = Payment.create
+    #Payment.find_by_registration(params[:id])
 
     isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
 
@@ -117,35 +126,55 @@ class PaymentController < ApplicationController
   # POST /writeOffs
   def createWriteOff
     logger.info 'createWriteOff request has been made'
+    @registration = Registration.find_by_id(params[:id])
     # Get a new payment object from the parameters in the post
-    @payment = Payment.new(params[:payment])
+    @payment = Payment.init(params[:payment])
     authorize! :writeOffPayment, @payment
+    
+    # Set payment amount to match outstanding balance
+    @payment.amount = @registration.finance_details.first.balance.to_i
 
     # Set fields automatically for write off's
     @payment.dateReceived = Time.new.strftime("%Y-%m-%d")
     @payment.updatedByUser = current_agency_user.id.to_s
+    
+    @payment.orderKey = generateOrderCode
+
+	#######
+	#
+	# FIXME: use the button clicked from payment status to create the correct payment Type
+	#
+	#######
     @payment.paymentType = 'WRITEOFFSMALL'
 
-
 	# Set override to validate amount as pounds as came from user screen and was converted to display as pounds
-	@payment.manualPayment = true
+	@payment.manualPayment = false
 
 	if @payment.valid?
 	  logger.info 'writeOff is valid'
 	  @payment.save! params[:id]
 
 	  # Redirect user back to payment status
-      redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
+      redirect_to paymentstatus_path, alert: "Write off has been successfully entered."
 	else
 	  logger.info 'writeOff is invalid'
+	  if @payment.errors.any?
+	    @payment.errors.each do |error|
+	      logger.info 'write off error: ' + error.to_s
+	    end
+	  else
+	    logger.info 'no errors???'
+	  end
 
-	  # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
-      @registration = Registration.find_by_id(params[:id])
       authorize! :read, @registration
 
       render "newWriteOff", :status => '400'
 	end
   end
+  
+  #####################################################################################
+  # Refunds
+  #####################################################################################
 
   # GET /refunds
   def index
@@ -274,6 +303,10 @@ class PaymentController < ApplicationController
     authorize! :read, @registration
   end
   
+  #####################################################################################
+  # Charge Adjustments
+  #####################################################################################
+  
   # GET /chargeAdjustments
   def chargeIndex
     @registration = Registration.find_by_id(params[:id])
@@ -348,6 +381,10 @@ class PaymentController < ApplicationController
     # authorize! :newAdjustment, Order
     
   end
+  
+  #####################################################################################
+  # Reversals
+  #####################################################################################
   
   # GET /paymentReversals
   def reversalIndex
