@@ -187,6 +187,8 @@ en:
     update_button_label: Update
     yes_option_label: "Yes"
     confirm_button_label: "Confirm"
+    finish_button_label: "Finish"
+    print_button_label: "Print"
   format_options:
     csv: csv
     json: json
@@ -505,12 +507,16 @@ en:
       error: error
       errorMessage: "You have %{count} on this page"
     finish:
-      detailsChange: "If any of your details change you must update your registration within 28 days."
-      detailsEmailed: "Your certificate and guidance have been emailed to %{email}."
-      hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
-      heading: "Registration complete"
-      problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
-      yourRegNumber: "Your registration number is: %{reg}"
+      subtitle_complete: "Registration complete"
+      subtitle_pending: "Registration pending"
+      your_reg_number: "Your registration number is: %{reg}"
+      registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
+      applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier with the Environment Agency."
+      details_emailed: "Your certificate and guidance have been emailed to %{email}."
+      payment_message: "Please remember to arrange your bank transfer. Alternatively select the registration and choose to pay by credit or debit card."
+      declared_convictions_message: "We are required to cross check the declared relevant peopler with convictions before confirming the registration."
+      pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
+      details_change: "If any of your details change you must update your registration within 28 days."
     foreign_address_entry:
       country: Country
       streetLine1: "Address line 1"

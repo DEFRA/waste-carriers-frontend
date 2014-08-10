@@ -92,6 +92,7 @@ class Registration < Ohm::Model
   # to an NCCC user that the registraton needs to be checked, and if happy the
   # one they will set to false
   attribute :criminally_suspect
+
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1

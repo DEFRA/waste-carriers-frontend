@@ -385,6 +385,10 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       unless @registration.persisted?
         commit_new_registration
+        @registration.activate!
+        if @registration.is_complete?
+          RegistrationMailer.welcome_email(@user, @registration).deliver
+        end
       end
     else
       # there is an error (but data not yet saved)
@@ -395,8 +399,7 @@ class RegistrationsController < ApplicationController
 
     next_step = case @registration.tier
       when 'LOWER'
-        @registration.activate!
-        finish_url(:id => @registration.id)
+        finish_url
       when 'UPPER'
         :upper_payment
     end
@@ -467,11 +470,14 @@ class RegistrationsController < ApplicationController
   end
 
   def finish
-    @registration = Registration[ session[:registration_id]]
-    # @registration = Registration[params[:id]]
-    logger.debug "finish: #{@registration.attributes.to_s}"
-    @is_complete = @registration.is_complete?
+    @registration = Registration[session[:registration_id]]
     authorize! :read, @registration
+  end
+
+  def updateFinish
+    if user_signed_in?
+      redirect_to userRegistrations_path(current_user)
+    end
   end
 
   # GET /registrations/data-protection

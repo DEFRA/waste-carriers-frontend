@@ -10,17 +10,45 @@
           <div id="page4"  data-journey="waste-carriers-registration:finish">
             <% content_for :page_title, createTitle('.title') %>
 
-            <% if @is_complete %>
+            <% if @registration.is_complete? %>
               <h1 class="subtitle"><%= t '.subtitle_complete' %></h1>
               <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
               <p><% t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+              <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+
+              <% if can? :print, @registration %>
+                <%= form_tag(print_url(@registration.id)) do |f| %>
+                  <span class="next_link">
+                    <input id="print_btn" name="print" class="button button-get-started" type="submit" value="<%= t 'form.print_button_label' %>"/>
+                  </span>
+                <% end %>
+              <% end %>
+
             <% else %>
+              <h1 class="subtitle"><%= t '.subtitle_pending' %></h1>
+              <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
+              <p><% t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+
+              <% unless @registration.paid_in_full? %>
+                <p><%= t '.payment_message' %></p>
+              <% end %>
+
+              <% if @registration.criminally_suspect %>
+                <% if @registration.declaredConvictions %>
+                  <p><%= t '.declared_convictions_message' %></p>
+                <% else %>
+                  <p><%= t '.pending_key_people_check_message' %></p>
+                <% end %>
+              <% end %>
+
             <% end %>
 
+            <p><%= t '.detailsChange' %></p>
 
-            <%= form_for(@key_person, url: {action: "updateNewKeyPerson"} ) do |f| %>
-              <%= render 'key_person_form', f: f, d: @key_person, :legend => t('.legend') %>
-              <span class="next_link"><%= render 'next_link' %></span>
+            <%= form_tag(registrations_finish_path) do |f| %>
+              <span class="next_link">
+                <input id="finish_btn" name="finish" class="button button-get-started" type="submit" value="<%= t 'form.finish_button_label' %>"/>
+              </span>
             <% end %>
           </div>
         </div>
@@ -28,23 +56,3 @@
     </section>
   </article>
 </main>
-
-
-<form action="<%=print_url(@registration.id)%>">
-
-<% if can? :print, @registration %>
-  <div class="action group"><input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/></div>
-<% end %>
-
-<p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
-
-
-<p><%= t '.detailsChange' %></p>
-
-<div class="action group"><input name="finish" class="button" type="submit" value="<%= t 'registrations.form.finish_button_label' %>"/></div>
-
-<!--<p><%# t '.problems_html', :email => Rails.configuration.registrations_service_email, :subject => 'Digital%20Assistance%20Request' %></p>-->
-
-</form>
-
-</article></main>

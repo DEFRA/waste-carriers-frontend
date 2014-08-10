@@ -44,7 +44,7 @@
                   <li><%= t 'devise.mailer.confirmation_instructions.fax_number', fax_number: Rails.configuration.income_fax_number %></li>
                   <li><%= t 'devise.mailer.confirmation_instructions.postal_address', postal_address: Rails.configuration.income_postal_address %></li>
                 </ul>
-                <p>Alternatively after confirming your account you can login and choose to pay by debit/credit card.</p>
+                <p><%= t 'devise.mailer.confirmation_instructions.pay_by_card' %></p>
             <% end %>
           </div>
         </div>
