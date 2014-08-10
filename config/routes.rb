@@ -29,7 +29,9 @@ Registrations::Application.routes.draw do
 	  get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
 
 	  #get "registrations/start" => 'registrations#start', :as => :start
-	  get "registrations/:id/finish" => 'registrations#finish', :as => :finish
+	  get "registrations/finish" => 'registrations#finish', :as => :finish
+    match "registrations/finish" => 'registrations#updateFinish', :via => [:post,:put,:patch]
+
 	  match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
 	  match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
 	  get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
