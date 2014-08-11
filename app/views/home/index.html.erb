@@ -2,13 +2,20 @@
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+
+    <header class='page-header'>
+      <div class="hgroup">
+        <h1>GOV.UK Waste Carriers Registration Service Development Home Page</h1>
+        <p>You are seeing this page because the application is deployed in development mode
+         Users in the production environment will be redirected to the "Find out if I need to register" page
+       </p>
+      </div>
+    </header>
+
       <section>
-      <div class="inner">
       <div class="col-1">
       <fieldset>
-      <legend>GOV.UK Waste Carriers Registration Service - Development Home Page</legend>
-      <p>You are seeing this page because the application is deployed in development mode.</br>
-         Users in the production environment will be redirected to the "Find out if I need to register" page.</p>
+      <legend>Development Page</legend>
       <% if alert %>
         <div id="error_explanation" class="validation-summary">
           <h2><%= t '.standard_error' %></h2>
@@ -45,11 +52,11 @@
       <p><a href='/admins/sign_in'>Administration Login </a></p>
 
           </div>
-        </div>
+
     </section>
     </fieldset>
 
-      <aside role='note'>
+        <aside role='note'>
           <div class="inner">
             <div class="col-2"> 
               <h3>Template examples</h3>
@@ -61,5 +68,6 @@
             </div>
           </div>
       </aside>
+
   </article>
 </main>
