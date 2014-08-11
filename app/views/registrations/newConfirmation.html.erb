@@ -83,14 +83,22 @@
                 </div>
               <% end %>
 
-              <div class='form-group'>
-                  <h2><%= t '.contact_details_heading' %></h2>
-                  <ul class='summary-box'>
-                    <li class='summary-items'><%= render 'conviction_declaration_display', r: @registration %></li>
-                  </ul>
-                  <p><%= link_to t('.edit_convictions_declaration_link_text'), newRelevantConvictions_path %></p>
-              </div>
-
+              <!-- Convictions section -->
+              <% unless @registration.tier.eql?('LOWER') %>
+                <div class='form-group'>
+                    <h2><%= t '.convictions_declaration_heading' %></h2>
+                    <ul class='summary-box'>
+                      <li class='summary-items'>
+                        <% if @registration.declaredConvictions == 'yes' %>
+                          <p><%= t '.have_declared_convictions' %></p>
+                        <% else %>
+                          <p><%= t '.have_not_declared_convictions' %></p>
+                        <% end %>
+                      </li>
+                    </ul>
+                    <p><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path %></p>
+                </div>
+              <% end %>
 
               <!-- Declaration section -->
           		<div class='form-group'>

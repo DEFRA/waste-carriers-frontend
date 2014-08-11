@@ -32,6 +32,9 @@ Registrations::Application.routes.draw do
 	  get "registrations/finish" => 'registrations#finish', :as => :finish
     match "registrations/finish" => 'registrations#updateFinish', :via => [:post,:put,:patch]
 
+    get "registrations/finish-assisted" => 'registrations#finishAssisted', :as => :finishAssisted
+    match "registrations/finish-assisted" => 'registrations#updateFinishAssisted', :via => [:post,:put,:patch]
+
 	  match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
 	  match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
 	  get "registrations/version" => 'registrations#version', :via => [:get], :as => :version

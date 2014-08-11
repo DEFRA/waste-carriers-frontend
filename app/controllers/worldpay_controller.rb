@@ -12,16 +12,14 @@ class WorldpayController < ApplicationController
 
     if process_payment
       update_order
-      next_step = if @registration.assisted_digital? || user_signed_in?
-                    print_path(@registration.id)
-                    #Note from Georg: I think we will eventually want to show the 'finish' path
-                    #finish_path(@registration)
-                  elsif @registration.user.confirmed?
-                    confirmed_path
-                  else
-                    send_confirm_email @registration
-                    pending_path
-                  end
+      next_step = if user_signed_in?
+          finish_path
+        elsif agency_user_signed_in?
+          finishAssisted_path
+        else
+          send_confirm_email @registration
+          pending_path
+        end
     else
       # Used to redirect_to WorldpayController::Error however that doesn't actually
       # exist, plus the plan as discussed with Georg was to redirect back to the payment
@@ -131,7 +129,7 @@ class WorldpayController < ApplicationController
 
       payment_processed
     end
-    
+
     def update_order
       #TODO better pass in as variables?
       orderCode = @payment.orderKey
@@ -141,9 +139,9 @@ class WorldpayController < ApplicationController
 
       #TODO have a current_order method on the registration
       ord = reg.finance_details.first.orders.first
-      
+
       @order = Order.init(ord.attributes)
-      
+
       #TODO Will need to set other payment methods accordingly
       now = Time.now.utc.xmlschema
       #@order.id = ord.id
@@ -155,10 +153,10 @@ class WorldpayController < ApplicationController
       @order.updatedByUser = reg.accountEmail
       @order.description = 'Updated order in WP contorller'
      #@order.prefix_options[:id] = session[:registration_id]
-     
+
       @order.save
-      
-      logger.info '---- Adding to list: ' 
+
+      logger.info '---- Adding to list: '
       ord.order_items.each do |item|
         logger.info 'item: ' + item.to_json.to_s
         # Test Re-add order items from original order
