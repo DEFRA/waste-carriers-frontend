@@ -326,6 +326,7 @@ class RegistrationsController < ApplicationController
       user_signed_in = true
     elsif agency_user_signed_in?
       @registration.accountEmail = current_agency_user.email
+      @user = User.find_by_email(@registration.accountEmail)
       agency_user_signed_in = true
     else
       @registration.accountEmail = @registration.contactEmail
@@ -348,7 +349,11 @@ class RegistrationsController < ApplicationController
           complete_new_registration
           case @registration.tier
             when 'LOWER'
-              redirect_to :action => 'finish'
+              if user_signed_in
+                redirect_to :action => 'finish'
+              else
+                redirect_to :action => 'finishAssisted'
+              end
             when 'UPPER'
               redirect_to :action => 'newPayment'
           end
@@ -465,7 +470,8 @@ class RegistrationsController < ApplicationController
         :upper_payment
     end
 
-    @registration.sign_up_mode = ''
+    # Reset Signed up user to signed in status
+    @registration.sign_up_mode = 'sign_in'
     @registration.save
 
     redirect_to next_step
@@ -479,6 +485,17 @@ class RegistrationsController < ApplicationController
   def updateFinish
     if user_signed_in?
       redirect_to userRegistrations_path(current_user)
+    end
+  end
+
+  def finishAssisted
+    @registration = Registration[session[:registration_id]]
+    authorize! :read, @registration
+  end
+
+  def updateFinishAssisted
+    if user_signed_in?
+      redirect_to registrations_path(current_agency_user)
     end
   end
 
