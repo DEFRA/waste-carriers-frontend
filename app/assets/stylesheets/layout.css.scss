@@ -1,0 +1,511 @@
+//Imported design styles from GOV.UK github//
+@import 'design-patterns/_alpha-beta';
+@import '_url-helpers';
+@import '_grid_layout';
+@import '_conditionals';
+@import '_measurements';
+@import '_shims';
+@import 'design-patterns/_buttons';
+@import '_device-pixels';
+@import '_colours';
+@import '_css3';
+@import '_typography';
+@import '_font_stack';
+
+
+//CUSTOM STYLES//
+
+//Header Section//
+
+.page-header {
+margin: 1em 1em 0em 1em;
+
+@include media(desktop){
+margin: 1em 2em 0em 2em;
+}
+.hgroup {
+padding: 0;
+h1 {
+@include bold-48;
+padding-top: 0.7rem;
+padding-bottom: 1.3rem;
+}
+h2.subtitle{
+margin: 0;
+@include bold-24;
+}
+}
+}
+
+//Layout//
+
+.header_text span {
+	@include core-24;
+	color: #FFFFFF;
+}
+
+.header_text h1 {
+	color: #FFFFFF;
+}
+
+.header_text span {
+    text-transform: uppercase;
+    font-weight: 700;
+    color: rgb(244, 119, 56);
+}
+
+.beta-banner {
+	@include phase-banner($state:beta);
+	@include media(desktop){
+	margin: 0em;
+	}
+}
+
+.beta-banner p {
+	color: $banner-text-colour;
+	@include outer-block;
+	@include core-16;
+	padding-left:4em;
+}
+
+#content {
+	@include media(desktop){
+	@include outer-block;
+	@include inner-block;
+};
+}
+
+article {margin:0;}
+section {margin:0;}
+aside {margin:0;}
+
+
+//Mobile first - Media Queries//
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.row {
+  margin: 0 -10px;
+  margin-bottom: 20px;
+}
+.row:last-child {
+  margin-bottom: 0;
+}
+[class*="col-"] {
+  padding: 0px;
+}
+
+@media all and ( min-width: 601px ) {
+   
+  article {
+    display:block;
+    width: 100%;
+    @include media(desktop){
+	margin: 0;
+	}
+  }
+
+@media all and ( min-width: 601px ) {
+   
+  .col-1 {
+	@include media(desktop){
+	margin: 0;}
+    float: left;
+    width: 60%;
+    @include inner-block;
+  }
+  
+   .col-2 {
+	@include media(desktop){
+	margin: 0;}
+	padding-top: 0.7rem;
+	padding-bottom: 1.3rem;
+    float: right;
+    width: 25%;
+    border-top: 10px solid rgb(0, 94, 165);
+    position:relative;
+    left:-1.5em;
+  }
+
+}
+
+@media all and ( min-width: 960px ) {
+   
+  .col-1 {
+	@include media(desktop){
+	margin: 0;}
+    width: 60%;
+    @include inner-block;
+  }
+  
+   .col-2 {
+	@include media(desktop){
+	margin: 0;}
+	padding-top: 0.7rem;
+	padding-bottom: 1.3rem;
+    float: right;
+    width: 25%;
+    border-top: 10px solid rgb(0, 94, 165);
+    position:relative;
+    left:-1.5em;
+  }
+}
+}
+
+//Footer//
+
+.footer-top {
+	@include outer-block;
+	@include inner-block;
+	@include media(desktop){
+	margin: 0;}
+}
+
+//Form//
+
+fieldset {@include media(desktop){
+	padding-top: 0.7rem;
+	padding-bottom: 1.3rem;;}
+
+legend {
+	padding-top: 0.7rem;
+	padding-bottom: 1.3rem;;
+	@include bold-36;
+}	
+
+.form-label {
+	@include copy-19;
+    display: block;
+    line-height:2em;
+}
+
+input,#addressSelector {@include copy-19};
+#registration_accountEmail_confirmation,
+#registration_contactEmail, 
+#registration_accountEmail, 
+#agency_user_email, 
+#user_email, 
+#admin_email  
+{width:50%;}
+
+.form-group {}
+
+// Radio buttons & checkboxes
+
+.block-label {
+display: block;
+float: none;
+clear: left;
+position: relative;
+background: $panel-colour;
+border: 1px solid $panel-colour;
+padding: (15px $gutter $gutter-half $gutter*1.5);
+margin-top: 10px;
+margin-bottom: 10px;
+font-size: 19px;
+cursor: pointer; // Encourage clicking on block labels
+@include media(tablet) {
+float: left;
+margin-top: 5px;
+margin-bottom: 5px;
+// width: 25%; - Test : check that text within labels will wrap
+}
+}
+.block-label:hover {
+border-color: $black;
+}
+// Position checkbox within label, to allow text to wrap
+.block-label input {
+position: absolute;
+top: 18px;
+left: $gutter-half;
+cursor: pointer;
+}
+// Use inline, to sit block labels next to each other
+.inline .block-label {
+clear: none;
+margin-right: $gutter-half;
+}
+// Only if JavaScript is enabled
+// Add focus styles to block labels
+.js-enabled .add-focus {
+outline: 3px solid $yellow;
+}
+// Remove focus styles from radio and checkbox inputs
+.js-enabled .block-label input:focus {
+outline: none;
+}
+// Add selected state to block labels
+.js-enabled .selected {
+background: $white;
+border-color: $black;
+}
+}
+
+//Buttons//
+
+.button {
+	@include button;
+	margin-top: 1.7rem;
+	margin-bottom: 1.7rem;
+}
+.button-secondary {
+	@include button($grey-3);
+	margin-top: 1.7rem;
+	margin-bottom: 1.7rem;
+}
+.button-warning {
+	@include button($red);
+	margin-top: 1.7rem;
+	margin-bottom: 1.7rem;
+}
+
+// Date of birth//
+.inline-date {
+	display:inline-block;
+}
+
+.inline-date label {
+display: block;
+margin-bottom: 5px;
+}
+.inline-date .form-group {
+width: 50px;
+float: left;
+margin-right: 20px;
+clear: none;
+}
+.inline-date .form-group-year {
+width: 70px;
+}
+.inline-date .form-group input {
+width: 100%;
+}
+// Use Modernizr to detect for touch events
+// Build: http://modernizr.com/download/#-touch-cssclasses-teststyles-prefixes
+// Hide date of birth
+.touch .inline-date {
+display: none;
+}
+// Hide native date of birth
+.no-touch .inline-date {
+display: none;
+}
+// Show native date of birth
+.touch .inline-date {
+display: block;
+}
+// Set a minimum height for date inputs
+.touch input[type="date"] {
+min-height: 36px;
+}
+
+//Typography//
+
+h1 {@include bold-36}
+h2 {@include bold-36}
+h3 {@include bold-24}
+p {@include copy-19}
+a {@include copy-19}
+.step {@include copy-19}
+.subtitle {@include copy-19; color:#6f777B}
+.form-hint {@include copy-19; color:#6f777B}
+
+
+
+//OTHER PAGE ELEMENTS//
+
+//Table Styles//
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+table th {
+    font-weight: 700;
+}
+table th, table td {
+    border-bottom: 1px solid rgb(191, 193, 195);
+    color: rgb(11, 12, 12);
+    font-family: "nta",Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    padding: 0.73684em 1.05263em 0.52632em 0;
+    text-align: left;
+    text-transform: none;
+}
+
+//Hidden Text//
+
+details {
+display: block;
+}
+details summary {
+display: inline-block;
+color: $govuk-blue;
+cursor: pointer;
+position: relative;
+margin-bottom: em(5);
+}
+details summary:hover {
+color: $link-hover-colour;
+}
+details summary:focus {
+outline: 3px solid $yellow;
+}
+
+details .summary {
+text-decoration: underline;
+}
+
+details .arrow {
+margin-right: 0.35em;
+}
+
+details .panel-indent {
+margin-top: 0;
+}
+
+//Panel Indent//
+
+.panel-indent {
+    border-left: 4px solid rgb(191, 193, 195);
+    clear: both;
+    padding: 10px 0 10px 15px;
+    margin-bottom: 20px;
+}
+
+
+//VALIDATION//
+
+.validation-summary {
+border: 3px solid $error-colour;
+padding: $gutter-half $gutter;
+margin-bottom: $gutter;
+@include ie-lte(6){
+zoom: 1;
+}
+}
+.validation-summary ul {
+margin-top: 10px;
+}
+.validation-summary li,
+.validation-summary p {
+@include core-16;
+}
+.validation-summary p {
+margin-top: $gutter-half;
+margin-bottom: 5px;
+}
+.validation-summary a {
+color: $error-colour;
+@include ie-lte(6) {
+color: $error-colour !important;
+}
+}
+.validation-summary .heading-small {
+margin-top: $gutter-half;
+}
+.validation-message {
+display: block;
+@include core-16;
+color: $error-colour;
+}
+
+//Error text
+
+.error-text {
+ color: $error-colour;
+}
+
+//Bullet points//
+
+ol li {display:inline;}
+li {list-style-type: none;}
+
+
+//Summary pages // **** PAGES REQUIRE FURTHER DESIGN WORK IN CODE *****
+
+// .list-bullets {
+// list-style-image: url("https://assets.digital.cabinet-office.gov.uk/static/bullet-disc-5px-4180cb91fb35028365a59ddfcfd36e34.gif");
+// list-style-type: circle;}
+
+
+
+// .inner-payment-box:before, .payment-box:before, .summary-box:before, .example:before, .line-divider:before {
+//     background: none repeat scroll 0 0 rgb(191, 193, 195);
+//     color: rgb(255, 255, 255);
+//     font-family: "nta",Arial,sans-serif;
+//     font-size: 14px;
+//     font-weight: 400;
+//     left: 0;
+//     line-height: 1.42857;
+//     padding: 0.21053em 0.78947em;
+//     position: absolute;
+//     text-transform: none;
+//     top: 0;
+// }
+
+
+// .example, .line-divider, .payment-group {
+//    padding: 20px 0 10px 30px;
+// }
+
+// .payment-group {
+//    padding: 20px 0 10px 0px;
+// }
+
+// .payment-box, .line-divider {
+//     padding-bottom:0px;
+// }
+
+// .inner-payment-box, .inner-payment-box-total {
+//     border-bottom: 1px solid rgb(191, 193, 195);
+// }
+// .payment-box, .summary-box, .example, .line-divider {
+//     border: 1px solid rgb(191, 193, 195);
+//     margin-bottom: 45px;
+//     margin-top: 15px;
+//     overflow: hidden;
+//     position: relative;
+// }
+
+// .inner .inline input {
+//     float:right;
+// }
+
+// .payment-box .add-focus {
+//     outline: none;
+// }
+// .payment-box input:focus {
+//   outline: none;
+//   cursor:none;
+// }
+
+// #registration_copy_cards, #registration_copy_card_fee, #registration_registration_fee, #registration_total_fee {
+//     border: 1px solid rgb(191, 193, 195);
+//     width: 10%;
+//     float:right;
+//     position:relative;
+//     vertical-align: baseline;
+//     top:-35px;
+//     color: rgb(11, 12, 12);
+// }
+
+// #registration_copy_cards {
+//     right:20px;
+// }
+
+// .payment-group .subtitle {
+//     margin-bottom: 30px;
+// }
+
+
+
+
