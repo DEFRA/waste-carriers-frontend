@@ -139,7 +139,6 @@ class Registration < Ohm::Model
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
-    commited = true
     metaData.first.update(route: routeName)
 
     begin
@@ -159,14 +158,15 @@ class Registration < Ohm::Model
       self.metaData.first.update(lastModified: result['metaData']['lastModified'])
       Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
       self.regIdentifier = result['regIdentifier']
-      self.finance_details.add FinanceDetails.init(result['financeDetails'])
 
+      unless self.tier == 'LOWER'
+        self.finance_details.add FinanceDetails.init(result['financeDetails'])
+      end
 
       save
       Rails.logger.debug "Commited to service: #{attributes.to_s}"
     rescue => e
-      Rails.logger.error e.to_s
-      commited = false
+      Rails.logger.debug "Error in Commit to service: #{ e.to_s} || #{attributes.to_s}"
     end
     uuid
   end
