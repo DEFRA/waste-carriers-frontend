@@ -73,7 +73,6 @@ class Registration < Ohm::Model
 
   attribute :password
   attribute :sign_up_mode
-  attribute :routeName
 
   attribute :password
   attribute :sign_up_mode
@@ -777,24 +776,28 @@ class Registration < Ohm::Model
   # Call to determine whether the registration is 'complete' i.e. there are no
   # outstanding checks, payment has been made and the account has been activated
   def is_complete?
-    is_confirmed = true
+    is_complete = true
 
+    Rails.logger.debug "is_complete: In method"
     unless metaData.first.status == 'ACTIVE'
-      is_confirmed = false
+      Rails.logger.debug "is_complete: status = #{metaData.first.status}"
+      is_complete = false
       return
     end
 
     if criminally_suspect
-      is_confirmed = false
+      Rails.logger.debug "is_complete: suspect = #{criminally_suspect}"
+      is_complete = false
       return
     end
 
     unless paid_in_full?
-      is_confirmed = false
+      Rails.logger.debug "is_complete: paid_in_full = #{paid_in_full?}"
+      is_complete = false
       return
     end
 
-    is_confirmed
+    is_complete
 
   end
 
