@@ -11,7 +11,7 @@ class PaymentController < ApplicationController
   # GET /payments
   def new
     @registration = Registration.find_by_id(params[:id])
-    @payment = Payment.find_by_registration(params[:id])
+    @payment = Payment.create
 
     # Override amount to be empty as payment object from services will return an amount of 0
     if @payment.amount == 0
@@ -34,7 +34,7 @@ class PaymentController < ApplicationController
   def create
     logger.info 'create request has been made'
     # Get a new payment object from the parameters in the post
-    @payment = Payment.new(params[:payment])
+    @payment = Payment.init(params[:payment])
     authorize! :enterPayment, @payment
 
     # Manually set date, as it is saved as a single value in the DB, but 3 values in the rails
