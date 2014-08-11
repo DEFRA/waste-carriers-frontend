@@ -39,7 +39,16 @@ class RegistrationsController < ApplicationController
   def newBusinessType
     new_step_action 'businesstype'
 
-    @registration.routeName = agency_user_signed_in? ? 'ASSISTED_DIGITAL' : 'DIGITAL'
+    if agency_user_signed_in?
+      @registration.routeName = 'ASSISTED_DIGITAL'
+      if @registration.accessCode.blank?
+        @registration.accessCode = @registration.generate_random_access_code
+      end
+    else
+      @registration.routeName =  'DIGITAL'
+    end
+    @registration.save
+
   end
 
   # POST /your-registration/business-type
@@ -277,7 +286,7 @@ class RegistrationsController < ApplicationController
   def updateNewRelevantConvictions
     setup_registration 'convictions'
 
-    @registration.convictions_check_indicates_suspect = true # TODO call convictions service with correct parameters
+    @registration.convictions_check_indicates_suspect = @registration.declaredConvictions == 'yes' # TODO call convictions service with correct parameters
     @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
 
     @registration.save
@@ -364,11 +373,12 @@ class RegistrationsController < ApplicationController
 
   end
 
-  # GET /you
+  # GET /your-registration/signin
   def newSignin
     new_step_action 'signin'
   end
 
+  # POST /your-registration/signin
   def updateNewSignin
     setup_registration 'signin'
 
@@ -402,43 +412,6 @@ class RegistrationsController < ApplicationController
       when 'UPPER'
         redirect_to :action => 'newPayment'
     end
-  end
-
-  def commit_new_registration
-
-    unless @registration.tier == 'LOWER'
-      @registration.expires_on = (Date.current + 3.years).to_s
-    end
-
-    @registration.save
-    session[:registration_uuid] = @registration.commit
-    session[:registration_id] = @registration.id
-
-  end
-
-  def complete_new_registration
-
-      unless @registration.persisted?
-        commit_new_registration
-        @registration.activate!
-        @registration.save
-        if @registration.is_complete?
-          RegistrationMailer.welcome_email(@user, @registration).deliver
-        end
-      end
-
-  end
-
-  def commit_new_user
-
-    @user = User.new
-    @user.email = @registration.accountEmail
-    @user.password = @registration.password
-    logger.debug "About to save the new user."
-    # Don't send the confirmation email when the user gets saved.
-    @user.skip_confirmation_notification!
-    @user.save!
-
   end
 
   # GET /your-registration/signup
@@ -477,25 +450,33 @@ class RegistrationsController < ApplicationController
     redirect_to next_step
   end
 
+  # GET /registrations/finish
   def finish
     @registration = Registration[session[:registration_id]]
     authorize! :read, @registration
   end
 
+  # POST /registrations/finish
   def updateFinish
     if user_signed_in?
       redirect_to userRegistrations_path(current_user)
+    else
+      renderNotFound
     end
   end
 
+  # GET /registrations/finish-assisted
   def finishAssisted
     @registration = Registration[session[:registration_id]]
     authorize! :read, @registration
   end
 
+  # POST /registrations/finish-assisted
   def updateFinishAssisted
-    if user_signed_in?
-      redirect_to registrations_path(current_agency_user)
+    if agency_user_signed_in?
+      redirect_to :action => 'index'
+    else
+      renderNotFound
     end
   end
 
@@ -547,6 +528,49 @@ class RegistrationsController < ApplicationController
     logger.debug  @registration.attributes.to_s
     @registration.current_step = current_step
   end
+
+  def commit_new_registration
+
+    unless @registration.tier == 'LOWER'
+      @registration.expires_on = (Date.current + 3.years).to_s
+    end
+
+    @registration.save
+    session[:registration_uuid] = @registration.commit
+    session[:registration_id] = @registration.id
+
+  end
+
+  def commit_new_user
+
+    @user = User.new
+    @user.email = @registration.accountEmail
+    @user.password = @registration.password
+    logger.debug "About to save the new user."
+    # Don't send the confirmation email when the user gets saved.
+    @user.skip_confirmation_notification!
+    @user.save!
+
+  end
+
+  def complete_new_registration
+
+      unless @registration.persisted?
+
+        commit_new_registration
+        @registration.activate!
+        @registration.save
+
+        unless @registration.assisted_digital?
+          if @registration.is_complete?
+            RegistrationMailer.welcome_email(@user, @registration).deliver
+          end
+        end
+
+      end
+
+  end
+
   def validate_search_parameters?(searchString, searchWithin)
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)

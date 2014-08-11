@@ -13,11 +13,11 @@
             <% if @registration.is_complete? %>
               <h1 class="subtitle"><%= t '.subtitle_complete' %></h1>
               <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
-              <p><% t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+              <p><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
               <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
               <% if can? :print, @registration %>
-                <p><%= link_to t('form.print_button_label'), print_confirmed_url, :class => 'link-button-secondary' %></p>
+                <p><%= link_to t('form.print_button_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
               <% end %>
 
             <% else %>
