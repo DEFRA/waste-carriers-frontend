@@ -17,7 +17,7 @@
               <p><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
 
               <% if can? :print, @registration %>
-                <p><%= link_to t('form.print_button_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
+                <p><%= link_to t('form.view_button_label'), print_url(@registration.uuid), { :class => 'link-button-secondary', :id => 'view-certificate'} %></p>
               <% end %>
 
             <% else %>
@@ -44,7 +44,7 @@
 
             <%= form_tag(finishAssisted_path) do |f| %>
               <span class="next_link">
-                <input id="finish_btn" name="finish" class="button button-get-started" type="submit" value="<%= t 'form.finish_button_label' %>"/>
+                <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
               </span>
             <% end %>
           </div>

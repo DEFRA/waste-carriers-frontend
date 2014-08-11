@@ -12,7 +12,7 @@
 <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
 <h1 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h1>
 
-<h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>
+<h2><%= t 'registrations.finish.your_reg_number', :reg => @registration.regIdentifier %></h2>
 
 <p><i>Registered on: <%= format_date(@registration.metaData.first.dateRegistered) %></i></p>
 
