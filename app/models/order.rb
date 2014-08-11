@@ -15,6 +15,12 @@ class Order < Ohm::Model
   attribute :dateLastUpdated
   attribute :updatedByUser
   attribute :description
+  
+  # These are meta data fields used only in rails for storing a temporary value to determine:
+  # if the amount entered is positive or negative
+  attribute :amountType
+  # the exception detail from the services
+  attribute :exception
 
   set :order_items, :OrderItem
 
@@ -87,6 +93,7 @@ class Order < Ohm::Model
   # @return  [Boolean] true if Post is successful (200), false if not
   def commit (registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
+    negateAmount    
     Rails.logger.debug "about to post order: #{to_json.to_s}"
     commited = true
     begin
@@ -102,8 +109,26 @@ class Order < Ohm::Model
       Rails.logger.debug "Commited order to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
+      
+      if e.http_code == 422
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body ul li").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      elsif e.http_code == 400
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body pre").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      end
+      
       commited = false
     end
+    unNegateAmount
     commited
   end
 
@@ -185,6 +210,22 @@ class Order < Ohm::Model
     end
   end
 
+  def negateAmount
+    Rails.logger.info 'Order, negateAmount, amountType: ' + self.amountType
+    if self.amountType == Order.getNegativeType
+      self.totalAmount = -self.totalAmount.to_f.abs
+      Rails.logger.info 'amount negated: ' + self.totalAmount.to_s
+    end
+  end
+  
+  def unNegateAmount
+    Rails.logger.info 'Order, unNegateAmount, amountType: ' + self.amountType
+    if self.amountType == Order.getNegativeType
+      self.totalAmount = self.totalAmount.to_f.abs
+      Rails.logger.info 'amount unNegated: ' + self.totalAmount.to_s
+    end
+  end
+  
   private
   
   def isOnlinePayment?
