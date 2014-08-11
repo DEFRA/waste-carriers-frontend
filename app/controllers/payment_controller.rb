@@ -84,10 +84,14 @@ class PaymentController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     @payment = Payment.create
     #Payment.find_by_registration(params[:id])
-
+    @type = 'default'
+    
     isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
-
-    if isFinanceAdmin
+    isAgencyRefund = current_agency_user.has_role? :Role_ncccRefund, AgencyUser
+    
+    if params[:type] == 'writeOffLarge' and isFinanceAdmin
+      logger.debug 'LARGE WRITE OFF SELECTED'
+      @type = 'writeOffLarge'
       # do finance admin write off
       # Redirect to paymentstatus is balance is negative or paid
       logger.info 'balance: ' + @registration.finance_details.first.balance.to_s
@@ -100,7 +104,10 @@ class PaymentController < ApplicationController
         logger.info 'Balance is out of range for a large write off'
         redirect_to :paymentstatus, :alert => isLargeMessage
       end
-    else
+      authorize! :writeOffLargePayment, @payment
+    elsif params[:type] == 'writeOffSmall' and isAgencyRefund
+      logger.debug 'SMALL WRITE OFF SELECTED'
+      @type = 'writeOffSmall'
       # Redirect to paymentstatus is balance is negative or paid
       if @registration.finance_details.first
         logger.info 'balance: ' + @registration.finance_details.first.balance.to_s
@@ -108,7 +115,7 @@ class PaymentController < ApplicationController
         if isSmallMessage == true
           logger.info 'Balance is in range for a small write off'
           # Set fixed Amount at exactly negative outstanding balance
-        @payment.amount = @registration.finance_details.first.balance.to_f.abs
+          @payment.amount = @registration.finance_details.first.balance.to_f.abs
         else
           logger.info 'Balance is out of range for a small write off'
           redirect_to :paymentstatus, :alert => isSmallMessage
@@ -117,35 +124,51 @@ class PaymentController < ApplicationController
         logger.info 'Balance is not available'
         redirect_to :paymentstatus, :alert => I18n.t('payment.newWriteOff.writeOffNotAppropriate')
       end
+      authorize! :writeOffSmallPayment, @payment
+    else
+      message = 'Write off type incorrect'
+      logger.info message
+      redirect_to :paymentstatus, :alert => message
+      return
     end
 
     authorize! :read, @registration
-    authorize! :writeOffPayment, @payment
   end
 
   # POST /writeOffs
   def createWriteOff
     logger.info 'createWriteOff request has been made'
+    
     @registration = Registration.find_by_id(params[:id])
     # Get a new payment object from the parameters in the post
     @payment = Payment.init(params[:payment])
-    authorize! :writeOffPayment, @payment
     
+    if params[:writeOffSmall] == I18n.t('registrations.form.writeoff_button_label')
+      logger.info 'Write off small'
+      @type = 'writeOffSmall'
+      @payment.paymentType = 'WRITEOFFSMALL'
+      authorize! :writeOffSmallPayment, @payment
+    elsif params[:writeOffLarge] == I18n.t('registrations.form.writeoff_button_label')
+      logger.info 'Write off large'
+      @type = 'writeOffLarge'
+      @payment.paymentType = 'WRITEOFFLARGE'
+      authorize! :writeOffLargePayment, @payment
+    else
+      logger.info 'Unrecognised write off button, sending back to newWriteoff page'
+      message = 'Write off type incorrect'
+      logger.info message
+      redirect_to :paymentstatus, :alert => message
+      return
+    end
+
     # Set payment amount to match outstanding balance
     @payment.amount = @registration.finance_details.first.balance.to_i
 
     # Set fields automatically for write off's
     @payment.dateReceived = Time.new.strftime("%Y-%m-%d")
     @payment.updatedByUser = current_agency_user.id.to_s
-    
-    @payment.orderKey = generateOrderCode
 
-	#######
-	#
-	# FIXME: use the button clicked from payment status to create the correct payment Type
-	#
-	#######
-    @payment.paymentType = 'WRITEOFFSMALL'
+    @payment.orderKey = generateOrderCode
 
 	# Set override to validate amount as pounds as came from user screen and was converted to display as pounds
 	@payment.manualPayment = false
@@ -167,6 +190,9 @@ class PaymentController < ApplicationController
 	  end
 
       authorize! :read, @registration
+      
+      # Revert payment amount to outstanding balance
+      @payment.amount = @registration.finance_details.first.balance.to_f.abs
 
       render "newWriteOff", :status => '400'
 	end
