@@ -2,6 +2,10 @@
 
 <main id="content" role="main" class="group">
 	<article role="article" class="group">
+	<section>
+      <div class="inner">
+      <div class="col-1">
+      
 	<% content_for :page_title, createTitle('.heading') %>
 
 	<!-- Usefull for showing default messages -->
@@ -16,7 +20,7 @@
 			<fieldset>
 				<legend><%= t '.heading' %></legend>
 				
-				<table class="" summary='This table details the orders available for a refund' style="width:60%"> <!-- Remove this style once styles working -->
+				<table class="" summary='This table details the orders available for a refund'>
 					<thead class="">
 						<tr>
 							<th class="">Date</th>
@@ -115,7 +119,6 @@
 				
 				<br/>
 				<br/>
-				<br/>
 
 				<div class="inline">
 				    <noscript>
@@ -127,23 +130,22 @@
 				<br/>
 				<br/>
 				<br/>
-				<br/>
 				
 			</fieldset>
 			
 		</div>
 	
-	</aside>
-
-	<div class='related-positioning'>
-		<div class='related-container'>
-			<div class='related'>
-				<div class='inner group related-subsection'>
-				<%= render "shared/current_user" %>
-				</div>
-			</div>
-		</div>
 	</div>
+      </div>
+    </section>
+
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+         <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
 
 	</article>
 </main>

@@ -51,10 +51,11 @@
 							</thead>
 							<tbody>
 								<% regCount = 1; %>
+								<%#= @registration.to_json %>
 								<% if @registration.respond_to?('finance_details') and @registration.finance_details.first \
 								   && @registration.finance_details.size > 0 && @registration.finance_details.first.orders %>
 									<% @registration.finance_details.first.orders.each do |order| %>
-									  <% if order.respond_to?('order_items') and order.order_items %>
+									  <% if order.respond_to?('order_items') and order.order_items and order.order_items.size > 0 %>
 									  	<% order.order_items.each do |orderItem| %>
 											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 												<td class="" ><%= order.dateLastUpdated %></td>
@@ -74,7 +75,7 @@
 									<% end %>
 								<% else %>
 									<tr class="solid-box">
-											<td class="" >No Change History</td>
+											<td class="" >No Charge History</td>
 											<td class="" > </td>
 											<td class="" > </td>
 											<td class="" > </td>
@@ -175,7 +176,7 @@
 		    <% if isRefund %>
 		      <span class="next_link">
 		      <% if isSmallWriteOffAvailable(@registration) %>
-		        <%= link_to t('registrations.form.writeoffsmall_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffSmall' %>
+		        <%= link_to t('registrations.form.writeoffsmall_button_label'), enterWriteOff_path(:type => 'writeOffSmall'), :class => 'button', :id => 'writeOffSmall' %>
 		      <% else %>
 		        <%= link_to t('registrations.form.writeoffsmall_button_label'), '#', :class => 'button disabled', :id => 'writeOffSmall' %>
 		      <% end %>
@@ -185,7 +186,7 @@
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
 		    <span class="next_link">
 		    <% if isLargeWriteOffAvailable(@registration) %>
-		      <%= link_to t('registrations.form.writeofflarge_button_label'), :enterWriteOff, :class => 'button', :id => 'writeOffLarge' %>
+		      <%= link_to t('registrations.form.writeofflarge_button_label'), enterWriteOff_path(:type => 'writeOffLarge'), :class => 'button', :id => 'writeOffLarge' %>
 		    <% else %>
 		      <%= link_to t('registrations.form.writeofflarge_button_label'), '#', :class => 'button disabled', :id => 'writeOffLarge' %>
 		    <% end %>

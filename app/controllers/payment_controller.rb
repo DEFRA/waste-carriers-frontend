@@ -11,7 +11,7 @@ class PaymentController < ApplicationController
   # GET /payments
   def new
     @registration = Registration.find_by_id(params[:id])
-    @payment = Payment.find_by_registration(params[:id])
+    @payment = Payment.create
 
     # Override amount to be empty as payment object from services will return an amount of 0
     if @payment.amount == 0
@@ -34,7 +34,7 @@ class PaymentController < ApplicationController
   def create
     logger.info 'create request has been made'
     # Get a new payment object from the parameters in the post
-    @payment = Payment.new(params[:payment])
+    @payment = Payment.init(params[:payment])
     authorize! :enterPayment, @payment
 
     # Manually set date, as it is saved as a single value in the DB, but 3 values in the rails
@@ -84,10 +84,14 @@ class PaymentController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     @payment = Payment.create
     #Payment.find_by_registration(params[:id])
-
+    @type = 'default'
+    
     isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
-
-    if isFinanceAdmin
+    isAgencyRefund = current_agency_user.has_role? :Role_ncccRefund, AgencyUser
+    
+    if params[:type] == 'writeOffLarge' and isFinanceAdmin
+      logger.debug 'LARGE WRITE OFF SELECTED'
+      @type = 'writeOffLarge'
       # do finance admin write off
       # Redirect to paymentstatus is balance is negative or paid
       logger.info 'balance: ' + @registration.finance_details.first.balance.to_s
@@ -100,7 +104,10 @@ class PaymentController < ApplicationController
         logger.info 'Balance is out of range for a large write off'
         redirect_to :paymentstatus, :alert => isLargeMessage
       end
-    else
+      authorize! :writeOffLargePayment, @payment
+    elsif params[:type] == 'writeOffSmall' and isAgencyRefund
+      logger.debug 'SMALL WRITE OFF SELECTED'
+      @type = 'writeOffSmall'
       # Redirect to paymentstatus is balance is negative or paid
       if @registration.finance_details.first
         logger.info 'balance: ' + @registration.finance_details.first.balance.to_s
@@ -108,7 +115,7 @@ class PaymentController < ApplicationController
         if isSmallMessage == true
           logger.info 'Balance is in range for a small write off'
           # Set fixed Amount at exactly negative outstanding balance
-        @payment.amount = @registration.finance_details.first.balance.to_f.abs
+          @payment.amount = @registration.finance_details.first.balance.to_f.abs
         else
           logger.info 'Balance is out of range for a small write off'
           redirect_to :paymentstatus, :alert => isSmallMessage
@@ -117,35 +124,51 @@ class PaymentController < ApplicationController
         logger.info 'Balance is not available'
         redirect_to :paymentstatus, :alert => I18n.t('payment.newWriteOff.writeOffNotAppropriate')
       end
+      authorize! :writeOffSmallPayment, @payment
+    else
+      message = 'Write off type incorrect'
+      logger.info message
+      redirect_to :paymentstatus, :alert => message
+      return
     end
 
     authorize! :read, @registration
-    authorize! :writeOffPayment, @payment
   end
 
   # POST /writeOffs
   def createWriteOff
     logger.info 'createWriteOff request has been made'
+    
     @registration = Registration.find_by_id(params[:id])
     # Get a new payment object from the parameters in the post
     @payment = Payment.init(params[:payment])
-    authorize! :writeOffPayment, @payment
     
+    if params[:writeOffSmall] == I18n.t('registrations.form.writeoff_button_label')
+      logger.info 'Write off small'
+      @type = 'writeOffSmall'
+      @payment.paymentType = 'WRITEOFFSMALL'
+      authorize! :writeOffSmallPayment, @payment
+    elsif params[:writeOffLarge] == I18n.t('registrations.form.writeoff_button_label')
+      logger.info 'Write off large'
+      @type = 'writeOffLarge'
+      @payment.paymentType = 'WRITEOFFLARGE'
+      authorize! :writeOffLargePayment, @payment
+    else
+      logger.info 'Unrecognised write off button, sending back to newWriteoff page'
+      message = 'Write off type incorrect'
+      logger.info message
+      redirect_to :paymentstatus, :alert => message
+      return
+    end
+
     # Set payment amount to match outstanding balance
     @payment.amount = @registration.finance_details.first.balance.to_i
 
     # Set fields automatically for write off's
     @payment.dateReceived = Time.new.strftime("%Y-%m-%d")
     @payment.updatedByUser = current_agency_user.id.to_s
-    
-    @payment.orderKey = generateOrderCode
 
-	#######
-	#
-	# FIXME: use the button clicked from payment status to create the correct payment Type
-	#
-	#######
-    @payment.paymentType = 'WRITEOFFSMALL'
+    @payment.orderKey = generateOrderCode
 
 	# Set override to validate amount as pounds as came from user screen and was converted to display as pounds
 	@payment.manualPayment = false
@@ -167,6 +190,9 @@ class PaymentController < ApplicationController
 	  end
 
       authorize! :read, @registration
+      
+      # Revert payment amount to outstanding balance
+      @payment.amount = @registration.finance_details.first.balance.to_f.abs
 
       render "newWriteOff", :status => '400'
 	end
@@ -338,15 +364,16 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    # authorize! :newCharges, Order
+    # authorize! :newAdjustment, Order
   end
   
   # GET /newAdjustment
   def newAdjustment
     logger.info 'orderType:' + params[:orderType]
-    @orderType = params[:orderType]
     
     @order = Order.create
+    @order.amountType = params[:orderType]
+    @order.orderId = SecureRandom.uuid
     
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
@@ -356,24 +383,58 @@ class PaymentController < ApplicationController
   
   # POST /newAdjustment
   def createAdjustment
-    @orderType = params[:orderType]
     @order = Order.init(params[:order])
     
-    # validate orderType
-    if @order.includesOrderType? @orderType
-      if @order.valid?
-        # save
-        @order.save!
-        # Redirect user back to payment status
-        redirect_to paymentstatus_path, alert: "Charge has been successfully entered."
-        return
-      end
+    # Generate default adjustment details
+    @order.orderCode = generateOrderCode
+    @order.merchantId = 'n/a'
+    @order.currency = 'GBP'
+    @order.updatedByUser = current_agency_user.id.to_s
+    now = Time.now.utc.xmlschema
+    @order.dateCreated = now
+    @order.dateLastUpdated = now
+    
+    if params[:positiveAdjustment] == I18n.t('registrations.form.enteradjustment_button_label')
+      # positive
+      @order.amountType = Order.getPositiveType
+      @orderType = Order.getPositiveType
+    elsif params[:negativeAdjustment] == I18n.t('registrations.form.enteradjustment_button_label')
+      # negative
+      @order.amountType = Order.getNegativeType
+      @orderType = Order.getNegativeType
     else
-      @order.errors.add(:orderType, I18n.t('errors.messages.invalid_selection'))
+      # neither
+      @order.amountType = 'default'
+      @order.errors.add(:amountType, I18n.t('errors.messages.invalid_selection'))
     end
     
+    #logger.info 'before order id: ' + @order.orderId.to_s
+    #@order.orderId = SecureRandom.uuid
+    #logger.info 'after order id: ' + @order.orderId.to_s
+    
+    
+    #@order.negateAmount
+    
+    # validate orderType
+    if @order.includesOrderType? @order.amountType
+      if @order.valid?
+        # save
+        if @order.commit params[:id]
+          # Redirect user back to payment status
+          redirect_to paymentstatus_path, alert: "Charge has been successfully entered."
+          return
+        else
+          @order.errors.add(:exception, @order.exception.to_s)
+        end
+      end
+    else
+      @order.errors.add(:amountType, I18n.t('errors.messages.invalid_selection'))
+    end
+    
+    #@order.unNegateAmount
+    
     # Return to entry page, as errors must have occured
-    render "newAdjustment", :status => '400', :orderType => @orderType
+    render "newAdjustment", :status => '400'
     
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?

@@ -69,7 +69,7 @@ class Ability
     
 	if !user.nil? and user.is_agency_user? and user.has_role? :Role_ncccRefund, AgencyUser
 	  can :newRefund, Payment
-	  can :writeOffPayment, Payment
+	  can :writeOffSmallPayment, Payment
 	end
 	
 #	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
@@ -82,7 +82,7 @@ class Ability
 	
 	if !user.nil? and user.is_agency_user? and user.has_role? :Role_financeAdmin, AgencyUser
 	  # TMP: make tests pass re:review tests once roles correct?
-	  can :writeOffPayment, Payment
+	  can :writeOffLargePayment, Payment
 	  
 	  # Write off Order - TODO
 	  can :writeOffOrder, Order

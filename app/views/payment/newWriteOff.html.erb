@@ -8,7 +8,7 @@
     <% if alert %><%= alert %><% end %>
     
     <aside>
-    <%= form_for @payment, url: {action: "createWriteOff"}, :method => 'post' do |f| %>
+    <%= form_for @payment, url: {:action=> "createWriteOff", :type => @type}, :method => 'post' do |f| %>
 
       	<div class="step"><%= t '.step' %></div>
       	
@@ -51,7 +51,13 @@
 		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
 		    </noscript>
 		    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
-		    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.writeoff_button_label' %>"/></span>
+		    <span class="next_link">
+		    <% if @type == 'writeOffLarge' %>
+		      <input name="writeOffLarge" class="button button-get-started" type="submit" value="<%= t 'registrations.form.writeoff_button_label' %>"/>
+		    <% elsif @type == 'writeOffSmall' %>
+		      <input name="writeOffSmall" class="button button-get-started" type="submit" value="<%= t 'registrations.form.writeoff_button_label' %>"/>
+		    <% end %>
+		    </span>
 		</div>
 		
 	<% end %>
