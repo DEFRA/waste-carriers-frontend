@@ -364,15 +364,16 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    # authorize! :newCharges, Order
+    # authorize! :newAdjustment, Order
   end
   
   # GET /newAdjustment
   def newAdjustment
     logger.info 'orderType:' + params[:orderType]
-    @orderType = params[:orderType]
     
     @order = Order.create
+    @order.amountType = params[:orderType]
+    @order.orderId = SecureRandom.uuid
     
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
@@ -382,24 +383,58 @@ class PaymentController < ApplicationController
   
   # POST /newAdjustment
   def createAdjustment
-    @orderType = params[:orderType]
     @order = Order.init(params[:order])
     
-    # validate orderType
-    if @order.includesOrderType? @orderType
-      if @order.valid?
-        # save
-        @order.save!
-        # Redirect user back to payment status
-        redirect_to paymentstatus_path, alert: "Charge has been successfully entered."
-        return
-      end
+    # Generate default adjustment details
+    @order.orderCode = generateOrderCode
+    @order.merchantId = 'n/a'
+    @order.currency = 'GBP'
+    @order.updatedByUser = current_agency_user.id.to_s
+    now = Time.now.utc.xmlschema
+    @order.dateCreated = now
+    @order.dateLastUpdated = now
+    
+    if params[:positiveAdjustment] == I18n.t('registrations.form.enteradjustment_button_label')
+      # positive
+      @order.amountType = Order.getPositiveType
+      @orderType = Order.getPositiveType
+    elsif params[:negativeAdjustment] == I18n.t('registrations.form.enteradjustment_button_label')
+      # negative
+      @order.amountType = Order.getNegativeType
+      @orderType = Order.getNegativeType
     else
-      @order.errors.add(:orderType, I18n.t('errors.messages.invalid_selection'))
+      # neither
+      @order.amountType = 'default'
+      @order.errors.add(:amountType, I18n.t('errors.messages.invalid_selection'))
     end
     
+    #logger.info 'before order id: ' + @order.orderId.to_s
+    #@order.orderId = SecureRandom.uuid
+    #logger.info 'after order id: ' + @order.orderId.to_s
+    
+    
+    #@order.negateAmount
+    
+    # validate orderType
+    if @order.includesOrderType? @order.amountType
+      if @order.valid?
+        # save
+        if @order.commit params[:id]
+          # Redirect user back to payment status
+          redirect_to paymentstatus_path, alert: "Charge has been successfully entered."
+          return
+        else
+          @order.errors.add(:exception, @order.exception.to_s)
+        end
+      end
+    else
+      @order.errors.add(:amountType, I18n.t('errors.messages.invalid_selection'))
+    end
+    
+    #@order.unNegateAmount
+    
     # Return to entry page, as errors must have occured
-    render "newAdjustment", :status => '400', :orderType => @orderType
+    render "newAdjustment", :status => '400'
     
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?

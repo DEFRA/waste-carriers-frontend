@@ -24,18 +24,21 @@ class FinanceDetails < Ohm::Model
               
               #Rails.logger.info 'orders size before ' + fd.orders.size.to_s
               fd.orders.each do |checkOrder|
-                #Rails.logger.info '-----------------'
-                #Rails.logger.info 'before check order: ' + checkOrder.attributes.to_s
+                Rails.logger.info '-----------------'
+                Rails.logger.info 'before check order: ' + checkOrder.attributes.to_s
               end
               
+              # add to oder list
+              fd.orders.add fd_order
+              
               # Alan idea
-              fd.orders.replace([fd_order])
+              #fd.orders.replace([fd_order])
               
               #Rails.logger.info 'orders size after ' + fd.orders.size.to_s
               fd.orders.each do |checkOrder|
-                #Rails.logger.info '-----------------'
-                #Rails.logger.info 'FD id: ' + fd.id + ' Order id: ' + checkOrder.id
-                #Rails.logger.info 'after check order: ' + checkOrder.to_json.to_s
+                Rails.logger.info '-----------------'
+                Rails.logger.info 'FD id: ' + fd.id + ' Order id: ' + checkOrder.id
+                Rails.logger.info 'after check order: ' + checkOrder.to_json.to_s
               end
               
             end

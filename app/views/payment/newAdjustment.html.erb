@@ -24,8 +24,8 @@
 		  	    <legend><%= t '.heading' %></legend>
 		  	    
 		  	    <div class="form-group">
-		            <label class="form-label">Enter a <%= @orderType.downcase %> charge</label>
-		            <%= hidden_field_tag(:orderType, @orderType) %>
+		            <label class="form-label">Enter a <%= @order.amountType.downcase %> charge</label>
+		            <%= f.hidden_field :orderId %>
 				</div>
 		  	    
 		        <div class="form-group<%if @order.errors[:totalAmount].any?%> validation<%end%>">
@@ -37,7 +37,7 @@
 				<div class="form-group<%if @order.errors[:paymentMethod].any?%> validation<%end%>">
 					<%= validation_for(@order, :paymentMethod) %>
 					<%= f.label :paymentMethod, class: 'form-label' %>
-					<%= f.text_field :paymentMethod %>
+					<%= f.text_field :paymentMethod, value: 'UNKNOWN', disabled: true %>
 				</div>
 				
 				<div class="form-group<%if @order.errors[:description].any?%> validation<%end%>">
@@ -55,7 +55,9 @@
 		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
 		    </noscript>
 		    <%= link_to t('registrations.form.back_button_label'), :chargeAdjustment, :class => 'link_to' %>
-		    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enteradjustment_button_label' %>"/></span>
+		    <span class="next_link">
+		    <input name="<%= @order.amountType.downcase %>Adjustment" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enteradjustment_button_label' %>"/>
+		    </span>
 		</div>
 
 	  <% end %>

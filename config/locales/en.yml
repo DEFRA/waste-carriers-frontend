@@ -22,6 +22,7 @@ en:
         dateLastUpdated: "Date updated"
         updatedByUser: "Placed by user"
         description: "Description"
+        exception: "Services error:"
       payment:
         amount: "Amount Received (£)"
         comment: Comment
