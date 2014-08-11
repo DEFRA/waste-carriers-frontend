@@ -286,8 +286,11 @@ class RegistrationsController < ApplicationController
   def updateNewRelevantConvictions
     setup_registration 'convictions'
 
-    @registration.convictions_check_indicates_suspect = @registration.declaredConvictions == 'yes' # TODO call convictions service with correct parameters
+     # TODO call convictions service with correct parameters
+    @registration.convictions_check_indicates_suspect = @registration.declaredConvictions == 'yes'
+    logger.debug "convictions_check_indicates_suspect is #{@registration.convictions_check_indicates_suspect}"
     @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
+    logger.debug "criminally_suspect is #{@registration.criminally_suspect}"
 
     @registration.save
 
@@ -1152,12 +1155,19 @@ def prepareOrder (useWorldPay = true)
   def updateNewOfflinePayment
     @registration = Registration[session[:registration_id]]
 
-    if @registration.user.confirmed?
-      redirect_to print_confirmed_path
-    else
-      send_confirm_email @registration
-      redirect_to pending_path
+    next_step = if user_signed_in?
+        finish_path
+      elsif agency_user_signed_in?
+        finishAssisted_path
+      else
+        unless @registration.user.confirmed?
+          send_confirm_email @registration
+        end
+        pending_path
     end
+
+    redirect_to next_step
+
   end
 
   private

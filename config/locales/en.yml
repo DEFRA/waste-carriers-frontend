@@ -188,8 +188,9 @@ en:
     update_button_label: Update
     yes_option_label: "Yes"
     confirm_button_label: "Confirm"
-    finish_button_label: "Finish"
-    print_button_label: "Print"
+    finished_button_label: "Finished"
+    print_button_label: "Print certificate"
+    view_button_label: "View certificate"
   format_options:
     csv: csv
     json: json
