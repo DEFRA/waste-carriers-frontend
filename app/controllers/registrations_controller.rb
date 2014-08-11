@@ -952,7 +952,14 @@ class RegistrationsController < ApplicationController
 
     if @order.valid?
       logger.info "Saving the order"
-      @order.save! @registration.uuid
+      if @order.save! @registration.uuid
+        # order saved successfully        
+      else
+        # error updating services
+        logger.warn 'The order was not saved to services.'
+        render 'newPayment', :status => '400'
+        return
+      end
     else
       #We should hardly get into here given we constructed the order just above...
       logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
