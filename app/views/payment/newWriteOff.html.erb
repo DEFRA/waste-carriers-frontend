@@ -2,6 +2,10 @@
 
 <main id="content" role="main" class="group">
     <article role="article" class="group">
+    <section>
+      <div class="inner">
+      <div class="col-1">
+    
     <% content_for :page_title, createTitle('.heading') %>
     
     <!-- Usefull for showing default messages -->
@@ -62,17 +66,17 @@
 		
 	<% end %>
 	
-	</aside>
+	  </div>
+      </div>
+    </section>
 
-	<div class='related-positioning'>
-		<div class='related-container'>
-			<div class='related'>
-				<div class='inner group related-subsection'>
-				<%= render "shared/current_user" %>
-				</div>
-			</div>
-		</div>
-	</div>
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+         <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
     
     </article>
 </main>
