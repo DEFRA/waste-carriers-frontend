@@ -23,6 +23,10 @@
     <%= f.password_field :password %>
   </div>
   
+  <%
+  isFinanceSuper = current_admin.has_role? :Role_financeSuper, Admin
+  if isFinanceSuper
+  %>
   <!-- Checkboxes representing roles -->
   <div class="form-group<% if @agency_user.errors[:roles].any? %> validation<% end %>">
     <%= validation_for(@agency_user, :roles) %>
@@ -37,6 +41,7 @@
 	<% end %>
 	<%#= f.select :roles, options_from_collection_for_select(Role.all,"name","name") %>
   </div>
+  <% end %>
   
   <p class="action group">
     <input name="next" class="button" type="submit" value="<%if @agency_user.persisted?%><%=t 'agencyUsers.updateLabel'%><%else%><%=t 'agencyUsers.createLabel'%><%end%>"/>

@@ -154,12 +154,14 @@ class Payment < Ohm::Model
   # error message representing why it failed.
   def self.isSmallWriteOff(balance)
     Rails.logger.info 'balance: ' + balance.to_s
-    if balance.to_f <= Payment.basicMinimum
+    if balance.to_f < Payment.basicMinimum
       Rails.logger.info 'Balance is paid or overpaid'
       I18n.t('payment.newWriteOff.writeOffNotApplicable')
     elsif balance.to_f > Payment.basicMaximum
       Rails.logger.info 'Balance is too great'
       I18n.t('payment.newWriteOff.writeOffUnavailable')
+    elsif balance.to_f == 0.to_f
+      I18n.t('payment.newWriteOff.writeOffNotApplicable')
     else
       true
     end
