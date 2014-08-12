@@ -697,29 +697,6 @@ class RegistrationsController < ApplicationController
     registration.declaredConvictions == 'yes'
   end
 
-  def print_confirmed
-    @registration = Registration.find_by_id(session[:registration_uuid])
-    if @registration.empty?
-      renderNotFound and return
-    end
-
-    if params[:finish]
-      if agency_user_signed_in?
-        logger.info 'Keep agency user signed in before redirecting back to search page'
-        redirect_to registrations_path
-      else
-        reset_session
-        redirect_to Rails.configuration.waste_exemplar_end_url
-      end
-    elsif params[:back]
-      logger.debug 'Default, redirecting back to Finish page'
-      redirect_to confirmed_url
-    else
-      #TODO - Print view layout?
-      render
-    end
-  end
-
   def version
     @railsVersion = Rails.configuration.application_version
 
@@ -1015,7 +992,7 @@ class RegistrationsController < ApplicationController
     if @order.valid?
       logger.info "Saving the order"
       if @order.save! @registration.uuid
-        # order saved successfully        
+        # order saved successfully
       else
         # error updating services
         logger.warn 'The order was not saved to services.'

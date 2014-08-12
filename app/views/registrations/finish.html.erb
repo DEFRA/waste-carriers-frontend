@@ -17,13 +17,14 @@
               <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
               <% if can? :print, @registration %>
-                <p><%= link_to t('form.print_button_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
+                <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
               <% end %>
 
             <% else %>
               <h1 class="subtitle"><%= t '.subtitle_pending' %></h1>
               <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
-              <p><% t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+              <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+              <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
               <% unless @registration.paid_in_full? %>
                 <p><%= t '.payment_message' %></p>

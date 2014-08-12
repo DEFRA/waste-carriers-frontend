@@ -103,10 +103,9 @@ Registrations::Application.routes.draw do
     match "your-registration/signin" => 'registrations#updateNewSignin', :via => [:post,:put,:patch]
 
 	  get "your-registration/confirm-account" => 'registrations#pending', :as => :pending
-	  match "your-registration/print" => 'registrations#print_confirmed', :via => [:get,:patch], :as => :print_confirmed
 
 	  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
-    # Registration urls - Upper-tier process
+
     get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
