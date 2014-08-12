@@ -9,10 +9,10 @@
         	<!-- WF 4.3.4 -->
 					<div id="page4"  data-journey="waste-carriers-registration:signup">
             <% content_for :page_title, createTitle('.title') %>
-            <ol>
-              <li class="back_link"><%= render 'back_link' %></li>
+         
+             <%= render 'back_link' %>
               <%= render 'step', r: @registration, upper_step: '7', lower_step: '4' %>
-            </ol>
+  
 
             <%= render 'errors' %>
 

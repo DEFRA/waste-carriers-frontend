@@ -10,10 +10,10 @@
           <div id="page7"  data-journey="waste-carriers-registration:key-people-details">
 
             <% content_for :page_title, createTitle('.title') %>
-            <ol>
-               <li class="back_link"><%= render 'back_link' %></li>
-               <li class="step"><%= t '.step' %></li>
-            </ol>
+         
+              <%= render 'back_link' %>
+              <%= t '.step' %>
+      
 
             <%= render 'errors' %>
 
@@ -56,7 +56,7 @@
     </section>
 
     <% if @key_people.any? %>
-      <aside role='note'>
+      <aside role='note' id="directors-aside">
         <div class="inner">
           <div class="col-2">
             <h3><%= t '.you_have_added' %></h3>
