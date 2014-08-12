@@ -76,9 +76,13 @@ And(/^I choose pay via electronic transfer$/) do
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
-  page.should have_content 'is registered as an upper tier waste carrier'
+  page.should have_content 'has been registered as an upper tier waste carrier'
   open_email my_email_address
   current_email.should have_content 'is registered as an upper tier waste carrier'
+end
+
+Then(/^I have completed the application as an upper tier waste carrier$/) do
+  page.should have_content 'has applied as an upper tier waste carrier'
 end
 
 And(/^no key people in the organisation have convictions$/) do
@@ -92,5 +96,5 @@ And(/^key people in the organisation have convictions$/) do
 end
 
 But(/^I am told my registration is pending a convictions check$/) do
-  page.should have_content 'Your registration is pending checks'
+  page.should have_content 'We are required to cross check the declared relevant people'
 end

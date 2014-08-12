@@ -180,18 +180,19 @@ en:
   form:
     add_button_label: Add
     back_button_label: Back
+    confirm_button_label: "Confirm"
     delete_button_label: Delete
     edit_button_label: Edit
     edit_these_details: "Edit these details"
     find_companies_house_details: "Companies House number"
+    finished_button_label: "Finished"
     next_button_label: Next
     no_option_label: "No"
-    update_button_label: Update
-    yes_option_label: "Yes"
-    confirm_button_label: "Confirm"
-    finished_button_label: "Finished"
     print_button_label: "Print certificate"
-    view_button_label: "View certificate"
+    sign_in_button_label: "Sign in"
+    update_button_label: Update
+    view_certificate_link_label: "View certificate"
+    yes_option_label: "Yes"
   format_options:
     csv: csv
     json: json
@@ -384,16 +385,17 @@ en:
       tier_description: "You are %{tier_with_article} tier waste carrier..."
       title: Confirmation
     confirmed:
-      detailsChange: "If any of your details change you must update your registration within 28 days."
-      detailsEmailed: "Your certificate and guidance have been emailed to %{email}."
-      hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
-      heading: "Registration complete"
-      nowRegistered: "You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency."
-      payment_pending: "Please remember to pay for this registration via electronic transfer. Details on how to pay have been included in your email."
-      problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
-      signIn_html: "<a href='%{link}'>Sign in</a> to view your certificate, check your details or create a new registration."
-      yourCertificate: "Your certificate and guidance have been emailed to you."
-      yourRegNumber: "Your registration number is: %{reg}"
+      title: "Confirmed"
+      subtitle_complete: "Registration complete"
+      subtitle_pending: "Registration pending"
+      your_reg_number: "Your registration number is: %{reg}"
+      registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
+      applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier with the Environment Agency."
+      details_emailed: "Your certificate and guidance have been emailed to %{email}."
+      payment_message: "Please remember to arrange your bank transfer. Alternatively select the registration and choose to pay by credit or debit card."
+      declared_convictions_message: "We are required to cross check the declared relevant people with convictions before confirming the registration."
+      pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
+      details_change: "If any of your details change you must update your registration within 28 days."
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
       step: "Step 3 of 8"
@@ -728,19 +730,6 @@ en:
       telephone: Telephone
       title: "Waste carrier registration certificate"
       website_html: "You can do this by going to the website <u>www.gov.uk/waste-carrier-or-broker-registration</u> and logging in using your email and password."
-    confirmed:
-      title: "Account confirmed"
-      detailsChange: "If any of your details change you must update your registration within 28 days."
-      detailsEmailed: "Your certificate and guidance have been emailed to %{email}."
-      hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
-      heading: "Registration complete"
-      nowRegistered: "You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency."
-      payment_pending: "Please remember to pay for this registration via electronic transfer. Details on how to pay have been included in your email."
-      pending_convictions_check: "Your registration is pending checks."
-      problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
-      signIn_html: "<a href='%{link}'>Sign in</a> to view your certificate, check your details or create a new registration."
-      yourCertificate: "Your certificate and guidance have been emailed to you."
-      yourRegNumber: "Your registration number is: %{reg}"
     print_confirmed:
       title: "Waste carrier registration certificate"
     publicSearch:

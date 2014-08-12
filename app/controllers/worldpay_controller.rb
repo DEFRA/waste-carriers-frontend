@@ -17,7 +17,7 @@ class WorldpayController < ApplicationController
         elsif agency_user_signed_in?
           finishAssisted_path
         else
-          send_confirm_email @registration
+          send_confirm_email Registration.find_by_id(session[:registration_uuid])
           pending_path
         end
     else
