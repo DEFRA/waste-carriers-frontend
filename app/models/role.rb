@@ -22,6 +22,7 @@ class Role
     Role_financeBasic
     Role_financeAdmin
     Role_ncccRefund
+    Role_ncccPayment
   ]
   
   def self.roles
