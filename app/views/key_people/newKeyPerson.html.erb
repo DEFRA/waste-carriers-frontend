@@ -10,12 +10,9 @@
           <div id="page7"  data-journey="waste-carriers-registration:key-person-details">
 
             <% content_for :page_title, createTitle('.title') %>
-            <ol>
-               <li class="back_link"><%= render 'back_link' %></li>
-               <li class="step"><%= t '.step' %></li>
-            </ol>
-
-            <%= render 'errors' %>
+               <%= render 'back_link' %>
+               <%= t '.step' %>
+               <%= render 'errors' %>
 
             <%= form_for(@key_person, url: {action: "updateNewKeyPerson"} ) do |f| %>
               <%= render 'key_person_form', f: f, d: @key_person, :legend => t('.legend') %>
