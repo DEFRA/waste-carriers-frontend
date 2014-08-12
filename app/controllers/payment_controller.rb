@@ -227,7 +227,7 @@ class PaymentController < ApplicationController
     #
     # TODO: Use order code value to create a negative payment of the amount requested in the order
     #
-
+    authorize! :newRefund, Payment
   end
 
   # GET /worldpayRefund/:orderCode
@@ -327,6 +327,8 @@ class PaymentController < ApplicationController
     @orderCode = params[:orderCode]
 
     authorize! :read, @registration
+    
+    authorize! :newRefund, Payment
   end
   
   #####################################################################################
@@ -342,7 +344,7 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    # authorize! :newCharges, Order
+    authorize! :newAdjustment, Order
   end
   
   # POST /chargeAdjustments
@@ -364,7 +366,7 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    # authorize! :newAdjustment, Order
+    authorize! :newAdjustment, Order
   end
   
   # GET /newAdjustment
@@ -378,7 +380,7 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    # authorize! :newAdjustment, Order
+    authorize! :newAdjustment, Order
   end
   
   # POST /newAdjustment
@@ -441,7 +443,7 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    # authorize! :newAdjustment, Order
+    authorize! :newAdjustment, Order
     
   end
   
@@ -458,7 +460,7 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    # authorize! :newReversal, Payment
+    authorize! :newReversal, Payment
   end
   
   # GET /newReversal
@@ -487,7 +489,7 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    # authorize! :newReversal, Payment
+    authorize! :newReversal, Payment
   end
   
   # POST /newReversal
@@ -542,7 +544,7 @@ class PaymentController < ApplicationController
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
     #
-    # authorize! :newReversal, Payment
+    authorize! :newReversal, Payment
   end
 
 end

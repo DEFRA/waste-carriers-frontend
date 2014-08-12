@@ -60,6 +60,12 @@ agencyUser.add_role :Role_ncccRefund, AgencyUser
 agencyUser = AgencyUser.find_or_create_by email: 'agencyrefund2@waste-exemplar.gov.uk', password: 'secret123'
 agencyUser.add_role :Role_ncccRefund, AgencyUser
 
+agencyUser = AgencyUser.find_or_create_by email: 'agencypayment1@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_ncccPayment, AgencyUser
+
+agencyUser = AgencyUser.find_or_create_by email: 'agencypayment2@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_ncccPayment, AgencyUser
+
 #end  #unless Rails.env.production?
 
 #Environment Agency Administrators

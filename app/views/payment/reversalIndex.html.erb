@@ -26,7 +26,7 @@
 							<th class="">Date</th>
 							<th class="">Order Code</th>
 							<th class="">Type</th>
-							<th class="">Amount</th>
+							<th class="">£</th>
 							<th class=""></th>
 						</tr>
 					</thead>
@@ -95,8 +95,10 @@
 									%>
 									<% if isReversalAppropriateForMe and isAvailableForReversal %>
 									    <%= link_to t('registrations.form.selectReversal_button_label'), {controller: 'payment', action: 'newReversal', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
-									<% elsif payment.orderKey.to_s.include? '_REVERSAL' %>
+									<% elsif !isAvailableForReversal %>
 									    <%= t '.alreadyReversed' %>
+									<% elsif payment.orderKey.to_s.include? '_REVERSAL' %>
+									    <%= t 'registrations.form.not_applicable' %>
 									<% else %>
 									    <%= t 'registrations.form.not_applicable' %>
 									<% end %>

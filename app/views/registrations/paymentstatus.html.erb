@@ -105,7 +105,7 @@
 									<% @registration.finance_details.first.payments.each do |payment| %>
 										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 											<td class="" ><%= payment.dateReceived %></td>
-											<td class="" ><%= payment.paymentType %></td>
+											<td class="" ><%= t('payment_types.' + payment.paymentType) %></td>
 											<td class="" ><% if hasOrderKey(payment) %><%= payment.orderKey %><%else%><%= t 'registrations.form.not_applicable' %><%end%>/<%= payment.registrationReference %></td>
 											<td class="" ><%= Money.new(payment.amount) %></td>
 											<td class="" ><%= payment.comment %></td>
@@ -167,9 +167,10 @@
 		    isFinanceBasic = current_agency_user.has_role? :Role_financeBasic, AgencyUser
 		    isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
 		    isRefund = current_agency_user.has_role? :Role_ncccRefund, AgencyUser
+		    isPayment = current_agency_user.has_role? :Role_ncccPayment, AgencyUser
 		    #isRefundOrBasic = current_agency_user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
 		    %>
-		    <% if isFinanceBasic %>
+		    <% if isFinanceBasic or isPayment %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
 		    <span class="next_link"><%= link_to t('registrations.form.reversals_button_label'), :paymentReversal, :class => 'button', :id => 'reversals' %></span>
 		    <% end %>
