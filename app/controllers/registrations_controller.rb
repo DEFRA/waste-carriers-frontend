@@ -39,7 +39,16 @@ class RegistrationsController < ApplicationController
   def newBusinessType
     new_step_action 'businesstype'
 
-    @registration.routeName = agency_user_signed_in? ? 'ASSISTED_DIGITAL' : 'DIGITAL'
+    if agency_user_signed_in?
+      @registration.routeName = 'ASSISTED_DIGITAL'
+      if @registration.accessCode.blank?
+        @registration.accessCode = @registration.generate_random_access_code
+      end
+    else
+      @registration.routeName =  'DIGITAL'
+    end
+    @registration.save
+
   end
 
   # POST /your-registration/business-type
@@ -277,8 +286,11 @@ class RegistrationsController < ApplicationController
   def updateNewRelevantConvictions
     setup_registration 'convictions'
 
-    @registration.convictions_check_indicates_suspect = true # TODO call convictions service with correct parameters
+     # TODO call convictions service with correct parameters
+    @registration.convictions_check_indicates_suspect = @registration.declaredConvictions == 'yes'
+    logger.debug "convictions_check_indicates_suspect is #{@registration.convictions_check_indicates_suspect}"
     @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
+    logger.debug "criminally_suspect is #{@registration.criminally_suspect}"
 
     @registration.save
 
@@ -305,11 +317,169 @@ class RegistrationsController < ApplicationController
     setup_registration 'confirmation'
 
     if @registration.valid?
-      redirect_to :newSignup
+      redirect_to :action => :account_mode
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newConfirmation", :status => '400'
+    end
+  end
+
+  # GET /your-registration/account-mode
+  def account_mode
+    new_step_action 'account-mode'
+
+    user_signed_in = false
+    agency_user_signed_in = false
+
+    if user_signed_in?
+      @registration.accountEmail = current_user.email
+      @user = User.find_by_email(@registration.accountEmail)
+      user_signed_in = true
+    elsif agency_user_signed_in?
+      @registration.accountEmail = current_agency_user.email
+      @user = User.find_by_email(@registration.accountEmail)
+      agency_user_signed_in = true
+    else
+      @registration.accountEmail = @registration.contactEmail
+    end
+
+    # Get signup mode
+    account_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in || agency_user_signed_in))
+
+    @registration.sign_up_mode = account_mode
+    logger.debug "Account mode is #{account_mode} and sign_up_mode is #{@registration.sign_up_mode}"
+    @registration.save
+
+    case account_mode
+      when 'sign_in'
+        redirect_to :action => 'newSignin'
+      when 'sign_up'
+        redirect_to :action => 'newSignup'
+      else
+        if @registration.valid?
+          complete_new_registration
+          case @registration.tier
+            when 'LOWER'
+              if user_signed_in
+                redirect_to :action => 'finish'
+              else
+                redirect_to :action => 'finishAssisted'
+              end
+            when 'UPPER'
+              redirect_to :action => 'newPayment'
+          end
+        else
+          render "newConfirmation", :status => '400'
+        end
+    end
+
+  end
+
+  # GET /your-registration/signin
+  def newSignin
+    new_step_action 'signin'
+  end
+
+  # POST /your-registration/signin
+  def updateNewSignin
+    setup_registration 'signin'
+
+    unless user_signed_in?
+      @user = User.find_by_email(@registration.accountEmail)
+      if @registration.valid?
+        sign_in @user
+      else
+        logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
+        render "newSignin", :status => '400'
+        return
+      end
+    end
+
+    if @registration.valid?
+      logger.debug 'Registration is valid'
+      complete_new_registration
+    else
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newSignin", :status => '400'
+      return
+    end
+
+    @registration.sign_up_mode = ''
+    @registration.save
+
+    case @registration.tier
+      when 'LOWER'
+        redirect_to :action => 'finish'
+      when 'UPPER'
+        redirect_to :action => 'newPayment'
+    end
+  end
+
+  # GET /your-registration/signup
+  def newSignup
+    new_step_action 'signup'
+  end
+
+  # POST /your-registration/signup
+  def updateNewSignup
+    setup_registration 'signup'
+
+    if @registration.valid?
+      commit_new_user
+      unless @registration.persisted?
+        commit_new_registration
+      end
+    else
+      # there is an error (but data not yet saved)
+      logger.info 'Registration is not valid, and data is not yet saved'
+      render "newSignup", :status => '400'
+      return
+    end
+
+    next_step = case @registration.tier
+      when 'LOWER'
+        send_confirm_email @registration
+        pending_url
+      when 'UPPER'
+        :upper_payment
+    end
+
+    # Reset Signed up user to signed in status
+    @registration.sign_up_mode = 'sign_in'
+    @registration.save
+
+    redirect_to next_step
+  end
+
+  # GET /registrations/finish
+  def finish
+    @registration = Registration[session[:registration_id]]
+    authorize! :read, @registration
+  end
+
+  # POST /registrations/finish
+  def updateFinish
+    if user_signed_in?
+      redirect_to userRegistrations_path(current_user)
+    else
+      renderNotFound
+    end
+  end
+
+  # GET /registrations/finish-assisted
+  def finishAssisted
+    @registration = Registration[session[:registration_id]]
+    authorize! :read, @registration
+  end
+
+  # POST /registrations/finish-assisted
+  def updateFinishAssisted
+    if agency_user_signed_in?
+      redirect_to :action => 'index'
+    else
+      renderNotFound
     end
   end
 
@@ -361,6 +531,49 @@ class RegistrationsController < ApplicationController
     logger.debug  @registration.attributes.to_s
     @registration.current_step = current_step
   end
+
+  def commit_new_registration
+
+    unless @registration.tier == 'LOWER'
+      @registration.expires_on = (Date.current + 3.years).to_s
+    end
+
+    @registration.save
+    session[:registration_uuid] = @registration.commit
+    session[:registration_id] = @registration.id
+
+  end
+
+  def commit_new_user
+
+    @user = User.new
+    @user.email = @registration.accountEmail
+    @user.password = @registration.password
+    logger.debug "About to save the new user."
+    # Don't send the confirmation email when the user gets saved.
+    @user.skip_confirmation_notification!
+    @user.save!
+
+  end
+
+  def complete_new_registration
+
+      unless @registration.persisted?
+
+        commit_new_registration
+        @registration.activate!
+        @registration.save
+
+        unless @registration.assisted_digital?
+          if @registration.is_complete?
+            RegistrationMailer.welcome_email(@user, @registration).deliver
+          end
+        end
+
+      end
+
+  end
+
   def validate_search_parameters?(searchString, searchWithin)
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
@@ -484,36 +697,6 @@ class RegistrationsController < ApplicationController
     registration.declaredConvictions == 'yes'
   end
 
-  def print_confirmed
-    @registration = Registration.find_by_id(session[:registration_uuid])
-    if @registration.empty?
-      renderNotFound and return
-    end
-
-    if params[:finish]
-      if agency_user_signed_in?
-        logger.info 'Keep agency user signed in before redirecting back to search page'
-        redirect_to registrations_path
-      else
-        reset_session
-        redirect_to Rails.configuration.waste_exemplar_end_url
-      end
-    elsif params[:back]
-      logger.debug 'Default, redirecting back to Finish page'
-      redirect_to confirmed_url
-    else
-      #TODO - Print view layout?
-      render
-    end
-  end
-
-
-  def finish
-    @registration = Registration[params[:id]]
-    logger.debug "finish: #{@registration.attributes.to_s}"
-    authorize! :read, @registration
-  end
-
   def version
     @railsVersion = Rails.configuration.application_version
 
@@ -591,150 +774,6 @@ class RegistrationsController < ApplicationController
     @registration.townCity = @selected_address.town  if @selected_address.town
     @registration.postcode = @selected_address.postcode  if @selected_address.postcode
     @registration.save
-  end
-
-
-  def newSignup
-    new_step_action 'signup'
-
-    @registration.accountEmail = if user_signed_in?
-      current_user.email
-    elsif agency_user_signed_in?
-      current_agency_user.email
-    else
-      @registration.contactEmail
-    end
-
-    # Get signup mode
-    @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-    logger.info 'registration mode: ' + @registration.sign_up_mode
-    @registration.save
-  end
-
-  def updateNewSignup
-    setup_registration 'signup'
-
-    # Prepopulate Email field/Set registration account
-    if user_signed_in?
-      logger.debug 'User already signed in using current email: ' + current_user.email
-      @registration.accountEmail = current_user.email
-    elsif agency_user_signed_in?
-      logger.debug 'Agency User already signed in using current email: ' + current_agency_user.email
-      @registration.accountEmail = current_agency_user.email
-    end
-
-    @registration.sign_up_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in? || agency_user_signed_in?))
-    @registration.save
-
-    if @registration.valid?
-      logger.info 'Registration is valid so far, go to next page'
-      if @registration.sign_up_mode == 'sign_up'
-        logger.debug "The registration's sign_up_mode is sign_up: Creating, saving and signing in user " + @registration.accountEmail
-        @user = User.new
-        @user.email = @registration.accountEmail
-        @user.password = @registration.password
-        logger.debug "About to save the new user."
-        # Don't send the confirmation email when the user gets saved.
-        @user.skip_confirmation_notification!
-        @user.save!
-        logger.debug "User has been saved."
-        ## the newly created user has to active his account before being able to sign in
-
-        # Reset Signed up user to signed in status
-        @registration.sign_up_mode = 'sign_in'
-      else
-        logger.debug "Registration sign_up_mode is NOT sign_up. sign_up_mode = " + @registration.sign_up_mode.to_s
-        if @registration.sign_up_mode == 'sign_in'
-          @user = User.find_by_email(@registration.accountEmail)
-          if @user.valid_password?(@registration.password)
-            if @user.confirmed?
-              logger.info "The user's password is valid and the account is confirmed. Signing in user " + @user.email
-              sign_in @user
-            else
-              logger.warn "User account not yet confirmed for " + @user.email
-            end
-          else
-            logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
-            #TODO error - should have caught the error in validation
-            raise "error - invalid password - should have been caught before in validation"
-          end
-        else
-          logger.debug "User signed in, set account email to user email and get user"
-
-          @registration.accountEmail = if user_signed_in?
-            current_user.email
-          elsif agency_user_signed_in?
-            current_agency_user.email
-          end
-
-          @user = User.find_by_email(@registration.accountEmail)
-        end
-      end
-
-      logger.debug "Now asking whether registration is all valid"
-      if @registration.valid?
-        logger.debug "The registration is all valid. About to save the registration..."
-        @registration.expires_on = (Date.current + 3.years).to_s
-        @registration.save
-        logger.debug "reg: #{@registration.attributes.to_s}"
-        session[:registration_uuid] = @registration.commit
-        logger.debug "uuid: #{@registration.uuid}"
-        logger.debug "session uuid: #{session[:registration_uuid]}"
-        if agency_user_signed_in?
-          @registration.accessCode = @registration.generate_random_access_code
-          @registration.save
-          logger.debug "accessCode: #{@registration.accessCode }"
-        end
-        # The user is signed in at this stage if he activated his e-mail/account (for a previous registration)
-        # Assisted Digital registrations (made by the signed in agency user) do not need verification either.
-        if agency_user_signed_in? || user_signed_in?
-          @registration.activate!
-        end
-        @registration.save
-        session[:registration_id] = @registration.id
-        logger.debug "The registration has been saved. About to send e-mail..."
-        if user_signed_in?
-          RegistrationMailer.welcome_email(@user, @registration).deliver
-        end
-        logger.debug "registration e-mail has been sent."
-      else
-        logger.error "GGG - The registration is NOT valid!"
-      end
-
-      session[:registration_id] = @registration.id
-      session[:registration_step] = session[:registration_params] = nil
-
-      unless @registration.status.eql? 'ACTIVE'
-        ## Account not yet activated for new user. Cannot redirect to the finish URL
-        if agency_user_signed_in? || user_signed_in?
-          next_step = case @registration.tier
-          when 'LOWER'
-            finish_url(:id => @registration.id)
-          when 'UPPER'
-            :upper_payment
-          end
-          redirect_to next_step
-        else
-          next_step = case @registration.tier
-          when 'LOWER'
-            send_confirm_email @registration
-            pending_url
-          when 'UPPER'
-            :upper_payment
-          end
-
-          redirect_to next_step
-        end
-      else
-        # Registration Id not found, must have done something wrong
-        logger.info 'Registration Id not found, must have done something wrong'
-        render :file => "/public/session_expired.html", :status => 400
-      end
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newSignup", :status => '400'
-    end
   end
 
   def pending
@@ -942,7 +981,7 @@ class RegistrationsController < ApplicationController
   # POST upper-registrations/payment
   def updateNewPayment
     setup_registration 'payment'
-    
+
     # Determine what kind of payment selected and redirect to other action if required
     if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
       @order = prepareOfflinePayment
@@ -953,7 +992,7 @@ class RegistrationsController < ApplicationController
     if @order.valid?
       logger.info "Saving the order"
       if @order.save! @registration.uuid
-        # order saved successfully        
+        # order saved successfully
       else
         # error updating services
         logger.warn 'The order was not saved to services.'
@@ -971,7 +1010,7 @@ class RegistrationsController < ApplicationController
 
     logger.info "About to redirect to Worldpay/Offline payment - if the registration is valid."
     if @registration.valid?
-    
+
       if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
         logger.info "The registration is valid - redirecting to Offline payment page..."
         redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
@@ -988,20 +1027,20 @@ class RegistrationsController < ApplicationController
 
   #We should not use this as part of updating the payment page.
   #We should rather update the existing order and set the payment method and number of copycards.
-  def prepareOrder (useWorldPay = true)
+def prepareOrder (useWorldPay = true)
     reg = Registration.find_by_id(session[:registration_uuid])
 
     #TODO have a current_order method on the registration
     ord = reg.finance_details.first.orders.first
-    
+
     @order = Order.create
-    
+
     if useWorldPay
       @order = updateOrderForWorldpay(@order)
     else
       @order = updateOrderForOffline(@order)
     end
-    
+
 
     # Ensure Order Id of newly created order remains the same
     # TODO: Fix later as assumed orderId of first order?
@@ -1041,9 +1080,9 @@ class RegistrationsController < ApplicationController
 
     @order
   end
-  
+
   def updateOrderForWorldpay myOrder
-  
+
     now = Time.now.utc.xmlschema
     myOrder.paymentMethod = 'ONLINE'
     myOrder.orderCode = Time.now.to_i.to_s
@@ -1057,9 +1096,9 @@ class RegistrationsController < ApplicationController
     myOrder.updatedByUser = @registration.accountEmail
     myOrder
   end
-  
+
   def updateOrderForOffline myOrder
-  
+
     now = Time.now.utc.xmlschema
     myOrder.paymentMethod = 'OFFLINE'
     myOrder.orderCode = Time.now.to_i.to_s
@@ -1075,14 +1114,14 @@ class RegistrationsController < ApplicationController
   end
 
   ######################################
-  
+
   def prepareOfflinePayment
     #setup_registration 'payment'
-    calculate_fees    
+    calculate_fees
     order = prepareOrder false
     order
   end
-  
+
   def prepareOnlinePayment
     calculate_fees
     logger.info "copy cards: " + @registration.copy_cards.to_s
@@ -1100,12 +1139,19 @@ class RegistrationsController < ApplicationController
   def updateNewOfflinePayment
     @registration = Registration[session[:registration_id]]
 
-    if @registration.user.confirmed?
-      redirect_to print_confirmed_path
-    else
-      send_confirm_email @registration
-      redirect_to pending_path
+    next_step = if user_signed_in?
+        finish_path
+      elsif agency_user_signed_in?
+        finishAssisted_path
+      else
+        unless @registration.user.confirmed?
+          send_confirm_email @registration
+        end
+        pending_path
     end
+
+    redirect_to next_step
+
   end
 
   private
