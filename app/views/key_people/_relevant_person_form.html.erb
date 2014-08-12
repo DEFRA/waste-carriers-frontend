@@ -1,6 +1,5 @@
 <fieldset>
   <legend><%= legend %></legend>
-  <h2><%= t '.subtitle' %></h2>
   <div class="form-group<%if d.errors[:first_name].any?%> validation<%end%>">
     <%= validation_for(d, :first_name) %>
     <%= f.label :first_name, class: 'form-label' %>
@@ -17,7 +16,8 @@
     <%= f.text_field :position, :size => 20, :maxlength => 35 %>
   </div>
   <div class="form-group<%if d.errors[:dob].any?%> validation<%end%>">
-      <p class='subtitle'>For example, 26 5 1976</p>
+    <label class="form-label">Date of birth</label>
+      <p class='subtitle' id="date-subtitle">For example, 26 5 1976</p>
       <div class='inline-date'>
         <%= f.label :dob_day, class: 'form-label' %>
         <%= f.text_field :dob_day, :size => 2, :maxlength => 2 %>
