@@ -412,6 +412,8 @@ class PaymentController < ApplicationController
     #@order.orderId = SecureRandom.uuid
     #logger.info 'after order id: ' + @order.orderId.to_s
     
+    # Set to manual order (amount entered in pounds to pence)
+    @order.manualOrder = true
     
     #@order.negateAmount
     
