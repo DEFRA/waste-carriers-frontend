@@ -238,6 +238,26 @@ class Payment < Ohm::Model
       end
     end
   end
+  
+  def isRefundableType?
+    refundable = false
+    PAYMENT_TYPES.each do |type|
+      if type == self.paymentType
+        refundable = true
+      end
+    end
+    PAYMENT_TYPES_FINANCE_BASIC.each do |type|
+      if type == self.paymentType
+        refundable = true
+      end
+    end
+    PAYMENT_TYPES_FINANCE_ADMIN.each do |type|
+      if type == self.paymentType
+        refundable = true
+      end
+    end
+    refundable
+  end
 
   private
 
