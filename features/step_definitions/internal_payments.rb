@@ -261,7 +261,7 @@ When(/^original payment method was via Postal Order$/) do
 end
 
 When(/^original payment method was via Worldpay$/) do
-  page.should have_content 'WORLDPAY'
+  page.should have_content 'Worldpay'
 end
 
 When(/^balance is not in credit$/) do

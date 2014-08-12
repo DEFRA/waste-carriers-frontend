@@ -15,6 +15,12 @@ unless Admin.find_by_email('admin@waste-exemplar.gov.uk')
   admin.save!
 end
 
+unless Admin.find_by_email('finance@waste-exemplar.gov.uk')
+  admin = Admin.new(:email => 'finance@waste-exemplar.gov.uk', :password => 'secret123')
+  admin.add_role :Role_financeSuper, Admin
+  admin.save!
+end
+
 unless Admin.find_by_email('admin1@waste-exemplar.gov.uk')
   admin = Admin.new(:email => 'admin1@waste-exemplar.gov.uk', :password => 'MyS3cr3t!')
   admin.save!
@@ -59,6 +65,12 @@ agencyUser.add_role :Role_ncccRefund, AgencyUser
 
 agencyUser = AgencyUser.find_or_create_by email: 'agencyrefund2@waste-exemplar.gov.uk', password: 'secret123'
 agencyUser.add_role :Role_ncccRefund, AgencyUser
+
+agencyUser = AgencyUser.find_or_create_by email: 'agencypayment1@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_ncccPayment, AgencyUser
+
+agencyUser = AgencyUser.find_or_create_by email: 'agencypayment2@waste-exemplar.gov.uk', password: 'secret123'
+agencyUser.add_role :Role_ncccPayment, AgencyUser
 
 #end  #unless Rails.env.production?
 
