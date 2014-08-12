@@ -1,16 +1,15 @@
 <%= render 'shared/content_for_pages' %>
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-    <section>
-      <div class="inner">
+    <section id='payment-copycard-page'>
       <div class="col-1" id='payment-col-1'>
     
     <%= form_for(@registration, :url => :upper_payment) do |f| %>
     <% content_for :page_title, createTitle('.title') %>
-    <ol>
-      <li class='back_link'><%= render 'back_link' %></li>
-      <li class="step">Step 8 of 9</li>
-    </ol> 
+ 
+      <%= render 'back_link' %>
+      <div class="step">Step 8 of 9</div>
+ 
     <%= render "errors" %>
 
 	<%# REFACTORME: Ideally this essential duplication of errors should be refactored to be more generic %>
@@ -74,14 +73,15 @@
               <input name="offline_next" class="button" type="submit" value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
               <%#= link_to t('registrations.form.pay_offline_button_label'), newOfflinePayment_path, class: 'button-secondary' %>
             </div>
+            <div class='notice-icon'></div>
         </div>
-        <div class='notice-icon'><p class='subtitle'><%= t '.send_to_worldpay' %></p></div><br>
+        
+        <p class='subtitle' id="world-pay-subtitle"><%= t '.send_to_worldpay' %></p>
 
     </fieldset>
       
     <% end %>
     </div>
-  </div>
   </section>
   </article>
 </main>

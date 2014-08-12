@@ -9,11 +9,9 @@
           <!-- WF 4.3.2 -->
           <div id="page6"  data-journey="waste-carriers-registration:business-details">
             <% content_for :page_title, createTitle('.title') %>
-            <ol>
-              <li class="back_link"><%= render 'back_link' %></li>
-              <%= render 'step', r: @registration, upper_step: '2', lower_step: '1' %>
-            </ol>
-
+         
+            <%= render 'back_link' %>
+            <%= render 'step', r: @registration, upper_step: '2', lower_step: '1' %>
             <%= render 'errors' %>
 
             <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>

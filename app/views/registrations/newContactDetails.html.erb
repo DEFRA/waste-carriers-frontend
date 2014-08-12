@@ -8,12 +8,10 @@
           <!-- WF 4.3.2 -->
           <div id="page7"  data-journey="waste-carriers-registration:contact-details">
             <% content_for :page_title, createTitle('.title') %>
-            <ol>
-              <li class="back_link"><%= render 'back_link' %></li>
+              <%= render 'back_link' %>
               <%= render 'step', r: @registration, upper_step: '3', lower_step: '2' %>
-            </ol>
-            <%= render 'errors' %>
-            <%= form_for(@registration, :url => newContact_path) do |f| %>
+              <%= render 'errors' %>
+              <%= form_for(@registration, :url => newContact_path) do |f| %>
               <%= render 'contactdetails_step', f: f, r: @registration %>
               <%= render 'next_link' %>
             <% end %>
