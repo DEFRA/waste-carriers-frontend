@@ -410,14 +410,8 @@ class PaymentController < ApplicationController
       @order.errors.add(:amountType, I18n.t('errors.messages.invalid_selection'))
     end
     
-    #logger.info 'before order id: ' + @order.orderId.to_s
-    #@order.orderId = SecureRandom.uuid
-    #logger.info 'after order id: ' + @order.orderId.to_s
-    
     # Set to manual order (amount entered in pounds to pence)
     @order.manualOrder = true
-    
-    #@order.negateAmount
     
     # validate orderType
     if @order.includesOrderType? @order.amountType
@@ -434,8 +428,6 @@ class PaymentController < ApplicationController
     else
       @order.errors.add(:amountType, I18n.t('errors.messages.invalid_selection'))
     end
-    
-    #@order.unNegateAmount
     
     # Return to entry page, as errors must have occured
     render "newAdjustment", :status => '400'
