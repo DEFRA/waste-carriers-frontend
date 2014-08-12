@@ -73,7 +73,6 @@ class Registration < Ohm::Model
 
   attribute :password
   attribute :sign_up_mode
-  attribute :routeName
 
   attribute :password
   attribute :sign_up_mode
@@ -83,9 +82,16 @@ class Registration < Ohm::Model
   attribute :tier
   attribute :location
 
+  # The value that the waste carrier sets to say whether they admit to having
+  # relevant people with relevant convictions
   attribute :declaredConvictions
+  # Whether a match was made by the convictions service
   attribute :convictions_check_indicates_suspect
+  # Initially set if either of the other 2 are set, it is the flag that denotes
+  # to an NCCC user that the registraton needs to be checked, and if happy the
+  # one they will set to false
   attribute :criminally_suspect
+
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
@@ -502,6 +508,8 @@ class Registration < Ohm::Model
     registration.validates :password, confirmation: true
   end
 
+  validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
+
   validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
@@ -524,6 +532,17 @@ class Registration < Ohm::Model
   # TODO not sure whether to keep this validation or not since the sign_up mode is not supplied by the user
   # validates :sign_up_mode, presence: true, if: [:signup_step?, , :account_email_present?]
   # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, ]
+
+  def is_valid_account?
+    user = User.find_by_email(accountEmail)
+    if user.nil? || !user.valid_password?(password)
+      errors.add(:password, I18n.t('errors.messages.invalidPassword'))
+    else
+      unless user.confirmed?
+        errors.add(:accountEmail, I18n.t('errors.messages.unconfirmedEmail'))
+      end
+    end
+  end
 
   def businesstype_step?
     current_step.inquiry.businesstype?
@@ -557,13 +576,16 @@ class Registration < Ohm::Model
     current_step.inquiry.contactdetails?
   end
 
-
   def key_person_step?
     current_step.inquiry.key_person?
   end
 
   def signup_step?
     current_step.inquiry.signup?
+  end
+
+  def signin_step?
+    current_step.inquiry.signin?
   end
 
   def registrationtype_step?
@@ -584,6 +606,14 @@ class Registration < Ohm::Model
 
   def sign_up_mode_present?
     sign_up_mode.present?
+  end
+
+  def do_sign_in?
+    sign_up_mode == 'sign_in'
+  end
+
+  def do_sign_up?
+    sign_up_mode == 'sign_up'
   end
 
   def digital_route?
@@ -641,7 +671,6 @@ class Registration < Ohm::Model
     end
   end
 
-
   def last_step?
     current_step == 'noregistration'
   end
@@ -691,14 +720,6 @@ class Registration < Ohm::Model
 
   def user_cannot_exist_with_same_account_email
     errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') ) if User.where(email: accountEmail).exists?
-  end
-
-  def do_sign_in?
-    sign_up_mode == 'sign_in'
-  end
-
-  def do_sign_up?
-    sign_up_mode == 'sign_up'
   end
 
   def user
@@ -752,6 +773,34 @@ class Registration < Ohm::Model
     end
   end
 
+  # Call to determine whether the registration is 'complete' i.e. there are no
+  # outstanding checks, payment has been made and the account has been activated
+  def is_complete?
+    is_complete = true
+
+    Rails.logger.debug "is_complete: In method"
+    unless metaData.first.status == 'ACTIVE'
+      Rails.logger.debug "is_complete: status = #{metaData.first.status}"
+      is_complete = false
+      return
+    end
+
+    if criminally_suspect
+      Rails.logger.debug "is_complete: suspect = #{criminally_suspect}"
+      is_complete = false
+      return
+    end
+
+    unless paid_in_full?
+      Rails.logger.debug "is_complete: paid_in_full = #{paid_in_full?}"
+      is_complete = false
+      return
+    end
+
+    is_complete
+
+  end
+
   def self.activate_registrations(user)
     Rails.logger.info "Activating pending registrations for user with email #{user.email}"
     rs = Registration.find_by_email(user.email)
@@ -796,6 +845,5 @@ class Registration < Ohm::Model
       errors.add('Key people', 'is invalid.') unless set_dob
     end
   end
-
 
 end

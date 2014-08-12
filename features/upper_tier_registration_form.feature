@@ -18,7 +18,7 @@ Feature: Upper tier
       And I provide my email address and create a password
       And I choose pay via electronic transfer
      When I confirm account creation via email
-     Then I am registered as an upper tier waste carrier
+     Then I have completed the application as an upper tier waste carrier
 
   Scenario: Autocomplete with unrecognised postcode
     Given I want my business address autocompleted but I provide an unrecognised postcode
@@ -36,7 +36,7 @@ Feature: Upper tier
       And I provide my email address and create a password
       And I choose pay via electronic transfer
      When I confirm account creation via email
-     Then I am registered as an upper tier waste carrier
+     Then I have completed the application as an upper tier waste carrier
 
   Scenario: Foreign waste carrier
     Given I enter my foreign business address manually
@@ -47,7 +47,7 @@ Feature: Upper tier
       And I provide my email address and create a password
       And I choose pay via electronic transfer
      When I confirm account creation via email
-     Then I am registered as an upper tier waste carrier
+     Then I have completed the application as an upper tier waste carrier
 
   @worldpay
   Scenario: Card payment
