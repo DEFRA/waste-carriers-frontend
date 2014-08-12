@@ -66,6 +66,8 @@ en:
         publicBodyTypeOther: "Other type of public body"
         registrationType: "Registration type"
         registration_fee: "Registration charge"
+        renewal_fee: "Registration renewal charge"
+        edit_fee: "Registration amendment charge"
         total_fee: "Total charge"
         revokedReason: "Why do you wish to revoke this registration"
         selectedMoniker: "Select address"
