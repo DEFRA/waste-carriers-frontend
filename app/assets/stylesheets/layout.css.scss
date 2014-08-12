@@ -20,6 +20,7 @@
 #global-header-bar .header-bar {margin-bottom:1em;}
   .header_text h1 {
 	color: #FFFFFF;
+  @include inner-block;
 }
 
 .header_text span {
@@ -41,6 +42,7 @@
 	color: $banner-text-colour;
   max-width: 960px;
   margin: 0 auto;
+  @include inner-block;
 }
 
 //Page Header//
@@ -54,7 +56,7 @@ margin: 0.5em 0em 0em 0em;
 
 //Layout//
 
-#content {@include inner-block; @include outer-block;}
+#content {@include inner-block; @include outer-block; margin-bottom:4em;}
 article {@include inner-block}
 section {margin:0;}
 aside   {margin:0;}
@@ -72,7 +74,7 @@ aside   {margin:0;}
   
    .col-2 {
     float: right;
-    width: 25%;
+    width: 30%;
     border-top: 10px solid rgb(0, 94, 165);
     padding-top:15px;
   }
@@ -87,11 +89,16 @@ aside   {margin:0;}
   
    .col-2 {
     float: right;
-    width: 25%;
+    width: 30%;
     border-top: 10px solid rgb(0, 94, 165);
     padding-top:15px;
   }
 }
+
+
+//Aside margin control
+
+#relevant-aside, #tier-aside, #directors-aside {margin-top:7em;}
 
 
 //Footer//
@@ -106,7 +113,7 @@ fieldset {@include media(desktop){
 
 legend {
 	padding-top: 0.7rem;
-	padding-bottom: 1.3rem;;
+	padding-bottom: 1.3rem;
 	@include bold-36;
 }	
 
@@ -126,6 +133,18 @@ input,#addressSelector {@include copy-19};
 #user_email, 
 #admin_email  
 {width:50%;}
+
+//Address look-up
+
+
+#addressSelector {
+  margin-top: 0.7rem;
+  margin-bottom: 1.3rem;
+  width:100%;
+}
+ #addressSelector {
+  word-wrap: break-word;
+ }
 
 
 // Radio buttons & checkboxes
@@ -203,6 +222,10 @@ border-color: $black;
 	display:inline-block;
 }
 
+#date-subtitle {
+  margin:0;
+}
+
 .inline-date label {
 display: block;
 margin-bottom: 5px;
@@ -241,13 +264,14 @@ min-height: 36px;
 //Typography//
 
 h1 {@include bold-36}
-h2 {@include bold-36}
-h3 {@include bold-24}
-p {@include copy-19}
-a {@include copy-19}
+h2 {@include bold-36; padding-top: 0.7rem; padding-bottom: 1.3rem;}
+h3 {@include bold-24; padding-top: 0.7rem; padding-bottom: 1.3rem;}
+p {@include copy-19; }
+a {@include copy-19; padding-top: 0.7rem; padding-bottom: 1.3rem;}
 .step {@include copy-19; color:#6F777B;}
 .col-1 .link_to {@include copy-19; margin-right:1em;} //back button
 .subtitle {@include copy-19; color:#6F777B;}
+.subtitle-grey {@include bold-24; color:#6F777B;}
 .form-hint {@include copy-19; color:#6f777B;}
 
 
@@ -313,7 +337,7 @@ margin-top: 0;
 .panel-indent {
     border-left: 4px solid rgb(191, 193, 195);
     clear: both;
-    padding: 10px 0 10px 15px;
+    padding: 10px 0 0px 15px;
     margin-bottom: 20px;
 }
 
@@ -369,84 +393,104 @@ color: $error-colour;
 ol {list-style-type:none;}
 li {list-style-type:none;}
 ul {list-style-type:none;}
+#relevant-aside h3 {border-bottom: 1px solid rgb(191, 193, 195);}
 
+
+//CUSTOM STYLES TO IMPROVE PAGE LAYOUT
+
+#margin-control .block-label {margin-right: 100px;}
 
 //Summary pages // **** PAGES REQUIRE FURTHER DESIGN WORK IN CODE *****
 
-// .list-bullets {
-// list-style-image: url("https://assets.digital.cabinet-office.gov.uk/static/bullet-disc-5px-4180cb91fb35028365a59ddfcfd36e34.gif");
-// list-style-type: circle;}
+.list-bullets {
+list-style-image: url("https://assets.digital.cabinet-office.gov.uk/static/bullet-disc-5px-4180cb91fb35028365a59ddfcfd36e34.gif");
+list-style-type: disc; position:relative; left:-4em;}
+
+.summary-box {
+    overflow: hidden;
+    position: relative;
+    @include outer-block;
+    padding-top: 0.7rem;
+    padding-bottom: 1.3rem;
+}
+
+.summary-subtitle {@include bold-48; padding-top: 0.7rem; padding-bottom: 3rem; }
+.summary-items {position:relative; left:0em; @include core-19;}
+#smartanswers_display {position:relative; left:5em; @include core-19;}
+.summary-box li {position:relative; left:-2em; @include core-19;}
+.summary-page h3 {padding-top: 1.7rem; padding-bottom: 1.3rem;}
+#declaration-summary h2 {border:0;}
+.summary-page h3 {border-top: 1px solid rgb(191, 193, 195);}
+
+.notice-icon {
+  position:relative;
+  top:-90px;
+  width:34px; 
+  height:29px;
+  background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
+
+.declaration-text, .privacy-data {
+  padding-left:3.5em;
+}
+
+.privacy-data {
+  padding-left:0;
+}
+
+#declaration-summary {margin-top:3.4em;}
 
 
 
-// .inner-payment-box:before, .payment-box:before, .summary-box:before, .example:before, .line-divider:before {
-//     background: none repeat scroll 0 0 rgb(191, 193, 195);
-//     color: rgb(255, 255, 255);
-//     font-family: "nta",Arial,sans-serif;
-//     font-size: 14px;
-//     font-weight: 400;
-//     left: 0;
-//     line-height: 1.42857;
-//     padding: 0.21053em 0.78947em;
-//     position: absolute;
-//     text-transform: none;
-//     top: 0;
-// }
+//Payment copy card page
 
+#payment-col-1 {width:67%;}
 
-// .example, .line-divider, .payment-group {
-//    padding: 20px 0 10px 30px;
-// }
-
-// .payment-group {
-//    padding: 20px 0 10px 0px;
-// }
-
-// .payment-box, .line-divider {
-//     padding-bottom:0px;
-// }
-
-// .inner-payment-box, .inner-payment-box-total {
-//     border-bottom: 1px solid rgb(191, 193, 195);
-// }
-// .payment-box, .summary-box, .example, .line-divider {
-//     border: 1px solid rgb(191, 193, 195);
-//     margin-bottom: 45px;
-//     margin-top: 15px;
-//     overflow: hidden;
-//     position: relative;
-// }
-
-// .inner .inline input {
-//     float:right;
-// }
-
-// .payment-box .add-focus {
-//     outline: none;
-// }
-// .payment-box input:focus {
-//   outline: none;
-//   cursor:none;
-// }
-
-// #registration_copy_cards, #registration_copy_card_fee, #registration_registration_fee, #registration_total_fee {
-//     border: 1px solid rgb(191, 193, 195);
-//     width: 10%;
-//     float:right;
-//     position:relative;
-//     vertical-align: baseline;
-//     top:-35px;
-//     color: rgb(11, 12, 12);
-// }
-
-// #registration_copy_cards {
-//     right:20px;
-// }
-
-// .payment-group .subtitle {
-//     margin-bottom: 30px;
-// }
-
+.payment-box {
+    border: 1px solid rgb(191, 193, 195);
+    margin-bottom: 45px;
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
+}
+#registration_copy_cards, #registration_copy_card_fee, #registration_registration_fee, #registration_total_fee {
+    border: 1px solid rgb(191, 193, 195);
+    width: 10%;
+    float:right;
+    position:relative;
+    vertical-align: baseline;
+    top:-35px;
+    color: rgb(11, 12, 12);
+}
+#registration_copy_cards {
+  margin-right:5em;
+}
+.payment-group {
+   padding: 20px 0 10px 0px;
+}
+.payment-box {
+    padding-bottom:0px;
+}
+.inner-payment-box, .inner-payment-box-total {
+    border-bottom: 1px solid rgb(191, 193, 195);
+}
+.inner .inline input {
+    float:right;
+}
+.payment-box .add-focus {
+    outline: none;
+}
+.payment-box input:focus {
+  outline: none;
+  cursor:none;
+}
+#registration_copy_cards {
+    right:20px;
+}
+.payment-group .subtitle {
+    margin-bottom: 30px;
+}
+#world-pay-subtitle {padding-left:2.4em;}
+.inner-payment-box .notice-icon {position:relative; top:50px; height:34px; width:34px;}
 
 
 
