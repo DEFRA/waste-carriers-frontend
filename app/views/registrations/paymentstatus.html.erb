@@ -104,7 +104,7 @@
 									&& @registration.finance_details.first.payments.size > 0 %>
 									<% @registration.finance_details.first.payments.each do |payment| %>
 										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-											<td class="" ><%= payment.dateReceived %></td>
+											<td class="" ><%= format_time payment.dateReceived %></td>
 											<td class="" ><%= t('payment_types.' + payment.paymentType) %></td>
 											<td class="" ><% if hasOrderKey(payment) %><%= payment.orderKey %><%else%><%= t 'registrations.form.not_applicable' %><%end%>/<%= payment.registrationReference %></td>
 											<td class="" ><%= Money.new(payment.amount) %></td>

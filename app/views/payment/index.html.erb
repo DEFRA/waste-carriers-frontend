@@ -2,17 +2,16 @@
 
 <main id="content" role="main" class="group">
 	<article role="article" class="group">
+	<section>
+      <div class="inner">
+      <div class="col-1">
+      
 	<% content_for :page_title, createTitle('.heading') %>
 
 	<!-- Usefull for showing default messages -->
 	<% if alert %><%= alert %><% end %>
-
-	<aside>
-	<%#= form_for @payment, url: {action: "createRefund"}, :method => 'post' do |f| %>
-
+	
 		<div class="step"><%= t '.step' %></div>
-
-		<%#= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
 		<!-- WF X.X.X -->
 		<div id="payment" data-journey="waste-carriers-registration:refunds">
@@ -20,7 +19,7 @@
 			<fieldset>
 				<legend><%= t '.heading' %></legend>
 				
-				<table class="" summary='This table details the orders available for a refund' style="width:60%"> <!-- Remove this style once styles working -->
+				<table class="" summary='This table details the orders available for a refund'>
 					<thead class="">
 						<tr>
 							<th class="">Date</th>
@@ -38,7 +37,7 @@
 							<% @registration.finance_details.first.payments.each do |payment| %>
 							    <% if !isARefund(payment) %>
 								<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-									<td class=""><%= payment.dateReceived %></td>
+									<td class=""><%= format_time payment.dateReceived %></td>
 									<td class="">
 									<% if hasOrderKey(payment) %>
 									    <%= payment.orderKey %>
@@ -52,13 +51,17 @@
 									<%
 									isAlreadyRefunded = isAlreadyRefunded(payment, @registration)
 									refundPaymentStatus = getRefundPaymentStatus(payment, @registration)
+									isWorldPayPayment = payment.paymentType == 'WORLDPAY' and !isAlreadyRefunded
+									isRefundablePayment = payment.isRefundableType?
 									%>
 									<% if isAlreadyRefunded %>
 									    <%= t '.refundStatus',:status=>refundPaymentStatus %>
-									<% elsif !payment.orderKey.nil? and !isAlreadyRefunded %>
+									<% elsif isWorldPayPayment %>
 									    <%= link_to t('registrations.form.select_button_label'), {controller: 'payment', action: 'newWPRefund', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
-									<% elsif !isAlreadyRefunded %>
+									<% elsif isRefundablePayment %>
 									    <%= link_to t('registrations.form.manual_payment_button_label'), :manualRefund, :class => 'link_to' %>
+									<% else %>
+									    <%= t 'registrations.form.not_applicable' %>
 									<% end %>
 									</td>
 								</tr>
@@ -95,20 +98,18 @@
 			</fieldset>
 			
 		</div>
-
-	<%# end %>
 	
-	</aside>
+	  </div>
+      </div>
+    </section>
 
-	<div class='related-positioning'>
-		<div class='related-container'>
-			<div class='related'>
-				<div class='inner group related-subsection'>
-				<%= render "shared/current_user" %>
-				</div>
-			</div>
-		</div>
-	</div>
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+         <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
 
 	</article>
 </main>
