@@ -19,7 +19,6 @@
 
 .header_text h1 {
 	color: #FFFFFF;
-  @include inner-block;
 }
 
 .header_text span {
@@ -30,18 +29,17 @@
     color: rgb(244, 119, 56);
 }
 
+//Beta banner
+
 .beta-banner {
 	@include phase-banner($state:beta);
-  @include inner-block;
-
+  width:100%;
 }
 
 .beta-banner p {
 	color: $banner-text-colour;
-	@include core-16;
-  @include inner-block;
-  margin-left:8%;
-  display:block;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 //Page Header//
