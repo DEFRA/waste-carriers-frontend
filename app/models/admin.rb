@@ -3,6 +3,8 @@
 
 class Admin
   include Mongoid::Document
+  resourcify :resources
+  rolify
 
   # Note: Devise standard default modules are 
   # :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
