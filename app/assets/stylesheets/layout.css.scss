@@ -17,9 +17,9 @@
 
 //Header Section//
 
-.header_text h1 {
+#global-header-bar .header-bar {margin-bottom:1em;}
+  .header_text h1 {
 	color: #FFFFFF;
-  @include inner-block;
 }
 
 .header_text span {
@@ -30,18 +30,17 @@
     color: rgb(244, 119, 56);
 }
 
+//Beta banner
+
 .beta-banner {
 	@include phase-banner($state:beta);
-  @include inner-block;
-
+  width:100%;
 }
 
 .beta-banner p {
 	color: $banner-text-colour;
-	@include core-16;
-  @include inner-block;
-  margin-left:8%;
-  display:block;
+  max-width: 960px;
+  margin: 0 auto;
 }
 
 //Page Header//
@@ -246,9 +245,10 @@ h2 {@include bold-36}
 h3 {@include bold-24}
 p {@include copy-19}
 a {@include copy-19}
-.step {@include copy-19}
-.subtitle {@include copy-19; color:#6f777B}
-.form-hint {@include copy-19; color:#6f777B}
+.step {@include copy-19; color:#6F777B;}
+.col-1 .link_to {@include copy-19; margin-right:1em;} //back button
+.subtitle {@include copy-19; color:#6F777B;}
+.form-hint {@include copy-19; color:#6f777B;}
 
 
 //OTHER PAGE ELEMENTS//
@@ -279,6 +279,8 @@ table th, table td {
 
 details {
 display: block;
+margin-bottom:1em;
+@include core-19;
 }
 details summary {
 display: inline-block;
@@ -358,10 +360,15 @@ color: $error-colour;
  color: $error-colour;
 }
 
+//Inline Elements
+
+.inline {display:inline-block;}
+
 //Bullet points//
 
-ol li {display:inline;}
-li {list-style-type: none;}
+ol {list-style-type:none;}
+li {list-style-type:none;}
+ul {list-style-type:none;}
 
 
 //Summary pages // **** PAGES REQUIRE FURTHER DESIGN WORK IN CODE *****
