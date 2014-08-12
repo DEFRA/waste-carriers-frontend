@@ -98,6 +98,7 @@ en:
     Role_financeAdmin: "Financial Admin"
     Role_financeBasic: "Financial Basic"
     Role_ncccRefund: "Agency Refund"
+    Role_ncccPayment: "Agency Payment"
     actions: Actions
     back: Back
     createLabel: "Create agency user"
