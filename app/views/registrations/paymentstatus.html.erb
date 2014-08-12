@@ -57,16 +57,16 @@
 									<% @registration.finance_details.first.orders.each do |order| %>
 									  <% if order.respond_to?('order_items') and order.order_items and order.order_items.size > 0 %>
 									  	<% order.order_items.each do |orderItem| %>
-											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-												<td class="" ><%= order.dateLastUpdated %></td>
+											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %> orderItem">
+												<td class="" ><%= format_time order.dateLastUpdated %></td>
 												<td class="" ><%= orderItem.description %></td>
 												<td class="" ><%= Money.new(orderItem.amount) %></td>
 											</tr>
 										  <% regCount = regCount + 1; %>
 									    <% end %>
 									  <% else %>
-										  <tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-											<td class="" >ORDER::<%= order.dateLastUpdated %></td>
+										  <tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %> order">
+											<td class="" >ORDER::<%= format_time order.dateLastUpdated %></td>
 											<td class="" ><%= order.description %></td>
 											<td class="" ><%= Money.new(order.totalAmount) %></td>
 										  </tr>

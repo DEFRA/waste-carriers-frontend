@@ -21,6 +21,8 @@ class Order < Ohm::Model
   attribute :amountType
   # the exception detail from the services
   attribute :exception
+  # the type of amount entered, pence or pounds, if manual then pounds used, if not pence are used
+  attribute :manualOrder
 
   set :order_items, :OrderItem
 
@@ -93,7 +95,8 @@ class Order < Ohm::Model
   # @return  [Boolean] true if Post is successful (200), false if not
   def commit (registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
-    negateAmount    
+    negateAmount
+    poundsToPence
     Rails.logger.debug "about to post order: #{to_json.to_s}"
     commited = true
     begin
@@ -129,6 +132,7 @@ class Order < Ohm::Model
       commited = false
     end
     unNegateAmount
+    penceToPounds
     commited
   end
 
@@ -168,13 +172,16 @@ class Order < Ohm::Model
     ETC
   ]
 
-  VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/    # This does not allow for a decimal point and currently works in pence only
+  VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
+  VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
 
   validates :id, presence: true
   validates :orderCode, presence: true
   validates :merchantId, presence: true
-  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_REGEX }
-  validate :validate_totalAmount
+  #validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_REGEX }
+  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_POUNDS_REGEX }, :if => :isManualOrder?
+  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_PENCE_REGEX },  :if => :isAutomatedOrder?
+  #validate :validate_totalAmount
   validates :currency, presence: true
   validates :dateCreated, presence: true, length: { minimum: 8 }
   validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }, :if => :isOnlinePayment?
@@ -226,7 +233,43 @@ class Order < Ohm::Model
     end
   end
   
+  def isManualOrder?
+    if !self.manualOrder.nil?
+      self.manualOrder
+    else
+      false
+    end
+  end
+
+  def isAutomatedOrder?
+    !isManualOrder?
+  end
+  
   private
+  
+  def poundsToPence
+    if isManualOrder?
+      multiplyAmount
+    end
+  end
+  
+  def penceToPounds
+    if isManualOrder?
+      divideAmount
+    end
+  end
+  
+  # This multiplies the amount up from pounds to pence
+  def multiplyAmount
+    self.totalAmount = (Float(self.totalAmount)*100).to_i
+    Rails.logger.info 'multiplyAmount result:' + self.totalAmount.to_s
+  end
+
+  # This divides the amount down from pence back to pounds
+  def divideAmount
+    self.totalAmount = (Float(self.totalAmount)/100).to_s
+    Rails.logger.info 'divideAmount result:' + self.totalAmount.to_s
+  end
   
   def isOnlinePayment?
     self.paymentMethod == 'ONLINE'
