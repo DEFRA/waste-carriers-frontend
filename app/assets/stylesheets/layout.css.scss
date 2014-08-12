@@ -17,38 +17,14 @@
 
 //Header Section//
 
-.page-header {
-margin: 1em 1em 0em 1em;
-
-@include media(desktop){
-margin: 1em 2em 0em 2em;
-}
-.hgroup {
-padding: 0;
-h1 {
-@include bold-48;
-padding-top: 0.7rem;
-padding-bottom: 1.3rem;
-}
-h2.subtitle{
-margin: 0;
-@include bold-24;
-}
-}
-}
-
-//Layout//
-
-.header_text span {
-	@include core-24;
-	color: #FFFFFF;
-}
-
 .header_text h1 {
 	color: #FFFFFF;
+  @include inner-block;
 }
 
 .header_text span {
+    @include bold-24; 
+    @include inner-block;
     text-transform: uppercase;
     font-weight: 700;
     color: rgb(244, 119, 56);
@@ -56,114 +32,72 @@ margin: 0;
 
 .beta-banner {
 	@include phase-banner($state:beta);
-	@include media(desktop){
-	margin: 0em;
-	}
+  @include inner-block;
+
 }
 
 .beta-banner p {
 	color: $banner-text-colour;
-	@include outer-block;
 	@include core-16;
-	padding-left:4em;
+  @include inner-block;
+  margin-left:8%;
+  display:block;
 }
 
-#content {
-	@include media(desktop){
-	@include outer-block;
-	@include inner-block;
-};
+//Page Header//
+
+.page-header h1 {
+@include bold-48;
+padding-top: 0.7rem;
+padding-bottom: 1.3rem;
+margin: 0.5em 0em 0em 0em;
 }
 
-article {margin:0;}
+//Layout//
+
+#content {@include inner-block; @include outer-block;}
+article {@include inner-block}
 section {margin:0;}
-aside {margin:0;}
+aside   {margin:0;}
 
 
-//Mobile first - Media Queries//
-
-.clearfix:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-.row {
-  margin: 0 -10px;
-  margin-bottom: 20px;
-}
-.row:last-child {
-  margin-bottom: 0;
-}
-[class*="col-"] {
-  padding: 0px;
-}
-
-@media all and ( min-width: 601px ) {
-   
-  article {
-    display:block;
-    width: 100%;
-    @include media(desktop){
-	margin: 0;
-	}
-  }
+//Responsive Columns//
 
 @media all and ( min-width: 601px ) {
    
   .col-1 {
-	@include media(desktop){
-	margin: 0;}
     float: left;
     width: 60%;
-    @include inner-block;
+   
   }
   
    .col-2 {
-	@include media(desktop){
-	margin: 0;}
-	padding-top: 0.7rem;
-	padding-bottom: 1.3rem;
     float: right;
     width: 25%;
     border-top: 10px solid rgb(0, 94, 165);
-    position:relative;
-    left:-1.5em;
+    padding-top:15px;
   }
 
 }
 
 @media all and ( min-width: 960px ) {
    
-  .col-1 {
-	@include media(desktop){
-	margin: 0;}
+   .col-1 {
     width: 60%;
-    @include inner-block;
   }
   
    .col-2 {
-	@include media(desktop){
-	margin: 0;}
-	padding-top: 0.7rem;
-	padding-bottom: 1.3rem;
     float: right;
     width: 25%;
     border-top: 10px solid rgb(0, 94, 165);
-    position:relative;
-    left:-1.5em;
+    padding-top:15px;
   }
 }
-}
+
 
 //Footer//
 
-.footer-top {
-	@include outer-block;
-	@include inner-block;
-	@include media(desktop){
-	margin: 0;}
-}
+.footer-top {@include inner-block}
 
 //Form//
 
@@ -183,6 +117,8 @@ legend {
     line-height:2em;
 }
 
+.form-group {}
+
 input,#addressSelector {@include copy-19};
 #registration_accountEmail_confirmation,
 #registration_contactEmail, 
@@ -192,7 +128,6 @@ input,#addressSelector {@include copy-19};
 #admin_email  
 {width:50%;}
 
-.form-group {}
 
 // Radio buttons & checkboxes
 
@@ -314,7 +249,6 @@ a {@include copy-19}
 .step {@include copy-19}
 .subtitle {@include copy-19; color:#6f777B}
 .form-hint {@include copy-19; color:#6f777B}
-
 
 
 //OTHER PAGE ELEMENTS//
