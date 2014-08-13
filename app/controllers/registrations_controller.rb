@@ -38,17 +38,7 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/business-type
   def newBusinessType
     new_step_action 'businesstype'
-
-    if agency_user_signed_in?
-      @registration.routeName = 'ASSISTED_DIGITAL'
-      if @registration.accessCode.blank?
-        @registration.accessCode = @registration.generate_random_access_code
-      end
-    else
-      @registration.routeName =  'DIGITAL'
-    end
-    @registration.save
-
+    logger.debug "Route is #{@registration.metaData.first.route}"
   end
 
   # POST /your-registration/business-type
@@ -495,7 +485,18 @@ class RegistrationsController < ApplicationController
       session[:registration_id]= @registration.id
       logger.debug "creating new registration #{@registration.id}"
       m = Metadata.create
+
+      if agency_user_signed_in?
+        m.update :route => 'ASSISTED_DIGITAL'
+        if @registration.accessCode.blank?
+          @registration.update :accessCode => @registration.generate_random_access_code
+        end
+      else
+        m.update :route => 'DIGITAL'
+      end
+
       @registration.metaData.add m
+
     else
       @registration = Registration[ session[:registration_id]]
       logger.debug "retireving registration #{@registration.id}"
@@ -737,7 +738,6 @@ class RegistrationsController < ApplicationController
     logger.debug  "nccedit looking for: #{params[:id]}"
     @registration = Registration.find_by_id(session[:registration_uuid])
     logger.debug  "registration found@ #{@registration['id']}"
-    @registration.routeName = @registration.metaData.first.route
     session[:registration_id] = @registration.id
     session[:registration_uuid] = @registration.uuid
     authorize! :update, @registration
@@ -748,8 +748,6 @@ class RegistrationsController < ApplicationController
     if @registration.nil?
       renderNotFound
       return
-    else
-      @registration.routeName = @registration.metaData.first.route
     end
     authorize! :read, @registration
     authorize! :read, Payment
@@ -864,8 +862,6 @@ class RegistrationsController < ApplicationController
       else
         @registration.update_attributes(params[:registration])
       end
-      # Set routeName from DB before validation to ensure correct validation for registration type, e.g. ASSITED_DIGITAL or DIGITAL
-      @registration.routeName = @registration.metaData.first.route
       if @registration.valid?
         @registration.save
         if agency_user_signed_in?
@@ -1231,7 +1227,6 @@ def prepareOrder (useWorldPay = true)
       :constructionWaste,
       :onlyAMF,
       :companyName,
-      :routeName,
       :addressMode,
       :houseNumber,
       :streetLine1,
