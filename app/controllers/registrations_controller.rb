@@ -445,7 +445,7 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/finish
   def finish
-    @registration = Registration[session[:registration_id]]
+    @registration = Registration.find_by_id(session[:registration_uuid])
     authorize! :read, @registration
   end
 
@@ -460,7 +460,7 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/finish-assisted
   def finishAssisted
-    @registration = Registration[session[:registration_id]]
+    @registration = Registration.find_by_id(session[:registration_uuid])
     authorize! :read, @registration
   end
 
