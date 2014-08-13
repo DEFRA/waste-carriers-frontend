@@ -45,11 +45,6 @@ Given(/^the caller declares the information provided is correct$/) do
   click_on 'Confirm'
 end
 
-Given(/^the user confirms his account details$/) do
-  click_on 'Next'
-end
-
-
 Then(/^the registration confirmation email should not be sent$/) do
   # specifically "the registration confirmation email should not be sent *to the agency user" (for whom this is the only email address provided)
   open_email my_agency_user.email
@@ -57,7 +52,7 @@ Then(/^the registration confirmation email should not be sent$/) do
 end
 
 Then(/^the print page contains the six-digit access code for the user$/) do
-  click_on 'View certificate'
+  click_on 'view-certificate'
 
   access_code = page.find_by_id 'accessCode'
   access_code.text.length.should == 6
@@ -81,13 +76,11 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   fill_in 'registration_firstName', with: 'Joe'
   fill_in 'registration_lastName', with: 'Bloggs'
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
-  fill_in 'registration_contactEmail', with: my_email_address
   click_on 'Next'
 
   check 'registration_declaration'
   click_on 'Confirm'
 
-  click_on 'Next'
 end
 
 When(/^I create an upper tier registration on behalf of a caller$/) do
@@ -120,8 +113,6 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   fill_in 'registration_firstName', with: 'Antony'
   fill_in 'registration_lastName', with: 'Assisted'
   fill_in 'registration_phoneNumber', with: '0123 456 789'
-  #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
-  fill_in 'registration_contactEmail', with: ''
   click_on 'Next'
 
   step 'I enter the details of the business owner'
@@ -131,7 +122,6 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
 
   check 'registration_declaration'
   click_on 'Confirm'
-  click_on 'Next'
   click_on 'Pay by debit/credit card'
 end
 
@@ -165,8 +155,6 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
   fill_in 'registration_firstName', with: 'Antony'
   fill_in 'registration_lastName', with: 'Assisted'
   fill_in 'registration_phoneNumber', with: '0123 456 789'
-  #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
-  fill_in 'registration_contactEmail', with: ''
   click_on 'Next'
 
   step 'I enter the details of the business owner'
@@ -176,21 +164,20 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
 
   check 'registration_declaration'
   click_on 'Confirm'
-  click_on 'Next'
 
   click_on 'Pay via electronic transfer'
 end
 
 And(/^the lower tier waste carrier registration id$/) do
-  page.should have_content 'Your registration number is: CBDL'
+  page.should have_content 'The registration number is: CBDL'
 end
 
 And(/^the upper tier waste carrier registration id/) do
-  page.should have_content 'Your registration number is: CBDU'
+  page.should have_content 'The registration number is: CBDU'
 end
 
 Then(/^I see the six\-character access code for the user$/) do
-  page.should have_content 'Your access code is:'
+  page.should have_content 'The assisted digital access code is:'
 end
 
 And(/^I see the payment details to tell the customer$/) do

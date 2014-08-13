@@ -1,0 +1,43 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <section>
+      <div class="inner">
+        <div class="col-1">
+
+          <!-- WF 4.3.4 -->
+          <div id="page4"  data-journey="waste-carriers-registration:signin">
+            <% content_for :page_title, createTitle('.title') %>
+            <ol>
+              <li class="back_link"><%= render 'back_link' %></li>
+              <%= render 'step', r: @registration, upper_step: '7', lower_step: '4' %>
+            </ol>
+
+            <%= render 'errors' %>
+
+            <%= form_for(@registration, :url => newSignin_path) do |f| %>
+              <fieldset>
+                <legend><%= t '.legend' %></legend>
+                <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
+                  <%= validation_for(@registration, :accountEmail) %>
+                  <%= f.label :accountEmail, class: 'form-label' %>
+                  <%= f.email_field :accountEmail, :autofocus => true %>
+                </div>
+                <div class="form-group <%if @registration.errors[:password].any?%> validation<%end%>">
+                  <%= validation_for(@registration, :password) %>
+                  <%= f.label :password, class: 'form-label' %>
+                  <%= f.password_field :password %>
+                </div>
+              </fieldset>
+              <div class='link_margin'>
+                <a href="/your-registration/signup"><%= t '.sign_up_link'%></a>
+              </div>
+              <span class="next_link"><%= render 'next_link' %></span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>

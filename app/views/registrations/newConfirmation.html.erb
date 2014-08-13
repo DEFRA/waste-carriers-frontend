@@ -68,14 +68,22 @@
                 </div>
               <% end %>
 
-              <div class='form-group'>
-                  <h3><%= t '.contact_details_heading' %></h3>
-                  <div class='summary-box'>
-                    <span class='summary-items'><%= render 'conviction_declaration_display', r: @registration %></span>
-                  </div>
-                  <p><%= link_to t('.edit_convictions_declaration_link_text'), newRelevantConvictions_path %></p>
-              </div>
-
+              <!-- Convictions section -->
+              <% unless @registration.tier.eql?('LOWER') %>
+                <div class='form-group'>
+                    <h3><%= t '.convictions_declaration_heading' %></h3>
+                    <div class='summary-box'>
+                      <span class='summary-items'>
+                        <% if @registration.declaredConvictions == 'yes' %>
+                          <p><%= t '.have_declared_convictions' %></p>
+                        <% else %>
+                          <p><%= t '.have_not_declared_convictions' %></p>
+                        <% end %>
+                      </span>
+                    </div>
+                    <p><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path %></p>
+                </div>
+              <% end %>
 
               <!-- Declaration section -->
           		<div class='form-group' id='declaration-summary'>
@@ -108,7 +116,7 @@
 
        <aside role='note'>
           <div class="inner">
-            <div class="col-2" id="tier-aside"> 
+            <div class="col-2" id="tier-aside">
               <h3>Registration tier</h3>
               <!-- Dynamic context section -->
               <div class='form-group'>
@@ -122,7 +130,7 @@
                   <div><%= message %></div>
                 </div>
               </div>
-             
+
             </div>
           </div>
       </aside>
