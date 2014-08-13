@@ -272,6 +272,8 @@ a {@include copy-19; padding-top: 0.7rem; padding-bottom: 1.3rem;}
 .col-1 .link_to {@include copy-19; margin-right:1em;} //back button
 .subtitle {@include copy-19; color:#6F777B;}
 .subtitle-grey {@include bold-24; color:#6F777B;}
+.table-column-text {@include core-19; color:#6F777B; margin-right:100px;}
+.table-column-data {@include bold-19;}
 .form-hint {@include copy-19; color:#6f777B;}
 
 
@@ -492,5 +494,10 @@ list-style-type: disc; position:relative; left:-4em;}
 #world-pay-subtitle {padding-left:2.4em;}
 .inner-payment-box .notice-icon {position:relative; top:50px; height:34px; width:34px;}
 
+//Electronic payment
+#electronic-payment-icon {position:relative; top:60px; left:10px; height:34px; width:34px; background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
+#iban {padding-left:3em;}
+#col-1-bank-transfer {width:65%;}
+.table_header {@include bold-48; padding-top: 0.7rem; padding-bottom: 3rem; }
 
 

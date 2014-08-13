@@ -648,7 +648,7 @@ en:
       total_fee_vat: "All charges are outside the scope of VAT"
       payment_method_debit_credit: "Pay by debit or credit card"
       payment_method_elec_transfer: "Pay by electronic transfer"
-      send_to_worldpay: "By chosing to pay by credit or debit card you will be taken to the WorldPay payment website"
+      send_to_worldpay: "By choosing to pay by credit or debit card you will be taken to the WorldPay payment website"
       payment_method_label: "Choose payment method"
       subtitle: "Payment Summary"
       title: Payment
