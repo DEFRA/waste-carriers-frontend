@@ -212,11 +212,11 @@ module WorldpayHelper
       @response
     end
     
-    def request_refund_from_worldpay(myOrderCode, myAmount)
+    def request_refund_from_worldpay(myOrderCode, ordersMerchantCode, myAmount)
       #TODO Get values to be refunded from the registration and/or its relevant payment
       orderCode = myOrderCode
       #TODO the merchantCode needs to come from the original payment as well
-      merchantCode = worldpay_merchant_code
+      merchantCode = ordersMerchantCode
       currencyCode = "GBP"
       amount = myAmount
       username = worldpay_xml_username
