@@ -26,7 +26,7 @@
 				
 				<p>Are you sure you want to make a Worldpay refund?</p>
 				
-				<p>For order: <%= f.object.orderKey %>, in the amount of <%= number_to_currency(f.object.amount, :unit => "£") %></p>
+				<p>For order: <%= f.object.orderKey %>, in the amount of <%= pence_to_currency f.object.amount %></p>
 				
 				<p>To confirm this refund, click the Refund button below.</p>
 
