@@ -58,6 +58,10 @@ Registrations::Application.routes.draw do
     match "registrations/:id/newReversal/:orderCode" => 'payment#createReversal', :via => [:post]
     get   "registrations/:id/newAdjustment" => 'payment#newAdjustment', :via => [:get], :as => :newAdjustment
     match "registrations/:id/newAdjustment" => 'payment#createAdjustment', :via => [:post]
+    
+      # Order additional copy cards
+      get "your-registration/:id/orderCopyCards" => "registrations#newCopyCardOrder", :via => [:get], :as => :extracopycards
+      match "your-registration/:id/orderCopyCards" => "registrations#createCopyCardOrder", :via => [:post]
 
 	  # Add routing for confirm delete registration
 	  get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
