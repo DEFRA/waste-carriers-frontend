@@ -977,6 +977,11 @@ class RegistrationsController < ApplicationController
     @registration.copy_card_fee = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
     @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
   end
+  
+  def calculate_fees_for_additional_copy_cards
+    @registration.copy_card_fee = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
+    @registration.total_fee =  @registration.copy_card_fee
+  end
 
   # POST upper-registrations/payment
   def updateNewPayment
@@ -1169,7 +1174,7 @@ def prepareOrder (useWorldPay = true)
     end
     
     # Sets the Fee amounts in the view
-    calculate_fees
+    calculate_fees_for_additional_copy_cards
     
     # Create empty order
     @order = Order.create
@@ -1178,7 +1183,7 @@ def prepareOrder (useWorldPay = true)
   # POST /registrations/:id/orderCopyCards
   def createCopyCardOrder
     logger.info 'createCopyCardOrder'
-    @registration = Registration.find_by_id(params[:id])
+    setup_registration 'additionalCopyCards'
     authorize! :read, @registration
     @order = Order.create
     
@@ -1190,7 +1195,7 @@ def prepareOrder (useWorldPay = true)
       redirect_to extracopycards_path, :alert => 'TODO: Online payment request'
       return
       
-    elsif params[:payOffline] == I18n.t('registrations.form.pay_offline_button_label')
+    elsif params[:payOffline] == I18n.t('registrations.form.pay_offline_button_label') + 'Fail on purpose'
       # Found Other payment request
       
       ## TODO: build offline order here
@@ -1202,6 +1207,9 @@ def prepareOrder (useWorldPay = true)
       logger.debug 'Did not find a valid payment button'
       @order.errors.add(:exception, 'Payment button invalid')
     end
+      
+    # Sets the Fee amounts in the view
+    calculate_fees_for_additional_copy_cards
     
     # Return to entry page, as errors must have occured
     render :newCopyCardOrder, :status => '400'
