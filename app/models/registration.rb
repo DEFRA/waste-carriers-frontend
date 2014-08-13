@@ -412,7 +412,7 @@ class Registration < Ohm::Model
           #Rails.logger.debug '-----------------'
           new_reg.finance_details.add FinanceDetails.init(v)
         else  #normal attribute'
-          new_reg.send("#{k}=",v)
+          new_reg.send(:update, {k.to_sym => v})
         end
       end #each
       new_reg.save
