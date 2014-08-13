@@ -6,25 +6,25 @@
       <div class="inner">
         <div class="col-1">
 
-          <!-- WF 4.3.2 -->
-          <div id="page0"  data-journey="waste-carriers-registration:confirmed-account">
-
+          <!-- WF 4.3.4 -->
+          <div id="page4"  data-journey="waste-carriers-registration:finish-assisted">
             <% content_for :page_title, createTitle('.title') %>
+
             <% if @registration.is_complete? %>
               <h1 class="subtitle"><%= t '.subtitle_complete' %></h1>
               <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
+              <p><%= t '.access_code' %><span><%= @registration.accessCode %></span>.</p>
               <p><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
-              <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
               <% if can? :print, @registration %>
-                <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
+                <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), { :class => 'link-button-secondary', :id => 'view-certificate'} %></p>
               <% end %>
 
             <% else %>
               <h1 class="subtitle"><%= t '.subtitle_pending' %></h1>
               <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
+              <p><%= t '.access_code' %><span><%= @registration.accessCode %></span>.</p>
               <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
-              <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
               <% unless @registration.paid_in_full? %>
                 <p><%= t '.payment_message' %></p>
@@ -42,9 +42,9 @@
 
             <p><%= t '.details_change' %></p>
 
-            <%= form_tag(new_user_session_path, method: :get) do |f| %>
+            <%= form_tag(finishAssisted_path) do |f| %>
               <span class="next_link">
-                <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.sign_in_button_label' %>"/>
+                <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
               </span>
             <% end %>
           </div>

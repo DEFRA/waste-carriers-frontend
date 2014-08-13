@@ -47,6 +47,11 @@ Then(/^I am shown my confirmed registration$/) do
   page.should have_content 'Registration complete'
 end
 
+Then(/^I am shown my pending registration$/) do
+  page.should_not have_content 'confirm your account'
+  page.should have_content 'Registration pending'
+end
+
 Then(/^I am shown how to pay in my confirmation email$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
