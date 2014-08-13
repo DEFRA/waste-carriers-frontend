@@ -10,15 +10,18 @@
           <div id="XXXXX"  data-journey="waste-carriers-registration:additional-copycards">
             <% content_for :page_title, createTitle('.title') %>
          
-            <%#= render 'back_link' %>
+            <%# REFACTORME: Replaced the "render 'back_link'" with a custom back link to go to the users registration page, or agency search dependign on user %>
             <noscript>
       			<%= content_tag :p, t('registrations.back_link_unavailable') %>
     		</noscript>
-    		<% userId = current_user.id || current_agency_user.id %>
-    		<%= link_to t('registrations.form.back_button_label'), userRegistrations_path(:id => userId), :class => 'link_to' %>
+    		<% if current_user.id %>
+    			<%= link_to t('registrations.form.back_button_label'), userRegistrations_path(:id => current_user.id), :class => 'link_to' %>
+    		<% else %>
+    			<%= link_to t('registrations.form.back_button_label'), registrations_path, :class => 'link_to' %>
+    		<% end %>
     		
-            <%= render 'errors' %>
-            <%# REFACTORME: Ideally this essential duplication of errors should be refactored to be more generic %>
+    		<%= render 'errors' %>
+            <%# REFACTORME: Replaced the "render 'errors'" with a error specific to orders rather than registrations essential duplication of errors %>
 		    <% if @order.errors.any? %>
 		      <% full_messages = one_full_message_per_invalid_attribute(@order) %>
 		      <div id="error_explanation" class="validation-summary">
@@ -28,6 +31,7 @@
 		          <% end %>
 		      </div>
 		    <% end %>
+		    
 		    <% if notice || alert %>
 		    <div id="note_explanation" class="note-summary">
 			  <h3 class='heading-medium'><%= notice%><%=alert%></h3>
@@ -39,23 +43,27 @@
 		    <fieldset>
 		      <legend><%= t '.subtitle' %></legend>
 
-		        <div class="inner-payment-box">
+		        <!--<div class="inner-payment-box">
 		            <div class='payment-group'>
 		              <%= f.label :registration_fee, class: 'form-label' %>
 		              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(Rails.configuration.fee_registration) %>
 		            </div>
+		        </div>-->
+		        
+		        <div class="form-group">
+			        <div class="form-label"><%= @registration.companyName %>/<%= @registration.regIdentifier %></div>
 		        </div>
 
 		        <div class="inner-payment-box">
 		          <%= validation_for(@registration, :copy_cards) %>
 		            <div class='payment-group'>
 		                <%= f.label :copy_cards, class: 'form-label' %>
-		                <p class='subtitle'><%= t '.copy_card_info' %></p>
+		                <p class='subtitle'><%= t 'registrations.newPayment.copy_card_info' %></p>
 		                <%= f.label :Enter_the_amount_of_copy_cards, class: 'form-label' %>
 		                <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>
 		                <%= f.number_field :copy_cards, :min => 0 %>
 		            </div>
-		                <p class='subtitle'><%= t '.copy_card_note' %></p>
+		                <p class='subtitle'><%= t 'registrations.newPayment.copy_card_note' %></p>
 		        </div>
 
 		        <div class="inner-payment-box">
