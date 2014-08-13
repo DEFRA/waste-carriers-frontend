@@ -76,7 +76,6 @@ class Registration < Ohm::Model
 
   attribute :password
   attribute :sign_up_mode
-  attribute :routeName
   attribute :accessCode
 
   attribute :tier
@@ -138,7 +137,6 @@ class Registration < Ohm::Model
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
-    metaData.first.update(route: routeName)
 
     begin
       response = RestClient.post url,
@@ -523,9 +521,6 @@ class Registration < Ohm::Model
 
   # TODO the following validations were problematic or possibly redundant
 
-  # TODO: FIX this Test All routes!! IS this needed
-  #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
-
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
 
@@ -617,7 +612,7 @@ class Registration < Ohm::Model
   end
 
   def digital_route?
-    routeName == 'DIGITAL'
+    metaData.first.route == 'DIGITAL'
   end
 
   def manual_uk_address?
