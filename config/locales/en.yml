@@ -623,6 +623,9 @@ en:
       revokedReason: "Why do you wish to revoke this registration"
     ncccform:
       subtitle: "Change your registration details"
+    newCopyCardOrder:
+      subtitle: "Order additional copy cards"
+      title: "Additional copy cards"
     newOfflinePayment:
       account_name: "Account name"
       account_number: "Account number"

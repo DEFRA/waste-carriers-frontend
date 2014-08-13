@@ -1,0 +1,88 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <section>
+      <div class="inner">
+        <div class="col-1">
+
+          <!-- WF XXXXX -->
+          <div id="XXXXX"  data-journey="waste-carriers-registration:additional-copycards">
+            <% content_for :page_title, createTitle('.title') %>
+         
+            <%#= render 'back_link' %>
+            <noscript>
+      			<%= content_tag :p, t('registrations.back_link_unavailable') %>
+    		</noscript>
+    		<% userId = current_user.id || current_agency_user.id %>
+    		<%= link_to t('registrations.form.back_button_label'), userRegistrations_path(:id => userId), :class => 'link_to' %>
+    		
+            <%= render 'errors' %>
+            <%# REFACTORME: Ideally this essential duplication of errors should be refactored to be more generic %>
+		    <% if @order.errors.any? %>
+		      <% full_messages = one_full_message_per_invalid_attribute(@order) %>
+		      <div id="error_explanation" class="validation-summary">
+		        <h2><%= t '.errorMessage', :count => pluralize(full_messages.count, t('.error')) %></h2>
+		          <% full_messages.each do |msg| %>
+		            <a class="error-text" href="#registration_<%= msg %>"><%= msg %></a>
+		          <% end %>
+		      </div>
+		    <% end %>
+		    <% if notice || alert %>
+		    <div id="note_explanation" class="note-summary">
+			  <h3 class='heading-medium'><%= notice%><%=alert%></h3>
+			</div>
+			<% end %>
+
+            <%= form_for(@registration, :url => :extracopycards, :method => 'POST') do |f| %>
+
+		    <fieldset>
+		      <legend><%= t '.subtitle' %></legend>
+
+		        <div class="inner-payment-box">
+		            <div class='payment-group'>
+		              <%= f.label :registration_fee, class: 'form-label' %>
+		              <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(Rails.configuration.fee_registration) %>
+		            </div>
+		        </div>
+
+		        <div class="inner-payment-box">
+		          <%= validation_for(@registration, :copy_cards) %>
+		            <div class='payment-group'>
+		                <%= f.label :copy_cards, class: 'form-label' %>
+		                <p class='subtitle'><%= t '.copy_card_info' %></p>
+		                <%= f.label :Enter_the_amount_of_copy_cards, class: 'form-label' %>
+		                <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>
+		                <%= f.number_field :copy_cards, :min => 0 %>
+		            </div>
+		                <p class='subtitle'><%= t '.copy_card_note' %></p>
+		        </div>
+
+		        <div class="inner-payment-box">
+		            <div class='payment-group'>
+		              <%= f.label :total_fee, class: 'form-label' %>
+		              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
+		            </div>
+		            <p class='subtitle'><%= t '.total_fee_vat' %></p>
+		        </div>
+
+		        <div class="inner-payment-box">
+		            <div class='payment-group'>
+		            	<%= f.submit nil, class: 'button', value: t('registrations.form.pay_by_worldpay_button_label'), name: 'payOnline' %>
+		                <span>or</span>
+		                <%= f.submit nil, class: 'button', value: t('registrations.form.pay_offline_button_label'), name: 'payOffline' %>
+		            </div>
+		            <div class='notice-icon'></div>
+		        </div>
+		        
+		        <p class='subtitle' id="world-pay-subtitle"><%= t '.send_to_worldpay' %></p>
+
+		    </fieldset>
+		      
+		    <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>

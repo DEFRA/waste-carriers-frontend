@@ -1153,6 +1153,59 @@ def prepareOrder (useWorldPay = true)
     redirect_to next_step
 
   end
+  
+  #####################################################################################
+  # Additional Copy Cards
+  #####################################################################################
+  
+  # GET /registrations/:id/orderCopyCards
+  def newCopyCardOrder
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :read, @registration
+    
+    # Sets the initial number of copy cards to 0 if none already found
+    if !@registration.copy_cards
+      @registration.copy_cards = 0
+    end
+    
+    # Sets the Fee amounts in the view
+    calculate_fees
+    
+    # Create empty order
+    @order = Order.create
+  end
+  
+  # POST /registrations/:id/orderCopyCards
+  def createCopyCardOrder
+    logger.info 'createCopyCardOrder'
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :read, @registration
+    @order = Order.create
+    
+    if params[:payOnline] == I18n.t('registrations.form.pay_by_worldpay_button_label')
+      # Found World pay request
+      
+      ## TODO: build worldpay order here
+      
+      redirect_to extracopycards_path, :alert => 'TODO: Online payment request'
+      return
+      
+    elsif params[:payOffline] == I18n.t('registrations.form.pay_offline_button_label')
+      # Found Other payment request
+      
+      ## TODO: build offline order here
+      
+      redirect_to extracopycards_path, :alert => 'TODO: Offline payment request'
+      return
+      
+    else
+      logger.debug 'Did not find a valid payment button'
+      @order.errors.add(:exception, 'Payment button invalid')
+    end
+    
+    # Return to entry page, as errors must have occured
+    render :newCopyCardOrder, :status => '400'
+  end
 
   private
 
