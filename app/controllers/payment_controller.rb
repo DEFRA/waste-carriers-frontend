@@ -276,8 +276,12 @@ class PaymentController < ApplicationController
 	if @payment.valid?
 	  logger.info 'payment is valid'
 	  
+	  # Find original order from registration
+	  order = Order.getOrder(@registration, params[:orderCode])
+	  logger.info 'Merchant Id found from original order: ' + order.merchantId
+	  
 	  # Make request to worldpay
-	  response = request_refund_from_worldpay(params[:orderCode], @payment.amount )
+	  response = request_refund_from_worldpay(params[:orderCode], order.merchantId, @payment.amount )
 	  
 	  # Check if response from worldpay contains ok message
 	  if responseOk?(response)
