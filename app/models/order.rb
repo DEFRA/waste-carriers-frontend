@@ -161,6 +161,19 @@ class Order < Ohm::Model
     end
     commited
   end
+  
+  # Returns the payment from the registration matching the orderCode
+  def self.getOrder(registration, orderCode)
+    foundOrder = nil
+    registration.finance_details.first.orders.each do |order|
+      Rails.logger.info 'Payment getOrder ' + order.orderCode.to_s
+      if orderCode == order.orderCode
+        Rails.logger.info 'Order getOrder foundOrder'
+        foundOrder = order
+      end
+    end
+    foundOrder
+  end
 
 
   WORLDPAY_STATUS = %w[
