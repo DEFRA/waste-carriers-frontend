@@ -15,7 +15,7 @@
     <%= f.label :phoneNumber, class: 'form-label' %>
     <%= f.telephone_field :phoneNumber, :size => 20, :maxlength => 20 %>
   </div>
-  <% unless r.routeName == 'ASSISTED_DIGITAL' %>
+  <% unless r.assisted_digital? %>
     <div class="form-group<%if r.errors[:contactEmail].any?%> validation<%end%>">
       <%= validation_for(r, :contactEmail) %>
       <%= f.label :contactEmail, class: 'form-label' %>
