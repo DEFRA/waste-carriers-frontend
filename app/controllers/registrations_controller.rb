@@ -879,7 +879,7 @@ class RegistrationsController < ApplicationController
     # Save DB MetaData
     dbMetaData = databaseMetaData
     # Create a new Registration from submitted params
-    regFromParams = Registration.new(submittedParams)
+    regFromParams = Registration.ctor(submittedParams)
     begin
       metaDataFromParams = regFromParams.metaData
       # Update Saved MD with revoked reason from Param
