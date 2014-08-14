@@ -159,16 +159,13 @@ module WorldpayHelper
     
     def isMoto? orderMerchantCode
       if orderMerchantCode == Rails.configuration.worldpay_moto_merchantcode
-        # 
         true
       elsif orderMerchantCode == Rails.configuration.worldpay_ecom_merchantcode
-        #
         false
       end
     end
     
     def worldpay_xml_username isMoto=nil
-      Rails.logger.info 'Worldpay username, use_moto?:' + use_moto?(isMoto).to_s + ' isMoto:' + isMoto.to_s
       if use_moto? isMoto
         Rails.configuration.worldpay_moto_username
       else
@@ -177,7 +174,6 @@ module WorldpayHelper
     end
 
     def worldpay_xml_password isMoto=nil
-      Rails.logger.info 'Worldpay password, use_moto?:' + use_moto?(isMoto).to_s + ' isMoto:' + isMoto.to_s
       if use_moto? isMoto
         Rails.configuration.worldpay_moto_password
       else
@@ -186,7 +182,6 @@ module WorldpayHelper
     end
 
     def worldpay_mac_secret isMoto=nil
-      Rails.logger.info 'Worldpay secret, use_moto?:' + use_moto?(isMoto).to_s + ' isMoto:' + isMoto.to_s
       if use_moto? isMoto
         Rails.configuration.worldpay_moto_macsecret
       else
