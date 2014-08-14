@@ -3,6 +3,13 @@ class RegistrationsController < ApplicationController
   include WorldpayHelper
   include RegistrationsHelper
 
+  module EditStatus
+    UPDATE_EXISTING_REGISTRATION_NO_CHARGE = 0
+    UPDATE_EXISTING_REGISTRATION_WITH_CHARGE = 1
+    CREATE_NEW_REGISTRATION = 2
+  end
+
+
   #We require authentication (and authorisation) largely only for editing registrations,
   #and for viewing the finished/completed registration.
 
@@ -298,6 +305,22 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/confirmation
   def newConfirmation
     new_step_action 'confirmation'
+
+    case session[:edit_process]
+    when 're-create'
+    when 'edit'
+      unless session[:edit_status] #haven't determined edit status yet, so do it now
+        original_registration = Registration[ session[:original_registration_id] ]
+        session[:edit_status] =  compare_registrations(@registration, original_registration )
+      end
+
+    when 'renewal'
+      # update_registration session[:edit_process]
+    else # new registration, do nothing
+    end
+
+    logger.debug "edit_process = #{ session[:edit_process]}"
+    logger.debug "edit_status = #{ session[:edit_status]}"
   end
 
   # POST /your-registration/confirmation
@@ -347,10 +370,10 @@ class RegistrationsController < ApplicationController
     # TODO had to comment this out for now because causing problems but will probably need to reinstate
     # check_steps_are_valid_up_until_current current_step
 
-#    if (session[:registration_id])
-#      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
-#      renderNotFound
-#    end
+    #    if (session[:registration_id])
+    #      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
+    #      renderNotFound
+    #    end
   end
 
   def setup_registration current_step, no_update=false
@@ -400,6 +423,7 @@ class RegistrationsController < ApplicationController
   end
 
   def userRegistrations
+
     # Get user from id in url
     tmpUser = User.find_by_id(params[:id])
     # if matches current logged in user
@@ -542,12 +566,16 @@ class RegistrationsController < ApplicationController
   def edit
     Rails.logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
+    # let's keep track of the original registration before any edits have been done
+    # the we can use it to compare it with the edited one.
+    session[:original_registration_id] = Registration.find_by_id(params[:id]).id
     authorize! :update, @registration
 
-      session[:registration_id] = @registration.id
-      session[:registration_uuid] = @registration.uuid
-      redirect_to :upper_summary
-    # @registration.current_step = session[:registration_step]
+    session[:registration_id] = @registration.id
+    session[:registration_uuid] = @registration.uuid
+    session[:edit_process] =  params[:edit_process]
+
+    redirect_to :newConfirmation
   end
 
   def ncccedit
@@ -671,35 +699,25 @@ class RegistrationsController < ApplicationController
         end
       end
 
-      logger.debug "Now asking whether registration is all valid"
-      if @registration.valid?
-        logger.debug "The registration is all valid. About to save the registration..."
-        @registration.expires_on = (Date.current + 3.years).to_s
-        @registration.save
-        logger.debug "reg: #{@registration.attributes.to_s}"
-        session[:registration_uuid] = @registration.commit
-        logger.debug "uuid: #{@registration.uuid}"
-        logger.debug "session uuid: #{session[:registration_uuid]}"
-        if agency_user_signed_in?
-          @registration.accessCode = @registration.generate_random_access_code
-          @registration.save
-          logger.debug "accessCode: #{@registration.accessCode }"
+      logger.debug "edit process: #{session[:edit_process]}"
+      case session[:edit_process]
+      when 're-create'
+      when 'edit'
+        original_registration = Registration[ session[:original_registration_id] ]
+        session[:edit_status] = compare_registrations(@registration, original_registration )
+        if session[:edit_status].eql? EditStatus::CREATE_NEW_REGISTRATION
+          save_registration
+        else
+          update_registration session[:edit_process]
+          redirect_to print_confirmed_path and return
         end
-        # The user is signed in at this stage if he activated his e-mail/account (for a previous registration)
-        # Assisted Digital registrations (made by the signed in agency user) do not need verification either.
-        if agency_user_signed_in? || user_signed_in?
-          @registration.activate!
-        end
-        @registration.save
-        session[:registration_id] = @registration.id
-        logger.debug "The registration has been saved. About to send e-mail..."
-        if user_signed_in?
-          RegistrationMailer.welcome_email(@user, @registration).deliver
-        end
-        logger.debug "registration e-mail has been sent."
-      else
-        logger.error "GGG - The registration is NOT valid!"
+      when 'renewal'
+        update_registration session[:edit_process]
+      else # new registration
+        save_registration
       end
+
+
 
       session[:registration_id] = @registration.id
       session[:registration_step] = session[:registration_params] = nil
@@ -887,12 +905,12 @@ class RegistrationsController < ApplicationController
     if validate_public_search_parameters?(searchString,"any",distance, postcode)
       if searchString && !searchString.empty?
         param_args = {
-            q: searchString,
-            searchWithin: 'companyName',
-            distance: distance,
-            activeOnly: 'true',
-            postcode: postcode,
-            excludeRegId: 'true' }
+          q: searchString,
+          searchWithin: 'companyName',
+          distance: distance,
+          activeOnly: 'true',
+          postcode: postcode,
+        excludeRegId: 'true' }
         @registrations = Registration.find_by_params(param_args)
       else
         @registrations = []
@@ -923,37 +941,74 @@ class RegistrationsController < ApplicationController
     end
   end
 
+
+
+  def calculate_fees(fee_type = 'new')
+
+    case fee_type
+    when 'new'
+      @registration.registration_fee = Rails.configuration.fee_registration
+    when 'renewal'
+      @registration.registration_fee = Rails.configuration.fee_renewal
+    when 'edit'
+      @registration.registration_fee = Rails.configuration.fee_reg_type_change
+    else
+      @registration.registration_fee = Rails.configuration.fee_registration
+    end
+
+
+    @registration.copy_card_fee = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
+    @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
+    @registration.save
+  end
+
   # GET upper-registrations/payment
   def newPayment
     new_step_action 'payment'
     if !@registration.copy_cards
       @registration.copy_cards = 0
     end
-    calculate_fees
-    @order = Order.new if @order == nil
-  end
+    logger.debug " my order: #{@registration.finance_details.first.orders.first.attributes.to_s}"
 
-  def calculate_fees
-    @registration.registration_fee = Rails.configuration.fee_registration
-    @registration.copy_card_fee = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
-    @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
+    if  (session[:edit_status].eql? EditStatus::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE)
+      calculate_fees('edit')
+    elsif session[:edit_process].eql? 'renewal'
+      calculate_fees('renewal')
+    else
+      calculate_fees
+    end
+
+    @order  ||= Order.new
   end
 
   # POST upper-registrations/payment
   def updateNewPayment
     setup_registration 'payment'
-    
-    # Determine what kind of payment selected and redirect to other action if required
-    if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
-      @order = prepareOfflinePayment
-    else
-      @order = prepareOnlinePayment
+
+    if  (session[:edit_status].eql? EditStatus::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE) ||
+        (session[:edit_status].eql? EditStatus::CREATE_NEW_REGISTRATION) ||
+        (session[:edit_process].eql? 'renewal')
+      logger.debug " my order: #{@registration.finance_details.first.orders.first.attributes.to_s}"
     end
+
+    # Determine what kind of payment selected and redirect to other action if required
+    # if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
+    #   @order = prepare_payment(false)
+    # else
+    #   @order = prepare_payment(true)
+    # end
+
+    @order = (params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label'))  ? prepare_payment(false) :  prepare_payment(true)
+    @order.amountType = Order.getPositiveType
+    logger.debug "my order: #{ @order.attributes.to_s}"
+
 
     if @order.valid?
       logger.info "Saving the order"
-      if @order.save! @registration.uuid
-        # order saved successfully        
+      # if @order.save! @registration.uuid
+
+      if @order.commit @registration.uuid
+        # order saved successfully
       else
         # error updating services
         logger.warn 'The order was not saved to services.'
@@ -971,7 +1026,7 @@ class RegistrationsController < ApplicationController
 
     logger.info "About to redirect to Worldpay/Offline payment - if the registration is valid."
     if @registration.valid?
-    
+
       if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
         logger.info "The registration is valid - redirecting to Offline payment page..."
         redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
@@ -993,15 +1048,15 @@ class RegistrationsController < ApplicationController
 
     #TODO have a current_order method on the registration
     ord = reg.finance_details.first.orders.first
-    
+
     @order = Order.create
-    
+
     if useWorldPay
       @order = updateOrderForWorldpay(@order)
     else
       @order = updateOrderForOffline(@order)
     end
-    
+
 
     # Ensure Order Id of newly created order remains the same
     # TODO: Fix later as assumed orderId of first order?
@@ -1041,9 +1096,9 @@ class RegistrationsController < ApplicationController
 
     @order
   end
-  
+
   def updateOrderForWorldpay myOrder
-  
+
     now = Time.now.utc.xmlschema
     myOrder.paymentMethod = 'ONLINE'
     myOrder.orderCode = Time.now.to_i.to_s
@@ -1057,9 +1112,9 @@ class RegistrationsController < ApplicationController
     myOrder.updatedByUser = @registration.accountEmail
     myOrder
   end
-  
+
   def updateOrderForOffline myOrder
-  
+
     now = Time.now.utc.xmlschema
     myOrder.paymentMethod = 'OFFLINE'
     myOrder.orderCode = Time.now.to_i.to_s
@@ -1075,19 +1130,24 @@ class RegistrationsController < ApplicationController
   end
 
   ######################################
-  
+
   def prepareOfflinePayment
     #setup_registration 'payment'
-    calculate_fees    
+    calculate_fees
     order = prepareOrder false
     order
   end
-  
+
   def prepareOnlinePayment
     calculate_fees
     logger.info "copy cards: " + @registration.copy_cards.to_s
     logger.info "total fee: " + @registration.total_fee.to_s
     order = prepareOrder true
+    order
+  end
+
+  def prepare_payment(online = true)
+    order = prepareOrder(online)
     order
   end
 
@@ -1113,6 +1173,97 @@ class RegistrationsController < ApplicationController
   def owe_money? registration
     registration.upper? and !registration.paid_in_full?
   end
+
+
+  # Saves a new Registration object from to the Java Service
+  #
+  # @param none
+  # @return none
+  def save_registration
+    if @registration.valid?
+      logger.debug "The registration is all valid. About to save the registration..."
+      @registration.expires_on = (Date.current + 3.years).to_s
+      @registration.save
+      logger.debug "reg: #{@registration.attributes.to_s}"
+      session[:registration_uuid] = @registration.commit
+      if agency_user_signed_in?
+        @registration.accessCode = @registration.generate_random_access_code
+        @registration.save
+        logger.debug "accessCode: #{@registration.accessCode }"
+      end
+      # The user is signed in at this stage if he activated his e-mail/account (for a previous registration)
+      # Assisted Digital registrations (made by the signed in agency user) do not need verification either.
+      if agency_user_signed_in? || user_signed_in?
+        @registration.activate!
+      end
+      @registration.save
+      session[:registration_id] = @registration.id
+      logger.debug "The registration has been saved. About to send e-mail..."
+      if user_signed_in?
+        RegistrationMailer.welcome_email(@user, @registration).deliver
+      end
+      logger.debug "registration e-mail has been sent."
+    else
+      logger.error "GGG - The registration is NOT valid!"
+    end
+  end
+
+  # Updates an existing Registration object  to the Java Service
+  #
+  # @param edit_process [String] whether the object is updated as part of a
+  # renewal, re-registration  or  edit
+  # @return none
+  def update_registration(edit_process)
+    if @registration.valid?
+      logger.debug "The registration expires on #{@registration.expires_on}"
+      if edit_process.eql? 'renewal'
+        expiry_date = DateTime.parse(@registration.expires_on) + 3.years
+      else
+        #making sure date format is correct
+        expiry_date = Registration.convert_date(@registration.expires_on)
+      end
+      @registration.expires_on = expiry_date.to_s
+
+      @registration.save
+      logger.debug "reg: #{@registration.attributes.to_s}"
+      if (@registration.save!)
+        if agency_user_signed_in?
+          @registration.accessCode = @registration.generate_random_access_code
+          @registration.save
+          logger.debug "accessCode: #{@registration.accessCode }"
+        end
+        logger.debug "The registration has been saved. About to send e-mail..."
+        if user_signed_in?
+          RegistrationMailer.welcome_email(@user, @registration).deliver
+        end
+        logger.debug "registration e-mail has been sent."
+      else #update failed
+      end
+    else   logger.error "GGG - The registration is NOT valid!"
+    end
+  end
+
+
+  def compare_registrations(edited_reg, original_reg)
+    res =   EditStatus::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+
+    if (edited_reg.key_people.size  > original_reg.key_people.size) ||
+        (edited_reg.company_no != original_reg.company_no)
+      edited_reg.total_fee = Rails.configuration.fee_registration
+      res =   EditStatus::CREATE_NEW_REGISTRATION
+    end
+
+
+    if edited_reg.registrationType != original_reg.registrationType
+      edited_reg.total_fee = Rails.configuration.fee_reg_type_change
+      res =   EditStatus::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+    end
+
+    logger.debug "compare_registrations: #{res}"
+    res
+
+  end
+
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
@@ -1154,5 +1305,8 @@ class RegistrationsController < ApplicationController
       :address_match_list,
     :sign_up_mode)
   end
+
+  private :save_registration, :update_registration
+
 
 end

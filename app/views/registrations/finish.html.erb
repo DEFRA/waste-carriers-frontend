@@ -3,7 +3,18 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
-<h1 class="subtitle"><%= t '.heading' %></h1>
+
+
+
+<% case  session[:edit_process] %>
+<% when 'renewal' %>
+<% when 're-create' %>
+<% when 'edit' %>
+  <h1 class="subtitle"><%= t '.edit_heading' %></h1>
+<% else %>  <!-- this is a new registration page -->
+  <h1 class="subtitle"><%= t '.heading' %></h1>
+<% end %>
+
 <h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
 <%# render "shared/meta_phases"%>
 
