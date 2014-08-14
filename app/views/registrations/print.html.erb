@@ -9,13 +9,12 @@
 
 <%= form_for(@registration, url: print_url(:id => @registration.id)) do |f| %>
 
-<!--<h1><%= t 'registrations.form.title' %></h1>-->
 <%= render "shared/meta_phases"%>
 
 <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
 <h1 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h1>
 
-<h2><%= t 'registrations.finish.yourRegNumber', :reg => @registration.regIdentifier %></h2>
+<h2><%= t 'registrations.finish.your_reg_number', :reg => @registration.regIdentifier %></h2>
 
 <% case  session[:edit_process] %>
 <% when 'renewal' %>

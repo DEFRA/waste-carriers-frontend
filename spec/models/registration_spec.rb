@@ -8,19 +8,19 @@ describe Registration do
   it { should respond_to :criminally_suspect }
 
   describe '#upper?' do
-    specify { Registration.new(tier: 'UPPER').should be_upper }
-    specify { Registration.new(tier: 'upper').should_not be_upper }
-    specify { Registration.new(tier: '').should_not be_upper }
-    specify { Registration.new(tier: nil).should_not be_upper }
-    specify { Registration.new(tier: 'LOWER').should_not be_upper }
+    specify { Registration.ctor(tier: 'UPPER').should be_upper }
+    specify { Registration.ctor(tier: 'upper').should_not be_upper }
+    specify { Registration.ctor(tier: '').should_not be_upper }
+    specify { Registration.ctor(tier: nil).should_not be_upper }
+    specify { Registration.ctor(tier: 'LOWER').should_not be_upper }
   end
 
   describe '#lower?' do
-    specify { Registration.new(tier: 'LOWER').should be_lower }
-    specify { Registration.new(tier: 'lower').should_not be_lower }
-    specify { Registration.new(tier: '').should be_lower }
-    specify { Registration.new(tier: nil).should be_lower }
-    specify { Registration.new(tier: 'UPPER').should_not be_lower }
+    specify { Registration.ctor(tier: 'LOWER').should be_lower }
+    specify { Registration.ctor(tier: 'lower').should_not be_lower }
+    specify { Registration.ctor(tier: '').should be_lower }
+    specify { Registration.ctor(tier: nil).should be_lower }
+    specify { Registration.ctor(tier: 'UPPER').should_not be_lower }
   end
 
   context 'businesstype step' do

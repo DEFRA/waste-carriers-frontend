@@ -22,7 +22,7 @@ Feature: Email confirmation
   Scenario: upper tier confirmed
     Given I have completed the upper tier and chosen to pay by bank transfer
     When I have confirmed my email address
-    Then I am shown my confirmed registration
+    Then I am shown my pending registration
 
   Scenario: upper tier unconfirmed with balance owing
     Given I have completed the upper tier and chosen to pay by bank transfer

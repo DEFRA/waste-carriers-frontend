@@ -63,5 +63,5 @@ end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
   page.should have_content 'Your registration number is: CBDU'
-  page.should have_content 'Please remember to pay for this registration'
+  page.should have_content 'Please remember to arrange your bank transfer'
 end

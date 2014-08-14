@@ -154,12 +154,14 @@ class Payment < Ohm::Model
   # error message representing why it failed.
   def self.isSmallWriteOff(balance)
     Rails.logger.info 'balance: ' + balance.to_s
-    if balance.to_f <= Payment.basicMinimum
+    if balance.to_f < Payment.basicMinimum
       Rails.logger.info 'Balance is paid or overpaid'
       I18n.t('payment.newWriteOff.writeOffNotApplicable')
     elsif balance.to_f > Payment.basicMaximum
       Rails.logger.info 'Balance is too great'
       I18n.t('payment.newWriteOff.writeOffUnavailable')
+    elsif balance.to_f == 0.to_f
+      I18n.t('payment.newWriteOff.writeOffNotApplicable')
     else
       true
     end
@@ -223,7 +225,7 @@ class Payment < Ohm::Model
   end
   
   def makeRefund
-    self.orderKey = self.orderKey + '_REFUND'
+    self.orderKey = self.orderKey + '_REFUNDREQUEST'
   end
   
   # Ensures if a reversal payment type is selected, then the amount entered is negated
@@ -235,6 +237,26 @@ class Payment < Ohm::Model
         self.amount = -self.amount.to_i.abs
       end
     end
+  end
+  
+  def isRefundableType?
+    refundable = false
+    PAYMENT_TYPES.each do |type|
+      if type == self.paymentType
+        refundable = true
+      end
+    end
+    PAYMENT_TYPES_FINANCE_BASIC.each do |type|
+      if type == self.paymentType
+        refundable = true
+      end
+    end
+    PAYMENT_TYPES_FINANCE_ADMIN.each do |type|
+      if type == self.paymentType
+        refundable = true
+      end
+    end
+    refundable
   end
 
   private

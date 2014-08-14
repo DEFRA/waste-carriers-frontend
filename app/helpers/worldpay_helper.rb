@@ -149,32 +149,40 @@ module WorldpayHelper
     end
 
     # Select the merchant code to use based on the request. For assisted digital, an agency user must be signed in.
-    def worldpay_merchant_code
-      if use_moto?
+    def worldpay_merchant_code isMoto=nil
+      if use_moto? isMoto
         Rails.configuration.worldpay_moto_merchantcode
       else
         Rails.configuration.worldpay_ecom_merchantcode
       end
     end  
-
-    def worldpay_xml_username
-      if use_moto?
+    
+    def isMoto? orderMerchantCode
+      if orderMerchantCode == Rails.configuration.worldpay_moto_merchantcode
+        true
+      elsif orderMerchantCode == Rails.configuration.worldpay_ecom_merchantcode
+        false
+      end
+    end
+    
+    def worldpay_xml_username isMoto=nil
+      if use_moto? isMoto
         Rails.configuration.worldpay_moto_username
       else
         Rails.configuration.worldpay_ecom_username
       end
     end
 
-    def worldpay_xml_password
-      if use_moto?
+    def worldpay_xml_password isMoto=nil
+      if use_moto? isMoto
         Rails.configuration.worldpay_moto_password
       else
         Rails.configuration.worldpay_ecom_password
       end
     end
 
-    def worldpay_mac_secret
-      if use_moto?
+    def worldpay_mac_secret isMoto=nil
+      if use_moto? isMoto
         Rails.configuration.worldpay_moto_macsecret
       else
         Rails.configuration.worldpay_ecom_macsecret
@@ -192,6 +200,7 @@ module WorldpayHelper
       digest.to_s.eql? mac
     end
 
+	# @Deprecated
     def request_refund_from_worldpay
       #TODO Get values to be refunded from the registration and/or its relevant payment
       orderCode = 'Georg123'
@@ -212,18 +221,19 @@ module WorldpayHelper
       @response
     end
     
-    def request_refund_from_worldpay(myOrderCode, myAmount)
+    # This function effectivly replaces the above function as it passes in the required order information
+    def request_refund_from_worldpay(myOrderCode, ordersMerchantCode, myAmount)
       #TODO Get values to be refunded from the registration and/or its relevant payment
       orderCode = myOrderCode
       #TODO the merchantCode needs to come from the original payment as well
-      merchantCode = worldpay_merchant_code
+      merchantCode = ordersMerchantCode
       currencyCode = "GBP"
       amount = myAmount
-      username = worldpay_xml_username
-      password = worldpay_xml_password
+      username = worldpay_xml_username isMoto?(ordersMerchantCode)
+      password = worldpay_xml_password isMoto?(ordersMerchantCode)
 
-      xml = create_refund_request_xml(merchantCode,orderCode,currencyCode,amount)
-      logger.info 'About to contact WorldPay for refund: XML username = ' + worldpay_xml_username
+      xml = create_cancel_or_refund_request_xml(merchantCode,orderCode)
+      logger.info 'About to contact WorldPay for refund: XML username = ' + username
       logger.info 'Sending refund request XML to Worldpay: ' + xml
 
       response = send_xml_with_username_password(xml,username,password)
@@ -236,6 +246,7 @@ module WorldpayHelper
       parse_xml(responseBody).css("paymentService reply ok").first.to_s.include?("ok")
     end
 
+    # TEST: Replaced this with cancel_or_refund_request
     def create_refund_request_xml(merchantCode, orderCode, currencyCode, amount)
       xml = "<?xml version=\"1.0\"?>\n"
       xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>\n"
@@ -250,13 +261,35 @@ module WorldpayHelper
       xml << "</paymentService>\n"
       xml
     end
+    
+    def create_cancel_or_refund_request_xml(merchantCode, orderCode)
+      xml = "<?xml version=\"1.0\"?>\n"
+      xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>\n"
+      xml << "<paymentService version=\"1.4\" merchantCode=\"" + merchantCode + "\">\n"
+      xml << "<modify>\n"
+      xml << "<orderModification orderCode=\"" + orderCode + "\">\n"
+      xml << "<cancelOrRefund/>\n"
+      xml << "</orderModification>\n"
+      xml << "</modify>\n"
+      xml << "</paymentService>\n"
+      xml
+    end
 
     def process_order_notification(notification)
       logger.info "Processing order notification: " + notification.to_s
     end
     
-    def use_moto?
-      agency_user_signed_in?
+    def use_moto? isMoto
+      #
+      # REVIEW ME:
+      # Remove the check for an agency user merchant code being different from external user and just use external user code
+      #
+      #agency_user_signed_in?
+      if !isMoto.nil?
+        isMoto
+      else
+        agency_user_signed_in?
+      end
     end
 
 end

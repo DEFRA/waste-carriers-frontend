@@ -5,13 +5,12 @@
     <section class='bank_section'>
       <div class="inner">
       <div class="col-1" id="col-1-bank-transfer">
-      <ol>
-        <li class='back_link'><%= render 'back_link' %></li>
-        <li class="step">Step 9 of 9</li>
-      </ol>
+      
+        <%= render 'back_link' %>
+        <div>Step 9 of 9</div>
 
 <div id='bank_transfer_table'>
-  <h2 class='legend-title'><%= t '.heading' %></h2>
+  <h1 class='table_header'><%= t '.heading' %></h1>
     <h3><%= t '.bank_transfer_instructions' %></h3>
     <br/>
       <table summary='Bank transfer details' role='presentation'>
@@ -55,7 +54,8 @@
       </table>
 </div>
 
-<div class='notice-icon'><p><strong><%= t '.iban_instructions' %></strong></p></div></br>
+<div id="electronic-payment-icon"></div>
+<p id="iban"><strong><%= t '.iban_instructions' %></strong></p>
 
 <div id='bank_transfer_table'>
       <table summary='Bank transfer details' role='presentation'>
@@ -79,8 +79,8 @@
 <br/>
 <br/>
 
-<h2 class="subtitle"><strong>Step two</strong></h2>
-<div><h4><%= t '.bank_transfer_contact_instructions' %></h4></div>
+<div class="subtitle"><h3><strong>Step two</strong></h3></div>
+<div><h3><%= t '.bank_transfer_contact_instructions' %></h3></div>
 
 <div id='bank_transfer_table'>
       <table summary='Bank transfer details' role='presentation'>

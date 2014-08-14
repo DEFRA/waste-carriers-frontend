@@ -2,6 +2,10 @@
 
 <main id="content" role="main" class="group">
     <article role="article" class="group">
+    <section>
+      <div class="inner">
+      <div class="col-1">
+    
     <% content_for :page_title, createTitle('.heading') %>
     
     <!-- Usefult for showing default messages -->
@@ -21,6 +25,18 @@
 	    </noscript>
 	    <%= link_to t('registrations.form.back_to_status_button_label'), :paymentstatus, :class => 'link_to' %>
 	</div>
+	
+	  </div>
+      </div>
+    </section>
+
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+         <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
 	
 	</article>
 </main>

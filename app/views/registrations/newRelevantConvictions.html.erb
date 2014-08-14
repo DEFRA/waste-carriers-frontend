@@ -7,10 +7,8 @@
       	 <div class="col-1">
     		<% content_for :page_title, createTitle('registrations.convictions_step.title') %>
     		<%= form_for(@registration, :url => newRelevantConvictions_path) do |f| %>
-    		<ol>
-        		<li class='back_link'><%= render 'back_link' %></li>
-       			<li class="step"><%= t 'registrations.convictions_step.step' %></li>
-       		</ol>
+        		<%= render 'back_link' %>
+       			<%= t 'registrations.convictions_step.step' %>
         	<%= render "convictions_step", :f => f %>
     		  <% end %>
   		  </div>

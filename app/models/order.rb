@@ -15,12 +15,14 @@ class Order < Ohm::Model
   attribute :dateLastUpdated
   attribute :updatedByUser
   attribute :description
-
+  
   # These are meta data fields used only in rails for storing a temporary value to determine:
   # if the amount entered is positive or negative
   attribute :amountType
   # the exception detail from the services
   attribute :exception
+  # the type of amount entered, pence or pounds, if manual then pounds used, if not pence are used
+  attribute :manualOrder
 
   set :order_items, :OrderItem
 
@@ -43,12 +45,12 @@ class Order < Ohm::Model
         case k
         when 'orderItems'
           if v
-
+            
             # Important! Need to delete the order_items before new ones are added as this list exponentially grows
             order.order_items.each do |orderItem|
               order.order_items.delete orderItem
             end
-
+            
             v.each do |item_hash|
 #              orderItem = OrderItem.create
 #              item_hash.each {|k1, v1| orderItem.send("#{k1}=",v1)}
@@ -57,9 +59,9 @@ class Order < Ohm::Model
               order.order_items.add orderItem
             end
 
-          end #if
+          end #if          
         else
-          order.send("#{k}=",v)
+          order.send(:update, {k.to_sym => v})
         end #case
       end
       order.save
@@ -93,7 +95,8 @@ class Order < Ohm::Model
   # @return  [Boolean] true if Post is successful (200), false if not
   def commit (registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
-    negateAmount
+    negateAmount    
+    poundsToPence
     Rails.logger.debug "about to post order: #{to_json.to_s}"
     commited = true
     begin
@@ -109,7 +112,7 @@ class Order < Ohm::Model
       Rails.logger.debug "Commited order to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
-
+      
       if e.http_code == 422
         # Get actual error from services
         htmlDoc = Nokogiri::HTML(e.http_body)
@@ -125,10 +128,11 @@ class Order < Ohm::Model
         # Update order with a exception message
         self.exception = messageFromServices
       end
-
+      
       commited = false
     end
     unNegateAmount
+    penceToPounds
     commited
   end
 
@@ -138,7 +142,7 @@ class Order < Ohm::Model
   # @return  [Boolean] true if Post is successful (200), false if not
   def save!(registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders/#{orderId}.json"
-    Rails.logger.debug "about to add order: #{to_json.to_s} \n to  registration #{registration_uuid}"
+    Rails.logger.debug "about to PUT order: #{to_json.to_s}"
     commited = true
     begin
       response = RestClient.put url,
@@ -157,6 +161,19 @@ class Order < Ohm::Model
     end
     commited
   end
+  
+  # Returns the payment from the registration matching the orderCode
+  def self.getOrder(registration, orderCode)
+    foundOrder = nil
+    registration.finance_details.first.orders.each do |order|
+      Rails.logger.info 'Payment getOrder ' + order.orderCode.to_s
+      if orderCode == order.orderCode
+        Rails.logger.info 'Order getOrder foundOrder'
+        foundOrder = order
+      end
+    end
+    foundOrder
+  end
 
 
   WORLDPAY_STATUS = %w[
@@ -168,13 +185,16 @@ class Order < Ohm::Model
     ETC
   ]
 
-  VALID_CURRENCY_REGEX = /\A[-]?[0-9.]+\z/    # This does not allow for a decimal point and currently works in pence only
+  VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
+  VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
 
   validates :id, presence: true
   validates :orderCode, presence: true
   validates :merchantId, presence: true
-  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_REGEX }
-  validate :validate_totalAmount
+  #validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_REGEX }
+  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_POUNDS_REGEX }, :if => :isManualOrder?
+  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_PENCE_REGEX },  :if => :isAutomatedOrder?
+  #validate :validate_totalAmount
   validates :currency, presence: true
   validates :dateCreated, presence: true, length: { minimum: 8 }
   validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }, :if => :isOnlinePayment?
@@ -186,24 +206,24 @@ class Order < Ohm::Model
   def self.worldpay_status_options_for_select
     (WORLDPAY_STATUS.collect {|d| [I18n.t('worldpay_status.'+d), d]})
   end
-
+  
   ORDER_AMOUNT_TYPES = %w[
     POSITIVE
     NEGATIVE
   ]
-
+  
   def includesOrderType? orderType
     Rails.logger.info 'includesOrderType? orderType:' + orderType
     Rails.logger.info 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
     ORDER_AMOUNT_TYPES.include? orderType
   end
-
+  
   class << self
     def getPositiveType
      ORDER_AMOUNT_TYPES[0]
-    end
+    end 
   end
-
+  
   class << self
     def getNegativeType
       ORDER_AMOUNT_TYPES[1]
@@ -217,7 +237,7 @@ class Order < Ohm::Model
       Rails.logger.info 'amount negated: ' + self.totalAmount.to_s
     end
   end
-
+  
   def unNegateAmount
     Rails.logger.info 'Order, unNegateAmount, amountType: ' + self.amountType
     if self.amountType == Order.getNegativeType
@@ -226,8 +246,20 @@ class Order < Ohm::Model
     end
   end
 
-  private
+  def isManualOrder?
+    if !self.manualOrder.nil?
+      self.manualOrder
+    else
+      false
+    end
+  end
 
+  def isAutomatedOrder?
+    !isManualOrder?
+  end
+  
+  private
+  
   def isOnlinePayment?
     self.paymentMethod == 'ONLINE'
   end

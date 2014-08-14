@@ -261,7 +261,7 @@ When(/^original payment method was via Postal Order$/) do
 end
 
 When(/^original payment method was via Worldpay$/) do
-  page.should have_content 'WORLDPAY'
+  page.should have_content 'Worldpay'
 end
 
 When(/^balance is not in credit$/) do
@@ -329,8 +329,6 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   fill_in 'registration_firstName', with: 'Antony'
   fill_in 'registration_lastName', with: 'Assisted'
   fill_in 'registration_phoneNumber', with: '0123 456 789'
-  #Note: we want to leave the email address empty for assisted digital registrations - these may not have an email
-  fill_in 'registration_contactEmail', with: ''
   click_on 'Next'
 
   step 'I enter the details of the business owner'
@@ -340,6 +338,6 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
 
   check 'registration_declaration'
   click_on 'Confirm'
-  click_on 'Next'
+
   click_on 'Pay by debit/credit card'
 end

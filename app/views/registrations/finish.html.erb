@@ -1,10 +1,14 @@
-<% content_for :page_title, createTitle('.heading') %>
+<%= render 'shared/content_for_pages' %>
 
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <section>
+      <div class="inner">
+        <div class="col-1">
 
-<!--<h1><%= t 'registrations.form.title' %></h1>-->
-
-
+          <!-- WF 4.3.4 -->
+          <div id="page4"  data-journey="waste-carriers-registration:finish">
+            <% content_for :page_title, createTitle('.title') %>
 
 <% case  session[:edit_process] %>
 <% when 'renewal' %>
@@ -27,21 +31,39 @@
 <form action="<%=print_url(@registration.id)%>">
 
 <% if can? :print, @registration %>
-  <div class="action group"><input type="submit" class="button-secondary" value="<%= t 'registrations.form.print_button_label' %>"/></div>
+                <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
 <% end %>
 
-<p><%= t '.detailsEmailed', :email => @registration.accountEmail %></p>
+            <% else %>
+              <h1 class="subtitle"><%= t '.subtitle_pending' %></h1>
+              <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
+              <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+              <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
-<div class="finish-section js-hidden"  data-journey="waste-carriers-registration:finish">
-<%# render "details" %>
-</div>
+              <% unless @registration.paid_in_full? %>
+                <p><%= t '.payment_message' %></p>
+              <% end %>
 
-<p><%= t '.detailsChange' %></p>
+              <% if @registration.criminally_suspect %>
+                <% if @registration.declaredConvictions %>
+                  <p><%= t '.declared_convictions_message' %></p>
+                <% else %>
+                  <p><%= t '.pending_key_people_check_message' %></p>
+                <% end %>
+              <% end %>
 
-<div class="action group"><input name="finish" class="button" type="submit" value="<%= t 'registrations.form.finish_button_label' %>"/></div>
+            <% end %>
 
-<!--<p><%# t '.problems_html', :email => Rails.configuration.registrations_service_email, :subject => 'Digital%20Assistance%20Request' %></p>-->
+            <p><%= t '.details_change' %></p>
 
-</form>
-
-</article></main>
+            <%= form_tag(registrations_finish_path) do |f| %>
+              <span class="next_link">
+                <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
+              </span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>

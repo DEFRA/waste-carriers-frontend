@@ -74,19 +74,24 @@ class Registration < Ohm::Model
 
   attribute :password
   attribute :sign_up_mode
-  attribute :routeName
 
   attribute :password
   attribute :sign_up_mode
-  attribute :routeName
   attribute :accessCode
 
   attribute :tier
   attribute :location
 
+  # The value that the waste carrier sets to say whether they admit to having
+  # relevant people with relevant convictions
   attribute :declaredConvictions
+  # Whether a match was made by the convictions service
   attribute :convictions_check_indicates_suspect
+  # Initially set if either of the other 2 are set, it is the flag that denotes
+  # to an NCCC user that the registraton needs to be checked, and if happy the
+  # one they will set to false
   attribute :criminally_suspect
+
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
@@ -95,6 +100,42 @@ class Registration < Ohm::Model
   index :accountEmail
   index :companyName
 
+  ############## ROUTENAME ##############
+  # The following code should be seen as temporary until we better understand
+  # how we can remove the routeName property (which this code is) and still
+  # have the Rspecs passing. The RSpec tests work on the basis (it seems) of
+  # initialising a Registration via Registration.new but then calling methods
+  # that rely on the metaData and finance_details objects being populated. You
+  # cannot populate them however as you need to have called save against the
+  # registration first, and we cannot override the new method to allow us to do
+  # this.
+
+  @route_name
+
+  def routeName=(name)
+
+    @route_name = name
+
+    begin
+      metaData.first.update(:route => name)
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
+  end
+
+  def routeName
+    begin
+      route = self.try(:metaData).try(:first).try(:route)
+      @route_name = route unless route.nil?
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
+    @route_name
+  end
+
+  ################# END #################
 
   def empty?
     self.attributes.empty?
@@ -133,7 +174,6 @@ class Registration < Ohm::Model
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
-    metaData.first.update(route: routeName)
 
     begin
       response = RestClient.post url,
@@ -248,7 +288,6 @@ class Registration < Ohm::Model
     result_hash.to_json
   end
 
-
   # Retrieves all registration objects from the Java Service
   #
   # @param none
@@ -274,7 +313,6 @@ class Registration < Ohm::Model
       registrations
     end
   end
-
 
   # Retrieves a specific registration object from the Java Service based on its email value
   #
@@ -302,6 +340,23 @@ class Registration < Ohm::Model
     end
   end
 
+  # Use instead of new or create. This properly instantiates the registration object
+  # with the metaData and finance_details sets populated with their initial objects.
+  class << self
+    def ctor(attrs = {})
+
+      r = Registration.create attrs
+
+      m = Metadata.create
+      m.update(:route => 'DIGITAL')
+      r.metaData.add m
+
+      f = FinanceDetails.create
+      r.finance_details.add f
+
+      r.save
+    end
+  end
 
   # Retrieves a specific registration object from the Java Service based on its email value
   #
@@ -329,9 +384,6 @@ class Registration < Ohm::Model
       registrations
     end
   end
-
-
-
 
   # Retrieves a specific registration object from the Java Service based on its uuid
   #
@@ -417,7 +469,7 @@ class Registration < Ohm::Model
           #Rails.logger.debug '-----------------'
           new_reg.finance_details.add FinanceDetails.init(v)
         else  #normal attribute'
-          new_reg.send("#{k}=",v)
+          new_reg.send(:update, {k.to_sym => v})
         end
       end #each
       new_reg.save
@@ -517,6 +569,8 @@ class Registration < Ohm::Model
     registration.validates :password, confirmation: true
   end
 
+  validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
+
   validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
@@ -530,15 +584,23 @@ class Registration < Ohm::Model
 
   # TODO the following validations were problematic or possibly redundant
 
-  # TODO: FIX this Test All routes!! IS this needed
-  #validates_presence_of :routeName, :if => lambda { |o| o.current_step == "business" }
-
   # Validate Revoke Reason
   # validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
 
   # TODO not sure whether to keep this validation or not since the sign_up mode is not supplied by the user
   # validates :sign_up_mode, presence: true, if: [:signup_step?, , :account_email_present?]
   # validates :sign_up_mode, inclusion: { in: %w[sign_up sign_in] }, allow_blank: true, if: [:signup_step?, ]
+
+  def is_valid_account?
+    user = User.find_by_email(accountEmail)
+    if user.nil? || !user.valid_password?(password)
+      errors.add(:password, I18n.t('errors.messages.invalidPassword'))
+    else
+      unless user.confirmed?
+        errors.add(:accountEmail, I18n.t('errors.messages.unconfirmedEmail'))
+      end
+    end
+  end
 
   def businesstype_step?
     current_step.inquiry.businesstype?
@@ -572,13 +634,16 @@ class Registration < Ohm::Model
     current_step.inquiry.contactdetails?
   end
 
-
   def key_person_step?
     current_step.inquiry.key_person?
   end
 
   def signup_step?
     current_step.inquiry.signup?
+  end
+
+  def signin_step?
+    current_step.inquiry.signin?
   end
 
   def registrationtype_step?
@@ -601,8 +666,32 @@ class Registration < Ohm::Model
     sign_up_mode.present?
   end
 
+  def do_sign_in?
+    sign_up_mode == 'sign_in'
+  end
+
+  def do_sign_up?
+    sign_up_mode == 'sign_up'
+  end
+
   def digital_route?
-    routeName == 'DIGITAL'
+    begin
+      route = self.try(:metaData).try(:first).try(:route)
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
+    route == 'DIGITAL'
+  end
+
+  def assisted_digital?
+    begin
+      route = self.try(:metaData).try(:first).try(:route)
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
+    route == 'ASSISTED_DIGITAL'
   end
 
   def manual_uk_address?
@@ -632,9 +721,14 @@ class Registration < Ohm::Model
   end
 
   def paid_in_full?
-    the_balance = self.try(:finance_details).try(:first).try(:balance)
-    Rails.logger.debug "The registrations balance is #{the_balance}"
-    return true if the_balance.nil?
+    begin
+      the_balance = self.try(:finance_details).try(:first).try(:balance)
+
+      the_balance = 0 if the_balance.nil?
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
     the_balance.to_i <= 0
   end
 
@@ -655,7 +749,6 @@ class Registration < Ohm::Model
       'sign_up'
     end
   end
-
 
   def last_step?
     current_step == 'noregistration'
@@ -708,25 +801,12 @@ class Registration < Ohm::Model
     errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') ) if User.where(email: accountEmail).exists?
   end
 
-  def do_sign_in?
-    sign_up_mode == 'sign_in'
-  end
-
-  def do_sign_up?
-    sign_up_mode == 'sign_up'
-  end
-
   def user
     @user || User.find_by_email(accountEmail) || AgencyUser.find_by_email(accountEmail)
   end
 
   def generate_random_access_code
     (0...6).map { (65 + SecureRandom.random_number(26)).chr }.join
-  end
-
-  def assisted_digital?
-    metaData.first.route.eql? 'ASSISTED_DIGITAL'
-
   end
 
   def boxClassSuffix
@@ -765,6 +845,34 @@ class Registration < Ohm::Model
     else
       ''
     end
+  end
+
+  # Call to determine whether the registration is 'complete' i.e. there are no
+  # outstanding checks, payment has been made and the account has been activated
+  def is_complete?
+    is_complete = true
+
+    Rails.logger.debug "is_complete: In method"
+    unless metaData.first.status == 'ACTIVE'
+      Rails.logger.debug "is_complete: status = #{metaData.first.status}"
+      is_complete = false
+      return
+    end
+
+    if criminally_suspect
+      Rails.logger.debug "is_complete: suspect = #{criminally_suspect}"
+      is_complete = false
+      return
+    end
+
+    unless paid_in_full?
+      Rails.logger.debug "is_complete: paid_in_full = #{paid_in_full?}"
+      is_complete = false
+      return
+    end
+
+    is_complete
+
   end
 
   def self.activate_registrations(user)
@@ -811,6 +919,5 @@ class Registration < Ohm::Model
       errors.add('Key people', 'is invalid.') unless set_dob
     end
   end
-
 
 end
