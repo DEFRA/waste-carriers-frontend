@@ -29,7 +29,12 @@ Registrations::Application.routes.draw do
 	  get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
 
 	  #get "registrations/start" => 'registrations#start', :as => :start
-	  get "registrations/:id/finish" => 'registrations#finish', :as => :finish
+	  get "registrations/finish" => 'registrations#finish', :as => :finish
+    match "registrations/finish" => 'registrations#updateFinish', :via => [:post,:put,:patch]
+
+    get "registrations/finish-assisted" => 'registrations#finishAssisted', :as => :finishAssisted
+    match "registrations/finish-assisted" => 'registrations#updateFinishAssisted', :via => [:post,:put,:patch]
+
 	  match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
 	  match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
 	  get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
@@ -89,14 +94,18 @@ Registrations::Application.routes.draw do
 	  match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
 	  match "your-registration/confirmation" => 'registrations#updateNewConfirmation', :via => [:post,:put,:patch]
 
+    get "your-registration/account-mode" => 'registrations#account_mode', :as => :account_mode
+
 	  match "your-registration/signup" => 'registrations#newSignup', :via => [:get], :as => :newSignup
 	  match "your-registration/signup" => 'registrations#updateNewSignup', :via => [:post,:put,:patch]
 
+    get "your-registration/signin" => 'registrations#newSignin', :as => :newSignin
+    match "your-registration/signin" => 'registrations#updateNewSignin', :via => [:post,:put,:patch]
+
 	  get "your-registration/confirm-account" => 'registrations#pending', :as => :pending
-	  match "your-registration/print" => 'registrations#print_confirmed', :via => [:get,:patch], :as => :print_confirmed
 
 	  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
-    # Registration urls - Upper-tier process
+
     get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 

@@ -44,6 +44,7 @@ en:
         email_preamble: "Email: "
         fax_number: "Fax: %{fax_number}"
         postal_address: "Post: %{postal_address}"
+        pay_by_card: "Alternatively after confirming your account you can login and choose to pay by debit/credit card."
       reset_password_instructions:
         subject: "Reset password instructions"
         heading: "Register as a waste carrier: forgotten password"

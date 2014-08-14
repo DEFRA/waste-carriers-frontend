@@ -14,7 +14,7 @@ class OrderItem < Ohm::Model
     def init (order_items_hash)
       orderItem = OrderItem.create
       order_items_hash.each do |k, v|
-        orderItem.send("#{k}=",v)
+        orderItem.send(:update, {k.to_sym => v})
       end
       orderItem.save
       orderItem

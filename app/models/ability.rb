@@ -72,26 +72,27 @@ class Ability
 	  can :writeOffSmallPayment, Payment
 	end
 	
-#	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
-#	  can :writeOffPayment, Payment
-#	end
-	
-	if !user.nil? and user.is_agency_user? and user.has_role? :Role_financeBasic, AgencyUser
+	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, \
+																	{ :name => :Role_financeAdmin, :resource => AgencyUser }, \
+																	{ :name => :Role_ncccPayment, :resource => AgencyUser })
 	  can :enterPayment, Payment
+	end
+	
+	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccPayment, :resource => AgencyUser }, \
+																	{ :name => :Role_financeBasic, :resource => AgencyUser }, \
+																	{ :name => :Role_financeAdmin, :resource => AgencyUser })
+	  can :newReversal, Payment
 	end
 	
 	if !user.nil? and user.is_agency_user? and user.has_role? :Role_financeAdmin, AgencyUser
 	  # TMP: make tests pass re:review tests once roles correct?
 	  can :writeOffLargePayment, Payment
 	  
-	  # Write off Order - TODO
-	  can :writeOffOrder, Order
-	  
-	  # Enter payment of WP payment that failed
-	  can :enterPayment, Payment
-	  
 	  # Start refund process by entering a negative order - TODO
 	  can :newRefund, Order
+	  
+	  # Enter charge adjustments
+	  can :newAdjustment, Order
 	end	
 
   end #initialize

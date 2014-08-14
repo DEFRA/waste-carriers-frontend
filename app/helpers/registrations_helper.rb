@@ -42,7 +42,7 @@ module RegistrationsHelper
 
   # TODO not sure what this should do now smart answers and lower tier have been merged
   def first_back_link registration
-    path = if registration.routeName == 'DIGITAL'
+    path = if registration.metaData.first.route == 'DIGITAL'
       if user_signed_in?
         userRegistrations_path current_user.id
       else

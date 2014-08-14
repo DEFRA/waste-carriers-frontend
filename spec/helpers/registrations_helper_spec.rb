@@ -41,7 +41,7 @@ describe RegistrationsHelper do
   describe '#one_full_message_per_invalid_attribute' do
     context 'multiple errors on base' do
       before do
-        @registration = Registration.new
+        @registration = Registration.ctor
         @registration.errors[:base] << 'Error 1' << 'Error 2'
       end
 
@@ -52,7 +52,7 @@ describe RegistrationsHelper do
 
     context 'multiple errors on one attibute' do
       before do
-        @registration = Registration.new
+        @registration = Registration.ctor
         @registration.errors[:first_name] << 'too short' << 'too common'
       end
 
@@ -63,7 +63,7 @@ describe RegistrationsHelper do
 
     context 'multiple errors on two attributes and base' do
       before do
-        @registration = Registration.new
+        @registration = Registration.ctor
         @registration.errors[:first_name] << 'too short' << 'too common'
         @registration.errors[:last_name] << 'too posh' << 'too weird'
         @registration.errors[:base] << 'Error 1' << 'Error 2'

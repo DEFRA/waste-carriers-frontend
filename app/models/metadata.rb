@@ -19,7 +19,7 @@ class Metadata < Ohm::Model
       md = Metadata.create
 
       md_hash.each do |k, v|
-          md.send("#{k}=",v)
+          md.send(:update, {k.to_sym => v})
       end
 
       md.save

@@ -103,11 +103,14 @@ class AgencyUsersController < ApplicationController
     
     # This functions adds or removes the roles from the user
     def addRemoveRoles
-      # This list of roles should match that in the role.rb ROLE_TYPES list
-      addRemoveRole(:Role_admin)
-      addRemoveRole(:Role_financeBasic)
-      addRemoveRole(:Role_financeAdmin)
-      addRemoveRole(:Role_ncccRefund)
+      isFinanceSuper = current_admin.has_role? :Role_financeSuper, Admin
+      if isFinanceSuper
+        # This list of roles should match that in the role.rb ROLE_TYPES list
+        addRemoveRole(:Role_financeBasic)
+        addRemoveRole(:Role_financeAdmin)
+        addRemoveRole(:Role_ncccRefund)
+        addRemoveRole(:Role_ncccPayment)
+      end
     end
     
     # Adds or removes a role from a user

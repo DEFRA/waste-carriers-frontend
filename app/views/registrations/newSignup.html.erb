@@ -9,28 +9,41 @@
         	<!-- WF 4.3.4 -->
 					<div id="page4"  data-journey="waste-carriers-registration:signup">
             <% content_for :page_title, createTitle('.title') %>
-            <ol>
-              <li class="back_link"><%= render 'back_link' %></li>
+         
+             <%= render 'back_link' %>
               <%= render 'step', r: @registration, upper_step: '7', lower_step: '4' %>
-            </ol>
+  
 
             <%= render 'errors' %>
 
 						<%= form_for(@registration, :url => newSignup_path) do |f| %>
-
-							<% if user_signed_in? || agency_user_signed_in? %>
-								<p><%= t '.signedInAsText' %> <strong><% if user_signed_in? %><%= current_user.email %><% elsif agency_user_signed_in? %><%= current_agency_user.email %><% end %></strong></p>
-    						<p><%= t '.notYouText_html' %></p>
-    						<%= f.select(:sign_up_mode, options_for_select([["Signed In",""]],f.object.sign_up_mode), {}, { :class => 'js-hidden' }) %>
-    					<% else %>
-    						<% if @registration.sign_up_mode == "sign_in" %>
-							    <h2 id="accountExists" class="form-group"><%= t '.accountExists' %></h2>
-							  <% end %>
-							  <% if @registration.sign_up_mode == "sign_up" %>
-							    <h2 id="emailSignUpText"><%= t '.emailUsernameText' %></h2>
-							  <% end %>
-								<%= render "signup_step", :f => f, :r => @registration %>
-							<% end %>
+              <fieldset>
+                <legend><%= t '.legend' %></legend>
+                <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
+                  <%= validation_for(@registration, :accountEmail) %>
+                  <%= f.label :accountEmail, class: 'form-label' %>
+                  <%= f.email_field :accountEmail, :autofocus => true %>
+                </div>
+                <div class="form-group <%if @registration.errors[:accountEmail_confirmation].any?%> validation<%end%>">
+                  <%= validation_for(@registration, :accountEmail_confirmation) %>
+                  <%= f.label :accountEmail_confirmation, class: 'form-label' %>
+                  <%= f.email_field :accountEmail_confirmation %>
+                </div>
+                <div class="form-group <%if @registration.errors[:password].any?%> validation<%end%>">
+                  <%= validation_for(@registration, :password) %>
+                  <%= f.label :password, t('.createPassword'), class: 'form-label' %>
+                  <%= f.password_field :password %>
+                  <p class='subtitle'>Password must be at least 8 characters long using upper and lower case letters.</p>
+                </div>
+                <div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
+                  <%= validation_for(@registration, :password_confirmation) %>
+                  <%= f.label :password_confirmation, class: 'form-label' %>
+                  <%= f.password_field :password_confirmation %>
+                </div>
+              </fieldset>
+              <div class='link_margin'>
+                <a href="/your-registration/signin"><%= t '.sign_in_link'%></a>
+              </div>
 							<span class="next_link"><%= render 'next_link' %></span>
 				   	<% end %>
 			   	</div>

@@ -25,6 +25,33 @@ class KeyPerson < Ohm::Model
 
   validate :validate_dob
 
+  class << self
+    def init (key_person_hash)
+      keyPerson = KeyPerson.create
+      key_person_hash.each do |k, v|
+        keyPerson.send(:update, {k.to_sym => v})
+      end
+      keyPerson.save
+      keyPerson
+    end
+  end
+
+  # returns a hash representation of the KeyPerson object
+  #
+  # @param none
+  # @return  [Hash]  the KeyPerson object as a hash
+  def to_hash
+    self.attributes.to_hash
+  end
+
+  # returns a JSON Java/DropWizard API compatible representation of the KeyPerson object
+  #
+  # @param none
+  # @return  [String]  the KeyPerson object in JSON form
+  def to_json
+    to_hash.to_json
+  end
+
   def add(a_hash)
     a_hash.each do |prop_name, prop_value|
       self.send("#{prop_name}=",prop_value)

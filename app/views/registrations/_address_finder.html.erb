@@ -1,3 +1,4 @@
+<div class="address-look-up">
 <% case %>
 <% when  !r.addressMode  %>
   <%= render 'address_postcode_lookup', f: f, postcode: r.postcode, show_error: false  %>
@@ -8,8 +9,8 @@
           <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
       <% else %> <!-- addresses were found for postcode -->
           <div class="form-group">
-            <h2><%= t '.select_address' %></h2>
-            <p><a href="?changeAddress=true"><%= t '.change_link'%></a></p>
+            <p><%= t '.select_address' %></p>
+            <a href="?changeAddress=true"><%= t '.change_link'%></a>
 
             <select id="addressSelector" name="addressSelector" size="<%=[10,@address_match_list.elements.count].min%>"
                     required autofocus>
@@ -17,7 +18,7 @@
                   <option value="<%=address.moniker%>"><%=address.partial%></option>
               <%end%>
             </select>
-            <p><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></p>
+            <a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a>
 
           </div>
       <% end %>  <!-- if -->
@@ -35,3 +36,4 @@
   <p><a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a></p>
 
 <% end %>
+</div>

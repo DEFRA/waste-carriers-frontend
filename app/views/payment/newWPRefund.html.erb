@@ -2,6 +2,10 @@
 
 <main id="content" role="main" class="group">
 	<article role="article" class="group">
+	<section>
+      <div class="inner">
+      <div class="col-1">
+      
 	<% content_for :page_title, createTitle('.heading') %>
 
 	<!-- Usefull for showing default messages -->
@@ -22,7 +26,7 @@
 				
 				<p>Are you sure you want to make a Worldpay refund?</p>
 				
-				<p>For order: <%= f.object.orderKey %>, in the amount of <%= number_to_currency(f.object.amount, :unit => "£") %></p>
+				<p>For order: <%= f.object.orderKey %>, in the amount of <%= pence_to_currency f.object.amount %></p>
 				
 				<p>To confirm this refund, click the Refund button below.</p>
 
@@ -42,17 +46,17 @@
 
 	<% end %>
 	
-	</aside>
+	  </div>
+      </div>
+    </section>
 
-	<div class='related-positioning'>
-		<div class='related-container'>
-			<div class='related'>
-				<div class='inner group related-subsection'>
-				<%= render "shared/current_user" %>
-				</div>
-			</div>
-		</div>
-	</div>
+    <aside role='note'>
+      <div class="inner">
+        <div class="col-2">
+         <%= render "shared/current_user" %>
+        </div>
+      </div>
+    </aside>
 
 	</article>
 </main>

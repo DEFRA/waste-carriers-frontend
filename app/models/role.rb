@@ -18,10 +18,10 @@ class Role
   # This is the master role list, If these values change they are directly updated in the database, 
   # and any old records will become out of sync unless they have been removed.
   ROLE_TYPES = %w[
-    Role_admin
     Role_financeBasic
     Role_financeAdmin
     Role_ncccRefund
+    Role_ncccPayment
   ]
   
   def self.roles

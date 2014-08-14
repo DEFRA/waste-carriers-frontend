@@ -100,6 +100,7 @@ en:
     Role_financeAdmin: "Financial Admin"
     Role_financeBasic: "Financial Basic"
     Role_ncccRefund: "Agency Refund"
+    Role_ncccPayment: "Agency Payment"
     actions: Actions
     back: Back
     createLabel: "Create agency user"
@@ -176,18 +177,24 @@ en:
       numbers: "can only contain numbers"
       weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
       worldpayFailed: "failed to get a ok response from Worldpay"
+      invalidPassword: "Email and/or password is unrecognised"
+      unconfirmedEmail: "This account has not been confirmed"
   form:
     add_button_label: Add
     back_button_label: Back
+    confirm_button_label: "Confirm"
     delete_button_label: Delete
     edit_button_label: Edit
     edit_these_details: "Edit these details"
     find_companies_house_details: "Companies House number"
+    finished_button_label: "Finished"
     next_button_label: Next
     no_option_label: "No"
+    print_button_label: "Print certificate"
+    sign_in_button_label: "Sign in"
     update_button_label: Update
+    view_certificate_link_label: "View certificate"
     yes_option_label: "Yes"
-    confirm_button_label: "Confirm"
   format_options:
     csv: csv
     json: json
@@ -380,16 +387,17 @@ en:
       tier_description: "You are %{tier_with_article} tier waste carrier..."
       title: Confirmation
     confirmed:
-      detailsChange: "If any of your details change you must update your registration within 28 days."
-      detailsEmailed: "Your certificate and guidance have been emailed to %{email}."
-      hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
-      heading: "Registration complete"
-      nowRegistered: "You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency."
-      payment_pending: "Please remember to pay for this registration via electronic transfer. Details on how to pay have been included in your email."
-      problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
-      signIn_html: "<a href='%{link}'>Sign in</a> to view your certificate, check your details or create a new registration."
-      yourCertificate: "Your certificate and guidance have been emailed to you."
-      yourRegNumber: "Your registration number is: %{reg}"
+      title: "Confirmed"
+      subtitle_complete: "Registration complete"
+      subtitle_pending: "Registration pending"
+      your_reg_number: "Your registration number is: %{reg}"
+      registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
+      applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier with the Environment Agency."
+      details_emailed: "Your certificate and guidance have been emailed to %{email}."
+      payment_message: "Please remember to arrange your bank transfer. Alternatively select the registration and choose to pay by credit or debit card."
+      declared_convictions_message: "We are required to cross check the declared relevant people with convictions before confirming the registration."
+      pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
+      details_change: "If any of your details change you must update your registration within 28 days."
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
       step: "Step 3 of 8"
@@ -455,9 +463,10 @@ en:
       edit_business_details_link: "Edit your business or organisation address"
       contact_details_heading: "Your contact details"
       edit_contact_details_link: "Edit your contact details"
-      edit_convictions_declaration_link_text: "Edit your conviction declaration"
-      have_declared_convictions: "You have declared convictions"
-      have_not_declared_convictions: "You have not declared any convictions"
+      convictions_declaration_heading: "Your conviction declaration"
+      edit_convictions_declaration_link: "Edit your conviction declaration"
+      have_declared_convictions: "You have declared you have relevent people with convictions"
+      have_not_declared_convictions: "You have declared there are no relevent people with convictions"
       key_person_heading: "Business or organisation owners"
       key_person_limited_heading: "Directors"
       key_person_partnership_heading: "Partners"
@@ -465,7 +474,7 @@ en:
       edit_key_person_link: "Edit these details"
       declaration_legend: "Declaration"
       check_box_label: "By ticking this box I understand that:"
-      declaration_text1: "If I provide information which you know to be false or misleading or I recklessly provide information which is false or misleading I may be committing an offence"
+      declaration_text1: "If I provide information which I know to be false or misleading or I recklessly provide information which is false or misleading I may be committing an offence."
       declaration_text2: "Each individual (or individual Director) who is applying for their name to appear on the Carrier, Broker or Dealer Licence must complete this declaration."
       data_protection_text1: "See the"
       privacy_policy_link: "Privacy and shared cookies policy"
@@ -478,12 +487,20 @@ en:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
       subtitle: ""
+      legend: "Provide an email and password to allow you to login and make future changes to your registration details."
       notYouText_html: "If this is not you, <a href='#' id='secondaryButton' onclick='document.getElementById(\"signout_button\").click()'>sign out and start again</a>"
       signedInAsText: "You are currently signed in as"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
     signup_step:
       createPassword: "Create password"
+      sign_in_link: "I already have an account"
+    newSignin:
+      step: "Step %{step_x} of %{step_y}"
+      title: "User account"
+      subtitle: ""
+      legend: "Sign in to your account"
+      sign_up_link: "I do not have an account"
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
@@ -505,13 +522,29 @@ en:
       error: error
       errorMessage: "You have %{count} on this page"
     finish:
-      detailsChange: "If any of your details change you must update your registration within 28 days."
-      detailsEmailed: "Your certificate and guidance have been emailed to %{email}."
-      hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
-      heading: "Registration complete"
-      edit_heading: "Registration edit complete"
-      problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
-      yourRegNumber: "Your registration number is: %{reg}"
+      title: "Finished"
+      subtitle_complete: "Registration complete"
+      subtitle_pending: "Registration pending"
+      your_reg_number: "Your registration number is: %{reg}"
+      registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
+      applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier with the Environment Agency."
+      details_emailed: "Your certificate and guidance have been emailed to %{email}."
+      payment_message: "Please remember to arrange your bank transfer. Alternatively select the registration and choose to pay by credit or debit card."
+      declared_convictions_message: "We are required to cross check the declared relevant people with convictions before confirming the registration."
+      pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
+      details_change: "If any of your details change you must update your registration within 28 days."
+    finishAssisted:
+      title: "Finished"
+      subtitle_complete: "Registration complete"
+      subtitle_pending: "Registration pending"
+      your_reg_number: "The registration number is: %{reg}"
+      access_code: "The assisted digital access code is: "
+      registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier."
+      applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier."
+      payment_message: "Please remind the applicant to arrange a bank transfer. Alternatively select the registration and choose to pay by credit or debit card on their behalf."
+      declared_convictions_message: "The applicant declared relevant people with convictions so these will need to be cross checked before the registration can be completed."
+      pending_key_people_check_message: "The registration will be confirmed once all key persons flagged have been cross checked."
+      details_change: "If any of the details change they must update their registration within 28 days."
     foreign_address_entry:
       country: Country
       streetLine1: "Address line 1"
@@ -624,7 +657,7 @@ en:
       total_fee_vat: "All charges are outside the scope of VAT"
       payment_method_debit_credit: "Pay by debit or credit card"
       payment_method_elec_transfer: "Pay by electronic transfer"
-      send_to_worldpay: "By chosing to pay by credit or debit card you will be taken to the WorldPay payment website"
+      send_to_worldpay: "By choosing to pay by credit or debit card you will be taken to the WorldPay payment website"
       payment_method_label: "Choose payment method"
       subtitle: "Payment Summary"
       title: Payment
@@ -706,19 +739,7 @@ en:
       telephone: Telephone
       title: "Waste carrier registration certificate"
       website_html: "You can do this by going to the website <u>www.gov.uk/waste-carrier-or-broker-registration</u> and logging in using your email and password."
-    confirmed:
-      detailsChange: "If any of your details change you must update your registration within 28 days."
-      detailsEmailed: "Your certificate and guidance have been emailed to %{email}."
-      hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
-      heading: "Registration complete"
-      nowRegistered: "You are now registered as a lower tier waste carrier/broker/dealer with the Environment Agency."
-      payment_pending: "Please remember to pay for this registration via electronic transfer. Details on how to pay have been included in your email."
-      pending_convictions_check: "Your registration is pending checks."
-      problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
-      signIn_html: "<a href='%{link}'>Sign in</a> to view your certificate, check your details or create a new registration."
-      yourCertificate: "Your certificate and guidance have been emailed to you."
-      yourRegNumber: "Your registration number is: %{reg}"
-    print_confirmed:
+   print_confirmed:
       title: "Waste carrier registration certificate"
     publicSearch:
       address_table_heading: Address
