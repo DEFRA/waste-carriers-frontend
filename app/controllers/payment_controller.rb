@@ -265,10 +265,12 @@ class PaymentController < ApplicationController
 	@payment.amount = -@payment.amount.to_i.abs
 	logger.info 'payment amount:' + @payment.amount.to_s
 
+    now = Time.now.utc.xmlschema
 	# Set automatic Payment values
 	@payment.paymentType = 'REFUND'
-	@payment.dateReceived = Date.current
+	@payment.dateReceived = now
     @payment.updatedByUser = current_agency_user.id.to_s
+    @payment.comment = 'A refund has been requested for this worldpay payment'
     
     # This makes the payment a refund by updating the orderCode to include a refund postfix
     @payment.makeRefund
@@ -276,8 +278,12 @@ class PaymentController < ApplicationController
 	if @payment.valid?
 	  logger.info 'payment is valid'
 	  
+	  # Find original order from registration
+	  order = Order.getOrder(@registration, params[:orderCode])
+	  logger.info 'Merchant Id found from original order: ' + order.merchantId
+	  
 	  # Make request to worldpay
-	  response = request_refund_from_worldpay(params[:orderCode], @payment.amount )
+	  response = request_refund_from_worldpay(params[:orderCode], order.merchantId, @payment.amount )
 	  
 	  # Check if response from worldpay contains ok message
 	  if responseOk?(response)
