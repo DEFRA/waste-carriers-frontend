@@ -99,6 +99,42 @@ class Registration < Ohm::Model
   index :accountEmail
   index :companyName
 
+  ############## ROUTENAME ##############
+  # The following code should be seen as temporary until we better understand
+  # how we can remove the routeName property (which this code is) and still
+  # have the Rspecs passing. The RSpec tests work on the basis (it seems) of
+  # initialising a Registration via Registration.new but then calling methods
+  # that rely on the metaData and finance_details objects being populated. You
+  # cannot populate them however as you need to have called save against the
+  # registration first, and we cannot override the new method to allow us to do
+  # this.
+
+  @route_name
+
+  def routeName=(name)
+
+    @route_name = name
+
+    begin
+      metaData.first.update(:route => name)
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
+  end
+
+  def routeName
+    begin
+      route = self.try(:metaData).try(:first).try(:route)
+      @route_name = route unless route.nil?
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
+    @route_name
+  end
+
+  ################# END #################
 
   def empty?
     self.attributes.empty?
@@ -240,7 +276,6 @@ class Registration < Ohm::Model
     result_hash.to_json
   end
 
-
   # Retrieves all registration objects from the Java Service
   #
   # @param none
@@ -266,7 +301,6 @@ class Registration < Ohm::Model
       registrations
     end
   end
-
 
   # Retrieves a specific registration object from the Java Service based on its email value
   #
@@ -295,6 +329,23 @@ class Registration < Ohm::Model
     end
   end
 
+  # Use instead of new or create. This properly instantiates the registration object
+  # with the metaData and finance_details sets populated with their initial objects.
+  class << self
+    def ctor(attrs = {})
+
+      r = Registration.create attrs
+
+      m = Metadata.create
+      m.update(:route => 'DIGITAL')
+      r.metaData.add m
+
+      f = FinanceDetails.create
+      r.finance_details.add f
+
+      r.save
+    end
+  end
 
   # Retrieves a specific registration object from the Java Service based on its email value
   #
@@ -322,9 +373,6 @@ class Registration < Ohm::Model
       registrations
     end
   end
-
-
-
 
   # Retrieves a specific registration object from the Java Service based on its uuid
   #
@@ -612,7 +660,23 @@ class Registration < Ohm::Model
   end
 
   def digital_route?
-    metaData.first.route == 'DIGITAL'
+    begin
+      route = self.try(:metaData).try(:first).try(:route)
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
+    route == 'DIGITAL'
+  end
+
+  def assisted_digital?
+    begin
+      route = self.try(:metaData).try(:first).try(:route)
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
+    route == 'ASSISTED_DIGITAL'
   end
 
   def manual_uk_address?
@@ -642,9 +706,14 @@ class Registration < Ohm::Model
   end
 
   def paid_in_full?
-    the_balance = self.try(:finance_details).try(:first).try(:balance)
-    Rails.logger.debug "The registrations balance is #{the_balance}"
-    return true if the_balance.nil?
+    begin
+      the_balance = self.try(:finance_details).try(:first).try(:balance)
+
+      the_balance = 0 if the_balance.nil?
+    rescue Exception => e
+      Rails.logger.debug e.message
+    end
+
     the_balance.to_i <= 0
   end
 
@@ -723,11 +792,6 @@ class Registration < Ohm::Model
 
   def generate_random_access_code
     (0...6).map { (65 + SecureRandom.random_number(26)).chr }.join
-  end
-
-  def assisted_digital?
-    metaData.first.route.eql? 'ASSISTED_DIGITAL'
-
   end
 
   def boxClassSuffix
