@@ -7,7 +7,7 @@ describe User do
       let(:user) { FactoryGirl.create :user }
 
       context 'own certificate' do
-        let(:registration) { Registration.new }
+        let(:registration) { Registration.ctor }
         subject(:ability) { Ability.new(user) }
 
         before do
@@ -20,7 +20,7 @@ describe User do
 
       context 'certificate for other waste carrier' do
         let(:other_user) { FactoryGirl.build :user }
-        let(:registration) { Registration.new }
+        let(:registration) { Registration.ctor }
         subject(:ability) { Ability.new(user) }
 
         before do
@@ -33,7 +33,7 @@ describe User do
 
       context 'upper tier' do
         context 'paid' do
-          let(:registration) { Registration.new }
+          let(:registration) { Registration.ctor }
           subject(:ability) { Ability.new(user) }
 
           before do
@@ -46,7 +46,7 @@ describe User do
         end
 
         context 'unpaid' do
-          let(:registration) { Registration.new }
+          let(:registration) { Registration.ctor }
           subject(:ability) { Ability.new(user) }
 
           before do
@@ -65,7 +65,7 @@ describe User do
 
       context 'unpaid upper tier' do
         let(:waste_carrier_user) { FactoryGirl.create :user }
-        let(:registration) { Registration.new }
+        let(:registration) { Registration.ctor }
         subject(:ability) { Ability.new(agency_user) }
 
         before do

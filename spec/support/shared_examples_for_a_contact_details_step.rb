@@ -7,7 +7,7 @@ shared_examples_for 'a contact details step' do
   end
 
   describe 'format' do
-    subject { Registration.new(firstName: 'Barry', position: 'Pub landlord', lastName: 'Butler', phoneNumber: '999', contactEmail: 'barry@butler.com' ) }
+    subject { Registration.ctor(firstName: 'Barry', position: 'Pub landlord', lastName: 'Butler', phoneNumber: '999', contactEmail: 'barry@butler.com' ) }
 
     it { should allow_value('John', 'John-Paul', 'Sally Ann', "T'pau").for(:firstName) }
     it { should_not allow_value('Johnnie5', 'K.R.S One').for(:firstName) }
