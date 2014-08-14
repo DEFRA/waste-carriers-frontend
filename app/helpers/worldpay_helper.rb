@@ -168,7 +168,7 @@ module WorldpayHelper
     end
     
     def worldpay_xml_username isMoto=nil
-      Rails.logger.info 'Worldpay username, use_moto?: ' + use_moto?(isMoto).to_s + ' isMoto:' + isMoto.to_s
+      Rails.logger.info 'Worldpay username, use_moto?:' + use_moto?(isMoto).to_s + ' isMoto:' + isMoto.to_s
       if use_moto? isMoto
         Rails.configuration.worldpay_moto_username
       else
@@ -177,7 +177,7 @@ module WorldpayHelper
     end
 
     def worldpay_xml_password isMoto=nil
-      Rails.logger.info 'Worldpay password, use_moto?: ' + use_moto?(isMoto).to_s + ' isMoto:' + isMoto.to_s
+      Rails.logger.info 'Worldpay password, use_moto?:' + use_moto?(isMoto).to_s + ' isMoto:' + isMoto.to_s
       if use_moto? isMoto
         Rails.configuration.worldpay_moto_password
       else
@@ -186,7 +186,7 @@ module WorldpayHelper
     end
 
     def worldpay_mac_secret isMoto=nil
-      Rails.logger.info 'Worldpay secret, use_moto?: ' + use_moto?(isMoto).to_s + ' isMoto:' + isMoto.to_s
+      Rails.logger.info 'Worldpay secret, use_moto?:' + use_moto?(isMoto).to_s + ' isMoto:' + isMoto.to_s
       if use_moto? isMoto
         Rails.configuration.worldpay_moto_macsecret
       else
@@ -235,10 +235,10 @@ module WorldpayHelper
       currencyCode = "GBP"
       amount = myAmount
       username = worldpay_xml_username isMoto?(ordersMerchantCode)
-      password = worldpay_xml_password
+      password = worldpay_xml_password isMoto?(ordersMerchantCode)
 
       xml = create_cancel_or_refund_request_xml(merchantCode,orderCode)
-      logger.info 'About to contact WorldPay for refund: XML username = ' + worldpay_xml_username
+      logger.info 'About to contact WorldPay for refund: XML username = ' + username
       logger.info 'Sending refund request XML to Worldpay: ' + xml
 
       response = send_xml_with_username_password(xml,username,password)
