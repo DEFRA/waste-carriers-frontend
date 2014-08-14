@@ -15,10 +15,37 @@
             <%= render 'errors' %>
             <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
 
-            <p class='summary-subtitle'><%= t '.subtitle' %></p>
+
+
+            <% case  session[:edit_process] %>
+            <% when 'renewal' %>
+              <p class='summary-subtitle'><%= t '.subtitle_renew_reg' %></p>
+            <% when 're-create' %>
+              <p class='summary-subtitle'><%= t '.subtitle_recreate_reg' %></p>
+            <% when 'edit' %>
+
+              <% case  session[:edit_status] %>
+              <% when RegistrationsController::EditStatus::UPDATE_EXISTING_REGISTRATION_NO_CHARGE  %>
+                <p class='summary-subtitle'><%= t '.subtitle_edit_reg_no_charge' %></p>
+              <% when RegistrationsController::EditStatus::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
+                <p class='summary-subtitle'><%= t '.subtitle_edit_reg_with_charge' %></p>
+              <% when  RegistrationsController::EditStatus::CREATE_NEW_REGISTRATION  %>
+                <p class='summary-subtitle'><%= t '.subtitle_edit_reg_new_reg' %></p>
+              <% else %> <!-- we just started the edit process -->
+               <p class='summary-subtitle'><%= t '.subtitle_edit_reg' %></p>
+              <% end %>
+
+
+            <% else %>  <!-- this is a new registration page -->
+              <p class='summary-subtitle'><%= t '.subtitle_new_reg' %></p>
+            <% end %>
+
+
+
               <!-- Dynamic context section -->
               <div class='form-group'>
                 <div class='summary-box'>
+                <% unless  session[:edit_status]  %>
                   <% case @registration.tier %>
                     <% when 'UPPER' %>
                       <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
@@ -26,6 +53,7 @@
                       <% message = t '.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article %>
                   <% end %>
                   <li><%= message %></li>
+                <% end %>
                 </ul>
               </div>
 

@@ -13,6 +13,7 @@ class Registration < Ohm::Model
     EXPIRED = 8
     INACTIVE = 16
   end
+
   attribute :current_step
 
   #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
@@ -202,7 +203,7 @@ class Registration < Ohm::Model
   # @return  [Boolean] true if registration updated
   def save!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
-    Rails.logger.debug "Registration financeDetails to PUT: #{self.finance_details}"
+    Rails.logger.debug "Registration financeDetails to PUT: #{self.finance_details.first.to_s}"
     Rails.logger.debug "Registration: #{uuid} about to PUT: #{ to_json}"
     saved = true
     begin
@@ -233,8 +234,9 @@ class Registration < Ohm::Model
     key_people = []
 
     if self.key_people &&  self.key_people.size > 0
-      self.key_people.each do  |per|
-        key_people <<  per.attributes.to_hash
+      self.key_people.each do  |person|
+        person.instance_eval {  self.set_dob } #computed field
+        key_people <<  person.attributes.to_hash
       end
       result_hash['key_people'] = key_people
     end #if
@@ -436,6 +438,10 @@ class Registration < Ohm::Model
       obj.save
       obj
     end
+  end
+
+  def copy_construct
+      Registration.init(self.to_json)
   end
 
   BUSINESS_TYPES = %w[
@@ -792,7 +798,7 @@ class Registration < Ohm::Model
           res = Time.at(d / 1000.0)
           # if d is String the NoMethodError will be raised
         rescue NoMethodError
-          res = Time.parse(d)
+          res = Time.parse(d).to_datetime.strftime("%Y-%m-%dT%H:%M:%S%z")
         end
       end #if
       res

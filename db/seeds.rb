@@ -84,7 +84,7 @@ end
 #  au.save!
 #end
 
-
+# we are here
 if (Rails.env.eql? 'development')
 
   #load some sample lower tier registrations
@@ -94,6 +94,8 @@ if (Rails.env.eql? 'development')
     r = Registration.init(reg)
     if r && r.commit
       puts "waste carrier #{r.companyName} registered!"
+      r.metaData.first.update(status: 'ACTIVE')
+      r.save!
 
     else puts "Registration failed for #{reg['companyName']}"
     end

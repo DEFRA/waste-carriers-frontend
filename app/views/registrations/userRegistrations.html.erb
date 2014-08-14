@@ -69,15 +69,15 @@
 	            </td>
 	            <td></td>
 	            <td><%= link_to 'View Certificate', print_path(registration.uuid) %></td>
-	            <td><%= link_to 'Edit Registration', edit_path(registration.uuid, process: 'edit') unless registration.metaData.first.status == 'REVOKED'%></td>
+	            <td><%= link_to 'Edit Registration', edit_path(registration.uuid, edit_process: 'edit') unless registration.metaData.first.status == 'REVOKED'%></td>
 	            <td>
 		            <% if (registration.metaData.first.status == 'ACTIVE') && \
 		            	(registration.expires_on - 6.months) < Time.now && \
 		            	registration.expires_on  > Time.now  \
 		            	%>
-	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, process: 'renewal') %>
+	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, edit_process: 'renewal') %>
 	            	<% elsif  (registration.metaData.first.status == 'EXPIRED') || (registration.expires_on  < Time.now) %>
-		            	<%= link_to 'New Registration', edit_path(registration.uuid, process: 're-create') %>
+		            	<%= link_to 'New Registration', edit_path(registration.uuid, edit_process: 're-create') %>
 	            	<% end %>
 	            </td>
 
@@ -103,6 +103,6 @@
         <div class="col-2">
           <%= render "shared/current_user" %>
         </div>
-    </aside> 
+    </aside>
 
 </article></main>

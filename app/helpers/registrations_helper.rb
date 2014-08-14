@@ -1,4 +1,5 @@
 module RegistrationsHelper
+
   def validation_for(model, attribute)
     if model.errors[attribute].any?
       # Note: Calling raw() forces the characters to be un-escaped and thus HTML elements can be defined here
@@ -56,7 +57,7 @@ module RegistrationsHelper
   def isSmallWriteOffAvailable(registration)
     registration.finance_details.first and (Payment.isSmallWriteOff( registration.finance_details.first.balance) == true)
   end
-  
+
   def isLargeWriteOffAvailable(registration)
     registration.finance_details.first.balance.to_i != 0
   end
