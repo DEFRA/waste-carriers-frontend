@@ -17,11 +17,6 @@ class OrderController < ApplicationController
   # GET /new
   def new
     # Renders a new Order page (formally newPayment)
-    setup_registration 'payment', true
-    if !@registration.copy_cards
-      @registration.copy_cards = 0
-    end
-    @registration = calculate_fees @registration
     @order = Order.new if @order == nil
     
     logger.debug 'renderType session: ' + session[:renderType].to_s
@@ -31,6 +26,24 @@ class OrderController < ApplicationController
       logger.error 'Cannot find a renderType variable in the session. It is needed to determine the type of payment page to render.'
       logger.error 'Rendering Page not found'
       renderNotFound
+    end
+    
+    # Setup page
+    setup_registration 'payment', true
+    if !@registration.copy_cards
+      @registration.copy_cards = 0
+    end
+    
+    # Calculate default fees based on page to render
+    case @renderType
+    when Order.new_registration_identifier
+    when Order.edit_registration_identifier
+    when Order.renew_registration_identifier
+      # New, Edit, Renew all use standard fee for now
+      @registration = calculate_fees @registration
+    when Order.edit_registration_identifier
+      # Additional copy card has different initial fees
+      @registration = calculate_fees_for_copycards @registration
     end
     
   end
