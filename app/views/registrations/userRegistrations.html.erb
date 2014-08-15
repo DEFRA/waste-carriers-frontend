@@ -81,7 +81,7 @@
 		            	<%= link_to 'New Registration', edit_path(registration.uuid, process: 're-create') %>
 	            	<% end %>
 	            </td>
-	            <td><%= link_to t('.addCopyCards'), extracopycards_path(registration.uuid, process: 're-create') %></td>
+	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) %></td>
 
 	          </tr>
           <% end %>

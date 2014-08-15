@@ -17,7 +17,7 @@ class OrderController < ApplicationController
   # GET /new
   def new
     # Renders a new Order page (formally newPayment)
-    new_step_action 'payment'
+    setup_registration 'payment', true
     if !@registration.copy_cards
       @registration.copy_cards = 0
     end

@@ -72,7 +72,17 @@ module RegistrationsHelper
   end
   
   def setup_registration current_step, no_update=false
-    @registration = Registration[ session[:registration_id]]
+    if session[:registration_id]
+      @registration = Registration[ session[:registration_id]]
+    else
+      Rails.logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
+      @registration = Registration[ params[:id]]
+      if @registration.nil? and params[:id]
+        # Registration still not found in session, trying database
+        Rails.logger.info 'Cannot find registration in session, trying database'
+        @registration = Registration.find_by_id(params[:id])
+      end
+    end
     @registration.add( params[:registration] ) unless no_update
     @registration.save
     logger.debug  @registration.attributes.to_s

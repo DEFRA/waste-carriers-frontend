@@ -129,8 +129,11 @@ Registrations::Application.routes.draw do
     get "your-registration/relevant-people/delete" => "key_people#deleteRelevantPerson", :as => :delete_relevant_person
     get "your-registration/relevant-people/done" => "key_people#doneRelevantPeople", :as => :done_relevant_people
 
-    get "your-registration/payment" => "order#new", :as => :upper_payment
-    match "your-registration/payment" => "order#create", :via => [:post,:put,:patch]
+    get "your-registration/:id/order" => "order#new", :as => :upper_payment
+    get "your-registration/:id/order/editRegistration" => "registrations#newOrderEdit", :via => [:get], :as => :newOrderEdit
+    get "your-registration/:id/order/renewRegistration" => "registrations#newOrderRenew", :via => [:get], :as => :newOrderRenew
+    get "your-registration/:id/order/additionalCopyCards" => "registrations#newOrderCopyCards", :via => [:get], :as => :newOrderCopyCards
+    match "your-registration/:id/order" => "order#create", :via => [:post,:put,:patch]
 
     # routes for renewals and edits
     match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
