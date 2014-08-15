@@ -236,6 +236,12 @@ en:
       title: Payment
       total_fee_vat: "All charges are outside the scope of VAT"
       trouble_paying_link: "Trouble paying?"
+#      new_reg_label: "New registration"
+#      payment_method_debit_credit: "Pay by debit or credit card"
+#      payment_method_elec_transfer: "Pay by electronic transfer"
+#      send_to_worldpay: "By choosing to pay by credit or debit card you will be taken to the WorldPay payment website"
+#      payment_method_label: "Choose payment method"
+#      total_label: "Total to pay"
     copy_cards:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
