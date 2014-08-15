@@ -1,0 +1,53 @@
+<%= render 'shared/content_for_pages' %>
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <section id='payment-copycard-page'>
+      <div class="col-1" id='payment-col-1'>
+      
+      <%= form_for(@registration, :url => :upper_payment) do |f| %>
+      <% content_for :page_title, createTitle('.title') %>
+ 
+      <%= render 'shared/registration_back_link' %>
+      <div class="step">Step 8 of 9</div>
+ 
+      <%= render "order/notice_or_alert" %>
+      <%= render "shared/registration_errors" %>
+      <%= render "order/order_errors" %>
+
+      <fieldset>
+        <legend><%= t '.subtitle' %></legend>
+		
+		
+		<%= render "order/registration_fee", :f => f if showRegistrationFee? @renderType %>
+		<%= render "order/edit_registration_fee", :f => f if showEditFee? @renderType %>   
+		<%= render "order/renew_registration_fee", :f => f if showRenewalFee? @renderType %>   
+		<%= render "order/copy_cards", :f => f if showCopyCards? @renderType %>        
+        
+        
+        <div class="inner-payment-box">
+            <div class='payment-group'>
+              <%= f.label :total_fee, class: 'form-label' %>
+              <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
+            </div>
+            <p class='subtitle'><%= t '.total_fee_vat' %></p>
+        </div>
+        
+        
+        <div class="inner-payment-box">
+            <div class='payment-group'>
+              <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
+              <span>or</span>
+              <input name="offline_next" class="button" type="submit" value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
+            </div>
+            <div class='notice-icon'></div>
+        </div>
+        
+        <p class='subtitle' id="world-pay-subtitle"><%= t '.send_to_worldpay' %></p>
+
+      </fieldset>
+      
+      <% end %>
+      </div>
+    </section>
+  </article>
+</main>

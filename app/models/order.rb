@@ -229,6 +229,30 @@ class Order < Ohm::Model
       ORDER_AMOUNT_TYPES[1]
     end
   end
+  
+  class << self
+    def new_registration_identifier
+      'NEWREG'
+    end
+  end
+  
+  class << self
+    def edit_registration_identifier
+      'EDIT'
+    end
+  end
+  
+  class << self
+    def renew_registration_identifier
+      'RENEW'
+    end
+  end
+  
+  class << self
+    def extra_copycards_identifier
+      'INCCOPYCARDS'
+    end
+  end
 
   def negateAmount
     Rails.logger.info 'Order, negateAmount, amountType: ' + self.amountType
