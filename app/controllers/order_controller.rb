@@ -6,7 +6,8 @@ class OrderController < ApplicationController
   #We require authentication (and authorisation) largely only for editing registrations,
   #and for viewing the finished/completed registration.
 
-  before_filter :authenticate_external_user!, :only => [:index, :new, :create]
+  # Removed as external user not logged in at time of first payment
+  #before_filter :authenticate_external_user!, :only => [:index, :new, :create]
   
   # GET /index
   def index
@@ -23,11 +24,12 @@ class OrderController < ApplicationController
     @registration = calculate_fees @registration
     @order = Order.new if @order == nil
     
-    Rails.logger.info 'renderType session: ' + session[:renderType]
+    logger.info 'renderType session: ' + session[:renderType]
     @renderType = session[:renderType]
     # Could also determine here what view to render
     
-    authorize! :update, @registration
+    logger.info 'account email: ' + @registration.accountEmail
+    
   end
   
   # POST /create
@@ -90,7 +92,6 @@ class OrderController < ApplicationController
       render 'newPayment', :status => '400'
     end
     
-    authorize! :update, @registration
   end
   
   
@@ -98,11 +99,12 @@ class OrderController < ApplicationController
   
   private
   
-  # Duplicated from registraions controller
-  def authenticate_external_user!
-    if !is_admin_request? && !agency_user_signed_in?
-      authenticate_user!
-    end
-  end
+# Removed as not required
+#  # Duplicated from registraions controller
+#  def authenticate_external_user!
+#    if !is_admin_request? && !agency_user_signed_in?
+#      authenticate_user!
+#    end
+#  end
   
 end
