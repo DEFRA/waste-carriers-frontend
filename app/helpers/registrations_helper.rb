@@ -110,6 +110,12 @@ module RegistrationsHelper
     myRegistration
   end
   
+  def calculate_fees_for_copycards myRegistration
+    myRegistration.copy_card_fee = myRegistration.copy_cards.to_i * Rails.configuration.fee_copycard
+    myRegistration.total_fee = myRegistration.copy_card_fee
+    myRegistration
+  end
+  
   def prepareOrder (useWorldPay = true)
     reg = Registration.find_by_id(session[:registration_uuid])
 
