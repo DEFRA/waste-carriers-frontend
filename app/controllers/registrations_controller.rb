@@ -357,7 +357,15 @@ class RegistrationsController < ApplicationController
                 redirect_to :action => 'finishAssisted'
               end
             when 'UPPER'
-              redirect_to upper_payment_path(:renderType => Order.new_registration_identifier)
+              #
+              # Important!
+              # Now storing an additional variable in the session for the type of order
+              # you are about to make. 
+              # This session variable needs to be set every time the order/new action
+              # is requested.
+              #
+              session[:renderType] = Order.new_registration_identifier
+              redirect_to :upper_payment
           end
         else
           render "newConfirmation", :status => '400'
