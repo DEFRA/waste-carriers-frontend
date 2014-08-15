@@ -24,9 +24,13 @@ class OrderController < ApplicationController
     @registration = calculate_fees @registration
     @order = Order.new if @order == nil
     
-    logger.info 'renderType session: ' + session[:renderType]
+    logger.info 'renderType session: ' + session[:renderType].to_s
     @renderType = session[:renderType]
     # Could also determine here what view to render
+    if !@order.isValidRenderType? @renderType
+      logger.error 'Cannot find a renderType in the session, as such unable to determine type of payment page to render, Render Page not found'
+      renderNotFound
+    end
     
     logger.info 'account email: ' + @registration.accountEmail
     
@@ -39,6 +43,8 @@ class OrderController < ApplicationController
     # TODO:
     # Calculates what type of crate is required based on the route required
     #
+    logger.info 'reg: ' + params[:registration].to_s
+    logger.info 'order: ' + params[:order].to_s
     
     # for now assume old code is correct
     setup_registration 'payment'
