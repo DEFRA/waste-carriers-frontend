@@ -70,5 +70,161 @@ module RegistrationsHelper
     user.current_registration = registration
     user.send_confirmation_instructions unless user.confirmed?
   end
+  
+  def setup_registration current_step, no_update=false
+    @registration = Registration[ session[:registration_id]]
+    @registration.add( params[:registration] ) unless no_update
+    @registration.save
+    logger.debug  @registration.attributes.to_s
+    @registration.current_step = current_step
+  end
+  
+  def prepareOfflinePayment myRegistration
+    myRegistration = calculate_fees myRegistration
+    order = prepareOrder false
+    order
+  end
+
+  def prepareOnlinePayment myRegistration
+    myRegistration = calculate_fees myRegistration
+    logger.info "copy cards: " + myRegistration.copy_cards.to_s
+    logger.info "total fee: " + myRegistration.total_fee.to_s
+    order = prepareOrder true
+    order
+  end
+  
+  def calculate_fees myRegistration
+    myRegistration.registration_fee = Rails.configuration.fee_registration
+    myRegistration.copy_card_fee = myRegistration.copy_cards.to_i * Rails.configuration.fee_copycard
+    myRegistration.total_fee = myRegistration.registration_fee + myRegistration.copy_card_fee
+    myRegistration
+  end
+  
+  def prepareOrder (useWorldPay = true)
+    reg = Registration.find_by_id(session[:registration_uuid])
+
+    #TODO have a current_order method on the registration
+    ord = reg.finance_details.first.orders.first
+
+    @order = Order.create
+
+    if useWorldPay
+      @order = updateOrderForWorldpay(@order)
+    else
+      @order = updateOrderForOffline(@order)
+    end
+
+    # Ensure Order Id of newly created order remains the same
+    # TODO: Fix later as assumed orderId of first order?
+    @order.orderId = ord.orderId
+
+    # Get a orderItem object
+    ordItem = ord.order_items.first
+
+    isInitialRegistration = true
+    if isInitialRegistration
+      # Add order item for Initial registration
+
+      # Create Order Item
+      orderItem = OrderItem.new
+      orderItem.amount = Rails.configuration.fee_registration
+      orderItem.currency = 'GBP'
+      orderItem.description = 'Initial Registration'
+      orderItem.reference = 'Reg: ' + reg.regIdentifier
+      orderItem.save
+
+      @order.order_items.add orderItem
+    end
+
+    if @registration.copy_cards.to_i > 0
+      # Add additional order items for copy card amount
+
+      # Create Order Item
+      orderItem = OrderItem.new
+      orderItem.amount = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
+      orderItem.currency = 'GBP'
+      orderItem.description = @registration.copy_cards.to_s + 'x Copy Cards'
+      orderItem.reference = 'Reg: ' + reg.regIdentifier
+      orderItem.save
+
+      @order.order_items.add orderItem
+    end
+
+    @order
+  end
+  
+  def updateOrderForWorldpay myOrder
+    myOrder = updateOrderGenerally myOrder, @registration
+    myOrder.paymentMethod = 'ONLINE'
+    myOrder.merchantId = worldpay_merchant_code
+    myOrder.worldPayStatus = 'IN_PROGRESS'
+    myOrder.description = 'Updated registrations PRIOR to WP'
+    myOrder
+  end
+
+  def updateOrderForOffline myOrder
+    myOrder = updateOrderGenerally myOrder, @registration
+    myOrder.paymentMethod = 'OFFLINE'
+    myOrder.merchantId = 'n/a'
+    myOrder.worldPayStatus = 'n/a'
+    myOrder.description = 'Updated registrations PRIOR to WP'
+    myOrder
+  end
+  
+  def updateOrderGenerally myOrder, myRegistration
+    now = Time.now.utc.xmlschema
+    myOrder.orderCode = Time.now.to_i.to_s
+    myOrder.totalAmount = myRegistration.total_fee
+    myOrder.currency = 'GBP'
+    myOrder.dateCreated = now
+    myOrder.dateLastUpdated = now
+    myOrder.updatedByUser = myRegistration.accountEmail
+    myOrder
+  end
+  
+  def new_step_action current_step
+    if current_step.eql? Registration::FIRST_STEP
+      @registration = Registration.create
+      session[:registration_id]= @registration.id
+      logger.debug "creating new registration #{@registration.id}"
+      m = Metadata.create
+
+      if agency_user_signed_in?
+        m.update :route => 'ASSISTED_DIGITAL'
+        if @registration.accessCode.blank?
+          @registration.update :accessCode => @registration.generate_random_access_code
+        end
+      else
+        m.update :route => 'DIGITAL'
+      end
+
+      @registration.metaData.add m
+
+    else
+      @registration = Registration[ session[:registration_id]]
+      logger.debug "retireving registration #{@registration.id}"
+      m = Metadata.create
+    end
+
+    logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
+
+    if  session[:registration_progress].eql? 'IN_EDIT'
+    end
+
+    # TODO by setting the step here this should work better with forward and back buttons and urls
+    # but this might have changed the behaviour
+    @registration.current_step = current_step
+    @registration.save
+    logger.debug "new step action: #{current_step}"
+    logger.debug "curret step: #{ @registration.current_step}"
+    # Pass in current page to check previous page is valid
+    # TODO had to comment this out for now because causing problems but will probably need to reinstate
+    # check_steps_are_valid_up_until_current current_step
+
+#    if (session[:registration_id])
+#      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
+#      renderNotFound
+#    end
+  end
 
 end

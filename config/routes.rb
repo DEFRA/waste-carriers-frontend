@@ -112,8 +112,6 @@ Registrations::Application.routes.draw do
 	  resources :registrations
     # get "registrations(.:format)" => "registrations#index", :as => :registrations
     # post  "registrations(.:format)" => "registrations#create"
-    # get "your-registration/payment(.:format)" => "registrations#newPayment", :as => :upper_payment
-    # post  "your-registration/payment(.:format)" => "registrations#updateNewPayment"
 
     get "your-registration/key-people/registration" => "key_people#registration", :as => :registration_key_people
     get "your-registration/key-person" => "key_people#newKeyPerson", :as => :newKeyPerson
@@ -131,8 +129,8 @@ Registrations::Application.routes.draw do
     get "your-registration/relevant-people/delete" => "key_people#deleteRelevantPerson", :as => :delete_relevant_person
     get "your-registration/relevant-people/done" => "key_people#doneRelevantPeople", :as => :done_relevant_people
 
-    get "your-registration/payment" => "registrations#newPayment", :as => :upper_payment
-    match "your-registration/payment" => "registrations#updateNewPayment", :via => [:post,:put,:patch]
+    get "your-registration/payment" => "order#new", :as => :upper_payment
+    match "your-registration/payment" => "order#create", :via => [:post,:put,:patch]
 
     # routes for renewals and edits
     match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
