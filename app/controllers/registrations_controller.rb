@@ -449,6 +449,14 @@ class RegistrationsController < ApplicationController
         send_confirm_email @registration
         pending_url
       when 'UPPER'
+        #
+        # Important!
+        # Now storing an additional variable in the session for the type of order
+        # you are about to make. 
+        # This session variable needs to be set every time the order/new action
+        # is requested.
+        #
+        session[:renderType] = Order.new_registration_identifier
         :upper_payment
     end
 
@@ -539,7 +547,7 @@ class RegistrationsController < ApplicationController
 ##      renderNotFound
 ##    end
 #  end
-
+#
 #  def setup_registration current_step, no_update=false
 #
 #    @registration = Registration[ session[:registration_id]]
