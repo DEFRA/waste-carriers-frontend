@@ -217,6 +217,13 @@ class Order < Ohm::Model
     Rails.logger.info 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
     ORDER_AMOUNT_TYPES.include? orderType
   end
+  
+  def isValidRenderType? renderType
+    Rails.logger.info 'isValidRenderType? renderType:' + renderType
+    res = %w[].push(Order.new_registration_identifier).push(Order.edit_registration_identifier).include? renderType
+    Rails.logger.info 'isValidRenderType? res: ' + res.to_s
+    res
+  end
 
   class << self
     def getPositiveType
