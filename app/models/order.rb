@@ -213,14 +213,15 @@ class Order < Ohm::Model
   ]
 
   def includesOrderType? orderType
-    Rails.logger.info 'includesOrderType? orderType:' + orderType
+    Rails.logger.info 'includesOrderType? orderType:' + orderType.to_s
     Rails.logger.info 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
     ORDER_AMOUNT_TYPES.include? orderType
   end
   
   def isValidRenderType? renderType
-    Rails.logger.info 'isValidRenderType? renderType:' + renderType
-    res = %w[].push(Order.new_registration_identifier).push(Order.edit_registration_identifier).include? renderType
+    Rails.logger.info 'isValidRenderType? renderType:' + renderType.to_s
+    res = %w[].push(Order.new_registration_identifier) \
+    	.push(Order.edit_registration_identifier).push(Order.renew_registration_identifier).push(Order.extra_copycards_identifier).include? renderType
     Rails.logger.info 'isValidRenderType? res: ' + res.to_s
     res
   end

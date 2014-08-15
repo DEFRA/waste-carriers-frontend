@@ -4,7 +4,7 @@
     <section id='payment-copycard-page'>
       <div class="col-1" id='payment-col-1'>
       
-      <%= form_for(@registration, :url => :upper_payment) do |f| %>
+      <%= form_for(@registration, :url => :upper_payment, :method => 'post') do |f| %>
       <% content_for :page_title, createTitle('.title') %>
  
       <%= render 'shared/registration_back_link' %>

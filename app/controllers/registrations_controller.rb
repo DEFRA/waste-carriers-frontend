@@ -335,13 +335,13 @@ class RegistrationsController < ApplicationController
     end
 
     # Get signup mode
-    account_mode = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in || agency_user_signed_in))
+    account_mode_val = @registration.initialize_sign_up_mode(@registration.accountEmail, (user_signed_in || agency_user_signed_in))
 
-    @registration.sign_up_mode = account_mode
-    logger.debug "Account mode is #{account_mode} and sign_up_mode is #{@registration.sign_up_mode}"
+    @registration.sign_up_mode = account_mode_val
+    logger.debug "Account mode is #{account_mode_val} and sign_up_mode is #{@registration.sign_up_mode}"
     @registration.save
 
-    case account_mode
+    case account_mode_val
       when 'sign_in'
         redirect_to :action => 'newSignin'
       when 'sign_up'
@@ -364,8 +364,9 @@ class RegistrationsController < ApplicationController
               # This session variable needs to be set every time the order/new action
               # is requested.
               #
-              session[:renderType] = Order.new_registration_identifier
-              redirect_to :upper_payment
+              #session[:renderType] = Order.new_registration_identifier
+              #redirect_to :upper_payment
+              newOrder @registration.uuid
           end
         else
           render "newConfirmation", :status => '400'
@@ -418,8 +419,9 @@ class RegistrationsController < ApplicationController
         # This session variable needs to be set every time the order/new action
         # is requested.
         #
-        session[:renderType] = Order.new_registration_identifier
-        redirect_to :upper_payment
+        #session[:renderType] = Order.new_registration_identifier
+        #redirect_to :upper_payment
+        newOrder @registration.uuid
     end
   end
 
@@ -457,7 +459,7 @@ class RegistrationsController < ApplicationController
         # is requested.
         #
         session[:renderType] = Order.new_registration_identifier
-        :upper_payment
+        upper_payment_path(@registration.uuid)
     end
 
     # Reset Signed up user to signed in status
@@ -1152,6 +1154,38 @@ class RegistrationsController < ApplicationController
 #    order = prepareOrder true
 #    order
 #  end
+
+  # Function to redirect newOrders to the order controller
+  def newOrder registration_uuid
+    #
+	# Important!
+	# Now storing an additional variable in the session for the type of order
+	# you are about to make. 
+	# This session variable needs to be set every time the order/new action
+	# is requested.
+	#
+	session[:renderType] = Order.new_registration_identifier
+	logger.info 'registration_uuid: ' + registration_uuid
+	redirect_to upper_payment_path(:id => registration_uuid)
+  end
+  
+  # Function to redirect registration edit orders to the order controller
+  def newOrderEdit
+	session[:renderType] = Order.edit_registration_identifier
+	redirect_to :upper_payment
+  end
+  
+  # Function to redirect registration renew orders to the order controller
+  def newOrderRenew
+	session[:renderType] = Order.renew_registration_identifier
+	redirect_to :upper_payment
+  end
+  
+  # Function to redirect additional copy card orders to the order controller
+  def newOrderCopyCards
+	session[:renderType] = Order.extra_copycards_identifier
+	redirect_to :upper_payment
+  end
 
   def newOfflinePayment
     @registration = Registration.find_by_id(session[:registration_uuid])
