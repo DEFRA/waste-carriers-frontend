@@ -9,6 +9,10 @@ class ReportsController < ApplicationController
 
     @report = Report.new(params[:report])
 
+    unless params[:tiers].nil?
+      @report.tiers = params[:tiers].values
+    end
+
     unless params[:statuses].nil?
       @report.statuses = params[:statuses].values
     end
