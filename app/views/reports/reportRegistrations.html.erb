@@ -44,6 +44,18 @@
               </fieldset>
 
               <fieldset>
+                <legend><%= t '.tier' %></legend>
+                <div class='inline'>
+                  <% Report.tier_options.each do |option| %>
+                    <%= f.label :tiers, for: "tiers_#{option.second.downcase}",  class: 'block-label' do %>
+                        <%= check_box("tiers", option.second.downcase, {}, option.second, "") %>
+                        <%= option.first %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </fieldset>
+
+              <fieldset>
                 <legend><%= t '.status' %></legend>
                 <div class='inline'>
                   <% Report.status_options.each do |option| %>
