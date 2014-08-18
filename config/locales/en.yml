@@ -198,7 +198,8 @@ en:
     json: json
     xml: xml
   global:
-    betaMessage_html: "<strong>BETA:</strong> this is a new service. Please give us your feedback once you have finished."
+    betaMessage: "BETA"
+    betaMessage_html: "This is a new service - your feedback will help us improve it."
     bracketsEA: " (Environment Agency)"
     bracketsNRW: "(Natural Resources Wales)"
     cookieMessage_html: "<a href='http://www.environment-agency.gov.uk/help/35770.aspx'>GOV.UK uses cookies to make the site simpler. Find out more about cookies</a>"
@@ -216,7 +217,7 @@ en:
       message: "Maybe you tried to change something you didn't have access to."
     serverError:
       message: "We're sorry, but something went wrong."
-    siteHeader_html: "Register as a waste carrier  <span class='beta'>beta</span>"
+    siteHeader_html: "Register as a waste carrier"
     timeout:
       heading: "Your session has expired"
       message1: "This service times out after 20 minutes of inactivity, or you may not have cookies enabled in your browser."
