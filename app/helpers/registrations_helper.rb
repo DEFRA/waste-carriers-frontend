@@ -87,6 +87,10 @@ module RegistrationsHelper
     @registration.save
     logger.debug 'Registration: '+ @registration.attributes.to_s
     @registration.current_step = current_step
+    
+    # Additionally set these if route has not gone through registration process
+    session[:registration_id] = @registration.id
+    session[:registration_uuid] = @registration.uuid
   end
   
   def new_step_action current_step
