@@ -71,5 +71,72 @@ module RegistrationsHelper
     user.current_registration = registration
     user.send_confirmation_instructions unless user.confirmed?
   end
+  
+  def setup_registration current_step, no_update=false
+    if session[:registration_id]
+      @registration = Registration[ session[:registration_id]]
+    else
+      Rails.logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
+      @registration = Registration[ params[:id]]
+      if @registration.nil? and params[:id]
+        # Registration still not found in session, trying database
+        Rails.logger.info 'Cannot find registration in session, trying database'
+        @registration = Registration.find_by_id(params[:id])
+      end
+    end
+    @registration.add( params[:registration] ) unless no_update
+    @registration.save
+    logger.debug 'Registration: '+ @registration.attributes.to_s
+    @registration.current_step = current_step
+    
+    # Additionally set these if route has not gone through registration process
+    session[:registration_id] = @registration.id
+    session[:registration_uuid] = @registration.uuid
+  end
+  
+  def new_step_action current_step
+    if current_step.eql? Registration::FIRST_STEP
+      @registration = Registration.create
+      session[:registration_id]= @registration.id
+      logger.debug "creating new registration #{@registration.id}"
+      m = Metadata.create
+
+      if agency_user_signed_in?
+        m.update :route => 'ASSISTED_DIGITAL'
+        if @registration.accessCode.blank?
+          @registration.update :accessCode => @registration.generate_random_access_code
+        end
+      else
+        m.update :route => 'DIGITAL'
+      end
+
+      @registration.metaData.add m
+
+    else
+      @registration = Registration[ session[:registration_id]]
+      logger.debug "retireving registration #{@registration.id}"
+      m = Metadata.create
+    end
+
+    logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
+
+    if  session[:registration_progress].eql? 'IN_EDIT'
+    end
+
+    # TODO by setting the step here this should work better with forward and back buttons and urls
+    # but this might have changed the behaviour
+    @registration.current_step = current_step
+    @registration.save
+    logger.debug "new step action: #{current_step}"
+    logger.debug "curret step: #{ @registration.current_step}"
+    # Pass in current page to check previous page is valid
+    # TODO had to comment this out for now because causing problems but will probably need to reinstate
+    # check_steps_are_valid_up_until_current current_step
+
+#    if (session[:registration_id])
+#      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
+#      renderNotFound
+#    end
+  end
 
 end

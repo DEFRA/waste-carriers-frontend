@@ -3,7 +3,7 @@ class Report
   include ActiveModel::Model
 
   attr_accessor :is_new, :from, :to, :route_digital, :route_assisted_digital
-  attr_accessor :statuses, :business_types, :format
+  attr_accessor :tiers, :statuses, :business_types, :format
 
   validate :validate_from
   validate :validate_to
@@ -13,8 +13,15 @@ class Report
     ASSISTED_DIGITAL
   ]
 
+  TIER_OPTIONS = %w[
+    upper
+    lower
+  ]
+
   STATUS_OPTIONS = %w[
+    activate
     active
+    inactive
     pending
     revoked
   ]
@@ -27,6 +34,10 @@ class Report
 
   def self.route_options
     (ROUTE_OPTIONS.collect {|d| [I18n.t('route_options.'+d), d]})
+  end
+
+  def self.tier_options
+    (TIER_OPTIONS.collect {|d| [I18n.t('tier_options.'+d), d.upcase]})
   end
 
   def self.status_options
