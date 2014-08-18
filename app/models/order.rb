@@ -157,6 +157,23 @@ class Order < Ohm::Model
       Rails.logger.debug "Commited order to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
+      
+      if e.http_code == 422
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body ul li").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      elsif e.http_code == 400
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body pre").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      end
+      
       commited = false
     end
     commited
