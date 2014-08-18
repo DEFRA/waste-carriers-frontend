@@ -1165,25 +1165,28 @@ class RegistrationsController < ApplicationController
 	# is requested.
 	#
 	session[:renderType] = Order.new_registration_identifier
-	logger.info 'registration_uuid: ' + registration_uuid
+	session[:orderCode] = generateOrderCode
 	redirect_to upper_payment_path(:id => registration_uuid)
   end
   
   # Function to redirect registration edit orders to the order controller
   def newOrderEdit
 	session[:renderType] = Order.edit_registration_identifier
+	session[:orderCode] = generateOrderCode
 	redirect_to :upper_payment
   end
   
   # Function to redirect registration renew orders to the order controller
   def newOrderRenew
 	session[:renderType] = Order.renew_registration_identifier
+	session[:orderCode] = generateOrderCode
 	redirect_to :upper_payment
   end
   
   # Function to redirect additional copy card orders to the order controller
   def newOrderCopyCards
 	session[:renderType] = Order.extra_copycards_identifier
+	session[:orderCode] = generateOrderCode
 	redirect_to :upper_payment
   end
 
