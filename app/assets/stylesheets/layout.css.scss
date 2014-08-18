@@ -15,35 +15,35 @@
 
 //CUSTOM STYLES//
 
+
+
 //Header Section//
 
-#global-header-bar .header-bar {margin-bottom:1em;}
-  .header_text h1 {
+#global-header-bar .header-bar {display:none;} /* display none to be removed after go live following removal of phase banner*/
+
+.header_text h1 {
 	color: #FFFFFF;
   @include inner-block;
 }
 
-.header_text span {
-    @include bold-24; 
-    @include inner-block;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: rgb(244, 119, 56);
+//Phase banner
+
+.phase-banner {
+  @include phase-banner($state:beta);
+  @include outer-block;
+  max-width:960px;
 }
 
-//Beta banner
-
-.beta-banner {
-	@include phase-banner($state:beta);
-  width:100%;
+.phase-banner p {
+    color: rgb(0, 0, 0);
+    font-family: "nta",Arial,sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.25;
+    margin: 0;
+    text-transform: none;
 }
 
-.beta-banner p {
-	color: $banner-text-colour;
-  max-width: 960px;
-  margin: 0 auto;
-  @include inner-block;
-}
 
 //Page Header//
 
@@ -56,8 +56,10 @@ margin: 0.5em 0em 0em 0em;
 
 //Layout//
 
-#content {@include inner-block; @include outer-block; margin-bottom:4em;}
-article {@include inner-block}
+.inner-block {@include inner-block;}
+
+#content {@include core-19; @include outer-block; margin-bottom:4em; text-align:left;}
+article {@include inner-block; margin:0;}
 section {margin:0;}
 aside   {margin:0;}
 
@@ -103,7 +105,7 @@ aside   {margin:0;}
 
 //Footer//
 
-.footer-top {@include inner-block}
+.footer-top {@include inner-block;}
 
 //Form//
 
@@ -402,7 +404,7 @@ ul {list-style-type:none;}
 
 #margin-control .block-label {margin-right: 100px;}
 
-//Summary pages // **** PAGES REQUIRE FURTHER DESIGN WORK IN CODE *****
+//Summary pages
 
 .list-bullets {
 list-style-image: url("https://assets.digital.cabinet-office.gov.uk/static/bullet-disc-5px-4180cb91fb35028365a59ddfcfd36e34.gif");
