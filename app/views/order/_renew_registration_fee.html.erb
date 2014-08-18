@@ -1,0 +1,6 @@
+<div class="inner-payment-box">
+    <div class='payment-group'>
+    	<%= f.label :renew_registration_fee, class: 'form-label' %>
+    	<%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(Rails.configuration.fee_registration) %>
+    </div>
+</div>
