@@ -4,88 +4,98 @@
   <article role="article" class="group">
     <section>
       <div class="inner">
-      <div class="col-1">
+        <div class="col-1">
 
-    <%= form_for(@report, :url => "registrations", :html => { :method => 'GET'} ) do |f| %>
-      <h1><%= t '.subtitle' %></h1>
+          <!-- WF 4.3.2 -->
+          <div id="page6"  data-journey="waste-carriers-registration:registrations-export">
+            <% content_for :page_title, createTitle('.title') %>
 
-      <%= render "errors" %>
+            <%= render 'back_link' %>
+            <%= render "errors" %>
 
-      <div>
-        <fieldset>
-          <%= f.hidden_field :is_new, :value => 'false' %>
-          <legend><h2><%=t '.date_filters' %></h1></legend>
-          <div class="form-group<%if @report.errors[:from].any?%> validation<% end %>">
-            <%= validation_for(@report, :from) %>
-            <div class='form-label'><%= f.label :from %></div>
-            <%= f.text_field :from, :size => 20, :maxlength => 20 %>
+            <%= form_for(@report, :url => "registrations", :html => { :method => 'GET'} ) do |f| %>
+            <h1><%= t '.subtitle' %></h1>
+
+              <fieldset>
+                <%= f.hidden_field :is_new, :value => 'false' %>
+                <legend><%=t '.date_filters' %></legend>
+                <div class="form-group<%if @report.errors[:from].any?%> validation<% end %>">
+                  <%= validation_for(@report, :from) %>
+                  <div class='form-label'><%= f.label :from %></div>
+                  <%= f.text_field :from, :size => 20, :maxlength => 20 %>
+                </div>
+                <div class="form-group<%if @report.errors[:to].any?%> validation<% end %>">
+                  <%= validation_for(@report, :to) %>
+                  <div class='form-label'><%= f.label :to %></div>
+                  <%= f.text_field :to, :size => 20, :maxlength => 20 %>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend><%= t '.route_type' %></legend>
+                <div class='inline'>
+                  <%= f.label :route_digital, for: 'report_route_digital', class: 'block-label' do %>
+                    <%= f.check_box :route_digital, {}, "DIGITAL", "" %> <%= t '.route_digital' %>
+                  <% end %>
+                  <%= f.label :route_assisted_digital, for: 'report_route_assisted_digital', class: 'block-label' do %>
+                    <%= f.check_box :route_assisted_digital, {}, "ASSISTED_DIGITAL", "" %> <%= t '.route_assisted_digital' %>
+                  <% end %>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend><%= t '.tier' %></legend>
+                <div class='inline'>
+                  <% Report.tier_options.each do |option| %>
+                    <%= f.label :tiers, for: "tiers_#{option.second.downcase}",  class: 'block-label' do %>
+                        <%= check_box("tiers", option.second.downcase, {}, option.second, "") %>
+                        <%= option.first %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend><%= t '.status' %></legend>
+                <div class='inline'>
+                  <% Report.status_options.each do |option| %>
+                    <%= f.label :statuses, for: "statuses_#{option.second.downcase}",  class: 'block-label' do %>
+                        <%= check_box("statuses", option.second.downcase, {}, option.second, "") %>
+                        <%= option.first %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend><%= t '.business_type' %></legend>
+                <div class="inline">
+                  <% Registration.business_type_options_for_select.each do |option| %>
+                    <%= f.label :business_types, for: "business_types_#{option.second.downcase}",  class: 'block-label' do %>
+                        <%= check_box("business_types", option.second.downcase, {}, option.second, "") %>
+                        <%= option.first %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend><%= t '.results_format' %></legend>
+                <div class='inline'>
+                  <% Report.format_options.each do |option| %>
+                    <%= f.label :format, for: "report_format_#{option.second.downcase}",  class: 'block-label' do %>
+                        <%= f.radio_button :format, option.second %>
+                        <%= option.first %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </fieldset>
+
+              <input type="submit" value="Export" class="button">
+            <% end %>
           </div>
-          <div class="form-group<%if @report.errors[:to].any?%> validation<% end %>">
-            <%= validation_for(@report, :to) %>
-            <div class='form-label'><%= f.label :to %></div>
-            <%= f.text_field :to, :size => 20, :maxlength => 20 %>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend><h2><%= t '.route_type' %></h2></legend>
-          <div class='inline'>
-            <label class='block-label'><%= f.label :route_digital do %>
-              <%= f.check_box :route_digital, {}, "DIGITAL", "" %> <%= t '.route_digital' %>
-            <% end %></label>
-            <label class='block-label'><%= f.label :route_assisted_digital do %>
-              <%= f.check_box :route_assisted_digital, {}, "ASSISTED_DIGITAL", "" %> <%= t '.route_assisted_digital' %>
-            <% end %></label>
-          </div>
-        </fieldset>
-        
-    </div>
-  </div>
-</section>  
-
-
-    <aside role='note'>
-      <div class="inner">
-        <div class="col-2">
-
-
-
-        <fieldset>
-          <legend><h2><%= t '.status' %></h2></legend>
-          <div class="form-group<%if @report.errors[:statuses].any?%> validation<% end %>">
-            <%= validation_for(@report, :statuses) %>
-            <%= f.select :statuses, Report.status_options, {}, { :multiple => true, :include_blank => false, :size => 3, :class => 'select-boxes' } %>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend><h2><%= t '.business_type' %></h2></legend>
-          <div class="form-group<%if @report.errors[:business_types].any?%> validation<% end %>">
-            <%= validation_for(@report, :business_types) %>
-            <%= f.select :business_types, Registration.business_type_options_for_select, {}, { :multiple => true, :include_blank => false, :size => 7, :class => 'select-boxes' } %>
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <legend><h2><%= t '.results_format' %></h2></legend>
-          <!-- <p>
-            <%= select_tag :format, options_for_select([["CSV", "csv"], ["JSON", "json"], ["HTML", "html"]], "csv") %>
-          </p> -->
-          <div class="form-group<%if @report.errors[:format].any?%> validation<% end %>">
-            <%= validation_for(@report, :format) %>
-            <%= f.select :format, Report.format_options, {}, { :include_blank => false, :size => 1 } %>
-          </div>
-        </fieldset>
-
         </div>
       </div>
-    </aside>
-
-    
-      <input type="submit" value="Export" class="button">
-
-      </div>
-    <% end %>
-
+    </section>
   </article>
 </main>

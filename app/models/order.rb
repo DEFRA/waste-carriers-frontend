@@ -157,6 +157,23 @@ class Order < Ohm::Model
       Rails.logger.debug "Commited order to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
+      
+      if e.http_code == 422
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body ul li").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      elsif e.http_code == 400
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body pre").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      end
+      
       commited = false
     end
     commited
@@ -213,9 +230,17 @@ class Order < Ohm::Model
   ]
 
   def includesOrderType? orderType
-    Rails.logger.info 'includesOrderType? orderType:' + orderType
+    Rails.logger.info 'includesOrderType? orderType:' + orderType.to_s
     Rails.logger.info 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
     ORDER_AMOUNT_TYPES.include? orderType
+  end
+  
+  def isValidRenderType? renderType
+    Rails.logger.info 'isValidRenderType? renderType:' + renderType.to_s
+    res = %w[].push(Order.new_registration_identifier) \
+    	.push(Order.edit_registration_identifier).push(Order.renew_registration_identifier).push(Order.extra_copycards_identifier).include? renderType
+    Rails.logger.info 'isValidRenderType? res: ' + res.to_s
+    res
   end
 
   class << self
@@ -227,6 +252,30 @@ class Order < Ohm::Model
   class << self
     def getNegativeType
       ORDER_AMOUNT_TYPES[1]
+    end
+  end
+  
+  class << self
+    def new_registration_identifier
+      'NEWREG'
+    end
+  end
+  
+  class << self
+    def edit_registration_identifier
+      'EDIT'
+    end
+  end
+  
+  class << self
+    def renew_registration_identifier
+      'RENEW'
+    end
+  end
+  
+  class << self
+    def extra_copycards_identifier
+      'INCCOPYCARDS'
     end
   end
 

@@ -231,6 +231,22 @@ en:
       message_html: "Try again later or if problems persist contact:<br/><a href='#'>registrations@wastecarriersregistration.service.gov.uk</a>"
     wales: Wales
   hello: "Hello world"
+  order:
+    new:
+      subtitle: "Payment Summary"
+      title: Payment
+      total_fee_vat: "All charges are outside the scope of VAT"
+      trouble_paying_link: "Trouble paying?"
+#      new_reg_label: "New registration"
+#      payment_method_debit_credit: "Pay by debit or credit card"
+#      payment_method_elec_transfer: "Pay by electronic transfer"
+#      send_to_worldpay: "By choosing to pay by credit or debit card you will be taken to the WorldPay payment website"
+#      payment_method_label: "Choose payment method"
+#      total_label: "Total to pay"
+    copy_cards:
+      copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
+      copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
+      copy_card_label: "Copy cards cost £5 each"
   payment:
     completeWPRefund:
       heading: "Worldpay refund complete"
@@ -641,20 +657,6 @@ en:
       reference: "Payment reference number"
       sort_code: "Sort code"
       swiftbic_number: "SWIFTBIC number"
-    newPayment:
-      copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
-      copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
-      copy_card_label: "Copy cards cost £5 each"
-      new_reg_label: "New registration"
-      total_fee_vat: "All charges are outside the scope of VAT"
-      payment_method_debit_credit: "Pay by debit or credit card"
-      payment_method_elec_transfer: "Pay by electronic transfer"
-      send_to_worldpay: "By choosing to pay by credit or debit card you will be taken to the WorldPay payment website"
-      payment_method_label: "Choose payment method"
-      subtitle: "Payment Summary"
-      title: Payment
-      total_label: "Total to pay"
-      trouble_paying_link: "Trouble paying?"
     noregistration_step:
       contact_Line_1: "We need some more information about your organisation before we can register you as a waste carrier."
       contact_Line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
@@ -803,9 +805,10 @@ en:
       date_filters: "Date filters"
       results_format: "Results format"
       route_assisted_digital: "Assisted Digital"
-      route_digital: Digital
-      route_type: Route
-      status: Status
+      route_digital: "Digital"
+      route_type: "Route"
+      tier: "Tier"
+      status: "Status"
       subtitle: "Registrations Export"
       title: "Registrations Export"
   route_options:
@@ -823,10 +826,15 @@ en:
       signed_in_as_agency_user: "Signed in as agency user"
     progress:
       progress: Progress
+  tier_options:
+    lower: "Lower"
+    upper: "Upper"
   status_options:
-    active: Active
-    pending: Pending
-    revoked: Revoked
+    activate: "Activate"
+    active: "Active"
+    inactive: "Inactive"
+    pending: "Pending"
+    revoked: "Revoked"
   templates:
     formExample:
       step: "Step 1 of 10"
