@@ -364,8 +364,6 @@ class RegistrationsController < ApplicationController
               # This session variable needs to be set every time the order/new action
               # is requested.
               #
-              #session[:renderType] = Order.new_registration_identifier
-              #redirect_to :upper_payment
               newOrder @registration.uuid
           end
         else
@@ -419,8 +417,6 @@ class RegistrationsController < ApplicationController
         # This session variable needs to be set every time the order/new action
         # is requested.
         #
-        #session[:renderType] = Order.new_registration_identifier
-        #redirect_to :upper_payment
         newOrder @registration.uuid
     end
   end
@@ -459,6 +455,7 @@ class RegistrationsController < ApplicationController
         # is requested.
         #
         session[:renderType] = Order.new_registration_identifier
+        session[:orderCode] = generateOrderCode
         upper_payment_path(@registration.uuid)
     end
 
