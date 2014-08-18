@@ -802,9 +802,10 @@ en:
       date_filters: "Date filters"
       results_format: "Results format"
       route_assisted_digital: "Assisted Digital"
-      route_digital: Digital
-      route_type: Route
-      status: Status
+      route_digital: "Digital"
+      route_type: "Route"
+      tier: "Tier"
+      status: "Status"
       subtitle: "Registrations Export"
       title: "Registrations Export"
   route_options:
@@ -822,10 +823,15 @@ en:
       signed_in_as_agency_user: "Signed in as agency user"
     progress:
       progress: Progress
+  tier_options:
+    lower: "Lower"
+    upper: "Upper"
   status_options:
-    active: Active
-    pending: Pending
-    revoked: Revoked
+    activate: "Activate"
+    active: "Active"
+    inactive: "Inactive"
+    pending: "Pending"
+    revoked: "Revoked"
   templates:
     formExample:
       step: "Step 1 of 10"
