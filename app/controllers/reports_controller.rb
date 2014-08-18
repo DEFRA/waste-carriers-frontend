@@ -9,6 +9,14 @@ class ReportsController < ApplicationController
 
     @report = Report.new(params[:report])
 
+    unless params[:statuses].nil?
+      @report.statuses = params[:statuses].values
+    end
+
+    unless params[:business_types].nil?
+      @report.business_types = params[:business_types].values
+    end
+
     unless @report.is_new.blank?
       @report.is_new = 'false'
 
