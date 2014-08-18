@@ -47,6 +47,7 @@
             <th></th> <!--  column for certificate button -->
             <th></th> <!--  column for edit button -->
             <th></th> <!--  column for renew button -->
+            <th></th> <!--  column for more copy cards -->
           </tr>
         </thead>
         <tbody>
@@ -80,6 +81,7 @@
 		            	<%= link_to 'New Registration', edit_path(registration.uuid, process: 're-create') %>
 	            	<% end %>
 	            </td>
+	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) %></td>
 
 	          </tr>
           <% end %>
