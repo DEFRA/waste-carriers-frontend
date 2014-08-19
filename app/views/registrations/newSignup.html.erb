@@ -11,10 +11,7 @@
             <% content_for :page_title, createTitle('.title') %>
          
              <%= render 'back_link' %>
-              <%= render 'step', r: @registration, upper_step: '7', lower_step: '4' %>
-  
-
-            <%= render 'errors' %>
+             <%= render 'errors' %>
 
 						<%= form_for(@registration, :url => newSignup_path) do |f| %>
               <fieldset>

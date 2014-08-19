@@ -12,7 +12,6 @@
             <% content_for :page_title, createTitle('.title') %>
          
               <%= render 'back_link' %>
-               <%= t '.step' %>
              <%= render 'errors' %>
 
             <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"} ) do |f| %>
