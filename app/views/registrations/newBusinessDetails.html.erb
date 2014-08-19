@@ -11,7 +11,6 @@
             <% content_for :page_title, createTitle('.title') %>
          
             <%= render 'back_link' %>
-            <%= render 'step', r: @registration, upper_step: '2', lower_step: '1' %>
             <%= render 'errors' %>
 
             <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>

@@ -9,7 +9,6 @@
           <div id="page7"  data-journey="waste-carriers-registration:contact-details">
             <% content_for :page_title, createTitle('.title') %>
               <%= render 'back_link' %>
-              <%= render 'step', r: @registration, upper_step: '3', lower_step: '2' %>
               <%= render 'errors' %>
               <%= form_for(@registration, :url => newContact_path) do |f| %>
               <%= render 'contactdetails_step', f: f, r: @registration %>

@@ -6,8 +6,10 @@
     
     <%= form_for(@registration, :url => :upper_payment) do |f| %>
     <% content_for :page_title, createTitle('.title') %>
+ 
       <%= render 'back_link' %>
-      <div class="step">Step 8 of 9</div>
+ 
+ 
     <%= render "errors" %>
 
 	<%# REFACTORME: Ideally this essential duplication of errors should be refactored to be more generic %>
@@ -81,13 +83,13 @@
             </div>
             <div class='notice-icon'></div>
         </div>
+        
         <p class='subtitle' id="world-pay-subtitle"><%= t '.send_to_worldpay' %></p>
 
     </fieldset>
       
     <% end %>
-
-  </div>
+    </div>
   </section>
   </article>
 </main>
