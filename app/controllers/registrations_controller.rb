@@ -720,6 +720,7 @@ class RegistrationsController < ApplicationController
     @user = session[:confirmed_user]
     if !@user
       logger.warn "Could not retrieve the activated user. Showing 404."
+      flash[:notice] = 'Could not find user: ' + @user.to_s
       renderNotFound and  return
     end
     # @registrations = Registration.find(:all, :params => {:ac => @user.email})
@@ -732,6 +733,7 @@ class RegistrationsController < ApplicationController
       @tell_waste_carrier_they_are_pending_convictions_check = declared_convictions? @registration
       session[:registration_uuid] = @registration.uuid
     else
+      flash[:notice] = 'Registration list is empty, Found no registrations for user: ' + @user.email.to_s
       renderNotFound and return
     end
     #render the confirmed page
