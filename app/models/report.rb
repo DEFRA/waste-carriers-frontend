@@ -3,7 +3,8 @@ class Report
   include ActiveModel::Model
 
   attr_accessor :is_new, :from, :to, :route_digital, :route_assisted_digital
-  attr_accessor :tiers, :statuses, :business_types, :format
+  attr_accessor :tiers, :statuses, :business_types, :has_declared_convictions
+  attr_accessor :is_criminally_suspect, :format
 
   validate :validate_from
   validate :validate_to
