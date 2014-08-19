@@ -11,6 +11,7 @@
     <%= f.text_field :last_name, :size => 20, :maxlength => 35 %>
   </div>
   <div class="form-group<%if d.errors[:dob].any?%> validation<%end%>">
+      <%= validation_for(d, :dob) %>
       <label for='subtitle'><p>Date of birth</p></label>
       <div class='subtitle'>For example, 26 5 1976</div>
       <div class='inline-date'>
