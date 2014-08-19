@@ -34,7 +34,6 @@
                 <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
 <% end %>
 
-            <% else %>
               <h1 class="subtitle"><%= t '.subtitle_pending' %></h1>
               <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
               <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
@@ -52,7 +51,6 @@
                 <% end %>
               <% end %>
 
-            <% end %>
 
             <p><%= t '.details_change' %></p>
 
