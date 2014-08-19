@@ -1210,6 +1210,16 @@ class RegistrationsController < ApplicationController
 	session[:orderCode] = generateOrderCode
 	redirect_to :upper_payment
   end
+  
+  # Renders the additional copy card order complete view
+  def copyCardComplete
+    @registration = Registration.find_by_id(session[:registration_uuid])
+  end
+  
+  # Renders the edit renew order complete view
+  def editRenewComplete
+    @registration = Registration.find_by_id(session[:registration_uuid])
+  end
 
   def newOfflinePayment
     @registration = Registration.find_by_id(session[:registration_uuid])

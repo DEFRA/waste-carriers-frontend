@@ -1,0 +1,27 @@
+<%= render 'shared/content_for_pages' %>
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <section id='payment-copycardcomplete-page'>
+      <div class="col-1" id='payment-col-1'>
+      
+      <%#= form_for(@registration, :url => :upper_payment, :method => 'post') do |f| %>
+      <% content_for :page_title, createTitle('.title') %>
+ 
+      <%= render "order/notice_or_alert" %>
+      <%= render "shared/registration_errors" %>
+
+      <fieldset>
+        <legend><%= t '.subtitle' %></legend>
+		
+		TEMP: renderType: '<%= session[:renderType] %>'
+		<p>Copy card order complete</p>
+        
+        <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'link_to' %>
+
+      </fieldset>
+      
+      <%# end %>
+      </div>
+    </section>
+  </article>
+</main>

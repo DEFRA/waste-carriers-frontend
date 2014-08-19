@@ -410,6 +410,12 @@ en:
       explanation_link: "What is construction and demolition waste"
       subtitle: "Do you ever deal with construction or demolition waste?"
       title: "Construction or demolition"
+    copyCardComplete:
+      subtitle: "Additional copy card order complete"
+      title: "Order Complete"
+    editRenewComplete:
+      subtitle: "Edit/Renew order complete"
+      title: "Order Complete"
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Business details"
