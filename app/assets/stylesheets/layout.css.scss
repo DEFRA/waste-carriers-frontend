@@ -116,6 +116,7 @@ fieldset {@include media(desktop){
 legend {
 	padding-top: 0.7rem;
 	padding-bottom: 1.3rem;
+  padding-left:0;
 	@include bold-36;
 }	
 

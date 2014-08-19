@@ -6,10 +6,9 @@
       <div class="inner">
       	 <div class="col-1">
     		<% content_for :page_title, createTitle('registrations.convictions_step.title') %>
-    		<%= form_for(@registration, :url => newRelevantConvictions_path) do |f| %>
+    		 <%= form_for(@registration, :url => newRelevantConvictions_path) do |f| %>
         		<%= render 'back_link' %>
-       			<%= t 'registrations.convictions_step.step' %>
-        	<%= render "convictions_step", :f => f %>
+        	  <%= render "convictions_step", :f => f %>
     		  <% end %>
   		  </div>
 	  </div>
