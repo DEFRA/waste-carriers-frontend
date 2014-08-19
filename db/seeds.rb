@@ -96,7 +96,6 @@ end
 #  au.save!
 #end
 
-# we are here
 if (Rails.env.eql? 'development')
 
   #load some sample lower tier registrations
