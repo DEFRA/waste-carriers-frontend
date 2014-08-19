@@ -742,7 +742,7 @@ en:
       telephone: Telephone
       title: "Waste carrier registration certificate"
       website_html: "You can do this by going to the website <u>www.gov.uk/waste-carrier-or-broker-registration</u> and logging in using your email and password."
-   print_confirmed:
+    print_confirmed:
       title: "Waste carrier registration certificate"
     publicSearch:
       address_table_heading: Address
