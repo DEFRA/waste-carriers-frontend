@@ -776,8 +776,9 @@ class RegistrationsController < ApplicationController
 
       session[:registration_id] = @registration.id
       session[:registration_uuid] = @registration.uuid
-      redirect_to :upper_summary
-    # @registration.current_step = session[:registration_step]
+    session[:edit_process] =  params[:edit_process]
+
+    redirect_to :newConfirmation
   end
 
   def ncccedit
@@ -1156,11 +1157,7 @@ class RegistrationsController < ApplicationController
 #    myOrder
 #  end
 
-    if useWorldPay
-      @order = updateOrderForWorldpay(@order)
-    else
-      @order = updateOrderForOffline(@order)
-    end
+
 
 #  def prepareOfflinePayment
 #    #setup_registration 'payment'
@@ -1283,6 +1280,6 @@ class RegistrationsController < ApplicationController
       :address_match_list,
     :sign_up_mode)
   end
-  private :save_registration, :update_registration, :registration_params, :owe_money?
+  private :registration_params, :owe_money?
 
 end
