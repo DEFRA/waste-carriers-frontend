@@ -35,6 +35,7 @@ class ReportsController < ApplicationController
               ].reject(&:blank?),
               :status => @report.statuses.reject(&:blank?),
               :businessType => @report.business_types.reject(&:blank?),
+              :tier => @report.tiers.reject(&:blank?),
               :ac => params[:email]
         }
         @registrations = Registration.find_by_params(param_args)

@@ -142,8 +142,12 @@ class Registration < Ohm::Model
   end
 
   def add(a_hash)
-    a_hash.each do |prop_name, prop_value|
-      self.send("#{prop_name}=",prop_value)
+    if a_hash
+      a_hash.each do |prop_name, prop_value|
+        self.send("#{prop_name}=",prop_value)
+      end
+    else
+      Rails.logger.info 'no registration params found'
     end
   end
 
