@@ -9,6 +9,12 @@ class ReportsController < ApplicationController
 
     @report = Report.new(params[:report])
 
+    unless params[:report].nil?
+      params[:report].each do |k, v|
+        logger.debug "#{k}=#{v}"
+      end
+    end
+
     unless params[:tiers].nil?
       @report.tiers = params[:tiers].values
     end
@@ -36,6 +42,8 @@ class ReportsController < ApplicationController
               :status => @report.statuses.reject(&:blank?),
               :businessType => @report.business_types.reject(&:blank?),
               :tier => @report.tiers.reject(&:blank?),
+              :declaredConvictions => @report.has_declared_convictions,
+              :criminallySuspect => @report.is_criminally_suspect,
               :ac => params[:email]
         }
         @registrations = Registration.find_by_params(param_args)

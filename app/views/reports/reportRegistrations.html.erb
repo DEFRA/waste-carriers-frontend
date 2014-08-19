@@ -80,6 +80,18 @@
               </fieldset>
 
               <fieldset>
+                <legend><%= t '.convictions' %></legend>
+                <div class='inline'>
+                  <%= f.label :has_declared_convictions, for: 'report_has_declared_convictions', class: 'block-label' do %>
+                    <%= f.check_box :has_declared_convictions, {}, "true", "false" %> <%= t '.has_declared_convictions' %>
+                  <% end %>
+                  <%= f.label :is_criminally_suspect, for: 'report_is_criminally_suspect', class: 'block-label' do %>
+                    <%= f.check_box :is_criminally_suspect, {}, "true", "false" %> <%= t '.is_criminally_suspect' %>
+                  <% end %>
+                </div>
+              </fieldset>
+
+              <fieldset>
                 <legend><%= t '.results_format' %></legend>
                 <div class='inline'>
                   <% Report.format_options.each do |option| %>
