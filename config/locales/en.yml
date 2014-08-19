@@ -130,18 +130,15 @@ en:
     carrier_dealer: "We carry the waste ourselves"
   key_people:
     edit:
-      step: "Step 7 of 8"
       title: "Edit key person details"
     form:
       legend: "Key person details"
       subtitle: "These will not be made public"
     index:
       legend: "Existing key people"
-      step: "Step 7 of 8"
       subtitle: "These will not be made public"
       title: "Key people"
     new:
-      step: "Step 7 of 8"
       title: "Key person details"
   distances:
     ? "10"
@@ -326,12 +323,10 @@ en:
       updateWebsite_html: "You can do this by going to the website %{link} and logging in using your email and password."
   key_people:
     newKeyPerson:
-      step: "Step 4 of 9"
       title: "Key person"
       subtitle: "These will not be made public"
       legend: "Business owner details"
     newKeyPeople:
-      step: "Step 4 of 9"
       title: "Key people"
       legend: "Business owner details"
       legend_limited: "Director details"
@@ -346,7 +341,6 @@ en:
       legend: "Key person details"
       subtitle: "These will not be made public"
     newRelevantPeople:
-      step: "Step 5 of 9"
       title: "Relevant people"
       legend: "\"Relevant\" person details"
       button_label: "Add another person"
@@ -356,7 +350,6 @@ en:
       subtitle: "These will not be made public"
     index:
       legend: "Existing key people"
-      step: "Step 7 of 8"
       subtitle: "These will not be made public"
       title: "Key people"
   registrations:
@@ -376,7 +369,6 @@ en:
       streetLine1Foreign: Address
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     businesstype_step:
-      step: "Step 1 of 8"
       subtitle: "What type of business or organisation are you?"
       title: "Business type"
     confirmDelete:
@@ -397,7 +389,6 @@ en:
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
       privacy_policy: "Privacy policy and cookies"
       smart_answers_heading: "You told us"
-      step: "Step 7 of 8"
       subtitle: "Checking your details before registering"
       tier_description: "You are %{tier_with_article} tier waste carrier..."
       title: Confirmation
@@ -415,7 +406,6 @@ en:
       details_change: "If any of your details change you must update your registration within 28 days."
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
-      step: "Step 3 of 8"
       subtitle: "Do you ever deal with construction or demolition waste?"
       title: "Construction or demolition"
     newBusinessDetails:
@@ -457,7 +447,6 @@ en:
       subtitle: "Relevant person is someone who has a relevant conviction, if you are unsure click on the links below for more information."
       relevant_convictions_link_text: "What are relevant convictions?"
       relevant_person_link_text: "What is a relevant person?"
-      step: "Step 5 of 9"
     newConfirmation:
       step: "Step %{step_x} of %{step_y}"
       title: "Confirmation"
@@ -668,7 +657,6 @@ en:
       subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
       title: "Type of waste"
     otherBusinesses_step:
-      step: "Step 2 of 8"
       subtitle: "Do you ever deal with waste from other businesses or households?"
       title: "Waste from other businesses"
     paymentstatus:
@@ -761,7 +749,6 @@ en:
       carrier_broker_dealer: carrier/broker/dealer
       carrier_dealer: carrier/dealer
       legend: "Do you carry the waste yourselves or arrange for other people to transport it?"
-      step: "Step 1 of 9"
       subtitle_carrier_dealer: "You are a carrier/dealer"
       subtitle_broker_dealer: "You are a broker/dealer"
       subtitle_carrier_broker_dealer: "You are a carrier, broker and dealer"
@@ -769,7 +756,6 @@ en:
     serviceprovided_step:
       main_service_label: "Waste disposal is the main service we provide"
       part_of_service_label: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
-      step: "Step 3 of 8"
       subtitle: "What kind of service do you provide?"
       title: "Service provided"
     smartanswers_display:
@@ -837,13 +823,11 @@ en:
     revoked: "Revoked"
   templates:
     formExample:
-      step: "Step 1 of 10"
       title: "Example form controls and content"
     formExample_step:
       legend: "An example legend"
       subtitle: "A reference page for WCR team"
     formTemplate:
-      step: "Step 1 of 10"
       title: "Example form template"
     formTemplate_step:
       legend: "An example legend"
