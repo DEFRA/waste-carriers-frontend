@@ -134,6 +134,8 @@ Registrations::Application.routes.draw do
     get "your-registration/:id/order/renewRegistration" => "registrations#newOrderRenew", :via => [:get], :as => :newOrderRenew
     get "your-registration/:id/order/additionalCopyCards" => "registrations#newOrderCopyCards", :via => [:get], :as => :newOrderCopyCards
     match "your-registration/:id/order" => "order#create", :via => [:post,:put,:patch]
+    get "your-registration/CopyCardsComplete" => "registrations#copyCardComplete", :as => :complete_copy_cards
+    get "your-registration/EditRenewComplete" => "registrations#editRenewComplete", :as => :complete_edit_renew
 
     # routes for renewals and edits
     match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
