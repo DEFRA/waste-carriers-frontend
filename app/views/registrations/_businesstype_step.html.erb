@@ -10,6 +10,7 @@
   <fieldset>
     <legend><%= t 'registrations.businesstype_step.subtitle' %></legend>
     <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
+      <%= validation_for(@registration, :businessType) %>
       <% Registration.business_type_options_for_select.each do |option| %>
           <%= f.label :businessType, for: "registration_businessType_#{option.second.downcase}",  class: 'block-label' do %>
               <%= f.radio_button :businessType, option.second %>

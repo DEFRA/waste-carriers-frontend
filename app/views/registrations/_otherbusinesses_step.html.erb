@@ -10,6 +10,7 @@
   <fieldset>
     <legend><%= t 'registrations.otherBusinesses_step.subtitle' %></legend>
     <div class="inline<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>">
+        <%= validation_for(@registration, :otherBusinesses) %>
         <%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
         <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %> 
         <%= t 'form.yes_option_label' %>
