@@ -232,7 +232,8 @@ module WorldpayHelper
       username = worldpay_xml_username isMoto?(ordersMerchantCode)
       password = worldpay_xml_password isMoto?(ordersMerchantCode)
 
-      xml = create_cancel_or_refund_request_xml(merchantCode,orderCode)
+      #xml = create_cancel_or_refund_request_xml(merchantCode,orderCode)
+      xml = create_refund_request_xml(merchantCode, orderCode, currencyCode, amount)
       logger.info 'About to contact WorldPay for refund: XML username = ' + username
       logger.info 'Sending refund request XML to Worldpay: ' + xml
 
