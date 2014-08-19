@@ -8,7 +8,9 @@
     <% content_for :page_title, createTitle('.title') %>
  
       <%= render 'back_link' %>
-      <%= render "errors" %>
+ 
+ 
+    <%= render "errors" %>
 
 	<%# REFACTORME: Ideally this essential duplication of errors should be refactored to be more generic %>
     <% if @order.errors.any? %>
@@ -32,7 +34,15 @@
 
         <div class="inner-payment-box">
             <div class='payment-group'>
+            <% case session[:edit_process] %>
+            <% when 're-create' %>
+            <% when 'renewal' %>
+            <%= f.label :renewal_fee, class: 'form-label' %>
+
+            <% when 'edit' %>
+            <% else %> <!-- new registration-->
               <%= f.label :registration_fee, class: 'form-label' %>
+            <% end %>
               <%= f.text_field :registration_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(Rails.configuration.fee_registration) %>
             </div>
         </div>

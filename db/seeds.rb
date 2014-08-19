@@ -96,8 +96,7 @@ end
 #  au.save!
 #end
 
-
-if (Rails.env.eql? 'development') && (ENV["WCRS_REG_SEED"].eql? 'true')
+if (Rails.env.eql? 'development')
 
   #load some sample lower tier registrations
   data =  YAML::load(File.read("db/lower_tier_registrations.json")) +  YAML::load(File.read("db/upper_tier_registrations.json"))
@@ -106,17 +105,7 @@ if (Rails.env.eql? 'development') && (ENV["WCRS_REG_SEED"].eql? 'true')
     r = Registration.init(reg)
     if r && r.commit
       puts "waste carrier #{r.companyName} registered!"
-      case r.companyName
-      when 'Bloomberg'
-        r.update(expires_on: Time.now + 2.months)
-        r.metaData.first.update(status: 'ACTIVE')
-      when 'Carafe'
-        r.update(expires_on: Time.now - 1.months)
-        r.metaData.first.update(status: 'ACTIVE')
-      when 'Craftsmark'
-        r.update(expires_on: Time.now + 2.years)
-        r.metaData.first.update(status: 'ACTIVE')
-      end
+      r.metaData.first.update(status: 'ACTIVE')
       r.save!
 
     else puts "Registration failed for #{reg['companyName']}"

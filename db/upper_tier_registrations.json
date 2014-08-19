@@ -40,7 +40,18 @@
         ],
         "payments" : [],
         "balance" : 15400
-    }
+    },
+    "key_people" : [
+        {
+            "first_name" : "Ted",
+            "last_name" : "Baker",
+            "position" : "Under",
+            "dob_day" : "2",
+            "dob_month" : "8",
+            "dob_year" : "1972",
+            "person_type" : "KEY"
+        }
+    ]
 },
 {
     "tier" : "UPPER",
@@ -61,28 +72,55 @@
     "contactEmail" : "fred@sky.com",
     "accountEmail" : "fred1@gov.uk",
     "declaration" : "1",
-    "expiresOn" : "2018-12-16T00:00:00.000Z",
+    "expiresOn" : "2014-10-16T00:00:00.000Z",
     "metaData" : {
         "status" : "ACTIVE",
         "route" : "DIGITAL",
         "distance" : "n/a"
     },
-    "financeDetails" : {
+ "financeDetails" : {
+        "payments" : [],
         "orders" : [
             {
-                "orderCode" : "1406548455777",
-                "paymentMethod" : "UNKNOWN",
-                "totalAmount" : 15400,
+                "orderCode" : "1407147984",
+                "paymentMethod" : "ONLINE",
+                "merchantId" : "HJHKSJHDKS",
+                "totalAmount" : 15900,
                 "currency" : "GBP",
-                "description" : "Initial Registration",
-                "orderItems":[{"amount": 2,
-                                        "currency":"GBP",
-                                        "reference":"KJ65"}
-                                        ]
+                "dateCreated" : "2014-07-28T00:00:00.000Z",
+                "worldPayStatus" : "IN_PROGRESS",
+                "dateLastUpdated" :"2014-07-28T00:00:00.000Z",
+                "updatedByUser" : "stevenr@aptosolutions.co.uk",
+                "description" : "Updated registrations PRIOR to WP",
+                "orderItems" : [
+                    {
+                        "amount" : "25600",
+                        "currency" : "GBP",
+                        "lastUpdated" : "",
+                        "description" : "Initial Registration",
+                        "reference" : "CBDU1"
+                    },
+                    {
+                        "amount" : "800",
+                        "currency" : "GBP",
+                        "lastUpdated" : "",
+                        "description" : "1x Copy Cards",
+                        "reference" : "CBDU1"
+                    }
+                ]
             }
-        ],
-        "payments" : [],
-        "balance" : 15400
-    }
+        ]
+    },
+    "key_people" : [
+        {
+            "first_name" : "Tina",
+            "last_name" : "Cucumber",
+            "position" : "OnTop",
+            "dob_day" : "24",
+            "dob_month" : "12",
+            "dob_year" : "1978",
+            "person_type" : "KEY"
+        }
+    ]
 },
 ]

@@ -58,8 +58,6 @@ class KeyPerson < Ohm::Model
     end
   end
 
-private
-
   def validate_dob
     set_dob
     errors.add(:dob, I18n.t('errors.messages.invalid_date')) unless dob
@@ -73,5 +71,7 @@ private
       nil
     end
   end
+
+  private :validate_dob
 
 end

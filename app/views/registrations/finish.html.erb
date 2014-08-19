@@ -10,15 +10,29 @@
           <div id="page4"  data-journey="waste-carriers-registration:finish">
             <% content_for :page_title, createTitle('.title') %>
 
-            <% if @registration.is_complete? %>
-              <h1 class="subtitle"><%= t '.subtitle_complete' %></h1>
-              <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
-              <p><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
-              <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+<% case  session[:edit_process] %>
+<% when 'renewal' %>
+<% when 're-create' %>
+<% when 'edit' %>
+  <h1 class="subtitle"><%= t '.edit_heading' %></h1>
+<% else %>  <!-- this is a new registration page -->
+  <h1 class="subtitle"><%= t '.heading' %></h1>
+<% end %>
 
-              <% if can? :print, @registration %>
+<h2 class="registered"><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>
+<%# render "shared/meta_phases"%>
+
+<% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
+<h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
+
+
+<!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
+
+<form action="<%=print_url(@registration.id)%>">
+
+<% if can? :print, @registration %>
                 <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
-              <% end %>
+<% end %>
 
             <% else %>
               <h1 class="subtitle"><%= t '.subtitle_pending' %></h1>

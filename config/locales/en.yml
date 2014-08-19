@@ -66,6 +66,8 @@ en:
         publicBodyTypeOther: "Other type of public body"
         registrationType: "Registration type"
         registration_fee: "Registration charge"
+        renewal_fee: "Registration renewal charge"
+        edit_fee: "Registration amendment charge"
         total_fee: "Total charge"
         revokedReason: "Why do you wish to revoke this registration"
         selectedMoniker: "Select address"
@@ -450,7 +452,13 @@ en:
     newConfirmation:
       step: "Step %{step_x} of %{step_y}"
       title: "Confirmation"
-      subtitle: "Checking your details before registering"
+      subtitle_new_reg: "Checking your details before registering"
+      subtitle_edit_reg: "You can make changes to your registration from this summary. Some charges may apply."
+      subtitle_renew_reg: "You are about to renew your registration. Proceed to payment if details are correct or make changes as required."
+      subtitle_recreate_reg: "You are about to create a new registration, based on the details of your expired one. Proceed to payment if details are correct or make changes as required."
+      subtitle_edit_reg_no_charge: "Your registration has been updated. Click on Confirm to finish."
+      subtitle_edit_reg_with_charge: "Your registration has been updated. Please be aware that the changes you have made will require a payment of %{fee}"
+      subtitle_edit_reg_new_reg: "Please be aware that the changes you have made means that a new upper tier registration will be made and will require a payment of %{fee}"
       tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
       payment_message: "You are required to pay for an upper tier registration."
       smart_answers_heading: "You told us"
@@ -490,6 +498,7 @@ en:
       signedInAsText: "You are currently signed in as"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
+    signup_step:
       createPassword: "Create password"
       sign_in_link: "I already have an account"
     newSignin:
