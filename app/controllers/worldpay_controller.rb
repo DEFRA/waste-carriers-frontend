@@ -12,14 +12,42 @@ class WorldpayController < ApplicationController
 
     if process_payment
       update_order
-      next_step = if user_signed_in?
-          finish_path
-        elsif agency_user_signed_in?
-          finishAssisted_path
-        else
-          send_confirm_email Registration.find_by_id(session[:registration_uuid])
-          pending_path
-        end
+      
+      # Get render type from session
+      renderType = session[:renderType]
+      
+      case renderType
+      when Order.new_registration_identifier
+        # new registrations
+        next_step = if user_signed_in?
+            finish_path
+          elsif agency_user_signed_in?
+            finishAssisted_path
+          else
+            send_confirm_email Registration.find_by_id(session[:registration_uuid])
+            pending_path
+          end
+      when Order.edit_registration_identifier, Order.renew_registration_identifier
+        # edit/renew registration
+        
+        Rails.logger.info 'Test the routing from Worldpay for Edit/renew registration'
+        
+        next_step = complete_edit_renew_path
+      when Order.extra_copycards_identifier
+        # extra copy cards
+        
+        # TODO: Insert appropriate routing for copy cards routes here
+        next_step = complete_copy_cards_path
+      end
+      
+      #
+      # This should be an acceptable time to delete the render type and 
+      # the order code from the session, as these are used for payment 
+      # and if reached here payment request succeeded
+      #
+      session.delete(:renderType)
+      session.delete(:orderCode)
+      
     else
       # Used to redirect_to WorldpayController::Error however that doesn't actually
       # exist, plus the plan as discussed with Georg was to redirect back to the payment
@@ -137,8 +165,9 @@ class WorldpayController < ApplicationController
 
       reg = Registration.find_by_id(session[:registration_uuid])
 
-      #TODO have a current_order method on the registration
-      ord = reg.finance_details.first.orders.first
+      # Get the current_order from the registration
+      ord = reg.getOrder( orderCode)
+      #ord = reg.finance_details.first.orders.first
 
       @order = Order.init(ord.attributes)
 
