@@ -22,6 +22,7 @@ class KeyPeopleController < ApplicationController
       @key_person = KeyPerson.create
     else
       @key_person = @key_people.first
+      Rails.logger.debug "key_person: #{@key_person.attributes.to_s}"
     end
   end
 

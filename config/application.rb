@@ -140,7 +140,7 @@ module Registrations
     #Use the letter opener gem if the environment variable is set. Don't use the letter opener in production!
     config.use_letter_opener = ENV["WCRS_FRONTEND_USE_LETTER_OPENER"] || false
 
-    # Worldpay configuration: 
+    # Worldpay configuration:
     # using the e-commerce (ECOM) channel configuration for external users (Waste Carriers),
     # using the integrated MOTO channel configuration for internal user (assisted digital)
     config.worldpay_ecom_merchantcode = ENV['WCRS_WORLDPAY_ECOM_MERCHANTCODE'] || 'MERCHANTCODE'
@@ -169,11 +169,12 @@ module Registrations
     config.income_postal_address = 'Environment Agency, Income Dept 311, PO Box 263, Peterborough, PE2 8YD'
 
     #fees/charges - please provide as a number expressed in pence (cents)
-    #TODO Have a more elaborate fee structure (and/or the fees in the database?) which allows us to set new fees in advance 
+    #TODO Have a more elaborate fee structure (and/or the fees in the database?) which allows us to set new fees in advance
     #so that this configuration file does not need to be edited at new years eve late or whenever new fees come into place
     config.fee_registration = Monetize.parse('£154').cents
-    config.fee_renewal = Monetize.parse('£110').cents
+    config.fee_renewal = Monetize.parse('£105').cents
     config.fee_copycard = Monetize.parse('£5').cents
+    config.fee_reg_type_change = Monetize.parse('£40').cents
 
   end
 end
