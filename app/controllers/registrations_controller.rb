@@ -290,7 +290,7 @@ class RegistrationsController < ApplicationController
       else
         redirect_to :newConfirmation
       end
-    elsif @registration.new_record?
+    else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newRelevantConvictions", :status => '400'
