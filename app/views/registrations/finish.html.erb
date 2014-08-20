@@ -10,10 +10,10 @@
           <div id="page4"  data-journey="waste-carriers-registration:finish">
             <% content_for :page_title, createTitle('.title') %>
 
-<% case  session[:edit_process] %>
-<% when 'renewal' %>
-<% when 're-create' %>
-<% when 'edit' %>
+<% case  session[:edit_mode] .to_i %>
+<% when RegistrationsController::EditMode::RENEWAL %>
+<% when RegistrationsController::EditMode::RECREATE %>
+<% when RegistrationsController::EditMode::EDIT %>
   <h1 class="subtitle"><%= t '.edit_heading' %></h1>
 <% else %>  <!-- this is a new registration page -->
   <h1 class="subtitle"><%= t '.heading' %></h1>
@@ -34,25 +34,23 @@
                 <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
 <% end %>
 
-            <% else %>
-              <h1 class="subtitle"><%= t '.subtitle_pending' %></h1>
-              <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
-              <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
-              <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+  <h1 class="subtitle"><%= t '.subtitle_pending' %></h1>
+  <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
+  <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+  <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
-              <% unless @registration.paid_in_full? %>
-                <p><%= t '.payment_message' %></p>
-              <% end %>
+  <% unless @registration.paid_in_full? %>
+    <p><%= t '.payment_message' %></p>
+  <% end %>
 
-              <% if @registration.criminally_suspect %>
-                <% if @registration.declaredConvictions %>
-                  <p><%= t '.declared_convictions_message' %></p>
-                <% else %>
-                  <p><%= t '.pending_key_people_check_message' %></p>
-                <% end %>
-              <% end %>
+  <% if @registration.criminally_suspect %>
+    <% if @registration.declaredConvictions %>
+      <p><%= t '.declared_convictions_message' %></p>
+    <% else %>
+      <p><%= t '.pending_key_people_check_message' %></p>
+    <% end %>
+  <% end %>
 
-            <% end %>
 
             <p><%= t '.details_change' %></p>
 

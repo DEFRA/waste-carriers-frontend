@@ -16,11 +16,11 @@
 
 <h2><%= t 'registrations.finish.your_reg_number', :reg => @registration.regIdentifier %></h2>
 
-<% case  session[:edit_process] %>
-<% when 'renewal' %>
+<% case  session[:edit_mode].to_i %>
+<% when RegistrationsController::EditMode::RENEWAL %>
   <p><i>Renewed on: <%= format_date(@registration.metaData.first.dateRegistered) %></i></p>
-<% when 're-create' %>
-<% when 'edit' %>
+<% when RegistrationsController::EditMode::RECREATE %>
+<% when RegistrationsController::EditMode::EDIT %>
 <% else %>  <!-- this is a new registration page -->
   <p><i><%=t '.registeredOn',:date=>format_date(@registration.metaData.first.dateRegistered) %></i></p>
 <% end %>
@@ -82,7 +82,7 @@
 <input name="back" class="button-secondary" type="submit" value="<%= t 'registrations.form.back_button_label' %>"/>
 -->
 <%= link_to t('registrations.form.back_button_label'), :back, :class => 'link-button-secondary' %>
-<% if session[:edit_process]  == 'renewal'  %>
+<% if session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RENEWAL  %>
   <%= link_to t('registrations.form.finish_button_label'), action: "finish_renewal", :class => 'link-button-secondary' %>
  <% end %>
 </p>

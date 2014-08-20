@@ -3,13 +3,13 @@
   <article role="article" class="group">
     <section id='payment-copycard-page'>
       <div class="col-1" id='payment-col-1'>
-    
+
     <%= form_for(@registration, :url => :upper_payment) do |f| %>
     <% content_for :page_title, createTitle('.title') %>
- 
+
       <%= render 'back_link' %>
- 
- 
+
+
     <%= render "errors" %>
 
 	<%# REFACTORME: Ideally this essential duplication of errors should be refactored to be more generic %>
@@ -22,7 +22,7 @@
           <% end %>
       </div>
     <% end %>
-    
+
     <% if notice || alert %>
     <div id="note_explanation" class="note-summary">
 	  <h3 class='heading-medium'><%= notice%><%=alert%></h3>
@@ -34,12 +34,12 @@
 
         <div class="inner-payment-box">
             <div class='payment-group'>
-            <% case session[:edit_process] %>
-            <% when 're-create' %>
-            <% when 'renewal' %>
+            <% case session[:edit_mode].to_i %>
+            <% when RegistrationsController::EditMode::RECREATE %>
+            <% when RegistrationsController::EditMode::RENEWAL %>
             <%= f.label :renewal_fee, class: 'form-label' %>
 
-            <% when 'edit' %>
+            <% when RegistrationsController::EditMode::EDIT %>
             <% else %> <!-- new registration-->
               <%= f.label :registration_fee, class: 'form-label' %>
             <% end %>
@@ -60,7 +60,7 @@
             </div>
                 <p class='subtitle'><%= t '.copy_card_note' %></p>
         </div>
-     
+
 
 
 
@@ -71,8 +71,8 @@
             </div>
             <p class='subtitle'><%= t '.total_fee_vat' %></p>
         </div>
-        
-       
+
+
 
         <div class="inner-payment-box">
             <div class='payment-group'>
@@ -83,11 +83,11 @@
             </div>
             <div class='notice-icon'></div>
         </div>
-        
+
         <p class='subtitle' id="world-pay-subtitle"><%= t '.send_to_worldpay' %></p>
 
     </fieldset>
-      
+
     <% end %>
     </div>
   </section>
