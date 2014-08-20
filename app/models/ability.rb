@@ -67,20 +67,15 @@ class Ability
       can :read, Payment
     end
     
-	if !user.nil? and user.is_agency_user? and user.has_role? :Role_ncccRefund, AgencyUser
+	if !user.nil? and user.is_agency_user? and user.has_role? :Role_agencyRefundPayment, AgencyUser
 	  can :newRefund, Payment
 	  can :writeOffSmallPayment, Payment
 	end
 	
 	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, \
 																	{ :name => :Role_financeAdmin, :resource => AgencyUser }, \
-																	{ :name => :Role_ncccPayment, :resource => AgencyUser })
+																	{ :name => :Role_agencyRefundPayment, :resource => AgencyUser })
 	  can :enterPayment, Payment
-	end
-	
-	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_ncccPayment, :resource => AgencyUser }, \
-																	{ :name => :Role_financeBasic, :resource => AgencyUser }, \
-																	{ :name => :Role_financeAdmin, :resource => AgencyUser })
 	  can :newReversal, Payment
 	end
 	

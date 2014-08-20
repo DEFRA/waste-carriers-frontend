@@ -14,7 +14,7 @@ FactoryGirl.define do
 # This is a copy of the roles that assigned to a agency user
 # Role_financeBasic
 # Role_financeAdmin
-# Role_ncccRefund
+# Role_agencyRefundPayment
 #
     trait :finance_admin do
       after(:create) { |user| user.add_role(:Role_financeAdmin) }
@@ -22,13 +22,13 @@ FactoryGirl.define do
     trait :finance_basic do
       after(:create) { |user| user.add_role(:Role_financeBasic) }
     end
-    trait :ncccRefund do
-      after(:create) { |user| user.add_role(:Role_ncccRefund) }
+    trait :agencyRefundPayment do
+      after(:create) { |user| user.add_role(:Role_agencyRefundPayment) }
     end
 
     factory :finance_admin_user, traits: [:finance_admin]
     factory :finance_basic_user, traits: [:finance_basic]
-    factory :agency_refund_user, traits: [:ncccRefund]
+    factory :agency_refund_user, traits: [:agencyRefundPayment]
   end
 
   factory :user do

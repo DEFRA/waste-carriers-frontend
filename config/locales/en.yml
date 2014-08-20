@@ -97,9 +97,8 @@ en:
   address_select: "Please select an address…"
   agencyUsers:
     Role_financeAdmin: "Finance Admin User"
-    Role_financeBasic: "Finance Basic User"
-    Role_ncccRefund: "EA User with Refund"
-    Role_ncccPayment: "EA User with Payment"
+    Role_financeBasic: "Finance User"
+    Role_agencyRefundPayment: "EA User with Refunds and Payments"
     actions: Actions
     back: Back
     createLabel: "Create agency user"
