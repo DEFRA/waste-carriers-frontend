@@ -10,10 +10,10 @@
           <div id="page4"  data-journey="waste-carriers-registration:finish">
             <% content_for :page_title, createTitle('.title') %>
 
-<% case  session[:edit_process] %>
-<% when 'renewal' %>
-<% when 're-create' %>
-<% when 'edit' %>
+<% case  session[:edit_mode] .to_i %>
+<% when RegistrationsController::EditMode::RENEWAL %>
+<% when RegistrationsController::EditMode::RECREATE %>
+<% when RegistrationsController::EditMode::EDIT %>
   <h1 class="subtitle"><%= t '.edit_heading' %></h1>
 <% else %>  <!-- this is a new registration page -->
   <h1 class="subtitle"><%= t '.heading' %></h1>

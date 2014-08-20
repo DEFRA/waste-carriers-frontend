@@ -3,11 +3,28 @@ class RegistrationsController < ApplicationController
   include WorldpayHelper
   include RegistrationsHelper
 
-  module EditStatus
-    UPDATE_EXISTING_REGISTRATION_NO_CHARGE = 0
-    UPDATE_EXISTING_REGISTRATION_WITH_CHARGE = 1
-    CREATE_NEW_REGISTRATION = 2
+  module Status
+    REVOKED = -2
+    EXPIRED = -1
+    PENDING = 0
+    ACTIVE = 1
   end
+
+  module EditResult
+    START = -999
+    NO_CHANGES = 1
+    UPDATE_EXISTING_REGISTRATION_NO_CHARGE = 2
+    UPDATE_EXISTING_REGISTRATION_WITH_CHARGE = 3
+    CREATE_NEW_REGISTRATION = 4
+  end
+
+  module EditMode
+    EDIT = 1
+    RENEWAL = 2
+    RECREATE= 3
+  end
+
+
   #We require authentication (and authorisation) largely only for editing registrations,
   #and for viewing the finished/completed registration.
 
@@ -42,8 +59,11 @@ class RegistrationsController < ApplicationController
 
   # GET /your-registration/business-type
   def newBusinessType
+
     new_step_action 'businesstype'
     logger.debug "Route is #{@registration.metaData.first.route}"
+
+
   end
 
   # POST /your-registration/business-type
@@ -281,7 +301,7 @@ class RegistrationsController < ApplicationController
   def updateNewRelevantConvictions
     setup_registration 'convictions'
 
-     # TODO call convictions service with correct parameters
+    # TODO call convictions service with correct parameters
     @registration.convictions_check_indicates_suspect = @registration.declaredConvictions == 'yes'
     logger.debug "convictions_check_indicates_suspect is #{@registration.convictions_check_indicates_suspect}"
     @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
@@ -305,21 +325,31 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/confirmation
   def newConfirmation
     new_step_action 'confirmation'
-    case session[:edit_process]
-    when 're-create'
-    when 'edit'
-      unless session[:edit_status] #haven't determined edit status yet, so do it now
+    session[:edit_mode].to_i
+    case session[:edit_mode].to_i
+    when EditMode::RECREATE
+    when EditMode::EDIT
+      # unless session[:edit_result].to_i.eql? EditResult::START #this isn't the first time we hit the confirmation page
+      if session[:edit_result].to_i.eql? EditResult::START  #this is the first time we hit the confirmation page
+        session[:edit_result] = EditResult::START + 1
+      else #we've hit the confirmation page before
+        logger.debug "going to compare"
         original_registration = Registration[ session[:original_registration_id] ]
-        session[:edit_status] =  compare_registrations(@registration, original_registration )
+        session[:edit_result] =  compare_registrations(@registration, original_registration )
+        logger.debug "edit_result = #{ session[:edit_result]}"
       end
 
-    when 'renewal'
-      # update_registration session[:edit_process]
-    else # new registration, do nothing
-    end
 
-    logger.debug "edit_process = #{ session[:edit_process]}"
-    logger.debug "edit_status = #{ session[:edit_status]}"
+      # end
+
+
+    when EditMode::RENEWAL
+      # update_registration session[:edit_mode]
+    else # new registration, do nothing (default rendering will occur)
+    end #case
+
+    logger.debug "edit_mode = #{ session[:edit_mode]}"
+    logger.debug "edit_result = #{ session[:edit_result]}"
   end
 
   # POST /your-registration/confirmation
@@ -327,7 +357,21 @@ class RegistrationsController < ApplicationController
     setup_registration 'confirmation'
 
     if @registration.valid?
+      case session[:edit_mode]
+      when EditMode::RECREATE
+      when EditMode::EDIT
+        # unless session[:edit_status] #haven't determined edit status yet, so do it now
+        #   original_registration = Registration[ session[:original_registration_id] ]
+        #   session[:edit_status] =  compare_registrations(@registration, original_registration )
+        # end
+
+      when EditMode::RENEWAL
+        # update_registration session[:edit_mode]
+      else # new registration, do nothing (default rendering will occur)
+      end
+
       redirect_to :action => :account_mode
+
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -362,33 +406,33 @@ class RegistrationsController < ApplicationController
     @registration.save
 
     case account_mode_val
-      when 'sign_in'
-        redirect_to :action => 'newSignin'
-      when 'sign_up'
-        redirect_to :action => 'newSignup'
-      else
-        if @registration.valid?
-          complete_new_registration
-          case @registration.tier
-            when 'LOWER'
-              if user_signed_in
-                redirect_to :action => 'finish'
-              else
-                redirect_to :action => 'finishAssisted'
-              end
-            when 'UPPER'
-              #
-              # Important!
-              # Now storing an additional variable in the session for the type of order
-              # you are about to make. 
-              # This session variable needs to be set every time the order/new action
-              # is requested.
-              #
-              newOrder @registration.uuid
+    when 'sign_in'
+      redirect_to :action => 'newSignin'
+    when 'sign_up'
+      redirect_to :action => 'newSignup'
+    else
+      if @registration.valid?
+        complete_new_registration
+        case @registration.tier
+        when 'LOWER'
+          if user_signed_in
+            redirect_to :action => 'finish'
+          else
+            redirect_to :action => 'finishAssisted'
           end
-        else
-          render "newConfirmation", :status => '400'
+        when 'UPPER'
+          #
+          # Important!
+          # Now storing an additional variable in the session for the type of order
+          # you are about to make.
+          # This session variable needs to be set every time the order/new action
+          # is requested.
+          #
+          newOrder @registration.uuid
         end
+      else
+        render "newConfirmation", :status => '400'
+      end
     end
 
   end
@@ -427,17 +471,17 @@ class RegistrationsController < ApplicationController
     @registration.save
 
     case @registration.tier
-      when 'LOWER'
-        redirect_to :action => 'finish'
-      when 'UPPER'
-        #
-        # Important!
-        # Now storing an additional variable in the session for the type of order
-        # you are about to make. 
-        # This session variable needs to be set every time the order/new action
-        # is requested.
-        #
-        newOrder @registration.uuid
+    when 'LOWER'
+      redirect_to :action => 'finish'
+    when 'UPPER'
+      #
+      # Important!
+      # Now storing an additional variable in the session for the type of order
+      # you are about to make.
+      # This session variable needs to be set every time the order/new action
+      # is requested.
+      #
+      newOrder @registration.uuid
     end
   end
 
@@ -463,20 +507,20 @@ class RegistrationsController < ApplicationController
     end
 
     next_step = case @registration.tier
-      when 'LOWER'
-        send_confirm_email @registration
-        pending_url
-      when 'UPPER'
-        #
-        # Important!
-        # Now storing an additional variable in the session for the type of order
-        # you are about to make. 
-        # This session variable needs to be set every time the order/new action
-        # is requested.
-        #
-        session[:renderType] = Order.new_registration_identifier
-        session[:orderCode] = generateOrderCode
-        upper_payment_path(@registration.uuid)
+    when 'LOWER'
+      send_confirm_email @registration
+      pending_url
+    when 'UPPER'
+      #
+      # Important!
+      # Now storing an additional variable in the session for the type of order
+      # you are about to make.
+      # This session variable needs to be set every time the order/new action
+      # is requested.
+      #
+      session[:renderType] = Order.new_registration_identifier
+      session[:orderCode] = generateOrderCode
+      upper_payment_path(@registration.uuid)
     end
 
     # Reset Signed up user to signed in status
@@ -521,60 +565,60 @@ class RegistrationsController < ApplicationController
     # Renders static data proctection page
   end
 
-#  def new_step_action current_step
-#
-#    if current_step.eql? Registration::FIRST_STEP
-#      @registration = Registration.create
-#      session[:registration_id]= @registration.id
-#      logger.debug "creating new registration #{@registration.id}"
-#      m = Metadata.create
-#
-#      if agency_user_signed_in?
-#        m.update :route => 'ASSISTED_DIGITAL'
-#        if @registration.accessCode.blank?
-#          @registration.update :accessCode => @registration.generate_random_access_code
-#    end
-#      else
-#        m.update :route => 'DIGITAL'
-#      end
-#
-#      @registration.metaData.add m
-#
-#    else
-#      @registration = Registration[ session[:registration_id]]
-#      logger.debug "retireving registration #{@registration.id}"
-#      m = Metadata.create
-#    end
-#
-#    logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
-#
-#    if  session[:registration_progress].eql? 'IN_EDIT'
-#    end
-#
-#    # TODO by setting the step here this should work better with forward and back buttons and urls
-#    # but this might have changed the behaviour
-#    @registration.current_step = current_step
-#    @registration.save
-#    logger.debug "new step action: #{current_step}"
-#    logger.debug "curret step: #{ @registration.current_step}"
-#    # Pass in current page to check previous page is valid
-#    # TODO had to comment this out for now because causing problems but will probably need to reinstate
-#    # check_steps_are_valid_up_until_current current_step
-#
-##    if (session[:registration_id])
-##      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
-##      renderNotFound
-##    end
-#  end
-#
-#  def setup_registration current_step, no_update=false
-#
-#    @registration = Registration[ session[:registration_id]]
-#    @registration.add( params[:registration] ) unless no_update
-#    @registration.save
-#    logger.debug  @registration.attributes.to_s
-#    @registration.current_step = current_step
-#  end
+  #  def new_step_action current_step
+  #
+  #    if current_step.eql? Registration::FIRST_STEP
+  #      @registration = Registration.create
+  #      session[:registration_id]= @registration.id
+  #      logger.debug "creating new registration #{@registration.id}"
+  #      m = Metadata.create
+  #
+  #      if agency_user_signed_in?
+  #        m.update :route => 'ASSISTED_DIGITAL'
+  #        if @registration.accessCode.blank?
+  #          @registration.update :accessCode => @registration.generate_random_access_code
+  #    end
+  #      else
+  #        m.update :route => 'DIGITAL'
+  #      end
+  #
+  #      @registration.metaData.add m
+  #
+  #    else
+  #      @registration = Registration[ session[:registration_id]]
+  #      logger.debug "retireving registration #{@registration.id}"
+  #      m = Metadata.create
+  #    end
+  #
+  #    logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
+  #
+  #    if  session[:registration_progress].eql? 'IN_EDIT'
+  #    end
+  #
+  #    # TODO by setting the step here this should work better with forward and back buttons and urls
+  #    # but this might have changed the behaviour
+  #    @registration.current_step = current_step
+  #    @registration.save
+  #    logger.debug "new step action: #{current_step}"
+  #    logger.debug "curret step: #{ @registration.current_step}"
+  #    # Pass in current page to check previous page is valid
+  #    # TODO had to comment this out for now because causing problems but will probably need to reinstate
+  #    # check_steps_are_valid_up_until_current current_step
+  #
+  ##    if (session[:registration_id])
+  ##      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
+  ##      renderNotFound
+  ##    end
+  #  end
+  #
+  #  def setup_registration current_step, no_update=false
+  #
+  #    @registration = Registration[ session[:registration_id]]
+  #    @registration.add( params[:registration] ) unless no_update
+  #    @registration.save
+  #    logger.debug  @registration.attributes.to_s
+  #    @registration.current_step = current_step
+  #  end
 
   def commit_new_registration
 
@@ -602,19 +646,19 @@ class RegistrationsController < ApplicationController
 
   def complete_new_registration
 
-      unless @registration.persisted?
+    unless @registration.persisted?
 
-        commit_new_registration
-        @registration.activate!
-        @registration.save
+      commit_new_registration
+      @registration.activate!
+      @registration.save
 
-        unless @registration.assisted_digital?
-          if @registration.is_complete?
-            RegistrationMailer.welcome_email(@user, @registration).deliver
-          end
+      unless @registration.assisted_digital?
+        if @registration.is_complete?
+          RegistrationMailer.welcome_email(@user, @registration).deliver
         end
-
       end
+
+    end
 
   end
 
@@ -774,9 +818,10 @@ class RegistrationsController < ApplicationController
     session[:original_registration_id] = Registration.find_by_id(params[:id]).id
     authorize! :update, @registration
 
-      session[:registration_id] = @registration.id
-      session[:registration_uuid] = @registration.uuid
-    session[:edit_process] =  params[:edit_process]
+    session[:registration_id] = @registration.id
+    session[:registration_uuid] = @registration.uuid
+    session[:edit_mode] =  params[:edit_process] #view param knows if the user clicked edit, renew or recreate
+    session[:edit_result] = EditResult::START #initial state
 
     redirect_to :newConfirmation
   end
@@ -969,12 +1014,12 @@ class RegistrationsController < ApplicationController
     if validate_public_search_parameters?(searchString,"any",distance, postcode)
       if searchString && !searchString.empty?
         param_args = {
-            q: searchString,
-            searchWithin: 'companyName',
-            distance: distance,
-            activeOnly: 'true',
-            postcode: postcode,
-            excludeRegId: 'true' }
+          q: searchString,
+          searchWithin: 'companyName',
+          distance: distance,
+          activeOnly: 'true',
+          postcode: postcode,
+        excludeRegId: 'true' }
         @registrations = Registration.find_by_params(param_args)
       else
         @registrations = []
@@ -1005,210 +1050,40 @@ class RegistrationsController < ApplicationController
     end
   end
 
-#  # GET upper-registrations/payment
-#  def newPayment
-#    new_step_action 'payment'
-#    if !@registration.copy_cards
-#      @registration.copy_cards = 0
-#    end
-#    @registration = calculate_fees @registration
-#    #calculate_fees
-#    @order = Order.new if @order == nil
-#  end
-
-#  def calculate_fees
-#    @registration.registration_fee = Rails.configuration.fee_registration
-#    @registration.copy_card_fee = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
-#    @registration.total_fee =  @registration.registration_fee + @registration.copy_card_fee
-#  end
-
-#  # POST upper-registrations/payment
-#  def updateNewPayment
-#    setup_registration 'payment'
-#
-#    # Determine what kind of payment selected and redirect to other action if required
-#    if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
-#      @order = prepareOfflinePayment
-#    else
-#      @order = prepareOnlinePayment
-#    end
-#
-#    if @order.valid?
-#      logger.info "Saving the order"
-#      if @order.save! @registration.uuid
-#        # order saved successfully
-#      else
-#        # error updating services
-#        logger.warn 'The order was not saved to services.'
-#        render 'newPayment', :status => '400'
-#        return
-#      end
-#    else
-#      #We should hardly get into here given we constructed the order just above...
-#      logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
-#      # Replaced flash message with render instead of redirect, so that error messages are retained.
-#      #flash[:notice] = 'The order is invalid!'
-#      render 'newPayment'
-#      return
-#    end
-#
-#    logger.info "About to redirect to Worldpay/Offline payment - if the registration is valid."
-#    if @registration.valid?
-#
-#      if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
-#        logger.info "The registration is valid - redirecting to Offline payment page..."
-#        redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
-#      else
-#        logger.info "The registration is valid - redirecting to Worldpay..."
-#        redirect_to_worldpay(@registration, @order)
-#      end
-#      return
-#    else
-#      logger.error "The registration is not valid! " + @registration.to_s
-#      render 'newPayment', :status => '400'
-#    end
-#  end
-
-  #We should not use this as part of updating the payment page.
-  #We should rather update the existing order and set the payment method and number of copycards.
-#  def prepareOrder (useWorldPay = true)
-#    reg = Registration.find_by_id(session[:registration_uuid])
-#
-#    #TODO have a current_order method on the registration
-#    ord = reg.finance_details.first.orders.first
-#
-#    @order = Order.create
-#
-#    if useWorldPay
-#      @order = updateOrderForWorldpay(@order)
-#    else
-#      @order = updateOrderForOffline(@order)
-#    end
-#
-#
-#    # Ensure Order Id of newly created order remains the same
-#    # TODO: Fix later as assumed orderId of first order?
-#    @order.orderId = ord.orderId
-#
-#    # Get a orderItem object
-#    ordItem = ord.order_items.first
-#
-#    isInitialRegistration = true
-#    if isInitialRegistration
-#      # Add order item for Initial registration
-#
-#      # Create Order Item
-#      orderItem = OrderItem.new
-#      orderItem.amount = Rails.configuration.fee_registration
-#      orderItem.currency = 'GBP'
-#      orderItem.description = 'Initial Registration'
-#      orderItem.reference = 'Reg: ' + @registration.regIdentifier
-#      orderItem.save
-#
-#      @order.order_items.add orderItem
-#    end
-#
-#    if @registration.copy_cards.to_i > 0
-#      # Add additional order items for copy card amount
-#
-#      # Create Order Item
-#      orderItem = OrderItem.new
-#      orderItem.amount = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
-#      orderItem.currency = 'GBP'
-#      orderItem.description = @registration.copy_cards.to_s + 'x Copy Cards'
-#      orderItem.reference = 'Reg: ' + @registration.regIdentifier
-#      orderItem.save
-#
-#      @order.order_items.add orderItem
-#    end
-#
-#    @order
-#  end
-
-#  def updateOrderForWorldpay myOrder
-#
-#    now = Time.now.utc.xmlschema
-#    myOrder.paymentMethod = 'ONLINE'
-#    myOrder.orderCode = Time.now.to_i.to_s
-#    myOrder.merchantId = worldpay_merchant_code
-#    myOrder.totalAmount = @registration.total_fee
-#    myOrder.currency = 'GBP'
-#    myOrder.worldPayStatus = 'IN_PROGRESS'
-#    myOrder.description = 'Updated registrations PRIOR to WP'
-#    myOrder.dateCreated = now
-#    myOrder.dateLastUpdated = now
-#    myOrder.updatedByUser = @registration.accountEmail
-#    myOrder
-#  end
-
-#  def updateOrderForOffline myOrder
-#
-#    now = Time.now.utc.xmlschema
-#    myOrder.paymentMethod = 'OFFLINE'
-#    myOrder.orderCode = Time.now.to_i.to_s
-#    myOrder.merchantId = 'n/a'
-#    myOrder.totalAmount = @registration.total_fee
-#    myOrder.currency = 'GBP'
-#    myOrder.worldPayStatus = 'n/a'
-#    myOrder.description = 'Updated registrations PRIOR to WP'
-#    myOrder.dateCreated = now
-#    myOrder.dateLastUpdated = now
-#    myOrder.updatedByUser = @registration.accountEmail
-#    myOrder
-#  end
-
-
-
-#  def prepareOfflinePayment
-#    #setup_registration 'payment'
-#    #calculate_fees
-#    @registration = calculate_fees @registration
-#    order = prepareOrder false
-#    order
-#  end
-
-#  def prepareOnlinePayment
-#    #calculate_fees
-#    @registration = calculate_fees @registration
-#    logger.info "copy cards: " + @registration.copy_cards.to_s
-#    logger.info "total fee: " + @registration.total_fee.to_s
-#    order = prepareOrder true
-#    order
-#  end
 
   # Function to redirect newOrders to the order controller
   def newOrder registration_uuid
     #
-	# Important!
-	# Now storing an additional variable in the session for the type of order
-	# you are about to make. 
-	# This session variable needs to be set every time the order/new action
-	# is requested.
-	#
-	session[:renderType] = Order.new_registration_identifier
-	session[:orderCode] = generateOrderCode
-	redirect_to upper_payment_path(:id => registration_uuid)
-    end
+    # Important!
+    # Now storing an additional variable in the session for the type of order
+    # you are about to make.
+    # This session variable needs to be set every time the order/new action
+    # is requested.
+    #
+    session[:renderType] = Order.new_registration_identifier
+    session[:orderCode] = generateOrderCode
+    redirect_to upper_payment_path(:id => registration_uuid)
+  end
 
   # Function to redirect registration edit orders to the order controller
   def newOrderEdit
-	session[:renderType] = Order.edit_registration_identifier
-	session[:orderCode] = generateOrderCode
-	redirect_to :upper_payment
-    end
+    session[:renderType] = Order.edit_registration_identifier
+    session[:orderCode] = generateOrderCode
+    redirect_to :upper_payment
+  end
 
   # Function to redirect registration renew orders to the order controller
   def newOrderRenew
-	session[:renderType] = Order.renew_registration_identifier
-	session[:orderCode] = generateOrderCode
-	redirect_to :upper_payment
+    session[:renderType] = Order.renew_registration_identifier
+    session[:orderCode] = generateOrderCode
+    redirect_to :upper_payment
   end
 
   # Function to redirect additional copy card orders to the order controller
   def newOrderCopyCards
-	session[:renderType] = Order.extra_copycards_identifier
-	session[:orderCode] = generateOrderCode
-	redirect_to :upper_payment
+    session[:renderType] = Order.extra_copycards_identifier
+    session[:orderCode] = generateOrderCode
+    redirect_to :upper_payment
   end
   
   # Renders the additional copy card order complete view
@@ -1231,14 +1106,14 @@ class RegistrationsController < ApplicationController
     @registration = Registration[session[:registration_id]]
 
     next_step = if user_signed_in?
-        finish_path
-      elsif agency_user_signed_in?
-        finishAssisted_path
-      else
-        unless @registration.user.confirmed?
-          send_confirm_email @registration
-        end
-        pending_path
+      finish_path
+    elsif agency_user_signed_in?
+      finishAssisted_path
+    else
+      unless @registration.user.confirmed?
+        send_confirm_email @registration
+      end
+      pending_path
     end
 
     redirect_to next_step
@@ -1249,6 +1124,24 @@ class RegistrationsController < ApplicationController
 
   def owe_money? registration
     registration.upper? and !registration.paid_in_full?
+  end
+
+
+  def compare_registrations(edited_registration, original_registration)
+    res =  EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+    logger.debug "#{original_registration.attributes}"
+    logger.debug "#{edited_registration.attributes}"
+
+    if (original_registration.businessType != edited_registration.businessType) ||
+        (edited_registration.company_no != original_registration.company_no) ||
+        (original_registration.key_people.size < edited_registration.key_people.size )
+      res = EditResult::CREATE_NEW_REGISTRATION
+    elsif (original_registration.registrationType != edited_registration.registrationType)
+      res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+    end
+
+    res
+
   end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
@@ -1290,6 +1183,8 @@ class RegistrationsController < ApplicationController
       :address_match_list,
     :sign_up_mode)
   end
+
+
   private :registration_params, :owe_money?
 
 end
