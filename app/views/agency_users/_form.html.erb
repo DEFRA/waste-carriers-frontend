@@ -33,13 +33,30 @@
   	<%= f.label :roles, class: 'form-label' %>
   	<p class='subtitle'><%= t 'agencyUsers.roleGuidance_1' %></p>
   	<p class='subtitle'><%= t 'agencyUsers.roleGuidance_2' %></p>
+	<!--
+	// Option A: Using a list of checkboxes
 	<% Role.roles.each do |role| %>
 		<div class=''>
         	<%= f.label t('agencyUsers.'+role), class: 'field-label' %>
         	<%= check_box_tag(role, 1, @agency_user.has_role?(role, AgencyUser)) %>
 		</div>
 	<% end %>
-	<%#= f.select :roles, options_from_collection_for_select(Role.all,"name","name") %>
+	-->
+
+	<!-- 
+	// Option B: Using a select box -->
+	<%
+	roleFound = nil
+	Role.roles.each do |role|
+		if @agency_user.has_role?(role, AgencyUser)
+		  roleFound = role
+		end
+	end
+	%>
+	<select id="agency_user_roles" name="userRole">
+	    <option>No role</option>
+		<%= options_for_select(Role.translated_roles, roleFound) %>
+	</select>
   </div>
   <% end %>
   
