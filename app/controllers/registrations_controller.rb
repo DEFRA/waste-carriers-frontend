@@ -3,6 +3,11 @@ class RegistrationsController < ApplicationController
   include WorldpayHelper
   include RegistrationsHelper
 
+  module EditStatus
+    UPDATE_EXISTING_REGISTRATION_NO_CHARGE = 0
+    UPDATE_EXISTING_REGISTRATION_WITH_CHARGE = 1
+    CREATE_NEW_REGISTRATION = 2
+  end
   #We require authentication (and authorisation) largely only for editing registrations,
   #and for viewing the finished/completed registration.
 
@@ -300,6 +305,21 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/confirmation
   def newConfirmation
     new_step_action 'confirmation'
+    case session[:edit_process]
+    when 're-create'
+    when 'edit'
+      unless session[:edit_status] #haven't determined edit status yet, so do it now
+        original_registration = Registration[ session[:original_registration_id] ]
+        session[:edit_status] =  compare_registrations(@registration, original_registration )
+      end
+
+    when 'renewal'
+      # update_registration session[:edit_process]
+    else # new registration, do nothing
+    end
+
+    logger.debug "edit_process = #{ session[:edit_process]}"
+    logger.debug "edit_status = #{ session[:edit_status]}"
   end
 
   # POST /your-registration/confirmation
@@ -513,7 +533,7 @@ class RegistrationsController < ApplicationController
 #        m.update :route => 'ASSISTED_DIGITAL'
 #        if @registration.accessCode.blank?
 #          @registration.update :accessCode => @registration.generate_random_access_code
-#        end
+#    end
 #      else
 #        m.update :route => 'DIGITAL'
 #      end
@@ -700,6 +720,7 @@ class RegistrationsController < ApplicationController
     @user = session[:confirmed_user]
     if !@user
       logger.warn "Could not retrieve the activated user. Showing 404."
+      flash[:notice] = 'Could not find user: ' + @user.to_s
       renderNotFound and  return
     end
     # @registrations = Registration.find(:all, :params => {:ac => @user.email})
@@ -712,6 +733,7 @@ class RegistrationsController < ApplicationController
       @tell_waste_carrier_they_are_pending_convictions_check = declared_convictions? @registration
       session[:registration_uuid] = @registration.uuid
     else
+      flash[:notice] = 'Registration list is empty, Found no registrations for user: ' + @user.email.to_s
       renderNotFound and return
     end
     #render the confirmed page
@@ -749,12 +771,16 @@ class RegistrationsController < ApplicationController
   def edit
     Rails.logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
+    # let's keep track of the original registration before any edits have been done
+    # the we can use it to compare it with the edited one.
+    session[:original_registration_id] = Registration.find_by_id(params[:id]).id
     authorize! :update, @registration
 
       session[:registration_id] = @registration.id
       session[:registration_uuid] = @registration.uuid
-      redirect_to :upper_summary
-    # @registration.current_step = session[:registration_step]
+    session[:edit_process] =  params[:edit_process]
+
+    redirect_to :newConfirmation
   end
 
   def ncccedit
@@ -1133,7 +1159,7 @@ class RegistrationsController < ApplicationController
 #    myOrder
 #  end
 
-  ######################################
+
 
 #  def prepareOfflinePayment
 #    #setup_registration 'payment'
@@ -1164,27 +1190,37 @@ class RegistrationsController < ApplicationController
 	session[:renderType] = Order.new_registration_identifier
 	session[:orderCode] = generateOrderCode
 	redirect_to upper_payment_path(:id => registration_uuid)
-  end
-  
+    end
+
   # Function to redirect registration edit orders to the order controller
   def newOrderEdit
 	session[:renderType] = Order.edit_registration_identifier
 	session[:orderCode] = generateOrderCode
 	redirect_to :upper_payment
-  end
-  
+    end
+
   # Function to redirect registration renew orders to the order controller
   def newOrderRenew
 	session[:renderType] = Order.renew_registration_identifier
 	session[:orderCode] = generateOrderCode
 	redirect_to :upper_payment
   end
-  
+
   # Function to redirect additional copy card orders to the order controller
   def newOrderCopyCards
 	session[:renderType] = Order.extra_copycards_identifier
 	session[:orderCode] = generateOrderCode
 	redirect_to :upper_payment
+  end
+  
+  # Renders the additional copy card order complete view
+  def copyCardComplete
+    @registration = Registration.find_by_id(session[:registration_uuid])
+  end
+  
+  # Renders the edit renew order complete view
+  def editRenewComplete
+    @registration = Registration.find_by_id(session[:registration_uuid])
   end
 
   def newOfflinePayment
@@ -1211,7 +1247,7 @@ class RegistrationsController < ApplicationController
 
   end
 
-  private
+
 
   def owe_money? registration
     registration.upper? and !registration.paid_in_full?
@@ -1256,5 +1292,6 @@ class RegistrationsController < ApplicationController
       :address_match_list,
     :sign_up_mode)
   end
+  private :registration_params, :owe_money?
 
 end

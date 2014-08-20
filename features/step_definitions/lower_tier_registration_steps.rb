@@ -172,7 +172,7 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   click_on 'Confirm'
 
   fill_in 'Confirm email', with: my_email_address
-  fill_in 'Create password', with: my_password
+  fill_in 'Create Password', with: my_password
   fill_in 'Confirm password', with: my_password
   click_on 'Next'
 

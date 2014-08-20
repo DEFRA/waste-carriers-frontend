@@ -13,6 +13,7 @@ class Registration < Ohm::Model
     EXPIRED = 8
     INACTIVE = 16
   end
+
   attribute :current_step
 
   #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
@@ -151,14 +152,14 @@ class Registration < Ohm::Model
   end
 
 
-      def empty_set(a_set)
-        done = false
-        if a_set.kind_of? Ohm::BasicSet && a_set.size > 0
-          a_set.each {|item| a_set.delete(item)}
-          done = true
-        end
-        done
-      end #method
+  def empty_set(a_set)
+    done = false
+    if a_set.kind_of? Ohm::BasicSet && a_set.size > 0
+      a_set.each {|item| a_set.delete(item)}
+      done = true
+    end
+    done
+  end #method
 
   # as far as we're concerned a Registration will be persisted if it has a uuid, since the only way to
   # get a uuid is after a successful commit
@@ -186,7 +187,7 @@ class Registration < Ohm::Model
 
 
       result = JSON.parse(response.body)
-      Rails.logger.debug  "saved response: #{result.to_s}"
+
 
 
       # following fields are set by the java service, so we assign them from the response hash
@@ -197,7 +198,17 @@ class Registration < Ohm::Model
       self.regIdentifier = result['regIdentifier']
 
       unless self.tier == 'LOWER'
-        self.finance_details.add FinanceDetails.init(result['financeDetails'])
+        if self.finance_details.size > 0
+          self.finance.details.first.orders.each do |ord|
+            ord.commit  self.uuid
+          end
+          self.finance.details.first.payments.each do |p|
+            p.save!  self.uuid
+          end
+        else
+          self.finance_details.add FinanceDetails.init(result['financeDetails'])
+        end
+
       end
 
       save
@@ -236,7 +247,7 @@ class Registration < Ohm::Model
   # @return  [Boolean] true if registration updated
   def save!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
-    Rails.logger.debug "Registration financeDetails to PUT: #{self.finance_details}"
+    Rails.logger.debug "Registration financeDetails to PUT: #{self.finance_details.first.to_s}"
     Rails.logger.debug "Registration: #{uuid} about to PUT: #{ to_json}"
     saved = true
     begin
@@ -267,8 +278,9 @@ class Registration < Ohm::Model
     key_people = []
 
     if self.key_people &&  self.key_people.size > 0
-      self.key_people.each do  |per|
-        key_people <<  per.attributes.to_hash
+      self.key_people.each do  |person|
+        person.instance_eval {  self.set_dob } #computed field
+        key_people <<  person.attributes.to_hash
       end
       result_hash['key_people'] = key_people
     end #if
@@ -318,7 +330,6 @@ class Registration < Ohm::Model
         response = RestClient.get url
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug " #{all_regs.to_s} "
           Rails.logger.debug "find found #{all_regs.size.to_s} items"
           all_regs.each do |r|
             registrations << Registration.init(r)
@@ -483,6 +494,10 @@ class Registration < Ohm::Model
       obj.save
       obj
     end
+  end
+
+  def copy_construct
+      Registration.init(self.to_json)
   end
 
   BUSINESS_TYPES = %w[
@@ -749,12 +764,12 @@ class Registration < Ohm::Model
 
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
-      when :not_found
-        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_not_found'))
-      when :inactive
-        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_inactive'))
-      when :error_calling_service
-        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_service_error'))
+    when :not_found
+      errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_not_found'))
+    when :inactive
+      errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_inactive'))
+    when :error_calling_service
+      errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_service_error'))
     end
   end
 
@@ -895,7 +910,7 @@ class Registration < Ohm::Model
           res = Time.at(d / 1000.0)
           # if d is String the NoMethodError will be raised
         rescue NoMethodError
-          res = Time.parse(d)
+          res = Time.parse(d).to_datetime.strftime("%Y-%m-%dT%H:%M:%S%z")
         end
       end #if
       res
