@@ -105,11 +105,25 @@ class AgencyUsersController < ApplicationController
     def addRemoveRoles
       isFinanceSuper = current_admin.has_role? :Role_financeSuper, Admin
       if isFinanceSuper
-        # This list of roles should match that in the role.rb ROLE_TYPES list
-        addRemoveRole(:Role_financeBasic)
-        addRemoveRole(:Role_financeAdmin)
-        addRemoveRole(:Role_ncccRefund)
-        addRemoveRole(:Role_ncccPayment)
+        if params[:userRole]
+          logger.debug 'use select list'
+          # Use select list
+          Role.roles.each do |role|
+            if params[:userRole] == role
+		      @agency_user.add_role role, AgencyUser
+		    else
+		      @agency_user.remove_role role, AgencyUser
+		    end
+          end
+        else
+          # Use checkbx list
+          logger.debug 'use checkbox list'
+          # This list of roles should match that in the role.rb ROLE_TYPES list
+          addRemoveRole(:Role_financeBasic)
+          addRemoveRole(:Role_financeAdmin)
+          addRemoveRole(:Role_ncccRefund)
+          addRemoveRole(:Role_ncccPayment)
+        end
       end
     end
     

@@ -28,5 +28,16 @@ class Role
     ROLE_TYPES
   end
   
+  def self.translated_roles    
+    list = Array.new
+    Role.roles.each do |role|
+      item = Array.new
+      item << I18n.t('agencyUsers.' + role)
+      item << role
+      list << item
+    end
+    list
+  end
+  
   scopify
 end
