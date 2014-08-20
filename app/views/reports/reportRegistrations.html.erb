@@ -80,13 +80,13 @@
               </fieldset>
 
               <fieldset>
-                <legend><%= t '.results_format' %></legend>
+                <legend><%= t '.convictions' %></legend>
                 <div class='inline'>
-                  <% Report.format_options.each do |option| %>
-                    <%= f.label :format, for: "report_format_#{option.second.downcase}",  class: 'block-label' do %>
-                        <%= f.radio_button :format, option.second %>
-                        <%= option.first %>
-                    <% end %>
+                  <%= f.label :has_declared_convictions, for: 'report_has_declared_convictions', class: 'block-label' do %>
+                    <%= f.check_box :has_declared_convictions, {}, "yes", "" %> <%= t '.has_declared_convictions' %>
+                  <% end %>
+                  <%= f.label :is_criminally_suspect, for: 'report_is_criminally_suspect', class: 'block-label' do %>
+                    <%= f.check_box :is_criminally_suspect, {}, "true", "false" %> <%= t '.is_criminally_suspect' %>
                   <% end %>
                 </div>
               </fieldset>

@@ -96,11 +96,10 @@ en:
       registration: Registration
   address_select: "Please select an address…"
   agencyUsers:
-    Role_admin: Administrator
-    Role_financeAdmin: "Financial Admin"
-    Role_financeBasic: "Financial Basic"
-    Role_ncccRefund: "Agency Refund"
-    Role_ncccPayment: "Agency Payment"
+    Role_financeAdmin: "Finance Admin User"
+    Role_financeBasic: "Finance Basic User"
+    Role_ncccRefund: "EA User with Refund"
+    Role_ncccPayment: "EA User with Payment"
     actions: Actions
     back: Back
     createLabel: "Create agency user"
@@ -176,6 +175,7 @@ en:
       worldpayFailed: "failed to get a ok response from Worldpay"
       invalidPassword: "Email and/or password is unrecognised"
       unconfirmedEmail: "This account has not been confirmed"
+      no_results: "No results found"
   form:
     add_button_label: Add
     back_button_label: Back
@@ -192,10 +192,6 @@ en:
     update_button_label: Update
     view_certificate_link_label: "View certificate"
     yes_option_label: "Yes"
-  format_options:
-    csv: csv
-    json: json
-    xml: xml
   global:
     betaMessage: "BETA"
     betaMessage_html: "This is a new service - your feedback will help us improve it."
@@ -805,16 +801,18 @@ en:
       error: error
       error_message: "You have %{count} on this page"
     reportRegistrations:
-      business_type: "Business type"
-      date_filters: "Date filters"
-      results_format: "Results format"
-      route_assisted_digital: "Assisted Digital"
-      route_digital: "Digital"
-      route_type: "Route"
-      tier: "Tier"
-      status: "Status"
       subtitle: "Registrations Export"
       title: "Registrations Export"
+      date_filters: "Date filters"
+      route_type: "Route"
+      route_assisted_digital: "Assisted Digital"
+      route_digital: "Digital"
+      tier: "Tier"
+      status: "Status"
+      business_type: "Business type"
+      convictions: "Convictions"
+      has_declared_convictions: "Has declared convictions"
+      is_criminally_suspect: "Is criminally suspect"
   route_options:
     assisted_digital: "Assisted Digital"
     digital: Active
