@@ -87,7 +87,7 @@ class PaymentController < ApplicationController
     @type = 'default'
     
     isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
-    isAgencyRefund = current_agency_user.has_role? :Role_ncccRefund, AgencyUser
+    isAgencyRefundPayment = current_agency_user.has_role? :Role_agencyRefundPayment, AgencyUser
     
     if params[:type] == 'writeOffLarge' and isFinanceAdmin
       logger.debug 'LARGE WRITE OFF SELECTED'
@@ -105,7 +105,7 @@ class PaymentController < ApplicationController
         redirect_to :paymentstatus, :alert => isLargeMessage
       end
       authorize! :writeOffLargePayment, @payment
-    elsif params[:type] == 'writeOffSmall' and isAgencyRefund
+    elsif params[:type] == 'writeOffSmall' and isAgencyRefundPayment
       logger.debug 'SMALL WRITE OFF SELECTED'
       @type = 'writeOffSmall'
       # Redirect to paymentstatus is balance is negative or paid

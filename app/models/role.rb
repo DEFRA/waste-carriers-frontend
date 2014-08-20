@@ -20,8 +20,7 @@ class Role
   ROLE_TYPES = %w[
     Role_financeBasic
     Role_financeAdmin
-    Role_ncccRefund
-    Role_ncccPayment
+    Role_agencyRefundPayment
   ]
   
   def self.roles

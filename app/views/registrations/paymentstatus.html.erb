@@ -165,15 +165,13 @@
 		    <%
 		    isFinanceBasic = current_agency_user.has_role? :Role_financeBasic, AgencyUser
 		    isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
-		    isRefund = current_agency_user.has_role? :Role_ncccRefund, AgencyUser
-		    isPayment = current_agency_user.has_role? :Role_ncccPayment, AgencyUser
-		    #isRefundOrBasic = current_agency_user.has_any_role?({ :name => :Role_ncccRefund, :resource => AgencyUser }, { :name => :Role_financeBasic, :resource => AgencyUser })
+		    isRefundPayment = current_agency_user.has_role? :Role_agencyRefundPayment, AgencyUser
 		    %>
-		    <% if isFinanceBasic or isPayment %>
+		    <% if isFinanceBasic or isRefundPayment %>
 		    <span class="next_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>
 		    <span class="next_link"><%= link_to t('registrations.form.reversals_button_label'), :paymentReversal, :class => 'button', :id => 'reversals' %></span>
 		    <% end %>
-		    <% if isRefund %>
+		    <% if isRefundPayment %>
 		      <span class="next_link">
 		      <% if isSmallWriteOffAvailable(@registration) %>
 		        <%= link_to t('registrations.form.writeoffsmall_button_label'), enterWriteOff_path(:type => 'writeOffSmall'), :class => 'button', :id => 'writeOffSmall' %>
@@ -194,7 +192,7 @@
 		    <span class="next_link"><%= link_to t('registrations.form.reversals_button_label'), :paymentReversal, :class => 'button', :id => 'reversals' %></span>
 		    <span class="next_link"><%= link_to t('registrations.form.adjustments_button_label'), :chargeAdjustment, :class => 'button', :id => 'adjustments' %></span>
 		    <% end %>
-		    <% if isRefund %>
+		    <% if isRefundPayment %>
 		      <span class="next_link">
 		      <% if isRefundAvailable(@registration) %>
 		        <%= link_to t('registrations.form.refund_button_label'), :refund, :class => 'button', :id => 'refund' %>
