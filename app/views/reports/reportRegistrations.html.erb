@@ -91,18 +91,6 @@
                 </div>
               </fieldset>
 
-              <fieldset>
-                <legend><%= t '.results_format' %></legend>
-                <div class='inline'>
-                  <% Report.format_options.each do |option| %>
-                    <%= f.label :format, for: "report_format_#{option.second.downcase}",  class: 'block-label' do %>
-                        <%= f.radio_button :format, option.second %>
-                        <%= option.first %>
-                    <% end %>
-                  <% end %>
-                </div>
-              </fieldset>
-
               <input type="submit" value="Export" class="button">
             <% end %>
           </div>
