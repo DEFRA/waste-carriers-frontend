@@ -71,7 +71,7 @@ module RegistrationsHelper
     user.current_registration = registration
     user.send_confirmation_instructions unless user.confirmed?
   end
-  
+
   def setup_registration current_step, no_update=false
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
@@ -88,12 +88,12 @@ module RegistrationsHelper
     @registration.save
     logger.debug 'Registration: '+ @registration.attributes.to_s
     @registration.current_step = current_step
-    
+
     # Additionally set these if route has not gone through registration process
     session[:registration_id] = @registration.id
     session[:registration_uuid] = @registration.uuid
   end
-  
+
   def new_step_action current_step
     if current_step.eql? Registration::FIRST_STEP
       @registration = Registration.create
