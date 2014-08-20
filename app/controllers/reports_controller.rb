@@ -48,14 +48,11 @@ class ReportsController < ApplicationController
         }
         @registrations = Registration.find_by_params(param_args)
 
-        if @report.format == 'csv'
-          render_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
-        elsif @report.format == 'json'
-          render json: @registrations.to_json
-        elsif @report.format == 'xml'
-          render json: @registrations.to_xml
+        if @registrations.empty?
+          @report.errors.add(:base, t('errors.messages.no_results'))
+          render "reportRegistrations", :status => '400'
         else
-          render "reportRegistrations"
+          render_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
         end
       else
         logger.info 'Report filters are not valid'
