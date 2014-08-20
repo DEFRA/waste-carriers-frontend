@@ -96,11 +96,10 @@ en:
       registration: Registration
   address_select: "Please select an address…"
   agencyUsers:
-    Role_admin: Administrator
-    Role_financeAdmin: "Financial Admin"
-    Role_financeBasic: "Financial Basic"
-    Role_ncccRefund: "Agency Refund"
-    Role_ncccPayment: "Agency Payment"
+    Role_financeAdmin: "Finance Admin User"
+    Role_financeBasic: "Finance Basic User"
+    Role_ncccRefund: "EA User with Refund"
+    Role_ncccPayment: "EA User with Payment"
     actions: Actions
     back: Back
     createLabel: "Create agency user"
