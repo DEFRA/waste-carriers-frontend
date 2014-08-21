@@ -11,10 +11,25 @@
 
             <% content_for :page_title, createTitle('.title') %>
             
-            <%= render 'shared/complete_summary', :type => 'criminallySuspect' if @registration.criminally_suspect %>
-            <%= render 'shared/complete_summary', :type => 'almostComplete' if !@registration.paid_in_full? and !@registration.criminally_suspect %>
-            <%= render 'shared/complete_summary', :type => 'complete' if @registration.paid_in_full? and !@registration.criminally_suspect %>
-            
+            <%
+            confirmationType = nil
+            # These must match the css classes they related to
+            criminally_suspect_class = 'criminallySuspect'
+            almost_complete_class = 'almostComplete'
+            complete_class = 'complete'
+            if @registration.criminally_suspect
+              confirmationType = criminally_suspect_class
+            elsif !@registration.paid_in_full? and !@registration.criminally_suspect
+              confirmationType = almost_complete_class
+            elsif @registration.paid_in_full? and !@registration.criminally_suspect
+              confirmationType = complete_class
+            else
+              # Error state, should not reach here
+              confirmationType = 'unknown'
+            end
+            %>
+            <%= render 'shared/complete_summary', :type => confirmationType %>
+
             <fieldset>
             <% if @registration.is_complete? %>
               
@@ -26,8 +41,19 @@
               <% if can? :print, @registration %>
                 <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
               <% end %>
+              
+              <p><%= t '.details_change' %></p>
+
+            <% elsif confirmationType.eql? almost_complete_class %>
+              
+              <p><%= t('.not_yet_registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+
+              <p><%= t '.payment_message' %></p>
+              
+              <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
 
             <% else %>
+              criminal
               <legend><%= t '.your_reg_number', :reg => @registration.regIdentifier %></legend>
               <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
               <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
@@ -45,8 +71,6 @@
               <% end %>
 
             <% end %>
-
-            <p><%= t '.details_change' %></p>
             </fieldset>
 
             <%= form_tag(new_user_session_path, method: :get) do |f| %>
