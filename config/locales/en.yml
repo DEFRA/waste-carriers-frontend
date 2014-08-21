@@ -848,9 +848,11 @@ en:
       subtitle: "A reference page for WCR team"
     formTemplate:
       title: "Example form template"
-    formTemplate_step:
-      legend: "An example legend"
       subtitle: "All pages should follow this structure"
+      aside_heading: "Example side note"
+      aside_message: "You do not have to have an aside on the page, but if you do it should follow this format."
+    formTemplate_step:
+      legend: "All pages should follow this structure"
   upper_registrations:
     business_type:
       form_legend: "Type of registration to register"
