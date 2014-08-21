@@ -393,6 +393,7 @@ en:
       title: "Confirmed"
       your_reg_number: "Your registration number is: %{reg}"
       registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
+      not_yet_registered_as: "%{companyName} is not yet registered as %{tier_with_article} tier waste carrier with the Environment Agency."
       applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier with the Environment Agency."
       details_emailed: "Your certificate and guidance have been emailed to %{email}."
       payment_message: "Please remember to arrange your bank transfer. Alternatively select the registration and choose to pay by credit or debit card."
@@ -400,6 +401,7 @@ en:
       pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
       details_change: "If any of your details change you must update your registration within 28 days."
       if_upper: "If you are an upper tier you must renew your registration in 3 years time"
+      how_to_pay_message: "Details of how to pay have been emailed to %{email}"
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
       subtitle: "Do you ever deal with construction or demolition waste?"
