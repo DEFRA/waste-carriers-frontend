@@ -52,7 +52,7 @@ module OrderHelper
       logger.info "Create reg for edit with charge"
     when Order.renew_registration_identifier
       myRegistration.copy_cards = '0'
-      myRegistration.registration_fee = Rails.configuration.fee_registration
+      myRegistration.registration_fee = Rails.configuration.fee_renewal
       myRegistration.total_fee = myRegistration.registration_fee
       logger.info "Create reg for renewal"
     when Order.extra_copycards_identifier
