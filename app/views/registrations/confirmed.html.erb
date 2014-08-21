@@ -10,6 +10,11 @@
           <div id="page0"  data-journey="waste-carriers-registration:confirmed-account">
 
             <% content_for :page_title, createTitle('.title') %>
+            
+            <%= render 'shared/complete_summary', :type => 'almostComplete' unless @registration.paid_in_full? %>
+            <%= render 'shared/complete_summary', :type => 'complete' if @registration.paid_in_full? and !@registration.criminally_suspect %>
+            <%= render 'shared/complete_summary', :type => 'criminallySuspect' if @registration.criminally_suspect %>
+            
             <% if @registration.is_complete? %>
               <h1 class="subtitle"><%= t '.subtitle_complete' %></h1>
               <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
