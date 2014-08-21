@@ -98,7 +98,7 @@ end
 
 if (Rails.env.eql? 'development') && (ENV["WCRS_REG_SEED"].eql? 'true')
 
-  #load some sample lower tier registrations
+  #load some sample registrations
   data =  YAML::load(File.read("db/lower_tier_registrations.json")) +  YAML::load(File.read("db/upper_tier_registrations.json"))
 
   data.each do |reg|

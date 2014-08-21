@@ -3,19 +3,19 @@ module OrderHelper
   def showRegistrationFee? renderType
     renderType.eql? Order.new_registration_identifier
   end
-  
+
   def showEditFee? renderType
     renderType.eql? Order.edit_registration_identifier
   end
-  
+
   def showRenewalFee? renderType
     renderType.eql? Order.renew_registration_identifier
   end
-  
+
   def showCopyCards? renderType
     renderType.eql? Order.new_registration_identifier or renderType.eql? Order.extra_copycards_identifier
   end
-  
+
   def prepareOfflinePayment myRegistration, renderType
     myRegistration = calculate_fees myRegistration, renderType
     logger.info "offline copy cards: " + myRegistration.copy_cards.to_s
@@ -34,17 +34,27 @@ module OrderHelper
     order = prepareOrder myRegistration, true, renderType
     order
   end
-  
+
   def calculate_fees myRegistration, renderType
     logger.info "renderType: " + renderType.to_s
     # Calculate default fees based on page to render
     case renderType
-    when Order.new_registration_identifier, Order.edit_registration_identifier, Order.renew_registration_identifier
+    when Order.new_registration_identifier
       # New, Edit, Renew all use standard fee for now
       myRegistration.registration_fee = Rails.configuration.fee_registration
       myRegistration.copy_card_fee = myRegistration.copy_cards.to_i * Rails.configuration.fee_copycard
       myRegistration.total_fee = myRegistration.registration_fee + myRegistration.copy_card_fee
-      logger.info "Create reg for new/edit/renewal"
+      logger.info "Create reg for new"
+    when Order.edit_registration_identifier
+      myRegistration.copy_cards = '0'
+      myRegistration.registration_fee = Rails.config.fee_reg_type_change
+      myRegistration.total_fee = myRegistration.registration_fee
+      logger.info "Create reg for edit with charge"
+    when Order.renew_registration_identifier
+      myRegistration.copy_cards = '0'
+      myRegistration.registration_fee = Rails.configuration.fee_registration
+      myRegistration.total_fee = myRegistration.registration_fee
+      logger.info "Create reg for renewal"
     when Order.extra_copycards_identifier
       # Additional copy card has different initial fees
       myRegistration.copy_card_fee = myRegistration.copy_cards.to_i * Rails.configuration.fee_copycard
@@ -60,7 +70,7 @@ module OrderHelper
     logger.info "total fee: " + myRegistration.total_fee.to_s
     myRegistration
   end
-  
+
   def prepareOrder (myRegistration, useWorldPay = true, renderType)
     reg = myRegistration
 
@@ -79,8 +89,8 @@ module OrderHelper
       # Ensure Order Id of newly created order remains the same as currently assumes orderId of first order?
       @order.orderId = ord.orderId
     else
-      # 
-      # NOTE: This may cause an issue down in the future because it generates a new ID on every commit, thus a back and rety 
+      #
+      # NOTE: This may cause an issue down in the future because it generates a new ID on every commit, thus a back and rety
       # will re-fire the commit creating a subsequent order.
       #
       # Further note: removed as if new order id should not be needed? needs testing
@@ -88,8 +98,8 @@ module OrderHelper
       # @order.orderId = SecureRandom.uuid
       @order.orderId = session[:orderCode]
     end
-    
-    
+
+
 
 #    # Get a orderItem object
 #    ordItem = ord.order_items.first
@@ -106,7 +116,7 @@ module OrderHelper
 
       @order.order_items.add orderItem
     end
-    
+
     if showEditFee? renderType
       # Add order item for Edit registration
       # Create Order Item
@@ -119,7 +129,7 @@ module OrderHelper
 
       @order.order_items.add orderItem
     end
-    
+
     if showRenewalFee? renderType
       # Add order item for Renewal registration
       # Create Order Item
@@ -145,7 +155,7 @@ module OrderHelper
 
       @order.order_items.add orderItem
     end
-    
+
     logger.info '----------------------------'
     logger.info '----- Created ORDER --------'
     logger.info @order.to_json
@@ -153,7 +163,7 @@ module OrderHelper
 
     @order
   end
-  
+
   def updateOrderForWorldpay myOrder, myRegistration
     myOrder = updateOrderGenerally myOrder, myRegistration
     myOrder.paymentMethod = 'ONLINE'
@@ -171,7 +181,7 @@ module OrderHelper
     myOrder.description = 'Updated registrations PRIOR to offline'
     myOrder
   end
-  
+
   def updateOrderGenerally myOrder, myRegistration
     now = Time.now.utc.xmlschema
     myOrder.orderCode = Time.now.to_i.to_s
@@ -183,5 +193,5 @@ module OrderHelper
     myOrder.amountType = Order.getPositiveType
     myOrder
   end
-  
+
 end
