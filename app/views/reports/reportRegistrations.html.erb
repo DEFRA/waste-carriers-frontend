@@ -10,7 +10,7 @@
           <div id="page6"  data-journey="waste-carriers-registration:registrations-export">
             <% content_for :page_title, createTitle('.title') %>
 
-            <%= render 'back_link' %>
+            <%= link_to t('registrations.form.back_button_label'), :registrations, :class => 'link_to' %>
             <%= render "errors" %>
 
             <%= form_for(@report, :url => "registrations" ) do |f| %>
