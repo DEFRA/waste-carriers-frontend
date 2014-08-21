@@ -21,6 +21,10 @@ class ReportsController < ApplicationController
       end
     end
 
+    unless params[:routes].nil?
+      @report.routes = params[:routes].values
+    end
+
     unless params[:tiers].nil?
       @report.tiers = params[:tiers].values
     end
