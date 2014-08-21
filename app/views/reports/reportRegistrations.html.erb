@@ -34,11 +34,11 @@
               <fieldset>
                 <legend><%= t '.route_type' %></legend>
                 <div class='inline'>
-                  <%= f.label :route_digital, for: 'report_route_digital', class: 'block-label' do %>
-                    <%= f.check_box :route_digital, {}, "DIGITAL", "" %> <%= t '.route_digital' %>
-                  <% end %>
-                  <%= f.label :route_assisted_digital, for: 'report_route_assisted_digital', class: 'block-label' do %>
-                    <%= f.check_box :route_assisted_digital, {}, "ASSISTED_DIGITAL", "" %> <%= t '.route_assisted_digital' %>
+                  <% Report.route_options.each do |option| %>
+                    <%= f.label :routes, for: "routes_#{option.second.downcase}",  class: 'block-label' do %>
+                        <%= check_box("routes", option.second.downcase, {}, option.second, "") %>
+                        <%= option.first %>
+                    <% end %>
                   <% end %>
                 </div>
               </fieldset>

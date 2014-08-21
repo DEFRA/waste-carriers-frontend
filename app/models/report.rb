@@ -2,7 +2,7 @@
 class Report
   include ActiveModel::Model
 
-  attr_accessor :is_new, :from, :to, :route_digital, :route_assisted_digital
+  attr_accessor :is_new, :from, :to, :routes, :route_digital, :route_assisted_digital
   attr_accessor :tiers, :statuses, :business_types, :has_declared_convictions
   attr_accessor :is_criminally_suspect
 
@@ -15,8 +15,8 @@ class Report
   ]
 
   TIER_OPTIONS = %w[
-    upper
-    lower
+    UPPER
+    LOWER
   ]
 
   STATUS_OPTIONS = %w[
@@ -55,10 +55,15 @@ class Report
       param_args[:until] = to
     end
 
-    param_args[:route] = [
-      route_digital,
-      route_assisted_digital
-      ].reject(&:blank?)
+    # param_args[:route] = [
+    #   route_digital,
+    #   route_assisted_digital
+    #   ].reject(&:blank?)
+
+    filtered_routes = routes.reject(&:blank?)
+    unless filtered_routes.empty?
+      param_args[:route] = filtered_routes
+    end
 
     filtered_statues = statuses.reject(&:blank?)
     unless filtered_statues.empty?

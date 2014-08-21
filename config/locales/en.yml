@@ -812,9 +812,6 @@ en:
       convictions: "Convictions"
       has_declared_convictions: "Has declared convictions"
       is_criminally_suspect: "Is criminally suspect"
-  route_options:
-    assisted_digital: "Assisted Digital"
-    digital: Active
   shared:
     current_user:
       change_password: "Change password"
@@ -827,9 +824,12 @@ en:
       signed_in_as_agency_user: "Signed in as agency user"
     progress:
       progress: Progress
+  route_options:
+    ASSISTED_DIGITAL: "Assisted Digital"
+    DIGITAL: "Digital"
   tier_options:
-    lower: "Lower"
-    upper: "Upper"
+    LOWER: "Lower"
+    UPPER: "Upper"
   status_options:
     activate: "Activate"
     active: "Active"
