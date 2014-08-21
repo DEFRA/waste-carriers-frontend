@@ -180,7 +180,7 @@ class WorldpayController < ApplicationController
       @order.worldPayStatus = status
       @order.dateLastUpdated = now
       @order.updatedByUser = reg.accountEmail
-      @order.description = 'Updated order in WP contorller'
+     #@order.description = 'Updated order in WP contorller'
      #@order.prefix_options[:id] = session[:registration_id]
 
       @order.save
