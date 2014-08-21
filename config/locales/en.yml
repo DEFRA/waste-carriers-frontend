@@ -813,6 +813,13 @@ en:
       has_declared_convictions: "Has declared convictions"
       is_criminally_suspect: "Is criminally suspect"
   shared:
+    complete_summary:
+      almost_there_title: "Almost there"
+      almost_there_message: "Waiting for confirmation of payment"
+      complete_title: "Registration complete"
+      complete_message: "Payment has been succesful and your registration is complete"
+      criminal_title: "Incomplete"
+      criminal_message: "We are running background checks on the information you have provided"
     current_user:
       change_password: "Change password"
       report_export: "Create data report"
