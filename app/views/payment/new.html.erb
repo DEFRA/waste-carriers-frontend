@@ -80,7 +80,7 @@
 					<%= f.select :paymentType, options_for_select(Payment.payment_type_financeAdmin_options_for_select,f.object.paymentType) %>
 				  </div>
 				<!-- Show a different list of payment types if role is agencyPayment -->
-				<% elsif current_agency_user.has_role? :Role_ncccPayment, AgencyUser %>
+				<% elsif current_agency_user.has_role? :Role_agencyRefundPayment, AgencyUser %>
 				  <div class="form-group<%if @payment.errors[:paymentType].any?%> validation<%end%>">
 					<%= validation_for(@payment, :paymentType) %>
 					<%= f.label :paymentType, class: 'form-label' %>

@@ -503,4 +503,25 @@ list-style-type: disc; position:relative; left:-4em;}
 #col-1-bank-transfer {width:65%;}
 .table_header {@include bold-48; padding-top: 0.7rem; padding-bottom: 3rem; }
 
+// Registration Complete Box
+.completeSummary {
+    width: 90%;
+    color: white;
+    padding: 2em 1em 2em 1em;
+    margin: 0.75em 0em 0.75em 0em;
+    text-align: center;
+}
+.almostComplete, .criminallySuspect {
+	background-color: orange;
+}
+.complete {
+	background-color: green;
+}
+.completeSummaryTitle {
+	margin: 0 auto;
+}
+.completeSummaryMessage {
+	margin: 0 auto;
+	font-size: 90%;
+}
 

@@ -10,10 +10,10 @@
           <div id="page6"  data-journey="waste-carriers-registration:registrations-export">
             <% content_for :page_title, createTitle('.title') %>
 
-            <%= render 'back_link' %>
+            <%= link_to t('registrations.form.back_button_label'), :registrations, :class => 'link_to' %>
             <%= render "errors" %>
 
-            <%= form_for(@report, :url => "registrations", :html => { :method => 'GET'} ) do |f| %>
+            <%= form_for(@report, :url => "registrations" ) do |f| %>
             <h1><%= t '.subtitle' %></h1>
 
               <fieldset>
@@ -34,11 +34,11 @@
               <fieldset>
                 <legend><%= t '.route_type' %></legend>
                 <div class='inline'>
-                  <%= f.label :route_digital, for: 'report_route_digital', class: 'block-label' do %>
-                    <%= f.check_box :route_digital, {}, "DIGITAL", "" %> <%= t '.route_digital' %>
-                  <% end %>
-                  <%= f.label :route_assisted_digital, for: 'report_route_assisted_digital', class: 'block-label' do %>
-                    <%= f.check_box :route_assisted_digital, {}, "ASSISTED_DIGITAL", "" %> <%= t '.route_assisted_digital' %>
+                  <% Report.route_options.each do |option| %>
+                    <%= f.label :routes, for: "routes_#{option.second.downcase}",  class: 'block-label' do %>
+                        <%= check_box("routes", option.second.downcase, {}, option.second, "") %>
+                        <%= option.first %>
+                    <% end %>
                   <% end %>
                 </div>
               </fieldset>
@@ -86,7 +86,7 @@
                     <%= f.check_box :has_declared_convictions, {}, "yes", "" %> <%= t '.has_declared_convictions' %>
                   <% end %>
                   <%= f.label :is_criminally_suspect, for: 'report_is_criminally_suspect', class: 'block-label' do %>
-                    <%= f.check_box :is_criminally_suspect, {}, "true", "false" %> <%= t '.is_criminally_suspect' %>
+                    <%= f.check_box :is_criminally_suspect, {}, "true", "" %> <%= t '.is_criminally_suspect' %>
                   <% end %>
                 </div>
               </fieldset>

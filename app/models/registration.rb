@@ -427,22 +427,35 @@ class Registration < Ohm::Model
   #
   # @params a hash of params and their arguments to use in the find. Values can
   # be arrays
+  # @options a hash of options you can pass through to the method. These allow
+  # you to override the defaults it uses. They are :root_url (defaults to the
+  # services url), :url (defaults to /registrations), and :format (defaults to
+  # .json)
   # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
-    def find_by_params(params)
+    def find_by_params(params, options = {})
+
+      defaults = {
+        :root_url => "#{Rails.configuration.waste_exemplar_services_url}",
+        :url => "/registrations",
+        :format => ".json"
+      }
+      options = defaults.merge(options)
+
       registrations = []
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{params.to_query}"
-      Rails.logger.debug "find_by_filters url=#{url}"
+      url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
+      # url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{params.to_query}"
+      Rails.logger.debug "find_by_params url=#{url}"
       begin
         response = RestClient.get url
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug "find_all_by found #{all_regs.size.to_s} items"
+          Rails.logger.debug "find_by_params found #{all_regs.size.to_s} items"
           all_regs.each do |r|
             registrations << Registration.init(r)
           end
         else
-          Rails.logger.error "Registration.find_all_filter() [#{url}] failed with a #{response.code} response from server"
+          Rails.logger.error "Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"
         end
       rescue => e
         Rails.logger.error e.to_s
@@ -450,7 +463,6 @@ class Registration < Ohm::Model
       registrations
     end
   end
-
 
   # Creates a new Registration object from a JSON payload received from the Java Service
   #

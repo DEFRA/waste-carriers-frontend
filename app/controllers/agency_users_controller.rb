@@ -121,8 +121,7 @@ class AgencyUsersController < ApplicationController
           # This list of roles should match that in the role.rb ROLE_TYPES list
           addRemoveRole(:Role_financeBasic)
           addRemoveRole(:Role_financeAdmin)
-          addRemoveRole(:Role_ncccRefund)
-          addRemoveRole(:Role_ncccPayment)
+          addRemoveRole(:Role_agencyRefundPayment)
         end
       end
     end

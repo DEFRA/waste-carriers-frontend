@@ -3,26 +3,24 @@ module OrderHelper
   def showRegistrationFee? renderType
     renderType.eql? Order.new_registration_identifier
   end
-
+  
   def showEditFee? renderType
     renderType.eql? Order.edit_registration_identifier
   end
-
+  
   def showRenewalFee? renderType
     renderType.eql? Order.renew_registration_identifier
   end
-
+  
   def showCopyCards? renderType
     renderType.eql? Order.new_registration_identifier or renderType.eql? Order.extra_copycards_identifier
   end
-
+  
   def prepareOfflinePayment myRegistration, renderType
     myRegistration = calculate_fees myRegistration, renderType
     logger.info "offline copy cards: " + myRegistration.copy_cards.to_s
-    logger.info "offline copy card fee: " + myRegistration.copy_card_fee.to_s
     logger.info "offline total fee: " + myRegistration.total_fee.to_s
-    logger.info "TEST: " + @renderType
-    logger.info "TEST: " + renderType
+    logger.info "renderType: " + renderType
     order = prepareOrder myRegistration, false, renderType
     order
   end
@@ -34,7 +32,7 @@ module OrderHelper
     order = prepareOrder myRegistration, true, renderType
     order
   end
-
+  
   def calculate_fees myRegistration, renderType
     logger.info "renderType: " + renderType.to_s
     # Calculate default fees based on page to render
@@ -70,7 +68,7 @@ module OrderHelper
     logger.info "total fee: " + myRegistration.total_fee.to_s
     myRegistration
   end
-
+  
   def prepareOrder (myRegistration, useWorldPay = true, renderType)
     reg = myRegistration
 
@@ -78,6 +76,8 @@ module OrderHelper
     ord = reg.finance_details.first.orders.first
 
     @order = Order.create
+    # Create order description to reflect type of order
+    @order.description = generateOrderDescription(renderType, reg)
 
     if useWorldPay
       @order = updateOrderForWorldpay(@order, reg)
@@ -89,8 +89,8 @@ module OrderHelper
       # Ensure Order Id of newly created order remains the same as currently assumes orderId of first order?
       @order.orderId = ord.orderId
     else
-      #
-      # NOTE: This may cause an issue down in the future because it generates a new ID on every commit, thus a back and rety
+      # 
+      # NOTE: This may cause an issue down in the future because it generates a new ID on every commit, thus a back and rety 
       # will re-fire the commit creating a subsequent order.
       #
       # Further note: removed as if new order id should not be needed? needs testing
@@ -98,11 +98,8 @@ module OrderHelper
       # @order.orderId = SecureRandom.uuid
       @order.orderId = session[:orderCode]
     end
-
-
-
-#    # Get a orderItem object
-#    ordItem = ord.order_items.first
+    
+    
 
     if showRegistrationFee? renderType
       # Add order item for Initial registration
@@ -116,7 +113,7 @@ module OrderHelper
 
       @order.order_items.add orderItem
     end
-
+    
     if showEditFee? renderType
       # Add order item for Edit registration
       # Create Order Item
@@ -129,7 +126,7 @@ module OrderHelper
 
       @order.order_items.add orderItem
     end
-
+    
     if showRenewalFee? renderType
       # Add order item for Renewal registration
       # Create Order Item
@@ -155,7 +152,7 @@ module OrderHelper
 
       @order.order_items.add orderItem
     end
-
+    
     logger.info '----------------------------'
     logger.info '----- Created ORDER --------'
     logger.info @order.to_json
@@ -163,13 +160,13 @@ module OrderHelper
 
     @order
   end
-
+  
   def updateOrderForWorldpay myOrder, myRegistration
     myOrder = updateOrderGenerally myOrder, myRegistration
     myOrder.paymentMethod = 'ONLINE'
     myOrder.merchantId = worldpay_merchant_code
     myOrder.worldPayStatus = 'IN_PROGRESS'
-    myOrder.description = 'Updated registrations PRIOR to WP'
+#    myOrder.description = 'Updated registrations PRIOR to WP'
     myOrder
   end
 
@@ -178,10 +175,10 @@ module OrderHelper
     myOrder.paymentMethod = 'OFFLINE'
     myOrder.merchantId = 'n/a'
     myOrder.worldPayStatus = 'n/a'
-    myOrder.description = 'Updated registrations PRIOR to offline'
+#    myOrder.description = 'Updated registrations PRIOR to offline'
     myOrder
   end
-
+  
   def updateOrderGenerally myOrder, myRegistration
     now = Time.now.utc.xmlschema
     myOrder.orderCode = Time.now.to_i.to_s
@@ -193,5 +190,5 @@ module OrderHelper
     myOrder.amountType = Order.getPositiveType
     myOrder
   end
-
+  
 end

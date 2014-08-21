@@ -97,9 +97,8 @@ en:
   address_select: "Please select an address…"
   agencyUsers:
     Role_financeAdmin: "Finance Admin User"
-    Role_financeBasic: "Finance Basic User"
-    Role_ncccRefund: "EA User with Refund"
-    Role_ncccPayment: "EA User with Payment"
+    Role_financeBasic: "Finance User"
+    Role_agencyRefundPayment: "EA User with Refunds and Payments"
     actions: Actions
     back: Back
     createLabel: "Create agency user"
@@ -452,7 +451,11 @@ en:
       relevant_convictions_link_text: "What are relevant convictions?"
       relevant_person_link_text: "What is a relevant person?"
     newConfirmation:
-      step: "Step %{step_x} of %{step_y}"
+      title: "Confirmation"
+      subtitle: "Check you registration"
+      tier_aside_heading: "Registration tier"
+      tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
+
       title_new_reg: "Confirmation"
       title_edit_reg: "Editing your registration"
       title_renew_reg: "Renewing your registration"
@@ -831,6 +834,13 @@ en:
     assisted_digital: "Assisted Digital"
     digital: Active
   shared:
+    complete_summary:
+      almost_there_title: "Almost there"
+      almost_there_message: "Waiting for confirmation of payment"
+      complete_title: "Registration complete"
+      complete_message: "Payment has been succesful and your registration is complete"
+      criminal_title: "Incomplete"
+      criminal_message: "We are running background checks on the information you have provided"
     current_user:
       change_password: "Change password"
       report_export: "Create data report"
@@ -843,8 +853,8 @@ en:
     progress:
       progress: Progress
   tier_options:
-    lower: "Lower"
-    upper: "Upper"
+    LOWER: "Lower"
+    UPPER: "Upper"
   status_options:
     activate: "Activate"
     active: "Active"

@@ -51,7 +51,7 @@
 									<td class="">
 									<% isReversalAppropriateForMe = false 
 									
-									isPayment = current_agency_user.has_role? :Role_ncccPayment, AgencyUser
+									isPayment = current_agency_user.has_role? :Role_agencyRefundPayment, AgencyUser
 									isFinanceBasic = current_agency_user.has_role? :Role_financeBasic, AgencyUser
 		    						isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
 		    						
@@ -77,7 +77,8 @@
 		    						if isFinanceAdmin
 		    						  # Use can only reverse types:
 		    						  # Worldpay_missed
-		    						  if payment.paymentType == "WORLDPAY_MISSED"
+		    						  if payment.paymentType == "WORLDPAY_MISSED" \
+		    						        or payment.paymentType == "WORLDPAY"
 		    						    isReversalAppropriateForMe = true
 		    						  end
 		    						end
