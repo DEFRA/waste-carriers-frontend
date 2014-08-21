@@ -77,7 +77,8 @@
 		    						if isFinanceAdmin
 		    						  # Use can only reverse types:
 		    						  # Worldpay_missed
-		    						  if payment.paymentType == "WORLDPAY_MISSED"
+		    						  if payment.paymentType == "WORLDPAY_MISSED" \
+		    						        or payment.paymentType == "WORLDPAY"
 		    						    isReversalAppropriateForMe = true
 		    						  end
 		    						end
