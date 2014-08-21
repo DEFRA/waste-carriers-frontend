@@ -9,6 +9,10 @@
           <!-- WF 4.3.4 -->
           <div id="page4"  data-journey="waste-carriers-registration:finish">
             <% content_for :page_title, createTitle('.title') %>
+            
+            <%= render 'shared/complete_summary', :type => 'almostComplete' unless @registration.paid_in_full? %>
+            <%= render 'shared/complete_summary', :type => 'complete' if @registration.paid_in_full? and !@registration.criminally_suspect %>
+            <%= render 'shared/complete_summary', :type => 'criminallySuspect' if @registration.criminally_suspect %>
 
 <% case  session[:edit_mode] .to_i %>
 <% when RegistrationsController::EditMode::RENEWAL %>
