@@ -13,37 +13,8 @@
             <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
 
 
-
-            <% case  session[:edit_mode] .to_i%>
-            <% when  RegistrationsController::EditMode::RENEWAL %>
-                <% title =  t '.title_renew_reg'  %>
-               <% subtitle =  t '.subtitle_renew_reg'  %>
-            <% when  RegistrationsController::EditMode::RECREATE %>
-               <% title =  t '.title_recreate_reg'  %>
-               <% subtitle =  t '.subtitle_recreate_reg'  %>
-            <% when  RegistrationsController::EditMode::EDIT %>
-              <% title =  t '.title_edit_reg'  %>
-              <% case  session[:edit_result].to_i %>
-              <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE  %>
-               <% subtitle =  t '.subtitle_edit_reg_no_charge'  %>
-              <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
-              <% subtitle =  t '.subtitle_edit_reg_with_charge'  %>
-              <% when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION  %>
-               <% subtitle =  t '.subtitle_edit_reg_new_reg'  %>
-              <% when  RegistrationsController::EditResult::NO_CHANGES  %>
-              <% else %> <!-- we just started the edit process -->
-               <% subtitle =  t '.subtitle_edit_reg'  %>
-              <% end %>
-
-
-
-            <% else %>  <!-- this is a new registration page -->
-             <% title =  t '.title_new_reg'  %>
-             <% subtitle =  t '.subtitle_new_reg'  %>
-            <% end %>
-
-             <h1 class='summary-subtitle'><%= title %></h1>
-            <p class='summary-subtitle'><%= subtitle %></p>
+             <h1 class='summary-subtitle'><%= t '.title_new_reg' %></h1>
+            <p class='summary-subtitle'><%= t '.subtitle_new_reg' %></p>
 
 
           <!-- Smart answers section -->
@@ -150,18 +121,46 @@
        <aside role='note'>
           <div class="inner">
             <div class="col-2" id="tier-aside">
-              <h3>Registration tier</h3>
+             <% if session[:edit_mode] %>
+                <% case  session[:edit_mode].to_i%>
+                <% when  RegistrationsController::EditMode::RENEWAL %>
+                    <% title =  t '.title_renew_reg'  %>
+                   <% subtitle =  t '.subtitle_renew_reg'  %>
+                <% when  RegistrationsController::EditMode::RECREATE %>
+                   <% title =  t '.title_recreate_reg'  %>
+                   <% subtitle =  t '.subtitle_recreate_reg'  %>
+                <% when  RegistrationsController::EditMode::EDIT %>
+                  <% title =  t '.title_edit_reg'  %>
+                  <% case  session[:edit_result].to_i %>
+                  <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE  %>
+                   <% subtitle =  t '.subtitle_edit_reg_no_charge'  %>
+                  <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
+                  <% subtitle =  t '.subtitle_edit_reg_with_charge',  :fee => Rails.configuration.fee_reg_type_change  %>
+                  <% when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION  %>
+                   <% subtitle =  t '.subtitle_edit_reg_new_reg'  %>
+                  <% when  RegistrationsController::EditResult::NO_CHANGES  %>
+                  <% else %> <!-- we just started the edit process -->
+                   <% subtitle =  t '.subtitle_edit_reg'  %>
+                  <% end %>
+                <% end %>
+                <h3><%= title %></h3>
+             <% else %>
+               <h3>Registration tier</h3>
+             <% end %>
+
               <!-- Dynamic context section -->
               <div class='form-group'>
                 <div class='summary-box'>
-                <% if (!session[:edit_mode] && @registration.tier != 'UPPER') || \
-                      ( session[:edit_mode].to_i == RegistrationsController::EditMode::EDIT ) %>
+                <% if !session[:edit_mode] && @registration.tier != 'UPPER'  %>
 
                   <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)}" %>
                 <% elsif  !session[:edit_mode] && @registration.tier == 'UPPER' %>
                   <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
-                <% end %>
                   <div><%= message %></div>
+                <% elsif  session[:edit_mode] %> <!-- we're editing the registration-->
+                  <p><%= subtitle %></p>
+                <% end %>
+
       </div>
               </div>
 

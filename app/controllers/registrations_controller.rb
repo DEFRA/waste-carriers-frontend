@@ -325,25 +325,17 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/confirmation
   def newConfirmation
     new_step_action 'confirmation'
-    session[:edit_mode].to_i
     case session[:edit_mode].to_i
     when EditMode::RECREATE
-    when EditMode::EDIT
-      # unless session[:edit_result].to_i.eql? EditResult::START #this isn't the first time we hit the confirmation page
+    when EditMode::EDIT, EditMode::RENEWAL
       if session[:edit_result].to_i.eql? EditResult::START  #this is the first time we hit the confirmation page
         session[:edit_result] = EditResult::START + 1
       else #we've hit the confirmation page before
         logger.debug "going to compare"
         original_registration = Registration[ session[:original_registration_id] ]
         session[:edit_result] =  compare_registrations(@registration, original_registration )
-        logger.debug "edit_result = #{ session[:edit_result]}"
       end
 
-
-      # end
-
-
-    when EditMode::RENEWAL
       # update_registration session[:edit_mode]
     else # new registration, do nothing (default rendering will occur)
     end #case
@@ -357,20 +349,34 @@ class RegistrationsController < ApplicationController
     setup_registration 'confirmation'
 
     if @registration.valid?
-      case session[:edit_mode]
+      case session[:edit_mode].to_i
       when EditMode::RECREATE
       when EditMode::EDIT
-        # unless session[:edit_status] #haven't determined edit status yet, so do it now
-        #   original_registration = Registration[ session[:original_registration_id] ]
-        #   session[:edit_status] =  compare_registrations(@registration, original_registration )
-        # end
+        case session[:edit_result].to_i
+        when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+          if @registration.save!
+          else
+            #TODO: error handling
+          end #if
+          redirect_to action: 'editRenewComplete' and return
+
+        when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+           redirect_to newOrderEdit_path(@registration.uuid) and return
+        when  EditResult::CREATE_NEW_REGISTRATION
+        end
 
       when EditMode::RENEWAL
+        @registration.expires_on = (Time.parse(@registration.expires_on) + 3.years).to_s
+        redirect_to newOrderRenew_path(@registration.uuid) and return
         # update_registration session[:edit_mode]
-      else # new registration, do nothing (default rendering will occur)
-      end
+      else # new registration
+        redirect_to :action => :account_mode
+      end #case
 
-      redirect_to :action => :account_mode
+      logger.debug "edit_mode = #{ session[:edit_mode]}"
+      logger.debug "edit_result = #{ session[:edit_result]}"
+
+
 
     else
       # there is an error (but data not yet saved)
@@ -1087,15 +1093,24 @@ class RegistrationsController < ApplicationController
     session[:orderCode] = generateOrderCode
     redirect_to :upper_payment
   end
-  
+
   # Renders the additional copy card order complete view
   def copyCardComplete
     @registration = Registration.find_by_id(session[:registration_uuid])
   end
-  
+
   # Renders the edit renew order complete view
   def editRenewComplete
-    @registration = Registration.find_by_id(session[:registration_uuid])
+    @registration = Registration[session[:registration_id]]
+    @edit_mode = session[:edit_mode]
+    @edit_result = session[:edit_result]
+
+    #at the end of the edit/renewal process, so clear the session
+    session.delete(:original_registration_id)
+    session.delete(:registration_id)
+    session.delete(:registration_uuid)
+    session.delete(:edit_mode)
+    session.delete(:edit_result)
   end
 
   def newOfflinePayment

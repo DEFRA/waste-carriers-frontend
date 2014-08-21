@@ -9,17 +9,17 @@ class OrderController < ApplicationController
 
   # Removed as external user not logged in at time of first payment
   #before_filter :authenticate_external_user!, :only => [:index, :new, :create]
-  
+
   # GET /index
   def index
     # does nothing
   end
-  
+
   # GET /new
   def new
     # Renders a new Order page (formally newPayment)
     @order = Order.new if @order == nil
-    
+
     logger.debug 'renderType session: ' + session[:renderType].to_s
     @renderType = session[:renderType]
     # Could also determine here what view to render
@@ -28,34 +28,34 @@ class OrderController < ApplicationController
       logger.error 'Rendering Page not found'
       renderNotFound
     end
-    
+
     # Setup page
     setup_registration 'payment', true
     if !@registration.copy_cards
       @registration.copy_cards = 0
     end
-    
+
     # Calculate fees shown on page
     @registration = calculate_fees @registration, @renderType
-    
+
   end
-  
+
   # POST /create
   def create
-    
+
     #
     # TODO:
     # Calculates what type of create is required based on the route required
     #
     logger.debug 'params - reg: ' + params[:registration].to_s
     logger.debug 'params - order: ' + params[:order].to_s
-    
+
     # for now assume old code is correct
     setup_registration 'payment'
     # Must get render type to determine what actions to take, and for rerendering any errors if found
     @renderType = session[:renderType]
     logger.debug 'renderType session: ' + session[:renderType].to_s
-    
+
     # Determine what kind of payment selected and redirect to other action if required
     if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
       @order = prepareOfflinePayment @registration, @renderType
@@ -65,7 +65,7 @@ class OrderController < ApplicationController
 
     logger.info "Check if the registration is valid. This checks the data entered is valid"
     if @registration.valid?
-      
+
       if @order.valid?
         logger.info "Determining order save/update"
         if @renderType.eql? Order.new_registration_identifier
@@ -73,22 +73,22 @@ class OrderController < ApplicationController
           # New registration, so update existing order
           if @order.save! @registration.uuid
             # order saved successfully
-          
+
             #
-            # TODO:  
+            # TODO:
             # cleanup render Type from session
             #
-            # However: should be done later than here, because otherwise you cannot select one payment type, 
+            # However: should be done later than here, because otherwise you cannot select one payment type,
             #           go back in browser and select again link you can currently
             #session.delete(:renderType)
-          
+
             # Re-get registration from the database to update the local redis version
             @registration = Registration.find_by_id(@registration.uuid)
             logger.info "Updated redis version after order save!"
-          
+
           else
             @order.errors.add(:exception, @order.exception.to_s)
-            
+
             # error updating services
             logger.warn 'The update order was not saved to services.'
             render 'new', :status => '400'
@@ -100,14 +100,14 @@ class OrderController < ApplicationController
           if @order.commit @registration.uuid
             # Order commited to services
             logger.info "New order committed to services"
-          
+
             # Re-get registration from the database to update the local redis version
             @registration = Registration.find_by_id(@registration.uuid)
             logger.info "Updated redis version after order commit"
-          
+
           else
             @order.errors.add(:exception, @order.exception.to_s)
-            
+
             # error updating services
             logger.warn 'The new order was not commited to services.'
             render 'new', :status => '400'
@@ -131,17 +131,18 @@ class OrderController < ApplicationController
       end
       return
     else
+      logger.error "validation errors: #{@registration.errors.messages.to_s}"
       logger.error "The registration is not valid! " + @registration.to_s
       render 'new', :status => '400'
     end
-    
+
   end
-  
-  
+
+
   #######################################################################################################
-  
+
   private
-  
+
 # Removed as not required
 #  # Duplicated from registraions controller
 #  def authenticate_external_user!
@@ -149,5 +150,5 @@ class OrderController < ApplicationController
 #      authenticate_user!
 #    end
 #  end
-  
+
 end
