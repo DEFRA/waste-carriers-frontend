@@ -9,6 +9,12 @@ class ReportsController < ApplicationController
 
     @report = Report.new(params[:report])
 
+  end
+
+  def updateReportRegistrations
+
+    @report = Report.new(params[:report])
+
     unless params[:report].nil?
       params[:report].each do |k, v|
         logger.debug "#{k}=#{v}"
@@ -32,31 +38,20 @@ class ReportsController < ApplicationController
 
       if @report.valid?
 
-        param_args = {
-              :from => @report.from,
-              :until => @report.to,
-              :route => [
-                  @report.route_digital,
-                  @report.route_assisted_digital
-              ].reject(&:blank?),
-              :status => @report.statuses.reject(&:blank?),
-              :businessType => @report.business_types.reject(&:blank?),
-              :tier => @report.tiers.reject(&:blank?),
-              :declaredConvictions => @report.has_declared_convictions,
-              :criminallySuspect => @report.is_criminally_suspect,
-              :ac => params[:email]
-        }
-        @registrations = Registration.find_by_params(param_args)
+        @registrations = Registration.find_by_params(@report.parameter_args, options = {
+          :url => "/query/registrations",
+          :format => ""
+          })
 
         if @registrations.empty?
           @report.errors.add(:base, t('errors.messages.no_results'))
-          render "reportRegistrations", :status => '400'
+          render 'reportRegistrations', :status => '400'
         else
           render_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
         end
       else
         logger.info 'Report filters are not valid'
-        render "reportRegistrations", :status => '400'
+        render 'reportRegistrations', :status => '400'
       end
     end
   end
