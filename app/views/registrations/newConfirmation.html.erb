@@ -8,13 +8,14 @@
           <div id="page9"  data-journey="waste-carriers-registration:confirmation">
             <% content_for :page_title, createTitle('.title') %>
               <%= render 'back_link' %>
-              <%= render 'step', r: @registration, upper_step: '6', lower_step: '3' %>
-            <%= render 'errors' %>
+             <%= render 'errors' %>
             <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
 
 
-             <h1 class='summary-subtitle'><%= t '.title_new_reg' %></h1>
-            <p class='summary-subtitle'><%= t '.subtitle_new_reg' %></p>
+
+            <fieldset>
+              <legend><%= t '.subtitle' %></legend>
+            </fieldset>
 
 
           <!-- Smart answers section -->
@@ -95,23 +96,34 @@
                 <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
                   <%= validation_for(@registration, :declaration) %>
                   <ol>
-                    <li><label><p><%= f.check_box :declaration%> <%= t '.check_box_label' %><p></label></li>
-                    <li><p><%= t '.declaration_text1' %></p></li>
-                    <li><p class='declaration-text'><%= t '.declaration_text2' %></p><p class="notice-icon"><p><li>
+                  <li>
+                    <label>
+                      <p><%= f.check_box :declaration%> <%= t '.check_box_label' %></p>
+                    </label>
+                  </li>
+                  <li>
+                    <p><%= t '.declaration_text1' %></p>
+                  </li>
+                  <li>
+                    <p class='declaration-text'><%= t '.declaration_text2' %></p>
+                    <p class="notice-icon"></p>
+                  </li>
                   </ol>
                 </div>
                </div>
               </div><!-- end form-group -->
 
               <!-- Privacy notice -->
+            <div>
               <ol>
                 <li>
                   <p class='privacy-data'><%= t '.data_protection_text1' %> <%= link_to t('.privacy_policy_link'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %> <%= t '.data_protection_text2' %>
                   </p>
-                <li>
+                </li>
               </ol>
 
               <input name="confirm" class="button" type="submit" value="<%= t 'form.confirm_button_label' %>"/>
+            </div>
             <% end %>
           </div>
         </div>
@@ -147,11 +159,12 @@
              <% else %>
                <h3>Registration tier</h3>
              <% end %>
-
+   <h3><%= t '.tier_aside_heading' %></h3>
               <!-- Dynamic context section -->
               <div class='form-group'>
                 <div class='summary-box'>
-                <% if !session[:edit_mode] && @registration.tier != 'UPPER'  %>
+                <% if (!session[:edit_mode] && @registration.tier != 'UPPER') || \
+                      ( session[:edit_mode].to_i == RegistrationsController::EditMode::EDIT ) %>
 
                   <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)}" %>
                 <% elsif  !session[:edit_mode] && @registration.tier == 'UPPER' %>
@@ -160,12 +173,15 @@
                 <% elsif  session[:edit_mode] %> <!-- we're editing the registration-->
                   <p><%= subtitle %></p>
                 <% end %>
-
-      </div>
+              <div>
+                <%= message %>
               </div>
-
             </div>
           </div>
-      </aside>
+        </div>
+      </div>
+    </aside>
+
   </article>
 </main>
+

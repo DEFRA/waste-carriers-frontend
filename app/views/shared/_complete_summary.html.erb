@@ -1,0 +1,25 @@
+<%# 
+This file expects a parameter 'type' with the following values:
+almostComplete - renders appropriate text, with orange background
+complete - renders appropriate text, with green background
+criminallySuspect - renders appropriate text, with orange background
+Note: These values match styles in the css
+%>
+
+<% if type.eql? 'almostComplete' or type.eql? 'complete' or type.eql? 'criminallySuspect' %>
+<!-- Show a summary box of the status of the registration -->
+<div class="completeSummary <%= type %>">
+	<div class="completeSummaryTitle">
+		<%= t'.almost_there_title' if type.eql? 'almostComplete' %>
+		<%= t'.criminal_title' if type.eql? 'criminallySuspect' %>
+		<%= t'.complete_title' if type.eql? 'complete' %>
+	</div>
+	<div class="completeSummaryMessage">
+		<%= t '.almost_there_message' if type.eql? 'almostComplete' %>
+		<%= t'.criminal_message' if type.eql? 'criminallySuspect' %>
+		<%= t'.complete_message' if type.eql? 'complete' %>
+	</div>
+</div>
+<% else %>
+<!-- Error: Invalid type provided, should be one of almostComplete, complete, criminallySuspect -->
+<% end %>
