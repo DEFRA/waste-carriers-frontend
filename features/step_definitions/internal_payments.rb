@@ -127,7 +127,6 @@ When(/^I writeoff equal to underpayment amount$/) do
   amountDue = page.find_by_id 'amountDue'
   amountDueWithout = amountDue.text.delete '£'
   amountSummary.text.should == 'Amount to write off £' + amountDueWithout
-  fill_in 'payment_registrationReference', with: 'MYTESTREFERENCE'
 end
 
 When(/^I enter payment details$/) do
@@ -147,6 +146,10 @@ end
 
 Then(/^payment history will be updated$/) do
   page.should have_content 'MYTESTREFERENCE'
+end
+
+Then(/^payment history will show writeoff$/) do
+  page.should have_content 'Large Write off'
 end
 
 When(/^balance is (\d+)$/) do |arg1|

@@ -14,5 +14,5 @@ Scenario: Write off underpayment
   And I writeoff equal to underpayment amount
   And I confirm write off
   Then payment status will be paid
-  And payment history will be updated
+  And payment history will show writeoff
   And payment balance will be 0.00
