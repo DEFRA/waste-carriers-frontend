@@ -38,7 +38,7 @@
 							<% @registration.finance_details.first.payments.each do |payment| %>
 							    <% if !isARefund(payment) %>
 								<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-									<td class=""><%= payment.dateReceived %></td>
+									<td class=""><%= format_time payment.dateReceived %></td>
 									<td class="">
 									<% if hasOrderKey(payment) %>
 									    <%= payment.orderKey %>
