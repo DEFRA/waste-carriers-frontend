@@ -14,7 +14,7 @@
             <%= render 'shared/complete_summary', :type => @confirmationType %>
 
             <fieldset>
-            <% if @confirmationType.eql? getCompleteClass %>
+            <% if @confirmationType.eql? getCompleteClass or @confirmationType.eql? getCompleteLowerClass %>
               
               <legend><%= t '.your_reg_number', :reg => @registration.regIdentifier %></legend>
               <p><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
@@ -31,7 +31,7 @@
               
               <p><%= t('.not_yet_registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
 
-              <p><%= t '.payment_message' %></p>
+              <p><%= t '.payment_message', :regNum => @registration.regIdentifier %></p>
               
               <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
 
