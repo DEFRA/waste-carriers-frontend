@@ -1,0 +1,78 @@
+<%= render 'shared/content_for_pages' %>
+
+<main id="content" role="main" class="group">
+  <article role="article" class="group">
+    <section>
+      <div class="inner">
+        <div>
+
+          <!-- WF 4.3.2 -->
+          <div id="page6"  data-journey="waste-carriers-registration:registrations-export">
+            <% content_for :page_title, createTitle('.title') %>
+
+            <%= link_to t('registrations.form.back_button_label'), :registrations_search, :class => 'link_to' %>
+            <%= render "errors" %>
+
+            <h2><%= t '.subtitle' %></h2>
+
+            <table summary='A summary of the first 100 registrations matching your search' role='presentation'>
+              <thead>
+                <tr>
+                  <th><%= t 'activemodel.attributes.registration.regIdentifier' %></th>
+                  <th><%= t '.companyName' %></th>
+                  <th><%= t 'activemodel.attributes.registration.postcode' %></th>
+                  <th><%= t 'activemodel.attributes.registration.business_type' %></th>
+                  <th><%= t 'activemodel.attributes.registration.tier' %></th>
+                  <th><%= t 'activemodel.attributes.metadata.dateRegistered' %></th>
+                  <th><%= t 'activemodel.attributes.metadata.dateActivated' %></th>
+                  <th><%= t 'activemodel.attributes.metadata.status' %></th>
+                  <th><%= t 'activemodel.attributes.metadata.route' %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @registrations.each do |reg| %>
+                  <tr>
+                    <td><%= reg.regIdentifier %></td>
+                    <td><%= reg.companyName %></td>
+                    <td><%= reg.postcode %></td>
+                    <td><%= reg.businessType %></td>
+                    <td><%= reg.tier %></td>
+                    <td><%= reg.metaData.first.dateRegistered %></td>
+                    <td><%= reg.metaData.first.dateActivated %></td>
+                    <td><%= reg.metaData.first.status %></td>
+                    <td><%= reg.metaData.first.route %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <%= form_for(@report, :url => registrations_search_results_path) do |f| %>
+              <fieldset>
+                <%= f.hidden_field :from %>
+                <%= f.hidden_field :to %>
+                <%= f.hidden_field :has_declared_convictions %>
+                <%= f.hidden_field :is_criminally_suspect %>
+                <% @report.routes.each do |route| %>
+                  <%= f.hidden_field :routes, route %>
+                <% end %>
+                <% @report.statuses.each do |status| %>
+                  <%= f.hidden_field :statuses, status %>
+                <% end %>
+                <% @report.business_types.each do |type| %>
+                  <%= f.hidden_field :business_types, type %>
+                <% end %>
+                <% @report.tiers.each do |tier| %>
+                  <%= f.hidden_field :tiers, tier %>
+                <% end %>
+              </fieldset>
+              <span class="next_link">
+                <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_button_label' %>"/>
+              </span>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </article>
+</main>

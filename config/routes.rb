@@ -142,8 +142,10 @@ Registrations::Application.routes.draw do
     match "registrations/:uuid/edit" => 'registrations#update', :via => [:post,:put,:patch]
 
     # Data reporting urls - Authenticated agency users only
-    get "reports/registrations" => 'reports#reportRegistrations', :as => :reports_registrations
-    match "reports/registrations" => 'reports#updateReportRegistrations', :via => [:post,:put,:patch]
+    get "reports/registrations" => 'reports#registrations_search', :as => :registrations_search
+    match "reports/registrations" => 'reports#registrations_search_post', :via => [:post,:put,:patch]
+    get "reports/registrations/results" => 'reports#registrations_search_results', :as => :registrations_search_results
+    match "reports/registrations/results" => 'reports#registrations_export', :via => [:post,:put,:patch]
 
     # Template URLS - These are just for the devs as working examples
     get "templates/form" => "templates#formExample", :as => :formExample

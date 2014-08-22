@@ -10,6 +10,15 @@ en:
         first_name: "First name"
         last_name: "Last name"
         positon: "Position in organisation"
+      metadata:
+        anotherString: "Note"
+        dateActivated: "Date activated"
+        dateRegistered: "Date Registered"
+        distance: "Distance"
+        lastModified: "Last modified"
+        revokedReason: "Revoked reason"
+        route: "Route"
+        status: "Status"
       order:
         orderId: "Order Id"
         orderCode: "Order code"
@@ -47,6 +56,7 @@ en:
         contactEmail: "Email address"
         country: Country
         declaration: "Declaration"
+        edit_fee: "Registration amendment charge"
         firstName: "First name"
         houseNumber: "Building name or number"
         individualsType: "Organisation type"
@@ -64,17 +74,18 @@ en:
         primary_telephone_number: "Telephone number"
         publicBodyType: "Type of public body"
         publicBodyTypeOther: "Other type of public body"
+        regIdentifier: "Identifier"
         registrationType: "Registration type"
         registration_fee: "Registration charge"
         renewal_fee: "Registration renewal charge"
-        edit_fee: "Registration amendment charge"
-        total_fee: "Total charge"
         revokedReason: "Why do you wish to revoke this registration"
         selectedMoniker: "Select address"
         streetLine1: Street
         streetLine2: "Address Line 2"
         streetLine3: "Address Line 3"
         streetLine4: "Address Line 4"
+        tier: "Tier"
+        total_fee: "Total charge"
         townCity: "Town or city"
       report:
         from: From
@@ -182,11 +193,13 @@ en:
     delete_button_label: Delete
     edit_button_label: Edit
     edit_these_details: "Edit these details"
+    export_button_label: "Export"
     find_companies_house_details: "Companies House number"
     finished_button_label: "Finished"
     next_button_label: Next
     no_option_label: "No"
     print_button_label: "Print certificate"
+    search_button_label: "Search"
     sign_in_button_label: "Sign in"
     update_button_label: Update
     view_certificate_link_label: "View certificate"
@@ -796,9 +809,9 @@ en:
     errors:
       error: error
       error_message: "You have %{count} on this page"
-    reportRegistrations:
-      subtitle: "Registrations Export"
-      title: "Registrations Export"
+    registrations_search:
+      title: "Registrations Search"
+      subtitle: "Registrations search"
       date_filters: "Date filters"
       route_type: "Route"
       route_assisted_digital: "Assisted Digital"
@@ -809,6 +822,10 @@ en:
       convictions: "Convictions"
       has_declared_convictions: "Has declared convictions"
       is_criminally_suspect: "Is criminally suspect"
+    registrations_search_results:
+      title: "Registrations Search Results"
+      subtitle: "Registration search results summary"
+      companyName: "Trading Name"
   shared:
     complete_summary:
       almost_there_title: "Almost there"
