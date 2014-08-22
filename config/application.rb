@@ -175,6 +175,9 @@ module Registrations
     config.fee_renewal = Monetize.parse('£105').cents
     config.fee_copycard = Monetize.parse('£5').cents
     config.fee_reg_type_change = Monetize.parse('£40').cents
+    
+    # Conviciton checks must be completed within limit
+    config.registrations_service_exceed_limit = '56'
 
   end
 end
