@@ -510,6 +510,8 @@ class PaymentController < ApplicationController
 
 	originalPayment = Payment.getPayment(@registration, params[:orderCode])
     @payment.amount = originalPayment.amount
+    
+    @payment.registrationReference = originalPayment.registrationReference
 
 	# Save original amount     
     originalAmount = @payment.amount
