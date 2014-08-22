@@ -268,6 +268,7 @@ en:
       writeOffNotAppropriate: "Write off unavailable for current registration"
       writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
       writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"
+      amountToWriteOff: "Amount to write off"
     chargeIndex:
       heading: "Charge adjustments"
       step: "Select what type of charge adjustment you want to make"
@@ -288,6 +289,9 @@ en:
     BANKTRANSFER: "Bank transfer payment"
     REVERSAL: "Reversal"
     WORLDPAY_MISSED: "Missed payment from Worldpay"
+    WORLDPAY: "Worldpay"
+    WRITEOFFSMALL: "Small Write off"
+    WRITEOFFLARGE: "Large Write off"
   please_select: "Please select..."
   registration_mailer:
     revoke_email:
