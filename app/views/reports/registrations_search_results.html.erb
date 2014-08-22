@@ -53,16 +53,16 @@
                 <%= f.hidden_field :has_declared_convictions %>
                 <%= f.hidden_field :is_criminally_suspect %>
                 <% @report.routes.each do |route| %>
-                  <%= f.hidden_field :routes, route %>
+                  <%= f.hidden_field :routes, :value => route %>
                 <% end %>
                 <% @report.statuses.each do |status| %>
-                  <%= f.hidden_field :statuses, status %>
+                  <%= f.hidden_field :statuses, :value => status %>
                 <% end %>
                 <% @report.business_types.each do |type| %>
-                  <%= f.hidden_field :business_types, type %>
+                  <%= f.hidden_field :business_types, :value => type %>
                 <% end %>
                 <% @report.tiers.each do |tier| %>
-                  <%= f.hidden_field :tiers, tier %>
+                  <%= f.hidden_field :tiers, :value => tier %>
                 <% end %>
               </fieldset>
               <span class="next_link">
