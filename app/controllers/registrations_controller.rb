@@ -781,6 +781,12 @@ class RegistrationsController < ApplicationController
       renderNotFound and return
     end
     #render the confirmed page
+    
+    @confirmationType = getConfirmationType
+    unless @confirmationType
+      flash[:notice] = 'Invalid confirmation type. Check routing to this page'
+      renderNotFound and return
+    end
   end
 
   def declared_convictions? registration

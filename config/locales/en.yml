@@ -402,6 +402,9 @@ en:
       details_change: "If any of your details change you must update your registration within 28 days."
       if_upper: "If you are an upper tier you must renew your registration in 3 years time"
       how_to_pay_message: "Details of how to pay have been emailed to %{email}"
+      confirm_within_limit: "We will confirm your registration within %{limit} days"
+      limit_exceeded: "If it has been more than %{limit} days and you have still not received confirmation please contact the helpline and speak to one of our advisors"
+      phone_number: "☎ %{number}"
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
       subtitle: "Do you ever deal with construction or demolition waste?"

@@ -11,27 +11,10 @@
 
             <% content_for :page_title, createTitle('.title') %>
             
-            <%
-            confirmationType = nil
-            # These must match the css classes they related to
-            criminally_suspect_class = 'criminallySuspect'
-            almost_complete_class = 'almostComplete'
-            complete_class = 'complete'
-            if @registration.criminally_suspect
-              confirmationType = criminally_suspect_class
-            elsif !@registration.paid_in_full? and !@registration.criminally_suspect
-              confirmationType = almost_complete_class
-            elsif @registration.paid_in_full? and !@registration.criminally_suspect
-              confirmationType = complete_class
-            else
-              # Error state, should not reach here
-              confirmationType = 'unknown'
-            end
-            %>
-            <%= render 'shared/complete_summary', :type => confirmationType %>
+            <%= render 'shared/complete_summary', :type => @confirmationType %>
 
             <fieldset>
-            <% if @registration.is_complete? %>
+            <% if @confirmationType.eql? getCompleteClass %>
               
               <legend><%= t '.your_reg_number', :reg => @registration.regIdentifier %></legend>
               <p><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
@@ -44,7 +27,7 @@
               
               <p><%= t '.details_change' %></p>
 
-            <% elsif confirmationType.eql? almost_complete_class %>
+            <% elsif @confirmationType.eql? getAlmostCompleteClass %>
               
               <p><%= t('.not_yet_registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
 
@@ -52,22 +35,21 @@
               
               <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
 
-            <% else %>
-              criminal
-              <legend><%= t '.your_reg_number', :reg => @registration.regIdentifier %></legend>
-              <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
-              <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+            <% elsif @confirmationType.eql? getCriminallySuspectClass %>
+              
+              <legend><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></legend>
+              
+              <% if @registration.declaredConvictions %>
+                <p><%= t '.declared_convictions_message' %></p>
+              <% else %>
+                <p>2 <%= t '.pending_key_people_check_message' %></p>
+              <% end %>
+              
+              <p><%= t '.limit_exceeded', :limit => Rails.configuration.registrations_service_exceed_limit %></p>
+              <h3><%= t '.phone_number', :number => Rails.configuration.registrations_service_phone %></h3>
 
               <% unless @registration.paid_in_full? %>
                 <p><%= t '.payment_message' %></p>
-              <% end %>
-
-              <% if @registration.criminally_suspect %>
-                <% if @registration.declaredConvictions %>
-                  <p><%= t '.declared_convictions_message' %></p>
-                <% else %>
-                  <p><%= t '.pending_key_people_check_message' %></p>
-                <% end %>
               <% end %>
 
             <% end %>
@@ -79,7 +61,7 @@
               </span>
             <% end %>
             
-            <% if @registration.tier.downcase.eql? 'upper' %>
+            <% if @confirmationType.eql? getCompleteClass and @registration.tier.downcase.eql? 'upper' %>
               <div class="inner-payment-box">
             	<div class='notice-icon'></div>
         	  </div>
