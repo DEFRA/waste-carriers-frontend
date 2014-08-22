@@ -1,6 +1,7 @@
-//media-queries for IE6
+// BASE STYLESHEET FOR IE 6 COMPILER
 $is-ie: false !default;
 $mobile-ie6: true !default;
+@import 'application.css';
 
 @-ms-viewport {
 width: device-width;
