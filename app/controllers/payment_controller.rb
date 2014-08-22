@@ -147,11 +147,13 @@ class PaymentController < ApplicationController
       logger.info 'Write off small'
       @type = 'writeOffSmall'
       @payment.paymentType = 'WRITEOFFSMALL'
+      @payment.registrationReference = 'WRITEOFFSMALL'
       authorize! :writeOffSmallPayment, @payment
     elsif params[:writeOffLarge] == I18n.t('registrations.form.writeoff_button_label')
       logger.info 'Write off large'
       @type = 'writeOffLarge'
       @payment.paymentType = 'WRITEOFFLARGE'
+      @payment.registrationReference = 'WRITEOFFLARGE'
       authorize! :writeOffLargePayment, @payment
     else
       logger.info 'Unrecognised write off button, sending back to newWriteoff page'
