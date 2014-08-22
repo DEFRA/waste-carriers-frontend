@@ -788,6 +788,11 @@ class RegistrationsController < ApplicationController
       renderNotFound and return
     end
   end
+  
+  def completeConfirmed
+  	logger.info "Redirect to GDS site"
+    redirect_to Rails.configuration.waste_exemplar_end_url
+  end
 
   def declared_convictions? registration
     registration.declaredConvictions == 'yes'

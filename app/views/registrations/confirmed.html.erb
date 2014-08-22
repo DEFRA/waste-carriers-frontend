@@ -23,6 +23,9 @@
 			  <!-- The original screens for this had direct access to the View Certificate button, but this is ony available if logged in -->
               <% if can? :print, @registration %>
                 <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
+              <% else %>
+                <p><%= t '.sign_in_to_view' %></p>
+                <p><%= link_to t('form.sign_in_button_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
               <% end %>
               
               <p><%= t '.details_change' %></p>
@@ -55,9 +58,9 @@
             <% end %>
             </fieldset>
 
-            <%= form_tag(new_user_session_path, method: :get) do |f| %>
+            <%= form_tag do |f| %>
               <span class="next_link">
-                <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.sign_in_button_label' %>"/>
+                <input id="finished" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
               </span>
             <% end %>
             
