@@ -26,7 +26,10 @@ gem 'rolify'
 
 gem 'indefinite_article'
 
+# Provided by GDS - Template gives us the master layout into which
+# we can inject our content using yield and content_for
 gem 'govuk_template'
+# Access to some of the most common styles and scripts used by GDS
 gem 'govuk_frontend_toolkit'
 
 # Gems used only for assets and not required
