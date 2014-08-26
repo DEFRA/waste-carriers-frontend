@@ -21,13 +21,15 @@ class WorldpayController < ApplicationController
         # new registrations
         next_step = if user_signed_in?
         
-            #
-            # Is here a good place to activate registration?
-            #
+            # Attempt to activate registration
             Registration.activate_registrations(current_user)
             
             finish_path
           elsif agency_user_signed_in?
+            
+            # Attempt to activate registration
+            Registration.activate_registrations(current_agency_user)
+            
             finishAssisted_path
           else
             send_confirm_email Registration.find_by_id(session[:registration_uuid])
