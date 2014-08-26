@@ -20,6 +20,12 @@ class WorldpayController < ApplicationController
       when Order.new_registration_identifier
         # new registrations
         next_step = if user_signed_in?
+        
+            #
+            # Is here a good place to activate registration?
+            #
+            Registration.activate_registrations(current_user)
+            
             finish_path
           elsif agency_user_signed_in?
             finishAssisted_path
