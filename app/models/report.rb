@@ -2,9 +2,8 @@
 class Report
   include ActiveModel::Model
 
-  attr_accessor :is_new, :from, :to, :routes, :route_digital, :route_assisted_digital
-  attr_accessor :tiers, :statuses, :business_types, :has_declared_convictions
-  attr_accessor :is_criminally_suspect
+  attr_accessor :is_new, :from, :to, :has_declared_convictions, :is_criminally_suspect
+  attr_accessor :routes, :tiers, :statuses, :business_types
 
   validate :validate_from
   validate :validate_to
@@ -55,29 +54,20 @@ class Report
       param_args[:until] = to
     end
 
-    # param_args[:route] = [
-    #   route_digital,
-    #   route_assisted_digital
-    #   ].reject(&:blank?)
-
-    filtered_routes = routes.reject(&:blank?)
-    unless filtered_routes.empty?
-      param_args[:route] = filtered_routes
+    unless @routes.nil? || @routes.empty?
+      param_args[:route] = @routes
     end
 
-    filtered_statues = statuses.reject(&:blank?)
-    unless filtered_statues.empty?
-      param_args[:status] = filtered_statues
+    unless @tiers.nil? || @tiers.empty?
+      param_args[:tier] = @tiers
     end
 
-    filtered_business_types = business_types.reject(&:blank?)
-    unless filtered_business_types
-      param_args[:businessType] = filtered_business_types
+    unless @statuses.nil? || @statuses.empty?
+      param_args[:status] = @statuses
     end
 
-    filtered_tiers = tiers.reject(&:blank?)
-    unless filtered_tiers
-      param_args[:tier] = filtered_tiers
+    unless @business_types.nil? || @business_types.empty?
+      param_args[:businessType] = @business_types
     end
 
     unless has_declared_convictions.blank?

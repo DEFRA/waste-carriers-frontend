@@ -5,59 +5,74 @@ class ReportsController < ApplicationController
   before_action :authenticate_admin_request!
 
   # GET /report/registrations
-  def reportRegistrations
+  def registrations_search
 
-    @report = Report.new(params[:report])
+    set_report
 
   end
 
-  def updateReportRegistrations
+  def registrations_search_post
 
-    @report = Report.new(params[:report])
-
-    unless params[:report].nil?
-      params[:report].each do |k, v|
-        logger.debug "#{k}=#{v}"
-      end
-    end
-
-    unless params[:routes].nil?
-      @report.routes = params[:routes].values
-    end
-
-    unless params[:tiers].nil?
-      @report.tiers = params[:tiers].values
-    end
-
-    unless params[:statuses].nil?
-      @report.statuses = params[:statuses].values
-    end
-
-    unless params[:business_types].nil?
-      @report.business_types = params[:business_types].values
-    end
+    set_report
 
     unless @report.is_new.blank?
       @report.is_new = 'false'
 
       if @report.valid?
 
-        @registrations = Registration.find_by_params(@report.parameter_args, options = {
-          :url => "/query/registrations",
-          :format => ""
-          })
+        set_registrations
 
         if @registrations.empty?
           @report.errors.add(:base, t('errors.messages.no_results'))
-          render 'reportRegistrations', :status => '400'
+          render 'registrations_search', :status => '400'
         else
-          render_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
+          render 'registrations_search_results'
         end
       else
         logger.info 'Report filters are not valid'
-        render 'reportRegistrations', :status => '400'
+        render 'registrations_search', :status => '400'
       end
     end
+  end
+
+  def registrations_search_results
+
+    set_report
+
+    if @report.valid?
+
+      set_registrations
+
+      if @registrations.empty?
+        @report.errors.add(:base, t('errors.messages.no_results'))
+        render 'registrations_search', :status => '400'
+      end
+    else
+      logger.info 'Report filters are not valid'
+      render 'registrations_search', :status => '400'
+    end
+
+  end
+
+  def registrations_export
+
+    set_report
+
+    if @report.valid?
+
+      set_registrations
+
+      if @registrations.empty?
+        @report.errors.add(:base, t('errors.messages.no_results'))
+        render 'registrations_search', :status => '400'
+      else
+        render_registrations_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
+      end
+    else
+      logger.info 'Report filters are not valid'
+      render 'registrations_search', :status => '400'
+    end
+
   end
 
   def authenticate_admin_request!
@@ -68,11 +83,58 @@ class ReportsController < ApplicationController
 
   private
 
+    def set_report
+
+      @report = Report.new(params[:report])
+
+      unless params[:routes].nil?
+        @report.routes = filter_for_blanks params[:routes].values
+      end
+
+      unless params[:tiers].nil?
+        @report.tiers = filter_for_blanks params[:tiers].values
+      end
+
+      unless params[:statuses].nil?
+        @report.statuses = filter_for_blanks params[:statuses].values
+      end
+
+      unless params[:business_types].nil?
+        @report.business_types = filter_for_blanks params[:business_types].values
+      end
+
+    end
+
+    def set_registrations
+
+      @registrations = Registration.find_by_params(@report.parameter_args, options = {
+          :url => "/query/registrations",
+          :format => ""
+      })
+
+    end
+
+    def filter_for_blanks(values)
+
+      filtered = []
+
+      unless values.nil?
+        filtered = values.reject(&:blank?)
+      end
+
+      unless filtered
+        filtered = []
+      end
+
+      filtered
+
+    end
+
     # This method and the majority of the code in the reportRegistrations view
     # can be attributed to http://stackoverflow.com/a/94626. FasterCSV is now
     # as of Ruby since 1.9 part of the language and not a Gem. ou simply have to
     # require CSV in config/application.rb.
-    def render_csv(filename = nil)
+    def render_registrations_csv(filename = nil)
       filename ||= params[:action]
       filename += '.csv'
 
@@ -87,7 +149,7 @@ class ReportsController < ApplicationController
         headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
       end
 
-      render "reportRegistrations.csv", :layout => false
+      render "registrations_export.csv", :layout => false
     end
 
     def report_params
