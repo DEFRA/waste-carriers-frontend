@@ -489,9 +489,10 @@ class Registration < Ohm::Model
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'key_people'
-          if v
-            v.each do |dir|
-              new_reg.key_people.add HashToObject(dir, 'KeyPerson')
+          if v && v.size > 0
+            Rails.logger.debug "key people: #{v.to_s}"
+            v.each do |person|
+              new_reg.key_people.add KeyPerson.init(person)
             end
           end #if
         when 'metaData'
