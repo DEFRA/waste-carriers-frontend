@@ -416,15 +416,16 @@ class RegistrationsController < ApplicationController
       redirect_to :action => 'newSignup'
     else
       if @registration.valid?
-        complete_new_registration
         case @registration.tier
         when 'LOWER'
+          complete_new_registration true
           if user_signed_in
             redirect_to :action => 'finish'
           else
             redirect_to :action => 'finishAssisted'
           end
         when 'UPPER'
+          complete_new_registration
           #
           # Important!
           # Now storing an additional variable in the session for the type of order
@@ -461,16 +462,20 @@ class RegistrationsController < ApplicationController
       end
     end
 
-    if @registration.valid?
-      logger.debug 'Registration is valid'
-      complete_new_registration
-    else
+    if !@registration.valid?
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newSignin", :status => '400'
       return
     end
 
+    case @registration.tier
+    when 'LOWER'
+      complete_new_registration true
+    when 'UPPER'
+      complete_new_registration
+    end
+    
     @registration.sign_up_mode = ''
     @registration.save
 
@@ -648,12 +653,12 @@ class RegistrationsController < ApplicationController
 
   end
 
-  def complete_new_registration
+  def complete_new_registration (activateRegistration=false)
 
     unless @registration.persisted?
 
       commit_new_registration
-      @registration.activate!
+      @registration.activate! if activateRegistration
       @registration.save
 
       unless @registration.assisted_digital?
