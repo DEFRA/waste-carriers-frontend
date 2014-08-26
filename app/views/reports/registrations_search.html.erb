@@ -13,12 +13,12 @@
             <%= link_to t('registrations.form.back_button_label'), :registrations, :class => 'link_to' %>
             <%= render "errors" %>
 
-            <%= form_for(@report, :url => "registrations" ) do |f| %>
-            <h1><%= t '.subtitle' %></h1>
+            <%= form_for(@report, :url => 'registrations' ) do |f| %>
+              <h2><%= t '.subtitle' %></h2>
 
+              <h3><%=t '.date_filters' %></h3>
               <fieldset>
                 <%= f.hidden_field :is_new, :value => 'false' %>
-                <legend><%=t '.date_filters' %></legend>
                 <div class="form-group<%if @report.errors[:from].any?%> validation<% end %>">
                   <%= validation_for(@report, :from) %>
                   <div class='form-label'><%= f.label :from %></div>
@@ -31,8 +31,8 @@
                 </div>
               </fieldset>
 
+              <h3><%= t '.route_type' %></h3>
               <fieldset>
-                <legend><%= t '.route_type' %></legend>
                 <div class='inline'>
                   <% Report.route_options.each do |option| %>
                     <%= f.label :routes, for: "routes_#{option.second.downcase}",  class: 'block-label' do %>
@@ -43,8 +43,8 @@
                 </div>
               </fieldset>
 
+              <h3><%= t '.tier' %></h3>
               <fieldset>
-                <legend><%= t '.tier' %></legend>
                 <div class='inline'>
                   <% Report.tier_options.each do |option| %>
                     <%= f.label :tiers, for: "tiers_#{option.second.downcase}",  class: 'block-label' do %>
@@ -55,8 +55,8 @@
                 </div>
               </fieldset>
 
+              <h3><%= t '.status' %></h3>
               <fieldset>
-                <legend><%= t '.status' %></legend>
                 <div class='inline'>
                   <% Report.status_options.each do |option| %>
                     <%= f.label :statuses, for: "statuses_#{option.second.downcase}",  class: 'block-label' do %>
@@ -67,8 +67,8 @@
                 </div>
               </fieldset>
 
+              <h3><%= t '.business_type' %></h3>
               <fieldset>
-                <legend><%= t '.business_type' %></legend>
                 <div class="inline">
                   <% Registration.business_type_options_for_select.each do |option| %>
                     <%= f.label :business_types, for: "business_types_#{option.second.downcase}",  class: 'block-label' do %>
@@ -79,8 +79,8 @@
                 </div>
               </fieldset>
 
+              <h3><%= t '.convictions' %></h3>
               <fieldset>
-                <legend><%= t '.convictions' %></legend>
                 <div class='inline'>
                   <%= f.label :has_declared_convictions, for: 'report_has_declared_convictions', class: 'block-label' do %>
                     <%= f.check_box :has_declared_convictions, {}, "yes", "" %> <%= t '.has_declared_convictions' %>
@@ -91,7 +91,9 @@
                 </div>
               </fieldset>
 
-              <input type="submit" value="Export" class="button">
+              <span class="next_link">
+                <input id="search_btn" name="search" class="button button-get-started" type="submit" value="<%= t 'form.search_button_label' %>"/>
+              </span>
             <% end %>
           </div>
         </div>
