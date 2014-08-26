@@ -903,7 +903,10 @@ class Registration < Ohm::Model
         Rails.logger.info "Activating registration #{r.regIdentifier}"
         r.activate!
         Rails.logger.debug "registration #{r.id} activated!"
-        RegistrationMailer.welcome_email(user,r).deliver
+        if !user.is_agency_user?
+          Rails.logger.debug "Send registration email"
+          RegistrationMailer.welcome_email(user,r).deliver
+        end
       else
         Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
       end
