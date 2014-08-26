@@ -34,5 +34,5 @@ table th, table td {
     text-transform: none;
 }
 
-.table-column-text {@include core-19; color:#6F777B; margin-right:100px;}
-.table-column-data {@include bold-19;}
+.table-column-text {@include core-16; color:#6F777B;}
+.table-column-data, #table-column-data-address {@include core-16; padding-left:$gutter*4;}

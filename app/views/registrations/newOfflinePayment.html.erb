@@ -1,25 +1,24 @@
 <%= render 'shared/content_for_pages' %>
+<div id="wrapper">
+<div class="back-section">
+  <ol>
+    <li><%= render 'back_link' %></li>
+  </ol>
+</div>
+
+<header class="page-header group">
+  <div class="hgroup"> 
+    <h1 class="heading-xlarge"><%= t '.heading' %></h1>
+    <h2 class="heading-medium"><%= t '.bank_transfer_instructions' %></h2>
+    <h3 class="heading-medium"><strong>Step 1</strong></h3>
+  </div>
+</header> 
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-    <section class='bank_section'>
-      <div class="inner">
-      <div class="col-1" id="col-1-bank-transfer">
-      
-        <%= render 'back_link' %>
-
-<div id='bank_transfer_table'>
-  <h1 class='table_header'><%= t '.heading' %></h1>
-    <h3><%= t '.bank_transfer_instructions' %></h3>
-    <br/>
+      <div id="payment-table-wrapper">
       <table summary='Bank transfer details' role='presentation'>
-        <thead>
-          <tr>
-            <th class="subtitle"><h3><strong>Step one</strong></h3></th>
-            <th></th>
-          </tr>
-        </thead>
-
+        <thead></thead>
         <tbody>
           <tr>
             <td class='table-column-text'><%= t '.reference' %></td>
@@ -51,16 +50,15 @@
           </tr>
         </tbody>
       </table>
-</div>
 
-<div id="electronic-payment-icon"></div>
-<p id="iban"><strong><%= t '.iban_instructions' %></strong></p>
+  </br>
+  </br>
 
-<div id='bank_transfer_table'>
+      <p class="iban-instructions"><%= t '.iban_instructions' %></p>
+      <div class="notice-icon"></div>
+
       <table summary='Bank transfer details' role='presentation'>
-        <thead>
-        </thead>
-
+        <thead></thead>
         <tbody>
           <tr>
             <td class='table-column-text'><%= t '.iban_number' %></td>
@@ -72,25 +70,16 @@
           </tr>
         </tbody>
       </table>
-</div>
 
-<br/>
-<br/>
-<br/>
+  </br>
+  </br>
 
-<div class="subtitle"><h3><strong>Step two</strong></h3></div>
-<div><h3><%= t '.bank_transfer_contact_instructions' %></h3></div>
+      <h3 class="heading-medium"><strong>Step 2</strong></h3>
+      <p><%= t '.bank_transfer_contact_instructions' %></p>
 
-<div id='bank_transfer_table'>
       <table summary='Bank transfer details' role='presentation'>
-        <thead>
-        </thead>
-
+        <thead></thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-          </tr>
           <tr>
             <td class='table-column-text'><%= t '.email_preamble' %></td>
             <td class='table-column-data'><%= mail_to Rails.configuration.income_email_address %></td>
@@ -105,18 +94,14 @@
           </tr>
         </tbody>
       </table>
-</div>
-<br/>
-
-
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>
-      <%= render 'next_link' %>
+    <ol>
+      <li><%= render 'next_link' %></li>
+    <ol>
     <% end %>
-
-
-    </div>
-  </div>
-</section>
-  </article>
+    
+  </div><!--payment-table-wrapper-->
+</article>
 </main>
+</div><!--wrapper end-->

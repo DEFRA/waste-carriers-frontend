@@ -1,51 +1,73 @@
 <%= render 'shared/content_for_pages' %>
+<div id="wrapper">
+<div class="back-section">
+  <ol>
+    <li><%= render 'shared/registration_back_link' %></li>
+  </ol>
+</div>
+
+<header class="page-header group">
+  <div class="hgroup"> 
+      <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+  </div>
+</header> 
+
 <main id="content" role="main" class="group">
   <article role="article" class="group">
     <section id='payment-copycard-page'>
-      <div class="col-1" id='payment-col-1'>
       
       <%= form_for(@registration, :url => :upper_payment, :method => 'post') do |f| %>
       <% content_for :page_title, createTitle('.title') %>
  
-      <%= render 'shared/registration_back_link' %>
       <%= render "order/notice_or_alert" %>
       <%= render "shared/registration_errors" %>
       <%= render "order/order_errors" %>
 
-      <fieldset>
-        <legend><%= t '.subtitle' %></legend>
-		
-		
-		<%= render "order/registration_fee", :f => f if showRegistrationFee? @renderType %>
-		<%= render "order/edit_registration_fee", :f => f if showEditFee? @renderType %>   
-		<%= render "order/renew_registration_fee", :f => f if showRenewalFee? @renderType %>   
-		<%= render "order/copy_cards", :f => f if showCopyCards? @renderType %>        
-        
-        
-        <div class="inner-payment-box">
-            <div class='payment-group'>
+      <table summary='payment-summary' role='presentation' id="payment-summary-table">
+        <thead>
+          <tr>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <%= render "order/registration_fee", :f => f if showRegistrationFee? @renderType %>
+              <%= render "order/edit_registration_fee", :f => f if showEditFee? @renderType %>
+              <%= render "order/renew_registration_fee", :f => f if showRenewalFee? @renderType %>
+            </td>
+          </tr>
+          <tr>
+            <td><%= render "order/copy_cards", :f => f if showCopyCards? @renderType %></td>
+          </tr>
+          <tr>
+            <td class='total-charge'>
               <%= f.label :total_fee, class: 'form-label' %>
               <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
-            </div>
-            <p class='subtitle'><%= t '.total_fee_vat' %></p>
-        </div>
-        
-        
-        <div class="inner-payment-box">
-            <div class='payment-group'>
-              <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-              <span>or</span>
-              <input name="offline_next" class="button" type="submit" value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
-            </div>
-            <div class='notice-icon'></div>
-        </div>
-        
-        <p class='subtitle' id="world-pay-subtitle"><%= t '.send_to_worldpay' %></p>
+              <p class='form-note'><%= t '.total_fee_vat' %></p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-      </fieldset>
+    <div class="payment-options">
+      <div class="inline">
+        <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
+      </div>
+       <div class="inline"><p>or</p></div>
+      <div class="inline">
+        <input name="offline_next" class="button" type="submit" value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
+      </div>
+    </div>
+
+    <div class="payment-notice">
+        <div class='notice-icon'></div>
+        <div class='form-note' id="world-pay-subtitle"><%= t '.send_to_worldpay' %></div>
+    </div>
+  
       
       <% end %>
-      </div>
     </section>
   </article>
 </main>
+</div><!--wrapper end-->
