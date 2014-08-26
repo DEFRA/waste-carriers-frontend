@@ -354,21 +354,19 @@ class RegistrationsController < ApplicationController
       when EditMode::EDIT
         case session[:edit_result].to_i
         when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-          if @registration.save!
-          else
-            #TODO: error handling
-          end #if
           redirect_to action: 'editRenewComplete' and return
 
+
+
         when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-           redirect_to newOrderEdit_path(@registration.uuid) and return
+          redirect_to newOrderEdit_path(@registration.uuid) and return
         when  EditResult::CREATE_NEW_REGISTRATION
         end
 
       when EditMode::RENEWAL
         @registration.expires_on = (Time.parse(@registration.expires_on) + 3.years).to_s
+        @registration.save
         redirect_to newOrderRenew_path(@registration.uuid) and return
-        # update_registration session[:edit_mode]
       else # new registration
         redirect_to :action => :account_mode
       end #case
@@ -787,16 +785,16 @@ class RegistrationsController < ApplicationController
       renderNotFound and return
     end
     #render the confirmed page
-    
+
     @confirmationType = getConfirmationType
     unless @confirmationType
       flash[:notice] = 'Invalid confirmation type. Check routing to this page'
       renderNotFound and return
     end
   end
-  
+
   def completeConfirmed
-  	logger.info "Redirect to GDS site"
+    logger.info "Redirect to GDS site"
     redirect_to Rails.configuration.waste_exemplar_end_url
   end
 
@@ -1115,6 +1113,13 @@ class RegistrationsController < ApplicationController
     @registration = Registration[session[:registration_id]]
     @edit_mode = session[:edit_mode]
     @edit_result = session[:edit_result]
+
+    if @registration.save!
+      logger.debug "Registration #{@registration.uuid} now saved!"
+
+    else
+      #TODO: error handling
+    end #if
 
     #at the end of the edit/renewal process, so clear the session
     session.delete(:original_registration_id)
