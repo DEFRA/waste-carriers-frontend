@@ -1,5 +1,10 @@
 <%= render 'shared/content_for_pages' %>
-
+<div id="wrapper">
+  <div class="back-section">
+    <ol>
+      <li><%= render 'back_link' %></li>
+    </ol>
+  </div>
 <main id="content" role="main" class="group">
   <article role="article" class="group">
   	  <section>
@@ -7,7 +12,6 @@
       		<div class="col-1">
     		<% content_for :page_title, createTitle('registrations.constructiondemolition_step.title') %>
     		<%= form_for(@registration, :url => newConstructionDemolition_path) do |f| %>
-      		<%= render 'back_link' %>
       		<%= render "constructiondemolition_step", :f => f %>
     		<% end %>
       		</div>
@@ -15,3 +19,4 @@
 	</section>
   </article>
 </main>
+</div>

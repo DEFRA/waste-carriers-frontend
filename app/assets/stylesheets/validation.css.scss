@@ -1,0 +1,59 @@
+@import '_colours';
+@import '_css3';
+@import '_shims';
+@import '_typography';
+@import '_measurements';
+
+@import 'design-patterns/_alpha-beta';
+@import 'design-patterns/_buttons';
+
+@import '_url-helpers';
+@import '_conditionals';
+@import '_device-pixels';
+@import '_font_stack';
+
+/* Field validation */
+
+.validation-summary {
+max-width:30em;	
+border: 3px solid $error-colour;
+padding: $gutter-half $gutter;
+margin-bottom: $gutter;
+@include ie-lte(6){
+zoom: 1;
+}
+}
+.validation-summary ul {
+margin-top: 10px;
+}
+.validation-summary li,
+.validation-summary p {
+@include core-16;
+}
+.validation-summary p {
+margin-top: $gutter-half;
+margin-bottom: 5px;
+}
+.validation-summary a {
+color: $error-colour;
+@include ie-lte(6) {
+color: $error-colour !important;
+}
+}
+.validation-summary .heading-small {
+margin-top: $gutter-half;
+}
+.validation-message {
+display: block;
+@include core-16;
+color: $error-colour;
+}
+
+
+/* Error text */
+
+.error-text {
+ color: $error-colour;
+}
+
+
