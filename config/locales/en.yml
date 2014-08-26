@@ -268,6 +268,7 @@ en:
       writeOffNotAppropriate: "Write off unavailable for current registration"
       writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
       writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"
+      amountToWriteOff: "Amount to write off"
     chargeIndex:
       heading: "Charge adjustments"
       step: "Select what type of charge adjustment you want to make"
@@ -288,6 +289,9 @@ en:
     BANKTRANSFER: "Bank transfer payment"
     REVERSAL: "Reversal"
     WORLDPAY_MISSED: "Missed payment from Worldpay"
+    WORLDPAY: "Worldpay"
+    WRITEOFFSMALL: "Small Write off"
+    WRITEOFFLARGE: "Large Write off"
   please_select: "Please select..."
   registration_mailer:
     revoke_email:
@@ -391,16 +395,21 @@ en:
       title: Confirmation
     confirmed:
       title: "Confirmed"
-      subtitle_complete: "Registration complete"
-      subtitle_pending: "Registration pending"
       your_reg_number: "Your registration number is: %{reg}"
       registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
+      not_yet_registered_as: "%{companyName} is not yet registered as %{tier_with_article} tier waste carrier with the Environment Agency."
       applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier with the Environment Agency."
       details_emailed: "Your certificate and guidance have been emailed to %{email}."
-      payment_message: "Please remember to arrange your bank transfer. Alternatively select the registration and choose to pay by credit or debit card."
+      payment_message: "Please remember to arrange your bank transfer providing you registration number: %{regNum}"
       declared_convictions_message: "We are required to cross check the declared relevant people with convictions before confirming the registration."
       pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
       details_change: "If any of your details change you must update your registration within 28 days."
+      if_upper: "If you are an upper tier you must renew your registration in 3 years time"
+      how_to_pay_message: "Details of how to pay have been emailed to %{email}"
+      confirm_within_limit: "We will confirm your registration within %{limit} days"
+      limit_exceeded: "If it has been more than %{limit} days and you have still not received confirmation please contact the helpline and speak to one of our advisors"
+      phone_number: "☎ %{number}"
+      sign_in_to_view: "You must sign in to view your certificate"
     constructiondemolition_step:
       explanation_link: "What is construction and demolition waste"
       subtitle: "Do you ever deal with construction or demolition waste?"
@@ -869,9 +878,11 @@ en:
       subtitle: "A reference page for WCR team"
     formTemplate:
       title: "Example form template"
-    formTemplate_step:
-      legend: "An example legend"
       subtitle: "All pages should follow this structure"
+      aside_heading: "Example side note"
+      aside_message: "You do not have to have an aside on the page, but if you do it should follow this format."
+    formTemplate_step:
+      legend: "All pages should follow this structure"
   upper_registrations:
     business_type:
       form_legend: "Type of registration to register"

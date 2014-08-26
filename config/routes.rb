@@ -105,6 +105,7 @@ Registrations::Application.routes.draw do
 	  get "your-registration/confirm-account" => 'registrations#pending', :as => :pending
 
 	  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
+	  match "your-registration/confirmed" => 'registrations#completeConfirmed', :via => [:post]
 
     get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]

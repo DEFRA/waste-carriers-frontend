@@ -1,18 +1,20 @@
 <%# 
 This file expects a parameter 'type' with the following values:
-almostComplete - renders appropriate text, with orange background
-complete - renders appropriate text, with green background
+almostComplete    - renders appropriate text, with orange background
+complete          - renders appropriate text, with green background
+complete lower    - renders appropriate text, with green background
 criminallySuspect - renders appropriate text, with orange background
-Note: These values match styles in the css
+Note: These values should match styles in the css if needed
 %>
 
-<% if type.eql? 'almostComplete' or type.eql? 'complete' or type.eql? 'criminallySuspect' %>
+<% if type.eql? getAlmostCompleteClass or type.eql? getCompleteClass or type.eql? getCompleteLowerClass or type.eql? getCriminallySuspectClass %>
 <!-- Show a summary box of the status of the registration -->
 <div class="completeSummary <%= type %>">
 	<div class="completeSummaryTitle">
 		<%= t'.almost_there_title' if type.eql? 'almostComplete' %>
 		<%= t'.criminal_title' if type.eql? 'criminallySuspect' %>
 		<%= t'.complete_title' if type.eql? 'complete' %>
+		<%= t'.complete_title' if type.eql? 'complete lower' %>
 	</div>
 	<div class="completeSummaryMessage">
 		<%= t '.almost_there_message' if type.eql? 'almostComplete' %>
