@@ -1,4 +1,59 @@
 // BASE STYLESHEET FOR IE 7 COMPILER
 $is-ie: true;
 $ie-version: 7;
-@import 'application.css';
+
+@-ms-viewport {
+width: device-width;
+}
+@-o-viewport {
+width: device-width;
+}
+@mixin media($size: false, $max-width: false, $min-width: false, $ignore-for-ie: false) {
+@if $is-ie and ($ignore-for-ie == false) {
+@if $size != mobile {
+@if ($ie-version == 7 and $mobile-ie7 == false) or $ie-version > 7 {
+@content;
+}
+}
+} @else {
+@if $size == desktop {
+@media (min-width: 769px){
+@content;
+}
+} @else if $size == tablet {
+@media (min-width: 641px){
+@content;
+}
+} @else if $size == mobile {
+@media (max-width: 640px){
+@content;
+}
+} @else if $max-width != false {
+@media (max-width: $max-width){
+@content;
+}
+} @else if $min-width != false {
+@media (min-width: $min-width){
+@content;
+}
+} @else {
+@media (min-width: $size){
+@content
+}
+}
+}
+}
+@mixin ie-lte($version) {
+@if $is-ie {
+@if $ie-version <= $version {
+@content;
+}
+}
+}
+@mixin ie($version) {
+@if $is-ie {
+@if $ie-version == $version {
+@content;
+}
+}
+}

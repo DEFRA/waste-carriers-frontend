@@ -1,0 +1,98 @@
+@import '_colours';
+@import '_css3';
+@import '_shims';
+@import '_typography';
+@import '_measurements';
+
+@import 'design-patterns/_alpha-beta';
+@import 'design-patterns/_buttons';
+
+@import '_url-helpers';
+@import '_conditionals';
+@import '_device-pixels';
+@import '_font_stack';
+
+/* Modules */
+
+/* Related positioning ========================================================== */
+
+.related {
+    border-top: 10px solid rgb(0, 94, 165);
+}
+
+.related h2 {
+ @include bold-24;
+ margin-top: $gutter-half;
+}
+
+.related .inner {
+    width: auto;
+    margin: 0 auto;
+}
+
+.related ul {
+   list-style: none outside none;
+}
+
+.related li {
+    margin-bottom: 0.75em;
+    padding-left: 0;
+}
+
+.related li a {
+    display: block;
+    line-height: 1.25em;
+    @include core-16; 
+}
+
+.related li p {
+    display: block;
+    line-height: 0.25em;
+    @include core-19;
+    padding: 0; 
+}
+
+
+/* Hidden text ========================================================== */
+
+details {
+display: block;
+margin-bottom:1em;
+@include core-19;
+}
+details summary {
+display: inline-block;
+color: $govuk-blue;
+cursor: pointer;
+position: relative;
+margin-bottom: em(5);
+}
+details summary:hover {
+color: $link-hover-colour;
+}
+details summary:focus {
+outline: 3px solid $yellow;
+}
+
+details .summary {
+text-decoration: underline;
+}
+
+details .arrow {
+margin-right: 0.35em;
+}
+
+details .panel-indent {
+margin-top: 0;
+}
+
+/* Panel indent ========================================================== */
+
+.panel-indent {
+    border-left: 4px solid rgb(191, 193, 195);
+    clear: both;
+    padding: 10px 0 0px 15px;
+    margin-bottom: 20px;
+}
+
+

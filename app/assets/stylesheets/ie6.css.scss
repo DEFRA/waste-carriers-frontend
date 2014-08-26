@@ -1,7 +1,6 @@
 // BASE STYLESHEET FOR IE 6 COMPILER
-$is-ie: false !default;
-$mobile-ie6: true !default;
-@import 'application.css';
+$is-ie: true;
+$ie-version: 6;
 
 @-ms-viewport {
 width: device-width;

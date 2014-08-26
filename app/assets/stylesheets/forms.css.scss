@@ -1,0 +1,167 @@
+@import '_colours';
+@import '_css3';
+@import '_shims';
+@import '_typography';
+@import '_measurements';
+
+@import 'design-patterns/_alpha-beta';
+@import 'design-patterns/_buttons';
+
+@import '_url-helpers';
+@import '_conditionals';
+@import '_device-pixels';
+@import '_font_stack';
+
+/* Form layout ========================================================== */
+
+legend {
+  margin:0; padding:0;
+} 
+
+.form-label {
+  @include copy-19;
+    display: block;
+    line-height:2em;
+    padding-top:$gutter;
+}
+
+input,#addressSelector {
+  @include copy-19;
+}
+
+#registration_accountEmail_confirmation,
+#registration_contactEmail, 
+#registration_accountEmail, 
+#agency_user_email, 
+#user_email, 
+#admin_email {
+  width:40%;
+}
+
+input {
+  margin-bottom: $gutter-half;
+}
+
+/* Address look-up */
+
+#addressSelector {
+  margin-top: $gutter;
+  margin-bottom: $gutter;
+  width:100%;
+}
+ #addressSelector {
+  word-wrap: break-word;
+ }
+
+/* Radio buttons and check boxes ========================================================== */
+
+.block-label {
+display: block;
+float: none;
+clear: left;
+position: relative;
+background: $panel-colour;
+border: 1px solid $panel-colour;
+padding: (15px $gutter $gutter-half $gutter*1.5);
+margin-top: 10px;
+margin-bottom: 10px;
+font-size: 19px;
+cursor: pointer; // Encourage clicking on block labels
+@include media(tablet) {
+float: left;
+margin-top: 5px;
+margin-bottom: 5px;
+// width: 25%; - Test : check that text within labels will wrap
+}
+}
+.block-label:hover {
+border-color: $black;
+}
+// Position checkbox within label, to allow text to wrap
+.block-label input {
+position: absolute;
+top: 18px;
+left: $gutter-half;
+cursor: pointer;
+}
+// Use inline, to sit block labels next to each other
+.inline .block-label {
+clear: none;
+margin-right: $gutter-half;
+}
+// Only if JavaScript is enabled
+// Add focus styles to block labels
+.js-enabled .add-focus {
+outline: 3px solid $yellow;
+}
+// Remove focus styles from radio and checkbox inputs
+.js-enabled .block-label input:focus {
+outline: none;
+}
+// Add selected state to block labels
+.js-enabled .selected {
+background: $white;
+border-color: $black;
+}
+
+
+/* Buttons ========================================================== */
+
+.button {
+  @include button;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+}
+.button-secondary {
+  @include button($grey-3);
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+}
+.button-warning {
+  @include button($red);
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+}
+
+/* Date of birth ========================================================== */
+
+.inline-date {
+  display:inline-block;
+}
+#date-subtitle {
+  margin:0;
+}
+.inline-date label {
+display: block;
+margin-bottom: 5px;
+}
+.inline-date .form-group {
+width: 50px;
+float: left;
+margin-right: 20px;
+clear: none;
+}
+.inline-date .form-group-year {
+width: 70px;
+}
+.inline-date .form-group input {
+width: 100%;
+}
+// Use Modernizr to detect for touch events
+// Build: http://modernizr.com/download/#-touch-cssclasses-teststyles-prefixes
+// Hide date of birth
+.touch .inline-date {
+display: none;
+}
+// Hide native date of birth
+.no-touch .inline-date {
+display: none;
+}
+// Show native date of birth
+.touch .inline-date {
+display: block;
+}
+// Set a minimum height for date inputs
+.touch input[type="date"] {
+min-height: 36px;
+}
