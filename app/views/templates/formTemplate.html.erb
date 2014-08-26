@@ -1,41 +1,58 @@
 <%= render 'shared/content_for_pages' %>
-
+<div id="wrapper">
 <main id="content" role="main" class="group">
-  <article role="article" class="group">
-    <section>
-      <div class="inner">
-        <div class="col-1">
+<div class="grid-wrapper">
 
+  <div class="back-section">
+    <ol>
+      <li><%= render 'back_link' %></li>
+    </ol>
+  </div>
+
+  <header class="page-header group">
+    <div class="hgroup"> 
+      <h1 class="heading-xlarge">Waste Carriers Registration Service</h1>
+      <h2 class="heading-medium">Development page</h2>
+    </div>
+  </header> 
+
+
+  <div class="grid-wrapper">
+    <div class="grid-2-3">
+      <article role="article" class="group">
           <!-- WF 4.3.2 -->
           <div id="page0"  data-journey="waste-carriers-registration:template">
-
-            <% content_for :page_title, createTitle('.title') %>
-
-            <%= render 'back_link' %>
-            <%= render 'errors' %>
-
-            <%= form_for(@registration, :url => formExample_path) do |f| %>
+              <% content_for :page_title, createTitle('.title') %>
+              <%= render 'errors' %>
+              <%= form_for(@registration, :url => formExample_path) do |f| %>
               <%= render 'formTemplate_step', f: f, r: @registration %>
-              <span class="next_link"><%= render 'next_link' %></span>
+              <%= render 'next_link' %>
             <% end %>
-
           </div>
-        </div>
-      </div>
-    </section>
+      </article>
+    </div><!--grid-2-3 end-->
+  </div><!--grid-wrapper end-->
 
-    <aside role='note'>
-      <div class="inner">
-        <!-- Getting the aside to appear in the middle of the page is currently
-          ID dependent hence currently I have had to use an existing ID rather
-          than something more general e.g. class="aside" -->
-        <div class="col-2" id="relevant-aside">
-          <h3><%= t '.aside_heading' %></h3>
-          <%= t '.aside_message' %>
-          <div id="includedContent"></div>
-        </div>
-      </div>
-    </aside>
 
-  </article>
-</main>
+  <div class="grid-wrapper">
+    <div class="grid-1-3">
+      <div class="related">
+        <div class="inner group related-subsection">
+          <h2 class="heading-small"><%= t '.aside_heading' %></h2>
+            <nav aria-labelledby="parent-subsection" role="navigation">
+              <ul>
+                <li><%= t '.aside_message' %></li>
+                <li id="includedContent"></li>
+                </ul>
+            </nav>
+        </div>
+      </div><!--related end-->        
+    </div><!--grid-1-3 end-->
+  </div><!--grid-wrapper end-->
+
+</div><!--grid-wrapper end-->
+</main><!--main end-->
+</div><!--wrapper end-->
+
+
+

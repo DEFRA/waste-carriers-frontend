@@ -1,25 +1,27 @@
 <%= render 'shared/content_for_pages' %>
 
-<div id="wrapper">
-<header class="page-header group">
-  <div class="hgroup"> 
-    <h1>Waste Carriers Registration Service</h1>
-    <h2 class="subtitle-bold">Development Home Page</h2>
-  </div>
-</header> 
+<div id="wrapper"> 
+<main id="content" role="main" class="group">  
+  <div class="grid-wrapper">
 
-<main id="content" role="main" class="group">
- <div class="grid-wrapper">
-  <div class="grid grid-2-3">
-  <div class="inner-block"> 
+      <header class="page-header group">
+        <div class="hgroup"> 
+          <h1 class="heading-xlarge">Waste Carriers Registration Service</h1>
+          <h2 class="heading-medium">Development page</h2>
+        </div>
+      </header> 
+
+<div class="grid-wrapper">
+  <div class="grid-2-3">
+
     <article role="article" class="group">
-      <fieldset>
-        <legend></legend>
-           <p class="panel-indent">You are seeing this page because the application is deployed in development mode users in the production environment will be redirected to the "Find out if I need to register" page
-            </p>
+      <div class="text">
+        <p class="panel-indent">You are seeing this page because the application is deployed in development mode users in the production environment will be redirected to the "Find out if I need to register" page
+        </p>
+      </div>
           <% if alert %>
             <div id="error_explanation" class="validation-summary">
-              <h2><%= t '.standard_error' %></h2>
+              <h2 class="heading-small"><%= t '.standard_error' %></h2>
               <ul>
               <li><%= alert %></li>
               </ul>
@@ -37,53 +39,46 @@
         </div>
       <% end %>
 
-        <h3>Waste Carrier Entry points (typically redirected from GOV.UK)</h3>
-        <ol>
+    <h2 class="heading-small">Waste Carrier Entry points (typically redirected from GOV.UK)</h2>
+        <ul>
           <li><a href='/registrations/find'>Find out if I have to register </a></li>
           <li><a href='/users/sign_in'>Waste Carrier Login </a></li>
           <li><a href='/registrations/search'>Public Register</a></li>
-        </ol>
+        </ul>
 
-        <h3>NCCC Entry points</h3>
-        <ol>
+        <h2 class="heading-small">NCCC Entry points</h2>
+        <ul>
           <li><a href='/agency_users/sign_in'>Agency/NCCC Login </a></li>
-        </ol>
+        </ul>
 
-        <h3>Administration Entry points</h3>
-        <ol>
+        <h2 class="heading-small">Administration Entry points</h2>
+        <ul>
           <li><a href='/admins/sign_in'>Administration Login </a></li>
-        </ol>
+        </ul>
+    </article>
     
-      </fieldset>
-  </article>
-</div><!--inner-block end-->
-</div><!--grid-2-3 end-->
+  </div><!--grid-2-3 end-->
+  </div><!--grid-wrapper end-->
 
-
-
-<div class="grid grid-1-3"> 
-    <div class="related-positioning">
-      <div class="related-container">
-        <div id="related" class="related">
-          <div class="inner group related-subsection">
-            <h2>Template Example</h2>
+  <div class="grid-wrapper">
+    <div class="grid-1-3">
+      <div class="related">
+        <div class="inner group related-subsection">
+          <h2 class="heading-small">Template Example</h2>
             <nav aria-labelledby="parent-subsection" role="navigation">
               <ul>
                 <li><a href='/templates/form'>Form example</a></li>
                 <li><a href='/templates/form-template'>Form template</a></li>
-                <li><%= button_to 'Reset session', destroy_user_session_path, :method => :delete %></li>
+                <li><a><%= button_to 'Reset session', destroy_user_session_path, :method => :delete %></a></li>
               </ul>
             </nav>
-          </div>
-          <div class="inner group">
-            <a class="return-to-top" href="#content">Return to top ↑</a>
-          </div>
-        </div>        
-      </div>
-    </div>
-</div><!--grid-1-3 end-->
-</div><!--grid wrapper end-->
-</main>
+        </div>
+      </div>        
+    </div><!--grid-1-3 end-->
+  </div><!--grid-wrapper end-->
+
+</div><!--grid-wrapper end-->
+</main><!--content end-->
 </div><!--wrapper end-->
 
 

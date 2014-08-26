@@ -1,22 +1,25 @@
 <%= render 'shared/content_for_pages' %>
+<div id="wrapper">
+
+  <div class="back-section">
+    <ol>
+      <li><%= render 'back_link' %></li>
+    </ol>
+  </div>
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
     <section>
-      <div class="inner">
-        <div class="col-1">
           <!-- WF 4.3.2 -->
           <div id="page7"  data-journey="waste-carriers-registration:contact-details">
             <% content_for :page_title, createTitle('.title') %>
-              <%= render 'back_link' %>
-              <%= render 'errors' %>
+              
               <%= form_for(@registration, :url => newContact_path) do |f| %>
               <%= render 'contactdetails_step', f: f, r: @registration %>
               <%= render 'next_link' %>
             <% end %>
           </div>
-        </div>
-      </div>
     </section>
   </article>
 </main>
+</div>
