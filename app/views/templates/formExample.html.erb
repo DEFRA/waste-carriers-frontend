@@ -1,39 +1,58 @@
 <%= render 'shared/content_for_pages' %>
-
+<div id="wrapper">
 <main id="content" role="main" class="group">
   <article role="article" class="group">
-    <section>
-      <div class="inner">
-      <div class="col-1">
+    <div class="grid-wrapper">
+
       <!-- WF 4.3.2 -->
-      <div id="page0"  data-journey="waste-carriers-registration:example">
+    <div id="page0"  data-journey="waste-carriers-registration:example">
+    <% content_for :page_title, createTitle('.title') %>
 
-      <% content_for :page_title, createTitle('.title') %>
-
-      <ol class="back_step">
-         <li class="back_link"><%= render 'back_link' %></li>
-         <li class="step"><%= t '.step' %></li>
+    <div class="back-section">
+      <ol>
+         <li><%= render 'back_link' %></li>
       </ol>
+    </div>
 
-      <%= render "errors" %>
+    <header class="page-header group">
+      <div class="hgroup"> 
+          <h1 class="heading-xlarge">Example styles page</h1>
+      </div>
+    </header> 
 
-      <%= form_for(@registration, :url => formExample_path) do |f| %>
+    <div class="grid-wrapper">
+
+      <div class="grid-2-3">
+        <%= render "errors" %>
+        <%= form_for(@registration, :url => formExample_path) do |f| %>
       	<%= render "formExample_step", f: f %>
         <span class="next_link"><%= render 'next_link' %></span>
-    	<% end %>
-
-  	   </div>
-    </div>
-  </div>
-</section>
-
-    <aside role='note'>
-      <div class="inner">
-        <div class="col-2">
-          <p>This is an aside section</p>
-        </div>
+        <% end %>
       </div>
-    </aside>
 
-  </article>
-</main>
+    </div>
+
+    <div class="grid-wrapper">
+      <div class="grid-1-3">
+        <div class="related">
+          <div class="inner group related-subsection">
+            <h2 class="heading-small">This is a sidebar</h2>
+              <nav aria-labelledby="parent-subsection" role="navigation">
+                <ul>
+                  <li><p>This is example content</p></li>
+                  <li><p>This is example content</p></li>
+                  <li><p>This is example content</p></li>
+                </ul>
+              </nav>
+          </div>
+        </div>        
+      </div><!--grid-1-3 end-->
+    </div><!--grid-wrapper end-->
+
+    </div><!--page id end-->
+    </div><!--grid-wrapper end-->
+    </article><!--article end-->
+  </main><!--main end-->
+</div><!--wrapper end-->
+
+

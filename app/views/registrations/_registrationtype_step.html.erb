@@ -1,10 +1,15 @@
-<%= render "errors" %>
-
 <!-- WF 4.3.2 -->
 <div id="page8"  data-journey="waste-carriers-registration:registration-type">
 
+  <header class="page-header group">
+      <div class="hgroup"> 
+        <h1 class="heading-large"><%= t '.legend' %></h1>
+      </div>
+  </header> 
+
   <fieldset>
-    <legend><%= t '.legend' %></legend>
+    <legend></legend>
+    <%= render "errors" %>
       <div class="form-group-type<%if @registration.errors[:registrationType].any?%> validation<%end%>">
       <%= validation_for(@registration, :registrationType) %>
       <div class='inline'>

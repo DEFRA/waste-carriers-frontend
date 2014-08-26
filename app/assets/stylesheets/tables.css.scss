@@ -1,0 +1,38 @@
+@import '_colours';
+@import '_css3';
+@import '_shims';
+@import '_typography';
+@import '_measurements';
+
+@import 'design-patterns/_alpha-beta';
+@import 'design-patterns/_buttons';
+
+@import '_url-helpers';
+@import '_conditionals';
+@import '_device-pixels';
+@import '_font_stack';
+
+/* Table styles ========================================================== */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+table th {
+    font-weight: 700;
+}
+table th, table td {
+    border-bottom: 1px solid rgb(191, 193, 195);
+    color: rgb(11, 12, 12);
+    font-family: "nta",Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.25;
+    padding: 0.73684em 1.05263em 0.52632em 0;
+    text-align: left;
+    text-transform: none;
+}
+
+.table-column-text {@include core-19; color:#6F777B; margin-right:100px;}
+.table-column-data {@include bold-19;}
