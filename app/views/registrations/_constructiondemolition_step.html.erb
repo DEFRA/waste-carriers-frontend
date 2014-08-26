@@ -1,22 +1,19 @@
-<%= render "errors" %>
-
 <!-- WF 4.3.1 -->
 <div id="page4" data-journey="waste-carriers-registration:constructiondemolition">
 
   <!-- Smart Answers
     Do you ever deal with construction or demolition waste
    -->
+  <header class="page-header group">
+      <div class="hgroup"> 
+        <h1 class="heading-large"><%= t 'registrations.constructiondemolition_step.subtitle' %></h1>
+      </div>
+  </header> 
+
   <fieldset>
-    <legend><%= t 'registrations.constructiondemolition_step.subtitle' %></legend>
+    <legend></legend>
+    <%= render "errors" %>
     <!-- <p><a href="?whatisconstruction=true"><%= t '.explanation_link'%></a></p> -->
-    <details>
-        <summary aria controls='details-content-0' tabindex='0'>
-          <span class='summary'>What is construction waste?</span>
-        </summary>
-        <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
-          <p>Construction and demolition wastes typically include soils, concrete, bricks, glass, wood, plasterboard, asbestos, metals and plastics.</p>
-        </div>
-    </details>
     <div class="inline<%if @registration.errors[:constructionWaste].any?%> validation<%end%>">
         <%= validation_for(@registration, :constructionWaste) %>
   	    <%= f.label :yes_option_label, for: "registration_constructionWaste_yes", :class => 'block-label' do %>
@@ -28,6 +25,15 @@
           <%= t 'form.no_option_label' %>
   	    <% end %>
     </div>
+    <details>
+        <summary aria controls='details-content-0' tabindex='0'>
+          <span class='summary'>What is construction waste?</span>
+        </summary>
+        <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
+          <p>Construction and demolition wastes typically include soils, concrete, bricks, glass, wood, plasterboard, asbestos, metals and plastics.</p>
+        </div>
+    </details>
+
   </fieldset>
 
   
