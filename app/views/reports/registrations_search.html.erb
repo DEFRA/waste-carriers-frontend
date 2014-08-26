@@ -1,20 +1,29 @@
 <%= render 'shared/content_for_pages' %>
 
-<main id="content" role="main" class="group">
-  <article role="article" class="group">
-    <section>
-      <div class="inner">
-        <div class="col-1">
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+    <div class="grid-wrapper">
 
-          <!-- WF 4.3.2 -->
-          <div id="page6"  data-journey="waste-carriers-registration:registrations-export">
-            <% content_for :page_title, createTitle('.title') %>
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('registrations.form.back_button_label'), :registrations, :class => 'link_to' %></li>
+        </ol>
+      </div>
 
-            <%= link_to t('registrations.form.back_button_label'), :registrations, :class => 'link_to' %>
-            <%= render "errors" %>
+      <header class="page-header group">
+        <div class="hgroup">
+          <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+        </div>
+      </header>
 
-            <%= form_for(@report, :url => 'registrations' ) do |f| %>
-              <h2><%= t '.subtitle' %></h2>
+      <div class="grid-wrapper">
+        <div class="grid-2-3">
+          <article role="article" class="group">
+            <!-- WF 4.3.2 -->
+            <div id="page0"  data-journey="waste-carriers-registration:registrations-export">
+              <% content_for :page_title, createTitle('.title') %>
+              <%= render 'errors' %>
+              <%= form_for(@report, :url => 'registrations') do |f| %>
 
               <h3><%=t '.date_filters' %></h3>
               <fieldset>
@@ -35,10 +44,10 @@
               <fieldset>
                 <div class='inline'>
                   <% Report.route_options.each do |option| %>
-                    <%= f.label :routes, for: "routes_#{option.second.downcase}",  class: 'block-label' do %>
-                        <%= check_box("routes", option.second.downcase, {}, option.second, "") %>
-                        <%= option.first %>
-                    <% end %>
+                  <%= f.label :routes, for: "routes_#{option.second.downcase}",  class: 'block-label' do %>
+                  <%= check_box("routes", option.second.downcase, {}, option.second, "") %>
+                  <%= option.first %>
+                  <% end %>
                   <% end %>
                 </div>
               </fieldset>
@@ -47,10 +56,10 @@
               <fieldset>
                 <div class='inline'>
                   <% Report.tier_options.each do |option| %>
-                    <%= f.label :tiers, for: "tiers_#{option.second.downcase}",  class: 'block-label' do %>
-                        <%= check_box("tiers", option.second.downcase, {}, option.second, "") %>
-                        <%= option.first %>
-                    <% end %>
+                  <%= f.label :tiers, for: "tiers_#{option.second.downcase}",  class: 'block-label' do %>
+                  <%= check_box("tiers", option.second.downcase, {}, option.second, "") %>
+                  <%= option.first %>
+                  <% end %>
                   <% end %>
                 </div>
               </fieldset>
@@ -59,10 +68,10 @@
               <fieldset>
                 <div class='inline'>
                   <% Report.status_options.each do |option| %>
-                    <%= f.label :statuses, for: "statuses_#{option.second.downcase}",  class: 'block-label' do %>
-                        <%= check_box("statuses", option.second.downcase, {}, option.second, "") %>
-                        <%= option.first %>
-                    <% end %>
+                  <%= f.label :statuses, for: "statuses_#{option.second.downcase}",  class: 'block-label' do %>
+                  <%= check_box("statuses", option.second.downcase, {}, option.second, "") %>
+                  <%= option.first %>
+                  <% end %>
                   <% end %>
                 </div>
               </fieldset>
@@ -71,10 +80,10 @@
               <fieldset>
                 <div class="inline">
                   <% Registration.business_type_options_for_select.each do |option| %>
-                    <%= f.label :business_types, for: "business_types_#{option.second.downcase}",  class: 'block-label' do %>
-                        <%= check_box("business_types", option.second.downcase, {}, option.second, "") %>
-                        <%= option.first %>
-                    <% end %>
+                  <%= f.label :business_types, for: "business_types_#{option.second.downcase}",  class: 'block-label' do %>
+                  <%= check_box("business_types", option.second.downcase, {}, option.second, "") %>
+                  <%= option.first %>
+                  <% end %>
                   <% end %>
                 </div>
               </fieldset>
@@ -83,10 +92,10 @@
               <fieldset>
                 <div class='inline'>
                   <%= f.label :has_declared_convictions, for: 'report_has_declared_convictions', class: 'block-label' do %>
-                    <%= f.check_box :has_declared_convictions, {}, "yes", "" %> <%= t '.has_declared_convictions' %>
+                  <%= f.check_box :has_declared_convictions, {}, "yes", "" %> <%= t '.has_declared_convictions' %>
                   <% end %>
                   <%= f.label :is_criminally_suspect, for: 'report_is_criminally_suspect', class: 'block-label' do %>
-                    <%= f.check_box :is_criminally_suspect, {}, "true", "" %> <%= t '.is_criminally_suspect' %>
+                  <%= f.check_box :is_criminally_suspect, {}, "true", "" %> <%= t '.is_criminally_suspect' %>
                   <% end %>
                 </div>
               </fieldset>
@@ -94,10 +103,12 @@
               <span class="next_link">
                 <input id="search_btn" name="search" class="button button-get-started" type="submit" value="<%= t 'form.search_button_label' %>"/>
               </span>
-            <% end %>
-          </div>
-        </div>
-      </div>
-    </section>
-  </article>
-</main>
+              <% end %>
+            </div>
+          </article>
+        </div><!--grid-2-3 end-->
+      </div><!--grid-wrapper end-->
+
+    </div><!--grid-wrapper end-->
+  </main><!--main end-->
+</div><!--wrapper end-->
