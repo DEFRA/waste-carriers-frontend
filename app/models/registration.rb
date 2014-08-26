@@ -913,12 +913,15 @@ class Registration < Ohm::Model
     rs = Registration.find_by_email(user.email)
     Rails.logger.info("found: #{rs.size} pending registrations")
     rs.each do |r|
-      if r.pending?
+      if r.pending? and r.paid_in_full? and !r.criminally_suspect
         Rails.logger.debug "debug: #{r.attributes.to_s}"
         Rails.logger.info "Activating registration #{r.regIdentifier}"
         r.activate!
         Rails.logger.debug "registration #{r.id} activated!"
-        RegistrationMailer.welcome_email(user,r).deliver
+        if !user.is_agency_user?
+          Rails.logger.debug "Send registration email"
+          RegistrationMailer.welcome_email(user,r).deliver
+        end
       else
         Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
       end
