@@ -199,17 +199,17 @@ class Registration < Ohm::Model
       self.regIdentifier = result['regIdentifier']
 
       unless self.tier == 'LOWER'
-        if self.finance_details.size > 0
-          self.finance.details.first.orders.each do |ord|
-            ord.commit  self.uuid
-          end
-          self.finance.details.first.payments.each do |p|
-            p.save!  self.uuid
-          end
-        else
-          self.finance_details.add FinanceDetails.init(result['financeDetails'])
-        end
-
+        #if self.finance_details.size > 0
+        #  self.finance.details.first.orders.each do |ord|
+        #    ord.commit  self.uuid
+        #  end
+        #  self.finance.details.first.payments.each do |p|
+        #    p.save!  self.uuid
+        #  end
+        #else
+        #  self.finance_details.add FinanceDetails.init(result['financeDetails'])
+        #end
+        self.finance_details.add FinanceDetails.init(result['financeDetails'])
       end
 
       save

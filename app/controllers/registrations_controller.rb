@@ -529,7 +529,7 @@ class RegistrationsController < ApplicationController
       #
       session[:renderType] = Order.new_registration_identifier
       session[:orderCode] = generateOrderCode
-      upper_payment_path(@registration.uuid)
+      upper_payment_path(:id => @registration.uuid)
     end
 
     # Reset Signed up user to signed in status
