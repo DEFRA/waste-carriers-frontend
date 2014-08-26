@@ -58,10 +58,8 @@
 	            <td><%=  registration.metaData.first.status %></td>
 	            <td>
 		            <% case  registration.metaData.first.status %>
-		            <% when 'ACTIVE' %>
+		            <% when 'ACTIVE', 'EXPIRED'  %>
 			            <%= registration.expires_on.strftime("%d-%^B-%Y") %>
-		            <% when 'EXPIRED' %>
-			            <%= t '.status_expired_text' %>
 		            <% when 'REVOKED' %>
 			            <%= t '.status_revoked_text' %>
 		            <% else %>
@@ -69,9 +67,11 @@
 		            <% end %>
 	            </td>
 	            <td></td>
-	            <td><%= link_to 'View Certificate', print_path(registration.uuid) %></td>
+	            <td><%= link_to 'View Certificate', print_path(registration.uuid) unless \
+		            (registration.metaData.first.status == 'REVOKED' || registration.metaData.first.status == 'EXPIRED') %></td>
+	            <td>
 	            <td><%= link_to 'Edit Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT) unless \
-	            (registration.metaData.first.status == 'REVOKED' || registration.metaData.first.status == 'EXPIRED') %></td>
+		            (registration.metaData.first.status == 'REVOKED' || registration.metaData.first.status == 'EXPIRED') %></td>
 	            <td>
 		            <% if (registration.metaData.first.status == 'ACTIVE') && \
 		            	(registration.expires_on - 6.months) < Time.now && \
@@ -82,7 +82,7 @@
 		            	<%= link_to 'New Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
 	            	<% end %>
 	            </td>
-	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) %></td>
+	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if (registration.metaData.first.status == 'ACTIVE')  %></td>
 
 	          </tr>
           <% end %>

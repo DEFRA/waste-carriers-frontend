@@ -464,12 +464,19 @@ en:
       subtitle: "Check you registration"
       tier_aside_heading: "Registration tier"
       tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
+
+      title_new_reg: "Confirmation"
+      title_edit_reg: "Editing your registration"
+      title_renew_reg: "Renewing your registration"
+      title_recreate_reg: "Renewing your registration"
+      subtitle_new_reg: "Checking your details before registering"
       subtitle_edit_reg: "You can make changes to your registration from this summary. Some charges may apply."
       subtitle_renew_reg: "You are about to renew your registration. Proceed to payment if details are correct or make changes as required."
       subtitle_recreate_reg: "You are about to create a new registration, based on the details of your expired one. Proceed to payment if details are correct or make changes as required."
       subtitle_edit_reg_no_charge: "Your registration has been updated. Click on Confirm to finish."
       subtitle_edit_reg_with_charge: "Your registration has been updated. Please be aware that the changes you have made will require a payment of %{fee}"
-      subtitle_edit_reg_new_reg: "Please be aware that the changes you have made means that a new upper tier registration will be made and will require a payment of %{fee}"
+      subtitle_edit_reg_new_reg: "Please be aware that the changes you have made means that a new upper tier registration will be made and will require a payment of £%{fee}"
+      tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
       payment_message: "You are required to pay for an upper tier registration."
       smart_answers_heading: "You told us"
       edit_smart_answers_link: "Edit what you told us"
@@ -549,6 +556,20 @@ en:
       declared_convictions_message: "We are required to cross check the declared relevant people with convictions before confirming the registration."
       pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
       details_change: "If any of your details change you must update your registration within 28 days."
+    editRenewComplete:
+      title: "Finished"
+      title_renew_reg: "Renewed registration"
+      title_recreate_reg: "Renewed (re-created) registration"
+      title_edit_reg: "Edited registration"
+      subtitle_renew_reg: "Finished"
+      subtitle_recreate_reg: "Finished"
+      subtitle_edit_reg_no_charge: "Edited: no charge"
+      subtitle_edit_reg_with_charge: "Edited: with charge"
+      subtitle_edit_reg_new_reg: "Edited: new registration"
+      subtitle_complete: "Registration complete"
+      subtitle_pending: "Registration pending"
+      your_reg_number: "Your registration number is: %{reg}"
+      back_button: "Back to your registrations"
     finishAssisted:
       title: "Finished"
       subtitle_complete: "Registration complete"
@@ -818,6 +839,9 @@ en:
       convictions: "Convictions"
       has_declared_convictions: "Has declared convictions"
       is_criminally_suspect: "Is criminally suspect"
+  route_options:
+    assisted_digital: "Assisted Digital"
+    digital: Active
   shared:
     complete_summary:
       almost_there_title: "Almost there"
@@ -837,9 +861,6 @@ en:
       signed_in_as_agency_user: "Signed in as agency user"
     progress:
       progress: Progress
-  route_options:
-    ASSISTED_DIGITAL: "Assisted Digital"
-    DIGITAL: "Digital"
   tier_options:
     LOWER: "Lower"
     UPPER: "Upper"
