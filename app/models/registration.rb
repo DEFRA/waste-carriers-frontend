@@ -51,6 +51,7 @@ class Registration < Ohm::Model
   #payment
   attribute :total_fee
   attribute :registration_fee
+  attribute :renewal_fee
   attribute :copy_card_fee
   attribute :copy_cards
   attribute :balance
@@ -257,10 +258,10 @@ class Registration < Ohm::Model
 
       save
 
+
     rescue => e
       Rails.logger.error e.to_s
       saved = false
-      yield e if block_given?
     end
     saved
   end
@@ -274,10 +275,14 @@ class Registration < Ohm::Model
     datetime_format = "%Y-%m-%dT%H:%M:%S%z"
     self.attributes.each do |k, v|
       if (k.to_s.eql? 'expires_on')
-        # formatted_date = convert_date(v).strftime( datetime_format )
-        # Rails.logger.debug "CONVERTED to #{formatted_date)}"
-        # result_hash[k] = formatted_date
-                result_hash[k] = v
+        #convert date to millisecs from epoch so that  the Java service can understand it
+        if v.class.eql? 'String'
+          result_hash[k] = DateTime.parse(v).strftime('%Q')
+        elsif v.class.eql? 'Time'
+          result_hash[k] = v.strftime('%Q')
+        else
+          result_hash[k] = v
+        end
       else
         result_hash[k] = v
       end

@@ -195,7 +195,6 @@ module OrderHelper
     logger.debug 'orderDescription: ' + orderDescription
     orderDescription
   end
-  
   def updateOrderForWorldpay myOrder, myRegistration
     myOrder = updateOrderGenerally myOrder, myRegistration
     myOrder.paymentMethod = 'ONLINE'
