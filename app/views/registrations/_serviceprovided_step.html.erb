@@ -1,14 +1,17 @@
-<%= render "errors" %>
-
 <!-- WF 4.3.1 -->
 <div id="page3" data-journey="waste-carriers-registration:serviceprovided">
-
   <!-- Smart Answers
     What kind of service do you provide?
    -->
+<header class="page-header group">
+  <div class="hgroup"> 
+    <h1 class="heading-large"><%= t 'registrations.serviceprovided_step.subtitle' %></h1>
+  </div>
+</header> 
 
 <fieldset>
-  <legend><%= t 'registrations.serviceprovided_step.subtitle' %></legend>
+  <legend></legend>
+    <%= render "errors" %>
     <div class="inline <%if @registration.errors[:isMainService].any?%> validation<%end%>">
         <%= validation_for(@registration, :isMainService) %>
         <%= f.label :part_of_service_label, for: "registration_isMainService_no", :class => "block-label" do %>

@@ -1,5 +1,12 @@
+<header class="page-header group">
+    <div class="hgroup"> 
+        <h1 class="heading-large"><%= t '.legend' %></h1>
+    </div>
+</header> 
+
 <fieldset>
-  <legend><%= t '.legend' %></legend>
+  <legend></legend>
+  <%= render 'errors' %>
   <div class="form-group<%if r.errors[:firstName].any?%> validation<%end%>">
     <%= validation_for(r, :firstName) %>
     <%= f.label :firstName, class: 'form-label' %>
