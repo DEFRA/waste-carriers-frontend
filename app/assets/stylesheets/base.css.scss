@@ -63,13 +63,22 @@ margin-bottom: $gutter-half;
 @include copy-19;
 color: $secondary-text-colour;	
 display: block;
+clear:left;
 margin-top: $gutter-half;
 margin-bottom: $gutter;
 }
 .form-hint {
 @include copy-19;
 color: $secondary-text-colour;
-margin-top: $gutter-half;
+display: block;
+clear:left;
+margin-top: 0em;
+margin-bottom: $gutter;
+}
+.form-note {
+@include bold-16;
+color: $secondary-text-colour;
+margin-top: 0em;
 margin-bottom: $gutter;
 }
 p {
@@ -84,6 +93,7 @@ a {
 @include copy-19;
 -webkit-font-smoothing: antialiased;
 }
+
 
 
 

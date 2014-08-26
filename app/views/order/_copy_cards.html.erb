@@ -2,10 +2,10 @@
 	<%= validation_for(@registration, :copy_cards) %>
     <div class='payment-group'>
         <%= f.label :copy_cards, class: 'form-label' %>
-        <p class='subtitle'><%= t '.copy_card_info' %></p>
+        <p class='form-hint'><%= t '.copy_card_info' %></p>
         <%= f.label :Enter_the_amount_of_copy_cards, class: 'form-label' %>
         <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>
         <%= f.number_field :copy_cards, :min => 0 %>
     </div>
-    <p class='subtitle'><%= t '.copy_card_note' %></p>
+    <p class='form-note'><%= t '.copy_card_note' %></p>
 </div>
