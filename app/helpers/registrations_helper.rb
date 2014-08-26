@@ -114,7 +114,7 @@ module RegistrationsHelper
 
     else
       @registration = Registration[ session[:registration_id]]
-      logger.debug "retireving registration #{@registration.id}"
+      logger.debug "retrieving registration #{@registration.id}"
       m = Metadata.create
     end
 
@@ -138,7 +138,7 @@ module RegistrationsHelper
 #      renderNotFound
 #    end
   end
-  
+
   # Defines the list of classes for the complete summary
   def getCompleteClass
   	'complete'
@@ -152,16 +152,16 @@ module RegistrationsHelper
   def getAlmostCompleteClass
   	'almostComplete'
   end
-  
+
   def getConfirmationType
     confirmationType = nil
-    
+
 	# These must match the css classes they related to
 	#criminally_suspect_class = 'criminallySuspect'
 	#almost_complete_class = 'almostComplete'
 	#complete_class = 'complete'
 	#complete_lower_class = 'complete lower'
-	
+
 	if @registration.criminally_suspect
 	  confirmationType = getCriminallySuspectClass
 	elsif !@registration.paid_in_full? and !@registration.criminally_suspect
@@ -171,7 +171,7 @@ module RegistrationsHelper
 	elsif @registration.is_complete?
 	  confirmationType = getCompleteLowerClass
 	end
-	
+
 	confirmationType
   end
 

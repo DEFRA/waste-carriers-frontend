@@ -3,24 +3,50 @@
   <article role="article" class="group">
     <section id='payment-copycardcomplete-page'>
       <div class="col-1" id='payment-col-1'>
-      
-      <%#= form_for(@registration, :url => :upper_payment, :method => 'post') do |f| %>
+
       <% content_for :page_title, createTitle('.title') %>
- 
+
       <%= render "order/notice_or_alert" %>
       <%= render "shared/registration_errors" %>
 
       <fieldset>
-        <legend><%= t '.subtitle' %></legend>
-		
-		TEMP: renderType: '<%= session[:renderType] %>'
-		<p>Edit/Renew order complete</p>
-        
-        <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'link_to' %>
+
+
+    <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+        <% case  @edit_mode.to_i%>
+        <% when  RegistrationsController::EditMode::RENEWAL %>
+            <% title =  t '.title_renew_reg'  %>
+           <% subtitle =  t '.subtitle_renew_reg'  %>
+        <% when  RegistrationsController::EditMode::RECREATE %>
+           <% title =  t '.title_recreate_reg'  %>
+           <% subtitle =  t '.subtitle_recreate_reg'  %>
+        <% when  RegistrationsController::EditMode::EDIT %>
+            <% title =  t '.title_edit_reg'  %>
+            <% case  @edit_result.to_i %>
+            <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE  %>
+             <% subtitle =  t '.subtitle_edit_reg_no_charge'  %>
+            <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
+            <% subtitle =  t '.subtitle_edit_reg_with_charge'  %>
+            <% when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION  %>
+             <% subtitle =  t '.subtitle_edit_reg_new_reg'  %>
+            <% when  RegistrationsController::EditResult::NO_CHANGES  %>
+            <% end %>
+          <% end %>
+
+         <legend><%= title %></legend>
+          <h2 class='registered'><%= subtitle %></h2>
+
+        <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
+
+        <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
+        <h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
+
+    <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+
+        <%= link_to t('.back_button'), userRegistrations_path(current_user.id), :class => 'link_to' %>
 
       </fieldset>
-      
-      <%# end %>
+
       </div>
     </section>
   </article>
