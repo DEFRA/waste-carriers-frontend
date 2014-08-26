@@ -730,8 +730,11 @@ class RegistrationsController < ApplicationController
 
 
   def print
-    renderNotFound and  return unless session[:registration_uuid]
-    @registration = Registration.find_by_id( session[:registration_uuid])
+
+    reg_uuid = params[:id] || session[:registration_uuid]
+
+    renderNotFound and  return unless reg_uuid
+    @registration = Registration.find_by_id( reg_uuid )
     redirect_to registrations_path and return if @registration.empty?
 
     authorize! :read, @registration
