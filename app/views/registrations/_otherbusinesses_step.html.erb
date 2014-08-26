@@ -1,14 +1,17 @@
-<%= render "errors" %>
-
 <!-- WF 4.3.1 -->
 <div id="page2" data-journey="waste-carriers-registration:otherbusinesses">
-
   <!-- Smart Answers
     Whose waste do you deal with?
    -->
+  <header class="page-header group">
+      <div class="hgroup"> 
+        <h1 class="heading-large"><%= t 'registrations.otherBusinesses_step.subtitle' %></h1>
+      </div>
+  </header>  
 
   <fieldset>
-    <legend><%= t 'registrations.otherBusinesses_step.subtitle' %></legend>
+    <legend></legend>
+    <%= render "errors" %>
     <div class="inline<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>">
         <%= validation_for(@registration, :otherBusinesses) %>
         <%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
@@ -24,6 +27,6 @@
 
   <%= render 'next_link' %>
 
-</div>
+  </div>
 
 

@@ -1,5 +1,7 @@
 <fieldset>
-  <legend><%= t '.legend' %></legend>
+  <legend></legend>
+
+  <p class="subtitle"><%= t '.legend' %></p>
 
   <!-- Use the class of .form-group to wrap form sections -->
   <div class="form-group<%if r.errors[:firstName].any?%> validation<%end%>">
