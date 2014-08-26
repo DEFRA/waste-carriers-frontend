@@ -1,0 +1,88 @@
+<%= render 'shared/content_for_pages' %>
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+    <div class="grid-wrapper">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('registrations.form.back_button_label'), :payments_search, :class => 'link_to' %></li>
+        </ol>
+      </div>
+
+      <header class="page-header group">
+        <div class="hgroup">
+          <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+        </div>
+      </header>
+
+      <div class="grid-wrapper">
+        <div class="grid-2-3">
+          <article role="article" class="group">
+              <!-- WF 4.3.2 -->
+              <div id="page0"  data-journey="waste-carriers-registration:payments-export">
+                <% content_for :page_title, createTitle('.title') %>
+                <%= render 'errors' %>
+                <%= form_for(@report, :url => formExample_path) do |f| %>
+
+                  <h3><%=t '.date_filters' %></h3>
+                  <fieldset>
+                    <%= f.hidden_field :is_new, :value => 'false' %>
+                    <div class="form-group<%if @report.errors[:from].any?%> validation<% end %>">
+                      <%= validation_for(@report, :from) %>
+                      <div class='form-label'><%= f.label :from %></div>
+                      <%= f.text_field :from, :size => 20, :maxlength => 20 %>
+                    </div>
+                    <div class="form-group<%if @report.errors[:to].any?%> validation<% end %>">
+                      <%= validation_for(@report, :to) %>
+                      <div class='form-label'><%= f.label :to %></div>
+                      <%= f.text_field :to, :size => 20, :maxlength => 20 %>
+                    </div>
+                  </fieldset>
+
+                  <h3><%= t '.payment_status' %></h3>
+                  <fieldset>
+                    <div class='inline'>
+                      <% Report.payment_status_options.each do |option| %>
+                        <%= f.label :payment_statuses, for: "payment_statuses_#{option.second.downcase}",  class: 'block-label' do %>
+                            <%= check_box("payment_statuses", option.second.downcase, {}, option.second, "") %>
+                            <%= option.first %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </fieldset>
+
+                  <h3><%= t '.payment_type' %></h3>
+                  <fieldset>
+                    <div class='inline'>
+                      <% Report.payment_type_options.each do |option| %>
+                        <%= f.label :payment_types, for: "payment_types_#{option.second.downcase}",  class: 'block-label' do %>
+                            <%= check_box("payment_types", option.second.downcase, {}, option.second, "") %>
+                            <%= option.first %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </fieldset>
+
+                  <h3><%= t '.charge_type' %></h3>
+                  <fieldset>
+                    <div class='inline'>
+                      <% Report.charge_type_options.each do |option| %>
+                        <%= f.label :charge_types, for: "charge_types_#{option.second.downcase}",  class: 'block-label' do %>
+                            <%= check_box("charge_types", option.second.downcase, {}, option.second, "") %>
+                            <%= option.first %>
+                        <% end %>
+                      <% end %>
+                    </div>
+                  </fieldset>
+                  <span class="next_link">
+                    <input id="search_btn" name="search" class="button button-get-started" type="submit" value="<%= t 'form.search_button_label' %>"/>
+                  </span>
+                <% end %>
+              </div>
+          </article>
+        </div><!--grid-2-3 end-->
+      </div><!--grid-wrapper end-->
+
+    </div><!--grid-wrapper end-->
+  </main><!--main end-->
+</div><!--wrapper end-->

@@ -6,11 +6,10 @@ class ReportsController < ApplicationController
 
   # GET /report/registrations
   def registrations_search
-
     set_report
-
   end
 
+  # POST /report/registrations
   def registrations_search_post
 
     set_report
@@ -35,6 +34,7 @@ class ReportsController < ApplicationController
     end
   end
 
+  # GET /reports/registrations/results
   def registrations_search_results
 
     set_report
@@ -54,6 +54,7 @@ class ReportsController < ApplicationController
 
   end
 
+  # POST /reports/registrations/results
   def registrations_export
 
     set_report
@@ -75,13 +76,18 @@ class ReportsController < ApplicationController
 
   end
 
-  def authenticate_admin_request!
-    if is_admin_request?
-      authenticate_agency_user!
-    end
+  # GET /report/payments
+  def payments_search
+    set_report
   end
 
   private
+
+    def authenticate_admin_request!
+      if is_admin_request?
+        authenticate_agency_user!
+      end
+    end
 
     def set_report
 
@@ -101,6 +107,18 @@ class ReportsController < ApplicationController
 
       unless params[:business_types].nil?
         @report.business_types = filter_for_blanks params[:business_types].values
+      end
+
+      unless params[:payment_statuses].nil?
+        @report.payment_statuses = filter_for_blanks params[:payment_statuses].values
+      end
+
+      unless params[:payment_types].nil?
+        @report.payment_types = filter_for_blanks params[:payment_types].values
+      end
+
+      unless params[:charge_types].nil?
+        @report.charge_types = filter_for_blanks params[:charge_types].values
       end
 
     end
@@ -156,11 +174,13 @@ class ReportsController < ApplicationController
       params.require(:report).permit(
         :from,
         :to,
-        :route_digital,
-        :route_assisted_digital,
+        :routes,
+        :tiers,
         :statuses,
         :business_types,
-        :format)
+        :payment_statuses,
+        :payment_types,
+        :charge_types)
     end
 
 end
