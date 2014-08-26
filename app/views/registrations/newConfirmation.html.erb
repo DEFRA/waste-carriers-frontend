@@ -1,101 +1,108 @@
 <%= render 'shared/content_for_pages' %>
+<div id="wrapper">
+
+<div class="back-section">
+  <ol>
+    <li><%= render 'back_link' %></li>
+  </ol>
+</div>
+
+<header class="page-header group">
+    <div class="hgroup"> 
+        <h1 class="heading-large"><%= t '.subtitle' %></h1>
+    </div>
+</header> 
 
 <main id="content" role="main" class="group">
   <article role="article" class="group">
+    <div class="grid-wrapper">
+
     <section class="summary-page">
-        <div class="col-1" id='confirmation-col-1'>
-          <!-- WF 4.3.3 -->
-          <div id="page9"  data-journey="waste-carriers-registration:confirmation">
-            <% content_for :page_title, createTitle('.title') %>
-              <%= render 'back_link' %>
-             <%= render 'errors' %>
-            <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
+      <div class="grid-2-3" id='confirmation-col-1'>
+        <!-- WF 4.3.3 -->
+        <div id="page9"  data-journey="waste-carriers-registration:confirmation">
 
+          <% content_for :page_title, createTitle('.title') %>
+          <%= render 'errors' %>
+          <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
 
-
-            <fieldset>
-              <legend><%= t '.subtitle' %></legend>
-            </fieldset>
-
-
-          <!-- Smart answers section -->
-              <div class='form-group'>
-                <h3><%= t '.smart_answers_heading' %></h3>
-                <div class='summary-box'>
-                  <span class='list-bullets'><%= render 'smartanswers_display', r: @registration %></span>
-                </div>
-                <p><%= link_to t('.edit_smart_answers_link'), find_path %></p>
+            <!-- Smart answers section -->
+            <div class='form-group'>
+              <h2 class="heading-medium"><%= t '.smart_answers_heading' %></h2>
+              <div class='summary-box'>
+                <span class='list-bullets'><%= render 'smartanswers_display', r: @registration %></span>
               </div>
+              <p><%= link_to t('.edit_smart_answers_link'), find_path %></p>
+            </div>
 
-              <!-- Business details section -->
-              <div class='form-group'>
-                <% case @registration.businessType %>
-                  <% when 'limitedCompany' %>
-                    <h3><%= t '.business_details_limited_heading' %></h3>
-                  <% when 'publicBody' %>
-                    <h3><%= t '.business_details_public_heading' %></h3>
+            <!-- Business details section -->
+            <div class='form-group'>
+              <% case @registration.businessType %>
+              <% when 'limitedCompany' %>
+                <h2 class='heading-medium'><%= t '.business_details_limited_heading' %></h2>
+              <% when 'publicBody' %>
+                <h2 class='heading-medium'><%= t '.business_details_public_heading' %></h2>
+              <% else %>
+                <h2 class='heading-medium'><%= t '.business_details_heading' %></h2>
+              <% end %>
+              <div class='summary-box'>
+                <span class='summary-items'><%= render 'address_display', r: @registration %></span>
+              </div>
+              <p><%= link_to t('.edit_business_details_link'), newBusinessDetails_path %></p>
+            </div>
+
+            <!-- Contact details section -->
+            <div class='form-group'>
+              <h2 class='heading-medium'><%= t '.contact_details_heading' %></h2>
+              <div class='summary-box'>
+                <span class='summary-items'><%= render 'contactdetails_display', r: @registration %></span>
+              </div>
+              <p><%= link_to t('.edit_contact_details_link'), newContact_path %></p>
+            </div>
+
+            <!-- Key people section -->
+            <% unless @registration.tier.eql?('LOWER') %>
+            <div class='form-group'>
+              <% case @registration.businessType %>
+              <% when 'limitedCompany' %>
+                <h2 class='heading-medium'><%= t '.key_person_limited_heading' %></h2>
+              <% when 'partnership' %>
+                <h2 class='heading-medium'><%= t '.key_person_partnership_heading' %></h2>
+              <% when 'publicBody' %>
+                <h2 class='heading-medium'><%= t '.key_person_public_heading' %></h2>
+              <% else %>
+                <h2 class='heading-medium'><%= t '.key_person_heading' %></h2>
+              <% end %>
+              <div class='summary-box'>
+                <span class='summary-items'><%= render '/key_people/key_people_display' %></span>
+              </div>
+              <p><%= link_to t('.edit_key_person_link'), registration_key_people_path %></p>
+            </div>
+            <% end %>
+
+            <!-- Convictions section -->
+            <% unless @registration.tier.eql?('LOWER') %>
+            <div class='form-group'>
+              <h2 class='heading-medium'><%= t '.convictions_declaration_heading' %></h2>
+              <div class='summary-box'>
+                <span class='summary-items'>
+                  <% if @registration.declaredConvictions == 'yes' %>
+                    <p><%= t '.have_declared_convictions' %></p>
                   <% else %>
-                    <h3><%= t '.business_details_heading' %></h3>
-                <% end %>
-                <div class='summary-box'>
-                  <span class='summary-items'><%= render 'address_display', r: @registration %></span>
-                </div>
-                <p><%= link_to t('.edit_business_details_link'), newBusinessDetails_path %></p>
-              </div>
-
-              <!-- Contact details section -->
-              <div class='form-group'>
-                <h3><%= t '.contact_details_heading' %></h3>
-                <div class='summary-box'>
-                  <span class='summary-items'><%= render 'contactdetails_display', r: @registration %></span>
-                </div>
-                <p><%= link_to t('.edit_contact_details_link'), newContact_path %></p>
-              </div>
-
-              <!-- Key people section -->
-              <% unless @registration.tier.eql?('LOWER') %>
-                <div class='form-group'>
-                  <% case @registration.businessType %>
-                    <% when 'limitedCompany' %>
-                      <h3><%= t '.key_person_limited_heading' %></h3>
-                    <% when 'partnership' %>
-                      <h3><%= t '.key_person_partnership_heading' %></h3>
-                    <% when 'publicBody' %>
-                      <h3><%= t '.key_person_public_heading' %></h3>
-                    <% else %>
-                      <h3><%= t '.key_person_heading' %></h3>
+                    <p><%= t '.have_not_declared_convictions' %></p>
                   <% end %>
-                  <div class='summary-box'>
-                    <span class='summary-items'><%= render '/key_people/key_people_display' %></span>
-                  </div>
-                  <p><%= link_to t('.edit_key_person_link'), registration_key_people_path %></p>
-                </div>
-              <% end %>
-
-              <!-- Convictions section -->
-              <% unless @registration.tier.eql?('LOWER') %>
-              <div class='form-group'>
-                    <h3><%= t '.convictions_declaration_heading' %></h3>
-                    <div class='summary-box'>
-                      <span class='summary-items'>
-                        <% if @registration.declaredConvictions == 'yes' %>
-                          <p><%= t '.have_declared_convictions' %></p>
-                        <% else %>
-                          <p><%= t '.have_not_declared_convictions' %></p>
-                        <% end %>
-                      </span>
+                </span>
               </div>
+              <p><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path %></p>
+            </div>
+            <% end %>
 
-                    <p><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path %></p>
-                </div>
-              <% end %>
-
-              <!-- Declaration section -->
-          		<div class='form-group' id='declaration-summary'>
-                <h2 class='summary-subtitle'><%= t '.declaration_legend' %></h2>
-                <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
-                  <%= validation_for(@registration, :declaration) %>
-                  <ol>
+            <!-- Declaration section -->
+            <div class='form-group' id='declaration-summary'>
+              <h3 class='heading-large'><%= t '.declaration_legend' %></h3>
+              <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
+                <%= validation_for(@registration, :declaration) %>
+                <ol>
                   <li>
                     <label>
                       <p><%= f.check_box :declaration%> <%= t '.check_box_label' %></p>
@@ -108,12 +115,11 @@
                     <p class='declaration-text'><%= t '.declaration_text2' %></p>
                     <p class="notice-icon"></p>
                   </li>
-                  </ol>
-                </div>
-               </div>
-              </div><!-- end form-group -->
+                </ol>
+              </div>
+            </div><!-- end form-group -->
 
-              <!-- Privacy notice -->
+            <!-- Privacy notice -->
             <div>
               <ol>
                 <li>
@@ -124,64 +130,36 @@
 
               <input name="confirm" class="button" type="submit" value="<%= t 'form.confirm_button_label' %>"/>
             </div>
-            <% end %>
-          </div>
+          <% end %>
         </div>
+      </div>
     </section>
 
+    <div class="grid-wrapper">
+      <div class="grid-1-3">
+        <div class="related">
+          <div class="inner group related-subsection">
+            <h2 class="heading-small"><%= t '.tier_aside_heading' %></h2>
+            <!-- Dynamic context section -->
+            <div class='form-group'>
+              <% if (!session[:edit_mode] && @registration.tier != 'UPPER') || \
+                ( session[:edit_mode].to_i == RegistrationsController::EditMode::EDIT ) %>
 
-       <aside role='note'>
-          <div class="inner">
-            <div class="col-2" id="tier-aside">
-             <% if session[:edit_mode] %>
-                <% case  session[:edit_mode].to_i%>
-                <% when  RegistrationsController::EditMode::RENEWAL %>
-                    <% title =  t '.title_renew_reg'  %>
-                   <% subtitle =  t '.subtitle_renew_reg'  %>
-                <% when  RegistrationsController::EditMode::RECREATE %>
-                   <% title =  t '.title_recreate_reg'  %>
-                   <% subtitle =  t '.subtitle_recreate_reg'  %>
-                <% when  RegistrationsController::EditMode::EDIT %>
-                  <% title =  t '.title_edit_reg'  %>
-                  <% case  session[:edit_result].to_i %>
-                  <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE  %>
-                   <% subtitle =  t '.subtitle_edit_reg_no_charge'  %>
-                  <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
-                  <% subtitle =  t '.subtitle_edit_reg_with_charge',  :fee => Rails.configuration.fee_reg_type_change  %>
-                  <% when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION  %>
-                   <% subtitle =  t '.subtitle_edit_reg_new_reg'  %>
-                  <% when  RegistrationsController::EditResult::NO_CHANGES  %>
-                  <% else %> <!-- we just started the edit process -->
-                   <% subtitle =  t '.subtitle_edit_reg'  %>
-                  <% end %>
-                <% end %>
-                <h3><%= title %></h3>
-             <% else %>
-               <h3>Registration tier</h3>
-             <% end %>
-   <h3><%= t '.tier_aside_heading' %></h3>
-              <!-- Dynamic context section -->
-              <div class='form-group'>
-                <div class='summary-box'>
-                <% if (!session[:edit_mode] && @registration.tier != 'UPPER') || \
-                      ( session[:edit_mode].to_i == RegistrationsController::EditMode::EDIT ) %>
-
-                  <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)}" %>
-                <% elsif  !session[:edit_mode] && @registration.tier == 'UPPER' %>
-                  <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
-                  <div><%= message %></div>
-                <% elsif  session[:edit_mode] %> <!-- we're editing the registration-->
-                  <p><%= subtitle %></p>
-                <% end %>
+                <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)}" %>
+              <% elsif  !session[:edit_mode] && @registration.tier == 'UPPER' %>
+                <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
+              <% end %>
               <div>
                 <%= message %>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </aside>
+          </div><!--inner group related end-->
+        </div><!--related end-->
+      </div><!--grid-1-3 end-->
+    </div><!--grid-wrapper end-->
+       
 
+    </div><!--wrapper end-->
   </article>
 </main>
-
+</div><!--wrapper end-->

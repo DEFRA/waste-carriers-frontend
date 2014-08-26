@@ -6,13 +6,17 @@
   <!-- Smart Answers
     Contact EA message when 'other' businessType selected
    -->
+  <header class="page-header group">
+      <div class="hgroup"> 
+        <h1 class="heading-large"><%= t 'registrations.noregistration_step.subtitle' %></h1>
+      </div>
+  </header> 
+
   <div id="contactText">
-    <div class="form-group">
+    <div class="text">
       <p><%= t '.contact_Line_1' %></p>
       <p><%= t '.contact_Line_2' %></p>
     </div>
   </div>
 
 </div>
-
-<%= render 'wizard_links' %>
