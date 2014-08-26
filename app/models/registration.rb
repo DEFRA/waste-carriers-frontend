@@ -333,8 +333,10 @@ class Registration < Ohm::Model
   # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
     def find_by_email(email)
+      accountEmailParam = {ac: email}.to_query
+      Rails.logger.debug 'update search param to be encoded: ' + accountEmailParam.to_s
       registrations = []
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?ac=#{email}"
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{accountEmailParam}"
       begin
         response = RestClient.get url
         if response.code == 200

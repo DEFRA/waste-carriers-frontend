@@ -787,6 +787,17 @@ class RegistrationsController < ApplicationController
       renderNotFound and return
     end
     #render the confirmed page
+    
+    @confirmationType = getConfirmationType
+    unless @confirmationType
+      flash[:notice] = 'Invalid confirmation type. Check routing to this page'
+      renderNotFound and return
+    end
+  end
+  
+  def completeConfirmed
+  	logger.info "Redirect to GDS site"
+    redirect_to Rails.configuration.waste_exemplar_end_url
   end
 
   def declared_convictions? registration

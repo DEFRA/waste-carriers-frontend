@@ -81,8 +81,8 @@ Then(/^I am registered as an upper tier waste carrier$/) do
   current_email.should have_content 'is registered as an upper tier waste carrier'
 end
 
-Then(/^I have completed the application as an upper tier waste carrier$/) do
-  page.should have_content 'has applied as an upper tier waste carrier'
+Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do
+  page.should have_content 'not yet registered as an upper tier waste carrier'
 end
 
 And(/^no key people in the organisation have convictions$/) do

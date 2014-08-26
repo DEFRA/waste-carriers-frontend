@@ -31,13 +31,7 @@
 		        </div>
 		        
 		        <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
-					<div class="form-label" id="amountSummary">Amount to write off <span id="amountDue"><%= pence_to_currency(f.object.amount) %></span></div>
-				</div>
-				
-				<div class="form-group<%if @payment.errors[:registrationReference].any?%> validation<%end%>">
-					<%= validation_for(@payment, :registrationReference) %>
-					<%= f.label :registrationReference, class: 'form-label' %>
-					<%= f.text_field :registrationReference %>
+					<div class="form-label" id="amountSummary"><%= t '.amountToWriteOff' %> <span id="amountDue"><%= pence_to_currency(f.object.amount) %></span></div>
 				</div>
 				
 				<div class="form-group<%if @payment.errors[:comment].any?%> validation<%end%>">

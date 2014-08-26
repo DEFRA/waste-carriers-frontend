@@ -138,5 +138,41 @@ module RegistrationsHelper
 #      renderNotFound
 #    end
   end
+  
+  # Defines the list of classes for the complete summary
+  def getCompleteClass
+  	'complete'
+  end
+  def getCompleteLowerClass
+  	'complete lower'
+  end
+  def getCriminallySuspectClass
+  	'criminallySuspect'
+  end
+  def getAlmostCompleteClass
+  	'almostComplete'
+  end
+  
+  def getConfirmationType
+    confirmationType = nil
+    
+	# These must match the css classes they related to
+	#criminally_suspect_class = 'criminallySuspect'
+	#almost_complete_class = 'almostComplete'
+	#complete_class = 'complete'
+	#complete_lower_class = 'complete lower'
+	
+	if @registration.criminally_suspect
+	  confirmationType = getCriminallySuspectClass
+	elsif !@registration.paid_in_full? and !@registration.criminally_suspect
+	  confirmationType = getAlmostCompleteClass
+	elsif @registration.is_complete? and @registration.tier.downcase.eql? 'upper'
+	  confirmationType = getCompleteClass
+	elsif @registration.is_complete?
+	  confirmationType = getCompleteLowerClass
+	end
+	
+	confirmationType
+  end
 
 end
