@@ -52,18 +52,10 @@
                 <%= f.hidden_field :to %>
                 <%= f.hidden_field :has_declared_convictions %>
                 <%= f.hidden_field :is_criminally_suspect %>
-                <% @report.routes.each do |route| %>
-                  <%= f.hidden_field :routes, :value => route %>
-                <% end %>
-                <% @report.statuses.each do |status| %>
-                  <%= f.hidden_field :statuses, :value => status %>
-                <% end %>
-                <% @report.business_types.each do |type| %>
-                  <%= f.hidden_field :business_types, :value => type %>
-                <% end %>
-                <% @report.tiers.each do |tier| %>
-                  <%= f.hidden_field :tiers, :value => tier %>
-                <% end %>
+                <%= f.hidden_field :routes %>
+                <%= f.hidden_field :statuses %>
+                <%= f.hidden_field :business_types %>
+                <%= f.hidden_field :tiers %>
               </fieldset>
               <span class="next_link">
                 <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_button_label' %>"/>

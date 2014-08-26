@@ -3,6 +3,7 @@ class Report
   include ActiveModel::Model
 
   attr_accessor :is_new, :from, :to, :has_declared_convictions, :is_criminally_suspect
+  attr_accessor :routes, :tiers, :statuses, :business_types
 
   validate :validate_from
   validate :validate_to
@@ -39,72 +40,7 @@ class Report
     (STATUS_OPTIONS.collect {|d| [I18n.t('status_options.'+d), d.upcase]})
   end
 
-  # Custom getters and setters #################################################
-
-  def routes
-    unless @routes
-      @routes = []
-    end
-    @routes
-  end
-
-  def routes=(new_routes)
-    @routes = filter_for_blanks new_routes
-  end
-
-  def tiers
-    unless @tiers
-      @tiers = []
-    end
-    @tiers
-  end
-
-  def tiers=(new_tiers)
-    @tiers = filter_for_blanks new_tiers
-  end
-
-  def statuses
-    unless @statuses
-      @statuses = []
-    end
-    @statuses
-  end
-
-  def statuses=(new_statuses)
-    @statuses = filter_for_blanks new_statuses
-  end
-
-  def business_types
-    unless @business_types
-      @business_types = []
-    end
-    @business_types
-  end
-
-  def business_types=(new_business_types)
-    @business_types = filter_for_blanks new_business_types
-  end
-
   # Instance methods ###########################################################
-
-  def filter_for_blanks(values)
-
-    filtered = []
-
-    Rails.logger.debug 'REPORT::filter_for_blanks'
-    unless values.nil?
-      Rails.logger.debug 'REPORT::filter_for_blanks - not nil'
-      filtered = values.reject(&:blank?)
-    end
-
-    unless filtered
-      Rails.logger.debug 'REPORT::filter_for_blanks - filtered is nil'
-      filtered = []
-    end
-
-    filtered
-
-  end
 
   def parameter_args
 

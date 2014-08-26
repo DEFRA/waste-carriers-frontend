@@ -88,19 +88,19 @@ class ReportsController < ApplicationController
       @report = Report.new(params[:report])
 
       unless params[:routes].nil?
-        @report.routes = params[:routes].values
+        @report.routes = filter_for_blanks params[:routes].values
       end
 
       unless params[:tiers].nil?
-        @report.tiers = params[:tiers].values
+        @report.tiers = filter_for_blanks params[:tiers].values
       end
 
       unless params[:statuses].nil?
-        @report.statuses = params[:statuses].values
+        @report.statuses = filter_for_blanks params[:statuses].values
       end
 
       unless params[:business_types].nil?
-        @report.business_types = params[:business_types].values
+        @report.business_types = filter_for_blanks params[:business_types].values
       end
 
     end
@@ -111,6 +111,22 @@ class ReportsController < ApplicationController
           :url => "/query/registrations",
           :format => ""
       })
+
+    end
+
+    def filter_for_blanks(values)
+
+      filtered = []
+
+      unless values.nil?
+        filtered = values.reject(&:blank?)
+      end
+
+      unless filtered
+        filtered = []
+      end
+
+      filtered
 
     end
 
