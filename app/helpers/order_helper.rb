@@ -161,6 +161,41 @@ module OrderHelper
     @order
   end
   
+  def generateOrderDescription renderType, myRegistration
+  
+    # Create order description to reflect type of order
+    orderLabel = ''
+    incCopyCards = ''
+    registrationMessage = ' Waste Carrier Registration: ' + myRegistration.regIdentifier
+    forRegistrationMessage = ' for ' + myRegistration.companyName
+    plusMessage = ', Plus '
+    copyCardMessage = myRegistration.copy_cards.to_i.to_s + ' copy cards'
+    
+    case renderType
+    when Order.new_registration_identifier
+      # new
+      orderLabel = 'New' + registrationMessage + forRegistrationMessage
+    when Order.edit_registration_identifier
+      # edit
+      orderLabel = 'Edit' + registrationMessage + forRegistrationMessage
+    when Order.renew_registration_identifier
+      # renew
+      orderLabel = 'Renew' + registrationMessage + forRegistrationMessage
+    when Order.extra_copycards_identifier
+      # copy cards
+      orderLabel = copyCardMessage + forRegistrationMessage
+    end
+    
+    # Add copy card information aswell if not already included
+    if showCopyCards? renderType and renderType != Order.extra_copycards_identifier
+      incCopyCards = plusMessage + copyCardMessage
+    end
+    
+    orderDescription = orderLabel + incCopyCards
+    logger.debug 'orderDescription: ' + orderDescription
+    orderDescription
+  end
+  
   def updateOrderForWorldpay myOrder, myRegistration
     myOrder = updateOrderGenerally myOrder, myRegistration
     myOrder.paymentMethod = 'ONLINE'
