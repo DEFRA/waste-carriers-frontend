@@ -37,12 +37,22 @@ module OrderHelper
     logger.info "renderType: " + renderType.to_s
     # Calculate default fees based on page to render
     case renderType
-    when Order.new_registration_identifier, Order.edit_registration_identifier, Order.renew_registration_identifier
+    when Order.new_registration_identifier
       # New, Edit, Renew all use standard fee for now
       myRegistration.registration_fee = Rails.configuration.fee_registration
       myRegistration.copy_card_fee = myRegistration.copy_cards.to_i * Rails.configuration.fee_copycard
       myRegistration.total_fee = myRegistration.registration_fee + myRegistration.copy_card_fee
-      logger.info "Create reg for new/edit/renewal"
+      logger.info "Create reg for new"
+    when Order.edit_registration_identifier
+      myRegistration.copy_cards = '0'
+      myRegistration.registration_fee = Rails.config.fee_reg_type_change
+      myRegistration.total_fee = myRegistration.registration_fee
+      logger.info "Create reg for edit with charge"
+    when Order.renew_registration_identifier
+      myRegistration.copy_cards = '0'
+      myRegistration.registration_fee = Rails.configuration.fee_renewal
+      myRegistration.total_fee = myRegistration.registration_fee
+      logger.info "Create reg for renewal"
     when Order.extra_copycards_identifier
       # Additional copy card has different initial fees
       myRegistration.copy_card_fee = myRegistration.copy_cards.to_i * Rails.configuration.fee_copycard
@@ -66,7 +76,6 @@ module OrderHelper
     ord = reg.finance_details.first.orders.first
 
     @order = Order.create
-    
     # Create order description to reflect type of order
     @order.description = generateOrderDescription(renderType, reg)
 
@@ -90,6 +99,8 @@ module OrderHelper
       @order.orderId = session[:orderCode]
     end
     
+    
+
     if showRegistrationFee? renderType
       # Add order item for Initial registration
       # Create Order Item
@@ -184,7 +195,6 @@ module OrderHelper
     logger.debug 'orderDescription: ' + orderDescription
     orderDescription
   end
-  
   def updateOrderForWorldpay myOrder, myRegistration
     myOrder = updateOrderGenerally myOrder, myRegistration
     myOrder.paymentMethod = 'ONLINE'

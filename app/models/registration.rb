@@ -51,6 +51,7 @@ class Registration < Ohm::Model
   #payment
   attribute :total_fee
   attribute :registration_fee
+  attribute :renewal_fee
   attribute :copy_card_fee
   attribute :copy_cards
   attribute :balance
@@ -257,6 +258,7 @@ class Registration < Ohm::Model
 
       save
 
+
     rescue => e
       Rails.logger.error e.to_s
       saved = false
@@ -270,8 +272,20 @@ class Registration < Ohm::Model
   # @return  [String]  the registration object in JSON form
   def to_json
     result_hash = {}
+    datetime_format = "%Y-%m-%dT%H:%M:%S%z"
     self.attributes.each do |k, v|
-      result_hash[k] = v
+      if (k.to_s.eql? 'expires_on')
+        #convert date to millisecs from epoch so that  the Java service can understand it
+        if v.class.eql? 'String'
+          result_hash[k] = DateTime.parse(v).strftime('%Q')
+        elsif v.class.eql? 'Time'
+          result_hash[k] = v.strftime('%Q')
+        else
+          result_hash[k] = v
+        end
+      else
+        result_hash[k] = v
+      end
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
@@ -466,6 +480,7 @@ class Registration < Ohm::Model
       new_reg = Registration.create
 
       response_hash.each do |k, v|
+
         case k
         when 'id'
           new_reg.uuid = v
@@ -511,7 +526,7 @@ class Registration < Ohm::Model
   end
 
   def copy_construct
-      Registration.init(self.to_json)
+    Registration.init(self.to_json)
   end
 
   BUSINESS_TYPES = %w[
@@ -912,19 +927,20 @@ class Registration < Ohm::Model
   end
 
 
-  # Converts a date from either a String or Java(ms) format to a Time object
+  # Converts a date from either a String or Java(ms) format to a String time, properly formatted
   #
   # @param d [String, Numeric] the date to convert
-  # @return [Time]
+  # @return [String]
   class << self
     def convert_date d
-      res = Time.new(1970,1,1)
+
+      res =Time.new(1970,1,1)
       if d
         begin
-          res = Time.at(d / 1000.0)
+          res =  Time.at(d / 1000.0)
           # if d is String the NoMethodError will be raised
         rescue NoMethodError
-          res = Time.parse(d).to_datetime.strftime("%Y-%m-%dT%H:%M:%S%z")
+          res =  Time.parse(d)
         end
       end #if
       res
