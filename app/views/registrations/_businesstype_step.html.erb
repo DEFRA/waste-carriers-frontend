@@ -1,14 +1,17 @@
-<%= render "errors" %>
-
 <!-- WF 4.3.1 -->
 <div id="page1" data-journey="waste-carriers-registration:business-type">
-
   <!-- Smart Answers
     What kind of business or organisation are you?
   -->
+  <header class="page-header group">
+      <div class="hgroup"> 
+          <h1 class="heading-large"><%= t 'registrations.businesstype_step.subtitle' %></h1>
+      </div>
+  </header> 
 
   <fieldset>
-    <legend><%= t 'registrations.businesstype_step.subtitle' %></legend>
+    <legend></legend>
+     <%= render "errors" %>
     <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
       <%= validation_for(@registration, :businessType) %>
       <% Registration.business_type_options_for_select.each do |option| %>

@@ -1,12 +1,15 @@
-<%= render "errors" %>
-
 <!-- WF 4.3.2 -->
 <div id="page4"  data-journey="waste-carriers-registration:convictions">
 
-  <fieldset>
-    <legend><%= t 'registrations.convictions_step.title' %></legend>
-    
+  <header class="page-header group">
+      <div class="hgroup"> 
+          <h1 class="heading-large"><%= t 'registrations.convictions_step.title' %></h1>
+      </div>
+  </header> 
 
+  <fieldset>
+    <legend></legend>
+    <%= render "errors" %>
     <div class="inline<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
       <%= validation_for(@registration, :declaredConvictions) %>
       <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
@@ -20,7 +23,9 @@
     </div>
   </fieldset>
 
-  <div class='subtitle'><%= t 'registrations.convictions_step.subtitle' %></div>
+  <div class="text">
+    <div class='form-hint'><%= t 'registrations.convictions_step.subtitle' %></div>
+  </div>
   <p><%= link_to t('registrations.convictions_step.relevant_convictions_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %></p>
   <p><%= link_to t('registrations.convictions_step.relevant_person_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %></p>
 
