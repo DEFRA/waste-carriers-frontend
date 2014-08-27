@@ -1,24 +1,30 @@
 <%= render 'shared/content_for_pages' %>
-
 <% content_for :page_title, t('devise.sessions.title') %>
+<div id="wrapper">
+
+<header class="page-header group">
+    <div class="hgroup"> 
+        <h1 class="heading-large"><%= t '.sign_in_heading' %></h1>
+    </div>
+</header> 
 
 <main id="content" role="main" class="group"><article role="article" class="group">
-<section>
-<div class="inner">
-<div class="col-1">  
+  <section>
+
 <div id="wrapper" data-journey="waste-carriers-registration:sign-in"></div>
-<fieldset>
-<legend><%= t '.sign_in_heading' %></legend>
+
+  <fieldset>
+  <legend></legend>
 
 <% if request.original_url.include? "agency_users/sign_in" %>
-<h2><%= t '.agency_heading' %></h2></br>
+<h2 class="heading-medium"><%= t '.agency_heading' %></h2>
 <% elsif request.original_url.include? "admins/sign_in" %>
-<h2><%= t '.admin_heading' %></h2></br>
+<h2 class="heading-medium"><%= t '.admin_heading' %></h2>
 <% end%>
 
 <% if alert %>
 <div id="error_explanation" class="validation-summary">
-  <h2><%= t '.standard_error' %></h2>
+  <h2 class="heading-medium"><%= t '.standard_error' %></h2>
   <ul>
     <li><%= alert %></li>
   </ul>
@@ -27,7 +33,7 @@
 
 <% if notice %>
 <div id="notice_explanation" class="note-summary">
-  <h2><%= t '.standard_notice' %></h2>
+  <h2 class="heading-medium"><%= t '.standard_notice' %></h2>
   <ul>
     <li><%= notice %></li>
   </ul>
@@ -56,12 +62,11 @@
     <%= f.submit t('shared.current_user.sign_in'), :class => "button" %>
 
 <% end %>
-
 </fieldset>
 
 <%= render "devise/shared/links" %>
 
-    </div>
-  </div>
 </section>
 </article></main>
+</div><!--wrapper end-->
+

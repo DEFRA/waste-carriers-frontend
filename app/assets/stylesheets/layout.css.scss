@@ -38,7 +38,6 @@
   @include outer-block;
   @include inner-block;
   max-width:960px;
-  padding-bottom: 90px;
 }
 
 /* Page header ========================================================== */
@@ -51,6 +50,7 @@
 
 #content {
   text-align: left;
+  padding-bottom: 90px;
 }
 
 /* Use text div to keep columns less than 75 characters */
