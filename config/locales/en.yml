@@ -198,6 +198,7 @@ en:
     finished_button_label: "Finished"
     next_button_label: Next
     no_option_label: "No"
+    payment_status_button_label: "Payment Status"
     print_button_label: "Print certificate"
     search_button_label: "Search"
     sign_in_button_label: "Sign in"
@@ -237,7 +238,6 @@ en:
       heading: "We're sorry, but it looks like the service is unavailable at this time"
       message_html: "Try again later or if problems persist contact:<br/><a href='#'>registrations@wastecarriersregistration.service.gov.uk</a>"
     wales: Wales
-  hello: "Hello world"
   order:
     new:
       subtitle: "Payment Summary"
@@ -600,6 +600,24 @@ en:
       streetLine2: "Address line 2"
       streetLine3: "Address line 3"
       streetLine4: "Address line 4"
+    index:
+      title: "Agency user controls"
+      subtitle: "Registration search"
+      query_label: "Search for"
+      search_within_label: "Search only within"
+      option_any: "Any"
+      option_company_name: "Company name"
+      option_contact_name: "Contact name"
+      option_postcode: "Postcode"
+      refine_search_link_label: "Refine search"
+      full_search_link_label: "Full search"
+      results_count_message: "Found %{pluralized_registration}"
+      results_showing_message: "Showing %{count} of %{pluralized_record}"
+      registration_status_message: "Registrations status: %{status}"
+      aside_heading: "Other functions"
+      company_name: "Name"
+      registration: "registration"
+      record: "record"
     form:
       address_and_contact_details_heading: "Address and contact details"
       addresses_found: " Address(es) found"
@@ -872,6 +890,7 @@ en:
       criminal_message: "We are running background checks on the information you have provided"
     current_user:
       change_password: "Change password"
+      new_registration: "New registration"
       registrations_export: "Registrations export"
       payments_export: "Payments export"
       sign_in: "Sign in"
