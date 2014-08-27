@@ -199,17 +199,17 @@ class Registration < Ohm::Model
       self.regIdentifier = result['regIdentifier']
 
       unless self.tier == 'LOWER'
-        if self.finance_details.size > 0
-          self.finance.details.first.orders.each do |ord|
-            ord.commit  self.uuid
-          end
-          self.finance.details.first.payments.each do |p|
-            p.save!  self.uuid
-          end
-        else
-          self.finance_details.add FinanceDetails.init(result['financeDetails'])
-        end
-
+        #if self.finance_details.size > 0
+        #  self.finance.details.first.orders.each do |ord|
+        #    ord.commit  self.uuid
+        #  end
+        #  self.finance.details.first.payments.each do |p|
+        #    p.save!  self.uuid
+        #  end
+        #else
+        #  self.finance_details.add FinanceDetails.init(result['financeDetails'])
+        #end
+        self.finance_details.add FinanceDetails.init(result['financeDetails'])
       end
 
       save
@@ -489,9 +489,10 @@ class Registration < Ohm::Model
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'key_people'
-          if v
-            v.each do |dir|
-              new_reg.key_people.add HashToObject(dir, 'KeyPerson')
+          if v && v.size > 0
+            Rails.logger.debug "key people: #{v.to_s}"
+            v.each do |person|
+              new_reg.key_people.add KeyPerson.init(person)
             end
           end #if
         when 'metaData'

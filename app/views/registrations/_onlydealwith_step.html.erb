@@ -1,13 +1,18 @@
-<%= render "errors" %>
-
 <!-- WF 4.3.1 -->
 <div id="page5" data-journey="waste-carriers-registration:onlydealwith">
 
   <!-- Smart Answers
     Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste
    -->
+  <header class="page-header group">
+      <div class="hgroup"> 
+        <h1 class="heading-medium"><%= t 'registrations.onlydealwith_step.subtitle' %></h1>
+      </div>
+  </header> 
+
   <fieldset>
-    <legend><%= t 'registrations.onlydealwith_step.subtitle' %></legend>
+    <legend></legend>
+    <%= render "errors" %>
     <div class="inline<%if @registration.errors[:onlyAMF].any?%> validation<%end%>">
   	  <%= f.label :yes_option_label, for: "registration_onlyAMF_yes", :class => "block-label" do %>
         <%= f.radio_button :onlyAMF, "yes", :class => "radio" %> 

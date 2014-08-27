@@ -1,7 +1,7 @@
 <ul id='key_people_display'>
   <% @registration.key_people.each do |d| %>
     <li>
-      <%= d.first_name %> <%= d.last_name %> , <%= d.dob %>
+      <%= d.first_name %> <%= d.last_name %> , <%= d.id  %><%=d.dob_year.to_i  %>  <%= d.dob_month.to_i  %>   <%= d.dob_day.to_i %>
     </li>
   <% end %>
 </ul>
