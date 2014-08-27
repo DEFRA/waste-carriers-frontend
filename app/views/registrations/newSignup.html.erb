@@ -1,21 +1,28 @@
 <%= render 'shared/content_for_pages' %>
+<div id="wrapper">
+
+<div class="back-section">
+  <ol>
+    <li><%= render 'back_link' %></li>
+  </ol>
+</div>
+
+<header class="page-header group">
+    <div class="hgroup"> 
+        <h1 class="heading-medium"><%= t '.legend' %></h1>
+    </div>
+</header> 
 
 <main id="content" role="main" class="group">
 	<article role="article" class="group">
 	  <section>
-      <div class="inner">
-        <div class="col-1">
-
         	<!-- WF 4.3.4 -->
 					<div id="page4"  data-journey="waste-carriers-registration:signup">
             <% content_for :page_title, createTitle('.title') %>
-         
-             <%= render 'back_link' %>
-             <%= render 'errors' %>
-
 						<%= form_for(@registration, :url => newSignup_path) do |f| %>
               <fieldset>
-                <legend><%= t '.legend' %></legend>
+                <legend></legend>
+                <%= render 'errors' %>
                 <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">
                   <%= validation_for(@registration, :accountEmail) %>
                   <%= f.label :accountEmail, class: 'form-label' %>
@@ -30,7 +37,7 @@
                   <%= validation_for(@registration, :password) %>
                   <%= f.label :password, t('.createPassword'), class: 'form-label' %>
                   <%= f.password_field :password %>
-                  <p class='subtitle'>Password must be at least 8 characters long using upper and lower case letters.</p>
+                  <div class="text"><p class='form-hint'>Password must be at least 8 characters long using upper and lower case letters.</p></div>
                 </div>
                 <div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>">
                   <%= validation_for(@registration, :password_confirmation) %>
@@ -38,14 +45,16 @@
                   <%= f.password_field :password_confirmation %>
                 </div>
               </fieldset>
-              <div class='link_margin'>
-                <a href="/your-registration/signin"><%= t '.sign_in_link'%></a>
-              </div>
+
+              <ol>
+                <li><a href="/your-registration/signin"><%= t '.sign_in_link'%></a></li>
+              </ol>
+
 							<span class="next_link"><%= render 'next_link' %></span>
 				   	<% end %>
 			   	</div>
-			  </div>
-			</div>
+
 		</section>
 	</article>
 </main>
+</div>

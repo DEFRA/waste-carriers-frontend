@@ -12,106 +12,90 @@
 @import '_device-pixels';
 @import '_font_stack';
 
-/* Summary page ========================================================== */
+/* Summary page NEW ========================================================== */
 
-.list-bullets {
-list-style-image: url("https://assets.digital.cabinet-office.gov.uk/static/bullet-disc-5px-4180cb91fb35028365a59ddfcfd36e34.gif");
-list-style-type: disc; position:relative; left:-4em;}
 
-// Aside margin control
-
-#relevant-aside, #tier-aside, #directors-aside {margin-top:$gutter-half;}
-#relevant-aside h3 {border-bottom: 1px solid rgb(191, 193, 195);}
-#margin-control .block-label {margin-right: 100px;}
-
-.summary-box {
-    overflow: hidden;
-    position: relative;
-    padding-top: 0.7rem;
-    padding-bottom: 1.3rem;
-}
-
-.summary-subtitle {@include bold-48 }
-.summary-items {position:relative; left:0em; @include core-19;}
-#smartanswers_display {position:relative; left:5em; @include core-19;}
-.summary-page h3 {padding-top: $gutter-half;}
-#declaration-summary h2 {border:0;}
-.summary-page h3 {border-top: 1px solid rgb(191, 193, 195);}
+.list-bullets li {list-style-type:disc; position:relative; left:1em;}
+.summary-page h2 {border-bottom: 1px solid rgb(191, 193, 195); padding-bottom:0.3em;}
+.summary-page h2 {max-width:20em;}
+.summary-page .validation-summary h2 {border:none;}
 
 .notice-icon {
   position:relative;
   top:-90px;
   width:34px; 
   height:29px;
+  index:100;
   background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
 
-.declaration-text, .privacy-data {
-  padding-left:3.5em;
+.declaration-text {
+  padding-left:3em;
 }
 
-.privacy-data {
-  padding-left:0;
+/* Summary payment page NEW ========================================================== */
+
+
+.inner-payment-box .form-label, .total-charge .form-label {
+font-weight:700;
 }
 
-#declaration-summary {margin-top:3.4em;}
+.inner-payment .inline {
+  clear:none;
+  margin-right: 15px;
+  float:left;
+  margin-top:5px;
+}
 
-/* Copy card page ========================================================== */
+.payment-notice {
+  clear:left;
+  padding-left: $gutter;
+  float:left;
+}
 
-#payment-col-1 {width:67%;}
+.payment-notice .form-note {
+  position:relative;
+  left:15px;
+  top: -5px;
+}
 
-.payment-box {
-    border: 1px solid rgb(191, 193, 195);
-    margin-bottom: 45px;
-    margin-top: 15px;
-    overflow: hidden;
-    position: relative;
+.payment-options .inline {
+  margin-top:$gutter-half;
+  @include media(mobile){
+    margin-top:0;
+    display:block;
+    p {margin:0;
+  }
+  }
 }
-#registration_copy_cards, #registration_copy_card_fee, #registration_registration_fee, #registration_total_fee {
-    border: 1px solid rgb(191, 193, 195);
-    width: 10%;
-    float:right;
-    position:relative;
-    vertical-align: baseline;
-    top:-35px;
-    color: rgb(11, 12, 12);
-}
-#registration_copy_cards {
-  margin-right:5em;
-}
-.payment-group {
-   padding: 20px 0 10px 0px;
-}
-.payment-box {
-    padding-bottom:0px;
-}
-.inner-payment-box, .inner-payment-box-total {
-    border-bottom: 1px solid rgb(191, 193, 195);
-}
-.inner .inline input {
-    float:right;
-}
-.payment-box .add-focus {
-    outline: none;
-}
-.payment-box input:focus {
-  outline: none;
-  cursor:none;
-}
-#registration_copy_cards {
-    right:20px;
-}
-.payment-group .subtitle {
-    margin-bottom: 30px;
-}
-#world-pay-subtitle {padding-left:2.4em;}
-.inner-payment-box .notice-icon {position:relative; top:50px; height:34px; width:34px;}
 
-/* Electronic payment page ========================================================== */
+.payment-notice .notice-icon {
+  position:relative;
+  top:15px;
+  left:-30px;
+  width:34px; 
+  height:34px;
+  index:100;
+  background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
 
-#electronic-payment-icon {position:relative; top:60px; left:10px; height:34px; width:34px; background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
-#iban {padding-left:3em;}
-#col-1-bank-transfer {width:65%;}
-.table_header {@include bold-48; padding-top: 0.7rem; padding-bottom: 3rem; }
+
+/* Electronic transfer page NEW ========================================================== */
+
+#payment-table-wrapper {
+  max-width:30em;
+}
+
+#payment-table-wrapper .iban-instructions {
+  padding-left: $gutter*1.5;
+}
+
+#payment-table-wrapper .notice-icon {
+  position:relative;
+  top:-80px;
+  width:34px; 
+  height:34px;
+  index:100;
+  background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
+
 
 /* Registration complete page ========================================================== */
 

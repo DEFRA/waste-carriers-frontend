@@ -29,7 +29,16 @@ class KeyPerson < Ohm::Model
     def init (key_person_hash)
       keyPerson = KeyPerson.create
       key_person_hash.each do |k, v|
-        keyPerson.send(:update, {k.to_sym => v})
+        if k.to_sym.eql? :dob
+          dob =  Time.at(v/ 1000.0)
+          keyPerson.send(:update, {k.to_sym => dob})
+          keyPerson.send(:update, {:dob_day => dob.day})
+          keyPerson.send(:update, {:dob_month => dob.month})
+          keyPerson.send(:update, {:dob_year => dob.year})
+
+        else
+          keyPerson.send(:update, {k.to_sym => v})
+        end
       end
       keyPerson.save
       keyPerson
