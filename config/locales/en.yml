@@ -855,6 +855,13 @@ en:
       title: "Registrations Search Results"
       subtitle: "Registration search results summary"
       companyName: "Trading Name"
+    payments_search:
+      title: "Payments Search"
+      subtitle: "Payments search"
+      date_filters: "Date filters"
+      payment_status: "Payment status"
+      payment_type: "Payment type"
+      charge_type: "Charge type"
   shared:
     complete_summary:
       almost_there_title: "Almost there"
@@ -865,7 +872,8 @@ en:
       criminal_message: "We are running background checks on the information you have provided"
     current_user:
       change_password: "Change password"
-      report_export: "Create data report"
+      registrations_export: "Registrations export"
+      payments_export: "Payments export"
       sign_in: "Sign in"
       sign_out: "Sign out"
       sign_up: "Sign up"
@@ -886,6 +894,21 @@ en:
     inactive: "Inactive"
     pending: "Pending"
     revoked: "Revoked"
+  payment_status_options:
+    pending: "Pending"
+    fully_paid: "Fully paid"
+    overpaid: "Over paid"
+    underpaid: "Under paid"
+  payment_type_options:
+    credit_debit_card: "Credit/Debit card"
+    bank_transfer: "Bank transfer"
+    cheque: "Cheque"
+    cash: "Cash"
+    postal_order: "postal_order"
+  charge_type_options:
+    new_application: "New application"
+    renewal: "Renewal"
+    copy_cards: "Copy cards"
   templates:
     formExample:
       title: "Example form controls and content"
