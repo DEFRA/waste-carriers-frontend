@@ -19,6 +19,10 @@ class Payment < Ohm::Model
   attribute :comment
   attribute :paymentType
   attribute :manualPayment
+  
+  # These are meta data fields used only in rails for storing a temporary value to determine:
+  # the exception detail from the services
+  attribute :exception
 
   # Creates a new Payment object from a payment-formatted hash
   #
@@ -70,6 +74,25 @@ class Payment < Ohm::Model
       Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
+      
+      if e.try(:http_code)
+	    if e.http_code == 422
+	      # Get actual error from services
+	      htmlDoc = Nokogiri::HTML(e.http_body)
+	      messageFromServices = htmlDoc.at_css("body ul li").content
+	      Rails.logger.error messageFromServices
+	      # Update order with a exception message
+	      self.exception = messageFromServices
+	    elsif e.http_code == 400
+	      # Get actual error from services
+	      htmlDoc = Nokogiri::HTML(e.http_body)
+	      messageFromServices = htmlDoc.at_css("body pre").content
+	      Rails.logger.error messageFromServices
+	      # Update order with a exception message
+	      self.exception = messageFromServices
+	    end
+      end
+      
       commited = false
     end
     if isManualPayment?

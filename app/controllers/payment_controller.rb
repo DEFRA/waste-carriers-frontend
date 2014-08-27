@@ -33,6 +33,9 @@ class PaymentController < ApplicationController
   # POST /payments
   def create
     logger.info 'create request has been made'
+    # Need to re-get the registration information as it was not re-posted
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :read, @registration
     # Get a new payment object from the parameters in the post
     @payment = Payment.init(params[:payment])
     authorize! :enterPayment, @payment
@@ -55,24 +58,55 @@ class PaymentController < ApplicationController
 	if @payment.valid?
 	  logger.info 'payment is valid'
       puts @payment.to_json
-	  @payment.save! params[:id]
-
-	  # Redirect user back to payment status
-      redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
-	else
-	  logger.info 'payment is invalid'
-
-	  # Need to re-get the registration information as it was not re-posted, but we can reuse the payment information
-      @registration = Registration.find_by_id(params[:id])
-      authorize! :read, @registration
-
-	  # Need to also re-populate split dateRecieved parameters
-	  @payment.dateReceived_day = params[:payment][:dateReceived_day]
-      @payment.dateReceived_month = params[:payment][:dateReceived_month]
-      @payment.dateReceived_year = params[:payment][:dateReceived_year]
-
-      render "new", :status => '400'
+	  if @payment.save! params[:id]
+	    # Payment successful, Now need to check if registration activated?
+	    
+	    # Get updated registration
+	    updatedRegistration = Registration.find_by_id(params[:id])
+	    logger.info 'updatedRegistration: ' + updatedRegistration.to_s
+	    
+	    # If registration has been activated
+	    if @registration.metaData.first.route == 'DIGITAL' \
+	        and @registration.pending? \
+	    	and updatedRegistration.metaData.first.status == 'ACTIVE'
+	      
+	      logger.info 'About to send email because payment received'
+	      
+	      # Send welcome email
+	      user = User.find_by_email(@registration.accountEmail)
+	      logger.info 'user found: ' + user.to_s
+	      
+	      if user
+	        RegistrationMailer.welcome_email(user,updatedRegistration).deliver
+	      else
+	        # Redirect user back to payment status
+            redirect_to paymentstatus_path, alert: "Payment has been successfully entered. But account holder was not send registration email."
+            return
+	      end
+	      
+	      logger.info 'Email sent'
+	      
+	    end
+	    
+	    # Redirect user back to payment status
+        redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
+        return
+      end
 	end
+	
+	logger.info 'payment is invalid'
+	
+	# add any payment errors if server side error
+	if !@payment.exception.nil?
+	  @payment.errors.add(:exception, @payment.exception.to_s)
+	end
+
+	# Need to also re-populate split dateRecieved parameters when rerendering page
+	@payment.dateReceived_day = params[:payment][:dateReceived_day]
+    @payment.dateReceived_month = params[:payment][:dateReceived_month]
+    @payment.dateReceived_year = params[:payment][:dateReceived_year]
+
+    render "new", :status => '400'
   end
   
   #####################################################################################
