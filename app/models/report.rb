@@ -4,6 +4,7 @@ class Report
 
   attr_accessor :is_new, :from, :to, :has_declared_convictions, :is_criminally_suspect
   attr_accessor :routes, :tiers, :statuses, :business_types
+  attr_accessor :payment_statuses, :payment_types, :charge_types
 
   validate :validate_from
   validate :validate_to
@@ -26,6 +27,27 @@ class Report
     revoked
   ]
 
+  PAYMENT_STATUS_OPTIONS = %w[
+    pending
+    fully_paid
+    overpaid
+    underpaid
+  ]
+
+  PAYMENT_TYPE_OPTIONS = %w[
+    credit_debit_card
+    bank_transfer
+    cheque
+    cash
+    postal_order
+  ]
+
+  CHARGE_TYPE_OPTIONS = %w[
+    new_application
+    renewal
+    copy_cards
+  ]
+
   # Class methods ##############################################################
 
   def self.route_options
@@ -38,6 +60,18 @@ class Report
 
   def self.status_options
     (STATUS_OPTIONS.collect {|d| [I18n.t('status_options.'+d), d.upcase]})
+  end
+
+  def self.payment_status_options
+    (PAYMENT_STATUS_OPTIONS.collect {|d| [I18n.t('payment_status_options.'+d), d.upcase]})
+  end
+
+  def self.payment_type_options
+    (PAYMENT_TYPE_OPTIONS.collect {|d| [I18n.t('payment_type_options.'+d), d.upcase]})
+  end
+
+  def self.charge_type_options
+    (CHARGE_TYPE_OPTIONS.collect {|d| [I18n.t('charge_type_options.'+d), d.upcase]})
   end
 
   # Instance methods ###########################################################
@@ -76,6 +110,18 @@ class Report
 
     unless is_criminally_suspect.blank?
       param_args[:criminallySuspect] = is_criminally_suspect
+    end
+
+    unless @payment_statuses.nil? || @payment_statuses.empty?
+      param_args[:payment_statuses] = @payment_statuses
+    end
+
+    unless @payment_types.nil? || @payment_types.empty?
+      param_args[:payment_types] = @payment_types
+    end
+
+    unless @charge_types.nil? || @charge_types.empty?
+      param_args[:charge_types] = @charge_types
     end
 
     param_args

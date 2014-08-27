@@ -8,7 +8,8 @@
   <div class="current_user internal">
   <p><%= t('.signed_in_as_agency_user')%> <strong><%= current_agency_user.email %></strong></p>
   <p><%= link_to t('.change_password'), edit_agency_user_registration_path, :class => 'navbar-link' %></p>
-  <p><%= link_to t('.report_export'), registrations_search_path %></p>
+  <p><%= link_to t('.registrations_export'), registrations_search_path %></p>
+  <p><%= link_to t('.payments_export'), payments_search_path %></p>
   <%= button_to t('.sign_out'), destroy_agency_user_session_path, :method => :delete, :class => 'button', :id => 'signout_button' %>
   </div>
   <% elsif admin_signed_in? %>

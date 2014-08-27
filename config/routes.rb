@@ -148,6 +148,11 @@ Registrations::Application.routes.draw do
     get "reports/registrations/results" => 'reports#registrations_search_results', :as => :registrations_search_results
     match "reports/registrations/results" => 'reports#registrations_export', :via => [:post,:put,:patch]
 
+    get "reports/payments" => 'reports#payments_search', :as => :payments_search
+    match "reports/payments" => 'reports#payments_search_post', :via => [:post,:put,:patch]
+    get "reports/payments/results" => 'reports#payments_search_results', :as => :payments_search_results
+    match "reports/payments/results" => 'reports#payments_export', :via => [:post,:put,:patch]
+
     # Template URLS - These are just for the devs as working examples
     get "templates/form" => "templates#formExample", :as => :formExample
     post "templates/form" => "templates#updateFormExample"

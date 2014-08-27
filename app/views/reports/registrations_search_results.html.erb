@@ -1,36 +1,45 @@
 <%= render 'shared/content_for_pages' %>
 
-<main id="content" role="main" class="group">
-  <article role="article" class="group">
-    <section>
-      <div class="inner">
-        <div>
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+    <div class="grid-wrapper">
 
-          <!-- WF 4.3.2 -->
-          <div id="page6"  data-journey="waste-carriers-registration:registrations-export">
-            <% content_for :page_title, createTitle('.title') %>
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('registrations.form.back_button_label'), :registrations, :class => 'link_to' %></li>
+        </ol>
+      </div>
 
-            <%= link_to t('registrations.form.back_button_label'), :registrations_search, :class => 'link_to' %>
-            <%= render "errors" %>
+      <header class="page-header group">
+        <div class="hgroup">
+          <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+        </div>
+      </header>
 
-            <h2><%= t '.subtitle' %></h2>
+      <div class="grid-wrapper">
+        <div class="grid-2-3">
+          <article role="article" class="group">
+            <!-- WF 4.3.2 -->
+            <div id="page0"  data-journey="waste-carriers-registration:registrations-export-results">
+              <% content_for :page_title, createTitle('.title') %>
+              <%= render 'errors' %>
 
-            <table summary='A summary of the first 100 registrations matching your search' role='presentation'>
-              <thead>
-                <tr>
-                  <th><%= t 'activemodel.attributes.registration.regIdentifier' %></th>
-                  <th><%= t '.companyName' %></th>
-                  <th><%= t 'activemodel.attributes.registration.postcode' %></th>
-                  <th><%= t 'activemodel.attributes.registration.business_type' %></th>
-                  <th><%= t 'activemodel.attributes.registration.tier' %></th>
-                  <th><%= t 'activemodel.attributes.metadata.dateRegistered' %></th>
-                  <th><%= t 'activemodel.attributes.metadata.dateActivated' %></th>
-                  <th><%= t 'activemodel.attributes.metadata.status' %></th>
-                  <th><%= t 'activemodel.attributes.metadata.route' %></th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @registrations.each do |reg| %>
+              <table summary='A summary of the first 100 registrations matching your search' role='presentation'>
+                <thead>
+                  <tr>
+                    <th><%= t 'activemodel.attributes.registration.regIdentifier' %></th>
+                    <th><%= t '.companyName' %></th>
+                    <th><%= t 'activemodel.attributes.registration.postcode' %></th>
+                    <th><%= t 'activemodel.attributes.registration.business_type' %></th>
+                    <th><%= t 'activemodel.attributes.registration.tier' %></th>
+                    <th><%= t 'activemodel.attributes.metadata.dateRegistered' %></th>
+                    <th><%= t 'activemodel.attributes.metadata.dateActivated' %></th>
+                    <th><%= t 'activemodel.attributes.metadata.status' %></th>
+                    <th><%= t 'activemodel.attributes.metadata.route' %></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @registrations.each do |reg| %>
                   <tr>
                     <td><%= reg.regIdentifier %></td>
                     <td><%= reg.companyName %></td>
@@ -42,11 +51,11 @@
                     <td><%= reg.metaData.first.status %></td>
                     <td><%= reg.metaData.first.route %></td>
                   </tr>
-                <% end %>
-              </tbody>
-            </table>
+                  <% end %>
+                </tbody>
+              </table>
 
-            <%= form_for(@report, :url => registrations_search_results_path) do |f| %>
+              <%= form_for(@report, :url => registrations_search_results_path) do |f| %>
               <fieldset>
                 <%= f.hidden_field :from %>
                 <%= f.hidden_field :to %>
@@ -60,11 +69,11 @@
               <span class="next_link">
                 <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_button_label' %>"/>
               </span>
-            <% end %>
-
-          </div>
-        </div>
-      </div>
-    </section>
-  </article>
-</main>
+              <% end %>
+            </div>
+          </article>
+        </div><!--grid-2-3 end-->
+      </div><!--grid-wrapper end-->
+    </div><!--grid-wrapper end-->
+  </main><!--main end-->
+</div><!--wrapper end-->
