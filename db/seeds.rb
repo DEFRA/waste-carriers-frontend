@@ -102,7 +102,8 @@ if (Rails.env.eql? 'development') && (ENV["WCRS_REG_SEED"].eql? 'true')
       r.metaData.first.update(status: 'ACTIVE')
       r.save!
 
-    else puts "Registration failed for #{reg['companyName']}"
+    else
+      puts "Registration failed for #{reg['companyName']}"
     end
 
   end
