@@ -275,11 +275,16 @@ class Registration < Ohm::Model
     datetime_format = "%Y-%m-%dT%H:%M:%S%z"
     self.attributes.each do |k, v|
       if (k.to_s.eql? 'expires_on')
+        Rails.logger.debug "#{k} -- #{k.class.to_s} "
+
         #convert date to millisecs from epoch so that  the Java service can understand it
-        if v.class.eql? 'String'
+        if v.is_a? String
+          puts "-------------------------------------- #{v}"
           result_hash[k] = DateTime.parse(v).strftime('%Q')
-        elsif v.class.eql? 'Time'
+        elsif v.is_a? DateTime
           result_hash[k] = v.strftime('%Q')
+        elsif v.is_a? Time
+          result_hash[k] = v.to_i * 1000
         else
           result_hash[k] = v
         end
@@ -293,8 +298,7 @@ class Registration < Ohm::Model
 
     if self.key_people &&  self.key_people.size > 0
       self.key_people.each do  |person|
-        person.instance_eval {  self.set_dob } #computed field
-        key_people <<  person.attributes.to_hash
+         key_people << person.to_hash
       end
       result_hash['key_people'] = key_people
     end #if
@@ -303,6 +307,7 @@ class Registration < Ohm::Model
       result_hash['financeDetails'] = self.finance_details.first.to_hash
     end
 
+    Rails.logger.debug "saving #{result_hash.to_json.to_s}"
     result_hash.to_json
   end
 
@@ -348,8 +353,10 @@ class Registration < Ohm::Model
           all_regs = JSON.parse(response.body) #all_regs should be Array
           Rails.logger.debug "find found #{all_regs.size.to_s} items"
           all_regs.each do |r|
+            Rails.logger.debug "#{r['id']}"
             registrations << Registration.init(r)
           end
+          Rails.logger.debug "#{registrations.size}"
         else
           Rails.logger.error "Registration.find_by_email(#{email}) failed with a #{response.code} response from server"
         end
@@ -486,14 +493,16 @@ class Registration < Ohm::Model
           new_reg.uuid = v
         when 'expiresOn', 'expires_on'
           new_reg.expires_on = convert_date(v)
+
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'key_people'
           if v && v.size > 0
-            Rails.logger.debug "key people: #{v.to_s}"
+            Rails.logger.info "getting key people"
             v.each do |person|
               new_reg.key_people.add KeyPerson.init(person)
             end
+             Rails.logger.info "key people size = #{new_reg.key_people.size.to_s}"
           end #if
         when 'metaData'
           new_reg.metaData.add HashToObject(v, 'Metadata')
