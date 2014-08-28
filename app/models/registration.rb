@@ -923,35 +923,46 @@ class Registration < Ohm::Model
     rs = Registration.find_by_email(user.email)
     Rails.logger.info("found: #{rs.size} pending registrations")
     rs.each do |r|
-      if r.pending? and Registration.isReadyToBeActive(r)
-        Rails.logger.debug "debug: #{r.attributes.to_s}"
-        Rails.logger.info "Activating registration #{r.regIdentifier}"
-        r.activate!
-        Rails.logger.debug "registration #{r.id} activated!"
-        
-        #
-        # NOTE:
-        # Should be able to use the following but there is a bug that currently mean agency users are creating DIGITAL routes
-        # Rails.logger.debug 'route: ' + r.metaData.first.route.to_s
-        # if r.metaData.first.route == 'DIGITAL'
-        #
-        # FIXME: Replace the 'is_agency_user?', with 'r.metaData.first.route ...' once the above defect is resolved
-        #
-        if !user.is_agency_user?
-          Rails.logger.debug "Send registration email"
-          RegistrationMailer.welcome_email(user,r).deliver
-        else 
-          Rails.logger.debug "Registration not Digital, thus registraion email not to be sent"
-        end
-      else
-        Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
-      end
+        Registration.activate_registration(r)
+        Registration.send_registered_email(user, r)
     end #each
     Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
   
   def self.isReadyToBeActive(reg)
     reg.paid_in_full? and !reg.criminally_suspect
+  end
+  
+  def self.activate_registration(r)
+    Rails.logger.debug "Check registration ready for activation: #{r.attributes.to_s}"
+    if r.pending? and Registration.isReadyToBeActive(r)
+      Rails.logger.info "Activating registration #{r.regIdentifier}"
+      r.activate!
+      Rails.logger.debug "registration #{r.id} activated!"
+    else
+      Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
+    end
+  end
+  
+  def self.send_registered_email(user, r)
+    if Registration.isReadyToBeActive(r)
+      #
+      # NOTE:
+      # Should be able to use the following but there is a bug that currently mean agency users are creating DIGITAL routes
+      # Rails.logger.debug 'route: ' + r.metaData.first.route.to_s
+      # if r.metaData.first.route == 'DIGITAL'
+      #
+      # FIXME: Replace the 'is_agency_user?', with 'r.metaData.first.route ...' once the above defect is resolved
+      #
+      if !user.is_agency_user?
+        Rails.logger.debug "Send registration email"
+        RegistrationMailer.welcome_email(user,r).deliver
+      else 
+        Rails.logger.debug "Registration not Digital, thus registraion email not to be sent"
+      end
+    else
+      Rails.logger.info "Skipping sending registered email #{r.regIdentifier}"
+    end
   end
 
   # Converts a date from either a String or Java(ms) format to a String time, properly formatted
