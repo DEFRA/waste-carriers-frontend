@@ -95,7 +95,9 @@ module RegistrationsHelper
   end
 
   def new_step_action current_step
-    if current_step.eql? Registration::FIRST_STEP
+    logger.debug "-----------  #{session[:edit_mode]}"
+    if (current_step.eql? Registration::FIRST_STEP) && !session[:edit_mode]
+      clear_edit_session
       @registration = Registration.create
       session[:registration_id]= @registration.id
       logger.debug "creating new registration #{@registration.id}"
@@ -112,7 +114,11 @@ module RegistrationsHelper
 
       @registration.metaData.add m
 
-    else
+    elsif  session[:edit_mode] #editing existing registration
+      @registration = Registration[ session[:registration_id]]
+      logger.debug "retrieving registration for edit #{@registration.id}"
+    else #creating new registration but not first step
+      clear_edit_session
       @registration = Registration[ session[:registration_id]]
       logger.debug "retrieving registration #{@registration.id}"
       m = Metadata.create
@@ -120,59 +126,74 @@ module RegistrationsHelper
 
     logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
 
-    if  session[:registration_progress].eql? 'IN_EDIT'
-    end
-
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
     @registration.current_step = current_step
     @registration.save
     logger.debug "new step action: #{current_step}"
-    logger.debug "curret step: #{ @registration.current_step}"
+    logger.debug "current step: #{ @registration.current_step}"
     # Pass in current page to check previous page is valid
     # TODO had to comment this out for now because causing problems but will probably need to reinstate
     # check_steps_are_valid_up_until_current current_step
 
-#    if (session[:registration_id])
-#      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
-#      renderNotFound
-#    end
+    #    if (session[:registration_id])
+    #      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
+    #      renderNotFound
+    #    end
+  end
+
+  def clear_edit_session
+
+    session.delete(:edit_mode)
+    session.delete(:edit_result)
+    logger.debug "#{ __method__}"
+  end
+
+  def give_meaning_to_reg_type(attr_value)
+    case attr_value
+    when 'carrier_broker_dealer'
+      "You are a carrier and broker dealer"
+    when 'carrier_dealer'
+      "Carrier dealer (You carry the waste yourselves)"
+    when 'broker_dealer'
+      "Broker dealer (You arrange for other people to carry the waste)"
+    end
   end
 
   # Defines the list of classes for the complete summary
   def getCompleteClass
-  	'complete'
+    'complete'
   end
   def getCompleteLowerClass
-  	'complete lower'
+    'complete lower'
   end
   def getCriminallySuspectClass
-  	'criminallySuspect'
+    'criminallySuspect'
   end
   def getAlmostCompleteClass
-  	'almostComplete'
+    'almostComplete'
   end
 
   def getConfirmationType
     confirmationType = nil
 
-	# These must match the css classes they related to
-	#criminally_suspect_class = 'criminallySuspect'
-	#almost_complete_class = 'almostComplete'
-	#complete_class = 'complete'
-	#complete_lower_class = 'complete lower'
+    # These must match the css classes they related to
+    #criminally_suspect_class = 'criminallySuspect'
+    #almost_complete_class = 'almostComplete'
+    #complete_class = 'complete'
+    #complete_lower_class = 'complete lower'
 
-	if @registration.criminally_suspect
-	  confirmationType = getCriminallySuspectClass
-	elsif !@registration.paid_in_full? and !@registration.criminally_suspect
-	  confirmationType = getAlmostCompleteClass
-	elsif @registration.is_complete? and @registration.tier.downcase.eql? 'upper'
-	  confirmationType = getCompleteClass
-	elsif @registration.is_complete?
-	  confirmationType = getCompleteLowerClass
-	end
+    if @registration.criminally_suspect
+      confirmationType = getCriminallySuspectClass
+    elsif !@registration.paid_in_full? and !@registration.criminally_suspect
+      confirmationType = getAlmostCompleteClass
+    elsif @registration.is_complete? and @registration.tier.downcase.eql? 'upper'
+      confirmationType = getCompleteClass
+    elsif @registration.is_complete?
+      confirmationType = getCompleteLowerClass
+    end
 
-	confirmationType
+    confirmationType
   end
 
 end
