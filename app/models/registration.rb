@@ -213,7 +213,7 @@ class Registration < Ohm::Model
       end
 
       save
-      Rails.logger.debug "Commited to service: #{attributes.to_s}"
+      Rails.logger.debug "Commited to service: #{to_json.to_s}"
     rescue => e
       Rails.logger.debug "Error in Commit to service: #{ e.to_s} || #{attributes.to_s}"
     end
