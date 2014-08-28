@@ -32,7 +32,7 @@
 
 <!--<h2><%= t '.yourRegNumber', :reg => @registration.regIdentifier %></h2>-->
 
-<form action="<%=print_url(@registration.id)%>">
+<form action="<%=print_url(@registration.uuid)%>">
 
 <% if can? :print, @registration %>
                 <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
