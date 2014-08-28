@@ -29,12 +29,13 @@ class KeyPerson < Ohm::Model
     def init (key_person_hash)
       keyPerson = KeyPerson.create
       key_person_hash.each do |k, v|
-        if k.to_sym.eql? :dob
+        if k.to_sym.eql? :dob && v
           dob =  Time.at(v/ 1000.0)
           keyPerson.send(:update, {k.to_sym => dob})
           keyPerson.send(:update, {:dob_day => dob.day})
           keyPerson.send(:update, {:dob_month => dob.month})
           keyPerson.send(:update, {:dob_year => dob.year})
+          Rails.logger.debug "KeyPerson dob:  #{dob.day}/#{dob.month}/#{dob.year}"
 
         else
           keyPerson.send(:update, {k.to_sym => v})
@@ -50,7 +51,23 @@ class KeyPerson < Ohm::Model
   # @param none
   # @return  [Hash]  the KeyPerson object as a hash
   def to_hash
-    self.attributes.to_hash
+
+    if  self.dob
+      if  self.dob.is_a? String
+        self.attributes[:dob]  = Time.at(self.dob.to_i / 1000).strftime("%Y%m%d%H%M%S")
+      elsif  (self.dob.is_a?  Time) ||  (self.dob.is_a?  Date)
+        self.attributes[:dob] =  self.dob.strftime('%Q')
+
+        Rails.logger.debug "#{dob_value}, -- #{dob_value.class}"
+      else  #dob not set
+        if  self.dob_year &&  self.dob_month &&  self.dob_day
+          set_dob
+        end
+      end
+    end
+
+    self.attributes.select{| k,v|  ![:dob_day, :dob_month, :dob_year].include? k.to_sym }
+    # self.attributes.to_hash
   end
 
   # returns a JSON Java/DropWizard API compatible representation of the KeyPerson object
