@@ -72,7 +72,7 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
-      # TODO set steps
+      (redirect_to :newConfirmation and return) if session[:edit_mode]
 
       case @registration.businessType
       when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
@@ -117,6 +117,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'otherbusinesses'
 
     if @registration.valid?
+      (redirect_to :newConfirmation and return) if session[:edit_mode]
       # TODO this is where you need to make the choice and update the steps
       case @registration.otherBusinesses
       when 'yes'
@@ -141,6 +142,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'serviceprovided'
 
     if @registration.valid?
+      (redirect_to :newConfirmation and return) if session[:edit_mode]
       # TODO this is where you need to make the choice and update the steps
       case @registration.isMainService
       when 'yes'
@@ -165,6 +167,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'constructiondemolition'
 
     if @registration.valid?
+      (redirect_to :newConfirmation and return) if session[:edit_mode]
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
       when 'yes'
@@ -189,6 +192,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'onlydealwith'
 
     if @registration.valid?
+      (redirect_to :newConfirmation and return) if session[:edit_mode]
       # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
       when 'yes'
@@ -221,6 +225,7 @@ class RegistrationsController < ApplicationController
   def updateNewBusinessDetails
     setup_registration 'businessdetails'
 
+
     if params[:addressSelector]  #user selected an address from drop-down list
       @selected_address = Address.find(params[:addressSelector])
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
@@ -241,7 +246,11 @@ class RegistrationsController < ApplicationController
       end
       render 'newBusinessDetails', status: '200'
     elsif @registration.valid?
-      redirect_to :newContact
+      if session[:edit_mode]
+        redirect_to :newConfirmation and return
+      else
+        redirect_to :newContact and return
+      end
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -264,12 +273,17 @@ class RegistrationsController < ApplicationController
     # if params[:findAddress]
     #   render "newBusinessDetails" and return
     # end
+
+
+
     if @registration.valid?
+      (redirect_to :newConfirmation and return) if session[:edit_mode]
       if @registration.tier.eql? 'LOWER'
-        redirect_to :newConfirmation
+        redirect_to :newConfirmation and return
       else
-        redirect_to :registration_key_people
+        redirect_to :registration_key_people and return
       end
+
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -286,7 +300,11 @@ class RegistrationsController < ApplicationController
   def updateNewRegistrationType
     setup_registration 'registrationtype'
     if @registration.valid?
-      redirect_to :newBusinessDetails
+      if session[:edit_mode]
+        redirect_to :newConfirmation and return
+      else
+        redirect_to :newBusinessDetails  and return
+      end
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -310,6 +328,7 @@ class RegistrationsController < ApplicationController
     @registration.save
 
     if @registration.valid?
+      (redirect_to :newConfirmation and return) if session[:edit_mode]
       if @registration.declaredConvictions == 'yes'
         redirect_to :newRelevantPeople
       else
@@ -347,20 +366,24 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/confirmation
   def updateNewConfirmation
     setup_registration 'confirmation'
+    logger.debug "edit_mode = #{ session[:edit_mode]}"
+    logger.debug "edit_result = #{ session[:edit_result]}"
 
     if @registration.valid?
       case session[:edit_mode].to_i
       when EditMode::RECREATE
+        redirect_to upper_payment_path(@registration.uuid) and return
       when EditMode::EDIT
         case session[:edit_result].to_i
         when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
           redirect_to action: 'editRenewComplete' and return
 
-
-
         when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
           redirect_to newOrderEdit_path(@registration.uuid) and return
         when  EditResult::CREATE_NEW_REGISTRATION
+          redirect_to newOrderEdit_path(@registration.uuid) and return
+        else
+          redirect_to action: 'editRenewComplete' and return
         end
 
       when EditMode::RENEWAL
@@ -370,11 +393,6 @@ class RegistrationsController < ApplicationController
       else # new registration
         redirect_to :action => :account_mode
       end #case
-
-      logger.debug "edit_mode = #{ session[:edit_mode]}"
-      logger.debug "edit_result = #{ session[:edit_result]}"
-
-
 
     else
       # there is an error (but data not yet saved)
@@ -475,7 +493,7 @@ class RegistrationsController < ApplicationController
     when 'UPPER'
       complete_new_registration
     end
-    
+
     @registration.sign_up_mode = ''
     @registration.save
 
@@ -740,7 +758,7 @@ class RegistrationsController < ApplicationController
 
     renderNotFound and  return unless reg_uuid
     @registration = Registration.find_by_id( reg_uuid )
-    redirect_to registrations_path and return if @registration.empty?
+    redirect_to registrations_path and return unless @registration
 
     authorize! :read, @registration
     if params[:finish]
@@ -1119,22 +1137,29 @@ class RegistrationsController < ApplicationController
   # Renders the edit renew order complete view
   def editRenewComplete
     @registration = Registration[session[:registration_id]]
+    #need to store session variables as instance variable, so that editRenewComplete.html can
+    #use them, as session will be cleared shortly
     @edit_mode = session[:edit_mode]
     @edit_result = session[:edit_result]
 
-    if @registration.save!
-      logger.debug "Registration #{@registration.uuid} now saved!"
 
+    if  (session[:edit_result].to_i ==  EditResult::CREATE_NEW_REGISTRATION) ||
+        (session[:edit_mode].to_i== EditMode::RECREATE)
+      if @registration.commit
+        logger.debug "Registration #{@registration.uuid} now created!"
+      else
+        #TODO: error handling
+      end #if
     else
-      #TODO: error handling
-    end #if
+      if @registration.save!
+        logger.debug "Registration #{@registration.uuid} now saved!"
+      else
+        #TODO: error handling
+      end #if
+    end
 
     #at the end of the edit/renewal process, so clear the session
-    session.delete(:original_registration_id)
-    session.delete(:registration_id)
-    session.delete(:registration_uuid)
-    session.delete(:edit_mode)
-    session.delete(:edit_result)
+    clear_edit_session
   end
 
   def newOfflinePayment
@@ -1157,7 +1182,11 @@ class RegistrationsController < ApplicationController
       pending_path
     end
 
-    redirect_to next_step
+    if session[:edit_mode]
+      redirect_to action: 'editRenewComplete' and return
+    else
+      redirect_to next_step
+    end
 
   end
 

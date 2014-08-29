@@ -1,30 +1,38 @@
 <%= render 'shared/content_for_pages' %>
+<div id="wrapper">
+
+  <div class="back-section">
+    <ol>
+      <li><%= link_to t('registrations.form.back_button_label'), :back %></li>
+    </ol>
+  </div>
+
+  <header class="page-header group">
+    <div class="hgroup"> 
+      <h1 class="heading-large"><%= t 'devise.confirmations.resendHeading'%></h1>
+    </div>
+  </header> 
 
 <main id="content" role="main" class="group"><article role="article" class="group">
     <section>
-      <div class="inner">
-      <div class="col-1">	
 
-<%= link_to t('registrations.form.back_button_label'), :back %>
-<fieldset>
-<legend><%= t 'devise.confirmations.resendHeading'%></legend>
+    <fieldset>
+      <legend></legend>
 
-<%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
-  <%= devise_error_messages! %>
+      <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+      <%= devise_error_messages! %>
 
-  <div class="form-group">
-  	<%= f.label :email, class: 'form-label' %>
-  	<%= f.email_field :email, :autofocus => true %>
-  </div>
+      <div class="form-group">
+  	   <%= f.label :email, class: 'form-label' %>
+  	   <%= f.email_field :email, :autofocus => true %>
+      </div>
 
   	<%= f.submit t('devise.confirmations.resendHeading'), :class => "button" %>
 
-<% end %>
+    <% end %>
 
 </fieldset>
-
-    </div>
-  </div>
 </section>
 
 </article></main>
+</div><!--wrapper end-->

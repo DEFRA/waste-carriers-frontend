@@ -30,6 +30,8 @@
           </tr>
         </thead>
         <tbody>
+        
+          <% if showRegistrationFee?(@renderType) or showEditFee?(@renderType) or showRenewalFee?(@renderType) %>
           <tr>
             <td>
               <%= render "order/registration_fee", :f => f if showRegistrationFee? @renderType %>
@@ -37,6 +39,8 @@
               <%= render "order/renew_registration_fee", :f => f if showRenewalFee? @renderType %>
             </td>
           </tr>
+          <% end %>
+          
           <tr>
             <td><%= render "order/copy_cards", :f => f if showCopyCards? @renderType %></td>
           </tr>

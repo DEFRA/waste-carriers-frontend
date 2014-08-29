@@ -213,7 +213,7 @@ class Registration < Ohm::Model
       end
 
       save
-      Rails.logger.debug "Commited to service: #{attributes.to_s}"
+      Rails.logger.debug "Commited to service: #{to_json.to_s}"
     rescue => e
       Rails.logger.debug "Error in Commit to service: #{ e.to_s} || #{attributes.to_s}"
     end
@@ -275,11 +275,16 @@ class Registration < Ohm::Model
     datetime_format = "%Y-%m-%dT%H:%M:%S%z"
     self.attributes.each do |k, v|
       if (k.to_s.eql? 'expires_on')
+        Rails.logger.debug "#{k} -- #{k.class.to_s} "
+
         #convert date to millisecs from epoch so that  the Java service can understand it
-        if v.class.eql? 'String'
+        if v.is_a? String
+          puts "-------------------------------------- #{v}"
           result_hash[k] = DateTime.parse(v).strftime('%Q')
-        elsif v.class.eql? 'Time'
+        elsif v.is_a? DateTime
           result_hash[k] = v.strftime('%Q')
+        elsif v.is_a? Time
+          result_hash[k] = v.to_i * 1000
         else
           result_hash[k] = v
         end
@@ -293,8 +298,7 @@ class Registration < Ohm::Model
 
     if self.key_people &&  self.key_people.size > 0
       self.key_people.each do  |person|
-        person.instance_eval {  self.set_dob } #computed field
-        key_people <<  person.attributes.to_hash
+         key_people << person.to_hash
       end
       result_hash['key_people'] = key_people
     end #if
@@ -303,6 +307,7 @@ class Registration < Ohm::Model
       result_hash['financeDetails'] = self.finance_details.first.to_hash
     end
 
+    Rails.logger.debug "saving #{result_hash.to_json.to_s}"
     result_hash.to_json
   end
 
@@ -348,8 +353,10 @@ class Registration < Ohm::Model
           all_regs = JSON.parse(response.body) #all_regs should be Array
           Rails.logger.debug "find found #{all_regs.size.to_s} items"
           all_regs.each do |r|
+            Rails.logger.debug "#{r['id']}"
             registrations << Registration.init(r)
           end
+          Rails.logger.debug "#{registrations.size}"
         else
           Rails.logger.error "Registration.find_by_email(#{email}) failed with a #{response.code} response from server"
         end
@@ -486,14 +493,16 @@ class Registration < Ohm::Model
           new_reg.uuid = v
         when 'expiresOn', 'expires_on'
           new_reg.expires_on = convert_date(v)
+
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'key_people'
           if v && v.size > 0
-            Rails.logger.debug "key people: #{v.to_s}"
+            Rails.logger.info "getting key people"
             v.each do |person|
               new_reg.key_people.add KeyPerson.init(person)
             end
+             Rails.logger.info "key people size = #{new_reg.key_people.size.to_s}"
           end #if
         when 'metaData'
           new_reg.metaData.add HashToObject(v, 'Metadata')
@@ -914,22 +923,47 @@ class Registration < Ohm::Model
     rs = Registration.find_by_email(user.email)
     Rails.logger.info("found: #{rs.size} pending registrations")
     rs.each do |r|
-      if r.pending? and r.paid_in_full? and !r.criminally_suspect
-        Rails.logger.debug "debug: #{r.attributes.to_s}"
-        Rails.logger.info "Activating registration #{r.regIdentifier}"
-        r.activate!
-        Rails.logger.debug "registration #{r.id} activated!"
-        if !user.is_agency_user?
-          Rails.logger.debug "Send registration email"
-          RegistrationMailer.welcome_email(user,r).deliver
-        end
-      else
-        Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
-      end
+        Registration.activate_registration(r)
+        Registration.send_registered_email(user, r)
     end #each
     Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
-
+  
+  def self.isReadyToBeActive(reg)
+    reg.paid_in_full? and !reg.criminally_suspect
+  end
+  
+  def self.activate_registration(r)
+    Rails.logger.debug "Check registration ready for activation: #{r.attributes.to_s}"
+    if r.pending? and Registration.isReadyToBeActive(r)
+      Rails.logger.info "Activating registration #{r.regIdentifier}"
+      r.activate!
+      Rails.logger.debug "registration #{r.id} activated!"
+    else
+      Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
+    end
+  end
+  
+  def self.send_registered_email(user, r)
+    if Registration.isReadyToBeActive(r)
+      #
+      # NOTE:
+      # Should be able to use the following but there is a bug that currently mean agency users are creating DIGITAL routes
+      # Rails.logger.debug 'route: ' + r.metaData.first.route.to_s
+      # if r.metaData.first.route == 'DIGITAL'
+      #
+      # FIXME: Replace the 'is_agency_user?', with 'r.metaData.first.route ...' once the above defect is resolved
+      #
+      if !user.is_agency_user?
+        Rails.logger.debug "Send registration email"
+        RegistrationMailer.welcome_email(user,r).deliver
+      else 
+        Rails.logger.debug "Registration not Digital, thus registraion email not to be sent"
+      end
+    else
+      Rails.logger.info "Skipping sending registered email #{r.regIdentifier}"
+    end
+  end
 
   # Converts a date from either a String or Java(ms) format to a String time, properly formatted
   #

@@ -1,14 +1,26 @@
 <%= render 'shared/content_for_pages' %>
 
+<div id="wrapper">
+
+<div class="back-section">
+  <ol>
+    <li><%= link_to t('registrations.form.back_button_label'), :back %></li>
+  </ol>
+</div>  
+
+<header class="page-header group">
+    <div class="hgroup"> 
+        <h1 class="heading-large"><%= t 'devise.passwords.forgotHeading'%></h1>
+    </div>
+</header> 
+
 <main id="content" role="main" class="group"><article role="article" class="group">
  <section>
-      <div class="inner">
-      <div class="col-1">
 
-<%= link_to t('registrations.form.back_button_label'), :back %>
 	<fieldset>	
-		<legend><%= t 'devise.passwords.forgotHeading'%></legend>
-			<div id="wrapper" data-journey="waste-carriers-registration:forgot-password"></div>
+		<legend></legend>
+		
+      <div id="wrapper" data-journey="waste-carriers-registration:forgot-password"></div>
 
 			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
   			<%= devise_error_messages! %>
@@ -22,7 +34,7 @@
 
 	</fieldset>
 
-	</div>
-  </div>
 </section>
-</article></main>
+</article>
+</main>
+</div><!--wrapper end-->
