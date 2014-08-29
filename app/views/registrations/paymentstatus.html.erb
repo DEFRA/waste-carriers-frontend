@@ -158,10 +158,7 @@
 	    <% end %>
 
 	    <div class="inline" style="width:130%">
-		    <noscript>
-		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-		    </noscript>
-		    <%= link_to t('registrations.form.back_button_label'), 'javascript:history.back()', :class => 'link_to' %>
+		    <%= link_to t('registrations.form.back_button_label'), :registrations, :class => 'link_to' %>
 		    <%
 		    isFinanceBasic = current_agency_user.has_role? :Role_financeBasic, AgencyUser
 		    isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser

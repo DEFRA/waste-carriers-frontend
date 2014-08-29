@@ -2,10 +2,11 @@
 
 <% content_for :page_title, createTitle('.heading') %>
 
+<div id="wrapper">
+
 <main id="content" role="main" class="group"><article role="article" class="group">
  <section>
- <div class="inner">
- <div class="col-1">
+
 
 <% if params[:error] %>
 <div id="error_explanation" class="validation-summary">
@@ -20,8 +21,11 @@
  </div>
 <% end %>
 
-<h1><%= t '.heading' %></h1>
-
+<header class="page-header group">
+    <div class="hgroup"> 
+        <h1 class="heading-large"><%= t '.heading' %></h1>
+    </div>
+</header> 
 
 <form method="get" action="/registrations/search">
 <div class="box" data-journey="waste-carriers-registration:search-register">
@@ -124,7 +128,6 @@
 <p><a href="<%= Rails.configuration.waste_exemplar_end_url %>"><%= t '.feedback_link' %></a></p>
 <% end %>
 
-</div>
-</div>
 </section>
 </article></main>
+</div><!--wrapper end-->

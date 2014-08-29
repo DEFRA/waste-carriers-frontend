@@ -22,13 +22,15 @@ class WorldpayController < ApplicationController
         next_step = if user_signed_in?
         
             # Attempt to activate registration
-            Registration.activate_registrations(current_user)
+            #Registration.activate_registrations(current_user)
+            Registration.send_registered_email(current_user, @registration)
             
             finish_path
           elsif agency_user_signed_in?
             
             # Attempt to activate registration
-            Registration.activate_registrations(current_agency_user)
+            #Registration.activate_registrations(current_agency_user)
+            Registration.send_registered_email(current_agency_user, @registration)
             
             finishAssisted_path
           else
@@ -205,7 +207,14 @@ class WorldpayController < ApplicationController
       logger.info  '*****'
 
       if @order.valid?
-        @order.save! reg.uuid
+        if @order.save! reg.uuid
+          # Re-get registration so its data is up to date, for later use
+          @registration = Registration.find_by_id(session[:registration_uuid])
+          logger.info 'Re-populated @registration from the database'
+        else
+          # Errored saving order
+          logger.error "CODE ERROR: this should not happen if code implemented propery"
+        end
       else
         logger.error "CODE ERROR: this should not happen if code implemented propery"
         logger.error "The order is not valid! " + @order.errors.full_messages.to_s

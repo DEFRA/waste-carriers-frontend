@@ -78,11 +78,12 @@
 		            	registration.expires_on  > Time.now  \
 		            	%>
 	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %>
-	            	<% elsif  (registration.metaData.first.status == 'EXPIRED') || (registration.expires_on  < Time.now) %>
-		            	<%= link_to 'New Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
+	            	<% elsif  ((registration.metaData.first.status == 'EXPIRED') || (registration.expires_on  < Time.now)) && \
+				            	(registration.metaData.first.status != 'PENDING') %>
+		            	<%= link_to 'Re-create Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
 	            	<% end %>
 	            </td>
-	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if (registration.metaData.first.status == 'ACTIVE')  %></td>
+	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if (registration.metaData.first.status == 'ACTIVE' and registration.tier == 'UPPER')  %></td>
 
 	          </tr>
           <% end %>
