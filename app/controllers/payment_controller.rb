@@ -49,6 +49,9 @@ class PaymentController < ApplicationController
     # Manually set the orderkey of the payment to a new orderkey as it needs a key to be reversed. 
     @payment.orderKey = generateOrderCode
     
+    # Ensure currency set
+    @payment.currency = getDefaultCurrency
+    
     # Set override to validate amount as pounds as came from user screen in pounds not in pence from Worldpay
 	@payment.manualPayment = true
 
@@ -199,6 +202,9 @@ class PaymentController < ApplicationController
 
     # Set payment amount to match outstanding balance
     @payment.amount = @registration.finance_details.first.balance.to_i
+    
+    # Ensure currency set
+    @payment.currency = getDefaultCurrency
 
     # Set fields automatically for write off's
     @payment.dateReceived = Time.new.strftime("%Y-%m-%d")
@@ -300,6 +306,9 @@ class PaymentController < ApplicationController
 	# Flip the value of the selected payment to be a negative payment, ie a refund
 	@payment.amount = -@payment.amount.to_i.abs
 	logger.info 'payment amount:' + @payment.amount.to_s
+	
+	# Ensure currency set
+    @payment.currency = getDefaultCurrency
 
     now = Time.now.utc.xmlschema
 	# Set automatic Payment values
@@ -432,7 +441,7 @@ class PaymentController < ApplicationController
     # Generate default adjustment details
     @order.orderCode = generateOrderCode
     @order.merchantId = 'n/a'
-    @order.currency = 'GBP'
+    @order.currency = getDefaultCurrency
     @order.updatedByUser = current_agency_user.id.to_s
     now = Time.now.utc.xmlschema
     @order.dateCreated = now
@@ -544,6 +553,9 @@ class PaymentController < ApplicationController
 
 	originalPayment = Payment.getPayment(@registration, params[:orderCode])
     @payment.amount = originalPayment.amount
+    
+    # Ensure currency set
+    @payment.currency = getDefaultCurrency
     
     @payment.registrationReference = originalPayment.registrationReference
 
