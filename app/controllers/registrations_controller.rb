@@ -35,16 +35,21 @@ class RegistrationsController < ApplicationController
   # GET /registrations
   # GET /registrations.json
   def index
+    logger.debug "REGISTRATIONS::INDEX I'm here"
+
     authenticate_agency_user!
     searchWithin = params[:searchWithin]
     searchString = params[:q]
+    logger.debug "REGISTRATIONS::INDEX searchWithin #{searchWithin}"
+    logger.debug "REGISTRATIONS::INDEX searchString #{searchString}"
     if validate_search_parameters?(searchString,searchWithin)
-      if searchString && !searchString.empty?
+      logger.debug "REGISTRATIONS::INDEX have valid params"
+      @registrations = []
+      unless searchString.blank?
         @registrations = Registration.find_all_by(searchString, searchWithin)
-      else
-        @registrations = []
       end
     else
+      logger.debug "REGISTRATIONS::INDEX params are not valid"
       @registrations = []
       flash.now[:notice] = 'You must provide valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
     end
