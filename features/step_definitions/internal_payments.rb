@@ -54,7 +54,7 @@ Given(/^I change user to a nccc refunds user$/) do
 end
 Given(/^I have found a registrations payment details$/) do
   visit registrations_path
-  page.should have_content 'Find a registration'
+  page.should have_content 'Registration search'
   fill_in 'q', with: 'PaymentReg'+registrationCount.to_s
   click_button 'Search'
   find_button('paymentStatus1').click
