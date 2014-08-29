@@ -27,5 +27,9 @@ module ApplicationHelper
   def format_time d
     convert_date(d.to_i).strftime("%d/%m/%Y")
   end
+  
+  def getDefaultCurrency
+    "GBP"
+  end
 
 end
