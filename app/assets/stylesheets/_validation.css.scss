@@ -57,7 +57,9 @@
 /* Error text */
 
 .error-text {
+  display:block;
   color: $error-colour;
+  padding-bottom:$gutter-half;
 }
 
 

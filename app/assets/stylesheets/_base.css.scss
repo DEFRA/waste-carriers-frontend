@@ -122,7 +122,7 @@ legend {
 p {
   @include copy-19;
   margin-top: $gutter-half;
-  margin-bottom: $gutter;
+  margin-bottom: $gutter-half;
     @include media (mobile){
     margin-bottom: $gutter-half;
   }

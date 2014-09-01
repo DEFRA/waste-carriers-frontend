@@ -4,10 +4,10 @@
     Whose waste do you deal with?
    -->
   <header class="page-header group">
-      <div class="hgroup"> 
+      <div class="hgroup">
         <h1 class="heading-large"><%= t 'registrations.otherBusinesses_step.subtitle' %></h1>
       </div>
-  </header>  
+  </header>
 
   <fieldset>
     <legend></legend>
@@ -15,7 +15,7 @@
     <div class="inline<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>">
         <%= validation_for(@registration, :otherBusinesses) %>
         <%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
-        <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %> 
+        <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %>
         <%= t 'form.yes_option_label' %>
           <% end %>
         <%= f.label :no_option_label, for: "registration_otherBusinesses_no", :class => "block-label" do %>
