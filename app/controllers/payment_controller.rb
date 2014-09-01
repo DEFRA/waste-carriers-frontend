@@ -1,6 +1,7 @@
 class PaymentController < ApplicationController
 
   include WorldpayHelper
+  include PaymentsHelper
 
   before_filter :authenticate_agency_user!
   
@@ -69,27 +70,14 @@ class PaymentController < ApplicationController
 	    logger.info 'updatedRegistration: ' + updatedRegistration.to_s
 	    
 	    # If registration has been activated
-	    if @registration.metaData.first.route == 'DIGITAL' \
-	        and @registration.pending? \
-	    	and updatedRegistration.metaData.first.status == 'ACTIVE'
-	      
+	    if wasActivated(@registration, updatedRegistration)
 	      logger.info 'About to send email because payment received'
 	      
 	      # Send welcome email
 	      user = User.find_by_email(@registration.accountEmail)
 	      logger.info 'user found: ' + user.to_s
-	      
-	      if user
-	        #Registration.send_registered_email(user, updatedRegistration)   # Alternative to calling it manually
-	        RegistrationMailer.welcome_email(user,updatedRegistration).deliver
-	      else
-	        # Redirect user back to payment status
-            redirect_to paymentstatus_path, alert: "Payment has been successfully entered. But account holder was not send registration email."
-            return
-	      end
-	      
-	      logger.info 'Email sent'
-	      
+	      Registration.send_registered_email(user, updatedRegistration)
+	      logger.info 'Registration email sent'
 	    end
 	    
 	    # Redirect user back to payment status
@@ -218,27 +206,43 @@ class PaymentController < ApplicationController
 
 	if @payment.valid?
 	  logger.info 'writeOff is valid'
-	  @payment.save! params[:id]
-
-	  # Redirect user back to payment status
-      redirect_to paymentstatus_path, alert: "Write off has been successfully entered."
-	else
-	  logger.info 'writeOff is invalid'
-	  if @payment.errors.any?
-	    @payment.errors.each do |error|
-	      logger.info 'write off error: ' + error.to_s
+	  if @payment.save! params[:id]
+	    # Get updated registration
+	    updatedRegistration = Registration.find_by_id(params[:id])
+	    logger.info 'updatedRegistration: ' + updatedRegistration.to_s
+	    
+	    # If registration has been activated
+	    if wasActivated(@registration, updatedRegistration)
+	      logger.info 'About to send email because writeoff received'
+	      
+	      # Send welcome email
+	      user = User.find_by_email(@registration.accountEmail)
+	      logger.info 'user found: ' + user.to_s
+	      Registration.send_registered_email(user, updatedRegistration)
+	      logger.info 'Registration email sent'
 	    end
-	  else
-	    logger.info 'no errors???'
+	    
+	    # Redirect user back to payment status
+        redirect_to paymentstatus_path, alert: "Write off has been successfully entered."
+        return
 	  end
-
-      authorize! :read, @registration
-      
-      # Revert payment amount to outstanding balance
-      @payment.amount = @registration.finance_details.first.balance.to_f.abs
-
-      render "newWriteOff", :status => '400'
 	end
+	
+	logger.info 'writeOff is invalid'
+	if @payment.errors.any?
+	  @payment.errors.each do |error|
+	    logger.info 'write off error: ' + error.to_s
+	  end
+	else
+	  logger.info 'no errors???'
+	end
+
+    authorize! :read, @registration
+      
+    # Revert payment amount to outstanding balance
+    @payment.amount = @registration.finance_details.first.balance.to_f.abs
+
+    render "newWriteOff", :status => '400'
   end
   
   #####################################################################################
@@ -468,8 +472,28 @@ class PaymentController < ApplicationController
     # validate orderType
     if @order.includesOrderType? @order.amountType
       if @order.valid?
+        
+        # Get original registration
+        originalRegistration = Registration.find_by_id(params[:id])
+      
         # save
         if @order.commit params[:id]
+          
+          # Get updated registration
+	      updatedRegistration = Registration.find_by_id(params[:id])
+	      logger.info 'updatedRegistration: ' + updatedRegistration.to_s
+	      
+	      # If registration has been activated
+	      if wasActivated(originalRegistration, updatedRegistration)
+	        logger.info 'About to send email because writeoff received'
+	        
+	        # Send welcome email
+	        user = User.find_by_email(originalRegistration.accountEmail)
+	        logger.info 'user found: ' + user.to_s
+	        Registration.send_registered_email(user, updatedRegistration)
+	        logger.info 'Registration email sent'
+	      end
+          
           # Redirect user back to payment status
           redirect_to paymentstatus_path, alert: "Charge has been successfully entered."
           return

@@ -59,5 +59,11 @@ module PaymentsHelper
 	end
 	refundPaymentStatus
   end
+  
+  def wasActivated originalRegistration, updatedRegistration
+    originalRegistration.metaData.first.route == 'DIGITAL' \
+        and originalRegistration.pending? \
+        and updatedRegistration.metaData.first.status == 'ACTIVE'
+  end
 
 end
