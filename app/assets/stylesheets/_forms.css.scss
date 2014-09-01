@@ -28,10 +28,6 @@ legend {
   }
 }
 
-input,#addressSelector {
-  @include copy-19;
-}
-
 #registration_accountEmail_confirmation,
 #registration_contactEmail,
 #registration_accountEmail,
@@ -44,23 +40,14 @@ input,#addressSelector {
   }
 }
 
-input {
+input, #addressSelector {
+  @include copy-19;
   margin-bottom: $gutter-half;
+  display:block;
 }
 
 /* Address look-up */
 
-#addressSelector {
-  margin-top: $gutter;
-  margin-bottom: $gutter;
-  width:auto;
-  height:auto;
-  white-space:none;
-}
-
- #addressSelector {
-  word-wrap: break-word;
- }
 
 /* Radio buttons and check boxes ========================================================== */
 
