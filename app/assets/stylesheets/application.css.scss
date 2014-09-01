@@ -7,8 +7,17 @@
  *
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require_self
- *= require_tree .
  */
- 
+ @import "base";
+ @import "layout";
+ @import "forms";
+ @import "modules";
+ @import "summary_pages";
+ @import "validation";
+ @import "tables";
+ @import "lists";
+ @import "helpers";
+ @import "reports";
+ @import "upper_registrations";
+
+
