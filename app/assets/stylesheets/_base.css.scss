@@ -25,20 +25,19 @@
 }
 
 .grid-2-3 {
-width: 100%;
-float:left;
-@include media(tablet) {
-width: 66.66666666%;
-
-}
+  width: 100%;
+  float:left;
+  @include media(tablet) {
+    width: 66.66666666%;
+  }
 }
 
 .grid-1-3 {
-width: 100%;
-float:left;
-@include media(tablet) {
-width: 33.333333333%;
-}
+  width: 100%;
+  float:left;
+  @include media(tablet) {
+    width: 33.333333333%;
+  }
 }
 
 .grid-2-3 .inner-block,
@@ -48,8 +47,6 @@ width: 33.333333333%;
     margin: 0 15px;
   }
 }
-
-
 
 
 /* Typography ========================================================== */
@@ -63,71 +60,81 @@ width: 33.333333333%;
     margin-bottom: 0em;
   }
 }
+
 .heading-large {
-@include bold-36;
-margin-top: $gutter-half;
-margin-bottom: $gutter;
-@include media (mobile){
-	margin-bottom: 0.5em;
+  @include bold-36;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter;
+  @include media (mobile){
+	  margin-bottom: 0.5em;
+  }
 }
-}
+
 legend {
-@include bold-36;
-margin-top: $gutter-half;
-margin-bottom: $gutter;
+  @include bold-36;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter;
 }
+
 .heading-medium {
-@include bold-27;
-margin-top: $gutter-half;
-margin-bottom: $gutter;
-@include media (mobile){
-	margin-bottom: 0;
+  @include bold-27;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter;
+    @include media (mobile){
+	  margin-bottom: 0;
+  }
 }
-}
+
 .heading-small {
-@include bold-24;
-margin-top: $gutter;
-margin-bottom: $gutter-half;
+  @include bold-24;
+  margin-top: $gutter;
+  margin-bottom: $gutter-half;
 }
+
 .subtitle {
-@include copy-19;
-color: $secondary-text-colour;
-display: block;
-clear:left;
-margin-top: $gutter-half;
-margin-bottom: $gutter;
-@include media (mobile){
-	margin-bottom: 0.5em;
+  @include copy-19;
+  color: $secondary-text-colour;
+  display: block;
+  clear:left;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter;
+    @include media (mobile){
+	   margin-bottom: 0.5em;
+  }
 }
-}
+
 .form-hint {
-@include copy-19;
-color: $secondary-text-colour;
-display: block;
-clear:left;
-margin-top: 0em;
-margin-bottom: $gutter;
+  @include copy-19;
+  color: $secondary-text-colour;
+  display: block;
+  clear:left;
+  margin-top: 0em;
+  margin-bottom: $gutter;
 }
+
 .form-note {
-@include copy-16;
-color: $secondary-text-colour;
-margin-top: 0em;
-margin-bottom: $gutter;
+  @include copy-16;
+  color: $secondary-text-colour;
+  margin-top: 0em;
+  margin-bottom: $gutter;
 }
+
 p {
-@include copy-19;
-margin-top: $gutter-half;
-margin-bottom: $gutter;
-@include media (mobile){
-margin-bottom: $gutter-half;
+  @include copy-19;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter;
+    @include media (mobile){
+    margin-bottom: $gutter-half;
+  }
 }
-}
+
 a {
-@include copy-19;
+  @include copy-19;
 }
+
 #content {
-@include copy-19;
--webkit-font-smoothing: antialiased;
+  @include copy-19;
+  -webkit-font-smoothing: antialiased;
 }
 
 
