@@ -1,45 +1,45 @@
 <%= render 'shared/content_for_pages' %>
 
-<div id="wrapper"> 
-<main id="content" role="main" class="group">  
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+    <header class="page-header group">
+      <div class="hgroup">
+        <h1 class="heading-xlarge">Waste Carriers Registration Service</h1>
+        <h2 class="heading-medium">Development page</h2>
+      </div>
+    </header>
+
   <div class="grid-wrapper">
 
-      <header class="page-header group">
-        <div class="hgroup"> 
-          <h1 class="heading-xlarge">Waste Carriers Registration Service</h1>
-          <h2 class="heading-medium">Development page</h2>
-        </div>
-      </header> 
+    <div class="grid-2-3">
+      <div class="inner-block">
 
-<div class="grid-wrapper">
-  <div class="grid-2-3">
-
-    <article role="article" class="group">
-      <div class="text">
         <p class="panel-indent">You are seeing this page because the application is deployed in development mode users in the production environment will be redirected to the "Find out if I need to register" page
         </p>
-      </div>
-          <% if alert %>
-            <div id="error_explanation" class="validation-summary">
-              <h2 class="heading-small"><%= t '.standard_error' %></h2>
-              <ul>
-              <li><%= alert %></li>
-              </ul>
-            </div>
-          <% end %>
 
-      <% if notice %>
-        <div id="notice_explanation" class="validation-summary">
-          <!--
-          <h2><%= t '.standard_error' %></h2>
-          -->
-          <ul>
-            <li><%= notice %></li>
-          </ul>
-        </div>
-      <% end %>
+        <% if alert %>
+          <div id="error_explanation" class="validation-summary">
+            <h2 class="heading-small"><%= t '.standard_error' %></h2>
+            <ul>
+            <li><%= alert %></li>
+            </ul>
+          </div>
+        <% end %>
 
-    <h2 class="heading-small">Waste Carrier Entry points (typically redirected from GOV.UK)</h2>
+        <% if notice %>
+          <div id="notice_explanation" class="validation-summary">
+            <!--
+            <h2><%= t '.standard_error' %></h2>
+            -->
+            <ul>
+              <li><%= notice %></li>
+            </ul>
+          </div>
+        <% end %>
+
+        <h2 class="heading-small">Waste Carrier Entry points (typically redirected from GOV.UK)</h2>
         <ul>
           <li><a href='/registrations/find'>Find out if I have to register </a></li>
           <li><a href='/users/sign_in'>Waste Carrier Login </a></li>
@@ -55,14 +55,11 @@
         <ul>
           <li><a href='/admins/sign_in'>Administration Login </a></li>
         </ul>
-    </article>
-    
-  </div><!--grid-2-3 end-->
-  </div><!--grid-wrapper end-->
+      </div>
+    </div><!--grid-2-3 end-->
 
-  <div class="grid-wrapper">
     <div class="grid-1-3">
-      <div class="related">
+      <div class="inner-block related">
         <div class="inner group related-subsection">
           <h2 class="heading-small">Template Example</h2>
             <nav aria-labelledby="parent-subsection" role="navigation">
@@ -73,11 +70,11 @@
               </ul>
             </nav>
         </div>
-      </div>        
+      </div>
     </div><!--grid-1-3 end-->
+
   </div><!--grid-wrapper end-->
 
-</div><!--grid-wrapper end-->
 </main><!--content end-->
 </div><!--wrapper end-->
 

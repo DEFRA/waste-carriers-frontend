@@ -12,17 +12,20 @@
 @import '_device-pixels';
 @import '_font_stack';
 
-/* Form layout ========================================================== */
+/* Form Elements  ========================================================== */
 
 legend {
   margin:0; padding:0;
-} 
+}
 
 .form-label {
   @include copy-19;
     display: block;
     line-height:2em;
     padding-top:$gutter;
+  @include media (mobile){
+    padding-top: $gutter-half;
+}
 }
 
 input,#addressSelector {
@@ -30,12 +33,15 @@ input,#addressSelector {
 }
 
 #registration_accountEmail_confirmation,
-#registration_contactEmail, 
-#registration_accountEmail, 
-#agency_user_email, 
-#user_email, 
+#registration_contactEmail,
+#registration_accountEmail,
+#agency_user_email,
+#user_email,
 #admin_email {
   width:40%;
+@include media (mobile){
+  width:75%;
+}
 }
 
 input {
@@ -47,11 +53,9 @@ input {
 #addressSelector {
   margin-top: $gutter;
   margin-bottom: $gutter;
-  width:100%;
+  width:auto;
+  white-space: normal;
 }
- #addressSelector {
-  word-wrap: break-word;
- }
 
 /* Radio buttons and check boxes ========================================================== */
 
