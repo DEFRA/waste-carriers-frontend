@@ -25,7 +25,7 @@ legend {
     padding-top:$gutter;
   @include media (mobile){
     padding-top: $gutter-half;
-}
+  }
 }
 
 input,#addressSelector {
@@ -39,9 +39,9 @@ input,#addressSelector {
 #user_email,
 #admin_email {
   width:40%;
-@include media (mobile){
-  width:75%;
-}
+  @include media (mobile){
+    width:75%;
+  }
 }
 
 input {
@@ -54,58 +54,69 @@ input {
   margin-top: $gutter;
   margin-bottom: $gutter;
   width:auto;
-  white-space: normal;
+  height:auto;
+  white-space:none;
 }
+
+ #addressSelector {
+  word-wrap: break-word;
+ }
 
 /* Radio buttons and check boxes ========================================================== */
 
 .block-label {
-display: block;
-float: none;
-clear: left;
-position: relative;
-background: $panel-colour;
-border: 1px solid $panel-colour;
-padding: (15px $gutter $gutter-half $gutter*1.5);
-margin-top: 10px;
-margin-bottom: 10px;
-font-size: 19px;
-cursor: pointer; // Encourage clicking on block labels
-@include media(tablet) {
-float: left;
-margin-top: 5px;
-margin-bottom: 5px;
+  display: block;
+  float: none;
+  clear: left;
+  position: relative;
+  background: $panel-colour;
+  border: 1px solid $panel-colour;
+  padding: (15px $gutter $gutter-half $gutter*1.5);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 19px;
+  cursor: pointer; // Encourage clicking on block labels
+  @include media(tablet) {
+    float: left;
+    margin-top: 5px;
+    margin-bottom: 5px;
 // width: 25%; - Test : check that text within labels will wrap
+  }
 }
-}
+
 .block-label:hover {
-border-color: $black;
+  border-color: $black;
 }
+
 // Position checkbox within label, to allow text to wrap
 .block-label input {
-position: absolute;
-top: 18px;
-left: $gutter-half;
-cursor: pointer;
+  position: absolute;
+  top: 18px;
+  left: $gutter-half;
+  cursor: pointer;
 }
+
 // Use inline, to sit block labels next to each other
 .inline .block-label {
-clear: none;
-margin-right: $gutter-half;
+  clear: none;
+  margin-right: $gutter-half;
 }
+
 // Only if JavaScript is enabled
 // Add focus styles to block labels
 .js-enabled .add-focus {
-outline: 3px solid $yellow;
+  outline: 3px solid $yellow;
 }
+
 // Remove focus styles from radio and checkbox inputs
 .js-enabled .block-label input:focus {
-outline: none;
+  outline: none;
 }
+
 // Add selected state to block labels
 .js-enabled .selected {
-background: $white;
-border-color: $black;
+  background: $white;
+  border-color: $black;
 }
 
 
@@ -116,11 +127,13 @@ border-color: $black;
   margin-top: $gutter-half;
   margin-bottom: $gutter-half;
 }
+
 .button-secondary {
   @include button($grey-3);
   margin-top: $gutter-half;
   margin-bottom: $gutter-half;
 }
+
 .button-warning {
   @include button($red);
   margin-top: $gutter-half;
@@ -132,40 +145,48 @@ border-color: $black;
 .inline-date {
   display:inline-block;
 }
+
 #date-subtitle {
   margin:0;
 }
+
 .inline-date label {
-display: block;
-margin-bottom: 5px;
+  display: block;
+  margin-bottom: 5px;
 }
+
 .inline-date .form-group {
-width: 50px;
-float: left;
-margin-right: 20px;
-clear: none;
+  width: 50px;
+  float: left;
+  margin-right: 20px;
+  clear: none;
 }
+
 .inline-date .form-group-year {
-width: 70px;
+  width: 70px;
 }
 .inline-date .form-group input {
-width: 100%;
+  width: 100%;
 }
+
 // Use Modernizr to detect for touch events
 // Build: http://modernizr.com/download/#-touch-cssclasses-teststyles-prefixes
 // Hide date of birth
 .touch .inline-date {
-display: none;
+  display: none;
 }
+
 // Hide native date of birth
 .no-touch .inline-date {
-display: none;
+  display: none;
 }
+
 // Show native date of birth
 .touch .inline-date {
-display: block;
+  display: block;
 }
+
 // Set a minimum height for date inputs
 .touch input[type="date"] {
-min-height: 36px;
+  min-height: 36px;
 }
