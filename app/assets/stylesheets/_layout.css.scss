@@ -14,16 +14,13 @@
 
 /* Global header ========================================================== */
 
-#global-header-bar .header-bar {
-  display:none;} /* display none to be removed after go live following removal of phase banner */
-
 .header_text h1 {
   @include bold-24;
   padding-top:5px;
   padding-left:15px;
   color: rgb(255, 255, 255);
 }
- 
+
 /* Phase banner ========================================================== */
 
 .phase-banner {
@@ -36,8 +33,14 @@
 
 #wrapper {
   @include outer-block;
+}
+
+/* Content ========================================================== */
+
+#content {
   @include inner-block;
-  max-width:960px;
+  text-align: left;
+  padding-bottom: 90px;
 }
 
 /* Page header ========================================================== */
@@ -46,24 +49,42 @@
   max-width: 30em;
 }
 
-/* Content ========================================================== */
+/* Related positioning ========================================================== */
 
-#content {
-  text-align: left;
-  padding-bottom: 90px;
+.related {
+    border-top: 10px solid rgb(0, 94, 165);
 }
 
-/* Use text div to keep columns less than 75 characters */
-.text {
-  max-width:30em;
+.related h2 {
+ @include bold-24;
+ margin-top: $gutter-half;
 }
 
-#new_registration_13245 .inline {
-  display:inline-block;
+.related .inner {
+    width: auto;
+    margin: 0 auto;
 }
 
-.form-group-type, #page3 {
-  max-width:30em;
+.related ul {
+   list-style: none outside none;
+}
+
+.related li {
+    margin-bottom: 0.75em;
+    padding-left: 0;
+}
+
+.related li a {
+    display: block;
+    line-height: 1.25em;
+    @include core-16;
+}
+
+.related li p {
+    display: block;
+    line-height: 0.25em;
+    @include core-19;
+    padding: 0;
 }
 
 /* Block positioning ========================================================== */
@@ -80,6 +101,5 @@
 .footer-top {
  @include inner-block;
 }
-
 
 
