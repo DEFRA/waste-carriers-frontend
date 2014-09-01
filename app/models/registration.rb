@@ -954,11 +954,11 @@ class Registration < Ohm::Model
       #
       # FIXME: Replace the 'is_agency_user?', with 'r.metaData.first.route ...' once the above defect is resolved
       #
-      if !user.is_agency_user?
+      if user and r.metaData.first.route == 'DIGITAL'
         Rails.logger.debug "Send registration email"
         RegistrationMailer.welcome_email(user,r).deliver
       else 
-        Rails.logger.debug "Registration not Digital, thus registraion email not to be sent"
+        Rails.logger.debug "Registration not Digital or User not valid, thus registraion email not to be sent"
       end
     else
       Rails.logger.info "Skipping sending registered email #{r.regIdentifier}"
