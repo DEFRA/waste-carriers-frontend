@@ -1,11 +1,11 @@
 <!-- WF 4.3.2 -->
-<div id="page8"  data-journey="waste-carriers-registration:registration-type">
+<div id="page8"  data-journey="waste-carriers-registration:registration-type"></div>
 
   <header class="page-header group">
-      <div class="hgroup"> 
+      <div class="hgroup">
         <h1 class="heading-large"><%= t '.legend' %></h1>
       </div>
-  </header> 
+  </header>
 
   <fieldset>
     <legend></legend>
@@ -15,29 +15,32 @@
       <div class='inline'>
         <%= f.label :yes_option_label, for: "registration_registrationType_carrier_dealer", :class => "block-label" do %>
         <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %>
-        <%= t "buttons.carrier_dealer" %>
+        <%= t "buttons.carrier_dealer" %></br>
+        <%= t 'registrations.registrationtype_step.subtitle_carrier_dealer' %>
           <% end %>
-        <p class="subtitle"><%= t 'registrations.registrationtype_step.subtitle_carrier_dealer' %></p>
       </div>
 
-      <div class='inline'> 
+      <div class='inline'>
         <%= f.label :yes_option_label, for: "registration_registrationType_broker_dealer", :class => "block-label" do %>
         <%= f.radio_button :registrationType, "broker_dealer", :class => "radio" %>
-        <%= t "buttons.broker_dealer" %>
+        <%= t "buttons.broker_dealer" %></br>
+        <%= t 'registrations.registrationtype_step.subtitle_broker_dealer' %>
           <% end %>
-        <p class="subtitle"><%= t 'registrations.registrationtype_step.subtitle_broker_dealer' %></p>
+      </div>
+
+      <div class='inline-text'>
+        <%= t 'registrations.registrationtype_step.text' %>
       </div>
 
       <div class='inline' id="margin-control">
         <%= f.label :yes_option_label, for: "registration_registrationType_carrier_broker_dealer", :class => "block-label" do %>
         <%= f.radio_button :registrationType, "carrier_broker_dealer", :class => "radio" %>
-        <%= t "buttons.carrier_broker_dealer" %>
+        <%= t "buttons.carrier_broker_dealer" %></br>
+        <%= t 'registrations.registrationtype_step.subtitle_carrier_broker_dealer' %>
           <% end %>
-        <p class="subtitle"><%= t 'registrations.registrationtype_step.subtitle_carrier_broker_dealer' %></p>
       </div>
        <%= f.hidden_field :tier, value: 'UPPER' %>
     </div>
   </fieldset>
-</div>
 
 <span class="next_link"><%= render 'next_link' %></span>
