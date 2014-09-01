@@ -1,80 +1,82 @@
 
 <!-- Heading examples -->
 
-  <div class='form-group'>
-    <ul>
-      <li><h1 class='heading-xlarge'>Xlarge headings are 48px</h1></li>
-      <li><h2 class='heading-large'>Large headings are 36px</h2></li>
-      <li><h3 class='heading-medium'>Medium headings are 24px</h3></li>
-      <li><h4 class='heading-small'>Small headings are 19px</h4></li>
-    </ul>
-  </div>
+<div class='form-group'>
+  <ul>
+    <li><h1 class='heading-xlarge'>Xlarge headings are 48px</h1></li>
+    <li><h2 class='heading-large'>Large headings are 36px</h2></li>
+    <li><h3 class='heading-medium'>Medium headings are 24px</h3></li>
+    <li><h4 class='heading-small'>Small headings are 19px</h4></li>
+  </ul>
+</div>
 
 </br>
 
 <!-- Link examples -->
 
-   <h3 class="heading-medium">Example Links</h3>
-   <div class='form-group'>
-    <ol>
-      <li><a href='http://govuk-elements.herokuapp.com'>This is an example link to the GDS design pages.</a></li>
-      <li><a href='https://gds.blog.gov.uk'>This is an example link to the GDS Blog.</a></li>
-      <li><a href='https://www.gov.uk/government/organisations/environment-agency'>This is an example link to the Environment page on GOV.UK website.</a></li>
-    </ol>
-  </div>
+<h3 class="heading-medium">Example Links</h3>
+<div class='form-group'>
+  <ol>
+    <li><a href='http://govuk-elements.herokuapp.com'>This is an example link to the GDS design pages.</a></li>
+    <li><a href='https://gds.blog.gov.uk'>This is an example link to the GDS Blog.</a></li>
+    <li><a href='https://www.gov.uk/government/organisations/environment-agency'>This is an example link to the Environment page on GOV.UK website.</a></li>
+  </ol>
+</div>
 
 </br>
+
 <!-- Inset text -->
 
-   <h3 class="heading-medium">Example of Indent Text</h3>
-   <div class='form-group'>
-      <div class='text panel-indent'>
-        <p>This is an example of indent text. It is used to bring attention to a section of text in a page.</p>
-      </div>
-  </div>
+<h3 class="heading-medium">Example of Indent Text</h3>
+  <div class='form-group'>
+    <div class='text panel-indent'>
+      <p>This is an example of indent text. It is used to bring attention to a section of text in a page.</p>
+    </div>
+</div>
 
 
 </br>
+
 <!-- Table Styles -->
 
-  <h3 class="heading-medium">Example Table</h3>
-      <table summary='This is an example table' role='presentation'>
-        <thead>
-          <tr>
-            <th>Table Heading</th>
-            <th>Table Heading</th>
-            <th>Table Heading</th>
-            <th>Table Heading</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Payment 1</td>
-            <td>Payment 2</td>
-            <td>Example 3</td>
-            <td>Example 4</td>
-          </tr>
-          <tr>
-            <td>Payment 1</td>
-            <td>Payment 2</td>
-            <td>Example 3</td>
-            <td>Example 4</td>
-          </tr>
-          <tr>
-            <td>Payment 1</td>
-            <td>Payment 2</td>
-            <td>Example 3</td>
-            <td>Example 4</td>
-          </tr>
-        </tbody>
-      </table>
+<h3 class="heading-medium">Example Table</h3>
+  <table summary='This is an example table' role='presentation'>
+    <thead>
+      <tr>
+        <th>Table Heading</th>
+        <th>Table Heading</th>
+        <th>Table Heading</th>
+        <th>Table Heading</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Payment 1</td>
+        <td>Payment 2</td>
+        <td>Example 3</td>
+        <td>Example 4</td>
+      </tr>
+      <tr>
+        <td>Payment 1</td>
+        <td>Payment 2</td>
+        <td>Example 3</td>
+        <td>Example 4</td>
+      </tr>
+      <tr>
+        <td>Payment 1</td>
+        <td>Payment 2</td>
+        <td>Example 3</td>
+        <td>Example 4</td>
+      </tr>
+    </tbody>
+  </table>
 
 </br>
 
 <!-- Hidden Text -->
 
-  <h3 class="heading-medium">Hidden Text</h3>
-   <div class='form-group'>
+<h3 class="heading-medium">Hidden Text</h3>
+  <div class='form-group'>
     <details>
       <summary aria controls='details-content-0' tabindex='0'>
         <span class='summary'>This is an example of hidden text</span>
@@ -87,11 +89,12 @@
   </div>
 
 </br>
+
 <!-- Form Label Examples -->
 
 <fieldset>
   <legend>Form elements</legend>
-  
+
   <div class="form-group<%if @registration.errors[:firstName].any?%> validation<%end%>">
     <%= validation_for(@registration, :firstName) %>
     <%= f.label :firstName, class: 'form-label' %>
@@ -104,12 +107,12 @@
     <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
   </div>
 
-  </br>
+</br>
 
 <!-- Date Styles -->
 
 <h3 class="heading-medium">Date of birth</h3>
-<div class="form-group">
+  <div class="form-group">
   <div class="form-group<%if @registration.errors[:lastName].any?%> validation<%end%>">
       <p class='subtitle'>For example, 26 5 1976</p>
       <div class='inline-date'>
@@ -124,14 +127,15 @@
         <%= f.label :Year, class: 'form-label' %>
         <%= f.text_field :lastName, :size => 4, :maxlength => 4 %>
       </div>
+    </div>
   </div>
-</div>
 
 
 </br>
+
 <!-- Radio Button Styles -->
 
-  <h3 class-"heading-medium">Radio Button Example</h3>
+<h3 class-"heading-medium">Radio and Checkbox Examples</h3>
   <div class="form-group<%if @registration.errors[:registrationType].any?%> validation<%end%>">
     <%= f.label :carrier_dealer, for: "registration_registrationType_carrier_dealer", :class => "block-label" do %>
       <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %>
@@ -150,23 +154,23 @@
 </br>
 </br>
 </br>
+
 <!-- Check Box Styles -->
 
-  <h3 class-"heading-medium">Block labels Example</h3>
-  <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-      <label class="block-label" for="registration_businessType_checkbox-1">
-        <input type="checkbox" value="checkbox-1" name="registration[businessType]" id="registration_businessType_checkbox-1">
-        Checkbox 1
-      </label>
-      <label class="block-label" for="registration_businessType_checkbox-2">
-        <input type="checkbox" value="checkbox-2" name="registration[businessType]" id="registration_businessType_checkbox-2">
-        Checkbox 2
-      </label>
-      <label class="block-label" for="registration_businessType_checkbox-3">
-        <input type="checkbox" value="checkbox-3" name="registration[businessType]" id="registration_businessType_checkbox-3">
-        Checkbox 3
-      </label>
-  </div>
+<div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
+  <label class="block-label" for="registration_businessType_checkbox-1">
+    <input type="checkbox" value="checkbox-1" name="registration[businessType]" id="registration_businessType_checkbox-1">
+    Checkbox 1
+  </label>
+  <label class="block-label" for="registration_businessType_checkbox-2">
+    <input type="checkbox" value="checkbox-2" name="registration[businessType]" id="registration_businessType_checkbox-2">
+    Checkbox 2
+  </label>
+  <label class="block-label" for="registration_businessType_checkbox-3">
+    <input type="checkbox" value="checkbox-3" name="registration[businessType]" id="registration_businessType_checkbox-3">
+    Checkbox 3
+  </label>
+</div>
 
 
 </fieldset><!--fieldset end-->
