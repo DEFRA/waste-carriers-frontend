@@ -35,4 +35,4 @@ table th, table td {
 }
 
 .table-column-text {@include core-16; color:#6F777B;}
-.table-column-data, #table-column-data-address {@include core-16; padding-left:$gutter*4;}
+.table-column-data, #table-column-data-address {@include core-16;}
