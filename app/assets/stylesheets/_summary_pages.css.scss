@@ -15,15 +15,28 @@
 /* Summary page NEW ========================================================== */
 
 
-.list-bullets li {list-style-type:disc; position:relative; left:1em;}
-.summary-page h2 {border-bottom: 1px solid rgb(191, 193, 195); padding-bottom:0.3em;}
-.summary-page h2 {max-width:20em;}
-.summary-page .validation-summary h2 {border:none;}
+.list-bullets li {
+  list-style-type:disc; position:relative; left:1em;
+}
+
+.summary-page h2 {
+  border-bottom: 1px solid rgb(191, 193, 195);
+  padding-bottom:0.3em;
+}
+
+.summary-page h2 {
+  max-width:20em;
+}
+
+.summary-page
+.validation-summary h2 {
+  border:none;
+}
 
 .notice-icon {
   position:relative;
   top:-90px;
-  width:34px; 
+  width:34px;
   height:29px;
   index:100;
   background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
@@ -38,11 +51,15 @@
   max-width:30em;
 }
 
-.inner-payment-box .form-label, .total-charge .form-label {
+.inner-payment-box
+.form-label,
+.total-charge
+.form-label {
 font-weight:700;
 }
 
-.inner-payment .inline {
+.inner-payment
+.inline {
   clear:none;
   margin-right: 15px;
   float:left;
@@ -66,8 +83,8 @@ font-weight:700;
   @include media(mobile){
     margin-top:0;
     display:block;
-    p {margin:0;
-  }
+      p {margin:0;
+    }
   }
 }
 
@@ -75,7 +92,7 @@ font-weight:700;
   position:relative;
   top:15px;
   left:-30px;
-  width:34px; 
+  width:34px;
   height:34px;
   index:100;
   background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
@@ -94,7 +111,7 @@ font-weight:700;
 #payment-table-wrapper .notice-icon {
   position:relative;
   top:-80px;
-  width:34px; 
+  width:34px;
   height:34px;
   index:100;
   background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
@@ -103,21 +120,25 @@ font-weight:700;
 /* Registration complete page - TO BE REFACTORED ============================================= */
 
 .completeSummary {
-    width: 90%;
-    color: white;
-    padding: 2em 1em 2em 1em;
-    margin: 0.75em 0em 0.75em 0em;
-    text-align: center;
+  width: 90%;
+  color: white;
+  padding: 2em 1em 2em 1em;
+  margin: 0.75em 0em 0.75em 0em;
+  text-align: center;
 }
+
 .almostComplete, .criminallySuspect {
 	background-color: orange;
 }
+
 .complete {
 	background-color: green;
 }
+
 .completeSummaryTitle {
 	margin: 0 auto;
 }
+
 .completeSummaryMessage {
 	margin: 0 auto;
 	font-size: 90%;

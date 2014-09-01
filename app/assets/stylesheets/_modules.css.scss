@@ -17,46 +17,49 @@
 /* Hidden text ========================================================== */
 
 details {
-display: block;
-margin-bottom:1em;
-@include core-19;
+  display: block;
+  margin-bottom:1em;
+  @include core-19;
 }
+
 details summary {
-display: inline-block;
-color: $govuk-blue;
-cursor: pointer;
-position: relative;
-margin-bottom: em(5);
+  display: inline-block;
+  color: $govuk-blue;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: em(5);
 }
+
 details summary:hover {
-color: $link-hover-colour;
+  color: $link-hover-colour;
 }
+
 details summary:focus {
-outline: 3px solid $yellow;
+  outline: 3px solid $yellow;
 }
 
 details .summary {
-text-decoration: underline;
+  text-decoration: underline;
 }
 
 details .arrow {
-margin-right: 0.35em;
+  margin-right: 0.35em;
 }
 
 details .panel-indent {
-margin-top: 0;
+  margin-top: 0;
 }
 
 /* Panel indent ========================================================== */
 
 .panel-indent {
-    border-left: 4px solid rgb(191, 193, 195);
-    clear: both;
-    padding: 10px 0 0px 15px;
-    margin-bottom: 20px;
-@include media(mobile) {
+  border-left: 4px solid rgb(191, 193, 195);
+  clear: both;
+  padding: 10px 0 0px 15px;
+  margin-bottom: 20px;
+    @include media(mobile) {
     width: 85%;
-}
+  }
 }
 
 
