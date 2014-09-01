@@ -34,6 +34,9 @@
 
 /* Summary payment page NEW ========================================================== */
 
+#payment-copycard-page {
+  max-width:30em;
+}
 
 .inner-payment-box .form-label, .total-charge .form-label {
 font-weight:700;
@@ -97,7 +100,7 @@ font-weight:700;
   background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
 
 
-/* Registration complete page ========================================================== */
+/* Registration complete page - TO BE REFACTORED ============================================= */
 
 .completeSummary {
     width: 90%;
