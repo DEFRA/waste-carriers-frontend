@@ -80,6 +80,7 @@ class PaymentController < ApplicationController
 	      logger.info 'user found: ' + user.to_s
 	      
 	      if user
+	        #Registration.send_registered_email(user, updatedRegistration)   # Alternative to calling it manually
 	        RegistrationMailer.welcome_email(user,updatedRegistration).deliver
 	      else
 	        # Redirect user back to payment status
