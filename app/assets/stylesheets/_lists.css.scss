@@ -12,11 +12,7 @@
 @import '_device-pixels';
 @import '_font_stack';
 
-/* Inline elements */
-
-.inline {display:inline-block;}
-
-/* Lists */
+/* Lists ===========================================*/
 
 ol,
 ul {
@@ -39,9 +35,28 @@ margin-bottom: 5px;
 list-style-type: disc;
 margin-left: 20px;
 }
+
 /* Numbered lists */
 
 .list-number {
 list-style-type: decimal;
 margin-left: 25px;
+}
+
+/* Inline elements ===================================== */
+
+.inline {display:inline-block;}
+
+/* Column width control - use text div to keep columns less than 75 characters */
+
+.text {
+  max-width:30em;
+}
+
+#new_registration_13245 .inline {
+  display:inline-block;
+}
+
+.form-group-type, #page3 {
+  max-width:30em;
 }
