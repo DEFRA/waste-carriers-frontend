@@ -452,8 +452,8 @@ en:
     address_finder:
       address_service_error: "Address lookup service cannot be contacted!"
       no_results_error: "There are no addresses for the given postcode"
-      select_address: "Select address"
-      change_link: Change
+      select_address: "Select business address"
+      change_link: "Change address"
       uk_address_link: "I have an address in the United Kingdom"
       find_address_using_postcode: "Find address using postcode"
       manual_address_link: "I want to add an address myself"
@@ -820,9 +820,10 @@ en:
       carrier_broker_dealer: carrier/broker/dealer
       carrier_dealer: carrier/dealer
       legend: "Do you carry the waste yourselves or arrange for other people to transport it?"
-      subtitle_carrier_dealer: "You are a carrier/dealer"
-      subtitle_broker_dealer: "You are a broker/dealer"
-      subtitle_carrier_broker_dealer: "You are a carrier, broker and dealer"
+      subtitle_carrier_dealer: "(carrier and dealer)"
+      subtitle_broker_dealer: "(broker and dealer)"
+      subtitle_carrier_broker_dealer: "(carrier, broker and dealer)"
+      text: "or"
       title: "Registration type"
     serviceprovided_step:
       main_service_label: "Waste disposal is the main service we provide"
