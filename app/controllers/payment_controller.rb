@@ -308,8 +308,8 @@ class PaymentController < ApplicationController
 	@payment = Payment.new(@foundPayment.attributes)
 	logger.info 'found payment:' + @foundPayment.attributes.to_s
 
-	# Flip the value of the selected payment to be a negative payment, ie a refund
-	@payment.amount = -@payment.amount.to_i.abs
+	# Set the amount of the payment to be a negative payment, ie a refund from the balance due
+	@payment.amount = -@registration.finance_details.first.balance.to_i.abs
 	logger.info 'payment amount:' + @payment.amount.to_s
 	
 	# Ensure currency set
