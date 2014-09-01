@@ -926,9 +926,9 @@ en:
     cash: "Cash"
     postal_order: "postal_order"
   charge_type_options:
-    new_application: "New application"
+    initial_registration: "Initial Registration"
     renewal: "Renewal"
-    copy_cards: "Copy cards"
+    copy_cards: "Copy Cards"
   templates:
     formExample:
       title: "Example form controls and content"
