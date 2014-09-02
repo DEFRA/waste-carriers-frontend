@@ -23,7 +23,7 @@
             <div id="page0"  data-journey="waste-carriers-registration:payments-export">
               <% content_for :page_title, createTitle('.title') %>
               <%= render 'errors' %>
-              <%= form_for(@report, :url => 'registrations') do |f| %>
+              <%= form_for(@report, :url => 'payments') do |f| %>
 
               <h3><%=t '.date_filters' %></h3>
               <fieldset>

@@ -20,7 +20,7 @@ class ReportsController < ApplicationController
 
       if @report.valid?
 
-        set_registrations
+        @registrations = search_registrations
 
         if @registrations.empty?
           @report.errors.add(:base, t('errors.messages.no_results'))
@@ -43,7 +43,7 @@ class ReportsController < ApplicationController
 
     if @report.valid?
 
-      set_registrations
+      @registrations = search_registrations
 
       if @registrations.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
@@ -64,7 +64,7 @@ class ReportsController < ApplicationController
 
     if @report.valid?
 
-      set_registrations
+      @registrations = search_registrations
 
       if @registrations.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
@@ -73,7 +73,7 @@ class ReportsController < ApplicationController
         render_registrations_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
       end
     else
-      logger.info 'Report filters are not valid'
+      logger.info 'Search filters are not valid'
       render 'registrations_search', :status => '400'
     end
 
@@ -95,19 +95,42 @@ class ReportsController < ApplicationController
 
       if @report.valid?
 
-        set_registrations
+        @registrations = search_payments
 
         if @registrations.empty?
           @report.errors.add(:base, t('errors.messages.no_results'))
-          render 'registrations_search', :status => '400'
+          render 'payments_search', :status => '400'
         else
-          render 'registrations_search_results'
+          render 'payments_search_results'
         end
       else
-        logger.info 'Report filters are not valid'
-        render 'registrations_search', :status => '400'
+        logger.info 'Search filters are not valid'
+        render 'payments_search', :status => '400'
       end
     end
+  end
+
+  # POST /reports/payments/results
+  def payments_export
+
+    set_report
+    @report.search_type = :payment
+
+    if @report.valid?
+
+      @registrations = search_payments
+
+      if @registrations.empty?
+        @report.errors.add(:base, t('errors.messages.no_results'))
+        render 'payments_search', :status => '400'
+      else
+        render_payments_csv("payments-#{Time.now.strftime("%Y%m%d%H%M%S")}")
+      end
+    else
+      logger.info 'Search filters are not valid'
+      render 'payments_search', :status => '400'
+    end
+
   end
 
   private
@@ -152,10 +175,19 @@ class ReportsController < ApplicationController
 
     end
 
-    def set_registrations
+    def search_registrations
 
-      @registrations = Registration.find_by_params(@report.parameter_args, options = {
+      return Registration.find_by_params(@report.registration_parameter_args, options = {
           :url => "/query/registrations",
+          :format => ""
+      })
+
+    end
+
+    def search_payments
+
+      return Registration.find_by_params(@report.registration_parameter_args, options = {
+          :url => "/query/payments",
           :format => ""
       })
 
@@ -177,13 +209,29 @@ class ReportsController < ApplicationController
 
     end
 
+    def render_registrations_csv(filename = nil)
+      filename ||= params[:action]
+      filename += '.csv'
+
+      set_export_headers filename
+
+      render "registrations_export.csv", :layout => false
+    end
+
+    def render_payments_csv(filename = nil)
+      filename ||= params[:action]
+      filename += '.csv'
+
+      set_export_headers filename
+
+      render "registrations_export.csv", :layout => false
+    end
+
     # This method and the majority of the code in the reportRegistrations view
     # can be attributed to http://stackoverflow.com/a/94626. FasterCSV is now
     # as of Ruby since 1.9 part of the language and not a Gem. ou simply have to
     # require CSV in config/application.rb.
-    def render_registrations_csv(filename = nil)
-      filename ||= params[:action]
-      filename += '.csv'
+    def set_export_headers(filename = nil)
 
       if request.env['HTTP_USER_AGENT'] =~ /msie/i
         headers['Pragma'] = 'public'
@@ -196,7 +244,6 @@ class ReportsController < ApplicationController
         headers["Content-Disposition"] = "attachment; filename=\"#{filename}\""
       end
 
-      render "registrations_export.csv", :layout => false
     end
 
     def report_params

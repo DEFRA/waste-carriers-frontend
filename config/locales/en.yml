@@ -882,6 +882,10 @@ en:
       payment_status: "Payment status"
       payment_type: "Payment type"
       charge_type: "Charge type"
+    payments_search_results:
+      title: "Payments Search Results"
+      subtitle: "Payment search results summary"
+      companyName: "Trading Name"
   shared:
     complete_summary:
       almost_there_title: "Almost there"
