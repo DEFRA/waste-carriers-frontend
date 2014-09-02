@@ -13,6 +13,7 @@ class ReportsController < ApplicationController
   def registrations_search_post
 
     set_report
+    @report.search_type = :registration
 
     unless @report.is_new.blank?
       @report.is_new = 'false'
@@ -38,6 +39,7 @@ class ReportsController < ApplicationController
   def registrations_search_results
 
     set_report
+    @report.search_type = :registration
 
     if @report.valid?
 
@@ -58,6 +60,7 @@ class ReportsController < ApplicationController
   def registrations_export
 
     set_report
+    @report.search_type = :registration
 
     if @report.valid?
 
@@ -79,6 +82,32 @@ class ReportsController < ApplicationController
   # GET /report/payments
   def payments_search
     set_report
+  end
+
+  # POST /report/payments
+  def payments_search_post
+
+    set_report
+    @report.search_type = :payment
+
+    unless @report.is_new.blank?
+      @report.is_new = 'false'
+
+      if @report.valid?
+
+        set_registrations
+
+        if @registrations.empty?
+          @report.errors.add(:base, t('errors.messages.no_results'))
+          render 'registrations_search', :status => '400'
+        else
+          render 'registrations_search_results'
+        end
+      else
+        logger.info 'Report filters are not valid'
+        render 'registrations_search', :status => '400'
+      end
+    end
   end
 
   private
