@@ -113,6 +113,24 @@ module RegistrationsHelper
       end
 
       @registration.metaData.add m
+      
+    elsif (current_step.eql? 'businesstype') && !session[:edit_mode] && !session[:registration_id]
+      clear_edit_session
+      @registration = Registration.create
+      session[:registration_id]= @registration.id
+      logger.debug "creating new registration #{@registration.id}"
+      m = Metadata.create
+
+      if agency_user_signed_in?
+        m.update :route => 'ASSISTED_DIGITAL'
+        if @registration.accessCode.blank?
+          @registration.update :accessCode => @registration.generate_random_access_code
+        end
+      else
+        m.update :route => 'DIGITAL'
+      end
+
+      @registration.metaData.add m
 
     elsif  session[:edit_mode] #editing existing registration
       @registration = Registration[ session[:registration_id]]
@@ -194,6 +212,34 @@ module RegistrationsHelper
     end
 
     confirmationType
+  end
+  
+  def isCurrentRegistrationType registrationNumber
+    # Strip leading and trailing whitespace from number
+    regNo = registrationNumber.rstrip.lstrip
+    
+    # Just look at first 3 characters
+    regNo = regNo[0, 3]
+    
+    # First 3 characters of reg ex
+    current_reg_format = "CBD"
+      
+    # Check current format
+    regNo.upcase.match(current_reg_format)
+  end
+  
+  def isIRRegistrationType registrationNumber
+    # Strip leading and trailing whitespace from number
+    regNo = registrationNumber.rstrip.lstrip
+    
+    # Just look at first 3 characters
+    regNo = regNo[0, 3]
+    
+    # First 3 characters of reg ex
+    legacy_reg_format = "OLD"
+      
+    # Check legacy format
+    regNo.upcase.match(legacy_reg_format)
   end
 
 end

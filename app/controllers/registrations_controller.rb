@@ -66,32 +66,24 @@ class RegistrationsController < ApplicationController
   def newOrRenew
     
     # Create a new registration for purpose of using :newOrRenew field
-    @registration = Registration.create
-    
-    #new_step_action 'newOrRenew'
+    new_step_action 'newOrRenew'
     
   end
   
   # POST /registrations/start
   def selectRegistrationType
-    # Validate which registraiton type selected
-    if params[:registration]
-      @registration = Registration.init(params[:registration])
-      # Check aggainst know types
-      if @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0]
-        logger.debug "Redirect to renewal"
-        redirect_to :enterRegistration
-        return    
-      elsif @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[1]
-        logger.debug "Redirect to new registration"
-        redirect_to :newBusinessType
-        return
-      end
-    else
-      # Create a new registration if registration not found in params
-      @registration = Registration.create
-      
-      @registration.errors.add(:newOrRenew, I18n.t('errors.messages.blank'))
+    # Get registration from params
+    setup_registration 'newOrRenew'
+  
+    # Validate which registration type selected, checking against known types
+    if @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0]
+      logger.debug "Redirect to renewal"
+      redirect_to :enterRegistration
+      return    
+    elsif @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[1]
+      logger.debug "Redirect to new registration"
+      redirect_to :newBusinessType
+      return
     end
     
     # Error must have occured, re-render view
@@ -102,60 +94,48 @@ class RegistrationsController < ApplicationController
   def enterRegistrationNumber
     
     # Create a new registration for purpose of using :originalRegistrationNumber
-    @registration = Registration.create
+    new_step_action 'enterRegNumber'
     
   end
   
   # POST /registrations/whatTypeOfRegistrationAreYou
   def calculateRegistrationType
+    # Get registration from params
+    setup_registration 'enterRegNumber'
     
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
-    if params[:registration]
-      @registration = Registration.init(params[:registration])
+    if @registration.originalRegistrationNumber and !@registration.originalRegistrationNumber.empty?
       
-      # TODO: logic here
-      # Calculate if registration number is a legacy IR type, or a current system format
-      # If legacy, redirect to ???
-      # If our system, then redirect to sign in page
-      if @registration.originalRegistrationNumber and !@registration.originalRegistrationNumber.empty?
+      # Check current format
+      if isCurrentRegistrationType @registration.originalRegistrationNumber
+        # regNo matched
         
-        # String number from leading and trailing whitespace
-        regNo = @registration.originalRegistrationNumber.rstrip.lstrip
+        #
+        # TODO: Potentially delete registration in session here
+        #
         
-        # Just look at first 3 characters
-        regNo = regNo[0, 3]
+        # redirect to sign in page
+        logger.debug "Current registration matched, Redirect to user sign in"
+        redirect_to :new_user_session
+        return
+      # Check old format
+      elsif isIRRegistrationType @registration.originalRegistrationNumber
+        # legacy regNo matched
         
-        # First 3 characters for reg ex
-        current_reg_format = "CBD"
-        legacy_reg_format = "OLD"
+        #
+        # TODO: Potentially do any import registration logic here
+        #
         
-        # Check current format
-        if regNo.upcase.match(current_reg_format)
-          # regNo matched
-          # redirect to sign in page
-          logger.debug "Current registration matched, Redirect to user sign in"
-          redirect_to :new_user_session
-          return
-        # Check old format
-        elsif regNo.upcase.match(legacy_reg_format)
-          # legacy regNo matched
-          logger.debug "Legacy registration matched, Redirect to smart answers"
-          redirect_to :newBusinessType
-          return
-        # Not matched
-        else
-          # not matched
-          @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid'))
-        end
-        
+        logger.debug "Legacy registration matched, Redirect to smart answers"
+        redirect_to :newBusinessType
+        return
+      # Error not matched
       else
-        # TODO: remove this once working
-        @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.blank'))
+        @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid'))
       end
-    else
-      # Create a new registration if registration not found in params
-      @registration = Registration.create
       
+    else
+      # If orignalRegistrationNumber not found, error
       @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.blank'))
     end
     
