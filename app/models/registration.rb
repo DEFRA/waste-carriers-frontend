@@ -816,11 +816,6 @@ class Registration < Ohm::Model
     metaData && metaData.first.status == 'PENDING'
   end
 
-  def pending!
-    metaData.first.update(status: 'PENDING')
-    save!
-  end
-
   def activate!
     #Note: the actual status update will be performed in the service
     Rails.logger.debug "id to activate: #{uuid}"
