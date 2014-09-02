@@ -921,15 +921,21 @@ en:
     overpaid: "Over paid"
     underpaid: "Under paid"
   payment_type_options:
-    credit_debit_card: "Credit/Debit card"
-    bank_transfer: "Bank transfer"
-    cheque: "Cheque"
-    cash: "Cash"
-    postal_order: "postal_order"
+    WORLDPAY: "Credit/Debit"
+    WORLDPAY_MISSED: "Credit/Debit missed"
+    WRITEOFFSMALL: "Write off (small)"
+    WRITEOFFLARGE: "Write off (large)"
+    REFUND: "Refund"
+    CASH: "Cash"
+    CHEQUE: "Cheque"
+    POSTALORDER: "Postal order"
+    BANKTRANSFER: "Bank transfer"
+    REVERSAL: "Reversal"
   charge_type_options:
     initial_registration: "Initial Registration"
     renewal: "Renewal"
     copy_cards: "Copy Cards"
+    edit: "Edit"
   templates:
     formExample:
       title: "Example form controls and content"
