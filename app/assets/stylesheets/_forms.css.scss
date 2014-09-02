@@ -28,6 +28,7 @@ legend {
   }
 }
 
+#registration_companyName,
 #registration_accountEmail_confirmation,
 #registration_contactEmail,
 #registration_accountEmail,
@@ -40,10 +41,21 @@ legend {
   }
 }
 
-input, #addressSelector {
+input {
   @include copy-19;
   margin-bottom: $gutter-half;
   display:block;
+  max-width: 30em;
+}
+
+#addressSelector {
+  @include copy-19;
+  margin-bottom: $gutter-half;
+  display:block;
+  max-width: 30em;
+  @include media (mobile) {
+    width:80%;
+  }
 }
 
 /* Address look-up */
