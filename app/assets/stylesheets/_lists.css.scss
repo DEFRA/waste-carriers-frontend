@@ -51,6 +51,13 @@ ol li {
   display:inline-block;
 }
 
+.inline-text {
+  display:block;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+
+}
+
 /* Column width control - use text div to keep columns less than 75 characters */
 
 .text {
