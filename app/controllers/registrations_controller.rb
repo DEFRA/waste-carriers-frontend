@@ -68,6 +68,8 @@ class RegistrationsController < ApplicationController
     # Create a new registration for purpose of using :newOrRenew field
     @registration = Registration.create
     
+    #new_step_action 'newOrRenew'
+    
   end
   
   # POST /registrations/start
@@ -131,14 +133,15 @@ class RegistrationsController < ApplicationController
         if regNo.upcase.match(current_reg_format)
           # regNo matched
           # redirect to sign in page
-          logger.debug "Redirect to user sign in"
+          logger.debug "Current registration matched, Redirect to user sign in"
           redirect_to :new_user_session
           return
         # Check old format
         elsif regNo.upcase.match(legacy_reg_format)
-          # regNo matched
-          @registration.errors.add(:originalRegistrationNumber, 'is an OLD number format')
-          
+          # legacy regNo matched
+          logger.debug "Legacy registration matched, Redirect to smart answers"
+          redirect_to :newBusinessType
+          return
         # Not matched
         else
           # not matched
