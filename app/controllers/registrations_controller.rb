@@ -76,14 +76,17 @@ class RegistrationsController < ApplicationController
     setup_registration 'newOrRenew'
   
     # Validate which registration type selected, checking against known types
-    if @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0]
+    if @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0].downcase
       logger.debug "Redirect to renewal"
       redirect_to :enterRegistration
       return    
-    elsif @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[1]
+    elsif @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[1].downcase
       logger.debug "Redirect to new registration"
       redirect_to :newBusinessType
       return
+    else
+      # If newOrRenew not found, error
+      @registration.errors.add(:newOrRenew, I18n.t('errors.messages.blank'))
     end
     
     # Error must have occured, re-render view
