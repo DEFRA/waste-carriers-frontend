@@ -18,6 +18,10 @@ class Registration < Ohm::Model
 
   #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
   attribute :uuid
+  
+  # New or renew field used to determine initial routing prior to smart answers
+  attribute :newOrRenew
+  attribute :originalRegistrationNumber
 
   attribute :businessType
   attribute :otherBusinesses
@@ -548,6 +552,11 @@ class Registration < Ohm::Model
     authority
     other
   ]
+  
+  REGISTRATION_TYPES = %w[
+    renew
+    new
+  ]
 
   # TODO this regexs need to be rethought if allowing foreign waste carriers.
   # My advice is to not check the format for free text fields but keep them only for those things where the form is
@@ -781,6 +790,10 @@ class Registration < Ohm::Model
 
   def self.distance_options_for_select
     (DISTANCES.collect {|d| [I18n.t('distances.'+d), d]})
+  end
+  
+  def self.new_or_renew_options_for_select
+    (REGISTRATION_TYPES.collect {|d| [I18n.t('registration_types.'+d), d]})
   end
 
   def initialize_sign_up_mode(userEmail, signedIn)
