@@ -4,7 +4,7 @@ class Registration < Ohm::Model
   include ActiveModel::Validations
   extend ActiveModel::Naming
 
-  FIRST_STEP = 'businesstype'
+  FIRST_STEP = 'newOrRenew'
 
   module Status
     ACTIVE = 1
