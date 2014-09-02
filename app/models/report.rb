@@ -83,7 +83,7 @@ class Report
 
   # Instance methods ###########################################################
 
-  def parameter_args
+  def registration_parameter_args
 
     param_args = {}
 
@@ -135,11 +135,39 @@ class Report
 
   end
 
+  def payment_parameter_args
+
+    param_args = {}
+
+    unless from.blank?
+      param_args[:from] = from
+    end
+
+    unless to.blank?
+      param_args[:until] = to
+    end
+
+    unless payment_statuses.nil? || payment_statuses.empty?
+      param_args[:paymentStatus] = payment_statuses
+    end
+
+    unless payment_types.nil? || payment_types.empty?
+      param_args[:paymentType] = payment_types
+    end
+
+    unless charge_types.nil? || charge_types.empty?
+      param_args[:chargeType] = charge_types
+    end
+
+    param_args
+
+  end
+
   private
 
     def validate_from
 
-      unless :search_type == :payment
+      unless search_type == :payment
 
         if from.blank?
           Rails.logger.debug "report 'from' field is empty"
@@ -158,7 +186,7 @@ class Report
 
     def validate_to
 
-      unless :search_type == :payment
+      unless search_type == :payment
 
         if to.blank?
           Rails.logger.debug "report 'to' field is empty"
@@ -170,7 +198,7 @@ class Report
           Rails.logger.debug "report 'to' field is invalid"
           errors.add(:to, I18n.t('errors.messages.invalid_date') )
         end
-      
+
       end
 
     end

@@ -6,7 +6,7 @@
 
       <div class="back-section">
         <ol>
-          <li><%= link_to t('registrations.form.back_button_label'), :registrations_search, :class => 'link_to' %></li>
+          <li><%= link_to t('registrations.form.back_button_label'), :payments_search, :class => 'link_to' %></li>
         </ol>
       </div>
 
@@ -20,7 +20,7 @@
         <div class="grid-2-3">
           <article role="article" class="group">
             <!-- WF 4.3.2 -->
-            <div id="page0"  data-journey="waste-carriers-registration:registrations-export-results">
+            <div id="page0"  data-journey="waste-carriers-registration:payments-export-results">
               <% content_for :page_title, createTitle('.title') %>
               <%= render 'errors' %>
 
@@ -55,7 +55,7 @@
                 </tbody>
               </table>
 
-              <%= form_for(@report, :url => registrations_search_results_path) do |f| %>
+              <%= form_for(@report, :url => payments_search_results_path) do |f| %>
               <fieldset>
                 <%= f.hidden_field :from %>
                 <%= f.hidden_field :to %>
