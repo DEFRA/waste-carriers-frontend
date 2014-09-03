@@ -39,6 +39,7 @@ en:
         dateReceived_day: Day
         dateReceived_month: Month
         dateReceived_year: Year
+        exception: "Services error:"
         paymentType: "Payment via"
         registrationReference: Reference
       registration:
@@ -57,6 +58,7 @@ en:
         country: Country
         declaration: "Declaration"
         edit_fee: "Registration amendment charge"
+        exception: "Services error:"
         firstName: "First name"
         houseNumber: "Building name or number"
         individualsType: "Organisation type"
