@@ -612,10 +612,22 @@ class RegistrationsController < ApplicationController
     setup_registration 'signup'
 
     if @registration.valid?
-      commit_new_user
+      logger.info 'Check to commit registration, unless: ' + @registration.persisted?.to_s
       unless @registration.persisted?
-        commit_new_registration
+        if commit_new_registration?
+          logger.info 'Check to commit user, unless: ' + current_user.to_s
+          unless current_user
+            commit_new_user
+          end
+        else
+          # there is an error (but data not yet saved)
+          logger.info 'Registration was valid but data is not yet saved due to an error in the services'
+          @registration.errors.add(:exception, @registration.exception.to_s)
+          render "newSignup", :status => '400'
+          return
+        end
       end
+      
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -737,16 +749,20 @@ class RegistrationsController < ApplicationController
   #    @registration.current_step = current_step
   #  end
 
-  def commit_new_registration
+  def commit_new_registration?
 
     unless @registration.tier == 'LOWER'
       @registration.expires_on = (Date.current + 3.years).to_s
     end
 
     @registration.save
-    session[:registration_uuid] = @registration.commit
-    session[:registration_id] = @registration.id
-
+    if @registration.commit
+      session[:registration_uuid] = @registration.uuid
+      session[:registration_id] = @registration.id
+      true
+    else
+      false
+    end
   end
 
   def commit_new_user
@@ -765,13 +781,14 @@ class RegistrationsController < ApplicationController
 
     unless @registration.persisted?
 
-      commit_new_registration
-      @registration.activate! if activateRegistration
-      @registration.save
+      if commit_new_registration?
+        @registration.activate! if activateRegistration
+        @registration.save
 
-      unless @registration.assisted_digital?
-        if @registration.is_complete?
-          RegistrationMailer.welcome_email(@user, @registration).deliver
+        unless @registration.assisted_digital?
+          if @registration.is_complete?
+            RegistrationMailer.welcome_email(@user, @registration).deliver
+          end
         end
       end
 

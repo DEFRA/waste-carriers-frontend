@@ -96,6 +96,10 @@ class Registration < Ohm::Model
   # to an NCCC user that the registraton needs to be checked, and if happy the
   # one they will set to false
   attribute :criminally_suspect
+  
+  # These are meta data fields used only in rails for storing a temporary value to determine:
+  # the exception detail from the services
+  attribute :exception
 
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
@@ -183,7 +187,7 @@ class Registration < Ohm::Model
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
-
+    commited = true
     begin
       response = RestClient.post url,
         to_json,
@@ -203,25 +207,18 @@ class Registration < Ohm::Model
       self.regIdentifier = result['regIdentifier']
 
       unless self.tier == 'LOWER'
-        #if self.finance_details.size > 0
-        #  self.finance.details.first.orders.each do |ord|
-        #    ord.commit  self.uuid
-        #  end
-        #  self.finance.details.first.payments.each do |p|
-        #    p.save!  self.uuid
-        #  end
-        #else
-        #  self.finance_details.add FinanceDetails.init(result['financeDetails'])
-        #end
+        Rails.logger.debug 'Initialise finance details'
         self.finance_details.add FinanceDetails.init(result['financeDetails'])
       end
 
       save
       Rails.logger.debug "Commited to service: #{to_json.to_s}"
     rescue => e
-      Rails.logger.debug "Error in Commit to service: #{ e.to_s} || #{attributes.to_s}"
+      Rails.logger.debug "Error in registration Commit to service: #{ e.to_s} || #{attributes.to_s}"
+      self.exception = e.to_s
+      commited = false
     end
-    uuid
+    commited
   end
 
   # DELETEs registration to Java/Dropwizard service - deletes registration from DB
