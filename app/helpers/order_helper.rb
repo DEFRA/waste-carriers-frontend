@@ -151,7 +151,7 @@ module OrderHelper
       @order.order_items.add orderItem
     end
 
-    if showCopyCards? renderType
+    if showCopyCards?(renderType) and @registration.copy_cards.to_i > 0
       # Add additional order items for copy card amount
       # Create Order Item
       orderItem = OrderItem.new
@@ -199,7 +199,7 @@ module OrderHelper
     end
 
     # Add copy card information aswell if not already included
-    if showCopyCards? renderType and renderType != Order.extra_copycards_identifier
+    if showCopyCards? renderType and renderType != Order.extra_copycards_identifier and myRegistration.copy_cards.to_i > 0
       incCopyCards = plusMessage + copyCardMessage
     end
 
