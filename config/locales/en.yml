@@ -32,6 +32,12 @@ en:
         updatedByUser: "Placed by user"
         description: "Description"
         exception: "Services error:"
+      order_item:
+        amount: "Amount"
+        currency: "Currency"
+        lastUpdated: "Last updated"
+        description: "Description"
+        reference: "Reference"
       payment:
         amount: "Amount Received (£)"
         comment: Comment

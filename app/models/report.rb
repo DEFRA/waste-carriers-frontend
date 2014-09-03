@@ -119,18 +119,6 @@ class Report
       param_args[:criminallySuspect] = is_criminally_suspect
     end
 
-    unless @payment_statuses.nil? || @payment_statuses.empty?
-      param_args[:payment_statuses] = @payment_statuses
-    end
-
-    unless @payment_types.nil? || @payment_types.empty?
-      param_args[:payment_types] = @payment_types
-    end
-
-    unless @charge_types.nil? || @charge_types.empty?
-      param_args[:charge_types] = @charge_types
-    end
-
     param_args
 
   end
@@ -147,16 +135,16 @@ class Report
       param_args[:until] = to
     end
 
-    unless payment_statuses.nil? || payment_statuses.empty?
-      param_args[:paymentStatus] = payment_statuses
+    unless @payment_statuses.nil? || @payment_statuses.empty?
+      param_args[:paymentStatus] = @payment_statuses
     end
 
-    unless payment_types.nil? || payment_types.empty?
-      param_args[:paymentType] = payment_types
+    unless @payment_types.nil? || @payment_types.empty?
+      param_args[:paymentType] = @payment_types
     end
 
-    unless charge_types.nil? || charge_types.empty?
-      param_args[:chargeType] = charge_types
+    unless @charge_types.nil? || @charge_types.empty?
+      param_args[:chargeType] = @charge_types
     end
 
     param_args
