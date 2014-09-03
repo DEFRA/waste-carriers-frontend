@@ -64,7 +64,7 @@
 .heading-large {
   @include bold-36;
   margin-top: $gutter-half;
-  margin-bottom: $gutter;
+  margin-bottom: $gutter-half;
   @include media (mobile){
 	  margin-bottom: 0.5em;
   }
@@ -109,7 +109,7 @@ legend {
   display: block;
   clear:left;
   margin-top: 0em;
-  margin-bottom: $gutter;
+  margin-bottom: 0em;
 }
 
 .form-note {

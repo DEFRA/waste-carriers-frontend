@@ -4,7 +4,7 @@ class Registration < Ohm::Model
   include ActiveModel::Validations
   extend ActiveModel::Naming
 
-  FIRST_STEP = 'businesstype'
+  FIRST_STEP = 'newOrRenew'
 
   module Status
     ACTIVE = 1
@@ -18,6 +18,10 @@ class Registration < Ohm::Model
 
   #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
   attribute :uuid
+  
+  # New or renew field used to determine initial routing prior to smart answers
+  attribute :newOrRenew
+  attribute :originalRegistrationNumber
 
   attribute :businessType
   attribute :otherBusinesses
@@ -92,6 +96,10 @@ class Registration < Ohm::Model
   # to an NCCC user that the registraton needs to be checked, and if happy the
   # one they will set to false
   attribute :criminally_suspect
+  
+  # These are meta data fields used only in rails for storing a temporary value to determine:
+  # the exception detail from the services
+  attribute :exception
 
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
@@ -179,7 +187,7 @@ class Registration < Ohm::Model
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
-
+    commited = true
     begin
       response = RestClient.post url,
         to_json,
@@ -199,25 +207,18 @@ class Registration < Ohm::Model
       self.regIdentifier = result['regIdentifier']
 
       unless self.tier == 'LOWER'
-        #if self.finance_details.size > 0
-        #  self.finance.details.first.orders.each do |ord|
-        #    ord.commit  self.uuid
-        #  end
-        #  self.finance.details.first.payments.each do |p|
-        #    p.save!  self.uuid
-        #  end
-        #else
-        #  self.finance_details.add FinanceDetails.init(result['financeDetails'])
-        #end
+        Rails.logger.debug 'Initialise finance details'
         self.finance_details.add FinanceDetails.init(result['financeDetails'])
       end
 
       save
       Rails.logger.debug "Commited to service: #{to_json.to_s}"
     rescue => e
-      Rails.logger.debug "Error in Commit to service: #{ e.to_s} || #{attributes.to_s}"
+      Rails.logger.debug "Error in registration Commit to service: #{ e.to_s} || #{attributes.to_s}"
+      self.exception = e.to_s
+      commited = false
     end
-    uuid
+    commited
   end
 
   # DELETEs registration to Java/Dropwizard service - deletes registration from DB
@@ -546,6 +547,11 @@ class Registration < Ohm::Model
     authority
     other
   ]
+  
+  REGISTRATION_TYPES = %w[
+    renew
+    new
+  ]
 
   # TODO this regexs need to be rethought if allowing foreign waste carriers.
   # My advice is to not check the format for free text fields but keep them only for those things where the form is
@@ -780,6 +786,10 @@ class Registration < Ohm::Model
   def self.distance_options_for_select
     (DISTANCES.collect {|d| [I18n.t('distances.'+d), d]})
   end
+  
+  def self.new_or_renew_options_for_select
+    (REGISTRATION_TYPES.collect {|d| [I18n.t('registration_types.'+d), d]})
+  end
 
   def initialize_sign_up_mode(userEmail, signedIn)
     if signedIn
@@ -812,11 +822,6 @@ class Registration < Ohm::Model
 
   def pending?
     metaData && metaData.first.status == 'PENDING'
-  end
-
-  def pending!
-    metaData.first.update(status: 'PENDING')
-    save!
   end
 
   def activate!

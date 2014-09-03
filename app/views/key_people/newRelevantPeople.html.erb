@@ -1,58 +1,65 @@
 <%= render 'shared/content_for_pages' %>
+
 <div id="wrapper">
-<div class="back-section">
-    <ol>
-      <li><%= render 'back_link' %></li>
-    </ol>
-</div>
 
-<main id="content" role="main" class="group">
-  <article role="article" class="group">
-      <div class="grid-wrapper">
-      <div class="grid-wrapper">
-        <div class="grid-2-3">
-          <!-- WF 4.3.2 -->
-          <div id="page7"  data-journey="waste-carriers-registration:relevant-people-details">
+  <main id="content" role="main" class="group">
 
-              <% content_for :page_title, createTitle('.title') %>
-              <%= render 'errors' %>
-              <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"} ) do |f| %>
-              <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
-              <span class="next_link">
-                <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= t '.button_label' %>"/>
-              </span>
-            <% end %>
+    <div class="back-section">
+      <ol>
+        <li><%= render 'back_link' %></li>
+      </ol>
+    </div>
 
-            <!-- This next button only gets displayed when at least one person has already
-              added. -->
-            <% if @relevant_people.any? %>
-              <%= form_for(@registration, :url => { :action => 'doneRelevantPeople' }, :method => 'get'  ) do |f| %>
-                <span class="next_link"><%= render 'next_link' %></span>
-              <% end %>
-            <% end %>
-          </div>
-        </div><!--grid-2-3 end-->
-      </div><!--grid-wrapper end-->
+  <div class="grid-wrapper">
 
+        <!-- WF 4.3.2 -->
+
+    <div id="page7"  data-journey="waste-carriers-registration:relevant-people-details"></div>
+
+  <div class="grid-2-3">
+    <div class="inner-block">
+
+      <% content_for :page_title, createTitle('.title') %>
+      <%= render 'errors' %>
+      <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"} ) do |f| %>
+      <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
+
+      <span class="next_link">
+        <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= t '.button_label' %>"/>
+      </span>
+      <% end %>
+
+        <!-- This next button only gets displayed when at least one person has already
+          added. -->
+
+        <% if @relevant_people.any? %>
+          <%= form_for(@registration, :url => { :action => 'doneRelevantPeople' }, :method => 'get'  ) do |f| %>
+
+            <span class="next_link"><%= render 'next_link' %></span>
+          <% end %>
+        <% end %>
+
+      </div><!-- end inner-block -->
+    </div><!--end grid-2-3-->
 
     <% if @relevant_people.any? %>
-    <div class="grid-wrapper">
       <div class="grid-1-3">
-        <div class="related">
-          <div class="inner group related-subsection">
-            <h2 class="heading-small"><%= t '.you_have_added' %></h2>
-              <%= content_tag_for(:p, @relevant_people) do |key_person| %>
-              <%= first_name_last_name_position(key_person) %> 
-              <%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'deleteRelevantPerson', :id => key_person.id), :class => 'link_to' %>
-            <% end %>
-            <div id="includedContent"></div>
+        <div class="inner-block related">
+            <div class="inner group related-subsection">
+              <h2 class="heading-small"><%= t '.you_have_added' %></h2>
+                <nav aria-labelledby="parent-subsection" role="navigation">
+                <%= content_tag_for(:p, @relevant_people) do |key_person| %>
+                <%= first_name_last_name_position(key_person) %>
+                <%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'deleteRelevantPerson', :id => key_person.id), :class => 'link_to' %>
+                  <% end %>
+                </nav>
+              <div id="includedContent"></div>
+            </div>
           </div>
-        </div>        
-      </div><!--grid-1-3 end-->
-    </div><!--grid-wrapper end-->
-    <% end %>
+        </div><!-- end grid 1-3-->
+      <% end %>
 
-    </div><!--grid-wrapper end-->
-  </article>
-</main>
-</div><!--wrapper end-->
+    </div><!-- end grid-wrapper -->
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

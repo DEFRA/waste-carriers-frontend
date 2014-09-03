@@ -1,0 +1,45 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+    <div class="back-section">
+      <ol>
+        <li><%= render 'back_link' %></li>
+      </ol>
+    </div>
+
+    <header class="page-header group">
+      <div class="hgroup">
+        <h1 class="heading-large"><%= t '.subtitle' %></h1>
+    </header>
+
+    <% content_for :page_title, createTitle('.title') %>
+    <%= form_for(@registration, :url => enterRegistration_path) do |f| %>
+
+      <div id="enterRegistrationNumber" data-journey="waste-carriers-registration:enter-registration-number"></div>
+
+        <!-- Enter registration number
+          Enter your registration number?
+        -->
+
+    <fieldset>
+      <legend></legend>
+        <%= render "errors" %>
+        <div class="form-group<%if @registration.errors[:originalRegistrationNumber].any?%> validation<%end%>">
+          <%= validation_for(@registration, :originalRegistrationNumber) %>
+
+          <%#= f.label :originalRegistrationNumber, class: 'form-label' %><%# Removed as label, is essentially the subtitle? %>
+          <%= f.label :originalRegistrationNumber, class: 'form-label' %>
+          <%= f.text_field :originalRegistrationNumber, :size => 20, :maxlength => 35 %>
+          <div class="form-hint">Your registration number can be found..text tbc
+          </div>
+        </div>
+        <p><%= link_to t('.lookUpYourRegistrationNumber'), :new_user_session, :class => 'link_to' %></p>
+    </fieldset>
+    <%= render 'next_link' %>
+    <% end %>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
