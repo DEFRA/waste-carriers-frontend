@@ -296,7 +296,7 @@ class PaymentController < ApplicationController
 
   # POST /worldpayRefund/:orderCode
   def createWPRefund
-    logger.info 'Request to createWorldpay, id:' + params[:id] + ' orderCode:' + params[:orderCode]
+    logger.info 'Request to createWorldpay'
 
     #
     # TODO: Use order code value to create a negative payment of the amount requested in the order
