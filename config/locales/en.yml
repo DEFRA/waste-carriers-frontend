@@ -39,6 +39,7 @@ en:
         dateReceived_day: Day
         dateReceived_month: Month
         dateReceived_year: Year
+        exception: "Services error:"
         paymentType: "Payment via"
         registrationReference: Reference
       registration:
@@ -57,10 +58,13 @@ en:
         country: Country
         declaration: "Declaration"
         edit_fee: "Registration amendment charge"
+        exception: "Services error:"
         firstName: "First name"
         houseNumber: "Building name or number"
         individualsType: "Organisation type"
         lastName: "Last name"
+        newOrRenew: "Are you renewing an existing licence"
+        originalRegistrationNumber: "Registration number"
         password: Password
         password_confirmation: "Confirm password"
         phoneNumber: "Telephone number"
@@ -135,6 +139,9 @@ en:
     partnership: Partnership
     publicBody: "Public body"
     soleTrader: "Sole trader"
+  registration_types:
+    renew: "Yes"
+    new: "No, this is a new application"
   buttons:
     broker_dealer: "We arrange for other people to carry it"
     carrier_broker_dealer: "We do both"
@@ -433,6 +440,10 @@ en:
     editRenewComplete:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"
+    enterRegistrationNumber:
+      subtitle: "Enter your registration number"
+      form_hint: "Your registration number can be found..text tbc"
+      title: "Existing registration renewal"
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Business details"
@@ -519,6 +530,9 @@ en:
       key_person_summary_heading: "Key person details"
       edit_key_person_details_link: "Edit your key peoples details"
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
+    newOrRenew:
+      subtitle: "Are you renewing an existing licence"
+      title: "New or renew a registration"
     newSignup:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"

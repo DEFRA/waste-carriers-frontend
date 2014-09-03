@@ -61,6 +61,91 @@ class RegistrationsController < ApplicationController
       format.json { render json: @registrations }
     end
   end
+  
+  # GET /registrations/start
+  def newOrRenew
+    
+    # Create a new registration for purpose of using :newOrRenew field
+    new_step_action 'newOrRenew'
+    
+  end
+  
+  # POST /registrations/start
+  def selectRegistrationType
+    # Get registration from params
+    setup_registration 'newOrRenew'
+  
+    # Validate which registration type selected, checking against known types
+    if @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0].downcase
+      logger.debug "Redirect to renewal"
+      redirect_to :enterRegistration
+      return    
+    elsif @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[1].downcase
+      logger.debug "Redirect to new registration"
+      redirect_to :newBusinessType
+      return
+    else
+      # If newOrRenew not found, error
+      @registration.errors.add(:newOrRenew, I18n.t('errors.messages.blank'))
+    end
+    
+    # Error must have occured, re-render view
+    render :newOrRenew, :status => '400'
+  end
+  
+  # GET /registrations/whatTypeOfRegistrationAreYou
+  def enterRegistrationNumber
+    
+    # Create a new registration for purpose of using :originalRegistrationNumber
+    new_step_action 'enterRegNumber'
+    
+  end
+  
+  # POST /registrations/whatTypeOfRegistrationAreYou
+  def calculateRegistrationType
+    # Get registration from params
+    setup_registration 'enterRegNumber'
+    
+    # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
+    if @registration.originalRegistrationNumber and !@registration.originalRegistrationNumber.empty?
+      
+      # Check current format
+      if isCurrentRegistrationType @registration.originalRegistrationNumber
+        # regNo matched
+        
+        #
+        # TODO: Potentially delete registration in session here
+        #
+        
+        # redirect to sign in page
+        logger.debug "Current registration matched, Redirect to user sign in"
+        redirect_to :new_user_session
+        return
+      # Check old format
+      elsif isIRRegistrationType @registration.originalRegistrationNumber
+        # legacy regNo matched
+        
+        #
+        # TODO: Potentially do any import registration logic here
+        #
+        
+        logger.debug "Legacy registration matched, Redirect to smart answers"
+        redirect_to :newBusinessType
+        return
+      # Error not matched
+      else
+        @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid'))
+      end
+      
+    else
+      # If orignalRegistrationNumber not found, error
+      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.blank'))
+    end
+    
+    # Error must have occured, re-render view
+    render :enterRegistrationNumber, :status => '400'
+    
+  end
 
   # GET /your-registration/business-type
   def newBusinessType
@@ -527,10 +612,22 @@ class RegistrationsController < ApplicationController
     setup_registration 'signup'
 
     if @registration.valid?
-      commit_new_user
+      logger.info 'Check to commit registration, unless: ' + @registration.persisted?.to_s
       unless @registration.persisted?
-        commit_new_registration
+        if commit_new_registration?
+          logger.info 'Check to commit user, unless: ' + current_user.to_s
+          unless current_user
+            commit_new_user
+          end
+        else
+          # there is an error (but data not yet saved)
+          logger.info 'Registration was valid but data is not yet saved due to an error in the services'
+          @registration.errors.add(:exception, @registration.exception.to_s)
+          render "newSignup", :status => '400'
+          return
+        end
       end
+      
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -652,16 +749,20 @@ class RegistrationsController < ApplicationController
   #    @registration.current_step = current_step
   #  end
 
-  def commit_new_registration
+  def commit_new_registration?
 
     unless @registration.tier == 'LOWER'
       @registration.expires_on = (Date.current + 3.years).to_s
     end
 
     @registration.save
-    session[:registration_uuid] = @registration.commit
-    session[:registration_id] = @registration.id
-
+    if @registration.commit
+      session[:registration_uuid] = @registration.uuid
+      session[:registration_id] = @registration.id
+      true
+    else
+      false
+    end
   end
 
   def commit_new_user
@@ -680,13 +781,14 @@ class RegistrationsController < ApplicationController
 
     unless @registration.persisted?
 
-      commit_new_registration
-      @registration.activate! if activateRegistration
-      @registration.save
+      if commit_new_registration?
+        @registration.activate! if activateRegistration
+        @registration.save
 
-      unless @registration.assisted_digital?
-        if @registration.is_complete?
-          RegistrationMailer.welcome_email(@user, @registration).deliver
+        unless @registration.assisted_digital?
+          if @registration.is_complete?
+            RegistrationMailer.welcome_email(@user, @registration).deliver
+          end
         end
       end
 
