@@ -224,12 +224,12 @@ class ReportsController < ApplicationController
 
       set_export_headers filename
 
-      render "registrations_export.csv", :layout => false
+      render "payments_export.csv", :layout => false
     end
 
     # This method and the majority of the code in the reportRegistrations view
     # can be attributed to http://stackoverflow.com/a/94626. FasterCSV is now
-    # as of Ruby since 1.9 part of the language and not a Gem. ou simply have to
+    # as of Ruby since 1.9 part of the language and not a Gem. You simply have to
     # require CSV in config/application.rb.
     def set_export_headers(filename = nil)
 
