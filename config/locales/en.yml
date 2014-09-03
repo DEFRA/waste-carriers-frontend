@@ -61,7 +61,7 @@ en:
         houseNumber: "Building name or number"
         individualsType: "Organisation type"
         lastName: "Last name"
-        newOrRenew: "Are you renewing an existing license"
+        newOrRenew: "Are you renewing an existing licence"
         originalRegistrationNumber: "Registration number"
         password: Password
         password_confirmation: "Confirm password"
@@ -440,6 +440,7 @@ en:
       title: "Order Complete"
     enterRegistrationNumber:
       subtitle: "Enter your registration number"
+      form_hint: "Your registration number can be found..text tbc"
       title: "Existing registration renewal"
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
@@ -528,7 +529,7 @@ en:
       edit_key_person_details_link: "Edit your key peoples details"
       followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
     newOrRenew:
-      subtitle: "Are you renewing an existing license"
+      subtitle: "Are you renewing an existing licence"
       title: "New or renew a registration"
     newSignup:
       step: "Step %{step_x} of %{step_y}"
