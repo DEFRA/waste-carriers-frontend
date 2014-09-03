@@ -64,7 +64,7 @@
 .heading-large {
   @include bold-36;
   margin-top: $gutter-half;
-  margin-bottom: $gutter;
+  margin-bottom: $gutter-half;
   @include media (mobile){
 	  margin-bottom: 0.5em;
   }
