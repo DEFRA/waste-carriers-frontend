@@ -117,6 +117,7 @@ module OrderHelper
       orderItem.currency = 'GBP'
       orderItem.description = 'Initial Registration'
       orderItem.reference = 'Reg: ' + reg.regIdentifier
+      orderItem.type = OrderItem::ORDERITEM_TYPES[0]
       orderItem.save
 
       @order.order_items.add orderItem
@@ -130,6 +131,7 @@ module OrderHelper
       orderItem.currency = 'GBP'
       orderItem.description = 'Edit Registration'
       orderItem.reference = 'Reg: ' + reg.regIdentifier
+      orderItem.type = OrderItem::ORDERITEM_TYPES[1]
       orderItem.save
 
       @order.order_items.add orderItem
@@ -143,6 +145,7 @@ module OrderHelper
       orderItem.currency = 'GBP'
       orderItem.description = 'Renewal of Registration'
       orderItem.reference = 'Reg: ' + reg.regIdentifier
+      orderItem.type = OrderItem::ORDERITEM_TYPES[2]
       orderItem.save
 
       @order.order_items.add orderItem
@@ -156,6 +159,7 @@ module OrderHelper
       orderItem.currency = 'GBP'
       orderItem.description = @registration.copy_cards.to_s + 'x Copy Cards'
       orderItem.reference = 'Reg: ' + reg.regIdentifier
+      orderItem.type = OrderItem::ORDERITEM_TYPES[4]
       orderItem.save
 
       @order.order_items.add orderItem
