@@ -9,6 +9,15 @@ class OrderItem < Ohm::Model
   attribute :lastUpdated
   attribute :description
   attribute :reference
+  attribute :type
+  
+  ORDERITEM_TYPES = %w[
+    NEW
+	EDIT
+	RENEW
+	IRRENEW
+	COPY_CARDS
+  ]
 
   class << self
     def init (order_items_hash)
