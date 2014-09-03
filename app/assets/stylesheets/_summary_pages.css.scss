@@ -19,31 +19,40 @@
   list-style-type:disc; position:relative; left:1em;
 }
 
-.summary-page h2 {
+.summary-page .panel-indent {
+  margin-bottom: $gutter;
+}
+
+.summary-page .panel-indent ol li {
+  list-style-type:disc; position:relative; left:1em;
+}
+
+.summary-page {
+  max-width:30em;
+}
+
+.summary-page .form-group {
+  margin-bottom: $gutter;
+}
+
+.summary-page .form-group h2 {
+  border-top: 1px solid rgb(191, 193, 195);
   border-bottom: 1px solid rgb(191, 193, 195);
-  padding-bottom:0.3em;
+  padding-top: $gutter-half/2;
+  padding-bottom: $gutter-half/2;
 }
 
-.summary-page h2 {
-  max-width:20em;
+.summary-page .form-group h3 {
+  border-top: 2px solid rgb(191, 193, 195);
+  padding-top: $gutter-half;
+  padding-bottom: $gutter-half;
 }
 
-.summary-page
-.validation-summary h2 {
-  border:none;
+.summary-page .declaration {
+  margin-top: $gutter*3;
 }
 
-.notice-icon {
-  position:relative;
-  top:-90px;
-  width:34px;
-  height:29px;
-  index:100;
-  background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
 
-.declaration-text {
-  padding-left:3em;
-}
 
 /* Summary payment page NEW ========================================================== */
 
