@@ -52,7 +52,7 @@
               <h3><%= t '.phone_number', :number => Rails.configuration.registrations_service_phone %></h3>
 
               <% unless @registration.paid_in_full? %>
-                <p><%= t '.payment_message' %></p>
+                <p><%= t '.payment_message', :regNum => @registration.regIdentifier %></p>
               <% end %>
 
             <% end %>
