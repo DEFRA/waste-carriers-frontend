@@ -22,15 +22,15 @@
 <% end %>
 
 <header class="page-header group">
-    <div class="hgroup"> 
+    <div class="hgroup">
         <h1 class="heading-large"><%= t '.heading' %></h1>
     </div>
-</header> 
+</header>
 
 <form method="get" action="/registrations/search">
 <div class="box" data-journey="waste-carriers-registration:search-register">
 	<fieldset>
-	<legend></legend>	
+	<legend></legend>
 		<div class="form-group">
 			<label for="q" class="form-label"><%= t '.search_label' %></label>
 			<input id="q" name="q" type="text" value="<%= params[:q]%>" />
@@ -47,7 +47,7 @@
 			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
 				<% defaultDistance='any'%>
 				<% if !params[:distance].nil?
-				defaultDistance=params[:distance] 
+				defaultDistance=params[:distance]
 				end %>
 				<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
 			<span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
@@ -55,14 +55,14 @@
 
 		-->
 
-			
+
 		    <div class='inline'>
 
-        		 <% 
+        		 <%
         		 defaultDistance='any'
         		 if !params[:distance].nil?
-				   defaultDistance=params[:distance] 
-				 end 
+				   defaultDistance=params[:distance]
+				 end
 				 %>
         		 <% Registration.distance_options_for_select.each do |dist| %>
         		 	<label class="block-label" for="<%= dist[1] %>">
@@ -71,11 +71,11 @@
         		 </label>
         		 <% end %>
 
-        	</div> 
+        	</div>
 
         	<div class='form-group'>
         		 <span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
-		    	 <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" 
+		    	 <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>"
 		    	 type="text">
 		    </div>
 		</div>

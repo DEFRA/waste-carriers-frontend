@@ -2,24 +2,23 @@
 
 <div id="wrapper">
 
+<main id="content" role="main" class="group">
+
 <div class="back-section">
   <ol>
     <li><%= link_to t('registrations.form.back_button_label'), :back %></li>
   </ol>
-</div>  
+</div>
 
 <header class="page-header group">
-    <div class="hgroup"> 
-        <h1 class="heading-large"><%= t 'devise.passwords.forgotHeading'%></h1>
+    <div class="hgroup">
+      <h1 class="heading-large"><%= t 'devise.passwords.forgotHeading'%></h1>
     </div>
-</header> 
+</header>
 
-<main id="content" role="main" class="group"><article role="article" class="group">
- <section>
-
-	<fieldset>	
+	<fieldset>
 		<legend></legend>
-		
+
       <div id="wrapper" data-journey="waste-carriers-registration:forgot-password"></div>
 
 			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
@@ -31,10 +30,7 @@
   			</div>
   			<%= f.submit t('devise.passwords.sendInstructions'), :class => "button" %>
 		<% end %>
-
 	</fieldset>
 
-</section>
-</article>
-</main>
-</div><!--wrapper end-->
+</main><!-- end content -->
+</div><!-- end wrapper -->
