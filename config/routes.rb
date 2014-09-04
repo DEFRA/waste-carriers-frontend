@@ -54,6 +54,7 @@ Registrations::Application.routes.draw do
     get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#newWPRefund', :via => [:get]
     match "registrations/:id/worldpayRefund/:orderCode" => 'payment#createWPRefund', :via => [:post]
     get   "registrations/:id/worldpayRefund/:orderCode/refundComplete" => 'payment#completeWPRefund', :via => [:get]
+    get   "registrations/:id/worldpayRefund/:orderCode/retry" => 'payment#retryWPRefundRequest', :via => [:get], :as => :retryRefund
     get   "registrations/:id/chargeAdjustments" => 'payment#chargeIndex', :via => [:get], :as => :chargeAdjustment
     match "registrations/:id/chargeAdjustments" => 'payment#selectAdjustment', :via => [:post]
     get   "registrations/:id/paymentReversals" => 'payment#reversalIndex', :via => [:get], :as => :paymentReversal

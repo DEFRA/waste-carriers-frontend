@@ -375,6 +375,38 @@ class PaymentController < ApplicationController
     authorize! :newRefund, Payment
 
   end
+  
+  # GET /worldpayRefund/:orderCode/retry
+  def retryWPRefundRequest
+    # Get selected payment from registration by order code
+	registration = Registration.find_by_id(params[:id])
+	foundPayment = Payment.getPayment(registration, params[:orderCode])
+	
+	# Get order code from payment key
+	originalOrderCode = foundPayment.orderKey
+    if foundPayment.orderKey.include? "_"
+       originalOrderCode = originalOrderCode.split("_")[0]
+    end
+    
+    # Get original order (to get merchant ID)
+    order = Order.getOrder(registration, originalOrderCode)
+	
+	# authorise request
+	authorize! :read, registration
+	authorize! :newRefund, Payment
+	
+	# Make request to worldpay
+	response = request_refund_from_worldpay(originalOrderCode, order.merchantId, foundPayment.amount )
+	
+	# Check if response from worldpay contains ok message
+	if responseOk?(response)
+	  # Redirect user back to payment status
+      redirect_to paymentstatus_path, alert: "Refund request has been re-attempted"
+	else
+	  # Worldpay refund retry request failed
+      redirect_to paymentstatus_path, alert: "Refund retry request has " + I18n.t('errors.messages.worldpayFailed')
+	end
+  end
 
   # GET /worldpayRefund/:orderCode/refundComplete
   def completeWPRefund
