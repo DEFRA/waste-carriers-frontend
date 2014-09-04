@@ -104,7 +104,12 @@
 									<% @registration.finance_details.first.payments.each do |payment| %>
 										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
 											<td class="" ><%= format_time payment.dateReceived %></td>
-											<td class="" ><%= t('payment_types.' + payment.paymentType) %></td>
+											<td class="" >
+												<%= t('payment_types.' + payment.paymentType) %>
+												<% showRetryLink = (payment.paymentType.eql? Payment::PAYMENT_TYPES_NONVISIBLE[3]) and (payment.orderKey.include? "REQUEST") %>
+												<%= link_to t('registrations.form.retry_request'), retryRefund_path(@registration.uuid, payment.orderKey), \
+													:style => 'font-size: medium;', :id => 'writeOffSmall' if showRetryLink %>
+											</td>
 											<td class="" ><% if hasOrderKey(payment) %><%= payment.orderKey %><%else%><%= t 'registrations.form.not_applicable' %><%end%>/<%= payment.registrationReference %></td>
 											<td class="" ><%= Money.new(payment.amount) %></td>
 											<td class="" ><%= payment.comment %></td>
