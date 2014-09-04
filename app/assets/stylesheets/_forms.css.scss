@@ -21,7 +21,6 @@ legend {
 .form-label {
   @include copy-19;
     display: block;
-    line-height:2em;
     padding-top:$gutter;
   @include media (mobile){
     padding-top: $gutter-half;

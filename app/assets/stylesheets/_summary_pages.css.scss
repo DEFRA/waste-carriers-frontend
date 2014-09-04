@@ -53,6 +53,10 @@
   margin-top: $gutter*3;
 }
 
+.privacy-data a {
+  display:inline;
+}
+
 
 /* Payment summary page ========================================================== */
 
@@ -88,6 +92,11 @@ input#registration_total_fee {
 
 .form-note {
   max-width: 15em;
+}
+
+.image-holder {
+  max-width:100%;
+  vertical-align: top;
 }
 
 /* Electronic transfer page NEW ========================================================== */
