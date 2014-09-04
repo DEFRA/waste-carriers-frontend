@@ -69,7 +69,6 @@
 	            <td></td>
 	            <td><%= link_to 'View Certificate', print_path(registration.uuid) unless \
 		            (registration.metaData.first.status == 'REVOKED' || registration.metaData.first.status == 'EXPIRED') %></td>
-	            <td>
 	            <td><%= link_to 'Edit Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT) unless \
 		            (registration.metaData.first.status == 'REVOKED' || registration.metaData.first.status == 'EXPIRED') %></td>
 	            <td>
