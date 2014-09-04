@@ -12,23 +12,14 @@
 @import '_device-pixels';
 @import '_font_stack';
 
-/* Summary page NEW ========================================================== */
-
-
-.list-bullets li {
-  list-style-type:disc; position:relative; left:1em;
-}
-
-.summary-page .panel-indent {
-  margin-bottom: $gutter;
-}
-
-.summary-page .panel-indent ol li {
-  list-style-type:disc; position:relative; left:1em;
-}
+/* Summary page ========================================================== */
 
 .summary-page {
   max-width:30em;
+}
+
+.list-bullets li {
+  list-style-type:disc; position:relative; left:1em;
 }
 
 .summary-page .form-group {
@@ -42,10 +33,20 @@
   padding-bottom: $gutter-half/2;
 }
 
+//Declaration section
+
 .summary-page .form-group h3 {
   border-top: 2px solid rgb(191, 193, 195);
   padding-top: $gutter-half;
   padding-bottom: $gutter-half;
+}
+
+.summary-page .panel-indent ol li {
+  list-style-type:disc; position:relative; left:1em;
+}
+
+.summary-page .panel-indent {
+  margin-bottom: $gutter;
 }
 
 .summary-page .declaration {
@@ -53,78 +54,58 @@
 }
 
 
-
-/* Summary payment page NEW ========================================================== */
+/* Payment summary page ========================================================== */
 
 #payment-copycard-page {
   max-width:30em;
+}
+
+input#registration_registration_fee,
+input#registration_edit_registration_fee,
+input#registration_renew_registration_fee,
+input#registration_copy_card_fee,
+input#registration_total_fee {
+  float:right;
+}
+
+input#registration_registration_fee,
+input#registration_copy_card_fee,
+input#registration_total_fee {
+  border:none;
+  inset:none;
+  text-align:left;
+  max-width:20%;
+  padding-right:0.5em;
+  background-color:white;
 }
 
 .inner-payment-box
 .form-label,
 .total-charge
 .form-label {
-font-weight:700;
+  @include bold-19;
 }
 
-.inner-payment
-.inline {
-  clear:none;
-  margin-right: 15px;
-  float:left;
-  margin-top:5px;
+.form-note {
+  max-width: 15em;
 }
-
-.payment-notice {
-  clear:left;
-  padding-left: $gutter;
-  float:left;
-}
-
-.payment-notice .form-note {
-  position:relative;
-  left:15px;
-  top: -5px;
-}
-
-.payment-options .inline {
-  margin-top:$gutter-half;
-  @include media(mobile){
-    margin-top:0;
-    display:block;
-      p {margin:0;
-    }
-  }
-}
-
-.payment-notice .notice-icon {
-  position:relative;
-  top:15px;
-  left:-30px;
-  width:34px;
-  height:34px;
-  index:100;
-  background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
-
 
 /* Electronic transfer page NEW ========================================================== */
 
 #payment-table-wrapper {
-  max-width:30em;
+  max-width:35em;
 }
 
-#payment-table-wrapper .iban-instructions {
-  padding-left: $gutter*1.5;
+.iban-instructions {
+  @include bold-19;
 }
 
-#payment-table-wrapper .notice-icon {
-  position:relative;
-  top:-80px;
-  width:34px;
-  height:34px;
-  index:100;
-  background: url("https:/assets.digital.cabinet-office.gov.uk/static/icon-important-187bcc8d8a6d56498c4ac26cadad102d.png")}
-
+.table-column-text {
+  width:15em;
+  @include media(mobile) {
+    width:10em;
+  }
+}
 
 /* Registration complete page - TO BE REFACTORED ============================================= */
 
