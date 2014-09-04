@@ -46,6 +46,7 @@
             <th></th>  <!--  empty column -->
             <th></th> <!--  column for certificate button -->
             <th></th> <!--  column for edit button -->
+            <th></th> <!--  column for delete registration -->
             <th></th> <!--  column for renew button -->
             <th></th> <!--  column for more copy cards -->
           </tr>
@@ -71,6 +72,7 @@
 		            (registration.metaData.first.status == 'REVOKED' || registration.metaData.first.status == 'EXPIRED') %></td>
 	            <td><%= link_to 'Edit Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT) unless \
 		            (registration.metaData.first.status == 'REVOKED' || registration.metaData.first.status == 'EXPIRED') %></td>
+		        <td><%= link_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :id => "delete" if registration.metaData.first.status == 'ACTIVE' %></td>
 	            <td>
 		            <% if (registration.metaData.first.status == 'ACTIVE') && \
 		            	(registration.expires_on - 6.months) < Time.now && \
