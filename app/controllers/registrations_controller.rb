@@ -663,6 +663,12 @@ class RegistrationsController < ApplicationController
   def finish
     @registration = Registration.find_by_id(session[:registration_uuid])
     authorize! :read, @registration
+    
+    @confirmationType = getConfirmationType
+    unless @confirmationType
+      flash[:notice] = 'Invalid confirmation type. Check routing to this page'
+      renderNotFound and return
+    end
   end
 
   # POST /registrations/finish
