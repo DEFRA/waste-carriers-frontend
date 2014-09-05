@@ -595,7 +595,7 @@ class RegistrationsController < ApplicationController
       
       # Determine what type of registration order to create
       # If an originalRegistrationNumber is presenet in the registration, then the registraiton is an IR Renewal
-      if @registration.originalRegistrationNumber
+      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
         newOrderRenew
       else
         newOrder @registration.uuid
@@ -650,8 +650,8 @@ class RegistrationsController < ApplicationController
         #
         
         # Determine what type of registration order to create
-        # If an originalRegistrationNumber is presenet in the registration, then the registraiton is an IR Renewal
-        if @registration.originalRegistrationNumber
+        # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
+        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
           session[:renderType] = Order.renew_registration_identifier
         else
           session[:renderType] = Order.new_registration_identifier
