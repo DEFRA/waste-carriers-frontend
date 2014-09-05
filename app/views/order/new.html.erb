@@ -44,13 +44,16 @@
         </tr>
         <% end %>
 
+        <% if showCopyCards?(@renderType) %>
         <tr>
-          <td><%= render "order/copy_cards", :f => f if showCopyCards? @renderType %>
+          <td><%= render "order/copy_cards", :f => f %>
             <div class="image-holder">
               <%= image_tag "copy_card.png" %>
             </div>
           </td>
         </tr>
+        <% end %>
+        
         <tr>
           <td class='total-charge'>
             <%= f.label :total_fee, class: 'form-label' %>
