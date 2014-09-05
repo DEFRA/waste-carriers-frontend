@@ -97,13 +97,7 @@ module OrderHelper
       # Ensure Order Id of newly created order remains the same as currently assumes orderId of first order?
       @order.orderId = ord.orderId
     else
-      #
-      # NOTE: This may cause an issue down in the future because it generates a new ID on every commit, thus a back and rety
-      # will re-fire the commit creating a subsequent order.
-      #
-      # Further note: removed as if new order id should not be needed? needs testing
-      #
-      # @order.orderId = SecureRandom.uuid
+      # Get order code from session, assume populated prior to entry of order/new
       @order.orderId = session[:orderCode]
     end
 
