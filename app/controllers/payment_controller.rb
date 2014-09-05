@@ -333,7 +333,7 @@ class PaymentController < ApplicationController
 	  logger.info 'Merchant Id found from original order: ' + order.merchantId
 	  
 	  # Make request to worldpay
-	  response = request_refund_from_worldpay(params[:orderCode], order.merchantId, @payment.amount )
+	  response = request_refund_from_worldpay(params[:orderCode], order.merchantId, @payment.amount.to_i.abs )
 	  
 	  # Check if response from worldpay contains ok message
 	  if responseOk?(response)
@@ -396,7 +396,7 @@ class PaymentController < ApplicationController
 	authorize! :newRefund, Payment
 	
 	# Make request to worldpay
-	response = request_refund_from_worldpay(originalOrderCode, order.merchantId, foundPayment.amount )
+	response = request_refund_from_worldpay(originalOrderCode, order.merchantId, foundPayment.amount.to_i.abs )
 	
 	# Check if response from worldpay contains ok message
 	if responseOk?(response)
