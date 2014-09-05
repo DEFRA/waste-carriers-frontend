@@ -23,7 +23,7 @@
             <div id="page0"  data-journey="waste-carriers-registration:payments-export">
               <% content_for :page_title, createTitle('.title') %>
               <%= render 'errors' %>
-              <%= form_for(@report, :url => 'registrations') do |f| %>
+              <%= form_for(@report, :url => 'payments') do |f| %>
 
               <h3><%=t '.date_filters' %></h3>
               <fieldset>
@@ -44,10 +44,10 @@
               <fieldset>
                 <div class='inline'>
                   <% Report.payment_status_options.each do |option| %>
-                  <%= f.label :payment_statuses, for: "payment_statuses_#{option.second.downcase}",  class: 'block-label' do %>
-                  <%= check_box("payment_statuses", option.second.downcase, {}, option.second, "") %>
-                  <%= option.first %>
-                  <% end %>
+                    <%= f.label :payment_statuses, for: "payment_statuses_#{option.second.downcase}",  class: 'block-label' do %>
+                      <%= check_box("payment_statuses", option.second.downcase, {}, option.second, "") %>
+                      <%= option.first %>
+                    <% end %>
                   <% end %>
                 </div>
               </fieldset>
@@ -56,10 +56,10 @@
               <fieldset>
                 <div class='inline'>
                   <% Report.payment_type_options.each do |option| %>
-                  <%= f.label :payment_types, for: "payment_types_#{option.second.downcase}",  class: 'block-label' do %>
-                  <%= check_box("payment_types", option.second.downcase, {}, option.second, "") %>
-                  <%= option.first %>
-                  <% end %>
+                    <%= f.label :payment_types, for: "payment_types_#{option.second.downcase}",  class: 'block-label' do %>
+                      <%= check_box("payment_types", option.second.downcase, {}, option.second, "") %>
+                      <%= option.first %>
+                    <% end %>
                   <% end %>
                 </div>
               </fieldset>
@@ -68,10 +68,10 @@
               <fieldset>
                 <div class='inline'>
                   <% Report.charge_type_options.each do |option| %>
-                  <%= f.label :charge_types, for: "charge_types_#{option.second.downcase}",  class: 'block-label' do %>
-                  <%= check_box("charge_types", option.second.downcase, {}, option.second, "") %>
-                  <%= option.first %>
-                  <% end %>
+                    <%= f.label :charge_types, for: "charge_types_#{option.second.downcase}",  class: 'block-label' do %>
+                      <%= check_box("charge_types", option.second.downcase, {}, option.second, "") %>
+                      <%= option.first %>
+                    <% end %>
                   <% end %>
                 </div>
               </fieldset>
