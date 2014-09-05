@@ -592,7 +592,14 @@ class RegistrationsController < ApplicationController
       # This session variable needs to be set every time the order/new action
       # is requested.
       #
-      newOrder @registration.uuid
+      
+      # Determine what type of registration order to create
+      # If an originalRegistrationNumber is presenet in the registration, then the registraiton is an IR Renewal
+      if @registration.originalRegistrationNumber
+        newOrderRenew
+      else
+        newOrder @registration.uuid
+      end
     end
   end
 
@@ -641,7 +648,15 @@ class RegistrationsController < ApplicationController
         # This session variable needs to be set every time the order/new action
         # is requested.
         #
-        session[:renderType] = Order.new_registration_identifier
+        
+        # Determine what type of registration order to create
+        # If an originalRegistrationNumber is presenet in the registration, then the registraiton is an IR Renewal
+        if @registration.originalRegistrationNumber
+          session[:renderType] = Order.renew_registration_identifier
+        else
+          session[:renderType] = Order.new_registration_identifier
+        end
+        
         session[:orderCode] = generateOrderCode
         upper_payment_path(:id => @registration.uuid)
       end
