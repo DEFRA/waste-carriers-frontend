@@ -1,6 +1,8 @@
 <ul id='key_people_display'>
-  <% @registration.key_people.each do |d| %>
+  <% relevant_people = r.key_people.to_a.find_all{ |person| person.person_type == 'KEY' } %>
+  <% relevant_people.each do |person| %>
     <li>
-      <%= d.first_name %> <%= d.last_name %> , <%=d.dob_day.to_i %><%="/"%><%= d.dob_month.to_i %><%="/"%><%= d.dob_year.to_i %>
+      <%= "#{person.first_name} #{person.last_name}, #{person.dob_day}/#{person.dob_month}/#{person.dob_year}" %>
+    </li>
   <% end %>
 </ul>

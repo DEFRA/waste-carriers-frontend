@@ -151,17 +151,14 @@ class KeyPeopleController < ApplicationController
 
   def get_registration
     @registration = Registration[session[:registration_id]]
-    logger.debug "get_registration: #{@registration.attributes.to_s}"
   end
 
   def get_key_people
-    @key_people = @registration.key_people.to_a
-    logger.debug "get_key_people: #{@key_people.to_s}"
+    @key_people = @registration.key_people.to_a.find_all{ |person| person.person_type == 'KEY' }
   end
 
   def get_relevant_people
     @relevant_people = @registration.key_people.to_a.find_all{ |person| person.person_type == 'RELEVANT' }
-    logger.debug "get_relevant_people: #{@relevant_people.to_s}"
   end
 
   private
