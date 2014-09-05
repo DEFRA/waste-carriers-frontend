@@ -2,7 +2,8 @@
 class Report
   include ActiveModel::Model
 
-  attr_accessor :is_new, :from, :to, :has_declared_convictions, :is_criminally_suspect
+  attr_accessor :is_new, :search_type
+  attr_accessor :from, :to, :has_declared_convictions, :is_criminally_suspect
   attr_accessor :routes, :tiers, :statuses, :business_types
   attr_accessor :payment_statuses, :payment_types, :charge_types
 
@@ -28,24 +29,29 @@ class Report
   ]
 
   PAYMENT_STATUS_OPTIONS = %w[
-    pending
-    fully_paid
-    overpaid
-    underpaid
+    AWAITING_PAYMENT
+    FULLY_PAID
+    OVERPAID
   ]
 
   PAYMENT_TYPE_OPTIONS = %w[
-    credit_debit_card
-    bank_transfer
-    cheque
-    cash
-    postal_order
+    WORLDPAY
+		WORLDPAY_MISSED
+		WRITEOFFSMALL
+		WRITEOFFLARGE
+		REFUND
+		CASH
+		CHEQUE
+		POSTALORDER
+		BANKTRANSFER
+		REVERSAL
   ]
 
   CHARGE_TYPE_OPTIONS = %w[
-    new_application
+    initial_registration
     renewal
     copy_cards
+    edit
   ]
 
   # Class methods ##############################################################
@@ -76,7 +82,7 @@ class Report
 
   # Instance methods ###########################################################
 
-  def parameter_args
+  def registration_parameter_args
 
     param_args = {}
 
@@ -112,16 +118,32 @@ class Report
       param_args[:criminallySuspect] = is_criminally_suspect
     end
 
+    param_args
+
+  end
+
+  def payment_parameter_args
+
+    param_args = {}
+
+    unless from.blank?
+      param_args[:from] = from
+    end
+
+    unless to.blank?
+      param_args[:until] = to
+    end
+
     unless @payment_statuses.nil? || @payment_statuses.empty?
-      param_args[:payment_statuses] = @payment_statuses
+      param_args[:paymentStatus] = @payment_statuses
     end
 
     unless @payment_types.nil? || @payment_types.empty?
-      param_args[:payment_types] = @payment_types
+      param_args[:paymentType] = @payment_types
     end
 
     unless @charge_types.nil? || @charge_types.empty?
-      param_args[:charge_types] = @charge_types
+      param_args[:chargeType] = @charge_types
     end
 
     param_args
@@ -132,30 +154,38 @@ class Report
 
     def validate_from
 
-      if from.blank?
-        Rails.logger.debug "report 'from' field is empty"
-        errors.add(:from, I18n.t('errors.messages.blank') )
-        return
-      end
+      unless search_type == :payment
 
-      unless from.is_date?
-        Rails.logger.debug "report 'from' field is invalid"
-        errors.add(:from, I18n.t('errors.messages.invalid_date') )
+        if from.blank?
+          Rails.logger.debug "report 'from' field is empty"
+          errors.add(:from, I18n.t('errors.messages.blank') )
+          return
+        end
+
+        unless from.is_date?
+          Rails.logger.debug "report 'from' field is invalid"
+          errors.add(:from, I18n.t('errors.messages.invalid_date') )
+        end
+
       end
 
     end
 
     def validate_to
 
-      if to.blank?
-        Rails.logger.debug "report 'to' field is empty"
-        errors.add(:to, I18n.t('errors.messages.blank') )
-        return
-      end
+      unless search_type == :payment
 
-      unless to.is_date?
-        Rails.logger.debug "report 'to' field is invalid"
-        errors.add(:to, I18n.t('errors.messages.invalid_date') )
+        if to.blank?
+          Rails.logger.debug "report 'to' field is empty"
+          errors.add(:to, I18n.t('errors.messages.blank') )
+          return
+        end
+
+        unless to.is_date?
+          Rails.logger.debug "report 'to' field is invalid"
+          errors.add(:to, I18n.t('errors.messages.invalid_date') )
+        end
+
       end
 
     end

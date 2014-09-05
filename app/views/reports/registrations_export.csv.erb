@@ -26,9 +26,11 @@
   "status",
   "route"
 ] %>
+<% # Apologies for the formatting in this file, however any formatting such as %>
+<% # indenting or line spaces get directly translated to the exported CSV file. %>
 <%= CSV.generate_line(registrationHeaders + metaDataHeaders, { :row_sep => nil, :force_quotes => true }).html_safe %>
 <% @registrations.each do |registration| %>
-  <% row = registration.attributes.values_at(*registrationHeaders.map {|x| x.to_sym}) %>
-  <% row += registration.metaData.first.attributes.values_at(*metaDataHeaders.map {|x| x.to_sym}) %>
-  <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
+<% row = registration.attributes.values_at(*registrationHeaders.map {|x| x.to_sym}) %>
+<% row += registration.metaData.first.attributes.values_at(*metaDataHeaders.map {|x| x.to_sym}) %>
+<%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <%end%>

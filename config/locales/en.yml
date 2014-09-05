@@ -32,6 +32,12 @@ en:
         updatedByUser: "Placed by user"
         description: "Description"
         exception: "Services error:"
+      order_item:
+        amount: "Amount"
+        currency: "Currency"
+        lastUpdated: "Last updated"
+        description: "Description"
+        reference: "Reference"
       payment:
         amount: "Amount Received (£)"
         comment: Comment
@@ -896,6 +902,10 @@ en:
       payment_status: "Payment status"
       payment_type: "Payment type"
       charge_type: "Charge type"
+    payments_search_results:
+      title: "Payments Search Results"
+      subtitle: "Payment search results summary"
+      companyName: "Trading Name"
   shared:
     complete_summary:
       almost_there_title: "Almost there"
@@ -930,20 +940,25 @@ en:
     pending: "Pending"
     revoked: "Revoked"
   payment_status_options:
-    pending: "Pending"
-    fully_paid: "Fully paid"
-    overpaid: "Over paid"
-    underpaid: "Under paid"
+    AWAITING_PAYMENT: "Awaiting payment"
+    FULLY_PAID: "Fully paid"
+    OVERPAID: "Over paid"
   payment_type_options:
-    credit_debit_card: "Credit/Debit card"
-    bank_transfer: "Bank transfer"
-    cheque: "Cheque"
-    cash: "Cash"
-    postal_order: "postal_order"
+    WORLDPAY: "Credit/Debit"
+    WORLDPAY_MISSED: "Credit/Debit missed"
+    WRITEOFFSMALL: "Write off (small)"
+    WRITEOFFLARGE: "Write off (large)"
+    REFUND: "Refund"
+    CASH: "Cash"
+    CHEQUE: "Cheque"
+    POSTALORDER: "Postal order"
+    BANKTRANSFER: "Bank transfer"
+    REVERSAL: "Reversal"
   charge_type_options:
-    new_application: "New application"
+    initial_registration: "Initial Registration"
     renewal: "Renewal"
-    copy_cards: "Copy cards"
+    copy_cards: "Copy Cards"
+    edit: "Edit"
   templates:
     formExample:
       title: "Example form controls and content"

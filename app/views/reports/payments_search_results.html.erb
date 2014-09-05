@@ -1,0 +1,118 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+    <div class="grid-wrapper">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('registrations.form.back_button_label'), :payments_search, :class => 'link_to' %></li>
+        </ol>
+      </div>
+
+      <header class="page-header group">
+        <div class="hgroup">
+          <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+        </div>
+      </header>
+
+      <div class="grid-wrapper">
+        <div class="grid-2-3">
+          <article role="article" class="group">
+            <!-- WF 4.3.2 -->
+            <div id="page0"  data-journey="waste-carriers-registration:payments-export-results">
+              <% content_for :page_title, createTitle('.title') %>
+              <%= render 'errors' %>
+
+              <table summary='A summary of the first 100 registrations matching your search' role='presentation'>
+                <thead>
+                  <tr>
+                    <th><%= t 'activemodel.attributes.registration.regIdentifier' %></th>
+                    <th><%= t '.companyName' %></th>
+                    <th><%= t 'activemodel.attributes.metadata.dateRegistered' %></th>
+                    <th><%= t 'activemodel.attributes.metadata.status' %></th>
+                    <th><%= t 'activemodel.attributes.order.orderCode' %></th>
+                    <th><%= t 'activemodel.attributes.order_item.amount' %></th>
+                    <th><%= t 'activemodel.attributes.order_item.description' %></th>
+                    <th><%= t 'activemodel.attributes.payment_item.amount' %></th>
+                    <th><%= t 'activemodel.attributes.payment_item.paymentType' %></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @registrations.each do |registration| %>
+                    <% values = [] %>
+                    <% values << registration.regIdentifier %>
+                    <% values << registration.companyName %>
+                    <% values << registration.metaData.first.dateRegistered %>
+                    <% values << registration.metaData.first.status %>
+                    <% registration.finance_details.first.orders.each do |order| %>
+                      <% order.order_items.each do |order_item| %>
+                        <% related_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| payment.orderKey == order.orderCode } %>
+                        <% if related_payments.nil? || related_payments.empty? %>
+                          <tr>
+                            <td><%= registration.regIdentifier %></td>
+                            <td><%= registration.companyName %></td>
+                            <td><%= registration.metaData.first.dateRegistered %></td>
+                            <td><%= registration.metaData.first.status %></td>
+                            <td><%= order.orderCode %></td>
+                            <td><%= order_item.amount %></td>
+                            <td><%= order_item.description %></td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                          </tr>
+                        <% else %>
+                          <% related_payments.each do |payment| %>
+                            <tr>
+                              <td><%= registration.regIdentifier %></td>
+                              <td><%= registration.companyName %></td>
+                              <td><%= registration.metaData.first.dateRegistered %></td>
+                              <td><%= registration.metaData.first.status %></td>
+                              <td><%= order.orderCode %></td>
+                              <td><%= order_item.amount %></td>
+                              <td><%= order_item.description %></td>
+                              <td><%= payment.amount %></td>
+                              <td><%= payment.paymentType %></td>
+                            </tr>
+                          <% end %>
+                        <% end %>
+                      <% end %>
+                    <% end %>
+                    <% order_codes = registration.finance_details.first.orders.collect { |order| order.orderCode } %>
+                    <% unrelated_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| !order_codes.include? payment.orderKey} %>
+                    <% unrelated_payments.each do |payment| %>
+                      <tr>
+                        <td><%= registration.regIdentifier %></td>
+                        <td><%= registration.companyName %></td>
+                        <td><%= registration.metaData.first.dateRegistered %></td>
+                        <td><%= registration.metaData.first.status %></td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><%= payment.amount %></td>
+                        <td><%= payment.paymentType %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+
+              <%= form_for(@report, :url => payments_search_results_path) do |f| %>
+              <fieldset>
+                <%= f.hidden_field :from %>
+                <%= f.hidden_field :to %>
+                <%= f.hidden_field :payment_statuses %>
+                <%= f.hidden_field :payment_types %>
+                <%= f.hidden_field :charge_types %>
+              </fieldset>
+              <span class="next_link">
+                <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_button_label' %>"/>
+              </span>
+              <% end %>
+            </div>
+          </article>
+        </div><!--grid-2-3 end-->
+      </div><!--grid-wrapper end-->
+    </div><!--grid-wrapper end-->
+  </main><!--main end-->
+</div><!--wrapper end-->

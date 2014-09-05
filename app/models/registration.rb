@@ -499,11 +499,9 @@ class Registration < Ohm::Model
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'key_people'
           if v && v.size > 0
-            Rails.logger.info "getting key people"
             v.each do |person|
               new_reg.key_people.add KeyPerson.init(person)
             end
-             Rails.logger.info "key people size = #{new_reg.key_people.size.to_s}"
           end #if
         when 'metaData'
           new_reg.metaData.add HashToObject(v, 'Metadata')
@@ -933,11 +931,11 @@ class Registration < Ohm::Model
     end #each
     Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
-  
+
   def self.isReadyToBeActive(reg)
     reg.paid_in_full? and !reg.criminally_suspect
   end
-  
+
   def self.activate_registration(r)
     Rails.logger.debug "Check registration ready for activation: #{r.attributes.to_s}"
     if r.pending? and Registration.isReadyToBeActive(r)
@@ -948,7 +946,7 @@ class Registration < Ohm::Model
       Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
     end
   end
-  
+
   def self.send_registered_email(user, r)
     if Registration.isReadyToBeActive(r)
       #
@@ -962,7 +960,7 @@ class Registration < Ohm::Model
       if user and r.metaData.first.route == 'DIGITAL'
         Rails.logger.debug "Send registration email"
         RegistrationMailer.welcome_email(user,r).deliver
-      else 
+      else
         Rails.logger.debug "Registration not Digital or User not valid, thus registraion email not to be sent"
       end
     else
