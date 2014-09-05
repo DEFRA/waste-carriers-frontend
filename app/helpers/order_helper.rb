@@ -93,7 +93,7 @@ module OrderHelper
       @order = updateOrderForOffline(@order, reg)
     end
 
-    if showRegistrationFee? renderType
+    if showRegistrationFee?(renderType) or isIRRenewal?(myRegistration, renderType)
       # Ensure Order Id of newly created order remains the same as currently assumes orderId of first order?
       @order.orderId = ord.orderId
     else
@@ -229,6 +229,15 @@ module OrderHelper
     myOrder.updatedByUser = myRegistration.accountEmail
     myOrder.amountType = Order.getPositiveType
     myOrder
+  end
+  
+  def isIRRenewal? myRegistration, renderType
+    # It is an IRRenewal if the render type is renewal, and the orignal reg number is populated
+    # with an IR format value
+    showRenewalFee?(renderType) and \
+        myRegistration.originalRegistrationNumber and \
+        !myRegistration.originalRegistrationNumber.empty? and \
+        isIRRegistrationType(@registration.originalRegistrationNumber)
   end
 
 end
