@@ -471,7 +471,7 @@ class RegistrationsController < ApplicationController
         end
 
       when EditMode::RENEWAL
-        @registration.expires_on = (Time.parse(@registration.expires_on) + 3.years).to_s
+        @registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
         @registration.save
         redirect_to newOrderRenew_path(@registration.uuid) and return
       else # new registration
@@ -752,7 +752,7 @@ class RegistrationsController < ApplicationController
   def commit_new_registration?
 
     unless @registration.tier == 'LOWER'
-      @registration.expires_on = (Date.current + 3.years).to_s
+      @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after).to_s
     end
 
     @registration.save

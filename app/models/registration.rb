@@ -831,6 +831,41 @@ class Registration < Ohm::Model
     save!
   end
 
+
+  #only upper tier registrations can expire
+  def expirable?
+    upper?
+  end
+
+  def expired?
+    if upper?
+      metaData.first.status == 'EXPIRED' || expires_on  < Time.now
+    else
+      false
+    end
+  end
+
+  def about_to_expire?
+    metaData.first.status == 'ACTIVE' && expires_on && (expires_on - Rails.configuration.registration_renewal_window) < Time.now && expires_on  > Time.now 
+  end
+
+  def can_be_recreated?
+    expired? && (metaData.first.status != 'PENDING')
+  end
+  
+  def can_be_edited?
+    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED'
+  end
+
+  def can_view_certificate?
+    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED'
+  end
+
+  def can_request_copy_cards?
+    metaData.first.status == 'ACTIVE' && upper?
+  end
+
+
   def validate_revokedReason
     #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
     Rails.logger.debug 'validate revokedReason, revoked:' + revoked

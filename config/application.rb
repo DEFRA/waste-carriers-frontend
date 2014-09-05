@@ -179,5 +179,11 @@ module Registrations
     # Conviciton checks must be completed within limit
     config.registrations_service_exceed_limit = '56'
 
+    # registration expiration (upper tier only - lower tier registrations are indefinite)
+    config.registration_expires_after = 3.years
+
+    # upper tier registrations can be renewed starting a given time period (e.g. 6 months) before their expiration date
+    config.registration_renewal_window = 6.months
+
   end
 end
