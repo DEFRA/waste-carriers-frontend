@@ -85,7 +85,7 @@
               <% else %>
                 <h2 class='heading-medium'><%= t '.key_person_heading' %></h2>
               <% end %>
-                <%= render '/key_people/key_people_display' %>
+                <%= render '/key_people/key_people_display', r: @registration %>
               <a><%= link_to t('.edit_key_person_link'), registration_key_people_path %></a>
             </div><!-- end key people form-group -->
             <% end %>

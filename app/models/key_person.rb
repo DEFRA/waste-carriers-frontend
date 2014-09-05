@@ -19,30 +19,33 @@ class KeyPerson < Ohm::Model
 
   validates :first_name, :last_name, :dob_day, :dob_month, :dob_year, presence: true
 
-  validates :dob_day, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :dob_month, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :dob_month, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :dob_day, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :dob_month, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :dob_year, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
   validate :validate_dob
 
   class << self
     def init (key_person_hash)
+
       keyPerson = KeyPerson.create
+
       key_person_hash.each do |k, v|
-        if k.to_sym.eql? :dob && v
-          dob =  Time.at(v/ 1000.0)
-          keyPerson.send(:update, {k.to_sym => dob})
+        if k == 'dob' && v
+          dob = ApplicationController.helpers.convert_date v
+          keyPerson.send(:update, {k.to_sym => v})
           keyPerson.send(:update, {:dob_day => dob.day})
           keyPerson.send(:update, {:dob_month => dob.month})
           keyPerson.send(:update, {:dob_year => dob.year})
           Rails.logger.debug "KeyPerson dob:  #{dob.day}/#{dob.month}/#{dob.year}"
-
         else
           keyPerson.send(:update, {k.to_sym => v})
         end
       end
+      
       keyPerson.save
       keyPerson
+
     end
   end
 
@@ -51,23 +54,7 @@ class KeyPerson < Ohm::Model
   # @param none
   # @return  [Hash]  the KeyPerson object as a hash
   def to_hash
-
-    if  self.dob
-      if  self.dob.is_a? String
-        self.attributes[:dob]  = Time.at(self.dob.to_i / 1000).strftime("%Y%m%d%H%M%S")
-      elsif  (self.dob.is_a?  Time) ||  (self.dob.is_a?  Date)
-        self.attributes[:dob] =  self.dob.strftime('%Q')
-
-        Rails.logger.debug "#{dob_value}, -- #{dob_value.class}"
-      else  #dob not set
-        if  self.dob_year &&  self.dob_month &&  self.dob_day
-          set_dob
-        end
-      end
-    end
-
-    self.attributes.select{| k,v|  ![:dob_day, :dob_month, :dob_year].include? k.to_sym }
-    # self.attributes.to_hash
+    self.attributes.to_hash
   end
 
   # returns a JSON Java/DropWizard API compatible representation of the KeyPerson object
