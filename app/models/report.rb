@@ -29,10 +29,9 @@ class Report
   ]
 
   PAYMENT_STATUS_OPTIONS = %w[
-    pending
-    fully_paid
-    overpaid
-    underpaid
+    AWAITING_PAYMENT
+    FULLY_PAID
+    OVERPAID
   ]
 
   PAYMENT_TYPE_OPTIONS = %w[

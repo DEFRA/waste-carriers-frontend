@@ -940,10 +940,9 @@ en:
     pending: "Pending"
     revoked: "Revoked"
   payment_status_options:
-    pending: "Pending"
-    fully_paid: "Fully paid"
-    overpaid: "Over paid"
-    underpaid: "Under paid"
+    AWAITING_PAYMENT: "Awaiting payment"
+    FULLY_PAID: "Fully paid"
+    OVERPAID: "Over paid"
   payment_type_options:
     WORLDPAY: "Credit/Debit"
     WORLDPAY_MISSED: "Credit/Debit missed"
