@@ -937,19 +937,16 @@ class Registration < Ohm::Model
     unless metaData.first.status == 'ACTIVE'
       Rails.logger.debug "is_complete: status = #{metaData.first.status}"
       is_complete = false
-      return
     end
 
     if criminally_suspect
       Rails.logger.debug "is_complete: suspect = #{criminally_suspect}"
       is_complete = false
-      return
     end
 
     unless paid_in_full?
       Rails.logger.debug "is_complete: paid_in_full = #{paid_in_full?}"
       is_complete = false
-      return
     end
 
     is_complete
