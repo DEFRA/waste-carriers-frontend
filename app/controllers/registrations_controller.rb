@@ -636,21 +636,21 @@ class RegistrationsController < ApplicationController
     end
 
     next_step = case @registration.tier
-    when 'LOWER'
-      send_confirm_email @registration
-      pending_url
-    when 'UPPER'
-      #
-      # Important!
-      # Now storing an additional variable in the session for the type of order
-      # you are about to make.
-      # This session variable needs to be set every time the order/new action
-      # is requested.
-      #
-      session[:renderType] = Order.new_registration_identifier
-      session[:orderCode] = generateOrderCode
-      upper_payment_path(:id => @registration.uuid)
-    end
+      when 'LOWER'
+        send_confirm_email @registration
+        pending_url
+      when 'UPPER'
+        #
+        # Important!
+        # Now storing an additional variable in the session for the type of order
+        # you are about to make.
+        # This session variable needs to be set every time the order/new action
+        # is requested.
+        #
+        session[:renderType] = Order.new_registration_identifier
+        session[:orderCode] = generateOrderCode
+        upper_payment_path(:id => @registration.uuid)
+      end
 
     # Reset Signed up user to signed in status
     @registration.sign_up_mode = 'sign_in'
@@ -663,6 +663,12 @@ class RegistrationsController < ApplicationController
   def finish
     @registration = Registration.find_by_id(session[:registration_uuid])
     authorize! :read, @registration
+    
+    @confirmationType = getConfirmationType
+    unless @confirmationType
+      flash[:notice] = 'Invalid confirmation type. Check routing to this page'
+      renderNotFound and return
+    end
   end
 
   # POST /registrations/finish
