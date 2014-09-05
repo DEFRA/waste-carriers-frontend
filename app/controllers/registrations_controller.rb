@@ -1258,12 +1258,18 @@ class RegistrationsController < ApplicationController
 
   # Renders the edit renew order complete view
   def editRenewComplete
-    @registration = Registration[session[:registration_id]]
+    #@registration = Registration[session[:registration_id]]
+    #
+    # BUG: Cannot use registration form session here as its potentially out of date as an order was just made
+    # Need to rethink  why we are doing this?
+    #
+    @registration = Registration.find_by_id(session[:registration_uuid])
     #need to store session variables as instance variable, so that editRenewComplete.html can
     #use them, as session will be cleared shortly
     @edit_mode = session[:edit_mode]
     @edit_result = session[:edit_result]
-
+    
+    @confirmationType = getConfirmationType
 
     if  (session[:edit_result].to_i ==  EditResult::CREATE_NEW_REGISTRATION) ||
         (session[:edit_mode].to_i== EditMode::RECREATE)
@@ -1273,7 +1279,14 @@ class RegistrationsController < ApplicationController
         #TODO: error handling
       end #if
     else
-      if @registration.save!
+      #
+      # BUG: Doing a save on the registration at this point is very bad, Firstly doing a save on a get is a bad idea, 
+      # secondly as the registration has just had an order added to it, saving the local version, assuming the above is
+      # get the registreation out of the session, will have an out of date order.
+      # 
+      # Removing code for now
+      #
+      if false #@registration.save!
         logger.debug "Registration #{@registration.uuid} now saved!"
       else
         #TODO: error handling
@@ -1281,7 +1294,7 @@ class RegistrationsController < ApplicationController
     end
 
     #at the end of the edit/renewal process, so clear the session
-    clear_edit_session
+    #clear_edit_session
   end
 
   def newOfflinePayment

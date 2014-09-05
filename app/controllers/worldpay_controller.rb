@@ -37,12 +37,35 @@ class WorldpayController < ApplicationController
             send_confirm_email Registration.find_by_id(session[:registration_uuid])
             pending_path
           end
-      when Order.edit_registration_identifier, Order.renew_registration_identifier
+      when Order.edit_registration_identifier
         # edit/renew registration
         
-        Rails.logger.info 'Test the routing from Worldpay for Edit/renew registration'
+        Rails.logger.info 'Test the routing from Worldpay for Edit registration'
         
         next_step = complete_edit_renew_path
+      when Order.renew_registration_identifier
+        # edit/renew registration
+        
+        Rails.logger.info 'Test the routing from Worldpay for renew registration'
+        
+        next_step = if isIRRegistrationType @registration.originalRegistrationNumber
+          if user_signed_in?
+            # Send registered email
+            Registration.send_registered_email(current_user, @registration)
+            complete_edit_renew_path
+          elsif agency_user_signed_in?
+            # Send registered email
+            Registration.send_registered_email(current_agency_user, @registration)
+            complete_edit_renew_path
+          else
+            send_confirm_email Registration.find_by_id(session[:registration_uuid])
+            # TODO: SHould we redirect to pending page or edit renew complete page here as account not verified yet
+            pending_path
+          end
+        else
+          complete_edit_renew_path
+        end
+        #next_step = complete_edit_renew_path
       when Order.extra_copycards_identifier
         # extra copy cards
         

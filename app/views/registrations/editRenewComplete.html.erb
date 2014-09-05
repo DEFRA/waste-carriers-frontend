@@ -8,11 +8,14 @@
 
       <%= render "order/notice_or_alert" %>
       <%= render "shared/registration_errors" %>
+      <%= render 'shared/complete_summary', :type => @confirmationType %>
 
       <fieldset>
 
 
     <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+        <% title =  ''  %>
+        <% subtitle =  'TBC - Edit / Renew order complete page'  %>
         <% case  @edit_mode.to_i%>
         <% when  RegistrationsController::EditMode::RENEWAL %>
             <% title =  t '.title_renew_reg'  %>
@@ -31,19 +34,15 @@
              <% subtitle =  t '.subtitle_edit_reg_new_reg'  %>
             <% when  RegistrationsController::EditResult::NO_CHANGES  %>
             <% end %>
-          <% end %>
+        <% end %>
 
-         <legend><%= title %></legend>
-          <h2 class='registered'><%= subtitle %></h2>
+        <legend><%= title %></legend>
+        <h2 class='registered'><%= subtitle %></h2>
 
-        <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
-
-        <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
-        <h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
 
     <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
 
-        <%= link_to t('.back_button'), userRegistrations_path(current_user.id), :class => 'link_to' %>
+        <%= link_to t('.back_button'), userRegistrations_path(current_user.id), :class => 'link_to' if current_user %>
 
       </fieldset>
 
