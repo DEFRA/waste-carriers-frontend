@@ -13,6 +13,7 @@
     <header class="page-header group">
       <div class="hgroup">
         <h1 class="heading-large"><%= t '.subtitle' %></h1>
+      </div>
     </header>
 
     <% content_for :page_title, createTitle('.title') %>
@@ -36,7 +37,7 @@
           <div class="form-hint">Your registration number can be found..text tbc
           </div>
         </div>
-        <p><%= link_to t('.lookUpYourRegistrationNumber'), :new_user_session, :class => 'link_to' %></p>
+        <p><%= link_to t('.lookUpYourRegistrationNumber'), :public, :class => 'link_to' %></p>
     </fieldset>
     <%= render 'next_link' %>
     <% end %>
