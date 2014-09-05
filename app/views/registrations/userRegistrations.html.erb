@@ -68,23 +68,30 @@
 		            <% end %>
 	            </td>
 	            <td></td>
-	            <td><%= link_to 'View Certificate', print_path(registration.uuid) unless \
-		            (registration.metaData.first.status == 'REVOKED' || registration.metaData.first.status == 'EXPIRED') %></td>
-	            <td><%= link_to 'Edit Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT) unless \
-		            (registration.metaData.first.status == 'REVOKED' || registration.metaData.first.status == 'EXPIRED') %></td>
-		        <td><%= link_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :id => "delete" if registration.metaData.first.status == 'ACTIVE' %></td>
+
+              <td>
+              <% if registration.can_view_certificate? %>
+                <%= link_to 'View Certificate', print_path(registration.uuid) %>
+              <% end %>
+              </td>
+
+              <td>
+              <% if registration.can_be_edited? %>
+                <%= link_to 'Edit Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT) %>
+              <% end %>
+              </td>
+
+		          <td><%= link_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :id => "delete" if registration.metaData.first.status == 'ACTIVE' %></td>
+
 	            <td>
-		            <% if (registration.metaData.first.status == 'ACTIVE') && \
-		            	(registration.expires_on - 6.months) < Time.now && \
-		            	registration.expires_on  > Time.now  \
-		            	%>
+		            <% if registration.about_to_expire? %>
 	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %>
-	            	<% elsif  ((registration.metaData.first.status == 'EXPIRED') || (registration.expires_on  < Time.now)) && \
-				            	(registration.metaData.first.status != 'PENDING') %>
+	            	<% elsif registration.can_be_recreated? %>
 		            	<%= link_to 'Re-create Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
 	            	<% end %>
 	            </td>
-	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if (registration.metaData.first.status == 'ACTIVE' and registration.tier == 'UPPER')  %></td>
+
+	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if registration.can_request_copy_cards?  %></td>
 
 	          </tr>
           <% end %>
