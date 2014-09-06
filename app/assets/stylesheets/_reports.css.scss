@@ -1,3 +1,9 @@
-.select-boxes {
-  width: 400px;
+// .select-boxes {
+//   width: 400px;
+// }
+.registration-search h2,
+.payment-search h2 {
+  border-top: 1px solid rgb(191, 193, 195);
+  padding-top: $gutter-half;
 }
+
