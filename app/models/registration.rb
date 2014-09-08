@@ -436,6 +436,31 @@ class Registration < Ohm::Model
       result.size > 0 ? Registration.init(result) : nil
     end
   end
+  
+  # Retrieves a specific registration object from the Java Service based on its original registration number
+  #
+  # @param ir_number [String] the original registration number used in the legacy system
+  # @return [Registration] the registration in IR data matching the ir_number
+  class << self
+    def find_by_ir_number(ir_number)
+      irRenewalParam = {irNumber: ir_number}.to_query
+      result = {}
+      url = "#{Rails.configuration.waste_exemplar_services_url}/irrenewals.json?#{irRenewalParam}"
+      begin
+        Rails.logger.debug "about to GET ir registration: #{ir_number.to_s}"
+        response = RestClient.get url
+        if response.code == 200
+          result = JSON.parse(response.body) #result should be Hash
+        else
+          Rails.logger.error "Registration.find_by_ir_number failed with a #{response.code.to_s} response from server"
+        end
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      Rails.logger.debug "found ir reg: #{result.to_s}"
+      result.size > 0 ? Registration.init(result) : nil
+    end
+  end
 
   # Retrieves registration objects from the Java Service based on the values
   # included in the params hash

@@ -119,13 +119,22 @@ class RegistrationsController < ApplicationController
       elsif isIRRegistrationType @registration.originalRegistrationNumber
         # legacy regNo matched
 
-        #
-        # TODO: Potentially do any import registration logic here
-        #
+		# Call IR services to import IR registraion data
+		irReg = Registration.find_by_ir_number(@registration.originalRegistrationNumber)
+		if irReg 
+		  # IR data found, merge with registration
+		  
+		  # Merge params registration with registration in memory
+          @registration.add( irReg.attributes )
+          @registration.save
 
-        logger.debug "Legacy registration matched, Redirect to smart answers"
-        redirect_to :newBusinessType
-        return
+          logger.debug "Legacy registration matched, Redirect to smart answers"
+          redirect_to :newBusinessType
+          return
+		else
+		  # No IR data found
+		  @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.ir_notFound'))
+		end
       # Error not matched
       else
         @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid'))
