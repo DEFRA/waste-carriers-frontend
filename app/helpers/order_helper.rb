@@ -135,7 +135,7 @@ module OrderHelper
       # Add order item for Renewal registration
       # Create Order Item
       orderItem = OrderItem.new
-      orderItem.amount = Rails.configuration.fee_registration
+      orderItem.amount = Rails.configuration.fee_renewal
       orderItem.currency = 'GBP'
       orderItem.description = 'Renewal of Registration'
       orderItem.reference = 'Reg: ' + reg.regIdentifier
