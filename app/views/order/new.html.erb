@@ -16,6 +16,10 @@
     </div>
   </header>
 
+  <div class="grid-wrapper">
+
+  <div class="grid-2-3">
+  <div class="inner-block">
 
   <section id='payment-copycard-page'>
 
@@ -47,13 +51,10 @@
         <% if showCopyCards?(@renderType) %>
         <tr>
           <td><%= render "order/copy_cards", :f => f %>
-            <div class="image-holder">
-              <%= image_tag "copy_card.png" %>
-            </div>
           </td>
         </tr>
         <% end %>
-        
+
         <tr>
           <td class='total-charge'>
             <%= f.label :total_fee, class: 'form-label' %>
@@ -82,5 +83,27 @@
     <% end %>
   </section>
 
-</main><!--content end-->
-</div><!--wrapper end-->
+    </div><!-- end inner-block -->
+  </div><!-- end grid 2-3-->
+
+  <div class="grid-1-3">
+    <div class="inner-block related">
+      <div class="inner group related-subsection">
+        <h2 class="heading-small">What are copy cards?</h2>
+          <nav aria-labelledby="parent-subsection" role="navigation">
+            <ul>
+                <li class="image-holder">
+                <%= image_tag "copy_card.png" %>
+                </li>
+                <li>Copy cards are credit-card sized copies of your registration
+                </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div><!-- end grid 1-3-->
+
+    </div><!-- end grid-wrapper -->
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
