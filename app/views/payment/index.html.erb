@@ -1,115 +1,116 @@
 <%= render 'shared/content_for_pages' %>
 
+<div id="wrapper">
+
 <main id="content" role="main" class="group">
-	<article role="article" class="group">
-	<section>
-      <div class="inner">
-      <div class="col-1">
-      
+
+  <header class="page-header group">
+    <div class="hgroup">
+      <h1 class="heading-xlarge"><%= t '.heading' %></h1>
+    </div>
+  </header>
+
+  <div class="grid-wrapper">
+
 	<% content_for :page_title, createTitle('.heading') %>
 
 	<!-- Usefull for showing default messages -->
 	<% if alert %><%= alert %><% end %>
-	
-		<div class="step"><%= t '.step' %></div>
 
-		<!-- WF X.X.X -->
-		<div id="select-refund" data-journey="waste-carriers-registration:select-refund">
+	<div class="step"><%= t '.step' %></div>
 
-			<fieldset>
-				<legend><%= t '.heading' %></legend>
-				
-				<table class="" summary='This table details the orders available for a refund'>
-					<thead class="">
-						<tr>
-							<th class="">Date</th>
-							<th class="">Order Code</th>
-							<th class="">Type</th>
-							<th class="">Amount</th>
-							<th class=""></th>
-						</tr>
-					</thead>
-					<tbody>
-						<% regCount = 1; %>
-						<% if @registration.finance_details.size > 0 \
-							&& @registration.finance_details.first.payments \
-							&& @registration.finance_details.first.payments.size > 0 %>
-							<% @registration.finance_details.first.payments.each do |payment| %>
-							    <% if !isARefund(payment) %>
-								<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-									<td class=""><%= format_time payment.dateReceived %></td>
-									<td class="">
-									<% if hasOrderKey(payment) %>
-									    <%= payment.orderKey %>
-									<% else %>
-									    <%= t 'registrations.form.not_applicable' %>
-									<% end %>
-									</td>
-									<td class=""><%= t('payment_types.'+payment.paymentType) %></td>
-									<td class=""><%= Money.new(payment.amount) %></td>
-									<td class="">
-									<%
-									isAlreadyRefunded = isAlreadyRefunded(payment, @registration)
-									refundPaymentStatus = getRefundPaymentStatus(payment, @registration)
-									isWorldPayPayment = payment.paymentType == 'WORLDPAY' and !isAlreadyRefunded
-									isRefundablePayment = payment.isRefundableType?
-									%>
-									<% if isAlreadyRefunded %>
-									    <%= t '.refundStatus',:status=>refundPaymentStatus %>
-									<% elsif isWorldPayPayment %>
-									    <%= link_to t('registrations.form.select_button_label'), {controller: 'payment', action: 'newWPRefund', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
-									<% elsif isRefundablePayment %>
-									    <%= link_to t('registrations.form.manual_payment_button_label'), :manualRefund, :class => 'link_to' %>
-									<% else %>
-									    <%= t 'registrations.form.not_applicable' %>
-									<% end %>
-									</td>
-								</tr>
-								<% end %>
-							<% regCount = regCount + 1; %>
+	<!-- WF X.X.X -->
+	<div id="select-refund" data-journey="waste-carriers-registration:select-refund"></div>
+
+	<div class="grid-2-3">
+	<div class="inner-block">
+
+		<table class="" summary='This table details the orders available for a refund'>
+			<thead class="">
+				<tr>
+					<th class="">Date</th>
+					<th class="">Order Code</th>
+					<th class="">Type</th>
+					<th class="">Amount</th>
+					<th class=""></th>
+				</tr>
+			</thead>
+			<tbody>
+				<% regCount = 1; %>
+				<% if @registration.finance_details.size > 0 \
+					&& @registration.finance_details.first.payments \
+					&& @registration.finance_details.first.payments.size > 0 %>
+					<% @registration.finance_details.first.payments.each do |payment| %>
+					    <% if !isARefund(payment) %>
+						<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
+							<td class=""><%= format_time payment.dateReceived %></td>
+							<td class="">
+							<% if hasOrderKey(payment) %>
+							    <%= payment.orderKey %>
+							<% else %>
+							    <%= t 'registrations.form.not_applicable' %>
 							<% end %>
-						<% else %>
-							<tr class="solid-box">
-								<td class="">No Payment History</td>
-								<td class=""> </td>
-								<td class=""> </td>
-								<td class=""> </td>
-								<td class=""> </td>
-							</tr>
+							</td>
+							<td class=""><%= t('payment_types.'+payment.paymentType) %></td>
+							<td class=""><%= Money.new(payment.amount) %></td>
+							<td class="">
+							<%
+							isAlreadyRefunded = isAlreadyRefunded(payment, @registration)
+							refundPaymentStatus = getRefundPaymentStatus(payment, @registration)
+							isWorldPayPayment = payment.paymentType == 'WORLDPAY' and !isAlreadyRefunded
+							isRefundablePayment = payment.isRefundableType?
+							%>
+							<% if isAlreadyRefunded %>
+							    <%= t '.refundStatus',:status=>refundPaymentStatus %>
+							<% elsif isWorldPayPayment %>
+							    <%= link_to t('registrations.form.select_button_label'), {controller: 'payment', action: 'newWPRefund', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
+							<% elsif isRefundablePayment %>
+							    <%= link_to t('registrations.form.manual_payment_button_label'), :manualRefund, :class => 'link_to' %>
+							<% else %>
+							    <%= t 'registrations.form.not_applicable' %>
+							<% end %>
+							</td>
+						</tr>
 						<% end %>
-					</tbody>
-				</table>
-				
-				<br/>
-				<br/>
-				<br/>
+					<% regCount = regCount + 1; %>
+					<% end %>
+				<% else %>
+					<tr class="solid-box">
+						<td class="">No Payment History</td>
+						<td class=""> </td>
+						<td class=""> </td>
+						<td class=""> </td>
+						<td class=""> </td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
 
-				<div class="inline">
-				    <noscript>
-				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-				    </noscript>
-				    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
-				</div>
-				
-				<br/>
-				<br/>
-				<br/>
-				
-			</fieldset>
-			
+		<br/>
+		<br/>
+		<br/>
+
+		<div class="inline">
+		    <noscript>
+		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+		    </noscript>
+		    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
 		</div>
-	
-	  </div>
-      </div>
-    </section>
 
-    <aside role='note'>
-      <div class="inner">
-        <div class="col-2">
+    </div><!-- end inner-block -->
+  </div><!-- end grid-2-3 -->
+
+  <div class="grid-1-3">
+    <div class="inner-block related">
+      <div class="inner group related-subsection">
+        <h2 class="heading-small">Current user</h2>
          <%= render "shared/current_user" %>
         </div>
       </div>
-    </aside>
+    </div><!-- end grid 1-3-->
 
-	</article>
-</main>
+		</div><!-- end grid-wrapper -->
+
+	</main><!-- end main -->
+</div><!-- end wrapper -->
+

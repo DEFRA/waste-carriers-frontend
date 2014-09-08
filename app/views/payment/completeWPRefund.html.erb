@@ -1,34 +1,47 @@
 <%= render 'shared/content_for_pages' %>
 
+<div id="wrapper">
+
 <main id="content" role="main" class="group">
-    <article role="article" class="group">
+
+  <header class="page-header group">
+    <div class="hgroup">
+      <h1 class="heading-large"><%= t '.heading' %></h1>
+    </div>
+  </header>
+
     <% content_for :page_title, createTitle('.heading') %>
-    
+
     <!-- Usefult for showing default messages -->
     <% if alert %><%= alert %><% end %>
-    
+
     <div class="step"><%= t '.step' %></div>
-    
-    <div id="refund-complete" data-journey="waste-carriers-registration:refund-complete">
+
+    <div id="refund-complete" data-journey="waste-carriers-registration:refund-complete"> </div>
 
 			<fieldset>
-				<legend><%= t '.heading' %></legend>
-				
-				<h1>You have completed worldpay refund for order code: <%= @orderCode %></h1>
-				
+				<legend></legend>
+
+        <div class="form-group">
+
+				<h2 class="heading-medium">You have completed worldpay refund for order code: <%= @orderCode %></h2>
+
 				<p>You will now be redirected to worldpay to continue with the refund. [MAYBE?]</p>
-				
+
 				<p>The registration has been updated to reflect that a refund has been made.</p>
-	
+
+      </div>
+
 			</fieldset>
-	</div>
-	
+
+
 	<div class="inline">
 	    <noscript>
 	        <%= content_tag :p, t('registrations.back_link_unavailable') %>
 	    </noscript>
 	    <%= link_to t('registrations.form.back_to_status_button_label'), :paymentstatus, :class => 'link_to' %>
 	</div>
-	
-	</article>
-</main>
+
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
