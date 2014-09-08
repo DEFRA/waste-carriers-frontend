@@ -1,20 +1,20 @@
 <%= render 'shared/content_for_pages' %>
 
-<% content_for :page_title, createTitle('global.timeout.heading') %>
+<div id="wrapper">
 
-	<main id="content" role="main" class="group">
-	   <article role="article" class="group">
-	   	   <section>
-      		<div class="inner">
-      			<div class="col-1">
+  <main id="content" role="main" class="group">
 
-					<h1><%=t 'global.timeout.heading'%></h1>
-					<p><%=t 'global.timeout.message1'%></p>
-					<p><%=t 'global.timeout.message2'%></p>
-					<p><%=t 'global.timeout.message3_html'%></p>
+  <header class="page-header group">
+    <div class="hgroup">
+        <h1 class="heading-large"><%=t 'global.timeout.heading'%></h1>
+    </div>
+  </header>
 
-				</div>
-  			</div>
-		   </section>
-		</article>
-	</main>
+  <% content_for :page_title, createTitle('global.timeout.heading') %>
+
+  <p><%=t 'global.timeout.message1'%></p>
+  <p><%=t 'global.timeout.message2'%></p>
+  <p><%=t 'global.timeout.message3_html'%></p>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

@@ -1,13 +1,19 @@
-<% content_for :page_title, createTitle('global.notfound.heading') %>
-	<main id="content" role="main" class="group">
-		<br/>
-		<%= notice %><br/>
+	<%= render 'shared/content_for_pages' %>
+
+  <div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
 		<header class="page-header group">
-			<div>
-				<h1><%=t 'global.notfound.heading'%></h1>
+			<div class="hgroup">
+				<h1 class="heading-large"><%=t 'global.notfound.heading'%></h1>
 			</div>
 		</header>
-		<article role="article" class="group">
-			<p><%=t 'global.notfound.message'%></p>
-		</article>
-	</main>
+
+		<% content_for :page_title, createTitle('global.notfound.heading') %><%= notice %>
+
+		<p><%=t 'global.notfound.message'%></p>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
+
