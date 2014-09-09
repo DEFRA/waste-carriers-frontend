@@ -128,16 +128,14 @@ p {
   }
 }
 
-a {
-  @include copy-19;
-  display:block;
-}
-
 #content {
   @include copy-19;
   -webkit-font-smoothing: antialiased;
 }
 
+#content a {
+  display: inline;
+}
 
 
 

@@ -491,7 +491,7 @@ en:
       relevant_person_link_text: "What is a relevant person?"
     newConfirmation:
       title: "Confirmation"
-      subtitle: "Check your registration"
+      subtitle: "Check your details"
 
       tier_aside_heading: "Registration tier"
       tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
@@ -527,8 +527,8 @@ en:
       edit_key_person_link: "Edit these details"
       declaration_legend: "Declaration"
       check_box_label: "I understand and agree with the declaration above"
-      declaration_text1: "if I provide information which I know to be false or misleading or I recklessly provide information which is false or misleading I may be committing an offence"
-      declaration_text2: "each individual (or individual Director) who is applying for their name to appear on the carrier, broker or dealer licence must agree to this declaration"
+      declaration_text1: "By registering, you confirm that the information you have provided is true"
+      declaration_text2: "You can be fined up to £5000 if you provide false or misleading information"
       data_protection_text1: "See the"
       privacy_policy_link: "Privacy and shared cookies policy"
       data_protection_text2: "to find out how the Environment Agency will use this information."
