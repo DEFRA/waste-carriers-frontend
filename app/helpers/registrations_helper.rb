@@ -236,7 +236,7 @@ module RegistrationsHelper
     regNo = regNo[0, 3]
     
     # First 3 characters of reg ex
-    legacy_reg_format = "OLD"
+    legacy_reg_format = "CB/"
       
     # Check legacy format
     regNo.upcase.match(legacy_reg_format)

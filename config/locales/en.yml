@@ -199,6 +199,7 @@ en:
       invalidPassword: "Email and/or password is unrecognised"
       unconfirmedEmail: "This account has not been confirmed"
       no_results: "No results found"
+      ir_notFound: "provided is unable to find any IR registration data to use"
   form:
     add_button_label: Add
     back_button_label: Back
