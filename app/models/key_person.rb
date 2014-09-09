@@ -12,6 +12,8 @@ class KeyPerson < Ohm::Model
   attribute :dob_year
   attribute :dob
   attribute :person_type
+  attribute :conviction_search_result
+  attribute :last_conviction_search
 
   VALID_DAY = /\A[0-9]{2}/
   VALID_MONTH = /\A[0-9]{2}/
@@ -37,12 +39,11 @@ class KeyPerson < Ohm::Model
           keyPerson.send(:update, {:dob_day => dob.day})
           keyPerson.send(:update, {:dob_month => dob.month})
           keyPerson.send(:update, {:dob_year => dob.year})
-          Rails.logger.debug "KeyPerson dob:  #{dob.day}/#{dob.month}/#{dob.year}"
         else
           keyPerson.send(:update, {k.to_sym => v})
         end
       end
-      
+
       keyPerson.save
       keyPerson
 
@@ -67,24 +68,32 @@ class KeyPerson < Ohm::Model
 
   def add(a_hash)
     a_hash.each do |prop_name, prop_value|
-      self.send("#{prop_name}=",prop_value)
+      self.send(:update, {prop_name.to_sym => prop_value})
     end
   end
 
-  def validate_dob
-    set_dob
-    errors.add(:dob, I18n.t('errors.messages.invalid_date')) unless dob
-    errors.add(:dob, I18n.t('errors.messages.date_not_in_past')) unless dob.try(:past?)
+  def cross_check_convictions
+
+    result = ConvictionsCaller.new(name: "#{first_name} #{last_name}", dateOfBirth: dob).check_convictions
+    update(:conviction_search_result => result[:result].to_s)
+    update(:last_conviction_search => result[:time_stamp])
+
   end
 
-  def set_dob
-    begin
-      self.dob = Date.civil(self.dob_year.to_i, self.dob_month.to_i, self.dob_day.to_i)
-    rescue ArgumentError
-      nil
+  private
+
+    def validate_dob
+      set_dob
+      errors.add(:dob, I18n.t('errors.messages.invalid_date')) unless dob
+      errors.add(:dob, I18n.t('errors.messages.date_not_in_past')) unless dob.try(:past?)
     end
-  end
 
-  private :validate_dob
+    def set_dob
+      begin
+        self.dob = Date.civil(self.dob_year.to_i, self.dob_month.to_i, self.dob_day.to_i)
+      rescue ArgumentError
+        nil
+      end
+    end
 
 end
