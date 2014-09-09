@@ -11,11 +11,6 @@
     <legend></legend>
     <%= render "errors" %>
 
-    <div class="text">
-      <div class='form-hint'><%= t 'registrations.convictions_step.subtitle' %>
-      </div>
-    </div>
-
     <div class="inline<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
       <%= validation_for(@registration, :declaredConvictions) %>
 
@@ -31,11 +26,42 @@
     </div>
   </fieldset>
 
+  <div class='form-group'>
+    <details>
+      <summary aria controls='details-content-0' tabindex='0'>
+        <span class='summary'>What are relevant convictions?</span>
+        </summary>
+        <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
+          <p><strong>Convictions for offences under</strong></P>
+          <p>Scrap Metal Dealers Act 1964</P>
+          <p>section 1, 8, 9, 10, 11, 17, 18, 22 or 25 of the Theft Act 1968, where the offence relates to scrap metal or is an environment-related offence</P>
+          <p>section 170 or 170B of the Customs and Excise Management Act 1979, where the offence relates to scrap metal</P>
+          <p>section 9 of the Food and Environment Protection Act 1985</P>
+          <p>section 1, 5 or 7 of the Control of Pollution (Amendment) Act 1989</P>
+          <p>section 33, 34 or 34B of the Environmental Protection Act 1990</P>
+          <p>section 85, 202 or 206 of the Water Resources Act 1991</P>
+          <p>Transfrontier Shipment of Waste Regulations 1994</P>
+          <p>section 110 of the Environment Act 1995</P>
+          <p>Control of Major Accident Hazards Regulations 1999</P>
+          <p>Pollution Prevention and Control (England and Wales) Regulations 2000</P>
+          <p>part 1 of the Vehicles (Crimes) Act 2001</P>
+          <p>regulation 17(1) of the Landfill (England and Wales) Regulations 2002</P>
+          <p>section 327, 328 or 330 to 332 of the Proceeds of Crime Act 2002</p>
+          <p>Hazardous Waste (England and Wales) Regulations 2005</p>
+          <p>Hazardous Waste (Wales) Regulations 2005</p>
+          <p>section 1 of the Fraud Act 2006, where the offence relates to scrap metal or is an environment related offence</p>
+          <p>Waste Electrical and Electronic Equipment Regulations 2006</p>
+          <p>regulation 38 of the Environmental Permitting (England and Wales) Regulations 2007</p>
+          <p>Producer Responsibility Obligations (Packaging Waste) Regulations 2007</p>
+          <p>Transfrontier Shipment of Waste Regulations 2007</p>
+          <p>regulation 38 of the Environmental Permitting (England and Wales) Regulations 2010</p>
+          <p>regulation 42 of the Waste (England and Wales) Regulations 2011</p>
+          <p>section 146 of the Legal Aid, Sentencing and Punishment of Offenders Act 2012</p>
+          <p>Waste Electrical and Electronic Equipment Regulations 2013</p>
+          <p>Scrap Metal Dealers Act 2013</p>
+      </div>
+    </details>
+  </div>
 
-  <p><%= link_to t('registrations.convictions_step.relevant_convictions_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %>
-  </p>
-
-  <p><%= link_to t('registrations.convictions_step.relevant_person_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %>
-  </p>
 
 <%= render 'next_link' %>
