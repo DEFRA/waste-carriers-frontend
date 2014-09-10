@@ -601,7 +601,7 @@ class RegistrationsController < ApplicationController
       # This session variable needs to be set every time the order/new action
       # is requested.
       #
-      
+
       # Determine what type of registration order to create
       # If an originalRegistrationNumber is presenet in the registration, then the registraiton is an IR Renewal
       if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
@@ -657,7 +657,7 @@ class RegistrationsController < ApplicationController
         # This session variable needs to be set every time the order/new action
         # is requested.
         #
-        
+
         # Determine what type of registration order to create
         # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
         if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
@@ -665,7 +665,7 @@ class RegistrationsController < ApplicationController
         else
           session[:renderType] = Order.new_registration_identifier
         end
-        
+
         session[:orderCode] = generateOrderCode
         upper_payment_path(:id => @registration.uuid)
       end
@@ -1277,7 +1277,7 @@ class RegistrationsController < ApplicationController
     #use them, as session will be cleared shortly
     @edit_mode = session[:edit_mode]
     @edit_result = session[:edit_result]
-    
+
     @confirmationType = getConfirmationType
 
     if  (session[:edit_result].to_i ==  EditResult::CREATE_NEW_REGISTRATION) ||
@@ -1289,10 +1289,10 @@ class RegistrationsController < ApplicationController
       end #if
     else
       #
-      # BUG: Doing a save on the registration at this point is very bad, Firstly doing a save on a get is a bad idea, 
+      # BUG: Doing a save on the registration at this point is very bad, Firstly doing a save on a get is a bad idea,
       # secondly as the registration has just had an order added to it, saving the local version, assuming the above is
       # get the registreation out of the session, will have an out of date order.
-      # 
+      #
       # Removing code for now
       #
       if false #@registration.save!

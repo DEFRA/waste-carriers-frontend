@@ -34,14 +34,14 @@ describe ConvictionsCaller do
     end
   end
 
-  describe '#convicted?' do
+  describe '#check_convictions' do
     describe 'service unavailable' do
       context 'timeout' do
         before { stub_request(:any, 'localhost:9290').to_timeout }
 
         subject { ConvictionsCaller.new name: 'Acme Inc.', companyNumber: '99999999' }
 
-        its(:convicted?) { should == :error_calling_service }
+        its(:check_convictions) { should include(:system => 'error') }
       end
 
       context 'server error' do
@@ -49,7 +49,7 @@ describe ConvictionsCaller do
 
         subject { ConvictionsCaller.new name: 'Acme Inc.', companyNumber: '99999999' }
 
-        its(:convicted?) { should == :error_calling_service }
+        its(:check_convictions) { should include(:system => 'error') }
       end
     end
   end

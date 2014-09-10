@@ -9,13 +9,16 @@ class ConvictionsCaller
     @params = params
   end
 
-  def convicted?
+  def check_convictions
+    result = {}
     begin
       json = JSON.parse RestClient.get @@URL, params: @params
-      json['matchFound']
-    rescue
-      :error_calling_service
+      result = { :match_found => json['matchFound'], :system => json['system'], :incident_no => json['incidentNo'], :time_stamp => json['searchTimeStamp'] }
+    rescue Exception => e
+      Rails.logger.debug e.message
+      result = { :match_found => 'unknown', :system => 'error', :incident_no => '', :time_stamp => Time.now.to_i }
     end
+    result
   end
 
 private
@@ -32,4 +35,5 @@ private
   def raise_if_have_invalid_keys params
     params.assert_valid_keys @@VALID_KEYS
   end
+
 end
