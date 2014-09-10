@@ -1,8 +1,17 @@
-// .select-boxes {
-//   width: 400px;
-// }
+/* Internal payment pages and reports styles */
+
 .registration-search h2,
 .payment-search h2 {
   border-top: 1px solid rgb(191, 193, 195);
   padding-top: $gutter-half;
+}
+
+// Manual payment page //
+
+#manual-payment .form-group {
+  border-top: 1px solid rgb(191, 193, 195);
+  padding-top: $gutter-half/2;
+  padding-bottom: $gutter-half/2;
+  margin-top: $gutter-half/2;
+  margin-bottom: $gutter-half/2;
 }
