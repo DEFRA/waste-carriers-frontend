@@ -6,7 +6,13 @@
 
 <div class="back-section">
   <ol>
-    <li></li>
+    <li>
+        <noscript>
+            <%= content_tag :p, t('registrations.back_link_unavailable') %>
+        </noscript>
+        <%= link_to t('registrations.form.back_button_label'), :paymentReversal, :class => 'link_to' %>
+
+    </li>
   </ol>
 </div>
 
@@ -61,10 +67,6 @@
 		</div>
 
 		<div class="inline">
-		    <noscript>
-		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-		    </noscript>
-		    <%= link_to t('registrations.form.back_button_label'), :paymentReversal, :class => 'link_to' %>
 		    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.newReversal_button_label' %>"/></span>
 		</div>
 
