@@ -18,7 +18,7 @@ class Registration < Ohm::Model
 
   #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
   attribute :uuid
-  
+
   # New or renew field used to determine initial routing prior to smart answers
   attribute :newOrRenew
   attribute :originalRegistrationNumber
@@ -96,7 +96,7 @@ class Registration < Ohm::Model
   # to an NCCC user that the registraton needs to be checked, and if happy the
   # one they will set to false
   attribute :criminally_suspect
-  
+
   # These are meta data fields used only in rails for storing a temporary value to determine:
   # the exception detail from the services
   attribute :exception
@@ -104,7 +104,7 @@ class Registration < Ohm::Model
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
-
+  set :conviction_search_result, :ConvictionSearchResult #will always be size=1
 
   index :accountEmail
   index :companyName
@@ -308,6 +308,8 @@ class Registration < Ohm::Model
       result_hash['financeDetails'] = self.finance_details.first.to_hash
     end
 
+    result_hash['conviction_search_result'] = conviction_search_result.first.to_hash if conviction_search_result.size == 1
+
     Rails.logger.debug "saving #{result_hash.to_json.to_s}"
     result_hash.to_json
   end
@@ -382,6 +384,10 @@ class Registration < Ohm::Model
       f = FinanceDetails.create
       r.finance_details.add f
 
+      c = ConvictionSearchResult.create
+      c.update(:confirmed => 'no')
+      r.conviction_search_result.add c
+
       r.save
     end
   end
@@ -436,7 +442,7 @@ class Registration < Ohm::Model
       result.size > 0 ? Registration.init(result) : nil
     end
   end
-  
+
   # Retrieves a specific registration object from the Java Service based on its original registration number
   #
   # @param ir_number [String] the original registration number used in the legacy system
@@ -537,6 +543,8 @@ class Registration < Ohm::Model
           #Rails.logger.debug 'Create finance details from v: ' + v.to_s
           #Rails.logger.debug '-----------------'
           new_reg.finance_details.add FinanceDetails.init(v)
+        when 'conviction_search_result'
+          new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
         else  #normal attribute'
           new_reg.send(:update, {k.to_sym => v})
         end
@@ -574,7 +582,7 @@ class Registration < Ohm::Model
     authority
     other
   ]
-  
+
   REGISTRATION_TYPES = %w[
     renew
     new
@@ -813,7 +821,7 @@ class Registration < Ohm::Model
   def self.distance_options_for_select
     (DISTANCES.collect {|d| [I18n.t('distances.'+d), d]})
   end
-  
+
   def self.new_or_renew_options_for_select
     (REGISTRATION_TYPES.collect {|d| [I18n.t('registration_types.'+d), d]})
   end
@@ -873,13 +881,13 @@ class Registration < Ohm::Model
   end
 
   def about_to_expire?
-    metaData.first.status == 'ACTIVE' && expires_on && (expires_on - Rails.configuration.registration_renewal_window) < Time.now && expires_on  > Time.now 
+    metaData.first.status == 'ACTIVE' && expires_on && (expires_on - Rails.configuration.registration_renewal_window) < Time.now && expires_on  > Time.now
   end
 
   def can_be_recreated?
     expired? && (metaData.first.status != 'PENDING')
   end
-  
+
   def can_be_edited?
     metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED'
   end
