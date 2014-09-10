@@ -6,26 +6,31 @@
 
 <div class="back-section">
   <ol>
-    <li></li>
+    <li>
+      <noscript>
+          <%= content_tag :p, t('registrations.back_link_unavailable') %>
+      </noscript>
+      <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+    </li>
   </ol>
 </div>
 
 <header class="page-header group">
   <div class="hgroup">
-      <h1 class="heading-large"></h1>
+      <h1 class="heading-xlarge"><%= t '.heading' %></h1>
+      <div class="form-hint"><%= t '.step' %></div>
   </div>
 </header>
 
 <div class="grid-wrapper">
 
-		<div class="grid-2-3">
+	<div class="grid-2-3">
 		<div class="inner-block">
 
       <% content_for :page_title, createTitle('.heading') %>
 
       <!-- Usefult for showing default messages -->
       <% if alert %><%= alert %><% end %>
-
       <%= form_for @payment, url: {action: "create"}, :method => 'post' do |f| %>
 
       	<%= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
@@ -33,26 +38,26 @@
 		<!-- WF X.X.X -->
 		<div id="payment" data-journey="waste-carriers-registration:payment">
 
-		    <fieldset>
-		  	    <legend><%= t '.heading' %></legend>
-					<div class="form-hint"><%= t '.step' %></div>
+		  <fieldset id="manual-payment">
+		  	<legend></legend>
+
 	  	    <div class="form-group">
-           <div class="form-label"><%= @registration.regIdentifier %></div>
-		        <div class="form-label"><%= @registration.companyName %></div>
+           <div class="form-label"><strong><%= @registration.regIdentifier %></strong></div>
+		        <div class="form-label"><strong><%= @registration.companyName %></strong></div>
 		        <div class="form-label"><%= format_address(@registration) %></div>
 	        </div>
 
-		        <% if @registration.respond_to? :finance_details %>
-			        <div class="form-group">
-			        	<div class="form-label" id="amountSummary"><%= amount_summary_for(@registration, true) %></div>
-			        </div>
-		        <% end %>
+	        <% if @registration.respond_to? :finance_details %>
+		        <div class="form-group">
+		        	<div class="form-label" id="amountSummary"><strong><%= amount_summary_for(@registration, true) %></strong></div>
+		        </div>
+	        <% end %>
 
-		        <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
-					<%= validation_for(@payment, :amount) %>
-					<%= f.label :amount, class: 'form-label' %>
-					<%= f.text_field :amount, :size => 7 %>
-				</div>
+		      <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
+  					<%= validation_for(@payment, :amount) %>
+  					<%= f.label :amount, class: 'form-label' %>
+  					<%= f.text_field :amount, :size => 7 %>
+				 </div>
 
 				<div class="form-group<%if @payment.errors[:dateReceived].any?%> validation<%end%>">
 					<%= validation_for(@payment, :dateReceived) %>
@@ -112,15 +117,11 @@
 		</div>
 
 	<div class="inline">
-	    <noscript>
-	        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-	    </noscript>
-	    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
-	    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enterpayment_button_label' %>"/></span>
-		</div>
+	  <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enterpayment_button_label' %>"/></span>
+	</div>
   	<% end %>
 
-    </div><!-- end inner-block -->
+  </div><!-- end inner-block -->
   </div><!-- end grid 2-3-->
 
   <div class="grid-1-3">

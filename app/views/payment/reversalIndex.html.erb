@@ -6,13 +6,18 @@
 
 <div class="back-section">
   <ol>
-    <li></li>
+    <li>
+	    <noscript>
+	        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+	    </noscript>
+	    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+    </li>
   </ol>
 </div>
 
 <header class="page-header group">
   <div class="hgroup">
-      <h1 class="heading-large"><%= t '.heading' %></h1>
+      <h1 class="heading-xlarge"><%= t '.heading' %></h1>
   </div>
 </header>
 
@@ -133,20 +138,6 @@
 						<% end %>
 					</tbody>
 				</table>
-
-				<br/>
-				<br/>
-
-				<div class="inline">
-				    <noscript>
-				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-				    </noscript>
-				    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
-				</div>
-
-				<br/>
-				<br/>
-				<br/>
 
 			</fieldset>
 

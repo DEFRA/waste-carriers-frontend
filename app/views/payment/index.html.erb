@@ -4,27 +4,37 @@
 
 <main id="content" role="main" class="group">
 
-  <header class="page-header group">
-    <div class="hgroup">
-      <h1 class="heading-xlarge"><%= t '.heading' %></h1>
-    </div>
-  </header>
+<div class="back-section">
+    <ol>
+      <li>
+      	<noscript>
+		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+		    </noscript>
+		    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+		  </li>
+    </ol>
+</div>
 
-  <div class="grid-wrapper">
+<header class="page-header group">
+  <div class="hgroup">
+    <h1 class="heading-xlarge"><%= t '.heading' %></h1>
+  </div>
+</header>
+
+<div class="grid-wrapper">
 
 	<% content_for :page_title, createTitle('.heading') %>
 
 	<!-- Usefull for showing default messages -->
 	<% if alert %><%= alert %><% end %>
 
-	<div class="step"><%= t '.step' %></div>
-
 	<!-- WF X.X.X -->
 	<div id="select-refund" data-journey="waste-carriers-registration:select-refund"></div>
 
 	<div class="grid-2-3">
 	<div class="inner-block">
-
+		<h2 class="header-medium"><%= t '.step' %></h2>
+		<br/>
 		<table class="" summary='This table details the orders available for a refund'>
 			<thead class="">
 				<tr>
@@ -89,13 +99,6 @@
 		<br/>
 		<br/>
 		<br/>
-
-		<div class="inline">
-		    <noscript>
-		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-		    </noscript>
-		    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
-		</div>
 
     </div><!-- end inner-block -->
   </div><!-- end grid-2-3 -->
