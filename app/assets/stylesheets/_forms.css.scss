@@ -18,6 +18,10 @@ legend {
   margin:0; padding:0;
 }
 
+.form-group {
+  max-width:30em;
+}
+
 .form-label {
   @include copy-19;
     display: block;

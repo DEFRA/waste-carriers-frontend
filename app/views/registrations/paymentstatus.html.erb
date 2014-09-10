@@ -6,17 +6,22 @@
 
 <div class="back-section">
     <ol>
-      <li></li>
+      <li>
+      	<%= link_to t('registrations.form.back_button_label'), :registrations, :class => 'link_to' %>
+      </li>
     </ol>
 </div>
 
 <header class="page-header group">
 	<div class="hgroup">
-	   <h1 class="heading-large"></h1>
+	   <h1 class="heading-large"><%= t '.heading' %></h1>
 	</div>
 </header>
 
 <div class="grid-wrapper">
+
+		 <div class="grid-2-3">
+    <div class="inner-block">
 
 	    <% content_for :page_title, createTitle('.heading') %>
 
@@ -29,9 +34,6 @@
 
 	    <%= form_for(@registration, :url => enterPayment_path) do |f| %>
 
-	 <div class="grid-2-3">
-    <div class="inner-block">
-
 		<!-- <h1 class="subtitle"></h1> -->
 		<%= render "errors" %>
 
@@ -40,7 +42,6 @@
 
 			    <fieldset>
 			    	<legend></legend>
-			  	    <h2 class="heading-medium"><%= t '.heading' %></h2>
 			        <div class="form-group">
 	              <div class="form-label"><%= @registration.regIdentifier %></div>
 				        <div class="form-label"><%= @registration.companyName %></div>
@@ -184,7 +185,6 @@
 	  </br>
 
 	    <div class="form-group-buttons">
-		    <%= link_to t('registrations.form.back_button_label'), :registrations, :class => 'link_to' %>
 		    <%
 		    isFinanceBasic = current_agency_user.has_role? :Role_financeBasic, AgencyUser
 		    isFinanceAdmin = current_agency_user.has_role? :Role_financeAdmin, AgencyUser
