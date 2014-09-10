@@ -17,7 +17,8 @@
 
 <header class="page-header group">
   <div class="hgroup">
-    <h1 class="heading-xlarge"><%= t '.heading' %></h1>
+    <h1 class="heading-large"><%= t '.heading' %></h1>
+    <h2 class="form-hint"><%= t '.step' %></h2>
   </div>
 </header>
 
@@ -33,7 +34,6 @@
 
 	<div class="grid-2-3">
 	<div class="inner-block">
-		<h2 class="header-medium"><%= t '.step' %></h2>
 		<br/>
 		<table class="" summary='This table details the orders available for a refund'>
 			<thead class="">
@@ -107,7 +107,11 @@
     <div class="inner-block related">
       <div class="inner group related-subsection">
         <h2 class="heading-small">Current user</h2>
-         <%= render "shared/current_user" %>
+          <nav aria-labelledby="parent-subsection" role="navigation">
+            <ul>
+              <li><%= render "shared/current_user" %></li>
+            </ul>
+          </nav>
         </div>
       </div>
     </div><!-- end grid 1-3-->

@@ -17,7 +17,8 @@
 
 <header class="page-header group">
   <div class="hgroup">
-      <h1 class="heading-xlarge"><%= t '.heading' %></h1>
+      <h1 class="heading-large"><%= t '.heading' %></h1>
+      <div class="form-hint"><%= t '.step' %></div>
   </div>
 </header>
 
@@ -30,8 +31,6 @@
 
 	<!-- Usefull for showing default messages -->
 	<% if alert %><%= alert %><% end %>
-
-		<div class="step"><%= t '.step' %></div>
 
 		<!-- WF X.X.X -->
 		<div id="reversal-index" data-journey="waste-carriers-registration:reversal-index">
