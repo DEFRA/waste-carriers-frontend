@@ -13,6 +13,8 @@ class KeyPerson < Ohm::Model
   attribute :dob
   attribute :person_type
   attribute :conviction_search_result
+  attribute :conviction_search_system
+  attribute :conviction_search_reference
   attribute :last_conviction_search
 
   VALID_DAY = /\A[0-9]{2}/
@@ -75,7 +77,9 @@ class KeyPerson < Ohm::Model
   def cross_check_convictions
 
     result = ConvictionsCaller.new(name: "#{first_name} #{last_name}", dateOfBirth: dob).check_convictions
-    update(:conviction_search_result => result[:result].to_s)
+    update(:conviction_search_result => result[:match_found].to_s)
+    update(:conviction_search_system => result[:system].to_s)
+    update(:conviction_search_reference => result[:incident_no].to_s)
     update(:last_conviction_search => result[:time_stamp])
 
   end
