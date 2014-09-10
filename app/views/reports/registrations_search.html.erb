@@ -109,8 +109,10 @@
           <div class="inner-block related">
             <div class="inner group related-subsection">
               <h3 class="heading-small"><%= t 'registrations.index.aside_heading' %></h3>
-              <nav aria-labelledby="parent-subsection" role="navigation">
-                <%= render "shared/current_user" %>
+                <nav aria-labelledby="parent-subsection" role="navigation">
+                  <ol>
+                    <li><%= render "shared/current_user" %></li>
+                  </ol>
               </nav>
             </div>
           </div><!-- end inner-block related -->
