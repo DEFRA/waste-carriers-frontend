@@ -12,10 +12,8 @@ class KeyPerson < Ohm::Model
   attribute :dob_year
   attribute :dob
   attribute :person_type
-  attribute :conviction_search_result
-  attribute :conviction_search_system
-  attribute :conviction_search_reference
-  attribute :last_conviction_search
+
+  set :conviction_search_result, :ConvictionSearchResult #will always be size=1
 
   VALID_DAY = /\A[0-9]{2}/
   VALID_MONTH = /\A[0-9]{2}/
@@ -32,24 +30,29 @@ class KeyPerson < Ohm::Model
   class << self
     def init (key_person_hash)
 
-      keyPerson = KeyPerson.create
+      key_person = KeyPerson.create
 
       key_person_hash.each do |k, v|
-        if k == 'dob' && v
+
+        case k
+        when 'dob'
           dob = ApplicationController.helpers.convert_date v
-          keyPerson.send(:update, {k.to_sym => v})
-          keyPerson.send(:update, {:dob_day => dob.day})
-          keyPerson.send(:update, {:dob_month => dob.month})
-          keyPerson.send(:update, {:dob_year => dob.year})
+          key_person.send(:update, {k.to_sym => v})
+          key_person.send(:update, {:dob_day => dob.day})
+          key_person.send(:update, {:dob_month => dob.month})
+          key_person.send(:update, {:dob_year => dob.year})
+        when 'conviction_search_result'
+          key_person.conviction_search_result.add ConvictionSearchResult.init(v)
         else
-          keyPerson.send(:update, {k.to_sym => v})
+          key_person.send(:update, {k.to_sym => v})
         end
       end
 
-      keyPerson.save
-      keyPerson
+      key_person.save
+      key_person
 
     end
+
   end
 
   # returns a hash representation of the KeyPerson object
@@ -57,7 +60,9 @@ class KeyPerson < Ohm::Model
   # @param none
   # @return  [Hash]  the KeyPerson object as a hash
   def to_hash
-    self.attributes.to_hash
+    hash = self.attributes.to_hash
+    hash['conviction_search_result'] = conviction_search_result.first.to_hash if conviction_search_result.size == 1
+    hash
   end
 
   # returns a JSON Java/DropWizard API compatible representation of the KeyPerson object
@@ -76,12 +81,9 @@ class KeyPerson < Ohm::Model
 
   def cross_check_convictions
 
-    result = ConvictionsCaller.new(name: "#{first_name} #{last_name}", dateOfBirth: dob).check_convictions
+    result = ConvictionSearchResult.search_convictions(name: "#{first_name} #{last_name}", dateOfBirth: dob)
     Rails.logger.debug "KEY_PERSON::CROSS_CHECK_CONVICTIONS #{result}"
-    update(:conviction_search_result => result[:match_found].to_s)
-    update(:conviction_search_system => result[:system].to_s)
-    update(:conviction_search_reference => result[:incident_no].to_s)
-    update(:last_conviction_search => result[:time_stamp])
+    conviction_search_result.replace([result])
 
   end
 
