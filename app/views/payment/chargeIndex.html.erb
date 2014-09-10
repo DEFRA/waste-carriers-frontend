@@ -7,6 +7,7 @@
   <header class="page-header group">
     <div class="hgroup">
         <h1 class="heading-large"><%= t '.heading' %></h1>
+        <div class="form-hint"><%= t '.step' %></div>
     </div>
   </header>
 
@@ -18,7 +19,6 @@
 	  <% if alert %><%= alert %><% end %>
 
 	  <%= form_tag do %>
-		<div class="step"><%= t '.step' %></div>
 
 		<!-- WF X.X.X -->
 		<div id="charge-index" data-journey="waste-carriers-registration:charge-index"></div>
