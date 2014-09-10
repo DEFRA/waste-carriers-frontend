@@ -30,11 +30,14 @@
         <div class="inner-block related">
           <div class="inner group related-subsection">
             <h2 class="heading-small">Current user</h2>
-              <%= render "shared/current_user" %>
+              <nav aria-labelledby="parent-subsection" role="navigation">
+                <ul>
+                  <li><%= render "shared/current_user" %></li>
+                </ul>
+              </nav>
+            </div>
           </div>
-        </div><!-- end inner-block -->
-      </div><!--grid-1-3 end-->
-
+        </div><!-- end grid 1-3-->
     </div><!-- end grid-wrapper -->
 
   </main><!-- end main -->
