@@ -77,6 +77,7 @@ class KeyPerson < Ohm::Model
   def cross_check_convictions
 
     result = ConvictionsCaller.new(name: "#{first_name} #{last_name}", dateOfBirth: dob).check_convictions
+    Rails.logger.debug "KEY_PERSON::CROSS_CHECK_CONVICTIONS #{result}"
     update(:conviction_search_result => result[:match_found].to_s)
     update(:conviction_search_system => result[:system].to_s)
     update(:conviction_search_reference => result[:incident_no].to_s)
