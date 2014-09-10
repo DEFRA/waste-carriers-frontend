@@ -63,9 +63,14 @@ class KeyPeopleController < ApplicationController
     @key_person.add(params[:key_person])
 
     if @key_person.valid?
+
+      @key_person.cross_check_convictions
       @key_person.save
+
       @registration.key_people.add(@key_person)
+      @registration.criminally_suspect = @registration.key_people.any? {|person| person.conviction_search_result}
       @registration.save
+
       redirect_to action: 'newKeyPeople'
     else
       # there is an error (but data not yet saved)

@@ -13,7 +13,7 @@ class ConvictionsCaller
     result = {}
     begin
       json = JSON.parse RestClient.get @@URL, params: @params
-      result = { :result => json['matchFound'], :time_stamp => json['searchTimeStamp'] }
+      result = { :match_found => json['matchFound'], :system => json['system'], :incident_no => json['incidentNo'], :time_stamp => json['searchTimeStamp'] }
     rescue
       :error_calling_service
     end
