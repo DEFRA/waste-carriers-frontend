@@ -40,17 +40,17 @@
 			<!-- WF 4.3.2 -->
 			<div id="paymentStatus"  data-journey="waste-carriers-registration:payment-status">
 
-			    <fieldset>
+			    <fieldset id='payment-status-page'>
 			    	<legend></legend>
 			        <div class="form-group">
-	              <div class="form-label"><%= @registration.regIdentifier %></div>
+	              <div class="form-label"><strong><%= @registration.regIdentifier %></strong></div>
 				        <div class="form-label"><%= @registration.companyName %></div>
 				        <div class="form-label"><%= format_address(@registration) %></div>
 			        </div>
 
 			        <% if @registration.respond_to? :finance_details %>
 				        <div class="form-group">
-				        	<div class="form-label" id="amountSummary"><%= amount_payment_summary_for(@registration) %></div>
+				        	<div class="form-label" id="amountSummary"><strong><%= amount_payment_summary_for(@registration) %></strong></div>
 				        </div>
 			        <% end %>
 			      </br>

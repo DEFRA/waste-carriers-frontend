@@ -1,19 +1,38 @@
 <%= render 'shared/content_for_pages' %>
 
+<div id="wrapper">
+
 <main id="content" role="main" class="group">
-	<article role="article" class="group">
-	<section>
-      <div class="inner">
-      <div class="col-1">
-	
+
+<div class="back-section">
+    <ol>
+      <li>
+      	<noscript>
+		      <%= content_tag :p, t('registrations.back_link_unavailable') %>
+		    </noscript>
+		    	<%= link_to t('registrations.form.back_button_label'), :chargeAdjustment, :class => 'link_to' %>
+      </li>
+    </ol>
+</div>
+
+<header class="page-header group">
+  <div class="hgroup">
+      <h1 class="heading-large"><%= t '.heading' %></h1>
+      <div class="form-hint"><%= t '.step' %></div>
+  </div>
+</header>
+
+  <div class="grid-wrapper">
+
+	<div class="grid-2-3">
+  <div class="inner-block">
+
 	  <% content_for :page_title, createTitle('.heading') %>
 
 	  <!-- Usefull for showing default messages -->
 	  <% if alert %><%= alert %><% end %>
-	  
-	  <%= form_for @order, url: {action: "createAdjustment", controller: "payment"}, :method => 'post' do |f| %>
 
-		<div class="step"><%= t '.step' %></div>
+	  <%= form_for @order, url: {action: "createAdjustment", controller: "payment"}, :method => 'post' do |f| %>
 
 		<%= render "orderErrors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
@@ -21,58 +40,60 @@
 		<div id="adjustments" data-journey="waste-carriers-registration:adjustments">
 
 			<fieldset>
-		  	    <legend><%= t '.heading' %></legend>
-		  	    
-		  	    <div class="form-group">
-		            <label class="form-label">Enter a <%= @order.amountType.downcase %> charge</label>
-		            <%= f.hidden_field :orderId %>
+		  	<legend></legend>
+
+		    <div class="form-group">
+	        <label class="form-label">Enter a <%= @order.amountType.downcase %> charge</label>
+	          <%= f.hidden_field :orderId %>
 				</div>
-		  	    
-		        <div class="form-group<%if @order.errors[:totalAmount].any?%> validation<%end%>">
-		            <%= validation_for(@order, :totalAmount) %>
+
+		    <div class="form-group<%if @order.errors[:totalAmount].any?%> validation<%end%>">
+		      <%= validation_for(@order, :totalAmount) %>
 					<%= f.label :totalAmount, class: 'form-label' %>
 					<%= f.text_field :totalAmount, :size => 7 %>
 				</div>
-				
+
 				<div class="form-group<%if @order.errors[:paymentMethod].any?%> validation<%end%>">
 					<%= validation_for(@order, :paymentMethod) %>
 					<%= f.label :paymentMethod, class: 'form-label' %>
 					<%= f.text_field :paymentMethod, value: 'UNKNOWN', disabled: true %>
 				</div>
-				
+
 				<div class="form-group<%if @order.errors[:description].any?%> validation<%end%>">
 					<%= validation_for(@order, :description) %>
 					<%= f.label :description, class: 'form-label' %>
 					<%= f.text_field :description, :size => 40 %>
-		        </div>
-				
-            </fieldset>
-			
+		    </div>
+
+      </fieldset>
+
 		</div>
-		
+
 		<div class="inline">
-		    <noscript>
-		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-		    </noscript>
-		    <%= link_to t('registrations.form.back_button_label'), :chargeAdjustment, :class => 'link_to' %>
 		    <span class="next_link">
 		    <input name="<%= @order.amountType.downcase %>Adjustment" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enteradjustment_button_label' %>"/>
 		    </span>
 		</div>
 
 	  <% end %>
-      
-      </div>
-      </div>
-    </section>
 
-    <aside role='note'>
-      <div class="inner">
-        <div class="col-2">
-         <%= render "shared/current_user" %>
-        </div>
-      </div>
-    </aside>
+    </div><!-- end inner-block -->
+    </div><!-- end grid-2-3 -->
 
-	</article>
-</main>
+	  <div class="grid-1-3">
+	    <div class="inner-block related">
+	      <div class="inner group related-subsection">
+	        <h2 class="heading-small">This is a sidebar</h2>
+	          <nav aria-labelledby="parent-subsection" role="navigation">
+	            <ul>
+	              <li> <%= render "shared/current_user" %></li>
+	            </ul>
+	          </nav>
+	      </div>
+	    </div>
+	   </div><!-- end grid 1-3-->
+
+    </div><!-- end grid-wrapper -->
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
