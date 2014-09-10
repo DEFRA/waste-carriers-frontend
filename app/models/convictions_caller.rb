@@ -14,8 +14,9 @@ class ConvictionsCaller
     begin
       json = JSON.parse RestClient.get @@URL, params: @params
       result = { :match_found => json['matchFound'], :system => json['system'], :incident_no => json['incidentNo'], :time_stamp => json['searchTimeStamp'] }
-    rescue
-      :error_calling_service
+    rescue Exception => e
+      Rails.logger.debug e.message
+      result = { :match_found => 'unknown', :system => 'error', :incident_no => '', :time_stamp => Time.now.to_i }
     end
     result
   end
