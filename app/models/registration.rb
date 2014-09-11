@@ -187,7 +187,7 @@ class Registration < Ohm::Model
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
-    commited = true
+    commited = false
     begin
       response = RestClient.post url,
         to_json,
@@ -197,22 +197,26 @@ class Registration < Ohm::Model
 
       result = JSON.parse(response.body)
 
-
-
       # following fields are set by the java service, so we assign them from the response hash
-      self.uuid = result['id']
-      self.metaData.first.update(dateRegistered: result['metaData']['dateRegistered'])
-      self.metaData.first.update(lastModified: result['metaData']['lastModified'])
-      Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
-      self.regIdentifier = result['regIdentifier']
+      self.update(uuid: result['id'])
+
+      # New update all metadata from services
+      self.metaData.replace( [Metadata.init(result['metaData'])])
+      
+      self.update(regIdentifier: result['regIdentifier'])
 
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
-        self.finance_details.add FinanceDetails.init(result['financeDetails'])
+        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
       end
 
       save
       Rails.logger.debug "Commited to service: #{to_json.to_s}"
+      commited = true
+    rescue Errno::ECONNREFUSED => e
+      Rails.logger.error "Services unavailable: " + e.to_s
+      self.exception = e.to_s
+      commited = false
     rescue => e
       Rails.logger.debug "Error in registration Commit to service: #{ e.to_s} || #{attributes.to_s}"
       self.exception = e.to_s
@@ -256,6 +260,15 @@ class Registration < Ohm::Model
       response = RestClient.put url,
         to_json,
         :content_type => :json
+        
+      result = JSON.parse(response.body)
+      
+      # Update metadata and financedetails with that from the service
+      self.metaData.replace( [Metadata.init(result['metaData'])])
+      unless self.tier == 'LOWER'
+        Rails.logger.debug 'Initialise finance details'
+        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
+      end
 
       save
 
@@ -308,7 +321,7 @@ class Registration < Ohm::Model
       result_hash['financeDetails'] = self.finance_details.first.to_hash
     end
 
-    Rails.logger.debug "saving #{result_hash.to_json.to_s}"
+    Rails.logger.debug "registration to_json #{result_hash.to_json.to_s}"
     result_hash.to_json
   end
 
@@ -853,8 +866,13 @@ class Registration < Ohm::Model
 
   def activate!
     #Note: the actual status update will be performed in the service
-    Rails.logger.debug "id to activate: #{uuid}"
-    metaData.first.update(status: 'ACTIVE')
+    Rails.logger.debug "Activate registration for: #{uuid}"
+    #
+    # Removed manually setting as active from here as should be set in the 
+    # services, as such the only action required is to perform a save!
+    #
+    # metaData.first.update(status: 'ACTIVE')
+    #
     save!
   end
 
