@@ -1,21 +1,34 @@
-<main id="content" role="main" class="group"><article role="article" class="group">
-    <section>
-      <div class="inner">
-      <div class="col-1">	
+<%= render 'shared/content_for_pages' %>
 
-<h1>TODO - Worldpay Payment Success</h1>
-<p>Your payment was successful.</p>
-<p>
-<%= params.inspect %>
-</p>
-<% if @registration.user.confirmed? %>
-  <%= link_to 'Next Step - Finish', finish_path(@registration) %>
-<% else %>
-  <%= link_to 'Next Step - Confirm your account', pending_path %>
-<% end %>
+<div id="wrapper">
 
+  <main id="content" role="main" class="group">
+
+    <div class="back-section">
+        <ol>
+          <li></li>
+        </ol>
     </div>
-  </div>
-</section>
 
-</article></main>
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-xlarge">TODO - Worldpay Payment Success</h1>
+      </div>
+    </header>
+
+    <section>
+
+      <p>Your payment was successful.</p>
+      <p>
+      <%= params.inspect %>
+      </p>
+      <% if @registration.user.confirmed? %>
+        <%= link_to 'Next Step - Finish', finish_path(@registration) %>
+      <% else %>
+        <%= link_to 'Next Step - Confirm your account', pending_path %>
+      <% end %>
+
+    </section>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

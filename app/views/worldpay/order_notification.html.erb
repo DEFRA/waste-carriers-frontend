@@ -1,11 +1,34 @@
-<h1>TODO - Worldpay Order Notification</h1>
-<p>This page will go away...</p>
+<%= render 'shared/content_for_pages' %>
 
+<div id="wrapper">
 
-<%= form_tag(:url => order_notification_path) do |f| %>
+  <main id="content" role="main" class="group">
 
-  <%= text_field_tag(:notification) %>
+    <div class="back-section">
+        <ol>
+          <li></li>
+        </ol>
+    </div>
 
-  <p class="action group"><%= submit_tag "POST", :class => "button" %></p>
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-xlarge">TODO - Worldpay Order Notification</h1>
+      </div>
+    </header>
 
-<% end %>
+    <section>
+
+      <p>This page will go away...</p>
+
+      <%= form_tag(:url => order_notification_path) do |f| %>
+
+      <%= text_field_tag(:notification) %>
+
+      <p class="action group"><%= submit_tag "POST", :class => "button" %></p>
+
+      <% end %>
+
+    </section>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
