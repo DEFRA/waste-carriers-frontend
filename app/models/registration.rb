@@ -320,13 +320,19 @@ class Registration < Ohm::Model
 
     result = false
 
-    if conviction_search_result.first && conviction_search_result.first.confirmed == 'no'
-      result = true
+    search_result = conviction_search_result.first
+    if search_result
+      if search_result.match_result != 'NO' && search_result.confirmed == 'no'
+        result = true
+      end
     else
       key_people.each do |person|
-        if person.confirmed == 'no'
-          result = true
-          break
+        search_result = person.conviction_search_result.first
+        if search_result
+          if search_result.match_result != 'NO' && search_result.confirmed == 'no'
+            result = true
+            break
+          end
         end
       end
     end
