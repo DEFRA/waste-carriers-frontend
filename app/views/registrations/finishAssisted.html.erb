@@ -30,7 +30,7 @@
           <p><%= t '.payment_message' %></p>
         <% end %>
 
-        <% if @registration.criminally_suspect %>
+        <% if @registration.is_awaiting_conviction_confirmation? %>
           <% if @registration.declaredConvictions %>
             <p><%= t '.declared_convictions_message' %></p>
           <% else %>

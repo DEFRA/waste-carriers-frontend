@@ -113,7 +113,7 @@ module RegistrationsHelper
       end
 
       @registration.metaData.add m
-      
+
     elsif (current_step.eql? 'businesstype') && !session[:edit_mode] && !session[:registration_id]
       clear_edit_session
       @registration = Registration.create
@@ -201,9 +201,11 @@ module RegistrationsHelper
     #complete_class = 'complete'
     #complete_lower_class = 'complete lower'
 
+    criminally_suspect = @registration.is_awaiting_conviction_confirmation?
+
     if @registration.criminally_suspect
       confirmationType = getCriminallySuspectClass
-    elsif !@registration.paid_in_full? and !@registration.criminally_suspect
+    elsif !@registration.paid_in_full? and !criminally_suspect
       confirmationType = getAlmostCompleteClass
     elsif @registration.is_complete? and @registration.tier.downcase.eql? 'upper'
       confirmationType = getCompleteClass
@@ -213,31 +215,31 @@ module RegistrationsHelper
 
     confirmationType
   end
-  
+
   def isCurrentRegistrationType registrationNumber
     # Strip leading and trailing whitespace from number
     regNo = registrationNumber.rstrip.lstrip
-    
+
     # Just look at first 3 characters
     regNo = regNo[0, 3]
-    
+
     # First 3 characters of reg ex
     current_reg_format = "CBD"
-      
+
     # Check current format
     regNo.upcase.match(current_reg_format)
   end
-  
+
   def isIRRegistrationType registrationNumber
     # Strip leading and trailing whitespace from number
     regNo = registrationNumber.rstrip.lstrip
-    
+
     # Just look at first 3 characters
     regNo = regNo[0, 3]
-    
+
     # First 3 characters of reg ex
     legacy_reg_format = "CB/"
-      
+
     # Check legacy format
     regNo.upcase.match(legacy_reg_format)
   end
