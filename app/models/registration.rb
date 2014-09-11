@@ -90,12 +90,6 @@ class Registration < Ohm::Model
   # The value that the waste carrier sets to say whether they admit to having
   # relevant people with relevant convictions
   attribute :declaredConvictions
-  # Whether a match was made by the convictions service
-  attribute :convictions_check_indicates_suspect
-  # Initially set if either of the other 2 are set, it is the flag that denotes
-  # to an NCCC user that the registraton needs to be checked, and if happy the
-  # one they will set to false
-  attribute :criminally_suspect
 
   # These are meta data fields used only in rails for storing a temporary value to determine:
   # the exception detail from the services
@@ -161,7 +155,7 @@ class Registration < Ohm::Model
   end
 
 
-  def empty_set(a_set)
+  def empty_set(a_set) 
     done = false
     if a_set.kind_of? Ohm::BasicSet && a_set.size > 0
       a_set.each {|item| a_set.delete(item)}
@@ -312,6 +306,33 @@ class Registration < Ohm::Model
 
     Rails.logger.debug "saving #{result_hash.to_json.to_s}"
     result_hash.to_json
+  end
+
+  def cross_check_convictions
+
+    result = ConvictionSearchResult.search_convictions(name: companyName, companyNumber: company_no)
+    Rails.logger.debug "REGISTRATION::CROSS_CHECK_CONVICTIONS #{result}"
+    conviction_search_result.replace([result])
+
+  end
+
+  def is_awaiting_conviction_confirmation?
+
+    result = false
+
+    if conviction_search_result.first && conviction_search_result.first.confirmed == 'no'
+      result = true
+    else
+      key_people.each do |person|
+        if person.confirmed == 'no'
+          result = true
+          break
+        end
+      end
+    end
+
+    result
+
   end
 
   # Retrieves all registration objects from the Java Service
@@ -974,8 +995,8 @@ class Registration < Ohm::Model
       is_complete = false
     end
 
-    if criminally_suspect
-      Rails.logger.debug "is_complete: suspect = #{criminally_suspect}"
+    if is_awaiting_conviction_confirmation?
+      Rails.logger.debug "is_complete: suspect = false"
       is_complete = false
     end
 
@@ -1000,7 +1021,7 @@ class Registration < Ohm::Model
   end
 
   def self.isReadyToBeActive(reg)
-    reg.paid_in_full? and !reg.criminally_suspect
+    reg.paid_in_full? and !reg.is_awaiting_conviction_confirmation?
   end
 
   def self.activate_registration(r)
