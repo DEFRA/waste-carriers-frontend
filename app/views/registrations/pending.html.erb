@@ -19,7 +19,7 @@
     <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
     <p><%= t '.close_page' %></p>
 
-    <% if @registration.criminally_suspect %>
+    <% if @registration.is_awaiting_conviction_confirmation? %>
         <p><%= t 'registrations.confirmed.pending_convictions_check' %></p>
     <% end %>
 

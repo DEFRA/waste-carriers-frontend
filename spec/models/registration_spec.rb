@@ -4,9 +4,6 @@ describe Registration do
 
   it { should respond_to :paid_in_full? }
 
-  it { should respond_to :convictions_check_indicates_suspect }
-  it { should respond_to :criminally_suspect }
-
   describe '#upper?' do
     specify { Registration.ctor(tier: 'UPPER').should be_upper }
     specify { Registration.ctor(tier: 'upper').should_not be_upper }

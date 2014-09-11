@@ -121,9 +121,9 @@ class RegistrationsController < ApplicationController
 
 		# Call IR services to import IR registraion data
 		irReg = Registration.find_by_ir_number(@registration.originalRegistrationNumber)
-		if irReg 
+		if irReg
 		  # IR data found, merge with registration
-		  
+
 		  # Merge params registration with registration in memory
           @registration.add( irReg.attributes )
           @registration.save
@@ -339,6 +339,10 @@ class RegistrationsController < ApplicationController
       end
       render 'newBusinessDetails', status: '200'
     elsif @registration.valid?
+
+      @registration.cross_check_convictions
+      @registration.save
+
       if session[:edit_mode]
         redirect_to :newConfirmation and return
       else
@@ -411,14 +415,6 @@ class RegistrationsController < ApplicationController
 
   def updateNewRelevantConvictions
     setup_registration 'convictions'
-
-    # TODO call convictions service with correct parameters
-    @registration.convictions_check_indicates_suspect = @registration.declaredConvictions == 'yes'
-    logger.debug "convictions_check_indicates_suspect is #{@registration.convictions_check_indicates_suspect}"
-    @registration.criminally_suspect = @registration.convictions_check_indicates_suspect or @registration.declaredConvictions == 'yes'
-    logger.debug "criminally_suspect is #{@registration.criminally_suspect}"
-
-    @registration.save
 
     if @registration.valid?
       (redirect_to :newConfirmation and return) if session[:edit_mode]
@@ -717,61 +713,6 @@ class RegistrationsController < ApplicationController
   def dataProtection
     # Renders static data proctection page
   end
-
-  #  def new_step_action current_step
-  #
-  #    if current_step.eql? Registration::FIRST_STEP
-  #      @registration = Registration.create
-  #      session[:registration_id]= @registration.id
-  #      logger.debug "creating new registration #{@registration.id}"
-  #      m = Metadata.create
-  #
-  #      if agency_user_signed_in?
-  #        m.update :route => 'ASSISTED_DIGITAL'
-  #        if @registration.accessCode.blank?
-  #          @registration.update :accessCode => @registration.generate_random_access_code
-  #    end
-  #      else
-  #        m.update :route => 'DIGITAL'
-  #      end
-  #
-  #      @registration.metaData.add m
-  #
-  #    else
-  #      @registration = Registration[ session[:registration_id]]
-  #      logger.debug "retireving registration #{@registration.id}"
-  #      m = Metadata.create
-  #    end
-  #
-  #    logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
-  #
-  #    if  session[:registration_progress].eql? 'IN_EDIT'
-  #    end
-  #
-  #    # TODO by setting the step here this should work better with forward and back buttons and urls
-  #    # but this might have changed the behaviour
-  #    @registration.current_step = current_step
-  #    @registration.save
-  #    logger.debug "new step action: #{current_step}"
-  #    logger.debug "curret step: #{ @registration.current_step}"
-  #    # Pass in current page to check previous page is valid
-  #    # TODO had to comment this out for now because causing problems but will probably need to reinstate
-  #    # check_steps_are_valid_up_until_current current_step
-  #
-  ##    if (session[:registration_id])
-  ##      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
-  ##      renderNotFound
-  ##    end
-  #  end
-  #
-  #  def setup_registration current_step, no_update=false
-  #
-  #    @registration = Registration[ session[:registration_id]]
-  #    @registration.add( params[:registration] ) unless no_update
-  #    @registration.save
-  #    logger.debug  @registration.attributes.to_s
-  #    @registration.current_step = current_step
-  #  end
 
   def commit_new_registration?
 
