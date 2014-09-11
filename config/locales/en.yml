@@ -307,6 +307,8 @@ en:
       heading: "Enter charge"
       step: "Enter an additional charge into the system"
     newReversal:
+      fields:
+        commentGuidance: "Maximum 250 characters"
       heading: "Enter reversal"
       step: "Enter a reversal for a payment into the system"
   payment_types:
