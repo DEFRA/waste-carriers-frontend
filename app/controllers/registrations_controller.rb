@@ -529,11 +529,16 @@ class RegistrationsController < ApplicationController
       if @registration.valid?
         case @registration.tier
         when 'LOWER'
-          complete_new_registration true
-          if user_signed_in
-            redirect_to :action => 'finish'
+          if complete_new_registration(true)
+            logger.debug "Registration created, about to check user type"
+            if user_signed_in
+              redirect_to :action => 'finish'
+            else
+              redirect_to :action => 'finishAssisted'
+            end
           else
-            redirect_to :action => 'finishAssisted'
+            @registration.errors.add(:exception, "Unable to commit registration")
+            render "newConfirmation", :status => '400'
           end
         when 'UPPER'
           complete_new_registration
@@ -783,6 +788,7 @@ class RegistrationsController < ApplicationController
     if @registration.commit
       session[:registration_uuid] = @registration.uuid
       session[:registration_id] = @registration.id
+      logger.debug "Registration commited"
       true
     else
       false
@@ -806,6 +812,7 @@ class RegistrationsController < ApplicationController
     unless @registration.persisted?
 
       if commit_new_registration?
+        logger.debug "Committed registration, about to activate if appropriate"
         @registration.activate! if activateRegistration
         @registration.save
 
@@ -814,10 +821,13 @@ class RegistrationsController < ApplicationController
             RegistrationMailer.welcome_email(@user, @registration).deliver
           end
         end
+        true
+      else
+        false
       end
 
     end
-
+    true  #Return true as already saved in db, as false is used for failed to save
   end
 
   def validate_search_parameters?(searchString, searchWithin)
