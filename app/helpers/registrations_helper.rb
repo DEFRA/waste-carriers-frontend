@@ -203,7 +203,7 @@ module RegistrationsHelper
 
     criminally_suspect = @registration.is_awaiting_conviction_confirmation?
 
-    if @registration.criminally_suspect
+    if criminally_suspect
       confirmationType = getCriminallySuspectClass
     elsif !@registration.paid_in_full? and !criminally_suspect
       confirmationType = getAlmostCompleteClass
