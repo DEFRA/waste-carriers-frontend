@@ -547,7 +547,6 @@ en:
       signedInAsText: "You are currently signed in as"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
-    signup_step:
       createPassword: "Create password"
       sign_in_link: "I already have an account"
     newSignin:
