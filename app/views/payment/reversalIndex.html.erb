@@ -6,13 +6,19 @@
 
 <div class="back-section">
   <ol>
-    <li></li>
+    <li>
+	    <noscript>
+	        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+	    </noscript>
+	    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+    </li>
   </ol>
 </div>
 
 <header class="page-header group">
   <div class="hgroup">
       <h1 class="heading-large"><%= t '.heading' %></h1>
+      <div class="form-hint"><%= t '.step' %></div>
   </div>
 </header>
 
@@ -25,8 +31,6 @@
 
 	<!-- Usefull for showing default messages -->
 	<% if alert %><%= alert %><% end %>
-
-		<div class="step"><%= t '.step' %></div>
 
 		<!-- WF X.X.X -->
 		<div id="reversal-index" data-journey="waste-carriers-registration:reversal-index">
@@ -133,20 +137,6 @@
 						<% end %>
 					</tbody>
 				</table>
-
-				<br/>
-				<br/>
-
-				<div class="inline">
-				    <noscript>
-				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-				    </noscript>
-				    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
-				</div>
-
-				<br/>
-				<br/>
-				<br/>
 
 			</fieldset>
 

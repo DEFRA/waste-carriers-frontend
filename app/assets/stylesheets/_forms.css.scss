@@ -18,6 +18,10 @@ legend {
   margin:0; padding:0;
 }
 
+.form-group {
+  max-width:30em;
+}
+
 .form-label {
   @include copy-19;
     display: block;
@@ -34,7 +38,7 @@ legend {
 #agency_user_email,
 #user_email,
 #admin_email {
-  width:45%;
+  width:60%;
   @include media (mobile){
     width:75%;
   }
