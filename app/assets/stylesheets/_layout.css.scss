@@ -87,6 +87,7 @@ to put blue header-bar style back in place) **/
 .related li a {
     display: block;
     line-height: 1.25em;
+    margin-bottom: 0.75em;
     @include core-16;
 }
 
