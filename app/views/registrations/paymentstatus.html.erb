@@ -25,10 +25,9 @@
 
 	    <% content_for :page_title, createTitle('.heading') %>
 
-	    <!-- FIXME: Restyle this to match whatever is decided -->
 	    <% if alert %>
 	    <div id="note_explanation" class="note-summary">
-		  <h2 class='heading-medium'><%= alert%></h2>
+		  <div class="text panel-indent"><strong><%= alert%></strong></div>
 		</div>
 		<% end %>
 
@@ -50,7 +49,7 @@
 
 			        <% if @registration.respond_to? :finance_details %>
 				        <div class="form-group">
-				        	<div class="form-label" id="amountSummary"><strong><%= amount_payment_summary_for(@registration) %></strong></div>
+				        	<div class="form-label" id="amountSummary"><%= amount_payment_summary_for(@registration) %></div>
 				        </div>
 			        <% end %>
 			      </br>
@@ -149,7 +148,7 @@
 				</br>
 
 			   <div class="form-group">
-		      <h2 class="heading--medium"><%= t'.balance_table_heading' %></h2>
+		      <h2 class="heading-medium"><%= t'.balance_table_heading' %></h2>
 						<table class="" summary='This table details the balance due on a registration'>
 							<thead class="">
 								<tr>
