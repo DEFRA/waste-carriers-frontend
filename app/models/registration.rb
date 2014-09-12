@@ -182,29 +182,28 @@ class Registration < Ohm::Model
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
-    commited = true
+    commited = false
     begin
       response = RestClient.post url,
         to_json,
         :content_type => :json,
         :accept => :json
 
-
       result = JSON.parse(response.body)
 
-
-
       # following fields are set by the java service, so we assign them from the response hash
-      self.uuid = result['id']
-      self.metaData.first.update(dateRegistered: result['metaData']['dateRegistered'])
-      self.metaData.first.update(lastModified: result['metaData']['lastModified'])
-      Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
-      self.regIdentifier = result['regIdentifier']
+      self.update(uuid: result['id'])
+      self.update(regIdentifier: result['regIdentifier'])
+
+      # New update all metadata from services
+      self.metaData.replace( [Metadata.init(result['metaData'])])
 
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
-        self.finance_details.add FinanceDetails.init(result['financeDetails'])
+        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
       end
+
+      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])])
 
       if result['conviction_sign_offs'] #array of conviction sign offs
         sign_offs = []
@@ -217,6 +216,11 @@ class Registration < Ohm::Model
 
       save
       Rails.logger.debug "Commited to service: #{to_json.to_s}"
+      commited = true
+    rescue Errno::ECONNREFUSED => e
+      Rails.logger.error "Services unavailable: " + e.to_s
+      self.exception = e.to_s
+      commited = false
     rescue => e
       Rails.logger.debug "Error in registration Commit to service: #{ e.to_s} || #{attributes.to_s}"
       self.exception = e.to_s
@@ -261,9 +265,28 @@ class Registration < Ohm::Model
         to_json,
         :content_type => :json
 
+      result = JSON.parse(response.body)
+
+      # Update metadata and financedetails with that from the service
+      self.metaData.replace( [Metadata.init(result['metaData'])])
+
+      unless self.tier == 'LOWER'
+        Rails.logger.debug 'Initialise finance details'
+        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
+      end
+
+      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])])
+
+      if result['conviction_sign_offs'] #array of conviction sign offs
+        sign_offs = []
+        result['conviction_sign_offs'].each do |sign_off_hash|
+          sign_off = ConvictionSignOff.init(sign_off_hash)
+          sign_offs << sign_off
+        end
+        self.conviction_sign_offs.replace sign_offs
+      end
+
       save
-
-
     rescue => e
       Rails.logger.error e.to_s
       saved = false
@@ -299,22 +322,29 @@ class Registration < Ohm::Model
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
-    key_people = []
 
-    if self.key_people &&  self.key_people.size > 0
-      self.key_people.each do  |person|
+    key_people = []
+    if key_people && key_people.size > 0
+      key_people.each do  |person|
          key_people << person.to_hash
       end
       result_hash['key_people'] = key_people
     end #if
 
-    if self.finance_details.size == 1
-      result_hash['financeDetails'] = self.finance_details.first.to_hash
-    end
+    result_hash['financeDetails'] = finance_details.first.to_hash if finance_details.size == 1
 
     result_hash['conviction_search_result'] = conviction_search_result.first.to_hash if conviction_search_result.size == 1
 
-    Rails.logger.debug "saving #{result_hash.to_json.to_s}"
+    sign_offs = []
+    if conviction_sign_offs && conviction_sign_offs.size > 0
+      conviction_sign_offs.each do  |sign_off|
+         sign_offs << sign_off.to_hash
+      end
+      result_hash['conviction_sign_offs'] = sign_offs
+    end #if
+
+    Rails.logger.debug "registration to_json #{result_hash.to_json.to_s}"
+
     result_hash.to_json
   end
 
@@ -923,8 +953,13 @@ class Registration < Ohm::Model
 
   def activate!
     #Note: the actual status update will be performed in the service
-    Rails.logger.debug "id to activate: #{uuid}"
-    metaData.first.update(status: 'ACTIVE')
+    Rails.logger.debug "Activate registration for: #{uuid}"
+    #
+    # Removed manually setting as active from here as should be set in the
+    # services, as such the only action required is to perform a save!
+    #
+    # metaData.first.update(status: 'ACTIVE')
+    #
     save!
   end
 
@@ -951,11 +986,11 @@ class Registration < Ohm::Model
   end
 
   def can_be_edited?
-    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED'
+    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING'
   end
 
   def can_view_certificate?
-    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED'
+    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING'
   end
 
   def can_request_copy_cards?

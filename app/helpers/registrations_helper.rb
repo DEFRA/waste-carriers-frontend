@@ -212,6 +212,13 @@ module RegistrationsHelper
     elsif @registration.is_complete?
       confirmationType = getCompleteLowerClass
     end
+    
+    unless confirmationType
+      logger.debug "is criminally suspect: #{@registration.criminally_suspect}"
+      logger.debug "is paid_in_full?: #{@registration.paid_in_full?}"
+      logger.debug "is is_complete: #{@registration.is_complete?}"
+      logger.debug "is tier: #{@registration.tier.downcase}"
+    end
 
     confirmationType
   end
