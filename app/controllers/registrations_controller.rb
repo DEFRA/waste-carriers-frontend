@@ -327,8 +327,8 @@ class RegistrationsController < ApplicationController
 
     if params[:findAddress] #user clicked on Find Address button
 
-      @registration.addressMode = 'address-results'
-      @registration.postcode = params[:registration][:postcode]
+      @registration.update(:addressMode => 'address-results')
+      @registration.update(:postcode => params[:registration][:postcode])
       begin
         @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
         logger.debug @address_match_list.size.to_s
@@ -340,8 +340,10 @@ class RegistrationsController < ApplicationController
       render 'newBusinessDetails', status: '200'
     elsif @registration.valid?
 
-      @registration.cross_check_convictions if @registration.tier.eql? 'UPPER'
-      @registration.save
+      if @registration.tier.eql? 'UPPER'
+        @registration.cross_check_convictions
+        @registration.save
+      end
 
       if session[:edit_mode]
         redirect_to :newConfirmation and return
