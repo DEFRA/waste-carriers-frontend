@@ -309,8 +309,8 @@ class Registration < Ohm::Model
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
-    key_people = []
 
+    key_people = []
     if self.key_people &&  self.key_people.size > 0
       self.key_people.each do  |person|
          key_people << person.to_hash
@@ -318,17 +318,11 @@ class Registration < Ohm::Model
       result_hash['key_people'] = key_people
     end #if
 
-    if self.finance_details.size == 1
-      result_hash['financeDetails'] = self.finance_details.first.to_hash
-    end
+    result_hash['financeDetails'] = finance_details.first.to_hash if finance_details.size == 1
 
-<<<<<<< HEAD
     result_hash['conviction_search_result'] = conviction_search_result.first.to_hash if conviction_search_result.size == 1
 
-    Rails.logger.debug "saving #{result_hash.to_json.to_s}"
-=======
     Rails.logger.debug "registration to_json #{result_hash.to_json.to_s}"
->>>>>>> 7b88e154300dca00028a2457409f8e2f696fd48f
     result_hash.to_json
   end
 
