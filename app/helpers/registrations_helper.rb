@@ -166,6 +166,12 @@ module RegistrationsHelper
     session.delete(:edit_result)
     logger.debug "#{ __method__}"
   end
+  
+  def clear_registration_session
+    # Clear session variables
+    session.delete(:registration_id)
+    session.delete(:registration_uuid)
+  end
 
   def give_meaning_to_reg_type(attr_value)
     case attr_value
