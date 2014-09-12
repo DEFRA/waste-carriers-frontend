@@ -99,6 +99,7 @@ class Registration < Ohm::Model
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
   set :conviction_search_result, :ConvictionSearchResult #will always be size=1
+  set :conviction_sign_offs, :ConvictionSignOff #can be empty
 
   index :accountEmail
   index :companyName
@@ -203,6 +204,15 @@ class Registration < Ohm::Model
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
         self.finance_details.add FinanceDetails.init(result['financeDetails'])
+      end
+
+      if result['conviction_sign_offs'] #array of conviction sign offs
+        sign_offs = []
+        result['conviction_sign_offs'].each do |sign_off_hash|
+          sign_off = ConvictionSignOff.init(sign_off_hash)
+          sign_offs << sign_off
+        end
+        self.conviction_sign_offs.replace sign_offs
       end
 
       save
@@ -316,7 +326,7 @@ class Registration < Ohm::Model
 
   end
 
-  def is_awaiting_conviction_confirmation?
+  def has_unconfirmed_convictionMatches?
 
     result = false
 
@@ -326,13 +336,32 @@ class Registration < Ohm::Model
         result = true
       end
     else
-      key_people.each do |person|
-        search_result = person.conviction_search_result.first
-        if search_result
-          if search_result.match_result != 'NO' && search_result.confirmed == 'no'
-            result = true
-            break
+      if key_people
+        key_people.each do |person|
+          search_result = person.conviction_search_result.first
+          if search_result
+            if search_result.match_result != 'NO' && search_result.confirmed == 'no'
+              result = true
+              break
+            end
           end
+        end
+      end
+    end
+
+    result
+
+  end
+
+  def is_awaiting_conviction_confirmation?
+
+    result = false
+
+    if conviction_sign_offs
+      conviction_sign_offs.each do |sign_off|
+        if sign_off.confirmed == 'no'
+          result = true
+          break
         end
       end
     end
@@ -572,6 +601,12 @@ class Registration < Ohm::Model
           new_reg.finance_details.add FinanceDetails.init(v)
         when 'conviction_search_result'
           new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
+        when 'conviction_sign_offs'
+          if v
+            v.each do |sign_off|
+              new_reg.conviction_sign_offs.add ConvictionSignOff.init(sign_off)
+            end
+          end
         else  #normal attribute'
           new_reg.send(:update, {k.to_sym => v})
         end
