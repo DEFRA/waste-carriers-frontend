@@ -1185,7 +1185,7 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     deletedCompany = @registration.companyName
     authorize! :update, @registration
-    @registration.metaData.status = 'INACTIVE'
+    @registration.metaData.first.update(:status => 'INACTIVE')
     @registration.save!
 
     respond_to do |format|
