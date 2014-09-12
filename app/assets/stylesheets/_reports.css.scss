@@ -10,7 +10,10 @@
 
 #manual-payment .form-group,
 #payment-reversal-page .form-group,
-#payment-status-page .form-group {
+#payment-status-page .form-group,
+#write-off-page .form-group,
+#charge-adjustments-page .form-group,
+#enter-charge-page .form-group {
   border-top: 1px solid rgb(191, 193, 195);
   padding-top: $gutter-half/2;
   padding-bottom: $gutter-half/2;
