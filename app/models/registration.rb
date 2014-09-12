@@ -99,6 +99,7 @@ class Registration < Ohm::Model
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
   set :conviction_search_result, :ConvictionSearchResult #will always be size=1
+  set :conviction_sign_offs, :ConvictionSignOff #can be empty
 
   index :accountEmail
   index :companyName
@@ -181,32 +182,42 @@ class Registration < Ohm::Model
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
-    commited = true
+    commited = false
     begin
       response = RestClient.post url,
         to_json,
         :content_type => :json,
         :accept => :json
 
-
       result = JSON.parse(response.body)
 
-
-
       # following fields are set by the java service, so we assign them from the response hash
-      self.uuid = result['id']
-      self.metaData.first.update(dateRegistered: result['metaData']['dateRegistered'])
-      self.metaData.first.update(lastModified: result['metaData']['lastModified'])
-      Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
-      self.regIdentifier = result['regIdentifier']
+      self.update(uuid: result['id'])
+      self.update(regIdentifier: result['regIdentifier'])
+
+      self.metaData.replace( [Metadata.init(result['metaData'])])
 
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
-        self.finance_details.add FinanceDetails.init(result['financeDetails'])
+        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
+      end
+
+      if result['conviction_sign_offs'] #array of conviction sign offs
+        sign_offs = []
+        result['conviction_sign_offs'].each do |sign_off_hash|
+          sign_off = ConvictionSignOff.init(sign_off_hash)
+          sign_offs << sign_off
+        end
+        self.conviction_sign_offs.replace sign_offs
       end
 
       save
       Rails.logger.debug "Commited to service: #{to_json.to_s}"
+      commited = true
+    rescue Errno::ECONNREFUSED => e
+      Rails.logger.error "Services unavailable: " + e.to_s
+      self.exception = e.to_s
+      commited = false
     rescue => e
       Rails.logger.debug "Error in registration Commit to service: #{ e.to_s} || #{attributes.to_s}"
       self.exception = e.to_s
@@ -250,6 +261,15 @@ class Registration < Ohm::Model
       response = RestClient.put url,
         to_json,
         :content_type => :json
+
+      result = JSON.parse(response.body)
+
+      # Update metadata and financedetails with that from the service
+      self.metaData.replace( [Metadata.init(result['metaData'])])
+      unless self.tier == 'LOWER'
+        Rails.logger.debug 'Initialise finance details'
+        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
+      end
 
       save
 
@@ -302,9 +322,13 @@ class Registration < Ohm::Model
       result_hash['financeDetails'] = self.finance_details.first.to_hash
     end
 
+<<<<<<< HEAD
     result_hash['conviction_search_result'] = conviction_search_result.first.to_hash if conviction_search_result.size == 1
 
     Rails.logger.debug "saving #{result_hash.to_json.to_s}"
+=======
+    Rails.logger.debug "registration to_json #{result_hash.to_json.to_s}"
+>>>>>>> 7b88e154300dca00028a2457409f8e2f696fd48f
     result_hash.to_json
   end
 
@@ -316,7 +340,7 @@ class Registration < Ohm::Model
 
   end
 
-  def is_awaiting_conviction_confirmation?
+  def has_unconfirmed_convictionMatches?
 
     result = false
 
@@ -326,13 +350,32 @@ class Registration < Ohm::Model
         result = true
       end
     else
-      key_people.each do |person|
-        search_result = person.conviction_search_result.first
-        if search_result
-          if search_result.match_result != 'NO' && search_result.confirmed == 'no'
-            result = true
-            break
+      if key_people
+        key_people.each do |person|
+          search_result = person.conviction_search_result.first
+          if search_result
+            if search_result.match_result != 'NO' && search_result.confirmed == 'no'
+              result = true
+              break
+            end
           end
+        end
+      end
+    end
+
+    result
+
+  end
+
+  def is_awaiting_conviction_confirmation?
+
+    result = false
+
+    if conviction_sign_offs
+      conviction_sign_offs.each do |sign_off|
+        if sign_off.confirmed == 'no'
+          result = true
+          break
         end
       end
     end
@@ -572,6 +615,12 @@ class Registration < Ohm::Model
           new_reg.finance_details.add FinanceDetails.init(v)
         when 'conviction_search_result'
           new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
+        when 'conviction_sign_offs'
+          if v
+            v.each do |sign_off|
+              new_reg.conviction_sign_offs.add ConvictionSignOff.init(sign_off)
+            end
+          end
         else  #normal attribute'
           new_reg.send(:update, {k.to_sym => v})
         end
@@ -888,8 +937,13 @@ class Registration < Ohm::Model
 
   def activate!
     #Note: the actual status update will be performed in the service
-    Rails.logger.debug "id to activate: #{uuid}"
-    metaData.first.update(status: 'ACTIVE')
+    Rails.logger.debug "Activate registration for: #{uuid}"
+    #
+    # Removed manually setting as active from here as should be set in the
+    # services, as such the only action required is to perform a save!
+    #
+    # metaData.first.update(status: 'ACTIVE')
+    #
     save!
   end
 
@@ -916,11 +970,11 @@ class Registration < Ohm::Model
   end
 
   def can_be_edited?
-    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED'
+    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING'
   end
 
   def can_view_certificate?
-    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED'
+    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING'
   end
 
   def can_request_copy_cards?

@@ -37,6 +37,9 @@
           <%= validation_for(@registration, :password) %>
           <%= f.label :password, t('.createPassword'), class: 'form-label' %>
           <%= f.password_field :password %>
+          <!-- Restored the original strength line for debugging purposes -->
+          <!-- The script currently assumes it should changes all siblings of registration_password to use its class. Which it was at the time.-->
+          <!--<span class="strength_icon none">&#9650;<span class="strength_message"></span></span>-->
           <div class="text"><p class='form-hint'>Password must be at least 8 characters long using upper and lower case letters.</p></div>
         </div>
         <div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>">

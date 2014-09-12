@@ -38,7 +38,7 @@
 		<!-- WF X.X.X -->
 		<div id="writeoff" data-journey="waste-carriers-registration:writeoff">
 
-		<fieldset>
+		<fieldset id="write-off-page">
 		  <legend></legend>
 
 		  	<div class="form-group">
@@ -48,7 +48,7 @@
 		    </div>
 
 		    <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
-					<div class="form-label" id="amountSummary"><%= t '.amountToWriteOff' %> <span id="amountDue"><%= pence_to_currency(f.object.amount) %></span></div>
+					<div class="form-label" id="amountSummary"><strong><%= t '.amountToWriteOff' %></strong><br/><span id="amountDue"><%= pence_to_currency(f.object.amount) %></span></div>
 				</div>
 
 				<div class="form-group<%if @payment.errors[:comment].any?%> validation<%end%>">
@@ -79,7 +79,7 @@
     <div class="grid-1-3">
       <div class="inner-block related">
         <div class="inner group related-subsection">
-          <h2 class="heading-small">Current users</h2>
+          <h2 class="heading-small">Current user</h2>
             <nav aria-labelledby="parent-subsection" role="navigation">
               <ul>
                 <li><%= render "shared/current_user" %></li>
