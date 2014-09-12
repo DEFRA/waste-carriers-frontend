@@ -16,6 +16,10 @@
 <header class="page-header group">
   <div class="hgroup">
 
+  <!--<h1><%= t 'registrations.form.title' %></h1>-->
+  <!--<h1 class="subtitle"><%= t '.subtitle' %></h1>-->
+  <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+
   <% if params[:note] %>
   <div id="note_explanation" class="note-summary">
     <h1 class="heading-large"><%= params[:note]%></h1>
@@ -36,19 +40,13 @@
 <div class="grid-2-3">
   <div class="inner-block">
 
+<p class="panel-indent text"><%= t '.summaryText' %></p>
+
   <fieldset>
     <legend></legend>
 
-    <!--<h1><%= t 'registrations.form.title' %></h1>-->
-    <!--<h1 class="subtitle"><%= t '.subtitle' %></h1>-->
-    <h2 class="heading-medium"><%= t '.subtitle' %></h2>
-    <%= render "shared/meta_phases"%>
+    <h2 class="heading-medium"><%= t '.registrationCountText', :count => pluralize(@registrations.count,"registration") %></h2>
 
-    <p class="group"><%= t '.summaryText' %></p><!-- FIXME: Force indent as to not wrap over user status box -->
-
-    <p class="group"><strong><%= t '.registrationCountText', :count => pluralize(@registrations.count,"registration") %></strong></p>
-
-    <div class='summary-box'>
       <table summary=" A list of the user's registrations">
         <thead>
           <tr>
@@ -57,15 +55,15 @@
             <th><%= t '.registration_header' %></th>
             <th><%= t '.status_header' %></th>
             <th><%= t '.expiry_header' %></th>
-            <th></th>  <!--  empty column -->
-            <th></th> <!--  column for certificate button -->
-            <th></th> <!--  column for edit button -->
-            <th></th> <!--  column for delete registration -->
-            <th></th> <!--  column for renew button -->
-            <th></th> <!--  column for more copy cards -->
+            <!--  column for certificate button -->
+            <!--  column for edit button -->
+            <!--  column for delete registration -->
+            <!--  column for renew button -->
+            <!--  column for more copy cards -->
           </tr>
         </thead>
         <tbody>
+          <tr>
 	        <% @registrations.each do |registration| %>
 	            <td><%= registration.companyName %></td>
 	            <td><%= registration.postcode %></td>
@@ -81,8 +79,8 @@
 			            <%= t '.status_na_text' %>
 		            <% end %>
 	            </td>
-	            <td></td>
-
+          </tr>
+          <tr>
               <td>
               <% if registration.can_view_certificate? %>
                 <%= link_to 'View Certificate', print_path(registration.uuid) %>
@@ -95,7 +93,8 @@
               <% end %>
               </td>
 
-		          <td><%= link_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :id => "delete" if registration.metaData.first.status == 'ACTIVE' %></td>
+		          <td><%= link_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :id => "delete" if registration.metaData.first.status == 'ACTIVE' %>
+              </td>
 
 	            <td>
 		            <% if registration.about_to_expire? %>
@@ -105,22 +104,22 @@
 	            	<% end %>
 	            </td>
 
-	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if registration.can_request_copy_cards?  %></td>
+	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if registration.can_request_copy_cards?  %>
+              </td>
 
 	          </tr>
           <% end %>
         </tbody>
       </table>
-    </div>
-  </div>
 </fieldset>
+
+<form method="get" action="<%= find_path %>" class="action group">
+  <input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />
+</form>
 
 </div><!-- end inner-block -->
 </div><!-- end grid-2-3 -->
 
-<form method="get" action="<%= find_path %>" class="action group">
-	<input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />
-</form>
 
   <div class="grid-1-3">
     <div class="inner-block related">
