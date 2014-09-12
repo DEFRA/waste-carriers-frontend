@@ -4,6 +4,17 @@
 
 <main id="content" role="main" class="group">
 
+<div class="back-section">
+    <ol>
+      <li>
+        <noscript>
+            <%= content_tag :p, t('registrations.back_link_unavailable') %>
+        </noscript>
+        <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+      </li>
+    </ol>
+</div>
+
   <header class="page-header group">
     <div class="hgroup">
         <h1 class="heading-large"><%= t '.heading' %></h1>
@@ -26,11 +37,11 @@
     <div class="grid-2-3">
       <div class="inner-block">
 
-			<fieldset>
+			<fieldset id="charge-adjustments-page">
 				<legend></legend>
 
 				<div class="form-group">
-						<label class="form-label">From here you can add additional entries in the Orders list, with either positive or negative values:</label>
+						<p class="text">Here you can add additional entries in the orders list, with either positive or negative values</p>
 				</div>
 
 				<div class="form-group">
@@ -43,27 +54,11 @@
             <input name="negative_payment" class="button" type="submit" value="<%= t 'registrations.form.chargeNegative_button_label' %>"/>
 				</div>
 
-				<div class="inline">
-				    <noscript>
-				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-				    </noscript>
-				    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
-				</div>
-
 		  </fieldset>
 
       <% end %>
     </div>
     </div><!-- end grid-2-3 -->
-
-    <div class="grid-1-3">
-      <div class="inner-block related">
-        <div class="inner group related-subsection">
-          <h2 class="heading-small">Current user</h2>
-            <%= render "shared/current_user" %>
-        </div>
-      </div>
-    </div><!-- end grid 1-3-->
 
     <div class="grid-1-3">
       <div class="inner-block related">

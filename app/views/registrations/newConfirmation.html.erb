@@ -36,7 +36,8 @@
               <a><%= link_to t('.edit_smart_answers_link'), find_path %></a>
             </div><!-- end smart answers form-group -->
 
-            <!-- Registration type section -->
+            <% if @registration.upper? %>
+            <!-- Registration type section ::: Only shown for Upper tier -->
             <div class='form-group'>
               <h2 class="heading-medium">Registration type</h2>
                 <ul id='registrationtype_display'>
@@ -47,6 +48,7 @@
               </ul>
               <a><%= link_to t('.edit_change_reg_type_link'), action: 'newRegistrationType' %></a>
             </div><!-- end registration type form-group -->
+            <% end %>
 
 
             <!-- Business or organisation address section -->
