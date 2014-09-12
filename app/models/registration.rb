@@ -202,6 +202,8 @@ class Registration < Ohm::Model
         self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
       end
 
+      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])]) if result['conviction_search_result']
+
       if result['conviction_sign_offs'] #array of conviction sign offs
         sign_offs = []
         result['conviction_sign_offs'].each do |sign_off_hash|
@@ -266,14 +268,24 @@ class Registration < Ohm::Model
 
       # Update metadata and financedetails with that from the service
       self.metaData.replace( [Metadata.init(result['metaData'])])
+
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
         self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
       end
 
+      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])]) if result['conviction_search_result']
+
+      if result['conviction_sign_offs'] #array of conviction sign offs
+        sign_offs = []
+        result['conviction_sign_offs'].each do |sign_off_hash|
+          sign_off = ConvictionSignOff.init(sign_off_hash)
+          sign_offs << sign_off
+        end
+        self.conviction_sign_offs.replace sign_offs
+      end
+
       save
-
-
     rescue => e
       Rails.logger.error e.to_s
       saved = false
@@ -311,8 +323,8 @@ class Registration < Ohm::Model
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
 
     key_people = []
-    if self.key_people &&  self.key_people.size > 0
-      self.key_people.each do  |person|
+    if key_people && key_people.size > 0
+      key_people.each do  |person|
          key_people << person.to_hash
       end
       result_hash['key_people'] = key_people
@@ -322,7 +334,16 @@ class Registration < Ohm::Model
 
     result_hash['conviction_search_result'] = conviction_search_result.first.to_hash if conviction_search_result.size == 1
 
+    sign_offs = []
+    if conviction_sign_offs && conviction_sign_offs.size > 0
+      conviction_sign_offs.each do  |sign_off|
+         sign_offs << sign_off.to_hash
+      end
+      result_hash['conviction_sign_offs'] = sign_offs
+    end #if
+
     Rails.logger.debug "registration to_json #{result_hash.to_json.to_s}"
+
     result_hash.to_json
   end
 
@@ -365,11 +386,13 @@ class Registration < Ohm::Model
 
     result = false
 
-    if conviction_sign_offs
-      conviction_sign_offs.each do |sign_off|
-        if sign_off.confirmed == 'no'
-          result = true
-          break
+    unless tier.eql? 'LOWER'
+      if conviction_sign_offs
+        conviction_sign_offs.each do |sign_off|
+          if sign_off.confirmed == 'no'
+            result = true
+            break
+          end
         end
       end
     end
@@ -931,7 +954,7 @@ class Registration < Ohm::Model
 
   def activate!
     #Note: the actual status update will be performed in the service
-    Rails.logger.debug "Activate registration for: #{uuid}"
+    Rails.logger.debug "REGISTRATION::ACTIVATE! Activate registration for: #{uuid}, status #{metaData.first.status}"
     #
     # Removed manually setting as active from here as should be set in the
     # services, as such the only action required is to perform a save!
@@ -1043,20 +1066,22 @@ class Registration < Ohm::Model
   def is_complete?
     is_complete = true
 
-    Rails.logger.debug "is_complete: In method"
     unless metaData.first.status == 'ACTIVE'
-      Rails.logger.debug "is_complete: status = #{metaData.first.status}"
+      Rails.logger.debug "REGISTRATION::IS_COMPLETE? status = #{metaData.first.status}"
       is_complete = false
+      return
     end
 
     if is_awaiting_conviction_confirmation?
-      Rails.logger.debug "is_complete: suspect = false"
+      Rails.logger.debug "REGISTRATION::IS_COMPLETE? suspect = false"
       is_complete = false
+      return
     end
 
     unless paid_in_full?
-      Rails.logger.debug "is_complete: paid_in_full = #{paid_in_full?}"
+      Rails.logger.debug "REGISTRATION::IS_COMPLETE? paid_in_full = #{paid_in_full?}"
       is_complete = false
+      return
     end
 
     is_complete
