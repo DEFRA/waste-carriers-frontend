@@ -166,7 +166,7 @@ module RegistrationsHelper
     session.delete(:edit_result)
     logger.debug "#{ __method__}"
   end
-  
+
   def clear_registration_session
     # Clear session variables
     session.delete(:registration_id)
@@ -207,26 +207,26 @@ module RegistrationsHelper
     #complete_class = 'complete'
     #complete_lower_class = 'complete lower'
 
-    criminally_suspect = @registration.is_awaiting_conviction_confirmation?
+    if @registration.tier.downcase.eql? 'upper'
+      awaiting_conviction_confirm = @registration.is_awaiting_conviction_confirmation?
 
-    if criminally_suspect
-      confirmationType = getCriminallySuspectClass
-    elsif !@registration.paid_in_full? and !criminally_suspect
-      confirmationType = getAlmostCompleteClass
-    elsif @registration.is_complete? and @registration.tier.downcase.eql? 'upper'
-      confirmationType = getCompleteClass
-    elsif @registration.is_complete?
-      confirmationType = getCompleteLowerClass
+      if awaiting_conviction_confirm
+        confirmationType = getCriminallySuspectClass
+      elsif !@registration.paid_in_full? && !awaiting_conviction_confirm
+        confirmationType = getAlmostCompleteClass
+      elsif @registration.metaData.first.status.downcase.eql? 'active'
+        confirmationType = getCompleteClass
+      end
+    else
+      confirmationType = getCompleteLowerClass if @registration.metaData.first.status.downcase.eql? 'active'
     end
-    
+
     unless confirmationType
-      logger.debug "--------------"
-      logger.debug "For Registration: #{@registration.uuid}"
-      logger.debug "is criminally suspect: #{@registration.criminally_suspect}"
-      logger.debug "is paid_in_full?: #{@registration.paid_in_full?}"
-      logger.debug "is is_complete: #{@registration.is_complete?}"
-      logger.debug "is tier: #{@registration.tier.downcase}"
-      logger.debug "--------------"
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE For Registration: #{@registration.uuid}"
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE awaiting conv confirm: #{awaiting_conviction_confirm}"
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE paid_in_full?: #{@registration.paid_in_full?}"
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE tier: #{@registration.tier.downcase}"
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE status: #{@registration.metaData.first.status.downcase}"
     end
 
     confirmationType
