@@ -1,6 +1,21 @@
 <%= render 'shared/content_for_pages' %>
-<main id="content" role="main" class="group">
-  <article role="article" class="group">
+
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+    <div class="back-section">
+        <ol>
+          <li><%= render 'back_link' %></li>
+        </ol>
+    </div>
+
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large"></h1>
+      </div>
+    </header>
+
     <section id='payment-copycardcomplete-page'>
       <div class="col-1" id='payment-col-1'>
 
@@ -48,5 +63,5 @@
 
       </div>
     </section>
-  </article>
-</main>
+  </main><!-- end main -->
+</div><!-- end wrapper -->

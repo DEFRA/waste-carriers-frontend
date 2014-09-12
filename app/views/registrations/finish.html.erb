@@ -1,48 +1,56 @@
 <%= render 'shared/content_for_pages' %>
 
-<main id="content" role="main" class="group">
-  <article role="article" class="group">
-    <section>
-      <div class="inner">
-        <div class="col-1">
+<div id="wrapper">
 
-          <!-- WF 4.3.4 -->
-          <div id="page4"  data-journey="waste-carriers-registration:finish">
-            <% content_for :page_title, createTitle('.title') %>
-            <% isComplete = (@confirmationType.eql? getCompleteClass) or (@confirmationType.eql? getCompleteLowerClass) %>
-            <%= render 'shared/complete_summary', :type => @confirmationType %>
+  <main id="content" role="main" class="group">
 
-            <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
-            <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
-            <% if can? :print, @registration and isComplete %>
-              <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
-            <% end %>
-            <% if isComplete %>
-              <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
-            <% end %>
+    <div class="back-section">
+        <ol>
+          <li><%= render 'back_link' %></li>
+        </ol>
+    </div>
 
-            <% unless @registration.paid_in_full? %>
-              <p><%= t '.payment_message' %></p>
-            <% end %>
-
-            <% if @registration.is_awaiting_conviction_confirmation? %>
-              <% if @registration.declaredConvictions %>
-                <p><%= t '.declared_convictions_message' %></p>
-              <% else %>
-                <p><%= t '.pending_key_people_check_message' %></p>
-              <% end %>
-            <% end %>
-
-            <p><%= t '.details_change' %></p>
-
-            <%= form_tag(registrations_finish_path) do |f| %>
-              <span class="next_link">
-                <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
-              </span>
-            <% end %>
-          </div>
-        </div>
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large"></h1>
       </div>
-    </section>
-  </article>
-</main>
+    </header>
+
+    <!-- WF 4.3.4 -->
+    <div id="page4"  data-journey="waste-carriers-registration:finish">
+      <% content_for :page_title, createTitle('.title') %>
+      <% isComplete = (@confirmationType.eql? getCompleteClass) or (@confirmationType.eql? getCompleteLowerClass) %>
+      <%= render 'shared/complete_summary', :type => @confirmationType %>
+
+      <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
+      <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+      <% if can? :print, @registration and isComplete %>
+        <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
+      <% end %>
+      <% if isComplete %>
+        <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+      <% end %>
+
+      <% unless @registration.paid_in_full? %>
+        <p><%= t '.payment_message' %></p>
+      <% end %>
+
+      <% if @registration.is_awaiting_conviction_confirmation? %>
+        <% if @registration.declaredConvictions %>
+          <p><%= t '.declared_convictions_message' %></p>
+        <% else %>
+          <p><%= t '.pending_key_people_check_message' %></p>
+        <% end %>
+      <% end %>
+
+      <p><%= t '.details_change' %></p>
+
+      <%= form_tag(registrations_finish_path) do |f| %>
+        <span class="next_link">
+          <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
+        </span>
+      <% end %>
+    </div>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
