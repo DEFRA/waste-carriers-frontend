@@ -93,8 +93,13 @@ class WorldpayController < ApplicationController
   end
 
   def failure
-  	#TODO - Process response and edirect...
-    process_payment
+  	@registration = Registration.find_by_id(session[:registration_uuid])
+    if process_payment
+      # Should not get here as payment should have failed and thus return false
+    else
+      flash[:notice] = 'Your payment failed'
+      redirect_to upper_payment_path(session[:registration_uuid])
+    end
   end
 
   def pending
@@ -103,9 +108,13 @@ class WorldpayController < ApplicationController
   end
 
   def cancel
-  	#TODO - Process response and edirect...
-    #process_payment
-    flash[:notice] = 'You have cancelled your payment.'
+  	@registration = Registration.find_by_id(session[:registration_uuid])
+    if process_payment
+      # should not get here as payment was cancelled
+    else
+      flash[:notice] = 'You have cancelled your payment'
+      redirect_to upper_payment_path(session[:registration_uuid])
+    end
   end
 
   def dateReceived
@@ -150,8 +159,17 @@ class WorldpayController < ApplicationController
       if !validate_worldpay_return_parameters(orderKey,paymentAmount,paymentCurrency,paymentStatus,mac)
         logger.error 'Validation of Worldpay return parameters failed. MAC verification failed!'
         # TODO Possibly need to do something more meaningful with the fact the MAC check has failed
+        
+        # Update order to reflect failed payment status
+        orderCode = orderKey.split('^').at(2)
+        order = @registration.getOrder( orderCode)
+        now = Time.now.utc.xmlschema
+        order.dateLastUpdated = now
+        order.worldPayStatus = 'VERIFICATIONFAILED'
+        order.save! session[:registration_uuid]
+        
         payment_processed = false
-      else
+      elsif paymentStatus.eql? 'AUTHORISED'
         orderCode = orderKey.split('^').at(2)
 
         now = Time.now.utc
@@ -186,6 +204,18 @@ class WorldpayController < ApplicationController
           #TODO: what does this do? -need to replace it with explicit save
           @payment.save(:validate => false)
         end
+      else
+        orderCode = orderKey.split('^').at(2)
+        logger.error 'Payment status was not successful, paymentStatus: ' + paymentStatus.to_s + " for order: " + orderCode.to_s
+        
+        # Update order to reflect failed payment status
+        order = @registration.getOrder( orderCode)
+        now = Time.now.utc.xmlschema
+        order.dateLastUpdated = now
+        order.worldPayStatus = paymentStatus
+        order.save! session[:registration_uuid]
+        
+        payment_processed = false
       end
 
       payment_processed
