@@ -340,7 +340,7 @@ class RegistrationsController < ApplicationController
       render 'newBusinessDetails', status: '200'
     elsif @registration.valid?
 
-      @registration.cross_check_convictions
+      @registration.cross_check_convictions if @registration.tier.eql? 'UPPER'
       @registration.save
 
       if session[:edit_mode]
