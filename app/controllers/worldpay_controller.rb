@@ -12,42 +12,33 @@ class WorldpayController < ApplicationController
 
     if process_payment
       update_order
-      
+
       # Get render type from session
       renderType = session[:renderType]
-      
+
       case renderType
       when Order.new_registration_identifier
         # new registrations
         next_step = if user_signed_in?
-        
+
             # Attempt to activate registration
-            #Registration.activate_registrations(current_user)
             Registration.send_registered_email(current_user, @registration)
-            
+
             finish_path
           elsif agency_user_signed_in?
-            
+
             # Attempt to activate registration
-            #Registration.activate_registrations(current_agency_user)
             Registration.send_registered_email(current_agency_user, @registration)
-            
+
             finishAssisted_path
           else
-            send_confirm_email Registration.find_by_id(session[:registration_uuid])
-            pending_path
+            confirmed_path
           end
       when Order.edit_registration_identifier
         # edit/renew registration
-        
-        Rails.logger.info 'Test the routing from Worldpay for Edit registration'
-        
         next_step = complete_edit_renew_path
       when Order.renew_registration_identifier
         # edit/renew registration
-        
-        Rails.logger.info 'Test the routing from Worldpay for renew registration'
-        
         next_step = if isIRRegistrationType @registration.originalRegistrationNumber
           if user_signed_in?
             # Send registered email
@@ -58,29 +49,26 @@ class WorldpayController < ApplicationController
             Registration.send_registered_email(current_agency_user, @registration)
             complete_edit_renew_path
           else
-            send_confirm_email Registration.find_by_id(session[:registration_uuid])
-            # TODO: SHould we redirect to pending page or edit renew complete page here as account not verified yet
-            pending_path
+            confirmed_path
           end
         else
           complete_edit_renew_path
         end
-        #next_step = complete_edit_renew_path
       when Order.extra_copycards_identifier
         # extra copy cards
-        
+
         # TODO: Insert appropriate routing for copy cards routes here
         next_step = complete_copy_cards_path
       end
-      
+
       #
-      # This should be an acceptable time to delete the render type and 
-      # the order code from the session, as these are used for payment 
+      # This should be an acceptable time to delete the render type and
+      # the order code from the session, as these are used for payment
       # and if reached here payment request succeeded
       #
       session.delete(:renderType)
       session.delete(:orderCode)
-      
+
     else
       # Used to redirect_to WorldpayController::Error however that doesn't actually
       # exist, plus the plan as discussed with Georg was to redirect back to the payment
@@ -159,7 +147,7 @@ class WorldpayController < ApplicationController
       if !validate_worldpay_return_parameters(orderKey,paymentAmount,paymentCurrency,paymentStatus,mac)
         logger.error 'Validation of Worldpay return parameters failed. MAC verification failed!'
         # TODO Possibly need to do something more meaningful with the fact the MAC check has failed
-        
+
         # Update order to reflect failed payment status
         orderCode = orderKey.split('^').at(2)
         order = @registration.getOrder( orderCode)
@@ -167,7 +155,7 @@ class WorldpayController < ApplicationController
         order.dateLastUpdated = now
         order.worldPayStatus = 'VERIFICATIONFAILED'
         order.save! session[:registration_uuid]
-        
+
         payment_processed = false
       elsif paymentStatus.eql? 'AUTHORISED'
         orderCode = orderKey.split('^').at(2)
@@ -207,14 +195,14 @@ class WorldpayController < ApplicationController
       else
         orderCode = orderKey.split('^').at(2)
         logger.error 'Payment status was not successful, paymentStatus: ' + paymentStatus.to_s + " for order: " + orderCode.to_s
-        
+
         # Update order to reflect failed payment status
         order = @registration.getOrder( orderCode)
         now = Time.now.utc.xmlschema
         order.dateLastUpdated = now
         order.worldPayStatus = paymentStatus
         order.save! session[:registration_uuid]
-        
+
         payment_processed = false
       end
 

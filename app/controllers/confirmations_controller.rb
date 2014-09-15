@@ -7,7 +7,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     Registration.activate_registrations(resource)
 
   	#Temporarily storing the confirmed user in the session to be picked up from the registrations controller
-    session[:confirmed_user] = resource
+    session[:user] = resource
 
     # This is a variable that represents the page to be redirected to after the verification link
     confirmed_path

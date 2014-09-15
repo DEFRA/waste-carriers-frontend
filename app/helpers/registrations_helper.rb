@@ -66,12 +66,6 @@ module RegistrationsHelper
     registration.finance_details.first.balance.to_f < 0
   end
 
-  def send_confirm_email(registration)
-    user = registration.user
-    user.current_registration = registration
-    user.send_confirmation_instructions unless user.confirmed?
-  end
-
   def setup_registration current_step, no_update=false
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
@@ -214,7 +208,7 @@ module RegistrationsHelper
         confirmationType = getCriminallySuspectClass
       elsif !@registration.paid_in_full? && !awaiting_conviction_confirm
         confirmationType = getAlmostCompleteClass
-      elsif @registration.metaData.first.status.downcase.eql? 'active'
+      else
         confirmationType = getCompleteClass
       end
     else
