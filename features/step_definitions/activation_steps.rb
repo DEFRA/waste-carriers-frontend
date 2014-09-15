@@ -52,8 +52,8 @@ Then(/^I am shown my pending registration$/) do
   page.should have_content 'is not yet registered as an upper tier waste carrier'
 end
 
-Then(/^I am shown how to pay in my confirmation email$/) do
+Then(/^I am not shown how to pay in my confirmation email$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.should have_content 'How to pay'
+  current_email.should_not have_content 'How to pay'
 end
