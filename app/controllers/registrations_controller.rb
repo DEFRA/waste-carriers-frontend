@@ -891,8 +891,6 @@ class RegistrationsController < ApplicationController
     unless @registrations.empty?
       @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
       @registration = @sorted.first
-      @owe_money = owe_money? @registration
-      @tell_waste_carrier_they_are_pending_convictions_check = declared_convictions? @registration
       session[:registration_uuid] = @registration.uuid
     else
       flash[:notice] = 'Registration list is empty, Found no registrations for user: ' + @user.email.to_s
@@ -914,10 +912,6 @@ class RegistrationsController < ApplicationController
     #
     clear_registration_session
     redirect_to Rails.configuration.waste_exemplar_end_url
-  end
-
-  def declared_convictions? registration
-    registration.declaredConvictions == 'yes'
   end
 
   def version
@@ -1295,13 +1289,6 @@ class RegistrationsController < ApplicationController
 
   end
 
-
-
-  def owe_money? registration
-    registration.upper? and !registration.paid_in_full?
-  end
-
-
   def compare_registrations(edited_registration, original_registration)
     res =  EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
     logger.debug "#{original_registration.attributes}"
@@ -1319,47 +1306,46 @@ class RegistrationsController < ApplicationController
 
   end
 
-  ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
-  def registration_params
-    params.require(:registration).permit(
-      :businessType,
-      :registrationType,
-      :otherBusinesses,
-      :isMainService,
-      :constructionWaste,
-      :onlyAMF,
-      :companyName,
-      :addressMode,
-      :houseNumber,
-      :streetLine1,
-      :streetLine2,
-      :streetLine3,
-      :streetLine4,
-      :country,
-      :townCity,
-      :postcode,
-      :postcodeSearch,
-      :firstName,
-      :lastName,
-      :position,
-      :phoneNumber,
-      :contactEmail,
-      :accountEmail,
-      :declaration,
-      :password,
-      :password_confirmation,
-      :accountEmail_confirmation,
-      :tier,
-      :company_no,
-      :registration_fee,
-      :copy_card_fee,
-      :copy_cards,
-      :total_fee,
-      :address_match_list,
-    :sign_up_mode)
-  end
+  private
 
-
-  private :registration_params, :owe_money?
+    ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
+    def registration_params
+      params.require(:registration).permit(
+        :businessType,
+        :registrationType,
+        :otherBusinesses,
+        :isMainService,
+        :constructionWaste,
+        :onlyAMF,
+        :companyName,
+        :addressMode,
+        :houseNumber,
+        :streetLine1,
+        :streetLine2,
+        :streetLine3,
+        :streetLine4,
+        :country,
+        :townCity,
+        :postcode,
+        :postcodeSearch,
+        :firstName,
+        :lastName,
+        :position,
+        :phoneNumber,
+        :contactEmail,
+        :accountEmail,
+        :declaration,
+        :password,
+        :password_confirmation,
+        :accountEmail_confirmation,
+        :tier,
+        :company_no,
+        :registration_fee,
+        :copy_card_fee,
+        :copy_cards,
+        :total_fee,
+        :address_match_list,
+      :sign_up_mode)
+    end
 
 end
