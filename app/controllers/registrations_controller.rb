@@ -123,6 +123,9 @@ class RegistrationsController < ApplicationController
 		irReg = Registration.find_by_ir_number(@registration.originalRegistrationNumber)
 		if irReg
 		  # IR data found, merge with registration
+		  
+		  # Save IR registration data to session, for comparison at payment time
+		  session[:original_registration_id] = irReg.id
 
 		  # Merge params registration with registration in memory
           @registration.add( irReg.attributes )
@@ -448,6 +451,31 @@ class RegistrationsController < ApplicationController
 
       # update_registration session[:edit_mode]
     else # new registration, do nothing (default rendering will occur)
+    
+      # Check if IR Renewal
+      logger.debug "Check if IR renewal flow"
+      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+        logger.debug "IR renewal flow found"
+        original_registration = Registration[ session[:original_registration_id] ]
+        session[:edit_result] =  compare_registrations(@registration, original_registration )
+        logger.debug "edit result: " + session[:edit_result].to_s
+        
+        case session[:edit_result].to_i
+          when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+          logger.debug "++++++++++++++++++++++++ ir data, no charge"
+          when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+          logger.debug "++++++++++++++++++++++++ charge"
+          when RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
+          logger.debug "++++++++++++++++++++++++ ir data changed to new reg"
+          when RegistrationsController::EditResult::NO_CHANGES
+          logger.debug "++++++++++++++++++++++++ no change"
+        end #case
+        
+        # Set edit mode to renew, to show panel for renew 
+        session[:edit_mode] = RegistrationsController::EditMode::RENEWAL
+        
+      end
+    
     end #case
 
     logger.debug "edit_mode = #{ session[:edit_mode]}"
@@ -478,9 +506,16 @@ class RegistrationsController < ApplicationController
         end
 
       when EditMode::RENEWAL
-        @registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
-        @registration.save
-        redirect_to newOrderRenew_path(@registration.uuid) and return
+      
+        # Detect standard or IR renewal
+        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+          # ir renewal detected
+          redirect_to :action => :account_mode
+        else
+          @registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
+          @registration.save
+          redirect_to newOrderRenew_path(@registration.uuid) and return
+        end
       else # new registration
         redirect_to :action => :account_mode
       end #case
@@ -608,7 +643,21 @@ class RegistrationsController < ApplicationController
       # Determine what type of registration order to create
       # If an originalRegistrationNumber is presenet in the registration, then the registraiton is an IR Renewal
       if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-        newOrderRenew
+        if session[:edit_result]
+          case session[:edit_result].to_i
+          when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE, EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+            # no charge or ir renewal with charge
+            newOrderRenew @registration.uuid
+          when  EditResult::CREATE_NEW_REGISTRATION
+            # ir renewal converted to new because of changes
+            newOrder @registration.uuid
+          else
+            # standard renewal
+            newOrderRenew @registration.uuid
+          end
+        else
+          newOrderRenew @registration.uuid
+        end
       else
         newOrder @registration.uuid
       end
@@ -1211,10 +1260,10 @@ class RegistrationsController < ApplicationController
   end
 
   # Function to redirect registration renew orders to the order controller
-  def newOrderRenew
+  def newOrderRenew registration_uuid
     session[:renderType] = Order.renew_registration_identifier
     session[:orderCode] = generateOrderCode
-    redirect_to :upper_payment
+    redirect_to upper_payment_path(:id => registration_uuid)
   end
 
   # Function to redirect additional copy card orders to the order controller
@@ -1299,13 +1348,28 @@ class RegistrationsController < ApplicationController
     res =  EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
     logger.debug "#{original_registration.attributes}"
     logger.debug "#{edited_registration.attributes}"
-
-    if (original_registration.businessType != edited_registration.businessType) ||
-        (edited_registration.company_no != original_registration.company_no) ||
-        (original_registration.key_people.size < edited_registration.key_people.size )
-      res = EditResult::CREATE_NEW_REGISTRATION
-    elsif (original_registration.registrationType != edited_registration.registrationType)
-      res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+    
+    if (original_registration.originalRegistrationNumber) and \
+    	(isIRRegistrationType(original_registration.originalRegistrationNumber)) and \
+        (original_registration.key_people.size.to_i == 0)
+      # Assumed, 0 Key people is from an IR data import
+      if (original_registration.businessType != edited_registration.businessType) ||
+          (edited_registration.company_no != original_registration.company_no)
+        res = EditResult::CREATE_NEW_REGISTRATION
+      elsif (original_registration.registrationType != edited_registration.registrationType)
+        res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+      else
+        logger.debug "Standard IR Renewal Charge"
+        res = EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+      end
+    else
+      if (original_registration.businessType != edited_registration.businessType) ||
+          (edited_registration.company_no != original_registration.company_no) ||
+          (original_registration.key_people.size < edited_registration.key_people.size )
+        res = EditResult::CREATE_NEW_REGISTRATION
+      elsif (original_registration.registrationType != edited_registration.registrationType)
+        res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+      end
     end
 
     res

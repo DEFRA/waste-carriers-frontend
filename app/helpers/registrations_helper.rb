@@ -251,7 +251,14 @@ module RegistrationsHelper
     legacy_reg_format = "CB/"
 
     # Check legacy format
-    regNo.upcase.match(legacy_reg_format)
+    res = regNo.upcase.match(legacy_reg_format)
+    
+    # Return true or false, depending on match
+    if res != nil
+      true
+    else
+      false
+    end
   end
 
 end
