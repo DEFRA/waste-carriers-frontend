@@ -127,6 +127,8 @@ class Order < Ohm::Model
         Rails.logger.error messageFromServices
         # Update order with a exception message
         self.exception = messageFromServices
+      else
+        self.exception = e.to_s
       end
 
       commited = false
