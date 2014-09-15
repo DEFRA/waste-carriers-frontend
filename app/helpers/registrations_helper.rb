@@ -176,11 +176,11 @@ module RegistrationsHelper
   def give_meaning_to_reg_type(attr_value)
     case attr_value
     when 'carrier_broker_dealer'
-      "You are a carrier and broker dealer"
+      "carrier broker and dealer"
     when 'carrier_dealer'
-      "Carrier dealer (You carry the waste yourselves)"
+      "carrier dealer (you carry the waste yourselves)"
     when 'broker_dealer'
-      "Broker dealer (You arrange for other people to carry the waste)"
+      "broker dealer (you arrange for other people to carry the waste)"
     end
   end
 
