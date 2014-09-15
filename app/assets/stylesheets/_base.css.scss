@@ -119,6 +119,12 @@ legend {
   margin-bottom: $gutter;
 }
 
+figcaption {
+  @include copy-16;
+  color: $secondary-text-colour;
+  margin-top: 0em;
+}
+
 p {
   @include copy-19;
   margin-top: $gutter-half;
