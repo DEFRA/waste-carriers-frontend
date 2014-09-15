@@ -17,7 +17,7 @@ Feature: Email confirmation
   Scenario: upper tier unconfirmed
     Given I have completed the upper tier and chosen to pay by bank transfer
     When I have not confirmed my email address
-    Then I am told to confirm my email address
+    Then I am shown my pending registration
 
   Scenario: upper tier confirmed
     Given I have completed the upper tier and chosen to pay by bank transfer
@@ -27,4 +27,4 @@ Feature: Email confirmation
   Scenario: upper tier unconfirmed with balance owing
     Given I have completed the upper tier and chosen to pay by bank transfer
     When I have not confirmed my email address
-    Then I am shown how to pay in my confirmation email
+    Then I am not shown how to pay in my confirmation email
