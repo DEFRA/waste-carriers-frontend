@@ -64,39 +64,58 @@
   max-width:30em;
 }
 
-input#registration_registration_fee,
-input#registration_edit_registration_fee,
-input#registration_renew_registration_fee,
-input#registration_copy_card_fee,
-input#registration_total_fee {
+#payment-copycard-page
+.form-label {
+  display:inline;
+}
+
+.currency-container {
   float:right;
+}
+
+#payment-copycard-page
+.currency-sign {
+  display:inline;
 }
 
 input#registration_registration_fee,
 input#registration_copy_card_fee,
 input#registration_total_fee {
   border:none;
-  inset:none;
   text-align:left;
-  max-width:20%;
-  padding-right:0.5em;
-  background-color:white;
+  background-color: white;
+  display:inline;
 }
 
-.inner-payment-box
-.form-label,
-.total-charge
-.form-label {
-  @include bold-19;
+input#registration_copy_cards {
+  width:5em;
 }
 
-.form-note {
-  max-width: 15em;
+#registration_copy_cards {
+  margin-top: $gutter-half;
+}
+
+
+//Copy card image
+
+.copy-card li p {
+  @include core-16;
 }
 
 .image-holder {
-  max-width:100%;
-  vertical-align: top;
+  border: 1px solid rgb(191, 193, 195);
+}
+
+.grid-1-3 figcaption {
+  margin-bottom: $gutter-half;
+}
+
+.copy-card .img {
+  width:100%
+}
+
+.inner-block img {
+  padding: 10px 0px 0px 5px;
 }
 
 /* Electronic transfer page NEW ========================================================== */

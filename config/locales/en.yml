@@ -254,7 +254,7 @@ en:
     wales: Wales
   order:
     new:
-      subtitle: "Payment Summary"
+      subtitle: "Payment summary"
       title: Payment
       total_fee_vat: "All charges are outside the scope of VAT"
       trouble_paying_link: "Trouble paying?"
@@ -473,7 +473,7 @@ en:
       address_service_error: "Address lookup service cannot be contacted!"
       no_results_error: "There are no addresses for the given postcode"
       select_address: "Select business address"
-      change_link: "Change address"
+      change_link: "Change postcode"
       uk_address_link: "I have an address in the United Kingdom"
       find_address_using_postcode: "Find address using postcode"
       manual_address_link: "I want to add an address myself"
@@ -494,7 +494,7 @@ en:
       relevant_person_link_text: "What is a relevant person?"
     newConfirmation:
       title: "Confirmation"
-      subtitle: "Check your details"
+      subtitle: "Check your details before registering"
 
       tier_aside_heading: "Registration tier"
       tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
@@ -508,7 +508,7 @@ en:
       subtitle_edit_reg_with_charge: "Your registration has been updated. Please be aware that the changes you have made will require a payment of £%{fee}"
       subtitle_edit_reg_new_reg: "Please be aware that the changes you have made means that a new upper tier registration will be made and will require a payment of £%{fee}"
       tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
-      payment_message: "You are required to pay for an upper tier registration."
+      payment_message: "You are required to pay £154 for an upper tier registration."
       show_registration_type: "Your registration type is %{reg_type}"
       smart_answers_heading: "You told us"
       edit_smart_answers_link: "Edit what you told us"
@@ -527,7 +527,7 @@ en:
       key_person_limited_heading: "Directors"
       key_person_partnership_heading: "Partners"
       key_person_public_heading: "CEO's"
-      edit_key_person_link: "Edit these details"
+      edit_key_person_link: "Edit your business or organisation owners details"
       declaration_legend: "Declaration"
       check_box_label: "I understand and agree with the declaration above"
       declaration_text1: "By registering, you confirm that the information you have provided is true"

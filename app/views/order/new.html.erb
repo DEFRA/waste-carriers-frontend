@@ -58,46 +58,70 @@
         <tr>
           <td class='total-charge'>
             <%= f.label :total_fee, class: 'form-label' %>
+            <div class="currency-container">
+            <p class="currency-sign">£</p>
             <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
-            <p class='form-note'><%= t '.total_fee_vat' %></p>
+          </div>
           </td>
         </tr>
       </tbody>
     </table>
+      <p class='form-note'><%= t '.total_fee_vat' %></p>
+      <br/>
+
+    <fieldset>
+    <legend class="heading-large">Payment methods</legend>
 
     <div class="payment-options">
-      <div class="inline">
-        <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-      </div>
-       <div class="inline"><p>or</p></div>
-      <div class="inline">
-        <input name="offline_next" class="button" type="submit" value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
-      </div>
-    </div>
 
-    <div class="payment-notice">
-        <div class='notice-icon'></div>
+    <div class="form-group text">
+      <h1 class="heading-small">Payment by card</h1>
+      <p class="panel-indent">Making a payment by debit or credit card will take you to the WorldPay website, where your payment will be processed straight away.</p>
+      <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
+      <div class="payment-notice">
         <div class='form-note' id="world-pay-subtitle"><%= t '.send_to_worldpay' %></div>
+      </div>
     </div>
 
-    <% end %>
+
+    <div class="form-group text">
+      <h2 class="heading-small">Payment by bank transfer</h2>
+      <div class="panel-indent">
+        <p>Pay by bank transfer requires you to complete a 2 step process</p>
+        <ul class="list-bullets">
+          <li><strong>Step 1</strong> - contact your bank and give them our account details which we will provide for you</li>
+          <li><strong>Step 2</strong> - then, contact us with the reference number your bank provides you, so we can activate your registration</li>
+        </ul>
+         <p><strong>Please note - you will not be registered unless both steps are completed.</strong></p>
+      </div>
+    </div>
+      <input name="offline_next" class="button" type="submit" value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
+    </div>
+  </fieldset>
+  <% end %>
   </section>
 
     </div><!-- end inner-block -->
   </div><!-- end grid 2-3-->
 
   <% if showCopyCards?(@renderType) %>
-    <div class="grid-1-3">
+    <div class="grid-1-3 copy-card">
       <div class="inner-block related">
         <div class="inner group related-subsection">
           <h2 class="heading-small">What are copy cards?</h2>
           <nav aria-labelledby="parent-subsection" role="navigation">
-            <ul>
-                <li class="image-holder">
-                <%= image_tag "copy_card.png" %>
-                </li>
-                <li>Copy cards are credit-card sized copies of your registration
-                </li>
+            <div class="image-holder" alt="Example of a copy card registration">
+            <%= image_tag "copy_card.png"%>
+            </div>
+              <figcaption>Copy card example - copy cards are credit-card sized copies of your registration.</figcaption>
+              <ul class="list-bullets related">
+                <h2 class="heading-small">Copy card information</h2>
+              <li>
+                <p>Additional copy cards can be purchased after your registration is complete by signing into your account.</p>
+              </li>
+              <li>
+                <p>Please note - copy cards can take up to 10 working days to arrive depending on the status of your registration.</p>
+              </li>
             </ul>
           </nav>
         </div>
