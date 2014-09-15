@@ -650,7 +650,6 @@ class RegistrationsController < ApplicationController
 
     next_step = case @registration.tier
       when 'LOWER'
-        send_confirm_email @registration
         pending_url
       when 'UPPER'
         #
@@ -748,9 +747,13 @@ class RegistrationsController < ApplicationController
     @user.email = @registration.accountEmail
     @user.password = @registration.password
     logger.debug "About to save the new user."
-    # Don't send the confirmation email when the user gets saved.
-    @user.skip_confirmation_notification!
     @user.save!
+
+    # In the case of new UT registrations we eventually redirect directly to the confirmed page without them
+    # first having to have clicked the link in the confirmaton email. The Confirmed action relies on pulling
+    # out the user from the session as when you do click the link the ConfirmationsController::after_confirmation_path_for
+    # action stores the confirmed user there.
+    session[:user] = @user
 
   end
 
@@ -877,26 +880,32 @@ class RegistrationsController < ApplicationController
     end
   end
 
-
+  # GET /your-registration/confirmed
   def confirmed
-    @user = session[:confirmed_user]
+    @user = session[:user]
     if !@user
       logger.warn "Could not retrieve the activated user. Showing 404."
       flash[:notice] = 'Could not find user: ' + @user.to_s
       renderNotFound and  return
     end
-    # @registrations = Registration.find(:all, :params => {:ac => @user.email})
-    @registrations = Registration.find_by_email(@user.email)
 
-    unless @registrations.empty?
-      @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
-      @registration = @sorted.first
-      session[:registration_uuid] = @registration.uuid
+    # If we come this way as part of the upper tier registration then we should have the ID for the
+    # registration we are dealing with else we came via a account confirmation link and can only go
+    # on the email address of the user.
+    reg_uuid = params[:id] || session[:registration_uuid]
+    if reg_uuid
+      @registration = Registration.find_by_id( reg_uuid )
     else
-      flash[:notice] = 'Registration list is empty, Found no registrations for user: ' + @user.email.to_s
-      renderNotFound and return
+      @registrations = Registration.find_by_email(@user.email)
+      unless @registrations.empty?
+        @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
+        @registration = @sorted.first
+        session[:registration_uuid] = @registration.uuid
+      else
+        flash[:notice] = 'Registration list is empty, Found no registrations for user: ' + @user.email.to_s
+        renderNotFound and return
+      end
     end
-    #render the confirmed page
 
     @confirmationType = getConfirmationType
     unless @confirmationType
@@ -1275,10 +1284,7 @@ class RegistrationsController < ApplicationController
     elsif agency_user_signed_in?
       finishAssisted_path
     else
-      unless @registration.user.confirmed?
-        send_confirm_email @registration
-      end
-      pending_path
+      confirmed_path
     end
 
     if session[:edit_mode]
