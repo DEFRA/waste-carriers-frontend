@@ -63,8 +63,8 @@
           </tr>
         </thead>
         <tbody>
+          <% @registrations.each do |registration| %>
           <tr>
-	        <% @registrations.each do |registration| %>
 	            <td><%= registration.companyName %></td>
 	            <td><%= registration.postcode %></td>
 	            <td><%= registration.regIdentifier %></td>
@@ -80,7 +80,12 @@
 		            <% end %>
 	            </td>
           </tr>
-          <tr>
+            <% 
+            # Only show the Edit Row, if any of the butttons are shown
+            if registration.can_view_certificate? || registration.can_be_edited? || \
+            	registration.metaData.first.status == 'ACTIVE' || registration.about_to_expire? || \
+            	registration.can_request_copy_cards? %>
+            <tr>
               <td>
               <% if registration.can_view_certificate? %>
                 <%= link_to 'View Certificate', print_path(registration.uuid) %>
@@ -107,8 +112,9 @@
 	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if registration.can_request_copy_cards?  %>
               </td>
 
-	          </tr>
-          <% end %>
+	        </tr>
+	        <% end # if%>
+          <% end # registrations %>
         </tbody>
       </table>
 </fieldset>
