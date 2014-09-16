@@ -177,7 +177,7 @@ module Registrations
     config.fee_reg_type_change = Monetize.parse('£40').cents
 
     # Conviciton checks must be completed within limit
-    config.registrations_service_exceed_limit = '56'
+    config.registrations_service_exceed_limit = '10'
 
     # registration expiration (upper tier only - lower tier registrations are indefinite)
     config.registration_expires_after = ENV['WCRS_FRONTEND_EXPIRES_AFTER'].to_i.years || 3.years
