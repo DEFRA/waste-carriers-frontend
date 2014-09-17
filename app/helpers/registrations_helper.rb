@@ -204,6 +204,11 @@ module RegistrationsHelper
   def getConfirmationType
     confirmationType = nil
 
+    if !@registration 
+      #should not be here...
+      return nil
+    end
+
     # These must match the css classes they related to
     #criminally_suspect_class = 'criminallySuspect'
     #almost_complete_class = 'almostComplete'

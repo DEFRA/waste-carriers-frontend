@@ -934,7 +934,7 @@ class RegistrationsController < ApplicationController
     @user = session[:user]
     if !@user
       logger.warn "Could not retrieve the activated user. Showing 404."
-      flash[:notice] = 'Could not find user: ' + @user.to_s
+      #flash[:notice] = 'Error: Could not find user ' + @user.to_s
       renderNotFound and  return
     end
 
@@ -956,6 +956,10 @@ class RegistrationsController < ApplicationController
       end
     end
 
+    if !@registration
+      renderNotFound and return
+    end
+
     @confirmationType = getConfirmationType
     unless @confirmationType
       flash[:notice] = 'Invalid confirmation type. Check routing to this page'
@@ -969,6 +973,7 @@ class RegistrationsController < ApplicationController
     # Finished here, ok to clear session variables
     #
     clear_registration_session
+    reset_session
     redirect_to Rails.configuration.waste_exemplar_end_url
   end
 
