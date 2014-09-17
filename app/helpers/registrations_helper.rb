@@ -128,12 +128,21 @@ module RegistrationsHelper
 
     elsif  session[:edit_mode] #editing existing registration
       @registration = Registration[ session[:registration_id]]
-      logger.debug "retrieving registration for edit #{@registration.id}"
+      if @registration
+        logger.debug "retrieving registration for edit #{@registration.id}"
+      end
     else #creating new registration but not first step
       clear_edit_session
       @registration = Registration[ session[:registration_id]]
-      logger.debug "retrieving registration #{@registration.id}"
-      m = Metadata.create
+      if @registration
+        logger.debug "retrieving registration #{@registration.id}"
+        m = Metadata.create
+      end
+    end
+
+    if !@registration
+      renderNotFound
+      return
     end
 
     logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
