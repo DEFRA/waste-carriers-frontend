@@ -118,7 +118,7 @@ input#registration_copy_cards {
   padding: 10px 0px 0px 5px;
 }
 
-/* Electronic transfer page NEW ========================================================== */
+/* Electronic transfer page ========================================================== */
 
 #payment-table-wrapper {
   max-width:35em;
@@ -135,29 +135,42 @@ input#registration_copy_cards {
   }
 }
 
-/* Registration complete page - TO BE REFACTORED ============================================= */
+/* Registration complete page ============================================= */
 
-.completeSummary {
-  width: 90%;
-  color: white;
-  padding: 2em 1em 2em 1em;
-  margin: 0.75em 0em 0.75em 0em;
+.summary-box {
+  color: $page-colour;
+  padding: 0em;
   text-align: center;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
 }
 
-.almostComplete, .criminallySuspect {
-	background-color: orange;
+.almostComplete,
+.criminallySuspect {
+  background-color: $orange;
+  padding:2em;
 }
 
 .complete {
-	background-color: green;
+  background-color: $turquoise;
+  padding:2em;
 }
 
 .completeSummaryTitle {
-	margin: 0 auto;
+  @include bold-36;
+  margin-bottom: $gutter-half;
 }
 
 .completeSummaryMessage {
-	margin: 0 auto;
-	font-size: 90%;
+  @include bold-19;
 }
+
+
+
+
+
+
+
+
+
+

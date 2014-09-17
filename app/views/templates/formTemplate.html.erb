@@ -10,34 +10,27 @@
       </ol>
     </div>
 
-    <header class="page-header group">
-      <div class="hgroup">
-        <h1 class="heading-xlarge">Waste Carriers Registration Service</h1>
-        <h2 class="heading-medium">Development page</h2>
-      </div>
-    </header>
-
-
-    <div class="grid-wrapper">
     <div id="page0"  data-journey="waste-carriers-registration:template"></div>
 
-      <div class="grid-2-3">
+    <div class="grid-wrapper">
+      <div class="grid grid-2-3">
         <div class="inner-block">
-            <!-- WF 4.3.2 -->
-              <% content_for :page_title, createTitle('.title') %>
-              <%= render 'errors' %>
-              <%= form_for(@registration, :url => formExample_path) do |f| %>
-              <%= render 'formTemplate_step', f: f, r: @registration %>
-              <%= render 'next_link' %>
-              <% end %>
-          </div>
-      </div><!--grid-2-3 end-->
 
+          <header class="page-header group">
+            <div class="hgroup">
+              <h1 class="heading-large">Waste Carriers Registration Service</h1>
+              <h2 class="heading-medium">Development page</h2>
+            </div>
+          </header>
 
+        </div>
+
+      </div>
       <div class="grid-1-3">
         <div class="inner-block related">
           <div class="inner group related-subsection">
-            <h2 class="heading-small"><%= t '.aside_heading' %></h2>
+            <h2 class="heading-small">One third</h2>
+              <h2 class="heading-small"><%= t '.aside_heading' %></h2>
               <nav aria-labelledby="parent-subsection" role="navigation">
                 <ul>
                   <li><%= t '.aside_message' %></li>
@@ -47,11 +40,100 @@
           </div>
         </div><!--related end-->
       </div><!--grid-1-3 end-->
-
     </div><!--grid-wrapper end-->
+
+
+        <!--grid one third-->
+    <h2 class="heading-small">Heading</h2>
+    <div class="grid-wrapper agency-edit">
+      <div class="container-border">
+      <div class="grid grid-1-3">
+        <div class="inner-block">
+          <ul>
+            <li><span>Name</span><p>Dogstar</p></li>
+            <li class="container-border-lines"><span>Postcode</span><p>BS1 5AH</p></li>
+            <li><span>Registration</span><p>CBH06</p></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid grid-1-3">
+        <div class="inner-block">
+          <ul>
+            <li><span>Status</span><p>Awaiting payment</p></li>
+            <li class="container-border-lines"><span>Expiry date</span><p>25/12/2017</p></li>
+          </ul>
+        </div>
+      </div>
+    </div><!--end line-dividers -->
+
+      <div class="grid-1-3">
+        <div class="inner-block inline">
+              <nav aria-labelledby="parent-subsection" role="navigation">
+                <h3>Actions</h3>
+                <ul>
+                  <li><a href='http://govuk-elements.herokuapp.com'>View certificate</a></li>
+                  <li><a href='https://gds.blog.gov.uk'>Delete</a></li>
+                  <li><a href='https://www.gov.uk/government/organisations/environment-agency'>Payment status</a>
+                  </li>
+                 </ul>
+              </nav>
+          </div>
+        </div><!-- end grid-1-3 -->
+    </div><!-- end agency-edit -->
+
+     <!--grid-->
+    <div class="grid-wrapper">
+      <div class="grid grid-1-2">
+        <div class="inner-block">
+          <h2 class="heading-small">One half</h2>
+            <div class="text">
+              <!-- WF 4.3.2 -->
+              <% content_for :page_title, createTitle('.title') %>
+              <%= render 'errors' %>
+              <%= form_for(@registration, :url => formExample_path) do |f| %>
+              <%= render 'formTemplate_step', f: f, r: @registration %>
+              <%= render 'next_link' %>
+              <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-1-2">
+        <div class="inner-block">
+          <h2 class="heading-small">One half</h2>
+          <p>Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        </div>
+      </div>
+    </div>
+
+    <!--grid-->
+    <div class="grid-wrapper">
+      <div class="grid grid-1-4">
+        <div class="inner-block">
+          <h2 class="heading-small">One forth</h2>
+          <p>Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        </div>
+      </div>
+      <div class="grid grid-1-4">
+        <div class="inner-block">
+          <h2 class="heading-small">One forth</h2>
+          <p>Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        </div>
+      </div>
+      <div class="grid grid-1-4">
+        <div class="inner-block">
+          <h2 class="heading-small">One forth</h2>
+          <p>Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        </div>
+      </div>
+      <div class="grid grid-1-4">
+        <div class="inner-block">
+          <h2 class="heading-small">One forth</h2>
+          <p>Donec sed odio dui. Donec id elit non mi porta gravida at eget metus. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+        </div>
+      </div>
+    </div>
 
   </main><!--main end-->
 </div><!--wrapper end-->
-
-
 
