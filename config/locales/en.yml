@@ -252,6 +252,11 @@ en:
       heading: "We're sorry, but it looks like the service is unavailable at this time"
       message_html: "Try again later or if problems persist contact:<br/><a href='#'>registrations@wastecarriersregistration.service.gov.uk</a>"
     wales: Wales
+    mailer:
+      convictions:
+        subject: 'We have received your application for a %{tier} tier registration for %{companyName}.'
+      payment:
+        subject: 'We have received your application for a %{tier} tier registration for %{companyName}, and are awaiting your payment.'
   order:
     new:
       subtitle: "Payment summary"
