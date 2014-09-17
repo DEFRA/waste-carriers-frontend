@@ -1102,6 +1102,14 @@ class Registration < Ohm::Model
   def self.isReadyToBeActive(reg)
     reg.paid_in_full? and !reg.is_awaiting_conviction_confirmation?
   end
+  
+  def self.isAwaitingPayment(reg)
+    !reg.paid_in_full? and !reg.is_awaiting_conviction_confirmation?
+  end
+  
+  def self.isAwaitingConvictions(reg)
+    reg.upper? and reg.is_awaiting_conviction_confirmation?
+  end
 
   def self.activate_registration(r)
     Rails.logger.debug "Check registration ready for activation: #{r.attributes.to_s}"
@@ -1130,6 +1138,12 @@ class Registration < Ohm::Model
       else
         Rails.logger.debug "Registration not Digital or User not valid, thus registraion email not to be sent"
       end
+    elsif Registration.isAwaitingPayment(r) and r.metaData.first.route == 'DIGITAL'
+      # Send awaiting payment email
+      RegistrationMailer.awaitingPayment_email(user, r).deliver
+    elsif Registration.isAwaitingConvictions(r) and r.metaData.first.route == 'DIGITAL'
+      # Send awaiting conviction check email
+      RegistrationMailer.awaitingConvictionsCheck_email(user, r).deliver
     else
       Rails.logger.info "Skipping sending registered email #{r.regIdentifier}"
     end
