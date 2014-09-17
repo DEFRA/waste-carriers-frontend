@@ -9,70 +9,89 @@
 
     <% content_for :page_title, createTitle('.title') %>
 
-    <div class="text">
-    <%= render 'shared/complete_summary', :type => @confirmationType %>
-  </div>
+    <div class="summary-box text">
+      <%= render 'shared/complete_summary', :type => @confirmationType %>
+    </div>
 
-    <fieldset>
-    <% if @confirmationType.eql? getCompleteClass or @confirmationType.eql? getCompleteLowerClass %>
+    <fieldset class="text">
 
-      <legend class="heading-large"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></legend>
-      <div class="form-group text">
-        <h2 class="heading-medium"><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></h2>
-        <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+      <legend></legend>
 
-        <p><%= t '.details_change' %></p>
+      <% if @confirmationType.eql? getCompleteClass or @confirmationType.eql? getCompleteLowerClass %>
 
-  			  <!-- The original screens for this had direct access to the View Certificate button, but this is ony available if logged in -->
-        <% if can? :print, @registration %>
-          <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
-        <% else %>
+      <h1 class="heading-large"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h1>
+
+        <div class="form-group text">
+
+          <h2 class="heading-medium"><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %>
+          </h2>
+
+          <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+          <p><%= t '.details_change' %></p>
+
+    			<!-- The original screens for this had direct access to the View Certificate button, but this is ony available if logged in -->
+
+          <% if can? :print, @registration %>
+
+          <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %>
+          </p>
+          <% else %>
           <p><%= t '.sign_in_to_view' %></p>
           <p><%= link_to t('form.sign_in_button_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
-        <% end %>
-
-        <% elsif @confirmationType.eql? getAlmostCompleteClass %>
-
-          <p><%= t('.not_yet_registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
-
-          <p><%= t '.payment_message', :regNum => @registration.regIdentifier %></p>
-
-          <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
-
-        <% elsif @confirmationType.eql? getCriminallySuspectClass %>
-
-          <legend><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></legend>
-
-          <% if @registration.declaredConvictions %>
-            <p><%= t '.declared_convictions_message' %></p>
-          <% else %>
-            <p>2 <%= t '.pending_key_people_check_message' %></p>
           <% end %>
 
-          <p><%= t '.limit_exceeded', :limit => Rails.configuration.registrations_service_exceed_limit %></p>
-          <h3><%= t '.phone_number', :number => Rails.configuration.registrations_service_phone %></h3>
+            <!-- Below - almost complete -->
 
-          <% unless @registration.paid_in_full? %>
+            <% elsif @confirmationType.eql? getAlmostCompleteClass %>
+
+            <p><%= t('.not_yet_registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+
             <p><%= t '.payment_message', :regNum => @registration.regIdentifier %></p>
-          <% end %>
 
-        <% end %>
-      </div>
-    </fieldset>
+            <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
 
-    <%= form_tag do |f| %>
-      <span class="next_link">
-        <input id="finished" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
-      </span>
-    <% end %>
+            <!-- end - not yet registered -->
 
-    <% if @confirmationType.eql? getCompleteClass and @registration.tier.downcase.eql? 'upper' %>
-      <div class="inner-payment-box">
-    	<div class='notice-icon'></div>
-	  </div>
-	  <p class='form-hint' id="world-pay-subtitle"><%= t '.if_upper' %></p>
-	<% end %>
 
+            <!-- Below - declared convictions -->
+
+            <% elsif @confirmationType.eql? getCriminallySuspectClass %>
+
+            <h1 class="heading-large"><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></h1>
+
+            <% if @registration.declaredConvictions %>
+              <p><%= t '.declared_convictions_message' %></p>
+            <% else %>
+              <p>2 <%= t '.pending_key_people_check_message' %></p>
+            <% end %>
+
+            <p><%= t '.limit_exceeded', :limit => Rails.configuration.registrations_service_exceed_limit %></p>
+
+            <h3><%= t '.phone_number', :number => Rails.configuration.registrations_service_phone %></h3>
+
+            <% unless @registration.paid_in_full? %>
+              <p><%= t '.payment_message', :regNum => @registration.regIdentifier %></p>
+            <% end %>
+
+            <% end %>
+
+            <!-- end - if user has convictions -->
+
+            <!-- finished btns -->
+
+            <div class="form-group">
+              <%= form_tag do |f| %>
+                <input id="finished" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
+              <% end %>
+              <% if @confirmationType.eql? getCompleteClass and @registration.tier.downcase.eql? 'upper' %>
+                <p class='form-hint' id="world-pay-subtitle"><%= t '.if_upper' %></p>
+              <% end %>
+            </div>
+
+          <!-- end - finished btns -->
+
+        </div>
+      </fieldset>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->

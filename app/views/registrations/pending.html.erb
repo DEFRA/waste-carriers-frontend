@@ -2,25 +2,33 @@
 
 <div id="wrapper">
 
-<main id="content" role="main" class="group">
+  <main id="content" role="main" class="group">
 
-<header class="page-header group">
-  <div class="hgroup">
-      <h1 class="heading-large"><%= t '.subtitle' %></h1>
-  </div>
-</header>
+    <div class="back-section">
+      <ol>
+        <li></li>
+      </ol>
+    </div>
 
-  <!-- WF 4.3.2 -->
-  <div id="page0"  data-journey="waste-carriers-registration:confirm-account"></div>
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large"><%= t '.subtitle' %></h1>
+      </div>
+    </header>
+
+    <!-- WF 4.3.2 -->
+    <div id="page0"  data-journey="waste-carriers-registration:confirm-account"></div>
 
     <div class="form-group text">
 
-    <% content_for :page_title, createTitle('.title') %>
-    <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
-    <p><%= t '.close_page' %></p>
-  </div>
-</div>
-</div>
+      <% content_for :page_title, createTitle('.title') %>
+      <ul>
+        <li><p><%= t '.details_emailed', :email => @registration.accountEmail %></li>
+        <li><p class="panel-indent"><strong><%= t '.details_emailed_instruction' %></p></strong></li>
+        <li><p><%= t '.close_page' %></p></li>
+      </ul>
+
+    </div>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->

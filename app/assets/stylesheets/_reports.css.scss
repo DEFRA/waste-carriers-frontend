@@ -22,3 +22,47 @@
   margin-top: $gutter-half/2;
   margin-bottom: $gutter-half/2;
 }
+
+.agency-edit {
+  border: 1px solid rgb(222, 224, 226);
+  list-style: none outside none;
+  @include core-16;
+    @include media(mobile) {
+    padding-left: $gutter-half;
+    padding-right: $gutter-half;
+  }
+}
+
+.container-border ul li{
+  @include core-16;
+  list-style: none outside none;
+  margin: 0.5em 0 0;
+  overflow: hidden;
+  padding: 0.5em 0 0;
+}
+
+.container-border-lines {
+  border-top: 1px solid rgb(222, 224, 226);
+  border-bottom: 1px solid rgb(222, 224, 226);
+}
+
+.agency-edit p {
+  @include core-16;
+  padding:0;
+  margin:0;
+}
+
+.agency-edit span {
+  @include bold-16;
+  padding:0;
+  margin:0;
+}
+
+.agency-edit h3 {
+  padding-top: $gutter-half;
+  @include bold-16;
+}
+
+
+
+

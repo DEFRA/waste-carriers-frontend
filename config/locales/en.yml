@@ -766,7 +766,8 @@ en:
     pending:
       title: "Confirm your account"
       subtitle: "Confirm your account"
-      details_emailed: "We have sent an e-mail to %{email}. Please follow the instructions in the email to confirm your account and complete your registration."
+      details_emailed: "We have sent an email to %{email}"
+      details_emailed_instruction: "Please follow the instructions in the email to confirm your account and complete your registration."
       close_page: "Once you have confirmed your account and completed your registration, please close this web page."
       payment_pending: "Payment pending"
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"

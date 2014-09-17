@@ -1,9 +1,15 @@
 <%= render 'shared/content_for_pages' %>
 <% content_for :page_title, t('devise.sessions.title') %>
+
 <div id="wrapper">
 
-<main id="content" role="main" class="group"><article role="article" class="group">
+<main id="content" role="main" class="group">
 
+<div class="back-section">
+  <ol>
+    <li></li>
+  </ol>
+</div>
 
 <header class="page-header group">
     <div class="hgroup">
@@ -13,59 +19,59 @@
 
 <div id="wrapper" data-journey="waste-carriers-registration:sign-in"></div>
 
-<fieldset>
-<legend></legend>
+  <fieldset class="text">
+    <legend></legend>
 
-  <% if request.original_url.include? "agency_users/sign_in" %>
-  <h2 class="heading-medium"><%= t '.agency_heading' %></h2>
-  <% elsif request.original_url.include? "admins/sign_in" %>
-  <h2 class="heading-medium"><%= t '.admin_heading' %></h2>
-  <% end%>
+    <% if request.original_url.include? "agency_users/sign_in" %>
+      <h2 class="heading-medium"><%= t '.agency_heading' %></h2>
+    <% elsif request.original_url.include? "admins/sign_in" %>
+      <h2 class="heading-medium"><%= t '.admin_heading' %></h2>
+    <% end%>
 
-  <% if alert %>
-  <div id="error_explanation" class="validation-summary">
-    <h2 class="heading-medium"><%= t '.standard_error' %></h2>
-    <ul>
-      <li><%= alert %></li>
-    </ul>
-  </div>
-  <% end %>
-
-  <% if notice %>
-  <div id="notice_explanation" class="note-summary">
-    <h2 class="heading-medium"><%= t '.standard_notice' %></h2>
-    <ul>
-      <li><%= notice %></li>
-    </ul>
-  </div>
-  <% end %>
-
-
-  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-    <div class="form-group<% if alert %> validation<% end %>">
-      <%= f.label :email, class: 'form-label' %>
-      <%= f.email_field :email, :autofocus => true, :autocomplete => :off %>
+    <% if alert %>
+    <div id="error_explanation" class="validation-summary">
+      <h2 class="heading-medium"><%= t '.standard_error' %></h2>
+      <ul>
+        <li><%= alert %></li>
+      </ul>
     </div>
-
-    <div class="form-group<% if alert %> validation<% end %>">
-      <%= f.label :password, class: 'form-label' %>
-      <%= f.password_field :password %>
-    </div>
-
-    <% if devise_mapping.rememberable? -%>
-      <div class="form-group">
-        <%= f.check_box :remember_me %>
-        <%= f.label :remember_me, class: 'form-label' %>
-      </div>
-    <% end -%>
-
-      <%= f.submit t('shared.current_user.sign_in'), :class => "button" %>
-
     <% end %>
-</fieldset>
 
-<%= render "devise/shared/links" %>
+    <% if notice %>
+    <div id="notice_explanation" class="note-summary">
+      <h2 class="heading-medium"><%= t '.standard_notice' %></h2>
+      <ul>
+        <li><%= notice %></li>
+      </ul>
+    </div>
+    <% end %>
 
-</main><!-- end content -->
+
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+      <div class="form-group<% if alert %> validation<% end %>">
+        <%= f.label :email, class: 'form-label' %>
+        <%= f.email_field :email, :autofocus => true, :autocomplete => :off %>
+      </div>
+
+      <div class="form-group<% if alert %> validation<% end %>">
+        <%= f.label :password, class: 'form-label' %>
+        <%= f.password_field :password %>
+      </div>
+
+      <% if devise_mapping.rememberable? -%>
+        <div class="form-group">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me, class: 'form-label' %>
+        </div>
+      <% end -%>
+
+        <%= f.submit t('shared.current_user.sign_in'), :class => "button" %>
+
+      <% end %>
+    </fieldset>
+
+  <%= render "devise/shared/links" %>
+
+  </main><!-- end content -->
 </div><!-- end wrapper -->
 
