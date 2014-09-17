@@ -38,6 +38,12 @@ When(/^I have confirmed my email address$/) do
   current_email.click_link 'Confirm your account'
 end
 
+Then(/^I have received an email to confirm my account$/) do
+  sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  open_email my_email_address
+  current_email.click_link 'Confirm your account'
+end
+
 Then(/^I am told to confirm my email address$/) do
   page.should have_content 'confirm your account'
 end
