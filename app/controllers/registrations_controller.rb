@@ -1327,6 +1327,12 @@ class RegistrationsController < ApplicationController
 
   def updateNewOfflinePayment
     @registration = Registration[session[:registration_id]]
+    
+    unless agency_user_signed_in?
+      logger.info 'Send registered email (if not agency user)'
+      @user = User.find_by_email(@registration.accountEmail)
+      Registration.send_registered_email(@user, @registration)
+    end
 
     next_step = if user_signed_in?
       finish_path
