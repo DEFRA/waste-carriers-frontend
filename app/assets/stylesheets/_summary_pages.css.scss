@@ -60,11 +60,8 @@
 
 /* Payment summary page ========================================================== */
 
-#payment-copycard-page {
-  max-width:30em;
-}
 
-#payment-copycard-page
+.payment-copycard-page
 .form-label {
   display:inline;
 }
@@ -73,7 +70,7 @@
   float:right;
 }
 
-#payment-copycard-page
+.payment-copycard-page
 .currency-sign {
   display:inline;
 }
@@ -116,6 +113,22 @@ input#registration_copy_cards {
 
 .inner-block img {
   padding: 10px 0px 0px 5px;
+}
+
+#copy-card-text li p {
+  @include core-16;
+}
+
+//Payment option buttons
+
+.payment-option {
+ display:inline-block;
+ vertical-align: top;
+ max-width:15em;
+}
+
+.payment-option p {
+  @include core-16;
 }
 
 /* Electronic transfer page ========================================================== */
