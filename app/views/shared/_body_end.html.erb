@@ -1,4 +1,15 @@
 <% if Rails.application.config.use_google_analytics %>
+
+    <script>
+    dataLayer = [{
+      'renewal': '<%= session[:ga_is_renewal]%>',
+      'tier': '<%= session[:ga_tier]%>',
+      'convictions': '',
+      'payment': '',
+      'status': 'green',
+    }]; 
+    </script>
+
     <!-- Google Tag Manager -->
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id=<%= Rails.application.config.google_tag_manager_id %>"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>

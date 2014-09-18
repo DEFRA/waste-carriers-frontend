@@ -72,10 +72,12 @@ class RegistrationsController < ApplicationController
     # Validate which registration type selected, checking against known types
     if @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0].downcase
       logger.debug "Redirect to renewal"
+      session[:ga_is_renewal] = true
       redirect_to :enterRegistration
       return
     elsif @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[1].downcase
       logger.debug "Redirect to new registration"
+      session[:ga_is_renewal] = false
       redirect_to :newBusinessType
       return
     else
@@ -838,12 +840,14 @@ class RegistrationsController < ApplicationController
   def proceed_as_upper
     @registration.tier = 'UPPER'
     @registration.save
+    session[:ga_tier] = 'upper'
     redirect_to action: 'newRegistrationType'
   end
 
   def proceed_as_lower
     @registration.tier = 'LOWER'
     @registration.save
+    session[:ga_tier] = 'lower'
     redirect_to action: 'newBusinessDetails'
   end
 
