@@ -174,6 +174,11 @@ module RegistrationsHelper
     # Clear session variables
     session.delete(:registration_id)
     session.delete(:registration_uuid)
+
+    #clear/reset session variables used for Google Analytics
+    session.delete(:ga_is_renewal)
+    session.delete(:ga_tier)
+    session.delete(:ga_status)
   end
 
   def give_meaning_to_reg_type(attr_value)
