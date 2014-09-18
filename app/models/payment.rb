@@ -248,7 +248,7 @@ class Payment < Ohm::Model
   end
   
   def makeRefund
-    self.orderKey = self.orderKey + '_REFUNDREQUEST'
+    self.orderKey = self.orderKey + '_REFUNDED'
   end
   
   # Ensures if a reversal payment type is selected, then the amount entered is negated
