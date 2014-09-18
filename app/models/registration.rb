@@ -522,6 +522,8 @@ class Registration < Ohm::Model
         else
           Rails.logger.error "Registration.find_by_id failed with a #{response.code.to_s} response from server"
         end
+      rescue Errno::ECONNREFUSED => e
+        Rails.logger.error "Services unavailable: " + e.to_s
       rescue => e
         Rails.logger.error e.to_s
       end
