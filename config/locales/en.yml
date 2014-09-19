@@ -64,6 +64,7 @@ en:
         country: Country
         declaration: "Declaration"
         edit_fee: "Registration amendment charge"
+        expires_on: "Expiry date"
         exception: "Services error:"
         firstName: "First name"
         houseNumber: "Building name or number"
@@ -219,6 +220,10 @@ en:
     update_button_label: Update
     view_certificate_link_label: "View certificate"
     yes_option_label: "Yes"
+    addCopyCards_button_label: "Add copy cards"
+    renew_button_label: "Renew registration"
+    approve_button_label: "Approve registration"
+    refuse_button_label: "Refuse registration"
   global:
     betaMessage: "BETA"
     betaMessage_html: "This is a new service - your feedback will help us improve it."
@@ -642,6 +647,7 @@ en:
       company_name: "Name"
       registration: "registration"
       record: "record"
+      actions_heading: "Actions"
     form:
       address_and_contact_details_heading: "Address and contact details"
       addresses_found: " Address(es) found"
@@ -963,6 +969,15 @@ en:
     renewal: "Renewal"
     copy_cards: "Copy Cards"
     edit: "Edit"
+  registration_status:
+    INACTIVE: "Deleted"
+    EXPIRED: "Expired"
+    REVOKED: "Revoked"
+    REFUSED: "Refused"
+    CONVICTIONS: "Conviction Check"
+    PENDINGPAYMENT: "Awaiting payment"
+    PENDING: "Pending"
+    COMPLETE: "Registered"
   templates:
     formExample:
       title: "Example form controls and content"

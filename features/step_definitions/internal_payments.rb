@@ -57,7 +57,7 @@ Given(/^I have found a registrations payment details$/) do
   page.should have_content 'Registration search'
   fill_in 'q', with: 'PaymentReg'+registrationCount.to_s
   click_button 'Search'
-  find_button('paymentStatus1').click
+  find_link('paymentStatus1').click
   page.should have_content 'Payment status'
 end
 

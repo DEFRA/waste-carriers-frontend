@@ -407,7 +407,7 @@ class Registration < Ohm::Model
   # @return  [Array]  list of all registrations in MongoDB
   class << self
     def find_all
-      result = registrations = []
+      registrations = []
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
       begin
         response = RestClient.get url
@@ -487,6 +487,7 @@ class Registration < Ohm::Model
   class << self
     def find_all_by(some_text, within_field)
       registrations = []
+      all_regs = {}
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?q=#{some_text}&searchWithin=#{within_field}"
       begin
         response = RestClient.get url
@@ -979,6 +980,19 @@ class Registration < Ohm::Model
       false
     end
   end
+  
+  def revoked?
+    metaData.first.status == 'REVOKED'
+  end
+  
+  def deleted?
+    metaData.first.status == 'INACTIVE'
+  end
+  
+  def refused?
+    # TODO: function for if refused?
+    false
+  end
 
   def about_to_expire?
     metaData.first.status == 'ACTIVE' && expires_on && (expires_on - Rails.configuration.registration_renewal_window) < Time.now && expires_on  > Time.now
@@ -1088,6 +1102,88 @@ class Registration < Ohm::Model
 
     is_complete
 
+  end
+  
+  UpperRegistrationStatus = %w[
+    INACTIVE
+    EXPIRED
+    REVOKED
+    REFUSED
+    CONVICTIONS
+    PENDINGPAYMENT
+    COMPLETE
+  ]
+  
+  LowerRegistrationStatus = %w[
+    INACTIVE
+    REVOKED
+    PENDING
+    COMPLETE
+  ]
+  
+  def get_label_for_status( status)
+    I18n.t('registration_status.' + status.to_s) 
+  end
+  
+  def registration_status
+    if upper?      
+      # For UPPER:
+      Rails.logger.debug "Upper registration " + uuid.to_s
+      
+      # Deleted
+      if deleted?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is deleted"
+        get_label_for_status( UpperRegistrationStatus[0])
+      # Expired
+      elsif expired?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " has expired"
+        get_label_for_status( UpperRegistrationStatus[1])
+      # Revoked
+      elsif revoked?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is revoked"
+        get_label_for_status( UpperRegistrationStatus[2])
+      # Refused
+      elsif refused?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " has been refused"
+        get_label_for_status( UpperRegistrationStatus[3])
+      # Conviction Check
+      elsif is_awaiting_conviction_confirmation?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is awaiting convictions"
+        get_label_for_status( UpperRegistrationStatus[4])
+      # Awaiting Payment
+      elsif !paid_in_full?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is not paid"
+        get_label_for_status( UpperRegistrationStatus[5])
+      # Registered
+      elsif is_complete?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is complete"
+        get_label_for_status( UpperRegistrationStatus[6])
+      else
+        # If all else fails .. PENDING
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is unable to determine status, use Pending"
+        get_label_for_status( LowerRegistrationStatus[2])
+      end
+    else
+      # For LOWER:
+      Rails.logger.debug "Lower registration " + uuid.to_s
+      
+      # Deleted
+      if deleted?
+        get_label_for_status( LowerRegistrationStatus[0])
+      # Revoked
+      elsif revoked?
+        get_label_for_status( LowerRegistrationStatus[1])
+      # Pending
+      elsif pending?
+        get_label_for_status( LowerRegistrationStatus[2])
+      # Registered
+      elsif is_complete?
+        get_label_for_status( LowerRegistrationStatus[3])
+      else
+        # If all else fails .. PENDING
+        get_label_for_status( LowerRegistrationStatus[2])
+      end
+    end
   end
 
   def self.activate_registrations(user)
