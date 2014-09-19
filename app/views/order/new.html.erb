@@ -66,7 +66,6 @@
     </table>
     <p class='form-note'><%= t '.total_fee_vat' %></p>
 
-      <% if showCopyCards?(@renderType) %>
 
         <div class="payment-option">
           <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
@@ -78,7 +77,6 @@
           <p class="panel-indent">Paying by bank transfer requires 2 steps, both must completed to activate your account.
         </div>
 
-        <% end %>
     </div>
   </div><!-- end grid-2-3 -->
 
