@@ -5,8 +5,8 @@ class ConvictionSignOff < Ohm::Model
   extend ActiveModel::Naming
 
   attribute :confirmed
-  attribute :confirmed_at
-  attribute :confirmed_by
+  attribute :confirmedAt
+  attribute :confirmedBy
 
   # returns a hash representation of the ConvictionSignOff object
   #
