@@ -44,8 +44,8 @@
 
   <fieldset>
     <legend></legend>
-    
-    <h2 class="heading-medium"><%= t '.registrationCountText', count: pluralize(@registrations.count,"registration") %></h2>
+
+    <h2 class="heading-medium"><%= t '.registrationCountText', :count => pluralize(@registrations.count,"registration") %></h2>
 
       <table summary=" A list of the user's registrations">
         <thead>
@@ -63,22 +63,22 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
           <% @registrations.each do |registration| %>
-              <td><%= registration.companyName %></td>
-              <td><%= registration.postcode %></td>
-              <td><%= registration.regIdentifier %></td>
-              <td><%=  registration.metaData.first.status %></td>
-              <td>
-                <% case  registration.metaData.first.status %>
-                <% when 'ACTIVE', 'EXPIRED'  %>
-                  <%= registration.expires_on.strftime("%d-%^B-%Y") %>
-                <% when 'REVOKED' %>
-                  <%= t '.status_revoked_text' %>
-                <% else %>
-                  <%= t '.status_na_text' %>
-                <% end %>
-              </td>
+          <tr>
+	            <td><%= registration.companyName %></td>
+	            <td><%= registration.postcode %></td>
+	            <td><%= registration.regIdentifier %></td>
+	            <td><%=  registration.metaData.first.status %></td>
+	            <td>
+		            <% case  registration.metaData.first.status %>
+		            <% when 'ACTIVE', 'EXPIRED'  %>
+			            <%= registration.expires_on.strftime("%d-%^B-%Y") %>
+		            <% when 'REVOKED' %>
+			            <%= t '.status_revoked_text' %>
+		            <% else %>
+			            <%= t '.status_na_text' %>
+		            <% end %>
+	            </td>
           </tr>
             <% 
             # Only show the Edit Row, if any of the butttons are shown
@@ -98,18 +98,18 @@
               <% end %>
               </td>
 
-              <td><%= link_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), method: :get, id: "delete" if registration.metaData.first.status == 'ACTIVE' %>
+		          <td><%= link_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :id => "delete" if registration.metaData.first.status == 'ACTIVE' %>
               </td>
 
-              <td>
-                <% if registration.about_to_expire? %>
-                <%= link_to 'Renew Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %>
-                <% elsif registration.can_be_recreated? %>
-                  <%= link_to 'Re-create Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
-                <% end %>
-              </td>
+	            <td>
+		            <% if registration.about_to_expire? %>
+	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %>
+	            	<% elsif registration.can_be_recreated? %>
+		            	<%= link_to 'Re-create Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
+	            	<% end %>
+	            </td>
 
-              <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if registration.can_request_copy_cards?  %>
+	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if registration.can_request_copy_cards?  %>
               </td>
 
 	        </tr>
