@@ -441,7 +441,7 @@ class Registration < Ohm::Model
         response = RestClient.get url
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug "find_by_email found #{all_regs.size.to_s} items"
+          Rails.logger.debug "find found #{all_regs.size.to_s} items"
           all_regs.each do |r|
             Rails.logger.debug "#{r['id']}"
             registrations << Registration.init(r)
