@@ -1222,88 +1222,80 @@ class RegistrationsController < ApplicationController
     authorize! :update, @registration
     
     # Validate if is in a correct state to revoke/unrevoke?
-    if params[:revoke]    					# Checks the type of request, ie which button was clicked
+    if params[:revoke]                      # Checks the type of request, ie which button was clicked
       if @registration.is_revocable?        # Checks if revocable, i.e. is registration in a state that can be made revoked
         if !params[:registration][:metaData][:revokedReason].empty?     # Checks the reason was provided
-          
-          # TODO: Mark registration as revoked
-          # (update meta data)
-          revokedReason = params[:registration][:metaData][:revokedReason]
-          logger.info 'Revoked Reason: ' + revokedReason.to_s
-          
-          # success 
-          # -------------------------------------------------
-          
-          if agency_user_signed_in?
-	        logger.info 'Revoke action detected'
-
-	        # Merge param information with registration from DB
-	        #@registration.update_attributes(updatedParameters(@registration, params[:registration]))
-	        #@registration.add( params[:registration] )
-	        @registration.metaData.first.update(revokedReason: revokedReason)
-
-	        # Forceably set the revoked value in the registration to now check for a revoke reason
-	        #if params[:revoke_question] == 'yes'
-	          logger.info 'Revoke set, so should now run additional rule'
-	          #@registration.revoked = 'true'
-	        #end
-	        
-	        # this is a tider way of handling the above  !empty check?
-	        #@registration.validate_revokedReason
-
-	        #if @registration.valid?
-	          @registration.metaData.first.update(status: 'REVOKED')
-	          @registration.save
-	          
-	          @registration.save!
-	          
-	          logger.debug "uuid: #{@registration.uuid}"
-	          
-	          # TODO: Send revoke email
-              #@user = User.find_by_email(@registration.accountEmail)
-              #RegistrationMailer.revoke_email(@user, @registration).deliver
-	          
-	          # Redirect to registrations page
-              redirect_to registrations_path(:note => I18n.t('registrations.form.reg_revoked') ) and return
-
-	        #else
-	          # error handled already
-	        #end
-	      else
-	        renderAccessDenied and return
-	      end
-          
-          # ---------------------------
-          
-          
-          
+          if agency_user_signed_in?                                     # Checks only agency users can revoke
+            # Get reason from params
+            revokedReason = params[:registration][:metaData][:revokedReason]
+            logger.info 'Revoked Reason: ' + revokedReason.to_s
+            
+            # Update registration with revoked comment and status
+            @registration.metaData.first.update(revokedReason: revokedReason)
+            @registration.metaData.first.update(status: 'REVOKED')
+            
+            # Save changes to registration
+            @registration.save
+            @registration.save!
+            logger.debug "uuid: #{@registration.uuid}"
+            
+            # Send revoke email
+            @user = User.find_by_email(@registration.accountEmail)
+            RegistrationMailer.revoke_email(@user, @registration).deliver
+            
+            # Redirect to registrations page
+            redirect_to registrations_path(:note => I18n.t('registrations.form.reg_revoked') ) and return
+          else
+            renderAccessDenied and return
+          end
+        else
+          # Reason not provided
+          @registration.errors.add(:revokedReason, I18n.t('errors.messages.blank'))
         end
+      else
+        # Error: Not ready for revoke  TODO: Replace this with better message
+        @registration.errors.add(:revokedReason, I18n.t('errors.messages.blank'))
       end
     else
       # check if unrevocable
       if @registration.is_unrevocable?
-        if params[:registration][:metaData][:unrevokedReason]
-          
-          # TODO: Mark registration as unrevoked, i.e. reactivated
-          
-          # Send email to say reactivated? Resend registration?
-          
-          # Redirect to registrations page
-          redirect_to registrations_path(:note => 'TODO: Implement code' ) and return
+        if !params[:registration][:metaData][:unrevokedReason].empty?
+          if agency_user_signed_in?
+            # Get reason from params
+            unrevokedReason = params[:registration][:metaData][:unrevokedReason]
+            logger.info 'Unrevoked Reason: ' + unrevokedReason.to_s
+            
+            # Mark registration as unrevoked, i.e. reactivated
+            @registration.metaData.first.update(revokedReason: unrevokedReason)
+            @registration.metaData.first.update(status: 'ACTIVE')
+            
+            # Save changes to registration
+            @registration.save
+            @registration.save!
+            logger.debug "uuid: #{@registration.uuid}"
+            
+            # QUESTION: Do we Send email to say reactivated? Resend registration perhaps?
+            
+            # Redirect to registrations page
+            redirect_to registrations_path(:note => 'Registration reactivated' ) and return
+          end
+        else
+          # Reason not provided
+          @registration.errors.add(:unrevokedReason, I18n.t('errors.messages.blank'))
         end
+      else
+        # Error: Not ready for unrevoke  TODO: Replace this with better message
+        @registration.errors.add(:unrevokedReason, I18n.t('errors.messages.blank'))
       end
     end    
     
     # Error must have occured return to original view with errors
     if params[:revoke]
-    
       # from revoke
-      @registration.errors.add(:revokedReason, I18n.t('errors.messages.blank'))
       @isRevoke = true
       render :revoke, :status => '400'
     else 
       # from unrevoke
-      @registration.errors.add(:unrevokedReason, I18n.t('errors.messages.blank'))
       @isRevoke = false
       render :revoke, :status => '400'
     end

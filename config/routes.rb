@@ -71,6 +71,7 @@ Registrations::Application.routes.draw do
     
     # Add routing for revoke/unrevoke registration
     get "registrations/:id/revoke" => 'registrations#revoke', :via => [:get], :as => :revoke
+    get "registrations/:id/unrevoke" => 'registrations#unRevoke', :via => [:get], :as => :unrevoke
     match "registrations/:id/revoke" => 'registrations#updateRevoke', :via => [:post]
 
     # Registration urls - Smart answers
