@@ -432,6 +432,11 @@ en:
       subtitle: "Checking your details before registering"
       tier_description: "You are %{tier_with_article} tier waste carrier..."
       title: Confirmation
+      edit_business_type_link: "Edit your business type answer"
+      edit_waste_disposal_link: "Edit your waste disposal policy answer"
+      edit_AMF_disposal_link: "Edit your Animal, Mine or Farm waste disposal answer"
+      edit_service_type_link: "Edit your service type answer"
+      edit_construction_link: "Edit your construction/demolition waste answer"
     confirmed:
       title: "Confirmed"
       your_reg_number: "Your registration number is: %{reg}"
@@ -923,6 +928,9 @@ en:
       almost_there_message: "Waiting for confirmation of payment"
       complete_title: "Registration complete"
       complete_message: "Payment has been succesful and your registration is complete"
+      complete_edit_no_charge_message: "Your registration has been successfully updated"
+      complete_edit_with_charge_paid_message: "Payment has been succesful and your registration has been successfully updated"
+      complete_edit_with_charge_unpaid_message: "Your registration has been updated pending payment"
       criminal_title: "Incomplete"
       criminal_message: "We are running background checks on the information you have provided"
     current_user:

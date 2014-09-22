@@ -265,7 +265,13 @@ class RegistrationsController < ApplicationController
     setup_registration 'constructiondemolition'
 
     if @registration.valid?
-      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      # this is the last step of the smart answers, so we need to check if
+      # we're doing a smart edit or not
+      if session[:edit_mode]
+        original_registration = Registration[ session[:original_registration_id] ]
+        redirect_to action: determine_smart_answers_route(@registration, original_registration)
+        return
+      end
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
       when 'yes'
@@ -290,7 +296,13 @@ class RegistrationsController < ApplicationController
     setup_registration 'onlydealwith'
 
     if @registration.valid?
-      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      # this is the last step of the smart answers, so we need to check if
+      # we're doing a smart edit or not
+      if session[:edit_mode]
+        original_registration = Registration[ session[:original_registration_id] ]
+        redirect_to action: determine_smart_answers_route(@registration, original_registration)
+        return
+      end
       # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
       when 'yes'
@@ -351,7 +363,12 @@ class RegistrationsController < ApplicationController
       end
 
       if session[:edit_mode]
-        redirect_to :newConfirmation and return
+        case @registration.businessType
+        when  'partnership', 'limitedCompany', 'publicBody'
+          redirect_to :newKeyPerson and return
+        else
+          redirect_to :newConfirmation and return
+        end
       else
         redirect_to :newContact and return
       end
@@ -497,11 +514,13 @@ class RegistrationsController < ApplicationController
       when EditMode::EDIT
         case session[:edit_result].to_i
         when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+          if @registration.save!
+            logger.debug "Registration #{@registration.uuid} now saved!"
+          else
+            #TODO: error handling
+          end #if
           redirect_to action: 'editRenewComplete' and return
-
-        when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-          redirect_to newOrderEdit_path(@registration.uuid) and return
-        when  EditResult::CREATE_NEW_REGISTRATION
+        when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE,  EditResult::CREATE_NEW_REGISTRATION
           redirect_to newOrderEdit_path(@registration.uuid) and return
         else
           redirect_to action: 'editRenewComplete' and return
@@ -1289,11 +1308,7 @@ class RegistrationsController < ApplicationController
 
   # Renders the edit renew order complete view
   def editRenewComplete
-    #@registration = Registration[session[:registration_id]]
-    #
-    # BUG: Cannot use registration form session here as its potentially out of date as an order was just made
-    # Need to rethink  why we are doing this?
-    #
+
     @registration = Registration.find_by_id(session[:registration_uuid])
     #need to store session variables as instance variable, so that editRenewComplete.html can
     #use them, as session will be cleared shortly
@@ -1302,27 +1317,7 @@ class RegistrationsController < ApplicationController
 
     @confirmationType = getConfirmationType
 
-    if  (session[:edit_result].to_i ==  EditResult::CREATE_NEW_REGISTRATION) ||
-        (session[:edit_mode].to_i== EditMode::RECREATE)
-      if @registration.commit
-        logger.debug "Registration #{@registration.uuid} now created!"
-      else
-        #TODO: error handling
-      end #if
-    else
-      #
-      # BUG: Doing a save on the registration at this point is very bad, Firstly doing a save on a get is a bad idea,
-      # secondly as the registration has just had an order added to it, saving the local version, assuming the above is
-      # get the registreation out of the session, will have an out of date order.
-      #
-      # Removing code for now
-      #
-      if false #@registration.save!
-        logger.debug "Registration #{@registration.uuid} now saved!"
-      else
-        #TODO: error handling
-      end #if
-    end
+
 
     #at the end of the edit/renewal process, so clear the session
     #clear_edit_session
@@ -1352,6 +1347,7 @@ class RegistrationsController < ApplicationController
     end
 
     if session[:edit_mode]
+      logger.debug "success" if create_new_reg
       redirect_to action: 'editRenewComplete' and return
     else
       redirect_to next_step
