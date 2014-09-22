@@ -17,14 +17,9 @@
     "phoneNumber" : "447988234833",
     "contactEmail" : "fred@sky.com",
     "accountEmail" : "fred1@gov.uk",
-    "declaredConvictions" : "no",
     "declaration" : "1",
     "expiresOn" : "2014-07-28T00:00:00.000Z",
     "metaData" : {
-        "dateRegistered" : "2014/09/09 11:22:25",
-        "anotherString" : "userDetailAddedAtRegistration",
-        "lastModified" : "2014/09/09 11:22:25",
-        "dateActivated" : "",
         "status" : "ACTIVE",
         "route" : "DIGITAL",
         "distance" : "n/a"
@@ -76,7 +71,6 @@
     "phoneNumber" : "447988234833",
     "contactEmail" : "fred@sky.com",
     "accountEmail" : "fred1@gov.uk",
-    "declaredConvictions" : "no",
     "declaration" : "1",
     "expiresOn" : "2014-10-16T00:00:00.000Z",
     "metaData" : {
@@ -84,7 +78,7 @@
         "route" : "DIGITAL",
         "distance" : "n/a"
     },
-     "financeDetails" : {
+ "financeDetails" : {
         "payments" : [],
         "orders" : [
             {

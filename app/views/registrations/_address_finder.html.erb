@@ -26,9 +26,7 @@
       <% end %>  <!-- if -->
 
   <% else %>  <!-- @address_match_list is nil, address service lookup failed -->
-      <% unless session[:edit_mode] %>
-        <span class="error-text"><%= t '.address_service_error'%></span>
-      <% end %>
+      <span class="error-text"><%= t '.address_service_error'%></span>
       <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
   <% end %>  <!-- if -->
 
