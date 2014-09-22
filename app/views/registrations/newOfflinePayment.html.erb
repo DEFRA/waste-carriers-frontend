@@ -13,9 +13,8 @@
 <header class="page-header group">
   <div class="hgroup">
     <h1 class="heading-xlarge"><%= t '.heading' %></h1>
-        <p class="panel-indent">Please note - you will not be registered until we have received your payment and sent you your registration certificate. If you do not complete step 2, there may be a delay in processing your payment and sending yoru certificate.</p>
     <h2 class="heading-medium"><%= t '.bank_transfer_instructions' %></h2>
-    <p><strong>Step 1 - </strong> contact your bank to arrange a payment using the folowing details</P>
+    <p><strong>Step 1 - </strong> use our account details below to make your internet or telephone banking payment.</P>
   </div>
 </header>
 
@@ -55,7 +54,11 @@
         </tbody>
       </table>
 
-    <p class="iban-instructions"><%= t '.iban_instructions' %></p>
+      <br/>
+
+      <div class="iban-instructions">
+        <p><%= t '.iban_instructions' %></p>
+      </div>
 
       <table summary='Bank transfer details' role='presentation'>
         <thead></thead>
@@ -71,11 +74,12 @@
         </tbody>
       </table>
 
-  </br>
-  </br>
+      <p class="panel-indent"><strong><%= t '.sterling_instruction' %></strong></p>
 
-      <p><strong>Step 1 - </strong> tell us the date and amount of your payment and your payment reference number by one of the following three ways</P>
-      <h4 class="heading-small"><%= t '.bank_transfer_contact_instructions' %></h4>
+      <br/>
+      <br/>
+
+      <p><span><strong>Step 2 - </strong><span><%= t '.bank_transfer_contact_instructions' %></p>
 
       <table summary='Bank transfer details' role='presentation'>
         <thead></thead>
@@ -94,6 +98,8 @@
           </tr>
         </tbody>
       </table>
+
+      <p class="panel-indent"><strong>We need confirmation of your payment to complete your registration. If you do not complete step 2 the payment process could be delayed and prevent us from sending your registration certificate</strong></p>
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>
     <ol>

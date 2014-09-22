@@ -1,12 +1,12 @@
 <%= render 'shared/content_for_pages' %>
 
-<div class="wrapper">
+<div id="wrapper">
 
 <main id="content" role="main" class="group">
 
 <div class="back-section">
   <ol>
-    <li></li>
+    <li><%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'link_to' %></li>
   </ol>
 </div>
 
@@ -26,7 +26,7 @@
 
   		  <p>TBC - Copy card order complete page</p>
 
-        <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'link_to' %>
+
 
       <%# end %>
 

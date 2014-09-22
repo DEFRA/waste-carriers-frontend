@@ -150,33 +150,43 @@ input#registration_copy_cards {
 
 /* Registration complete page ============================================= */
 
-.summary-box {
+.completeSummary {
+  background-color: $green;
+  padding:2em;
   color: $page-colour;
-  padding: 0em;
   text-align: center;
-  margin-top: $gutter-half;
-  margin-bottom: $gutter-half;
+  margin-bottom:$gutter-half;
 }
 
 .almostComplete,
 .criminallySuspect {
   background-color: $orange;
   padding:2em;
-}
-
-.complete {
-  background-color: $turquoise;
-  padding:2em;
+  color: $page-colour;
+  text-align: center;
+  margin-bottom:$gutter-half;
 }
 
 .completeSummaryTitle {
-  @include bold-36;
+  @include bold-48;
   margin-bottom: $gutter-half;
 }
 
 .completeSummaryMessage {
   @include bold-19;
+  margin-bottom: $gutter-half;
 }
+
+.summary-box {
+  margin-top: $gutter-half;
+}
+
+
+
+
+
+
+
 
 
 

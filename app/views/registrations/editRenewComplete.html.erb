@@ -16,8 +16,7 @@
       </div>
     </header>
 
-    <section id='payment-copycardcomplete-page'>
-      <div class="col-1" id='payment-col-1'>
+    <section id='payment-copycardcomplete-page' class="text">
 
       <% content_for :page_title, createTitle('.title') %>
 
@@ -51,8 +50,9 @@
             <% end %>
         <% end %>
 
-        <legend><%= title %></legend>
-        <h2 class='registered'><%= subtitle %></h2>
+        <legend class="heading-large"><%= title %></legend>
+
+        <p class='registered'><%= subtitle %></p>
 
 
     <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
@@ -60,8 +60,6 @@
         <%= link_to t('.back_button'), userRegistrations_path(current_user.id), :class => 'link_to' if current_user %>
 
       </fieldset>
-
-      </div>
     </section>
   </main><!-- end main -->
 </div><!-- end wrapper -->
