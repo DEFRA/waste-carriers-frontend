@@ -1236,6 +1236,16 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
   end
+  
+  def revoke
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :update, @registration
+  end
+  
+  def updateRevoke
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :update, @registration
+  end
 
   def publicSearch
     distance = params[:distance]
