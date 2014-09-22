@@ -227,7 +227,7 @@ module RegistrationsHelper
         confirmationType = STATUS_COMPLETE
       end
     else # lower registration
-      confirmationType = getCompleteLowerClass if @registration.metaData.first.status.downcase.eql? 'active'
+      confirmationType = STATUS_COMPLETE_LOWER if @registration.metaData.first.status.downcase.eql? 'active'
     end
 
     unless confirmationType
