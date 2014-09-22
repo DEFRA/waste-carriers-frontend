@@ -993,6 +993,10 @@ class Registration < Ohm::Model
     # TODO: function for if refused?
     false
   end
+  
+  def is_revocable?
+    is_complete?
+  end
 
   def about_to_expire?
     metaData.first.status == 'ACTIVE' && expires_on && (expires_on - Rails.configuration.registration_renewal_window) < Time.now && expires_on  > Time.now

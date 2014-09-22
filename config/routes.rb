@@ -68,6 +68,10 @@ Registrations::Application.routes.draw do
 
     # Add a new route for the print view
     match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
+    
+    # Add routing for revoke/unrevoke registration
+    get "registrations/:id/revoke" => 'registrations#revoke', :via => [:get], :as => :revoke
+    match "registrations/:id/revoke" => 'registrations#updateRevoke', :via => [:post]
 
     # Registration urls - Smart answers
     match "your-registration/business-type" => 'registrations#newBusinessType', :via => [:get], :as => :newBusinessType
