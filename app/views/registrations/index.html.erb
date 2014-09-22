@@ -111,7 +111,7 @@
                       <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.print_button_label'), print_path(reg.uuid) %></li><% end %>
                       <% if reg.can_be_edited? %><li><%= link_to 'Edit Registration', edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::EDIT) %></li><% end %>
                       <% if reg.metaData.first.status != "INACTIVE" %><li><%= link_to t('form.delete_button_label'), confirmDelete_path(reg.uuid) %></li><% end %>
-                      <% if reg.is_complete? %><li><%= link_to t('registrations.form.revoke_button_label'), '#' %></li><% end %>
+                      <% if reg.is_revocable? %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid) %></li><% end %>
                       <% if reg.metaData.first.status == "REVOKED" %><li><%= link_to t('registrations.form.unrevoke_button_label'), '#' %></li><% end %>
                       <% if reg.upper? %>
                         <% if reg.is_awaiting_conviction_confirmation? %><li><%= link_to t('form.approve_button_label'), '#' %></li><% end %>
