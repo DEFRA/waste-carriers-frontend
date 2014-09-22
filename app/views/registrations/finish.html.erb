@@ -6,7 +6,7 @@
 
     <div class="back-section">
         <ol>
-          <li><%= render 'back_link' %></li>
+          <li></li>
         </ol>
     </div>
 
@@ -17,18 +17,20 @@
     </header>
 
     <!-- WF 4.3.4 -->
-    <div id="page4"  data-journey="waste-carriers-registration:finish">
+    <div id="page4" class="text"  data-journey="waste-carriers-registration:finish">
       <% content_for :page_title, createTitle('.title') %>
       <% isComplete = (@confirmationType.eql? getCompleteClass) or (@confirmationType.eql? getCompleteLowerClass) %>
-      <%= render 'shared/complete_summary', :type => @confirmationType %>
+      <div class="summary-box">
+        <%= render 'shared/complete_summary', :type => @confirmationType %>
+      </div>
 
       <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
       <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
-      <% if can? :print, @registration and isComplete %>
-        <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
-      <% end %>
       <% if isComplete %>
         <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+      <% end %>
+      <% if can? :print, @registration and isComplete %>
+        <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
       <% end %>
 
       <% unless @registration.paid_in_full? %>
@@ -43,7 +45,7 @@
         <% end %>
       <% end %>
 
-      <p><%= t '.details_change' %></p>
+      <p class="panel-indent"><%= t '.details_change' %></p>
 
       <%= form_tag(registrations_finish_path) do |f| %>
         <span class="next_link">

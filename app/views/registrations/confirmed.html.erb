@@ -4,6 +4,18 @@
 
 <main id="content" role="main" class="group">
 
+<div class="back-section">
+    <ol>
+      <li></li>
+    </ol>
+</div>
+
+<header class="page-header group">
+  <div class="hgroup">
+      <h1 class="heading-large"></h1>
+  </div>
+</header>
+
   <!-- WF 4.3.2 -->
   <div id="page0"  data-journey="waste-carriers-registration:confirmed-account"></div>
 
@@ -44,9 +56,9 @@
 
             <% elsif @confirmationType.eql? getAlmostCompleteClass %>
 
-            <p><%= t('.not_yet_registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+            <p class="heading-small"><%= t('.not_yet_registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
 
-            <p><%= t '.payment_message', :regNum => @registration.regIdentifier %></p>
+            <p class="panel-indent"><%= t '.payment_message', :regNum => @registration.regIdentifier %></p>
 
             <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
 
