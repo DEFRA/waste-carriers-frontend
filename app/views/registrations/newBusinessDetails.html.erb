@@ -37,8 +37,8 @@
       <fieldset>
         <legend></legend>
           <%= render 'errors' %>
-          <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
-          <%= render 'company_details_finder', f: f, r: @registration %>
+          <% if @registration.businessType.eql?('limitedCompany') %>
+            <%= render 'company_details_finder', f: f, r: @registration %>
           <% end %>
           <%= render 'company_name', :f => f, :r => @registration, n: name_field %>
           <%= render 'address_finder', :f => f, :r => @registration %>
