@@ -19,7 +19,7 @@
     <!-- WF 4.3.4 -->
     <div id="page4" class="text"  data-journey="waste-carriers-registration:finish">
       <% content_for :page_title, createTitle('.title') %>
-      <% isComplete = (@confirmationType.eql? getCompleteClass) or (@confirmationType.eql? getCompleteLowerClass) %>
+      <% isComplete = (@confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE) or (@confirmationType.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE) %>
       <div class="summary-box">
         <%= render 'shared/complete_summary', :type => @confirmationType %>
       </div>
