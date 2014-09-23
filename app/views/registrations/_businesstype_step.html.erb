@@ -3,25 +3,34 @@
   <!-- Smart Answers
     What kind of business or organisation are you?
   -->
+  <div class="back-section">
+    <ol>
+      <li></li>
+    </ol>
+  </div>
+ <%= render "errors" %>
+
   <header class="page-header group">
-      <div class="hgroup"> 
+      <div class="hgroup">
           <h1 class="heading-large"><%= t 'registrations.businesstype_step.subtitle' %></h1>
       </div>
-  </header> 
+  </header>
 
   <fieldset>
     <legend></legend>
-     <%= render "errors" %>
     <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>">
-      <%= validation_for(@registration, :businessType) %>
-      <% Registration.business_type_options_for_select.each do |option| %>
+      <ul>
+        <li><%= validation_for(@registration, :businessType) %></li>
+        <li><% Registration.business_type_options_for_select.each do |option| %>
           <%= f.label :businessType, for: "registration_businessType_#{option.second.downcase}",  class: 'block-label' do %>
-              <%= f.radio_button :businessType, option.second %>
-              <%= option.first %>
+            <%= f.radio_button :businessType, option.second %>
+            <%= option.first %>
           <% end %>
-      <% end %>
+          <% end %>
+        </li>
+      </ul>
     </div>
   </fieldset>
-    <%= render 'next_link' %>
-  </div>
+  <%= render 'next_link' %>
+</div>
 

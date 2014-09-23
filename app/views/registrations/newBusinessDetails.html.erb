@@ -28,6 +28,7 @@
               <% name_field = t '.name_field'  %>
             <% end %>
 
+      <%= render 'errors' %>
       <header class="page-header group">
         <div class="hgroup">
           <h1 class="heading-large"><%= legend %></h1>
@@ -36,7 +37,6 @@
 
       <fieldset>
         <legend></legend>
-          <%= render 'errors' %>
           <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
           <%= render 'company_details_finder', f: f, r: @registration %>
           <% end %>
@@ -44,7 +44,7 @@
           <%= render 'address_finder', :f => f, :r => @registration %>
       </fieldset>
 
-      <span class="next_link"><%= render 'next_link' %></span>
+      <%= render 'next_link' %>
       <% end %>
 
   </main><!--main end-->

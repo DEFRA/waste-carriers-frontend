@@ -69,9 +69,11 @@ en:
         firstName: "First name"
         houseNumber: "Building name or number"
         individualsType: "Organisation type"
+        isMainService: "Kind of service you provide"
         lastName: "Last name"
         newOrRenew: "Are you renewing an existing licence"
         originalRegistrationNumber: "Registration number"
+        otherBusinesses: "Deal with waste from other businesses or households"
         password: Password
         password_confirmation: "Confirm password"
         phoneNumber: "Telephone number"
@@ -859,7 +861,7 @@ en:
       title: "Registration type"
     revoke:
       title_revoke: "Revoke registration"
-      title_unrevoke: "UnRevoke registration"      
+      title_unrevoke: "UnRevoke registration"
     serviceprovided_step:
       main_service_label: "Waste disposal is the main service we provide"
       part_of_service_label: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
