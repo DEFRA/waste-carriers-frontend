@@ -56,10 +56,10 @@
                    <div class='form-group'> <%=  t '.subtitle_edit_reg_no_charge' %> </div>
 
               <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
-                    <div class='form-group'> <%=  t '.subtitle_edit_reg_with_charge', fee:    Money.new(Rails.configuration.fee_reg_type_change) %> </div>
+                    <div class='form-group'> <%=  t '.subtitle_edit_reg_with_charge', :fee => Money.new(Rails.configuration.fee_reg_type_change) %> </div>
 
               <% when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION  %>
-                     <div class='form-group'> <%=  t '.subtitle_edit_reg_new_reg' %> </div>
+                     <div class='form-group'> <%=  t '.subtitle_edit_reg_new_reg', :fee => Money.new(Rails.configuration.fee_registration) %> </div>
 
               <% when  RegistrationsController::EditResult::NO_CHANGES  %>
               <% else %>

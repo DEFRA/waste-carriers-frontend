@@ -3,6 +3,7 @@
   <!-- Smart Answers
     Whose waste do you deal with?
    -->
+  <%= render "errors" %>
   <header class="page-header group">
       <div class="hgroup">
         <h1 class="heading-large"><%= t 'registrations.otherBusinesses_step.subtitle' %></h1>
@@ -11,22 +12,23 @@
 
   <fieldset>
     <legend></legend>
-    <%= render "errors" %>
-    <div class="inline<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>">
-        <%= validation_for(@registration, :otherBusinesses) %>
-        <%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
-        <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %>
-        <%= t 'form.yes_option_label' %>
+    <div class="form-group<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>">
+      <ul>
+        <li><%= validation_for(@registration, :otherBusinesses) %></li>
+        <li class="inline"><%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
+          <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %>
+          <%= t 'form.yes_option_label' %>
           <% end %>
-        <%= f.label :no_option_label, for: "registration_otherBusinesses_no", :class => "block-label" do %>
-        <%= f.radio_button :otherBusinesses, "no", :class => "radio" %>
-        <%= t 'form.no_option_label' %>
-          <% end %>
+        </li>
+        <li class="inline"><%= f.label :no_option_label, for: "registration_otherBusinesses_no", :class => "block-label" do %>
+          <%= f.radio_button :otherBusinesses, "no", :class => "radio" %>
+          <%= t 'form.no_option_label' %>
+        </li>
+        <% end %>
+      </ul>
     </div>
   </fieldset>
-
-  <%= render 'next_link' %>
-
-  </div>
+ <%= render 'next_link' %>
+</div>
 
 

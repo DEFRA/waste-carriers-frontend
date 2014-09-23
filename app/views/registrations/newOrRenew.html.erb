@@ -1,40 +1,44 @@
 <%= render 'shared/content_for_pages' %>
 <div id="wrapper">
   <main id="content" role="main" class="group">
-    <article role="article" class="group">
-      <section>
-        <% content_for :page_title, createTitle('.title') %>
-        <%= form_for(@registration, :url => selectRegistrationType_path) do |f| %>
-          
-          <div id="start" data-journey="waste-carriers-registration:new-or-renew">
-            
-            <!-- Start page
-              Select Registration route, New or Renew?
-            -->
-            <header class="page-header group">
-              <div class="hgroup"> 
-                  <h1 class="heading-large"><%= t '.subtitle' %></h1>
-              </div>
-            </header> 
+    <% content_for :page_title, createTitle('.title') %>
+    <%= form_for(@registration, :url => selectRegistrationType_path) do |f| %>
 
-            <fieldset>
-              <legend></legend>
-              <%= render "errors" %>
-              <div class="form-group<%if @registration.errors[:newOrRenew].any?%> validation<%end%>">
-                <%= validation_for(@registration, :newOrRenew) %>
-                <% Registration.new_or_renew_options_for_select.each do |option| %>
-                  <%= f.label :newOrRenew, for: "registration_newOrRenew_#{option.second.downcase}",  class: 'block-label' do %>
-                      <%= f.radio_button :newOrRenew, option.second %>
-                      <%= option.first %>
-                  <% end %>
+      <div id="start" data-journey="waste-carriers-registration:new-or-renew">
+      <!-- Start page
+        Select Registration route, New or Renew?
+      -->
+      <div class="back-section">
+        <ol>
+          <li></li>
+        </ol>
+      </div>
+
+      <%= render "errors" %>
+      <header class="page-header group">
+        <div class="hgroup">
+            <h1 class="heading-large"><%= t '.subtitle' %></h1>
+        </div>
+      </header>
+
+      <fieldset>
+        <legend></legend>
+          <div class="form-group<%if @registration.errors[:newOrRenew].any?%> validation<%end%>">
+            <ul>
+              <li><%= validation_for(@registration, :newOrRenew) %></li>
+              <% Registration.new_or_renew_options_for_select.each do |option| %>
+              <li><%= f.label :newOrRenew, for: "registration_newOrRenew_#{option.second.downcase}",  class: 'block-label' do %>
+                <%= f.radio_button :newOrRenew, option.second %>
+                <%= option.first %>
                 <% end %>
-              </div>
-            </fieldset>
-            <%= render 'next_link' %>
-          </div>
+                <% end %>
+              </li>
 
-        <% end %>
-      </section>
-    </article>
-  </main>
+            </ul>
+        </div>
+      </fieldset>
+      <%= render 'next_link' %>
+    </div>
+  <% end %>
+</main>
 </div>

@@ -7,23 +7,20 @@ criminallySuspect - renders appropriate text, with orange background
 Note: These values should match styles in the css if needed
 %>
 
-<% if type.eql? getAlmostCompleteClass or type.eql? getCompleteClass or type.eql? getCompleteLowerClass or type.eql? getCriminallySuspectClass %>
+
+<% if RegistrationsHelper::COMPLETE_STATUSES.include? type %>
 <!-- Show a summary box of the status of the registration -->
 <div class="completeSummary <%= type %>">
 	<div class="completeSummaryTitle">
-		<ul>
-			<li><%= t'.almost_there_title' if type.eql? 'almostComplete' %></li>
-			<li><%= t'.criminal_title' if type.eql? 'criminallySuspect' %></li>
-			<li><%= t'.complete_title' if type.eql? 'complete' %></li>
-			<li><%= t'.complete_title' if type.eql? 'complete lower' %></li>
-		</ul>
+		<%= t'.almost_there_title' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+		<%= t'.criminal_title' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+		<%= t'.complete_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+		<%= t'.complete_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
 	</div>
 	<div class="completeSummaryMessage">
-		<ul>
-			<li><%= t '.almost_there_message' if type.eql? 'almostComplete' %></li>
-			<li><%= t'.criminal_message' if type.eql? 'criminallySuspect' %></li>
-			<li><%= t'.complete_message' if type.eql? 'complete' %></li>
-		</ul>
+		<%= t '.almost_there_message' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+		<%= t'.criminal_message' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+		<%= t'.complete_message' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
 	</div>
 </div>
 <% else %>
