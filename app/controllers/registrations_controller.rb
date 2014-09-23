@@ -1406,7 +1406,7 @@ class RegistrationsController < ApplicationController
 
   # Renders the edit renew order complete view
   def editRenewComplete
-
+  
     @registration = Registration.find_by_id(session[:registration_uuid])
     #need to store session variables as instance variable, so that editRenewComplete.html can
     #use them, as session will be cleared shortly
