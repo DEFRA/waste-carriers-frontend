@@ -193,18 +193,13 @@ module RegistrationsHelper
   end
 
   # Defines the list of classes for the complete summary
-  def getCompleteClass
-    'complete'
-  end
-  def getCompleteLowerClass
-    'complete lower'
-  end
-  def getCriminallySuspectClass
-    'criminallySuspect'
-  end
-  def getAlmostCompleteClass
-    'almostComplete'
-  end
+
+  COMPLETE_STATUSES = [STATUS_COMPLETE = 'complete',
+                       STATUS_COMPLETE_LOWER = 'complete lower',
+                       STATUS_CRIMINALLY_SUSPECT = 'criminallySuspect',
+                       STATUS_ALMOST_COMPLETE = 'almostComplete',
+                       STATUS_READY = 'ready']
+
 
   def getConfirmationType
     confirmationType = nil
@@ -224,14 +219,15 @@ module RegistrationsHelper
       awaiting_conviction_confirm = @registration.is_awaiting_conviction_confirmation?
 
       if awaiting_conviction_confirm
-        confirmationType = getCriminallySuspectClass
+        confirmationType = STATUS_CRIMINALLY_SUSPECT
       elsif !@registration.paid_in_full? && !awaiting_conviction_confirm
-        confirmationType = getAlmostCompleteClass
+        confirmationType = STATUS_ALMOST_COMPLETE
       else
-        confirmationType = getCompleteClass
+        # session[:edit_result].to_i ==  EditResult::CREATE_NEW_REGISTRATION
+        confirmationType = STATUS_COMPLETE
       end
-    else
-      confirmationType = getCompleteLowerClass if @registration.metaData.first.status.downcase.eql? 'active'
+    else # lower registration
+      confirmationType = STATUS_COMPLETE_LOWER if @registration.metaData.first.status.downcase.eql? 'active'
     end
 
     unless confirmationType
@@ -271,13 +267,39 @@ module RegistrationsHelper
 
     # Check legacy format
     res = regNo.upcase.match(legacy_reg_format)
-    
-    # Return true or false, depending on match
-    if res != nil
-      true
+
+  end
+
+
+  # determines what we need to do after Smart Answers have been edited
+  #
+  # @param none
+  # @return  [String] somthing
+  def determine_smart_answers_route(edited_registration, original_registration)
+
+
+    if (original_registration.businessType != edited_registration.businessType) &&
+        (['partnership', 'limitedCompany', 'publicBody'].include? edited_registration.businessType )
+      :newBusinessDetails
     else
-      false
+      :newConfirmation
     end
+
+  end
+
+  def create_new_reg
+    res = true
+     logger.debug session[:edit_mode]
+    logger.debug session[:edit_result]
+    if  session[:edit_result].to_i ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
+      if  session[:edit_mode].to_i == RegistrationsController::EditMode::RECREATE
+        original_registration = Registration[ session[:original_registration_id] ]
+        original_registration.metaData.first.update(status: 'DELETED')
+        res = original_registration.save!
+      end
+      res = @registration.commit if res
+    end
+    res
   end
 
 end

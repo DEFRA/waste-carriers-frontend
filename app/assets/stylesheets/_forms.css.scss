@@ -14,6 +14,10 @@
 
 /* Form Elements  ========================================================== */
 
+fieldset {
+  margin-bottom: $gutter;
+}
+
 legend {
   margin:0; padding:0;
 }
