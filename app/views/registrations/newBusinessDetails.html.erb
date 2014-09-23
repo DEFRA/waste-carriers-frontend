@@ -37,7 +37,12 @@
 
       <fieldset>
         <legend></legend>
+<<<<<<< Updated upstream
           <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
+=======
+          <%= render 'errors' %>
+          <% if @registration.businessType.eql?('limitedCompany') %>
+>>>>>>> Stashed changes
             <%= render 'company_details_finder', f: f, r: @registration %>
           <% end %>
           <%= render 'company_name', :f => f, :r => @registration, n: name_field %>
