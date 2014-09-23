@@ -90,6 +90,7 @@ en:
         registration_fee: "Registration charge"
         renewal_fee: "Registration renewal charge"
         revokedReason: "Why do you wish to revoke this registration"
+        unrevokedReason: "Why do you wish to unrevoke this registration"
         selectedMoniker: "Select address"
         streetLine1: Street
         streetLine2: "Address Line 2"
@@ -861,6 +862,9 @@ en:
       subtitle_carrier_broker_dealer: "(carrier, broker and dealer)"
       text: "or"
       title: "Registration type"
+    revoke:
+      title_revoke: "Revoke registration"
+      title_unrevoke: "UnRevoke registration"      
     serviceprovided_step:
       main_service_label: "Waste disposal is the main service we provide"
       part_of_service_label: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"

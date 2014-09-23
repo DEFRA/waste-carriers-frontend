@@ -1221,6 +1221,104 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
   end
+  
+  def revoke
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :update, @registration
+    @isRevoke = true
+  end
+  
+  def unRevoke
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :update, @registration
+    @isRevoke = false
+    # Reuses revoke view for un-revoke functionality
+    render :revoke
+  end
+  
+  def updateRevoke
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :update, @registration
+    
+    # Validate if is in a correct state to revoke/unrevoke?
+    if params[:revoke]                      # Checks the type of request, ie which button was clicked
+      if @registration.is_revocable?        # Checks if revocable, i.e. is registration in a state that can be made revoked
+        if !params[:registration][:metaData][:revokedReason].empty?     # Checks the reason was provided
+          if agency_user_signed_in?                                     # Checks only agency users can revoke
+            # Get reason from params
+            revokedReason = params[:registration][:metaData][:revokedReason]
+            logger.info 'Revoked Reason: ' + revokedReason.to_s
+            
+            # Update registration with revoked comment and status
+            @registration.metaData.first.update(revokedReason: revokedReason)
+            @registration.metaData.first.update(status: 'REVOKED')
+            
+            # Save changes to registration
+            @registration.save
+            @registration.save!
+            logger.debug "uuid: #{@registration.uuid}"
+            
+            # Send revoke email
+            @user = User.find_by_email(@registration.accountEmail)
+            RegistrationMailer.revoke_email(@user, @registration).deliver
+            
+            # Redirect to registrations page
+            redirect_to registrations_path(:note => I18n.t('registrations.form.reg_revoked') ) and return
+          else
+            renderAccessDenied and return
+          end
+        else
+          # Reason not provided
+          @registration.errors.add(:revokedReason, I18n.t('errors.messages.blank'))
+        end
+      else
+        # Error: Not ready for revoke  TODO: Replace this with better message
+        @registration.errors.add(:revokedReason, I18n.t('errors.messages.blank'))
+      end
+    else
+      # check if unrevocable
+      if @registration.is_unrevocable?
+        if !params[:registration][:metaData][:unrevokedReason].empty?
+          if agency_user_signed_in?
+            # Get reason from params
+            unrevokedReason = params[:registration][:metaData][:unrevokedReason]
+            logger.info 'Unrevoked Reason: ' + unrevokedReason.to_s
+            
+            # Mark registration as unrevoked, i.e. reactivated
+            @registration.metaData.first.update(revokedReason: unrevokedReason)
+            @registration.metaData.first.update(status: 'ACTIVE')
+            
+            # Save changes to registration
+            @registration.save
+            @registration.save!
+            logger.debug "uuid: #{@registration.uuid}"
+            
+            # QUESTION: Do we Send email to say reactivated? Resend registration perhaps?
+            
+            # Redirect to registrations page
+            redirect_to registrations_path(:note => 'Registration reactivated' ) and return
+          end
+        else
+          # Reason not provided
+          @registration.errors.add(:unrevokedReason, I18n.t('errors.messages.blank'))
+        end
+      else
+        # Error: Not ready for unrevoke  TODO: Replace this with better message
+        @registration.errors.add(:unrevokedReason, I18n.t('errors.messages.blank'))
+      end
+    end    
+    
+    # Error must have occured return to original view with errors
+    if params[:revoke]
+      # from revoke
+      @isRevoke = true
+      render :revoke, :status => '400'
+    else 
+      # from unrevoke
+      @isRevoke = false
+      render :revoke, :status => '400'
+    end
+  end
 
   def publicSearch
     distance = params[:distance]
