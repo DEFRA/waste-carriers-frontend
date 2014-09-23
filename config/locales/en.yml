@@ -464,6 +464,7 @@ en:
     copyCardComplete:
       subtitle: "Additional copy card order complete"
       title: "Order Complete"
+      copyCardDelayNotice: "Copy cards can take up to 10 working days to arrive once we have received your payment."
     editRenewComplete:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"

@@ -73,7 +73,14 @@ class WorldpayController < ApplicationController
       # Used to redirect_to WorldpayController::Error however that doesn't actually
       # exist, plus the plan as discussed with Georg was to redirect back to the payment
       # summary page but display the error details.
-      next_step = upper_payment_path
+      
+      # Check if renderType and orderCode exist, If so its okay to redirect to order page, If not render Expired page
+      if session[:renderType] and session[:orderCode]
+        next_step = upper_payment_path(@registration.uuid)
+      else
+        logger.info 'Cannot redirect to order page as session variables already removed, this assume, Retry failed.'
+        renderAccessDenied and return
+      end
     end
 
     redirect_to next_step
@@ -183,9 +190,10 @@ class WorldpayController < ApplicationController
         #TODO re-enable validation and saving - current validation rules are geared towards offline payments
         if @payment.valid?
           logger.debug "registration uuid: #{session[:registration_uuid]}"
-          @payment.save! session[:registration_uuid]
-          #@payment.save(:validate => false)
-          payment_processed = true
+          if @payment.save! session[:registration_uuid]
+            #@payment.save(:validate => false)
+            payment_processed = true
+          end
         else
           logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
           payment_processed = false
