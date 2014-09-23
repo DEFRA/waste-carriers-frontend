@@ -59,6 +59,9 @@ Feature: Upper tier
       And I provide my email address and create a password
       And I pay by card
      When I confirm account creation via email
+     Then I am shown the sign in page
+       And I attempt to sign in
+     #Then I am shown I am registered as an upper tier waste carrier
      Then I am registered as an upper tier waste carrier
 
   Scenario: Bank transfer
