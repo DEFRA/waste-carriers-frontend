@@ -29,7 +29,7 @@
 
       <legend></legend>
 
-      <% if @confirmationType.eql? getCompleteClass or @confirmationType.eql? getCompleteLowerClass %>
+      <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
 
       <h1 class="heading-large"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h1>
 
@@ -54,7 +54,7 @@
 
             <!-- Below - almost complete -->
 
-            <% elsif @confirmationType.eql? getAlmostCompleteClass %>
+            <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
 
             <p class="heading-small"><%= t('.not_yet_registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
 
@@ -67,7 +67,7 @@
 
             <!-- Below - declared convictions -->
 
-            <% elsif @confirmationType.eql? getCriminallySuspectClass %>
+            <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
 
             <h1 class="heading-large"><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></h1>
 
@@ -95,7 +95,7 @@
               <%= form_tag do |f| %>
                 <input id="finished" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
               <% end %>
-              <% if @confirmationType.eql? getCompleteClass and @registration.tier.downcase.eql? 'upper' %>
+              <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE  and @registration.tier.downcase.eql? 'upper' %>
                 <p class='form-hint' id="world-pay-subtitle"><%= t '.if_upper' %></p>
               <% end %>
             </div>
