@@ -1258,9 +1258,11 @@ class RegistrationsController < ApplicationController
             @registration.save!
             logger.debug "uuid: #{@registration.uuid}"
             
-            # Send revoke email
-            @user = User.find_by_email(@registration.accountEmail)
-            RegistrationMailer.revoke_email(@user, @registration).deliver
+            # Send revoke email, if registration was Digital
+            if @registration.digital_route?
+              @user = User.find_by_email(@registration.accountEmail)
+              RegistrationMailer.revoke_email(@user, @registration).deliver
+            end
             
             # Redirect to registrations page
             redirect_to registrations_path(:note => I18n.t('registrations.form.reg_revoked') ) and return
