@@ -74,6 +74,7 @@ en:
         newOrRenew: "Are you renewing an existing licence"
         originalRegistrationNumber: "Registration number"
         otherBusinesses: "Deal with waste from other businesses or households"
+        onlyAMF: "Do you deal with the waste listed"
         password: Password
         password_confirmation: "Confirm password"
         phoneNumber: "Telephone number"
@@ -469,7 +470,7 @@ en:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"
     enterRegistrationNumber:
-      subtitle: "Enter your registration number"
+      subtitle: "Enter your waste carrier registration number"
       form_hint: "Your registration number can be found..text tbc"
       title: "Existing registration renewal"
     newBusinessDetails:

@@ -8,21 +8,20 @@
           <span class="error-text"><%= t '.no_results_error'%></span>
           <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
       <% else %> <!-- addresses were found for postcode -->
-          <div class="form-group">
-            <div class="inline-text">
-            <label class="form-label"><%= t '.select_address' %></label>
 
+      <div class="form-group">
+        <ul>
+          <li><label class="form-label"><%= t '.select_address' %></label>
             <select id="addressSelector" name="addressSelector" size="<%=[10,@address_match_list.elements.count].min%>"
                     required autofocus>
               <% @address_match_list.elements.each do |address| %>
-                  <option value="<%=address.moniker%>"><%=address.partial%></option>
+              <option value="<%=address.moniker%>"><%=address.partial%></option>
               <%end%>
             </select>
-
-            <a href="?changeAddress=true"><%= t '.change_link'%></a></br></br>
-            <a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a>
-          </div>
-          </div>
+          </li>
+          <li><a href="?changeAddress=true"><%= t '.change_link'%></a></li><br />
+          <li><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></li>
+      </div>
       <% end %>  <!-- if -->
 
   <% else %>  <!-- @address_match_list is nil, address service lookup failed -->
@@ -30,15 +29,16 @@
         <span class="error-text"><%= t '.address_service_error'%></span>
       <% end %>
       <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
+
   <% end %>  <!-- if -->
 
 <% when r.addressMode == 'manual-uk' %>
   <%= render 'uk_address_entry', f: f  %>
-  <p><a href="?autoUkAddress=true"><%= t '.find_address_using_postcode'%></a></p>
+  <li><a href="?autoUkAddress=true"><%= t '.find_address_using_postcode'%></a></li>
 
 <% when r.addressMode == 'manual-foreign'  %>
   <%= render 'foreign_address_entry', f: f  %>
-  <p><a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a></p>
-
+  <li><a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a></li>
 <% end %>
+</ul>
 </div>
