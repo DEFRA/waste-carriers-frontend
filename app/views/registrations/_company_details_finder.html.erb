@@ -1,11 +1,14 @@
 <div class="form-group<%if r.errors[:company_no].any?%> validation<%end%>">
-    <%= validation_for(r, :company_no) %>
-    <%= f.label :company_no, class: 'form-label' %>
-    <p class="subtitle"><%= t '.companies_house_explain' %></p>
-    <%= f.text_field :company_no, :size => 35, :maxlength => 10 %>
+  <ul>
+    <li><%= validation_for(r, :company_no) %></li>
+    <li><%= f.label :company_no, class: 'form-label' %>
+      <p class="subtitle"><%= t '.companies_house_explain' %></p>
+      <%= f.text_field :company_no, :size => 35, :maxlength => 10 %>
+    </li>
+  </ul>
 </div>
-<p class='link_margin'>
+<div class='link_margin'>
     <a href="<%= Rails.configuration.waste_exemplar_companies_house_url %>" target="_blank">
       <%= t '.companies_house_link'%></a>
-</p>
+</div>
 
