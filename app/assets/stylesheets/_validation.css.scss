@@ -29,7 +29,7 @@
 
 .validation-summary li,
 .validation-summary p {
-  @include core-16;
+  @include core-19;
 }
 
 .validation-summary p {
@@ -44,22 +44,34 @@
   }
 }
 
-.validation-summary .heading-small {
+.validation-summary
+.heading-small {
   margin-top: $gutter-half;
 }
 
 .validation-message {
   display: block;
-  @include core-16;
+  @include core-19;
   color: $error-colour;
 }
 
 /* Error text */
 
 .error-text {
-  display:block;
   color: $error-colour;
-  padding-bottom:$gutter-half;
+  margin-top: $gutter;
+  margin-bottom: $gutter;
 }
 
+.validation ul {
+  border-left: 3px solid $error-colour;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 1em;
+  max-width: 30em;
+}
 
+.validation .block-label {
+  float:none;
+  display: table;
+}
