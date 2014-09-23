@@ -1403,7 +1403,7 @@ class RegistrationsController < ApplicationController
 
   # Renders the additional copy card order complete view
   def copyCardComplete
-    @registration = Registration.find_by_id(session[:registration_uuid])
+    @registration = Registration.find_by_id(params[:id])
   end
 
   # Renders the edit renew order complete view
@@ -1424,21 +1424,44 @@ class RegistrationsController < ApplicationController
   end
 
   def newOfflinePayment
-    @registration = Registration.find_by_id(session[:registration_uuid])
-    # Get the order just made from the order code param
-    @order = @registration.getOrder(params[:orderCode])
+    # Check is registration still in session, if not render denied page
+    regUuid = session[:registration_uuid]
+    if regUuid
+      @registration = Registration.find_by_id(regUuid)
+      # Get the order just made from the order code param
+      @order = @registration.getOrder(params[:orderCode])
+    else
+      renderAccessDenied
+    end
   end
 
   def updateNewOfflinePayment
     @registration = Registration[session[:registration_id]]
     
-    unless agency_user_signed_in?
+    # Get renderType from recent order
+    renderType = session[:renderType]
+    
+    #
+    # This should be an acceptable time to delete the render type and
+    # the order code from the session, as these are used for payment
+    # and if reached here payment request succeeded
+    #
+    session.delete(:renderType)
+    session.delete(:orderCode)
+    
+    # Should also Clear other registration variables
+    #clear_registration_session
+    
+    if !agency_user_signed_in? and !renderType.eql?(Order.extra_copycards_identifier)
       logger.info 'Send registered email (if not agency user)'
       @user = User.find_by_email(@registration.accountEmail)
       Registration.send_registered_email(@user, @registration)
     end
 
-    next_step = if user_signed_in?
+    next_step = if renderType.eql?(Order.extra_copycards_identifier)
+      # redirect to copy card complete page
+      complete_copy_cards_path(@registration.uuid)
+    elsif user_signed_in?
       finish_path
     elsif agency_user_signed_in?
       finishAssisted_path
@@ -1448,7 +1471,7 @@ class RegistrationsController < ApplicationController
 
     if session[:edit_mode]
       logger.debug "success" if create_new_reg
-      redirect_to action: 'editRenewComplete' and return
+      redirect_to action: complete_edit_renew_path(@registration.uuid)
     else
       redirect_to next_step
     end

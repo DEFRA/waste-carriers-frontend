@@ -36,29 +36,29 @@ class WorldpayController < ApplicationController
           end
       when Order.edit_registration_identifier
         # edit/renew registration
-        next_step = complete_edit_renew_path
+        next_step = complete_edit_renew_path(@registration.uuid)
       when Order.renew_registration_identifier
         # edit/renew registration
         next_step = if isIRRegistrationType @registration.originalRegistrationNumber
           if user_signed_in?
             # Send registered email
             Registration.send_registered_email(current_user, @registration)
-            complete_edit_renew_path
+            complete_edit_renew_path(@registration.uuid)
           elsif agency_user_signed_in?
             # Send registered email
             Registration.send_registered_email(current_agency_user, @registration)
-            complete_edit_renew_path
+            complete_edit_renew_path(@registration.uuid)
           else
             confirmed_path
           end
         else
-          complete_edit_renew_path
+          complete_edit_renew_path(@registration.uuid)
         end
       when Order.extra_copycards_identifier
         # extra copy cards
 
         # TODO: Insert appropriate routing for copy cards routes here
-        next_step = complete_copy_cards_path
+        next_step = complete_copy_cards_path(@registration.uuid)
       end
 
       #
