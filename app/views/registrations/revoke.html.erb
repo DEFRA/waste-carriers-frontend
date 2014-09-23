@@ -54,7 +54,13 @@
             </div>
             
             <div class="inline">
-                <input name="<% if @isRevoke %>revoke<% else %>unrevoke<% end %>" class="button" type="submit" value="<%= t 'registrations.form.revoke_button_label' %>"/>
+            <% 
+            revokeLabel = t('registrations.form.revoke_button_label') 
+            unless @isRevoke 
+              revokeLabel = t('registrations.form.unrevoke_button_label') 
+            end 
+            %>
+                <input name="<% if @isRevoke %>revoke<% else %>unrevoke<% end %>" class="button" type="submit" value="<%= revokeLabel %>"/>
             </div>
         </fieldset>
     </div>
