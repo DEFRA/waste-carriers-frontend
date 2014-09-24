@@ -382,7 +382,7 @@ class Registration < Ohm::Model
 
   end
 
-  def is_awaiting_conviction_confirmation?
+  def is_awaiting_conviction_confirmation?(agency_user=nil)
 
     result = false
 
@@ -390,7 +390,7 @@ class Registration < Ohm::Model
       if conviction_sign_offs
         conviction_sign_offs.each do |sign_off|
           if sign_off.confirmed == 'no'
-            result = true
+            result = user_can_edit_registration(agency_user)
             break
           end
         end
@@ -1029,6 +1029,14 @@ class Registration < Ohm::Model
 
   def can_be_deleted?(agency_user)
     !deleted? and user_can_edit_registration(agency_user)
+  end
+  
+  def can_be_approved?(agency_user=nil)
+    metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user=nil)
+  end
+  
+  def can_be_refused?(agency_user=nil)
+    metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user=nil)
   end
   
   def user_can_edit_registration(agency_user)

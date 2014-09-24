@@ -1351,27 +1351,68 @@ class RegistrationsController < ApplicationController
     # Validate if is in a correct state to approve/refuse?
     if params[:approve]
       # Approve
-      if @registration.is_revocable?        # Checks if approvable, i.e. is registration in a state that can be made approved
+      logger.info '>>>>>> Approve Request Found'
+      if @registration.is_awaiting_conviction_confirmation?        # Checks if approvable, i.e. is registration in a state that can be made approved
         if !params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
           if agency_user_signed_in?                                     # Checks only agency users can approve
-            # todo
+            # Get reason from params
+            approveReasonParam = params[:registration][:metaData][:approveReason]
+            
+            # Update registration with revoked comment and status
+            @registration.metaData.first.update(revokedReason: approveReasonParam)
+            #@registration.metaData.first.update(status: 'ACTIVE')
+            
+            # TODO: Whatever action is needed to clear conviction check
+            
+            # Save changes to registration
+            if @registration.save!
+              @registration.save
+              logger.debug "uuid: #{@registration.uuid}"
+            
+              # Redirect to registrations page
+              redirect_to registrations_path(:note => I18n.t('registrations.form.reg_approved') ) and return
+            else
+              # Failed to save registration in database
+              @registration.errors.add(:exception, 'Failed to save approve in DB')
+            end
+          else
+            renderAccessDenied and return
           end
+        else
+          @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
         end
+      else
+        # Error: Not ready for approve  TODO: Replace this with better message
+        @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
       end
-      
-      # 
-      # TODO any approve logic here
-      #
-      logger.info '>>>>>> Approve Request Found'
-      @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
     else
       # Refuse
-      
-      # 
-      # TODO any refuse logic here
-      #
-      logger.info '>>>>>> Refuse Request Found'
-      @registration.errors.add(:refusedReason, I18n.t('errors.messages.blank'))
+      if @registration.is_awaiting_conviction_confirmation?(current_agency_user)        # Checks if refusable, i.e. is registration in a state that can be made refused
+        if !params[:registration][:metaData][:refusedReason].empty?                     # Checks the reason was provided
+          # Get reason from params
+          refusedReasonParam = params[:registration][:metaData][:refusedReason]
+            
+          # Update registration with refused comment and status
+          @registration.metaData.first.update(revokedReason: refusedReasonParam)
+          @registration.metaData.first.update(status: 'INACTIVE')                       # FIXME: Should be REFUSED state
+          
+          # Save changes to registration
+          if @registration.save!
+            @registration.save
+            logger.debug "uuid: #{@registration.uuid}"
+            
+            # Redirect to registrations page
+            redirect_to registrations_path(:note => I18n.t('registrations.form.reg_refused') ) and return
+          else
+            # Failed to save registration in database
+            @registration.errors.add(:exception, 'Failed to save refuse in DB')
+          end
+        else
+          @registration.errors.add(:refusedReason, I18n.t('errors.messages.blank'))
+        end
+      else
+        renderAccessDenied and return
+      end
     end
     
     # Error must have occured return to original view with errors
