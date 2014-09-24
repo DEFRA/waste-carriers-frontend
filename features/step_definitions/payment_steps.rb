@@ -13,10 +13,12 @@ And(/^I pay by card$/) do
   click_on 'op-PMMakePayment'
 
   step 'I set test simulator page to all okay'
+  
+  page.should have_content 'Registration complete'
 end
 
 Then(/^I set test simulator page to all okay$/) do
-  sleep 2.5
+  sleep 3.5
   #By now we should be on the Test Simulator page...
   page.should have_content 'Secure Test Simulator Page'
   click_on 'Continue'
