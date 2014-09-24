@@ -10,14 +10,15 @@
         <noscript>
           <%= content_tag :p, t('registrations.back_link_unavailable') %>
         </noscript>
-        <%= link_to t('registrations.form.back_to_status_button_label'), :paymentstatus, :class => 'link_to' %>
+        <%= link_to t('registrations.form.back_button_label'), :refund, :class => 'link_to' %>
       </li>
     </ol>
 </div>
 
 <header class="page-header group">
   <div class="hgroup">
-      <h1 class="heading-large">You have selected manual refund</h1>
+      <h1 class="heading-large"><%= t '.heading' %></h1>
+      <div class="form-hint"><%= t '.step' %></div>
   </div>
 </header>
 
@@ -30,13 +31,34 @@
 
     <!-- Usefult for showing default messages -->
     <% if alert %><%= alert %><% end %>
+    
+    <%= form_for @payment, url: {action: "createManualRefund"}, :method => 'post' do |f| %>
+    
+        <%= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
-  	<p>This page is a W.I.P.</p>
+  	    <!-- WF X.X.X -->
+		<div id="refunds" data-journey="waste-carriers-registration:refunds">
 
-  	<p>The system has been updated to reflect that a refund has been made.</p>
+			<fieldset>
+				<legend></legend>
 
-  	<p>Please follow external guidance as to how to complete a refund form.</p>
+				<p><%= t '.confirmText' %></p>
+				
+				<p><%= t('.orderDetail', :orderKey => f.object.orderKey, :amount => pence_to_currency(@registration.finance_details.first.balance.to_f.abs) ) %></p>
+				
+				<p><%= t '.externalGuidance' %></p>
 
+				<p><%= t '.confirmRefund' %></p>
+
+				<div class="inline">
+				    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.refund_button_label' %>"/></span>
+				</div>
+
+			</fieldset>
+
+		</div>
+
+    <% end %>
 
     </div><!-- end inner-block -->
   </div><!-- end grid 1-3-->

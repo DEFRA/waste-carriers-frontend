@@ -50,10 +50,11 @@ Registrations::Application.routes.draw do
     match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
     get   "registrations/:id/refunds" => 'payment#index', :via => [:get], :as => :refund
     #   match "registrations/:id/refunds" => 'payment#createRefund', :via => [:post], :as => :saveRefund
-    get   "registrations/:id/manualRefund" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
+    get   "registrations/:id/manualRefund/:orderCode" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
+    match "registrations/:id/manualRefund/:orderCode" => 'payment#createManualRefund', :via => [:post]
     get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#newWPRefund', :via => [:get]
     match "registrations/:id/worldpayRefund/:orderCode" => 'payment#createWPRefund', :via => [:post]
-    get   "registrations/:id/worldpayRefund/:orderCode/refundComplete" => 'payment#completeWPRefund', :via => [:get]
+    get   "registrations/:id/refund/:orderCode/refundComplete" => 'payment#completeRefund', :via => [:get]
     get   "registrations/:id/worldpayRefund/:orderCode/retry" => 'payment#retryWPRefundRequest', :via => [:get], :as => :retryRefund
     get   "registrations/:id/chargeAdjustments" => 'payment#chargeIndex', :via => [:get], :as => :chargeAdjustment
     match "registrations/:id/chargeAdjustments" => 'payment#selectAdjustment', :via => [:post]
