@@ -114,8 +114,8 @@
                       <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid) %></li><% end %>
                       <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
                       <% if reg.upper? %>
-                        <% if reg.is_awaiting_conviction_confirmation? %><li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid) %></li><% end %>
-                        <% if reg.is_awaiting_conviction_confirmation? %><li><%= link_to t('form.refuse_button_label'), refuse_path(reg.uuid) %></li><% end %>
+                        <% if reg.can_be_approved?(current_agency_user) %><li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid) %></li><% end %>
+                        <% if reg.can_be_refused?(current_agency_user) %><li><%= link_to t('form.refuse_button_label'), refuse_path(reg.uuid) %></li><% end %>
                         <% if reg.can_view_payment_status? %><li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li><% end %>
                         <% if reg.about_to_expire? %>
 		                  <li><%= link_to t('form.renew_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %></li>
