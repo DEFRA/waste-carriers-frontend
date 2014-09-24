@@ -4,11 +4,7 @@
 
 <main id="content" role="main" class="group">
 
-<div class="back-section">
-  <ol>
-    <li><%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'link_to' %></li>
-  </ol>
-</div>
+<%# Removed Back section as we do not intentionally want users to ever go back from this point. %>
 
   <header class="page-header group">
     <div class="hgroup">
@@ -24,9 +20,9 @@
         <%= render "order/notice_or_alert" %>
         <%= render "shared/registration_errors" %>
 
-  		  <p>TBC - Copy card order complete page</p>
+  		  <p><%= t '.copyCardDelayNotice' %></p>
 
-
+          <p><%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), :class => 'button' %></p>
 
       <%# end %>
 

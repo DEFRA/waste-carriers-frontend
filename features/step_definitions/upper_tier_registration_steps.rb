@@ -76,9 +76,17 @@ And(/^I choose pay via electronic transfer$/) do
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
-  page.should have_content 'has been registered as an upper tier waste carrier'
+  page.should have_content 'Signed in as'
+  page.should have_content 'CBDU'
+  page.should have_content 'ACTIVE'
   open_email my_email_address
   current_email.should have_content 'is registered as an upper tier waste carrier'
+end
+
+Then(/^I have applied as an upper tier waste carrier$/) do
+  page.should have_content 'Signed in as'
+  page.should have_content 'CBDU'
+  page.should have_content 'PENDING'
 end
 
 Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do
