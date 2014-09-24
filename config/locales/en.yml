@@ -283,15 +283,22 @@ en:
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
       copy_card_label: "Copy cards cost £5 each"
   payment:
-    completeWPRefund:
-      heading: "Worldpay refund complete"
+    completeRefund:
+      heading: "Refund complete"
       step: "You have completed the refund for this payment"
+      completedRefund: "You have completed worldpay refund for order code: %{orderCode}"
+      registrationUpdated: "The registration has been updated to reflect that a refund has been made."
     index:
       heading: Refunds
       step: "Select a payment to refund"
       refundStatus: "Refund: %{status}"
     manualRefund:
-      heading: "Manual Refunds"
+      heading: "Manual refund confirmation"
+      step: "Confirm your actions"
+      confirmText: "Are you sure you want to make a Manual refund?"
+      orderDetail: "For order: %{orderKey}, in the amount of %{amount}"
+      externalGuidance: "Please follow external guidance as to how to complete a refund form."
+      confirmRefund: "To confirm this refund, click the Refund button below."
     new:
       fields:
         commentGuidance: "Maximum 250 characters"
@@ -300,6 +307,9 @@ en:
     newWPRefund:
       heading: "Worldpay refund confirmation"
       step: "Confirm your actions"
+      confirmText: "Are you sure you want to make a Worldpay refund?"
+      orderDetail: "For order: %{orderKey}, in the amount of %{amount}"
+      confirmRefund: "To confirm this refund, click the Refund button below."
     newWriteOff:
       fields:
         commentGuidance: "Maximum 250 characters"

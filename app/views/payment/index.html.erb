@@ -75,7 +75,7 @@
 							<% elsif isWorldPayPayment %>
 							    <%= link_to t('registrations.form.select_button_label'), {controller: 'payment', action: 'newWPRefund', id: @registration.uuid, orderCode: payment.orderKey }, class: 'link_to' %>
 							<% elsif isRefundablePayment %>
-							    <%= link_to t('registrations.form.manual_payment_button_label'), :manualRefund, :class => 'link_to' %>
+							    <%= link_to t('registrations.form.manual_payment_button_label'), manualRefund_path(@registration.uuid,payment.orderKey), :class => 'link_to' %>
 							<% else %>
 							    <%= t 'registrations.form.not_applicable' %>
 							<% end %>

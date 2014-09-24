@@ -123,7 +123,16 @@
 											<td class="" ><%= format_time payment.dateReceived %></td>
 											<td class="" >
 												<%= t('payment_types.' + payment.paymentType) %>
-												<% showRetryLink = (payment.paymentType.eql? Payment::PAYMENT_TYPES_NONVISIBLE[3]) and (payment.orderKey.include? "REQUEST") %>
+												<% showRetryLink = (payment.paymentType.eql? Payment::PAYMENT_TYPES_NONVISIBLE[3]) %>
+												<% if showRetryLink
+												      originalPaymentCode = payment.orderKey.split("_")[0]
+												      originalOrder = @registration.getOrder( originalPaymentCode)
+												      if !originalOrder
+												        # assume manual refund
+												        showRetryLink = false
+												      end
+												      #showRetryLink = payment.orderKey.include? "REQUEST"
+												   end %>
 												<%= link_to t('registrations.form.retry_request'), retryRefund_path(@registration.uuid, payment.orderKey), \
 													:style => 'font-size: medium;', :id => 'writeOffSmall' if showRetryLink %>
 											</td>

@@ -28,18 +28,18 @@
 
     <div id="refund-complete" data-journey="waste-carriers-registration:refund-complete"> </div>
 
-			<fieldset>
-				<legend></legend>
+      <fieldset>
+        <legend></legend>
 
         <div class="form-group">
 
-				<h2 class="heading-medium">You have completed worldpay refund for order code: <%= @orderCode %></h2>
+          <h2 class="heading-medium"><%= t '.completedRefund', :orderCode => @orderCode %></h2>
 
-				<p>The registration has been updated to reflect that a refund has been made.</p>
+          <p><%= t '.registrationUpdated' %></p>
 
-      </div>
+        </div>
 
-			</fieldset>
+      </fieldset>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->
