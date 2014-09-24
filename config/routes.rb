@@ -75,6 +75,11 @@ Registrations::Application.routes.draw do
     get "registrations/:id/unrevoke" => 'registrations#unRevoke', :via => [:get], :as => :unrevoke
     match "registrations/:id/revoke" => 'registrations#updateRevoke', :via => [:post]
 
+    # Add routing for approve/refuse registration
+    get "registrations/:id/approve"   => 'registrations#approve', :via => [:get], :as => :approve
+    get "registrations/:id/refuse"    => 'registrations#refuse',  :via => [:get], :as => :refuse
+    match "registrations/:id/approve" => 'registrations#updateApprove', :via => [:post]
+
     # Registration urls - Smart answers
     match "your-registration/business-type" => 'registrations#newBusinessType', :via => [:get], :as => :newBusinessType
     match "your-registration/business-type" => 'registrations#updateNewBusinessType', :via => [:post,:put,:patch]

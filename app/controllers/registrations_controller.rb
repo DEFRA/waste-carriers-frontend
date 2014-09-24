@@ -1222,6 +1222,10 @@ class RegistrationsController < ApplicationController
     authorize! :update, @registration
   end
   
+  #####################################################################################
+  # Revoke / Unvoke
+  #####################################################################################
+  
   def revoke
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
@@ -1321,6 +1325,68 @@ class RegistrationsController < ApplicationController
       render :revoke, :status => '400'
     end
   end
+  
+  #####################################################################################
+  # Approve / Refuse 
+  #####################################################################################
+  
+  def approve
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :update, @registration
+    @isApprove = true
+  end
+  
+  def refuse
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :update, @registration
+    @isApprove = false
+    # Reuses approve view for refuse functionality
+    render :approve
+  end
+  
+  def updateApprove
+    @registration = Registration.find_by_id(params[:id])
+    authorize! :update, @registration
+    
+    # Validate if is in a correct state to approve/refuse?
+    if params[:approve]
+      # Approve
+      if @registration.is_revocable?        # Checks if approvable, i.e. is registration in a state that can be made approved
+        if !params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
+          if agency_user_signed_in?                                     # Checks only agency users can approve
+            # todo
+          end
+        end
+      end
+      
+      # 
+      # TODO any approve logic here
+      #
+      logger.info '>>>>>> Approve Request Found'
+      @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
+    else
+      # Refuse
+      
+      # 
+      # TODO any refuse logic here
+      #
+      logger.info '>>>>>> Refuse Request Found'
+      @registration.errors.add(:refusedReason, I18n.t('errors.messages.blank'))
+    end
+    
+    # Error must have occured return to original view with errors
+    if params[:approve]
+      # from approve
+      @isApprove = true
+      render :approve, :status => '400'
+    else 
+      # from refuse
+      @isApprove = false
+      render :approve, :status => '400'
+    end
+  end
+  
+  #####################################################################################
 
   def publicSearch
     distance = params[:distance]

@@ -95,6 +95,8 @@ en:
         renewal_fee: "Registration renewal charge"
         revokedReason: "Why do you wish to revoke this registration"
         unrevokedReason: "Why do you wish to unrevoke this registration"
+        approveReason: "Reason for approve descision"
+        refusedReason: "Reason for refuse descision"
         selectedMoniker: "Select address"
         streetLine1: Street
         streetLine2: "Address Line 2"
@@ -422,6 +424,9 @@ en:
       search_address_label: "Search for address by postcode"
       selectAddress: "Select address"
       streetLine1Foreign: Address
+    approve:
+      title_approve: "Approve registration"
+      title_refuse: "Refuse registration"
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     businesstype_step:
       subtitle: "What type of business or organisation are you?"

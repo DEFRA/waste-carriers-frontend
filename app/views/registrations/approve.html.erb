@@ -1,0 +1,71 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+    <div class="back-section">
+        <ol>
+          <li><%= render 'back_link' %></li>
+        </ol>
+    </div>
+    
+    <%= render 'order/notice_or_alert' %>
+    <%= render "errors" %>
+
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large"><% if @isApprove %><%= t '.title_approve'%><% else %><%= t '.title_refuse'%><% end %></h1>
+      </div>
+    </header>
+
+    <% if @isApprove %>
+        <% content_for :page_title, createTitle('.title_approve') %>
+    <% else %>
+        <% content_for :page_title, createTitle('.title_refuse') %>
+    <% end %>
+  
+    <%= form_for(@registration, :url => approve_path, html: {method: "post"}) do |f| %>
+    
+    <div id="revoke" data-journey="waste-carriers-registration:revoke">
+        <fieldset>
+        
+            <div class="form-group">
+                <div class="form-label"><strong><%= @registration.regIdentifier %></strong></div>
+                    <div class="form-label"><strong><%= @registration.companyName %></strong></div>
+                    <div class="form-label"><%= format_address(@registration) %></div>
+                </div>
+
+                <%= f.fields_for :metaData do |mdFields| %>
+                    <% if @isApprove %>
+                        <div class="form-group<% if @registration.errors[:approveReason].any?%> validation<%end%>">
+                            <%= validation_for(@registration, :approveReason) %>
+                            <%= f.label :approveReason, :for=>'registration_metaData_approveReason', :class => 'form-label' %>
+                            <%= mdFields.text_area :approveReason, :size => "40x10" %>
+                        </div>
+                    <% else %>
+                        <div class="form-group<% if @registration.errors[:refusedReason].any?%> validation<%end%>">
+                            <%= validation_for(@registration, :refusedReason) %>
+                            <%= f.label :refusedReason, :for=>'registration_metaData_refusedReason', :class => 'form-label' %>
+                            <%= mdFields.text_area :refusedReason, :size => "40x10" %>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+            
+            <div class="inline">
+            <% 
+            approveLabel = t('form.approve_button_label') 
+            unless @isApprove 
+              approveLabel = t('form.refuse_button_label') 
+            end 
+            %>
+                <input name="<% if @isApprove %>approve<% else %>refuse<% end %>" class="button" type="submit" value="<%= approveLabel %>"/>
+            </div>
+        </fieldset>
+    </div>
+
+  <% end %>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
