@@ -994,12 +994,12 @@ class Registration < Ohm::Model
     false
   end
   
-  def is_revocable?
-    is_complete?
+  def is_revocable?(agency_user=nil)
+    is_complete? and user_can_edit_registration(agency_user)
   end
   
-  def is_unrevocable?
-    metaData.first.status == "REVOKED"
+  def is_unrevocable?(agency_user=nil)
+    metaData.first.status == "REVOKED" and user_can_edit_registration(agency_user)
   end
 
   def about_to_expire?
@@ -1010,16 +1010,16 @@ class Registration < Ohm::Model
     expired? && (metaData.first.status != 'PENDING')
   end
 
-  def can_be_edited?
-    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING' && metaData.first.status != 'INACTIVE'
+  def can_be_edited?(agency_user=nil)
+    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING' && metaData.first.status != 'INACTIVE' && user_can_edit_registration(agency_user)
   end
 
   def can_view_certificate?
     metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING' && metaData.first.status != 'INACTIVE'
   end
 
-  def can_request_copy_cards?
-    metaData.first.status == 'ACTIVE' && upper?
+  def can_request_copy_cards?(agency_user=nil)
+    metaData.first.status == 'ACTIVE' && upper? and user_can_edit_registration(agency_user)
   end
   
   def can_view_payment_status?
@@ -1027,6 +1027,18 @@ class Registration < Ohm::Model
     true
   end
 
+  def can_be_deleted?(agency_user)
+    !deleted? and user_can_edit_registration(agency_user)
+  end
+  
+  def user_can_edit_registration(agency_user)
+    if agency_user and agency_user.is_agency_user?
+      isEitherFinance = agency_user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
+      !isEitherFinance
+    else
+      true
+    end
+  end
 
   def validate_revokedReason
     #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
