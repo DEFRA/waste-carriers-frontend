@@ -1021,6 +1021,11 @@ class Registration < Ohm::Model
   def can_request_copy_cards?
     metaData.first.status == 'ACTIVE' && upper?
   end
+  
+  def can_view_payment_status?
+    # all users can view payment status
+    true
+  end
 
 
   def validate_revokedReason
