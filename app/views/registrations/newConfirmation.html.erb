@@ -10,11 +10,12 @@
     </ol>
   </div>
 
-      <header class="page-header group">
-      <div class="hgroup">
-        <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
-      </div>
-    </header>
+  <%= render 'errors' %>
+  <header class="page-header group">
+    <div class="hgroup">
+      <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+    </div>
+  </header>
 
     <fieldset class="summary-page">
       <legend></legend>
@@ -23,7 +24,7 @@
       <div id="page9"  data-journey="waste-carriers-registration:confirmation"></div>
 
       <% content_for :page_title, createTitle('.title') %>
-      <%= render 'errors' %>
+
       <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
 
         <div class="text registration-tier">
@@ -183,12 +184,16 @@
           <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
             <ol>
               <li class="list-bullets"><%= t '.declaration_text1' %></li>
-              <li class='list-bullets'><%= t '.declaration_text2' %><p class="notice-icon"></p></li>
+              <li class='list-bullets'><%= t '.declaration_text2' %></li>
             </ol>
-            <%= validation_for(@registration, :declaration) %>
-            <label class="block-label" for="registration_declaration">
-              <%= f.check_box :declaration%><%= t '.check_box_label' %>
-            </label>
+            <ul>
+              <li><%= validation_for(@registration, :declaration) %></li>
+              <li>
+                <label class="block-label" for="registration_declaration">
+                <%= f.check_box :declaration%><%= t '.check_box_label' %>
+                </label>
+              </li>
+            </ul>
           </div>
         </div><br/><br/><br/><!-- end declaration form-group -->
 

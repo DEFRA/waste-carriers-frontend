@@ -1,6 +1,7 @@
 <!-- WF 4.3.2 -->
 <div id="page4"  data-journey="waste-carriers-registration:convictions"></div>
 
+  <%= render "errors" %>
   <header class="page-header group">
       <div class="hgroup">
           <h1 class="heading-large"><%= t 'registrations.convictions_step.title' %></h1>
@@ -9,20 +10,21 @@
 
   <fieldset>
     <legend></legend>
-    <%= render "errors" %>
 
-    <div class="inline<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
-      <%= validation_for(@registration, :declaredConvictions) %>
-
-      <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
-          <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
-          <%= t 'form.yes_option_label' %>
-      <% end %>
-
-      <%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
-          <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
-          <%= t 'form.no_option_label' %>
-      <% end %>
+    <div class="form-group<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
+      <ul>
+        <li><%= validation_for(@registration, :declaredConvictions) %></li>
+        <li class="inline"><%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
+            <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
+            <%= t 'form.yes_option_label' %>
+        <% end %>
+        </li>
+        <li class="inline"><%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
+            <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
+            <%= t 'form.no_option_label' %>
+        <% end %>
+        </li>
+      </ul>
     </div>
   </fieldset>
 

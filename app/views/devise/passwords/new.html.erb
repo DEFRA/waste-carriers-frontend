@@ -10,6 +10,9 @@
   </ol>
 </div>
 
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+  <%= devise_error_messages! %>
+
 <header class="page-header group">
     <div class="hgroup">
       <h1 class="heading-large"><%= t 'devise.passwords.forgotHeading'%></h1>
@@ -19,18 +22,19 @@
 	<fieldset>
 		<legend></legend>
 
-      <div id="wrapper" data-journey="waste-carriers-registration:forgot-password"></div>
+    <div id="wrapper" data-journey="waste-carriers-registration:forgot-password">
 
-			<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
-  			<%= devise_error_messages! %>
-
-  			<div class="form-group">
-  			<%= f.label :email, class: 'form-label' %>
-  			<%= f.email_field :email, :autofocus => true %>
-  			</div>
-  			<%= f.submit t('devise.passwords.sendInstructions'), :class => "button" %>
-		<% end %>
-	</fieldset>
+			<div class="form-group">
+        <ul>
+          <li><%= validation_for(resource, :email) %></li>
+			    <li><%= f.label :email, class: 'form-label' %>
+			    <%= f.email_field :email, :autofocus => true %></li>
+        </ul>
+			</div>
+			<%= f.submit t('devise.passwords.sendInstructions'), :class => "button" %>
+	    <% end %>
+    </div>
+	 </fieldset>
 
 </main><!-- end content -->
 </div><!-- end wrapper -->
