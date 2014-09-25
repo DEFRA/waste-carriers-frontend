@@ -83,8 +83,8 @@ class WorldpayController < ApplicationController
       end
     end
 
-    if (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RECREATE)
-      || (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::EDIT &&
+    if (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RECREATE) \
+      || (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::EDIT && \
           session[:edit_result].to_i  ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION)
       if @registration.commit #create new reg
         original_reg = Registration[ session[:original_registration_id] ]
