@@ -1394,7 +1394,7 @@ class RegistrationsController < ApplicationController
             
           # Update registration with refused comment and status
           @registration.metaData.first.update(revokedReason: refusedReasonParam)
-          @registration.metaData.first.update(status: 'INACTIVE')                       # FIXME: Should be REFUSED state
+          @registration.metaData.first.update(status: 'REFUSED')                       # FIXME: Should be REFUSED state
           
           # Save changes to registration
           if @registration.save!
@@ -1405,7 +1405,7 @@ class RegistrationsController < ApplicationController
             redirect_to registrations_path(:note => I18n.t('registrations.form.reg_refused') ) and return
           else
             # Failed to save registration in database
-            @registration.errors.add(:exception, 'Failed to save refuse in DB')
+            @registration.errors.add(:exception, @registration.exception.to_s)
           end
         else
           @registration.errors.add(:refusedReason, I18n.t('errors.messages.blank'))
