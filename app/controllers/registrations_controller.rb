@@ -117,30 +117,30 @@ class RegistrationsController < ApplicationController
         logger.debug "Current registration matched, Redirect to user sign in"
         redirect_to :new_user_session
         return
-      # Check old format
+        # Check old format
       elsif isIRRegistrationType @registration.originalRegistrationNumber
         # legacy regNo matched
 
-		# Call IR services to import IR registraion data
-		irReg = Registration.find_by_ir_number(@registration.originalRegistrationNumber)
-		if irReg
-		  # IR data found, merge with registration
-		  
-		  # Save IR registration data to session, for comparison at payment time
-		  session[:original_registration_id] = irReg.id
+        # Call IR services to import IR registraion data
+        irReg = Registration.find_by_ir_number(@registration.originalRegistrationNumber)
+        if irReg
+          # IR data found, merge with registration
 
-		  # Merge params registration with registration in memory
+          # Save IR registration data to session, for comparison at payment time
+          session[:original_registration_id] = irReg.id
+
+          # Merge params registration with registration in memory
           @registration.add( irReg.attributes )
           @registration.save
 
           logger.debug "Legacy registration matched, Redirect to smart answers"
           redirect_to :newBusinessType
           return
-		else
-		  # No IR data found
-		  @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.ir_notFound'))
-		end
-      # Error not matched
+        else
+          # No IR data found
+          @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.ir_notFound'))
+        end
+        # Error not matched
       else
         @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid'))
       end
@@ -170,7 +170,7 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
-      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      # (redirect_to :newConfirmation and return) if session[:edit_mode]
 
       case @registration.businessType
       when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
@@ -215,7 +215,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'otherbusinesses'
 
     if @registration.valid?
-      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      # (redirect_to :newConfirmation and return) if session[:edit_mode]
       # TODO this is where you need to make the choice and update the steps
       case @registration.otherBusinesses
       when 'yes'
@@ -240,7 +240,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'serviceprovided'
 
     if @registration.valid?
-      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      # (redirect_to :newConfirmation and return) if session[:edit_mode]
       # TODO this is where you need to make the choice and update the steps
       case @registration.isMainService
       when 'yes'
@@ -269,7 +269,7 @@ class RegistrationsController < ApplicationController
       # we're doing a smart edit or not
       if session[:edit_mode]
         original_registration = Registration[ session[:original_registration_id] ]
-        redirect_to action: determine_smart_answers_route(@registration, original_registration)
+        redirect_to determine_smart_answers_route(@registration, original_registration)
         return
       end
       # TODO this is where you need to make the choice and update the steps
@@ -470,7 +470,7 @@ class RegistrationsController < ApplicationController
 
       # update_registration session[:edit_mode]
     else # new registration, do nothing (default rendering will occur)
-    
+
       # Check if IR Renewal
       logger.debug "Check if IR renewal flow"
       if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
@@ -478,23 +478,23 @@ class RegistrationsController < ApplicationController
         original_registration = Registration[ session[:original_registration_id] ]
         session[:edit_result] =  compare_registrations(@registration, original_registration )
         logger.debug "edit result: " + session[:edit_result].to_s
-        
+
         case session[:edit_result].to_i
-          when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+        when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
           logger.debug "++++++++++++++++++++++++ ir data, no charge"
-          when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+        when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
           logger.debug "++++++++++++++++++++++++ charge"
-          when RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
+        when RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
           logger.debug "++++++++++++++++++++++++ ir data changed to new reg"
-          when RegistrationsController::EditResult::NO_CHANGES
+        when RegistrationsController::EditResult::NO_CHANGES
           logger.debug "++++++++++++++++++++++++ no change"
         end #case
-        
-        # Set edit mode to renew, to show panel for renew 
+
+        # Set edit mode to renew, to show panel for renew
         session[:edit_mode] = RegistrationsController::EditMode::RENEWAL
-        
+
       end
-    
+
     end #case
 
     logger.debug "edit_mode = #{ session[:edit_mode]}"
@@ -519,15 +519,23 @@ class RegistrationsController < ApplicationController
           else
             #TODO: error handling
           end #if
-          redirect_to action: 'editRenewComplete' and return
+          edit_mode = session[:edit_mode]
+          edit_result = session[:edit_result]
+          clear_edit_session # we don't need edit variables polluting the session any more
+          # redirect_to(action: 'editRenewComplete', edit_mode: edit_mode, edit_result: edit_result) and return
+          redirect_to complete_edit_renew_path(edit_mode: edit_mode, edit_result: edit_result) and return
+
         when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE,  EditResult::CREATE_NEW_REGISTRATION
           redirect_to newOrderEdit_path(@registration.uuid) and return
         else
-          redirect_to action: 'editRenewComplete' and return
+          edit_mode = session[:edit_mode]
+          edit_result = session[:edit_result]
+          clear_edit_session # we don't need edit variables polluting the session any more
+          redirect_to(action: 'editRenewComplete', edit_mode: edit_mode, edit_result: edit_result) and return
         end
 
       when EditMode::RENEWAL
-      
+
         # Detect standard or IR renewal
         if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
           # ir renewal detected
@@ -719,28 +727,28 @@ class RegistrationsController < ApplicationController
     end
 
     next_step = case @registration.tier
-      when 'LOWER'
-        pending_url
-      when 'UPPER'
-        #
-        # Important!
-        # Now storing an additional variable in the session for the type of order
-        # you are about to make.
-        # This session variable needs to be set every time the order/new action
-        # is requested.
-        #
+    when 'LOWER'
+      pending_url
+    when 'UPPER'
+      #
+      # Important!
+      # Now storing an additional variable in the session for the type of order
+      # you are about to make.
+      # This session variable needs to be set every time the order/new action
+      # is requested.
+      #
 
-        # Determine what type of registration order to create
-        # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
-        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-          session[:renderType] = Order.renew_registration_identifier
-        else
-          session[:renderType] = Order.new_registration_identifier
-        end
-
-        session[:orderCode] = generateOrderCode
-        upper_payment_path(:id => @registration.uuid)
+      # Determine what type of registration order to create
+      # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
+      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+        session[:renderType] = Order.renew_registration_identifier
+      else
+        session[:renderType] = Order.new_registration_identifier
       end
+
+      session[:orderCode] = generateOrderCode
+      upper_payment_path(:id => @registration.uuid)
+    end
 
     # Reset Signed up user to signed in status
     @registration.sign_up_mode = 'sign_in'
@@ -900,7 +908,8 @@ class RegistrationsController < ApplicationController
       renderAccessDenied
     else
       # Search for users registrations
-      @registrations = Registration.find_by_email(tmpUser.email).sort_by { |r| r.date_registered}
+      @registrations = Registration.find_by_email(tmpUser.email, 
+                        %w(ACTIVE PENDING REVOKED EXPIRED)).sort_by { |r| r.date_registered }
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -1037,6 +1046,9 @@ class RegistrationsController < ApplicationController
     session[:registration_uuid] = @registration.uuid
     session[:edit_mode] =  params[:edit_process] #view param knows if the user clicked edit, renew or recreate
     session[:edit_result] = EditResult::START #initial state
+
+    logger.debug "Started edit - original reg id: #{session[:original_registration_id]}"
+    logger.debug "Started edit - edited reg id: #{session[:registration_id]}"
 
     redirect_to :newConfirmation
   end
@@ -1221,13 +1233,13 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
   end
-  
+
   def revoke
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
     @isRevoke = true
   end
-  
+
   def unRevoke
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
@@ -1235,11 +1247,11 @@ class RegistrationsController < ApplicationController
     # Reuses revoke view for un-revoke functionality
     render :revoke
   end
-  
+
   def updateRevoke
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
-    
+
     # Validate if is in a correct state to revoke/unrevoke?
     if params[:revoke]                      # Checks the type of request, ie which button was clicked
       if @registration.is_revocable?        # Checks if revocable, i.e. is registration in a state that can be made revoked
@@ -1248,22 +1260,22 @@ class RegistrationsController < ApplicationController
             # Get reason from params
             revokedReason = params[:registration][:metaData][:revokedReason]
             logger.info 'Revoked Reason: ' + revokedReason.to_s
-            
+
             # Update registration with revoked comment and status
             @registration.metaData.first.update(revokedReason: revokedReason)
             @registration.metaData.first.update(status: 'REVOKED')
-            
+
             # Save changes to registration
             @registration.save
             @registration.save!
             logger.debug "uuid: #{@registration.uuid}"
-            
+
             # Send revoke email, if registration was Digital
             if @registration.digital_route?
               @user = User.find_by_email(@registration.accountEmail)
               RegistrationMailer.revoke_email(@user, @registration).deliver
             end
-            
+
             # Redirect to registrations page
             redirect_to registrations_path(:note => I18n.t('registrations.form.reg_revoked') ) and return
           else
@@ -1285,18 +1297,18 @@ class RegistrationsController < ApplicationController
             # Get reason from params
             unrevokedReason = params[:registration][:metaData][:unrevokedReason]
             logger.info 'Unrevoked Reason: ' + unrevokedReason.to_s
-            
+
             # Mark registration as unrevoked, i.e. reactivated
             @registration.metaData.first.update(revokedReason: unrevokedReason)
             @registration.metaData.first.update(status: 'ACTIVE')
-            
+
             # Save changes to registration
             @registration.save
             @registration.save!
             logger.debug "uuid: #{@registration.uuid}"
-            
+
             # QUESTION: Do we Send email to say reactivated? Resend registration perhaps?
-            
+
             # Redirect to registrations page
             redirect_to registrations_path(:note => 'Registration reactivated' ) and return
           end
@@ -1308,14 +1320,14 @@ class RegistrationsController < ApplicationController
         # Error: Not ready for unrevoke  TODO: Replace this with better message
         @registration.errors.add(:unrevokedReason, I18n.t('errors.messages.blank'))
       end
-    end    
-    
+    end
+
     # Error must have occured return to original view with errors
     if params[:revoke]
       # from revoke
       @isRevoke = true
       render :revoke, :status => '400'
-    else 
+    else
       # from unrevoke
       @isRevoke = false
       render :revoke, :status => '400'
@@ -1408,8 +1420,11 @@ class RegistrationsController < ApplicationController
 
   # Renders the edit renew order complete view
   def editRenewComplete
-  
-    @registration = Registration.find_by_id(session[:registration_uuid])
+
+    logger.debug "original id" + session[:original_registration_id].to_s
+    logger.debug "new id" + session[:registration_uuid].to_s
+    logger.debug "params id" + params[:id].to_s
+    @registration = Registration.find_by_id(params[:id])
     #need to store session variables as instance variable, so that editRenewComplete.html can
     #use them, as session will be cleared shortly
     @edit_mode = session[:edit_mode]
@@ -1420,7 +1435,7 @@ class RegistrationsController < ApplicationController
 
 
     #at the end of the edit/renewal process, so clear the session
-    #clear_edit_session
+    #
   end
 
   def newOfflinePayment
@@ -1437,10 +1452,10 @@ class RegistrationsController < ApplicationController
 
   def updateNewOfflinePayment
     @registration = Registration[session[:registration_id]]
-    
+
     # Get renderType from recent order
     renderType = session[:renderType]
-    
+
     #
     # This should be an acceptable time to delete the render type and
     # the order code from the session, as these are used for payment
@@ -1448,10 +1463,10 @@ class RegistrationsController < ApplicationController
     #
     session.delete(:renderType)
     session.delete(:orderCode)
-    
+
     # Should also Clear other registration variables
     #clear_registration_session
-    
+
     if !agency_user_signed_in? and !renderType.eql?(Order.extra_copycards_identifier)
       logger.info 'Send registered email (if not agency user)'
       @user = User.find_by_email(@registration.accountEmail)
@@ -1471,7 +1486,8 @@ class RegistrationsController < ApplicationController
 
     if session[:edit_mode]
       logger.debug "success" if create_new_reg
-      redirect_to action: complete_edit_renew_path(@registration.uuid)
+      # redirect_to complete_edit_renew_path(edit_mode: edit_mode, edit_result: edit_result) and return
+      redirect_to complete_edit_renew_path(@registration.uuid)
     else
       redirect_to next_step
     end
@@ -1482,9 +1498,9 @@ class RegistrationsController < ApplicationController
     res =  EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
     logger.debug "#{original_registration.attributes}"
     logger.debug "#{edited_registration.attributes}"
-    
+
     if (original_registration.originalRegistrationNumber) and \
-    	(isIRRegistrationType(original_registration.originalRegistrationNumber)) and \
+        (isIRRegistrationType(original_registration.originalRegistrationNumber)) and \
         (original_registration.key_people.size.to_i == 0)
       # Assumed, 0 Key people is from an IR data import
       if (original_registration.businessType != edited_registration.businessType) ||
@@ -1512,44 +1528,44 @@ class RegistrationsController < ApplicationController
 
   private
 
-    ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
-    def registration_params
-      params.require(:registration).permit(
-        :businessType,
-        :registrationType,
-        :otherBusinesses,
-        :isMainService,
-        :constructionWaste,
-        :onlyAMF,
-        :companyName,
-        :addressMode,
-        :houseNumber,
-        :streetLine1,
-        :streetLine2,
-        :streetLine3,
-        :streetLine4,
-        :country,
-        :townCity,
-        :postcode,
-        :postcodeSearch,
-        :firstName,
-        :lastName,
-        :position,
-        :phoneNumber,
-        :contactEmail,
-        :accountEmail,
-        :declaration,
-        :password,
-        :password_confirmation,
-        :accountEmail_confirmation,
-        :tier,
-        :company_no,
-        :registration_fee,
-        :copy_card_fee,
-        :copy_cards,
-        :total_fee,
-        :address_match_list,
-      :sign_up_mode)
-    end
+  ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
+  def registration_params
+    params.require(:registration).permit(
+      :businessType,
+      :registrationType,
+      :otherBusinesses,
+      :isMainService,
+      :constructionWaste,
+      :onlyAMF,
+      :companyName,
+      :addressMode,
+      :houseNumber,
+      :streetLine1,
+      :streetLine2,
+      :streetLine3,
+      :streetLine4,
+      :country,
+      :townCity,
+      :postcode,
+      :postcodeSearch,
+      :firstName,
+      :lastName,
+      :position,
+      :phoneNumber,
+      :contactEmail,
+      :accountEmail,
+      :declaration,
+      :password,
+      :password_confirmation,
+      :accountEmail_confirmation,
+      :tier,
+      :company_no,
+      :registration_fee,
+      :copy_card_fee,
+      :copy_cards,
+      :total_fee,
+      :address_match_list,
+    :sign_up_mode)
+  end
 
 end

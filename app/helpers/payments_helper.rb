@@ -63,7 +63,7 @@ module PaymentsHelper
   def wasActivated originalRegistration, updatedRegistration
     originalRegistration.metaData.first.route == 'DIGITAL' \
         and originalRegistration.pending? \
-        and updatedRegistration.metaData.first.status == 'ACTIVE'
+        and updatedRegistration.is_active?
   end
 
 end
