@@ -1358,38 +1358,41 @@ class RegistrationsController < ApplicationController
     if params[:approve]
       # Approve
       logger.info '>>>>>> Approve Request Found'
-      if @registration.is_awaiting_conviction_confirmation?        # Checks if approvable, i.e. is registration in a state that can be made approved
-        if !params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
-          if agency_user_signed_in?                                     # Checks only agency users can approve
-            # Get reason from params
-            approveReasonParam = params[:registration][:metaData][:approveReason]
-            
-            # Update registration with revoked comment and status
-            @registration.metaData.first.update(revokedReason: approveReasonParam)
-            #@registration.metaData.first.update(status: 'ACTIVE')
-            
-            # TODO: Whatever action is needed to clear conviction check
-            
-            # Save changes to registration
-            if @registration.save!
-              @registration.save
-              logger.debug "uuid: #{@registration.uuid}"
-            
-              # Redirect to registrations page
-              redirect_to registrations_path(:note => I18n.t('registrations.form.reg_approved') ) and return
-            else
-              # Failed to save registration in database
-              @registration.errors.add(:exception, 'Failed to save approve in DB')
+      if @registration.is_awaiting_conviction_confirmation?(current_agency_user)    # Checks if approvable, i.e. is registration in a state that can be made approved
+        if !params[:registration][:metaData][:approveReason].empty?                 # Checks the reason was provided
+          # Get reason from params
+          approveReasonParam = params[:registration][:metaData][:approveReason]
+          
+          # Update registration with revoked comment and status
+          @registration.metaData.first.update(revokedReason: approveReasonParam)
+          #@registration.metaData.first.update(status: 'ACTIVE')                    # Should not need to do this directly if conviction check has been cleared
+          
+          # Perform action needed to clear conviction check
+          if @registration.conviction_sign_offs
+            @registration.conviction_sign_offs.each do |sign_off|
+              # Update conviction sign off data
+              sign_off.update(confirmed: 'yes')
+              sign_off.update(confirmedAt: Time.now.utc.xmlschema)
+              sign_off.update(confirmedBy: current_agency_user.email)
             end
+          end
+            
+          # Save changes to registration
+          if @registration.save!
+            @registration.save
+            logger.debug "uuid: #{@registration.uuid}"
+            
+            # Redirect to registrations page
+            redirect_to registrations_path(:note => I18n.t('registrations.form.reg_approved') ) and return
           else
-            renderAccessDenied and return
+            # Failed to save registration in database
+            @registration.errors.add(:exception, 'Failed to save approve in DB')
           end
         else
           @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
         end
       else
-        # Error: Not ready for approve  TODO: Replace this with better message
-        @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
+        renderAccessDenied and return
       end
     else
       # Refuse
@@ -1400,7 +1403,7 @@ class RegistrationsController < ApplicationController
             
           # Update registration with refused comment and status
           @registration.metaData.first.update(revokedReason: refusedReasonParam)
-          @registration.metaData.first.update(status: 'REFUSED')                       # FIXME: Should be REFUSED state
+          @registration.metaData.first.update(status: 'REFUSED')
           
           # Save changes to registration
           if @registration.save!
