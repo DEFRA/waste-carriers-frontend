@@ -1537,6 +1537,12 @@ class RegistrationsController < ApplicationController
     @confirmationType = getConfirmationType
 
 
+    # Determine routing for Finish button
+    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+      @exitRoute = confirmed_path
+    else
+      @exitRoute = registrations_finish_path
+    end
 
     #at the end of the edit/renewal process, so clear the session
     #
