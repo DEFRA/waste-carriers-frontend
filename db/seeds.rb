@@ -89,9 +89,11 @@ if (Rails.env.eql? 'development') && (ENV["WCRS_REG_SEED"].eql? 'true')
 
   data.each do |reg|
     r = Registration.init(reg)
+
     if r && r.commit
       puts "waste carrier #{r.companyName} registered!"
       r.metaData.first.update(status: 'ACTIVE')
+      r.finance_details.first.update(balance: 0) if r.tier == 'UPPER'
       r.save!
 
     else

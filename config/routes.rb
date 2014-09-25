@@ -74,7 +74,6 @@ Registrations::Application.routes.draw do
     get "registrations/:id/revoke" => 'registrations#revoke', :via => [:get], :as => :revoke
     get "registrations/:id/unrevoke" => 'registrations#unRevoke', :via => [:get], :as => :unrevoke
     match "registrations/:id/revoke" => 'registrations#updateRevoke', :via => [:post]
-
     # Add routing for approve/refuse registration
     get "registrations/:id/approve"   => 'registrations#approve', :via => [:get], :as => :approve
     get "registrations/:id/refuse"    => 'registrations#refuse',  :via => [:get], :as => :refuse
@@ -132,8 +131,10 @@ Registrations::Application.routes.draw do
     get "your-registration/key-people/registration" => "key_people#registration", :as => :registration_key_people
     get "your-registration/key-person" => "key_people#newKeyPerson", :as => :newKeyPerson
     post "your-registration/key-person" => "key_people#updateNewKeyPerson"
-    get "your-registration/key-people" => "key_people#newKeyPeople", :as => :newKeyPeople
-    post "your-registration/key-people" => "key_people#updateNewKeyPeople"
+  # get "your-registration/key-people" => "key_people#newKeyPeople", :as => :newKeyPeople
+  # post "your-registration/key-people" => "key_people#updateNewKeyPeople"
+  match "your-registration/key_people" => 'key_people#newKeyPeople', :via => [:get], :as => :newKeyPeople
+  match "your-registration/key_people" => 'key_people#updateNewKeyPeople', :via => [:post,:put,:patch]
     get "your-registration/key-people/delete" => "key_people#delete", :as => :delete_key_person
     get "your-registration/key-people/done" => "key_people#doneKeyPeople", :as => :done_key_people
 

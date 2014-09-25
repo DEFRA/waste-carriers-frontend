@@ -451,7 +451,7 @@ class Registration < Ohm::Model
   # @param email [String] the accountEmail to search for
   # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
-    def find_by_email(email)
+    def find_by_email(email, with_statuses=nil)
       accountEmailParam = {ac: email}.to_query
       Rails.logger.debug 'update search param to be encoded: ' + accountEmailParam.to_s
       registrations = []
@@ -472,6 +472,10 @@ class Registration < Ohm::Model
       rescue => e
         Rails.logger.error e.to_s
       end
+
+      #filter on desired statuses, if status array argument has been passed
+      registrations =  registrations.select{|r| with_statuses.include? r.get_status } if with_statuses
+
       registrations
     end
   end
@@ -922,6 +926,7 @@ class Registration < Ohm::Model
       the_balance = self.try(:finance_details).try(:first).try(:balance)
 
       the_balance = 0 if the_balance.nil?
+      Rails.logger.debug "paid_in_full balance: #{the_balance.to_s}"
     rescue Exception => e
       Rails.logger.debug e.message
     end
@@ -1333,4 +1338,24 @@ class Registration < Ohm::Model
     end
   end
 
+  # Changes the registration's status to INACTIVE
+  # i.e. a 'soft' delete
+  # 
+  # @return [Boolean] true if update successful
+  def set_inactive
+     metaData.first.update(status: 'INACTIVE')
+     save!
+  end
+
+  def is_active?
+    metaData.first.status == 'ACTIVE'
+  end
+
+  def is_inactive?
+    metaData.first.status == 'INACTIVE'
+  end
+
+  def get_status
+    metaData.first.status
+  end
 end

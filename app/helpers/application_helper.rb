@@ -23,6 +23,8 @@ module ApplicationHelper
     end #if
     res
   end
+
+  
   
   def format_time d
     convert_date(d.to_i).strftime("%d/%m/%Y %H:%M")

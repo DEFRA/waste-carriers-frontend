@@ -84,8 +84,10 @@ module RegistrationsHelper
     @registration.current_step = current_step
 
     # Additionally set these if route has not gone through registration process
-    session[:registration_id] = @registration.id
-    session[:registration_uuid] = @registration.uuid
+    # this could happen, for instance, if the user's adding copycards to an existing
+    # registration
+    session[:registration_id] ||= @registration.id
+    session[:registration_uuid] ||= @registration.uuid
   end
 
   def new_step_action current_step
@@ -204,11 +206,6 @@ module RegistrationsHelper
   def getConfirmationType
     confirmationType = nil
 
-    if !@registration 
-      #should not be here...
-      return nil
-    end
-
     # These must match the css classes they related to
     #criminally_suspect_class = 'criminallySuspect'
     #almost_complete_class = 'almostComplete'
@@ -217,6 +214,12 @@ module RegistrationsHelper
 
     if @registration.tier.downcase.eql? 'upper'
       awaiting_conviction_confirm = @registration.is_awaiting_conviction_confirmation?
+
+      if @registration.paid_in_full?
+          logger.debug "registration.paid_in_full"
+        else
+          logger.debug "registration NOT paid_in_full"
+      end
 
       if awaiting_conviction_confirm
         confirmationType = STATUS_CRIMINALLY_SUSPECT
@@ -227,7 +230,7 @@ module RegistrationsHelper
         confirmationType = STATUS_COMPLETE
       end
     else # lower registration
-      confirmationType = STATUS_COMPLETE_LOWER if @registration.metaData.first.status.downcase.eql? 'active'
+      confirmationType = STATUS_COMPLETE_LOWER if @registration.get_status.eql? 'ACTIVE'
     end
 
     unless confirmationType
@@ -276,20 +279,21 @@ module RegistrationsHelper
   # @param none
   # @return  [String] somthing
   def determine_smart_answers_route(edited_registration, original_registration)
-
+    logger.debug "determine_smart_answers_route changed #{original_registration.businessType}
+                  tp #{edited_registration.businessType}"
 
     if (original_registration.businessType != edited_registration.businessType) &&
         (['partnership', 'limitedCompany', 'publicBody'].include? edited_registration.businessType )
-      :newBusinessDetails
+      {controller: 'key_people', action: 'newKeyPeople'}
     else
-      :newConfirmation
+       {action: 'newConfirmation'}
     end
 
   end
 
   def create_new_reg
     res = true
-     logger.debug session[:edit_mode]
+    logger.debug session[:edit_mode]
     logger.debug session[:edit_result]
     if  session[:edit_result].to_i ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
       if  session[:edit_mode].to_i == RegistrationsController::EditMode::RECREATE
