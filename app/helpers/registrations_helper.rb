@@ -259,18 +259,21 @@ module RegistrationsHelper
   end
 
   def isIRRegistrationType registrationNumber
-    # Strip leading and trailing whitespace from number
-    regNo = registrationNumber.rstrip.lstrip
+    if registrationNumber
+      # Strip leading and trailing whitespace from number
+      regNo = registrationNumber.rstrip.lstrip
 
-    # Just look at first 3 characters
-    regNo = regNo[0, 3]
+      # Just look at first 3 characters
+      regNo = regNo[0, 3]
 
-    # First 3 characters of reg ex
-    legacy_reg_format = "CB/"
+      # First 3 characters of reg ex
+      legacy_reg_format = "CB/"
 
-    # Check legacy format
-    res = regNo.upcase.match(legacy_reg_format)
-
+      # Check legacy format
+      res = regNo.upcase.match(legacy_reg_format)
+    else
+      false
+    end
   end
 
 
