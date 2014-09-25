@@ -1009,8 +1009,7 @@ class Registration < Ohm::Model
   end
   
   def refused?
-    # TODO: function for if refused?
-    false
+    metaData.first.status == 'REFUSED'
   end
   
   def is_revocable?(agency_user=nil)
@@ -1030,11 +1029,19 @@ class Registration < Ohm::Model
   end
 
   def can_be_edited?(agency_user=nil)
-    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING' && metaData.first.status != 'INACTIVE' && user_can_edit_registration(agency_user)
+    metaData.first.status != 'REVOKED' && \
+    metaData.first.status != 'EXPIRED' && \
+    metaData.first.status != 'PENDING' && \
+    metaData.first.status != 'INACTIVE' && \
+    metaData.first.status != 'REFUSED' && \
+    user_can_edit_registration(agency_user)
   end
 
   def can_view_certificate?
-    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING' && metaData.first.status != 'INACTIVE'
+    metaData.first.status != 'REVOKED' && \
+    metaData.first.status != 'EXPIRED' && \
+    metaData.first.status != 'PENDING' && \
+    metaData.first.status != 'INACTIVE'
   end
 
   def can_request_copy_cards?(agency_user=nil)
@@ -1051,11 +1058,11 @@ class Registration < Ohm::Model
   end
   
   def can_be_approved?(agency_user=nil)
-    metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user=nil)
+    (metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user)) || metaData.first.status == 'REFUSED'
   end
   
   def can_be_refused?(agency_user=nil)
-    metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user=nil)
+    metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user)
   end
   
   def user_can_edit_registration(agency_user)
