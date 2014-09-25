@@ -1359,9 +1359,17 @@ class RegistrationsController < ApplicationController
           
           # Update registration with revoked comment and status
           @registration.metaData.first.update(revokedReason: approveReasonParam)
-          #@registration.metaData.first.update(status: 'ACTIVE')
-            
-          # TODO: Whatever action is needed to clear conviction check
+          #@registration.metaData.first.update(status: 'ACTIVE')                    # Should not need to do this directly if conviction check has been cleared
+          
+          # Perform action needed to clear conviction check
+          if @registration.conviction_sign_offs
+            @registration.conviction_sign_offs.each do |sign_off|
+              # Update conviction sign off data
+              sign_off.update(confirmed: 'yes')
+              sign_off.update(confirmedAt: Time.now.utc.xmlschema)
+              sign_off.update(confirmedBy: current_agency_user.email)
+            end
+          end
             
           # Save changes to registration
           if @registration.save!
