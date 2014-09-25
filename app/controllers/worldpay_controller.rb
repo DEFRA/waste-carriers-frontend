@@ -84,9 +84,7 @@ class WorldpayController < ApplicationController
     end
 
     if @registration.commit #create new reg
-      logger.debug "payment new reg id #{@registration.id}"
       original_reg = Registration[ session[:original_registration_id] ]
-      logger.debug "original reg id #{original_reg.id}"
       @registration.set_inactive #deactivate existing reg
     else
       logger.error "Commit failed for registration id: #{@registration.id}"
