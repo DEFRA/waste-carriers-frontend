@@ -83,21 +83,25 @@ class WorldpayController < ApplicationController
       end
     end
 
-    if @registration.commit #create new reg
-      original_reg = Registration[ session[:original_registration_id] ]
-      @registration.set_inactive #deactivate existing reg
-    else
-      logger.error "Commit failed for registration id: #{@registration.id}"
-      #TODO: error handlling
+    if (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RECREATE)
+      || (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::EDIT &&
+          session[:edit_result].to_i  ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION)
+      if @registration.commit #create new reg
+        original_reg = Registration[ session[:original_registration_id] ]
+        @registration.set_inactive #deactivate existing reg
+      else
+        logger.error "Commit failed for registration id: #{@registration.id}"
+        #TODO: error handlling
+      end
     end
 
- logger.debug next_step.to_s
- logger.debug next_step.class.to_s
+    logger.debug next_step.to_s
+    logger.debug next_step.class.to_s
 
     if next_step == complete_edit_renew_path(@registration.uuid).to_s
-       logger.debug "setting next step"
-      next_step = complete_edit_renew_path(id: @registration.uuid, edit_mode: session[:edit_mode], 
-                  edit_result: session[:edit_result])
+      logger.debug "setting next step"
+      next_step = complete_edit_renew_path(id: @registration.uuid, edit_mode: session[:edit_mode],
+                                           edit_result: session[:edit_result])
       logger.debug next_step.to_s
       clear_edit_session # we don't need edit variables polluting the session any more
     end
