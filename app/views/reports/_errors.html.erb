@@ -1,10 +1,10 @@
 <% if @report.errors.any? %>
   <div id="error_explanation" class="validation-summary">
-    <h2><%= t '.error_message', :count => pluralize(@report.errors.count, t('.error')) %></h2>
-    <ul>
+    <h2 class="heading-medium"><%= t '.error_message', :count => pluralize(@report.errors.count, t('.error')) %></h2>
       <% @report.errors.full_messages.each do |msg| %>
-          <li><a class="error-text" href="#report_<%= msg %>"><%= msg %></a></li>
-      <% end %>
-    </ul>
+      <ul>
+          <li class="error-text" href="#report_<%= msg %>"><%= msg %></li>
+      </ul>
+    <% end %>
   </div>
 <% end %>

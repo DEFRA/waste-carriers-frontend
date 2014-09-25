@@ -49,7 +49,7 @@ en:
         paymentType: "Payment via"
         registrationReference: Reference
       registration:
-        accountEmail: Email
+        accountEmail: Email address
         accountEmail_confirmation: "Confirm email"
         alt_email_address: "Email address"
         alt_first_name: "First name"
@@ -63,6 +63,7 @@ en:
         contactEmail: "Email address"
         country: Country
         declaration: "Declaration"
+        declaredConvictions: "Declared convictions"
         edit_fee: "Registration amendment charge"
         expires_on: "Expiry date"
         exception: "Services error:"
@@ -94,6 +95,8 @@ en:
         renewal_fee: "Registration renewal charge"
         revokedReason: "Why do you wish to revoke this registration"
         unrevokedReason: "Why do you wish to unrevoke this registration"
+        approveReason: "Reason for approve descision"
+        refusedReason: "Reason for refuse descision"
         selectedMoniker: "Select address"
         streetLine1: Street
         streetLine2: "Address Line 2"
@@ -201,7 +204,7 @@ en:
       numbers: "can only contain numbers"
       weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
       worldpayFailed: "failed to get a ok response from Worldpay"
-      invalidPassword: "Email and/or password is unrecognised"
+      invalidPassword: "does not match your email"
       unconfirmedEmail: "This account has not been confirmed"
       no_results: "No results found"
       ir_notFound: "provided is unable to find any IR registration data to use"
@@ -283,15 +286,22 @@ en:
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
       copy_card_label: "Copy cards cost £5 each"
   payment:
-    completeWPRefund:
-      heading: "Worldpay refund complete"
+    completeRefund:
+      heading: "Refund complete"
       step: "You have completed the refund for this payment"
+      completedRefund: "You have completed worldpay refund for order code: %{orderCode}"
+      registrationUpdated: "The registration has been updated to reflect that a refund has been made."
     index:
       heading: Refunds
       step: "Select a payment to refund"
       refundStatus: "Refund: %{status}"
     manualRefund:
-      heading: "Manual Refunds"
+      heading: "Manual refund confirmation"
+      step: "Confirm your actions"
+      confirmText: "Are you sure you want to make a Manual refund?"
+      orderDetail: "For order: %{orderKey}, in the amount of %{amount}"
+      externalGuidance: "Please follow external guidance as to how to complete a refund form."
+      confirmRefund: "To confirm this refund, click the Refund button below."
     new:
       fields:
         commentGuidance: "Maximum 250 characters"
@@ -300,6 +310,9 @@ en:
     newWPRefund:
       heading: "Worldpay refund confirmation"
       step: "Confirm your actions"
+      confirmText: "Are you sure you want to make a Worldpay refund?"
+      orderDetail: "For order: %{orderKey}, in the amount of %{amount}"
+      confirmRefund: "To confirm this refund, click the Refund button below."
     newWriteOff:
       fields:
         commentGuidance: "Maximum 250 characters"
@@ -411,6 +424,9 @@ en:
       search_address_label: "Search for address by postcode"
       selectAddress: "Select address"
       streetLine1Foreign: Address
+    approve:
+      title_approve: "Approve registration"
+      title_refuse: "Refuse registration"
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     businesstype_step:
       subtitle: "What type of business or organisation are you?"

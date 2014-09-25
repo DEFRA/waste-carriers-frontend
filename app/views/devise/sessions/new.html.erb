@@ -13,13 +13,13 @@
 
 <header class="page-header group">
     <div class="hgroup">
-        <h1 class="heading-large"><%= t '.sign_in_heading' %></h1>
+        <h1 class="heading-xlarge"><%= t '.sign_in_heading' %></h1>
     </div>
 </header>
 
 <div id="wrapper" data-journey="waste-carriers-registration:sign-in"></div>
 
-  <fieldset class="text">
+  <fieldset>
     <legend></legend>
 
     <% if request.original_url.include? "agency_users/sign_in" %>
@@ -49,19 +49,25 @@
 
     <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
       <div class="form-group<% if alert %> validation<% end %>">
-        <%= f.label :email, class: 'form-label' %>
-        <%= f.email_field :email, :autofocus => true, :autocomplete => :off %>
+        <ul>
+          <li><%= f.label :email, class: 'form-label' %>
+          <%= f.email_field :email, :autofocus => true, :autocomplete => :off %></li>
+        </ul>
       </div>
 
       <div class="form-group<% if alert %> validation<% end %>">
-        <%= f.label :password, class: 'form-label' %>
-        <%= f.password_field :password %>
+        <ul>
+          <li><%= f.label :password, class: 'form-label' %>
+          <%= f.password_field :password %></li>
+        </ul>
       </div>
 
       <% if devise_mapping.rememberable? -%>
         <div class="form-group">
-          <%= f.check_box :remember_me %>
-          <%= f.label :remember_me, class: 'form-label' %>
+          <ul>
+            <li><%= f.check_box :remember_me %>
+            <%= f.label :remember_me, class: 'form-label' %></li>
+          </ul>
         </div>
       <% end -%>
 
