@@ -27,35 +27,35 @@
 <div class="grid-2-3">
 <div class="inner-block">
 
-	<% content_for :page_title, createTitle('.heading') %>
+    <% content_for :page_title, createTitle('.heading') %>
 
-	<!-- Usefull for showing default messages -->
-	<% if alert %><%= alert %><% end %>
+    <!-- Usefull for showing default messages -->
+    <% if alert %><%= alert %><% end %>
 
-	<%= form_for @payment, url: {action: "createWPRefund"}, :method => 'post' do |f| %>
+    <%= form_for @payment, url: {action: "createWPRefund"}, :method => 'post' do |f| %>
 
-		<%= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
+        <%= render "errors" %><!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
-		<!-- WF X.X.X -->
-		<div id="refunds" data-journey="waste-carriers-registration:refunds">
+        <!-- WF X.X.X -->
+        <div id="refunds" data-journey="waste-carriers-registration:refunds">
 
-			<fieldset>
-				<legend></legend>
+            <fieldset>
+                <legend></legend>
 
-				<p>Are you sure you want to make a Worldpay refund?</p>
+                <p><%= t '.confirmText' %></p>
+                
+                <p><%= t('.orderDetail', :orderKey => f.object.orderKey, :amount => pence_to_currency(@registration.finance_details.first.balance.to_f.abs) ) %></p>
 
-				<p>For order: <%= f.object.orderKey %>, in the amount of <%= pence_to_currency @registration.finance_details.first.balance.to_f.abs %></p>
+                <p><%= t '.confirmRefund' %></p>
 
-				<p>To confirm this refund, click the Refund button below.</p>
+                <div class="inline">
+                    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.refund_button_label' %>"/></span>
+                </div>
 
-				<div class="inline">
-				    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.refund_button_label' %>"/></span>
-				</div>
+            </fieldset>
 
-			</fieldset>
-
-		</div>
-	  <% end %>
+        </div>
+    <% end %>
 
     </div><!-- end inner-block -->
   </div><!-- end grid-2-3 -->

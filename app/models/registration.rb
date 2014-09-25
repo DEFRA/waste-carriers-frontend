@@ -288,6 +288,25 @@ class Registration < Ohm::Model
       save
     rescue => e
       Rails.logger.error e.to_s
+      
+      if e.http_code == 422
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body ul li").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      elsif e.http_code == 400
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body pre").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      else
+        self.exception = e.to_s
+      end
+      
       saved = false
     end
     saved
@@ -382,7 +401,7 @@ class Registration < Ohm::Model
 
   end
 
-  def is_awaiting_conviction_confirmation?
+  def is_awaiting_conviction_confirmation?(agency_user=nil)
 
     result = false
 
@@ -390,7 +409,7 @@ class Registration < Ohm::Model
       if conviction_sign_offs
         conviction_sign_offs.each do |sign_off|
           if sign_off.confirmed == 'no'
-            result = true
+            result = user_can_edit_registration(agency_user)
             break
           end
         end
@@ -995,16 +1014,15 @@ class Registration < Ohm::Model
   end
   
   def refused?
-    # TODO: function for if refused?
-    false
+    metaData.first.status == 'REFUSED'
   end
   
-  def is_revocable?
-    is_complete?
+  def is_revocable?(agency_user=nil)
+    is_complete? and user_can_edit_registration(agency_user)
   end
   
-  def is_unrevocable?
-    metaData.first.status == "REVOKED"
+  def is_unrevocable?(agency_user=nil)
+    metaData.first.status == "REVOKED" and user_can_edit_registration(agency_user)
   end
 
   def about_to_expire?
@@ -1015,16 +1033,24 @@ class Registration < Ohm::Model
     expired? && (metaData.first.status != 'PENDING')
   end
 
-  def can_be_edited?
-    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING' && metaData.first.status != 'INACTIVE'
+  def can_be_edited?(agency_user=nil)
+    metaData.first.status != 'REVOKED' && \
+    metaData.first.status != 'EXPIRED' && \
+    metaData.first.status != 'PENDING' && \
+    metaData.first.status != 'INACTIVE' && \
+    metaData.first.status != 'REFUSED' && \
+    user_can_edit_registration(agency_user)
   end
 
   def can_view_certificate?
-    metaData.first.status != 'REVOKED' && metaData.first.status != 'EXPIRED' && metaData.first.status != 'PENDING' && metaData.first.status != 'INACTIVE'
+    metaData.first.status != 'REVOKED' && \
+    metaData.first.status != 'EXPIRED' && \
+    metaData.first.status != 'PENDING' && \
+    metaData.first.status != 'INACTIVE'
   end
 
-  def can_request_copy_cards?
-    metaData.first.status == 'ACTIVE' && upper?
+  def can_request_copy_cards?(agency_user=nil)
+    metaData.first.status == 'ACTIVE' && upper? and user_can_edit_registration(agency_user)
   end
   
   def can_view_payment_status?
@@ -1032,6 +1058,26 @@ class Registration < Ohm::Model
     true
   end
 
+  def can_be_deleted?(agency_user)
+    !deleted? and user_can_edit_registration(agency_user)
+  end
+  
+  def can_be_approved?(agency_user=nil)
+    (metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user)) || metaData.first.status == 'REFUSED'
+  end
+  
+  def can_be_refused?(agency_user=nil)
+    metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user)
+  end
+  
+  def user_can_edit_registration(agency_user)
+    if agency_user and agency_user.is_agency_user?
+      isEitherFinance = agency_user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
+      !isEitherFinance
+    else
+      true
+    end
+  end
 
   def validate_revokedReason
     #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
