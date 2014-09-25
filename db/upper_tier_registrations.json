@@ -1,132 +1,136 @@
 [
-{
-    "tier" : "UPPER",
-    "registrationType" : "carrier_dealer",
-    "businessType" : "soleTrader",
-    "otherBusinesses" : "yes",
-    "isMainService" : "no",
-    "constructionWaste" : "yes",
-    "companyName" : "Carafe ",
-    "houseNumber" : "7",
-    "streetLine1" : "Aston Place",
-    "townCity" : "CARDIFF",
-    "postcode" : "CF3 0PH",
-    "firstName" : "Fred",
-    "lastName" : "Heath",
-    "position" : "Code Monkey",
-    "phoneNumber" : "447988234833",
-    "contactEmail" : "fred@sky.com",
-    "accountEmail" : "fred1@gov.uk",
-    "declaredConvictions" : "no",
-    "declaration" : "1",
-    "expiresOn" : "2014-07-28T00:00:00.000Z",
-    "metaData" : {
-        "dateRegistered" : "2014/09/09 11:22:25",
-        "anotherString" : "userDetailAddedAtRegistration",
-        "lastModified" : "2014/09/09 11:22:25",
-        "dateActivated" : "",
-        "status" : "ACTIVE",
-        "route" : "DIGITAL",
-        "distance" : "n/a"
+  {
+    "tier": "UPPER",
+    "registrationType": "carrier_dealer",
+    "businessType": "soleTrader",
+    "otherBusinesses": "yes",
+    "isMainService": "no",
+    "constructionWaste": "yes",
+    "companyName": "Carafe ",
+    "houseNumber": "7",
+    "streetLine1": "Aston Place",
+    "townCity": "CARDIFF",
+    "postcode": "CF3 0PH",
+    "firstName": "Fred",
+    "lastName": "Heath",
+    "position": "Code Monkey",
+    "phoneNumber": "447988234833",
+    "contactEmail": "fred@sky.com",
+    "accountEmail": "fred1@gov.uk",
+    "declaredConvictions": "no",
+    "declaration": "1",
+    "expiresOn": "2014-07-28T00:00:00.000Z",
+    "metaData": {
+      "dateRegistered": "2014/09/09 11:22:25",
+      "anotherString": "userDetailAddedAtRegistration",
+      "lastModified": "2014/09/09 11:22:25",
+      "dateActivated": "",
+      "status": "ACTIVE",
+      "route": "DIGITAL",
+      "distance": "n/a"
     },
-    "financeDetails" : {
-        "orders" : [
-            {
-                "orderCode" : "1406548455777",
-                "paymentMethod" : "UNKNOWN",
-                "totalAmount" : 15400,
-                "currency" : "GBP",
-                "description" : "Initial Registration",
-                "orderItems":[{"amount": 2,
-                                        "currency":"GBP",
-                                        "reference":"KJ65"}
-                                        ]
-            }
-        ],
-        "payments" : [],
-        "balance" : 15400
-    },
-    "key_people" : [
+    "financeDetails": {
+      "orders": [
         {
-            "first_name" : "Ted",
-            "last_name" : "Baker",
-            "position" : "Under",
-            "dob_day" : "2",
-            "dob_month" : "8",
-            "dob_year" : "1972",
-            "person_type" : "KEY"
-        }
-    ]
-},
-{
-    "tier" : "UPPER",
-    "registrationType" : "carrier_dealer",
-    "businessType" : "soleTrader",
-    "otherBusinesses" : "yes",
-    "isMainService" : "no",
-    "constructionWaste" : "yes",
-    "companyName" : "Bloomberg",
-    "houseNumber" : "7",
-    "streetLine1" : "Aston Place",
-    "townCity" : "CARDIFF",
-    "postcode" : "CF3 0PH",
-    "firstName" : "Fred",
-    "lastName" : "Heath",
-    "position" : "Code Monkey",
-    "phoneNumber" : "447988234833",
-    "contactEmail" : "fred@sky.com",
-    "accountEmail" : "fred1@gov.uk",
-    "declaredConvictions" : "no",
-    "declaration" : "1",
-    "expiresOn" : "2014-10-16T00:00:00.000Z",
-    "metaData" : {
-        "status" : "ACTIVE",
-        "route" : "DIGITAL",
-        "distance" : "n/a"
-    },
-     "financeDetails" : {
-        "payments" : [],
-        "orders" : [
+          "orderCode": "1406548455777",
+          "paymentMethod": "UNKNOWN",
+          "totalAmount": 0,
+          "currency": "GBP",
+          "description": "Initial Registration",
+          "orderItems": [
             {
-                "orderCode" : "1407147984",
-                "paymentMethod" : "ONLINE",
-                "merchantId" : "HJHKSJHDKS",
-                "totalAmount" : 15900,
-                "currency" : "GBP",
-                "dateCreated" : "2014-07-28T00:00:00.000Z",
-                "worldPayStatus" : "IN_PROGRESS",
-                "dateLastUpdated" :"2014-07-28T00:00:00.000Z",
-                "updatedByUser" : "stevenr@aptosolutions.co.uk",
-                "description" : "Updated registrations PRIOR to WP",
-                "orderItems" : [
-                    {
-                        "amount" : "25600",
-                        "currency" : "GBP",
-                        "lastUpdated" : "",
-                        "description" : "Initial Registration",
-                        "reference" : "CBDU1"
-                    },
-                    {
-                        "amount" : "800",
-                        "currency" : "GBP",
-                        "lastUpdated" : "",
-                        "description" : "1x Copy Cards",
-                        "reference" : "CBDU1"
-                    }
-                ]
+              "amount": 2,
+              "currency": "GBP",
+              "reference": "KJ65"
             }
-        ]
-    },
-    "key_people" : [
-        {
-            "first_name" : "Tina",
-            "last_name" : "Cucumber",
-            "position" : "OnTop",
-            "dob_day" : "24",
-            "dob_month" : "12",
-            "dob_year" : "1978",
-            "person_type" : "KEY"
+          ]
         }
+      ],
+      "payments": [],
+      "balance": 0
+    },
+    "key_people": [
+      {
+        "first_name": "Ted",
+        "last_name": "Baker",
+        "position": "Under",
+        "dob_day": "2",
+        "dob_month": "8",
+        "dob_year": "1972",
+        "person_type": "KEY"
+      }
     ]
-},
+  },
+  {
+    "tier": "UPPER",
+    "registrationType": "carrier_dealer",
+    "businessType": "soleTrader",
+    "otherBusinesses": "yes",
+    "isMainService": "no",
+    "constructionWaste": "yes",
+    "companyName": "Bloomberg",
+    "houseNumber": "7",
+    "streetLine1": "Aston Place",
+    "townCity": "CARDIFF",
+    "postcode": "CF3 0PH",
+    "firstName": "Fred",
+    "lastName": "Heath",
+    "position": "Code Monkey",
+    "phoneNumber": "447988234833",
+    "contactEmail": "fred@sky.com",
+    "accountEmail": "fred1@gov.uk",
+    "declaredConvictions": "no",
+    "declaration": "1",
+    "expiresOn": "2014-10-16T00:00:00.000Z",
+    "metaData": {
+      "status": "ACTIVE",
+      "route": "DIGITAL",
+      "distance": "n/a"
+    },
+    "financeDetails": {
+      "payments": [],
+      "orders": [
+        {
+          "orderCode": "1407147984",
+          "paymentMethod": "ONLINE",
+          "merchantId": "HJHKSJHDKS",
+          "totalAmount": 0,
+          "currency": "GBP",
+          "dateCreated": "2014-07-28T00:00:00.000Z",
+          "worldPayStatus": "IN_PROGRESS",
+          "dateLastUpdated": "2014-07-28T00:00:00.000Z",
+          "updatedByUser": "stevenr@aptosolutions.co.uk",
+          "description": "Updated registrations PRIOR to WP",
+          "orderItems": [
+            {
+              "amount": "25600",
+              "currency": "GBP",
+              "lastUpdated": "",
+              "description": "Initial Registration",
+              "reference": "CBDU1"
+            },
+            {
+              "amount": "800",
+              "currency": "GBP",
+              "lastUpdated": "",
+              "description": "1x Copy Cards",
+              "reference": "CBDU1"
+            }
+          ]
+        }
+      ],
+      "balance": 0
+    },
+    "key_people": [
+      {
+        "first_name": "Tina",
+        "last_name": "Cucumber",
+        "position": "OnTop",
+        "dob_day": "24",
+        "dob_month": "12",
+        "dob_year": "1978",
+        "person_type": "KEY"
+      }
+    ]
+  }
 ]

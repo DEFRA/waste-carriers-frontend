@@ -170,7 +170,7 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
-      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      # (redirect_to :newConfirmation and return) if session[:edit_mode]
 
       case @registration.businessType
       when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
@@ -215,7 +215,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'otherbusinesses'
 
     if @registration.valid?
-      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      # (redirect_to :newConfirmation and return) if session[:edit_mode]
       # TODO this is where you need to make the choice and update the steps
       case @registration.otherBusinesses
       when 'yes'
@@ -240,7 +240,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'serviceprovided'
 
     if @registration.valid?
-      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      # (redirect_to :newConfirmation and return) if session[:edit_mode]
       # TODO this is where you need to make the choice and update the steps
       case @registration.isMainService
       when 'yes'
@@ -269,7 +269,7 @@ class RegistrationsController < ApplicationController
       # we're doing a smart edit or not
       if session[:edit_mode]
         original_registration = Registration[ session[:original_registration_id] ]
-        redirect_to action: determine_smart_answers_route(@registration, original_registration)
+        redirect_to determine_smart_answers_route(@registration, original_registration)
         return
       end
       # TODO this is where you need to make the choice and update the steps
@@ -519,11 +519,18 @@ class RegistrationsController < ApplicationController
           else
             #TODO: error handling
           end #if
-          redirect_to action: 'editRenewComplete' and return
+          edit_mode = session[:edit_mode]
+          edit_result = session[:edit_result]
+          clear_edit_session # we don't need edit variables polluting the session any more
+          # redirect_to(action: 'editRenewComplete', edit_mode: edit_mode, edit_result: edit_result) and return
+          redirect_to complete_edit_renew_path(edit_mode: edit_mode, edit_result: edit_result) and return
         when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE,  EditResult::CREATE_NEW_REGISTRATION
           redirect_to newOrderEdit_path(@registration.uuid) and return
         else
-          redirect_to action: 'editRenewComplete' and return
+          edit_mode = session[:edit_mode]
+          edit_result = session[:edit_result]
+          clear_edit_session # we don't need edit variables polluting the session any more
+          redirect_to(action: 'editRenewComplete', edit_mode: edit_mode, edit_result: edit_result) and return
         end
 
       when EditMode::RENEWAL
@@ -900,7 +907,8 @@ class RegistrationsController < ApplicationController
       renderAccessDenied
     else
       # Search for users registrations
-      @registrations = Registration.find_by_email(tmpUser.email).sort_by { |r| r.date_registered}
+      @registrations = Registration.find_by_email(tmpUser.email, 
+                        %w(ACTIVE PENDING REVOKED EXPIRED)).sort_by { |r| r.date_registered }
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -1221,7 +1229,6 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
   end
-  
   #####################################################################################
   # Revoke / Unvoke
   #####################################################################################
@@ -1325,7 +1332,6 @@ class RegistrationsController < ApplicationController
       render :revoke, :status => '400'
     end
   end
-  
   #####################################################################################
   # Approve / Refuse 
   #####################################################################################
@@ -1519,7 +1525,10 @@ class RegistrationsController < ApplicationController
   # Renders the edit renew order complete view
   def editRenewComplete
 
-    @registration = Registration.find_by_id(session[:registration_uuid])
+    logger.debug "original id" + session[:original_registration_id].to_s
+    logger.debug "new id" + session[:registration_uuid].to_s
+    logger.debug "params id" + params[:id].to_s
+    @registration = Registration.find_by_id(params[:id])
     #need to store session variables as instance variable, so that editRenewComplete.html can
     #use them, as session will be cleared shortly
     @edit_mode = session[:edit_mode]
@@ -1530,7 +1539,7 @@ class RegistrationsController < ApplicationController
 
 
     #at the end of the edit/renewal process, so clear the session
-    #clear_edit_session
+    #
   end
 
   def newOfflinePayment
@@ -1581,7 +1590,8 @@ class RegistrationsController < ApplicationController
 
     if session[:edit_mode]
       logger.debug "success" if create_new_reg
-      redirect_to action: complete_edit_renew_path(@registration.uuid)
+      # redirect_to complete_edit_renew_path(edit_mode: edit_mode, edit_result: edit_result) and return
+      redirect_to complete_edit_renew_path(@registration.uuid)
     else
       redirect_to next_step
     end
