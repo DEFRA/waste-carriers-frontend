@@ -730,6 +730,8 @@ en:
       reg_revoked: "Registration revoked"
       reg_unrevoked: "Registration un-revoked"
       reg_updated: "Registration updated"
+      reg_approved: "Registration approved"
+      reg_refused: "Registration refused"
       registerAs_broker: Broker
       registerAs_carrier: Carrier
       registerAs_dealer: Dealer
