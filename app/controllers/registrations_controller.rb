@@ -1235,13 +1235,13 @@ class RegistrationsController < ApplicationController
   
   def revoke
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     @isRevoke = true
   end
   
   def unRevoke
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     @isRevoke = false
     # Reuses revoke view for un-revoke functionality
     render :revoke
@@ -1249,7 +1249,7 @@ class RegistrationsController < ApplicationController
   
   def updateRevoke
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     
     # Validate if is in a correct state to revoke/unrevoke?
     if params[:revoke]                      # Checks the type of request, ie which button was clicked
@@ -1338,13 +1338,13 @@ class RegistrationsController < ApplicationController
   
   def approve
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     @isApprove = true
   end
   
   def refuse
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     @isApprove = false
     # Reuses approve view for refuse functionality
     render :approve
@@ -1352,13 +1352,13 @@ class RegistrationsController < ApplicationController
   
   def updateApprove
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     
     # Validate if is in a correct state to approve/refuse?
     if params[:approve]
       # Approve
       logger.info '>>>>>> Approve Request Found'
-      if @registration.is_awaiting_conviction_confirmation?        # Checks if approvable, i.e. is registration in a state that can be made approved
+      if @registration.is_awaiting_conviction_confirmation?(current_agency_user)    # Checks if approvable, i.e. is registration in a state that can be made approved
         if !params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
           if agency_user_signed_in?                                     # Checks only agency users can approve
             # Get reason from params
@@ -1366,9 +1366,17 @@ class RegistrationsController < ApplicationController
             
             # Update registration with revoked comment and status
             @registration.metaData.first.update(revokedReason: approveReasonParam)
-            #@registration.metaData.first.update(status: 'ACTIVE')
+          #@registration.metaData.first.update(status: 'ACTIVE')                    # Should not need to do this directly if conviction check has been cleared
             
-            # TODO: Whatever action is needed to clear conviction check
+          # Perform action needed to clear conviction check
+          if @registration.conviction_sign_offs
+            @registration.conviction_sign_offs.each do |sign_off|
+              # Update conviction sign off data
+              sign_off.update(confirmed: 'yes')
+              sign_off.update(confirmedAt: Time.now.utc.xmlschema)
+              sign_off.update(confirmedBy: current_agency_user.email)
+            end
+          end
             
             # Save changes to registration
             if @registration.save!
@@ -1388,8 +1396,7 @@ class RegistrationsController < ApplicationController
           @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
         end
       else
-        # Error: Not ready for approve  TODO: Replace this with better message
-        @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
+        renderAccessDenied and return
       end
     else
       # Refuse
@@ -1400,7 +1407,7 @@ class RegistrationsController < ApplicationController
             
           # Update registration with refused comment and status
           @registration.metaData.first.update(revokedReason: refusedReasonParam)
-          @registration.metaData.first.update(status: 'REFUSED')                       # FIXME: Should be REFUSED state
+          @registration.metaData.first.update(status: 'REFUSED')
           
           # Save changes to registration
           if @registration.save!
@@ -1534,6 +1541,12 @@ class RegistrationsController < ApplicationController
     @confirmationType = getConfirmationType
 
 
+    # Determine routing for Finish button
+    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+      @exitRoute = confirmed_path
+    else
+      @exitRoute = registrations_finish_path
+    end
 
     #at the end of the edit/renewal process, so clear the session
     #

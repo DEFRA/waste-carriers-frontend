@@ -59,6 +59,22 @@ class Ability
       end
     end
     
+    can :approve, Registration do |registration|
+      if user
+        # 
+        # Note: This is a negative check for neither financeBasic or financeAdmin, thus any other role can perform updates
+        # 
+        if user.is_agency_user?
+          isEitherFinance = user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
+          !isEitherFinance
+        else
+          false
+        end
+      else
+        false
+      end
+    end
+    
     #
     # TODO: Adjust this later if a particular agency user is not allowed to add payments
     #
