@@ -542,7 +542,7 @@ class RegistrationsController < ApplicationController
         else
           @registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
           @registration.save
-          redirect_to newOrderRenew_path(@registration.uuid) and return
+          newOrderRenew(@registration.uuid) and return
         end
       else # new registration
         redirect_to :action => :account_mode
