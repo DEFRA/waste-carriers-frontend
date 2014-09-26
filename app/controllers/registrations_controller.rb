@@ -523,7 +523,7 @@ class RegistrationsController < ApplicationController
           edit_result = session[:edit_result]
           clear_edit_session # we don't need edit variables polluting the session any more
           # redirect_to(action: 'editRenewComplete', edit_mode: edit_mode, edit_result: edit_result) and return
-          redirect_to complete_edit_renew_path(edit_mode: edit_mode, edit_result: edit_result) and return
+          redirect_to complete_edit_renew_path(id: @registration.uuid, edit_mode: edit_mode, edit_result: edit_result) and return
         when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE,  EditResult::CREATE_NEW_REGISTRATION
           redirect_to newOrderEdit_path(@registration.uuid) and return
         else
