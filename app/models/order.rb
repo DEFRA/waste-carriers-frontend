@@ -156,7 +156,7 @@ class Order < Ohm::Model
       result = JSON.parse(response.body)
       Rails.logger.debug  result.class.to_s
       save
-      Rails.logger.debug "Commited order to service: #{attributes.to_s}"
+      Rails.logger.debug "Saving order to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
       if e.http_code == 422
