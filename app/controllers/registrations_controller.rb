@@ -1235,13 +1235,13 @@ class RegistrationsController < ApplicationController
   
   def revoke
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     @isRevoke = true
   end
   
   def unRevoke
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     @isRevoke = false
     # Reuses revoke view for un-revoke functionality
     render :revoke
@@ -1249,7 +1249,7 @@ class RegistrationsController < ApplicationController
   
   def updateRevoke
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     
     # Validate if is in a correct state to revoke/unrevoke?
     if params[:revoke]                      # Checks the type of request, ie which button was clicked
@@ -1338,13 +1338,13 @@ class RegistrationsController < ApplicationController
   
   def approve
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     @isApprove = true
   end
   
   def refuse
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     @isApprove = false
     # Reuses approve view for refuse functionality
     render :approve
@@ -1352,7 +1352,7 @@ class RegistrationsController < ApplicationController
   
   def updateApprove
     @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
+    authorize! :approve, @registration
     
     # Validate if is in a correct state to approve/refuse?
     if params[:approve]
