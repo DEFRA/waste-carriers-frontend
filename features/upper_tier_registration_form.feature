@@ -62,7 +62,7 @@ Feature: Upper tier
      Then I am shown the sign in page
        And I attempt to sign in
      #Then I am shown I am registered as an upper tier waste carrier
-     Then I am registered as an upper tier waste carrier
+     Then I am successfully registered as an upper tier waste carrier
 
   Scenario: Bank transfer
     Given I autocomplete my business address
