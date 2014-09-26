@@ -282,7 +282,20 @@ class WorldpayController < ApplicationController
       if @order.save! reg.uuid
         if session[:edit_mode]
           logger.debug "edited registration id: #{@registration.id}"
-          logger.error "Failed to save registration #{@registration.id}" unless @registration.save!
+          
+          #
+          # BUG:: The following line causes a services save of the registration in a log line for all routes that use the edit_mode variable
+          # This will always be wrong as the order was just saved to the registraion, To ensure that you have at least the order you just save 
+          # you must do: 
+          #
+          # # Get the updated regsitration from the services, (albeit it is returned in the order.save method, but we throw that away so need to re-request it
+          # regFromDB = Registration.find_by_id(@registration.uuid)
+          # # Update the finance details in the local registration with that from the remote object
+          # @registration.finance_details.replace([regFromDB.finance_details.first])
+          #
+          # NOTE: Ideally we need something better here as other data, other than just finance details could have changed.
+          #
+          #logger.error "Failed to save registration #{@registration.id}" unless @registration.save!
         end
         # Re-get registration so its data is up to date, for later use
         @registration = Registration.find_by_id(session[:registration_uuid])

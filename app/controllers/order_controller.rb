@@ -83,8 +83,12 @@ class OrderController < ApplicationController
             #session.delete(:renderType)
 
             # Re-get registration from the database to update the local redis version
-            @registration = Registration.find_by_id(@registration.uuid)
+            regFromDB = Registration.find_by_id(@registration.uuid)
             logger.info "Updated redis version after order save!"
+            
+            # Get all nested children out of registration, specifically finaince details and override local copy in redis and save to redis
+            @registration.finance_details.replace([regFromDB.finance_details.first])
+            @registration.save
 
           else
             @order.errors.add(:exception, @order.exception.to_s)
