@@ -77,6 +77,7 @@ module Registrations
     #As described in the comments above, this setting can be redefined in config/environments/*.rb
     #Changing this value requires restart of the application
     config.waste_exemplar_services_url = ENV["WCRS_FRONTEND_WCRS_SERVICES_URL"] || "http://localhost:9090"
+    config.waste_exemplar_services_admin_url = ENV["WCRS_FRONTEND_WCRS_SERVICES_ADMIN_URL"] || "http://localhost:9091"
     config.waste_exemplar_addresses_url = ENV["WCRS_FRONTEND_WCRS_ADDRESSES_URL"] || "http://localhost:9190"
 
     #The application URL
