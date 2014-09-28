@@ -80,7 +80,7 @@ module RegistrationsHelper
     end
     @registration.add( params[:registration] ) unless no_update
     @registration.save
-    logger.debug 'Registration: '+ @registration.attributes.to_s
+    logger.debug "Registration: id=#{@registration.id.to_s} #{@registration.attributes.to_s}"
     @registration.current_step = current_step
 
     # Additionally set these if route has not gone through registration process

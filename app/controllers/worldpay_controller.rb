@@ -84,8 +84,8 @@ class WorldpayController < ApplicationController
     end
 
     if (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RECREATE) \
-      || (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::EDIT && \
-          session[:edit_result].to_i  ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION)
+        || (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::EDIT && \
+            session[:edit_result].to_i  ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION)
       if @registration.commit #create new reg
         original_reg = Registration[ session[:original_registration_id] ]
         @registration.set_inactive #deactivate existing reg
@@ -245,6 +245,7 @@ class WorldpayController < ApplicationController
     orderCode = @payment.orderKey
     status = @payment.worldPayPaymentStatus
 
+
     reg = Registration.find_by_id(session[:registration_uuid])
 
     # Get the current_order from the registration
@@ -282,11 +283,21 @@ class WorldpayController < ApplicationController
       if @order.save! reg.uuid
         if session[:edit_mode]
           logger.debug "edited registration id: #{@registration.id}"
-          
+
+          case session[:edit_result].to_i
+          when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
+            logger.error "Failed to create new registration" unless create_new_reg
+          when  RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+            # before we Re-get registration from db, we need to save existing changes to it
+            logger.error "Registration #{@registration.id} NOT saved!!!" unless Registration[@registration.id].save!
+          when  RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+            logger.error "Flow error: we shouldn't be here"
+          end
+
           #
           # BUG:: The following line causes a services save of the registration in a log line for all routes that use the edit_mode variable
-          # This will always be wrong as the order was just saved to the registraion, To ensure that you have at least the order you just save 
-          # you must do: 
+          # This will always be wrong as the order was just saved to the registraion, To ensure that you have at least the order you just save
+          # you must do:
           #
           # # Get the updated regsitration from the services, (albeit it is returned in the order.save method, but we throw that away so need to re-request it
           # regFromDB = Registration.find_by_id(@registration.uuid)
@@ -297,6 +308,8 @@ class WorldpayController < ApplicationController
           #
           #logger.error "Failed to save registration #{@registration.id}" unless @registration.save!
         end
+
+
         # Re-get registration so its data is up to date, for later use
         @registration = Registration.find_by_id(session[:registration_uuid])
         logger.debug "#{@registration.id}"
