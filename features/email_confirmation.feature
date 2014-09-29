@@ -6,7 +6,7 @@ Feature: Email confirmation
 
   Scenario: lower tier unconfirmed
     Given I have gone through the lower tier waste carrier process
-    When I have not confirmed my email address
+      But I have not confirmed my email address
     Then I am told to confirm my email address
 
   Scenario: lower tier confirmed
@@ -16,15 +16,21 @@ Feature: Email confirmation
 
   Scenario: upper tier unconfirmed
     Given I have completed the upper tier and chosen to pay by bank transfer
-    When I have not confirmed my email address
+      And I am shown my pending registration
+      But I have not confirmed my email address
+    When I attempt to sign in
     Then I am told to confirm my email address
 
   Scenario: upper tier confirmed
     Given I have completed the upper tier and chosen to pay by bank transfer
-    When I have confirmed my email address
-    Then I am shown my pending registration
+      And I am shown my pending registration
+      And I have received an awaiting payment email
+    When I re-request activation for an unpaid registration
+      And I am shown the sign in page
+      And I attempt to sign in
+    Then I have applied as an upper tier waste carrier
 
   Scenario: upper tier unconfirmed with balance owing
     Given I have completed the upper tier and chosen to pay by bank transfer
-    When I have not confirmed my email address
-    Then I am shown how to pay in my confirmation email
+      And I am shown my pending registration
+    Then I am not shown how to pay in my confirmation email

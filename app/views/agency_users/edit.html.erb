@@ -1,33 +1,48 @@
 <%= render 'shared/content_for_pages' %>
 <%#= render "shared/current_user" %>
 
+<div id="wrapper">
+
 <main id="content" role="main" class="group">
-	<article role="article" class="group">
-	<section>
-      <div class="inner">
-      <div class="col-1">
 
-	<h1><%=t 'agencyUsers.editHeading'%></h1>
+<div class="back-section">
+    <ol>
+      <li><%# link_to t('agencyUsers.show'), @agency_user %>
+          <%= link_to t('agencyUsers.back'), agency_users_path %>
+      </li>
+    </ol>
+</div>
 
-	<section>
-	<%= render 'form' %>
-	
-	<%# link_to t('agencyUsers.show'), @agency_user %>
-	<%= link_to t('agencyUsers.back'), agency_users_path %>
-
-	</section>
-
-	</div>
+<header class="page-header group">
+  <div class="hgroup">
+    <h1 class="heading-large"><%=t 'agencyUsers.editHeading'%></h1>
   </div>
-</section>
+</header>
 
-    <aside role='note'>
-      <div class="inner">
-        <div class="col-2">
-          <%= render "shared/current_user" %>
+<div class="grid-wrapper">
+
+  <div class="grid-2-3">
+    <div class="inner-block">
+
+      <%= render 'form' %>
+
+    </div><!-- end inner-block -->
+  </div><!-- end grid-2-3 -->
+
+  <div class="grid-1-3">
+    <div class="inner-block related">
+      <div class="inner group related-subsection">
+        <h2 class="heading-small">Current user</h2>
+          <nav aria-labelledby="parent-subsection" role="navigation">
+            <ul>
+              <li><%= render "shared/current_user" %></li>
+            </ul>
+          </nav>
         </div>
       </div>
-    </aside>
+    </div><!-- end grid 1-3-->
 
-	</article>
-</main>
+  </div><!-- end grid-wrapper -->
+
+</main><!-- end main -->
+</div><!-- end wrapper -->

@@ -66,15 +66,10 @@ module RegistrationsHelper
     registration.finance_details.first.balance.to_f < 0
   end
 
-  def send_confirm_email(registration)
-    user = registration.user
-    user.current_registration = registration
-    user.send_confirmation_instructions unless user.confirmed?
-  end
-
   def setup_registration current_step, no_update=false
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
+      logger.debug "Got Registration from session"
     else
       Rails.logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
       @registration = Registration[ params[:id]]
@@ -86,12 +81,14 @@ module RegistrationsHelper
     end
     @registration.add( params[:registration] ) unless no_update
     @registration.save
-    logger.debug 'Registration: '+ @registration.attributes.to_s
+    logger.debug "Registration: id=#{@registration.id.to_s} #{@registration.attributes.to_s}"
     @registration.current_step = current_step
 
     # Additionally set these if route has not gone through registration process
-    session[:registration_id] = @registration.id
-    session[:registration_uuid] = @registration.uuid
+    # this could happen, for instance, if the user's adding copycards to an existing
+    # registration
+    session[:registration_id] ||= @registration.id
+    session[:registration_uuid] ||= @registration.uuid
   end
 
   def new_step_action current_step
@@ -113,7 +110,7 @@ module RegistrationsHelper
       end
 
       @registration.metaData.add m
-      
+
     elsif (current_step.eql? 'businesstype') && !session[:edit_mode] && !session[:registration_id]
       clear_edit_session
       @registration = Registration.create
@@ -134,12 +131,21 @@ module RegistrationsHelper
 
     elsif  session[:edit_mode] #editing existing registration
       @registration = Registration[ session[:registration_id]]
-      logger.debug "retrieving registration for edit #{@registration.id}"
+      if @registration
+        logger.debug "retrieving registration for edit #{@registration.id}"
+      end
     else #creating new registration but not first step
       clear_edit_session
       @registration = Registration[ session[:registration_id]]
-      logger.debug "retrieving registration #{@registration.id}"
-      m = Metadata.create
+      if @registration
+        logger.debug "retrieving registration #{@registration.id}"
+        m = Metadata.create
+      end
+    end
+
+    if !@registration
+      renderNotFound
+      return
     end
 
     logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
@@ -167,30 +173,36 @@ module RegistrationsHelper
     logger.debug "#{ __method__}"
   end
 
+  def clear_registration_session
+    # Clear session variables
+    session.delete(:registration_id)
+    session.delete(:registration_uuid)
+
+    #clear/reset session variables used for Google Analytics
+    session.delete(:ga_is_renewal)
+    session.delete(:ga_tier)
+    session.delete(:ga_status)
+  end
+
   def give_meaning_to_reg_type(attr_value)
     case attr_value
     when 'carrier_broker_dealer'
-      "You are a carrier and broker dealer"
+      "carrier broker and dealer"
     when 'carrier_dealer'
-      "Carrier dealer (You carry the waste yourselves)"
+      "carrier dealer (you carry the waste yourselves)"
     when 'broker_dealer'
-      "Broker dealer (You arrange for other people to carry the waste)"
+      "broker dealer (you arrange for other people to carry the waste)"
     end
   end
 
   # Defines the list of classes for the complete summary
-  def getCompleteClass
-    'complete'
-  end
-  def getCompleteLowerClass
-    'complete lower'
-  end
-  def getCriminallySuspectClass
-    'criminallySuspect'
-  end
-  def getAlmostCompleteClass
-    'almostComplete'
-  end
+
+  COMPLETE_STATUSES = [STATUS_COMPLETE = 'complete',
+                       STATUS_COMPLETE_LOWER = 'complete lower',
+                       STATUS_CRIMINALLY_SUSPECT = 'criminallySuspect',
+                       STATUS_ALMOST_COMPLETE = 'almostComplete',
+                       STATUS_READY = 'ready']
+
 
   def getConfirmationType
     confirmationType = nil
@@ -201,45 +213,101 @@ module RegistrationsHelper
     #complete_class = 'complete'
     #complete_lower_class = 'complete lower'
 
-    if @registration.criminally_suspect
-      confirmationType = getCriminallySuspectClass
-    elsif !@registration.paid_in_full? and !@registration.criminally_suspect
-      confirmationType = getAlmostCompleteClass
-    elsif @registration.is_complete? and @registration.tier.downcase.eql? 'upper'
-      confirmationType = getCompleteClass
-    elsif @registration.is_complete?
-      confirmationType = getCompleteLowerClass
+    if @registration.tier.downcase.eql? 'upper'
+      awaiting_conviction_confirm = @registration.is_awaiting_conviction_confirmation?
+
+      if @registration.paid_in_full?
+          logger.debug "registration.paid_in_full"
+        else
+          logger.debug "registration NOT paid_in_full"
+      end
+
+      if awaiting_conviction_confirm
+        confirmationType = STATUS_CRIMINALLY_SUSPECT
+      elsif !@registration.paid_in_full? && !awaiting_conviction_confirm
+        confirmationType = STATUS_ALMOST_COMPLETE
+      else
+        # session[:edit_result].to_i ==  EditResult::CREATE_NEW_REGISTRATION
+        confirmationType = STATUS_COMPLETE
+      end
+    else # lower registration
+      confirmationType = STATUS_COMPLETE_LOWER if @registration.get_status.eql? 'ACTIVE'
+    end
+
+    unless confirmationType
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE For Registration: #{@registration.uuid}"
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE awaiting conv confirm: #{awaiting_conviction_confirm}"
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE paid_in_full?: #{@registration.paid_in_full?}"
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE tier: #{@registration.tier.downcase}"
+      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE status: #{@registration.metaData.first.status.downcase}"
     end
 
     confirmationType
   end
-  
+
   def isCurrentRegistrationType registrationNumber
     # Strip leading and trailing whitespace from number
     regNo = registrationNumber.rstrip.lstrip
-    
+
     # Just look at first 3 characters
     regNo = regNo[0, 3]
-    
+
     # First 3 characters of reg ex
     current_reg_format = "CBD"
-      
+
     # Check current format
     regNo.upcase.match(current_reg_format)
   end
-  
+
   def isIRRegistrationType registrationNumber
-    # Strip leading and trailing whitespace from number
-    regNo = registrationNumber.rstrip.lstrip
-    
-    # Just look at first 3 characters
-    regNo = regNo[0, 3]
-    
-    # First 3 characters of reg ex
-    legacy_reg_format = "OLD"
-      
-    # Check legacy format
-    regNo.upcase.match(legacy_reg_format)
+    if registrationNumber
+      # Strip leading and trailing whitespace from number
+      regNo = registrationNumber.rstrip.lstrip
+
+      # Just look at first 3 characters
+      regNo = regNo[0, 3]
+
+      # First 3 characters of reg ex
+      legacy_reg_format = "CB/"
+
+      # Check legacy format
+      res = regNo.upcase.match(legacy_reg_format)
+    else
+      false
+    end
+  end
+
+
+  # determines what we need to do after Smart Answers have been edited
+  #
+  # @param none
+  # @return  [String] somthing
+  def determine_smart_answers_route(edited_registration, original_registration)
+    logger.debug "determine_smart_answers_route changed #{original_registration.businessType}
+                  tp #{edited_registration.businessType}"
+
+    if (original_registration.businessType != edited_registration.businessType) &&
+        (['partnership', 'limitedCompany', 'publicBody'].include? edited_registration.businessType )
+      {controller: 'key_people', action: 'newKeyPeople'}
+    else
+       {action: 'newConfirmation'}
+    end
+
+  end
+
+  def create_new_reg
+    res = true
+    logger.debug session[:edit_mode]
+    logger.debug session[:edit_result]
+    if  session[:edit_result].to_i ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
+      if  session[:edit_mode].to_i == RegistrationsController::EditMode::RECREATE
+        original_registration = Registration[ session[:original_registration_id] ]
+        original_registration.metaData.first.update(status: 'DELETED')
+        res = original_registration.save!
+      end
+      res = @registration.commit if res
+    end
+    res
   end
 
 end

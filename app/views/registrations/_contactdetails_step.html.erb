@@ -1,3 +1,4 @@
+ <%= render 'errors' %>
 <header class="page-header group">
     <div class="hgroup">
         <h1 class="heading-large"><%= t '.legend' %></h1>
@@ -6,27 +7,38 @@
 
   <fieldset>
     <legend></legend>
-    <%= render 'errors' %>
     <div class="form-group<%if r.errors[:firstName].any?%> validation<%end%>">
-      <%= validation_for(r, :firstName) %>
-      <%= f.label :firstName, class: 'form-label' %>
-      <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
+      <ul>
+        <li><%= validation_for(r, :firstName) %></li>
+        <li><%= f.label :firstName, class: 'form-label' %>
+        <%= f.text_field :firstName, :size => 20, :maxlength => 35 %>
+        </li>
+    </ul>
     </div>
     <div class="form-group<%if r.errors[:lastName].any?%> validation<%end%>">
-      <%= validation_for(r, :lastName) %>
-      <%= f.label :lastName, class: 'form-label' %>
-      <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
+      <ul>
+        <li><%= validation_for(r, :lastName) %></li>
+        <li><%= f.label :lastName, class: 'form-label' %>
+        <%= f.text_field :lastName, :size => 20, :maxlength => 35 %>
+        </li>
+      </ul>
     </div>
     <div class="form-group<%if r.errors[:phoneNumber].any?%> validation<%end%>">
-      <%= validation_for(r, :phoneNumber) %>
-      <%= f.label :phoneNumber, class: 'form-label' %>
-      <%= f.telephone_field :phoneNumber, :size => 20, :maxlength => 20 %>
+      <ul>
+        <li><%= validation_for(r, :phoneNumber) %></li>
+        <li><%= f.label :phoneNumber, class: 'form-label' %>
+        <%= f.telephone_field :phoneNumber, :size => 20, :maxlength => 20 %>
+        </li>
+      </ul>
     </div>
     <% unless r.assisted_digital? %>
       <div class="form-group<%if r.errors[:contactEmail].any?%> validation<%end%>">
-        <%= validation_for(r, :contactEmail) %>
-        <%= f.label :contactEmail, class: 'form-label' %>
-        <%= f.email_field :contactEmail, :size => 20, :maxlength => 70 %>
+        <ul>
+          <li><%= validation_for(r, :contactEmail) %></li>
+          <li><%= f.label :contactEmail, class: 'form-label' %>
+          <%= f.email_field :contactEmail, :size => 20, :maxlength => 70 %>
+          </li>
+        </ul>
       </div>
     <% end %>
   </fieldset>

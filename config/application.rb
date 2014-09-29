@@ -77,6 +77,7 @@ module Registrations
     #As described in the comments above, this setting can be redefined in config/environments/*.rb
     #Changing this value requires restart of the application
     config.waste_exemplar_services_url = ENV["WCRS_FRONTEND_WCRS_SERVICES_URL"] || "http://localhost:9090"
+    config.waste_exemplar_services_admin_url = ENV["WCRS_FRONTEND_WCRS_SERVICES_ADMIN_URL"] || "http://localhost:9091"
     config.waste_exemplar_addresses_url = ENV["WCRS_FRONTEND_WCRS_ADDRESSES_URL"] || "http://localhost:9190"
 
     #The application URL
@@ -89,7 +90,7 @@ module Registrations
     config.waste_exemplar_frontend_public_subdomain = ENV["WCRS_FRONTEND_PUBLIC_APP_SUBDOMAIN"] || "www.wastecarriersregistration.service"
     config.waste_exemplar_frontend_admin_subdomain = ENV["WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN"] || "admin.wastecarriersregistration.service"
 
-    config.waste_exemplar_companies_house_url = 'http://wck2.companieshouse.gov.uk//wcframe?name=accessCompanyInfo'
+    config.waste_exemplar_companies_house_url = 'http://www.companieshouse.gov.uk/info'
 
     #In Production we want to verify that requests to agency user and administration functionality
     #have been made via the 'internal' domain URL 'https://admin.wastecarriersregistration.service.gov.uk'
@@ -175,9 +176,15 @@ module Registrations
     config.fee_renewal = Monetize.parse('£105').cents
     config.fee_copycard = Monetize.parse('£5').cents
     config.fee_reg_type_change = Monetize.parse('£40').cents
-    
+
     # Conviciton checks must be completed within limit
-    config.registrations_service_exceed_limit = '56'
+    config.registrations_service_exceed_limit = '10'
+
+    # registration expiration (upper tier only - lower tier registrations are indefinite)
+    config.registration_expires_after = ENV['WCRS_FRONTEND_EXPIRES_AFTER'].to_i.years || 3.years
+
+    # upper tier registrations can be renewed starting a given time period (e.g. 6 months) before their expiration date
+    config.registration_renewal_window = ENV['WCRS_FRONTEND_RENEWAL_WINDOW'].to_i.months || 6.months
 
   end
 end

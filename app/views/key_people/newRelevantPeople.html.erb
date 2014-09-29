@@ -12,9 +12,9 @@
 
   <div class="grid-wrapper">
 
-        <!-- WF 4.3.2 -->
+  <!-- WF 4.3.2 -->
 
-    <div id="page7"  data-journey="waste-carriers-registration:relevant-people-details"></div>
+  <div id="page7"  data-journey="waste-carriers-registration:relevant-people-details"></div>
 
   <div class="grid-2-3">
     <div class="inner-block">
@@ -24,9 +24,7 @@
       <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"} ) do |f| %>
       <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
 
-      <span class="next_link">
-        <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= t '.button_label' %>"/>
-      </span>
+      <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= t '.button_label' %>"/>
       <% end %>
 
         <!-- This next button only gets displayed when at least one person has already
@@ -34,8 +32,7 @@
 
         <% if @relevant_people.any? %>
           <%= form_for(@registration, :url => { :action => 'doneRelevantPeople' }, :method => 'get'  ) do |f| %>
-
-            <span class="next_link"><%= render 'next_link' %></span>
+            <%= render 'next_link' %>
           <% end %>
         <% end %>
 

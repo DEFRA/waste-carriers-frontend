@@ -4,28 +4,28 @@
 
 <div id="wrapper">
 
-<main id="content" role="main" class="group"><article role="article" class="group">
- <section>
-
-
-<% if params[:error] %>
-<div id="error_explanation" class="validation-summary">
-  <h2><%= params[:error]%></h2>
-</div>
-<% end %>
-
-<% if !notice.nil? %>
-<div id="note_explanation" class="note-summary">
-  <h1>Information</h1>
-  <p><%= notice %></p>
- </div>
-<% end %>
+<main id="content" role="main" class="group">
 
 <header class="page-header group">
     <div class="hgroup">
         <h1 class="heading-large"><%= t '.heading' %></h1>
     </div>
 </header>
+
+
+<% if params[:error] %>
+<div id="error_explanation" class="validation-summary">
+  <h2 class="heading-small"><%= params[:error]%></h2>
+</div>
+<% end %>
+
+<% if !notice.nil? %>
+<div id="note_explanation" class="validation-summary">
+  <h2 class="heading-small">Information</h2>
+  <p><%= notice %></p>
+ </div>
+<% end %>
+
 
 <form method="get" action="/registrations/search">
 <div class="box" data-journey="waste-carriers-registration:search-register">
@@ -128,6 +128,5 @@
 <p><a href="<%= Rails.configuration.waste_exemplar_end_url %>"><%= t '.feedback_link' %></a></p>
 <% end %>
 
-</section>
-</article></main>
-</div><!--wrapper end-->
+</main><!-- end main -->
+</div><!-- end wrapper -->

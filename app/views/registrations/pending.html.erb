@@ -1,57 +1,34 @@
 <%= render 'shared/content_for_pages' %>
+
 <div id="wrapper">
 
-<main id="content" role="main" class="group">
-  <article role="article" class="group">
-    <section>
-      <div class="inner">
-        <div class="col-1">
+  <main id="content" role="main" class="group">
 
-          <!-- WF 4.3.2 -->
-          <div id="page0"  data-journey="waste-carriers-registration:confirm-account">
+    <div class="back-section">
+      <ol>
+        <li></li>
+      </ol>
+    </div>
 
-            <% content_for :page_title, createTitle('.title') %>
-            <h2><%= t '.subtitle' %></h2>
-            <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
-            <p><%= t '.close_page' %></p>
-
-            <% if @registration.criminally_suspect %>
-                <p><%= t 'registrations.confirmed.pending_convictions_check' %></p>
-            <% end %>
-
-            <% unless @registration.paid_in_full? %>
-                <h2><%= t '.payment_pending' %></h2>
-
-                <p><%= t 'devise.mailer.confirmation_instructions.bank_transfer_instructions' %></p>
-                <ul>
-                  <li><%= t 'devise.mailer.confirmation_instructions.reference', reference: @registration.regIdentifier %></li>
-                  <li><%= t 'devise.mailer.confirmation_instructions.payment_due', payment_due: humanized_money_with_symbol(Money.new @registration.finance_details.first.balance) %></li>
-                  <li><%= t 'devise.mailer.confirmation_instructions.account_name', account_name: Rails.configuration.environment_agency_bank_account_name %></li>
-                  <li><%= t 'devise.mailer.confirmation_instructions.bank_name', bank_name: Rails.configuration.environment_agency_bank_name %></li>
-                  <li><%= t 'devise.mailer.confirmation_instructions.bank_address', bank_address: Rails.configuration.environment_agency_bank_address %></li>
-                  <li><%= t 'devise.mailer.confirmation_instructions.sort_code', sort_code: Rails.configuration.bank_transfer_sort_code %></li>
-                  <li><%= t 'devise.mailer.confirmation_instructions.account_number', account_number: Rails.configuration.bank_transfer_account_number %></li>
-                </ul>
-
-                <p><%= t 'devise.mailer.confirmation_instructions.iban_instructions' %></p>
-                <ul>
-                  <li><%= t 'devise.mailer.confirmation_instructions.iban_number', iban_number: Rails.configuration.iban_number %></li>
-                  <li><%= t 'devise.mailer.confirmation_instructions.swiftbic_number', swiftbic_number: Rails.configuration.swiftbic_number %></li>
-                </ul>
-
-                <p><%= t 'devise.mailer.confirmation_instructions.bank_transfer_contact_instructions' %></p>
-                <ul>
-                  <li><%= t 'devise.mailer.confirmation_instructions.email_preamble' %><%= mail_to Rails.configuration.income_email_address %></li>
-                  <li><%= t 'devise.mailer.confirmation_instructions.fax_number', fax_number: Rails.configuration.income_fax_number %></li>
-                  <li><%= t 'devise.mailer.confirmation_instructions.postal_address', postal_address: Rails.configuration.income_postal_address %></li>
-                </ul>
-                <p><%= t 'devise.mailer.confirmation_instructions.pay_by_card' %></p>
-            <% end %>
-          </div>
-        </div>
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large"><%= t '.subtitle' %></h1>
       </div>
-    </section>
+    </header>
 
-  </article>
-</main>
-</div>
+    <!-- WF 4.3.2 -->
+    <div id="page0"  data-journey="waste-carriers-registration:confirm-account"></div>
+
+    <div class="form-group text">
+
+      <% content_for :page_title, createTitle('.title') %>
+      <ul>
+        <li><p><%= t '.details_emailed', :email => @registration.accountEmail %></li>
+        <li><p class="panel-indent"><strong><%= t '.details_emailed_instruction' %></p></strong></li>
+        <li><p><%= t '.close_page' %></p></li>
+      </ul>
+
+    </div>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

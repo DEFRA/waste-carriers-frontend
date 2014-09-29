@@ -1,5 +1,8 @@
 <%= render 'shared/content_for_pages' %>
+
 <div id="wrapper">
+
+<main id="content" role="main" class="group">
 
   <header class="page-header group">
     <div class="hgroup">
@@ -18,116 +21,137 @@
     </div>
   </header>
 
-  <main id="content" role="main" class="group">
-    <div class="grid-wrapper">
-      <div class="grid-wrapper">
-        <div class="grid-2-3">
-          <article role="article" class="group">
-            <!-- WF 4.3.2 -->
-            <div id="page0"  data-journey="waste-carriers-registration:agency-user-controls">
-              <% content_for :page_title, createTitle('.title') %>
-              <%= form_tag('/registrations', { method: :get }) do %>
+  <div class="grid-wrapper">
 
-                <fieldset id='find-registration'>
-                  <div class="form-group">
-                    <%= label_tag 'query-label', t('.query_label'), { class: 'form-label', for: 'q'} %>
-                    <%= text_field_tag 'q', params[:q], { id: 'q', size: 20 } %>
-                  </div>
+  <div class="grid-2-3">
+    <div class="inner-block">
+        <!-- WF 4.3.2 -->
+        <div id="page0"  data-journey="waste-carriers-registration:agency-user-controls">
+          <% content_for :page_title, createTitle('.title') %></div>
+          <%= form_tag('/registrations', { method: :get }) do %>
 
-                  <div id="advanced-options" style="<% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>display:none<% end %>">
-                    <div class="form-group">
-                      <%= label_tag 'search-within-label', t('.search_within_label'), { class: 'form-label', for: 'searchWithin' } %>
-                      <% options = { "#{t('.option_any')}" => 'any', "#{t('.option_company_name')}" => 'companyName', "#{t('.option_contact_name')}" => 'contactName', "#{t('.option_postcode')}" => 'postcode' } %>
-                      <% selected = if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
-                        <% t '.option_any' %>
-                      <% elsif params[:searchWithin] == 'companyName' %>
-                        <% t '.option_company_name' %>
-                      <% elsif params[:searchWithin] == 'contactName' %>
-                        <% t '.option_contact_name' %>
-                      <% elsif params[:searchWithin] == 'postcode' %>
-                        <% t '.option_postcode' %>
-                      <% end %>
-                      <%= select_tag 'searchWithin', options_for_select(options, selected) %>
-                    </div>
-                  </div>
+            <fieldset id='find-registration'>
+              <div class="form-group">
+                <%= label_tag 'query-label', t('.query_label'), { class: 'form-label', for: 'q'} %>
+                <%= text_field_tag 'q', params[:q], { id: 'q', size: 20 } %>
+              </div>
 
-                </fieldset>
-
-                <a href="#" id="toggle-search">
-                  <% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
-                    <%= t '.refine_search_link_label' %>
-                  <% else %>
-                    <%= t '.full_search_link_label' %>
+              <div id="advanced-options" style="<% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>display:none<% end %>">
+                <div class="form-group">
+                  <%= label_tag 'search-within-label', t('.search_within_label'), { class: 'form-label', for: 'searchWithin' } %>
+                  <% options = { "#{t('.option_any')}" => 'any', "#{t('.option_company_name')}" => 'companyName', "#{t('.option_contact_name')}" => 'contactName', "#{t('.option_postcode')}" => 'postcode' } %>
+                  <% selected = if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
+                    <% t '.option_any' %>
+                  <% elsif params[:searchWithin] == 'companyName' %>
+                    <% t '.option_company_name' %>
+                  <% elsif params[:searchWithin] == 'contactName' %>
+                    <% t '.option_contact_name' %>
+                  <% elsif params[:searchWithin] == 'postcode' %>
+                    <% t '.option_postcode' %>
                   <% end %>
-                </a>
-                <div class="next_link">
-                  <%= submit_tag(t('form.search_button_label'), { id: 'reg-search', class: 'button button-get-started' })  %>
+                  <%= select_tag 'searchWithin', options_for_select(options, selected) %>
                 </div>
-              <% end %>
+              </div>
 
-              <% if params[:q]%>
-                <div id="reg-search-result" style="">
-                  <h2><%= t('.results_count_message', :pluralized_registration => pluralize(@registrations.count, t('.registration'))) %></h2>
-                  <p><%= t('.results_showing_message', :count => @registrations.count, :pluralized_record => pluralize(@registrations.count, t('.record'))) %>
+            </fieldset>
+
+            <a href="#" id="toggle-search">
+              <% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
+                <%= t '.refine_search_link_label' %>
+              <% else %>
+                <%= t '.full_search_link_label' %>
+              <% end %>
+            </a>
+            <div class="next_link">
+              <%= submit_tag(t('form.search_button_label'), { id: 'reg-search', class: 'button button-get-started' })  %>
+            </div>
+          <% end %>
+
+          <% if params[:q]%>
+            <div id="reg-search-result" style="">
+              <h2><%= t('.results_count_message', :pluralized_registration => pluralize(@registrations.count, t('.registration'))) %></h2>
+              <p><%= t('.results_showing_message', :count => @registrations.count, :pluralized_record => pluralize(@registrations.count, t('.record'))) %>
+            </div>
+
+          <% end %>
+          <% regCount = 1 %>
+          <% if @registrations.size > 0 %>
+          
+            <% @registrations.each do |reg| %>
+            <!--grid one third-->
+            <div class="grid-wrapper agency-edit">
+              <div class="container-border">
+                
+                <div class="grid grid-1-3">
+                  <div class="inner-block">
+                    <ul>
+                      <li><span><%= t '.company_name' %></span><p><%= reg.companyName %></p></li>
+                      <li class="container-border-lines"><span><%= t 'activemodel.attributes.registration.postcode' %></span><p><%= reg.postcode %></p></li>
+                      <li><span><%= t('.registration').humanize %></span><p><%= reg.regIdentifier %></p></li>
+                    </ul>
+                  </div>
                 </div>
 
-                <table summary='A summary of the first 100 registrations matching your search' role='presentation'>
-                  <thead>
-                    <tr>
-                      <th><%= t '.company_name' %></th>
-                      <th><%= t 'activemodel.attributes.registration.postcode' %></th>
-                      <th><%= t 'activemodel.attributes.registration.tier' %></th>
-                      <th><%= t 'activemodel.attributes.metadata.dateRegistered' %></th>
-                      <th><%= t 'activemodel.attributes.metadata.status' %></th>
-                      <th>&nbsp;</th>
-                      <th>&nbsp;</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <% regCount = 1 %>
-                    <% @registrations.each do |reg| %>
-                      <tr>
-                        <td><%= reg.companyName %></td>
-                        <td><%= reg.postcode %></td>
-                        <td><%= reg.tier %></td>
-                        <td><%= reg.metaData.first.dateRegistered %></td>
-                        <td><%= reg.metaData.first.status %></td>
-                        <td>
-                          <%= form_tag ncccedit_url(reg.id) do %>
-                            <%= submit_tag t('form.edit_button_label'), { class: 'button' }  %>
-                          <% end %>
-                        </td>
-                        <% if reg.try(:tier).try(:downcase) == "upper" %>
-                          <td>
-                            <%= form_tag(paymentstatus_url(reg.uuid), { method: :get }) do %>
-                              <%= submit_tag t('form.payment_status_button_label'), { id: "paymentStatus#{regCount}",class: 'button' }  %>
-                            <% end %>
-                          </td>
-                        <% end %>
-                      </tr>
-                      <% regCount = regCount + 1 %>
-                    <% end %>
-                  </tbody>
-                </table>
-              <% end %>
-            </div>
-          </article>
-        </div><!--grid-2-3 end-->
-      </div><!--grid-wrapper end-->
+                <div class="grid grid-1-3">
+                  <div class="inner-block">
+                    <ul>
+                      <li><span><%= t 'activemodel.attributes.metadata.status' %></span><p><%= reg.registration_status %></p></li>
+                      <li class="container-border-lines"><span><%= t 'activemodel.attributes.metadata.dateRegistered' %></span><p><%= Date.parse(reg.metaData.first.dateRegistered).strftime("%d/%m/%Y") %></p></li>
+                      <li><span><%= t 'activemodel.attributes.registration.expires_on' %></span><p><%= reg.expires_on.strftime("%d/%m/%Y") %></p></li>
+                    </ul>
+                  </div>
+                </div>
+              </div><!--end line-dividers -->
 
-      <div class="grid-wrapper">
-        <div class="grid-1-3">
-          <div class="related">
-            <div class="inner group related-subsection">
-              <h2 class="heading-small"><%= t '.aside_heading' %></h2>
-              <nav aria-labelledby="parent-subsection" role="navigation">
-                <%= render "shared/current_user" %>
-              </nav>
-            </div>
-          </div><!--related end-->
-        </div><!--grid-1-3 end-->
-      </div><!--grid-wrapper end-->
+              <div class="grid-1-3">
+                <div class="inner-block inline">
+                  <nav aria-labelledby="parent-subsection" role="navigation">
+                    <h3><%= t('.actions_heading') %></h3>
+                    <ul>
+                      <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.print_button_label'), print_path(reg.uuid) %></li><% end %>
+                      <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to 'Edit Registration', edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::EDIT) %></li><% end %>
+                      <% if reg.can_be_deleted?(current_agency_user) %><li><%= link_to t('form.delete_button_label'), confirmDelete_path(reg.uuid) %></li><% end %>
+                      <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid) %></li><% end %>
+                      <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
+                      <% if reg.upper? %>
+                        <% if reg.can_be_approved?(current_agency_user) %><li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid) %></li><% end %>
+                        <% if reg.can_be_refused?(current_agency_user) %><li><%= link_to t('form.refuse_button_label'), refuse_path(reg.uuid) %></li><% end %>
+                        <% if reg.can_view_payment_status? %><li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li><% end %>
+                        <% if reg.about_to_expire? %>
+		                  <li><%= link_to t('form.renew_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %></li>
+		                <% elsif reg.can_be_recreated? %>
+			              <li><%= link_to 'Re-create Registration', edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %></li>
+		                <% end %>
+		                <% if reg.can_request_copy_cards?(current_agency_user) %><li><%= link_to t('form.addCopyCards_button_label'), newOrderCopyCards_path(reg.uuid) %></li><% end %>		                
+		              <% end %>
+                    </ul>
+                  </nav>
+                </div>
+              </div><!-- end grid-1-3 -->
+              
+            </div><!-- end agency-edit -->
+            <% regCount = regCount + 1 %>
+            <% end %>
 
-    </div><!--grid-wrapper end-->
-  </main><!--main end-->
-</div><!--wrapper end-->
+          <% end %>
+
+    </div><!-- end inner-block -->
+  </div><!-- end grid 2-3-->
+
+  <div class="grid-1-3">
+    <div class="inner-block related">
+      <div class="inner group related-subsection">
+        <h2 class="heading-small">Current user</h2>
+          <nav aria-labelledby="parent-subsection" role="navigation">
+            <ul>
+              <li><%= render "shared/current_user" %></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div><!-- end grid 1-3-->
+
+    </div><!-- end grid-wrapper -->
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

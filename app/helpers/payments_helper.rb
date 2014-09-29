@@ -38,7 +38,7 @@ module PaymentsHelper
   end
   
   def isARefund paymentModel
-    hasOrderKey(paymentModel) ? (paymentModel.orderKey.include? "_REFUND") : false
+    hasOrderKey(paymentModel) ? (paymentModel.orderKey.include? Payment::REFUND_EXTENSION) : false
   end
   
   def isAlreadyRefunded paymentModel, registrationModel
@@ -52,8 +52,12 @@ module PaymentsHelper
 	    registrationModel.finance_details.first.payments.each do |checkPayment|
 	        checkPaymentHasOrderKey = hasOrderKey(checkPayment)
 	        # Check if another payment exists with the same order key
-	        if checkPaymentHasOrderKey and checkPayment.orderKey == paymentModel.orderKey + "_REFUND"
-	            refundPaymentStatus = checkPayment.worldPayPaymentStatus
+	        if checkPaymentHasOrderKey and checkPayment.orderKey.eql? (paymentModel.orderKey + Payment::REFUND_EXTENSION)
+	            if checkPayment.worldPayPaymentStatus
+	              refundPaymentStatus = checkPayment.worldPayPaymentStatus
+	            else
+	              refundPaymentStatus = checkPayment.comment
+	            end
 	        end
 	    end
 	end
@@ -63,7 +67,7 @@ module PaymentsHelper
   def wasActivated originalRegistration, updatedRegistration
     originalRegistration.metaData.first.route == 'DIGITAL' \
         and originalRegistration.pending? \
-        and updatedRegistration.metaData.first.status == 'ACTIVE'
+        and updatedRegistration.is_active?
   end
 
 end

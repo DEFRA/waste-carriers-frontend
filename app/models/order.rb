@@ -127,6 +127,8 @@ class Order < Ohm::Model
         Rails.logger.error messageFromServices
         # Update order with a exception message
         self.exception = messageFromServices
+      else
+        self.exception = e.to_s
       end
 
       commited = false
@@ -154,7 +156,7 @@ class Order < Ohm::Model
       result = JSON.parse(response.body)
       Rails.logger.debug  result.class.to_s
       save
-      Rails.logger.debug "Commited order to service: #{attributes.to_s}"
+      Rails.logger.debug "Saving order to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
       if e.http_code == 422
@@ -176,7 +178,7 @@ class Order < Ohm::Model
     end
     commited
   end
-  
+
   # Returns the payment from the registration matching the orderCode
   def self.getOrder(registration, orderCode)
     foundOrder = nil
@@ -232,7 +234,7 @@ class Order < Ohm::Model
     Rails.logger.info 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
     ORDER_AMOUNT_TYPES.include? orderType
   end
-  
+
   def isValidRenderType? renderType
     Rails.logger.info 'isValidRenderType? renderType:' + renderType.to_s
     res = %w[].push(Order.new_registration_identifier) \
@@ -252,25 +254,25 @@ class Order < Ohm::Model
       ORDER_AMOUNT_TYPES[1]
     end
   end
-  
+
   class << self
     def new_registration_identifier
       'NEWREG'
     end
   end
-  
+
   class << self
     def edit_registration_identifier
       'EDIT'
     end
   end
-  
+
   class << self
     def renew_registration_identifier
       'RENEW'
     end
   end
-  
+
   class << self
     def extra_copycards_identifier
       'INCCOPYCARDS'

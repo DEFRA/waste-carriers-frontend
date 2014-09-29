@@ -1,6 +1,6 @@
 <%= render 'shared/content_for_pages' %>
 
-<div id="wrapper">
+<div id="wrapper" class="payment-copycard-page">
 
   <main id="content" role="main" class="group">
 
@@ -12,12 +12,15 @@
 
   <header class="page-header group">
     <div class="hgroup">
-      <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+      <h1 class="heading-large"><%= t '.subtitle' %></h1>
     </div>
   </header>
 
+  <!-- payment summary section -->
+  <div class="grid-wrapper">
 
-  <section id='payment-copycard-page'>
+  <div class="grid grid-2-3">
+  <div class="inner-block">
 
     <%= form_for(@registration, :url => :upper_payment, :method => 'post') do |f| %>
     <% content_for :page_title, createTitle('.title') %>
@@ -33,7 +36,6 @@
         </tr>
       </thead>
       <tbody>
-
         <% if showRegistrationFee?(@renderType) or showEditFee?(@renderType) or showRenewalFee?(@renderType) %>
         <tr>
           <td>
@@ -44,40 +46,66 @@
         </tr>
         <% end %>
 
+        <% if showCopyCards?(@renderType) %>
         <tr>
-          <td><%= render "order/copy_cards", :f => f if showCopyCards? @renderType %>
-            <div class="image-holder">
-              <%= image_tag "copy_card.png" %>
-            </div>
+          <td><%= render "order/copy_cards", :f => f %>
           </td>
         </tr>
+        <% end %>
+
         <tr>
           <td class='total-charge'>
             <%= f.label :total_fee, class: 'form-label' %>
+            <div class="currency-container">
+            <p class="currency-sign">£</p>
             <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
-            <p class='form-note'><%= t '.total_fee_vat' %></p>
+          </div>
           </td>
         </tr>
       </tbody>
     </table>
+    <p class='form-note'><%= t '.total_fee_vat' %></p>
 
-    <div class="payment-options">
-      <div class="inline">
-        <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-      </div>
-       <div class="inline"><p>or</p></div>
-      <div class="inline">
-        <input name="offline_next" class="button" type="submit" value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
+
+        <div class="payment-option">
+          <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
+          <p class="panel-indent">You will be transferred to the WorldPay site for you to enter your credit or debit card details.</p>
+        </div>
+
+        <div class="payment-option">
+          <input name="offline_next" class="button" type="submit" value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
+          <p class="panel-indent">Paying by bank transfer requires 2 steps, both must completed to activate your account.
+        </div>
+
+    </div>
+  </div><!-- end grid-2-3 -->
+
+    <div class="grid grid-1-3">
+      <div class="inner-block related">
+      <div class="inner group related-subsection">
+      <h2 class="heading-small">What are copy cards?</h2>
+        <ul id='copy-card-text'>
+          <li>
+            <p>Copy cards are credit-card sized copies of your registration. Copy cards are a useful way to carry around and show your registration details.</p>
+          </li>
+          <li class="image-holder" alt="Example of a copy card registration">
+            <%= image_tag "copy_card.png"%>
+          </li>
+          <li><figcaption>Fig 1 - Example copy card</figcaption></li>
+          <li>
+            <p>Additional copy cards can be purchased after your registration is complete. You will need to sign into your account to do this.</p>
+          </li>
+          <li>
+            <p><strong>Please note</strong> - copy cards can take up to 10 working days to arrive depending on the status of your registration.</p>
+          </li>
+          </ul>
+        <% end %>
       </div>
     </div>
+  </div><!-- end grid-1-3 -->
 
-    <div class="payment-notice">
-        <div class='notice-icon'></div>
-        <div class='form-note' id="world-pay-subtitle"><%= t '.send_to_worldpay' %></div>
-    </div>
 
-    <% end %>
-  </section>
+  </div><!-- end grid-wrapper -->
 
-</main><!--content end-->
-</div><!--wrapper end-->
+  </main><!-- end main -->
+</div><!-- end wrapper -->

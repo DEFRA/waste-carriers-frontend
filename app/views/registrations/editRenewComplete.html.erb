@@ -1,18 +1,35 @@
 <%= render 'shared/content_for_pages' %>
-<main id="content" role="main" class="group">
-  <article role="article" class="group">
-    <section id='payment-copycardcomplete-page'>
-      <div class="col-1" id='payment-col-1'>
+
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+    <div class="back-section">
+        <ol>
+          <li><%= render 'back_link' %></li>
+        </ol>
+    </div>
+
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large"></h1>
+      </div>
+    </header>
+
+    <section id='payment-copycardcomplete-page' class="text">
 
       <% content_for :page_title, createTitle('.title') %>
 
       <%= render "order/notice_or_alert" %>
       <%= render "shared/registration_errors" %>
+      <%= render 'shared/complete_summary', :type => @confirmationType %>
 
       <fieldset>
 
 
     <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+        <% title =  ''  %>
+        <% subtitle =  'TBC - Edit / Renew order complete page'  %>
         <% case  @edit_mode.to_i%>
         <% when  RegistrationsController::EditMode::RENEWAL %>
             <% title =  t '.title_renew_reg'  %>
@@ -31,23 +48,24 @@
              <% subtitle =  t '.subtitle_edit_reg_new_reg'  %>
             <% when  RegistrationsController::EditResult::NO_CHANGES  %>
             <% end %>
-          <% end %>
+        <% end %>
 
-         <legend><%= title %></legend>
-          <h2 class='registered'><%= subtitle %></h2>
+        <legend class="heading-large"><%= title %></legend>
 
-        <h2 class="registered"><%= t '.your_reg_number', :reg => @registration.regIdentifier %></h2>
+        <p class='registered'><%= subtitle %></p>
 
-        <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
-        <h3 class="registered"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %></h3>
 
     <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
 
-        <%= link_to t('.back_button'), userRegistrations_path(current_user.id), :class => 'link_to' %>
+        <%= link_to t('.back_button'), userRegistrations_path(current_user.id), :class => 'link_to' if current_user %>
+        
+        <%= form_tag(@exitRoute) do |f| %>
+          <span class="next_link">
+            <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
+          </span>
+        <% end %>
 
       </fieldset>
-
-      </div>
     </section>
-  </article>
-</main>
+  </main><!-- end main -->
+</div><!-- end wrapper -->

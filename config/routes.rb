@@ -1,59 +1,60 @@
 Registrations::Application.routes.draw do
   #scope '(:locale)' do
-	  devise_for :users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations", :confirmations => "confirmations"}
-	    as :user do
-	      get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
-	      put 'users/:id' => 'devise/registrations#update', :as => 'user_registration'
-	    end
+    devise_for :users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations", :confirmations => "confirmations"}
+      as :user do
+        get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
+        put 'users/:id' => 'devise/registrations#update', :as => 'user_registration'
+      end
 
-	  devise_for :agency_users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
-	    as :agency_user do
-	      get 'agency_users/edit' => 'devise/registrations#edit', :as => 'edit_agency_user_registration'
-	      put 'agency_users/:id' => 'devise/registrations#update', :as => 'agency_user_registration'
-	    end
+    devise_for :agency_users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
+      as :agency_user do
+        get 'agency_users/edit' => 'devise/registrations#edit', :as => 'edit_agency_user_registration'
+        put 'agency_users/:id' => 'devise/registrations#update', :as => 'agency_user_registration'
+      end
 
-	  devise_for :admins, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
-	    as :admin do
-	      get 'admins/edit' => 'devise/registrations#edit', :as => 'edit_admin_registration'
-	      put 'admins/:id' => 'devise/registrations#update', :as => 'admin_registration'
-	    end
+    devise_for :admins, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
+      as :admin do
+        get 'admins/edit' => 'devise/registrations#edit', :as => 'edit_admin_registration'
+        put 'admins/:id' => 'devise/registrations#update', :as => 'admin_registration'
+      end
 
-	  root :to => "home#index"
+    root :to => "home#index"
 
-	  get "home/index"
-	  get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
+    get "home/index"
+    get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
 
-	  get "registrations/find" => 'registrations#newBusinessType', :via => [:get, :post], :as => :find
+    get "registrations/find" => 'registrations#newBusinessType', :via => [:get, :post], :as => :find
 
-	  # Add routing for Public Search
-	  get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
+    # Add routing for Public Search
+    get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
 
-	  get "registrations/start" => 'registrations#newOrRenew', :as => :newOrRenew
-	match "registrations/start" => 'registrations#selectRegistrationType', :via => [:post], :as => :selectRegistrationType
-	  get "registrations/whatTypeOfRegistrationAreYou" => 'registrations#enterRegistrationNumber', :as => :enterRegistration
-	match "registrations/whatTypeOfRegistrationAreYou" => 'registrations#calculateRegistrationType', :via => [:post], :as => :calculateRegistrationType
-	  get "registrations/finish" => 'registrations#finish', :as => :finish
+    get "registrations/start" => 'registrations#newOrRenew', :as => :newOrRenew
+    match "registrations/start" => 'registrations#selectRegistrationType', :via => [:post], :as => :selectRegistrationType
+    get "registrations/whatTypeOfRegistrationAreYou" => 'registrations#enterRegistrationNumber', :as => :enterRegistration
+    match "registrations/whatTypeOfRegistrationAreYou" => 'registrations#calculateRegistrationType', :via => [:post], :as => :calculateRegistrationType
+    get "registrations/finish" => 'registrations#finish', :as => :finish
     match "registrations/finish" => 'registrations#updateFinish', :via => [:post,:put,:patch]
 
     get "registrations/finish-assisted" => 'registrations#finishAssisted', :as => :finishAssisted
     match "registrations/finish-assisted" => 'registrations#updateFinishAssisted', :via => [:post,:put,:patch]
 
-	  match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
-	  match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
-	  get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
-	  get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
-	  get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
+    match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
+    match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
+    get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
+    get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
+    get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
 
-	  get   "registrations/:id/payments" => 'payment#new', :via => [:get], :as => :enterPayment
-	  match "registrations/:id/payments" => 'payment#create', :via => [:post], :as => :savePayment
-	  get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
+    get   "registrations/:id/payments" => 'payment#new', :via => [:get], :as => :enterPayment
+    match "registrations/:id/payments" => 'payment#create', :via => [:post], :as => :savePayment
+    get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
     match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
     get   "registrations/:id/refunds" => 'payment#index', :via => [:get], :as => :refund
     #   match "registrations/:id/refunds" => 'payment#createRefund', :via => [:post], :as => :saveRefund
-    get   "registrations/:id/manualRefund" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
+    get   "registrations/:id/manualRefund/:orderCode" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
+    match "registrations/:id/manualRefund/:orderCode" => 'payment#createManualRefund', :via => [:post]
     get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#newWPRefund', :via => [:get]
     match "registrations/:id/worldpayRefund/:orderCode" => 'payment#createWPRefund', :via => [:post]
-    get   "registrations/:id/worldpayRefund/:orderCode/refundComplete" => 'payment#completeWPRefund', :via => [:get]
+    get   "registrations/:id/refund/:orderCode/refundComplete" => 'payment#completeRefund', :via => [:get]
     get   "registrations/:id/worldpayRefund/:orderCode/retry" => 'payment#retryWPRefundRequest', :via => [:get], :as => :retryRefund
     get   "registrations/:id/chargeAdjustments" => 'payment#chargeIndex', :via => [:get], :as => :chargeAdjustment
     match "registrations/:id/chargeAdjustments" => 'payment#selectAdjustment', :via => [:post]
@@ -63,13 +64,22 @@ Registrations::Application.routes.draw do
     get   "registrations/:id/newAdjustment" => 'payment#newAdjustment', :via => [:get], :as => :newAdjustment
     match "registrations/:id/newAdjustment" => 'payment#createAdjustment', :via => [:post]
 
-	  # Add routing for confirm delete registration
-	  get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
+    # Add routing for confirm delete registration
+    get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
 
-	  # Add a new route for the print view
-	  match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
+    # Add a new route for the print view
+    match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
+    
+    # Add routing for revoke/unrevoke registration
+    get "registrations/:id/revoke" => 'registrations#revoke', :via => [:get], :as => :revoke
+    get "registrations/:id/unrevoke" => 'registrations#unRevoke', :via => [:get], :as => :unrevoke
+    match "registrations/:id/revoke" => 'registrations#updateRevoke', :via => [:post]
+    # Add routing for approve/refuse registration
+    get "registrations/:id/approve"   => 'registrations#approve', :via => [:get], :as => :approve
+    get "registrations/:id/refuse"    => 'registrations#refuse',  :via => [:get], :as => :refuse
+    match "registrations/:id/approve" => 'registrations#updateApprove', :via => [:post]
 
-	  # Registration urls - Smart answers
+    # Registration urls - Smart answers
     match "your-registration/business-type" => 'registrations#newBusinessType', :via => [:get], :as => :newBusinessType
     match "your-registration/business-type" => 'registrations#updateNewBusinessType', :via => [:post,:put,:patch]
 
@@ -89,40 +99,42 @@ Registrations::Application.routes.draw do
     match "your-registration/only-deal-with" => 'registrations#updateNewOnlyDealWith', :via => [:post,:put,:patch]
 
     # Registration urls - Lower tier
-	  match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
-	  match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
+    match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
+    match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
 
-	  match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
-	  match "your-registration/contact-details" => 'registrations#updateNewContactDetails', :via => [:post,:put,:patch]
+    match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
+    match "your-registration/contact-details" => 'registrations#updateNewContactDetails', :via => [:post,:put,:patch]
 
-	  match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
-	  match "your-registration/confirmation" => 'registrations#updateNewConfirmation', :via => [:post,:put,:patch]
+    match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
+    match "your-registration/confirmation" => 'registrations#updateNewConfirmation', :via => [:post,:put,:patch]
 
     get "your-registration/account-mode" => 'registrations#account_mode', :as => :account_mode
 
-	  match "your-registration/signup" => 'registrations#newSignup', :via => [:get], :as => :newSignup
-	  match "your-registration/signup" => 'registrations#updateNewSignup', :via => [:post,:put,:patch]
+    match "your-registration/signup" => 'registrations#newSignup', :via => [:get], :as => :newSignup
+    match "your-registration/signup" => 'registrations#updateNewSignup', :via => [:post,:put,:patch]
 
     get "your-registration/signin" => 'registrations#newSignin', :as => :newSignin
     match "your-registration/signin" => 'registrations#updateNewSignin', :via => [:post,:put,:patch]
 
-	  get "your-registration/confirm-account" => 'registrations#pending', :as => :pending
+    get "your-registration/confirm-account" => 'registrations#pending', :as => :pending
 
-	  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
-	  match "your-registration/confirmed" => 'registrations#completeConfirmed', :via => [:post]
+    get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
+    match "your-registration/confirmed" => 'registrations#completeConfirmed', :via => [:post]
 
     get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
-	  resources :registrations
+    resources :registrations
     # get "registrations(.:format)" => "registrations#index", :as => :registrations
     # post  "registrations(.:format)" => "registrations#create"
 
     get "your-registration/key-people/registration" => "key_people#registration", :as => :registration_key_people
     get "your-registration/key-person" => "key_people#newKeyPerson", :as => :newKeyPerson
     post "your-registration/key-person" => "key_people#updateNewKeyPerson"
-    get "your-registration/key-people" => "key_people#newKeyPeople", :as => :newKeyPeople
-    post "your-registration/key-people" => "key_people#updateNewKeyPeople"
+  # get "your-registration/key-people" => "key_people#newKeyPeople", :as => :newKeyPeople
+  # post "your-registration/key-people" => "key_people#updateNewKeyPeople"
+  match "your-registration/key_people" => 'key_people#newKeyPeople', :via => [:get], :as => :newKeyPeople
+  match "your-registration/key_people" => 'key_people#updateNewKeyPeople', :via => [:post,:put,:patch]
     get "your-registration/key-people/delete" => "key_people#delete", :as => :delete_key_person
     get "your-registration/key-people/done" => "key_people#doneKeyPeople", :as => :done_key_people
 
@@ -139,8 +151,8 @@ Registrations::Application.routes.draw do
     get "your-registration/:id/order/renewRegistration" => "registrations#newOrderRenew", :via => [:get], :as => :newOrderRenew
     get "your-registration/:id/order/additionalCopyCards" => "registrations#newOrderCopyCards", :via => [:get], :as => :newOrderCopyCards
     match "your-registration/:id/order" => "order#create", :via => [:post,:put,:patch]
-    get "your-registration/CopyCardsComplete" => "registrations#copyCardComplete", :as => :complete_copy_cards
-    get "your-registration/EditRenewComplete" => "registrations#editRenewComplete", :as => :complete_edit_renew
+    get "your-registration/:id/CopyCardsComplete" => "registrations#copyCardComplete", :as => :complete_copy_cards
+    get "your-registration/:id/EditRenewComplete" => "registrations#editRenewComplete", :as => :complete_edit_renew
 
     # routes for renewals and edits
     match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
@@ -192,7 +204,7 @@ Registrations::Application.routes.draw do
 
   # Add a route for a 404, Define this catch all unknowns last
   #if Rails.env.development?
-  #	get "*path" => "registrations#notfound", via: [:get], :message => 'Page Not Found'
+  #  get "*path" => "registrations#notfound", via: [:get], :message => 'Page Not Found'
   #end
 
   # The priority is based upon order of creation:

@@ -1,0 +1,71 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+    <div class="back-section">
+        <ol>
+          <li><%= render 'back_link' %></li>
+        </ol>
+    </div>
+    
+    <%= render 'order/notice_or_alert' %>
+    <%= render "errors" %>
+
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large"><% if @isRevoke %><%= t '.title_revoke'%><% else %><%= t '.title_unrevoke'%><% end %></h1>
+      </div>
+    </header>
+
+    <% if @isRevoke %>
+        <% content_for :page_title, createTitle('.title_revoke') %>
+    <% else %>
+        <% content_for :page_title, createTitle('.title_unrevoke') %>
+    <% end %>
+  
+    <%= form_for(@registration, :url => revoke_path, html: {method: "post"}) do |f| %>
+    
+    <div id="revoke" data-journey="waste-carriers-registration:revoke">
+        <fieldset>
+        
+            <div class="form-group">
+                <div class="form-label"><strong><%= @registration.regIdentifier %></strong></div>
+                    <div class="form-label"><strong><%= @registration.companyName %></strong></div>
+                    <div class="form-label"><%= format_address(@registration) %></div>
+                </div>
+
+                <%= f.fields_for :metaData do |mdFields| %>
+                    <% if @isRevoke %>
+                        <div class="form-group<% if @registration.errors[:revokedReason].any?%> validation<%end%>">
+                            <%= validation_for(@registration, :revokedReason) %>
+                            <%= f.label :revokedReason, :for=>'registration_metaData_revokedReason', :class => 'form-label' %>
+                            <%= mdFields.text_area :revokedReason, :size => "40x10" %>
+                        </div>
+                    <% else %>
+                        <div class="form-group<% if @registration.errors[:unrevokedReason].any?%> validation<%end%>">
+                            <%= validation_for(@registration, :unrevokedReason) %>
+                            <%= f.label :unrevokedReason, :for=>'registration_metaData_unrevokedReason', :class => 'form-label' %>
+                            <%= mdFields.text_area :unrevokedReason, :size => "40x10" %>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+            
+            <div class="inline">
+            <% 
+            revokeLabel = t('registrations.form.revoke_button_label') 
+            unless @isRevoke 
+              revokeLabel = t('registrations.form.unrevoke_button_label') 
+            end 
+            %>
+                <input name="<% if @isRevoke %>revoke<% else %>unrevoke<% end %>" class="button" type="submit" value="<%= revokeLabel %>"/>
+            </div>
+        </fieldset>
+    </div>
+
+  <% end %>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

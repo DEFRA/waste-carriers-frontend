@@ -1,62 +1,80 @@
 <%= render 'shared/content_for_pages' %>
 
+<div id="wrapper">
+
 <main id="content" role="main" class="group">
-	<article role="article" class="group">
-	<section>
-      <div class="inner">
-      <div class="col-1">
-      
-	<% content_for :page_title, createTitle('.heading') %>
 
-	<!-- Usefull for showing default messages -->
-	<% if alert %><%= alert %><% end %>
+<div class="back-section">
+  <ol>
+    <li>
+      <noscript>
+        <%= content_tag :p, t('registrations.back_link_unavailable') %>
+        </noscript>
+        <%= link_to t('registrations.form.back_button_label'), :refund, :class => 'link_to' %>
+    </li>
+  </ol>
+</div>
 
-	<aside>
-	<%= form_for @payment, url: {action: "createWPRefund"}, :method => 'post' do |f| %>
+<header class="page-header group">
+  <div class="hgroup">
+    <h1 class="heading-large"><%= t '.heading' %></h1>
+      <div class="form-hint"><%= t '.step' %></div>
+  </div>
+</header>
 
-		<div class="step"><%= t '.step' %></div>
+<div class="grid-wrapper">
 
-		<%= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
+<div class="grid-2-3">
+<div class="inner-block">
 
-		<!-- WF X.X.X -->
-		<div id="refunds" data-journey="waste-carriers-registration:refunds">
+    <% content_for :page_title, createTitle('.heading') %>
 
-			<fieldset>
-				<legend><%= t '.heading' %></legend>
-				
-				<p>Are you sure you want to make a Worldpay refund?</p>
-				
-				<p>For order: <%= f.object.orderKey %>, in the amount of <%= pence_to_currency @registration.finance_details.first.balance.to_f.abs %></p>
-				
-				<p>To confirm this refund, click the Refund button below.</p>
+    <!-- Usefull for showing default messages -->
+    <% if alert %><%= alert %><% end %>
 
-				<div class="inline">
-				    <noscript>
-				        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-				    </noscript>
-				    <%= link_to t('registrations.form.back_button_label'), :refund, :class => 'link_to' %>
-				    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.refund_button_label' %>"/></span>
-				</div>
-				
-				<br/>
-				
-			</fieldset>
-			
-		</div>
+    <%= form_for @payment, url: {action: "createWPRefund"}, :method => 'post' do |f| %>
 
-	<% end %>
-	
-	  </div>
-      </div>
-    </section>
+        <%= render "errors" %><!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
-    <aside role='note'>
-      <div class="inner">
-        <div class="col-2">
-         <%= render "shared/current_user" %>
+        <!-- WF X.X.X -->
+        <div id="refunds" data-journey="waste-carriers-registration:refunds">
+
+            <fieldset>
+                <legend></legend>
+
+                <p><%= t '.confirmText' %></p>
+                
+                <p><%= t('.orderDetail', :orderKey => f.object.orderKey, :amount => pence_to_currency(@registration.finance_details.first.balance.to_f.abs) ) %></p>
+
+                <p><%= t '.confirmRefund' %></p>
+
+                <div class="inline">
+                    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.refund_button_label' %>"/></span>
+                </div>
+
+            </fieldset>
+
         </div>
-      </div>
-    </aside>
+    <% end %>
 
-	</article>
-</main>
+    </div><!-- end inner-block -->
+  </div><!-- end grid-2-3 -->
+
+  <div class="grid-1-3">
+    <div class="inner-block related">
+      <div class="inner group related-subsection">
+        <h2 class="heading-small">Current user</h2>
+          <nav aria-labelledby="parent-subsection" role="navigation">
+            <ul>
+              <li><%= render "shared/current_user" %></li>
+            </ul>
+          </nav>
+      </div>
+    </div>
+  </div><!-- end grid 1-3-->
+
+</div><!-- end grid-wrapper -->
+
+</main><!-- end main -->
+</div><!-- end wrapper -->
+

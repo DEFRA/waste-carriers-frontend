@@ -49,7 +49,7 @@ en:
         paymentType: "Payment via"
         registrationReference: Reference
       registration:
-        accountEmail: Email
+        accountEmail: Email address
         accountEmail_confirmation: "Confirm email"
         alt_email_address: "Email address"
         alt_first_name: "First name"
@@ -63,14 +63,19 @@ en:
         contactEmail: "Email address"
         country: Country
         declaration: "Declaration"
+        declaredConvictions: "Declared convictions"
         edit_fee: "Registration amendment charge"
+        expires_on: "Expiry date"
         exception: "Services error:"
         firstName: "First name"
         houseNumber: "Building name or number"
         individualsType: "Organisation type"
+        isMainService: "Kind of service you provide"
         lastName: "Last name"
         newOrRenew: "Are you renewing an existing licence"
         originalRegistrationNumber: "Registration number"
+        otherBusinesses: "Deal with waste from other businesses or households"
+        onlyAMF: "Do you deal with the waste listed"
         password: Password
         password_confirmation: "Confirm password"
         phoneNumber: "Telephone number"
@@ -89,6 +94,9 @@ en:
         registration_fee: "Registration charge"
         renewal_fee: "Registration renewal charge"
         revokedReason: "Why do you wish to revoke this registration"
+        unrevokedReason: "Why do you wish to unrevoke this registration"
+        approveReason: "Reason for approve descision"
+        refusedReason: "Reason for refuse descision"
         selectedMoniker: "Select address"
         streetLine1: Street
         streetLine2: "Address Line 2"
@@ -196,9 +204,10 @@ en:
       numbers: "can only contain numbers"
       weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
       worldpayFailed: "failed to get a ok response from Worldpay"
-      invalidPassword: "Email and/or password is unrecognised"
+      invalidPassword: "does not match your email"
       unconfirmedEmail: "This account has not been confirmed"
       no_results: "No results found"
+      ir_notFound: "provided is unable to find any IR registration data to use"
   form:
     add_button_label: Add
     back_button_label: Back
@@ -216,8 +225,12 @@ en:
     search_button_label: "Search"
     sign_in_button_label: "Sign in"
     update_button_label: Update
-    view_certificate_link_label: "View certificate"
+    view_certificate_link_label: "View your certificate"
     yes_option_label: "Yes"
+    addCopyCards_button_label: "Add copy cards"
+    renew_button_label: "Renew registration"
+    approve_button_label: "Approve registration"
+    refuse_button_label: "Refuse registration"
   global:
     betaMessage: "BETA"
     betaMessage_html: "This is a new service - your feedback will help us improve it."
@@ -251,9 +264,14 @@ en:
       heading: "We're sorry, but it looks like the service is unavailable at this time"
       message_html: "Try again later or if problems persist contact:<br/><a href='#'>registrations@wastecarriersregistration.service.gov.uk</a>"
     wales: Wales
+    mailer:
+      convictions:
+        subject: 'We have received your application for a %{tier} tier registration for %{companyName}.'
+      payment:
+        subject: 'We have received your application for a %{tier} tier registration for %{companyName}, and are awaiting your payment.'
   order:
     new:
-      subtitle: "Payment Summary"
+      subtitle: "Payment summary"
       title: Payment
       total_fee_vat: "All charges are outside the scope of VAT"
       trouble_paying_link: "Trouble paying?"
@@ -268,15 +286,22 @@ en:
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
       copy_card_label: "Copy cards cost £5 each"
   payment:
-    completeWPRefund:
-      heading: "Worldpay refund complete"
+    completeRefund:
+      heading: "Refund complete"
       step: "You have completed the refund for this payment"
+      completedRefund: "You have completed worldpay refund for order code: %{orderCode}"
+      registrationUpdated: "The registration has been updated to reflect that a refund has been made."
     index:
       heading: Refunds
       step: "Select a payment to refund"
       refundStatus: "Refund: %{status}"
     manualRefund:
-      heading: "Manual Refunds"
+      heading: "Manual refund confirmation"
+      step: "Confirm your actions"
+      confirmText: "Are you sure you want to make a Manual refund?"
+      orderDetail: "For order: %{orderKey}, in the amount of %{amount}"
+      externalGuidance: "Please follow external guidance as to how to complete a refund form."
+      confirmRefund: "To confirm this refund, click the Refund button below."
     new:
       fields:
         commentGuidance: "Maximum 250 characters"
@@ -285,6 +310,9 @@ en:
     newWPRefund:
       heading: "Worldpay refund confirmation"
       step: "Confirm your actions"
+      confirmText: "Are you sure you want to make a Worldpay refund?"
+      orderDetail: "For order: %{orderKey}, in the amount of %{amount}"
+      confirmRefund: "To confirm this refund, click the Refund button below."
     newWriteOff:
       fields:
         commentGuidance: "Maximum 250 characters"
@@ -306,6 +334,8 @@ en:
       heading: "Enter charge"
       step: "Enter an additional charge into the system"
     newReversal:
+      fields:
+        commentGuidance: "Maximum 250 characters"
       heading: "Enter reversal"
       step: "Enter a reversal for a payment into the system"
   payment_types:
@@ -394,6 +424,9 @@ en:
       search_address_label: "Search for address by postcode"
       selectAddress: "Select address"
       streetLine1Foreign: Address
+    approve:
+      title_approve: "Approve registration"
+      title_refuse: "Refuse registration"
     back_link_unavailable: "Please use your Web browser's back button if you want to go back (the button below requires JavaScript to be enabled in your browser)"
     businesstype_step:
       subtitle: "What type of business or organisation are you?"
@@ -419,6 +452,11 @@ en:
       subtitle: "Checking your details before registering"
       tier_description: "You are %{tier_with_article} tier waste carrier..."
       title: Confirmation
+      edit_business_type_link: "Edit your business type answer"
+      edit_waste_disposal_link: "Edit your waste disposal policy answer"
+      edit_AMF_disposal_link: "Edit your Animal, Mine or Farm waste disposal answer"
+      edit_service_type_link: "Edit your service type answer"
+      edit_construction_link: "Edit your construction/demolition waste answer"
     confirmed:
       title: "Confirmed"
       your_reg_number: "Your registration number is: %{reg}"
@@ -426,7 +464,7 @@ en:
       not_yet_registered_as: "%{companyName} is not yet registered as %{tier_with_article} tier waste carrier with the Environment Agency."
       applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier with the Environment Agency."
       details_emailed: "Your certificate and guidance have been emailed to %{email}."
-      payment_message: "Please remember to arrange your bank transfer providing you registration number: %{regNum}"
+      payment_message: "Please remember to arrange your bank transfer providing your registration number: %{regNum}"
       declared_convictions_message: "We are required to cross check the declared relevant people with convictions before confirming the registration."
       pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
       details_change: "If any of your details change you must update your registration within 28 days."
@@ -443,11 +481,12 @@ en:
     copyCardComplete:
       subtitle: "Additional copy card order complete"
       title: "Order Complete"
+      copyCardDelayNotice: "Copy cards can take up to 10 working days to arrive once we have received your payment."
     editRenewComplete:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"
     enterRegistrationNumber:
-      subtitle: "Enter your registration number"
+      subtitle: "Enter your waste carrier registration number"
       form_hint: "Your registration number can be found..text tbc"
       title: "Existing registration renewal"
     newBusinessDetails:
@@ -470,7 +509,7 @@ en:
       address_service_error: "Address lookup service cannot be contacted!"
       no_results_error: "There are no addresses for the given postcode"
       select_address: "Select business address"
-      change_link: "Change address"
+      change_link: "Change postcode"
       uk_address_link: "I have an address in the United Kingdom"
       find_address_using_postcode: "Find address using postcode"
       manual_address_link: "I want to add an address myself"
@@ -491,7 +530,7 @@ en:
       relevant_person_link_text: "What is a relevant person?"
     newConfirmation:
       title: "Confirmation"
-      subtitle: "Check your registration"
+      subtitle: "Check your details before registering"
 
       tier_aside_heading: "Registration tier"
       tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
@@ -505,7 +544,7 @@ en:
       subtitle_edit_reg_with_charge: "Your registration has been updated. Please be aware that the changes you have made will require a payment of £%{fee}"
       subtitle_edit_reg_new_reg: "Please be aware that the changes you have made means that a new upper tier registration will be made and will require a payment of £%{fee}"
       tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
-      payment_message: "You are required to pay for an upper tier registration."
+      payment_message: "You are required to pay £154 for an upper tier registration."
       show_registration_type: "Your registration type is %{reg_type}"
       smart_answers_heading: "You told us"
       edit_smart_answers_link: "Edit what you told us"
@@ -524,18 +563,14 @@ en:
       key_person_limited_heading: "Directors"
       key_person_partnership_heading: "Partners"
       key_person_public_heading: "CEO's"
-      edit_key_person_link: "Edit these details"
+      edit_key_person_link: "Edit your business or organisation owners details"
       declaration_legend: "Declaration"
       check_box_label: "I understand and agree with the declaration above"
-      declaration_text1: "if I provide information which I know to be false or misleading or I recklessly provide information which is false or misleading I may be committing an offence"
-      declaration_text2: "each individual (or individual Director) who is applying for their name to appear on the carrier, broker or dealer licence must agree to this declaration"
+      declaration_text1: "By registering, you confirm that the information you have provided is true"
+      declaration_text2: "You can be fined up to £5000 if you provide false or misleading information"
       data_protection_text1: "See the"
       privacy_policy_link: "Privacy and shared cookies policy"
       data_protection_text2: "to find out how the Environment Agency will use this information."
-    confirmation_step:
-      key_person_summary_heading: "Key person details"
-      edit_key_person_details_link: "Edit your key peoples details"
-      followingReg_heading: "Following registration, the name and address of your business or organisation will appear on a public register."
     newOrRenew:
       subtitle: "Are you renewing an existing licence"
       title: "New or renew a registration"
@@ -548,7 +583,6 @@ en:
       signedInAsText: "You are currently signed in as"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
-    signup_step:
       createPassword: "Create password"
       sign_in_link: "I already have an account"
     newSignin:
@@ -583,10 +617,10 @@ en:
       subtitle_pending: "Registration pending"
       your_reg_number: "Your registration number is: %{reg}"
       registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
-      applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier with the Environment Agency."
+      applied_as: "%{companyName} thank you for applying as %{tier_with_article} tier waste carrier with the Environment Agency."
       details_emailed: "Your certificate and guidance have been emailed to %{email}."
       payment_message: "Please remember to arrange your bank transfer. Alternatively select the registration and choose to pay by credit or debit card."
-      declared_convictions_message: "We are required to cross check the declared relevant people with convictions before confirming the registration."
+      declared_convictions_message: "We will let you know when your application has been successful."
       pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
       details_change: "If any of your details change you must update your registration within 28 days."
     editRenewComplete:
@@ -639,6 +673,7 @@ en:
       company_name: "Name"
       registration: "registration"
       record: "record"
+      actions_heading: "Actions"
     form:
       address_and_contact_details_heading: "Address and contact details"
       addresses_found: " Address(es) found"
@@ -688,13 +723,15 @@ en:
       phoneNumber_label: "Telephone number"
       please_select_address: "Please select an address.."
       postcode_label: "Post code"
-      print_button_label: "View certificate"
+      print_button_label: "View your certificate"
       progress: "Progress: "
       publicBodyType_label: "Type of public body"
       refund_button_label: Refund
       reg_revoked: "Registration revoked"
       reg_unrevoked: "Registration un-revoked"
       reg_updated: "Registration updated"
+      reg_approved: "Registration approved"
+      reg_refused: "Registration refused"
       registerAs_broker: Broker
       registerAs_carrier: Carrier
       registerAs_dealer: Dealer
@@ -725,12 +762,13 @@ en:
       account_number: "Account number"
       bank_address: "Bank address"
       bank_name: "Bank name"
-      bank_transfer_contact_instructions: "Please contact us with the details of your bank transfer by either:"
-      bank_transfer_instructions: "Please arrange your bank transfer by completing the next two steps"
+      bank_transfer_contact_instructions: "tell us the date, amount paid and your payment reference number, so we can activate your registration. You can contact us by email, fax or in writing."
+      bank_transfer_instructions: "The next 2 steps must be completed to finish your registration"
       email_preamble: "Email"
       fax_number: "Fax"
-      heading: "Pay by bank transfer"
-      iban_instructions: "If you are paying from outside the United Kingdom, you must pay in sterling and include:"
+      heading: "Payment by bank transfer"
+      iban_instructions: "If you are paying from outside the United Kingdom, include the international banking references below."
+      sterling_instruction: "Payments must be made in sterling"
       iban_number: "IBAN number"
       payment_due: "Payment due"
       postal_address: "Postal address"
@@ -768,7 +806,8 @@ en:
     pending:
       title: "Confirm your account"
       subtitle: "Confirm your account"
-      details_emailed: "We have sent an e-mail to %{email}. Please follow the instructions in the email to confirm your account and complete your registration."
+      details_emailed: "We have sent an email to %{email}"
+      details_emailed_instruction: "Please follow the instructions in the email to confirm your account and complete your registration."
       close_page: "Once you have confirmed your account and completed your registration, please close this web page."
       payment_pending: "Payment pending"
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
@@ -845,6 +884,9 @@ en:
       subtitle_carrier_broker_dealer: "(carrier, broker and dealer)"
       text: "or"
       title: "Registration type"
+    revoke:
+      title_revoke: "Revoke registration"
+      title_unrevoke: "UnRevoke registration"
     serviceprovided_step:
       main_service_label: "Waste disposal is the main service we provide"
       part_of_service_label: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
@@ -912,6 +954,9 @@ en:
       almost_there_message: "Waiting for confirmation of payment"
       complete_title: "Registration complete"
       complete_message: "Payment has been succesful and your registration is complete"
+      complete_edit_no_charge_message: "Your registration has been successfully updated"
+      complete_edit_with_charge_paid_message: "Payment has been succesful and your registration has been successfully updated"
+      complete_edit_with_charge_unpaid_message: "Your registration has been updated pending payment"
       criminal_title: "Incomplete"
       criminal_message: "We are running background checks on the information you have provided"
     current_user:
@@ -959,6 +1004,15 @@ en:
     renewal: "Renewal"
     copy_cards: "Copy Cards"
     edit: "Edit"
+  registration_status:
+    INACTIVE: "Deleted"
+    EXPIRED: "Expired"
+    REVOKED: "Revoked"
+    REFUSED: "Refused"
+    CONVICTIONS: "Conviction Check"
+    PENDINGPAYMENT: "Awaiting payment"
+    PENDING: "Pending"
+    COMPLETE: "Registered"
   templates:
     formExample:
       title: "Example form controls and content"

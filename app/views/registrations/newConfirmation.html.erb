@@ -10,140 +10,27 @@
     </ol>
   </div>
 
+  <%= render 'errors' %>
   <header class="page-header group">
     <div class="hgroup">
       <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
     </div>
-      <div class="subtitle">Please take a moment to check your registration details below. </br> If any of the informaiton is wrong, simply change it using the edit link provided in each section.
-    </div>
   </header>
 
-  <div class="grid-wrapper">
+    <fieldset class="summary-page">
+      <legend></legend>
 
-    <div class="grid-2-3">
-      <div class="inner-block">
-        <section class="summary-page">
+      <!-- WF 4.3.3 -->
+      <div id="page9"  data-journey="waste-carriers-registration:confirmation"></div>
 
-          <!-- WF 4.3.3 -->
-          <div id="page9"  data-journey="waste-carriers-registration:confirmation"></div>
+      <% content_for :page_title, createTitle('.title') %>
 
-          <% content_for :page_title, createTitle('.title') %>
-          <%= render 'errors' %>
-          <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
+      <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
 
-            <!-- Smart answers section -->
-            <div class='form-group'>
-              <h2 class="heading-medium"><%= t '.smart_answers_heading' %></h2>
-                <span class='list-bullets'><%= render 'smartanswers_display', r: @registration %></span>
-              <a><%= link_to t('.edit_smart_answers_link'), find_path %></a>
-            </div><!-- end smart answers form-group -->
-
-            <!-- Registration type section -->
-            <div class='form-group'>
-              <h2 class="heading-medium">Registration type</h2>
-                <ul id='registrationtype_display'>
-                  <li>
-                    <%  reg_type_prettify = give_meaning_to_reg_type( @registration.registrationType) %>
-                    <%= t('.show_registration_type', reg_type: reg_type_prettify) %>
-                </li>
-              </ul>
-              <a><%= link_to t('.edit_change_reg_type_link'), action: 'newRegistrationType' %></a>
-            </div><!-- end registration type form-group -->
-
-
-            <!-- Business or organisation address section -->
-            <div class='form-group'>
-              <% case @registration.businessType %>
-              <% when 'limitedCompany' %>
-                <h2 class='heading-medium'><%= t '.business_details_limited_heading' %></h2>
-              <% when 'publicBody' %>
-                <h2 class='heading-medium'><%= t '.business_details_public_heading' %></h2>
-              <% else %>
-                <h2 class='heading-medium'><%= t '.business_details_heading' %></h2>
-              <% end %>
-                <%= render 'address_display', r: @registration %>
-              <a><%= link_to t('.edit_business_details_link'), newBusinessDetails_path %></a>
-            </div><!-- end business details form-group -->
-
-            <!-- Contact details section -->
-            <div class='form-group'>
-              <h2 class='heading-medium'><%= t '.contact_details_heading' %></h2>
-                <%= render 'contactdetails_display', r: @registration %>
-              <a><%= link_to t('.edit_contact_details_link'), newContact_path %></a>
-            </div><!-- end form-group -->
-
-            <!-- Key people section -->
-            <% unless @registration.tier.eql?('LOWER') %>
-            <div class='form-group'>
-              <% case @registration.businessType %>
-              <% when 'limitedCompany' %>
-                <h2 class='heading-medium'><%= t '.key_person_limited_heading' %></h2>
-              <% when 'partnership' %>
-                <h2 class='heading-medium'><%= t '.key_person_partnership_heading' %></h2>
-              <% when 'publicBody' %>
-                <h2 class='heading-medium'><%= t '.key_person_public_heading' %></h2>
-              <% else %>
-                <h2 class='heading-medium'><%= t '.key_person_heading' %></h2>
-              <% end %>
-                <%= render '/key_people/key_people_display' %>
-              <a><%= link_to t('.edit_key_person_link'), registration_key_people_path %></a>
-            </div><!-- end key people form-group -->
-            <% end %>
-
-            <!-- Convictions section -->
-            <% unless @registration.tier.eql?('LOWER') %>
-            <div class='form-group'>
-              <h2 class='heading-medium'><%= t '.convictions_declaration_heading' %></h2>
-                  <% if @registration.declaredConvictions == 'yes' %>
-                    <p><%= t '.have_declared_convictions' %></p>
-                  <% else %>
-                    <p><%= t '.have_not_declared_convictions' %></p>
-                  <% end %>
-              <a><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path %></a>
-            </div><!-- end convictions form-group -->
-            <% end %>
-
-            <!-- Declaration section -->
-            <div class='form-group declaration'>
-            <h3 class='heading-xlarge'><%= t '.declaration_legend' %></h3>
-              <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
-                <ol>
-                  <li class="list-bullets"><%= t '.declaration_text1' %></li>
-                  <li class='list-bullets'><%= t '.declaration_text2' %><p class="notice-icon"></p></li>
-                </ol>
-                <%= validation_for(@registration, :declaration) %>
-                <label class="block-label"><%= f.check_box :declaration%><%= t '.check_box_label' %>
-                </label>
-              </div>
-            </div><!-- end declaration form-group -->
-          </br>
-          </br>
-          </br>
-
-          <!-- Privacy notice -->
-          <div class="form-group">
-            <ol>
-              <li>
-                <p class='privacy-data'><%= t '.data_protection_text1' %>
-                  <%= link_to t('.privacy_policy_link'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %> <%= t '.data_protection_text2' %>
-                </p>
-              </li>
-            </ol>
-            <input name="confirm" class="button" type="submit" value="<%= t 'form.confirm_button_label' %>"/>
-          </div><!-- end privacy notice form-group -->
-          <% end %>
-
-        </section>
-      </div><!-- end inner-block -->
-    </div><!-- end grid-2-3 -->
-
-
-    <div class="grid-1-3">
-      <div class="inner-block related">
-        <div class="inner group related-subsection">
+        <div class="text registration-tier">
           <% unless session[:edit_mode]  %>
             <h2 class="heading-small"><%= t '.tier_aside_heading' %></h2>
-            <div class='form-group'>
+            <div class='panel-indent form-group'>
               <% if  @registration.tier == 'UPPER' %>
                 <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
               <% else %>
@@ -170,10 +57,10 @@
                    <div class='form-group'> <%=  t '.subtitle_edit_reg_no_charge' %> </div>
 
               <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
-                    <div class='form-group'> <%=  t '.subtitle_edit_reg_with_charge', fee:    Money.new(Rails.configuration.fee_reg_type_change) %> </div>
+                    <div class='form-group'> <%=  t '.subtitle_edit_reg_with_charge', :fee => Money.new(Rails.configuration.fee_reg_type_change) %> </div>
 
               <% when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION  %>
-                     <div class='form-group'> <%=  t '.subtitle_edit_reg_new_reg' %> </div>
+                     <div class='form-group'> <%=  t '.subtitle_edit_reg_new_reg', :fee => Money.new(Rails.configuration.fee_registration) %> </div>
 
               <% when  RegistrationsController::EditResult::NO_CHANGES  %>
               <% else %>
@@ -181,11 +68,150 @@
               <% end %>
             <% end %>
           <% end %>
-        </div><!-- end inner group related-subsection -->
-      </div><!-- end inner-block related -->
-    </div><!-- end grid-1-3 -->
+        </div><!-- end registration tier -->
 
-  </div><!-- end grid-wrapper -->
+    <div class='text form-group'>
+      <details>
+        <summary aria controls='details-content-0' tabindex='0'>
+          <span class='summary'>What is lower tier and upper tier?</span>
+          </summary>
+          <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
+           <p><strong>Lower tier</strong> registrations apply to any person who falls into one of the categories of 'specified person' under the Waste (England and Wales) Regulations 2011, and is required to register as a carrier, broker or dealer under the regulations.</p>
+           <p>These are</p>
+
+            <ul class="list-bullet">
+              <li>a charity or voluntary organisation</li>
+              <li>a waste collection authority</li>
+              <li>a waste disposal authority</li>
+              <li>a waste regulation authority</li>
+            </ul>
+
+             <p>or</p>
+
+             <p> a carrier who only transports, a broker who only arranges for the recovery or disposal of, or a dealer who only deals in</p>
+
+            <ul class="list-bullet">
+              <li>animal by-products</li>
+              <li>waste from a mine or quarry</li>
+              <li>waste from premises used for agriculture</li>
+              <li>transports waste produced by the carrier itself, except where it is construction or demolition waste
+              </li>
+            </ul>
+
+            <p><strong>Upper tier</strong> registrations apply to any person who is required to register under the Waste (England and Wales) Regulations 2011 who is not a specified person.
+            </p>
+          </div>
+      </details>
+    </div>
+
+        <!-- Smart answers section -->
+        <div class='form-group'>
+          <h2 class="heading-medium"><%= t '.smart_answers_heading' %></h2>
+            <span class='list-bullets'><%= render 'smartanswers_display', r: @registration %></span>
+          <a><%= link_to t('.edit_smart_answers_link'), find_path %></a>
+        </div><!-- end smart answers form-group -->
+
+        <% if @registration.upper? %>
+        <!-- Registration type section ::: Only shown for Upper tier -->
+        <div class='form-group'>
+          <h2 class="heading-medium">Registration type</h2>
+            <ul id='registrationtype_display'>
+              <li>
+                <%  reg_type_prettify = give_meaning_to_reg_type( @registration.registrationType) %>
+                <%= t('.show_registration_type', reg_type: reg_type_prettify) %>
+            </li>
+          </ul>
+          <a><%= link_to t('.edit_change_reg_type_link'), action: 'newRegistrationType' %></a>
+        </div><!-- end registration type form-group -->
+        <% end %>
+
+
+        <!-- Business or organisation address section -->
+        <div class='form-group'>
+          <% case @registration.businessType %>
+          <% when 'limitedCompany' %>
+            <h2 class='heading-medium'><%= t '.business_details_limited_heading' %></h2>
+          <% when 'publicBody' %>
+            <h2 class='heading-medium'><%= t '.business_details_public_heading' %></h2>
+          <% else %>
+            <h2 class='heading-medium'><%= t '.business_details_heading' %></h2>
+          <% end %>
+            <%= render 'address_display', r: @registration %>
+          <a><%= link_to t('.edit_business_details_link'), newBusinessDetails_path %></a>
+        </div><!-- end business details form-group -->
+
+        <!-- Contact details section -->
+        <div class='form-group'>
+          <h2 class='heading-medium'><%= t '.contact_details_heading' %></h2>
+            <%= render 'contactdetails_display', r: @registration %>
+          <a><%= link_to t('.edit_contact_details_link'), newContact_path %></a>
+        </div><!-- end form-group -->
+
+        <!-- Key people section -->
+        <% unless @registration.tier.eql?('LOWER') %>
+        <div class='form-group'>
+          <% case @registration.businessType %>
+          <% when 'limitedCompany' %>
+            <h2 class='heading-medium'><%= t '.key_person_limited_heading' %></h2>
+          <% when 'partnership' %>
+            <h2 class='heading-medium'><%= t '.key_person_partnership_heading' %></h2>
+          <% when 'publicBody' %>
+            <h2 class='heading-medium'><%= t '.key_person_public_heading' %></h2>
+          <% else %>
+            <h2 class='heading-medium'><%= t '.key_person_heading' %></h2>
+          <% end %>
+            <%= render '/key_people/key_people_display', r: @registration %>
+          <a><%= link_to t('.edit_key_person_link'), registration_key_people_path %></a>
+        </div><!-- end key people form-group -->
+        <% end %>
+
+        <!-- Convictions section -->
+        <% unless @registration.tier.eql?('LOWER') %>
+        <div class='form-group'>
+          <h2 class='heading-medium'><%= t '.convictions_declaration_heading' %></h2>
+              <% if @registration.declaredConvictions == 'yes' %>
+                <p><%= t '.have_declared_convictions' %></p>
+              <% else %>
+                <p><%= t '.have_not_declared_convictions' %></p>
+              <% end %>
+          <a><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path %></a>
+        </div><!-- end convictions form-group -->
+        <% end %>
+
+        <!-- Declaration section -->
+        <div class='form-group declaration'>
+        <h3 class='heading-xlarge'><%= t '.declaration_legend' %></h3>
+          <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
+            <ol>
+              <li class="list-bullets"><%= t '.declaration_text1' %></li>
+              <li class='list-bullets'><%= t '.declaration_text2' %></li>
+            </ol>
+            <ul>
+              <li><%= validation_for(@registration, :declaration) %></li>
+              <li>
+                <label class="block-label" for="registration_declaration">
+                <%= f.check_box :declaration%><%= t '.check_box_label' %>
+                </label>
+              </li>
+            </ul>
+          </div>
+        </div><br/><br/><br/><!-- end declaration form-group -->
+
+
+          <!-- Privacy notice -->
+          <div class="form-group">
+            <ol>
+              <li>
+                <p class='privacy-data'><%= t '.data_protection_text1' %>
+                  <%= link_to t('.privacy_policy_link'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %> <%= t '.data_protection_text2' %>
+                </p>
+              </li>
+            </ol>
+            <input name="confirm" class="button" type="submit" value="<%= t 'form.confirm_button_label' %>"/>
+          </div><!-- end privacy notice form-group -->
+          <% end %>
+
+        </fieldset>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->

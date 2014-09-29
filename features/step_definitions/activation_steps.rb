@@ -16,8 +16,46 @@ When(/^I attempt to activate the account after (\d+) hours$/) do |number_of_hour
   end
 end
 
+But(/^I have not confirmed my email address$/) do
+  # no-op
+end
+ 
+When(/^I have confirmed my email address$/) do
+  sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  open_email my_email_address
+  current_email.click_link 'Confirm your account'
+end
+
+Given(/^I have received an awaiting payment email$/) do
+  sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  open_email my_email_address
+  current_email.should have_content 'Awaiting payment ... TBC'
+end
+ 
+When(/^I attempt to sign in$/) do
+  visit new_user_session_path
+  fill_in 'user_email', with: my_email_address
+  fill_in 'user_password', with: my_password
+  click_on 'Sign in'
+ end
+ 
+And(/^I am shown my pending registration$/) do
+  page.should_not have_content 'confirm your account'
+  page.should have_content 'is not yet registered as an upper tier waste carrier'
+end
+
 Then(/^my account is successfully activated$/) do
   page.should have_content 'Your registration number is: CBD'
+end
+
+Given(/^I re-request activation for an unpaid registration$/) do
+  visit new_user_confirmation_path
+  fill_in 'user_email', with: my_email_address
+  click_on 'Resend confirmation instructions'
+  sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  open_email my_email_address
+  current_email.click_link 'Confirm your account'
+  page.should have_content 'Your account has been activated successfully'
 end
 
 Then(/^I need to request a new confirmation email to activate my account$/) do
@@ -26,16 +64,6 @@ Then(/^I need to request a new confirmation email to activate my account$/) do
   open_email my_email_address
   current_email.click_link 'Confirm your account'
   page.should have_content 'Your registration number is: CBD'
-end
-
-When(/^I have not confirmed my email address$/) do
-  # no-op
-end
-
-When(/^I have confirmed my email address$/) do
-  sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
-  open_email my_email_address
-  current_email.click_link 'Confirm your account'
 end
 
 Then(/^I am told to confirm my email address$/) do
@@ -47,13 +75,12 @@ Then(/^I am shown my confirmed registration$/) do
   page.should have_content 'Registration complete'
 end
 
-Then(/^I am shown my pending registration$/) do
-  page.should_not have_content 'confirm your account'
-  page.should have_content 'is not yet registered as an upper tier waste carrier'
-end
-
-Then(/^I am shown how to pay in my confirmation email$/) do
+Then(/^I am not shown how to pay in my confirmation email$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.should have_content 'How to pay'
+  current_email.should_not have_content 'How to pay'
+end
+
+Then(/^I am shown the sign in page$/) do
+  page.should have_content 'Sign in'
 end

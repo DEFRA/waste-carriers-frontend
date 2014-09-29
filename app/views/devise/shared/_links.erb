@@ -1,25 +1,27 @@
+<ul>
 <%- if controller_name != 'sessions' %>
-  <a><%= link_to t('devise.shared.links.signIn'), new_session_path(resource_name) %></a>
+  <li><a><%= link_to t('devise.shared.links.signIn'), new_session_path(resource_name) %></a></li>
 <% end -%>
 
 <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-  <a><%= link_to t('devise.shared.links.signUp'), newBusinessType_path(resource_name) %></a>
+  <li><a><%= link_to t('devise.shared.links.signUp'), newBusinessType_path(resource_name) %></a></li>
 <% end -%>
 
 <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
-  <a><%= link_to t('.forgotPassword'), new_password_path(resource_name) %></a>
+  <li><a><%= link_to t('.forgotPassword'), new_password_path(resource_name) %></a></li>
 <% end -%>
 
 <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
-  <a><%= link_to t('.sendConfirmInstructions'), new_confirmation_path(resource_name) %></a>
+  <li><a><%= link_to t('.sendConfirmInstructions'), new_confirmation_path(resource_name) %></a></li>
 <% end -%>
 
 <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
-  <a><%= link_to t('.sendUnlockInstructions'), new_unlock_path(resource_name) %></a>
+  <li><a><%= link_to t('.sendUnlockInstructions'), new_unlock_path(resource_name) %></a></li>
 <% end -%>
 
-<a><%- if devise_mapping.omniauthable? %>
+<%- if devise_mapping.omniauthable? %>
   <%- resource_class.omniauth_providers.each do |provider| %>
-    <%= link_to t('.signInWith',:title=>provider.to_s.titleize), omniauth_authorize_path(resource_name, provider) %>
+    <li><a><%= link_to t('.signInWith',:title=>provider.to_s.titleize), omniauth_authorize_path(resource_name, provider) %></a></li>
   <% end -%>
-<% end -%></a>
+<% end -%>
+</ul>
