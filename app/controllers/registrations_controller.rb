@@ -473,7 +473,7 @@ class RegistrationsController < ApplicationController
 
       # Check if IR Renewal
       logger.debug "Check if IR renewal flow"
-      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
         logger.debug "IR renewal flow found"
         original_registration = Registration[ session[:original_registration_id] ]
         session[:edit_result] =  compare_registrations(@registration, original_registration )
@@ -536,11 +536,20 @@ class RegistrationsController < ApplicationController
       when EditMode::RENEWAL
 
         # Detect standard or IR renewal
-        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
+        
+          logger.debug "Is IR RENEWAL"
+          
           # ir renewal detected
           redirect_to :action => :account_mode
         else
+        
+          logger.debug "Is normal RENEWAL"
+          
           @registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
+          
+          @registration.renewalRequested = true;
+          
           @registration.save
           newOrderRenew(@registration.uuid) and return
         end
@@ -1542,7 +1551,7 @@ class RegistrationsController < ApplicationController
 
 
     # Determine routing for Finish button
-    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
       @exitRoute = confirmed_path
     else
       @exitRoute = registrations_finish_path
