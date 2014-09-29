@@ -10,12 +10,17 @@ class CompaniesHouseCaller
 
   def status
     begin
+      Rails.logger.info Time.now.to_s + ' - Calling Companies House...'
       json = JSON.parse RestClient.get @url
+      Rails.logger.info Time.now.to_s + ' - Companies House has returned json response'
       company_status = json['primaryTopic']['CompanyStatus']
       company_status == 'Active' ? :active : :inactive
+      Rails.logger.info 'Company status is ' + company_status
     rescue RestClient::ResourceNotFound
+      Rails.logger.info 'Companies House: Resource not found!'
       :not_found
-    rescue
+    rescue => e
+      Rails.logger.error 'ERROR *** Companies House: Error calling service!!! ' + e.to_s
       :error_calling_service
     end
   end
