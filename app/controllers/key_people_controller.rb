@@ -35,9 +35,13 @@ class KeyPeopleController < ApplicationController
     @key_person.add(params[:key_person])
 
     if @key_person.valid?
+
+      @key_person.cross_check_convictions
       @key_person.save
+
       @registration.key_people.replace([@key_person])
       @registration.save
+
       redirect_to :newRelevantConvictions
     else
       # there is an error (but data not yet saved)
@@ -63,9 +67,13 @@ class KeyPeopleController < ApplicationController
     @key_person.add(params[:key_person])
 
     if @key_person.valid?
+
+      @key_person.cross_check_convictions
       @key_person.save
+
       @registration.key_people.add(@key_person)
       @registration.save
+
       redirect_to action: 'newKeyPeople'
     else
       # there is an error (but data not yet saved)
@@ -91,9 +99,13 @@ class KeyPeopleController < ApplicationController
     @key_person.add(params[:key_person])
 
     if @key_person.valid?
+
+      @key_person.cross_check_convictions
       @key_person.save
+
       @registration.key_people.add(@key_person)
       @registration.save
+
       redirect_to action: 'newRelevantPeople'
     else
       # there is an error (but data not yet saved)
@@ -151,17 +163,14 @@ class KeyPeopleController < ApplicationController
 
   def get_registration
     @registration = Registration[session[:registration_id]]
-    logger.debug "get_registration: #{@registration.attributes.to_s}"
   end
 
   def get_key_people
-    @key_people = @registration.key_people.to_a
-    logger.debug "get_key_people: #{@key_people.to_s}"
+    @key_people = @registration.key_people.to_a.find_all{ |person| person.person_type == 'KEY' }
   end
 
   def get_relevant_people
     @relevant_people = @registration.key_people.to_a.find_all{ |person| person.person_type == 'RELEVANT' }
-    logger.debug "get_relevant_people: #{@relevant_people.to_s}"
   end
 
   private

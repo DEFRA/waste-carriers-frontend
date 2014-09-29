@@ -14,8 +14,17 @@
 
 /* Form Elements  ========================================================== */
 
+fieldset {
+  margin-bottom: $gutter-half;
+  max-width:30em;
+}
+
 legend {
   margin:0; padding:0;
+}
+
+.form-group {
+  max-width: 100%;
 }
 
 .form-label {
@@ -34,7 +43,7 @@ legend {
 #agency_user_email,
 #user_email,
 #admin_email {
-  width:40%;
+  width:50%;
   @include media (mobile){
     width:75%;
   }
@@ -52,8 +61,10 @@ input {
   margin-bottom: $gutter-half;
   display:block;
   max-width: 30em;
+  height: 4.5em;
   @include media (mobile) {
     width:80%;
+    height: 4.5em;
   }
 }
 

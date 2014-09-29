@@ -1,20 +1,32 @@
 <%= render 'shared/content_for_pages' %>
 
-<main id="content" role="main" class="group">
-  <article role="article" class="group">
+<div id="wrapper">
 
-    <% content_for :page_title, createTitle('.title') %>
+  <main id="content" role="main" class="group">
 
-<h1><%= t '.title'%></h1>
+    <div class="back-section">
+        <ol>
+          <li><%= render 'back_link' %></li>
+        </ol>
+    </div>
 
-<%= form_for @registration, :method => 'delete' do |f| %>
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large"><%= t '.title'%></h1>
+      </div>
+    </header>
 
-  <p><%=t '.message_html',:companyName=>@registration.companyName %></p>
-  <div class="action group">
-    <%= link_to t('registrations.form.back_button_label'), userRegistrations_path(current_user.id), :class => 'button-secondary' %>
-    <input id="delete" name="delete" class="button delete" type="submit" value="<%=t '.deleteLabel'%>"/>
-  </div>
-<% end %>
+  <% content_for :page_title, createTitle('.title') %>
 
-</article>
-</main>
+    <%= form_for(@registration, url: {action: "destroy"}, html: {method: "delete"}) do |f| %>
+
+    <p><%=t '.message_html',:companyName=>@registration.companyName %></p>
+
+    <div class="action group">
+      <input id="delete" name="delete" class="button delete" type="submit" value="<%=t '.deleteLabel'%>"/>
+    </div>
+
+  <% end %>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

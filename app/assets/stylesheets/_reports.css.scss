@@ -1,3 +1,69 @@
-.select-boxes {
-  width: 400px;
+/* Internal payment pages and reports styles */
+
+.registration-search h2,
+.payment-search h2 {
+  border-top: 1px solid rgb(191, 193, 195);
+  padding-top: $gutter-half;
 }
+
+// Manual payment page //
+
+#manual-payment .form-group,
+#payment-reversal-page .form-group,
+#payment-status-page .form-group,
+#write-off-page .form-group,
+#charge-adjustments-page .form-group,
+#enter-charge-page .form-group,
+#customer-view-page .form-group,
+.payment-options .form-group {
+  border-top: 1px solid rgb(191, 193, 195);
+  padding-top: $gutter-half/2;
+  padding-bottom: $gutter-half/2;
+  margin-top: $gutter-half/2;
+  margin-bottom: $gutter-half/2;
+}
+
+.agency-edit {
+  border: 1px solid rgb(222, 224, 226);
+  list-style: none outside none;
+  @include core-16;
+    @include media(mobile) {
+    padding-left: $gutter-half;
+    padding-right: $gutter-half;
+  }
+  margin-bottom: 0.5em;
+}
+
+.container-border ul li{
+  @include core-16;
+  list-style: none outside none;
+  margin: 0.5em 0 0;
+  overflow: hidden;
+  padding: 0.5em 0 0;
+}
+
+.container-border-lines {
+  border-top: 1px solid rgb(222, 224, 226);
+  border-bottom: 1px solid rgb(222, 224, 226);
+}
+
+.agency-edit p {
+  @include core-16;
+  padding:0;
+  margin:0;
+}
+
+.agency-edit span {
+  @include bold-16;
+  padding:0;
+  margin:0;
+}
+
+.agency-edit h3 {
+  padding-top: $gutter-half;
+  @include bold-16;
+}
+
+
+
+

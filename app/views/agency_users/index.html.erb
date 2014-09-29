@@ -1,16 +1,20 @@
 <%= render 'shared/content_for_pages' %>
 <%#= render "shared/current_user" %>
+<div id="wrapper">
 
-<main id="content" role="main" class="group"><article role="article" class="group">
-<section>
-<div class="inner">
-  <div class="col-1">
-    <h1>Listing agency users</h1>
+<main id="content" role="main" class="group">
+
+<h1 class="heading-large">Listing agency users</h1>
 <% if !notice.nil? %>
 <div id="note_explanation" class="note-summary">
-  <h1><%= notice%></h1>
+  <h2 class="heading-small"><%= notice%></h2>
 </div>
 <% end %>
+
+<div id="grid-wrapper">
+
+<div class="grid-2-3">
+<div class="table-inner-block">
 
 <table class="users" role="presentation" summary='Agency users'>
   <thead>
@@ -35,19 +39,26 @@
   </tbody>
 </table>
 
-<br>
-
 <form method="get" action="<%=new_agency_user_path%>">
 <div><input type="submit" class="button" value="<%=t 'agencyUsers.newLabel'%>" /></div>
 </form>
-</section>
+</div><!-- end table-inner-block -->
+</div><!-- end grid-2-3 -->
 
-    <aside role='note'>
-      <div class="inner">
-        <div class="col-2">
-          <%= render "shared/current_user" %>
-        </div>
+<div class="grid-1-3">
+  <div class="outer-block related">
+      <div class="inner group related-subsection">
+        <h2 class="heading-small">Current user</h2>
+        <nav aria-labelledby="parent-subsection" role="navigation">
+          <ul>
+            <li><%= render "shared/current_user" %></li>
+          </ul>
+        </nav>
       </div>
-    </aside>
+  </div><!-- end outer-block related -->
+</div><!-- end grid 1-3-->
 
-</article></main>
+</div><!-- end grid-wrapper -->
+
+</main><!-- end main -->
+</div><!-- end wrapper -->

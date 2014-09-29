@@ -17,7 +17,7 @@ Feature: Upper tier
       And I check the declaration
       And I provide my email address and create a password
       And I choose pay via electronic transfer
-     When I confirm account creation via email
+     #When I confirm account creation via email
      Then I have completed the application as an upper tier waste carrier via electronic transfer
 
   Scenario: Autocomplete with unrecognised postcode
@@ -35,7 +35,7 @@ Feature: Upper tier
       And I check the declaration
       And I provide my email address and create a password
       And I choose pay via electronic transfer
-     When I confirm account creation via email
+     #When I confirm account creation via email
      Then I have completed the application as an upper tier waste carrier via electronic transfer
 
   Scenario: Foreign waste carrier
@@ -46,7 +46,7 @@ Feature: Upper tier
       And I check the declaration
       And I provide my email address and create a password
       And I choose pay via electronic transfer
-     When I confirm account creation via email
+     #When I confirm account creation via email
      Then I have completed the application as an upper tier waste carrier via electronic transfer
 
   @worldpay
@@ -59,7 +59,10 @@ Feature: Upper tier
       And I provide my email address and create a password
       And I pay by card
      When I confirm account creation via email
-     Then I am registered as an upper tier waste carrier
+     Then I am shown the sign in page
+       And I attempt to sign in
+     #Then I am shown I am registered as an upper tier waste carrier
+     Then I am successfully registered as an upper tier waste carrier
 
   Scenario: Bank transfer
     Given I autocomplete my business address
@@ -70,7 +73,7 @@ Feature: Upper tier
       And I provide my email address and create a password
       And I choose to pay by bank transfer
       And I make a note of the details
-    When I confirm account creation via email
+    #When I confirm account creation via email
     Then my upper tier waste carrier registration is pending until payment is received by the Environment Agency
 
   Scenario: With convictions
@@ -86,7 +89,7 @@ Feature: Upper tier
       And I check the declaration
       And I provide my email address and create a password
       And I choose pay via electronic transfer
-     When I confirm account creation via email
+     #When I confirm account creation via email
      Then I am told my registration is pending a convictions check
 
   # TODO ltd company version asks for companies house number and directors

@@ -93,17 +93,11 @@ module OrderHelper
       @order = updateOrderForOffline(@order, reg)
     end
 
-    if showRegistrationFee? renderType
+    if showRegistrationFee?(renderType) or isIRRenewal?(myRegistration, renderType)
       # Ensure Order Id of newly created order remains the same as currently assumes orderId of first order?
       @order.orderId = ord.orderId
     else
-      #
-      # NOTE: This may cause an issue down in the future because it generates a new ID on every commit, thus a back and rety
-      # will re-fire the commit creating a subsequent order.
-      #
-      # Further note: removed as if new order id should not be needed? needs testing
-      #
-      # @order.orderId = SecureRandom.uuid
+      # Get order code from session, assume populated prior to entry of order/new
       @order.orderId = session[:orderCode]
     end
 
@@ -141,7 +135,7 @@ module OrderHelper
       # Add order item for Renewal registration
       # Create Order Item
       orderItem = OrderItem.new
-      orderItem.amount = Rails.configuration.fee_registration
+      orderItem.amount = Rails.configuration.fee_renewal
       orderItem.currency = 'GBP'
       orderItem.description = 'Renewal of Registration'
       orderItem.reference = 'Reg: ' + reg.regIdentifier
@@ -235,6 +229,15 @@ module OrderHelper
     myOrder.updatedByUser = myRegistration.accountEmail
     myOrder.amountType = Order.getPositiveType
     myOrder
+  end
+  
+  def isIRRenewal? myRegistration, renderType
+    # It is an IRRenewal if the render type is renewal, and the orignal reg number is populated
+    # with an IR format value
+    showRenewalFee?(renderType) and \
+        myRegistration.originalRegistrationNumber and \
+        !myRegistration.originalRegistrationNumber.empty? and \
+        isIRRegistrationType(@registration.originalRegistrationNumber)
   end
 
 end

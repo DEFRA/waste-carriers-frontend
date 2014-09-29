@@ -18,7 +18,7 @@ class Registration < Ohm::Model
 
   #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
   attribute :uuid
-  
+
   # New or renew field used to determine initial routing prior to smart answers
   attribute :newOrRenew
   attribute :originalRegistrationNumber
@@ -85,26 +85,23 @@ class Registration < Ohm::Model
   attribute :accessCode
 
   attribute :tier
-  attribute :location
+  
+  attribute :renewalRequested
 
   # The value that the waste carrier sets to say whether they admit to having
   # relevant people with relevant convictions
   attribute :declaredConvictions
-  # Whether a match was made by the convictions service
-  attribute :convictions_check_indicates_suspect
-  # Initially set if either of the other 2 are set, it is the flag that denotes
-  # to an NCCC user that the registraton needs to be checked, and if happy the
-  # one they will set to false
-  attribute :criminally_suspect
-  
+
   # These are meta data fields used only in rails for storing a temporary value to determine:
   # the exception detail from the services
   attribute :exception
 
   set :metaData, :Metadata #will always be size=1
+  set :location, :Location #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
-
+  set :conviction_search_result, :ConvictionSearchResult #will always be size=1
+  set :conviction_sign_offs, :ConvictionSignOff #can be empty
 
   index :accountEmail
   index :companyName
@@ -161,7 +158,7 @@ class Registration < Ohm::Model
   end
 
 
-  def empty_set(a_set)
+  def empty_set(a_set) 
     done = false
     if a_set.kind_of? Ohm::BasicSet && a_set.size > 0
       a_set.each {|item| a_set.delete(item)}
@@ -187,32 +184,46 @@ class Registration < Ohm::Model
   def commit
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
     Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
-    commited = true
+    commited = false
     begin
       response = RestClient.post url,
         to_json,
         :content_type => :json,
         :accept => :json
 
-
       result = JSON.parse(response.body)
 
-
-
       # following fields are set by the java service, so we assign them from the response hash
-      self.uuid = result['id']
-      self.metaData.first.update(dateRegistered: result['metaData']['dateRegistered'])
-      self.metaData.first.update(lastModified: result['metaData']['lastModified'])
-      Rails.logger.debug "dateRegistered: #{result['metaData']['dateRegistered'].to_s}"
-      self.regIdentifier = result['regIdentifier']
+      self.update(uuid: result['id'])
+      self.update(regIdentifier: result['regIdentifier'])
+
+      self.metaData.replace( [Metadata.init(result['metaData'])])
+      
+      self.location.replace( [Location.init(result['location'])])
 
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
-        self.finance_details.add FinanceDetails.init(result['financeDetails'])
+        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
+      end
+
+      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])]) if result['conviction_search_result']
+
+      if result['conviction_sign_offs'] #array of conviction sign offs
+        sign_offs = []
+        result['conviction_sign_offs'].each do |sign_off_hash|
+          sign_off = ConvictionSignOff.init(sign_off_hash)
+          sign_offs << sign_off
+        end
+        self.conviction_sign_offs.replace sign_offs
       end
 
       save
       Rails.logger.debug "Commited to service: #{to_json.to_s}"
+      commited = true
+    rescue Errno::ECONNREFUSED => e
+      Rails.logger.error "Services unavailable: " + e.to_s
+      self.exception = e.to_s
+      commited = false
     rescue => e
       Rails.logger.debug "Error in registration Commit to service: #{ e.to_s} || #{attributes.to_s}"
       self.exception = e.to_s
@@ -257,11 +268,51 @@ class Registration < Ohm::Model
         to_json,
         :content_type => :json
 
+      result = JSON.parse(response.body)
+
+      # Update metadata and financedetails with that from the service
+      self.metaData.replace( [Metadata.init(result['metaData'])])
+      
+      self.location.replace( [Location.init(result['location'])])
+
+      unless self.tier == 'LOWER'
+        Rails.logger.debug 'Initialise finance details'
+        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
+      end
+
+      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])]) if result['conviction_search_result']
+
+      if result['conviction_sign_offs'] #array of conviction sign offs
+        sign_offs = []
+        result['conviction_sign_offs'].each do |sign_off_hash|
+          sign_off = ConvictionSignOff.init(sign_off_hash)
+          sign_offs << sign_off
+        end
+        self.conviction_sign_offs.replace sign_offs
+      end
+
       save
-
-
     rescue => e
       Rails.logger.error e.to_s
+      
+      if e.http_code == 422
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body ul li").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      elsif e.http_code == 400
+        # Get actual error from services
+        htmlDoc = Nokogiri::HTML(e.http_body)
+        messageFromServices = htmlDoc.at_css("body pre").content
+        Rails.logger.error messageFromServices
+        # Update order with a exception message
+        self.exception = messageFromServices
+      else
+        self.exception = e.to_s
+      end
+      
       saved = false
     end
     saved
@@ -295,21 +346,86 @@ class Registration < Ohm::Model
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
-    key_people = []
+    
+    result_hash['location'] = location.first.attributes.to_hash if location.size == 1
 
-    if self.key_people &&  self.key_people.size > 0
-      self.key_people.each do  |person|
+    key_people = []
+    if key_people && key_people.size > 0
+      key_people.each do  |person|
          key_people << person.to_hash
       end
       result_hash['key_people'] = key_people
     end #if
 
-    if self.finance_details.size == 1
-      result_hash['financeDetails'] = self.finance_details.first.to_hash
+    result_hash['financeDetails'] = finance_details.first.to_hash if finance_details.size == 1
+
+    result_hash['conviction_search_result'] = conviction_search_result.first.to_hash if conviction_search_result.size == 1
+
+    sign_offs = []
+    if conviction_sign_offs && conviction_sign_offs.size > 0
+      conviction_sign_offs.each do  |sign_off|
+         sign_offs << sign_off.to_hash
+      end
+      result_hash['conviction_sign_offs'] = sign_offs
+    end #if
+
+    Rails.logger.debug "registration to_json #{result_hash.to_json.to_s}"
+
+    result_hash.to_json
+  end
+
+  def cross_check_convictions
+
+    result = ConvictionSearchResult.search_convictions(name: companyName, companyNumber: company_no)
+    Rails.logger.debug "REGISTRATION::CROSS_CHECK_CONVICTIONS #{result}"
+    conviction_search_result.replace([result])
+
+  end
+
+  def has_unconfirmed_convictionMatches?
+
+    result = false
+
+    search_result = conviction_search_result.first
+    if search_result
+      if search_result.match_result != 'NO' && search_result.confirmed == 'no'
+        result = true
+      end
+    else
+      if key_people
+        key_people.each do |person|
+          search_result = person.conviction_search_result.first
+          if search_result
+            if search_result.match_result != 'NO' && search_result.confirmed == 'no'
+              result = true
+              break
+            end
+          end
+        end
+      end
     end
 
-    Rails.logger.debug "saving #{result_hash.to_json.to_s}"
-    result_hash.to_json
+    result
+
+  end
+
+  def is_awaiting_conviction_confirmation?(agency_user=nil)
+
+    result = false
+
+    unless tier.eql? 'LOWER'
+      if conviction_sign_offs
+        conviction_sign_offs.each do |sign_off|
+          if sign_off.confirmed == 'no'
+            result = user_can_edit_registration(agency_user)
+            break
+          end
+        end
+      end
+    end
+
+    result
+
   end
 
   # Retrieves all registration objects from the Java Service
@@ -318,7 +434,7 @@ class Registration < Ohm::Model
   # @return  [Array]  list of all registrations in MongoDB
   class << self
     def find_all
-      result = registrations = []
+      registrations = []
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
       begin
         response = RestClient.get url
@@ -343,7 +459,7 @@ class Registration < Ohm::Model
   # @param email [String] the accountEmail to search for
   # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
-    def find_by_email(email)
+    def find_by_email(email, with_statuses=nil)
       accountEmailParam = {ac: email}.to_query
       Rails.logger.debug 'update search param to be encoded: ' + accountEmailParam.to_s
       registrations = []
@@ -352,7 +468,7 @@ class Registration < Ohm::Model
         response = RestClient.get url
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug "find found #{all_regs.size.to_s} items"
+          Rails.logger.debug "find_by_email found #{all_regs.size.to_s} items"
           all_regs.each do |r|
             Rails.logger.debug "#{r['id']}"
             registrations << Registration.init(r)
@@ -364,6 +480,10 @@ class Registration < Ohm::Model
       rescue => e
         Rails.logger.error e.to_s
       end
+
+      #filter on desired statuses, if status array argument has been passed
+      registrations =  registrations.select{|r| with_statuses.include? r.get_status } if with_statuses
+
       registrations
     end
   end
@@ -382,6 +502,10 @@ class Registration < Ohm::Model
       f = FinanceDetails.create
       r.finance_details.add f
 
+      c = ConvictionSearchResult.create
+      c.update(:confirmed => 'no')
+      r.conviction_search_result.add c
+
       r.save
     end
   end
@@ -394,6 +518,7 @@ class Registration < Ohm::Model
   class << self
     def find_all_by(some_text, within_field)
       registrations = []
+      all_regs = {}
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?q=#{some_text}&searchWithin=#{within_field}"
       begin
         response = RestClient.get url
@@ -429,10 +554,39 @@ class Registration < Ohm::Model
         else
           Rails.logger.error "Registration.find_by_id failed with a #{response.code.to_s} response from server"
         end
+      rescue Errno::ECONNREFUSED => e
+        Rails.logger.error "Services unavailable: " + e.to_s
       rescue => e
         Rails.logger.error e.to_s
       end
       Rails.logger.debug "found reg: #{result.to_s}"
+      result.size > 0 ? Registration.init(result) : nil
+    end
+  end
+
+  # Retrieves a specific registration object from the Java Service based on its original registration number
+  #
+  # @param ir_number [String] the original registration number used in the legacy system
+  # @return [Registration] the registration in IR data matching the ir_number
+  class << self
+    def find_by_ir_number(ir_number)
+      irRenewalParam = {irNumber: ir_number}.to_query
+      result = {}
+      url = "#{Rails.configuration.waste_exemplar_services_url}/irrenewals.json?#{irRenewalParam}"
+      begin
+        Rails.logger.debug "about to GET ir registration: #{ir_number.to_s}"
+        response = RestClient.get url
+        if response.code == 200
+          result = JSON.parse(response.body) #result should be Hash
+        else
+          Rails.logger.error "Registration.find_by_ir_number failed with a #{response.code.to_s} response from server"
+        end
+      rescue Errno::ECONNREFUSED => e
+        Rails.logger.error "Services unavailable: " + e.to_s
+      rescue => e
+        Rails.logger.error e.to_s
+      end
+      Rails.logger.debug "found ir reg: #{result.to_s}"
       result.size > 0 ? Registration.init(result) : nil
     end
   end
@@ -505,11 +659,21 @@ class Registration < Ohm::Model
           end #if
         when 'metaData'
           new_reg.metaData.add HashToObject(v, 'Metadata')
+        when 'location'
+          new_reg.location.add HashToObject(v, 'Location')
         when 'financeDetails'
           #Rails.logger.debug '-----------------'
           #Rails.logger.debug 'Create finance details from v: ' + v.to_s
           #Rails.logger.debug '-----------------'
           new_reg.finance_details.add FinanceDetails.init(v)
+        when 'conviction_search_result'
+          new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
+        when 'conviction_sign_offs'
+          if v
+            v.each do |sign_off|
+              new_reg.conviction_sign_offs.add ConvictionSignOff.init(sign_off)
+            end
+          end
         else  #normal attribute'
           new_reg.send(:update, {k.to_sym => v})
         end
@@ -547,7 +711,7 @@ class Registration < Ohm::Model
     authority
     other
   ]
-  
+
   REGISTRATION_TYPES = %w[
     renew
     new
@@ -772,6 +936,7 @@ class Registration < Ohm::Model
       the_balance = self.try(:finance_details).try(:first).try(:balance)
 
       the_balance = 0 if the_balance.nil?
+      Rails.logger.debug "paid_in_full balance: #{the_balance.to_s}"
     rescue Exception => e
       Rails.logger.debug e.message
     end
@@ -786,7 +951,7 @@ class Registration < Ohm::Model
   def self.distance_options_for_select
     (DISTANCES.collect {|d| [I18n.t('distances.'+d), d]})
   end
-  
+
   def self.new_or_renew_options_for_select
     (REGISTRATION_TYPES.collect {|d| [I18n.t('registration_types.'+d), d]})
   end
@@ -826,9 +991,102 @@ class Registration < Ohm::Model
 
   def activate!
     #Note: the actual status update will be performed in the service
-    Rails.logger.debug "id to activate: #{uuid}"
-    metaData.first.update(status: 'ACTIVE')
+    Rails.logger.debug "REGISTRATION::ACTIVATE! Activate registration for: #{uuid}, status #{metaData.first.status}"
+    #
+    # Removed manually setting as active from here as should be set in the
+    # services, as such the only action required is to perform a save!
+    #
+    # metaData.first.update(status: 'ACTIVE')
+    #
     save!
+  end
+
+
+  #only upper tier registrations can expire
+  def expirable?
+    upper?
+  end
+
+  def expired?
+    if upper?
+      metaData.first.status == 'EXPIRED' || expires_on  < Time.now
+    else
+      false
+    end
+  end
+  
+  def revoked?
+    metaData.first.status == 'REVOKED'
+  end
+  
+  def deleted?
+    metaData.first.status == 'INACTIVE'
+  end
+  
+  def refused?
+    metaData.first.status == 'REFUSED'
+  end
+  
+  def is_revocable?(agency_user=nil)
+    is_complete? and user_can_edit_registration(agency_user)
+  end
+  
+  def is_unrevocable?(agency_user=nil)
+    metaData.first.status == "REVOKED" and user_can_edit_registration(agency_user)
+  end
+
+  def about_to_expire?
+    metaData.first.status == 'ACTIVE' && expires_on && (expires_on - Rails.configuration.registration_renewal_window) < Time.now && expires_on  > Time.now
+  end
+
+  def can_be_recreated?
+    expired? && (metaData.first.status != 'PENDING')
+  end
+
+  def can_be_edited?(agency_user=nil)
+    metaData.first.status != 'REVOKED' && \
+    metaData.first.status != 'EXPIRED' && \
+    metaData.first.status != 'PENDING' && \
+    metaData.first.status != 'INACTIVE' && \
+    metaData.first.status != 'REFUSED' && \
+    user_can_edit_registration(agency_user)
+  end
+
+  def can_view_certificate?
+    metaData.first.status != 'REVOKED' && \
+    metaData.first.status != 'EXPIRED' && \
+    metaData.first.status != 'PENDING' && \
+    metaData.first.status != 'INACTIVE'
+  end
+
+  def can_request_copy_cards?(agency_user=nil)
+    metaData.first.status == 'ACTIVE' && upper? and user_can_edit_registration(agency_user)
+  end
+  
+  def can_view_payment_status?
+    # all users can view payment status
+    true
+  end
+
+  def can_be_deleted?(agency_user)
+    !deleted? and user_can_edit_registration(agency_user)
+  end
+  
+  def can_be_approved?(agency_user=nil)
+    (metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user)) || metaData.first.status == 'REFUSED'
+  end
+  
+  def can_be_refused?(agency_user=nil)
+    metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user)
+  end
+  
+  def user_can_edit_registration(agency_user)
+    if agency_user and agency_user.is_agency_user?
+      isEitherFinance = agency_user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
+      !isEitherFinance
+    else
+      true
+    end
   end
 
   def validate_revokedReason
@@ -898,27 +1156,108 @@ class Registration < Ohm::Model
   def is_complete?
     is_complete = true
 
-    Rails.logger.debug "is_complete: In method"
     unless metaData.first.status == 'ACTIVE'
-      Rails.logger.debug "is_complete: status = #{metaData.first.status}"
+      Rails.logger.debug "REGISTRATION::IS_COMPLETE? status = #{metaData.first.status}"
       is_complete = false
       return
     end
 
-    if criminally_suspect
-      Rails.logger.debug "is_complete: suspect = #{criminally_suspect}"
+    if is_awaiting_conviction_confirmation?
+      Rails.logger.debug "REGISTRATION::IS_COMPLETE? suspect = false"
       is_complete = false
       return
     end
 
     unless paid_in_full?
-      Rails.logger.debug "is_complete: paid_in_full = #{paid_in_full?}"
+      Rails.logger.debug "REGISTRATION::IS_COMPLETE? paid_in_full = #{paid_in_full?}"
       is_complete = false
       return
     end
 
     is_complete
 
+  end
+  
+  UpperRegistrationStatus = %w[
+    INACTIVE
+    EXPIRED
+    REVOKED
+    REFUSED
+    CONVICTIONS
+    PENDINGPAYMENT
+    COMPLETE
+  ]
+  
+  LowerRegistrationStatus = %w[
+    INACTIVE
+    REVOKED
+    PENDING
+    COMPLETE
+  ]
+  
+  def get_label_for_status( status)
+    I18n.t('registration_status.' + status.to_s) 
+  end
+  
+  def registration_status
+    if upper?      
+      # For UPPER:
+      Rails.logger.debug "Upper registration " + uuid.to_s
+      
+      # Deleted
+      if deleted?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is deleted"
+        get_label_for_status( UpperRegistrationStatus[0])
+      # Expired
+      elsif expired?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " has expired"
+        get_label_for_status( UpperRegistrationStatus[1])
+      # Revoked
+      elsif revoked?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is revoked"
+        get_label_for_status( UpperRegistrationStatus[2])
+      # Refused
+      elsif refused?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " has been refused"
+        get_label_for_status( UpperRegistrationStatus[3])
+      # Conviction Check
+      elsif is_awaiting_conviction_confirmation?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is awaiting convictions"
+        get_label_for_status( UpperRegistrationStatus[4])
+      # Awaiting Payment
+      elsif !paid_in_full?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is not paid"
+        get_label_for_status( UpperRegistrationStatus[5])
+      # Registered
+      elsif is_complete?
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is complete"
+        get_label_for_status( UpperRegistrationStatus[6])
+      else
+        # If all else fails .. PENDING
+        Rails.logger.debug "Upper registration " + companyName.to_s + " is unable to determine status, use Pending"
+        get_label_for_status( LowerRegistrationStatus[2])
+      end
+    else
+      # For LOWER:
+      Rails.logger.debug "Lower registration " + uuid.to_s
+      
+      # Deleted
+      if deleted?
+        get_label_for_status( LowerRegistrationStatus[0])
+      # Revoked
+      elsif revoked?
+        get_label_for_status( LowerRegistrationStatus[1])
+      # Pending
+      elsif pending?
+        get_label_for_status( LowerRegistrationStatus[2])
+      # Registered
+      elsif is_complete?
+        get_label_for_status( LowerRegistrationStatus[3])
+      else
+        # If all else fails .. PENDING
+        get_label_for_status( LowerRegistrationStatus[2])
+      end
+    end
   end
 
   def self.activate_registrations(user)
@@ -933,7 +1272,15 @@ class Registration < Ohm::Model
   end
 
   def self.isReadyToBeActive(reg)
-    reg.paid_in_full? and !reg.criminally_suspect
+    reg.paid_in_full? and !reg.is_awaiting_conviction_confirmation?
+  end
+  
+  def self.isAwaitingPayment(reg)
+    !reg.paid_in_full? and !reg.is_awaiting_conviction_confirmation?
+  end
+  
+  def self.isAwaitingConvictions(reg)
+    reg.upper? and reg.is_awaiting_conviction_confirmation?
   end
 
   def self.activate_registration(r)
@@ -963,6 +1310,12 @@ class Registration < Ohm::Model
       else
         Rails.logger.debug "Registration not Digital or User not valid, thus registraion email not to be sent"
       end
+    elsif Registration.isAwaitingPayment(r) and r.metaData.first.route == 'DIGITAL'
+      # Send awaiting payment email
+      RegistrationMailer.awaitingPayment_email(user, r).deliver
+    elsif Registration.isAwaitingConvictions(r) and r.metaData.first.route == 'DIGITAL'
+      # Send awaiting conviction check email
+      RegistrationMailer.awaitingConvictionsCheck_email(user, r).deliver
     else
       Rails.logger.info "Skipping sending registered email #{r.regIdentifier}"
     end
@@ -995,4 +1348,24 @@ class Registration < Ohm::Model
     end
   end
 
+  # Changes the registration's status to INACTIVE
+  # i.e. a 'soft' delete
+  # 
+  # @return [Boolean] true if update successful
+  def set_inactive
+     metaData.first.update(status: 'INACTIVE')
+     save!
+  end
+
+  def is_active?
+    metaData.first.status == 'ACTIVE'
+  end
+
+  def is_inactive?
+    metaData.first.status == 'INACTIVE'
+  end
+
+  def get_status
+    metaData.first.status
+  end
 end

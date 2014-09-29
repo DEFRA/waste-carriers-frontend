@@ -121,6 +121,7 @@ end
 When(/^I confirm account creation via email$/) do
   sleep 3.0 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
+  #current_email.save_and_open      # Useful for debugging email content
   current_email.click_link 'Confirm your account'
 end
 
@@ -172,7 +173,7 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   click_on 'Confirm'
 
   fill_in 'Confirm email', with: my_email_address
-  fill_in 'Create Password', with: my_password
+  fill_in 'Create password', with: my_password
   fill_in 'Confirm password', with: my_password
   click_on 'Next'
 

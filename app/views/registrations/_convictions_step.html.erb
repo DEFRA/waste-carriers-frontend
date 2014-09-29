@@ -1,6 +1,7 @@
 <!-- WF 4.3.2 -->
 <div id="page4"  data-journey="waste-carriers-registration:convictions"></div>
 
+  <%= render "errors" %>
   <header class="page-header group">
       <div class="hgroup">
           <h1 class="heading-large"><%= t 'registrations.convictions_step.title' %></h1>
@@ -9,33 +10,62 @@
 
   <fieldset>
     <legend></legend>
-    <%= render "errors" %>
 
-    <div class="text">
-      <div class='form-hint'><%= t 'registrations.convictions_step.subtitle' %>
-      </div>
-    </div>
-
-    <div class="inline<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
-      <%= validation_for(@registration, :declaredConvictions) %>
-
-      <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
-          <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
-          <%= t 'form.yes_option_label' %>
-      <% end %>
-
-      <%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
-          <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
-          <%= t 'form.no_option_label' %>
-      <% end %>
+    <div class="form-group<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
+      <ul>
+        <li><%= validation_for(@registration, :declaredConvictions) %></li>
+        <li class="inline"><%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
+            <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
+            <%= t 'form.yes_option_label' %>
+        <% end %>
+        </li>
+        <li class="inline"><%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
+            <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
+            <%= t 'form.no_option_label' %>
+        <% end %>
+        </li>
+      </ul>
     </div>
   </fieldset>
 
+  <div class='form-group'>
+    <details>
+      <summary aria controls='details-content-0' tabindex='0'>
+        <span class='summary'>What are relevant convictions?</span>
+        </summary>
+        <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
+        <p><strong>Relevant convictions are offences that come under</strong></P>
+        <ul class="list-bullet">
+          <li>Scrap Metal Dealers Act 1964</li>
+          <li>section 1, 8, 9, 10, 11, 17, 18, 22 or 25 of the Theft Act 1968, where the offence relates to scrap metal or is an environment-related offence</li>
+          <li>section 170 or 170B of the Customs and Excise Management Act 1979, where the offence relates to scrap metal</li>
+          <li>section 9 of the Food and Environment Protection Act 1985</li>
+          <li>section 1, 5 or 7 of the Control of Pollution (Amendment) Act 1989</li>
+          <li>section 33, 34 or 34B of the Environmental Protection Act 1990</li>
+          <li>section 85, 202 or 206 of the Water Resources Act 1991</li>
+          <li>Transfrontier Shipment of Waste Regulations 1994</li>
+          <li>section 110 of the Environment Act 1995</li>
+          <li>Control of Major Accident Hazards Regulations 1999</li>
+          <li>Pollution Prevention and Control (England and Wales) Regulations 2000</li>
+          <li>part 1 of the Vehicles (Crimes) Act 2001</li>
+          <li>regulation 17(1) of the Landfill (England and Wales) Regulations 2002</li>
+          <li>section 327, 328 or 330 to 332 of the Proceeds of Crime Act 2002</li>
+          <li>Hazardous Waste (England and Wales) Regulations 2005</li>
+          <li>Hazardous Waste (Wales) Regulations 2005</li>
+          <li>section 1 of the Fraud Act 2006, where the offence relates to scrap metal or is an environment related offence</li>
+          <li>Waste Electrical and Electronic Equipment Regulations 2006</li>
+          <li>regulation 38 of the Environmental Permitting (England and Wales) Regulations 2007</li>
+          <li>Producer Responsibility Obligations (Packaging Waste) Regulations 2007</li>
+          <li>Transfrontier Shipment of Waste Regulations 2007</li>
+          <li>regulation 38 of the Environmental Permitting (England and Wales) Regulations 2010</li>
+          <li>regulation 42 of the Waste (England and Wales) Regulations 2011</li>
+          <li>section 146 of the Legal Aid, Sentencing and Punishment of Offenders Act 2012</li>
+          <li>Waste Electrical and Electronic Equipment Regulations 2013</li>
+          <li>Scrap Metal Dealers Act 2013</li>
+        </ul>
+      </div>
+    </details>
+  </div>
 
-  <p><%= link_to t('registrations.convictions_step.relevant_convictions_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %>
-  </p>
-
-  <p><%= link_to t('registrations.convictions_step.relevant_person_link_text'), 'https://www.gov.uk/register-waste-carrier/update-registration', target: '_blank' %>
-  </p>
 
 <%= render 'next_link' %>

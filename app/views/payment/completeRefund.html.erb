@@ -1,0 +1,45 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+
+<main id="content" role="main" class="group">
+
+<div class="back-section">
+  <ol>
+    <li>
+      <noscript>
+          <%= content_tag :p, t('registrations.back_link_unavailable') %>
+      </noscript>
+      <%= link_to t('registrations.form.back_to_status_button_label'), :paymentstatus, :class => 'link_to' %>
+    </li>
+  </ol>
+</div>
+
+<header class="page-header group">
+  <div class="hgroup">
+    <h1 class="heading-large"><%= t '.heading' %></h1>
+  </div>
+</header>
+
+  <% content_for :page_title, createTitle('.heading') %>
+
+    <!-- Usefult for showing default messages -->
+    <% if alert %><%= alert %><% end %>
+
+    <div id="refund-complete" data-journey="waste-carriers-registration:refund-complete"> </div>
+
+      <fieldset>
+        <legend></legend>
+
+        <div class="form-group">
+
+          <h2 class="heading-medium"><%= t '.completedRefund', :orderCode => @orderCode %></h2>
+
+          <p><%= t '.registrationUpdated' %></p>
+
+        </div>
+
+      </fieldset>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

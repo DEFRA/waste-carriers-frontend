@@ -1,15 +1,28 @@
-<main id="content" role="main" class="group">
-	<article role="article" class="group">
-	<section>
-      <div class="inner">
-      <div class="col-1">
-<h1>TODO - Worldpay Payment Error</h1>
-<p>There was an error with your payment.</p>
-<p>
-<%= params.inspect %>
-</p>
+<%= render 'shared/content_for_pages' %>
 
-</div>
-</div>
-</section>
-</article></main>
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+    <div class="back-section">
+        <ol>
+          <li></li>
+        </ol>
+    </div>
+
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large">TODO - Worldpay Payment Error</h1>
+      </div>
+    </header>
+
+	  <section>
+
+      <p>There was an error with your payment</p>
+      <p>
+      <%= params.inspect %>
+      </p>
+
+    </section>
+  </main><!-- end main -->
+</div><!-- end wrapper -->

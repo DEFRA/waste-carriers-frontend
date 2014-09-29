@@ -1,50 +1,67 @@
 <%= render 'shared/content_for_pages' %>
 
+<div id="wrapper">
+
 <main id="content" role="main" class="group">
-    <article role="article" class="group">
-    <section>
-      <div class="inner">
-      <div class="col-1">
-    
+
+<div class="back-section">
+  <ol>
+    <li>
+      <noscript>
+          <%= content_tag :p, t('registrations.back_link_unavailable') %>
+      </noscript>
+      <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
+    </li>
+  </ol>
+</div>
+
+<header class="page-header group">
+  <div class="hgroup">
+      <h1 class="heading-large"><%= t '.heading' %></h1>
+      <div class="form-hint"><%= t '.step' %></div>
+  </div>
+</header>
+
+<div class="grid-wrapper">
+
+	<div class="grid-2-3">
+		<div class="inner-block">
+
       <% content_for :page_title, createTitle('.heading') %>
-      
+
       <!-- Usefult for showing default messages -->
       <% if alert %><%= alert %><% end %>
-      
       <%= form_for @payment, url: {action: "create"}, :method => 'post' do |f| %>
 
-      	<div class="step"><%= t '.step' %></div>
-      	
       	<%= render "errors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
 		<!-- WF X.X.X -->
 		<div id="payment" data-journey="waste-carriers-registration:payment">
 
-		    <fieldset>
-		  	    <legend><%= t '.heading' %></legend>
-		  	    
-		  	    <div class="form-group">
-                    <div class="form-label"><%= @registration.regIdentifier %></div>
-			        <div class="form-label"><%= @registration.companyName %></div>
-			        <div class="form-label"><%= format_address(@registration) %></div>
+		  <fieldset id="manual-payment">
+		  	<legend></legend>
+
+	  	    <div class="form-group">
+           <div class="form-label"><strong><%= @registration.regIdentifier %></strong></div>
+		        <div class="form-label"><strong><%= @registration.companyName %></strong></div>
+		        <div class="form-label"><%= format_address(@registration) %></div>
+	        </div>
+
+	        <% if @registration.respond_to? :finance_details %>
+		        <div class="form-group">
+		        	<div class="form-label" id="amountSummary"><strong><%= amount_summary_for(@registration, true) %></strong></div>
 		        </div>
-		        
-		        <% if @registration.respond_to? :finance_details %>
-			        <div class="form-group">
-			        	<div class="form-label" id="amountSummary"><%= amount_summary_for(@registration, true) %></div>
-			        </div>
-		        <% end %>
-		  	    
-		        <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
-					<%= validation_for(@payment, :amount) %>
-					<%= f.label :amount, class: 'form-label' %>
-					<%= f.text_field :amount, :size => 7 %>
-				</div>
-				
+	        <% end %>
+
+		      <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
+  					<%= validation_for(@payment, :amount) %>
+  					<%= f.label :amount, class: 'form-label' %>
+  					<%= f.text_field :amount, :size => 7 %>
+				 </div>
+
 				<div class="form-group<%if @payment.errors[:dateReceived].any?%> validation<%end%>">
 					<%= validation_for(@payment, :dateReceived) %>
 					<%= f.label :dateReceived, class: 'form-label' %>
-			        <p class='subtitle'>For example, 17 8 2001</p>
 			        <div class='inline-date'>
 			          <%= f.label :dateReceived_day, class: 'form-label' %>
 			          <%= f.text_field :dateReceived_day, :size => 2, :maxlength => 2 %>
@@ -57,14 +74,15 @@
 			          <%= f.label :dateReceived_year, class: 'form-label' %>
 			          <%= f.text_field :dateReceived_year, :size => 4, :maxlength => 4 %>
 			        </div>
-			    </div>			    
-				
+			         <p class='form-hint'>For example, 17 8 2001</p>
+			    </div>
+
 				<div class="form-group<%if @payment.errors[:registrationReference].any?%> validation<%end%>">
 					<%= validation_for(@payment, :registrationReference) %>
 					<%= f.label :registrationReference, class: 'form-label' %>
 					<%= f.text_field :registrationReference %>
 				</div>
-				
+
 				<!-- Show a different list of payment types if role is financeBasic -->
 		        <% if current_agency_user.has_role? :Role_financeBasic, AgencyUser %>
 				  <div class="form-group<%if @payment.errors[:paymentType].any?%> validation<%end%>">
@@ -87,38 +105,39 @@
 					<%= f.select :paymentType, options_for_select(Payment.payment_type_options_for_select,f.object.paymentType) %>
 				  </div>
 				<% end %>
-				
+
 				<div class="form-group<%if @payment.errors[:comment].any?%> validation<%end%>">
 					<%= validation_for(@payment, :comment) %>
 					<%= f.label :comment, class: 'form-label' %>
 					<p class='subtitle'><%= t '.fields.commentGuidance' %></p>
 					<%= f.text_area :comment, :size => "40x10" %>
 		        </div>
-				
+
 		    </fieldset>
 		</div>
-		
-		<div class="inline">
-		    <noscript>
-		        <%= content_tag :p, t('registrations.back_link_unavailable') %>
-		    </noscript>
-		    <%= link_to t('registrations.form.back_button_label'), :paymentstatus, :class => 'link_to' %>
-		    <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enterpayment_button_label' %>"/></span>
-		</div>
-		
-	  <% end %>
-	
-	  </div>
-      </div>
-    </section>
 
-    <aside role='note'>
-      <div class="inner">
-        <div class="col-2">
-         <%= render "shared/current_user" %>
+	<div class="inline">
+	  <span class="next_link"><input name="next" class="button button-get-started" type="submit" value="<%= t 'registrations.form.enterpayment_button_label' %>"/></span>
+	</div>
+  	<% end %>
+
+  </div><!-- end inner-block -->
+  </div><!-- end grid 2-3-->
+
+  <div class="grid-1-3">
+    <div class="inner-block related">
+      <div class="inner group related-subsection">
+        <h2 class="heading-small">Current user</h2>
+          <nav aria-labelledby="parent-subsection" role="navigation">
+            <ul>
+              <li><%= render "shared/current_user" %></li>
+            </ul>
+          </nav>
         </div>
       </div>
-    </aside>
-    
-    </article>
-</main>
+    </div><!-- end grid 1-3-->
+
+    </div><!-- end grid-wrapper -->
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

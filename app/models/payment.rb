@@ -247,8 +247,10 @@ class Payment < Ohm::Model
     !isManualPayment?
   end
   
+  REFUND_EXTENSION = '_REFUNDED'
+  
   def makeRefund
-    self.orderKey = self.orderKey + '_REFUNDREQUEST'
+    self.orderKey = self.orderKey + REFUND_EXTENSION
   end
   
   # Ensures if a reversal payment type is selected, then the amount entered is negated

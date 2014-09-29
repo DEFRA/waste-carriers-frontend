@@ -1,11 +1,12 @@
 <div class="inner-payment-box">
 	<%= validation_for(@registration, :copy_cards) %>
     <div class='payment-group'>
-        <%= f.label :copy_cards, class: 'form-label' %>
-        <p class='form-hint'><%= t '.copy_card_info' %></p>
-        <%= f.label :Enter_the_amount_of_copy_cards, class: 'form-label' %>
+        <%= f.label :copy_cards, for: 'registration_copy_card_fee', class: 'form-label' %>
+        <div class="currency-container">
+        <p class="currency-sign">£</p>
         <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>
+      </div>
         <%= f.number_field :copy_cards, :min => 0 %>
+          <%= f.label :Copy_cards_cost_£5_each, for: 'registration_copy_cards', class: 'form-hint' %>
     </div>
-    <p class='form-note'><%= t '.copy_card_note' %></p>
 </div>

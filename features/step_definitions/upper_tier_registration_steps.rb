@@ -75,10 +75,34 @@ And(/^I choose pay via electronic transfer$/) do
   click_on 'Next'
 end
 
-Then(/^I am registered as an upper tier waste carrier$/) do
-  page.should have_content 'has been registered as an upper tier waste carrier'
+Then(/^I am successfully registered as an upper tier waste carrier$/) do
+  page.should have_content 'Signed in as'
+  page.should have_content 'CBDU'
+  page.should have_content 'ACTIVE'
   open_email my_email_address
   current_email.should have_content 'is registered as an upper tier waste carrier'
+end
+
+Then(/^I am registered as an upper tier waste carrier pending conviction checks$/) do
+  page.should have_content 'Signed in as'
+  page.should have_content 'CBDU'
+  page.should have_content 'PENDING'
+  open_email my_email_address
+  current_email.should have_content 'Awaiting convictions' # Update this test once we have defined content for the convictions email
+end
+
+Then(/^I am registered as an upper tier waste carrier pending payment$/) do
+  page.should have_content 'Signed in as'
+  page.should have_content 'CBDU'
+  page.should have_content 'PENDING'
+  open_email my_email_address
+  current_email.should have_content 'Awaiting payment'  # Update this test once we have defined content for the awaiting payment email
+end
+
+Then(/^I have applied as an upper tier waste carrier$/) do
+  page.should have_content 'Signed in as'
+  page.should have_content 'CBDU'
+  page.should have_content 'PENDING'
 end
 
 Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do

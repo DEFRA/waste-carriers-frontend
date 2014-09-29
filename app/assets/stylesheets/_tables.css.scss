@@ -44,3 +44,9 @@ table th, table td {
 #table-column-data-address {
   @include core-16;
 }
+
+.table-inner-block {
+  margin-top:0px;
+  margin-left:0px;
+  margin-right:30px;
+}

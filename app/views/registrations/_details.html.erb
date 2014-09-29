@@ -1,6 +1,6 @@
-<h2><%=t 'registrations.details.heading'%></h2>
+<h2 class="heading-small"><%=t 'registrations.details.heading'%></h2>
 <div class="clr"></div>
-<dl class="data">
+<dl class="data text">
   <dt><%=t 'registrations.details.contactName'%></dt>
   <dd>
   <%= @registration.firstName%> <%= @registration.lastName%>
@@ -8,7 +8,7 @@
   <dt><%=t 'registrations.details.phoneNumber'%></dt>
   <dd><%= @registration.phoneNumber%></dd>
 </dl>
-<dl class="data">
+<dl class="data text">
   <dt><%=t 'registrations.details.address'%></dt>
   <dd><%= render "address_display", r: @registration, :newline=>true%></dd>
 </dl>
@@ -23,5 +23,4 @@
 -->
 
 <div class="clr"></div>
-
 <div class="clr"></div>

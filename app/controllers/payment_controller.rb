@@ -268,13 +268,77 @@ class PaymentController < ApplicationController
     authorize! :newRefund, Payment
   end
 
-  # GET /manualRefund
+  # GET /manualRefund/:orderCode
   def manualRefund
+  
+    logger.info 'Request to manualRefund'
+    @registration = Registration.find_by_id(params[:id])
+    @orderCode = params[:orderCode]
+
+	# Get payment from registration
+    @payment = Payment.getPayment(@registration, params[:orderCode])
 
     #
     # TODO: Use order code value to create a negative payment of the amount requested in the order
     #
     authorize! :newRefund, Payment
+  end
+  
+  # POST /manualRefund/:orderCode
+  def createManualRefund
+    logger.info 'Request to createManualRefund'
+
+	# Get selected payment from registration by order code
+	@registration = Registration.find_by_id(params[:id])
+	@foundPayment = Payment.getPayment(@registration, params[:orderCode])
+	@payment = Payment.new(@foundPayment.attributes)
+	logger.info 'found payment:' + @foundPayment.attributes.to_s
+
+	# Set the amount of the payment to be a negative payment, ie a refund from the balance due
+	@payment.amount = -@registration.finance_details.first.balance.to_i.abs
+	logger.info 'payment amount:' + @payment.amount.to_s
+	
+	# Ensure currency set
+    @payment.currency = getDefaultCurrency
+
+    now = Time.now.utc.xmlschema
+	# Set automatic Payment values
+	@payment.paymentType = 'REFUND'
+	@payment.dateReceived = now
+    @payment.updatedByUser = current_agency_user.id.to_s
+    @payment.comment = 'A manual refund has been requested for this payment'
+    
+    # This makes the payment a refund by updating the orderCode to include a refund postfix
+    @payment.makeRefund
+
+	if @payment.valid?
+	  logger.info 'payment is valid'
+	  
+	  # Save refund payment
+	  @payment.save! params[:id]
+	    
+	  # Force a redirect to completeRefund, so that a get request on this URL wil not be caused by a refresh
+      redirect_to ({ action: 'completeRefund', id: params[:id], orderCode: params[:orderCode] })
+	else
+	  logger.info 'payment is not valid'
+	  if @payment.errors.any?
+	    logger.info 'has errors'
+	    @payment.errors.each do |error|
+	      logger.info 'error: ' + error.to_s
+	    end
+	  else
+	    logger.info 'no errors???'
+	  end
+
+	  render "manualRefund", :status => '400'
+	end
+
+	authorize! :read, @registration
+	#
+    # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
+    #
+    authorize! :newRefund, Payment
+
   end
 
   # GET /worldpayRefund/:orderCode
@@ -333,7 +397,7 @@ class PaymentController < ApplicationController
 	  logger.info 'Merchant Id found from original order: ' + order.merchantId
 	  
 	  # Make request to worldpay
-	  response = request_refund_from_worldpay(params[:orderCode], order.merchantId, @payment.amount )
+	  response = request_refund_from_worldpay(params[:orderCode], order.merchantId, @payment.amount.to_i.abs )
 	  
 	  # Check if response from worldpay contains ok message
 	  if responseOk?(response)
@@ -342,7 +406,7 @@ class PaymentController < ApplicationController
 	    @payment.save! params[:id]
 	    
 	    # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
-        redirect_to ({ action: 'completeWPRefund', id: params[:id], orderCode: params[:orderCode] })
+        redirect_to ({ action: 'completeRefund', id: params[:id], orderCode: params[:orderCode] })
 	  else
 	    logger.info 'Failed request from WP'
 	    
@@ -396,7 +460,7 @@ class PaymentController < ApplicationController
 	authorize! :newRefund, Payment
 	
 	# Make request to worldpay
-	response = request_refund_from_worldpay(originalOrderCode, order.merchantId, foundPayment.amount )
+	response = request_refund_from_worldpay(originalOrderCode, order.merchantId, foundPayment.amount.to_i.abs )
 	
 	# Check if response from worldpay contains ok message
 	if responseOk?(response)
@@ -408,8 +472,8 @@ class PaymentController < ApplicationController
 	end
   end
 
-  # GET /worldpayRefund/:orderCode/refundComplete
-  def completeWPRefund
+  # GET /refund/:orderCode/refundComplete
+  def completeRefund
     logger.info 'Request to worldpayRefund'
     @registration = Registration.find_by_id(params[:id])
     @orderCode = params[:orderCode]

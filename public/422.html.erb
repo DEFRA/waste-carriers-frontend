@@ -1,5 +1,11 @@
-<% content_for :page_title, createTitle('global.rejected.heading') %>
-  <div class="dialog">
-    <h2><%=t 'global.rejected.heading'%></h2>
-    <p><%=t 'global.rejected.message'%></p>
+<header class="page-header group">
+  <div class="hgroup">
+    <h1 class="heading-large"><%=t 'global.rejected.heading'%></h1>
   </div>
+</header>
+
+<% content_for :page_title, createTitle('global.rejected.heading') %>
+
+<div class="dialog">
+  <p><%=t 'global.rejected.message'%></p>
+</div>

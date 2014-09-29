@@ -1,5 +1,20 @@
-<main id="content" role="main" class="group"><article role="article" class="group">
-<h2><%=t 'devise.passwords.heading'%></h2>
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+    <div class="back-section">
+        <ol>
+          <li><%= render 'back_link' %></li>
+        </ol>
+    </div>
+
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large"><%=t 'devise.passwords.heading'%></h1>
+      </div>
+    </header>
 
 <div id="wrapper" data-journey="waste-carriers-registration:edit-password"></div>
 
@@ -17,4 +32,7 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
-</article></main>
+
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
