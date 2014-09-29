@@ -99,6 +99,25 @@ class OrderController < ApplicationController
             return
           end
         else
+          #
+          # Save the updated registration prior to making the new order, that way the returned order contains the up to date registration
+          # including any changes that have happended to the registration.
+          #
+          # The downside to this is an edge-case whereby the registration saves, and the commit fails so we need to ensure
+          # that registrations marked as renewalRequested are treated appropriately
+          # 
+          if @registration.save!
+            logger.info "Registration saved!"
+            @registration.save
+          else
+            logger.info "Failed to save registration prior to order"
+            @order.errors.add(:exception, @registration.exception.to_s)
+
+            # error updating services
+            render 'new', :status => '400'
+            return
+          end
+        
           # Must be an edit, update or copy card order
           logger.info "Committing the order"
           if @order.commit @registration.uuid
@@ -108,6 +127,7 @@ class OrderController < ApplicationController
             # Re-get registration from the database to update the local redis version
             @registration = Registration.find_by_id(@registration.uuid)
             logger.info "Updated redis version after order commit"
+            @registration.save
 
           else
             @order.errors.add(:exception, @order.exception.to_s)
