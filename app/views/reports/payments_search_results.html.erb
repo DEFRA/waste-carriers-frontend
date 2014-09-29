@@ -45,6 +45,8 @@
                     <% values << registration.companyName %>
                     <% values << registration.metaData.first.dateRegistered %>
                     <% values << registration.metaData.first.status %>
+                    <% if registration.respond_to?('finance_details') and registration.finance_details.first \
+								   && registration.finance_details.size > 0 && registration.finance_details.first.orders %>
                     <% registration.finance_details.first.orders.each do |order| %>
                       <% order.order_items.each do |order_item| %>
                         <% related_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| payment.orderKey == order.orderCode } %>
@@ -78,6 +80,7 @@
                         <% end %>
                       <% end %>
                     <% end %>
+                    <% end # if finance details etc found %>
                     <% order_codes = registration.finance_details.first.orders.collect { |order| order.orderCode } %>
                     <% unrelated_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| !order_codes.include? payment.orderKey} %>
                     <% unrelated_payments.each do |payment| %>
