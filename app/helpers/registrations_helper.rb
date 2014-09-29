@@ -69,6 +69,7 @@ module RegistrationsHelper
   def setup_registration current_step, no_update=false
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
+      logger.debug "Got Registration from session"
     else
       Rails.logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
       @registration = Registration[ params[:id]]

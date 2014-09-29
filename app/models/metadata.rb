@@ -10,7 +10,7 @@ class Metadata < Ohm::Model
   attribute :distance
 
 
-   # Creates a new Metadata object from a metadata-formatted hash
+  # Creates a new Metadata object from a metadata-formatted hash
   #
   # @param md_hash [Hash] the metadata-formatted hash
   # @return [Metadata] the Ohm-derived Metadata object.
