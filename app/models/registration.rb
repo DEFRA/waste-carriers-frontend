@@ -85,7 +85,8 @@ class Registration < Ohm::Model
   attribute :accessCode
 
   attribute :tier
-  attribute :location
+  
+  attribute :renewalRequested
 
   # The value that the waste carrier sets to say whether they admit to having
   # relevant people with relevant convictions
@@ -96,6 +97,7 @@ class Registration < Ohm::Model
   attribute :exception
 
   set :metaData, :Metadata #will always be size=1
+  set :location, :Location #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
   set :conviction_search_result, :ConvictionSearchResult #will always be size=1
@@ -196,6 +198,8 @@ class Registration < Ohm::Model
       self.update(regIdentifier: result['regIdentifier'])
 
       self.metaData.replace( [Metadata.init(result['metaData'])])
+      
+      self.location.replace( [Location.init(result['location'])])
 
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
@@ -268,6 +272,8 @@ class Registration < Ohm::Model
 
       # Update metadata and financedetails with that from the service
       self.metaData.replace( [Metadata.init(result['metaData'])])
+      
+      self.location.replace( [Location.init(result['location'])])
 
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
@@ -340,6 +346,8 @@ class Registration < Ohm::Model
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
+    
+    result_hash['location'] = location.first.attributes.to_hash if location.size == 1
 
     key_people = []
     if key_people && key_people.size > 0
@@ -651,6 +659,8 @@ class Registration < Ohm::Model
           end #if
         when 'metaData'
           new_reg.metaData.add HashToObject(v, 'Metadata')
+        when 'location'
+          new_reg.location.add HashToObject(v, 'Location')
         when 'financeDetails'
           #Rails.logger.debug '-----------------'
           #Rails.logger.debug 'Create finance details from v: ' + v.to_s
