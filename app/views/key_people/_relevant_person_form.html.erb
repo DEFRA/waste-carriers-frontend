@@ -6,6 +6,21 @@
 
 <fieldset>
   <legend></legend>
+
+  <div class='form-group'>
+    <details>
+      <summary aria controls='details-content-0' tabindex='0'>
+        <span class='summary'>Who are relevant people?</span>
+        </summary>
+        <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
+        <ul class="list-bullet">
+          <li>a person who is a director, manager, company secretary or other similar officer of a company organisation</li>
+          <li>a business partner</li>
+        </ul>
+      </div>
+    </details>
+  </div>
+  <br />
   <div class="form-group<%if d.errors[:first_name].any?%> validation<%end%>">
     <ul>
       <li><%= validation_for(d, :first_name) %></li>

@@ -34,7 +34,7 @@
       <% end %>
 
       <% unless @registration.paid_in_full? %>
-        <p><%= t '.payment_message' %></p>
+        <p><%= t '.payment_message_html' %></p>
       <% end %>
 
       <% if @registration.is_awaiting_conviction_confirmation? %>

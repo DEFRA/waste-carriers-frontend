@@ -4,6 +4,12 @@
 
 <main id="content" role="main" class="group">
 
+<div class="back-section">
+    <ol>
+      <li></li>
+    </ol>
+</div>
+
 <%# Removed Back section as we do not intentionally want users to ever go back from this point. %>
 
   <header class="page-header group">
@@ -19,10 +25,11 @@
 
         <%= render "order/notice_or_alert" %>
         <%= render "shared/registration_errors" %>
-
-  		  <p><%= t '.copyCardDelayNotice' %></p>
-
-          <p><%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), :class => 'button' %></p>
+        <ul>
+    		  <li><p class="panel-indent"><%= t '.copyCardDelayNotice' %></p></li>
+          <li><p><%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), :class => 'button' %></p>
+          </li>
+        </ul>
 
       <%# end %>
 
