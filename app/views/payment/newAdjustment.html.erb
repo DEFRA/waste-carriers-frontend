@@ -53,10 +53,10 @@
 					<%= f.text_field :totalAmount, :size => 7 %>
 				</div>
 
-				<div class="form-group<%if @order.errors[:paymentMethod].any?%> validation<%end%>">
-					<%= validation_for(@order, :paymentMethod) %>
-					<%= f.label :paymentMethod, class: 'form-label' %>
-					<%= f.text_field :paymentMethod, value: 'UNKNOWN', disabled: true %>
+                <div class="form-group<%if @order.errors[:order_item_reference].any?%> validation<%end%>">
+					<%= validation_for(@order, :order_item_reference) %>
+					<%= f.label :order_item_reference, class: 'form-label' %>
+					<%= f.text_field :order_item_reference %>
 				</div>
 
 				<div class="form-group<%if @order.errors[:description].any?%> validation<%end%>">

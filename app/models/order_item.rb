@@ -17,13 +17,14 @@ class OrderItem < Ohm::Model
 	RENEW
 	IRRENEW
 	COPY_CARDS
+	CHARGE_ADJUST
   ]
 
   class << self
     def init (order_items_hash)
       orderItem = OrderItem.create
-      order_items_hash.each do |k, v|
-        orderItem.send(:update, {k.to_sym => v})
+      order_items_hash.each do |k1, v1|
+        orderItem.send(:update, {k1.to_sym => v1})
       end
       orderItem.save
       orderItem

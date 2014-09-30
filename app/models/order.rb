@@ -23,6 +23,9 @@ class Order < Ohm::Model
   attribute :exception
   # the type of amount entered, pence or pounds, if manual then pounds used, if not pence are used
   attribute :manualOrder
+  
+  # This is used to story the order item reference used in charge adjustments, this value is put inside the OrderItem.reference prior to saving
+  attribute :order_item_reference
 
   set :order_items, :OrderItem
 

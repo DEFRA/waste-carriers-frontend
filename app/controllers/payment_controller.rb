@@ -542,11 +542,16 @@ class PaymentController < ApplicationController
     # Generate default adjustment details
     @order.orderCode = generateOrderCode
     @order.merchantId = 'n/a'
+    @order.paymentMethod = 'UNKNOWN'
     @order.currency = getDefaultCurrency
     @order.updatedByUser = current_agency_user.id.to_s
     now = Time.now.utc.xmlschema
     @order.dateCreated = now
     @order.dateLastUpdated = now
+    
+    # Create Order Item
+    orderItem = OrderItem.new
+    orderItem.amount = (Float(@order.totalAmount)*100).to_i
     
     if params[:positiveAdjustment] == I18n.t('registrations.form.enteradjustment_button_label')
       # positive
@@ -556,11 +561,20 @@ class PaymentController < ApplicationController
       # negative
       @order.amountType = Order.getNegativeType
       @orderType = Order.getNegativeType
+      orderItem.amount = -orderItem.amount
     else
       # neither
       @order.amountType = 'default'
       @order.errors.add(:amountType, I18n.t('errors.messages.invalid_selection'))
     end
+    
+    orderItem.currency = 'GBP'
+    orderItem.description = @order.description
+    # Use a temporary field in the form view 'order_item_reference' to contain the information needed for this order item
+    orderItem.reference = params[:order][:order_item_reference]
+    orderItem.type = OrderItem::ORDERITEM_TYPES[5]
+    orderItem.save
+    @order.order_items.add orderItem
     
     # Set to manual order (amount entered in pounds to pence)
     @order.manualOrder = true
