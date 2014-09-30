@@ -30,7 +30,7 @@
         <div class="text registration-tier">
           <% unless session[:edit_mode]  %>
             <h2 class="heading-small"><%= t '.tier_aside_heading' %></h2>
-            <div class='panel-indent form-group'>
+            <div class='form-group'>
               <% if  @registration.tier == 'UPPER' %>
                 <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
               <% else %>
