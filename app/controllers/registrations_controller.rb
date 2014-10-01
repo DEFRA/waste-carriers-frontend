@@ -1554,7 +1554,11 @@ class RegistrationsController < ApplicationController
     if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
       @exitRoute = confirmed_path
     else
-      @exitRoute = registrations_finish_path
+      if current_agency_user
+        @exitRoute = finishAssisted_path
+      else
+        @exitRoute = registrations_finish_path
+      end
     end
 
   end
