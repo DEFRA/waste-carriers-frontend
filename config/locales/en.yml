@@ -459,7 +459,7 @@ en:
       edit_construction_link: "Edit your construction/demolition waste answer"
     confirmed:
       title: "Confirmed"
-      your_reg_number: "Your registration number is: %{reg}"
+      your_reg_number_html: "Your registration number is: <span id='registrationNumber'>%{reg}</span>"
       registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
       not_yet_registered_as: "%{companyName} is not yet registered as %{tier_with_article} tier waste carrier with the Environment Agency."
       applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier with the Environment Agency."
