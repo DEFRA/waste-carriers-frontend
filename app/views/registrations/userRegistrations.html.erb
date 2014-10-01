@@ -105,7 +105,7 @@
 
 	            <td>
 		            <% if registration.about_to_expire? %>
-	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %>
+	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL), :id => 'renew_'+registration.regIdentifier %>
 	            	<% elsif registration.can_be_recreated? %>
 		            	<%= link_to 'Re-create Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
 	            	<% end %>
