@@ -121,7 +121,8 @@
                 <%= t('.show_registration_type', reg_type: reg_type_prettify) %>
             </li>
           </ul>
-          <a><%= link_to t('.edit_change_reg_type_link'), action: 'newRegistrationType' %></a>
+          <a><%= link_to t('.edit_change_reg_type_link'), newRegistrationType_path, id: 'changeRegistrationType' %></a>
+          
         </div><!-- end registration type form-group -->
         <% end %>
 
