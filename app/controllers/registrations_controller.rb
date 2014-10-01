@@ -513,6 +513,18 @@ class RegistrationsController < ApplicationController
         redirect_to upper_payment_path(@registration.uuid) and return
       when EditMode::EDIT
         case session[:edit_result].to_i
+        # Check if no Immediate edit actions have occured, and redirect back to appropraite start point
+        # This assumes that because the edit_result orignally is set to the start, and then when newConfirmation is 
+        # rendered it is incremented by one, that this is the only situation where that can occur.
+        when  EditResult::START + 1
+          clear_edit_session # we don't need edit variables polluting the session any more
+          if current_user
+            redirect_to userRegistrations_path(current_user)
+          elsif current_agency_user
+            redirect_to :action => 'index'
+          else
+            renderAccessDenied
+          end
         when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
           if @registration.save!
             logger.debug "Registration #{@registration.uuid} now saved!"
