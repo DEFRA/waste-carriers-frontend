@@ -96,7 +96,7 @@
 
               <td>
               <% if registration.can_be_edited? %>
-                <%= link_to 'Edit Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT) %>
+                <%= link_to 'Edit Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT), :id => 'edit_'+registration.regIdentifier %>
               <% end %>
               </td>
 
