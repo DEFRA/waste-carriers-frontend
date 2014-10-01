@@ -28,3 +28,21 @@ Scenario: Upper tier Edit with no change
       And I check the declaration
     Then I check that no changes have occurred
 
+Scenario: Upper tier Edit with change, Online payment
+    Given The edit link is available
+    Then I click the edit link for: EditTest
+      And I change the way we carry waste
+      And I check the declaration
+    Then I am asked to pay for the changes
+      And I pay by card
+    Then my edit should be complete
+
+Scenario: Upper tier Edit with change, Offline payment
+    Given The edit link is available
+    Then I click the edit link for: EditTest
+      And I change the way we carry waste
+      And I check the declaration
+    Then I am asked to pay for the changes
+      And I choose pay via electronic transfer
+    Then my edit should be awaiting payment
+
