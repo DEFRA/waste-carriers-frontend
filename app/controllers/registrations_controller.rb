@@ -1588,10 +1588,23 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewOfflinePayment
-    @registration = Registration[session[:registration_id]]
+    @registration = Registration.find_by_id(session[:registration_uuid])
 
     # Get renderType from recent order
     renderType = session[:renderType]
+    
+    # Validate that actions only occur here if a render type is 
+    if !renderType
+      # If the renderType has been cleared you have already gone through this controller
+      # thus any subsequent action renders the access denied page
+      renderAccessDenied and return
+    end
+    
+    # Check if a new registration is required, and create prior to deleting session variables
+    if EditResult::CREATE_NEW_REGISTRATION.eql? session[:edit_result].to_i and !create_new_reg
+      # redirect to previous page due to error
+      redirect_to newOfflinePayment_path and return
+    end
 
     #
     # This should be an acceptable time to delete the render type and
@@ -1613,6 +1626,12 @@ class RegistrationsController < ApplicationController
     next_step = if renderType.eql?(Order.extra_copycards_identifier)
       # redirect to copy card complete page
       complete_copy_cards_path(@registration.uuid)
+    elsif renderType.eql?(Order.edit_registration_identifier)
+      # redirect to edit complete
+      complete_edit_renew_path(@registration.uuid)
+    elsif renderType.eql?(Order.renew_registration_identifier)
+      # redirect to renew complete
+      complete_edit_renew_path(@registration.uuid)
     elsif user_signed_in?
       finish_path
     elsif agency_user_signed_in?
@@ -1621,20 +1640,7 @@ class RegistrationsController < ApplicationController
       confirmed_path
     end
 
-    if session[:edit_mode]
-
-      case session[:edit_result].to_i
-      when  EditResult::CREATE_NEW_REGISTRATION
-        logger.error "Failed to create new registration" unless create_new_reg
-      when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-        logger.error "Registration #{@registration.id} NOT saved!!!" unless Registration[@registration.id].save!
-      end
-
-      # redirect_to complete_edit_renew_path(edit_mode: edit_mode, edit_result: edit_result) and return
-      redirect_to complete_edit_renew_path(@registration.uuid)
-    else #not an edit
-      redirect_to next_step
-    end
+    redirect_to next_step
 
   end
 
