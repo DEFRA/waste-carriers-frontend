@@ -284,14 +284,12 @@ class WorldpayController < ApplicationController
         if session[:edit_mode]
           logger.debug "edited registration id: #{@registration.id}"
 
-          case session[:edit_result].to_i
-          when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
-            logger.error "Failed to create new registration" unless create_new_reg
-          when  RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-            # before we Re-get registration from db, we need to save existing changes to it
-            logger.error "Registration #{@registration.id} NOT saved!!!" unless Registration[@registration.id].save!
-          when  RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-            logger.error "Flow error: we shouldn't be here"
+          # Check if a new registration is required, and create prior to deleting session variables
+          if RegistrationsController::EditResult::CREATE_NEW_REGISTRATION.eql? session[:edit_result].to_i and !create_new_reg
+            # redirect to previous page due to error
+            logger.error "Failed to create new registration"
+            # TODO: redirect to ??? because of failure?
+            
           end
 
           #
