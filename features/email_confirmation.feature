@@ -25,7 +25,7 @@ Feature: Email confirmation
     Given I have completed the upper tier and chosen to pay by bank transfer
       And I am shown my pending registration
       And I have received an awaiting payment email
-    When I re-request activation for an unpaid registration
+    When I re-request activation for my account
       And I am shown the sign in page
       And I attempt to sign in
     Then I have applied as an upper tier waste carrier
