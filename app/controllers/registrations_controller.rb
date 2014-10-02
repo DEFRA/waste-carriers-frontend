@@ -1624,7 +1624,7 @@ class RegistrationsController < ApplicationController
     # Should also Clear other registration variables
     #clear_registration_session
 
-    if !agency_user_signed_in? and !renderType.eql?(Order.extra_copycards_identifier)
+    if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
       logger.info 'Send registered email (if not agency user)'
       @user = User.find_by_email(@registration.accountEmail)
       Registration.send_registered_email(@user, @registration)

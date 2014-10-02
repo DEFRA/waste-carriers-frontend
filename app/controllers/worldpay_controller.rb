@@ -15,6 +15,17 @@ class WorldpayController < ApplicationController
 
       # Get render type from session
       renderType = session[:renderType]
+      
+      if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
+        if user_signed_in?
+          logger.info 'Send registered email (as current_user)'
+          Registration.send_registered_email(current_user, @registration)
+        else
+          logger.info 'Send registered email (as not signed in)'
+          @user = User.find_by_email(@registration.accountEmail)
+          Registration.send_registered_email(@user, @registration)
+        end
+      end
 
       case renderType
       when Order.new_registration_identifier
@@ -22,16 +33,28 @@ class WorldpayController < ApplicationController
         next_step = if user_signed_in?
 
           # Attempt to activate registration
-          Registration.send_registered_email(current_user, @registration)
+          #Registration.send_registered_email(current_user, @registration)
 
           finish_path
         elsif agency_user_signed_in?
 
           # Attempt to activate registration
-          Registration.send_registered_email(current_agency_user, @registration)
+          #Registration.send_registered_email(current_agency_user, @registration)
 
           finishAssisted_path
         else
+        
+          # Need to get newly created (possibly unactivated) user to pass to send email
+          #current_user = User.find_by_email(@registration.accountEmail)
+          #if current_user
+            # Attempt to activate registration
+            #Registration.send_registered_email(current_user, @registration)
+          #else
+            # This shouldnt be possible as a account email will always have a value and registration 
+            # will always be a DIGITAL as agency registrations are picked up in agency_user_signed_in? check
+            #logger.error 'Error: Cannot find user from email: ' + @registration.accountEmail.to_s
+          #end
+        
           confirmed_path
         end
       when Order.edit_registration_identifier
@@ -42,11 +65,11 @@ class WorldpayController < ApplicationController
         next_step = if isIRRegistrationType @registration.originalRegistrationNumber
           if user_signed_in?
             # Send registered email
-            Registration.send_registered_email(current_user, @registration)
+            #Registration.send_registered_email(current_user, @registration)
             complete_edit_renew_path(@registration.uuid)
           elsif agency_user_signed_in?
             # Send registered email
-            Registration.send_registered_email(current_agency_user, @registration)
+            #Registration.send_registered_email(current_agency_user, @registration)
             complete_edit_renew_path(@registration.uuid)
           else
             confirmed_path
