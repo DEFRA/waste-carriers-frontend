@@ -298,11 +298,18 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       # this is the last step of the smart answers, so we need to check if
       # we're doing a smart edit or not
-      if session[:edit_mode]
-        original_registration = Registration[ session[:original_registration_id] ]
-        redirect_to action: determine_smart_answers_route(@registration, original_registration)
-        return
-      end
+      
+      #
+      # Commenting this out as it is broken and causes a:
+      # No route matches {:action=>"{:controller=>\"key_people\", :action=>\"newKeyPeople\"}", :locale=>:en, :controller=>"registrations"} Error
+      #
+      #
+      #  if session[:edit_mode]
+      #    original_registration = Registration[ session[:original_registration_id] ]
+      #    redirect_to action: determine_smart_answers_route(@registration, original_registration)
+      #    return
+      #  end
+      
       # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
       when 'yes'
