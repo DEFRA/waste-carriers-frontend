@@ -48,7 +48,7 @@ Then(/^my account is successfully activated$/) do
   page.should have_content 'Your registration number is: CBD'
 end
 
-Given(/^I re-request activation for an unpaid registration$/) do
+Given(/^I re-request activation for my account$/) do
   visit new_user_confirmation_path
   fill_in 'user_email', with: my_email_address
   click_on 'Resend confirmation instructions'

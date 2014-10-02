@@ -17,7 +17,7 @@ Given I have been funneled into the upper tier path
     And I pay by card
   Then registration should be complete
     And I remember the registration id
-  When I confirm account creation via email
+  When I re-request activation for my account
     And I am shown the sign in page
     And I attempt to sign in
   Then I am successfully registered as an upper tier waste carrier

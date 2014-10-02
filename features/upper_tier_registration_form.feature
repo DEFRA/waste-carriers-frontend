@@ -58,7 +58,7 @@ Feature: Upper tier
       And I check the declaration
       And I provide my email address and create a password
       And I pay by card
-     When I confirm account creation via email
+     When I re-request activation for my account
      Then I am shown the sign in page
        And I attempt to sign in
      #Then I am shown I am registered as an upper tier waste carrier
