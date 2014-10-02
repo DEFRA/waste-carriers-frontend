@@ -108,7 +108,7 @@
         <div class='form-group'>
           <h2 class="heading-medium"><%= t '.smart_answers_heading' %></h2>
             <span class='list-bullets'><%= render 'smartanswers_display', r: @registration %></span>
-          <a><%= link_to t('.edit_smart_answers_link'), find_path %></a>
+          <a><%= link_to t('.edit_smart_answers_link'), find_path, id: 'changeSmartAnswers' %></a>
         </div><!-- end smart answers form-group -->
 
         <% if @registration.upper? %>
