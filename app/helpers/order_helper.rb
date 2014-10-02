@@ -121,7 +121,7 @@ module OrderHelper
       # Add order item for Edit registration
       # Create Order Item
       orderItem = OrderItem.new
-      orderItem.amount = Rails.configuration.fee_registration
+      orderItem.amount = Rails.configuration.fee_reg_type_change
       orderItem.currency = 'GBP'
       orderItem.description = 'Edit Registration'
       orderItem.reference = 'Reg: ' + reg.regIdentifier
