@@ -73,32 +73,30 @@
     <div class='text form-group'>
       <details>
         <summary aria controls='details-content-0' tabindex='0'>
-          <span class='summary'>What is lower tier and upper tier?</span>
+          <span class='summary'><%= t '.tier_link_title' %></span>
           </summary>
           <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
-           <p><strong>Lower tier</strong> registrations apply to any person who falls into one of the categories of 'specified person' under the Waste (England and Wales) Regulations 2011, and is required to register as a carrier, broker or dealer under the regulations.</p>
-           <p>These are</p>
+           <p><strong><%= t '.tier_link_lower' %></strong><%= t '.tier_link_lower_categories_text' %></p>
+           <p><%= t '.tier_link_these' %></p>
 
             <ul class="list-bullet">
-              <li>a charity or voluntary organisation</li>
-              <li>a waste collection authority</li>
-              <li>a waste disposal authority</li>
-              <li>a waste regulation authority</li>
+              <li><%= t '.tier_link_charity' %></li>
+              <li><%= t '.tier_link_collection' %></li>
+              <li><%= t '.tier_link_disposal' %></li>
+              <li><%= t '.tier_link_regulation' %></li>
             </ul>
 
-             <p>or</p>
-
-             <p> a carrier who only transports, a broker who only arranges for the recovery or disposal of, or a dealer who only deals in</p>
+             <p><%= t '.tier_link_or' %></p>
+             <p><%= t '.tier_link_text_carrier' %></p>
 
             <ul class="list-bullet">
-              <li>animal by-products</li>
-              <li>waste from a mine or quarry</li>
-              <li>waste from premises used for agriculture</li>
-              <li>transports waste produced by the carrier itself, except where it is construction or demolition waste
-              </li>
+              <li><%= t '.tier_link_animal' %></li>
+              <li><%= t '.tier_link_mine' %></li>
+              <li><%= t '.tier_link_premises' %></li>
+              <li><%= t '.tier_link_transport' %></li>
             </ul>
 
-            <p><strong>Upper tier</strong> registrations apply to any person who is required to register under the Waste (England and Wales) Regulations 2011 who is not a specified person.
+            <p><strong><%= t '.tier_link_upper' %></strong><%= t '.tier_link_upper_text' %>
             </p>
           </div>
       </details>
