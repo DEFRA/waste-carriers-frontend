@@ -33,7 +33,7 @@ Scenario: Upper tier Edit with change, Online payment
     Then I click the edit link for: EditTest
       And I change the way we carry waste
       And I check the declaration
-    Then I am asked to pay for the changes
+    Then I am asked to pay for the edits
       And I pay by card
     Then my edit should be complete
 
@@ -42,7 +42,17 @@ Scenario: Upper tier Edit with change, Offline payment
     Then I click the edit link for: EditTest
       And I change the way we carry waste
       And I check the declaration
-    Then I am asked to pay for the changes
+    Then I am asked to pay for the edits
       And I choose pay via electronic transfer
     Then my edit should be awaiting payment
+
+# IN PROGRESS...
+Scenario: Upper tier Edit that forces a New Registration, Online payment
+    Given The edit link is available
+    Then I click the edit link for: EditTest
+      And I change the legal entity
+      And I check the declaration
+    Then I am asked to pay for the edits expecting a full fee
+      And I pay by card
+    Then my edit with full fee should be complete
 
