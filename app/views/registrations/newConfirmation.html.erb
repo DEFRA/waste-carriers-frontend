@@ -108,7 +108,7 @@
         <div class='form-group'>
           <h2 class="heading-medium"><%= t '.smart_answers_heading' %></h2>
             <span class='list-bullets'><%= render 'smartanswers_display', r: @registration %></span>
-          <a><%= link_to t('.edit_smart_answers_link'), find_path, id: 'changeSmartAnswers' %></a>
+          <%= link_to t('.edit_smart_answers_link'), find_path, id: 'changeSmartAnswers' %>
         </div><!-- end smart answers form-group -->
 
         <% if @registration.upper? %>
@@ -121,8 +121,8 @@
                 <%= t('.show_registration_type', reg_type: reg_type_prettify) %>
             </li>
           </ul>
-          <a><%= link_to t('.edit_change_reg_type_link'), newRegistrationType_path, id: 'changeRegistrationType' %></a>
-          
+          <%= link_to t('.edit_change_reg_type_link'), newRegistrationType_path, id: 'changeRegistrationType' %>
+
         </div><!-- end registration type form-group -->
         <% end %>
 
@@ -138,14 +138,14 @@
             <h2 class='heading-medium'><%= t '.business_details_heading' %></h2>
           <% end %>
             <%= render 'address_display', r: @registration %>
-          <a><%= link_to t('.edit_business_details_link'), newBusinessDetails_path %></a>
+          <%= link_to t('.edit_business_details_link'), newBusinessDetails_path %>
         </div><!-- end business details form-group -->
 
         <!-- Contact details section -->
         <div class='form-group'>
           <h2 class='heading-medium'><%= t '.contact_details_heading' %></h2>
             <%= render 'contactdetails_display', r: @registration %>
-          <a><%= link_to t('.edit_contact_details_link'), newContact_path %></a>
+          <%= link_to t('.edit_contact_details_link'), newContact_path %>
         </div><!-- end form-group -->
 
         <!-- Key people section -->
@@ -162,7 +162,7 @@
             <h2 class='heading-medium'><%= t '.key_person_heading' %></h2>
           <% end %>
             <%= render '/key_people/key_people_display', r: @registration %>
-          <a><%= link_to t('.edit_key_person_link'), registration_key_people_path %></a>
+          <%= link_to t('.edit_key_person_link'), registration_key_people_path %>
         </div><!-- end key people form-group -->
         <% end %>
 
