@@ -15,23 +15,46 @@ class WorldpayController < ApplicationController
 
       # Get render type from session
       renderType = session[:renderType]
+      
+      if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
+        if user_signed_in?
+          logger.info 'Send registered email (as current_user)'
+          Registration.send_registered_email(current_user, @registration)
+        else
+          logger.info 'Send registered email (as not signed in)'
+          @user = User.find_by_email(@registration.accountEmail)
+          Registration.send_registered_email(@user, @registration)
+        end
+      end
 
       case renderType
-      when Order.new_registration_identifier
+      when Order.new_registration_identifier, Order.editrenew_caused_new_identifier
         # new registrations
         next_step = if user_signed_in?
 
           # Attempt to activate registration
-          Registration.send_registered_email(current_user, @registration)
+          #Registration.send_registered_email(current_user, @registration)
 
           finish_path
         elsif agency_user_signed_in?
 
           # Attempt to activate registration
-          Registration.send_registered_email(current_agency_user, @registration)
+          #Registration.send_registered_email(current_agency_user, @registration)
 
           finishAssisted_path
         else
+        
+          # Need to get newly created (possibly unactivated) user to pass to send email
+          #current_user = User.find_by_email(@registration.accountEmail)
+          #if current_user
+            # Attempt to activate registration
+            #Registration.send_registered_email(current_user, @registration)
+          #else
+            # This shouldnt be possible as a account email will always have a value and registration 
+            # will always be a DIGITAL as agency registrations are picked up in agency_user_signed_in? check
+            #logger.error 'Error: Cannot find user from email: ' + @registration.accountEmail.to_s
+          #end
+        
           confirmed_path
         end
       when Order.edit_registration_identifier
@@ -42,11 +65,11 @@ class WorldpayController < ApplicationController
         next_step = if isIRRegistrationType @registration.originalRegistrationNumber
           if user_signed_in?
             # Send registered email
-            Registration.send_registered_email(current_user, @registration)
+            #Registration.send_registered_email(current_user, @registration)
             complete_edit_renew_path(@registration.uuid)
           elsif agency_user_signed_in?
             # Send registered email
-            Registration.send_registered_email(current_agency_user, @registration)
+            #Registration.send_registered_email(current_agency_user, @registration)
             complete_edit_renew_path(@registration.uuid)
           else
             confirmed_path
@@ -83,17 +106,17 @@ class WorldpayController < ApplicationController
       end
     end
 
-    if (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RECREATE) \
-        || (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::EDIT && \
-            session[:edit_result].to_i  ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION)
-      if @registration.commit #create new reg
-        original_reg = Registration[ session[:original_registration_id] ]
-        @registration.set_inactive #deactivate existing reg
-      else
-        logger.error "Commit failed for registration id: #{@registration.id}"
-        #TODO: error handlling
-      end
-    end
+#    if (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RECREATE) \
+#        || (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::EDIT && \
+#            session[:edit_result].to_i  ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION)
+#      if @registration.commit #create new reg
+#        original_reg = Registration[ session[:original_registration_id] ]
+#        @registration.set_inactive #deactivate existing reg
+#      else
+#        logger.error "Commit failed for registration id: #{@registration.id}"
+#        #TODO: error handlling
+#      end
+#    end
 
     logger.debug next_step.to_s
     logger.debug next_step.class.to_s
@@ -284,15 +307,14 @@ class WorldpayController < ApplicationController
         if session[:edit_mode]
           logger.debug "edited registration id: #{@registration.id}"
 
-          case session[:edit_result].to_i
-          when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
-            logger.error "Failed to create new registration" unless create_new_reg
-          when  RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-            # before we Re-get registration from db, we need to save existing changes to it
-            logger.error "Registration #{@registration.id} NOT saved!!!" unless Registration[@registration.id].save!
-          when  RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-            logger.error "Flow error: we shouldn't be here"
-          end
+# removed as done prior to going to order
+#          # Check if a new registration is required, and create prior to deleting session variables
+#          if RegistrationsController::EditResult::CREATE_NEW_REGISTRATION.eql? session[:edit_result].to_i and !create_new_reg
+#            # redirect to previous page due to error
+#            logger.error "Failed to create new registration"
+#            # TODO: redirect to ??? because of failure?
+#            
+#          end
 
           #
           # BUG:: The following line causes a services save of the registration in a log line for all routes that use the edit_mode variable

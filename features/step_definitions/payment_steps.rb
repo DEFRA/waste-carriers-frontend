@@ -18,13 +18,13 @@ And(/^I pay by card$/) do
 end
 
 Then(/^I set test simulator page to all okay$/) do
-  sleep 6.0
+  sleep 4.0
   #By now we should be on the Test Simulator page...
   page.should have_content 'Secure Test Simulator Page'
   click_on 'Continue'
 
   #add some sleep to avoid failing tests
-  sleep 3.0
+  sleep 2.0
 end
 
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
@@ -50,7 +50,7 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
 
   step 'I set test simulator page to all okay'
   
-  sleep 5.0
+  sleep 3.0
 end
 
 And(/^I choose to pay by bank transfer$/) do

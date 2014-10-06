@@ -283,14 +283,13 @@ module RegistrationsHelper
   # @param none
   # @return  [String] somthing
   def determine_smart_answers_route(edited_registration, original_registration)
-    logger.debug "determine_smart_answers_route changed #{original_registration.businessType}
-                  tp #{edited_registration.businessType}"
+    logger.debug "determine_smart_answers_route changed #{original_registration.businessType} to #{edited_registration.businessType}"
 
-    if (original_registration.businessType != edited_registration.businessType) &&
+    if (original_registration.businessType != edited_registration.businessType) && \
         (['partnership', 'limitedCompany', 'publicBody'].include? edited_registration.businessType )
       {controller: 'key_people', action: 'newKeyPeople'}
     else
-       {action: 'newConfirmation'}
+      {action: 'newConfirmation'}
     end
 
   end

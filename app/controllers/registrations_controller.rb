@@ -298,11 +298,18 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       # this is the last step of the smart answers, so we need to check if
       # we're doing a smart edit or not
-      if session[:edit_mode]
-        original_registration = Registration[ session[:original_registration_id] ]
-        redirect_to action: determine_smart_answers_route(@registration, original_registration)
-        return
-      end
+      
+      #
+      # Commenting this out as it is broken and causes a:
+      # No route matches {:action=>"{:controller=>\"key_people\", :action=>\"newKeyPeople\"}", :locale=>:en, :controller=>"registrations"} Error
+      #
+      #
+      #  if session[:edit_mode]
+      #    original_registration = Registration[ session[:original_registration_id] ]
+      #    redirect_to action: determine_smart_answers_route(@registration, original_registration)
+      #    return
+      #  end
+      
       # TODO this is where you need to make the choice and update the steps
       case @registration.onlyAMF
       when 'yes'
@@ -513,6 +520,18 @@ class RegistrationsController < ApplicationController
         redirect_to upper_payment_path(@registration.uuid) and return
       when EditMode::EDIT
         case session[:edit_result].to_i
+        # Check if no Immediate edit actions have occured, and redirect back to appropraite start point
+        # This assumes that because the edit_result orignally is set to the start, and then when newConfirmation is 
+        # rendered it is incremented by one, that this is the only situation where that can occur.
+        when  EditResult::START + 1
+          clear_edit_session # we don't need edit variables polluting the session any more
+          if current_user
+            redirect_to userRegistrations_path(current_user)
+          elsif current_agency_user
+            redirect_to :action => 'index'
+          else
+            renderAccessDenied
+          end
         when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
           if @registration.save!
             logger.debug "Registration #{@registration.uuid} now saved!"
@@ -524,8 +543,75 @@ class RegistrationsController < ApplicationController
           clear_edit_session # we don't need edit variables polluting the session any more
           # redirect_to(action: 'editRenewComplete', edit_mode: edit_mode, edit_result: edit_result) and return
           redirect_to complete_edit_renew_path(id: @registration.uuid, edit_mode: edit_mode, edit_result: edit_result) and return
-        when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE,  EditResult::CREATE_NEW_REGISTRATION
-          redirect_to newOrderEdit_path(@registration.uuid) and return
+        when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+          newOrderEdit @registration.uuid
+        when  EditResult::CREATE_NEW_REGISTRATION
+          # If a new registration is needed at this point it should be created as the payment will they be processed aggainst that registration and
+          # not the original one, which should be marked as deleted
+          
+          #
+          # TODO::
+          # :Make a copy of the registration in memory (create a new local)
+          newRegistration = Registration.create
+          
+          logger.info 'before: ' + newRegistration.to_json
+          logger.info 'before: ' + newRegistration.attributes.to_s
+          
+          newRegistration.add( @registration.to_hash )
+          newRegistration.add( @registration.attributes )
+          
+          logger.info ''
+          logger.info '================='
+          logger.info '==== NEW REGISTRAION ============='
+          logger.info 'after: ' + newRegistration.to_json.to_s
+          logger.info 'after: ' + newRegistration.attributes.to_s
+          logger.info '================='
+          logger.info ''
+          
+          # Need to re-get registration from DB as we are leaving the original alone
+          originalRegistration = Registration.find_by_id(@registration.uuid)
+          # :Mark original registration as deleted and save to db
+          originalRegistration.metaData.first.update(:status=>'INACTIVE')
+          logger.info 'updated meta data, about to save to db'
+          
+          if originalRegistration.save!
+            logger.info 'saved to db now update redis: ' + @registration.id
+            originalRegistration.save
+          end
+          
+          
+          # :Use copy of registration in memory and save to database
+          logger.info 'Check if newRegistraiton is valid'
+          newRegistration.current_step = 'confirmation'
+          if newRegistration.valid?
+            if newRegistration.commit
+              newRegistration.save
+              @registration = newRegistration
+              session[:registration_id] = newRegistration.id
+              session[:registration_uuid] = @registration.uuid
+            else
+              logger.info 'newRegistration failed to commit'
+              # return to new Confirmation
+              redirect_to :newConfirmation and return
+            end
+          else
+            logger.info 'newRegistration not valid.'
+            # return to new Confirmation
+            redirect_to :newConfirmation and return
+          end
+          
+          # :Save copied registration to redis and update any session variables
+          @registration.save
+          logger.info 'new reg saved to db now save to redis: ' + @registration.id
+          
+          #
+          #logger.info 'Registration is not valid, and data is not yet saved'
+          #render "newConfirmation", :status => '400'
+          
+          #redirect_to newOrderCausedNew_path(@registration.uuid) and return
+          logger.info '@registration.uuid:' + @registration.uuid
+          newOrderCausedNew @registration.uuid
+          #newOrderEdit @registration.uuid
         else
           edit_mode = session[:edit_mode]
           edit_result = session[:edit_result]
@@ -546,7 +632,8 @@ class RegistrationsController < ApplicationController
         
           logger.debug "Is normal RENEWAL"
           
-          @registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
+          # not needed as expiry date set in the services when payment is reveived for the renewal
+          #@registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
           
           @registration.renewalRequested = true;
           
@@ -1228,9 +1315,16 @@ class RegistrationsController < ApplicationController
     @registration.metaData.first.update(:status => 'INACTIVE')
     @registration.save!
 
-    respond_to do |format|
-      format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) }
-      format.json { head :no_content }
+    if current_user
+      respond_to do |format|
+        format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to registrations_path(:note => 'Deleted ' + deletedCompany) }
+        format.json { head :no_content }
+      end
     end
   end
 
@@ -1510,10 +1604,10 @@ class RegistrationsController < ApplicationController
   end
 
   # Function to redirect registration edit orders to the order controller
-  def newOrderEdit
+  def newOrderEdit registration_uuid
     session[:renderType] = Order.edit_registration_identifier
     session[:orderCode] = generateOrderCode
-    redirect_to :upper_payment
+    redirect_to upper_payment_path(:id => registration_uuid)
   end
 
   # Function to redirect registration renew orders to the order controller
@@ -1528,6 +1622,13 @@ class RegistrationsController < ApplicationController
     session[:renderType] = Order.extra_copycards_identifier
     session[:orderCode] = generateOrderCode
     redirect_to :upper_payment
+  end
+  
+  # Function to redirect additional copy card orders to the order controller
+  def newOrderCausedNew registration_uuid
+    session[:renderType] = Order.editrenew_caused_new_identifier
+    session[:orderCode] = generateOrderCode
+    redirect_to upper_payment_path(:id => registration_uuid)
   end
 
   # Renders the additional copy card order complete view
@@ -1554,7 +1655,11 @@ class RegistrationsController < ApplicationController
     if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
       @exitRoute = confirmed_path
     else
-      @exitRoute = registrations_finish_path
+      if current_agency_user
+        @exitRoute = finishAssisted_path
+      else
+        @exitRoute = registrations_finish_path
+      end
     end
 
   end
@@ -1572,10 +1677,24 @@ class RegistrationsController < ApplicationController
   end
 
   def updateNewOfflinePayment
-    @registration = Registration[session[:registration_id]]
+    @registration = Registration.find_by_id(session[:registration_uuid])
 
     # Get renderType from recent order
     renderType = session[:renderType]
+    
+    # Validate that actions only occur here if a render type is 
+    if !renderType
+      # If the renderType has been cleared you have already gone through this controller
+      # thus any subsequent action renders the access denied page
+      renderAccessDenied and return
+    end
+    
+# Removed as craete_new_reg not required here as already saved prior to order page
+#    # Check if a new registration is required, and create prior to deleting session variables
+#    if EditResult::CREATE_NEW_REGISTRATION.eql? session[:edit_result].to_i and !create_new_reg
+#      # redirect to previous page due to error
+#      redirect_to newOfflinePayment_path and return
+#    end
 
     #
     # This should be an acceptable time to delete the render type and
@@ -1588,7 +1707,7 @@ class RegistrationsController < ApplicationController
     # Should also Clear other registration variables
     #clear_registration_session
 
-    if !agency_user_signed_in? and !renderType.eql?(Order.extra_copycards_identifier)
+    if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
       logger.info 'Send registered email (if not agency user)'
       @user = User.find_by_email(@registration.accountEmail)
       Registration.send_registered_email(@user, @registration)
@@ -1597,6 +1716,12 @@ class RegistrationsController < ApplicationController
     next_step = if renderType.eql?(Order.extra_copycards_identifier)
       # redirect to copy card complete page
       complete_copy_cards_path(@registration.uuid)
+    elsif renderType.eql?(Order.edit_registration_identifier)
+      # redirect to edit complete
+      complete_edit_renew_path(@registration.uuid)
+    elsif renderType.eql?(Order.renew_registration_identifier)
+      # redirect to renew complete
+      complete_edit_renew_path(@registration.uuid)
     elsif user_signed_in?
       finish_path
     elsif agency_user_signed_in?
@@ -1605,20 +1730,7 @@ class RegistrationsController < ApplicationController
       confirmed_path
     end
 
-    if session[:edit_mode]
-
-      case session[:edit_result].to_i
-      when  EditResult::CREATE_NEW_REGISTRATION
-        logger.error "Failed to create new registration" unless create_new_reg
-      when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-        logger.error "Registration #{@registration.id} NOT saved!!!" unless Registration[@registration.id].save!
-      end
-
-      # redirect_to complete_edit_renew_path(edit_mode: edit_mode, edit_result: edit_result) and return
-      redirect_to complete_edit_renew_path(@registration.uuid)
-    else #not an edit
-      redirect_to next_step
-    end
+    redirect_to next_step
 
   end
 
