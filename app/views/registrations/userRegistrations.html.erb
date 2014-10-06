@@ -111,7 +111,7 @@
 	            	<% end %>
 	            </td>
 
-	            <td><%= link_to t('.addCopyCards'), newOrderCopyCards_path(registration.uuid) if registration.can_request_copy_cards?  %>
+	            <td><%= link_to t('form.addCopyCards_button_label'), newOrderCopyCards_path(registration.uuid), :id => 'addcopycards_'+registration.regIdentifier  if registration.can_request_copy_cards?  %>
               </td>
 
 	        </tr>
