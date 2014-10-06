@@ -12,7 +12,7 @@
 
   <header class="page-header group">
     <div class="hgroup">
-      <h1 class="heading-large"><%= t '.subtitle' %></h1>
+      <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
     </div>
   </header>
 
@@ -36,11 +36,12 @@
         </tr>
       </thead>
       <tbody>
-        <% if showRegistrationFee?(@renderType) or showEditFee?(@renderType) or showRenewalFee?(@renderType) %>
+        <% if showRegistrationFee?(@renderType) or showEditFee?(@renderType) or showEditFullFee?(@renderType) or showRenewalFee?(@renderType) %>
         <tr>
           <td>
             <%= render "order/registration_fee", :f => f if showRegistrationFee? @renderType %>
             <%= render "order/edit_registration_fee", :f => f if showEditFee? @renderType %>
+            <%= render "order/edit_registration_fee", :f => f if showEditFullFee? @renderType %>
             <%= render "order/renew_registration_fee", :f => f if showRenewalFee? @renderType %>
           </td>
         </tr>
@@ -91,7 +92,7 @@
           <li class="image-holder" alt="Example of a copy card registration">
             <%= image_tag "copy_card.png"%>
           </li>
-          <li><figcaption>Fig 1 - Example copy card</figcaption></li>
+          <li><figcaption>Example copy card</figcaption></li>
           <li>
             <p>Additional copy cards can be purchased after your registration is complete. You will need to sign into your account to do this.</p>
           </li>

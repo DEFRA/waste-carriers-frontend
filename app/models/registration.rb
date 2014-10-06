@@ -349,12 +349,12 @@ class Registration < Ohm::Model
     
     result_hash['location'] = location.first.attributes.to_hash if location.size == 1
 
-    key_people = []
+    key_people_list = []
     if key_people && key_people.size > 0
       key_people.each do  |person|
-         key_people << person.to_hash
+         key_people_list << person.to_hash
       end
-      result_hash['key_people'] = key_people
+      result_hash['key_people'] = key_people_list
     end #if
 
     result_hash['financeDetails'] = finance_details.first.to_hash if finance_details.size == 1

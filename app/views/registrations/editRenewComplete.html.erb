@@ -6,7 +6,7 @@
 
     <div class="back-section">
         <ol>
-          <li><%= render 'back_link' %></li>
+          <li></li>
         </ol>
     </div>
 
@@ -57,8 +57,6 @@
 
     <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
 
-        <%= link_to t('.back_button'), userRegistrations_path(current_user.id), :class => 'link_to' if current_user %>
-        
         <%= form_tag(@exitRoute) do |f| %>
           <span class="next_link">
             <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>

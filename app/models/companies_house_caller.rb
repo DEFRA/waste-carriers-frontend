@@ -14,8 +14,8 @@ class CompaniesHouseCaller
       json = JSON.parse RestClient.get @url
       Rails.logger.info Time.now.to_s + ' - Companies House has returned json response'
       company_status = json['primaryTopic']['CompanyStatus']
-      company_status == 'Active' ? :active : :inactive
       Rails.logger.info 'Company status is ' + company_status
+      company_status == 'Active' ? :active : :inactive
     rescue RestClient::ResourceNotFound
       Rails.logger.info 'Companies House: Resource not found!'
       :not_found
