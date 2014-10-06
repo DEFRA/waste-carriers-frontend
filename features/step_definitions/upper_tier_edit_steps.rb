@@ -84,18 +84,6 @@ Then(/^my edit should be complete$/) do
   page.should have_content 'Edit Registration'
 end
 
-Then(/^my edit with full fee should be complete$/) do
-  # This is currently registration complete as that is how it works but ideally renewals should state edit complete
-  page.should have_content 'Registration complete'
-  # Update this once more appropriate content has been created
-  page.should have_content 'Edited registration'
-  page.should have_content 'Edited: new registration'
-  click_on 'Finish'
-  # Check routing after clicking finish
-  page.should have_content 'Your registrations'
-  page.should have_content 'Edit Registration'
-end
-
 Then(/^my edit should be awaiting payment$/) do
   # This is currently registration complete as that is how it works but ideally renewals should state edit complete
   page.should have_content 'Almost there'
@@ -105,4 +93,28 @@ Then(/^my edit should be awaiting payment$/) do
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
   page.should have_content 'Edit Registration'
+end
+
+Then(/^my edit with full fee should be complete$/) do
+  # This is currently registration complete as that is how it works but ideally renewals should state edit complete
+  page.should have_content 'Registration complete'
+  # Update this once more appropriate content has been created
+  page.should have_content 'Registration complete'
+  page.should have_content 'Your registration number is'
+  click_on 'Finish'
+  # Check routing after clicking finish
+  page.should have_content 'Your registrations'
+  page.should have_content 'Edit Registration'
+end
+
+Then(/^my edit with full fee should be awaiting payment$/) do
+  # This is currently registration complete as that is how it works but ideally renewals should state edit complete
+  page.should have_content 'Almost there'
+  # Update this once more appropriate content has been created
+  page.should have_content 'Your registration number is'
+  page.should have_content 'Please remember to arrange your bank transfer'
+  click_on 'Finish'
+  # Check routing after clicking finish
+  page.should have_content 'Your registrations'
+  page.should have_content 'PENDING'
 end

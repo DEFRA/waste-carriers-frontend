@@ -15,6 +15,10 @@ module OrderHelper
   def showCopyCards? renderType
     renderType.eql? Order.new_registration_identifier or renderType.eql? Order.extra_copycards_identifier
   end
+  
+  def showEditFullFee? renderType
+    renderType.eql? Order.editrenew_caused_new_identifier
+  end
 
   def prepareOfflinePayment myRegistration, renderType
     myRegistration = calculate_fees myRegistration, renderType
@@ -66,6 +70,12 @@ module OrderHelper
       myRegistration.copy_card_fee = myRegistration.copy_cards.to_i * Rails.configuration.fee_copycard
       myRegistration.total_fee = myRegistration.copy_card_fee
       logger.info "Create reg for copy cards"
+    when Order.editrenew_caused_new_identifier
+      # Edits forcing full fee 
+      myRegistration.copy_cards = '0'
+      myRegistration.registration_fee = Rails.configuration.fee_registration
+      myRegistration.total_fee = Rails.configuration.fee_registration
+      logger.info "Create reg for edit/renew full fee"
     else
       logger.error "Unrecogniseable renderType: " + renderType + ", Should be one of (" \
       	+ Order.new_registration_identifier + "," + Order.edit_registration_identifier + "," \
@@ -93,7 +103,7 @@ module OrderHelper
       @order = updateOrderForOffline(@order, reg)
     end
 
-    if showRegistrationFee?(renderType) or isIRRenewal?(myRegistration, renderType)
+    if showRegistrationFee?(renderType) or showEditFullFee?(renderType) or isIRRenewal?(myRegistration, renderType)
       # Ensure Order Id of newly created order remains the same as currently assumes orderId of first order?
       @order.orderId = ord.orderId
     else
@@ -144,6 +154,20 @@ module OrderHelper
 
       @order.order_items.add orderItem
     end
+    
+    if showEditFullFee? renderType
+      # Add order item for Edit full fee registration
+      # Create Order Item
+      orderItem = OrderItem.new
+      orderItem.amount = Rails.configuration.fee_registration
+      orderItem.currency = 'GBP'
+      orderItem.description = 'Edit caused Full Fee Registration'
+      orderItem.reference = 'Reg: ' + reg.regIdentifier
+      orderItem.type = OrderItem::ORDERITEM_TYPES[1]
+      orderItem.save
+
+      @order.order_items.add orderItem
+    end
 
     if showCopyCards?(renderType) and @registration.copy_cards.to_i > 0
       # Add additional order items for copy card amount
@@ -181,7 +205,7 @@ module OrderHelper
     when Order.new_registration_identifier
       # new
       orderLabel = 'New' + registrationMessage + forRegistrationMessage
-    when Order.edit_registration_identifier
+    when Order.edit_registration_identifier, Order.editrenew_caused_new_identifier
       # edit
       orderLabel = 'Edit' + registrationMessage + forRegistrationMessage
     when Order.renew_registration_identifier
