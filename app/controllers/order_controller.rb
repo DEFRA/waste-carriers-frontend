@@ -68,7 +68,7 @@ class OrderController < ApplicationController
 
       if @order.valid?
         logger.info "Determining order save/update"
-        if @renderType.eql?(Order.new_registration_identifier) or isIRRenewal?(@registration, @renderType)
+        if @renderType.eql?(Order.new_registration_identifier) or isIRRenewal?(@registration, @renderType) or @renderType.eql?(Order.editrenew_caused_new_identifier)
           logger.info "Saving the order"
           # New registration, so update existing order
           if @order.save! @registration.uuid

@@ -241,7 +241,8 @@ class Order < Ohm::Model
   def isValidRenderType? renderType
     Rails.logger.info 'isValidRenderType? renderType:' + renderType.to_s
     res = %w[].push(Order.new_registration_identifier) \
-    	.push(Order.edit_registration_identifier).push(Order.renew_registration_identifier).push(Order.extra_copycards_identifier).include? renderType
+    	.push(Order.edit_registration_identifier).push(Order.renew_registration_identifier) \
+    	.push(Order.extra_copycards_identifier).push(Order.editrenew_caused_new_identifier).include? renderType
     Rails.logger.info 'isValidRenderType? res: ' + res.to_s
     res
   end
@@ -279,6 +280,12 @@ class Order < Ohm::Model
   class << self
     def extra_copycards_identifier
       'INCCOPYCARDS'
+    end
+  end
+  
+  class << self
+    def editrenew_caused_new_identifier
+      'EDITRENEW_CAUSED_NEW'
     end
   end
 
