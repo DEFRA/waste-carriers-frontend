@@ -196,13 +196,16 @@
           </div>
         </div><br/><br/><br/><!-- end declaration form-group -->
 
-
           <!-- Privacy notice -->
           <div class="form-group">
             <ol>
               <li>
-                <p class='privacy-data'><%= t '.data_protection_text1' %>
-                  <%= link_to t('.privacy_policy_link'), Rails.configuration.waste_exemplar_eaPrivacyCookies_url, :target => "_blank" %> <%= t '.data_protection_text2' %>
+                <p class="privacy-data">
+                  <%= t '.privacy_data_text1' %>
+                  <a href='/public/privacy'><%= t '.privacy_policy_link1' %></a>
+                  <%= t '.privacy_data_text2' %>
+                  <a href='/public/cookies'><%= t '.privacy_policy_link2' %></a>
+                  <%= t '.privacy_data_text3'  %>
                 </p>
               </li>
             </ol>
