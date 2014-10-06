@@ -18,6 +18,14 @@ Then(/^my renewal should be complete$/) do
   page.should have_content 'ACTIVE'
 end
 
+Then(/^my renewal should be awaiting payment$/) do
+  page.should have_content 'Almost there'
+  click_on 'Finish'
+  # This is not a great test as it checks if the previous registration is still active not if the new one has been extended
+  # That test is covered by the step 'the expiry date should be updated'
+  page.should have_content 'ACTIVE'
+end
+
 Then(/^the expiry date should be updated$/) do
   # Get expiry period from configuration and check page has expected expiry date
   d = Date.today + Rails.configuration.registration_expires_after

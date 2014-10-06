@@ -31,3 +31,11 @@ Scenario: Upper tier Renewal, No changes, Online payment
     Then my renewal should be complete
       And the expiry date should be updated
 
+Scenario: Upper tier Renewal, No changes, Offline payment
+    Given The renewal link is available
+    Then I click the renew link for: RenewalTest
+      And I check the declaration
+      And I choose pay via electronic transfer
+    Then my renewal should be awaiting payment
+      And the expiry date should be updated
+

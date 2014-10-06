@@ -632,7 +632,8 @@ class RegistrationsController < ApplicationController
         
           logger.debug "Is normal RENEWAL"
           
-          @registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
+          # not needed as expiry date set in the services when payment is reveived for the renewal
+          #@registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
           
           @registration.renewalRequested = true;
           
