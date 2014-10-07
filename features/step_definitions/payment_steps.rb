@@ -1,5 +1,31 @@
+#
+# Helper function to help wait untill we have left the worldpay site
+#
+def waitForWorldpayRedirect
+  # Check if on the worldpay is waiting for redirect page. This often results in the browser client side redirecting to 
+  # an page in our site that is no longer available as the tests have moved on by the time the redirect occurs
+  waitMessage1 = 'Please wait for the result.'
+  waitMessage2 = 'Please wait while your payment'
+  if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
+    puts '... Waiting 5 seconds for worldpay to respond'
+    sleep 5.0
+    
+    if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
+      puts '... Waiting a further 10 seconds for worldpay to respond'
+      sleep 10.0
+    end
+    
+    # If neccesary change default wait time for capybara commands to wait longer for content to appear
+    #default_wait_time = Capybara.default_wait_time
+    #Capybara.default_wait_time = 5 # Really long request
+    #Capybara.default_wait_time = default_wait_time
+  end
+end
+
 And(/^I pay by card$/) do
   click_on 'Pay by debit/credit card'
+  
+  sleep 0.5
 
   click_on 'MasterCard'
 
@@ -14,17 +40,16 @@ And(/^I pay by card$/) do
 
   step 'I set test simulator page to all okay'
   
-  #page.should have_content 'Registration complete'
 end
 
 Then(/^I set test simulator page to all okay$/) do
-  sleep 4.0
+  sleep 3.0
   #By now we should be on the Test Simulator page...
   page.should have_content 'Secure Test Simulator Page'
   click_on 'Continue'
 
-  #add some sleep to avoid failing tests
-  sleep 2.0
+  # Wait for worldpay redirect to occur
+  waitForWorldpayRedirect
 end
 
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
@@ -50,7 +75,6 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
 
   step 'I set test simulator page to all okay'
   
-  sleep 3.0
 end
 
 And(/^I choose to pay by bank transfer$/) do
