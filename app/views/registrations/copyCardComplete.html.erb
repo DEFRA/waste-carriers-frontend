@@ -12,6 +12,24 @@
 
 <%# Removed Back section as we do not intentionally want users to ever go back from this point. %>
 
+  <div class="summary-box text">
+    <%
+    type = RegistrationsHelper::STATUS_COMPLETE
+    type = RegistrationsHelper::STATUS_ALMOST_COMPLETE unless @registration.paid_in_full?
+    %>
+    <div class="completeSummary <%= type %>">
+	  <div class="completeSummaryTitle">
+		<%= t'shared.complete_summary.copycard_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+		<%= t'shared.complete_summary.almost_there_title' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+	  </div>
+	  <% if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+	  <div class="completeSummaryMessage">
+		<%= t 'shared.complete_summary..almost_there_message' %>
+	  </div>
+	  <% end %>
+    </div>
+  </div>
+
   <header class="page-header group">
     <div class="hgroup">
       <h1 class="heading-large"><%= t '.subtitle' %></h1>
@@ -26,7 +44,7 @@
         <%= render "order/notice_or_alert" %>
         <%= render "shared/registration_errors" %>
         <ul>
-    		  <li><p class="panel-indent"><%= t '.copyCardDelayNotice' %></p></li>
+          <li><p class="panel-indent"><%= t '.copyCardDelayNotice' %></p></li>
           <li><p><%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), :class => 'button' %></p>
           </li>
         </ul>

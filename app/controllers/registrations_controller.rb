@@ -1634,6 +1634,7 @@ class RegistrationsController < ApplicationController
   # Renders the additional copy card order complete view
   def copyCardComplete
     @registration = Registration.find_by_id(params[:id])
+    @confirmationType = getConfirmationType
   end
 
   # Renders the edit renew order complete view
@@ -1704,8 +1705,10 @@ class RegistrationsController < ApplicationController
     session.delete(:renderType)
     session.delete(:orderCode)
 
-    # Should also Clear other registration variables
-    #clear_registration_session
+    # Should also Clear other registration variables for other routes...
+    if renderType.eql?(Order.extra_copycards_identifier)
+      clear_registration_session
+    end
 
     if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
       logger.info 'Send registered email (if not agency user)'

@@ -99,6 +99,14 @@ class OrderController < ApplicationController
             return
           end
         else
+        
+          # Remove un-needed fee values from the registration about to be saved
+          @registration.total_fee = nil
+          @registration.registration_fee = nil
+          @registration.renewal_fee = nil
+          @registration.copy_card_fee = nil
+          @registration.copy_cards = nil
+          
           #
           # Save the updated registration prior to making the new order, that way the returned order contains the up to date registration
           # including any changes that have happended to the registration.
