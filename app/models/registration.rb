@@ -85,7 +85,7 @@ class Registration < Ohm::Model
   attribute :accessCode
 
   attribute :tier
-  
+
   attribute :renewalRequested
 
   # The value that the waste carrier sets to say whether they admit to having
@@ -198,7 +198,7 @@ class Registration < Ohm::Model
       self.update(regIdentifier: result['regIdentifier'])
 
       self.metaData.replace( [Metadata.init(result['metaData'])])
-      
+
       self.location.replace( [Location.init(result['location'])])
 
       unless self.tier == 'LOWER'
@@ -272,7 +272,7 @@ class Registration < Ohm::Model
 
       # Update metadata and financedetails with that from the service
       self.metaData.replace( [Metadata.init(result['metaData'])])
-      
+
       self.location.replace( [Location.init(result['location'])])
 
       unless self.tier == 'LOWER'
@@ -294,7 +294,7 @@ class Registration < Ohm::Model
       save
     rescue => e
       Rails.logger.error e.to_s
-      
+
       if e.http_code == 422
         # Get actual error from services
         htmlDoc = Nokogiri::HTML(e.http_body)
@@ -312,7 +312,7 @@ class Registration < Ohm::Model
       else
         self.exception = e.to_s
       end
-      
+
       saved = false
     end
     saved
@@ -346,13 +346,13 @@ class Registration < Ohm::Model
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
-    
+
     result_hash['location'] = location.first.attributes.to_hash if location.size == 1
 
     key_people_list = []
     if key_people && key_people.size > 0
       key_people.each do  |person|
-         key_people_list << person.to_hash
+        key_people_list << person.to_hash
       end
       result_hash['key_people'] = key_people_list
     end #if
@@ -364,7 +364,7 @@ class Registration < Ohm::Model
     sign_offs = []
     if conviction_sign_offs && conviction_sign_offs.size > 0
       conviction_sign_offs.each do  |sign_off|
-         sign_offs << sign_off.to_hash
+        sign_offs << sign_off.to_hash
       end
       result_hash['conviction_sign_offs'] = sign_offs
     end #if
@@ -758,6 +758,14 @@ class Registration < Ohm::Model
     registration.validates :postcode, presence: true, uk_postcode: true
   end
 
+  with_options if: [:address_step?, :address_lookup?] do |registration|
+    registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
+    registration.validates :streetLine1, presence: true, length: { maximum: 35 }
+    registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }
+    registration.validates :postcode, presence: true, uk_postcode: true
+  end
+
+
   with_options if: [:address_step?, :manual_foreign_address?] do |registration|
     registration.validates :streetLine1, presence: true, length: { maximum: 35 }
     registration.validates :streetLine2, :streetLine3, :streetLine4, length: { maximum: 35 }
@@ -913,6 +921,11 @@ class Registration < Ohm::Model
     addressMode == 'manual-foreign'
   end
 
+  def address_lookup?
+    addressMode != 'manual-uk' && 
+    addressMode != 'manual-foreign'
+  end
+
   def limited_company?
     businessType == 'limitedCompany'
   end
@@ -1014,23 +1027,23 @@ class Registration < Ohm::Model
       false
     end
   end
-  
+
   def revoked?
     metaData.first.status == 'REVOKED'
   end
-  
+
   def deleted?
     metaData.first.status == 'INACTIVE'
   end
-  
+
   def refused?
     metaData.first.status == 'REFUSED'
   end
-  
+
   def is_revocable?(agency_user=nil)
     is_complete? and user_can_edit_registration(agency_user)
   end
-  
+
   def is_unrevocable?(agency_user=nil)
     metaData.first.status == "REVOKED" and user_can_edit_registration(agency_user)
   end
@@ -1045,24 +1058,24 @@ class Registration < Ohm::Model
 
   def can_be_edited?(agency_user=nil)
     metaData.first.status != 'REVOKED' && \
-    metaData.first.status != 'EXPIRED' && \
-    metaData.first.status != 'PENDING' && \
-    metaData.first.status != 'INACTIVE' && \
-    metaData.first.status != 'REFUSED' && \
-    user_can_edit_registration(agency_user)
+      metaData.first.status != 'EXPIRED' && \
+      metaData.first.status != 'PENDING' && \
+      metaData.first.status != 'INACTIVE' && \
+      metaData.first.status != 'REFUSED' && \
+      user_can_edit_registration(agency_user)
   end
 
   def can_view_certificate?
     metaData.first.status != 'REVOKED' && \
-    metaData.first.status != 'EXPIRED' && \
-    metaData.first.status != 'PENDING' && \
-    metaData.first.status != 'INACTIVE'
+      metaData.first.status != 'EXPIRED' && \
+      metaData.first.status != 'PENDING' && \
+      metaData.first.status != 'INACTIVE'
   end
 
   def can_request_copy_cards?(agency_user=nil)
     metaData.first.status == 'ACTIVE' && upper? and user_can_edit_registration(agency_user)
   end
-  
+
   def can_view_payment_status?
     # all users can view payment status
     true
@@ -1071,15 +1084,15 @@ class Registration < Ohm::Model
   def can_be_deleted?(agency_user)
     !deleted? and user_can_edit_registration(agency_user)
   end
-  
+
   def can_be_approved?(agency_user=nil)
     (metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user)) || metaData.first.status == 'REFUSED'
   end
-  
+
   def can_be_refused?(agency_user=nil)
     metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user)
   end
-  
+
   def user_can_edit_registration(agency_user)
     if agency_user and agency_user.is_agency_user?
       isEitherFinance = agency_user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
@@ -1177,7 +1190,7 @@ class Registration < Ohm::Model
     is_complete
 
   end
-  
+
   UpperRegistrationStatus = %w[
     INACTIVE
     EXPIRED
@@ -1187,48 +1200,48 @@ class Registration < Ohm::Model
     PENDINGPAYMENT
     COMPLETE
   ]
-  
+
   LowerRegistrationStatus = %w[
     INACTIVE
     REVOKED
     PENDING
     COMPLETE
   ]
-  
+
   def get_label_for_status( status)
-    I18n.t('registration_status.' + status.to_s) 
+    I18n.t('registration_status.' + status.to_s)
   end
-  
+
   def registration_status
-    if upper?      
+    if upper?
       # For UPPER:
       Rails.logger.debug "Upper registration " + uuid.to_s
-      
+
       # Deleted
       if deleted?
         Rails.logger.debug "Upper registration " + companyName.to_s + " is deleted"
         get_label_for_status( UpperRegistrationStatus[0])
-      # Expired
+        # Expired
       elsif expired?
         Rails.logger.debug "Upper registration " + companyName.to_s + " has expired"
         get_label_for_status( UpperRegistrationStatus[1])
-      # Revoked
+        # Revoked
       elsif revoked?
         Rails.logger.debug "Upper registration " + companyName.to_s + " is revoked"
         get_label_for_status( UpperRegistrationStatus[2])
-      # Refused
+        # Refused
       elsif refused?
         Rails.logger.debug "Upper registration " + companyName.to_s + " has been refused"
         get_label_for_status( UpperRegistrationStatus[3])
-      # Conviction Check
+        # Conviction Check
       elsif is_awaiting_conviction_confirmation?
         Rails.logger.debug "Upper registration " + companyName.to_s + " is awaiting convictions"
         get_label_for_status( UpperRegistrationStatus[4])
-      # Awaiting Payment
+        # Awaiting Payment
       elsif !paid_in_full?
         Rails.logger.debug "Upper registration " + companyName.to_s + " is not paid"
         get_label_for_status( UpperRegistrationStatus[5])
-      # Registered
+        # Registered
       elsif is_complete?
         Rails.logger.debug "Upper registration " + companyName.to_s + " is complete"
         get_label_for_status( UpperRegistrationStatus[6])
@@ -1240,17 +1253,17 @@ class Registration < Ohm::Model
     else
       # For LOWER:
       Rails.logger.debug "Lower registration " + uuid.to_s
-      
+
       # Deleted
       if deleted?
         get_label_for_status( LowerRegistrationStatus[0])
-      # Revoked
+        # Revoked
       elsif revoked?
         get_label_for_status( LowerRegistrationStatus[1])
-      # Pending
+        # Pending
       elsif pending?
         get_label_for_status( LowerRegistrationStatus[2])
-      # Registered
+        # Registered
       elsif is_complete?
         get_label_for_status( LowerRegistrationStatus[3])
       else
@@ -1265,8 +1278,8 @@ class Registration < Ohm::Model
     rs = Registration.find_by_email(user.email)
     Rails.logger.info("found: #{rs.size} pending registrations")
     rs.each do |r|
-        Registration.activate_registration(r)
-        Registration.send_registered_email(user, r)
+      Registration.activate_registration(r)
+      Registration.send_registered_email(user, r)
     end #each
     Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
@@ -1274,11 +1287,11 @@ class Registration < Ohm::Model
   def self.isReadyToBeActive(reg)
     reg.paid_in_full? and !reg.is_awaiting_conviction_confirmation?
   end
-  
+
   def self.isAwaitingPayment(reg)
     !reg.paid_in_full? and !reg.is_awaiting_conviction_confirmation?
   end
-  
+
   def self.isAwaitingConvictions(reg)
     reg.upper? and reg.is_awaiting_conviction_confirmation?
   end
@@ -1350,11 +1363,11 @@ class Registration < Ohm::Model
 
   # Changes the registration's status to INACTIVE
   # i.e. a 'soft' delete
-  # 
+  #
   # @return [Boolean] true if update successful
   def set_inactive
-     metaData.first.update(status: 'INACTIVE')
-     save!
+    metaData.first.update(status: 'INACTIVE')
+    save!
   end
 
   def is_active?
