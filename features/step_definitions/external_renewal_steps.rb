@@ -14,12 +14,14 @@ end
 Then(/^my renewal should be complete$/) do
   # This is currently registration complete as that is how it works but ideally renewals should state renewal complete
   page.should have_content 'Registration complete'
+  page.should have_content 'Your certificate and guidance have been emailed to'
   click_on 'Finish'
   page.should have_content 'ACTIVE'
 end
 
 Then(/^my renewal should be awaiting payment$/) do
   page.should have_content 'Almost there'
+  page.should have_content 'Your certificate and guidance have been emailed to'
   click_on 'Finish'
   # This is not a great test as it checks if the previous registration is still active not if the new one has been extended
   # That test is covered by the step 'the expiry date should be updated'
