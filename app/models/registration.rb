@@ -794,7 +794,7 @@ class Registration < Ohm::Model
 
   validates :registrationType, presence: true, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer) }, if: :registrationtype_step?
 
-  with_options if: [:businessdetails_step?, :limited_company?] do |registration|
+  with_options if: [:businessdetails_step?, :limited_company?, :upper?] do |registration|
     registration.validates :company_no, presence: true, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }
     registration.validate :limited_company_must_be_active
   end
