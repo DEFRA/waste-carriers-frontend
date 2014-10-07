@@ -250,7 +250,13 @@ module OrderHelper
     myOrder.currency = 'GBP'
     myOrder.dateCreated = now
     myOrder.dateLastUpdated = now
-    myOrder.updatedByUser = myRegistration.accountEmail
+    if current_user
+      myOrder.updatedByUser = current_user.email
+    elsif current_agency_user
+      myOrder.updatedByUser = current_agency_user.email
+    else
+      myOrder.updatedByUser = myRegistration.accountEmail
+    end
     myOrder.amountType = Order.getPositiveType
     myOrder
   end
