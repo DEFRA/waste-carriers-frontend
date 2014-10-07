@@ -93,6 +93,7 @@ class KeyPerson < Ohm::Model
       set_dob
       errors.add(:dob, I18n.t('errors.messages.invalid_date')) unless dob
       errors.add(:dob, I18n.t('errors.messages.date_not_in_past')) unless dob.try(:past?)
+      errors.add(:dob, I18n.t('errors.messages.dob_less_than_18_years')) if (dob > Date.today-18.years)
     end
 
     def set_dob
