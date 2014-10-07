@@ -226,6 +226,7 @@ en:
       invalid_characters: "contains invalid characters. Please only use letters, numbers, or \\'&%!."
       invalid_date: "is not a valid date (dd/mm/yyyy)"
       date_not_in_past: "must be in the past"
+      dob_less_than_18_years: "must be more than 18 years ago"
       invalid_selection: "has an invalid selection"
       letters: "can only contain letters"
       lettersSpaces: "can only contain letters and spaces"
