@@ -514,7 +514,7 @@ en:
       subtitle: "Do you ever deal with construction or demolition waste?"
       title: "Construction or demolition"
     copyCardComplete:
-      subtitle: "Additional copy card order complete"
+      subtitle: "Thank you for your copy card order"
       title: "Order Complete"
       copyCardDelayNotice: "Copy cards can take up to 10 working days to arrive once we have received your payment."
     editRenewComplete:
@@ -1056,6 +1056,7 @@ en:
       complete_edit_with_charge_unpaid_message: "Your registration has been updated pending payment"
       criminal_title: "Incomplete"
       criminal_message: "We are running background checks on the information you have provided"
+      copycard_title: "Your order has been sucessful"
     current_user:
       change_password: "Change password"
       new_registration: "New registration"
