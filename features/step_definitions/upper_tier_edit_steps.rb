@@ -77,7 +77,7 @@ Then(/^my edit should be complete$/) do
   # This is currently registration complete as that is how it works but ideally renewals should state edit complete
   page.should have_content 'Registration complete'
   # Update this once more appropriate content has been created
-  page.should have_content 'TBC - Edit / Renew order complete page'
+  page.should have_content 'Your certificate and guidance have been emailed to'
   click_on 'Finish'
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
@@ -88,7 +88,7 @@ Then(/^my edit should be awaiting payment$/) do
   # This is currently registration complete as that is how it works but ideally renewals should state edit complete
   page.should have_content 'Almost there'
   # Update this once more appropriate content has been created
-  page.should have_content 'Edited: with charge'
+  page.should have_content 'Your certificate and guidance have been emailed to'
   click_on 'Finish'
   # Check routing after clicking finish
   page.should have_content 'Your registrations'

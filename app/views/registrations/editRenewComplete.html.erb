@@ -28,6 +28,8 @@
 
 
     <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+    
+    <!-- Removed as not required according to Balsamiq screens
         <% title =  ''  %>
         <% subtitle =  'TBC - Edit / Renew order complete page'  %>
         <% case  @edit_mode.to_i%>
@@ -53,9 +55,13 @@
         <legend class="heading-large"><%= title %></legend>
 
         <p class='registered'><%= subtitle %></p>
-
+    -->
 
     <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+    
+        <p><%= t 'registrations.confirmed.details_emailed', :email => @registration.accountEmail %></p>
+        
+        <p><%= t 'registrations.confirmed.details_change' %></p>
 
         <%= form_tag(@exitRoute) do |f| %>
           <span class="next_link">
