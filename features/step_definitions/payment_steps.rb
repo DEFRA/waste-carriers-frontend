@@ -13,6 +13,16 @@ def waitForWorldpayRedirect
     if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
       puts '... Waiting a further 10 seconds for worldpay to respond'
       sleep 10.0
+      
+      if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
+        puts '... Waiting a final 10 seconds for worldpay to respond'
+        
+        sleep 10.0
+        
+        if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
+          puts 'Warning: Not redirecting out of worldpay, if the following test fails, it is likely because this route never left worldpay'
+        end
+      end
     end
     
     # If neccesary change default wait time for capybara commands to wait longer for content to appear
