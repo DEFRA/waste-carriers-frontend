@@ -24,6 +24,8 @@ end
 
 And(/^I pay by card$/) do
   click_on 'Pay by debit/credit card'
+  
+  sleep 0.5
 
   click_on 'MasterCard'
 
