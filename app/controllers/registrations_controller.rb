@@ -356,10 +356,13 @@ class RegistrationsController < ApplicationController
       @registration.update(:postcode => params[:registration][:postcode])
       begin
         @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
+        session.delete(:address_lookup_failure) if session[:address_lookup_failure]
         logger.debug @address_match_list.size.to_s
       rescue Errno::ECONNREFUSED
+        session[:address_lookup_failure] = true
         logger.error 'ERROR: Address Lookup Not running, or not Found'
       rescue ActiveResource::ServerError
+        session[:address_lookup_failure] = true
         logger.error 'ERROR: ActiveResource Server error!'
       end
       render 'newBusinessDetails', status: '200'
