@@ -74,4 +74,23 @@ describe RegistrationsHelper do
       end
     end
   end
+
+  describe 'google analytics status colours' do
+    it 'should show as green if complete' do
+      helper.google_analytics_status_color(RegistrationsHelper::STATUS_COMPLETE).should == 'green'
+    end
+
+    it 'should show as amber if almost complete' do
+      helper.google_analytics_status_color(RegistrationsHelper::STATUS_ALMOST_COMPLETE).should == 'amber'
+    end
+
+    it 'should show as amber if criminally suspect' do
+      helper.google_analytics_status_color(RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT).should == 'amber'
+    end
+
+    it 'should show as empty otherwise' do
+      helper.google_analytics_status_color(nil).should == ''
+    end
+
+  end
 end
