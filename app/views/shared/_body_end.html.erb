@@ -4,7 +4,7 @@
     dataLayer = [{
       'renewal': '<%= session[:ga_is_renewal]%>',
       'tier': '<%= session[:ga_tier]%>',
-      'convictions': '',
+      'convictions': '<%= google_analytics_convictions_indicator(@registration)%>',
       'payment': '<%= google_analytics_payment_indicator(@order)%>',
       'status': '<%= google_analytics_status_color(@confirmationType)%>',
     }]; 
