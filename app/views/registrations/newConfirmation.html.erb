@@ -202,10 +202,15 @@
               <li>
                 <p class="privacy-data">
                   <%= t '.privacy_data_text1' %>
-                  <a href='/public/privacy'><%= t '.privacy_policy_link1' %></a>
+
+                  <%= link_to t('.privacy_policy_link1'), :policy %>
+
                   <%= t '.privacy_data_text2' %>
-                  <a href='/public/cookies'><%= t '.privacy_policy_link2' %></a>
+
+                  <%= link_to t('.privacy_policy_link2'), :cookies %>
+
                   <%= t '.privacy_data_text3'  %>
+
                 </p>
               </li>
             </ol>
