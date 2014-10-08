@@ -5,8 +5,8 @@
       'renewal': '<%= session[:ga_is_renewal]%>',
       'tier': '<%= session[:ga_tier]%>',
       'convictions': '',
-      'payment': '',
-      'status': 'green',
+      'payment': '<%= google_analytics_payment_indicator(@order)%>',
+      'status': '<%= google_analytics_status_color(@confirmationType)%>',
     }]; 
     </script>
 

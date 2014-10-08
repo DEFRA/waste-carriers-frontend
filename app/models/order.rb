@@ -317,6 +317,15 @@ class Order < Ohm::Model
     !isManualOrder?
   end
 
+  def isOnlinePayment?
+    self.paymentMethod == 'ONLINE'
+  end
+
+  def isOfflinePayment?
+    self.paymentMethod == 'OFFLINE'
+  end
+
+
   private
 
   def poundsToPence
@@ -341,10 +350,6 @@ class Order < Ohm::Model
   def divideAmount
     self.totalAmount = (Float(self.totalAmount)/100).to_s
     Rails.logger.info 'divideAmount result:' + self.totalAmount.to_s
-  end
-
-  def isOnlinePayment?
-    self.paymentMethod == 'ONLINE'
   end
 
   def validate_totalAmount

@@ -245,6 +245,41 @@ module RegistrationsHelper
     confirmationType
   end
 
+  #return the status color indicator for Google Analytics: 'green' or 'amber' depending on registration confirmation status
+  def google_analytics_status_color confirmation_type
+    logger.info 'Determine Google Analytics status color to show for confirmation type: ' + confirmation_type.to_s
+    ga_color = ''
+    if !confirmation_type
+      return ga_color
+    end
+
+    if confirmation_type.eql? STATUS_COMPLETE
+      ga_color = 'green'
+    elsif confirmation_type.eql? STATUS_COMPLETE_LOWER
+      ga_color = 'green'
+    elsif confirmation_type.eql? STATUS_ALMOST_COMPLETE 
+      ga_color = 'amber'
+    elsif confirmation_type.eql? STATUS_CRIMINALLY_SUSPECT
+      ga_color = 'amber'
+    end
+    ga_color
+  end
+
+  #return 'bacs' for bank transfer, or 'cc' for card payments, or an empty string if not yet determined
+  def google_analytics_payment_indicator current_order
+    payment_indicator = ''
+    if !current_order
+      return payment_indicator
+    end
+    if current_order.isOnlinePayment?
+      payment_indicator = 'cc'
+    elsif current_order.isOfflinePayment?
+      payment_indicator = 'bacs'
+    end
+    payment_indicator
+  end
+
+
   def isCurrentRegistrationType registrationNumber
     # Strip leading and trailing whitespace from number
     regNo = registrationNumber.rstrip.lstrip
