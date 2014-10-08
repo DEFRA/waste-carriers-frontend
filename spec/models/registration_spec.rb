@@ -171,6 +171,7 @@ describe Registration do
     context 'limited company' do
       before do
         subject.businessType = 'limitedCompany'
+        subject.tier = 'UPPER'
       end
 
       it { should validate_presence_of(:company_no) }
