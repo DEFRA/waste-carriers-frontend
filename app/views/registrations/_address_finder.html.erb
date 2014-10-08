@@ -31,14 +31,14 @@
       <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
 
   <% end %>  <!-- if -->
-
+</ul>
 <% when r.addressMode == 'manual-uk' %>
   <%= render 'uk_address_entry', f: f  %>
-  <li><a href="?autoUkAddress=true"><%= t '.find_address_using_postcode'%></a></li>
+  <a href="?autoUkAddress=true"><%= t '.find_address_using_postcode'%></a>
 
 <% when r.addressMode == 'manual-foreign'  %>
   <%= render 'foreign_address_entry', f: f  %>
-  <li><a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a></li>
+  <a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a>
 <% end %>
-</ul>
+
 </div>

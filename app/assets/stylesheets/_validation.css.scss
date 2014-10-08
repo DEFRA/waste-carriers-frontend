@@ -19,6 +19,7 @@
   border: 3px solid $error-colour;
   padding: $gutter-half $gutter;
   margin-bottom: $gutter;
+  background: none repeat scroll 0 0 rgb(254, 247, 247);
   @include core-19;
     @include ie-lte(6){
     zoom: 1;
@@ -26,6 +27,10 @@
 }
 .validation-summary ul {
   margin-top: 10px;
+}
+
+.validation ul {
+  background: none repeat scroll 0 0 rgb(254, 247, 247);
 }
 
 .validation-summary p {
@@ -67,7 +72,7 @@
   border-left: 3px solid $error-colour;
   list-style: none;
   margin: 0;
-  padding: 0 0 0 1em;
+  padding: 1em;
 }
 
 .validation .block-label {
