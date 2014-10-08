@@ -59,10 +59,16 @@ class ConvictionSearchResult < Ohm::Model
       begin
         result = JSON.parse RestClient.get @@URL, params: params
         search_result = ConvictionSearchResult.init(result)
+      rescue Errno::ECONNREFUSED => e
+        Rails.logger.error "Services unavailable: "
+        search_result.match_result = 'UNKNOWN'
+        search_result.matching_system = 'SERVICE_UNAVAILABLE'
+        search_result.searched_at = Time.now.to_i
+        search_result.confirmed = 'no'
       rescue Exception => e
         Rails.logger.debug e.message
         search_result.match_result = 'UNKNOWN'
-        search_result.matching_system = 'ERROR'
+        search_result.matching_system = 'ERROR: ' + e.message
         search_result.searched_at = Time.now.to_i
         search_result.confirmed = 'no'
       end
