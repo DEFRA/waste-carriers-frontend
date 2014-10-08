@@ -72,6 +72,7 @@ class RegistrationsController < ApplicationController
     # Validate which registration type selected, checking against known types
     if @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0].downcase
       logger.debug "Redirect to renewal"
+      #These :ga_... are used for Google Analytics
       session[:ga_is_renewal] = true
       redirect_to :enterRegistration
       return
