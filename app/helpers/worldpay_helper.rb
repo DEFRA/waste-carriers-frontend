@@ -30,11 +30,12 @@ module WorldpayHelper
       #orderContent = 'Waste Carrier Registration ' + registration.regIdentifier.to_s + ' ' + registration.companyName.to_s
       orderContent = order.description
       shopperEmail = registration.accountEmail || ''
-      shopperFirstName = 'Joe'
-      shopperLastName = 'Bloggs'
-      shopperAddress1 = 'Test Street 123 - To be removed'
-      shopperPostalCode = 'BS1 5AH'
-      shopperCity = 'Bristol'
+      shopperFirstName = registration.firstName
+      shopperLastName = registration.lastName
+      shopperAddress1 = registration.houseNumber
+      shopperAddress2 = registration.streetLine1
+      shopperPostalCode = registration.postcode
+      shopperCity = registration.townCity
       shopperCountryCode = 'GB'
 
       xml = "<?xml version=\"1.0\"?>\n"
@@ -59,6 +60,7 @@ module WorldpayHelper
       xml << '<firstName>' + shopperFirstName + '</firstName>'
       xml << '<lastName>' + shopperLastName + '</lastName>'
       xml << '<address1>' + shopperAddress1 + '</address1>'
+      xml << '<address2>' + shopperAddress2 + '</address2>'
       xml << '<postalCode>' + shopperPostalCode + '</postalCode>'
       xml << '<city>' + shopperCity + '</city>'
       xml << '<countryCode>' + shopperCountryCode + '</countryCode>'
