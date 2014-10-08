@@ -69,7 +69,7 @@ Registrations::Application.routes.draw do
 
     # Add a new route for the print view
     match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
-    
+
     # Add routing for revoke/unrevoke registration
     get "registrations/:id/revoke" => 'registrations#revoke', :via => [:get], :as => :revoke
     get "registrations/:id/unrevoke" => 'registrations#unRevoke', :via => [:get], :as => :unrevoke
@@ -201,6 +201,10 @@ Registrations::Application.routes.draw do
   get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user
 
   get "version" => 'home#version', :via => [:get], :as => :app_version
+
+  get "policy" => 'home#policy', :via => [:get], :as => :policy
+
+  get "cookies" => 'home#cookies', :via => [:get], :as => :cookies
 
   # Add a route for a 404, Define this catch all unknowns last
   #if Rails.env.development?
