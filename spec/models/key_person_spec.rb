@@ -9,9 +9,15 @@ describe KeyPerson do
   it { should validate_presence_of(:dob_year) }
 
   describe 'dob' do
-    context 'past' do
+    context 'past within 18 years' do
       Timecop.freeze('5 Jul 2014'.to_date) do
-        it { should allow_value('4 Jul 2014'.to_date).for(:dob) }
+        it { should_not allow_value('4 Jul 2014'.to_date).for(:dob) }
+      end
+    end
+
+    context 'past ouside 18 years' do
+      Timecop.freeze('5 Jul 2014'.to_date) do
+        it { should allow_value('4 Jul 1996'.to_date).for(:dob) }
       end
     end
 
