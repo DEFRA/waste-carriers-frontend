@@ -278,6 +278,19 @@ module RegistrationsHelper
     payment_indicator
   end
 
+  #Return true or false based on the user's andwer to the has-relevant-convictions question
+  def google_analytics_convictions_indicator registration
+    if !registration
+      return ''
+    end
+    if registration.declaredConvictions == 'yes'
+      return 'true'
+    elsif registration.declaredConvictions == 'no'
+      return 'false'
+    end
+    ''
+  end
+
 
   def isCurrentRegistrationType registrationNumber
     # Strip leading and trailing whitespace from number
