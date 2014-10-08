@@ -148,8 +148,7 @@ module RegistrationsHelper
       return
     end
 
-    logger.debug "reg: #{@registration.id}  #{@registration.to_json}"
-
+    debug_print_registration("#{ __method__}")
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
     @registration.current_step = current_step
@@ -217,9 +216,9 @@ module RegistrationsHelper
       awaiting_conviction_confirm = @registration.is_awaiting_conviction_confirmation?
 
       if @registration.paid_in_full?
-          logger.debug "registration.paid_in_full"
-        else
-          logger.debug "registration NOT paid_in_full"
+        logger.debug "registration.paid_in_full"
+      else
+        logger.debug "registration NOT paid_in_full"
       end
 
       if awaiting_conviction_confirm
@@ -307,6 +306,14 @@ module RegistrationsHelper
       res = @registration.commit if res
     end
     res
+  end
+
+  def debug_print_registration( caller )
+    if @registration
+      logger.debug "Method: #{caller} - Registration: #{@registration.id}  #{@registration.to_json}"
+    else
+      logger.debug "Method: #{caller} - Registration is nil"
+    end
   end
 
 end
