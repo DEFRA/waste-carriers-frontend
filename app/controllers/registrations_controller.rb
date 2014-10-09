@@ -478,7 +478,9 @@ class RegistrationsController < ApplicationController
     new_step_action 'confirmation'
     case session[:edit_mode].to_i
     when EditMode::RECREATE
+       @registration.declaration = false
     when EditMode::EDIT, EditMode::RENEWAL
+       @registration.declaration = false
       if session[:edit_result].to_i.eql? EditResult::START  #this is the first time we hit the confirmation page
         session[:edit_result] = EditResult::START + 1
       else #we've hit the confirmation page before
@@ -1148,6 +1150,7 @@ class RegistrationsController < ApplicationController
     # the we can use it to compare it with the edited one.
     session[:original_registration_id] = Registration.find_by_id(params[:id]).id
     authorize! :update, @registration
+
 
     session[:registration_id] = @registration.id
     session[:registration_uuid] = @registration.uuid
