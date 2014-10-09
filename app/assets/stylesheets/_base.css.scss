@@ -167,5 +167,10 @@ p {
   -webkit-font-smoothing: antialiased;
 }
 
+a[rel="external"]:after {
+    background-position: right 6px;
+    background-image: url("/assets/external-links/external-link-d002b7f52534832ec88667ca0a25e1ed.png");
+    background-repeat: no-repeat;
+}
 
 
