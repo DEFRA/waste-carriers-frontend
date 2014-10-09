@@ -365,7 +365,7 @@ class RegistrationsController < ApplicationController
       begin
         @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
         session.delete(:address_lookup_failure) if session[:address_lookup_failure]
-        logger.debug @address_match_list.size.to_s
+        logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses" 
       rescue Errno::ECONNREFUSED
         session[:address_lookup_failure] = true
         logger.error 'ERROR: Address Lookup Not running, or not Found'
