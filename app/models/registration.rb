@@ -760,7 +760,8 @@ class Registration < Ohm::Model
 
   with_options if: [:address_step?, :address_lookup?] do |registration|
     registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
-    registration.validates :streetLine1, presence: true, length: { maximum: 35 }
+    # we're avoiding street field validation here, as sometime the Experian service fails to populate these fields so
+    # we don't want validation errors to stop the flow because the lookup isn't working properly.
     registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }
     registration.validates :postcode, presence: true, uk_postcode: true
   end
