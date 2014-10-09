@@ -340,7 +340,11 @@ class RegistrationsController < ApplicationController
       @registration.addressMode = nil
     end
 
-    @registration.save
+    if !@registration
+      logger.warn 'No @registration found - cannot save.'
+    else
+      @registration.save
+    end
   end
 
   # POST /your-registration/business-details
