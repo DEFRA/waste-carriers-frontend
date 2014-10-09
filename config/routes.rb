@@ -202,9 +202,12 @@ Registrations::Application.routes.draw do
 
   get "version" => 'home#version', :via => [:get], :as => :app_version
 
-  get "policy" => 'home#policy', :via => [:get], :as => :policy
-
   get "cookies" => 'home#cookies', :via => [:get], :as => :cookies
+
+  get "privacy" => 'home#privacy', :via => [:get], :as => :privacy
+
+
+
 
   # Add a route for a 404, Define this catch all unknowns last
   #if Rails.env.development?
