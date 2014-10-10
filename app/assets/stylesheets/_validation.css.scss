@@ -19,23 +19,23 @@
   border: 3px solid $error-colour;
   padding: $gutter-half $gutter;
   margin-bottom: $gutter;
-  background: none repeat scroll 0 0 rgb(254, 247, 247);
+  background: none repeat scroll 0 0 rgb(254, 225, 230);
   @include core-19;
     @include ie-lte(6){
     zoom: 1;
   }
 }
 .validation-summary ul {
-  margin-top: 10px;
+  margin-top: 1em;
 }
 
 .validation ul {
-  background: none repeat scroll 0 0 rgb(254, 247, 247);
+  background: none repeat scroll 0 0 rgb(254, 225, 230);
 }
 
 .validation-summary p {
   margin-top: $gutter-half;
-  margin-bottom: 5px;
+  margin-bottom: $gutter-half;
 }
 
 .validation-summary a {
@@ -72,7 +72,7 @@
   border-left: 3px solid $error-colour;
   list-style: none;
   margin: 0;
-  padding: 1em;
+  padding: 0.5em 0.5em 0.5em 1em;
 }
 
 .validation .block-label {

@@ -1,17 +1,17 @@
-<% if show_error %>
-    <div class="form-group validation">
-<% else %>
-    <div class="form-group">
-<% end %>
-    <%= f.label :postcode, for: "sPostcode", class: 'form-label' %>
-    <%= f.text_field :postcode, id: 'sPostcode', :size => 14, :maxlength => 10 %>
-</div><!-- Label select input does not work if id:sPostcode is in text_field string -->
+
+<div class="form-group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
+  <ul>
+      <li><%= validation_for(@registration, :postcode) %></li>
+      <li><%= f.label :postcode, for: "sPostcode", class: 'form-label' %></li>
+      <li><%= f.text_field :postcode, id: 'sPostcode', :size => 14, :maxlength => 10 %></li>
+  </ul>
+</div>
 
 <div class="form-group">
-<input type="submit" class="button find_address" name="findAddress" value="<%=t '.find_address_button'%>" onclick="addressFinder()"/>
-<ul>
-    <li><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></li>
-    <li><a href="?foreignAddress=true"><%= t '.foreign_address_link'%></a></li>
-</ul>
+  <input type="submit" class="button find_address" name="findAddress" value="<%=t '.find_address_button'%>" onclick="addressFinder()"/>
+  <ul>
+      <li><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></li>
+      <li><a href="?foreignAddress=true"><%= t '.foreign_address_link'%></a></li>
+  </ul>
 </div>
 

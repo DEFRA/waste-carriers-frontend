@@ -99,10 +99,10 @@ en:
         approveReason: "Reason for approve descision"
         refusedReason: "Reason for refuse descision"
         selectedMoniker: "Select address"
-        streetLine1: Street
-        streetLine2: "Address Line 2"
-        streetLine3: "Address Line 3"
-        streetLine4: "Address Line 4"
+        streetLine1: "Address line 1"
+        streetLine2: "Address line 2 (optional)"
+        streetLine3: "Address line 3"
+        streetLine4: "Address line 4"
         tier: "Tier"
         total_fee: "Total charge"
         townCity: "Town or city"
@@ -174,16 +174,6 @@ en:
     new:
       title: "Key person details"
   home:
-    feedback:
-      heading: "Contact us"
-      contact_link: "Contact us"
-      contact_text1: "If you want to provide us with any feedback about this service you can do so on this page."
-      contact_text2: "Alternatively you can call our helpline on 03708 506506."
-      contact_text3: "Your question"
-      contact_text4: "Do you want a reply?"
-      contact_text5: "If you would like us to get back to you please leave your details below."
-      contact_text6: "Your email address"
-      contact_text7: "We'll only use this to reply to your message."
     cookies:
       heading: "Cookies"
       cookie_text1: "The register as a waste carrier service puts small files (known as ‘cookies’) on to your computer. "
@@ -575,6 +565,7 @@ en:
       find_address_button: "Find UK address"
       manual_address_link: "I want to add an address myself"
       foreign_address_link: "I have an address outside the United Kingdom"
+      postcode: "Postcode"
     newContactDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Contact details"
@@ -760,9 +751,9 @@ en:
     foreign_address_entry:
       country: Country
       streetLine1: "Address line 1"
-      streetLine2: "Address line 2"
-      streetLine3: "Address line 3"
-      streetLine4: "Address line 4"
+      streetLine2: "Address line 2 (optional)"
+      streetLine3: "Address line 3 (optional)"
+      streetLine4: "Address line 4 (optional)"
     index:
       title: "Agency user controls"
       subtitle: "Registration search"

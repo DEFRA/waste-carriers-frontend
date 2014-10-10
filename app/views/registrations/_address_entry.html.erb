@@ -11,9 +11,11 @@
       house number (Building name or number) field -->
     <input type="hidden" name="registration[addressMode]" value="manual-uk"/>
     <div class="form-group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
-        <%= validation_for(@registration, :houseNumber) %>
-        <%= f.label :houseNumber, class: 'form-label' %>
-        <%= f.text_field :houseNumber, :size => 20, :maxlength => 35 %>
+      <ul>
+        <li><%= validation_for(@registration, :houseNumber) %></li>
+        <li><%= f.label :houseNumber, class: 'form-label' %></li>
+        <li><%= f.text_field :houseNumber, :size => 20, :maxlength => 35 %></li>
+      </ul>
     </div>
   <%else%>
     <!-- Else the user selected address outside the UK link so again we record
@@ -26,32 +28,39 @@
     how to label them. -->
     <!-- Label to select and highlight input does not work with this logic -->
   <div class="form-group<%if @registration.errors[:streetLine1].any?%> validation<%end%>">
-      <%= validation_for(@registration, :streetLine1) %>
+    <ul>
+      <li><%= validation_for(@registration, :streetLine1) %></li>
       <% if @registration.addressMode == "manual-uk"%>
-        <%= f.label :streetLine1, class: 'form-label' %>
+        <li><%= f.label :streetLine1, class: 'form-label' %></li>
       <%else%>
-        <%= f.label :streetLine1, t('.streetLine1Foreign'), class: 'form-label' %>
+        <li><%= f.label :streetLine1, t('.streetLine1Foreign'), class: 'form-label' %></li>
       <%end%>
       <%= f.text_field :streetLine1, :size => 20, :maxlength => 35 %>
   </div>
   <div class="form-group<%if @registration.errors[:streetLine2].any?%> validation<%end%>">
-      <%= validation_for(@registration, :streetLine2) %>
-      <%= f.label :streetLine2, class: 'form-label' %>
-      <%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %>
+    <ul>
+      <li><%= validation_for(@registration, :streetLine2) %></li>
+      <li><%= f.label :streetLine2, class: 'form-label' %></li>
+      <li><%= f.text_field :streetLine2, :size => 20, :maxlength => 35 %></li>
+    </ul>
   </div>
 
   <%if @registration.addressMode == "manual-uk" %>
     <!-- If we are dealing with a manual UK address then the next 2 fields are
       town or city and Post Code -->
     <div class="form-group<%if @registration.errors[:townCity].any?%> validation<%end%>">
-        <%= validation_for(@registration, :townCity) %>
-        <%= f.label :townCity, class: 'form-label' %>
-        <%= f.text_field :townCity, :size => 20, :maxlength => 35 %>
+      <ul>
+        <li><%= validation_for(@registration, :townCity) %></li>
+        <li><%= f.label :townCity, class: 'form-label' %></li>
+        <li><%= f.text_field :townCity, :size => 20, :maxlength => 35 %></li>
+      </ul>
     </div>
     <div class="form-group<%if @registration.errors[:postcode].any?%> validation<%end%>">
-        <%= validation_for(@registration, :postcode) %>
-        <%= f.label :postcode, class: 'form-label' %>
-        <%= f.text_field :postcode, :size => 14, :maxlength => 10 %>
+      <ul>
+        <li><%= validation_for(@registration, :postcode) %></li>
+        <li><%= f.label :postcode, class: 'form-label' %></li>
+        <li><%= f.text_field :postcode, :size => 14, :maxlength => 10 %></li>
+      </ul>
     </div>
   <%else%>
     <!-- Else we are dealing with an overseas address so the fields are simply
@@ -59,19 +68,25 @@
 
     <%= f.hidden_field :addressMode, value: 'manual-foreign' %>
     <div class="form-group<%if @registration.errors[:streetLine3].any?%> validation<%end%>">
-        <%= validation_for(@registration, :streetLine3) %>
-        <%= f.label :streetLine3, class: 'form-label' %>
-        <%= f.text_field :streetLine3, :size => 20, :maxlength => 35 %>
+      <ul>
+        <li><%= validation_for(@registration, :streetLine3) %></li>
+        <li><%= f.label :streetLine3, class: 'form-label' %></li>
+        <li><%= f.text_field :streetLine3, :size => 20, :maxlength => 35 %></li>
+      </ul>
     </div>
     <div class="form-group<%if @registration.errors[:streetLine4].any?%> validation<%end%>">
-        <%= validation_for(@registration, :streetLine4) %>
-        <%= f.label :streetLine4, class: 'form-label offscreen' %>
-        <%= f.text_field :streetLine4, :size => 20, :maxlength => 35 %>
+      <ul>
+        <li><%= validation_for(@registration, :streetLine4) %></li>
+        <li><%= f.label :streetLine4, class: 'form-label offscreen' %></li>
+        <li><%= f.text_field :streetLine4, :size => 20, :maxlength => 35 %></li>
+      </ul>
     </div>
     <div class="form-group<%if @registration.errors[:country].any?%> validation<%end%>">
-        <%= validation_for(@registration, :country) %>
-        <%= f.label :country, class: 'form-label' %>
-        <%= f.text_field :country %>
+      <ul>
+        <li><%= validation_for(@registration, :country) %></li>
+        <li><%= f.label :country, class: 'form-label' %></li>
+        <li><%= f.text_field :country %></li>
+      </ul>
     </div>
   <%end%>
 <%else%>
@@ -98,12 +113,14 @@
       The selectedMoniker appears to be a unique key for the address, and the first bit of code
       checks for any errors in the model on its selectedMoniker. -->
     <div class="form-group<%if @registration.errors[:selectedMoniker].any?%> validation<%end%>">
-      <%= validation_for(@registration, :selectedMoniker) %>
+      <ul>
+      <li><%= validation_for(@registration, :selectedMoniker) %></li>
 
       <!-- Display elements for selecting an address from the results, including retaining
         the postcode submitted in a hidden field -->
-      <input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/>
-      <label class='form-label' for="sSelect"><%= t '.selectAddress'%> <a href="?sSearch=true"><%= t '.change'%></a></label>
+      <li><input type="hidden" name="sPostcode" value="<%=params[:sPostcode]%>"/></li>
+      <li><label class='form-label' for="sSelect"><%= t '.selectAddress'%></li>
+        <a href="?sSearch=true"><%= t '.change'%></a></label>
 
       <!-- Explanation of the ruby for the uninitiated; the first bit creates an an array of 2
         values, 10 and the count of addresses. It then says return which is the smallest [].min. This is used to determine
@@ -121,19 +138,20 @@
   <%else%>
     <!-- This section gets hit when the page is first loaded -->
     <div class="form-group<%if @registration.errors[:postcodeSearch].any? or params[:sPostcode]%> validation<%end%>">
-
+      <ul>
       <%if params[:sPostcode] and params[:sPostcode]!=""%>
         <!-- The user has entered a postcode but there were no matches -->
-        <span class="error-text"><%= t '.no_results_error'%></span>
+        <li><span class="error-text"><%= t '.no_results_error'%></span></li>
       <%elsif params[:sPostcode]%>
         <!-- The user has hit Find address but not entered anything -->
-        <span class="error-text"><%= t '.postcode_search_error'%></span>
+        <li><span class="error-text"><%= t '.postcode_search_error'%></span></li>
       <%else%>
         <!-- This bit actually gets called when the page is first hit.
           The validation_for() method can be found in app/helpers/registrations_helper. In this
           instance it is calling validate_postcodeSearch on the registration model  -->
         <%= validation_for(@registration, :postcodeSearch) %>
       <%end%>
+    </ul>
 
       <!-- Display elements for the entering and submitting the postcode to search for -->
       <%= f.label :postcode, class: 'form-label-postcode' %>
