@@ -52,6 +52,34 @@ And(/^I pay by card$/) do
   
 end
 
+And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
+  click_on 'Pay by debit/credit card'
+  
+  sleep 0.5
+
+  # Build test parameter to compare to worldpay test page
+  totalParams = 'GBP ' + arg1 + '.' + arg2
+  # Get amount value from worldpay page
+  worldpayAmount = find(:xpath, '//body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/span/b').text
+  # Check worldpay site matches expected value
+  worldpayAmount.should match totalParams
+
+  # Continue with Worlpay payment
+  click_on 'MasterCard'
+
+  fill_in 'Card number', with: '4444333322221111'
+  select '12', from: 'cardExp.month'
+  select Date.current.year + 2, from: 'cardExp.year'
+  fill_in "Cardholder's name", with: 'B Butler'
+  fill_in 'Address 1', with: 'Deanery St.'
+  fill_in 'Town/City', with: 'Bristol'
+  fill_in 'Postcode/ZIP', with: 'BS1 5AH'
+  click_on 'op-PMMakePayment'
+
+  step 'I set test simulator page to all okay'
+  
+end
+
 Then(/^I set test simulator page to all okay$/) do
   sleep 3.0
   #By now we should be on the Test Simulator page...
@@ -89,6 +117,18 @@ end
 
 And(/^I choose to pay by bank transfer$/) do
   click_on 'Pay via electronic transfer'
+end
+
+And(/^I choose pay via electronic transfer ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
+  click_on 'Pay via electronic transfer'
+  
+  # Build test parameter to compare to offline payment page
+  totalParams = '£' + arg1 + '.' + arg2
+  # Get amount value from offline payment page
+  offlineAmount = find_by_id('payment-table-wrapper').find(:xpath, '//table[1]/tbody/tr[2]/td[2]').text
+  # Check worldpay site matches expected value
+  offlineAmount.should match totalParams
+  
 end
 
 Then(/^I make a note of the details$/) do
