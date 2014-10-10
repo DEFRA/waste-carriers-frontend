@@ -72,7 +72,7 @@ class KeyPerson < Ohm::Model
       Rails.logger.debug "Use original value as its already formatted as a Date"
       hash['dob'] = self.dob.to_s
     end
-    puts "-------------------------------------- Result Key Person DOB: " + hash['dob'].to_s   
+    #puts "-------------------------------------- Result Key Person DOB: " + hash['dob'].to_s   
     
     hash['conviction_search_result'] = conviction_search_result.first.to_hash if conviction_search_result.size == 1
     hash
