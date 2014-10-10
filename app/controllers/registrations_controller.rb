@@ -900,6 +900,7 @@ class RegistrationsController < ApplicationController
   # POST /registrations/finish-assisted
   def updateFinishAssisted
     if agency_user_signed_in?
+      clear_registration_session
       redirect_to :action => 'index'
     else
       renderNotFound
