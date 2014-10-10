@@ -60,7 +60,7 @@ module WorldpayHelper
       xml << '<firstName>' + shopperFirstName + '</firstName>'
       xml << '<lastName>' + shopperLastName + '</lastName>'
       xml << '<address1>' + shopperAddress1 + '</address1>'
-      xml << '<address2>' + shopperAddress2 + '</address2>'
+      xml << '<address2>' + shopperAddress2.to_s + '</address2>'
       xml << '<postalCode>' + shopperPostalCode + '</postalCode>'
       xml << '<city>' + shopperCity + '</city>'
       xml << '<countryCode>' + shopperCountryCode + '</countryCode>'
