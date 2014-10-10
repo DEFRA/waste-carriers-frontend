@@ -1477,7 +1477,6 @@ class RegistrationsController < ApplicationController
     if params[:approve]
       # Approve
       logger.info '>>>>>> Approve Request Found'
-      if @registration.is_awaiting_conviction_confirmation?(current_agency_user)    # Checks if approvable, i.e. is registration in a state that can be made approved
         if !params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
           if agency_user_signed_in?                                     # Checks only agency users can approve
             # Get reason from params
@@ -1514,9 +1513,6 @@ class RegistrationsController < ApplicationController
         else
           @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
         end
-      else
-        renderAccessDenied and return
-      end
     else
       # Refuse
       if @registration.is_awaiting_conviction_confirmation?(current_agency_user)        # Checks if refusable, i.e. is registration in a state that can be made refused
