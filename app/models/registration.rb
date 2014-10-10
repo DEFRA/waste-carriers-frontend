@@ -647,7 +647,7 @@ class Registration < Ohm::Model
         when 'id'
           new_reg.uuid = v
         when 'expiresOn', 'expires_on'
-          new_reg.expires_on = convert_date(v)
+          new_reg.expires_on = convert_date(v) if v
 
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
