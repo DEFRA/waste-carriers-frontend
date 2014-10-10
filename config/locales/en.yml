@@ -802,7 +802,7 @@ en:
       firstName_label: "First name"
       houseNumber_label: "House number"
       individualsType_label: "Organisation type"
-      invalid_public_params: "You must provide a business or trading name. This must only use letters, numbers, or any of \\' . & ! %."
+      invalid_public_params: "Name of organisation must be completed."
       lastName_label: "Last name"
       manual_payment_button_label: "Select (Manual)"
       new_button_label: "New Registration"
@@ -964,14 +964,15 @@ en:
       filterLabel: "Filter by area (optional)"
       heading: "Check if an organisation is registered as a waste carrier, broker or dealer"
       miles: Miles
+      outsideuk: "If you are a Limited Company outside of the United Kingdom please call our helpline: 03708 506 506"
       placeholder: "eg Bristol Flowers Ltd or Luton Mill"
       postcode_label: "of this postcode"
       record: record
       regId_table_heading: "Registration number"
       search_button_label: Search
-      search_found: "Found %{count} %{carrier}"
+      search_found: "%{count} %{carrier} found"
       search_label: "Name of organisation"
-      search_results: "Showing %{initial}-%{count} of %{records}"
+      search_results: "Showing %{count} of %{records}"
     registration_step: "Step %{step_no} of 8"
     registrationtype_step:
       broker_dealer: broker/dealer
