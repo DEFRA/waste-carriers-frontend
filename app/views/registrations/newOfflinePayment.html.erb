@@ -10,18 +10,18 @@
   </ol>
 </div>
 
-<header class="page-header group">
-  <div class="hgroup">
-    <h1 class="heading-xlarge"><%= t '.heading' %></h1>
-    <h2 class="heading-medium"><%= t '.bank_transfer_instructions' %></h2>
-    <p><strong>Step 1 - </strong> use our account details below to make your internet or telephone banking payment.</P>
-  </div>
-</header>
+  <header class="page-header group">
+    <div class="hgroup">
+      <h1 class="heading-xlarge"><%= t '.heading' %></h1>
+      <h2 class="heading-medium"><%= t '.bank_transfer_instructions' %></h2>
+    </div>
+  </header>
 
-  <article role="article" class="group">
+  <div class="grid">
+    <div class="grid-2-3">
       <div id="payment-table-wrapper">
       <table summary='Bank transfer details' role='presentation'>
-        <thead></thead>
+        <thead><strong><%= t '.table_heading1' %></strong><%= t '.table_heading2' %></thead>
         <tbody>
           <tr>
             <td class='table-column-text'><%= t '.reference' %></td>
@@ -56,12 +56,8 @@
 
       <br/>
 
-      <div class="iban-instructions">
-        <p><%= t '.iban_instructions' %></p>
-      </div>
-
       <table summary='Bank transfer details' role='presentation'>
-        <thead></thead>
+        <thead><p><%= t '.iban_instructions' %></p></thead>
         <tbody>
           <tr>
             <td class='table-column-text'><%= t '.iban_number' %></td>
@@ -79,10 +75,8 @@
       <br/>
       <br/>
 
-      <p><span><strong>Step 2 - </strong><span><%= t '.bank_transfer_contact_instructions' %></p>
-
       <table summary='Bank transfer details' role='presentation'>
-        <thead></thead>
+        <thead><strong><%= t '.table_heading3' %></strong><%= t '.table_heading4' %></thead>
         <tbody>
           <tr>
             <td class='table-column-text'><%= t '.email_preamble' %></td>
@@ -99,17 +93,16 @@
         </tbody>
       </table>
 
-      <p class="panel-indent"><strong>We need confirmation of your payment to complete your registration. If you do not complete step 2 the payment process could be delayed and prevent us from sending your registration certificate</strong></p>
+    <p class="panel-indent"><strong>We need confirmation of your payment to complete your registration. If you do not complete step 2 the payment process could be delayed and prevent us from sending your registration certificate</strong></p>
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>
-    <ol>
-      <li><%= render 'next_link' %></li>
-    <ol>
+
+    <%= render 'next_link' %>
+
     <% end %>
-
-  </div><!--payment-table-wrapper-->
-
-</article>
+    </div><!-- end payment-table-wrapper -->
+    </div><!-- end grid -->
+  </div><!-- end grid -->
 
 </main><!--content end-->
 </div><!--wrapper end-->
