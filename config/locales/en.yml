@@ -318,10 +318,18 @@ en:
         subject: 'We have received your application for a %{tier} tier registration for %{companyName}, and are awaiting your payment.'
   order:
     new:
+      debit_card_note: "You will be transferred to the WorldPay site to pay by credit or debit card."
+      bank_transfer_note: "Paying by bank transfer requires 2 steps, both must be completed to activate your account."
       subtitle: "Payment summary"
       title: Payment
       total_fee_vat: "All charges are outside the scope of VAT"
       trouble_paying_link: "Trouble paying?"
+      copy_card_heading: "What are copy cards?"
+      copy_card_description: "Copy cards are credit-card sized copies of your registration. Copy cards are a useful way to carry around and show your registration details."
+      copy_card_caption: "Example of a copy card"
+      copy_card_information: "Additional copy cards can be purchased after your registration is complete. You will need to sign into your account to do this."
+      copy_card_text1: "Please note"
+      copy_card_text2: "- copy cards can take up to 10 working days to arrive depending on the status of your registration."
 #      new_reg_label: "New registration"
 #      payment_method_debit_credit: "Pay by debit or credit card"
 #      payment_method_elec_transfer: "Pay by electronic transfer"
@@ -867,13 +875,17 @@ en:
       fax_number: "Fax"
       heading: "Payment by bank transfer"
       iban_instructions: "If you are paying from outside the United Kingdom, include the international banking references below."
-      sterling_instruction: "Payments must be made in sterling"
       iban_number: "IBAN number"
       payment_due: "Payment due"
       postal_address: "Postal address"
       reference: "Payment reference number"
+      sterling_instruction: "Payments must be made in sterling"
       sort_code: "Sort code"
       swiftbic_number: "SWIFTBIC number"
+      table_heading1: "Step 1 - "
+      table_heading2: "use our account details below to make your internet or telephone banking payment."
+      table_heading3: "Step 2 - "
+      table_heading4: "tell us the date, amount paid and your payment reference number, so we can activate your registration. You can contact us by email, fax or in writing."
     noregistration_step:
       contact_Line_1: "We need some more information about your organisation before we can register you as a waste carrier."
       contact_Line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
