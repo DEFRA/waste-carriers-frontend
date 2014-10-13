@@ -33,4 +33,27 @@ Scenario: Log in as Waste Carrier - invalid password
   Then the user should see a login error
 
 
+#Scenario: Log in as admin from the public URL
+#  When the user tries to access the internal admin login URL from the public domain
+#  Then the page is not found
+
+
+#Scenario: Log in as agency user from the public URL
+#  When the user tries to access the internal agency login URL from the public domain
+#  Then the page is not found
+
+
+#Scenario: Log in as admin from the admin URL
+#  When the user tries to access the internal admin login URL from the admin domain
+#  Then the admin login page is shown
+
+
+#Scenario: Log in as agency user from the admin URL
+#  When the user tries to access the internal agency login URL from the admin domain
+#  Then the agency user login page is shown
+
+
+#Scenario: Log in as waste carrier from the admin URL
+#  When the user tries to access the user login URL from the internal admin domain
+#  Then the page is not found
 

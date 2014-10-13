@@ -63,6 +63,10 @@ class ApplicationController < ActionController::Base
     'admin' == request.host_with_port[0..4]
   end
 
+  def is_public_request?
+    'www' == request.host_with_port[0..2]
+  end
+
   def is_local_request?
     'localhost' == request.host_with_port[0..8]
   end
@@ -107,10 +111,22 @@ class ApplicationController < ActionController::Base
   end
 
   def require_admin_url
+    #This is to ensure that the Devise-managed login URLs for agency users and admins are visible 
+    #and available only via the internal admin URLs
     if Rails.application.config.require_admin_requests && !is_admin_request? && request.fullpath[0..5] != '/users'
+      logger.warn "Attempted request to access internal login pages. Returning 404 not found."
+      #renderAccessDenied
+      renderNotFound
+      return
+    end
+
+    #However, when using the internal admin interface, it should not be possible to login as an external waste carrier either.
+    if Rails.application.config.require_admin_requests && is_admin_request? && request.fullpath[0..5] == '/users'
+      logger.warn "Attempted request to log in as user via admin URL. Returning 404 not found."
       #renderAccessDenied
       renderNotFound
     end
+
   end
 
   def set_no_cache
