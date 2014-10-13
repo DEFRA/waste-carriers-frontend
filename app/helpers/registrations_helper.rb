@@ -92,7 +92,7 @@ module RegistrationsHelper
       session[:registration_id] ||= @registration.id
       session[:registration_uuid] ||= @registration.uuid
     else
-      logger.warn 'There is no @registration'
+      logger.warn 'There is no @registration. Redirecting to the Cookies page'
       redirect_to cookies_path
       return
     end
