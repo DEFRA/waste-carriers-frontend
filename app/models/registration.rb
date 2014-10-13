@@ -1023,7 +1023,12 @@ class Registration < Ohm::Model
 
   def expired?
     if upper?
-      metaData.first.status == 'EXPIRED' || expires_on  < Time.now
+      if metaData.first.status == 'EXPIRED'
+        true
+      end
+      if expires_on and expires_on < Time.now
+        true
+      end
     else
       false
     end
