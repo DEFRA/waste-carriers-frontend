@@ -8,32 +8,17 @@
       </div>
   </header>
 
+  <div class="grid">
+    <div class="grid-2-3">
+
   <fieldset>
     <legend></legend>
 
-    <div class="form-group<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
-      <ul>
-        <li><%= validation_for(@registration, :declaredConvictions) %></li>
-        <li class="inline"><%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
-            <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
-            <%= t 'form.yes_option_label' %>
-        <% end %>
-        </li>
-        <li class="inline"><%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
-            <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
-            <%= t 'form.no_option_label' %>
-        <% end %>
-        </li>
-      </ul>
-    </div>
-  </fieldset>
-
-  <div class='form-group'>
     <details>
-      <summary aria controls='details-content-0' tabindex='0'>
+      <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
         <span class='summary'><%= t 'registrations.convictions_step.relevant_convictions_link_text' %></span>
-        </summary>
-        <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
+      </summary>
+      <div style='display:block' class='panel-indent' id='details-content-0' >
         <p><strong><%= t 'registrations.convictions_step.relevant_convictions_text' %></strong></P>
         <ul class="list-bullet">
           <li><%= t 'registrations.convictions_step.relevant_convictions_scrap_1964' %></li>
@@ -65,7 +50,26 @@
         </ul>
       </div>
     </details>
-  </div>
 
+    <div class="form-group<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
+      <ul>
+        <li><%= validation_for(@registration, :declaredConvictions) %></li>
+        <li class="inline"><%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
+            <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
+            <%= t 'form.yes_option_label' %>
+        <% end %>
+        </li>
+        <li class="inline"><%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
+            <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
+            <%= t 'form.no_option_label' %>
+        <% end %>
+        </li>
+      </ul>
+    </div>
+  </fieldset>
 
 <%= render 'next_link' %>
+
+</div><!-- end grid -->
+</div><!-- end grid-2-3 -->
+</div>

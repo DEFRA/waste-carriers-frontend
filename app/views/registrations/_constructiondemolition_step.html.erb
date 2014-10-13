@@ -13,6 +13,16 @@
 
   <fieldset>
     <legend></legend>
+
+    <details class="text">
+        <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
+          <span class='summary'><%= t 'registrations.constructiondemolition_step.explanation_link' %></span>
+        </summary>
+        <div style='display:block' class='panel-indent' id='details-content-0' >
+          <p><%= t 'registrations.constructiondemolition_step.explanation' %></p>
+        </div>
+    </details>
+
     <!-- <p><a href="?whatisconstruction=true"><%= t '.explanation_link'%></a></p> -->
     <div class="inline<%if @registration.errors[:constructionWaste].any?%> validation<%end%>">
       <ul>
@@ -29,15 +39,6 @@
         </li>
       </ul>
     </div>
-
-    <details class="text">
-        <summary aria controls='details-content-0' tabindex='0'>
-          <span class='summary'><%= t 'registrations.constructiondemolition_step.explanation_link' %></span>
-        </summary>
-        <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
-          <p><%= t 'registrations.constructiondemolition_step.explanation' %></p>
-        </div>
-    </details>
 
   </fieldset>
  <%= render 'next_link' %>
