@@ -81,7 +81,6 @@ module RegistrationsHelper
       end
     end
     if @registration
-      puts '*** GGG *** @registration is defined'
       @registration.add( params[:registration] ) unless no_update
       @registration.save
       logger.debug "Registration: id=#{@registration.id.to_s} #{@registration.attributes.to_s}"
@@ -93,7 +92,6 @@ module RegistrationsHelper
       session[:registration_id] ||= @registration.id
       session[:registration_uuid] ||= @registration.uuid
     else
-      puts '*** GGG There is no @registration'
       logger.warn 'There is no @registration'
       redirect_to cookies_path
       return
