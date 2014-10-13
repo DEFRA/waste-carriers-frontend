@@ -35,13 +35,22 @@ Then(/^I change the legal entity$/) do
   # VERIFY that these options are preselected and thus dont re-choose them
   #
   #
-  choose 'registration_otherBusinesses_yes'
+  #choose 'registration_otherBusinesses_yes'
   click_on 'Next'
   
-  choose 'registration_isMainService_no'
+  #choose 'registration_isMainService_no'
   click_on 'Next'
   
-  choose 'registration_constructionWaste_yes'
+  #choose 'registration_constructionWaste_yes'
+  click_on 'Next'
+  
+  # Now on registration type
+  click_on 'Next'
+  
+  # Now on business details
+  click_on 'Next'
+  
+  # Now on contact type
   click_on 'Next'
   
   # Now on Parter details page

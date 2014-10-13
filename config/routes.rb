@@ -100,9 +100,11 @@ Registrations::Application.routes.draw do
 
     # Registration urls - Lower tier
     match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
+    get   "your-registration/edit/business-details" => "registrations#editBusinessDetails", :via => [:get], :as => :editBusinessDetails
     match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
 
     match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
+    get   "your-registration/edit/contact-details" => "registrations#editContactDetails", :via => [:get], :as => :editContact
     match "your-registration/contact-details" => 'registrations#updateNewContactDetails', :via => [:post,:put,:patch]
 
     match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
@@ -122,6 +124,7 @@ Registrations::Application.routes.draw do
     match "your-registration/confirmed" => 'registrations#completeConfirmed', :via => [:post]
 
     get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
+    get "your-registration/edit/registration-type" => "registrations#editRegistrationType", :via => [:get], :as => :editRegistrationType
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
     resources :registrations
