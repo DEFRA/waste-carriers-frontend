@@ -39,7 +39,6 @@ Then(/^I can continue with my registration$/) do
 end
 
 Given(/^I am logged in as a waste carrier$/) do
-  #pending # express the regexp above with the code you wish you had
   open_email my_user.email
   current_email.click_link 'Confirm your account'
   visit new_user_session_path
