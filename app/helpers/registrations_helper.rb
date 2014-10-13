@@ -54,6 +54,7 @@ module RegistrationsHelper
 
     link_to t('registrations.form.back_button_label'), path, class: 'button-secondary'
   end
+
   def isSmallWriteOffAvailable(registration)
     registration.finance_details.first and (Payment.isSmallWriteOff( registration.finance_details.first.balance) == true)
   end
@@ -79,16 +80,24 @@ module RegistrationsHelper
         @registration = Registration.find_by_id(params[:id])
       end
     end
-    @registration.add( params[:registration] ) unless no_update
-    @registration.save
-    logger.debug "Registration: id=#{@registration.id.to_s} #{@registration.attributes.to_s}"
-    @registration.current_step = current_step
+    if @registration
+      puts '*** GGG *** @registration is defined'
+      @registration.add( params[:registration] ) unless no_update
+      @registration.save
+      logger.debug "Registration: id=#{@registration.id.to_s} #{@registration.attributes.to_s}"
+      @registration.current_step = current_step
 
-    # Additionally set these if route has not gone through registration process
-    # this could happen, for instance, if the user's adding copycards to an existing
-    # registration
-    session[:registration_id] ||= @registration.id
-    session[:registration_uuid] ||= @registration.uuid
+      # Additionally set these if route has not gone through registration process
+      # this could happen, for instance, if the user's adding copycards to an existing
+      # registration
+      session[:registration_id] ||= @registration.id
+      session[:registration_uuid] ||= @registration.uuid
+    else
+      puts '*** GGG There is no @registration'
+      logger.warn 'There is no @registration'
+      redirect_to cookies_path
+      return
+    end
   end
 
   def new_step_action current_step

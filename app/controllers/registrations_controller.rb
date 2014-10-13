@@ -79,6 +79,9 @@ class RegistrationsController < ApplicationController
   def selectRegistrationType
     # Get registration from params
     setup_registration 'newOrRenew'
+    if !@registration
+      return
+    end
 
     # Validate which registration type selected, checking against known types
     if @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0].downcase
