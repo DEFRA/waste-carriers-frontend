@@ -29,7 +29,7 @@
   <div class="form-group<%if d.errors[:dob].any?%> validation<%end%>">
     <ul>
       <li><%= validation_for(d, :dob) %></li>
-      <li class="form-label">Date of birth</li>
+      <li class="form-label">Date of birth<p class="form-hint">(dd/mm/yyyy)</p></li>
       <li class='inline-date'>
         <%= f.label :dob_day, class: 'form-label' %>
         <%= f.text_field :dob_day, :size => 2, :maxlength => 2 %>

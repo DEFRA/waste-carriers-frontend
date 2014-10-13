@@ -8,11 +8,11 @@
   <legend></legend>
 
   <div class='form-group'>
-    <details>
-      <summary aria controls='details-content-0' tabindex='0'>
+    <details class="text">
+      <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
         <span class='summary'>Who are relevant people?</span>
-        </summary>
-        <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
+      </summary>
+      <div style='display:block' class='panel-indent' id='details-content-0' >
         <ul class="list-bullet">
           <li>a person who is a director, manager, company secretary or other similar officer of a company organisation</li>
           <li>a business partner</li>
@@ -20,6 +20,7 @@
       </div>
     </details>
   </div>
+
   <br />
   <div class="form-group<%if d.errors[:first_name].any?%> validation<%end%>">
     <ul>
@@ -44,7 +45,7 @@
   </div>
   <div class="form-group<%if d.errors[:dob].any?%> validation<%end%>">
     <ul>
-    <div class="form-label">Date of birth</div>
+    <div class="form-label">Date of birth<p class="form-hint">(dd/mm/yyyy)</p></div>
       <li class='inline-date'>
         <%= f.label :dob_day, class: 'form-label' %>
         <%= f.text_field :dob_day, :size => 2, :maxlength => 2 %>
