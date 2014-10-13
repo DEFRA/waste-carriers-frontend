@@ -119,7 +119,7 @@
                 <%= t('.show_registration_type', reg_type: reg_type_prettify) %>
             </li>
           </ul>
-          <%= link_to t('.edit_change_reg_type_link'), newRegistrationType_path, id: 'changeRegistrationType' %>
+          <%= link_to t('.edit_change_reg_type_link'), editRegistrationType_path, id: 'changeRegistrationType' %>
 
         </div><!-- end registration type form-group -->
         <% end %>
@@ -136,14 +136,14 @@
             <h2 class='heading-medium'><%= t '.business_details_heading' %></h2>
           <% end %>
             <%= render 'address_display', r: @registration %>
-          <%= link_to t('.edit_business_details_link'), newBusinessDetails_path %>
+          <%= link_to t('.edit_business_details_link'), editBusinessDetails_path %>
         </div><!-- end business details form-group -->
 
         <!-- Contact details section -->
         <div class='form-group'>
           <h2 class='heading-medium'><%= t '.contact_details_heading' %></h2>
             <%= render 'contactdetails_display', r: @registration %>
-          <%= link_to t('.edit_contact_details_link'), newContact_path %>
+          <%= link_to t('.edit_contact_details_link'), editContact_path %>
         </div><!-- end form-group -->
 
         <!-- Key people section -->
