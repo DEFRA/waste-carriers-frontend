@@ -95,6 +95,7 @@ module RegistrationsHelper
     logger.debug "-----------  #{session[:edit_mode]}"
     if (current_step.eql? Registration::FIRST_STEP) && !session[:edit_mode]
       clear_edit_session
+      clear_registration_session
       @registration = Registration.create
       session[:registration_id]= @registration.id
       logger.debug "creating new registration #{@registration.id}"
@@ -113,6 +114,7 @@ module RegistrationsHelper
 
     elsif (current_step.eql? 'businesstype') && !session[:edit_mode] && !session[:registration_id]
       clear_edit_session
+      clear_registration_session
       @registration = Registration.create
       session[:registration_id]= @registration.id
       logger.debug "creating new registration #{@registration.id}"
@@ -181,6 +183,11 @@ module RegistrationsHelper
     session.delete(:ga_is_renewal)
     session.delete(:ga_tier)
     session.delete(:ga_status)
+  end
+  
+  def clear_order_session
+    session.delete(:renderType)
+    session.delete(:orderCode)
   end
 
   def give_meaning_to_reg_type(attr_value)

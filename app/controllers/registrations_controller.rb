@@ -49,6 +49,17 @@ class RegistrationsController < ApplicationController
     end
     session[:registration_step] = session[:registration_params] = nil
     logger.debug "index: #{ @registrations.size.to_s} items"
+    
+    #
+    # REVIEWME: Ideally this should not be needed but in order to cover the 'Back and refresh issue'
+    # The variables will be cleared for subequent requests
+    # This will not fix a user clicking and Edit then using browser back, and then clicking a link
+    # that was present, e.g click an edit, go back then click New registration.
+    #
+    clear_edit_session
+    clear_registration_session
+    clear_order_session
+    logger.debug "Cleared registration session variables"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -1631,6 +1642,7 @@ class RegistrationsController < ApplicationController
 
   # Function to redirect additional copy card orders to the order controller
   def newOrderCopyCards
+    clear_registration_session
     session[:renderType] = Order.extra_copycards_identifier
     session[:orderCode] = generateOrderCode
     redirect_to :upper_payment
