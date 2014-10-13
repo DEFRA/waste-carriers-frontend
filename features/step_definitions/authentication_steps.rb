@@ -29,6 +29,7 @@ Then(/^the user should see a login error$/) do
   page.should have_content 'Invalid email or password.'
 end
 
+# TODO GM - still need to figure out how to switch between www and admin subdomains in Cucumber
 
 When(/^the user tries to access the internal admin login URL from the public domain$/) do
   base_url = 'http://' + Rails.configuration.waste_exemplar_frontend_url

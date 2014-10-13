@@ -83,6 +83,10 @@ class ApplicationController < ActionController::Base
     render :file => "/public/403.html", :status => 403
   end
 
+  def renderSessionExpired
+    render :file => "/public/session_expired.html", :status => 401
+  end
+
   def renderNotFound
     render :file => "/public/404.html", :status => 404
   end
@@ -90,10 +94,12 @@ class ApplicationController < ActionController::Base
   #Total session timeout. No session is allowed to be longer than this.
   def validate_session_total_timeout!
     if user_signed_in? || agency_user_signed_in? || admin_signed_in?
-      session[:expires_at] ||= Time.current + Rails.application.config.app_session_total_timeout
-      if session[:expires_at] < Time.current
+      now = Time.current
+      logger.debug 'Validating session total timout. Now it is ' + now.to_s
+      session[:expires_at] ||= now + Rails.application.config.app_session_total_timeout
+      if session[:expires_at] < now
         reset_session
-        render :file => "/public/session_expired.html", :status => 400
+        render :file => "/public/session_expired.html", :status => 401
       end
     end 
   end
@@ -102,9 +108,15 @@ class ApplicationController < ActionController::Base
   #Note: There is no inactivity timeout for agency users due to expected work patterns
   def validate_session_inactivity_timeout!
     if user_signed_in? || admin_signed_in?
-      if session[:last_seen_at] != nil && session_inactivity_timeout_time < Time.current
+      now = Time.current
+      logger.debug 'Validating session inactivity timeout. Now it is ' + now.to_s
+      if session[:last_seen_at]
+        logger.debug 'User was last seen at ' + session[:last_seen_at].to_s
+      end
+      if session[:last_seen_at] != nil && session_inactivity_timeout_time < now
+        logger.info 'The session is deemed to have expired. Showing the Session Expired page.'
         reset_session
-        render :file => "/public/session_expired.html", :status => 400
+        render :file => "/public/session_expired.html", :status => 401
       end
     end
     session[:last_seen_at] = Time.current
