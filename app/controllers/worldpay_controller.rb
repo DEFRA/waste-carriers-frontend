@@ -91,6 +91,11 @@ class WorldpayController < ApplicationController
       #
       session.delete(:renderType)
       session.delete(:orderCode)
+      
+      # Should also Clear other registration variables for other routes...
+      if renderType.eql?(Order.extra_copycards_identifier)
+        clear_registration_session
+      end
 
     else
       # Used to redirect_to WorldpayController::Error however that doesn't actually
