@@ -3,7 +3,7 @@
       <h2 class="heading-medium"><%= t '.errorMessage', :count => pluralize(@registration.errors.count, t('.error')) %></h2>
       <% @registration.errors.each do |error| %>
       <ul>
-        <li class="error-text" href="#registration_<%= error %>"><%= @registration.errors.full_messages_for(error).first %></li>
+        <li><a class="error-text" href="#registration_<%= error %>"><%= @registration.errors.full_messages_for(error).first %></a></li>
       </ul>
       <% end %>
     </div>

@@ -63,8 +63,8 @@
 }
 
 .validation-summary .error-text {
-  list-style-type:disc;
-  margin-left:1em;
+  list-style-type:none;
+  text-decoration: none;
 }
 
 .validation ul,
