@@ -1057,8 +1057,10 @@ class RegistrationsController < ApplicationController
     tmpUser = User.find_by_id(params[:id])
     # if matches current logged in user
     if tmpUser.nil? || current_user.nil?
-      renderAccessDenied
+      logger.info 'user not found - Showing Session Expired'
+      renderSessionExpired
     elsif current_user.email != tmpUser.email
+      logger.warn 'User is requesting somebody else\'s registrations? - Showing Access Denied'
       renderAccessDenied
     else
       # Search for users registrations
