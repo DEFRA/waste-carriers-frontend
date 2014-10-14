@@ -1694,6 +1694,7 @@ class RegistrationsController < ApplicationController
   def copyCardComplete
     @registration = Registration.find_by_id(params[:id])
     @confirmationType = getConfirmationType
+    authorize! :read, @registration
   end
 
   # Renders the edit renew order complete view
@@ -1707,6 +1708,8 @@ class RegistrationsController < ApplicationController
     #use them, as session will be cleared shortly
     @edit_mode = session[:edit_mode]
     @edit_result = session[:edit_result]
+    logger.debug '@edit_mode: ' + @edit_mode.to_s
+    logger.debug '@edit_result: ' + @edit_result.to_s
 
     @confirmationType = getConfirmationType
 
