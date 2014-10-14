@@ -15,7 +15,7 @@ class WorldpayController < ApplicationController
 
       # Get render type from session
       renderType = session[:renderType]
-      
+
       if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
         if user_signed_in?
           logger.info 'Send registered email (as current_user)'
@@ -43,18 +43,18 @@ class WorldpayController < ApplicationController
 
           finishAssisted_path
         else
-        
+
           # Need to get newly created (possibly unactivated) user to pass to send email
           #current_user = User.find_by_email(@registration.accountEmail)
           #if current_user
             # Attempt to activate registration
             #Registration.send_registered_email(current_user, @registration)
           #else
-            # This shouldnt be possible as a account email will always have a value and registration 
+            # This shouldnt be possible as a account email will always have a value and registration
             # will always be a DIGITAL as agency registrations are picked up in agency_user_signed_in? check
             #logger.error 'Error: Cannot find user from email: ' + @registration.accountEmail.to_s
           #end
-        
+
           confirmed_path
         end
       when Order.edit_registration_identifier
@@ -91,7 +91,7 @@ class WorldpayController < ApplicationController
       #
       session.delete(:renderType)
       session.delete(:orderCode)
-      
+
       # Should also Clear other registration variables for other routes...
       if renderType.eql?(Order.extra_copycards_identifier)
         clear_registration_session
@@ -185,11 +185,11 @@ class WorldpayController < ApplicationController
   # POST from Worldpay
   def update_order_notification
     logger.info "Received order notification message from Worldpay..."
-    puts '++++++++++++++++++++++++++++++++++++++++++++++'
-    puts '+++++ Worldpay Notification Response +++++++++'
-    puts '++++++++++++++++++++++++++++++++++++++++++++++'
-    puts request.body.read
-    puts '++++++++++++++++++++++++++++++++++++++++++++++'
+    logger.info '++++++++++++++++++++++++++++++++++++++++++++++'
+    logger.info '+++++ Worldpay Notification Response +++++++++'
+    logger.info '++++++++++++++++++++++++++++++++++++++++++++++'
+    logger.info request.body.read
+    logger.info '++++++++++++++++++++++++++++++++++++++++++++++'
     render nothing: true
   end
 
@@ -318,7 +318,7 @@ class WorldpayController < ApplicationController
 #            # redirect to previous page due to error
 #            logger.error "Failed to create new registration"
 #            # TODO: redirect to ??? because of failure?
-#            
+#
 #          end
 
           #
