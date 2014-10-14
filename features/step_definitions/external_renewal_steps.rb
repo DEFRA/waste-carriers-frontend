@@ -12,8 +12,7 @@ Then(/^I click the renew link for: (.*)$/) do |name|
 end
 
 Then(/^my renewal should be complete$/) do
-  # This is currently registration complete as that is how it works but ideally renewals should state renewal complete
-  page.should have_content 'Registration complete'
+  page.should have_content 'Your changes have been successful'
   page.should have_content 'Your certificate and guidance have been emailed to'
   click_on 'Finish'
   page.should have_content 'ACTIVE'
