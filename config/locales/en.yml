@@ -1072,6 +1072,7 @@ en:
       criminal_title: "Incomplete"
       criminal_message: "We are running background checks on the information you have provided"
       copycard_title: "Your order has been sucessful"
+      edit_complete_title: "Your changes have been successful"
     current_user:
       change_password: "Change password"
       new_registration: "New registration"

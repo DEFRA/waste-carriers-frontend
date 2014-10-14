@@ -22,7 +22,20 @@
 
       <%= render "order/notice_or_alert" %>
       <%= render "shared/registration_errors" %>
-      <%= render 'shared/complete_summary', :type => @confirmationType %>
+      
+      <% type = @confirmationType %>
+      <div class="completeSummary <%= type %>">
+        <div class="completeSummaryTitle">
+          <%= t'shared.complete_summary.almost_there_title' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+          <%= t'shared.complete_summary.criminal_title' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+          <%= t'shared.complete_summary.edit_complete_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+          <%= t'shared.complete_summary.edit_complete_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
+        </div>
+        <div class="completeSummaryMessage">
+          <%= t'shared.complete_summary.almost_there_message' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+          <%= t'shared.complete_summary.criminal_message' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+        </div>
+      </div>
 
       <fieldset>
 
