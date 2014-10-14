@@ -331,7 +331,7 @@ class Registration < Ohm::Model
 
         #convert date to millisecs from epoch so that  the Java service can understand it
         if v.is_a? String
-          puts "-------------------------------------- #{v}"
+          Rails.logger.debug "MODELS::REGISTRATION::to_json #{v}"
           result_hash[k] = DateTime.parse(v).strftime('%Q')
         elsif v.is_a? DateTime
           result_hash[k] = v.strftime('%Q')
@@ -923,7 +923,7 @@ class Registration < Ohm::Model
   end
 
   def address_lookup?
-    addressMode != 'manual-uk' && 
+    addressMode != 'manual-uk' &&
     addressMode != 'manual-foreign'
   end
 

@@ -61,19 +61,18 @@ class KeyPerson < Ohm::Model
   # @return  [Hash]  the KeyPerson object as a hash
   def to_hash
     hash = self.attributes.to_hash
-    
-    # Perform a length comparison to determine if the to_i function has changed the value. 
+
+    # Perform a length comparison to determine if the to_i function has changed the value.
     # It would do this is the self.dob was a value of 1970-04-93, but would not if it was a long int
     if self.dob.to_i.to_s.length.eql? self.dob.length
       # lengths match thus should be integer, thus convert it to a date
-      Rails.logger.debug "Convert " + self.dob.to_i.to_s + " to a Date object"       
+      Rails.logger.debug "Convert " + self.dob.to_i.to_s + " to a Date object"
       hash['dob'] = ApplicationController.helpers.convert_date(self.dob.to_i).to_date
     else
       Rails.logger.debug "Use original value as its already formatted as a Date"
       hash['dob'] = self.dob.to_s
     end
-    #puts "-------------------------------------- Result Key Person DOB: " + hash['dob'].to_s   
-    
+
     hash['conviction_search_result'] = conviction_search_result.first.to_hash if conviction_search_result.size == 1
     hash
   end
