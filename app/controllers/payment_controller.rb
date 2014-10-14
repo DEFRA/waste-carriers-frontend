@@ -295,7 +295,7 @@ class PaymentController < ApplicationController
 	logger.info 'found payment:' + @foundPayment.attributes.to_s
 
 	# Set the amount of the payment to be a negative payment, ie a refund from the balance due
-	@payment.amount = -@registration.finance_details.first.balance.to_i.abs
+	@payment.amount = -getMaxRefundAmount(@registration, @foundPayment)
 	logger.info 'payment amount:' + @payment.amount.to_s
 
 	# Ensure currency set
@@ -373,7 +373,7 @@ class PaymentController < ApplicationController
 	logger.info 'found payment:' + @foundPayment.attributes.to_s
 
 	# Set the amount of the payment to be a negative payment, ie a refund from the balance due
-	@payment.amount = -@registration.finance_details.first.balance.to_i.abs
+	@payment.amount = -getMaxRefundAmount(@registration, @foundPayment)
 	logger.info 'payment amount:' + @payment.amount.to_s
 
 	# Ensure currency set

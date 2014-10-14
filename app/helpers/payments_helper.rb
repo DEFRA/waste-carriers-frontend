@@ -69,5 +69,13 @@ module PaymentsHelper
         and originalRegistration.pending? \
         and updatedRegistration.is_active?
   end
+  
+  def getMaxRefundAmount model, payment_model
+    if (model.finance_details.first.balance.to_f.abs > payment_model.amount.to_f.abs)
+      payment_model.amount.to_i.abs
+    else
+      model.finance_details.first.balance.to_i.abs
+    end
+  end
 
 end
