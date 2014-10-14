@@ -256,11 +256,15 @@ class WorldpayController < ApplicationController
       logger.error 'Payment status was not successful, paymentStatus: ' + paymentStatus.to_s + " for order: " + orderCode.to_s
 
       # Update order to reflect failed payment status
-      order = @registration.getOrder( orderCode)
-      now = Time.now.utc.xmlschema
-      order.dateLastUpdated = now
-      order.worldPayStatus = paymentStatus
-      order.save! session[:registration_uuid]
+      if @registration
+        order = @registration.getOrder( orderCode)
+        now = Time.now.utc.xmlschema
+        order.dateLastUpdated = now
+        order.worldPayStatus = paymentStatus
+        order.save! session[:registration_uuid]
+      else
+        logger.error 'There is no @registration. Cannot update registration.'
+      end
 
       payment_processed = false
     end

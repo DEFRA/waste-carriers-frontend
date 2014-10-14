@@ -77,7 +77,7 @@ module OrderHelper
       myRegistration.total_fee = Rails.configuration.fee_registration
       logger.info "Create reg for edit/renew full fee"
     else
-      logger.error "Unrecogniseable renderType: " + renderType + ", Should be one of (" \
+      logger.error "Unrecogniseable renderType: " + renderType.to_s + ", Should be one of (" \
       	+ Order.new_registration_identifier + "," + Order.edit_registration_identifier + "," \
       	+ Order.renew_registration_identifier + "," + Order.extra_copycards_identifier + ")"
       return
