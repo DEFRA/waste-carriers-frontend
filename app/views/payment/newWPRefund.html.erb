@@ -44,7 +44,7 @@
 
                 <p><%= t '.confirmText' %></p>
                 
-                <p><%= t('.orderDetail', :orderKey => f.object.orderKey, :amount => pence_to_currency(@registration.finance_details.first.balance.to_f.abs) ) %></p>
+                <p><%= t('.orderDetail', :orderKey => f.object.orderKey, :amount => pence_to_currency(getMaxRefundAmount(@registration, @payment)) ) %></p>
 
                 <p><%= t '.confirmRefund' %></p>
 
