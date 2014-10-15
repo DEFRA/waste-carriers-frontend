@@ -72,6 +72,7 @@ en:
         houseNumber: "Building name or number"
         individualsType: "Organisation type"
         isMainService: "Kind of service you provide"
+        key_people: "Key people"
         lastName: "Last name"
         newOrRenew: "Are you renewing an existing licence"
         originalRegistrationNumber: "Registration number"
@@ -93,6 +94,8 @@ en:
         regIdentifier: "Identifier"
         registrationType: "Registration type"
         registration_fee: "Registration charge"
+        relevant_people: "Relevant people"
+        renewal_fee: "Registration renewal charge"
         renewal_fee: "Renewal charge"
         edit_registration_fee: "Edit registration charge"
         revokedReason: "Why do you wish to revoke this registration"
@@ -256,6 +259,7 @@ en:
       unconfirmedEmail: "This account has not been confirmed"
       no_results: "No results found"
       ir_notFound: "provided is unable to find any IR registration data to use"
+      is_empty: "is empty. You must add at least 1 record."
   form:
     add_button_label: Add
     back_button_label: Back
