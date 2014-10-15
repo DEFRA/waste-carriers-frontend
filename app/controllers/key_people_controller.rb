@@ -1,6 +1,7 @@
 require 'securerandom'
 
 class KeyPeopleController < ApplicationController
+  include RegistrationsHelper
 
   before_action :get_registration, except: [:doneKeyPeople, :doneRelevantPeople]
 
@@ -18,6 +19,7 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/key-person
   def newKeyPerson
     #get_registration
+    new_step_action 'key_person'
     get_key_people
 
     if @key_people.empty?
@@ -54,7 +56,7 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-people
   def newKeyPeople
-    #get_registration
+    new_step_action 'key_people'
     get_key_people
 
     @key_person = KeyPerson.create
@@ -62,31 +64,80 @@ class KeyPeopleController < ApplicationController
 
   # POST /your-registration/key-people
   def updateNewKeyPeople
-    #get_registration
     get_key_people
 
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
 
-    if @key_person.valid?
+    if params[:add]
 
-      @key_person.cross_check_convictions
-      @key_person.save
+      if @key_person.valid?
 
-      @registration.key_people.add(@key_person)
-      @registration.save
+        @key_person.cross_check_convictions
+        @key_person.save
 
-      redirect_to action: 'newKeyPeople'
+        @registration.key_people.add(@key_person)
+
+        if @registration.valid?
+          @registration.save
+
+          redirect_to action: 'newKeyPeople'
+        else
+          # there is an error (but data not yet saved)
+          logger.info 'Registration is not valid, and data is not yet saved'
+          render "newKeyPeople", :status => '400'
+        end
+      else
+        # there is an error (but data not yet saved)
+        logger.info 'Key person is not valid, and data is not yet saved'
+        render "newKeyPeople", :status => '400'
+      end
+    elsif params[:next]
+      if @key_person.valid?
+
+        @key_person.cross_check_convictions
+        @key_person.save
+
+        @registration.key_people.add(@key_person)
+
+        if @registration.valid?
+          @registration.save
+
+          redirect_to :newRelevantConvictions
+        else
+          # there is an error (but data not yet saved)
+          logger.info 'Registration is not valid, and data is not yet saved'
+          render "newKeyPeople", :status => '400'
+        end
+      elsif @key_person.first_name.blank?
+        @key_person.errors.clear
+
+        # Assume the person has not entered anything and just wants to
+        # progress to the next step. We still have to check they have entered
+        # at least one person
+        if @registration.valid?
+          @registration.save
+
+          redirect_to :newRelevantConvictions
+        else
+          # there is an error (but data not yet saved)
+          logger.info 'Registration is not valid, and data is not yet saved'
+          render "newKeyPeople", :status => '400'
+        end
+      else
+        # there is an error (but data not yet saved)
+        logger.info 'Key person is not valid, and data is not yet saved'
+        render "newKeyPeople", :status => '400'
+      end
     else
-      # there is an error (but data not yet saved)
-      logger.info 'Key person is not valid, and data is not yet saved'
+      logger.info 'Unrecognised button found, sending back to newKeyPeople page'
       render "newKeyPeople", :status => '400'
     end
   end
 
   # GET /your-registration/relevant-people
   def newRelevantPeople
-    #get_registration
+    new_step_action 'relevant_people'
     get_relevant_people
 
     @key_person = KeyPerson.create
@@ -94,24 +145,71 @@ class KeyPeopleController < ApplicationController
 
   # POST /your-registration/relevant-people
   def updateNewRelevantPeople
-    #get_registration
     get_relevant_people
 
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
 
-    if @key_person.valid?
+    if params[:add]
+      if @key_person.valid?
 
-      @key_person.cross_check_convictions
-      @key_person.save
+        @key_person.cross_check_convictions
+        @key_person.save
 
-      @registration.key_people.add(@key_person)
-      @registration.save
+        @registration.key_people.add(@key_person)
+        if @registration.valid?
+          @registration.save
 
-      redirect_to action: 'newRelevantPeople'
+          redirect_to action: 'newRelevantPeople'
+        else
+          # there is an error (but data not yet saved)
+          logger.info 'Registration is not valid, and data is not yet saved'
+          render "newRelevantPeople", :status => '400'
+        end
+      else
+        # there is an error (but data not yet saved)
+        logger.info 'Relevant person is not valid, and data is not yet saved'
+        render "newRelevantPeople", :status => '400'
+      end
+    elsif params[:next]
+      if @key_person.valid?
+
+        @key_person.cross_check_convictions
+        @key_person.save
+
+        @registration.key_people.add(@key_person)
+
+        if @registration.valid?
+          @registration.save
+
+          redirect_to :newConfirmation
+        else
+          # there is an error (but data not yet saved)
+          logger.info 'Registration is not valid, and data is not yet saved'
+          render "newRelevantPeople", :status => '400'
+        end
+      elsif @key_person.first_name.blank?
+        @key_person.errors.clear
+
+        # Assume the person has not entered anything and just wants to
+        # progress to the next step. We still have to check they have entered
+        # at least one person
+        if @registration.valid?
+          @registration.save
+
+          redirect_to :newConfirmation
+        else
+          # there is an error (but data not yet saved)
+          logger.info 'Registration is not valid, and data is not yet saved'
+          render "newRelevantPeople", :status => '400'
+        end
+      else
+        # there is an error (but data not yet saved)
+        logger.info 'Key person is not valid, and data is not yet saved'
+        render "newRelevantPeople", :status => '400'
+      end
     else
-      # there is an error (but data not yet saved)
-      logger.info 'Relevant person is not valid, and data is not yet saved'
+      logger.info 'Unrecognised button found, sending back to newRelevantPeople page'
       render "newRelevantPeople", :status => '400'
     end
   end
@@ -131,8 +229,6 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/relevant-people/delete/:id
   def deleteRelevantPerson
-    #get_registration
-
     person_to_remove = KeyPerson[params[:id]]
     logger.debug "reg is: #{@registration.id}"
     logger.debug "relevant person to remove is: #{person_to_remove.id}"
@@ -142,19 +238,8 @@ class KeyPeopleController < ApplicationController
     redirect_to action: 'newRelevantPeople'
   end
 
-  # POST /your-registration/key-people/done
-  def doneKeyPeople
-    redirect_to :newRelevantConvictions
-  end
-
-  # POST /your-registration/relevant-people/done
-  def doneRelevantPeople
-    redirect_to :newConfirmation
-  end
-
   # GET /your-registration/key-people
   def index
-    #get_registration
     get_key_people
   end
 

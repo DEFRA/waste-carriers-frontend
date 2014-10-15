@@ -18,11 +18,12 @@ Scenario: IR Renewal, No convictions, Online payment
       And I check the declaration
       And I provide my email address and create a password
       And I pay by card
+      And I am registered as an upper tier waste carrier
     Then registration should be complete
     When I re-request activation for my account
     Then I am shown the sign in page
       And I attempt to sign in
-    Then I am successfully registered as an upper tier waste carrier
+    Then I am successfully registered and activated as an upper tier waste carrier
 #    Then show me the page            # Useful for debugging to show current test page
 
 
@@ -35,11 +36,12 @@ Scenario: IR Renewal, Convictions, Online payment
       And I check the declaration
       And I provide my email address and create a password
       And I pay by card
+      And I am registered as an upper tier waste carrier pending conviction checks
     Then registration should be pending convictions checks
     When I re-request activation for my account
     Then I am shown the sign in page
       And I attempt to sign in
-    Then I am registered as an upper tier waste carrier pending conviction checks
+    Then I am registered and activated as an upper tier waste carrier pending conviction checks
 
 
 Scenario: IR Renewal, No Convictions, Offline payment
@@ -51,11 +53,12 @@ Scenario: IR Renewal, No Convictions, Offline payment
       And I provide my email address and create a password
       And I choose to pay by bank transfer
       And I make a note of the details
+      And I am registered as an upper tier waste carrier pending payment
     Then registration should be pending payment
     When I re-request activation for my account
     Then I am shown the sign in page
       And I attempt to sign in
-    Then I am registered as an upper tier waste carrier pending payment
+    Then I am registered and activated as an upper tier waste carrier pending payment
 
 
 Scenario: IR Renewal, Convictions, Offline payment
@@ -68,8 +71,9 @@ Scenario: IR Renewal, Convictions, Offline payment
       And I provide my email address and create a password
       And I choose to pay by bank transfer
       And I make a note of the details
+      And I am registered as an upper tier waste carrier pending conviction checks
     Then registration should be pending convictions checks
     When I re-request activation for my account
     Then I am shown the sign in page
       And I attempt to sign in
-    Then I am registered as an upper tier waste carrier pending conviction checks
+    Then I am registered and activated as an upper tier waste carrier pending conviction checks

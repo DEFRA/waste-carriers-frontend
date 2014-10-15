@@ -15,13 +15,14 @@ Given I have been funneled into the upper tier path
     And I check the declaration
     And I provide my email address and create a password
     And I pay by card
+    And I am registered as an upper tier waste carrier
   Then registration should be complete
     And I remember the registration id
     And I finish my registration
   When I re-request activation for my account
     And I am shown the sign in page
     And I attempt to sign in
-  Then I am successfully registered as an upper tier waste carrier
+  Then I am successfully registered and activated as an upper tier waste carrier
 
 Scenario: Waste carrier can order copy cards - external
   Given I have selected copy cards option for that registration

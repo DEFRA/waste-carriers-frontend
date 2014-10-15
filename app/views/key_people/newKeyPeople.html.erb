@@ -5,9 +5,9 @@
   <main id="content" role="main" class="group">
 
     <div class="back-section">
-        <ol>
-          <li><%= render 'back_link' %></li>
-        </ol>
+      <ol>
+        <li><%= link_to t('registrations.form.back_button_label'), :newContact, :class => 'link_to' %></li>
+      </ol>
     </div>
 
     <header class="page-header group">
@@ -16,61 +16,52 @@
       </div>
     </header>
 
-  <div class="grid-wrapper">
+    <div class="grid-wrapper">
 
-    <!-- WF 4.3.2 -->
+      <!-- WF 4.3.2 -->
+      <div id="page7"  data-journey="waste-carriers-registration:key-people-details"></div>
 
-  <div id="page7"  data-journey="waste-carriers-registration:key-people-details"></div>
+      <div class="grid-2-3">
+        <div class="inner-block">
+          <% content_for :page_title, createTitle('.title') %>
+          <% button_label = nil %>
+          <%= form_for(@key_person, url: {action: "updateNewKeyPeople"} ) do |f| %>
 
-  <div class="grid-2-3">
-    <div class="inner-block">
-      <% content_for :page_title, createTitle('.title') %>
-      <% button_label = nil %>
-      <%= form_for(@key_person, url: {action: "updateNewKeyPeople"} ) do |f| %>
+            <% case @registration.businessType %>
+              <% when 'limitedCompany' %>
+                <% legend = t '.legend_limited' %>
+                <% button_label = t '.button_label_limited' %>
+              <% when 'partnership' %>
+                <% legend = t '.legend_partner' %>
+                <% button_label = t '.button_label_partner' %>
+              <% when 'publicBody' %>
+                <% legend = t '.legend_public' %>
+                <% button_label = t '.button_label_public' %>
+            <% end %>
 
-      <% case @registration.businessType %>
-        <% when 'limitedCompany' %>
-          <% legend = t '.legend_limited' %>
-          <% button_label = t '.button_label_limited' %>
-        <% when 'partnership' %>
-          <% legend = t '.legend_partner' %>
-          <% button_label = t '.button_label_partner' %>
-        <% when 'publicBody' %>
-          <% legend = t '.legend_public' %>
-          <% button_label = t '.button_label_public' %>
-      <% end %>
+            <%= render 'key_person_form', f: f, d: @key_person, legend: legend %>
 
-      <%= render 'key_person_form', f: f, d: @key_person, legend: legend %>
-
-      <div class="next_link">
-        <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= button_label %>"/>
-      <% end %>
-    </div>
-
-      <!-- This next button only gets displayed for businesses that can collect
-        more than one person and where at least one already has. -->
-
-        <% if @key_people.any? %>
-          <%= form_for(@registration, :url => { :action => 'doneKeyPeople' }, :method => 'get'  ) do |f| %>
+            <div class="next_link">
+              <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= button_label %>"/>
+            </div>
             <span class="next_link"><%= render 'next_link' %></span>
           <% end %>
-        <% end %>
-      </div>
-    </div><!-- end grid-2-3 -->
-
-    <% if @key_people.any? %>
-      <div class="grid-1-3">
-        <div class="inner-block related">
-          <div class="inner group related-subsection">
-            <h2 class="heading-small"><%= t '.you_have_added' %></h2>
-            <%= content_tag_for(:p, @key_people) do |key_person| %>
-              <%= first_name_last_name(key_person) %> <%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'delete', :id => key_person.id), :class => 'link_to' %>
-            <% end %>
-            <div id="includedContent"></div>
-          </div>
         </div>
-      </div><!-- end grid-1-3 -->
-    <% end %>
+      </div><!-- end grid-2-3 -->
+
+      <% if @key_people.any? %>
+        <div class="grid-1-3">
+          <div class="inner-block related">
+            <div class="inner group related-subsection">
+              <h2 class="heading-small"><%= t '.you_have_added' %></h2>
+              <%= content_tag_for(:p, @key_people) do |key_person| %>
+                <%= first_name_last_name(key_person) %> <%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'delete', :id => key_person.id), :class => 'link_to' %>
+              <% end %>
+              <div id="includedContent"></div>
+            </div>
+          </div>
+        </div><!-- end grid-1-3 -->
+      <% end %>
 
     </div><!-- end grid-wrapper -->
 

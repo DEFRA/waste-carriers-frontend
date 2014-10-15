@@ -15,12 +15,13 @@ Given I have been funneled into the upper tier path
     And I check the declaration
     And I provide my email address and create a password
     And I pay by card
+    And I am registered as an upper tier waste carrier
   Then registration should be complete
     And I remember the registration id
   When I re-request activation for my account
     And I am shown the sign in page
     And I attempt to sign in
-  Then I am successfully registered as an upper tier waste carrier
+  Then I am successfully registered and activated as an upper tier waste carrier
 
 Scenario: Upper tier Edit with no change
     Given The edit link is available
