@@ -94,6 +94,7 @@ en:
         regIdentifier: "Identifier"
         registrationType: "Registration type"
         registration_fee: "Registration charge"
+        relevant_people: "Relevant people"
         renewal_fee: "Registration renewal charge"
         revokedReason: "Why do you wish to revoke this registration"
         unrevokedReason: "Why do you wish to unrevoke this registration"
