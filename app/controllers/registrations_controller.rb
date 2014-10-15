@@ -520,6 +520,9 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/confirmation
   def newConfirmation
     new_step_action 'confirmation'
+    if !@registration
+      return
+    end
     case session[:edit_mode].to_i
     when EditMode::RECREATE
        @registration.declaration = false
