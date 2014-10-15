@@ -774,7 +774,7 @@ class Registration < Ohm::Model
   end
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
-  validate :validate_key_people, if: :key_person_step?
+  validate :validate_key_people, if: :key_people_step?
 
   validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
 
@@ -856,6 +856,10 @@ class Registration < Ohm::Model
 
   def key_person_step?
     current_step.inquiry.key_person?
+  end
+
+  def key_people_step?
+    current_step.inquiry.key_people?
   end
 
   def signup_step?
@@ -1360,10 +1364,11 @@ class Registration < Ohm::Model
     end
   end
 
-  # FIXME why is this validation necessary?
   def validate_key_people
-    if key_people.blank?
-      errors.add('Key people', 'is invalid.') unless set_dob
+    Rails.logger.debug 'REGISTRATION::VALIDATE_KEY_PEOPLE'
+    if key_people.empty?
+      Rails.logger.debug 'REGISTRATION::VALIDATE_KEY_PEOPLE key_people is empty'
+      errors.add(I18n.t('activemodel.attributes.registration.key_people'), I18n.t('errors.messages.is_empty'))
     end
   end
 
