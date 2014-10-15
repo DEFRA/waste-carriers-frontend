@@ -128,16 +128,12 @@ Registrations::Application.routes.draw do
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
     resources :registrations
-    # get "registrations(.:format)" => "registrations#index", :as => :registrations
-    # post  "registrations(.:format)" => "registrations#create"
 
     get "your-registration/key-people/registration" => "key_people#registration", :as => :registration_key_people
     get "your-registration/key-person" => "key_people#newKeyPerson", :as => :newKeyPerson
     post "your-registration/key-person" => "key_people#updateNewKeyPerson"
-  # get "your-registration/key-people" => "key_people#newKeyPeople", :as => :newKeyPeople
-  # post "your-registration/key-people" => "key_people#updateNewKeyPeople"
-  match "your-registration/key_people" => 'key_people#newKeyPeople', :via => [:get], :as => :newKeyPeople
-  match "your-registration/key_people" => 'key_people#updateNewKeyPeople', :via => [:post,:put,:patch]
+    match "your-registration/key_people" => 'key_people#newKeyPeople', :via => [:get], :as => :newKeyPeople
+    match "your-registration/key_people" => 'key_people#updateNewKeyPeople', :via => [:post,:put,:patch]
     get "your-registration/key-people/delete" => "key_people#delete", :as => :delete_key_person
     get "your-registration/key-people/done" => "key_people#doneKeyPeople", :as => :done_key_people
 

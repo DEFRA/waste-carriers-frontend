@@ -49,6 +49,7 @@ Then(/^I should only have to enter one key person$/) do
 end
 
 Then(/^I cannot proceed until I have added a key person$/) do
-  page.should_not have_button 'next_btn'
-  page.should have_button 'add_btn'
+  click_on 'next_btn'
+  page.should have_content 'Error'
+  page.should_not have_content 'Relevant'
 end
