@@ -6,42 +6,36 @@
 
     <div class="back-section">
       <ol>
-        <li><%= render 'back_link' %></li>
+        <li><%= link_to t('registrations.form.back_button_label'), :newRelevantConvictions, :class => 'link_to' %></li>
       </ol>
     </div>
 
-  <div class="grid-wrapper">
+    <div class="grid-wrapper">
 
-  <!-- WF 4.3.2 -->
+      <!-- WF 4.3.2 -->
 
-  <div id="page7"  data-journey="waste-carriers-registration:relevant-people-details"></div>
+      <div id="page7"  data-journey="waste-carriers-registration:relevant-people-details"></div>
 
-  <div class="grid-2-3">
-    <div class="inner-block">
+      <div class="grid-2-3">
+        <div class="inner-block">
 
-      <% content_for :page_title, createTitle('.title') %>
-      <%= render 'errors' %>
-      <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"} ) do |f| %>
-      <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
+          <% content_for :page_title, createTitle('.title') %>
+          <%= render 'errors' %>
+          <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"} ) do |f| %>
+            <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
 
-      <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= t '.button_label' %>"/>
-      <% end %>
-
-        <!-- This next button only gets displayed when at least one person has already
-          added. -->
-
-        <% if @relevant_people.any? %>
-          <%= form_for(@registration, :url => { :action => 'doneRelevantPeople' }, :method => 'get'  ) do |f| %>
-            <%= render 'next_link' %>
+            <div class="next_link">
+              <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= t '.button_label' %>"/>
+            </div>
+            <span class="next_link"><%= render 'next_link' %></span>
           <% end %>
-        <% end %>
 
-      </div><!-- end inner-block -->
-    </div><!--end grid-2-3-->
+        </div><!-- end inner-block -->
+      </div><!--end grid-2-3-->
 
-    <% if @relevant_people.any? %>
-      <div class="grid-1-3">
-        <div class="inner-block related">
+      <% if @relevant_people.any? %>
+        <div class="grid-1-3">
+          <div class="inner-block related">
             <div class="inner group related-subsection">
               <h2 class="heading-small"><%= t '.you_have_added' %></h2>
                 <nav aria-labelledby="parent-subsection" role="navigation">
