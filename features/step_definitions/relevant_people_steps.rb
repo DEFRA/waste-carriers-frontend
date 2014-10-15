@@ -25,8 +25,9 @@ And(/^I enter the following people with relevant convictions:$/) do |table|
 end
 
 Then(/^I cannot proceed until I have added a relevant person$/) do
-  page.should_not have_button 'next_btn'
-  page.should have_button 'add_btn'
+  click_on 'next_btn'
+  page.should have_content 'Error'
+  page.should_not have_content 'Check your details'
 end
 
 And(/^I click next$/) do
