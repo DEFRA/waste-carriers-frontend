@@ -101,6 +101,7 @@ module RegistrationsHelper
   def new_step_action current_step
     logger.debug "-----------  #{session[:edit_mode]}"
     if (current_step.eql? Registration::FIRST_STEP) && !session[:edit_mode]
+      logger.info '*** GGG - First registration step and not in edit mode - creating new registration...'
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
@@ -120,6 +121,7 @@ module RegistrationsHelper
       @registration.metaData.add m
 
     elsif (current_step.eql? 'businesstype') && !session[:edit_mode] && !session[:registration_id]
+      logger.info '*** GGG - Current step is businesstype, and not in edit mode, and no registration_id in the session. Creating new registration...'
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
@@ -139,11 +141,13 @@ module RegistrationsHelper
       @registration.metaData.add m
 
     elsif  session[:edit_mode] #editing existing registration
+      logger.info '*** GGG - We are in edit mode. Retrieving registration...'
       @registration = Registration[ session[:registration_id]]
       if @registration
         logger.debug "retrieving registration for edit #{@registration.id}"
       end
     else #creating new registration but not first step
+      logger.info '*** GGG - We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
       clear_edit_session
       @registration = Registration[ session[:registration_id]]
       if @registration

@@ -2,9 +2,11 @@ require 'securerandom'
 
 class KeyPeopleController < ApplicationController
 
+  before_action :get_registration, except: [:doneKeyPeople, :doneRelevantPeople]
+
   # GET /your-registration/key-people/registration
   def registration
-    get_registration
+    #get_registration
 
     if @registration.businessType == 'soleTrader'
       redirect_to action: 'newKeyPerson'
@@ -15,7 +17,7 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-person
   def newKeyPerson
-    get_registration
+    #get_registration
     get_key_people
 
     if @key_people.empty?
@@ -28,7 +30,7 @@ class KeyPeopleController < ApplicationController
 
   # POST /your-registration/key-person
   def updateNewKeyPerson
-    get_registration
+    #get_registration
     get_key_people
 
     @key_person = KeyPerson.create
@@ -52,7 +54,7 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-people
   def newKeyPeople
-    get_registration
+    #get_registration
     get_key_people
 
     @key_person = KeyPerson.create
@@ -60,7 +62,7 @@ class KeyPeopleController < ApplicationController
 
   # POST /your-registration/key-people
   def updateNewKeyPeople
-    get_registration
+    #get_registration
     get_key_people
 
     @key_person = KeyPerson.create
@@ -84,7 +86,7 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/relevant-people
   def newRelevantPeople
-    get_registration
+    #get_registration
     get_relevant_people
 
     @key_person = KeyPerson.create
@@ -92,7 +94,7 @@ class KeyPeopleController < ApplicationController
 
   # POST /your-registration/relevant-people
   def updateNewRelevantPeople
-    get_registration
+    #get_registration
     get_relevant_people
 
     @key_person = KeyPerson.create
@@ -116,7 +118,7 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-people/delete/:id
   def delete
-    get_registration
+    #get_registration
 
     key_person_to_remove = KeyPerson[params[:id]]
     logger.debug "reg is: #{@registration.id}"
@@ -129,7 +131,7 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/relevant-people/delete/:id
   def deleteRelevantPerson
-    get_registration
+    #get_registration
 
     person_to_remove = KeyPerson[params[:id]]
     logger.debug "reg is: #{@registration.id}"
@@ -152,7 +154,7 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-people
   def index
-    get_registration
+    #get_registration
     get_key_people
   end
 
@@ -163,6 +165,9 @@ class KeyPeopleController < ApplicationController
 
   def get_registration
     @registration = Registration[session[:registration_id]]
+    if !@registration
+      renderNotFound
+    end
   end
 
   def get_key_people
