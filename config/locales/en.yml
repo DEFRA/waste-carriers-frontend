@@ -95,7 +95,6 @@ en:
         registrationType: "Registration type"
         registration_fee: "Registration charge"
         relevant_people: "Relevant people"
-        renewal_fee: "Registration renewal charge"
         renewal_fee: "Renewal charge"
         edit_registration_fee: "Edit registration charge"
         revokedReason: "Why do you wish to revoke this registration"
