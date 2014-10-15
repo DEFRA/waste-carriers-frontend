@@ -1285,7 +1285,9 @@ class Registration < Ohm::Model
     Rails.logger.info("found: #{rs.size} pending registrations")
     rs.each do |r|
       Registration.activate_registration(r)
-      Registration.send_registered_email(user, r)
+      if r.lower?
+        Registration.send_registered_email(user, r)
+      end
     end #each
     Rails.logger.info "Activated registration(s) for user with email #{user.email}"
   end
