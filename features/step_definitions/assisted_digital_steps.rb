@@ -11,6 +11,9 @@ end
 Given(/^I start a new registration on behalf of a caller$/) do
   visit registrations_path
   click_on 'New registration'
+  
+  choose 'registration_newOrRenew_new'
+  click_on 'Next'
 end
 
 Given(/^the caller provides initial answers for the lower tier$/) do
@@ -60,6 +63,9 @@ end
 
 When(/^I create a lower tier registration on behalf of a caller$/) do
   click_on 'New registration'
+  
+  choose 'registration_newOrRenew_new'
+  click_on 'Next'
 
   choose 'registration_businessType_charity'
   click_on 'Next'
@@ -85,6 +91,9 @@ end
 
 When(/^I create an upper tier registration on behalf of a caller$/) do
   click_on 'New registration'
+  
+  choose 'registration_newOrRenew_new'
+  click_on 'Next'
 
   choose 'registration_businessType_soletrader'
   click_on 'Next'
@@ -127,6 +136,9 @@ end
 
 When(/^I create an upper tier registration on behalf of a caller who wants to pay offline$/) do
   click_on 'New registration'
+  
+  choose 'registration_newOrRenew_new'
+  click_on 'Next'
 
   choose 'registration_businessType_soletrader'
   click_on 'Next'

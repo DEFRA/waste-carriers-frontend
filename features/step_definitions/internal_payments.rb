@@ -304,6 +304,9 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   registrationCount = SecureRandom.uuid.delete "-"
 
   click_on 'New registration'
+  
+  choose 'registration_newOrRenew_new'
+  click_on 'Next'
 
   choose 'registration_businessType_soletrader'
   click_on 'Next'
