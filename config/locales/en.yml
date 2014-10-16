@@ -1037,6 +1037,26 @@ en:
     errors:
       error: error
       error_message: "You have %{count} on this page"
+    fields:
+      reg_identifier: "Registration"
+      company_name: "Trading name"
+      postcode: "Postcode"
+      business_type: "Business type"
+      tier: "Tier"
+      date_registered: "Date registered"
+      date_activated: "Date activated"
+      status: "Registration status"
+      route: "Route"
+      date_created: "Transaction date"
+      date_received: "Transaction date"
+      order_code: "Order code"
+      description: "Charge type"
+      charge_amount: "Charge amount"
+      payment_type: "Payment type"
+      registration_reference: "Reference"
+      payment_amount: "Payment amount"
+      comment: "Comments"
+      balance: "Balance"
     registrations_search:
       title: "Registrations Search"
       subtitle: "Registrations search"
@@ -1054,7 +1074,6 @@ en:
       title: "Registrations Search Results"
       subtitle: "Registration search results summary"
       summary: "The first 100 records matching your search as an example."
-      companyName: "Trading Name"
     payments_search:
       title: "Payments Search"
       subtitle: "Payments search"
@@ -1066,7 +1085,6 @@ en:
       title: "Payments Search Results"
       subtitle: "Payment search results summary"
       summary: "The first 100 records matching your search as an example."
-      companyName: "Trading Name"
   shared:
     complete_summary:
       almost_there_title: "Almost there"
