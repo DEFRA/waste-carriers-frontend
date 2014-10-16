@@ -19,7 +19,7 @@ end
 But(/^I have not confirmed my email address$/) do
   # no-op
 end
- 
+
 When(/^I have confirmed my email address$/) do
   sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
@@ -29,16 +29,16 @@ end
 Given(/^I have received an awaiting payment email$/) do
   sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.should have_content 'Awaiting payment ... TBC'
+  current_email.should have_content 'Your registration requires payment'
 end
- 
+
 When(/^I attempt to sign in$/) do
   visit new_user_session_path
   fill_in 'user_email', with: my_email_address
   fill_in 'user_password', with: my_password
   click_on 'Sign in'
  end
- 
+
 And(/^I am shown my pending registration$/) do
   page.should_not have_content 'confirm your account'
   page.should have_content 'is not yet registered as an upper tier waste carrier'
