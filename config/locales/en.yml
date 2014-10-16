@@ -1053,6 +1053,7 @@ en:
     registrations_search_results:
       title: "Registrations Search Results"
       subtitle: "Registration search results summary"
+      summary: "The first 100 records matching your search as an example."
       companyName: "Trading Name"
     payments_search:
       title: "Payments Search"
