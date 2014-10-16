@@ -21,11 +21,11 @@ en:
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"
-        heading: "Confirm your account as a waste carrier/broker/dealer"
+        heading: "Confirm your account as a waste carrier, broker or dealer"
         paragraph1: "To %{email},"
-        paragraph2: "Please select the link below to confirm your account and complete your registration as a waste carrier/broker/dealer."
+        paragraph2: "To verify your details please confirm your account."
         confirmLabel: "Confirm your account"
-        paragraph3: "The link above is valid for 24 hours. You can request this e-mail to be sent again with a new link from here:"
+        paragraph3: "Verifying your details will let you edit and renew your account."
         newInstructionsLabel: "Send new instructions to confirm my account"
         paragraph4: "Please contact the Environment Agency helpline on 03708 506506 if you have any questions about this."
       reset_password_instructions:
@@ -42,6 +42,11 @@ en:
         paragraph2: "Your account has been locked temporarily due to an excessive number of unsuccessful sign in attempts."
         paragraph3: "To unlock your account straight away, please click the link below:"
         unlockLabel: "Unlock my account"
+      email_security:
+        heading: "Email security"
+        text_line1: "you're receieving this email because you tried to register as a waste carrier, broker or dealer"
+        text_line2: "if you believe this email has been compromised, do not reply or click on any of the links - contact the Environment Agency Helpline: 03708 506506"
+        text_line3: "links in our emails should only take you to information about your waste carrier, broker dealer registration"
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
