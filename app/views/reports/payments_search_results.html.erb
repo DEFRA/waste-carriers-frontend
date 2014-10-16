@@ -23,9 +23,18 @@
             <% content_for :page_title, createTitle('.title') %>
             <%= render 'errors' %>
             <h2 class="heading-small"><%= t '.summary' %></h2>
-            <span class="next_link">
-              <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
-            </span>
+            <%= form_for(@report, :url => payments_search_results_path) do |f| %>
+              <fieldset>
+                <%= f.hidden_field :from %>
+                <%= f.hidden_field :to %>
+                <%= f.hidden_field :payment_statuses %>
+                <%= f.hidden_field :payment_types %>
+                <%= f.hidden_field :charge_types %>
+              </fieldset>
+              <span class="next_link">
+                <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
+              </span>
+            <% end %>
             <table summary="<%= t '.summary' %>" role='presentation'>
               <thead>
                 <tr>
@@ -121,16 +130,6 @@
                 <% end %>
               </tbody>
             </table>
-
-            <%= form_for(@report, :url => payments_search_results_path) do |f| %>
-            <fieldset>
-              <%= f.hidden_field :from %>
-              <%= f.hidden_field :to %>
-              <%= f.hidden_field :payment_statuses %>
-              <%= f.hidden_field :payment_types %>
-              <%= f.hidden_field :charge_types %>
-            </fieldset>
-            <% end %>
           </div>
         </div><!--inner-block-->
       </div><!--grid-2-3-->
