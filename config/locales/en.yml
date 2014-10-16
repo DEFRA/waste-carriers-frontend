@@ -267,6 +267,7 @@ en:
     edit_button_label: Edit
     edit_these_details: "Edit these details"
     export_button_label: "Export"
+    export_all_button_label: "Export all"
     find_companies_house_details: "Companies House number"
     finished_button_label: "Finished"
     next_button_label: Next
@@ -1063,6 +1064,7 @@ en:
     payments_search_results:
       title: "Payments Search Results"
       subtitle: "Payment search results summary"
+      summary: "The first 100 records matching your search as an example."
       companyName: "Trading Name"
   shared:
     complete_summary:
