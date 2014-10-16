@@ -7,7 +7,7 @@ Given(/^I am renewing an IR registration$/) do
   visit newOrRenew_path
   choose 'registration_newOrRenew_renew'
   click_on 'Next'
-  fill_in 'registration_originalRegistrationNumber', with: 'CB/AE5892RG/A001'
+  fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R002'
   click_on 'Next'
 end
 
