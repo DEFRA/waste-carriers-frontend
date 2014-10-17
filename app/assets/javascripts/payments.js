@@ -1,15 +1,4 @@
 
-$.urlParam = function(name){
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results==null){
-       return null;
-    }
-    else{
-       return results[1] || 0;
-    }
-}
-
-
 $(function() {
   $(document).on('change', '#registration_copy_cards', function() {
 
@@ -32,16 +21,6 @@ $(function() {
     }
     else {
         total_fee_obj.value =  Number(Number(card_fee_obj.value)).toFixed(2)
-    }
-
-
-    // make sure users can't order 0 copy cards when ordering only copy cards
-    if (($(this).val() == 0) && ($.urlParam('from') == 'add_copy_cards')){       
-      $("#worldpay_button").prop('disabled', true);
-      $("#offline_pay_button").prop('disabled', true);
-    } else {
-       $("#worldpay_button").prop('disabled', false);
-       $("#offline_pay_button").prop('disabled', false);
     }
 
   });
