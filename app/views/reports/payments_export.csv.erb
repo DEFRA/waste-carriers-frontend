@@ -7,10 +7,12 @@
   t('reports.fields.order_code'),
   t('reports.fields.charge_type'),
   t('reports.fields.charge_amount'),
+  t('reports.fields.charge_updated_by'),
   t('reports.fields.payment_type'),
   t('reports.fields.reference'),
   t('reports.fields.payment_amount'),
   t('reports.fields.comment'),
+  t('reports.fields.payment_updated_by'),
   t('reports.fields.balance')
 ] %>
 <% # Apologies for the formatting in this file, however any formatting such as %>
@@ -30,8 +32,10 @@
 <% row << order.orderCode %>
 <% row << order_item.type %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(order_item.amount) %>
+<% row << order.updatedByUser %>
 <% row << order_item.paymentMethod %>
 <% row << order_item.reference %>
+<% row << '' %>
 <% row << '' %>
 <% row << '' %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(registration.finance_details.first.balance) %>
@@ -47,10 +51,12 @@
 <% row << order.orderCode %>
 <% row << order_item.type %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(order_item.amount) %>
+<% row << order.updatedByUser %>
 <% row << payment.paymentType %>
 <% row << order_item.reference %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(payment.amount) %>
 <% row << payment.comment %>
+<% row << payment.updatedByUser %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(registration.finance_details.first.balance) %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <% end %>
@@ -69,10 +75,12 @@
 <% row << '' %>
 <% row << '' %>
 <% row << '' %>
+<% row << '' %>
 <% row << payment.paymentType %>
 <% row << payment.registrationReference %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(payment.amount) %>
 <% row << payment.comment %>
+<% row << payment.updatedByUser %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(registration.finance_details.first.balance) %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <% end %>
