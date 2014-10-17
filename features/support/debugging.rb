@@ -18,4 +18,6 @@ After do |scenario|
       end
     end
   end
+  # Force clear emails to ensure no emails from other tests are shown in subsequent tests
+  clear_emails
 end
