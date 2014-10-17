@@ -23,16 +23,44 @@
             <% content_for :page_title, createTitle('.title') %>
             <%= render 'errors' %>
             <h2 class="heading-small"><%= t '.summary' %></h2>
-            <span class="next_link">
-              <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
-            </span>
+            <%= form_for(@report, :url => registrations_search_results_path) do |f| %>
+              <fieldset>
+                <%= f.hidden_field :from %>
+                <%= f.hidden_field :to %>
+                <%= f.hidden_field :has_declared_convictions %>
+                <%= f.hidden_field :is_criminally_suspect %>
+                <%= f.hidden_field :routes %>
+                <%= f.hidden_field :statuses %>
+                <%= f.hidden_field :business_types %>
+                <%= f.hidden_field :tiers %>
+              </fieldset>
+              <span class="next_link">
+                <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
+              </span>
+            <% end %>
             <table summary="<%= t '.summary' %>" role='presentation'>
               <thead>
                 <tr>
                   <th><%= t 'reports.fields.reg_identifier' %></th>
                   <th><%= t 'reports.fields.company_name' %></th>
+                  <th><%= t 'reports.fields.house_number' %></th>
+                  <th><%= t 'reports.fields.street_line_1' %></th>
+                  <th><%= t 'reports.fields.street_line_2' %></th>
+                  <th><%= t 'reports.fields.street_line_3' %></th>
+                  <th><%= t 'reports.fields.street_line_4' %></th>
+                  <th><%= t 'reports.fields.town_city' %></th>
                   <th><%= t 'reports.fields.postcode' %></th>
+                  <th><%= t 'reports.fields.first_name' %></th>
+                  <th><%= t 'reports.fields.last_name' %></th>
+                  <th><%= t 'reports.fields.position' %></th>
+                  <th><%= t 'reports.fields.phone_number' %></th>
+                  <th><%= t 'reports.fields.contact_email' %></th>
+                  <th><%= t 'reports.fields.account_email' %></th>
                   <th><%= t 'reports.fields.business_type' %></th>
+                  <th><%= t 'reports.fields.other_businesses' %></th>
+                  <th><%= t 'reports.fields.is_main_service' %></th>
+                  <th><%= t 'reports.fields.construction_waste' %></th>
+                  <th><%= t 'reports.fields.only_amf' %></th>
                   <th><%= t 'reports.fields.tier' %></th>
                   <th><%= t 'reports.fields.date_registered' %></th>
                   <th><%= t 'reports.fields.date_activated' %></th>
@@ -45,8 +73,24 @@
                 <tr>
                   <td><%= reg.regIdentifier %></td>
                   <td><%= reg.companyName %></td>
+                  <td><%= reg.houseNumber %></td>
+                  <td><%= reg.streetLine1 %></td>
+                  <td><%= reg.streetLine2 %></td>
+                  <td><%= reg.streetLine3 %></td>
+                  <td><%= reg.streetLine4 %></td>
+                  <td><%= reg.townCity %></td>
                   <td><%= reg.postcode %></td>
+                  <td><%= reg.firstName %></td>
+                  <td><%= reg.lastName %></td>
+                  <td><%= reg.position %></td>
+                  <td><%= reg.phoneNumber %></td>
+                  <td><%= reg.contactEmail %></td>
+                  <td><%= reg.accountEmail %></td>
                   <td><%= reg.businessType %></td>
+                  <td><%= reg.otherBusinesses %></td>
+                  <td><%= reg.isMainService %></td>
+                  <td><%= reg.constructionWaste %></td>
+                  <td><%= reg.onlyAMF %></td>
                   <td><%= reg.tier %></td>
                   <td><%= reg.metaData.first.dateRegistered %></td>
                   <td><%= reg.metaData.first.dateActivated %></td>
@@ -55,20 +99,7 @@
                 </tr>
                 <% end %>
               </tbody>
-            </table>
-
-            <%= form_for(@report, :url => registrations_search_results_path) do |f| %>
-            <fieldset>
-              <%= f.hidden_field :from %>
-              <%= f.hidden_field :to %>
-              <%= f.hidden_field :has_declared_convictions %>
-              <%= f.hidden_field :is_criminally_suspect %>
-              <%= f.hidden_field :routes %>
-              <%= f.hidden_field :statuses %>
-              <%= f.hidden_field :business_types %>
-              <%= f.hidden_field :tiers %>
-            </fieldset>
-            <% end %>
+            </table>  
           </div>
         </div><!--inner-block-->
       </div><!--grid-2-3-->

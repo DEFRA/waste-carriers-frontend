@@ -1,37 +1,59 @@
-<% registrationHeaders = [
-  "regIdentifier",
-  "companyName",
-  "houseNumber",
-  "streetLine1",
-  "streetLine2",
-  "streetLine3",
-  "streetLine4",
-  "townCity",
-  "postcode",
-  "firstName",
-  "lastName",
-  "position",
-  "phoneNumber",
-  "contactEmail",
-  "accountEmail",
-  "businessType",
-  "otherBusinesses",
-  "isMainService",
-  "constructionWaste",
-  "onlyAMF",
-  "tier"
-] %>
-<% metaDataHeaders = [
-  "dateRegistered",
-  "dateActivated",
-  "status",
-  "route"
+<% headings = [
+  t('reports.fields.reg_identifier'),
+  t('reports.fields.company_name'),
+  t('reports.fields.house_number'),
+  t('reports.fields.street_line_1'),
+  t('reports.fields.street_line_2'),
+  t('reports.fields.street_line_3'),
+  t('reports.fields.street_line_4'),
+  t('reports.fields.town_city'),
+  t('reports.fields.postcode'),
+  t('reports.fields.first_name'),
+  t('reports.fields.last_name'),
+  t('reports.fields.position'),
+  t('reports.fields.phone_number'),
+  t('reports.fields.contact_email'),
+  t('reports.fields.account_email'),
+  t('reports.fields.business_type'),
+  t('reports.fields.other_businesses'),
+  t('reports.fields.is_main_service'),
+  t('reports.fields.construction_waste'),
+  t('reports.fields.only_amf'),
+  t('reports.fields.tier'),
+  t('reports.fields.date_registered'),
+  t('reports.fields.date_activated'),
+  t('reports.fields.status'),
+  t('reports.fields.route')
 ] %>
 <% # Apologies for the formatting in this file, however any formatting such as %>
 <% # indenting or line spaces get directly translated to the exported CSV file. %>
-<%= CSV.generate_line(registrationHeaders + metaDataHeaders, { :row_sep => nil, :force_quotes => true }).html_safe %>
+<%= CSV.generate_line(headings, { :row_sep => nil, :force_quotes => true }).html_safe %>
 <% @registrations.each do |registration| %>
-<% row = registration.attributes.values_at(*registrationHeaders.map {|x| x.to_sym}) %>
-<% row += registration.metaData.first.attributes.values_at(*metaDataHeaders.map {|x| x.to_sym}) %>
+<% row = [] %>
+<% row << registration.regIdentifier %>
+<% row << registration.companyName %>
+<% row << registration.houseNumber %>
+<% row << registration.streetLine1 %>
+<% row << registration.streetLine2 %>
+<% row << registration.streetLine3 %>
+<% row << registration.streetLine4 %>
+<% row << registration.townCity %>
+<% row << registration.postcode %>
+<% row << registration.firstName %>
+<% row << registration.lastName %>
+<% row << registration.position %>
+<% row << registration.phoneNumber %>
+<% row << registration.contactEmail %>
+<% row << registration.accountEmail %>
+<% row << registration.businessType %>
+<% row << registration.otherBusinesses %>
+<% row << registration.isMainService %>
+<% row << registration.constructionWaste %>
+<% row << registration.onlyAMF %>
+<% row << registration.tier %>
+<% row << registration.metaData.first.dateRegistered %>
+<% row << registration.metaData.first.dateActivated %>
+<% row << registration.metaData.first.status %>
+<% row << registration.metaData.first.route %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <%end%>
