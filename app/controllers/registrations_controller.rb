@@ -351,6 +351,27 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/business-details
   def newBusinessDetails
     new_step_action 'businessdetails'
+
+    if !@registration
+      logger.warn 'There is no @registration - cannot proceed with address details'
+      return
+    end
+
+    #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
+    if 'address-results'.eql? @registration.addressMode
+      begin
+        @address_match_list = Address.find(:all, :params => {:postcode => @registration.postcode})
+        session.delete(:address_lookup_failure) if session[:address_lookup_failure]
+        logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
+      rescue Errno::ECONNREFUSED
+        session[:address_lookup_failure] = true
+        logger.error 'ERROR: Address Lookup Not running, or not Found'
+      rescue ActiveResource::ServerError
+        session[:address_lookup_failure] = true
+        logger.error 'ERROR: ActiveResource Server error!'
+      end
+    end
+
     if params[:manualUkAddress] #we're in the manual uk address page
       @registration.addressMode = 'manual-uk'
       #clear any existing address fields, in case we changed over from foreign address
@@ -363,11 +384,8 @@ class RegistrationsController < ApplicationController
       @registration.addressMode = nil
     end
 
-    if !@registration
-      logger.warn 'No @registration found - cannot save.'
-    else
-      @registration.save
-    end
+    @registration.save
+    
   end
   
   # GET /your-registration/edit/business-details
@@ -397,19 +415,10 @@ class RegistrationsController < ApplicationController
 
       @registration.update(:addressMode => 'address-results')
       @registration.update(:postcode => params[:registration][:postcode])
-      begin
-        @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
-        session.delete(:address_lookup_failure) if session[:address_lookup_failure]
-        logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
-      rescue Errno::ECONNREFUSED
-        session[:address_lookup_failure] = true
-        logger.error 'ERROR: Address Lookup Not running, or not Found'
-      rescue ActiveResource::ServerError
-        session[:address_lookup_failure] = true
-        logger.error 'ERROR: ActiveResource Server error!'
-      end
-      render 'newBusinessDetails', status: '200'
-      #redirect_to :newBusinessDetails and return
+
+      #GGG - this bit should be done on the subsequent GET
+      #render 'newBusinessDetails', status: '200'
+      redirect_to :newBusinessDetails and return
     elsif @registration.valid?
 
       if @registration.tier.eql? 'UPPER'
