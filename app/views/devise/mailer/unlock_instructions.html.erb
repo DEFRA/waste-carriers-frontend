@@ -27,13 +27,13 @@
          @media only screen and (max-width: 640px) {
          a[href^="tel"], a[href^="sms"] {
          text-decoration: none;
-         color: #ffffff;
+         color: #6f777b;
          pointer-events: none;
          cursor: default;
          }
          .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
          text-decoration: default;
-         color: #ffffff !important;
+         color: #6f777b !important;
          pointer-events: auto;
          cursor: default;
          }
@@ -54,13 +54,13 @@
          @media only screen and (max-width: 480px) {
          a[href^="tel"], a[href^="sms"] {
          text-decoration: none;
-         color: #ffffff; /* or whatever your want */
+         color: #6f777b; /* or whatever your want */
          pointer-events: none;
          cursor: default;
          }
          .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
          text-decoration: default;
-         color: #ffffff !important;
+         color: #6f777b !important;
          pointer-events: auto;
          cursor: default;
          }
@@ -85,7 +85,7 @@
       <tbody>
          <tr>
             <td>
-               <table width="600" bgcolor="#0b0c0c" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth" hlitebg="edit" shadow="edit">
+               <table width="500" bgcolor="#0b0c0c" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth" hlitebg="edit" shadow="edit">
                   <tbody>
                      <tr>
                         <td>
@@ -118,14 +118,14 @@
       <tbody>
          <tr>
             <td>
-               <table bgcolor="#ffffff" width="600" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth" modulebg="edit">
+               <table bgcolor="#ffffff" width="500" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth" modulebg="edit">
                   <tbody>
                      <tr>
                         <td width="100%" height="20"></td>
                      </tr>
                      <tr>
                         <td>
-                           <table width="600" align="left" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner">
+                           <table width="500" align="left" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner">
                               <tbody>
                                  <tr>
                                  <!-- start of image -->
@@ -141,7 +141,7 @@
                                  <!-- Spacing -->
                                  <!-- title -->
                                  <tr>
-                          <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;"><h1 class="email" style="font-weight: 700; font-size: 48px; line-height: 1.041666667; margin: 30px 0;">
+                          <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;"><h1 class="email" style="font-weight: 700; font-size: 36px; line-height: 1.041666667; margin: 30px 0;">
                             <%= t 'devise.mailer.unlock_instructions.heading'%></h1></td>
                                  </tr>
                                  <!-- end of title -->
@@ -153,15 +153,15 @@
                                  <!-- content -->
                                  <tr>
                           <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                            <p style="font-size: 19px; line-height: 1.315789474; margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph1' %></p><br/>
+                            <p style="font-size: 19px; line-height: 1.25;"><%= t 'devise.mailer.confirmation_instructions.paragraph1' %></p><br/>
 
-                            <p style="font-size: 19px; line-height: 1.315789474; margin: 0 0 30px 0;"><%= t 'devise.mailer.unlock_instructions.paragraph2'%></p><br/>
+                            <p style="font-size: 19px; line-height: 1.25;"><%= t 'devise.mailer.unlock_instructions.paragraph2'%></p><br/>
 
-                            <p style="font-size: 19px; line-height: 1.315789474; margin: 0 0 30px 0;"><%= t 'devise.mailer.unlock_instructions.paragraph3'%><br/>
+                            <p style="font-size: 19px; line-height: 1.25;"><%= t 'devise.mailer.unlock_instructions.paragraph3'%><br/>
 
-                            <p style="font-size: 19px; line-height: 1.315789474; margin: 0 0 30px 0;">><%= t 'devise.mailer.unlock_instructions.paragraph3'%></p>
+                            <p style="font-size: 19px; line-height: 1.25;">><%= t 'devise.mailer.unlock_instructions.paragraph3'%></p>
 
-                            <p style="font-size: 19px; line-height: 1.315789474; margin: 0 0 30px 0;">><%= link_to t('devise.mailer.unlock_instructions.unlockLabel'), unlock_url(@resource, :unlock_token => @token) %></p>
+                            <p style="font-size: 19px; line-height: 1.25;">><%= link_to t('devise.mailer.unlock_instructions.unlockLabel'), unlock_url(@resource, :unlock_token => @token) %></p>
                           </td>
                                  </tr>
                                  <!-- end of content -->
@@ -190,43 +190,45 @@
    </table>
 </div><div class="block">
    <!-- Start of footer -->
-   <table width="600px" bgcolor="#f6f4f5" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="postfooter">
-      <tbody>
-         <tr>
-            <td width="100%">
-               <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
-                  <tbody>
-                     <!-- Spacing -->
-                     <tr>
-                        <td width="100%" height="20"></td>
-                     </tr>
-                     <!-- Spacing -->
-                     <tr>
-                     <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                       <p style="font-size: 16px; color: #6f777b; line-height: 1.50; margin: 0 0 30px 0; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 0 10px;"><strong><%= t 'devise.mailer.email_security.heading'%></p></strong></p>
-                          <ul>
-                        <li style="font-size: 14px; color: #6f777b; line-height: 1.315789474; margin: 0 100px 15px 0;"><%= t 'devise.mailer.email_security.text_line1'%></li>
-                            <li style="font-size: 14px; color: #6f777b; line-height: 1.315789474; margin: 0 100px 15px 0;"><%= t 'devise.mailer.email_security.text_line2'%></li>
-                        <li style="font-size: 14px; color: #6f777b; line-height: 1.315789474; margin: 0 100px 15px 0;"><%= t 'devise.mailer.email_security.text_line3'%></li>
-                      </ul>
-                    </td>
-                     </tr>
-                     <!-- end of content -->
-                     <!-- Spacing -->
-                     <tr>
-                        <td width="100%" height="0"></td>
-                     </tr>
-                     <!-- Spacing -->
-                     <tr>
-                       <td width="100%" height="10"></td>
-                     </tr>
-                     <!-- Spacing -->
-                  </tbody>
-               </table>
-            </td>
-         </tr>
-      </tbody>
-   </table>
+<table width="500" bgcolor="#f6f4f5" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="postfooter">
+  <tbody>
+     <tr>
+        <td width="100%" style="border-top: 1px solid #DEE0E2">
+           <table width="500" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+              <tbody>
+                 <!-- Spacing -->
+                 <tr>
+                    <td width="100%" height="60"></td>
+                 </tr>
+                 <!-- Spacing -->
+                 <tr>
+                <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
+                    <h2 style="font-size: 19px; color: #6f777b; line-height: 1.25; margin: 0 0 30px 0;"><%= t 'devise.mailer.email_security.heading'%></h2>
+                    <p style="font-size: 14px; color: #6f777b; line-height: 1.25; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line1'%></p>
+                    <p style="font-size: 14px; color: #6f777b; line-height: 1.25; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line3'%></p>
+                    <p style="font-size: 14px; color: #6f777b; line-height: 1.25; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line2'%></p>
+                </td>
+                 </tr>
+                 <!-- end of content -->
+                 <!-- Spacing -->
+                 <tr>
+                    <td width="100%" height="0"></td>
+                 </tr>
+                 <!-- Spacing -->
+                 <tr>
+                    <td width="100%" height="10"></td>
+                 </tr>
+                 <!-- Spacing -->
+                 <tr>
+                    <td width="100%" height="10"></td>
+                 </tr>
+                 <!-- Spacing -->
+              </tbody>
+           </table>
+        </td>
+     </tr>
+  </tbody>
+</table>
    <!-- End of footer -->
 </div>
 

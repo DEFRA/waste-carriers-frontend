@@ -22,10 +22,11 @@ en:
       confirmation_instructions:
         subject: "Confirmation instructions"
         heading: "Confirm your account as a waste carrier, broker or dealer"
-        paragraph1: "To %{email},"
-        paragraph2: "To verify your details please confirm your account."
+        paragraph1: "Hello,"
+        paragraph2: "You're setting up an acccount to be a waste carrier, broker or dealer."
+        paragraph2: "We need you to confirm your account details so we can verify who you are."
         confirmLabel: "Confirm your account"
-        paragraph3: "Verifying your details will let you edit and renew your account."
+        paragraph3: "Verifying your details will let you edit or renew your account."
         newInstructionsLabel: "Send new instructions to confirm my account"
         paragraph4: "Please contact the Environment Agency helpline on 03708 506506 if you have any questions about this."
       reset_password_instructions:
@@ -44,9 +45,9 @@ en:
         unlockLabel: "Unlock my account"
       email_security:
         heading: "Email security"
-        text_line1: "you're receieving this email because you tried to register as a waste carrier, broker or dealer"
-        text_line2: "if you believe this email has been compromised, do not reply or click on any of the links - contact the Environment Agency Helpline: 03708 506506"
-        text_line3: "links in our emails should only take you to information about your waste carrier, broker dealer registration"
+        text_line1: "You're receieving this email because you tried to register as a waste carrier, broker or dealer."
+        text_line2: "If you believe this email has been compromised, do not reply or click on any of the links - contact the Environment Agency Helpline: 03708 506506."
+        text_line3: "Links in our emails should only take you to information about your waste carrier, broker or dealer registration."
     omniauth_callbacks:
       failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
       success: "Successfully authenticated from %{kind} account."
