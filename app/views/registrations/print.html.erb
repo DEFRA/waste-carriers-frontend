@@ -28,7 +28,7 @@
     <% when RegistrationsController::EditMode::RECREATE %>
     <% when RegistrationsController::EditMode::EDIT %>
     <% else %>  <!-- this is a new registration page -->
-      <p><%=t '.registeredOn',:date=>format_date(@registration.metaData.first.dateRegistered) %></p>
+      <p><%=t '.registeredOn',:date=>@registration.formatted_registration_date %></p>
     <% end %>
 
 

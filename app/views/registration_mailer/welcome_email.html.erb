@@ -204,7 +204,7 @@ img{valign:left;}
                     <%=t 'registration_mailer.welcome_email.phoneNumber'%><%= @registration.phoneNumber%></p>
 
                     <p style="font-size: 16px; line-height: 1.25;">
-                    <%= t 'registrations_mailer.finish.your_reg_number', :reg => @registration.regIdentifier %></p>
+                    <%= t 'registrations.finish.your_reg_number', :reg => @registration.regIdentifier %></p>
 
                     <p style="font-size: 16px; line-height: 1.25;">
                     <%= t 'registration_mailer.welcome_email.registeredOn', date: @registration.formatted_registration_date %></p>
