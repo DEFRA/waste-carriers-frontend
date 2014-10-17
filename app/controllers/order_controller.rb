@@ -31,6 +31,9 @@ class OrderController < ApplicationController
 
     # Setup page
     setup_registration 'payment', true
+    if !@registration
+      return
+    end
     if !@registration.copy_cards
       @registration.copy_cards = 0
     end

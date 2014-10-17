@@ -123,6 +123,8 @@ Registrations::Application.routes.draw do
     get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
     match "your-registration/confirmed" => 'registrations#completeConfirmed', :via => [:post]
 
+    get "your-registration/cannot-edit" => 'registrations#cannot_edit', :as => :cannot_edit
+
     get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
     get "your-registration/edit/registration-type" => "registrations#editRegistrationType", :via => [:get], :as => :editRegistrationType
     match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
