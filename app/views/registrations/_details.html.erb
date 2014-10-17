@@ -1,17 +1,8 @@
 <h2 class="heading-small"><%=t 'registrations.details.heading'%></h2>
-<div class="clr"></div>
-<dl class="data text">
-  <dt><%=t 'registrations.details.contactName'%></dt>
-  <dd>
-  <%= @registration.firstName%> <%= @registration.lastName%>
-  </dd>
-  <dt><%=t 'registrations.details.phoneNumber'%></dt>
-  <dd><%= @registration.phoneNumber%></dd>
-</dl>
-<dl class="data text">
-  <dt><%=t 'registrations.details.address'%></dt>
-  <dd><%= render "address_display", r: @registration, :newline=>true%></dd>
-</dl>
+<ul>
+  <li><%=t 'registrations.details.contactName'%><%= @registration.firstName%> <%= @registration.lastName%></li>
+  <li><%=t 'registrations.details.phoneNumber'%><%= @registration.phoneNumber%></li>
+<ul>
 
 <!--
 <%if @registration.assisted_digital? %>
@@ -21,6 +12,3 @@
 </dl>
 <%end%>
 -->
-
-<div class="clr"></div>
-<div class="clr"></div>

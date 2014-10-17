@@ -45,7 +45,7 @@ en:
         unlockLabel: "Unlock my account"
       email_security:
         heading: "Email security"
-        text_line1: "You're receieving this email because you tried to register as a waste carrier, broker or dealer."
+        text_line1: "You're receiving this email because you tried to register as a waste carrier, broker or dealer."
         text_line2: "If you believe this email has been compromised, do not reply or click on any of the links - contact the Environment Agency Helpline: 03708 506506."
         text_line3: "Links in our emails should only take you to information about your waste carrier, broker or dealer registration."
     omniauth_callbacks:

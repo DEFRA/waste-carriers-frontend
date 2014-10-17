@@ -429,7 +429,7 @@ en:
       lowerTierRegistration: "Lower tier registration"
       phoneNumber: "Telephone number: "
       registeredOn: "Registered on: %{date}"
-      renewal_html: "Your registration will last indefinitely so does not need to be renewed but you must update your registration details if they change, within 28 days of the change. You can do this by going to the <a href='https://www.gov.uk/waste-carrier-or-broker-registration'>www.gov.uk/waste-carrier-or-broker-registration</a> and logging in using your email and password."
+      renewal_html: "Your registration will last indefinitely so does not need to be renewed but you must update your registration details if they change, within 28 days of the change."
       responsibilities1: "If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier"
       responsibilities2: "Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste"
       responsibilities3: "Make sure any waste is safely handled and stored"
