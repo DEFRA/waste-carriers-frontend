@@ -2,78 +2,76 @@
 
 <div id="wrapper">
   <main id="content" role="main" class="group">
-    <div class="grid-wrapper">
 
-      <div class="back-section">
-        <ol>
-          <li><%= link_to t('registrations.form.back_button_label'), :registrations_search, :class => 'link_to' %></li>
-        </ol>
+    <div class="back-section">
+      <ol>
+        <li><%= link_to t('registrations.form.back_button_label'), :registrations_search, :class => 'link_to' %></li>
+      </ol>
+    </div>
+
+    <header class="page-header group">
+      <div class="hgroup">
+        <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
       </div>
+    </header>
 
-      <header class="page-header group">
-        <div class="hgroup">
-          <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
-        </div>
-      </header>
+    <div class="grid-wrapper">
+      <div class="grid-2-3">
+        <div class="inner-block">
+          <!-- WF 4.3.2 -->
+          <div id="page0"  data-journey="waste-carriers-registration:registrations-export-results">
+            <% content_for :page_title, createTitle('.title') %>
+            <%= render 'errors' %>
+            <h2 class="heading-small"><%= t '.summary' %></h2>
+            <span class="next_link">
+              <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
+            </span>
+            <table summary="<%= t '.summary' %>" role='presentation'>
+              <thead>
+                <tr>
+                  <th><%= t 'activemodel.attributes.registration.regIdentifier' %></th>
+                  <th><%= t '.companyName' %></th>
+                  <th><%= t 'activemodel.attributes.registration.postcode' %></th>
+                  <th><%= t 'activemodel.attributes.registration.business_type' %></th>
+                  <th><%= t 'activemodel.attributes.registration.tier' %></th>
+                  <th><%= t 'activemodel.attributes.metadata.dateRegistered' %></th>
+                  <th><%= t 'activemodel.attributes.metadata.dateActivated' %></th>
+                  <th><%= t 'activemodel.attributes.metadata.status' %></th>
+                  <th><%= t 'activemodel.attributes.metadata.route' %></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @registrations.each do |reg| %>
+                <tr>
+                  <td><%= reg.regIdentifier %></td>
+                  <td><%= reg.companyName %></td>
+                  <td><%= reg.postcode %></td>
+                  <td><%= reg.businessType %></td>
+                  <td><%= reg.tier %></td>
+                  <td><%= reg.metaData.first.dateRegistered %></td>
+                  <td><%= reg.metaData.first.dateActivated %></td>
+                  <td><%= reg.metaData.first.status %></td>
+                  <td><%= reg.metaData.first.route %></td>
+                </tr>
+                <% end %>
+              </tbody>
+            </table>
 
-      <div class="grid-wrapper">
-        <div class="grid-2-3">
-          <article role="article" class="group">
-            <!-- WF 4.3.2 -->
-            <div id="page0"  data-journey="waste-carriers-registration:registrations-export-results">
-              <% content_for :page_title, createTitle('.title') %>
-              <%= render 'errors' %>
-
-              <table summary='A summary of the first 100 registrations matching your search' role='presentation'>
-                <thead>
-                  <tr>
-                    <th><%= t 'activemodel.attributes.registration.regIdentifier' %></th>
-                    <th><%= t '.companyName' %></th>
-                    <th><%= t 'activemodel.attributes.registration.postcode' %></th>
-                    <th><%= t 'activemodel.attributes.registration.business_type' %></th>
-                    <th><%= t 'activemodel.attributes.registration.tier' %></th>
-                    <th><%= t 'activemodel.attributes.metadata.dateRegistered' %></th>
-                    <th><%= t 'activemodel.attributes.metadata.dateActivated' %></th>
-                    <th><%= t 'activemodel.attributes.metadata.status' %></th>
-                    <th><%= t 'activemodel.attributes.metadata.route' %></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% @registrations.each do |reg| %>
-                  <tr>
-                    <td><%= reg.regIdentifier %></td>
-                    <td><%= reg.companyName %></td>
-                    <td><%= reg.postcode %></td>
-                    <td><%= reg.businessType %></td>
-                    <td><%= reg.tier %></td>
-                    <td><%= reg.metaData.first.dateRegistered %></td>
-                    <td><%= reg.metaData.first.dateActivated %></td>
-                    <td><%= reg.metaData.first.status %></td>
-                    <td><%= reg.metaData.first.route %></td>
-                  </tr>
-                  <% end %>
-                </tbody>
-              </table>
-
-              <%= form_for(@report, :url => registrations_search_results_path) do |f| %>
-              <fieldset>
-                <%= f.hidden_field :from %>
-                <%= f.hidden_field :to %>
-                <%= f.hidden_field :has_declared_convictions %>
-                <%= f.hidden_field :is_criminally_suspect %>
-                <%= f.hidden_field :routes %>
-                <%= f.hidden_field :statuses %>
-                <%= f.hidden_field :business_types %>
-                <%= f.hidden_field :tiers %>
-              </fieldset>
-              <span class="next_link">
-                <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_button_label' %>"/>
-              </span>
-              <% end %>
-            </div>
-          </article>
-        </div><!--grid-2-3 end-->
-      </div><!--grid-wrapper end-->
-    </div><!--grid-wrapper end-->
-  </main><!--main end-->
-</div><!--wrapper end-->
+            <%= form_for(@report, :url => registrations_search_results_path) do |f| %>
+            <fieldset>
+              <%= f.hidden_field :from %>
+              <%= f.hidden_field :to %>
+              <%= f.hidden_field :has_declared_convictions %>
+              <%= f.hidden_field :is_criminally_suspect %>
+              <%= f.hidden_field :routes %>
+              <%= f.hidden_field :statuses %>
+              <%= f.hidden_field :business_types %>
+              <%= f.hidden_field :tiers %>
+            </fieldset>
+            <% end %>
+          </div>
+        </div><!--inner-block-->
+      </div><!--grid-2-3-->
+    </div><!--grid-wrapper-->
+  </main><!--main-->
+</div><!--wrapper-->
