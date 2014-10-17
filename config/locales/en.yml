@@ -574,6 +574,7 @@ en:
       uk_address_link: "I have an address in the United Kingdom"
       find_address_using_postcode: "Find address using postcode"
       manual_address_link: "I want to add an address myself"
+      num_addresses_found: "addresses found"
     address_postcode_lookup:
       find_address_button: "Find UK address"
       manual_address_link: "I want to add an address myself"

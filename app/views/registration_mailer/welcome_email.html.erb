@@ -28,13 +28,13 @@ table[class=full] { width: 100%; clear: both; }
 @media only screen and (max-width: 640px) {
 a[href^="tel"], a[href^="sms"] {
 text-decoration: none;
-color: #ffffff;
+color: #6f777b;
 pointer-events: none;
 cursor: default;
 }
 .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
 text-decoration: default;
-color: #ffffff !important;
+color: #6f777b !important;
 pointer-events: auto;
 cursor: default;
 }
@@ -55,13 +55,13 @@ img[class="logo"]{padding:0!important;margin: 0 auto !important;}
 @media only screen and (max-width: 480px) {
 a[href^="tel"], a[href^="sms"] {
 text-decoration: none;
-color: #ffffff; /* or whatever your want */
+color: #6f777b; /* or whatever your want */
 pointer-events: none;
 cursor: default;
 }
 .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
 text-decoration: default;
-color: #ffffff !important;
+color: #6f777b !important;
 pointer-events: auto;
 cursor: default;
 }
@@ -87,7 +87,7 @@ img{valign:left;}
       <tbody>
          <tr>
             <td>
-               <table width="600" bgcolor="#0b0c0c" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth" hlitebg="edit" shadow="edit">
+               <table width="500" bgcolor="#0b0c0c" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth" hlitebg="edit" shadow="edit">
                   <tbody>
                      <tr>
                         <td>
@@ -120,7 +120,7 @@ img{valign:left;}
 <tbody>
 <tr>
   <td>
-  <table bgcolor="#ffffff" width="600" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth" modulebg="edit">
+  <table bgcolor="#ffffff" width="500" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth" modulebg="edit">
     <tbody>
   	<!-- Spacing -->
     <tr>
@@ -128,7 +128,7 @@ img{valign:left;}
     </tr>
     <tr>
       <td>
-        <table width="600" align="left" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner">
+        <table width="500" align="left" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner">
       <tbody>
         <tr>
           <!-- start of image -->
@@ -152,35 +152,35 @@ img{valign:left;}
             <!-- end section one title -->
             <!-- Spacing -->
             <tr>
-               <td width="100%" height="10"></td>
+               <td width="100%" height="30"></td>
             </tr>
             <!-- Spacing -->
             <!-- section one content - business details -->
             <tr>
               <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
 
-								<h2 class="email" style="font-size: 28px; line-height: 1.315789474; margin: 0 0 30px 0;">
+								<h2 class="email" style="font-size: 28px; line-height: 1.25; margin: 0 0 15px 0;">
 									<%= t 'registration_mailer.welcome_email.detailsHeading'%></h2>
 
-                <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                <p style="font-size: 16px; line-height: 1.25;">
                 <%= @registration.firstName%> <%= @registration.lastName%></p>
 
-                <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                <p style="font-size: 16px; line-height: 1.25;">
                 <%= @registration.houseNumber %></p>
 
-                <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                <p style="font-size: 16px; line-height: 1.25;">
                 <%= @registration.streetLine1 %></p>
 
-                <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                <p style="font-size: 16px; line-height: 1.25;">
                 <%= @registration.streetLine2 %></p>
 
-                <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                <p style="font-size: 16px; line-height: 1.25;">
                 <%= @registration.streetLine2 %></p>
 
-                <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                <p style="font-size: 16px; line-height: 1.25;">
                 <%= @registration.townCity%></p>
 
-                <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                <p style="font-size: 16px; line-height: 1.25;">
                 <%= @registration.postcode%></p>
 
               </td>
@@ -188,28 +188,28 @@ img{valign:left;}
              <!-- end of section one business details -->
             <!-- Spacing -->
             <tr>
-               <td width="100%" height="10"></td>
+               <td width="100%" height="30"></td>
             </tr>
             <!-- Spacing -->
             <!-- section two - registration details -->
             <tr>
               <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-              	<h2 class="email" style="font-size: 28px; line-height: 1.315789474; margin: 0 0 30px 0;">
+              	<h2 class="email" style="font-size: 28px; line-height: 1.25; margin: 0 0 15px 0;">
               	<%= t 'registration_mailer.welcome_email.registrationHeading'%></h2>
 
-                    <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                    <p style="font-size: 16px; line-height: 1.25;">
                     <%=t 'registration_mailer.welcome_email.contactName'%><%= @registration.firstName%> <%= @registration.lastName%></p>
 
-                    <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                    <p style="font-size: 16px; line-height: 1.25;">
                     <%=t 'registration_mailer.welcome_email.phoneNumber'%><%= @registration.phoneNumber%></p>
 
-                    <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                    <p style="font-size: 16px; line-height: 1.25;">
                     <%= t 'registrations_mailer.finish.your_reg_number', :reg => @registration.regIdentifier %></p>
 
-                    <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                    <p style="font-size: 16px; line-height: 1.25;">
                     <%= t 'registration_mailer.welcome_email.registeredOn', date: @registration.formatted_registration_date %></p>
 
-                    <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                    <p style="font-size: 16px; line-height: 1.25;">
                     Please keeps this document as proof of your registration.</p>
 
               	</td>
@@ -217,13 +217,13 @@ img{valign:left;}
               <!-- end section two - registration details -->
               <!-- Spacing -->
               <tr>
-                 <td width="100%" height="10"></td>
+                 <td width="100%" height="30"></td>
               </tr>
 							<!-- Spacing -->
               <!-- section three title -->
               <tr>
               	<td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                	<h2 class="email" style="font-weight: 700; font-size: 28px; line-height: 1.041666667; margin: 30px 0;"><%=t 'registration_mailer.welcome_email.lowerTierRegistration'%></h2>
+                	<h2 class="email" style="font-weight: 700; font-size: 28px; line-height: 1.041666667; margin: 15px 0;"><%=t 'registration_mailer.welcome_email.lowerTierRegistration'%></h2>
                 </td>
               </tr>
               <!-- end section three title -->
@@ -231,45 +231,45 @@ img{valign:left;}
               <!-- section three - certificate details -->
               <tr>
                 <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                	<p style="font-size: 19px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                	<p style="font-size: 16px; line-height: 1.25;">
                 	<%=t 'registration_mailer.welcome_email.criteriaIntro'%></p>
 	                  <ul>
-	                    <li style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+	                    <li style="font-size: 16px; line-height: 1.25;">
 	                    <%=t 'registration_mailer.welcome_email.criteria1'%></li>
 
-	                    <li style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+	                    <li style="font-size: 16px; line-height: 1.25;">
 	                    <%=t 'registration_mailer.welcome_email.criteria2'%></li>
 
-	                    <li style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+	                    <li style="font-size: 16px; line-height: 1.25;">
 	                    <%=t 'registration_mailer.welcome_email.criteria3'%></li>
 
-	                    <li style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+	                    <li style="font-size: 16px; line-height: 1.25;">
 	                    <%=t 'registration_mailer.welcome_email.criteria4'%></li>
 	                  </ul>
                 	</td>
                 </tr>
               	<!-- Spacing -->
                 <tr>
-                   <td width="100%" height="10"></td>
+                   <td width="100%" height="30"></td>
                 </tr>
               	<!-- Spacing -->
                 <tr>
                 	<td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                		<h3 class="email" style="font-size: 28px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                		<h3 class="email" style="font-size: 28px; line-height: 1.315789474; margin: 0 0 15px 0;">
                 		<%=t 'registration_mailer.welcome_email.responsibilitiesHeading'%></h3>
-                		<p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+                		<p style="font-size: 16px; line-height: 1.25;">
                 			<%=t 'registration_mailer.welcome_email.responsibilitiesIntro'%></p>
 		                  <ul>
-		                    <li style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+		                    <li style="font-size: 16px; line-height: 1.25;">
 		                    <%=t 'registration_mailer.welcome_email.responsibilities1'%></li>
 
-		                    <li style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+		                    <li style="font-size: 16px; line-height: 1.25;">
 		                    <%=t 'registration_mailer.welcome_email.responsibilities2'%></li>
 
-		                    <li style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+		                    <li style="font-size: 16px; line-height: 1.25;">
 		                    <%=t 'registration_mailer.welcome_email.responsibilities3'%></li>
 
-		                    <li style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+		                    <li style="font-size: 16px; line-height: 1.25;">
 		                    <%=t 'registration_mailer.welcome_email.responsibilities4'%></li>
 		                  </ul>
                 		</td>
@@ -278,19 +278,19 @@ img{valign:left;}
                 	<!-- end section three - certificate details -->
                 	<!-- Spacing -->
                   <tr>
-                     <td width="100%" height="40"></td>
+                     <td width="100%" height="30"></td>
                   </tr>
                   <!-- Spacing -->
                   <!-- section four - EA contact details -->
 	                <tr>
 	                  <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-	                    <p style="font-size: 19px; line-height: 1.315789474; margin: 0 0 30px 0;">
+	                    <p style="font-size: 16px; line-height: 1.25;">
 	                    <%= t 'registration_mailer.welcome_email.enquiresMessage'%></p>
 
-	                    <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+	                    <p style="font-size: 16px; line-height: 1.25;">
 	                    <%= t 'registration_mailer.welcome_email.telephone'%><%= Rails.configuration.registrations_service_phone %></p>
 
-	                    <p style="font-size: 16px; line-height: 1.315789474; margin: 0 0 30px 0;">
+	                    <p style="font-size: 16px; line-height: 1.25;">
 	                    <%= t 'registration_mailer.welcome_email.email'%><%= Rails.configuration.registrations_service_email %></p>
 	                  </td>
                   </tr>
@@ -312,38 +312,44 @@ img{valign:left;}
 </table>
 </div><div class="block">
 <!-- Start of footer -->
-<table width="600px" bgcolor="#f6f4f5" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="postfooter">
-<tbody>
-   <tr>
-      <td width="100%">
-         <table width="600" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
-            <tbody>
-              <!-- Spacing -->
-                <tr>
-                  <td width="100%" height="20"></td>
-                </tr>
-                <!-- Spacing -->
-                <tr>
-                	<td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                	<p style="font-size: 16px; color: #6f777b; line-height: 1.50; margin: 0 0 30px 0; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 0 10px;"><strong><%= t 'devise.mailer.email_security.heading'%></p></strong></p>
-	                <ul>
-	                  <li style="font-size: 14px; color: #6f777b; line-height: 1.315789474; margin: 0 100px 15px 0;"><%= t 'devise.mailer.email_security.text_line1'%></li>
-	                  <li style="font-size: 14px; color: #6f777b; line-height: 1.315789474; margin: 0 100px 15px 0;"><%= t 'devise.mailer.email_security.text_line2'%></li>
-	                  <li style="font-size: 14px; color: #6f777b; line-height: 1.315789474; margin: 0 100px 15px 0;"><%= t 'devise.mailer.email_security.text_line3'%></li>
-	                </ul>
-               </td>
-              </tr>
-						<!-- end of content -->
-						<!-- Spacing -->
-						<tr>
-							<td width="100%" height="40"></td>
-						</tr>
-						<!-- Spacing -->
-            </tbody>
-         </table>
-      </td>
-   </tr>
-</tbody>
+<table width="500" bgcolor="#f6f4f5" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="postfooter">
+  <tbody>
+     <tr>
+        <td width="100%" style="border-top: 1px solid #DEE0E2">
+           <table width="500" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
+              <tbody>
+                 <!-- Spacing -->
+                 <tr>
+                    <td width="100%" height="60"></td>
+                 </tr>
+                 <!-- Spacing -->
+                 <tr>
+                <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
+                    <h2 style="font-size: 19px; color: #6f777b; line-height: 1.25; margin: 0 0 30px 0;"><%= t 'devise.mailer.email_security.heading'%></h2>
+                    <p style="font-size: 14px; color: #6f777b; line-height: 1.25; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line1'%></p>
+                    <p style="font-size: 14px; color: #6f777b; line-height: 1.25; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line3'%></p>
+                    <p style="font-size: 14px; color: #6f777b; line-height: 1.25; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line2'%></p>
+                </td>
+                 </tr>
+                 <!-- end of content -->
+                 <!-- Spacing -->
+                 <tr>
+                    <td width="100%" height="0"></td>
+                 </tr>
+                 <!-- Spacing -->
+                 <tr>
+                    <td width="100%" height="10"></td>
+                 </tr>
+                 <!-- Spacing -->
+                 <tr>
+                    <td width="100%" height="10"></td>
+                 </tr>
+                 <!-- Spacing -->
+              </tbody>
+           </table>
+        </td>
+     </tr>
+  </tbody>
 </table>
 <!-- End of footer -->
 </div>

@@ -14,11 +14,12 @@
 
 
     <label class="form-label"><%= t '.select_address' %></label>
-        <select id="addressSelector" name="addressSelector"
+        <select id="addressSelector" name="addressSelector" placeholder="Select Address"
         size="<%=[10,@address_match_list.elements.count].min%>"required autofocus>
+        <option value="FoundAddresses" disabled> <%= @address_match_list.size.to_s %> <%= t '.num_addresses_found'%> </option>
         <% @address_match_list.elements.each do |address| %>
-        <option value="<%=address.moniker%>"><%=address.partial%></option>
-    <%end%>
+            <option value="<%=address.moniker%>"><%=address.partial%></option>
+        <%end%>
     </select>
 
     <ul>

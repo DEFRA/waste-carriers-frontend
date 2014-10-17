@@ -37,12 +37,25 @@ Then(/^registration should be complete$/) do
   page.should have_content 'Registration complete'
 end
 
+Then(/^the callers registration should be complete$/) do
+  page.should have_content 'Registration complete'
+  page.should have_content 'has been registered as an upper tier waste carrier'
+end
+
 Then(/^registration should be pending convictions checks$/) do
   page.should have_content 'Incomplete'
   page.should have_content 'We are running background checks on the information you have provided'
 end
 
+Then(/^the callers registration should be pending convictions checks$/) do
+  page.should have_content 'The applicant declared relevant people with convictions'
+end
+
 Then(/^registration should be pending payment$/) do
   page.should have_content 'Almost there'
   page.should have_content 'Waiting for confirmation of payment'
+end
+
+Then(/^the callers registration should be pending payment$/) do
+  page.should have_content 'Please remind the applicant to arrange a bank transfer'
 end
