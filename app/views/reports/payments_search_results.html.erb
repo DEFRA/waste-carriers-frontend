@@ -76,7 +76,7 @@
                               <td><%= order_item.type %></td>
                               <td><%= money_value_without_currency_symbol_and_with_pence_part order_item.amount %></td>
                               <td><%= order.updatedByUser %></td>
-                              <td><%= order_item.paymentMethod %></td>
+                              <td><%= order.paymentMethod %></td>
                               <td><%= order_item.reference %></td>
                               <td>&nbsp;</td><!-- payment amount -->
                               <td>&nbsp;</td><!-- comments -->
@@ -119,7 +119,7 @@
                           <td><%= registration.companyName %></td>
                           <td><%= registration.metaData.first.status %></td>
                           <td><%= registration.metaData.first.route %></td>
-                          <td><%= format_time payment.dateReceived %></td>
+                          <td><%= format_time payment.dateEntered %></td>
                           <td>&nbsp;</td><!-- order code -->
                           <td>&nbsp;</td><!-- charge type -->
                           <td>&nbsp;</td><!-- charge amount -->
