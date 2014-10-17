@@ -32,20 +32,25 @@ module PaymentsHelper
     value = Money.new pence
     humanized_money(value, { :no_cents_if_whole => false, :symbol => true })
   end
-  
+
+  def money_value_without_currency_symbol_and_with_pence_part pence
+    value = Money.new pence
+    humanized_money(value, { :no_cents_if_whole => false, :symbol => false })
+  end
+
   def hasOrderKey paymentModel
     !paymentModel.orderKey.nil?
   end
-  
+
   def isARefund paymentModel
     hasOrderKey(paymentModel) ? (paymentModel.orderKey.include? Payment::REFUND_EXTENSION) : false
   end
-  
+
   def isAlreadyRefunded paymentModel, registrationModel
     refundPaymentStatus = getRefundPaymentStatus paymentModel, registrationModel
     !refundPaymentStatus.nil?
   end
-  
+
   def getRefundPaymentStatus paymentModel, registrationModel
 	refundPaymentStatus = nil
 	if hasOrderKey(paymentModel)
@@ -63,13 +68,13 @@ module PaymentsHelper
 	end
 	refundPaymentStatus
   end
-  
+
   def wasActivated originalRegistration, updatedRegistration
     originalRegistration.metaData.first.route == 'DIGITAL' \
         and originalRegistration.pending? \
         and updatedRegistration.is_active?
   end
-  
+
   def getMaxRefundAmount model, payment_model
     if (model.finance_details.first.balance.to_f.abs > payment_model.amount.to_f.abs)
       payment_model.amount.to_i.abs

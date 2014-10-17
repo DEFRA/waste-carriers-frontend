@@ -23,98 +23,113 @@
             <% content_for :page_title, createTitle('.title') %>
             <%= render 'errors' %>
             <h2 class="heading-small"><%= t '.summary' %></h2>
-            <span class="next_link">
-              <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
-            </span>
+            <%= form_for(@report, :url => payments_search_results_path) do |f| %>
+              <fieldset>
+                <%= f.hidden_field :from %>
+                <%= f.hidden_field :to %>
+                <%= f.hidden_field :payment_statuses %>
+                <%= f.hidden_field :payment_types %>
+                <%= f.hidden_field :charge_types %>
+              </fieldset>
+              <span class="next_link">
+                <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
+              </span>
+            <% end %>
             <table summary="<%= t '.summary' %>" role='presentation'>
               <thead>
                 <tr>
-                  <th><%= t 'activemodel.attributes.registration.regIdentifier' %></th>
-                  <th><%= t '.companyName' %></th>
-                  <th><%= t 'activemodel.attributes.metadata.dateRegistered' %></th>
-                  <th><%= t 'activemodel.attributes.metadata.status' %></th>
-                  <th><%= t 'activemodel.attributes.order.orderCode' %></th>
-                  <th><%= t 'activemodel.attributes.order_item.amount' %></th>
-                  <th><%= t 'activemodel.attributes.order_item.description' %></th>
-                  <th><%= t 'activemodel.attributes.payment_item.amount' %></th>
-                  <th><%= t 'activemodel.attributes.payment_item.paymentType' %></th>
+                  <th><%= t 'reports.fields.reg_identifier' %></th>
+                  <th><%= t 'reports.fields.company_name' %></th>
+                  <th><%= t 'reports.fields.status' %></th>
+                  <th><%= t 'reports.fields.route' %></th>
+                  <th><%= t 'reports.fields.date_created' %></th>
+                  <th><%= t 'reports.fields.order_code' %></th>
+                  <th><%= t 'reports.fields.charge_type' %></th>
+                  <th><%= t 'reports.fields.charge_amount' %></th>
+                  <th><%= t 'reports.fields.payment_type' %></th>
+                  <th><%= t 'reports.fields.reference' %></th>
+                  <th><%= t 'reports.fields.payment_amount' %></th>
+                  <th><%= t 'reports.fields.comment' %></th>
+                  <th><%= t 'reports.fields.balance' %></th>
                 </tr>
               </thead>
               <tbody>
                 <% @registrations.each do |registration| %>
-                  <% values = [] %>
-                  <% values << registration.regIdentifier %>
-                  <% values << registration.companyName %>
-                  <% values << registration.metaData.first.dateRegistered %>
-                  <% values << registration.metaData.first.status %>
-                  <% if registration.respond_to?('finance_details') and registration.finance_details.first \
-							   && registration.finance_details.size > 0 && registration.finance_details.first.orders %>
-                  <% registration.finance_details.first.orders.each do |order| %>
-                    <% order.order_items.each do |order_item| %>
-                      <% related_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| payment.orderKey == order.orderCode } %>
-                      <% if related_payments.nil? || related_payments.empty? %>
+                  <% if registration.respond_to?('finance_details') && registration.finance_details.first \
+                    && registration.finance_details.size > 0 %>
+
+                    <% if registration.finance_details.first.orders %>
+                      <% registration.finance_details.first.orders.each do |order| %>
+
+                        <% order.order_items.each do |order_item| %>
+                          <% related_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| payment.orderKey == order.orderCode } %>
+                          <% if related_payments.nil? || related_payments.empty? %>
+                            <tr>
+                              <td><%= registration.regIdentifier %></td>
+                              <td><%= registration.companyName %></td>
+                              <td><%= registration.metaData.first.status %></td>
+                              <td><%= registration.metaData.first.route %></td>
+                              <td><%= format_time order.dateCreated %></td>
+                              <td><%= order.orderCode %></td>
+                              <td><%= order_item.type %></td>
+                              <td><%= money_value_without_currency_symbol_and_with_pence_part order_item.amount %></td>
+                              <td><%= order_item.paymentMethod %></td>
+                              <td><%= order_item.reference %></td>
+                              <td>&nbsp;</td><!-- payment amount -->
+                              <td>&nbsp;</td><!-- comments -->
+                              <td><%= money_value_without_currency_symbol_and_with_pence_part registration.finance_details.first.balance %></td>
+                            </tr>
+                          <% else %>
+                            <% related_payments.each do |payment| %>
+                              <tr>
+                                <td><%= registration.regIdentifier %></td>
+                                <td><%= registration.companyName %></td>
+                                <td><%= registration.metaData.first.status %></td>
+                                <td><%= registration.metaData.first.route %></td>
+                                <td><%= format_time order.dateCreated %></td>
+                                <td><%= order.orderCode %></td>
+                                <td><%= order_item.type %></td>
+                                <td><%= money_value_without_currency_symbol_and_with_pence_part order_item.amount %></td>
+                                <td><%= payment.paymentType %></td>
+                                <td><%= order_item.reference %></td>
+                                <td><%= money_value_without_currency_symbol_and_with_pence_part payment.amount %></td>
+                                <td><%= payment.comment %></td>
+                                <td><%= money_value_without_currency_symbol_and_with_pence_part registration.finance_details.first.balance %></td>
+                              </tr>
+                            <% end %><!--related payments each-->
+                          <% end %><!--if related payments nil-->
+
+                        <% end %><!--order_items each-->
+
+                      <% end %><!--orders each-->
+                    <% end %><!--if orders-->
+
+                    <% if registration.finance_details.first.payments %>
+                      <% order_codes = registration.finance_details.first.orders.collect { |order| order.orderCode } %>
+                      <% unrelated_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| !order_codes.include? payment.orderKey} %>
+                      <% unrelated_payments.each do |payment| %>
                         <tr>
                           <td><%= registration.regIdentifier %></td>
                           <td><%= registration.companyName %></td>
-                          <td><%= registration.metaData.first.dateRegistered %></td>
                           <td><%= registration.metaData.first.status %></td>
-                          <td><%= order.orderCode %></td>
-                          <td><%= order_item.amount %></td>
-                          <td><%= order_item.description %></td>
-                          <td>&nbsp;</td>
-                          <td>&nbsp;</td>
-                          <td>&nbsp;</td>
+                          <td><%= registration.metaData.first.route %></td>
+                          <td><%= format_time payment.dateReceived %></td>
+                          <td>&nbsp;</td><!-- order code -->
+                          <td>&nbsp;</td><!-- charge type -->
+                          <td>&nbsp;</td><!-- charge amount -->
+                          <td><%= payment.paymentType %></td>
+                          <td><%= payment.registrationReference %></td>
+                          <td><%= money_value_without_currency_symbol_and_with_pence_part payment.amount %></td>
+                          <td><%= payment.comment %></td>
+                          <td><%= money_value_without_currency_symbol_and_with_pence_part registration.finance_details.first.balance %></td>
                         </tr>
-                      <% else %>
-                        <% related_payments.each do |payment| %>
-                          <tr>
-                            <td><%= registration.regIdentifier %></td>
-                            <td><%= registration.companyName %></td>
-                            <td><%= registration.metaData.first.dateRegistered %></td>
-                            <td><%= registration.metaData.first.status %></td>
-                            <td><%= order.orderCode %></td>
-                            <td><%= order_item.amount %></td>
-                            <td><%= order_item.description %></td>
-                            <td><%= payment.amount %></td>
-                            <td><%= payment.paymentType %></td>
-                          </tr>
-                        <% end %>
-                      <% end %>
-                    <% end %>
-                  <% end %>
-                  <% end # if finance details etc found %>
-                  <% if registration.respond_to?('finance_details') and registration.finance_details.first \
-							   && registration.finance_details.size > 0 && registration.finance_details.first.orders \
-							   && registration.finance_details.first.payments %>
-                  <% order_codes = registration.finance_details.first.orders.collect { |order| order.orderCode } %>
-                  <% unrelated_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| !order_codes.include? payment.orderKey} %>
-                  <% unrelated_payments.each do |payment| %>
-                    <tr>
-                      <td><%= registration.regIdentifier %></td>
-                      <td><%= registration.companyName %></td>
-                      <td><%= registration.metaData.first.dateRegistered %></td>
-                      <td><%= registration.metaData.first.status %></td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                      <td>&nbsp;</td>
-                      <td><%= payment.amount %></td>
-                      <td><%= payment.paymentType %></td>
-                    </tr>
-                  <% end %>
-                  <% end # if finance details etc found %>
+                      <% end %><!--unrelated payments each-->
+                    <% end %><!--if payments-->
+
+                  <% end %><!--if finance details-->
                 <% end %>
               </tbody>
             </table>
-
-            <%= form_for(@report, :url => payments_search_results_path) do |f| %>
-            <fieldset>
-              <%= f.hidden_field :from %>
-              <%= f.hidden_field :to %>
-              <%= f.hidden_field :payment_statuses %>
-              <%= f.hidden_field :payment_types %>
-              <%= f.hidden_field :charge_types %>
-            </fieldset>
-            <% end %>
           </div>
         </div><!--inner-block-->
       </div><!--grid-2-3-->
