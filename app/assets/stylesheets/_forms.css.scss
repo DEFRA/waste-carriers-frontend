@@ -56,19 +56,41 @@ input {
   max-width: 30em;
 }
 
+
+/* Address look-up */
+
 #addressSelector {
   @include copy-19;
   margin-bottom: $gutter-half;
   display:block;
   max-width: 30em;
-  height: 4.5em;
+  height: 4.6em;
   @include media (mobile) {
     width:80%;
-    height: 4.5em;
+    height: 1.7em;
   }
 }
 
-/* Address look-up */
+.postcode {
+  display:inline;
+  width:23%;
+  @include media (mobile) {
+    margin-right:1em;
+    width:25%;
+  }
+}
+
+#sPostcode {
+  display:inline;
+  width:80%;
+  @include media (mobile) {
+    width: 100%;
+  }
+}
+
+.inline .find_address {
+  margin-top:0px;
+}
 
 
 /* Radio buttons and check boxes ========================================================== */

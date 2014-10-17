@@ -7,7 +7,7 @@ Given(/^I am renewing an IR registration$/) do
   visit newOrRenew_path
   choose 'registration_newOrRenew_renew'
   click_on 'Next'
-  fill_in 'registration_originalRegistrationNumber', with: 'CB/AE5892RG/A001'
+  fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R002'
   click_on 'Next'
 end
 
@@ -37,12 +37,37 @@ Then(/^registration should be complete$/) do
   page.should have_content 'Registration complete'
 end
 
+Then(/^the callers registration should be complete$/) do
+  page.should have_content 'Registration complete'
+  page.should have_content 'has been registered as an upper tier waste carrier'
+  
+  # validate the access code is present and of the correct length
+  access_code = page.find_by_id 'accessCode'
+  access_code.text.length.should == 6
+end
+
 Then(/^registration should be pending convictions checks$/) do
   page.should have_content 'Incomplete'
   page.should have_content 'We are running background checks on the information you have provided'
 end
 
+Then(/^the callers registration should be pending convictions checks$/) do
+  page.should have_content 'The applicant declared relevant people with convictions'
+  
+  # validate the access code is present and of the correct length
+  access_code = page.find_by_id 'accessCode'
+  access_code.text.length.should == 6
+end
+
 Then(/^registration should be pending payment$/) do
   page.should have_content 'Almost there'
   page.should have_content 'Waiting for confirmation of payment'
+end
+
+Then(/^the callers registration should be pending payment$/) do
+  page.should have_content 'Please remind the applicant to arrange a bank transfer'
+  
+  # validate the access code is present and of the correct length
+  access_code = page.find_by_id 'accessCode'
+  access_code.text.length.should == 6
 end

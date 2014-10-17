@@ -32,7 +32,6 @@ $("#addressSelector").change(function(){
 });
 
 
-
 $('input[type="radio"]').click(function(){
           $(this).toggleClass('yeller');
 });
