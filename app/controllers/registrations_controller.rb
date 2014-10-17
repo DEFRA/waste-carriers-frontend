@@ -380,6 +380,10 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/business-details
   def updateNewBusinessDetails
     setup_registration 'businessdetails'
+    if !@registration
+      return
+    end
+
     session.delete(:address_lookup_selected) if session[:address_lookup_selected]
 
     if params[:addressSelector]  #user selected an address from drop-down list
@@ -623,6 +627,7 @@ class RegistrationsController < ApplicationController
           # TODO::
           # :Make a copy of the registration in memory (create a new local)
           newRegistration = Registration.create
+          session[:editing] = true
 
           logger.info 'before: ' + newRegistration.to_json
           logger.info 'before: ' + newRegistration.attributes.to_s
@@ -963,6 +968,10 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  # GET /registrations/cannot-edit
+  def cannot_edit
+  end
+
   # GET /registrations/data-protection
   def dataProtection
     # Renders static data proctection page
@@ -978,6 +987,7 @@ class RegistrationsController < ApplicationController
     if @registration.commit
       session[:registration_uuid] = @registration.uuid
       session[:registration_id] = @registration.id
+      session[:editing] = false
       logger.debug "Registration commited"
       true
     else
@@ -1078,6 +1088,10 @@ class RegistrationsController < ApplicationController
       # Search for users registrations
       @registrations = Registration.find_by_email(tmpUser.email,
                                                   %w(ACTIVE PENDING REVOKED EXPIRED)).sort_by { |r| r.date_registered }
+
+      #TODO GM - editing should start later, this is just a quick fix/hack to get the current logic working
+      session[:editing] = true
+
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
