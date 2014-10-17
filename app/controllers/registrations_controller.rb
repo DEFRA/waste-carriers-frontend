@@ -372,10 +372,11 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/business-details
   def updateNewBusinessDetails
     setup_registration 'businessdetails'
-
+    session.delete(:address_lookup_selected) if session[:address_lookup_selected]
 
     if params[:addressSelector]  #user selected an address from drop-down list
       @selected_address = Address.find(params[:addressSelector])
+      session[:address_lookup_selected] = true
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
 
     end
@@ -387,7 +388,7 @@ class RegistrationsController < ApplicationController
       begin
         @address_match_list = Address.find(:all, :params => {:postcode => params[:registration][:postcode]})
         session.delete(:address_lookup_failure) if session[:address_lookup_failure]
-        logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses" 
+        logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
       rescue Errno::ECONNREFUSED
         session[:address_lookup_failure] = true
         logger.error 'ERROR: Address Lookup Not running, or not Found'
@@ -525,9 +526,9 @@ class RegistrationsController < ApplicationController
     end
     case session[:edit_mode].to_i
     when EditMode::RECREATE
-       @registration.declaration = false
+      @registration.declaration = false
     when EditMode::EDIT, EditMode::RENEWAL
-       @registration.declaration = false
+      @registration.declaration = false
       if session[:edit_result].to_i.eql? EditResult::START  #this is the first time we hit the confirmation page
         session[:edit_result] = EditResult::START + 1
       else #we've hit the confirmation page before
@@ -1087,7 +1088,7 @@ class RegistrationsController < ApplicationController
 
     reg_uuid = params[:id] || session[:registration_uuid]
 
-    renderNotFound and  return unless reg_uuid
+    renderNotFound and return unless reg_uuid
     @registration = Registration.find_by_id( reg_uuid )
     redirect_to registrations_path and return unless @registration
 
@@ -1526,42 +1527,42 @@ class RegistrationsController < ApplicationController
     if params[:approve]
       # Approve
       logger.info '>>>>>> Approve Request Found'
-        if !params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
-          if agency_user_signed_in?                                     # Checks only agency users can approve
-            # Get reason from params
-            approveReasonParam = params[:registration][:metaData][:approveReason]
+      if !params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
+        if agency_user_signed_in?                                     # Checks only agency users can approve
+          # Get reason from params
+          approveReasonParam = params[:registration][:metaData][:approveReason]
 
-            # Update registration with revoked comment and status
-            @registration.metaData.first.update(revokedReason: approveReasonParam)
-            #@registration.metaData.first.update(status: 'ACTIVE')                    # Should not need to do this directly if conviction check has been cleared
+          # Update registration with revoked comment and status
+          @registration.metaData.first.update(revokedReason: approveReasonParam)
+          #@registration.metaData.first.update(status: 'ACTIVE')                    # Should not need to do this directly if conviction check has been cleared
 
-            # Perform action needed to clear conviction check
-            if @registration.conviction_sign_offs
-              @registration.conviction_sign_offs.each do |sign_off|
-                # Update conviction sign off data
-                sign_off.update(confirmed: 'yes')
-                sign_off.update(confirmedAt: Time.now.utc.xmlschema)
-                sign_off.update(confirmedBy: current_agency_user.email)
-              end
+          # Perform action needed to clear conviction check
+          if @registration.conviction_sign_offs
+            @registration.conviction_sign_offs.each do |sign_off|
+              # Update conviction sign off data
+              sign_off.update(confirmed: 'yes')
+              sign_off.update(confirmedAt: Time.now.utc.xmlschema)
+              sign_off.update(confirmedBy: current_agency_user.email)
             end
+          end
 
-            # Save changes to registration
-            if @registration.save!
-              @registration.save
-              logger.debug "uuid: #{@registration.uuid}"
+          # Save changes to registration
+          if @registration.save!
+            @registration.save
+            logger.debug "uuid: #{@registration.uuid}"
 
-              # Redirect to registrations page
-              redirect_to registrations_path(:note => I18n.t('registrations.form.reg_approved') ) and return
-            else
-              # Failed to save registration in database
-              @registration.errors.add(:exception, 'Failed to save approve in DB')
-            end
+            # Redirect to registrations page
+            redirect_to registrations_path(:note => I18n.t('registrations.form.reg_approved') ) and return
           else
-            renderAccessDenied and return
+            # Failed to save registration in database
+            @registration.errors.add(:exception, 'Failed to save approve in DB')
           end
         else
-          @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
+          renderAccessDenied and return
         end
+      else
+        @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
+      end
     else
       # Refuse
       if @registration.is_awaiting_conviction_confirmation?(current_agency_user)        # Checks if refusable, i.e. is registration in a state that can be made refused
@@ -1612,6 +1613,8 @@ class RegistrationsController < ApplicationController
     postcode = params[:postcode]
     if validate_public_search_parameters?(searchString,"any",distance, postcode)
       if searchString && !searchString.empty?
+
+
         param_args = {
           q: searchString,
           searchWithin: 'companyName',
@@ -1619,6 +1622,8 @@ class RegistrationsController < ApplicationController
           activeOnly: 'true',
           postcode: postcode,
         excludeRegId: 'true' }
+
+
         @registrations = Registration.find_by_params(param_args)
       else
         @registrations = []
@@ -1683,7 +1688,7 @@ class RegistrationsController < ApplicationController
     clear_registration_session
     session[:renderType] = Order.extra_copycards_identifier
     session[:orderCode] = generateOrderCode
-    redirect_to :upper_payment
+    redirect_to upper_payment_path(from: 'add_copy_cards')
   end
 
   # Function to redirect additional copy card orders to the order controller
@@ -1806,7 +1811,7 @@ class RegistrationsController < ApplicationController
     res =  EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
     logger.debug "#{original_registration.attributes}"
     logger.debug "#{edited_registration.attributes}"
-    
+
     #
     # BUSINESS RULES for Determining NEW REGISTRATION:
     # A new registration is created if the following changes are made:
@@ -1834,7 +1839,7 @@ class RegistrationsController < ApplicationController
       end
     else
       if (original_registration.businessType != edited_registration.businessType) ||
-          (edited_registration.company_no != original_registration.company_no) 
+          (edited_registration.company_no != original_registration.company_no)
         # NEW REGISTRATION Rule: 1 and 2
         logger.debug 'NEW REG because Rule 1 or 2 (test 2)'
         res = EditResult::CREATE_NEW_REGISTRATION
