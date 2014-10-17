@@ -40,6 +40,10 @@ end
 Then(/^the callers registration should be complete$/) do
   page.should have_content 'Registration complete'
   page.should have_content 'has been registered as an upper tier waste carrier'
+  
+  # validate the access code is present and of the correct length
+  access_code = page.find_by_id 'accessCode'
+  access_code.text.length.should == 6
 end
 
 Then(/^registration should be pending convictions checks$/) do
@@ -49,6 +53,10 @@ end
 
 Then(/^the callers registration should be pending convictions checks$/) do
   page.should have_content 'The applicant declared relevant people with convictions'
+  
+  # validate the access code is present and of the correct length
+  access_code = page.find_by_id 'accessCode'
+  access_code.text.length.should == 6
 end
 
 Then(/^registration should be pending payment$/) do
@@ -58,4 +66,8 @@ end
 
 Then(/^the callers registration should be pending payment$/) do
   page.should have_content 'Please remind the applicant to arrange a bank transfer'
+  
+  # validate the access code is present and of the correct length
+  access_code = page.find_by_id 'accessCode'
+  access_code.text.length.should == 6
 end
