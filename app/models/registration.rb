@@ -1014,7 +1014,7 @@ class Registration < Ohm::Model
   end
 
   def pending?
-    metaData && metaData.first.status == 'PENDING'
+    metaData and metaData.first.status == 'PENDING'
   end
 
   def activate!
