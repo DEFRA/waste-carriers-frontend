@@ -67,16 +67,22 @@
     </table>
 
     <p class='form-note'><%= t '.total_fee_vat' %></p>
+        
 
-        <div class="payment-option">
-          <input name="next" class="button" type="submit" value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-          <p class="panel-indent"><%= t '.debit_card_note' %></p>
-        </div>
+        <div class="form-group<%if @registration.errors[:houseNumber].any?%> validation<%end%>">
+          <div class="payment-option">
+            <input id="worldpay_button" name="next" class="button" type="submit" /
+            <% if  @disable_payment_buttons.eql? 'yes' %> disabled <% end %> /
+            value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
+            <p class="panel-indent"><%= t '.debit_card_note' %></p>
+          </div>
 
-        <div class="payment-option">
-          <input name="offline_next" class="button" type="submit" value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
-          <p class="panel-indent"><%= t '.bank_transfer_note' %></p>
-        </div>
+          <div class="payment-option">
+            <input id="offline_pay_button" name="offline_next" class="button" type="submit" /
+            <% if  @disable_payment_buttons.eql? 'yes' %> disabled <% end %> /
+            value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
+            <p class="panel-indent"><%= t '.bank_transfer_note' %></p>
+          </div>
 
       </div><!-- end inner-block -->
     </div><!-- end grid-2-3 -->
