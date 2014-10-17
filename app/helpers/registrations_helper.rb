@@ -67,16 +67,23 @@ module RegistrationsHelper
     registration.finance_details.first.balance.to_f < 0
   end
 
+  # This method is called when updating from the registration's 'editing' pages (i.e. PUT/POST/MATCH)
+  # to set up the @registration etc.
   def setup_registration current_step, no_update=false
+    if !session[:editing] && current_step != 'payment' && current_step != 'confirmation' && current_step != 'businesstype'
+      logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+      #puts '*** GGG3 setup_registration ' + current_step
+      redirect_to cannot_edit_path and return
+    end
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
       logger.debug "Got Registration from session"
     else
-      Rails.logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
+      logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
       @registration = Registration[ params[:id]]
       if @registration.nil? and params[:id]
         # Registration still not found in session, trying database
-        Rails.logger.info 'Cannot find registration in session, trying database'
+        logger.info 'Cannot find registration in session, trying database'
         @registration = Registration.find_by_id(params[:id])
       end
     end
@@ -98,14 +105,17 @@ module RegistrationsHelper
     end
   end
 
+  # Note: This method is called at the beginning of the GET request handlers for the registration's 'editing' page
+  # to set up the @registration etc.
   def new_step_action current_step
     logger.debug "-----------  #{session[:edit_mode]}"
     if (current_step.eql? Registration::FIRST_STEP) && !session[:edit_mode]
-      logger.info '*** GGG - First registration step and not in edit mode - creating new registration...'
+      logger.info 'First registration step and not in edit mode - creating new registration...'
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
       session[:registration_id]= @registration.id
+      session[:editing] = true
       logger.debug "creating new registration #{@registration.id}"
       m = Metadata.create
 
@@ -121,11 +131,12 @@ module RegistrationsHelper
       @registration.metaData.add m
 
     elsif (current_step.eql? 'businesstype') && !session[:edit_mode] && !session[:registration_id]
-      logger.info '*** GGG - Current step is businesstype, and not in edit mode, and no registration_id in the session. Creating new registration...'
+      logger.info 'Current step is businesstype, and not in edit mode, and no registration_id in the session. Creating new registration...'
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
       session[:registration_id]= @registration.id
+      session[:editing] = true
       logger.debug "creating new registration #{@registration.id}"
       m = Metadata.create
 
@@ -141,22 +152,42 @@ module RegistrationsHelper
       @registration.metaData.add m
 
     elsif  session[:edit_mode] #editing existing registration
-      logger.info '*** GGG - We are in edit mode. Retrieving registration...'
+
+      if !session[:editing] && current_step != 'payment' && current_step != 'pending' && current_step != 'businesstype'
+        logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        #puts '*** GGG4 new_step_action ' + current_step.to_s
+        redirect_to cannot_edit_path and return
+      end
+
+      logger.info 'We are in edit mode. Retrieving registration...'
       @registration = Registration[ session[:registration_id]]
       if @registration
         logger.debug "retrieving registration for edit #{@registration.id}"
+      else
+        logger.warn 'Could not find registration for id = ' + session[:registration_id].to_s        
       end
     else #creating new registration but not first step
-      logger.info '*** GGG - We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
+      logger.info 'We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
+      #puts '*** GGG6 - ' + current_step
       clear_edit_session
       @registration = Registration[ session[:registration_id]]
       if @registration
         logger.debug "retrieving registration #{@registration.id}"
         m = Metadata.create
+      else
+        logger.warn 'Could not find registration for id = ' + session[:registration_id].to_s
+      end
+
+      if !session[:editing] && current_step != 'payment' && current_step != 'pending'
+        logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        #puts '*** GGG5 new_step_action ' + current_step.to_s
+        redirect_to cannot_edit_path
+        return
       end
     end
 
     if !@registration
+      logger.warn 'new_step_action - no @registration - showing 404 not found'
       renderNotFound
       return
     end
@@ -359,6 +390,7 @@ module RegistrationsHelper
 
   end
 
+  # TODO Is this method obsolete?
   def create_new_reg
     res = true
     logger.debug session[:edit_mode]
