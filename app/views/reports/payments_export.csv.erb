@@ -1,43 +1,57 @@
-<% registrationHeaders = [
-  "regIdentifier",
-  "companyName"
-] %>
-<% metaDataHeaders = [
-  "dateRegistered",
-  "status",
-] %>
-<% orderHeaders = [
-  "orderCode",
-  "updatedByUser",
-] %>
-<% orderItemHeaders = [
-  "amount",
-  "description"
-] %>
-<% paymentHeaders = [
-  "amount",
-  "paymentType",
-  "updatedByUser",
-  "comment"
+<% headings = [
+  t('reports.fields.reg_identifier'),
+  t('reports.fields.company_name'),
+  t('reports.fields.status'),
+  t('reports.fields.route'),
+  t('reports.fields.date_created'),
+  t('reports.fields.order_code'),
+  t('reports.fields.charge_type'),
+  t('reports.fields.charge_amount'),
+  t('reports.fields.payment_type'),
+  t('reports.fields.reference'),
+  t('reports.fields.payment_amount'),
+  t('reports.fields.comment'),
+  t('reports.fields.balance')
 ] %>
 <% # Apologies for the formatting in this file, however any formatting such as %>
 <% # indenting or line spaces get directly translated to the exported CSV file. %>
-<%= CSV.generate_line(registrationHeaders + metaDataHeaders + orderHeaders + orderItemHeaders + paymentHeaders, { :row_sep => nil, :force_quotes => true }).html_safe %>
+<%= CSV.generate_line(headings, { :row_sep => nil, :force_quotes => true }).html_safe %>
 <% @registrations.each do |registration| %>
-<% reg_section = registration.attributes.values_at(*registrationHeaders.map {|x| x.to_sym}) %>
-<% metadata_section = registration.metaData.first.attributes.values_at(*metaDataHeaders.map {|x| x.to_sym}) %>
 <% registration.finance_details.first.orders.each do |order| %>
-<% order_section = order.attributes.values_at(*orderHeaders.map {|x| x.to_sym}) %>
-<% order.order_items.each do |orderItem| %>
-<% order_item_section = orderItem.attributes.values_at(*orderItemHeaders.map {|x| x.to_sym}) %>
+<% order.order_items.each do |order_item| %>
 <% related_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| payment.orderKey == order.orderCode } %>
-<% row = reg_section + metadata_section + order_section + order_item_section %>
 <% if related_payments.nil? || related_payments.empty? %>
+<% row = [] %>
+<% row << registration.regIdentifier %>
+<% row << registration.companyName %>
+<% row << registration.metaData.first.status %>
+<% row << registration.metaData.first.route %>
+<% row << format_time(order.dateCreated) %>
+<% row << order.orderCode %>
+<% row << order_item.type %>
+<% row << money_value_without_currency_symbol_and_with_pence_part(order_item.amount) %>
+<% row << order_item.paymentMethod %>
+<% row << order_item.reference %>
+<% row << '' %>
+<% row << '' %>
+<% row << money_value_without_currency_symbol_and_with_pence_part(registration.finance_details.first.balance) %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <% else %>
 <% related_payments.each do |payment| %>
-<% payment_section = payment.attributes.values_at(*paymentHeaders.map {|x| x.to_sym}) %>
-<% row += payment_section %>
+<% row = [] %>
+<% row << registration.regIdentifier %>
+<% row << registration.companyName %>
+<% row << registration.metaData.first.status %>
+<% row << registration.metaData.first.route %>
+<% row << format_time(order.dateCreated) %>
+<% row << order.orderCode %>
+<% row << order_item.type %>
+<% row << money_value_without_currency_symbol_and_with_pence_part(order_item.amount) %>
+<% row << payment.paymentType %>
+<% row << order_item.reference %>
+<% row << money_value_without_currency_symbol_and_with_pence_part(payment.amount) %>
+<% row << payment.comment %>
+<% row << money_value_without_currency_symbol_and_with_pence_part(registration.finance_details.first.balance) %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <% end %>
 <% end %>
@@ -45,10 +59,21 @@
 <% end %>
 <% order_codes = registration.finance_details.first.orders.collect { |order| order.orderCode } %>
 <% unrelated_payments = registration.finance_details.first.payments.to_a.find_all{ |payment| !order_codes.include? payment.orderKey} %>
-<% row = reg_section + metadata_section + ["", "", ""] %>
 <% unrelated_payments.each do |payment| %>
-<% payment_section = payment.attributes.values_at(*paymentHeaders.map {|x| x.to_sym}) %>
-<% row += payment_section %>
+<% row = [] %>
+<% row << registration.regIdentifier %>
+<% row << registration.companyName %>
+<% row << registration.metaData.first.status %>
+<% row << registration.metaData.first.route %>
+<% row << format_time(payment.dateReceived) %>
+<% row << '' %>
+<% row << '' %>
+<% row << '' %>
+<% row << payment.paymentType %>
+<% row << payment.registrationReference %>
+<% row << money_value_without_currency_symbol_and_with_pence_part(payment.amount) %>
+<% row << payment.comment %>
+<% row << money_value_without_currency_symbol_and_with_pence_part(registration.finance_details.first.balance) %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <% end %>
 <%end%>
