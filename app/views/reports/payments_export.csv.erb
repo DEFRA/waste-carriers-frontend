@@ -33,7 +33,7 @@
 <% row << order_item.type %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(order_item.amount) %>
 <% row << order.updatedByUser %>
-<% row << order_item.paymentMethod %>
+<% row << order.paymentMethod %>
 <% row << order_item.reference %>
 <% row << '' %>
 <% row << '' %>
@@ -71,7 +71,7 @@
 <% row << registration.companyName %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
-<% row << format_time(payment.dateReceived) %>
+<% row << format_time(payment.dateEntered) %>
 <% row << '' %>
 <% row << '' %>
 <% row << '' %>
