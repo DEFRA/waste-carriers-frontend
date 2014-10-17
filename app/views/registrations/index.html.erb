@@ -101,7 +101,11 @@
                         <p><%= t('registrations.form.not_applicable') %></p>
                         <% end %>
                       </li>
-                      <li><span><%= t 'activemodel.attributes.registration.expires_on' %></span><p><%= reg.expires_on.strftime("%d/%m/%Y") %></p></li>
+                      <li><span><%= t 'activemodel.attributes.registration.expires_on' %></span><p>
+                      <% if reg.expires_on %>
+                        <%= reg.expires_on.strftime("%d/%m/%Y") %>
+                      <% end %>
+                      </p></li>
                     </ul>
                   </div>
                 </div>
