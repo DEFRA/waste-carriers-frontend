@@ -68,7 +68,8 @@
 }
 
 .validation ul,
-.validation form-label {
+.validation form-label,
+#validation-postcode {
   border-left: 3px solid $error-colour;
   list-style: none;
   margin: 0;
