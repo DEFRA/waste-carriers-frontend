@@ -357,6 +357,10 @@ class RegistrationsController < ApplicationController
       return
     end
 
+    if params[:changeAddress]
+      @registration.addressMode = nil
+    end
+
     #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
     if 'address-results'.eql? @registration.addressMode
       begin
