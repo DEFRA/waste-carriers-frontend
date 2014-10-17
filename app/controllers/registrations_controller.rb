@@ -143,9 +143,17 @@ class RegistrationsController < ApplicationController
 
           # Save IR registration data to session, for comparison at payment time
           session[:original_registration_id] = irReg.id
+          
+          # Access Code is one of the registration variables that should not get overriden with IR data
+          # so it is saved and reapplied after the merge
+          accessCode = @registration.accessCode
 
           # Merge params registration with registration in memory
           @registration.add( irReg.attributes )
+          
+          # re-apply accessCode
+          @registration.accessCode = accessCode
+          
           @registration.save
 
           logger.debug "Legacy registration matched, Redirect to smart answers"
