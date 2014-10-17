@@ -33,11 +33,12 @@ Given(/^I have completed my lower tier registration$/) do
   fill_in 'registration_password', with: my_password
   fill_in 'registration_password_confirmation', with: my_password
   click_on 'Next'
+end
 
+Given(/^I have confirmed my user account$/) do
   sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'Confirm your account'
-
 end
 
 Given(/^I have finished my registration session$/) do
@@ -50,4 +51,12 @@ end
 
 Then(/^my registration data is not shown anymore$/) do
   page.should have_content 'You may have mistyped the address or the page may have moved'
+end
+
+Then(/^I am informed that I have to login again to change my registration$/) do
+  page.should have_content 'Please log in again'
+end
+
+When(/^I attempt to access the confirmation page$/) do
+  visit newConfirmation_path
 end
