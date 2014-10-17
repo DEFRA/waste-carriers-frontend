@@ -409,6 +409,7 @@ class RegistrationsController < ApplicationController
         logger.error 'ERROR: ActiveResource Server error!'
       end
       render 'newBusinessDetails', status: '200'
+      #redirect_to :newBusinessDetails and return
     elsif @registration.valid?
 
       if @registration.tier.eql? 'UPPER'
