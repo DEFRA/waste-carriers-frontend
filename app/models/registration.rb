@@ -1158,7 +1158,7 @@ class Registration < Ohm::Model
   end
 
   def date_registered
-    metaData.first.dateRegistered
+    metaData.first.dateActivated
   end
 
   def getOrder( orderCode)
