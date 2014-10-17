@@ -1696,7 +1696,7 @@ class RegistrationsController < ApplicationController
     clear_registration_session
     session[:renderType] = Order.extra_copycards_identifier
     session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(from: 'add_copy_cards')
+    redirect_to upper_payment_path
   end
 
   # Function to redirect additional copy card orders to the order controller
