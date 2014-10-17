@@ -38,6 +38,11 @@ class OrderController < ApplicationController
     # Calculate fees shown on page
     @registration = calculate_fees @registration, @renderType
 
+    if params[:from].try(:eql?, 'add_copy_cards') &&
+           @registration.copy_cards.try(:eql?, 0)
+       @disable_payment_buttons = 'yes'
+    end
+
   end
 
   # POST /create
