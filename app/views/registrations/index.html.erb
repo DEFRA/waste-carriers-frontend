@@ -84,7 +84,7 @@
                     <ul>
                       <li><span><%= t '.company_name' %></span><p><%= reg.companyName %></p></li>
                       <li class="container-border-lines"><span><%= t 'activemodel.attributes.registration.postcode' %></span><p><%= reg.postcode %></p></li>
-                      <li><span><%= t('.registration').humanize %></span><p><%= reg.regIdentifier %></p></li>
+                      <li><span><%= t('.registration').humanize %></span><p><!-- Reg: <%= reg.uuid %> --><%= reg.regIdentifier %></p></li>
                     </ul>
                   </div>
                 </div>
