@@ -144,7 +144,6 @@ class ReportsController < ApplicationController
     def set_report
 
       @report = Report.new(params[:report])
-
       unless params[:routes].nil?
         @report.routes = filter_for_blanks params[:routes].values
       end
