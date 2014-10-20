@@ -20,6 +20,7 @@ class ReportsController < ApplicationController
 
       if @report.valid?
 
+        @report.result_count = 100
         @registrations = search_registrations
 
         if @registrations.empty?
@@ -64,6 +65,7 @@ class ReportsController < ApplicationController
 
     if @report.valid?
 
+      @report.result_count = nil
       @registrations = search_registrations
 
       if @registrations.empty?
@@ -95,6 +97,7 @@ class ReportsController < ApplicationController
 
       if @report.valid?
 
+        @report.result_count = 100
         @registrations = search_payments
 
         if @registrations.empty?
@@ -118,6 +121,7 @@ class ReportsController < ApplicationController
 
     if @report.valid?
 
+      @report.result_count = nil
       @registrations = search_payments
 
       if @registrations.empty?
