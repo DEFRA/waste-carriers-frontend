@@ -10,9 +10,11 @@
     <div>
       <%= link_to t('.change_password'), edit_agency_user_registration_path, :class => 'navbar-link' %>
     </div>
+    <% if !current_agency_user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser }) %>
     <div>
       <%= link_to t('.new_registration'), :newOrRenew %>
     </div>
+    <% end %>
     <div>
       <%= link_to t('.registrations_export'), registrations_search_path %>
     </div>
