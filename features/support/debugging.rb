@@ -13,7 +13,10 @@ After do |scenario|
         begin
           current_email.save_and_open
         rescue Exception=>e
-          put 'Email: ' + current_email.body.to_s
+          puts ''
+          puts 'Could not open email in browser, printing to console: ' + e.to_s
+          puts ''
+          print current_email.body
         end
       end
     end
