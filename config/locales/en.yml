@@ -335,12 +335,6 @@ en:
       copy_card_information: "Additional copy cards can be purchased after your registration is complete. You will need to sign into your account to do this."
       copy_card_text1: "Please note"
       copy_card_text2: "- copy cards can take up to 10 working days to arrive depending on the status of your registration."
-#      new_reg_label: "New registration"
-#      payment_method_debit_credit: "Pay by debit or credit card"
-#      payment_method_elec_transfer: "Pay by electronic transfer"
-#      send_to_worldpay: "By choosing to pay by credit or debit card you will be taken to the WorldPay payment website"
-#      payment_method_label: "Choose payment method"
-#      total_label: "Total to pay"
     copy_cards:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
@@ -542,7 +536,7 @@ en:
       title: "Business type"
     cannot_edit:
       title: 'Cannot edit registration'
-      instructions: 'You cannot edit the registration at this time. If you have completed your registration please log in again to edit your registration.'  
+      instructions: 'You cannot edit the registration at this time. If you have completed your registration please log in again to edit your registration.'
     confirmDelete:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
@@ -1087,6 +1081,7 @@ en:
       subtitle: "Your registrations"
       summaryText: "Your registrations are listed below. You can create a new registration for a business or organisation and you can change any you have previously created. You must tell us if any of your registration details change, within 28 days of the change."
   reports:
+    record: record
     errors:
       error: error
       error_message: "You have %{count} on this page"
@@ -1146,7 +1141,7 @@ en:
     registrations_search_results:
       title: "Registrations Search Results"
       subtitle: "Registration search results summary"
-      summary: "The first 100 records matching your search as an example."
+      summary: "The first %{record_count_pluralized} matching your search as an example."
       companyName: "Trading Name"
     payments_search:
       title: "Payments Search"
@@ -1158,7 +1153,7 @@ en:
     payments_search_results:
       title: "Payments Search Results"
       subtitle: "Payment search results summary"
-      summary: "The first 100 records matching your search as an example."
+      summary: "The first %{record_count_pluralized} matching your search as an example."
       companyName: "Trading Name"
   shared:
     complete_summary:
