@@ -95,6 +95,7 @@ class Registration < Ohm::Model
   # These are meta data fields used only in rails for storing a temporary value to determine:
   # the exception detail from the services
   attribute :exception
+  attribute :copy_card_only_order
 
   set :metaData, :Metadata #will always be size=1
   set :location, :Location #will always be size=1
@@ -803,6 +804,8 @@ class Registration < Ohm::Model
 
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
 
+
+  validate :copy_cards_added_to_copy_card_only_order?
   # TODO the following validations were problematic or possibly redundant
 
   # Validate Revoke Reason
@@ -820,6 +823,15 @@ class Registration < Ohm::Model
       unless user.confirmed?
         errors.add(:accountEmail, I18n.t('errors.messages.unconfirmedEmail'))
       end
+    end
+  end
+
+  def copy_cards_added_to_copy_card_only_order?
+    if (copy_cards && copy_cards.to_i < 1) and copy_card_only_order
+      errors.add(:copy_cards, "must be more than 0")
+    end
+    if !copy_cards and copy_card_only_order
+      errors.add(:copy_cards, "must be more than 0")
     end
   end
 
@@ -938,7 +950,7 @@ class Registration < Ohm::Model
 
   def address_lookup?
     addressMode != 'manual-uk' &&
-    addressMode != 'manual-foreign'
+      addressMode != 'manual-foreign'
   end
 
   def limited_company?
