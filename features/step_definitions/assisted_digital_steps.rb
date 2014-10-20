@@ -195,3 +195,8 @@ end
 And(/^I see the payment details to tell the customer$/) do
   click_on 'Next'
 end
+
+Then(/^I logout$/) do
+  click_on 'signout_button'
+  visit destroy_agency_user_session_path
+end
