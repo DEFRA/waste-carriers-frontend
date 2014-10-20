@@ -11,9 +11,15 @@
     </div>
 
     <header class="page-header group">
-      <div class="hgroup">
-          <h1 class="heading-large">Please log in again...</h1>
+      <div class="hgroup" data-journey="waste-carriers-registration:cannot-edit">
+          <h1 class="heading-large"><%= t '.title' %></h1>
       </div>
+      <p>
+        <%= t '.instructions' %>
+      </p>
+      <p>
+        <%= link_to t('shared.current_user.sign_in'), new_user_session_path %>
+      </p>
     </header>
 
   </main><!-- end main -->
