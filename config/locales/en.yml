@@ -802,7 +802,7 @@ en:
       title: "Finished"
       subtitle_complete: "Registration complete"
       subtitle_pending: "Registration pending"
-      your_reg_number: "The registration number is: %{reg}"
+      your_reg_number_html: "The registration number is: <span id='registrationNumber'>%{reg}</span>"
       access_code: "The assisted digital access code is: "
       registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier."
       applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier."
