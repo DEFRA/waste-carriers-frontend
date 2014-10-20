@@ -59,7 +59,7 @@ Given(/^I re-request activation for my account$/) do
   if !page.body.to_s.include?('Your account has been activated successfully')
     puts '... Waiting 5 seconds for page to load'
     sleep 5.0
-    if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
+    if !page.body.to_s.include?('Your account has been activated successfully')
       puts '... Waiting a further 15 seconds for for page to load'
       sleep 15.0
     end
