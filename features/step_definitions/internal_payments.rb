@@ -55,6 +55,7 @@ end
 Given(/^I have found a registrations payment details$/) do
   visit registrations_path
   page.should have_content 'Registration search'
+  puts 'Looking for registrationCount: ' + registrationCount.to_s
   fill_in 'q', with: 'PaymentReg'+registrationCount.to_s
   click_button 'Search'
   find_link('paymentStatus1').click
@@ -302,6 +303,7 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
 
   # Change registration to be unique
   registrationCount = SecureRandom.uuid.delete "-"
+  puts 'registrationCount: ' + registrationCount.to_s
 
   click_on 'New registration'
   
