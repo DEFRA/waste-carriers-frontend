@@ -22,7 +22,7 @@
           <div id="page0"  data-journey="waste-carriers-registration:payments-export-results">
             <% content_for :page_title, createTitle('.title') %>
             <%= render 'errors' %>
-            <h2 class="heading-small"><%= t '.summary' %></h2>
+            <h2 class="heading-small"><%= t('.summary', :record_count_pluralized => pluralize(@report.result_count, t('reports.record'))) %></h2>
             <%= form_for(@report, :url => payments_search_results_path) do |f| %>
               <fieldset>
                 <%= f.hidden_field :from %>

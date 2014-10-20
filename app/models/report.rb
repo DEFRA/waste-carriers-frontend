@@ -6,6 +6,7 @@ class Report
   attr_accessor :from, :to, :has_declared_convictions, :is_criminally_suspect
   attr_accessor :routes, :tiers, :statuses, :business_types
   attr_accessor :payment_statuses, :payment_types, :charge_types
+  attr_accessor :result_count
 
   validate :validate_from
   validate :validate_to
@@ -118,6 +119,10 @@ class Report
       param_args[:criminallySuspect] = is_criminally_suspect
     end
 
+    unless result_count.blank?
+      param_args[:resultCount] = resultCount
+    end
+
     param_args
 
   end
@@ -144,6 +149,10 @@ class Report
 
     unless @charge_types.nil? || @charge_types.empty?
       param_args[:chargeType] = @charge_types
+    end
+
+    unless result_count.blank?
+      param_args[:resultCount] = result_count
     end
 
     param_args
