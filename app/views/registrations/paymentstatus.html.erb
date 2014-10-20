@@ -31,7 +31,7 @@
 		</div>
 		<% end %>
 
-	    <%= form_for(@registration, :url => enterPayment_path) do |f| %>
+	    <%= form_for(@registration, :url => enterPayment_path, html: {autocomplete: 'off'}) do |f| %>
 
 		<!-- <h1 class="subtitle"></h1> -->
 		<%= render "errors" %>

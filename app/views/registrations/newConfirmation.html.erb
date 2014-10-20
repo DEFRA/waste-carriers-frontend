@@ -25,7 +25,7 @@
 
       <% content_for :page_title, createTitle('.title') %>
 
-      <%= form_for(@registration, :url => newConfirmation_path) do |f| %>
+      <%= form_for(@registration, :url => newConfirmation_path, html: {autocomplete: 'off'}) do |f| %>
 
         <div class="text registration-tier">
           <% unless session[:edit_mode]  %>

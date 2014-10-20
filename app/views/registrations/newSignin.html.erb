@@ -20,7 +20,7 @@
   <!-- WF 4.3.4 -->
   <div id="page4"  data-journey="waste-carriers-registration:signin">
     <% content_for :page_title, createTitle('.title') %>
-    <%= form_for(@registration, :url => newSignin_path) do |f| %>
+    <%= form_for(@registration, :url => newSignin_path, html: {autocomplete: 'off'}) do |f| %>
       <fieldset>
         <legend></legend>
         <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>">

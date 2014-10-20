@@ -21,7 +21,7 @@
 
           <% content_for :page_title, createTitle('.title') %>
           <%= render 'errors' %>
-          <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"} ) do |f| %>
+          <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"}, html: {autocomplete: 'off'} ) do |f| %>
             <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
 
             <div class="next_link">

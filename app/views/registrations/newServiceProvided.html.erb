@@ -12,7 +12,7 @@
 
   	<section>
   		<% content_for :page_title, createTitle('registrations.serviceprovided_step.title') %>
-  		<%= form_for(@registration, :url => newServiceProvided_path) do |f| %>
+  		<%= form_for(@registration, :url => newServiceProvided_path, html: {autocomplete: 'off'}) do |f| %>
   		<%= render "serviceprovided_step", :f => f %>
 		  <% end %>
 	  </section>

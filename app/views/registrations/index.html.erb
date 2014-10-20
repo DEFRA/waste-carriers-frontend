@@ -30,7 +30,7 @@
             <fieldset id='find-registration'>
               <div class="form-group">
                 <%= label_tag 'query-label', t('.query_label'), { class: 'form-label', for: 'q'} %>
-                <%= text_field_tag 'q', params[:q], { id: 'q', size: 20 } %>
+                <%= text_field_tag 'q', params[:q], { id: 'q', size: 20, :autocomplete => :off } %>
               </div>
 
               <div id="advanced-options" style="<% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>display:none<% end %>">

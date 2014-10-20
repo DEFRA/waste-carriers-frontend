@@ -11,7 +11,7 @@
   </div>
 
     <% content_for :page_title, createTitle('registrations.noregistration_step.title') %>
-    <%= form_for(@registration, :url => newNoRegistration_path) do |f| %>
+    <%= form_for(@registration, :url => newNoRegistration_path, html: {autocomplete: 'off'}) do |f| %>
 
       <%= render "noregistration_step", :f => f %>
 
