@@ -64,10 +64,12 @@ input {
   margin-bottom: $gutter-half;
   display:block;
   max-width: 30em;
-  height: 4.6em;
+  height: 6em;
+  padding-top: 2px;
+  padding-bottom: 2px;
   @include media (mobile) {
-    width:80%;
-    height: 1.7em;
+    height: 1em;
+    box-sizing: border-box;
   }
 }
 

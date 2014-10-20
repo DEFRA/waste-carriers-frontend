@@ -6,8 +6,6 @@
     <% if @address_match_list %>
     <% if @address_match_list.size  < 1 %>
     <!-- no addresses found for postcode -->
-
-    <span class="error-text"><%= t '.no_results_error'%></span>
     <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
     <% else %>
     <!-- addresses were found for postcode -->

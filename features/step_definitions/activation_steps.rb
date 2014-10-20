@@ -55,6 +55,7 @@ Given(/^I re-request activation for my account$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'Confirm your account'
+  sleep 2 # Add a wait after clicking the activation link for page to load and (potentially) send mulitple emails
   page.should have_content 'Your account has been activated successfully'
 end
 
