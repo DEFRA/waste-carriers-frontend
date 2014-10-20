@@ -26,3 +26,6 @@ runCucumber.sh
 
 runRedis.sh
 remoteToJenkins.sh
+
+brakeman-report.txt
+
