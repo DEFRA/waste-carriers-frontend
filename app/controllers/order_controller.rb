@@ -17,7 +17,8 @@ class OrderController < ApplicationController
 
   # GET /new
   def new
-    # Renders a new Order page (formally newPayment)
+
+    # Renders a new Order page (formerly newPayment)
     @order ||= Order.new
 
     logger.debug 'renderType session: ' + session[:renderType].to_s
@@ -31,7 +32,11 @@ class OrderController < ApplicationController
 
     # Setup page
     setup_registration 'payment', true
-    return unless @registration
+    if !@registration
+      logger.warn 'No @registration. Cannot show order page.'
+      renderNotFound
+      return
+    end
 
     if !@registration.copy_cards
       @registration.copy_cards = 0
