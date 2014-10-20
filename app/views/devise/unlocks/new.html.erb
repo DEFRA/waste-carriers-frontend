@@ -21,7 +21,7 @@
 
 			<div id="wrapper" data-journey="waste-carriers-registration:unlock-account"></div>
 
-				<%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f| %>
+				<%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
   				<%= devise_error_messages! %>
 
   			<div class="form-group">
