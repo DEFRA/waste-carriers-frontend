@@ -25,7 +25,7 @@
         <div class="inner-block">
           <% content_for :page_title, createTitle('.title') %>
           <% button_label = nil %>
-          <%= form_for(@key_person, url: {action: "updateNewKeyPeople"} ) do |f| %>
+          <%= form_for(@key_person, url: {action: "updateNewKeyPeople"}, html: {autocomplete: 'off'} ) do |f| %>
 
             <% case @registration.businessType %>
               <% when 'limitedCompany' %>

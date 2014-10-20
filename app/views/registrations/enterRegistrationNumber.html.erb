@@ -27,7 +27,7 @@
           <ul>
             <li><%= validation_for(@registration, :originalRegistrationNumber) %></li>
             <li><%= f.label :originalRegistrationNumber, class: 'form-label' %>
-              <%= f.text_field :originalRegistrationNumber, :size => 20, :maxlength => 35 %>
+              <%= f.text_field :originalRegistrationNumber, :size => 20, :maxlength => 35, :autocomplete => :off %>
             </li>
           </ul>
         </div>

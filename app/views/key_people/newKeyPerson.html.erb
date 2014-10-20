@@ -13,7 +13,7 @@
     <!-- WF 4.3.2 -->
     <div id="page7"  data-journey="waste-carriers-registration:key-person-details">
       <% content_for :page_title, createTitle('.title') %>
-      <%= form_for(@key_person, url: {action: "updateNewKeyPerson"} ) do |f| %>
+      <%= form_for(@key_person, url: {action: "updateNewKeyPerson"}, html: {autocomplete: 'off'} ) do |f| %>
         <%= render 'key_person_form', f: f, d: @key_person, :legend => t('.legend') %>
         <%= render 'next_link' %>
       <% end %>

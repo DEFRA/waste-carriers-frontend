@@ -95,7 +95,7 @@
 
     <p class="panel-indent"><strong>We need confirmation of your payment to complete your registration. If you do not complete step 2 the payment process could be delayed and prevent us from sending your registration certificate</strong></p>
 
-    <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post) do |f| %>
+    <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post, html: {autocomplete: 'off'}) do |f| %>
 
     <%= render 'next_link' %>
 

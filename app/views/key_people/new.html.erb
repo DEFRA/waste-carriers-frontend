@@ -9,7 +9,7 @@
       <p class="back_link"><%= render 'back_link' %></p>
       <div class="step"><%= t '.step' %></div>
 
-      <%= form_for(@key_person, url: {action: "create"} ) do |f| %>
+      <%= form_for(@key_person, url: {action: "create"}, html: {autocomplete: 'off'} ) do |f| %>
         <%= render 'form', f: f, d: @key_person %>
         <div class="inline">
           <span class="next_link">
@@ -20,7 +20,7 @@
     </div>
 
     <% if @key_people.any? %>
-        <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get'  ) do |f| %>
+        <%= form_for(@registration, :url => { :action => 'done' }, :method => 'get', html: {autocomplete: 'off'}  ) do |f| %>
             <div class="next_link"><%= render 'next_link' %></div>
         <% end %>
 

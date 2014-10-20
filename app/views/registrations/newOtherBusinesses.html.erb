@@ -11,7 +11,7 @@
     </div>
 
 			<% content_for :page_title, createTitle('registrations.otherBusinesses_step.title') %>
-    		<%= form_for(@registration, :url => newOtherBusinesses_path) do |f| %>
+    		<%= form_for(@registration, :url => newOtherBusinesses_path, html: {autocomplete: 'off'}) do |f| %>
       		<%= render "otherbusinesses_step", :f => f %>
     	<% end %>
 

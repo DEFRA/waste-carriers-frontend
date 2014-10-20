@@ -14,7 +14,7 @@
       <div id="page6"  data-journey="waste-carriers-registration:business-details"></div>
         <% content_for :page_title, createTitle('.title') %>
 
-        <%= form_for(@registration, :url => newBusinessDetails_path) do |f| %>
+        <%= form_for(@registration, :url => newBusinessDetails_path, html: {autocomplete: 'off'}) do |f| %>
 
             <% case @registration.businessType %>
             <% when 'limitedCompany' %>

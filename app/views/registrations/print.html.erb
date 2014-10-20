@@ -4,7 +4,7 @@
   <main id="content" role="main" class="group">
 
     <% content_for :page_title, createTitle('.title') %>
-    <%= form_for(@registration, url: print_url(:id => @registration.id)) do |f| %>
+    <%= form_for(@registration, url: print_url(:id => @registration.id, html: {autocomplete: 'off'})) do |f| %>
     <% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
 
     <!-- Header section -->

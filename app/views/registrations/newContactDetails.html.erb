@@ -14,7 +14,7 @@
       <div id="page7"  data-journey="waste-carriers-registration:contact-details">
         <% content_for :page_title, createTitle('.title') %>
 
-          <%= form_for(@registration, :url => newContact_path) do |f| %>
+          <%= form_for(@registration, :url => newContact_path, html: {autocomplete: 'off'}) do |f| %>
           <%= render 'contactdetails_step', f: f, r: @registration %>
           <%= render 'next_link' %>
         <% end %>
