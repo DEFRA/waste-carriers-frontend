@@ -18,7 +18,7 @@ class OrderController < ApplicationController
   # GET /new
   def new
     # Renders a new Order page (formally newPayment)
-    @order = Order.new if @order == nil
+    @order ||= Order.new
 
     logger.debug 'renderType session: ' + session[:renderType].to_s
     @renderType = session[:renderType]
@@ -31,11 +31,15 @@ class OrderController < ApplicationController
 
     # Setup page
     setup_registration 'payment', true
-    if !@registration
-      return
-    end
+    return unless @registration
+
     if !@registration.copy_cards
       @registration.copy_cards = 0
+    end
+
+
+    if @renderType.eql? Order.extra_copycards_identifier
+      @registration.update(copy_card_only_order: 'yes')
     end
 
     # Calculate fees shown on page
@@ -88,7 +92,7 @@ class OrderController < ApplicationController
             # Re-get registration from the database to update the local redis version
             regFromDB = Registration.find_by_id(@registration.uuid)
             logger.info "Updated redis version after order save!"
-            
+
             # Get all nested children out of registration, specifically finaince details and override local copy in redis and save to redis
             @registration.finance_details.replace([regFromDB.finance_details.first])
             @registration.save
@@ -102,21 +106,21 @@ class OrderController < ApplicationController
             return
           end
         else
-        
+
           # Remove un-needed fee values from the registration about to be saved
           @registration.total_fee = nil
           @registration.registration_fee = nil
           @registration.renewal_fee = nil
           @registration.copy_card_fee = nil
           @registration.copy_cards = nil
-          
+
           #
           # Save the updated registration prior to making the new order, that way the returned order contains the up to date registration
           # including any changes that have happended to the registration.
           #
           # The downside to this is an edge-case whereby the registration saves, and the commit fails so we need to ensure
           # that registrations marked as renewalRequested are treated appropriately
-          # 
+          #
           if @registration.save!
             logger.info "Registration saved!"
             @registration.save
@@ -128,7 +132,7 @@ class OrderController < ApplicationController
             render 'new', :status => '400'
             return
           end
-        
+
           # Must be an edit, update or copy card order
           logger.info "Committing the order"
           if @order.commit @registration.uuid
@@ -150,9 +154,9 @@ class OrderController < ApplicationController
           end
         end
       else
-  	    #We should hardly get into here given we constructed the order just above...
-  	    logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
-  	    render 'new', :status => '400'
+        #We should hardly get into here given we constructed the order just above...
+        logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
+        render 'new', :status => '400'
         return
       end
 
@@ -178,12 +182,13 @@ class OrderController < ApplicationController
 
   private
 
-# Removed as not required
-#  # Duplicated from registraions controller
-#  def authenticate_external_user!
-#    if !is_admin_request? && !agency_user_signed_in?
-#      authenticate_user!
-#    end
-#  end
+
+  # Removed as not required
+  #  # Duplicated from registraions controller
+  #  def authenticate_external_user!
+  #    if !is_admin_request? && !agency_user_signed_in?
+  #      authenticate_user!
+  #    end
+  #  end
 
 end
