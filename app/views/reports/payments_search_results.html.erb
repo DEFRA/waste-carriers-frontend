@@ -27,9 +27,15 @@
               <fieldset>
                 <%= f.hidden_field :from %>
                 <%= f.hidden_field :to %>
-                <%= f.hidden_field :payment_statuses %>
-                <%= f.hidden_field :payment_types %>
-                <%= f.hidden_field :charge_types %>
+                <% @report.payment_statuses.each do |value| %>
+                  <%= hidden_field_tag "payment_statuses[#{value.downcase}]", value.upcase %>
+                <% end %>
+                <% @report.payment_types.each do |value| %>
+                  <%= hidden_field_tag "payment_types[#{value.downcase}]", value.upcase %>
+                <% end %>
+                <% @report.charge_types.each do |value| %>
+                  <%= hidden_field_tag "charge_types[#{value.downcase}]", value.upcase %>
+                <% end %>
               </fieldset>
               <span class="next_link">
                 <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
