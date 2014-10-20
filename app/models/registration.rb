@@ -828,10 +828,11 @@ class Registration < Ohm::Model
 
   def copy_cards_added_to_copy_card_only_order?
     if (copy_cards && copy_cards.to_i < 1) and copy_card_only_order
-      errors.add(:copy_cards, "must be more than 0")
+      errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
     end
     if !copy_cards and copy_card_only_order
-      errors.add(:copy_cards, "must be more than 0")
+      errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
+      
     end
   end
 

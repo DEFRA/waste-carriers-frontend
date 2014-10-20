@@ -259,6 +259,8 @@ en:
       no_results: "No results found"
       ir_notFound: "provided is unable to find any IR registration data to use"
       is_empty: "is empty. You must add at least 1 record."
+      no_copy_cards_selected: "must be more than 0."
+
   form:
     add_button_label: Add
     back_button_label: Back
