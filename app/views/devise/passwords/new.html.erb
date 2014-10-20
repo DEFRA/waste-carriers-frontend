@@ -10,7 +10,7 @@
   </ol>
 </div>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
   <%= devise_error_messages! %>
 
 <header class="page-header group">

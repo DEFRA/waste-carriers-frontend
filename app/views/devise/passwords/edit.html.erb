@@ -18,7 +18,7 @@
 
 <div id="wrapper" data-journey="waste-carriers-registration:edit-password"></div>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, :autocomplete => :off }) do |f| %>
   <%= devise_error_messages! %>
   <%= f.hidden_field :reset_password_token %>
 

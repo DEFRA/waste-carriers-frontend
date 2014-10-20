@@ -19,7 +19,7 @@
   <fieldset>
     <legend></legend>
 
-    <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post }) do |f| %>
+    <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
     <%= devise_error_messages! %>
 
     <div class="form-group">
