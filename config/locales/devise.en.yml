@@ -39,7 +39,7 @@ en:
       unlock_instructions:
         subject: "Unlock Instructions"
         heading: "Register as a waste carrier: unlock account"
-        paragraph1: "To %{email},"
+        paragraph1: "Hello,"
         paragraph2: "Your account has been locked temporarily due to an excessive number of unsuccessful sign in attempts."
         paragraph3: "To unlock your account straight away, please click the link below:"
         unlockLabel: "Unlock my account"
