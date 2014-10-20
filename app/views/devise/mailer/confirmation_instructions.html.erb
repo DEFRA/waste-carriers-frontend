@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
       <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Confirm your registration</title>
+      <title>Confirmation instructions</title>
       <style type="text/css">
          /* Client-specific Styles */
          #outlook a {padding:0;} /* Force Outlook to provide a "view in browser" menu link. */
@@ -155,13 +155,13 @@
                               <!-- content -->
                               <tr>
                               <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                              <p style="font-size: 19px; line-height: 1.25; ">
+                              <p style="font-size: 19px; line-height: 1.31579; ">
                                  <%= t 'devise.mailer.confirmation_instructions.paragraph1' %></p><br/>
-                              <p style="font-size: 19px; line-height: 1.25;">
+                              <p style="font-size: 19px; line-height: 1.31579;">
                                  <%= t 'devise.mailer.confirmation_instructions.paragraph2'%></p><br/>
-                              <p style="font-size: 19px; line-height: 1.25;">
+                              <p style="font-size: 19px; line-height: 1.31579;">
                                  <%= link_to t('devise.mailer.confirmation_instructions.confirmLabel'), confirmation_url(@resource, :confirmation_token => @token) %></p></br>
-                              <p style="font-size: 19px; line-height: 1.25;">
+                              <p style="font-size: 19px; line-height: 1.31579;">
                                  <%= t 'devise.mailer.confirmation_instructions.paragraph3'%></p><br/>
                              </td>
                               </tr>
@@ -196,10 +196,10 @@
                      <!-- Spacing -->
                      <tr>
                     <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                        <h2 style="font-size: 19px; color: #6f777b; line-height: 1.25; margin: 0 0 30px 0;"><%= t 'devise.mailer.email_security.heading'%></h2>
-                        <p style="font-size: 14px; color: #6f777b; line-height: 1.25; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line1'%></p>
-                        <p style="font-size: 14px; color: #6f777b; line-height: 1.25; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line3'%></p>
-                        <p style="font-size: 14px; color: #6f777b; line-height: 1.25; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line2'%></p>
+                        <h2 style="font-size: 19px; color: #6f777b; line-height: 1.11111; margin: 0 0 30px 0;"><%= t 'devise.mailer.email_security.heading'%></h2>
+                        <p style="font-size: 14px; color: #6f777b; line-height: 1.31579; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line1'%></p>
+                        <p style="font-size: 14px; color: #6f777b; line-height: 1.31579; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line3'%></p>
+                        <p style="font-size: 14px; color: #6f777b; line-height: 1.31579; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line2'%></p>
                     </td>
                      </tr>
                      <!-- end of content -->
