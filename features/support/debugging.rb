@@ -8,7 +8,7 @@ After do |scenario|
       puts 'Error trying to open browser: ' + e.to_s
       puts 'EXCEPTION:: URL of the page with the test failure: '+page.current_path.to_s
       puts ''
-      print page.html
+      puts page.html
       if current_email
         begin
           current_email.save_and_open
@@ -16,7 +16,7 @@ After do |scenario|
           puts ''
           puts 'Could not open email in browser, printing to console: ' + e.to_s
           puts ''
-          print current_email.body
+          puts current_email.body
         end
       end
     end
