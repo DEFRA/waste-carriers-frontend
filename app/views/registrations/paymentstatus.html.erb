@@ -123,8 +123,9 @@
 											<td class="" ><%= format_time payment.dateReceived %></td>
 											<td class="" >
 												<%= t('payment_types.' + payment.paymentType) %>
-												<% showRetryLink = (payment.paymentType.eql? Payment::PAYMENT_TYPES_NONVISIBLE[3]) %>
-												<% if showRetryLink
+												<%# Remove retry link PT #80889956 %>
+												<% showRetryLink = false #(payment.paymentType.eql? Payment::PAYMENT_TYPES_NONVISIBLE[3]) %>
+												<%# if showRetryLink
 												      originalPaymentCode = payment.orderKey.split("_")[0]
 												      originalOrder = @registration.getOrder( originalPaymentCode)
 												      if !originalOrder
