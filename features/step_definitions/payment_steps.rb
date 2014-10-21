@@ -32,15 +32,23 @@ def waitForWorldpayRedirect
   end
 end
 
+def waitForWorldpayToLoad
+  expectedWorldpayContent1 = 'Secure Payment Page'
+  if !page.body.to_s.include?(expectedWorldpayContent1)
+    puts '... Waiting 3 seconds for worldpay to load'
+    sleep 3.0
+  end
+end
+
 And(/^I pay by card$/) do
+  page.should have_content 'Payment summary'
+  
   click_on 'Pay by credit or debit card'
 
   sleep 0.5
 
-  if !page.body.to_s.include?('MasterCard')
-    puts '... Waiting 3 seconds for worldpay to load'
-    sleep 3.0
-  end
+  # Wait a period for worldpay to load
+  waitForWorldpayToLoad
   
   click_on 'MasterCard'
 
@@ -61,6 +69,9 @@ And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
   click_on 'Pay by credit or debit card'
 
   sleep 0.5
+  
+  # Wait a period for worldpay to load
+  waitForWorldpayToLoad
 
   # Build test parameter to compare to worldpay test page
   totalParams = 'GBP ' + arg1 + '.' + arg2
@@ -98,6 +109,9 @@ end
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
   #Select MasterCard by clicking on the button:
   sleep 1.0
+  
+  # Wait a period for worldpay to load
+  waitForWorldpayToLoad
 
   page.should have_content 'Secure Payment Page'
 
