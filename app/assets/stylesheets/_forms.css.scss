@@ -59,17 +59,25 @@ input {
 
 /* Address look-up */
 
+#registration_companyName {
+  @include media (mobile) {
+    width: 50%;
+    box-sizing: border-box;
+  }
+}
+
 #addressSelector {
   @include copy-19;
   margin-bottom: $gutter-half;
   display:block;
-  max-width: 30em;
+  max-width: 75%;
   height: 6em;
   padding-top: 2px;
   padding-bottom: 2px;
   @include media (mobile) {
-    height: 1em;
+    height: 1.6em;
     box-sizing: border-box;
+    width: 50%;
   }
 }
 
