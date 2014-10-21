@@ -72,7 +72,6 @@ module RegistrationsHelper
   def setup_registration current_step, no_update=false
     if !session[:editing] && current_step != 'payment' && current_step != 'confirmation' && current_step != 'businesstype'
       logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
-      #puts '*** GGG3 setup_registration ' + current_step
       redirect_to cannot_edit_path and return
     end
     if session[:registration_id]
@@ -89,6 +88,14 @@ module RegistrationsHelper
     end
     if @registration
       @registration.add( params[:registration] ) unless no_update
+      # now check if we're on the address lookup page and -if yes- set
+      # the relevant model attribute
+      if params[:registration] && 
+              params[:registration].keys.size == 2 && 
+              (params[:registration].keys[0].eql? "companyName") &&
+              (params[:registration].keys[1].eql? "postcode")
+        @registration.update(address_lookup_page: 'yes')
+      end
       @registration.save
       logger.debug "Registration: id=#{@registration.id.to_s} #{@registration.attributes.to_s}"
       @registration.current_step = current_step
