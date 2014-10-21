@@ -49,7 +49,7 @@
           </p>
           <% else %>
           <p><%= t '.sign_in_to_view' %></p>
-          <p><%= link_to t('form.sign_in_button_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
+          <p><%= link_to t('form.sign_in_button_label'), user_session_url(), :class => 'link-button-secondary' %></p>
           <% end %>
 
             <!-- Below - almost complete -->
