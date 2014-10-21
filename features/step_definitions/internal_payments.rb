@@ -52,6 +52,7 @@ Given(/^I change user to a nccc refunds user$/) do
   click_button 'Sign in'
   page.should have_content "Signed in as agency user #{my_agency_refund_user.email}"
 end
+
 Given(/^I have found a registrations payment details$/) do
   visit registrations_path
   page.should have_content 'Registration search'
@@ -59,6 +60,26 @@ Given(/^I have found a registrations payment details$/) do
   fill_in 'q', with: 'PaymentReg'+registrationCount.to_s
   click_button 'Search'
   find_link('paymentStatus1').click
+  page.should have_content 'Payment status'
+end
+
+Given(/^I have found a registrations payment details using the remembered id$/) do
+  visit registrations_path
+  page.should have_content 'Registration search'
+  puts 'Using @stored_value: ' + @stored_value
+  fill_in 'q', with: @stored_value.to_s
+  click_button 'Search'
+  find_link('paymentStatus1').click  
+  page.should have_content 'Payment status'
+end
+
+Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
+  visit registrations_path
+  page.should have_content 'Registration search'
+  puts 'Using param: ' + param
+  fill_in 'q', with: param.to_s
+  click_button 'Search'
+  find_link('paymentStatus1').click  
   page.should have_content 'Payment status'
 end
 

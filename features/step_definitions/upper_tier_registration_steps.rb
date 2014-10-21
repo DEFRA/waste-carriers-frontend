@@ -137,3 +137,7 @@ end
 But(/^I am told my registration is pending a convictions check$/) do
   page.should have_content 'We are required to cross check the declared relevant people'
 end
+
+Given(/^I finish the registration$/) do
+  click_on 'Finished'
+end
