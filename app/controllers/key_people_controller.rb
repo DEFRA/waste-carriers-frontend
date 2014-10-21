@@ -216,9 +216,12 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-people/delete/:id
   def delete
-    #get_registration
-
     key_person_to_remove = KeyPerson[params[:id]]
+    if !key_person_to_remove
+      renderNotFound
+      return
+    end
+
     logger.debug "reg is: #{@registration.id}"
     logger.debug "key person to remove is: #{key_person_to_remove.id}"
 
@@ -230,6 +233,10 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/relevant-people/delete/:id
   def deleteRelevantPerson
     person_to_remove = KeyPerson[params[:id]]
+    if !person_to_remove
+      renderNotFound
+      return
+    end    
     logger.debug "reg is: #{@registration.id}"
     logger.debug "relevant person to remove is: #{person_to_remove.id}"
 
