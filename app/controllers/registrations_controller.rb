@@ -49,7 +49,7 @@ class RegistrationsController < ApplicationController
     end
     session[:registration_step] = session[:registration_params] = nil
     logger.debug "index: #{ @registrations.size.to_s} items"
-    
+
     #
     # REVIEWME: Ideally this should not be needed but in order to cover the 'Back and refresh issue'
     # The variables will be cleared for subequent requests
@@ -143,17 +143,17 @@ class RegistrationsController < ApplicationController
 
           # Save IR registration data to session, for comparison at payment time
           session[:original_registration_id] = irReg.id
-          
+
           # Access Code is one of the registration variables that should not get overriden with IR data
           # so it is saved and reapplied after the merge
           accessCode = @registration.accessCode
 
           # Merge params registration with registration in memory
           @registration.add( irReg.attributes )
-          
+
           # re-apply accessCode
           @registration.accessCode = accessCode
-          
+
           @registration.save
 
           logger.debug "Legacy registration matched, Redirect to smart answers"
@@ -291,11 +291,11 @@ class RegistrationsController < ApplicationController
       # this is the last step of the smart answers, so we need to check if
       # we're doing a smart edit or not
       # Removed quick edit for smart answers until more time to implement and test
-#      if session[:edit_mode]
-#        original_registration = Registration[ session[:original_registration_id] ]
-#        redirect_to determine_smart_answers_route(@registration, original_registration)
-#        return
-#      end
+      #      if session[:edit_mode]
+      #        original_registration = Registration[ session[:original_registration_id] ]
+      #        redirect_to determine_smart_answers_route(@registration, original_registration)
+      #        return
+      #      end
       # TODO this is where you need to make the choice and update the steps
       case @registration.constructionWaste
       when 'yes'
@@ -389,9 +389,9 @@ class RegistrationsController < ApplicationController
     end
 
     @registration.save
-    
+
   end
-  
+
   # GET /your-registration/edit/business-details
   def editBusinessDetails
     session[:edit_link_business_details] = '1'
@@ -402,9 +402,7 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/business-details
   def updateNewBusinessDetails
     setup_registration 'businessdetails'
-    if !@registration
-      return
-    end
+    return unless @registration
 
     session.delete(:address_lookup_selected) if session[:address_lookup_selected]
 
@@ -420,6 +418,7 @@ class RegistrationsController < ApplicationController
       @registration.update(:addressMode => 'address-results')
       @registration.update(:postcode => params[:registration][:postcode])
 
+
       #GGG - this bit should be done on the subsequent GET
       #render 'newBusinessDetails', status: '200'
       redirect_to :newBusinessDetails and return
@@ -433,13 +432,13 @@ class RegistrationsController < ApplicationController
       if session[:edit_link_business_details]
         session.delete(:edit_link_business_details)
         redirect_to :newConfirmation and return
-      #if session[:edit_mode]
-      #  case @registration.businessType
-      #  when  'partnership', 'limitedCompany', 'publicBody'
-      #    redirect_to :newKeyPerson and return
-      #  else
-      #    redirect_to :newConfirmation and return
-      #  end
+        #if session[:edit_mode]
+        #  case @registration.businessType
+        #  when  'partnership', 'limitedCompany', 'publicBody'
+        #    redirect_to :newKeyPerson and return
+        #  else
+        #    redirect_to :newConfirmation and return
+        #  end
       else
         redirect_to :newContact and return
       end
@@ -454,7 +453,7 @@ class RegistrationsController < ApplicationController
   def newContactDetails
     new_step_action 'contactdetails'
   end
-  
+
   # GET /your-registration/edit/contact-details
   def editContactDetails
     session[:edit_link_contact_details] = '1'
@@ -497,7 +496,7 @@ class RegistrationsController < ApplicationController
   def newRegistrationType
     new_step_action 'registrationtype'
   end
-  
+
   # GET /your-registration/edit/registration-type
   def editRegistrationType
     session[:edit_link_reg_type] = '1'
@@ -510,7 +509,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'registrationtype'
     if @registration.valid?
       if session[:edit_link_reg_type]
-      #if session[:edit_mode]
+        #if session[:edit_mode]
         session.delete(:edit_link_reg_type)
         redirect_to :newConfirmation and return
       else
@@ -531,7 +530,7 @@ class RegistrationsController < ApplicationController
     setup_registration 'convictions'
 
     if @registration.valid?
-#      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      #      (redirect_to :newConfirmation and return) if session[:edit_mode]
       if @registration.declaredConvictions == 'yes'
         redirect_to :newRelevantPeople
       else
