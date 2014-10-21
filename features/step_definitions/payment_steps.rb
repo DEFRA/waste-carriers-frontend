@@ -2,29 +2,29 @@
 # Helper function to help wait untill we have left the worldpay site
 #
 def waitForWorldpayRedirect
-  # Check if on the worldpay is waiting for redirect page. This often results in the browser client side redirecting to 
+  # Check if on the worldpay is waiting for redirect page. This often results in the browser client side redirecting to
   # an page in our site that is no longer available as the tests have moved on by the time the redirect occurs
   waitMessage1 = 'Please wait for the result.'
   waitMessage2 = 'Please wait while your payment'
   if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
     puts '... Waiting 5 seconds for worldpay to respond'
     sleep 5.0
-    
+
     if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
       puts '... Waiting a further 10 seconds for worldpay to respond'
       sleep 10.0
-      
+
       if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
         puts '... Waiting a final 10 seconds for worldpay to respond'
-        
+
         sleep 10.0
-        
+
         if page.body.to_s.include?(waitMessage1) || page.body.to_s.include?(waitMessage2)
           puts 'Warning: Not redirecting out of worldpay, if the following test fails, it is likely because this route never left worldpay'
         end
       end
     end
-    
+
     # If neccesary change default wait time for capybara commands to wait longer for content to appear
     #default_wait_time = Capybara.default_wait_time
     #Capybara.default_wait_time = 5 # Really long request
@@ -33,8 +33,8 @@ def waitForWorldpayRedirect
 end
 
 And(/^I pay by card$/) do
-  click_on 'Pay by debit/credit card'
-  
+  click_on 'Pay by credit or debit card'
+
   sleep 0.5
 
   click_on 'MasterCard'
@@ -49,12 +49,12 @@ And(/^I pay by card$/) do
   click_on 'op-PMMakePayment'
 
   step 'I set test simulator page to all okay'
-  
+
 end
 
 And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
-  click_on 'Pay by debit/credit card'
-  
+  click_on 'Pay by credit or debit card'
+
   sleep 0.5
 
   # Build test parameter to compare to worldpay test page
@@ -77,7 +77,7 @@ And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
   click_on 'op-PMMakePayment'
 
   step 'I set test simulator page to all okay'
-  
+
 end
 
 Then(/^I set test simulator page to all okay$/) do
@@ -112,23 +112,23 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   click_on 'op-PMMakePayment'
 
   step 'I set test simulator page to all okay'
-  
+
 end
 
 And(/^I choose to pay by bank transfer$/) do
-  click_on 'Pay via electronic transfer'
+  click_on 'Pay by bank transfer'
 end
 
 And(/^I choose pay via electronic transfer ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
-  click_on 'Pay via electronic transfer'
-  
+  click_on 'Pay by bank transfer'
+
   # Build test parameter to compare to offline payment page
   totalParams = '£' + arg1 + '.' + arg2
   # Get amount value from offline payment page
   offlineAmount = find_by_id('payment-table-wrapper').find(:xpath, '//table[1]/tbody/tr[2]/td[2]').text
   # Check worldpay site matches expected value
   offlineAmount.should match totalParams
-  
+
 end
 
 Then(/^I make a note of the details$/) do

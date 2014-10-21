@@ -325,8 +325,8 @@ en:
         subject: 'We have received your application for a %{tier} tier registration for %{companyName}, and are awaiting your payment.'
   order:
     new:
-      debit_card_note: "You will be transferred to the WorldPay site to pay by credit or debit card."
-      bank_transfer_note: "Paying by bank transfer requires 2 steps, both must be completed to activate your account."
+      debit_card_note: "You will be transferred to the secure WorldPay site for you to enter your credit or debit card details. We accept MasterCard, Maestro and Visa."
+      bank_transfer_note: "Pay by bank transfer requires 2 steps, both must be done to complete your registration."
       subtitle: "Payment summary"
       title: Payment
       total_fee_vat: "All charges are outside the scope of VAT"
@@ -879,8 +879,8 @@ en:
       organisationType_publicBody: "A public body"
       overpaid_text: "Overpaid by"
       paidInFull_text: "Paid in full"
-      pay_by_worldpay_button_label: "Pay by debit/credit card"
-      pay_offline_button_label: "Pay via electronic transfer"
+      pay_by_worldpay_button_label: "Pay by credit or debit card"
+      pay_offline_button_label: "Pay by bank transfer"
       phoneNumber_label: "Telephone number"
       please_select_address: "Please select an address.."
       postcode_label: "Post code"
