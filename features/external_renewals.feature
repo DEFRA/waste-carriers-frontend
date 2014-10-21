@@ -15,9 +15,9 @@ Given I have been funneled into the upper tier path
     And I check the declaration
     And I provide my email address and create a password
     And I pay by card
-    And I am registered as an upper tier waste carrier
   Then registration should be complete
     And I remember the registration id
+    And I am registered as an upper tier waste carrier
   When I re-request activation for my account
     And I am shown the sign in page
     And I attempt to sign in
