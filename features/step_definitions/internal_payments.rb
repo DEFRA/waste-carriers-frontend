@@ -306,7 +306,7 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   puts 'registrationCount: ' + registrationCount.to_s
 
   click_on 'New registration'
-  
+
   choose 'registration_newOrRenew_new'
   click_on 'Next'
 
@@ -347,5 +347,5 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   check 'registration_declaration'
   click_on 'Confirm'
 
-  click_on 'Pay by debit/credit card'
+  click_on 'Pay by credit or debit card'
 end
