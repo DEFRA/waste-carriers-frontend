@@ -69,7 +69,7 @@ gem 'money-rails'
 gem 'monetize'
 
 group :test do
-  gem 'ci_reporter', '~1.9.0'
+  gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', require: false
   gem 'database_cleaner', '~> 1.3.0'
   gem 'timecop', '~> 0.7.1'
