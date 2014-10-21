@@ -1777,9 +1777,14 @@ class RegistrationsController < ApplicationController
     if regUuid
       @registration = Registration.find_by_id(regUuid)
       # Get the order just made from the order code param
-      @order = @registration.getOrder(params[:orderCode])
+      if @registration
+        @order = @registration.getOrder(params[:orderCode])
+      else
+        renderNotFound
+      end
     else
-      renderAccessDenied
+      logger.warn 'Attempting to access registration from uuid in session, but no uuid is in the session. Showing Not Found'
+      renderNotFound
     end
   end
 
