@@ -94,8 +94,11 @@ class Registration < Ohm::Model
 
   # These are meta data fields used only in rails for storing a temporary value to determine:
   # the exception detail from the services
+  # whether the relevant order is only for copy cards
+  # whether the controller/view is at the address lookup page
   attribute :exception
   attribute :copy_card_only_order
+  attribute :address_lookup_page
 
   set :metaData, :Metadata #will always be size=1
   set :location, :Location #will always be size=1
@@ -760,11 +763,13 @@ class Registration < Ohm::Model
     registration.validates :postcode, presence: true, uk_postcode: true
   end
 
-  with_options if: [:address_step?, :address_lookup?] do |registration|
-    registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
+  with_options if: [:address_step?, :address_lookup? ] do |registration|
+
+    registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, \
+      message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 },  unless: :address_lookup_page?
     # we're avoiding street field validation here, as sometime the Experian service fails to populate these fields so
     # we don't want validation errors to stop the flow because the lookup isn't working properly.
-    registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }
+    registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }, unless: :address_lookup_page?
     registration.validates :postcode, presence: true, uk_postcode: true
   end
 
@@ -845,6 +850,10 @@ class Registration < Ohm::Model
   def should_validate_key_people?
     result = key_person_step? || key_people_step? || relevant_people_step?
     result
+  end
+
+  def address_lookup_page?
+    address_lookup_page
   end
 
   def businesstype_step?
