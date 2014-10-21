@@ -11,7 +11,7 @@ end
 Given(/^I start a new registration on behalf of a caller$/) do
   visit registrations_path
   click_on 'New registration'
-  
+
   choose 'registration_newOrRenew_new'
   click_on 'Next'
 end
@@ -63,7 +63,7 @@ end
 
 When(/^I create a lower tier registration on behalf of a caller$/) do
   click_on 'New registration'
-  
+
   choose 'registration_newOrRenew_new'
   click_on 'Next'
 
@@ -91,7 +91,7 @@ end
 
 When(/^I create an upper tier registration on behalf of a caller$/) do
   click_on 'New registration'
-  
+
   choose 'registration_newOrRenew_new'
   click_on 'Next'
 
@@ -136,7 +136,7 @@ end
 
 When(/^I create an upper tier registration on behalf of a caller who wants to pay offline$/) do
   click_on 'New registration'
-  
+
   choose 'registration_newOrRenew_new'
   click_on 'Next'
 
@@ -177,7 +177,7 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
   check 'registration_declaration'
   click_on 'Confirm'
 
-  click_on 'Pay via electronic transfer'
+  click_on 'Pay by bank transfer'
 end
 
 And(/^the lower tier waste carrier registration id$/) do
