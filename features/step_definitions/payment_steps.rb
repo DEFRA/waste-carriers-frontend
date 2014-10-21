@@ -37,6 +37,11 @@ And(/^I pay by card$/) do
 
   sleep 0.5
 
+  if !page.body.to_s.include?('MasterCard')
+    puts '... Waiting 3 seconds for worldpay to load'
+    sleep 3.0
+  end
+  
   click_on 'MasterCard'
 
   fill_in 'Card number', with: '4444333322221111'
