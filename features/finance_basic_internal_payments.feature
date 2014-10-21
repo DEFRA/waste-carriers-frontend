@@ -7,6 +7,7 @@ Background:
 Given I am logged in as an NCCC agency user
   And I create an upper tier registration on behalf of a caller for payments
   And I provide valid credit card payment details on behalf of a caller
+  And I remember the registration id  
   And I have found a registrations payment details
   And I logout
   And I am logged in as a nccc refunds user
