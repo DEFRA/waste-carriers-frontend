@@ -90,9 +90,10 @@ module RegistrationsHelper
       @registration.add( params[:registration] ) unless no_update
       # now check if we're on the address lookup page and -if yes- set
       # the relevant model attribute
-      if params[:registration].keys.size == 2 && 
-                    (params[:registration].keys[0].eql? "companyName") &&
-                    (params[:registration].keys[1].eql? "postcode")
+      if params[:registration] && 
+              params[:registration].keys.size == 2 && 
+              (params[:registration].keys[0].eql? "companyName") &&
+              (params[:registration].keys[1].eql? "postcode")
         @registration.update(address_lookup_page: 'yes')
       end
       @registration.save
