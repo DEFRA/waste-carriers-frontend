@@ -24,6 +24,6 @@ After do |scenario|
     # Manually call the services to clear down any existing regitrations
     RestClient.post Rails.configuration.waste_exemplar_services_admin_url + '/tasks/dbcleaner', :content_type => :json, :accept => :json
     
-    sleep 1.0
+    sleep 0.5
   end
 end
