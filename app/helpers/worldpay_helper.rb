@@ -129,7 +129,16 @@ module WorldpayHelper
         redirect_url_with_args = set_redirect_arguments(redirect_url)
         redirect_url_with_args
       else
+        logger.info 'The was a problem redirecting to the payment pages.'
+        errorMessage = ''
+        begin
+          errorMessage = doc.at_css('error').text
+          logger.info 'errorMessage: ' + errorMessage
+        rescue
+          logger.info 'Cannot determine error message from response.'
+        end
         flash.now[:notice] = 'The was a problem redirecting to the payment pages.'
+        flash[:notice] = 'The was a problem redirecting to the payment pages. ' + errorMessage.to_s
         redirect_url = upper_payment_path
       end
     end
