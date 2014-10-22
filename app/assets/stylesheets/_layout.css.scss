@@ -22,10 +22,6 @@
 }
 
 /* Header bar ========================================================== */
-/* Header bar div is currently positioned below after_header div in gov.uk template.
-Cannot be changed manually because gem will not update.
-Temp fix is to set Header-bar to display:none (style should be removed following go live
-to put blue header-bar style back in place) **/
 
 .header-bar {
   display:none;
@@ -113,8 +109,14 @@ to put blue header-bar style back in place) **/
 
 /* Footer ========================================================== */
 
-.footer-top {
+.ea-footer {
  @include inner-block;
+  @include copy-16;
 }
+
+.ea-footer p {
+  @include copy-16;
+}
+
 
 

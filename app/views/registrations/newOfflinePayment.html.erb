@@ -93,7 +93,7 @@
         </tbody>
       </table>
 
-    <p class="panel-indent"><strong>We need confirmation of your payment to complete your registration. If you do not complete step 2 the payment process could be delayed and prevent us from sending your registration certificate</strong></p>
+    <p class="panel-indent"><strong><%= t '.payment_notice' %></strong></p>
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post, html: {autocomplete: 'off'}) do |f| %>
 
