@@ -1,7 +1,10 @@
 
-<div class="footer-top"><%=t 'global.helpline'%><br/>
-<%=t 'global.england'%>: <%= Rails.configuration.registrations_service_phone %> <%=t 'global.bracketsEA'%><br/>
-<a href="<%= cookies_path %>" target="_blank"><%=t 'global.privacyAndCookies'%></a></div>
+<div class="ea-footer">
+  <p><%=t 'global.bracketsEA'%><%= Rails.configuration.registrations_service_phone %></p>
+    <a href="<%= privacy_path %>" target="_blank"><%=t 'global.footer_privacy_link'%></a>
+      <span>  and  </span>
+    <a href="<%= cookies_path %>" target="_blank"><%=t 'global.footer_cookies_link'%></a>
+</div>
 
 
 <%# DEBUGING: Remove once testing complete, Shows a summary of session variables %>
