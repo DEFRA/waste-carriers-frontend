@@ -6,11 +6,11 @@ module ApplicationHelper
   	  timeout
   	end
   end
-  
+
   def createTitle(pageTitle)
     t(pageTitle) + " - " + t('registrations.form.root_site')
   end
-  
+
   def convert_date d
     res = Time.new(1970,1,1)
     if d
@@ -24,12 +24,17 @@ module ApplicationHelper
     res
   end
 
-  
-  
+  def get_expires_in_as_int
+    expires_date = Time.at(Rails.configuration.registration_expires_after).to_date
+    epoch_date = Date.new(1970, 1, 1)
+
+    (expires_date - epoch_date).to_i / 365
+  end
+
   def format_time d
     convert_date(d.to_i).strftime("%d/%m/%Y %H:%M")
   end
-  
+
   def getDefaultCurrency
     "GBP"
   end
