@@ -70,7 +70,7 @@
           <p><%= t 'registration_mailer.welcome_email.lower_renewal_html' %></p>
         <% end %>
         <% if @registration.assisted_digital? %>
-          <p><%= t 'registration_mailer.welcome_email.updatePhone' %><span id='accessCode'><strong><%= @registration.accessCode %></strong>.<span></p>
+          <p><%= t 'registration_mailer.welcome_email.updatePhone' %><strong><span id='accessCode'><%= @registration.accessCode %><span></strong>.</p>
         <% else %>
           <p><%= t 'registration_mailer.welcome_email.updateWebsite_html', :link => user_session_url().split('?')[0] %></p>
         <% end %>
