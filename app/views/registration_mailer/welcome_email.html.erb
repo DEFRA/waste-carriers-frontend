@@ -77,9 +77,6 @@ img{valign:left;}
 </style>
 </head>
 
-<!-- Helper -->
-<% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
-
 <body style="font-family: Helvetica, Arial, sans-serif; font-size: 19px; color:#0b0c0c;" >
 <div class="block">
   <!-- start of header -->
@@ -145,8 +142,8 @@ img{valign:left;}
             <!-- section one title -->
             <tr>
             	<td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                <h1 class="email" style="font-weight: 700; font-size: 36px; line-height: 1.041666667; margin: 30px 0;"><%= t isRegisteredMessageKey, :companyName => @registration.companyName %>
-                </h1>
+                <% message = "#{t('registration_mailer.welcome_email.tier_result_message', :companyName => @registration.companyName, :tier_with_article => @registration.tier.downcase.with_indefinite_article)}" %>
+                <h1 class="email" style="font-weight: 700; font-size: 36px; line-height: 1.041666667; margin: 30px 0;"><%= message %></h1>
               </td>
             </tr>
             <!-- end section one title -->
