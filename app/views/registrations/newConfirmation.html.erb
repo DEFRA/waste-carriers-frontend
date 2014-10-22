@@ -63,6 +63,8 @@
                      <div class='form-group'> <%=  t '.subtitle_edit_reg_new_reg', :fee => Money.new(Rails.configuration.fee_registration) %> </div>
 
               <% when  RegistrationsController::EditResult::NO_CHANGES  %>
+              <% when RegistrationsController::EditResult::CHANGE_NOT_ALLOWED %>
+                     <div class='form-group'><%= t '.subtitle_edit_change_not_allowed' %></div>
               <% else %>
                      <div class='form-group'> <%=  t '.subtitle_edit_reg' %> </div>
               <% end %>
@@ -214,7 +216,9 @@
                 </p>
               </li>
             </ol>
+            <% if showConfirmButton? %>
             <input name="confirm" class="button" type="submit" value="<%= t 'form.confirm_button_label' %>"/>
+            <% end %>
           </div><!-- end privacy notice form-group -->
           <% end %>
 

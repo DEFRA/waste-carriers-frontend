@@ -16,6 +16,7 @@ class RegistrationsController < ApplicationController
     UPDATE_EXISTING_REGISTRATION_NO_CHARGE = 2
     UPDATE_EXISTING_REGISTRATION_WITH_CHARGE = 3
     CREATE_NEW_REGISTRATION = 4
+    CHANGE_NOT_ALLOWED = 5
   end
 
   module EditMode
@@ -1853,46 +1854,54 @@ class RegistrationsController < ApplicationController
     logger.debug "#{edited_registration.attributes}"
 
     #
-    # BUSINESS RULES for Determining NEW REGISTRATION:
-    # A new registration is created if the following changes are made:
-    #   1. Change of legal entity
-    #   2. Change of companies house number
-    #   3. A partner is added to a Partnership (Partnership legal entity only
+    # PT 81010558 : Disallow the user to change tier 
     #
-
-    if (original_registration.originalRegistrationNumber) and \
-        (isIRRegistrationType(original_registration.originalRegistrationNumber)) and \
-        (original_registration.key_people.size.to_i == 0)
-      # Assumed, 0 Key people is from an IR data import
-      if (original_registration.businessType != edited_registration.businessType) ||
-          (edited_registration.company_no != original_registration.company_no)
-        # NEW REGISTRATION Rule: 1 and 2
-        logger.debug 'NEW REG because Rule 1 or 2 (test 1)'
-        res = EditResult::CREATE_NEW_REGISTRATION
-      elsif (original_registration.registrationType != edited_registration.registrationType)
-        logger.debug 'Update REG WITH CHARGE (test 4)'
-        res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-      else
-        logger.debug "Standard IR Renewal Charge"
-        logger.debug 'Update REG NO CHARGE (test 5)'
-        res = EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-      end
+    if (original_registration.tier != edited_registration.tier)
+      logger.debug 'Registration has changed Tier, Not Allowed'
+      res = EditResult::CHANGE_NOT_ALLOWED 
     else
-      if (original_registration.businessType != edited_registration.businessType) ||
-          (edited_registration.company_no != original_registration.company_no)
-        # NEW REGISTRATION Rule: 1 and 2
-        logger.debug 'NEW REG because Rule 1 or 2 (test 2)'
-        res = EditResult::CREATE_NEW_REGISTRATION
-      elsif (edited_registration.businessType == Registration::BUSINESS_TYPES[1]) &&
-          (original_registration.key_people.size < edited_registration.key_people.size )
-        # NEW REGISTRATION Rule: 3
-        logger.debug 'NEW REG because Rule 3 (test 3)'
-        logger.debug 'size before: ' + original_registration.key_people.size.to_s
-        logger.debug 'size after : ' + edited_registration.key_people.size.to_s
-        res = EditResult::CREATE_NEW_REGISTRATION
-      elsif (original_registration.registrationType != edited_registration.registrationType)
-        logger.debug 'Update REG WITH CHARGE (test 6)'
-        res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+      #
+      # BUSINESS RULES for Determining NEW REGISTRATION:
+      # A new registration is created if the following changes are made:
+      #   1. Change of legal entity
+      #   2. Change of companies house number
+      #   3. A partner is added to a Partnership (Partnership legal entity only
+      #
+
+      if (original_registration.originalRegistrationNumber) and \
+          (isIRRegistrationType(original_registration.originalRegistrationNumber)) and \
+          (original_registration.key_people.size.to_i == 0)
+        # Assumed, 0 Key people is from an IR data import
+        if (original_registration.businessType != edited_registration.businessType) ||
+            (edited_registration.company_no != original_registration.company_no)
+          # NEW REGISTRATION Rule: 1 and 2
+          logger.debug 'NEW REG because Rule 1 or 2 (test 1)'
+          res = EditResult::CREATE_NEW_REGISTRATION
+        elsif (original_registration.registrationType != edited_registration.registrationType)
+          logger.debug 'Update REG WITH CHARGE (test 4)'
+          res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+        else
+          logger.debug "Standard IR Renewal Charge"
+          logger.debug 'Update REG NO CHARGE (test 5)'
+          res = EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+        end
+      else
+        if (original_registration.businessType != edited_registration.businessType) ||
+            (edited_registration.company_no != original_registration.company_no)
+          # NEW REGISTRATION Rule: 1 and 2
+          logger.debug 'NEW REG because Rule 1 or 2 (test 2)'
+          res = EditResult::CREATE_NEW_REGISTRATION
+        elsif (edited_registration.businessType == Registration::BUSINESS_TYPES[1]) &&
+            (original_registration.key_people.size < edited_registration.key_people.size )
+          # NEW REGISTRATION Rule: 3
+          logger.debug 'NEW REG because Rule 3 (test 3)'
+          logger.debug 'size before: ' + original_registration.key_people.size.to_s
+          logger.debug 'size after : ' + edited_registration.key_people.size.to_s
+          res = EditResult::CREATE_NEW_REGISTRATION
+        elsif (original_registration.registrationType != edited_registration.registrationType)
+          logger.debug 'Update REG WITH CHARGE (test 6)'
+          res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+        end
       end
     end
 
