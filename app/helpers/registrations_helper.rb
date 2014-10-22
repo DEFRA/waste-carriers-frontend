@@ -420,5 +420,18 @@ module RegistrationsHelper
       logger.debug "Method: #{caller} - Registration is nil"
     end
   end
+  
+  # Show the confirm button unless the changes requested have been detected as not allowed
+  def showConfirmButton?
+    res = true
+    if session[:edit_mode]
+      if session[:edit_mode].to_i.eql? RegistrationsController::EditMode::EDIT 
+        if session[:edit_result].to_i.eql? RegistrationsController::EditResult::CHANGE_NOT_ALLOWED
+          res = false
+        end
+      end
+    end
+    res
+  end
 
 end

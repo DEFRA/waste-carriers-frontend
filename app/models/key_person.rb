@@ -1,8 +1,14 @@
 class KeyPerson < Ohm::Model
 
+
+  # N.B: order of includes is important
   include ActiveModel::Conversion
+  extend ActiveModel::Callbacks
   include ActiveModel::Validations
   extend ActiveModel::Naming
+  include ActiveModel::Validations::Callbacks
+
+
 
   attribute :first_name
   attribute :last_name
@@ -18,6 +24,8 @@ class KeyPerson < Ohm::Model
   VALID_DAY = /\A[0-9]{2}/
   VALID_MONTH = /\A[0-9]{2}/
   VALID_YEAR = /\A[0-9]{4}/
+
+  before_validation :strip_whitespace, :only => [:dob_day, :dob_month, :dob_year]
 
   validates :first_name, :last_name, :dob_day, :dob_month, :dob_year, presence: true
 
@@ -101,21 +109,27 @@ class KeyPerson < Ohm::Model
 
   private
 
-    def validate_dob
-      set_dob
-      errors.add(:dob, I18n.t('errors.messages.invalid_date')) unless dob
-      errors.add(:dob, I18n.t('errors.messages.date_not_in_past')) unless dob.try(:past?)
-      errors.add(:dob, I18n.t('errors.messages.dob_less_than_18_years')) if dob.try(:>, Date.today-18.years)
-    end
+  def validate_dob
+    set_dob
+    errors.add(:dob, I18n.t('errors.messages.invalid_date')) unless dob
+    errors.add(:dob, I18n.t('errors.messages.date_not_in_past')) unless dob.try(:past?)
+    errors.add(:dob, I18n.t('errors.messages.dob_less_than_18_years')) if dob.try(:>, Date.today-18.years)
+  end
 
-    def set_dob
-      begin
-        resultDate = Date.civil(self.dob_year.to_i, self.dob_month.to_i, self.dob_day.to_i)
-        Rails.logger.debug "Calculated DOB of " + resultDate.to_s
-        self.dob = resultDate
-      rescue ArgumentError
-        nil
-      end
+  def set_dob
+    begin
+      resultDate = Date.civil(self.dob_year.to_i, self.dob_month.to_i, self.dob_day.to_i)
+      Rails.logger.debug "Calculated DOB of " + resultDate.to_s
+      self.dob = resultDate
+    rescue ArgumentError
+      nil
     end
+  end
+
+  def strip_whitespace
+    self.dob_day = self.dob_day.strip  unless self.dob_day.blank?
+    self.dob_month = self.dob_month.strip unless self.dob_month.blank?
+    self.dob_year = self.dob_year.strip unless self.dob_year.blank?
+  end
 
 end
