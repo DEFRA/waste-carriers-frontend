@@ -137,8 +137,8 @@ module WorldpayHelper
         rescue
           logger.info 'Cannot determine error message from response.'
         end
-        flash.now[:notice] = 'The was a problem redirecting to the payment pages.'
-        flash[:notice] = 'The was a problem redirecting to the payment pages. ' + errorMessage.to_s
+        flash.now[:notice] = 'There was a problem redirecting to the payment pages.'
+        flash[:notice] = 'There was a problem redirecting to the payment pages. ' + errorMessage.to_s
         redirect_url = upper_payment_path
       end
     end
