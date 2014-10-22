@@ -1,4 +1,17 @@
 #
+# A Helper function to retry the search after waiting a period of time to
+# ensure the system has been updated correctly
+#
+def waitForSearchAndRetry(searchParam)
+  if true #!page.find_by_id('paymentStatus1')
+    puts '... Waiting 5 seconds for ES to have been updated'
+    sleep 5.0
+    fill_in 'q', with: searchParam
+    click_button 'Search'
+  end
+end
+
+#
 # The following is sample fill_in content
 #
 #  fill_in 'Email', with: my_user.email
@@ -59,6 +72,7 @@ Given(/^I have found a registrations payment details$/) do
   puts 'Looking for registrationCount: ' + registrationCount.to_s
   fill_in 'q', with: 'PaymentReg'+registrationCount.to_s
   click_button 'Search'
+  waitForSearchAndRetry('PaymentReg'+registrationCount.to_s)
   find_link('paymentStatus1').click
   page.should have_content 'Payment status'
 end
@@ -69,6 +83,7 @@ Given(/^I have found a registrations payment details using the remembered id$/) 
   puts 'Using @stored_value: ' + @stored_value
   fill_in 'q', with: @stored_value.to_s
   click_button 'Search'
+  waitForSearchAndRetry(@stored_value.to_s)
   find_link('paymentStatus1').click  
   page.should have_content 'Payment status'
 end
@@ -79,6 +94,7 @@ Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
   puts 'Using param: ' + param
   fill_in 'q', with: param.to_s
   click_button 'Search'
+  waitForSearchAndRetry(param.to_s)
   find_link('paymentStatus1').click  
   page.should have_content 'Payment status'
 end
