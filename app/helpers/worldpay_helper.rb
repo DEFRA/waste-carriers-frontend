@@ -57,12 +57,12 @@ module WorldpayHelper
       xml << '</shopper>' + "\n"
       xml << '<billingAddress>'
       xml << '<address>'
-      xml << '<firstName>' + shopperFirstName + '</firstName>'
-      xml << '<lastName>' + shopperLastName + '</lastName>'
-      xml << '<address1>' + shopperAddress1 + '</address1>'
+      xml << '<firstName>' + shopperFirstName.to_s + '</firstName>'
+      xml << '<lastName>' + shopperLastName.to_s + '</lastName>'
+      xml << '<address1>' + shopperAddress1.to_s + '</address1>'
       xml << '<address2>' + shopperAddress2.to_s + '</address2>'
       xml << '<postalCode>' + shopperPostalCode + '</postalCode>'
-      xml << '<city>' + shopperCity + '</city>'
+      xml << '<city>' + shopperCity.to_s + '</city>'
       xml << '<countryCode>' + shopperCountryCode + '</countryCode>'
       xml << '</address>'
       xml << '</billingAddress>' + "\n"
