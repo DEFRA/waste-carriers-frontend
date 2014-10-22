@@ -40,6 +40,23 @@ module RegistrationsHelper
     registration.errors.full_messages
   end
 
+
+  def one_full_message_with_key_per_invalid_attribute registration
+    hash_without_base = registration.errors.messages.except :base
+    errors_with_keys = []
+
+    hash_without_base.each_key do |key|
+      singleton_array_of_first_element = Array.wrap(registration.errors.get(key).first)
+      registration.errors.set key, singleton_array_of_first_element
+      logger.debug "++++++++++++++++++++++++++ #{singleton_array_of_first_element.class}"
+      errors_with_keys << {key =>  "#{key} #{singleton_array_of_first_element[0]}" }
+
+    end
+
+    errors_with_keys 
+  end
+
+
   # TODO not sure what this should do now smart answers and lower tier have been merged
   def first_back_link registration
     path = if registration.metaData.first.route == 'DIGITAL'
