@@ -129,7 +129,7 @@ module WorldpayHelper
         redirect_url_with_args = set_redirect_arguments(redirect_url)
         redirect_url_with_args
       else
-        flash.now[:notice] = 'The was a problem redirecting to the payment pages.'
+        flash.now[:notice] = 'There was a problem redirecting to the payment pages.'
         redirect_url = upper_payment_path
       end
     end
