@@ -3,7 +3,7 @@
 # ensure the system has been updated correctly
 #
 def waitForSearchAndRetry(searchParam)
-  if true #!page.find_by_id('paymentStatus1')
+  if !page.find_by_id('paymentStatus1')
     puts '... Waiting 5 seconds for ES to have been updated'
     sleep 5.0
     fill_in 'q', with: searchParam
