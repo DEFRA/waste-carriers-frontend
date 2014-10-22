@@ -120,7 +120,7 @@ class Report
     end
 
     unless result_count.blank?
-      param_args[:resultCount] = resultCount
+      param_args[:resultCount] = result_count
     end
 
     param_args

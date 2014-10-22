@@ -408,6 +408,7 @@ en:
     WRITEOFFLARGE: "Large Write off"
   please_select: "Please select..."
   registration_mailer:
+    year: "year"
     revoke_email:
       p1: "To %{name} (%{id})"
       p2: "This email is to inform you that the Environment Agency has revoked your lower tier waste carrier registration for the following reason:"
@@ -430,7 +431,8 @@ en:
       phoneNumber: "Telephone number: "
       proof: "This is proof of your registration"
       registeredOn: "Registered on: %{date}"
-      renewal_html: "Your registration will last indefinitely so does not need to be renewed but you must update your registration details if they change, within 28 days of the change."
+      lower_renewal_html: "Your registration will last indefinitely so does not need to be renewed but you must update your registration details if they change, within 28 days of the change."
+      upper_renewal_html: "Your registration will last %{expires_after_pluralized} and will need to be renewed after this period. If any of your details change, you must notify us within 28 days of the change."
       responsibilities1: "If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier"
       responsibilities2: "Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste"
       responsibilities3: "Make sure any waste is safely handled and stored"
@@ -438,8 +440,9 @@ en:
       responsibilitiesHeading: "Legal responsibilities for waste"
       responsibilitiesIntro: "If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:"
       telephone: "Telephone: "
-      updatePhone: "You can do this by calling the Environment Agency and providing your access code."
-      updateWebsite_html: "You can do this by going to the website %{link} and logging in using your email and password."
+      tier_result_message: "%{companyName} is registered as %{tier_with_article} tier waste carrier, broker or dealer with the Environment Agency."
+      updatePhone: "You can do this by calling the Environment Agency and providing your access code. Your access code is: "
+      updateWebsite_html: "You can do this by going to the website <a href='%{link}'>%{link}</a> and logging in using your email and password."
       upperTierRegistration: "Upper tier registration"
     awaitingConvictionsCheck:
       subject: "Registration incomplete"
@@ -671,7 +674,6 @@ en:
     newConfirmation:
       title: "Confirmation"
       subtitle: "Check your details before registering"
-
       tier_aside_heading: "Registration tier"
       tier_result_message: "The information you've provided tells us you are %{tier_with_article} tier waste carrier."
       tier_link_title: "What is lower tier and upper tier?"
@@ -993,34 +995,6 @@ en:
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
       yourRegNumber: "Your registration number is: %{reg}"
     print:
-      accessCode_html: "Your access code is: <span id='accessCode'>%{code}</span>."
-      addressHeading: "Principal (main) business, organisation or trading address"
-      calling: "You can do this by calling the Environment Agency and providing your access code."
-      contactHeading: "Address and contact details"
-      criteria1: "You only transport your own business waste, unless it is construction or demolition waste"
-      criteria2: "You are a charity or voluntary organisation"
-      criteria3: "You are a waste collection authority, a waste disposal authority or a waste regulation authority"
-      criteria4: "You only handle animal by-products, waste from a mine or quarry or waste from premises used for agriculture"
-      criteriaIntro: "You are registered as a lower tier waste carrier/broker/dealer under The Waste (England and Wales) Regulations 2011 because you have declared that you meet one of the following criteria:"
-      detailsHeading: "Business or organisation details"
-      email: Email
-      enquiries: "Please contact the Environment Agency if you have any enquiries."
-      isRegisteredAsLower: "%{companyName} is registered as a lower tier waste carrier, broker or dealer with the Environment Agency"
-      isRegisteredAsUpper: "%{companyName} is registered as an upper tier waste carrier, broker or dealer with the Environment Agency"
-      lowerTierRegistration: "Lower tier registration"
-      proof: "This is proof of your registration."
-      registeredOn: "Registered on: %{date}"
-      renew_html: "Your registration will last indefinitely so does not need to be renewed but <b>you must update your registration details if they change</b>, within 28 days of the change. "
-      responsibilities1: "If you give your waste to another person or business you must check they are properly authorised to accept it, e.g. as a permitted site or a registered waste carrier"
-      responsibilities2: "Make sure the correct documentation is completed for each transfer of waste and that it correctly describes the waste"
-      responsibilities3: "Make sure any waste is safely handled and stored"
-      responsibilities4: "Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'"
-      responsibilitiesHeading: "Legal responsibilities for waste"
-      responsibilitiesIntro: "If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:"
-      telephone: Telephone
-      title: "Waste carrier registration certificate"
-      website_html: "You can do this by going to the website <u>www.gov.uk/waste-carrier-or-broker-registration</u> and logging in using your email and password."
-    print_confirmed:
       title: "Waste carrier registration certificate"
     publicSearch:
       address_table_heading: Address
@@ -1058,9 +1032,9 @@ en:
       title_revoke: "Revoke registration"
       title_unrevoke: "UnRevoke registration"
     serviceprovided_step:
-      main_service_label: "Waste disposal is the main service we provide"
-      part_of_service_label: "We just dispose of clients' waste as part of another service or trade (eg as a gardener or plumber)"
-      subtitle: "What kind of service do you provide?"
+      main_service_label: "I produce the waste as part of another service I provide to my customer (e.g. a gardener taking away grass cuttings)"
+      part_of_service_label: "My customer creates the waste - I just collect or move it for them"
+      subtitle: "Who produces the waste that you deal with?"
       title: "Service provided"
     smartanswers_display:
       business_type: "You are a %{businessType}"

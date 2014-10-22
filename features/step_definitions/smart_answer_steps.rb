@@ -94,7 +94,7 @@ Then(/^I end up on the other businesses step$/) do
 end
 
 Then(/^I end up on the main service step$/) do
-  page.should have_content 'What kind of service'
+  page.should have_content 'I produce the waste as part of another service'
 end
 
 When(/^I click the back link twice$/) do

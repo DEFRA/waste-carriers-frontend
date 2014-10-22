@@ -3,9 +3,9 @@
   <div id="error_explanation" class="validation-summary">
     <h2 class="heading-medium"><%= t '.errorMessage', :count => pluralize(full_messages.count, t('.error')) %></h2>
       <% full_messages.each do |msg| %>
-      <ul>
+        <ul>
         <li><a class="error-text" href="#registration_<%= msg %>"><%= msg %></a></li>
-      </ul>
+        </ul>
       <% end %>
   </div>
 <% elsif @registration.errors.any? %>
@@ -13,9 +13,9 @@
   <div id="error_explanation" class="validation-summary">
     <h2 class="heading-medium"><%= t '.errorMessage', :count => pluralize(full_messages.count, t('.error')) %></h2>
       <% full_messages.each do |msg| %>
-      <ul>
+        <ul>
           <li><a class="error-text" href="#registration_<%= msg %>"><%= msg %></a></li>
-      </ul>
+        </ul>
       <% end %>
   </div>
 <% end %>

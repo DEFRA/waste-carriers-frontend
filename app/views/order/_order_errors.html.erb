@@ -3,9 +3,9 @@
 	<div id="error_explanation" class="validation-summary">
 		<h2 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(full_messages.count, t('registrations.errors.error')) %></h2>
 		<% full_messages.each do |msg| %>
-      <ul>
+        <ul>
         <li><a class="error-text" href="#registration_<%= msg %>"></a><%= msg %></li>
-      </ul>
+        </ul>
     	<% end %>
 	</div>
 <% end %>
