@@ -450,5 +450,18 @@ module RegistrationsHelper
     end
     res
   end
+  
+  def format_date_as_dd_mm_yyyy registration
+    res = nil
+    if registration.metaData.first
+      if registration.metaData.first.dateActivated
+        da = registration.metaData.first.dateActivated
+        if !da.empty?
+          res = Date.parse(da).strftime("%d/%m/%Y")
+        end
+      end
+    end
+    res
+  end
 
 end

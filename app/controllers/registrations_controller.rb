@@ -1243,6 +1243,7 @@ class RegistrationsController < ApplicationController
     session[:registration_uuid] = @registration.uuid
     session[:edit_mode] =  params[:edit_process] #view param knows if the user clicked edit, renew or recreate
     session[:edit_result] = EditResult::START #initial state
+    session[:editing] = true
 
     redirect_to :newConfirmation
   end
