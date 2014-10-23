@@ -1184,7 +1184,11 @@ class Registration < Ohm::Model
   end
 
   def date_registered
-    metaData.first.dateActivated
+    if metaData.first.dateActivated
+      metaData.first.dateActivated
+    else
+      '' # return empty string for records with no activation date
+    end
   end
 
   def getOrder( orderCode)
