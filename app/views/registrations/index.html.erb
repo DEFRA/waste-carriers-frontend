@@ -95,8 +95,8 @@
                       <li><span><%= t 'activemodel.attributes.metadata.status' %></span><p><%= reg.registration_status %></p></li>
                       <li class="container-border-lines">
                         <span><%= t 'activemodel.attributes.metadata.dateRegistered' %></span>
-                        <% if !reg.metaData.first.dateActivated.empty? %>
-                        <p><%= Date.parse(reg.metaData.first.dateActivated).strftime("%d/%m/%Y") %></p>
+                        <% if format_date_as_dd_mm_yyyy(reg) %>
+                        <p><%= format_date_as_dd_mm_yyyy(reg) %></p>
                         <% else %>
                         <p><%= t('registrations.form.not_applicable') %></p>
                         <% end %>
