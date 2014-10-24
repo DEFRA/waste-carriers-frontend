@@ -1,31 +1,24 @@
-<!-- WF 4.3.1 -->
 <div id="page3" data-journey="waste-carriers-registration:serviceprovided">
-  <!-- Smart Answers
-    What kind of service do you provide?
-   -->
+
 <%= render "errors" %>
 <header class="page-header group">
   <div class="hgroup">
-    <h1 class="heading-large"><%= t 'registrations.serviceprovided_step.subtitle' %></h1>
+    <h1 class="heading-large" id="groupLabel"><%= t 'registrations.serviceprovided_step.subtitle' %></h1>
   </div>
 </header>
 
 <fieldset>
 <legend></legend>
-  <div class="inline <%if @registration.errors[:isMainService].any?%> validation<%end%>">
-    <ul>
-      <li><%= validation_for(@registration, :isMainService) %></li>
-      <li><%= f.label :part_of_service_label, for: "registration_isMainService_no", :class => "block-label" do %>
-        <%= f.radio_button :isMainService, "no", :class => "radio" %>
-        <%= t '.part_of_service_label' %>
-        <% end %>
-      </li>
-      <li><%= f.label :main_service_label, for: "registration_isMainService_yes", :class => "block-label" do %>
-        <%= f.radio_button :isMainService, "yes", :class => "radio" %>
-        <%= t '.main_service_label' %>
-        <% end %>
-      </li>
-    </ul>
+  <div class="inline <%if @registration.errors[:isMainService].any?%> validation<%end%>" id="registration_isMainService" role="group" aria-labelledby="groupLabel">
+    <%= validation_for(@registration, :isMainService) %>
+    <%= f.label :part_of_service_label, for: "registration_isMainService_no", :class => "block-label" do %>
+      <%= f.radio_button :isMainService, "no", :class => "radio" %>
+      <%= t '.part_of_service_label' %>
+      <% end %>
+      <%= f.label :main_service_label, for: "registration_isMainService_yes", :class => "block-label" do %>
+      <%= f.radio_button :isMainService, "yes", :class => "radio" %>
+      <%= t '.main_service_label' %>
+      <% end %>
   </div>
 </fieldset>
   <%= render 'next_link' %>

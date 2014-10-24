@@ -12,7 +12,10 @@
 @import '_device-pixels';
 @import '_font_stack';
 
-/* Field validation */
+/* Field validation -------------------------------*/
+
+/* validation summary */
+
 
 .validation-summary {
   max-width:25em;
@@ -25,17 +28,18 @@
     zoom: 1;
   }
 }
-.validation-summary ul {
-  margin-top: 1em;
+
+.validation-summary a {
+  text-decoration: none;
 }
 
-.validation ul {
-  background: none repeat scroll 0 0 rgb(254, 225, 230);
+.validation-summary .error-text {
+  color: $error-colour;
 }
 
-.validation-summary p {
-  margin-top: $gutter-half;
-  margin-bottom: $gutter-half;
+.validation-summary a:hover {
+    color: $error-colour;
+    text-decoration: underline;
 }
 
 .validation-summary a {
@@ -44,19 +48,6 @@
     color: $error-colour !important;
   }
 }
-
-.validation-summary
-.heading-small {
-  margin-top: $gutter-half;
-}
-
-.validation-message {
-  display: block;
-  @include core-19;
-  color: $error-colour;
-}
-
-/* Error text */
 
 .error-text {
   color: $error-colour;
@@ -67,7 +58,7 @@
   text-decoration: none;
 }
 
-.validation ul,
+.validation,
 .validation form-label,
 #validation-postcode {
   border-left: 3px solid $error-colour;
