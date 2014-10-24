@@ -1,10 +1,10 @@
 <% if @registration.errors.any? %>
     <% full_messages = one_full_message_per_invalid_attribute(@registration) %>
     <div id="error_explanation" class="validation-summary">
-      <h2 class="heading-medium"><%= t '.errorMessage', :count => pluralize(full_messages.count, t('.error')) %></h2>
-        <% full_messages.each do |msg| %>
+      <h1 class="heading-medium"><%= t '.errorMessage', :count => pluralize(full_messages.count, t('.error')) %></h1>
+        <% @registration.errors.each do |error| %>
         <ul>
-            <li><a class="error-text" href="#registration_<%= msg %>"><%= msg %></a></li>
+            <li><a class="error-text" href="#registration_<%= error %>"><%= @registration.errors.full_messages_for(error).first %></a></li>
         </ul>
         <% end %>
     </div>

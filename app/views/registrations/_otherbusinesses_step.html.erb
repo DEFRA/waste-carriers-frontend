@@ -1,31 +1,26 @@
-<!-- WF 4.3.1 -->
 <div id="page2" data-journey="waste-carriers-registration:otherbusinesses">
-  <!-- Smart Answers
-    Whose waste do you deal with?
-   -->
+
   <%= render "errors" %>
   <header class="page-header group">
       <div class="hgroup">
-        <h1 class="heading-large"><%= t 'registrations.otherBusinesses_step.subtitle' %></h1>
+        <h1 class="heading-large" id="groupLabel"><%= t 'registrations.otherBusinesses_step.subtitle' %></h1>
       </div>
   </header>
 
   <fieldset>
     <legend></legend>
-    <div class="form-group<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>">
-      <ul>
-        <li><%= validation_for(@registration, :otherBusinesses) %></li>
-        <li class="inline"><%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
+    <div class="form-group<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>" id="registration_otherBusinesses" role="group" aria-labelledby="groupLabel">
+        <%= validation_for(@registration, :otherBusinesses) %>
+        <div class="inline"><%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
           <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %>
           <%= t 'form.yes_option_label' %>
           <% end %>
-        </li>
-        <li class="inline"><%= f.label :no_option_label, for: "registration_otherBusinesses_no", :class => "block-label" do %>
+        </div>
+        <div class="inline"><%= f.label :no_option_label, for: "registration_otherBusinesses_no", :class => "block-label" do %>
           <%= f.radio_button :otherBusinesses, "no", :class => "radio" %>
           <%= t 'form.no_option_label' %>
         <% end %>
-      </li>
-      </ul>
+      </div>
     </div>
   </fieldset>
  <%= render 'next_link' %>

@@ -12,14 +12,6 @@
 @import '_device-pixels';
 @import '_font_stack';
 
-/* Global header ========================================================== */
-
-.header_text {
-  @include bold-24;
-  padding-top:5px;
-  padding-left:15px;
-  color: rgb(255, 255, 255);
-}
 
 /* Header bar ========================================================== */
 

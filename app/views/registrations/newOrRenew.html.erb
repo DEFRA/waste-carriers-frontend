@@ -4,38 +4,32 @@
     <% content_for :page_title, createTitle('.title') %>
     <%= form_for(@registration, :url => selectRegistrationType_path) do |f| %>
 
-      <div id="start" data-journey="waste-carriers-registration:new-or-renew">
-      <!-- Start page
-        Select Registration route, New or Renew?
-      -->
-      <div class="back-section">
-        <ol>
-          <li></li>
-        </ol>
-      </div>
+    <div id="start" data-journey="waste-carriers-registration:new-or-renew">
 
-      <%= render "errors" %>
-      <header class="page-header group">
-        <div class="hgroup">
-            <h1 class="heading-large"><%= t '.subtitle' %></h1>
-        </div>
-      </header>
+    <div class="back-section">
+      <ol>
+        <li></li>
+      </ol>
+    </div>
+
+    <%= render "errors" %>
+    <header class="page-header group">
+      <div class="hgroup">
+          <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
+      </div>
+    </header>
 
       <fieldset>
         <legend></legend>
-          <div class="form-group<%if @registration.errors[:newOrRenew].any?%> validation<%end%>">
-            <ul>
-              <li><%= validation_for(@registration, :newOrRenew) %></li>
-              <% Registration.new_or_renew_options_for_select.each do |option| %>
-              <li><%= f.label :newOrRenew, for: "registration_newOrRenew_#{option.second.downcase}",  class: 'block-label' do %>
-                <%= f.radio_button :newOrRenew, option.second %>
-                <%= option.first %>
-                <% end %>
-                <% end %>
-              </li>
-
-            </ul>
-        </div>
+          <div class="form-group<%if @registration.errors[:newOrRenew].any?%> validation<%end%>" id="registration_newOrRenew" role="group" aria-labelledby="groupLabel">
+            <%= validation_for(@registration, :newOrRenew) %>
+            <% Registration.new_or_renew_options_for_select.each do |option| %>
+            <%= f.label :newOrRenew, for: "registration_newOrRenew_#{option.second.downcase}",  class: 'block-label' do %>
+            <%= f.radio_button :newOrRenew, option.second %>
+            <%= option.first %>
+            <% end %>
+            <% end %>
+          </div>
       </fieldset>
       <%= render 'next_link' %>
     </div>
