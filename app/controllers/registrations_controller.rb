@@ -1233,9 +1233,12 @@ class RegistrationsController < ApplicationController
   def edit
     Rails.logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
+    if !@registration
+      renderNotFound and return
+    end
     # let's keep track of the original registration before any edits have been done
     # the we can use it to compare it with the edited one.
-    session[:original_registration_id] = Registration.find_by_id(params[:id]).id
+    session[:original_registration_id] = @registration.id
     authorize! :update, @registration
 
 
