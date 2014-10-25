@@ -1238,7 +1238,7 @@ class RegistrationsController < ApplicationController
     end
     # let's keep track of the original registration before any edits have been done
     # the we can use it to compare it with the edited one.
-    session[:original_registration_id] = @registration.id
+    session[:original_registration_id] = Registration.find_by_id(params[:id]).id
     authorize! :update, @registration
 
 
