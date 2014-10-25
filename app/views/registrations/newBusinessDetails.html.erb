@@ -31,18 +31,16 @@
       <%= render 'errors' %>
       <header class="page-header group">
         <div class="hgroup">
-          <h1 class="heading-large"><%= legend %></h1>
+          <h1 class="heading-large" id="groupLabel"><%= legend %></h1>
         </div>
       </header>
 
-      <div class="text">
-
+      <div class="form-group" role="group" aria-labelledby="groupLabel">
           <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
           <%= render 'company_details_finder', f: f, r: @registration %>
           <% end %>
           <%= render 'company_name', :f => f, :r => @registration, n: name_field %>
           <%= render 'address_finder', :f => f, :r => @registration %>
-
       </div>
 
       <%= render 'next_link' %>

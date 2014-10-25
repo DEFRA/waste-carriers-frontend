@@ -59,27 +59,17 @@ input {
 
 /* Address look-up */
 
-#registration_companyName {
-  @include media (mobile) {
-    width: 50%;
-    box-sizing: border-box;
-  }
-}
-
-#addressSelector {
+.addressSelector {
   @include copy-19;
   margin-bottom: $gutter-half;
-  display:block;
-  max-width: 75%;
-  height: 6em;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  @include media (mobile) {
-    height: 1.6em;
-    box-sizing: border-box;
-    width: 50%;
-  }
+  display: block;
+  width: auto;
+  border: 1px solid rgb(170, 170, 170);
+  max-width: 100%;
+  overflow: hidden;
+  border-radius:0px;
 }
+
 
 .postcode {
   display:inline;
