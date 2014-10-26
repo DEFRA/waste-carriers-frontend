@@ -1,9 +1,10 @@
 
 <div class="ea-footer">
-  <p><%=t 'global.bracketsEA'%><%= Rails.configuration.registrations_service_phone %></p>
-    <a href="<%= privacy_path %>" target="_blank"><%=t 'global.footer_privacy_link'%></a>
-      <span>  and  </span>
-    <a href="<%= cookies_path %>" target="_blank"><%=t 'global.footer_cookies_link'%></a>
+  <ul>
+    <li><%=t 'global.bracketsEA'%><%= Rails.configuration.registrations_service_phone %></li>
+    <li class="inline"><a href="<%= privacy_path %>" class="inline" target="_blank"><%=t 'global.footer_privacy_link'%></a></li>
+    <li class="inline"><a href="<%= cookies_path %>" class="inline" target="_blank"><%=t 'global.footer_cookies_link'%></a></li>
+  </ul>
 </div>
 
 

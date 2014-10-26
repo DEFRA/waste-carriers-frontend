@@ -13,23 +13,34 @@
     <%= render "errors" %>
     <header class="page-header group">
       <div class="hgroup">
-        <h1 class="heading-large"><%= t '.subtitle' %></h1>
+        <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
+        <p class="form-hint"><%= t '.ir_number_example' %></p>
       </div>
     </header>
 
     <% content_for :page_title, createTitle('.title') %>
     <%= form_for(@registration, :url => enterRegistration_path) do |f| %>
 
-    <div id="enterRegistrationNumber" data-journey="waste-carriers-registration:enter-registration-number"></div>
+    <div id="enterRegistrationNumber" data-journey="waste-carriers-registration:enter-registration-number">
+    </div>
+
     <fieldset>
       <legend></legend>
-        <div class="form-group<%if @registration.errors[:originalRegistrationNumber].any?%> validation<%end%>">
-          <ul>
-            <li><%= validation_for(@registration, :originalRegistrationNumber) %></li>
-            <li><%= f.label :originalRegistrationNumber, class: 'form-label' %>
-              <%= f.text_field :originalRegistrationNumber, :size => 20, :maxlength => 35, :autocomplete => :off %>
-            </li>
-          </ul>
+        <details class="text">
+        <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
+          <span class='summary'><%= t '.renewal_link' %></span>
+        </summary>
+        <div style='display:block' class='panel-indent' id='details-content-0' >
+          <p><%= t '.paragraph1' %></p>
+          <p><%= t '.epr_link_html' %></p>
+          <p><%= t '.paragraph2' %></p>
+        </div>
+        </details>
+
+        <div class="form-group<%if @registration.errors[:originalRegistrationNumber].any?%> validation<%end%>" id="enterRegistrationNumber" role="group" aria-labelledby="groupLabel">
+          <%= validation_for(@registration, :originalRegistrationNumber) %>
+          <%= f.label :originalRegistrationNumber, class: 'form-label' %>
+          <%= f.text_field :originalRegistrationNumber, :size => 20, :maxlength => 35, :autocomplete => :off %>
         </div>
     </fieldset>
     <%= render 'next_link' %>

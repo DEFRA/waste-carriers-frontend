@@ -13,6 +13,20 @@
 @import '_font_stack';
 
 
+/* Body  */
+
+.js {
+background-color: $panel-colour;
+margin: 0;
+padding: 0;
+vertical-align: baseline;
+display: block;
+}
+
+.js-enabled {
+  background-color: $page-colour;
+}
+
 /* Header bar ========================================================== */
 
 .header-bar {
@@ -20,7 +34,7 @@
 }
 
 .blue-header {
-  border-top: 10px solid rgb(0, 94, 165);
+  border-top: 10px solid $link-colour;
 }
 
 /* Phase banner ========================================================== */
@@ -42,7 +56,7 @@
 #content {
   @include inner-block;
   text-align: left;
-  padding-bottom: 90px;
+  padding-bottom: $gutter;
 }
 
 /* Page header ========================================================== */
@@ -99,15 +113,15 @@
   @include outer-block;
 }
 
-/* Footer ========================================================== */
+/* EA Footer ========================================================== */
 
 .ea-footer {
  @include inner-block;
   @include copy-16;
 }
 
-.ea-footer p {
-  @include copy-16;
+.ea-footer li {
+ margin-right: $gutter-half;
 }
 
 

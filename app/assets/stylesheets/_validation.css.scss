@@ -16,7 +16,6 @@
 
 /* validation summary */
 
-
 .validation-summary {
   max-width:25em;
   border: 3px solid $error-colour;
@@ -38,8 +37,8 @@
 }
 
 .validation-summary a:hover {
-    color: $error-colour;
-    text-decoration: underline;
+  color: $error-colour;
+  text-decoration: underline;
 }
 
 .validation-summary a {
