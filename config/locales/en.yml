@@ -257,7 +257,7 @@ en:
       invalidPassword: "does not match your email"
       unconfirmedEmail: "This account has not been confirmed"
       no_results: "No results found"
-      ir_notFound: "provided is unable to find any IR registration data to use"
+      ir_notFound: "you've provided is not correct"
       is_empty: "is empty. You must add at least 1 record."
       no_copy_cards_selected: "must be more than 0."
 
@@ -295,7 +295,7 @@ en:
     footerCopyright_html: "<a href='http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm'>© Crown Copyright</a>"
     footerLicence_html: "All content is available under the <a href='http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2'>Open Government Licence v2.0</a>, except where otherwise stated"
     footer_privacy_link: "Privacy"
-    footer_cookies_link: "cookies"
+    footer_cookies_link: "Cookies"
     headerLinkTitle: "Go to the GOV.UK homepage"
     helpline: "Helpline: "
     notfound:
@@ -602,7 +602,11 @@ en:
       title: "Order Complete"
     enterRegistrationNumber:
       subtitle: "Enter your waste carrier registration number"
-      form_hint: "Your registration number can be found..text tbc"
+      ir_number_example: "Example: CB/AF7003CS/A001"
+      renewal_link: "I can't find my registration number"
+      paragraph1: "Your registration number starts with the letters 'CB' and can be found at the top of your renewal letter."
+      epr_link_html: "If you don't have your letter to hand search the <a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx'>Environment Agency Public Register.</a>"
+      paragraph2: "If you have any queries about your registration number, please contact our helpline: 03708 506506 and speak to an advisor."
       title: "Existing registration renewal"
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
@@ -616,7 +620,7 @@ en:
       subtitle: ""
     company_details_finder:
       companies_house_explain: "This is your company registration number"
-      companies_house_link: "Don't know your Companies House number?"
+      companies_house_link: "I don't know my Companies House number"
       companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
       companies_house_registration_number_not_found: "is not listed by Companies House"
       companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
@@ -708,6 +712,7 @@ en:
       show_registration_type: "Your registration type is %{reg_type}"
       smart_answers_heading: "You told us"
       edit_smart_answers_link: "Edit what you told us"
+      edit_smart_answers_hint: " - will take you through the registration questions again because your answers are how we work out if you're a lower tier or upper tier"
       edit_change_reg_type_link: "Edit your registration type"
       business_details_heading: "Business or organisation address"
       business_details_limited_heading: "Business address"

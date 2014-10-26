@@ -108,7 +108,7 @@
         <div class='form-group'>
           <h2 class="heading-medium"><%= t '.smart_answers_heading' %></h2>
             <span class='list-bullets'><%= render 'smartanswers_display', r: @registration %></span>
-          <%= link_to t('.edit_smart_answers_link'), find_path, id: 'changeSmartAnswers' %>
+          <%= link_to t('.edit_smart_answers_link'), find_path, id: 'changeSmartAnswers' %><%= t '.edit_smart_answers_hint' %>
         </div><!-- end smart answers form-group -->
 
         <% if @registration.upper? %>
@@ -196,7 +196,7 @@
               </li>
             </ul>
           </div>
-        </div><br/><br/><br/><!-- end declaration form-group -->
+        </div><br/><br/></br/><!-- end declaration form-group -->
 
           <!-- Privacy notice -->
           <div class="form-group">
@@ -204,15 +204,8 @@
               <li>
                 <p class="privacy-data">
                   <%= t '.privacy_data_text1' %>
-
                   <%= link_to t('.privacy_policy_link1'), :privacy %>
-
-                  <%= t '.privacy_data_text2' %>
-
-                  <%= link_to t('.privacy_policy_link2'), :cookies %>
-
                   <%= t '.privacy_data_text3'  %>
-
                 </p>
               </li>
             </ol>

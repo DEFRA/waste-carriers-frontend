@@ -1,6 +1,6 @@
 <div class="form-group<%if @registration.errors[:postcode].any?%> validation<%end%>" id="registration_postcode">
-<%= validation_for(@registration, :postcode) %>
-<%= f.label :postcode, for: "sPostcode", class: 'form-label' %>
+  <%= validation_for(@registration, :postcode) %>
+  <%= f.label :postcode, for: "sPostcode", class: 'form-label' %>
   <div class="inline postcode">
     <%= f.text_field :postcode, id: 'sPostcode', :size => 14, :maxlength => 10 %>
   </div>
@@ -10,15 +10,17 @@
     <% if @address_match_list %>
     <% if @address_match_list.size  < 1 %>
     <!-- no addresses found for postcode -->
-    <div id="validation-postcode">
-      <span class="error-text"><%= t 'registrations.address_entry.no_results_error'%></span>
-    </div>
+  <div id="validation-postcode">
+    <span class="error-text"><%= t 'registrations.address_entry.no_results_error'%></span>
+  </div>
     <%end%>
     <%end%>
 </div>
 
 <div class="form-group">
-  <a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a><br/>
-  <a href="?foreignAddress=true"><%= t '.foreign_address_link'%></a>
+  <ul>
+    <li><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></li>
+    <li><a href="?foreignAddress=true"><%= t '.foreign_address_link'%></a></li>
+  </ul>
 </div>
 

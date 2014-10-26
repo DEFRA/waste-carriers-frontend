@@ -14,7 +14,7 @@
     <%= f.label :business_or_organisation_address, for: "addressSelector", class: 'form-label' %>
         <select id="addressSelector" name="addressSelector" class="addressSelector"
         size="<%=[1,@address_match_list.elements.count].min%>"required autofocus>
-        <option value="FoundAddresses" disabled> <%= @address_match_list.size.to_s %>
+        <option value="FoundAddresses" disabled> <%= @address_match_list.size.to_s %>s
             <%= t '.num_addresses_found'%></option>
         <% @address_match_list.elements.each do |address| %>
         <option value="<%=address.moniker%>"><%=address.partial%></option>
@@ -22,8 +22,10 @@
     </select>
 
     <div class="form-group">
-        <a href="?changeAddress=true"><%= t '.change_link'%></a><br/>
-        <a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a>
+       <ul>
+        <li><a href="?changeAddress=true"><%= t '.change_link'%></a><li/>
+        <li><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></li>
+       </ul>
     </div>
 
     <% end %> <!-- if -->

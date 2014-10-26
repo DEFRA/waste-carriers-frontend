@@ -13,20 +13,19 @@
       <!-- WF 4.3.2 -->
       <div id="page6"  data-journey="waste-carriers-registration:business-details"></div>
         <% content_for :page_title, createTitle('.title') %>
-
         <%= form_for(@registration, :url => newBusinessDetails_path, html: {autocomplete: 'off'}) do |f| %>
 
-            <% case @registration.businessType %>
-            <% when 'limitedCompany' %>
-              <% legend = t '.legend_limited'  %>
-              <% name_field = t '.name_field_limited'  %>
-            <% when 'publicBody' %>
-              <% legend = t '.legend_public'  %>
-              <% name_field = t '.name_field_public'  %>
-            <% else %>
-              <% legend = t '.legend'  %>
-              <% name_field = t '.name_field'  %>
-            <% end %>
+          <% case @registration.businessType %>
+          <% when 'limitedCompany' %>
+            <% legend = t '.legend_limited'  %>
+            <% name_field = t '.name_field_limited'  %>
+          <% when 'publicBody' %>
+            <% legend = t '.legend_public'  %>
+            <% name_field = t '.name_field_public'  %>
+          <% else %>
+            <% legend = t '.legend'  %>
+            <% name_field = t '.name_field'  %>
+          <% end %>
 
       <%= render 'errors' %>
       <header class="page-header group">
@@ -36,13 +35,12 @@
       </header>
 
       <div class="form-group" role="group" aria-labelledby="groupLabel">
-          <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
-          <%= render 'company_details_finder', f: f, r: @registration %>
-          <% end %>
-          <%= render 'company_name', :f => f, :r => @registration, n: name_field %>
-          <%= render 'address_finder', :f => f, :r => @registration %>
+        <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
+        <%= render 'company_details_finder', f: f, r: @registration %>
+        <% end %>
+        <%= render 'company_name', :f => f, :r => @registration, n: name_field %>
+        <%= render 'address_finder', :f => f, :r => @registration %>
       </div>
-
       <%= render 'next_link' %>
     <% end %>
 
