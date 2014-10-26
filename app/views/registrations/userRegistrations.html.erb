@@ -20,21 +20,16 @@
   <!--<h1 class="subtitle"><%= t '.subtitle' %></h1>-->
   <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
 
-  <% if notice %>
-  <div id="notice_explanation" class="note-summary">
-    <h2 class="heading-large"><%= notice %></h2>
-  </div>
-  <% end %>
-
   </div>
 </header>
 
-<div class="grid-wrapper">
+  <div class="grid-wrapper">
 
-<div class="grid-2-3">
-  <div class="inner-block">
+  <div class="grid-2-3">
+    <div class="inner-block">
 
-<p class="panel-indent text"><%= t '.summaryText' %></p>
+  <p><%= t '.summaryText1' %></p>
+  <p class="panel-indent text"><%= t '.summaryText2' %></p>
 
   <fieldset>
     <legend></legend>
@@ -80,7 +75,7 @@
               </td>
           </tr>
           <%  end %>
-            <% 
+            <%
             # Only show the Edit Row, if any of the butttons are shown
             if registration.can_view_certificate? || registration.can_be_edited? || \
             	registration.is_active? || registration.about_to_expire? || \
