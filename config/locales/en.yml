@@ -544,6 +544,7 @@ en:
     cannot_edit:
       title: 'Cannot edit registration'
       instructions: 'You cannot edit the registration at this time. If you have completed your registration please log in again to edit your registration.'
+      cookies: 'You need to enable session cookies in your browser.'
     confirmDelete:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
