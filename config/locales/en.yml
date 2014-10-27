@@ -287,7 +287,7 @@ en:
     refuse_button_label: "Refuse registration"
   global:
     betaMessage: "BETA"
-    betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/contact/govuk'> feedback  </a> will help us improve it."
+    betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/contact/govuk' target='_blank'> feedback  </a> will help us improve it."
     bracketsEA: " Environment Agency (England) helpline: "
     bracketsNRW: "(Natural Resources Wales)"
     cookieMessage_html: "<a href='https://www.gov.uk/help/cookies'>GOV.UK uses cookies to make the site simpler. Find out more about cookies</a>"
@@ -605,7 +605,7 @@ en:
       ir_number_example: "Example: CB/AF7003CS/A001"
       renewal_link: "I can't find my registration number"
       paragraph1: "Your registration number starts with the letters 'CB' and can be found at the top of your renewal letter."
-      epr_link_html: "If you don't have your letter to hand search the <a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx'>Environment Agency Public Register.</a>"
+      epr_link_html: "If you don't have your letter to hand search the <a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>Environment Agency Public Register.</a>"
       paragraph2: "If you have any queries about your registration number, please contact our helpline: 03708 506506 and speak to an advisor."
       title: "Existing registration renewal"
     newBusinessDetails:
