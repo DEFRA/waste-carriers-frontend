@@ -117,6 +117,8 @@ input#registration_copy_cards {
  display:inline-block;
  vertical-align: top;
  max-width:15em;
+ box-sizing: border-box;
+ margin-right:1em;
 }
 
 .payment-option p {

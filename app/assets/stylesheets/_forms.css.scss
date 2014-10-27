@@ -37,18 +37,25 @@ legend {
   }
 }
 
-#registration_companyName,
 #registration_accountEmail_confirmation,
 #registration_contactEmail,
 #registration_accountEmail,
 #agency_user_email,
 #user_email,
 #admin_email {
-  width:50%;
+  width:75%;
   @include media (mobile){
     width:75%;
   }
 }
+
+#registration_companyName {
+  width:34%;
+  @include media (mobile) {
+    width:74%;
+  }
+}
+
 
 input {
   @include copy-19;
@@ -74,16 +81,15 @@ input {
 
 .postcode {
   display:inline;
-  width:23%;
+  margin-right:$gutter-half;
   @include media (mobile) {
-    margin-right:1em;
+    margin-right:$gutter-half;
     width:25%;
   }
 }
 
 #sPostcode {
   display:inline;
-  width:80%;
   @include media (mobile) {
     width: 100%;
   }
