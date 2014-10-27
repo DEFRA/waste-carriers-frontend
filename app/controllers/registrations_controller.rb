@@ -886,29 +886,42 @@ class RegistrationsController < ApplicationController
   def updateNewSignup
     setup_registration 'signup'
 
+    if !@registration
+      return
+    end
+
     if @registration.valid?
+      logger.debug 'The registration is valid...'
       logger.info 'Check to commit registration, unless: ' + @registration.persisted?.to_s
       unless @registration.persisted?
-        if commit_new_registration?
-          logger.info 'Check to commit user, unless: ' + current_user.to_s
-          unless current_user
-            commit_new_user
+        # Note: we have to store the new user first, and only if that succeeds, we want to commit the registration
+        logger.info 'Check to commit user, unless: ' + current_user.to_s
+        unless current_user
+          if !commit_new_user
+            render "newSignup", :status => '400'
+            return
           end
-        else
+        end
+
+        if commit_new_registration?
+          logger.info 'The new registration has been committed successfully'
+        else #registration was not committed
           # there is an error (but data not yet saved)
-          logger.info 'Registration was valid but data is not yet saved due to an error in the services'
+          logger.error 'Registration was valid but data is not yet saved due to an error in the services'
           @registration.errors.add(:exception, @registration.exception.to_s)
           render "newSignup", :status => '400'
           return
         end
       end
 
-    else
+    else # the registration is not valid
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render "newSignup", :status => '400'
       return
     end
+
+    logger.debug 'Determining next_step for redirection'
 
     next_step = case @registration.tier
     when 'LOWER'
@@ -936,7 +949,7 @@ class RegistrationsController < ApplicationController
 
     # Reset Signed up user to signed in status
     @registration.sign_up_mode = 'sign_in'
-    @registration.save
+    @registration.save!
 
     redirect_to next_step
   end
@@ -1010,19 +1023,23 @@ class RegistrationsController < ApplicationController
   end
 
   def commit_new_user
-
     @user = User.new
     @user.email = @registration.accountEmail
     @user.password = @registration.password
     logger.debug "About to save the new user."
-    @user.save!
-
-    # In the case of new UT registrations we eventually redirect directly to the confirmed page without them
-    # first having to have clicked the link in the confirmaton email. The Confirmed action relies on pulling
-    # out the user from the session as when you do click the link the ConfirmationsController::after_confirmation_path_for
-    # action stores the confirmed user there.
-    session[:user] = @user
-
+    if @user.save
+      logger.debug 'User has been saved.'
+      # In the case of new UT registrations we eventually redirect directly to the confirmed page without them
+      # first having to have clicked the link in the confirmaton email. The Confirmed action relies on pulling
+      # out the user from the session as when you do click the link the ConfirmationsController::after_confirmation_path_for
+      # action stores the confirmed user there.
+      session[:user] = @user
+      return true
+    else
+      logger.info 'Could not save user. Errors: ' + @user.errors.full_messages.to_s
+      @registration.errors.add(:accountEmail, @user.errors.full_messages)
+      return false
+    end
   end
 
   def complete_new_registration (activateRegistration=false)
