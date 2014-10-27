@@ -20,7 +20,12 @@
       <p>
         <%= link_to t('shared.current_user.sign_in'), new_user_session_path %>
       </p>
+      <% if !cookies['_registrations_session'] %>
+      <p>
+        <%= t '.cookies' %>
+        <%= link_to t('global.footer_cookies_link'), cookies_path %>
+      </p>  
+      <% end %>  
     </header>
-
   </main><!-- end main -->
 </div><!-- end wrapper -->
