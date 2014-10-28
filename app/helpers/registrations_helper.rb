@@ -87,6 +87,9 @@ module RegistrationsHelper
   # This method is called when updating from the registration's 'editing' pages (i.e. PUT/POST/MATCH)
   # to set up the @registration etc.
   def setup_registration current_step, no_update=false
+  
+    logger.info '>>>>>>>>>>> current_step = ' + current_step.to_s
+  
     if !session[:editing] && current_step != 'payment' && current_step != 'confirmation' && current_step != 'businesstype'
       logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
       redirect_to cannot_edit_path and return
@@ -94,6 +97,9 @@ module RegistrationsHelper
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
       logger.debug "Got Registration from session"
+      
+      @registration.update(current_step: current_step)
+      
     else
       logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
       @registration = Registration[ params[:id]]
@@ -111,6 +117,12 @@ module RegistrationsHelper
               params[:registration].keys.size == 2 && 
               (params[:registration].keys[0].eql? "companyName") &&
               (params[:registration].keys[1].eql? "postcode")
+        @registration.update(address_lookup_page: 'yes')
+      elsif params[:registration] && 
+              params[:registration].keys.size == 3 && 
+              (params[:registration].keys[0].eql? "company_no") &&
+              (params[:registration].keys[1].eql? "companyName") &&
+              (params[:registration].keys[2].eql? "postcode")
         @registration.update(address_lookup_page: 'yes')
       end
       @registration.save

@@ -59,7 +59,9 @@ Given(/^I want my business address autocompleted but I provide an unrecognised p
 end
 
 Then(/^no address suggestions will be shown$/) do
-  page.should have_content 'There are no addresses for the given postcode'
+  # Changed validation message
+  page.should have_content 'Postcode is not valid'
+  #page.should have_content 'There are no addresses for the given postcode'
 end
 
 When(/^I try to select an address$/) do

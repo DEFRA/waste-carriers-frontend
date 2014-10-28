@@ -47,6 +47,23 @@ Then(/^I change the legal entity$/) do
   # Now on registration type
   click_on 'Next'
   
+  #
+  # Alternatives to try to select the second value in the drop down list
+  #
+  #find_by_id('registration_selectedAddress').find(:xpath, 'option[2]').select_option
+  #select find_by_id('registration_selectedAddress').find(:xpath, 'option[2]')
+  #within 'registration_selectedAddress' do
+  #  find("option[1]").click
+  #end
+  #page.find_by_id('registration_selectedAddress').find("option[1]").select_option
+  #page.find_and_select_option("registration_selectedAddress", 2)
+
+  #
+  # TEMP FIX: This fixes an issue in the tests and in Safari which render this page with an unselected address
+  # This line forceably selects the first useable address
+  #
+  select(find_by_id('registration_selectedAddress').find(:xpath, 'option[2]').text.to_s, :from => 'registration_selectedAddress')
+  
   # Now on business details
   click_on 'Next'
   
