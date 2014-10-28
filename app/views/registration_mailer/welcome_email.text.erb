@@ -30,14 +30,13 @@
 <%= @registration.townCity%>
 <%= @registration.postcode%>
 
-<% if @registration.lower? %>
 <%=t 'registration_mailer.welcome_email.renewal_html'%>
 <%=t 'registration_mailer.welcome_email.updateWebsite_html', link: new_user_session_url %>
 
 <%=t 'registration_mailer.welcome_email.enquiresMessage'%>
 <%=t 'registration_mailer.welcome_email.telephone'%> <%= Rails.configuration.registrations_service_phone %>
 <%=t 'registration_mailer.welcome_email.email'%> <%= Rails.configuration.registrations_service_email %>
-
+<% if @registration.lower? %>
 <%=t 'registration_mailer.welcome_email.lowerTierRegistration'%>
 -----------------------
 <%=t 'registration_mailer.welcome_email.criteriaIntro'%>
@@ -46,6 +45,15 @@
 - <%=t 'registration_mailer.welcome_email.criteria2'%>
 - <%=t 'registration_mailer.welcome_email.criteria3'%>
 - <%=t 'registration_mailer.welcome_email.criteria4'%>
+<% else %>
+<%=t 'registration_mailer.welcome_email.upperTierRegistration'%>
+-----------------------
+<%=t 'registration_mailer.welcome_email.criteriaIntroUpper'%>
+
+- <%=t 'registration_mailer.welcome_email.criteria5'%>
+- <%=t 'registration_mailer.welcome_email.criteria6'%>
+- <%=t 'registration_mailer.welcome_email.criteria7'%>
+<% end %>
 
 <%=t 'registration_mailer.welcome_email.responsibilitiesHeading'%>
 -------------------------------------
@@ -55,6 +63,3 @@
 - <%=t 'registration_mailer.welcome_email.responsibilities2'%>
 - <%=t 'registration_mailer.welcome_email.responsibilities3'%>
 - <%=t 'registration_mailer.welcome_email.responsibilities4'%>
-<% else %>
-Upper tier text placeholder (TBC)
-<% end %>
