@@ -401,6 +401,42 @@ class RegistrationsController < ApplicationController
   def editBusinessDetails
     session[:edit_link_business_details] = '1'
     new_step_action 'businessdetails'
+    
+    if params[:changeAddress]
+      @registration.addressMode = nil
+    elsif params[:manualUkAddress] #we're in the manual uk address page
+      @registration.addressMode = 'manual-uk'
+      #clear any existing address fields, in case we changed over from foreign address
+      @registration.streetLine3 = @registration.streetLine4 = @registration.country = nil
+    elsif params[:foreignAddress] #we're in the manual foreign address page
+      @registration.addressMode = 'manual-foreign'
+      #clear any existing address fields, in case we changed over from uk address
+      @registration.streetLine1 = @registration.streetLine2 = @registration.townCity = @registration.postcode = nil
+    elsif params[:autoUkAddress] #user clicked to go back to address lookup
+      @registration.addressMode = nil
+    end
+    
+    @registration.save
+    
+    #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
+    if 'address-results'.eql? @registration.addressMode
+      begin
+        @address_match_list = Address.find(:all, :params => {:postcode => @registration.postcode})
+        session.delete(:address_lookup_failure) if session[:address_lookup_failure]
+        logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
+        logger.debug "@registration.postcode: '#{!@registration.postcode.empty?}'"
+        if @address_match_list.size < 1 && !@registration.postcode.empty?
+          @registration.errors.add(:postcode, ' test')
+        end
+      rescue Errno::ECONNREFUSED
+        session[:address_lookup_failure] = true
+        logger.error 'ERROR: Address Lookup Not running, or not Found'
+      rescue ActiveResource::ServerError
+        session[:address_lookup_failure] = true
+        logger.error 'ERROR: ActiveResource Server error!'
+      end
+    end
+    
     render 'newBusinessDetails'
   end
 
