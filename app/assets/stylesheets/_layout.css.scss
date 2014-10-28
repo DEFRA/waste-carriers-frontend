@@ -37,6 +37,14 @@ display: block;
   border-top: 10px solid $link-colour;
 }
 
+#proposition-menu {
+  position:relative;
+  top:5px;
+  @include media (mobile) {
+    padding-left:$gutter-half;
+  }
+}
+
 /* Phase banner ========================================================== */
 
 .phase-banner {
