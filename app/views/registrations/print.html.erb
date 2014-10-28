@@ -81,17 +81,22 @@
         <% if @registration.upper? %>
           <h3 class="heading-small"><%=t 'registration_mailer.welcome_email.upperTierRegistration'%></h3>
           <p><%=t 'registration_mailer.welcome_email.criteriaIntroUpper'%></p>
+        <ul>
+          <li><%=t 'registration_mailer.welcome_email.criteria5'%></li>
+          <li><%=t 'registration_mailer.welcome_email.criteria6'%></li>
+          <li><%=t 'registration_mailer.welcome_email.criteria7'%></li>
+        </ul>
         <% else %>
           <h3 class="heading-small">
             <%=t 'registration_mailer.welcome_email.lowerTierRegistration'%></h3>
           <p><%=t 'registration_mailer.welcome_email.criteriaIntroLower'%></p>
-        <% end %>
         <ul>
           <li><%=t 'registration_mailer.welcome_email.criteria1'%></li>
           <li><%=t 'registration_mailer.welcome_email.criteria2'%></li>
           <li><%=t 'registration_mailer.welcome_email.criteria3'%></li>
           <li><%=t 'registration_mailer.welcome_email.criteria4'%></li>
         </ul>
+        <% end %>
       </div>
 
        <!-- Responsibilites section -->
