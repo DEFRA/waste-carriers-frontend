@@ -21,12 +21,11 @@ en:
     mailer:
       confirmation_instructions:
         subject: "Confirmation instructions"
-        heading: "Confirm your account as a waste carrier, broker or dealer"
+        heading: "Confirm your email details for your waste carrier, broker or dealer registation"
         paragraph1: "Hello,"
-        paragraph2: "You're setting up an acccount to be a waste carrier, broker or dealer."
-        paragraph2: "We need you to confirm your account details so we can verify who you are."
+        paragraph2: "We need you to confirm your email details so we can verify who you are."
+        paragraph3: "If you are lower tier you must confirm your details to complete your registration."
         confirmLabel: "Confirm your account"
-        paragraph3: "Verifying your details will let you edit or renew your account."
         newInstructionsLabel: "Send new instructions to confirm my account"
         paragraph4: "Please contact the Environment Agency helpline on 03708 506506 if you have any questions about this."
       reset_password_instructions:

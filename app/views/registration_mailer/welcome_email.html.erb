@@ -217,11 +217,15 @@ img{valign:left;}
               <tr>
                 <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
                     <% if @registration.lower? %>
-                    <p style="font-size: 16px; line-height: 1.31579; margin: 0 0 15px 0;"><%= t 'registration_mailer.welcome_email.renewal_html'%>
+                    <p style="font-size: 16px; line-height: 1.31579; margin: 0 0 15px 0;">
+                      <%= t 'registration_mailer.welcome_email.lower_renewal_html'%>
                       <% if !@registration.assisted_digital? %></p>
-                    <p style="font-size: 16px; line-height: 1.31579; margin: 0 0 15px 0;"><%=t 'registration_mailer.welcome_email.updateWebsite_html',:link=>link_to('sign in', new_user_session_url)%></p>
+                    <br/>
+                    <p style="font-size: 16px; line-height: 1.31579; margin: 0 0 15px 0;">
+                      <%=t 'registration_mailer.welcome_email.updateWebsite_html',:link=>link_to('sign in', new_user_session_url)%></p>
                       <% else %>
-                    <p style="font-size: 16px; line-height: 1.31579;"><%=t 'registration_mailer.welcome_email.updatePhone'%></p>
+                    <p style="font-size: 16px; line-height: 1.31579;">
+                      <%=t 'registration_mailer.welcome_email.updatePhone'%></p>
                     <% end %>
                 </td>
               </tr>
