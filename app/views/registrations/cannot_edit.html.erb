@@ -14,9 +14,17 @@
       <div class="hgroup" data-journey="waste-carriers-registration:cannot-edit">
           <h1 class="heading-large"><%= t '.title' %></h1>
       </div>
+
     </header>
 
     <p><%= t '.instructions1' %><%= link_to t('shared.current_user.sign_in'), new_user_session_path %><%= t '.instructions2' %></p>
+
+      <% if !cookies['_registrations_session'] %>
+      <p>
+        <%= t '.cookies' %>
+        <%= link_to t('global.footer_cookies_link'), cookies_path %>
+      </p>
+      <% end %>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->

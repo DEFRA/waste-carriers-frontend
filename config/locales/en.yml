@@ -545,6 +545,7 @@ en:
       title: "You can't edit your registration at the moment"
       instructions1: "If you've already completed your registration please "
       instructions2: " again."
+      cookies: 'You need to enable session cookies in your browser.'
     confirmDelete:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
