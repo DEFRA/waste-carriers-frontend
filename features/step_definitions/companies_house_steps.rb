@@ -32,6 +32,13 @@ And(/^I enter my company name and address$/) do
 
   fill_in 'sPostcode', with: 'HP10 9BX'
   click_on 'Find UK address'
+  
+#
+# Removed as Find UK adress now validates and thus returns errros for other fields
+#  select '33 Fennels Way, Flackwell Heath HP10 9BX'
+end
+
+Given(/^I select an address$/) do
   select '33 Fennels Way, Flackwell Heath HP10 9BX'
 end
 

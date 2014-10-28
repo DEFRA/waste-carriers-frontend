@@ -87,6 +87,9 @@ class Registration < Ohm::Model
   attribute :tier
 
   attribute :renewalRequested
+  
+  attribute :selectedAddress
+  attribute :validateSelectedAddress
 
   # The value that the waste carrier sets to say whether they admit to having
   # relevant people with relevant convictions
@@ -808,6 +811,26 @@ class Registration < Ohm::Model
   end
 
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
+  
+  validate :has_selected_address, if: (:businessdetails_step? && :isAddressLookup?)
+  
+  def isAddressLookup?
+    Rails.logger.debug '>>>>>>> isAddressLookup'
+    Rails.logger.debug '>>>>>>> self.validateSelectedAddress: ' + self.validateSelectedAddress.to_s
+    if !self.validateSelectedAddress.nil?
+      self.validateSelectedAddress
+    else
+      false
+    end
+  end
+  
+  def has_selected_address
+    if addressMode == 'address-results'
+      if selectedAddress.eql? ''
+        errors.add(:selectedAddress, I18n.t('errors.messages.invalid_selection'))
+      end
+    end
+  end
 
 
 

@@ -41,7 +41,8 @@
         <%= render 'company_name', :f => f, :r => @registration, n: name_field %>
         <%= render 'address_finder', :f => f, :r => @registration %>
       </div>
-      <%= render 'next_link' %>
+      
+      <%= render 'next_link' if @registration.addressMode and !@registration.addressMode.empty? %>
     <% end %>
 
   </main><!--main end-->
