@@ -120,7 +120,7 @@ module Registrations
 
     #Tracking using Google Analytics; must be performed only in Production, but is optional in development
     #(and uses a different Google Tag Manager ID - see below)
-    config.use_google_analytics = ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] || Rails.env.production?
+    config.use_google_analytics = ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] == 'true' || Rails.env.production?
 
     #The Google Tag Manager ID used with Google Analytics and the Google Tag Manager.
     #We use a different ID in production; this here is the development ID.
