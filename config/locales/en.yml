@@ -542,8 +542,9 @@ en:
       subtitle: "What type of business or organisation are you?"
       title: "Business type"
     cannot_edit:
-      title: 'Cannot edit registration'
-      instructions: 'You cannot edit the registration at this time. If you have completed your registration please log in again to edit your registration.'
+      title: "You can't edit your registration at the moment"
+      instructions1: "If you've already completed your registration please "
+      instructions2: " again."
       cookies: 'You need to enable session cookies in your browser.'
     confirmDelete:
       deleteLabel: "Delete registration"
@@ -981,7 +982,7 @@ en:
       title: "Confirm your account"
       subtitle: "Confirm your account"
       details_emailed: "We have sent an email to %{email}"
-      details_emailed_instruction: "Please follow the instructions in the email to confirm your account and complete your registration."
+      details_emailed_instruction: "Please follow instructions in the email to confirm your account"
       close_page: "Once you have confirmed your account and completed your registration, please close this web page."
       payment_pending: "Payment pending"
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
