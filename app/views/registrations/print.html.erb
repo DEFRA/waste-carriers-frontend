@@ -34,6 +34,9 @@
           <% unless @registration.streetLine4.blank? %>
               <%= @registration.streetLine4 %></br>
           <% end %>
+          <% unless @registration.dependentLocality.blank? %>
+              <%= @registration.dependentLocality %></br>
+          <% end %>
           <% unless @registration.townCity.blank? %>
               <%= @registration.townCity %></br>
           <% end %>

@@ -42,6 +42,7 @@ class Registration < Ohm::Model
   attribute :streetLine2
   attribute :townCity
   attribute :postcode
+  attribute :uprn
   attribute :easting
   attribute :northing
   attribute :dependentLocality
