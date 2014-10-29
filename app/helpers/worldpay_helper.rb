@@ -12,10 +12,11 @@ module WorldpayHelper
     def redirect_to_worldpay(registration, order)
       xml = create_xml(registration, order)
       logger.info 'About to contact WorldPay: XML username = ' + worldpay_xml_username
+      logger.info 'WORLDPAY::SEND Worldpay orderCode = ' + order.orderCode.to_s
       logger.info 'Sending XML to Worldpay: ' + xml
 
       response = send_xml(xml)
-      logger.info 'Received response from Worldpay: ' + response.body.to_s
+      logger.info 'WORLDPAY::RESPONSE - Received response from Worldpay: ' + response.body.to_s
       redirect_url = get_redirect_url(parse_xml(response.body))
       redirect_to redirect_url
     end
@@ -129,16 +130,16 @@ module WorldpayHelper
         redirect_url_with_args = set_redirect_arguments(redirect_url)
         redirect_url_with_args
       else
-        logger.info 'The was a problem redirecting to the payment pages.'
+        logger.warn 'WORLDPAY::REDIRECT_ERROR - The was a problem redirecting to the payment pages.'
         errorMessage = ''
         begin
           errorMessage = doc.at_css('error').text
-          logger.info 'errorMessage: ' + errorMessage
+          logger.warn 'WORLDPAY::REDIRECT_ERROR - errorMessage: ' + errorMessage
         rescue
-          logger.info 'Cannot determine error message from response.'
+          logger.error 'WORLDPAY::REDIRECT_ERROR - Cannot determine error message from response: ' + doc.to_s
         end
-        flash.now[:notice] = 'There was a problem redirecting to the payment pages.'
-        flash[:notice] = 'There was a problem redirecting to the payment pages. ' + errorMessage.to_s
+        flash.now[:notice] = I18n.t('errors.messages.worldpayErrorRedirect')
+        flash[:notice] = I18n.t('errors.messages.worldpayErrorRedirect') + errorMessage.to_s
         redirect_url = upper_payment_path
       end
     end
