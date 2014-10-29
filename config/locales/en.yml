@@ -255,6 +255,7 @@ en:
       numbers: "can only contain numbers"
       weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
       worldpayFailed: "failed to get a ok response from Worldpay"
+      worldpayErrorRedirect: "There was a problem redirecting to the payment pages. "
       invalidPassword: "does not match your email"
       unconfirmedEmail: "This account has not been confirmed"
       no_results: "No results found"
