@@ -13,6 +13,14 @@ ActionMailer::Base.smtp_settings = {
 
 Money.default_currency = Money::Currency.new 'GBP'
 
+# Logging: log timestamp with the log message
+class Logger
+  def format_message(level, time, progname, msg)
+    "#{level} [#{time.to_s(:dbmsec)}] -- #{msg}\n"
+#    "#{time.utc} #{level} -- #{msg}\n"
+  end
+end
+
 # Initialize the rails application
 Registrations::Application.initialize!
 
