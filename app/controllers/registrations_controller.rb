@@ -421,6 +421,7 @@ class RegistrationsController < ApplicationController
     #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
     if 'address-results'.eql? @registration.addressMode
       begin
+        logger.info "addressMode is 'address-results'. Reading match list again..."
         @address_match_list = Address.find(:all, :params => {:postcode => @registration.postcode})
         session.delete(:address_lookup_failure) if session[:address_lookup_failure]
         logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
@@ -445,23 +446,24 @@ class RegistrationsController < ApplicationController
     setup_registration 'businessdetails'
     return unless @registration
 
+    logger.info 'Entering updateNewBusinessDetails - the @registration has been set up...'
+
     session.delete(:address_lookup_selected) if session[:address_lookup_selected]
 
     #if params[:addressSelector]  #user selected an address from drop-down list
     #if @registration.selectedAddress and !@registration.selectedAddress.empty?
-    if params[:registration][:selectedAddress]
-    
-      logger.error '>>>>>>>> validate selected address'
-      @registration.validateSelectedAddress = true
-      
+    if params[:registration][:selectedAddress]    
+      logger.info '>>>>>>>> validate selected address'
+      @registration.validateSelectedAddress = true     
     end
     
     if @registration.selectedAddress and !@registration.selectedAddress.empty?
-      
-      logger.error '>>>>>>>> @registration.selectedAddress has a value'
+
+      logger.info '>>>>>>>> @registration.selectedAddress has a value'
     
       fullVal = @registration.selectedAddress
-      logger.error 'fullVal: ' + fullVal.to_s
+
+      logger.info 'fullVal: ' + fullVal.to_s
       
       array = fullVal.split('::')
       logger.error 'array: ' + array.to_s
@@ -471,29 +473,25 @@ class RegistrationsController < ApplicationController
       @registration.selectedAddress = array[1].to_s
       logger.error '@registration.selectedAddress: ' +  @registration.selectedAddress
     
+      logger.info 'Retrieving address for the selected moniker: ' + moniker.to_s
       @selected_address = Address.find(moniker)
+      logger.info 'Retrieved @selected_address = ' + @selected_address.inspect.to_s
       session[:address_lookup_selected] = true
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
       
     end
     
-    if params[:findAddress] #user clicked on Find Address button
-    
-      logger.error '>>>>>>>> in findaddress'
-
-      
-      
+    if params[:findAddress] #user clicked on Find Address button  
+      logger.info '>>>>>>>> in findAddress' 
       if @registration.valid?
-        # clicked find and valid
-        
+        # clicked find and valid        
         @registration.update(:addressMode => 'address-results')
         @registration.update(:postcode => params[:registration][:postcode])
         
         redirect_to :newBusinessDetails and return
       else
         # clicked find and not valid
-        render 'newBusinessDetails', status: '200' and return
-        
+        render 'newBusinessDetails', status: '200' and return        
       end
 
 #      if @registration.postcode.empty?
@@ -508,7 +506,7 @@ class RegistrationsController < ApplicationController
 #      end
     elsif @registration.valid?
     
-      logger.error '>>>>>>>> if valid'
+      logger.info '>>>>>>>> elsif valid'
 
       if @registration.tier.eql? 'UPPER'
         @registration.cross_check_convictions
@@ -531,9 +529,10 @@ class RegistrationsController < ApplicationController
     else
     
     logger.error '>>>>>>>> if not valid'
-    
+
     #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
     if 'address-results'.eql? @registration.addressMode
+      logger.info 'We are in the address-results mode. About to retrieve the address match list (again)...'
       begin
         @address_match_list = Address.find(:all, :params => {:postcode => @registration.postcode})
         session.delete(:address_lookup_failure) if session[:address_lookup_failure]
@@ -1402,6 +1401,8 @@ class RegistrationsController < ApplicationController
   end
 
   def copyAddressToSession
+    logger.info 'Copying address details into the registration...'
+    logger.info 'The @selected_address is: ' + @selected_address.inspect.to_s
 
     @registration = Registration[ session[:registration_id]]
 
@@ -1411,6 +1412,14 @@ class RegistrationsController < ApplicationController
     @registration.streetLine3 = @selected_address.lines[3] if @selected_address.lines[3]
     @registration.townCity = @selected_address.town  if @selected_address.town
     @registration.postcode = @selected_address.postcode  if @selected_address.postcode
+    @registration.uprn = @selected_address.uprn if @selected_address.uprn
+    @registration.easting = @selected_address.easting if @selected_address.easting
+    @registration.northing = @selected_address.northing if @selected_address.northing
+    @registration.dependentLocality = @selected_address.dependentLocality if @selected_address.dependentLocality
+    @registration.dependentThroughfare = @selected_address.dependentThroughfare if @selected_address.dependentThroughfare
+    @registration.administrativeArea = @selected_address.administrativeArea if @selected_address.administrativeArea
+    @registration.localAuthorityUpdateDate = @selected_address.localAuthorityUpdateDate if @selected_address.localAuthorityUpdateDate
+    @registration.royalMailUpdateDate = @selected_address.royalMailUpdateDate if @selected_address.royalMailUpdateDate
     @registration.save
   end
 

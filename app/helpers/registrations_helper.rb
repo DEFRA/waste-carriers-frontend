@@ -21,10 +21,18 @@ module RegistrationsHelper
     else
       if model.streetLine2.present?
         # Print UK Address Including Street line 2 (as its optional but been populated)
-        "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+        if model.dependentLocality.present?
+          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.dependentLocality)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+        else
+          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+        end          
       else
         # Print UK Address
-        "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+        if model.dependentLocality.present?
+          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.dependentLocality)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+        else
+          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+        end
       end
     end
   end
