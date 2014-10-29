@@ -300,22 +300,24 @@ class Registration < Ohm::Model
 
       save
     rescue => e
-      Rails.logger.error e.to_s
+      Rails.logger.error 'An error occurred during saving the registration: ' + e.to_s
 
-      if e.http_code == 422
-        # Get actual error from services
-        htmlDoc = Nokogiri::HTML(e.http_body)
-        messageFromServices = htmlDoc.at_css("body ul li").content
-        Rails.logger.error messageFromServices
-        # Update order with a exception message
-        self.exception = messageFromServices
-      elsif e.http_code == 400
-        # Get actual error from services
-        htmlDoc = Nokogiri::HTML(e.http_body)
-        messageFromServices = htmlDoc.at_css("body pre").content
-        Rails.logger.error messageFromServices
-        # Update order with a exception message
-        self.exception = messageFromServices
+      if e.try(:http_code)
+        if e.http_code == 422
+          # Get actual error from services
+          htmlDoc = Nokogiri::HTML(e.http_body)
+          messageFromServices = htmlDoc.at_css("body ul li").content
+          Rails.logger.error messageFromServices
+          # Update order with a exception message
+          self.exception = messageFromServices
+        elsif e.http_code == 400
+          # Get actual error from services
+          htmlDoc = Nokogiri::HTML(e.http_body)
+          messageFromServices = htmlDoc.at_css("body pre").content
+          Rails.logger.error messageFromServices
+          # Update order with a exception message
+          self.exception = messageFromServices
+        end
       else
         self.exception = e.to_s
       end
@@ -1235,6 +1237,9 @@ class Registration < Ohm::Model
     else
       ''
     end
+  rescue
+    Rails.logger.error 'Cannot format invalid registration_date '
+    ''
   end
 
   # Call to determine whether the registration is 'complete' i.e. there are no
