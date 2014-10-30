@@ -80,9 +80,7 @@ class RegistrationsController < ApplicationController
   def selectRegistrationType
     # Get registration from params
     setup_registration 'newOrRenew'
-    if !@registration
-      return
-    end
+    return unless @registration
 
     # Validate which registration type selected, checking against known types
     if @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0].downcase
@@ -117,6 +115,7 @@ class RegistrationsController < ApplicationController
   def calculateRegistrationType
     # Get registration from params
     setup_registration 'enterRegNumber'
+    return unless @registration
 
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
     if @registration.originalRegistrationNumber and !@registration.originalRegistrationNumber.empty?
@@ -191,6 +190,7 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/business-type
   def updateNewBusinessType
     setup_registration 'businesstype'
+    return unless @registration
 
     if @registration.valid?
       logger.info 'Registration is valid so far, go to next page'
@@ -219,6 +219,7 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/no-registration
   def updateNewNoRegistration
     setup_registration 'noregistration'
+    return unless @registration
 
     # TODO set steps
 
@@ -237,6 +238,7 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/other-businesses
   def updateNewOtherBusinesses
     setup_registration 'otherbusinesses'
+    return unless @registration
 
     if @registration.valid?
       # (redirect_to :newConfirmation and return) if session[:edit_mode]
@@ -262,6 +264,7 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/service-provided
   def updateNewServiceProvided
     setup_registration 'serviceprovided'
+    return unless @registration
 
     if @registration.valid?
       # (redirect_to :newConfirmation and return) if session[:edit_mode]
@@ -287,6 +290,7 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/construction-demolition
   def updateNewConstructionDemolition
     setup_registration 'constructiondemolition'
+    return unless @registration
 
     if @registration.valid?
       # this is the last step of the smart answers, so we need to check if
@@ -319,6 +323,7 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/only-deal-with
   def updateNewOnlyDealWith
     setup_registration 'onlydealwith'
+    return unless @registration
 
     if @registration.valid?
       # this is the last step of the smart answers, so we need to check if
@@ -570,6 +575,7 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/contact-details
   def updateNewContactDetails
     setup_registration 'contactdetails'
+    return unless @registration
 
     # TODO Check why this is here with Fred. Was in Upper Tier
     # version of update contact details but don't see how you
@@ -613,6 +619,8 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/registration-type
   def updateNewRegistrationType
     setup_registration 'registrationtype'
+    return unless @registration
+
     if @registration.valid?
       if session[:edit_link_reg_type]
         #if session[:edit_mode]
@@ -634,6 +642,7 @@ class RegistrationsController < ApplicationController
 
   def updateNewRelevantConvictions
     setup_registration 'convictions'
+    return unless @registration
 
     if @registration.valid?
       #      (redirect_to :newConfirmation and return) if session[:edit_mode]
@@ -704,6 +713,8 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/confirmation
   def updateNewConfirmation
     setup_registration 'confirmation'
+    return unless @registration
+
     logger.debug "edit_mode = #{ session[:edit_mode]}"
     logger.debug "edit_result = #{ session[:edit_result]}"
 
@@ -917,7 +928,6 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/signin
   def updateNewSignin
     setup_registration 'signin'
-
     return unless @registration
 
     unless user_signed_in?
@@ -992,10 +1002,7 @@ class RegistrationsController < ApplicationController
   # POST /your-registration/signup
   def updateNewSignup
     setup_registration 'signup'
-
-    if !@registration
-      return
-    end
+    return unless @registration
 
     if @registration.valid?
       logger.debug 'The registration is valid...'
