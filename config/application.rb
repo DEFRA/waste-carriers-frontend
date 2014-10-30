@@ -87,14 +87,14 @@ module Registrations
     config.waste_exemplar_frontend_admin_url = ENV["WCRS_FRONTEND_ADMIN_APP_DOMAIN"] || "http://localhost:3000"
 
     #The subdomains used in links for password reset and other e-mails sent by the Devise authentication component.
-    config.waste_exemplar_frontend_public_subdomain = ENV["WCRS_FRONTEND_PUBLIC_APP_SUBDOMAIN"] || "www.wastecarriersregistration.service"
-    config.waste_exemplar_frontend_admin_subdomain = ENV["WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN"] || "admin.wastecarriersregistration.service"
+    config.waste_exemplar_frontend_public_subdomain = ENV["WCRS_FRONTEND_PUBLIC_APP_SUBDOMAIN"] || "localhost"
+    config.waste_exemplar_frontend_admin_subdomain = ENV["WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN"] || "localhost"
 
     config.waste_exemplar_companies_house_url = 'http://www.companieshouse.gov.uk/info'
 
     #In Production we want to verify that requests to agency user and administration functionality
-    #have been made via the 'internal' domain URL 'https://admin.wastecarriersregistration.service.gov.uk'
-    #rather than via the public domain and URL 'https://www.wastecarriersregistration.service.gov.uk'
+    #have been made via the 'internal' subdomain URL
+    #rather than via the public domain and URL
     config.require_admin_requests = Rails.env.production? || ENV["WCRS_FRONTEND_REQUIRE_ADMIN_REQUESTS"] || false
 
     # Add a URL to represent the GOV.UK page that the process goes to, after the registration happy path
