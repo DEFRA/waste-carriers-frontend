@@ -40,9 +40,10 @@ You may want or need to set the following environment variables, e.g. in your ~/
 	export WCRS_FRONTEND_EMAIL_PASSWORD="<your sendgrid password here>"
 	export WCRS_FRONTEND_EMAIL_HOST="smtp.sendgrid.net"
 	export WCRS_FRONTEND_EMAIL_PORT=25
+	## Waste Exemplar Services
 	export WCRS_FRONTEND_WCRS_SERVICES_URL="http://localhost:9090"
-	export WCRS_FRONTEND_PUBLIC_APP_DOMAIN="www.local.wastecarriersregistration.service.gov.uk"
-	export WCRS_FRONTEND_ADMIN_APP_DOMAIN="admin.local.wastecarriersregistration.service.gov.uk"
+	export WCRS_FRONTEND_PUBLIC_APP_DOMAIN="<your-public-domain-subdomain-here>"
+	export WCRS_FRONTEND_ADMIN_APP_DOMAIN="<your-admin-domain-subdomain-here>"
 	export WCRS_FRONTEND_USERSDB_NAME="waste-carriers"
 	export WCRS_FRONTEND_USERSDB_USERNAME=mongoUser
 	export WCRS_FRONTEND_USERSDB_PASSWORD=<your mongo password here>
@@ -53,7 +54,7 @@ You may want or need to set the following environment variables, e.g. in your ~/
 	export SAUCE_USERNAME=<your saucelabs username>
 	export SAUCE_ACCESS_KEY=<your sauce access key>
 
-You may want to edit your local 'hosts' file to have entries for "www.local.wastecarriersregistration.service.gov.uk" and "admin.local.wastecarriersregistration.service.gov.uk".
+You may want to edit your local 'hosts' file to have entries for the public and admin domains and subdomains.
 
 
 ##Prerequisites
@@ -64,6 +65,7 @@ You may want to edit your local 'hosts' file to have entries for "www.local.wast
 * Ruby 2.0.0
 	* recommended: use RVM - the Ruby Version Manager
 * Rails 4.0
+* Redis (version 2.8.x) - for temporary session storage
 * The running services layer (build and deploy waste-exemplar-services)
 * Java 7 JDK - for building the services layer
 * Maven (version 3.0 or above) - for building the services layer
@@ -92,6 +94,31 @@ Once the application server is started you should be able to access the applicat
 ##User Guide
 
 While in development, the application contains a (temporary) root index page which shows a variety of links for the typical entry points into the application. Note: this page may be removed at a later stage.
+
+## Starting up prerequisites
+
+### Redis
+
+Startup Redis using:
+
+For local development:
+
+	$ redis-server
+
+This starts Redis with default settings, which is suitable for development.
+To start Redis with configuration settings, specify a path to a configuration file. 
+A sample development configuration file is located in the db directory.
+
+	$ redis-server db/redis.conf
+
+### Waste Exemplar Services
+
+Please refer to the 'waste-exemplar-services' project for details.
+
+### Address Lookup Service
+
+Please refer to the 'waste-exemplar-address-lookup' project for details.
+
 
 ##Run Tests
 
@@ -130,6 +157,8 @@ MongoDB: http://www.mongodb.org
 ElasticSearch: http://www.elasticsearch.org
 
 Apache Maven: http://www.elasticsearch.org
+
+Redis: http://redis.io
 
 
 ##License
