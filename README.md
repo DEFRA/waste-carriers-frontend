@@ -33,9 +33,9 @@ Environment-related configuration settings are located in the /config/environmen
 
 The frontend application expects the services to run on http://localhost:9090, unless configured otherwise.
 
-You may want or need to set the following environment variables, e.g. in your ~/.bash_profile (if you are a Mac or Linux user):
+You may want or need to set the following environment variables, e.g. in your ~/.bash_profile (if you are a Mac or Linux user). Adjust these as required for your local setup:
 
-	## Sendgrid configuration
+	## Sendgrid configuration - for sending emails
 	export WCRS_FRONTEND_EMAIL_USERNAME="<your sendgrid username here>"
 	export WCRS_FRONTEND_EMAIL_PASSWORD="<your sendgrid password here>"
 	export WCRS_FRONTEND_EMAIL_HOST="smtp.sendgrid.net"
@@ -44,7 +44,11 @@ You may want or need to set the following environment variables, e.g. in your ~/
 	export WCRS_FRONTEND_WCRS_SERVICES_URL="http://localhost:9090"
 	export WCRS_FRONTEND_PUBLIC_APP_DOMAIN="<your-public-domain-subdomain-here>"
 	export WCRS_FRONTEND_ADMIN_APP_DOMAIN="<your-admin-domain-subdomain-here>"
-	export WCRS_FRONTEND_USERSDB_NAME="waste-carriers"
+	## The two subdomains are used by Devise to send out emails - specify without the protocol and the 'main' domain
+	export WCRS_FRONTEND_PUBLIC_APP_SUBDOMAIN="<your-subdomain-here>"
+	export WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN="<your-subdomain-here>"
+	## Database parameters (for accessing user accounts managed by Devise)
+	export WCRS_FRONTEND_USERSDB_NAME="waste-carriers-users"
 	export WCRS_FRONTEND_USERSDB_USERNAME=mongoUser
 	export WCRS_FRONTEND_USERSDB_PASSWORD=<your mongo password here>
 	export WCRS_FRONTEND_USERSDB_URL=localhost:27017
