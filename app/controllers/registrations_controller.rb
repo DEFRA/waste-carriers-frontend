@@ -918,6 +918,8 @@ class RegistrationsController < ApplicationController
   def updateNewSignin
     setup_registration 'signin'
 
+    return unless @registration
+
     unless user_signed_in?
       @user = User.find_by_email(@registration.accountEmail)
       if @registration.valid?
