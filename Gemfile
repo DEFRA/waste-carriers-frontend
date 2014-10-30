@@ -68,6 +68,10 @@ gem 'ohm'
 gem 'money-rails'
 gem 'monetize'
 
+# For static source code analysis
+gem 'brakeman', :require => false
+gem 'bundler-audit', :require => false
+
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', require: false
