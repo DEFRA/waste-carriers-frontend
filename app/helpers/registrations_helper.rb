@@ -96,7 +96,7 @@ module RegistrationsHelper
   # to set up the @registration etc.
   def setup_registration current_step, no_update=false
   
-    logger.info '>>>>>>>>>>> current_step = ' + current_step.to_s
+    logger.info 'setup_registration: current_step = ' + current_step.to_s
   
     if !session[:editing] && current_step != 'payment' && current_step != 'confirmation' && current_step != 'businesstype'
       logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
