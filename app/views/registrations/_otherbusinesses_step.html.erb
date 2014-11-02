@@ -7,23 +7,20 @@
       </div>
   </header>
 
-  <fieldset>
-    <legend></legend>
-    <div class="form-group<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>" id="registration_otherBusinesses" role="group" aria-labelledby="groupLabel">
-        <div class="inline"><%= validation_for(@registration, :otherBusinesses) %></div>
-        <div class="inline"><%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
-          <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %>
-          <%= t 'form.yes_option_label' %>
-          <% end %>
-        </div>
-        <div class="inline"><%= f.label :no_option_label, for: "registration_otherBusinesses_no", :class => "block-label" do %>
-          <%= f.radio_button :otherBusinesses, "no", :class => "radio" %>
-          <%= t 'form.no_option_label' %>
-        <% end %>
-      </div>
+  <div class="form-group<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>" id="registration_otherBusinesses" role="group" aria-labelledby="groupLabel">
+    <div class="inline">
+    <%= validation_for(@registration, :otherBusinesses) %>
+    <%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
+    <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %>
+    <%= t 'form.yes_option_label' %>
+      <% end %>
+    <%= f.label :no_option_label, for: "registration_otherBusinesses_no", :class => "block-label" do %>
+    <%= f.radio_button :otherBusinesses, "no", :class => "radio" %>
+    <%= t 'form.no_option_label' %>
+      <% end %>
     </div>
-  </fieldset>
- <%= render 'next_link' %>
+  </div>
+  <%= render 'next_link' %>
 </div>
 
 

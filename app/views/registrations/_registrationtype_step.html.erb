@@ -8,39 +8,36 @@
       </div>
   </header>
 
-  <fieldset>
-    <legend></legend>
-    <div class="form-group-type<%if @registration.errors[:registrationType].any?%> validation<%end%>" id="registration_registrationType" role="group" aria-labelledby="groupLabel">
-        <%= validation_for(@registration, :registrationType) %>
-        <div class='inline'>
-          <%= f.label :yes_option_label, for: "registration_registrationType_carrier_dealer", :class => "block-label" do %>
-          <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %>
-          <%= t "buttons.carrier_dealer" %></br>
-          <%= t 'registrations.registrationtype_step.subtitle_carrier_dealer' %>
-            <% end %>
-        </div>
+  <div class="form-group-type<%if @registration.errors[:registrationType].any?%> validation<%end%>" id="registration_registrationType" role="group" aria-labelledby="groupLabel">
+    <%= validation_for(@registration, :registrationType) %>
+    <div class='inline'>
+      <%= f.label :yes_option_label, for: "registration_registrationType_carrier_dealer", :class => "block-label" do %>
+      <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %>
+      <%= t "buttons.carrier_dealer" %></br>
+      <%= t 'registrations.registrationtype_step.subtitle_carrier_dealer' %>
+        <% end %>
+    </div>
 
-        <div class='inline'>
-          <%= f.label :yes_option_label, for: "registration_registrationType_broker_dealer", :class => "block-label" do %>
-          <%= f.radio_button :registrationType, "broker_dealer", :class => "radio" %>
-          <%= t "buttons.broker_dealer" %></br>
-          <%= t 'registrations.registrationtype_step.subtitle_broker_dealer' %>
-            <% end %>
-        </div>
+    <div class='inline'>
+      <%= f.label :yes_option_label, for: "registration_registrationType_broker_dealer", :class => "block-label" do %>
+      <%= f.radio_button :registrationType, "broker_dealer", :class => "radio" %>
+      <%= t "buttons.broker_dealer" %></br>
+      <%= t 'registrations.registrationtype_step.subtitle_broker_dealer' %>
+        <% end %>
+    </div>
 
-        <span class='inline-text'>
-          <%= t 'registrations.registrationtype_step.text' %>
-        </span>
+    <span class='inline-text'>
+      <%= t 'registrations.registrationtype_step.text' %>
+    </span>
 
-        <div class='inline' id="margin-control">
-          <%= f.label :yes_option_label, for: "registration_registrationType_carrier_broker_dealer", :class => "block-label" do %>
-          <%= f.radio_button :registrationType, "carrier_broker_dealer", :class => "radio" %>
-          <%= t "buttons.carrier_broker_dealer" %></br>
-          <%= t 'registrations.registrationtype_step.subtitle_carrier_broker_dealer' %>
-            <% end %>
-        </div>
-         <%= f.hidden_field :tier, value: 'UPPER' %>
-      </div>
-  </fieldset>
+    <div class='inline' id="margin-control">
+      <%= f.label :yes_option_label, for: "registration_registrationType_carrier_broker_dealer", :class => "block-label" do %>
+      <%= f.radio_button :registrationType, "carrier_broker_dealer", :class => "radio" %>
+      <%= t "buttons.carrier_broker_dealer" %></br>
+      <%= t 'registrations.registrationtype_step.subtitle_carrier_broker_dealer' %>
+        <% end %>
+    </div>
+     <%= f.hidden_field :tier, value: 'UPPER' %>
+  </div>
   <%= render 'next_link' %>
-</div>
+  </div>

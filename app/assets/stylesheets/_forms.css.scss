@@ -25,7 +25,8 @@ legend {
 }
 
 .form-group {
-  max-width: 100%;
+  margin-bottom: $gutter-half;
+  width:30em;
 }
 
 .form-label {
@@ -50,7 +51,7 @@ legend {
 }
 
 #registration_companyName {
-  width:34%;
+  width:60%;
   @include media (mobile) {
     width:74%;
   }
@@ -89,7 +90,6 @@ input {
 }
 
 #sPostcode {
-  display:inline;
   @include media (mobile) {
     width: 100%;
   }
@@ -161,20 +161,26 @@ input {
 
 .button {
   @include button;
-  margin-top: $gutter-half;
+  margin-top: $gutter;
   margin-bottom: $gutter-half;
+  float:left;
+  clear:both;
 }
 
 .button-secondary {
   @include button($grey-3);
-  margin-top: $gutter-half;
+  margin-top: $gutter;
   margin-bottom: $gutter-half;
+  float:left;
+  clear:both;
 }
 
 .button-warning {
   @include button($red);
-  margin-top: $gutter-half;
+  margin-top: $gutter;
   margin-bottom: $gutter-half;
+  float:left;
+  clear:both;
 }
 
 /* Date of birth ========================================================== */

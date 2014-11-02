@@ -7,25 +7,21 @@
   </ol>
 </div>
 
- <%= render "errors" %>
+<%= render "errors" %>
   <header class="page-header group">
       <div class="hgroup">
           <h1 class="heading-large" id="groupLabel"><%= t 'registrations.businesstype_step.subtitle' %></h1>
       </div>
   </header>
 
-  <fieldset>
-    <legend></legend>
-    <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>" id="registration_businessType" role="group" aria-labelledby="groupLabel">
-      <%= validation_for(@registration, :businessType) %>
-      <% Registration.business_type_options_for_select.each do |option| %>
-      <%= f.label :businessType, for: "registration_businessType_#{option.second.downcase}",  class: 'block-label' do %>
-      <%= f.radio_button :businessType, option.second %>
-      <%= option.first %>
-      <% end %>
-      <% end %>
-    </div>
-  </fieldset>
+  <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>" id="registration_businessType" role="group" aria-labelledby="groupLabel">
+    <%= validation_for(@registration, :businessType) %>
+    <% Registration.business_type_options_for_select.each do |option| %>
+    <%= f.label :businessType, for: "registration_businessType_#{option.second.downcase}",  class: 'block-label' do %>
+    <%= f.radio_button :businessType, option.second %>
+    <%= option.first %>
+    <% end %>
+    <% end %>
+  </div>
   <%= render 'next_link' %>
 </div>
-

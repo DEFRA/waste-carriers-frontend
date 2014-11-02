@@ -1,24 +1,21 @@
 <!-- WF 4.3.2 -->
-<div id="page4"  data-journey="waste-carriers-registration:convictions"></div>
+<div id="page4"  data-journey="waste-carriers-registration:convictions">
 
-  <%= render "errors" %>
-  <header class="page-header group">
-      <div class="hgroup">
-          <h1 class="heading-large"><%= t 'registrations.convictions_step.title' %></h1>
-      </div>
-  </header>
+<%= render "errors" %>
+<header class="page-header group">
+    <div class="hgroup">
+        <h1 class="heading-large" id="groupLabel"><%= t 'registrations.convictions_step.title' %></h1>
+    </div>
+</header>
 
   <div class="grid">
     <div class="grid-2-3">
-
-  <fieldset>
-    <legend></legend>
 
     <details>
       <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
         <span class='summary'><%= t 'registrations.convictions_step.relevant_convictions_link_text' %></span>
       </summary>
-      <div style='display:block' class='panel-indent' id='details-content-0' >
+      <div style='display:block' class='panel-indent' id='details-content-0'>
         <p><strong><%= t 'registrations.convictions_step.relevant_convictions_text' %></strong></P>
         <ul class="list-bullet">
           <li><%= t 'registrations.convictions_step.relevant_convictions_scrap_1964' %></li>
@@ -51,25 +48,22 @@
       </div>
     </details>
 
-    <div class="form-group<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>">
-      <ul>
-        <li><%= validation_for(@registration, :declaredConvictions) %></li>
-        <li class="inline"><%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
-            <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
-            <%= t 'form.yes_option_label' %>
-        <% end %>
-        </li>
-        <li class="inline"><%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
-            <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
-            <%= t 'form.no_option_label' %>
-        <% end %>
-        </li>
-      </ul>
+    <div class="form-group<%if @registration.errors[:declaredConvictions].any?%> validation<%end%>" id="registration_declaredConvictions" role="group" aria-labelledby="groupLabel">
+      <div class="inline">
+        <%= validation_for(@registration, :declaredConvictions) %>
+        <%= f.label :yes_option_label, for: "registration_declaredConvictions_yes", class: "block-label" do %>
+        <%= f.radio_button :declaredConvictions, "yes", class: "radio" %>
+        <%= t 'form.yes_option_label' %>
+          <% end %>
+        <%= f.label :no_option_label, for: "registration_declaredConvictions_no", class: "block-label" do %>
+        <%= f.radio_button :declaredConvictions, "no", class: "radio" %>
+        <%= t 'form.no_option_label' %>
+          <% end %>
+      </div>
     </div>
-  </fieldset>
+    <%= render 'next_link' %>
 
-<%= render 'next_link' %>
+  </div><!-- end grid -->
+  </div><!-- end grid-2-3 -->
 
-</div><!-- end grid -->
-</div><!-- end grid-2-3 -->
 </div>
