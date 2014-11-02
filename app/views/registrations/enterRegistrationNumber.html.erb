@@ -24,25 +24,22 @@
     <div id="enterRegistrationNumber" data-journey="waste-carriers-registration:enter-registration-number">
     </div>
 
-    <fieldset>
-      <legend></legend>
-        <details class="text">
-        <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
-          <span class='summary'><%= t '.renewal_link' %></span>
-        </summary>
-        <div style='display:block' class='panel-indent' id='details-content-0' >
-          <p><%= t '.paragraph1' %></p>
-          <p><%= t '.epr_link_html' %></p>
-          <p><%= t '.paragraph2' %></p>
-        </div>
-        </details>
+      <details class="text">
+      <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
+        <span class='summary'><%= t '.renewal_link' %></span>
+      </summary>
+      <div style='display:block' class='panel-indent' id='details-content-0' >
+        <p><%= t '.paragraph1' %></p>
+        <p><%= t '.epr_link_html' %></p>
+        <p><%= t '.paragraph2' %></p>
+      </div>
+      </details>
 
-        <div class="form-group<%if @registration.errors[:originalRegistrationNumber].any?%> validation<%end%>" id="enterRegistrationNumber" role="group" aria-labelledby="groupLabel">
-          <%= validation_for(@registration, :originalRegistrationNumber) %>
-          <%= f.label :originalRegistrationNumber, class: 'form-label' %>
-          <%= f.text_field :originalRegistrationNumber, :size => 20, :maxlength => 35, :autocomplete => :off %>
-        </div>
-    </fieldset>
+      <div class="form-group<%if @registration.errors[:originalRegistrationNumber].any?%> validation<%end%>" id="enterRegistrationNumber" role="group" aria-labelledby="groupLabel">
+        <%= validation_for(@registration, :originalRegistrationNumber) %>
+        <%= f.label :originalRegistrationNumber, class: 'form-label' %>
+        <%= f.text_field :originalRegistrationNumber, :size => 20, :maxlength => 35, :autocomplete => :off %>
+      </div>
     <%= render 'next_link' %>
     <% end %>
 

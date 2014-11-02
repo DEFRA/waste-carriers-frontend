@@ -31,8 +31,6 @@
   <p><%= t '.summaryText1' %></p>
   <p class="panel-indent text"><%= t '.summaryText2' %></p>
 
-  <fieldset>
-    <legend></legend>
 
     <h2 class="heading-medium"><%= t '.registrationCountText', :count => pluralize(@registrations.count,"registration") %></h2>
 
@@ -112,7 +110,6 @@
           <% end # registrations %>
         </tbody>
       </table>
-</fieldset>
 
 <form method="get" action="<%= find_path %>" class="action group">
   <input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />

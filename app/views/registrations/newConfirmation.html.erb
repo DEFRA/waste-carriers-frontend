@@ -13,12 +13,11 @@
   <%= render 'errors' %>
   <header class="page-header group">
     <div class="hgroup">
-      <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+      <h1 class="heading-xlarge" id="groupLabel"><%= t '.subtitle' %></h1>
     </div>
   </header>
 
-    <fieldset class="summary-page">
-      <legend></legend>
+    <div class="summary-page">
 
       <!-- WF 4.3.3 -->
       <div id="page9"  data-journey="waste-carriers-registration:confirmation"></div>
@@ -173,23 +172,19 @@
         <% end %>
 
         <!-- Declaration section -->
-        <div class='form-group declaration'>
-        <h3 class='heading-xlarge'><%= t '.declaration_legend' %></h3>
+        <fieldset class="declaration">
+        <legend class='heading-xlarge'><%= t '.declaration_legend' %></legend>
           <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
             <ol>
               <li class="list-bullets"><%= t '.declaration_text1' %></li>
               <li class='list-bullets'><%= t '.declaration_text2' %></li>
             </ol>
-            <ul>
-              <li><%= validation_for(@registration, :declaration) %></li>
-              <li>
-                <label class="block-label" for="registration_declaration">
-                <%= f.check_box :declaration%><%= t '.check_box_label' %>
-                </label>
-              </li>
-            </ul>
+            <%= validation_for(@registration, :declaration) %>
+            <label class="block-label" for="registration_declaration">
+            <%= f.check_box :declaration%><%= t '.check_box_label' %>
+            </label>
           </div>
-        </div><br/><br/></br/><!-- end declaration form-group -->
+        </fieldset><!-- end declaration form-group -->
 
           <!-- Privacy notice -->
           <div class="form-group">
@@ -208,7 +203,7 @@
           </div><!-- end privacy notice form-group -->
           <% end %>
 
-        </fieldset>
+        </div>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->

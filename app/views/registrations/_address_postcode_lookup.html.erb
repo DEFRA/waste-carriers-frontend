@@ -1,4 +1,4 @@
-<div class="form-group<%if @registration.errors[:postcode].any?%> validation<%end%>" id="registration_postcode">
+<div class="form-group<%if @registration.errors[:postcode].any?%> validation<%end%>" id="registration_postcode" role="group" aria-labelledby="groupLabel">
   <%= validation_for(@registration, :postcode) %>
   <%= f.label :postcode, for: "sPostcode", class: 'form-label' %>
   <div class="inline postcode">
