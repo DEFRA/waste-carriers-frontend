@@ -170,14 +170,16 @@ Registrations::Application.routes.draw do
     get "reports/payments/results" => 'reports#payments_search_results', :as => :payments_search_results
     match "reports/payments/results" => 'reports#payments_export', :via => [:post,:put,:patch]
 
-    # Template URLS - These are just for the devs as working examples
-    get "templates/form" => "templates#formExample", :as => :formExample
-    post "templates/form" => "templates#updateFormExample"
-    get "templates/form-template" => "templates#formTemplate", :as => :formTemplate
-    post "templates/form-template" => "templates#updateFormTemplate"
+    if !Rails.env.production?
+      # Template URLS - These are just for the devs as working examples
+      get "templates/form" => "templates#formExample", :as => :formExample
+      post "templates/form" => "templates#updateFormExample"
+      get "templates/form-template" => "templates#formTemplate", :as => :formTemplate
+      post "templates/form-template" => "templates#updateFormTemplate"
 
-    get 'your-registration/offline-payment' => 'registrations#newOfflinePayment', :as => :newOfflinePayment
-    post 'your-registration/offline-payment' => 'registrations#updateNewOfflinePayment'
+      get 'your-registration/offline-payment' => 'registrations#newOfflinePayment', :as => :newOfflinePayment
+      post 'your-registration/offline-payment' => 'registrations#updateNewOfflinePayment'
+    end
 
     # Worldpay response messages
     get "worldpay/success"
