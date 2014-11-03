@@ -42,6 +42,7 @@ display: block;
   top:5px;
   @include media (mobile) {
     padding-left:$gutter-half;
+    top:-5px;
   }
 }
 

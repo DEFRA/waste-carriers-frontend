@@ -53,7 +53,7 @@ legend {
 #registration_companyName {
   width:60%;
   @include media (mobile) {
-    width:74%;
+    width:61%;
   }
 }
 
@@ -63,6 +63,7 @@ input {
   margin-bottom: $gutter-half;
   display:block;
   max-width: 30em;
+  border: 1px solid rgb(187, 187, 187);
 }
 
 
@@ -70,7 +71,6 @@ input {
 
 .addressSelector {
   @include copy-19;
-  margin-bottom: $gutter-half;
   display: block;
   width: auto;
   border: 1px solid rgb(170, 170, 170);
@@ -81,7 +81,6 @@ input {
 
 
 .postcode {
-  display:inline;
   margin-right:$gutter-half;
   @include media (mobile) {
     margin-right:$gutter-half;
@@ -89,15 +88,22 @@ input {
   }
 }
 
-#sPostcode {
-  @include media (mobile) {
-    width: 100%;
-  }
+.find-address-button {
+  float:left;
+  vertical-align:top;
 }
 
-.inline .find_address {
-  margin-top:0px;
+.find-address-button input {
+  margin:0;
+  padding: 0.2em 0.6em 0.1em;
 }
+
+.postcode-entry {
+  float:left;
+  vertical-align:top;
+  margin-right:$gutter-half;
+}
+
 
 /* Radio buttons and check boxes ========================================================== */
 
