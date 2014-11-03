@@ -789,6 +789,7 @@ class RegistrationsController < ApplicationController
           logger.info 'Check if newRegistraiton is valid'
           newRegistration.current_step = 'confirmation'
           if newRegistration.valid?
+            newRegistration.reg_uuid = SecureRandom.uuid
             if newRegistration.commit
               newRegistration.save
               @registration = newRegistration
@@ -1123,6 +1124,10 @@ class RegistrationsController < ApplicationController
     unless @registration.tier == 'LOWER'
       @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after).to_s
     end
+
+    # Note: we are assigning a unique identifier to the registration in order to make the 
+    # POST request idempotent
+    @registration.reg_uuid = SecureRandom.uuid
 
     @registration.save
     if @registration.commit
