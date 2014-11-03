@@ -44,8 +44,8 @@ class PaymentController < ApplicationController
     # Manually set date, as it is saved as a single value in the DB, but 3 values in the rails
     @payment.dateReceived = params[:payment][:dateReceived_day]+'/'+params[:payment][:dateReceived_month]+'/'+params[:payment][:dateReceived_year]
 
-    # Add user id of user who made the payment to the payment record
-    @payment.updatedByUser = current_agency_user.id.to_s
+    # Add email of user who made the payment to the payment record
+    @payment.updatedByUser = current_agency_user.email
 
     # Manually set the orderkey of the payment to a new orderkey as it needs a key to be reversed.
     @payment.orderKey = generateOrderCode
@@ -197,7 +197,7 @@ class PaymentController < ApplicationController
 
     # Set fields automatically for write off's
     @payment.dateReceived = Time.new.strftime("%Y-%m-%d")
-    @payment.updatedByUser = current_agency_user.id.to_s
+    @payment.updatedByUser = current_agency_user.email
 
     @payment.orderKey = generateOrderCode
 
@@ -305,7 +305,7 @@ class PaymentController < ApplicationController
 	# Set automatic Payment values
 	@payment.paymentType = 'REFUND'
 	@payment.dateReceived = now
-    @payment.updatedByUser = current_agency_user.id.to_s
+    @payment.updatedByUser = current_agency_user.email
     @payment.comment = 'A manual refund has been requested for this payment'
 
     # This makes the payment a refund by updating the orderCode to include a refund postfix
@@ -383,7 +383,7 @@ class PaymentController < ApplicationController
 	# Set automatic Payment values
 	@payment.paymentType = 'REFUND'
 	@payment.dateReceived = now
-    @payment.updatedByUser = current_agency_user.id.to_s
+    @payment.updatedByUser = current_agency_user.email
     @payment.comment = 'A refund has been requested for this worldpay payment'
 
     # This makes the payment a refund by updating the orderCode to include a refund postfix
@@ -680,7 +680,7 @@ class PaymentController < ApplicationController
 
     # Setup fields automatically for reversal
     @payment.dateReceived = Time.new.strftime("%Y-%m-%d")
-    @payment.updatedByUser = current_agency_user.id.to_s
+    @payment.updatedByUser = current_agency_user.email
     @payment.paymentType = 'REVERSAL'
 
     # Update the payment to include a reference to the payment being reverse, and mark this as a reversal or said payment
