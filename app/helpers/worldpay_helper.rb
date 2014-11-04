@@ -29,14 +29,14 @@ module WorldpayHelper
       #TODO Remove pre-populated shopper values once Worldpay has been reconfigured not to require address details
       orderDescription = 'Your Waste Carrier Registration '+ registration.regIdentifier.to_s
       #orderContent = 'Waste Carrier Registration ' + registration.regIdentifier.to_s + ' ' + registration.companyName.to_s
-      orderContent = order.description
+      orderContent = order.description.encode(:xml => :text)
       shopperEmail = registration.accountEmail || ''
-      shopperFirstName = registration.firstName
-      shopperLastName = registration.lastName
-      shopperAddress1 = registration.houseNumber
+      shopperFirstName = registration.firstName.encode(:xml => :text)
+      shopperLastName = registration.lastName.encode(:xml => :text)
+      shopperAddress1 = registration.houseNumber.encode(:xml => :text) if registration.houseNumber
       shopperAddress2 = registration.streetLine1.encode(:xml => :text) if registration.streetLine1
-      shopperPostalCode = registration.postcode
-      shopperCity = registration.townCity
+      shopperPostalCode = registration.postcode.encode(:xml => :text) if registration.postcode
+      shopperCity = registration.townCity.encode(:xml => :text) if registration.townCity
       shopperCountryCode = 'GB'
 
       xml = "<?xml version=\"1.0\"?>\n"
