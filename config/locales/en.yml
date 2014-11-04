@@ -1102,6 +1102,7 @@ en:
       date_activated: "Date activated"
       status: "Registration status"
       route: "Route"
+      access_code: "Access code"
       expires_on: "Expires on"
       declared_convictions: "Declared convictions"
       date_created: "Transaction date"

@@ -26,6 +26,7 @@
   t('reports.fields.date_activated'),
   t('reports.fields.status'),
   t('reports.fields.route'),
+  t('reports.fields.access_code'),
   t('reports.fields.expires_on'),
   t('reports.fields.declared_convictions')
 ] %>
@@ -61,6 +62,7 @@
 <% row << registration.metaData.first.dateActivated %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
+<% row << registration.accessCode %>
 <% row << format_time(registration.expires_on) %>
 <% row << registration.declaredConvictions %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
