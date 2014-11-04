@@ -544,7 +544,7 @@ class PaymentController < ApplicationController
     @order.merchantId = 'n/a'
     @order.paymentMethod = 'UNKNOWN'
     @order.currency = getDefaultCurrency
-    @order.updatedByUser = current_agency_user.id.to_s
+    @order.updatedByUser = current_agency_user.email
     now = Time.now.utc.xmlschema
     @order.dateCreated = now
     @order.dateLastUpdated = now
