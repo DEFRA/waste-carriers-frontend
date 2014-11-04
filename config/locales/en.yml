@@ -1096,6 +1096,7 @@ en:
       construction_waste: "Construction waste"
       only_amf: "Only AMF"
       tier: "Tier"
+      registration_type: "Registration type"
       date_registered: "Date registered"
       date_activated: "Date activated"
       status: "Registration status"
