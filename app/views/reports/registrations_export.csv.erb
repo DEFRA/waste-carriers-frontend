@@ -21,6 +21,7 @@
   t('reports.fields.only_amf'),
   t('reports.fields.tier'),
   t('reports.fields.registration_type'),
+  t('reports.fields.company_no'),
   t('reports.fields.date_registered'),
   t('reports.fields.date_activated'),
   t('reports.fields.status'),
@@ -52,7 +53,8 @@
 <% row << registration.constructionWaste %>
 <% row << registration.onlyAMF %>
 <% row << registration.tier %>
-<% row << reg.registrationType %>
+<% row << registration.registrationType %>
+<% row << registration.company_no %>
 <% row << registration.metaData.first.dateRegistered %>
 <% row << registration.metaData.first.dateActivated %>
 <% row << registration.metaData.first.status %>
