@@ -38,73 +38,74 @@
                 <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
               </span>
             <% end %>
-            <table summary="<%= t '.summary' %>" role='presentation'>
-              <thead>
-                <tr>
-                  <th><%= t 'reports.fields.reg_identifier' %></th>
-                  <th><%= t 'reports.fields.company_name' %></th>
-                  <th><%= t 'reports.fields.house_number' %></th>
-                  <th><%= t 'reports.fields.street_line_1' %></th>
-                  <th><%= t 'reports.fields.street_line_2' %></th>
-                  <th><%= t 'reports.fields.street_line_3' %></th>
-                  <th><%= t 'reports.fields.street_line_4' %></th>
-                  <th><%= t 'reports.fields.town_city' %></th>
-                  <th><%= t 'reports.fields.postcode' %></th>
-                  <th><%= t 'reports.fields.first_name' %></th>
-                  <th><%= t 'reports.fields.last_name' %></th>
-                  <th><%= t 'reports.fields.position' %></th>
-                  <th><%= t 'reports.fields.phone_number' %></th>
-                  <th><%= t 'reports.fields.contact_email' %></th>
-                  <th><%= t 'reports.fields.account_email' %></th>
-                  <th><%= t 'reports.fields.business_type' %></th>
-                  <th><%= t 'reports.fields.other_businesses' %></th>
-                  <th><%= t 'reports.fields.is_main_service' %></th>
-                  <th><%= t 'reports.fields.construction_waste' %></th>
-                  <th><%= t 'reports.fields.only_amf' %></th>
-                  <th><%= t 'reports.fields.tier' %></th>
-                  <th><%= t 'reports.fields.registration_type' %></th>
-                  <th><%= t 'reports.fields.date_registered' %></th>
-                  <th><%= t 'reports.fields.date_activated' %></th>
-                  <th><%= t 'reports.fields.status' %></th>
-                  <th><%= t 'reports.fields.route' %></th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @registrations.each do |reg| %>
-                <tr>
-                  <td><%= reg.regIdentifier %></td>
-                  <td><%= reg.companyName %></td>
-                  <td><%= reg.houseNumber %></td>
-                  <td><%= reg.streetLine1 %></td>
-                  <td><%= reg.streetLine2 %></td>
-                  <td><%= reg.streetLine3 %></td>
-                  <td><%= reg.streetLine4 %></td>
-                  <td><%= reg.townCity %></td>
-                  <td><%= reg.postcode %></td>
-                  <td><%= reg.firstName %></td>
-                  <td><%= reg.lastName %></td>
-                  <td><%= reg.position %></td>
-                  <td><%= reg.phoneNumber %></td>
-                  <td><%= reg.contactEmail %></td>
-                  <td><%= reg.accountEmail %></td>
-                  <td><%= reg.businessType %></td>
-                  <td><%= reg.otherBusinesses %></td>
-                  <td><%= reg.isMainService %></td>
-                  <td><%= reg.constructionWaste %></td>
-                  <td><%= reg.onlyAMF %></td>
-                  <td><%= reg.tier %></td>
-                  <td><%= reg.registrationType %></td>
-                  <td><%= reg.metaData.first.dateRegistered %></td>
-                  <td><%= reg.metaData.first.dateActivated %></td>
-                  <td><%= reg.metaData.first.status %></td>
-                  <td><%= reg.metaData.first.route %></td>
-                </tr>
-                <% end %>
-              </tbody>
-            </table>
           </div>
         </div><!--inner-block-->
       </div><!--grid-2-3-->
     </div><!--grid-wrapper-->
   </main><!--main-->
 </div><!--wrapper-->
+
+<table summary="<%= t '.summary' %>" role='presentation'>
+  <thead>
+    <tr>
+      <th><%= t 'reports.fields.reg_identifier' %></th>
+      <th><%= t 'reports.fields.company_name' %></th>
+      <th><%= t 'reports.fields.house_number' %></th>
+      <th><%= t 'reports.fields.street_line_1' %></th>
+      <th><%= t 'reports.fields.street_line_2' %></th>
+      <th><%= t 'reports.fields.street_line_3' %></th>
+      <th><%= t 'reports.fields.street_line_4' %></th>
+      <th><%= t 'reports.fields.town_city' %></th>
+      <th><%= t 'reports.fields.postcode' %></th>
+      <th><%= t 'reports.fields.first_name' %></th>
+      <th><%= t 'reports.fields.last_name' %></th>
+      <th><%= t 'reports.fields.position' %></th>
+      <th><%= t 'reports.fields.phone_number' %></th>
+      <th><%= t 'reports.fields.contact_email' %></th>
+      <th><%= t 'reports.fields.account_email' %></th>
+      <th><%= t 'reports.fields.business_type' %></th>
+      <th><%= t 'reports.fields.other_businesses' %></th>
+      <th><%= t 'reports.fields.is_main_service' %></th>
+      <th><%= t 'reports.fields.construction_waste' %></th>
+      <th><%= t 'reports.fields.only_amf' %></th>
+      <th><%= t 'reports.fields.tier' %></th>
+      <th><%= t 'reports.fields.registration_type' %></th>
+      <th><%= t 'reports.fields.date_registered' %></th>
+      <th><%= t 'reports.fields.date_activated' %></th>
+      <th><%= t 'reports.fields.status' %></th>
+      <th><%= t 'reports.fields.route' %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @registrations.each do |reg| %>
+    <tr>
+      <td><%= reg.regIdentifier %></td>
+      <td><%= reg.companyName %></td>
+      <td><%= reg.houseNumber %></td>
+      <td><%= reg.streetLine1 %></td>
+      <td><%= reg.streetLine2 %></td>
+      <td><%= reg.streetLine3 %></td>
+      <td><%= reg.streetLine4 %></td>
+      <td><%= reg.townCity %></td>
+      <td><%= reg.postcode %></td>
+      <td><%= reg.firstName %></td>
+      <td><%= reg.lastName %></td>
+      <td><%= reg.position %></td>
+      <td><%= reg.phoneNumber %></td>
+      <td><%= reg.contactEmail %></td>
+      <td><%= reg.accountEmail %></td>
+      <td><%= reg.businessType %></td>
+      <td><%= reg.otherBusinesses %></td>
+      <td><%= reg.isMainService %></td>
+      <td><%= reg.constructionWaste %></td>
+      <td><%= reg.onlyAMF %></td>
+      <td><%= reg.tier %></td>
+      <td><%= reg.registrationType %></td>
+      <td><%= reg.metaData.first.dateRegistered %></td>
+      <td><%= reg.metaData.first.dateActivated %></td>
+      <td><%= reg.metaData.first.status %></td>
+      <td><%= reg.metaData.first.route %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
