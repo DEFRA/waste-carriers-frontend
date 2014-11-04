@@ -1103,6 +1103,7 @@ en:
       status: "Registration status"
       route: "Route"
       expires_on: "Expires on"
+      declared_convictions: "Declared convictions"
       date_created: "Transaction date"
       date_received: "Transaction date"
       order_code: "Order code"
