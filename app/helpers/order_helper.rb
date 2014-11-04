@@ -197,7 +197,8 @@ module OrderHelper
     orderLabel = ''
     incCopyCards = ''
     registrationMessage = ' Waste Carrier Registration: ' + myRegistration.regIdentifier
-    forRegistrationMessage = ' for ' + myRegistration.companyName
+    # Encode or Escape &'s in company name
+    forRegistrationMessage = ' for ' + myRegistration.companyName.encode(:xml => :text)
     plusMessage = ', Plus '
     copyCardMessage = myRegistration.copy_cards.to_i.to_s + ' copy cards'
 
