@@ -34,7 +34,7 @@ module WorldpayHelper
       shopperFirstName = registration.firstName
       shopperLastName = registration.lastName
       shopperAddress1 = registration.houseNumber
-      shopperAddress2 = registration.streetLine1.gsub("&", "&amp;") if registration.streetLine1
+      shopperAddress2 = registration.streetLine1.encode(:xml => :text) if registration.streetLine1
       shopperPostalCode = registration.postcode
       shopperCity = registration.townCity
       shopperCountryCode = 'GB'
