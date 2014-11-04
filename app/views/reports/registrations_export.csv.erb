@@ -25,7 +25,8 @@
   t('reports.fields.date_registered'),
   t('reports.fields.date_activated'),
   t('reports.fields.status'),
-  t('reports.fields.route')
+  t('reports.fields.route'),
+  t('reports.fields.expires_on')
 ] %>
 <% # Apologies for the formatting in this file, however any formatting such as %>
 <% # indenting or line spaces get directly translated to the exported CSV file. %>
@@ -59,5 +60,6 @@
 <% row << registration.metaData.first.dateActivated %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
+<% row << format_time(registration.expires_on) %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <%end%>

@@ -1102,6 +1102,7 @@ en:
       date_activated: "Date activated"
       status: "Registration status"
       route: "Route"
+      expires_on: "Expires on"
       date_created: "Transaction date"
       date_received: "Transaction date"
       order_code: "Order code"
