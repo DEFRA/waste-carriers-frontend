@@ -1054,6 +1054,11 @@ class RegistrationsController < ApplicationController
       # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
       if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
         session[:renderType] = Order.renew_registration_identifier
+        if session[:edit_result]
+          if session[:edit_result].to_i.eql? EditResult::CREATE_NEW_REGISTRATION
+            session[:renderType] = Order.editrenew_caused_new_identifier
+          end
+        end
       else
         session[:renderType] = Order.new_registration_identifier
       end
@@ -1877,7 +1882,7 @@ class RegistrationsController < ApplicationController
     redirect_to upper_payment_path
   end
 
-  # Function to redirect additional copy card orders to the order controller
+  # Function to redirect renewal which caused new registration to the order controller
   def newOrderCausedNew registration_uuid
     session[:renderType] = Order.editrenew_caused_new_identifier
     session[:orderCode] = generateOrderCode
