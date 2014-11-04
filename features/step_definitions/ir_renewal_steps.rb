@@ -25,6 +25,20 @@ Given(/^I have completed smart answers given my existing IR data$/) do
   click_on 'Next'
 end
 
+Given(/^I have completed smart answers, but changed my business type$/) do
+  # Prepopulated business type
+  choose 'registration_businessType_partnership'  # assumes original value was soletrader, thus partnership is a change from original
+  click_on 'Next'
+  
+  # Remaining smart answer questions are not prepopulated
+  choose 'registration_otherBusinesses_yes'
+  click_on 'Next'
+  choose 'registration_isMainService_yes'
+  click_on 'Next'
+  choose 'registration_onlyAMF_no'
+  click_on 'Next'
+end
+
 Given(/^my waste carrier status is prepopulated$/) do
   click_on 'Next'
 end
