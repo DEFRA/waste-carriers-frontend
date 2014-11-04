@@ -28,12 +28,21 @@
   t('reports.fields.route'),
   t('reports.fields.access_code'),
   t('reports.fields.expires_on'),
-  t('reports.fields.declared_convictions')
+  t('reports.fields.declared_convictions'),
+  t('reports.fields.key_first_name'),
+  t('reports.fields.key_last_name'),
+  t('reports.fields.key_dob'),
+  t('reports.fields.key_position'),
+  t('reports.fields.key_person_type'),
+  t('reports.fields.key_match_result'),
+  t('reports.fields.key_search_at'),
+  t('reports.fields.key_confirmed')
 ] %>
 <% # Apologies for the formatting in this file, however any formatting such as %>
 <% # indenting or line spaces get directly translated to the exported CSV file. %>
 <%= CSV.generate_line(headings, { :row_sep => nil, :force_quotes => true }).html_safe %>
 <% @registrations.each do |registration| %>
+<% registration.key_people.each do |person| %>
 <% row = [] %>
 <% row << registration.regIdentifier %>
 <% row << registration.companyName %>
@@ -65,5 +74,14 @@
 <% row << registration.accessCode %>
 <% row << format_time(registration.expires_on) %>
 <% row << registration.declaredConvictions %>
+<% row << person.first_name %>
+<% row << person.last_name %>
+<% row << format_as_date_only(person.dob) %>
+<% row << person.position %>
+<% row << person.person_type %>
+<% row << person.conviction_search_result.first.match_result %>
+<% row << format_time(person.conviction_search_result.first.searched_at) %>
+<% row << person.conviction_search_result.first.confirmed %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
+<% end %>
 <%end%>

@@ -78,42 +78,60 @@
       <th><%= t 'reports.fields.access_code' %></th>
       <th><%= t 'reports.fields.expires_on' %></th>
       <th><%= t 'reports.fields.declared_convictions' %></th>
+      <th><%= t 'reports.fields.key_first_name' %></th>
+      <th><%= t 'reports.fields.key_last_name' %></th>
+      <th><%= t 'reports.fields.key_dob' %></th>
+      <th><%= t 'reports.fields.key_position' %></th>
+      <th><%= t 'reports.fields.key_person_type' %></th>
+      <th><%= t 'reports.fields.key_match_result' %></th>
+      <th><%= t 'reports.fields.key_search_at' %></th>
+      <th><%= t 'reports.fields.key_confirmed' %></th>
     </tr>
   </thead>
   <tbody>
     <% @registrations.each do |reg| %>
-    <tr>
-      <td><%= reg.regIdentifier %></td>
-      <td><%= reg.companyName %></td>
-      <td><%= reg.houseNumber %></td>
-      <td><%= reg.streetLine1 %></td>
-      <td><%= reg.streetLine2 %></td>
-      <td><%= reg.streetLine3 %></td>
-      <td><%= reg.streetLine4 %></td>
-      <td><%= reg.townCity %></td>
-      <td><%= reg.postcode %></td>
-      <td><%= reg.firstName %></td>
-      <td><%= reg.lastName %></td>
-      <td><%= reg.position %></td>
-      <td><%= reg.phoneNumber %></td>
-      <td><%= reg.contactEmail %></td>
-      <td><%= reg.accountEmail %></td>
-      <td><%= reg.businessType %></td>
-      <td><%= reg.otherBusinesses %></td>
-      <td><%= reg.isMainService %></td>
-      <td><%= reg.constructionWaste %></td>
-      <td><%= reg.onlyAMF %></td>
-      <td><%= reg.tier %></td>
-      <td><%= reg.registrationType %></td>
-      <td><%= reg.company_no %></td>
-      <td><%= reg.metaData.first.dateRegistered %></td>
-      <td><%= reg.metaData.first.dateActivated %></td>
-      <td><%= reg.metaData.first.status %></td>
-      <td><%= reg.metaData.first.route %></td>
-      <td><%= reg.accessCode %></td>
-      <td><%= format_time reg.expires_on %></td>
-      <td><%= reg.declaredConvictions %></td>
-    </tr>
+      <% reg.key_people.each do |person| %>
+        <tr>
+          <td><%= reg.regIdentifier %></td>
+          <td><%= reg.companyName %></td>
+          <td><%= reg.houseNumber %></td>
+          <td><%= reg.streetLine1 %></td>
+          <td><%= reg.streetLine2 %></td>
+          <td><%= reg.streetLine3 %></td>
+          <td><%= reg.streetLine4 %></td>
+          <td><%= reg.townCity %></td>
+          <td><%= reg.postcode %></td>
+          <td><%= reg.firstName %></td>
+          <td><%= reg.lastName %></td>
+          <td><%= reg.position %></td>
+          <td><%= reg.phoneNumber %></td>
+          <td><%= reg.contactEmail %></td>
+          <td><%= reg.accountEmail %></td>
+          <td><%= reg.businessType %></td>
+          <td><%= reg.otherBusinesses %></td>
+          <td><%= reg.isMainService %></td>
+          <td><%= reg.constructionWaste %></td>
+          <td><%= reg.onlyAMF %></td>
+          <td><%= reg.tier %></td>
+          <td><%= reg.registrationType %></td>
+          <td><%= reg.company_no %></td>
+          <td><%= reg.metaData.first.dateRegistered %></td>
+          <td><%= reg.metaData.first.dateActivated %></td>
+          <td><%= reg.metaData.first.status %></td>
+          <td><%= reg.metaData.first.route %></td>
+          <td><%= reg.accessCode %></td>
+          <td><%= format_time reg.expires_on %></td>
+          <td><%= reg.declaredConvictions %></td>
+          <td><%= person.first_name %></td>
+          <td><%= person.last_name %></td>
+          <td><%= format_as_date_only person.dob %></td>
+          <td><%= person.position %></td>
+          <td><%= person.person_type %></td>
+          <td><%= person.conviction_search_result.first.match_result %></td>
+          <td><%= person.conviction_search_result.first.searched_at %></td>
+          <td><%= person.conviction_search_result.first.confirmed %></td>
+        </tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
