@@ -1097,6 +1097,7 @@ en:
       only_amf: "Only AMF"
       tier: "Tier"
       registration_type: "Registration type"
+      company_no: "Company no."
       date_registered: "Date registered"
       date_activated: "Date activated"
       status: "Registration status"
