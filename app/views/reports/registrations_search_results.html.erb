@@ -76,6 +76,7 @@
       <th><%= t 'reports.fields.status' %></th>
       <th><%= t 'reports.fields.route' %></th>
       <th><%= t 'reports.fields.expires_on' %></th>
+      <th><%= t 'reports.fields.declared_convictions' %></th>
     </tr>
   </thead>
   <tbody>
@@ -109,6 +110,7 @@
       <td><%= reg.metaData.first.status %></td>
       <td><%= reg.metaData.first.route %></td>
       <td><%= format_time reg.expires_on %></td>
+      <td><%= reg.declaredConvictions %></td>
     </tr>
     <% end %>
   </tbody>
