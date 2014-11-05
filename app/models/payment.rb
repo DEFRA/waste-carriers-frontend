@@ -19,7 +19,7 @@ class Payment < Ohm::Model
   attribute :comment
   attribute :paymentType
   attribute :manualPayment
-  
+
   # These are meta data fields used only in rails for storing a temporary value to determine:
   # the exception detail from the services
   attribute :exception
@@ -74,7 +74,7 @@ class Payment < Ohm::Model
       Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
-      
+
       if e.try(:http_code)
 	    if e.http_code == 422
 	      # Get actual error from services
@@ -92,7 +92,7 @@ class Payment < Ohm::Model
 	      self.exception = messageFromServices
 	    end
       end
-      
+
       commited = false
     end
     if isManualPayment?
@@ -120,7 +120,7 @@ class Payment < Ohm::Model
   PAYMENT_TYPES_FINANCE_BASIC = %w[
     BANKTRANSFER
   ]
-  
+
   PAYMENT_TYPES_FINANCE_ADMIN = %w[
     WORLDPAY_MISSED
   ]
@@ -153,7 +153,7 @@ class Payment < Ohm::Model
   def self.payment_type_financeBasic_options_for_select
     (PAYMENT_TYPES_FINANCE_BASIC.collect {|d| [I18n.t('payment_types.'+d), d]})
   end
-  
+
   def self.payment_type_financeAdmin_options_for_select
     (PAYMENT_TYPES_FINANCE_ADMIN.collect {|d| [I18n.t('payment_types.'+d), d]})
   end
@@ -246,13 +246,13 @@ class Payment < Ohm::Model
   def isAutomatedPayment?
     !isManualPayment?
   end
-  
+
   REFUND_EXTENSION = '_REFUNDED'
-  
+
   def makeRefund
     self.orderKey = self.orderKey + REFUND_EXTENSION
   end
-  
+
   # Ensures if a reversal payment type is selected, then the amount entered is negated
   def negateAmount
     if self.paymentType == "REVERSAL"
@@ -263,7 +263,7 @@ class Payment < Ohm::Model
       end
     end
   end
-  
+
   def isRefundableType?
     refundable = false
     PAYMENT_TYPES.each do |type|
