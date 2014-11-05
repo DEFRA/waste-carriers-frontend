@@ -1113,8 +1113,7 @@ en:
       key_match_result: "Key Per. match result"
       key_search_at: "Key Per. searched at"
       key_confirmed: "Key Per. confirmed"
-      date_created: "Transaction date"
-      date_received: "Transaction date"
+      transaction_date: "Transaction date"
       order_code: "Order code"
       charge_type: "Charge type"
       charge_amount: "Charge amount"
@@ -1126,6 +1125,7 @@ en:
       payment_amount: "Payment amount"
       comment: "Comments"
       payment_updated_by: "Payment updated by"
+      payment_entered: "Payment entered"
       balance: "Balance"
     registrations_search:
       title: "Registrations Search"
