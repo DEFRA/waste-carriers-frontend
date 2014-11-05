@@ -3,7 +3,7 @@
   t('reports.fields.company_name'),
   t('reports.fields.status'),
   t('reports.fields.route'),
-  t('reports.fields.date_created'),
+  t('reports.fields.transaction_date'),
   t('reports.fields.order_code'),
   t('reports.fields.charge_type'),
   t('reports.fields.charge_amount'),
@@ -71,7 +71,7 @@
 <% row << registration.companyName %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
-<% row << format_time(payment.dateEntered) %>
+<% row << format_time(payment.dateReceived) %>
 <% row << '' %>
 <% row << '' %>
 <% row << '' %>
