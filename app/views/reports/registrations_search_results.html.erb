@@ -77,6 +77,7 @@
       <th><%= t 'reports.fields.route' %></th>
       <th><%= t 'reports.fields.access_code' %></th>
       <th><%= t 'reports.fields.expires_on' %></th>
+      <th><%= t 'reports.fields.company_match_result' %></th>
       <th><%= t 'reports.fields.declared_convictions' %></th>
       <th><%= t 'reports.fields.key_first_name' %></th>
       <th><%= t 'reports.fields.key_last_name' %></th>
@@ -122,6 +123,7 @@
           <td><%= reg.metaData.first.route %></td>
           <td><%= reg.accessCode %></td>
           <td><%= format_time reg.expires_on %></td>
+          <td><%= reg.conviction_search_result.first.match_result %></td>
           <td><%= reg.declaredConvictions %></td>
           <td><%= person.first_name %></td>
           <td><%= person.last_name %></td>
@@ -154,15 +156,16 @@
         <td><%= reg.constructionWaste %></td>
         <td><%= reg.onlyAMF %></td>
         <td><%= reg.tier %></td>
-        <td><%= reg.registrationType %></td>
-        <td><%= reg.company_no %></td>
+        <td>&nbsp;</td><!-- reg.registrationType -->
+        <td>&nbsp;</td><!-- reg.company_no -->
         <td><%= reg.metaData.first.dateRegistered %></td>
         <td><%= reg.metaData.first.dateActivated %></td>
         <td><%= reg.metaData.first.status %></td>
         <td><%= reg.metaData.first.route %></td>
         <td><%= reg.accessCode %></td>
         <td><%= format_time reg.expires_on %></td>
-        <td><%= reg.declaredConvictions %></td>
+        <td>&nbsp;</td><!-- reg.conviction_search_result.first.match_result -->
+        <td>&nbsp;</td><!-- reg.declaredConvictions -->
         <td>&nbsp;</td><!-- person.first_name -->
         <td>&nbsp;</td><!-- person.last_name -->
         <td>&nbsp;</td><!-- person.dob -->
