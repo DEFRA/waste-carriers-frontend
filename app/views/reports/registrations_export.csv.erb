@@ -28,6 +28,7 @@
   t('reports.fields.route'),
   t('reports.fields.access_code'),
   t('reports.fields.expires_on'),
+  t('reports.fields.company_match_result'),
   t('reports.fields.declared_convictions'),
   t('reports.fields.key_first_name'),
   t('reports.fields.key_last_name'),
@@ -42,6 +43,7 @@
 <% # indenting or line spaces get directly translated to the exported CSV file. %>
 <%= CSV.generate_line(headings, { :row_sep => nil, :force_quotes => true }).html_safe %>
 <% @registrations.each do |registration| %>
+<% if registration.tier == 'UPPER' %>
 <% registration.key_people.each do |person| %>
 <% row = [] %>
 <% row << registration.regIdentifier %>
@@ -73,6 +75,7 @@
 <% row << registration.metaData.first.route %>
 <% row << registration.accessCode %>
 <% row << format_time(registration.expires_on) %>
+<% row << registration.conviction_search_result.first.match_result %>
 <% row << registration.declaredConvictions %>
 <% row << person.first_name %>
 <% row << person.last_name %>
@@ -84,4 +87,47 @@
 <% row << person.conviction_search_result.first.confirmed %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <% end %>
-<%end%>
+<% else %>
+<% row = [] %>
+<% row << registration.regIdentifier %>
+<% row << registration.companyName %>
+<% row << registration.houseNumber %>
+<% row << registration.streetLine1 %>
+<% row << registration.streetLine2 %>
+<% row << registration.streetLine3 %>
+<% row << registration.streetLine4 %>
+<% row << registration.townCity %>
+<% row << registration.postcode %>
+<% row << registration.firstName %>
+<% row << registration.lastName %>
+<% row << registration.position %>
+<% row << registration.phoneNumber %>
+<% row << registration.contactEmail %>
+<% row << registration.accountEmail %>
+<% row << registration.businessType %>
+<% row << registration.otherBusinesses %>
+<% row << registration.isMainService %>
+<% row << registration.constructionWaste %>
+<% row << registration.onlyAMF %>
+<% row << registration.tier %>
+<% row << '' %>
+<% row << '' %>
+<% row << registration.metaData.first.dateRegistered %>
+<% row << registration.metaData.first.dateActivated %>
+<% row << registration.metaData.first.status %>
+<% row << registration.metaData.first.route %>
+<% row << registration.accessCode %>
+<% row << format_time(registration.expires_on) %>
+<% row << '' %>
+<% row << '' %>
+<% row << '' %>
+<% row << '' %>
+<% row << '' %>
+<% row << '' %>
+<% row << '' %>
+<% row << '' %>
+<% row << '' %>
+<% row << '' %>
+<%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
+<% end %>
+<% end %>
