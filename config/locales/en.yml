@@ -1104,6 +1104,7 @@ en:
       route: "Route"
       access_code: "Access code"
       expires_on: "Expires on"
+      company_match_result: "Company match result"
       declared_convictions: "Declared convictions"
       key_first_name: "Key Per. first name"
       key_last_name: "Key Per. last name"
@@ -1185,7 +1186,7 @@ en:
       progress: Progress
   route_options:
     ASSISTED_DIGITAL: "Assisted Digital"
-    DIGITAL: "Active"
+    DIGITAL: "Digital"
   tier_options:
     LOWER: "Lower"
     UPPER: "Upper"
