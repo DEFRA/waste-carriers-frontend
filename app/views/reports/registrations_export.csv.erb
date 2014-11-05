@@ -28,6 +28,7 @@
   t('reports.fields.route'),
   t('reports.fields.access_code'),
   t('reports.fields.expires_on'),
+  t('reports.fields.company_match_result'),
   t('reports.fields.declared_convictions'),
   t('reports.fields.key_first_name'),
   t('reports.fields.key_last_name'),
@@ -74,6 +75,7 @@
 <% row << registration.metaData.first.route %>
 <% row << registration.accessCode %>
 <% row << format_time(registration.expires_on) %>
+<% row << registration.conviction_search_result.first.match_result %>
 <% row << registration.declaredConvictions %>
 <% row << person.first_name %>
 <% row << person.last_name %>
@@ -108,15 +110,16 @@
 <% row << registration.constructionWaste %>
 <% row << registration.onlyAMF %>
 <% row << registration.tier %>
-<% row << registration.registrationType %>
-<% row << registration.company_no %>
+<% row << '' %>
+<% row << '' %>
 <% row << registration.metaData.first.dateRegistered %>
 <% row << registration.metaData.first.dateActivated %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
 <% row << registration.accessCode %>
 <% row << format_time(registration.expires_on) %>
-<% row << registration.declaredConvictions %>
+<% row << '' %>
+<% row << '' %>
 <% row << '' %>
 <% row << '' %>
 <% row << '' %>
