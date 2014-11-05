@@ -3,7 +3,7 @@ class Report
   include ActiveModel::Model
 
   attr_accessor :is_new, :search_type
-  attr_accessor :from, :to, :has_declared_convictions, :is_criminally_suspect
+  attr_accessor :from, :to, :has_declared_convictions, :conviction_check_match
   attr_accessor :routes, :tiers, :statuses, :business_types
   attr_accessor :payment_statuses, :payment_types, :charge_types
   attr_accessor :result_count
@@ -115,8 +115,8 @@ class Report
       param_args[:declaredConvictions] = has_declared_convictions
     end
 
-    unless is_criminally_suspect.blank?
-      param_args[:criminallySuspect] = is_criminally_suspect
+    unless conviction_check_match.blank?
+      param_args[:convictionCheckMatch] = conviction_check_match
     end
 
     unless result_count.blank?
