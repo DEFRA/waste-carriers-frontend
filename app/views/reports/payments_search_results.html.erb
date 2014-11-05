@@ -55,7 +55,7 @@
       <th><%= t 'reports.fields.company_name' %></th>
       <th><%= t 'reports.fields.status' %></th>
       <th><%= t 'reports.fields.route' %></th>
-      <th><%= t 'reports.fields.date_created' %></th>
+      <th><%= t 'reports.fields.transaction_date' %></th>
       <th><%= t 'reports.fields.order_code' %></th>
       <th><%= t 'reports.fields.charge_type' %></th>
       <th><%= t 'reports.fields.charge_amount' %></th>
@@ -132,7 +132,7 @@
               <td><%= registration.companyName %></td>
               <td><%= registration.metaData.first.status %></td>
               <td><%= registration.metaData.first.route %></td>
-              <td><%= format_time payment.dateEntered %></td>
+              <td><%= format_time payment.dateReceived %></td>
               <td>&nbsp;</td><!-- order code -->
               <td>&nbsp;</td><!-- charge type -->
               <td>&nbsp;</td><!-- charge amount -->
