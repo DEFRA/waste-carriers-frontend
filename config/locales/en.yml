@@ -1211,10 +1211,10 @@ en:
     BANKTRANSFER: "Bank transfer"
     REVERSAL: "Reversal"
   charge_type_options:
-    initial_registration: "Initial Registration"
-    renewal: "Renewal"
-    copy_cards: "Copy Cards"
-    edit: "Edit"
+    NEW: "Initial Registration"
+    RENEW: "Renewal"
+    COPY_CARDS: "Copy Cards"
+    EDIT: "Edit"
   registration_status:
     INACTIVE: "Deleted"
     EXPIRED: "Expired"
