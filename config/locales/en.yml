@@ -1139,7 +1139,7 @@ en:
       business_type: "Business type"
       convictions: "Convictions"
       has_declared_convictions: "Has declared convictions"
-      is_criminally_suspect: "Is criminally suspect"
+      conviction_check_match: "Has conviction check match"
     registrations_search_results:
       title: "Registrations Search Results"
       subtitle: "Registration search results summary"
