@@ -1185,7 +1185,7 @@ en:
       progress: Progress
   route_options:
     ASSISTED_DIGITAL: "Assisted Digital"
-    DIGITAL: "Active"
+    DIGITAL: "Digital"
   tier_options:
     LOWER: "Lower"
     UPPER: "Upper"
