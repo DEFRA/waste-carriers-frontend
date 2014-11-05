@@ -163,38 +163,30 @@ class Report
 
     def validate_from
 
-      unless search_type == :payment
+      if from.blank?
+        Rails.logger.debug "report 'from' field is empty"
+        errors.add(:from, I18n.t('errors.messages.blank') )
+        return
+      end
 
-        if from.blank?
-          Rails.logger.debug "report 'from' field is empty"
-          errors.add(:from, I18n.t('errors.messages.blank') )
-          return
-        end
-
-        unless from.is_date?
-          Rails.logger.debug "report 'from' field is invalid"
-          errors.add(:from, I18n.t('errors.messages.invalid_date') )
-        end
-
+      unless from.is_date?
+        Rails.logger.debug "report 'from' field is invalid"
+        errors.add(:from, I18n.t('errors.messages.invalid_date') )
       end
 
     end
 
     def validate_to
 
-      unless search_type == :payment
+      if to.blank?
+        Rails.logger.debug "report 'to' field is empty"
+        errors.add(:to, I18n.t('errors.messages.blank') )
+        return
+      end
 
-        if to.blank?
-          Rails.logger.debug "report 'to' field is empty"
-          errors.add(:to, I18n.t('errors.messages.blank') )
-          return
-        end
-
-        unless to.is_date?
-          Rails.logger.debug "report 'to' field is invalid"
-          errors.add(:to, I18n.t('errors.messages.invalid_date') )
-        end
-
+      unless to.is_date?
+        Rails.logger.debug "report 'to' field is invalid"
+        errors.add(:to, I18n.t('errors.messages.invalid_date') )
       end
 
     end
