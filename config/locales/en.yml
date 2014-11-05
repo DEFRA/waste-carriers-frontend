@@ -1125,6 +1125,7 @@ en:
       payment_amount: "Payment amount"
       comment: "Comments"
       payment_updated_by: "Payment updated by"
+      payment_entered: "Payment entered"
       balance: "Balance"
     registrations_search:
       title: "Registrations Search"
