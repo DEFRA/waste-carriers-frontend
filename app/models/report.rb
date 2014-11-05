@@ -49,10 +49,10 @@ class Report
   ]
 
   CHARGE_TYPE_OPTIONS = %w[
-    initial_registration
-    renewal
-    copy_cards
-    edit
+    NEW
+    RENEW
+    COPY_CARDS
+    EDIT
   ]
 
   # Class methods ##############################################################
