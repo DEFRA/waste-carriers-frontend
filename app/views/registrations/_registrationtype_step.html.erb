@@ -8,7 +8,7 @@
       </div>
   </header>
 
-  <div class="form-group-type<%if @registration.errors[:registrationType].any?%> validation<%end%>" id="registration_registrationType" role="group" aria-labelledby="groupLabel">
+  <div class="form-group<%if @registration.errors[:registrationType].any?%> validation<%end%>" id="registration_registrationType" role="group" aria-labelledby="groupLabel">
     <%= validation_for(@registration, :registrationType) %>
     <div class='inline'>
       <%= f.label :yes_option_label, for: "registration_registrationType_carrier_dealer", :class => "block-label" do %>

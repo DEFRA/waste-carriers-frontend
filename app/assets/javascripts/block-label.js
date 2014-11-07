@@ -2,7 +2,7 @@ $(document).ready(function() {
 
   // Example - Form focus styles
 
-  if ($('fieldset').length>0) {
+  if ($('.form-group, fieldset').length>0) {
 
     $(".block-label").each(function() {
 
