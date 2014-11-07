@@ -26,9 +26,9 @@ gem 'indefinite_article', '~> 0.2.0'
 
 # Provided by GDS - Template gives us the master layout into which
 # we can inject our content using yield and content_for
-gem 'govuk_template', '~>0.8.1'
+gem 'govuk_template'
 # Access to some of the most common styles and scripts used by GDS
-gem 'govuk_frontend_toolkit', '~> 1.5.0'
+gem 'govuk_frontend_toolkit'
 
 # Gems used only for assets and not required
 # in production environments by default.
