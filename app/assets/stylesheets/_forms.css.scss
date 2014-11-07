@@ -33,6 +33,7 @@ legend {
   @include copy-19;
     display: block;
     padding-top:$gutter;
+    box-sizing:border-box;
   @include media (mobile){
     padding-top: $gutter-half;
   }
@@ -63,7 +64,8 @@ input {
   margin-bottom: $gutter-half;
   display:block;
   max-width: 30em;
-  border: 1px solid rgb(187, 187, 187);
+  box-sizing: border-box;
+  padding-left: 5px;
 }
 
 
@@ -134,7 +136,7 @@ input {
 // Position checkbox within label, to allow text to wrap
 .block-label input {
   position: absolute;
-  top: 18px;
+  top: $gutter-half;
   left: $gutter-half;
   cursor: pointer;
 }
