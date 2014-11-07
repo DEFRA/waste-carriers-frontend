@@ -20,15 +20,15 @@ gem "cancan", "~> 1.6.10"
 gem 'activeresource', '~>4.0.0'
 gem 'password_strength', '~>0.3.2'
 
-gem 'rolify'
+gem 'rolify','~> 3.4.0'
 
-gem 'indefinite_article'
+gem 'indefinite_article', '~> 0.2.0'
 
 # Provided by GDS - Template gives us the master layout into which
 # we can inject our content using yield and content_for
-gem 'govuk_template'
+gem 'govuk_template', '~>0.8.1'
 # Access to some of the most common styles and scripts used by GDS
-gem 'govuk_frontend_toolkit'
+gem 'govuk_frontend_toolkit', '~> 1.5.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -60,11 +60,11 @@ gem 'capistrano', '~> 3.0.0'
 # To use debugger
 # gem 'debugger'
 
-gem 'rest-client'
-gem 'ohm'
+gem 'rest-client', '~> 1.6.7'
+gem 'ohm', '~> 2.0.1'
 
-gem 'money-rails'
-gem 'monetize'
+gem 'money-rails', '~> 0.12.0'
+gem 'monetize', '~> 0.3.0'
 
 # For static source code analysis
 gem 'brakeman', :require => false
@@ -72,7 +72,7 @@ gem 'bundler-audit', :require => false
 
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
-  gem 'cucumber-rails', require: false
+  gem 'cucumber-rails', '~> 1.4.0', require: false
   gem 'database_cleaner', '~> 1.3.0'
   gem 'timecop', '~> 0.7.1'
   gem 'factory_girl_rails', '~> 4.4.1'
