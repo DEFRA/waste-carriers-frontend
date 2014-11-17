@@ -39,7 +39,8 @@ And(/^I enter my company name and address$/) do
 end
 
 Given(/^I select an address$/) do
-  select '33 Fennels Way, Flackwell Heath HP10 9BX'
+  #select '33 Fennels Way, Flackwell Heath HP10 9BX'
+  select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
 end
 
 Given(/^I enter an active company number$/) do

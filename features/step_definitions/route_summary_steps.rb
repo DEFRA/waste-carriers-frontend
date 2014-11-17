@@ -49,7 +49,8 @@ Given(/^I have come to the upper tier summary page$/) do
   fill_in 'sPostcode', with: 'BS1 5AH'
   click_on 'Find UK address'
 
-  select 'Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH'
+  #select 'Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH'
+  select 'ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH'
   click_on 'Next'
 
   fill_in 'registration_firstName', with: 'Joe'
