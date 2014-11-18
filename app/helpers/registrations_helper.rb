@@ -279,11 +279,11 @@ module RegistrationsHelper
   def give_meaning_to_reg_type(attr_value)
     case attr_value
     when 'carrier_broker_dealer'
-      "carrier broker and dealer"
+      I18n.t('registrations.registrationtype_step.readable_carrier_broker_dealer')
     when 'carrier_dealer'
-      "carrier dealer (you carry the waste yourselves)"
+      I18n.t('registrations.registrationtype_step.readable_carrier_dealer')
     when 'broker_dealer'
-      "broker dealer (you arrange for other people to carry the waste)"
+      I18n.t('registrations.registrationtype_step.readable_broker_dealer')
     end
   end
 
