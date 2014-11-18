@@ -38,7 +38,7 @@ class AgencyUsersController < ApplicationController
     respond_to do |format|
       if @agency_user.save
         addRemoveRoles
-        format.html { redirect_to @agency_user, notice: 'Agency user was successfully created.' }
+        format.html { redirect_to @agency_user, notice: I18n.t('registrations.form.agencyUserCreated') }
         format.json { render action: 'show', status: :created, location: @agency_user }
       else
         format.html { render action: 'new' }
@@ -55,7 +55,7 @@ class AgencyUsersController < ApplicationController
       
       if @agency_user.update(agency_user_params)
         addRemoveRoles
-        format.html { redirect_to @agency_user, notice: 'Agency user was successfully updated.' }
+        format.html { redirect_to @agency_user, notice: I18n.t('registrations.form.agencyUserUpdated') }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -73,7 +73,7 @@ class AgencyUsersController < ApplicationController
     addRemoveRoles
     @agency_user.destroy
     respond_to do |format|
-      format.html { redirect_to agency_users_url, notice: 'Agency user was successfully deleted.' }
+      format.html { redirect_to agency_users_url, notice: I18n.t('registrations.form.agencyUserDeleted') }
       format.json { head :no_content }
     end
   end
