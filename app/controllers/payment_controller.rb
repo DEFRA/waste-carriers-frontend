@@ -81,7 +81,7 @@ class PaymentController < ApplicationController
 	    end
 
 	    # Redirect user back to payment status
-        redirect_to paymentstatus_path, alert: "Payment has been successfully entered."
+        redirect_to paymentstatus_path, alert: I18n.t('registrations.form.paymentSuccessful')
         return
       end
 	end
@@ -154,7 +154,7 @@ class PaymentController < ApplicationController
     else
       message = 'Write off type incorrect'
       logger.info message
-      redirect_to :paymentstatus, :alert => message
+      redirect_to :paymentstatus, :alert => I18n.t('payment.newWriteOff.writeOffTypeIncorrect')
       return
     end
 
@@ -185,7 +185,7 @@ class PaymentController < ApplicationController
       logger.info 'Unrecognised write off button, sending back to newWriteoff page'
       message = 'Write off type incorrect'
       logger.info message
-      redirect_to :paymentstatus, :alert => message
+      redirect_to :paymentstatus, :alert => I18n.t('payment.newWriteOff.writeOffTypeIncorrect')
       return
     end
 
@@ -223,7 +223,7 @@ class PaymentController < ApplicationController
 	    end
 
 	    # Redirect user back to payment status
-        redirect_to paymentstatus_path, alert: "Write off has been successfully entered."
+        redirect_to paymentstatus_path, alert: I18n.t('payment.newWriteOff.writeOffSuccessful')
         return
 	  end
 	end
@@ -465,10 +465,10 @@ class PaymentController < ApplicationController
 	# Check if response from worldpay contains ok message
 	if responseOk?(response)
 	  # Redirect user back to payment status
-      redirect_to paymentstatus_path, alert: "Refund request has been re-attempted"
+      redirect_to paymentstatus_path, alert: I18n.t('payment.newWPRefund.requestReAttempted')
 	else
 	  # Worldpay refund retry request failed
-      redirect_to paymentstatus_path, alert: "Refund retry request has " + I18n.t('errors.messages.worldpayFailed')
+      redirect_to paymentstatus_path, alert: I18n.t('payment.newWPRefund.reAttemptHas') + " " + I18n.t('errors.messages.worldpayFailed')
 	end
   end
 
@@ -605,7 +605,7 @@ class PaymentController < ApplicationController
 	      end
 
           # Redirect user back to payment status
-          redirect_to paymentstatus_path, alert: "Charge has been successfully entered."
+          redirect_to paymentstatus_path, alert: I18n.t('payment.createAdjustment.success')
           return
         else
           @order.errors.add(:exception, @order.exception.to_s)
@@ -709,7 +709,7 @@ class PaymentController < ApplicationController
 
     if @payment.valid?
       @payment.save! @registration.uuid
-      redirect_to :paymentstatus, :flash => { :alert => "Reversal sucessfully entered" }
+      redirect_to :paymentstatus, :flash => { :alert => I18n.t('payment.newReversal.success') }
       return
     end
 
@@ -720,9 +720,6 @@ class PaymentController < ApplicationController
 
     # Return to entry page, as errors must have occured
     render "newReversal", :status => '400'
-
-    # Tmp: Redirect back to payment status
-    #redirect_to :paymentstatus, :flash => { :alert => "TODO: Not yet Implemented!!!, but should say Reversal sucessfully entered" }
 
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?

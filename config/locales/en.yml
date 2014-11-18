@@ -373,6 +373,8 @@ en:
       confirmText: "Are you sure you want to make a Worldpay refund?"
       orderDetail: "For order: %{orderKey}, in the amount of %{amount}"
       confirmRefund: "To confirm this refund, click the Refund button below."
+      requestReAttempted: "Refund request has been re-attempted"
+      reAttemptHas: "Refund retry request has"
     newWriteOff:
       fields:
         commentGuidance: "Maximum 250 characters"
@@ -383,6 +385,8 @@ en:
       writeOffNotAvailable: "Write off balance is too great for even a finance administrator."
       writeOffUnavailable: "Write off unavailable as balance is too great. Please contact a finance administrator"
       amountToWriteOff: "Amount to write off"
+      writeOffTypeIncorrect: "Write off type incorrect"
+      writeOffSuccessful: "Write off has been successfully entered."
     chargeIndex:
       heading: "Charge adjustments"
       step: "Select what type of charge adjustment you want to make"
@@ -393,11 +397,14 @@ en:
     newAdjustment:
       heading: "Enter charge"
       step: "Enter an additional charge into the system"
+    createAdjustment:
+      success: "Charge has been successfully entered."
     newReversal:
       fields:
         commentGuidance: "Maximum 250 characters"
       heading: "Enter reversal"
       step: "Enter a reversal for a payment into the system"
+      success: "Reversal sucessfully entered"
   payment_types:
     CASH: Cash
     CHEQUE: Cheque
@@ -897,6 +904,7 @@ en:
       paidInFull_text: "Paid in full"
       pay_by_worldpay_button_label: "Pay by credit or debit card"
       pay_offline_button_label: "Pay by bank transfer"
+      paymentSuccessful: "Payment has been successfully entered."
       phoneNumber_label: "Telephone number"
       please_select_address: "Please select an address.."
       postcode_label: "Post code"
