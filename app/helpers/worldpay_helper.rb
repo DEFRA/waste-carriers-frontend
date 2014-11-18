@@ -27,8 +27,7 @@ module WorldpayHelper
       orderCode = order.orderCode
       orderValue = order.totalAmount
       #TODO Remove pre-populated shopper values once Worldpay has been reconfigured not to require address details
-      orderDescription = 'Your Waste Carrier Registration '+ registration.regIdentifier.to_s
-      #orderContent = 'Waste Carrier Registration ' + registration.regIdentifier.to_s + ' ' + registration.companyName.to_s
+      orderDescription = I18n.t('registrations.order.wpOrderDescription', :identifier => registration.regIdentifier.to_s)
       orderContent = order.description.encode(:xml => :text)
       shopperEmail = registration.accountEmail || ''
       shopperFirstName = registration.firstName.encode(:xml => :text)
@@ -133,6 +132,15 @@ module WorldpayHelper
         logger.warn 'WORLDPAY::REDIRECT_ERROR - The was a problem redirecting to the payment pages.'
         errorMessage = ''
         begin
+        
+          #####################################################################################################
+          #                                                                                                   #
+          # NOTE:                                                                                             #
+          # As this message is coming back from Worldpay and being shown to the user as an error              #
+          # on screen, this will (thus far) always be in english and thus not be translatable.                #
+          #                                                                                                   #
+          #####################################################################################################
+          
           errorMessage = doc.at_css('error').text
           logger.warn 'WORLDPAY::REDIRECT_ERROR - errorMessage: ' + errorMessage
         rescue
