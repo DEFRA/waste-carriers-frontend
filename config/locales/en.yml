@@ -1061,6 +1061,9 @@ en:
       subtitle_carrier_dealer: "(carrier and dealer)"
       subtitle_broker_dealer: "(broker and dealer)"
       subtitle_carrier_broker_dealer: "(carrier, broker and dealer)"
+      readable_broker_dealer: "broker dealer (you arrange for other people to carry the waste)"
+      readable_carrier_broker_dealer: "carrier broker and dealer"
+      readable_carrier_dealer: "carrier dealer (you carry the waste yourselves)"
       text: "or"
       title: "Registration type"
     revoke:
