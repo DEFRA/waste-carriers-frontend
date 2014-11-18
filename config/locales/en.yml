@@ -994,6 +994,7 @@ en:
       ccMsg: "%{amount} copy cards"
       copyCardRegistrationMsg: "%{ccMsg} for %{companyName}"
       incCopyCardsMsg: ", Plus %{ccMsg}"
+      wpOrderDescription: "Your Waste Carrier Registration %{identifier}"
     paymentstatus:
       balance_cost_table_heading: £
       balance_table_heading: Balance
