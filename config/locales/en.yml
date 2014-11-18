@@ -936,6 +936,9 @@ en:
       writeoff_button_label: "Write off"
       writeofflarge_button_label: "Write off (large)"
       writeoffsmall_button_label: "Write off (small)"
+      paymentFailed: "Your payment failed"
+      paymentCancelled: "You have cancelled your payment"
+      paymentWorldPay: "Paid via Worldpay"
     nccc_edit:
       registeredOn: "Registered on: %{date}"
       revokedQuestion: "Do you wish to revoke this registration?"
