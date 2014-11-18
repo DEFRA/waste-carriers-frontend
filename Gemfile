@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 #Needed for pre-release gov.uk gems
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.11'
 
 gem 'debugger', :require => false
 
@@ -33,7 +33,7 @@ gem 'govuk_frontend_toolkit'
 # Gems used only for assets and not required
 # in production environments by default.
 
-gem 'sass-rails',   '~> 4.0.0'
+gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
