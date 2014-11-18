@@ -852,6 +852,9 @@ en:
       address_and_contact_details_heading: "Address and contact details"
       addresses_found: " Address(es) found"
       agency_search_label: "Find a registered business, organisation or trader"
+      agencyUserCreated: "Agency user was successfully created."
+      agencyUserUpdated: "Agency user was successfully updated."
+      agencyUserDeleted: "Agency user was successfully deleted."
       adjustments_button_label: "Charge adjustments"
       awaitingPayment_text: "Awaiting payment"
       back_button_label: Back
