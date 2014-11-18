@@ -327,6 +327,10 @@ en:
         subject: 'We have received your application for a %{tier} tier registration for %{companyName}.'
       payment:
         subject: 'We have received your application for a %{tier} tier registration for %{companyName}, and are awaiting your payment.'
+      revoke:
+        subject: 'The %{tier} tier registration for %{companyName} has been revoked.'
+      complete:
+        subject: 'Waste Carrier Registration Complete'
   order:
     new:
       debit_card_note: "You will be transferred to the secure WorldPay site for you to enter your credit or debit card details. We accept MasterCard, Maestro and Visa."

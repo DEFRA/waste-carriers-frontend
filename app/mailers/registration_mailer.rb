@@ -10,7 +10,7 @@ class RegistrationMailer < ActionMailer::Base
   	@url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "www.wastecarriersregistration.service.gov.uk"
   	@registration = registration
   	email_with_name = "#{Rails.configuration.registrations_service_emailName} <#{Rails.configuration.registrations_service_email}>"
-    mail(to: @user.email, subject: 'Waste Carrier Registration Complete',
+    mail(to: @user.email, subject: I18n.t('global.mailer.complete.subject'),
     	from: email_with_name,
     	reply_to: Rails.configuration.registrations_service_email)
   end
@@ -20,7 +20,7 @@ class RegistrationMailer < ActionMailer::Base
   	@url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "www.wastecarriersregistration.service.gov.uk"
   	@registration = registration
   	email_with_name = "#{Rails.configuration.registrations_service_emailName} <#{Rails.configuration.registrations_service_email}>"
-    mail(to: @user.email, subject: 'The lower tier registration for '+@registration.companyName+' has been revoked. ',
+    mail(to: @user.email, subject: I18n.t('global.mailer.revoke.subject',:tier=>@registration.tier.downcase, :companyName=>@registration.companyName),
     	from: email_with_name,
     	reply_to: Rails.configuration.registrations_service_email)
   end
