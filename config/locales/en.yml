@@ -981,6 +981,19 @@ en:
     otherBusinesses_step:
       subtitle: "Do you ever deal with waste from other businesses or households?"
       title: "Waste from other businesses"
+    order:
+      initial: "Initial Registration"
+      edit: "Edit Registration"
+      renewal: "Renewal of Registration"
+      editFullFee: "Edit caused Full Fee Registration"
+      copyCards: "%{amount}x Copy Cards"
+      regMsg: "Waste Carrier Registration"
+      newRegistrationMsg: "New %{regMsg}: %{identifier} for %{companyName}"
+      editRegistrationMsg: "Edit %{regMsg}: %{identifier} for %{companyName}"
+      renewRegistrationMsg: "Renew %{regMsg}: %{identifier} for %{companyName}"
+      ccMsg: "%{amount} copy cards"
+      copyCardRegistrationMsg: "%{ccMsg} for %{companyName}"
+      incCopyCardsMsg: ", Plus %{ccMsg}"
     paymentstatus:
       balance_cost_table_heading: £
       balance_table_heading: Balance

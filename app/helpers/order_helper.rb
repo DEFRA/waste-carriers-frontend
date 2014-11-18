@@ -119,7 +119,7 @@ module OrderHelper
       orderItem = OrderItem.new
       orderItem.amount = Rails.configuration.fee_registration
       orderItem.currency = 'GBP'
-      orderItem.description = 'Initial Registration'
+      orderItem.description = I18n.t('registrations.order.initial')
       orderItem.reference = 'Reg: ' + reg.regIdentifier
       orderItem.type = OrderItem::ORDERITEM_TYPES[0]
       orderItem.save
@@ -133,7 +133,7 @@ module OrderHelper
       orderItem = OrderItem.new
       orderItem.amount = Rails.configuration.fee_reg_type_change
       orderItem.currency = 'GBP'
-      orderItem.description = 'Edit Registration'
+      orderItem.description = I18n.t('registrations.order.edit')
       orderItem.reference = 'Reg: ' + reg.regIdentifier
       orderItem.type = OrderItem::ORDERITEM_TYPES[1]
       orderItem.save
@@ -147,7 +147,7 @@ module OrderHelper
       orderItem = OrderItem.new
       orderItem.amount = Rails.configuration.fee_renewal
       orderItem.currency = 'GBP'
-      orderItem.description = 'Renewal of Registration'
+      orderItem.description = I18n.t('registrations.order.renewal')
       orderItem.reference = 'Reg: ' + reg.regIdentifier
       orderItem.type = OrderItem::ORDERITEM_TYPES[2]
       orderItem.save
@@ -161,7 +161,7 @@ module OrderHelper
       orderItem = OrderItem.new
       orderItem.amount = Rails.configuration.fee_registration
       orderItem.currency = 'GBP'
-      orderItem.description = 'Edit caused Full Fee Registration'
+      orderItem.description = I18n.t('registrations.order.editFullFee')
       orderItem.reference = 'Reg: ' + reg.regIdentifier
       orderItem.type = OrderItem::ORDERITEM_TYPES[1]
       orderItem.save
@@ -175,7 +175,7 @@ module OrderHelper
       orderItem = OrderItem.new
       orderItem.amount = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
       orderItem.currency = 'GBP'
-      orderItem.description = @registration.copy_cards.to_s + 'x Copy Cards'
+      orderItem.description = I18n.t('registrations.order.copyCards', :amount => @registration.copy_cards.to_s)
       orderItem.reference = 'Reg: ' + reg.regIdentifier
       orderItem.type = OrderItem::ORDERITEM_TYPES[4]
       orderItem.save
@@ -196,35 +196,33 @@ module OrderHelper
     # Create order description to reflect type of order
     orderLabel = ''
     incCopyCards = ''
-    registrationMessage = ' Waste Carrier Registration: ' + myRegistration.regIdentifier
-    forRegistrationMessage = ' for ' + myRegistration.companyName
-    plusMessage = ', Plus '
-    copyCardMessage = myRegistration.copy_cards.to_i.to_s + ' copy cards'
+    copyCardMessage = I18n.t('registrations.order.ccMsg', :amount => myRegistration.copy_cards.to_i.to_s)
 
     case renderType
     when Order.new_registration_identifier
       # new
-      orderLabel = 'New' + registrationMessage + forRegistrationMessage
+      orderLabel = I18n.t('registrations.order.newRegistrationMsg', :regMsg => I18n.t('registrations.order.regMsg'), :identifier => myRegistration.regIdentifier, :companyName => myRegistration.companyName)
     when Order.edit_registration_identifier, Order.editrenew_caused_new_identifier
       # edit
-      orderLabel = 'Edit' + registrationMessage + forRegistrationMessage
+      orderLabel = I18n.t('registrations.order.editRegistrationMsg', :regMsg => I18n.t('registrations.order.regMsg'), :identifier => myRegistration.regIdentifier, :companyName => myRegistration.companyName)
     when Order.renew_registration_identifier
       # renew
-      orderLabel = 'Renew' + registrationMessage + forRegistrationMessage
+      orderLabel = I18n.t('registrations.order.renewRegistrationMsg', :regMsg => I18n.t('registrations.order.regMsg'), :identifier => myRegistration.regIdentifier, :companyName => myRegistration.companyName)
     when Order.extra_copycards_identifier
       # copy cards
-      orderLabel = copyCardMessage + forRegistrationMessage
+      orderLabel = I18n.t('registrations.order.copyCardRegistrationMsg', :ccMsg => copyCardMessage, :companyName => myRegistration.companyName)
     end
 
     # Add copy card information aswell if not already included
     if showCopyCards? renderType and renderType != Order.extra_copycards_identifier and myRegistration.copy_cards.to_i > 0
-      incCopyCards = plusMessage + copyCardMessage
+      incCopyCards = I18n.t('registrations.order.incCopyCardsMsg', :ccMsg => copyCardMessage)
     end
 
     orderDescription = orderLabel + incCopyCards
     logger.debug 'orderDescription: ' + orderDescription
     orderDescription
   end
+  
   def updateOrderForWorldpay myOrder, myRegistration
     myOrder = updateOrderGenerally myOrder, myRegistration
     myOrder.paymentMethod = 'ONLINE'
