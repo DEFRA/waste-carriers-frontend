@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 #Needed for pre-release gov.uk gems
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'rails', '4.0.10'
+gem 'rails', '4.0.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -36,7 +36,7 @@ gem 'govuk_frontend_toolkit', '~> 2.0.1'
 # Using Nokogiri for parsing XML retrieved from WorldPay
 gem 'nokogiri', '~> 1.6.2.1'
 
-gem 'sass-rails',   '~> 4.0.0'
+gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.0'
 
 gem 'uglifier', '>= 1.3.0'
