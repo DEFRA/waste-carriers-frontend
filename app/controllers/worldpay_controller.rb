@@ -143,7 +143,7 @@ class WorldpayController < ApplicationController
     if process_payment
       # Should not get here as payment should have failed and thus return false
     else
-      flash[:notice] = 'Your payment failed'
+      flash[:notice] = I18n.t('registrations.form.paymentFailed')
       redirect_to upper_payment_path(session[:registration_uuid])
     end
   end
@@ -158,7 +158,7 @@ class WorldpayController < ApplicationController
     if process_payment
       # should not get here as payment was cancelled
     else
-      flash[:notice] = 'You have cancelled your payment'
+      flash[:notice] = I18n.t('registrations.form.paymentCancelled')
       redirect_to upper_payment_path(session[:registration_uuid])
     end
   end
@@ -236,7 +236,7 @@ class WorldpayController < ApplicationController
       @payment.worldPayPaymentStatus = paymentStatus
       @payment.mac_code = mac
       @payment.registrationReference = 'Worldpay'
-      @payment.comment = 'Paid via Worldpay'
+      @payment.comment = I18n.t('registrations.form.paymentWorldPay')
 
       #TODO re-enable validation and saving - current validation rules are geared towards offline payments
       if @payment.valid?
