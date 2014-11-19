@@ -80,9 +80,9 @@ end
 #cross-browser testing using saucelabs
 group :test, :development do
   gem 'rspec-rails', '~> 2.12'
-  gem 'sauce', '~> 3.2.0'
-  gem 'sauce-connect', :require => false
-  gem 'sauce-cucumber', :require => false
+#  gem 'sauce', '~> 3.2.0'
+#  gem 'sauce-connect', :require => false
+#  gem 'sauce-cucumber', :require => false
   gem 'capybara', '~> 2.1.0'
   gem 'parallel_tests', :require => false
 end
