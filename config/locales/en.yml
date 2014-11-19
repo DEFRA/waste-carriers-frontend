@@ -3,9 +3,9 @@ en:
   activemodel:
     attributes:
       key_person:
-        dob_day: Day
-        dob_month: Month
-        dob_year: Year
+        dob_day: "Day"
+        dob_month: "Month"
+        dob_year: "Year"
         dob: "Date of birth"
         first_name: "First name"
         last_name: "Last name"
@@ -40,16 +40,16 @@ en:
         reference: "Reference"
       payment:
         amount: "Amount Received (£)"
-        comment: Comment
+        comment: "Comment"
         dateReceived: "Date Received"
-        dateReceived_day: Day
-        dateReceived_month: Month
-        dateReceived_year: Year
+        dateReceived_day: "Day"
+        dateReceived_month: "Month"
+        dateReceived_year: "Year"
         exception: "Services error:"
         paymentType: "Payment via"
-        registrationReference: Reference
+        registrationReference: "Reference"
       registration:
-        accountEmail: Email address
+        accountEmail: "Email address"
         accountEmail_confirmation: "Confirm email"
         alt_email_address: "Email address"
         alt_first_name: "First name"
@@ -62,7 +62,7 @@ en:
         company_no: "Companies House number"
         constructionWaste: "Do you deal with construction waste"
         contactEmail: "Email address"
-        country: Country
+        country: "Country"
         declaration: "Declaration"
         declaredConvictions: "Declared convictions"
         edit_fee: "Registration amendment charge"
@@ -78,12 +78,12 @@ en:
         originalRegistrationNumber: "Registration number"
         otherBusinesses: "Deal with waste from other businesses or households"
         onlyAMF: "Do you deal with the following waste"
-        password: Password
+        password: "Password"
         password_confirmation: "Confirm password"
         phoneNumber: "Telephone number"
         position: "Job title"
-        postcode: Postcode
-        postcodeSearch: Address
+        postcode: "Postcode"
+        postcodeSearch: "Address"
         primary_email_address: "Email address"
         primary_first_name: "First name"
         primary_job_title: "Job title"
@@ -113,16 +113,16 @@ en:
       report:
         from: From
         route_assisted_digital: "Assisted Digital"
-        route_digital: Digital
-        to: To
+        route_digital: "Digital"
+        to: "To"
       upper_registration:
         broker_dealer: broker/dealer
         business_name: "Business or organisation trading name"
-        carrier_broker_dealer: carrier/broker/dealer
-        carrier_dealer: carrier/dealer
+        carrier_broker_dealer: "carrier/broker/dealer"
+        carrier_dealer: "carrier/dealer"
         copy_cards: "Copy card"
         payment_method: "Choose payment method"
-        postcode: Postcode
+        postcode: "Postcode"
         relevant_conviction: "Relevant convictions"
     models:
       payment: Payment
@@ -133,29 +133,29 @@ en:
     Role_financeAdmin: "Finance Admin User"
     Role_financeBasic: "Finance User"
     Role_agencyRefundPayment: "EA User with Refunds and Payments"
-    actions: Actions
-    back: Back
+    actions: "Actions"
+    back: "Back"
     createLabel: "Create agency user"
-    delete: Delete
+    delete: "Delete"
     deleteHeading: "Confirm delete agency user"
     deleteLabel: "Delete agency user"
     deleteText: "Are you sure that you want to delete agency user"
-    edit: Edit
+    edit: "Edit"
     editHeading: "Editing agency user"
-    email: Email
+    email: "Email"
     errorHeading: "%{cause} prohibited this agency_user from being saved:"
-    name: Name
+    name: "Name"
     newLabel: "New agency user"
     roleGuidance_1: "Select a role only if you wish to change this user to a different role."
     roleGuidance_2: "If no role is selected the user has by default, nccc agency user permissions."
-    show: Show
+    show: "Show"
     updateLabel: "Update agency user"
   business_types:
     authority: "Waste collection, disposal or regulation authority"
     charity: "Charity or voluntary organisation"
     limitedCompany: "Limited company"
-    other: Other
-    partnership: Partnership
+    other: "Other"
+    partnership: "Partnership"
     publicBody: "Public body"
     soleTrader: "Sole trader"
   registration_types:
@@ -213,7 +213,7 @@ en:
     privacy:
       privacyHeading: "Privacy policy"
       privacy_text1: "The Waste Carrier service is run by the Environment Agency. We will handle the information you give us according to the Environment Agency "
-      privacy_link:  "personal information charter."
+      privacy_link: "personal information charter."
       privacy_text2: "We will use the personal information you give us to keep the public register of waste carriers up to date. Only your organisation name and address will appear on the public register."
       privacy_text3: "We may also use the personal information you give us to:"
       privacy_text4: "contact you about our customer service"
@@ -264,23 +264,23 @@ en:
       no_copy_cards_selected: "must be more than 0."
 
   form:
-    add_button_label: Add
-    back_button_label: Back
+    add_button_label: "Add"
+    back_button_label: "Back"
     confirm_button_label: "Confirm"
-    delete_button_label: Delete
-    edit_button_label: Edit
+    delete_button_label: "Delete"
+    edit_button_label: "Edit"
     edit_these_details: "Edit these details"
     export_button_label: "Export"
     export_all_button_label: "Export all"
     find_companies_house_details: "Companies House number"
     finished_button_label: "Finished"
-    next_button_label: Next
+    next_button_label: "Next"
     no_option_label: "No"
     payment_status_button_label: "Payment Status"
     print_button_label: "Print certificate"
     search_button_label: "Search"
     sign_in_button_label: "Sign in"
-    update_button_label: Update
+    update_button_label: "Update"
     view_certificate_link_label: "View your certificate"
     yes_option_label: "Yes"
     addCopyCards_button_label: "Add copy cards"
@@ -290,7 +290,7 @@ en:
   global:
     betaMessage: "BETA"
     betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/contact/govuk' target='_blank'> feedback  </a> will help us improve it."
-    bracketsEA: " Environment Agency (England) helpline: "
+    bracketsEA: " Environment Agency (England) helpline:\ "
     bracketsNRW: "(Natural Resources Wales)"
     cookieMessage_html: "<a href='https://www.gov.uk/help/cookies'>GOV.UK uses cookies to make the site simpler. Find out more about cookies</a>"
     england: "England"
@@ -321,22 +321,22 @@ en:
     unavailable:
       heading: "We're sorry, but it looks like the service is unavailable at this time"
       message_html: "Try again later or if problems persist contact: <a href='mailto:nccc-carrierbroker@environment-agency.gov.uk'>www.gov.uk/waste-carrier-or-broker-registration</a>"
-    wales: Wales
+    wales: "Wales"
     mailer:
       convictions:
-        subject: 'We have received your application for a %{tier} tier registration for %{companyName}.'
+        subject: "We have received your application for a %{tier} tier registration for %{companyName}."
       payment:
-        subject: 'We have received your application for a %{tier} tier registration for %{companyName}, and are awaiting your payment.'
+        subject: "We have received your application for a %{tier} tier registration for %{companyName}, and are awaiting your payment."
       revoke:
-        subject: 'The %{tier} tier registration for %{companyName} has been revoked.'
+        subject: "The %{tier} tier registration for %{companyName} has been revoked."
       complete:
-        subject: 'Waste Carrier Registration Complete'
+        subject: "Waste Carrier Registration Complete"
   order:
     new:
       debit_card_note: "You will be transferred to the secure WorldPay site for you to enter your credit or debit card details. We accept MasterCard, Maestro and Visa."
       bank_transfer_note: "Pay by bank transfer requires 2 steps, both must be done to complete your registration."
       subtitle: "Payment summary"
-      title: Payment
+      title: "Payment"
       total_fee_vat: "All charges are outside the scope of VAT"
       trouble_paying_link: "Trouble paying?"
       copy_card_heading: "What are copy cards?"
@@ -356,7 +356,7 @@ en:
       completedRefund: "You have completed the refund for order code: %{orderCode}"
       registrationUpdated: "The registration has been updated to reflect that a refund has been made."
     index:
-      heading: Refunds
+      heading: "Refunds"
       step: "Select a payment to refund"
       refundStatus: "Refund: %{status}"
     manualRefund:
@@ -410,8 +410,8 @@ en:
       step: "Enter a reversal for a payment into the system"
       success: "Reversal sucessfully entered"
   payment_types:
-    CASH: Cash
-    CHEQUE: Cheque
+    CASH: "Cash"
+    CHEQUE: "Cheque"
     POSTALORDER: "Postal order"
     BANKTRANSFER: "Bank transfer payment"
     REVERSAL: "Reversal"
@@ -427,8 +427,8 @@ en:
       p2: "This email is to inform you that the Environment Agency has revoked your lower tier waste carrier registration for the following reason:"
       p3: "Please contact the Environment Agency helpline on %{phone} if you have any questions about this."
     welcome_email:
-      address: Address
-      contactName: "Contact name: "
+      address: "Address"
+      contactName: "Contact name:\ "
       criteria1: "You only transport your own business waste, unless it is construction or demolition waste"
       criteria2: "You are a charity or voluntary organisation"
       criteria3: "You are a waste collection authority, a waste disposal authority or a waste regulation authority"
@@ -443,7 +443,7 @@ en:
       email: "Email: "
       enquiresMessage: "Please contact the Environment Agency if you have any enquiries."
       lowerTierRegistration: "Lower tier registration"
-      phoneNumber: "Telephone number: "
+      phoneNumber: "Telephone number:\ "
       proof: "This is proof of your registration"
       registeredOn: "Registered on: %{date}"
       lower_renewal_html: "Your registration will last indefinitely so does not need to be renewed but you must update your registration details if they change, within 28 days of the change."
@@ -454,9 +454,9 @@ en:
       responsibilities4: "Minimise the environmental impact of waste by prioritising waste prevention, re-use, recycling and recovery over disposal. This is known as applying the 'waste hierarchy'"
       responsibilitiesHeading: "Legal responsibilities for waste"
       responsibilitiesIntro: "If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:"
-      telephone: "Telephone: "
+      telephone: "Telephone:\ "
       tier_result_message: "%{companyName} is registered as %{tier_with_article} tier waste carrier, broker or dealer with the Environment Agency."
-      updatePhone: "You can do this by calling the Environment Agency and providing your access code. Your access code is: "
+      updatePhone: "You can do this by calling the Environment Agency and providing your access code. Your access code is:\ "
       updateWebsite_html: "You can do this by going to the website <a href='%{link}'>%{link}</a> and logging in using your email and password."
       upperTierRegistration: "Upper tier registration"
     awaitingConvictionsCheck:
@@ -470,33 +470,33 @@ en:
       heading: "Your registration requires payment"
       paragraph1: "To complete your registration you must follow the next 2 steps."
       heading2: "Step 1 - use our account details below to make your internet or telephone banking payment."
-      pretext1: "Payment reference number: "
+      pretext1: "Payment reference number:\ "
       reference_number: ""
-      pretext2: "Payment due: "
+      pretext2: "Payment due:\ "
       payment_due: ""
-      pretext3: "Account name: "
+      pretext3: "Account name:\ "
       environment_agency: "Environment Agency"
-      pretext4: "Bank name: "
+      pretext4: "Bank name:\ "
       bank_name: "Citibank"
-      pretext5: "Bank address: "
+      pretext5: "Bank address:\ "
       bank_address: "Citigroup Centre, Canada Square, London, E14 5LB"
-      pretext6: "Sortcode: "
+      pretext6: "Sortcode:\ "
       sortcode: "08-33-00"
-      pretext7: "Account number: "
+      pretext7: "Account number:\ "
       account_number: "12800543"
       paragraph2: "If you are making a payment from outside the United Kingdom include the international banking references below."
       paragraph3: "Payments must  be made in sterling."
-      pretext8: "IBAN number: "
+      pretext8: "IBAN number:\ "
       iban_number: "GB23 CITI0833 0012 8005 43"
-      pretext9: "SWIFTBIC number: "
+      pretext9: "SWIFTBIC number:\ "
       swiftbic_number: "CITI GB2LXXX"
       heading3: "Step 2 - once you have made a payment, let us know so we can activate your registration."
       paragraph4: "You can contact us by email, fax or post."
-      pretext10: "Email: "
+      pretext10: "Email:\ "
       email: "FSC.AR@environment-agency.gov.uk"
-      pretext11: "Fax: "
+      pretext11: "Fax:\ "
       fax: "01733 464892"
-      pretext12: "Postal address: "
+      pretext12: "Postal address:\ "
       postal_address: "Environment Agency, Income Dept 311, PO Box 263, Peterborough, PE2 8YD"
       paragraph5: "Please allow 5 working days for your payment to reach us."
       paragraph6: "Please note that you are not legally covered to operate until we have received payment and your registration is effective."
@@ -539,7 +539,7 @@ en:
       step: "Step %{step_x} of %{step_y}"
     address_entry:
       businessAddress: "Main business or organisation address"
-      change: Change
+      change: "Change"
       findAddress: "Find UK address"
       findAddressUsingPostcode: "Find address using postcode"
       foreignAddressLink: "I have an address outside the United Kingdom"
@@ -548,7 +548,7 @@ en:
       postcode_search_error: "A postcode must be provided"
       search_address_label: "Search for address by postcode"
       selectAddress: "Select address"
-      streetLine1Foreign: Address
+      streetLine1Foreign: "Address"
     approve:
       title_approve: "Approve registration"
       title_refuse: "Refuse registration"
@@ -560,7 +560,7 @@ en:
       title: "You can't edit your registration at the moment"
       instructions1: "If you've already completed your registration please "
       instructions2: " again."
-      cookies: 'You need to enable session cookies in your browser.'
+      cookies: "You need to enable session cookies in your browser."
     confirmDelete:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
@@ -581,7 +581,7 @@ en:
       smart_answers_heading: "You told us"
       subtitle: "Checking your details before registering"
       tier_description: "You are %{tier_with_article} tier waste carrier..."
-      title: Confirmation
+      title: "Confirmation"
       edit_business_type_link: "Edit your business type answer"
       edit_waste_disposal_link: "Edit your waste disposal policy answer"
       edit_AMF_disposal_link: "Edit your Animal, Mine or Farm waste disposal answer"
@@ -789,12 +789,12 @@ en:
       text2: "The Environment Agency may pass the information on to their agents or representatives to do these things."
       title: "The Data Protection Act 1998"
     details:
-      address: Address
-      contactName: "Contact name: "
-      heading: "Business or organisation details: "
-      phoneNumber: "Telephone number: "
+      address: "Address"
+      contactName: "Contact name:\ "
+      heading: "Business or organisation details:\ "
+      phoneNumber: "Telephone number:\ "
     errors:
-      error: error
+      error: "error"
       errorMessage: "You have %{count} on this page"
     finish:
       title: "Finished"
@@ -827,7 +827,7 @@ en:
       subtitle_complete: "Registration complete"
       subtitle_pending: "Registration pending"
       your_reg_number_html: "The registration number is: <span id='registrationNumber'>%{reg}</span>"
-      access_code: "The assisted digital access code is: "
+      access_code: "The assisted digital access code is:\ "
       registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier."
       applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier."
       payment_message: "Please remind the applicant to arrange a bank transfer. Alternatively select the registration and choose to pay by credit or debit card on their behalf."
@@ -868,26 +868,26 @@ en:
       agencyUserDeleted: "Agency user was successfully deleted."
       adjustments_button_label: "Charge adjustments"
       awaitingPayment_text: "Awaiting payment"
-      back_button_label: Back
+      back_button_label: "Back"
       back_to_status_button_label: "Back to payment status"
       balanceDue_text: "Balance due"
       business_or_org_details: "Business or organisation details"
       change_address_label: "Change address"
-      change_button_label: Change
+      change_button_label: "Change"
       chargeNegative_button_label: "Add a negative charge"
       chargePositive_button_label: "Add a charge"
       check_details_and_register_heading: "Check details and register"
       companyRegistrationNumber_label: "Company registration number"
       declaration_label: "I declare that as far as I know and believe, the information in this registration is true."
       declaration_legal_text: "...(TBD) some legal text to go here..."
-      declaration_legend: Declaration
-      delete_button_label: Delete
+      declaration_legend: "Declaration"
+      delete_button_label: "Delete"
       emailAddress_label: "E-mail address"
       enterpayment_button_label: "Enter Payment"
       enteradjustment_button_label: "Enter charge adjustment"
       error_explanation: "prohibited this registration from being saved:"
       findAddress_label: "Find address"
-      finish_button_label: Finished
+      finish_button_label: "Finished"
       firstName_label: "First name"
       houseNumber_label: "House number"
       individualsType_label: "Organisation type"
@@ -895,7 +895,7 @@ en:
       lastName_label: "Last name"
       manual_payment_button_label: "Select (Manual)"
       new_button_label: "New Registration"
-      next_button_label: Next
+      next_button_label: "Next"
       not_applicable: "n/a"
       option_please_select: "Please select..."
       organisationName_label: "Business, organisation or trading name"
@@ -915,28 +915,28 @@ en:
       print_button_label: "View your certificate"
       progress: "Progress: "
       publicBodyType_label: "Type of public body"
-      refund_button_label: Refund
+      refund_button_label: "Refund"
       reg_revoked: "Registration revoked"
       reg_unrevoked: "Registration un-revoked"
       reg_updated: "Registration updated"
       reg_approved: "Registration approved"
       reg_refused: "Registration refused"
-      registerAs_broker: Broker
-      registerAs_carrier: Carrier
-      registerAs_dealer: Dealer
+      registerAs_broker: "Broker"
+      registerAs_carrier: "Carrier"
+      registerAs_dealer: "Dealer"
       registerAs_label: "Register as"
-      register_button_label: Register
-      revoke_button_label: Revoke
+      register_button_label: "Register"
+      revoke_button_label: "Revoke"
       reversals_button_label: "Reversals"
       newReversal_button_label: "Enter reversal"
-      root_site: GOV.UK
+      root_site: "GOV.UK"
       select_button_label: "Select (Online)"
       selectReversal_button_label: "Select Payment"
       subtitle: "Registering as a lower tier waste carrier/broker/dealer"
       summary_of_registration: "Summary of information"
       title: "Waste Carrier Registration"
-      unrevoke_button_label: Un-revoke
-      update_button_label: Update
+      unrevoke_button_label: "Un-revoke"
+      update_button_label: "Update"
       writeoff_button_label: "Write off"
       writeofflarge_button_label: "Write off (large)"
       writeoffsmall_button_label: "Write off (small)"
@@ -1001,18 +1001,18 @@ en:
       wpOrderDescription: "Your Waste Carrier Registration %{identifier}"
     paymentstatus:
       balance_cost_table_heading: £
-      balance_table_heading: Balance
+      balance_table_heading: "Balance"
       chargehistory_amount_table_heading: £
-      chargehistory_charge_table_heading: Charge
-      chargehistory_date_table_heading: Date
-      chargehistory_reference_table_heading: Reference
+      chargehistory_charge_table_heading: "Charge"
+      chargehistory_date_table_heading: "Date"
+      chargehistory_reference_table_heading: "Reference"
       chargehistory_table_heading: "Charge History"
       heading: "Payment status"
       paymenthistory_amount_table_heading: £
-      paymenthistory_charge_table_heading: Payment Method
-      paymenthistory_comments_table_heading: Comments
-      paymenthistory_date_table_heading: Date
-      paymenthistory_reference_table_heading: Reference
+      paymenthistory_charge_table_heading: "Payment Method"
+      paymenthistory_comments_table_heading: "Comments"
+      paymenthistory_date_table_heading: "Date"
+      paymenthistory_reference_table_heading: "Reference"
       paymenthistory_table_heading: "Payment History"
     pending:
       title: "Confirm your account"
@@ -1037,31 +1037,31 @@ en:
     print:
       title: "Waste carrier registration certificate"
     publicSearch:
-      address_table_heading: Address
+      address_table_heading: "Address"
       businessType_table_heading: "Business Type"
-      carrier: registration
+      carrier: "registration"
       companyName_table_heading: "Organisation name"
-      contactNum_table_heading: Contact
+      contactNum_table_heading: "Contact"
       distance_label: "Only show results within"
-      distance_table_heading: Distance
+      distance_table_heading: "Distance"
       feedback_link: "Provide feedback about this service"
       filterLabel: "Filter by area (optional)"
       heading: "Check if an organisation is registered as a waste carrier, broker or dealer"
-      miles: Miles
+      miles: "Miles"
       outsideuk: "If you are a Limited Company outside of the United Kingdom please call our helpline: 03708 506 506"
       placeholder: "eg Bristol Flowers Ltd or Luton Mill"
       postcode_label: "of this postcode"
-      record: record
+      record: "record"
       regId_table_heading: "Registration number"
-      search_button_label: Search
+      search_button_label: "Search"
       search_found: "%{count} %{carrier} found"
       search_label: "Name of organisation"
       search_results: "Showing %{count} of %{records}"
     registration_step: "Step %{step_no} of 8"
     registrationtype_step:
-      broker_dealer: broker/dealer
-      carrier_broker_dealer: carrier/broker/dealer
-      carrier_dealer: carrier/dealer
+      broker_dealer: "broker/dealer"
+      carrier_broker_dealer: "carrier/broker/dealer"
+      carrier_dealer: "carrier/dealer"
       legend: "Do you carry the waste yourselves or arrange for other people to transport it?"
       subtitle_carrier_dealer: "(carrier and dealer)"
       subtitle_broker_dealer: "(broker and dealer)"
@@ -1093,21 +1093,21 @@ en:
       registered: "Status: Registered"
       name_header: "Name"
       status_header: "Status"
-      postcode_header: 'Postcode'
-      registration_header: 'Registration'
-      expiry_header: 'Expiry Date'
-      status_expired_text: 'Expired'
-      status_revoked_text: 'Revoked'
-      status_na_text: 'N/A'
+      postcode_header: "Postcode"
+      registration_header: "Registration"
+      expiry_header: "Expiry Date"
+      status_expired_text: "Expired"
+      status_revoked_text: "Revoked"
+      status_na_text: "N/A"
       registrationCountText: "You have %{count}"
       revoked: "Status: Revoked"
       subtitle: "Your registrations"
       summaryText1: "Your registrations are listed below. You can create a new registration for a business or organisation and you can change any you have previously created."
       summaryText2: "You must tell us if any of your registration details change, within 28 days of the change."
   reports:
-    record: record
+    record: "record"
     errors:
-      error: error
+      error: "error"
       error_message: "You have %{count} on this page"
     fields:
       reg_identifier: "Registration"
@@ -1218,7 +1218,7 @@ en:
       signed_in_as_admin: "Signed in as admin"
       signed_in_as_agency_user: "Signed in as agency user"
     progress:
-      progress: Progress
+      progress: "Progress"
   route_options:
     ASSISTED_DIGITAL: "Assisted Digital"
     DIGITAL: "Digital"
@@ -1279,14 +1279,14 @@ en:
       subtitle: "Carrier, broker or dealer"
       title: "Business type"
     errors:
-      error: error
+      error: "error"
       errorMessage: "You have %{count} on this page"
     form:
-      back_button_label: Back
-      confirm_button_label: Confirm
+      back_button_label: "Back"
+      confirm_button_label: "Confirm"
       find_address_button_label: "Find UK address"
       find_details_button_label: "Find details"
-      next_button_label: Next
+      next_button_label: "Next"
       subtitle: "Registering as an upper tier waste carrier/broker/dealer"
       title: "Waste Carrier Registration"
     payment:
@@ -1296,8 +1296,8 @@ en:
       payment_method_debit_credit: "Pay by debit or credit card"
       payment_method_elec_transfer: "Pay by electronic transfer"
       payment_method_label: "Choose payment method"
-      subtitle: Payment
-      title: Payment
+      subtitle: "Payment"
+      title: "Payment"
       total_label: "Total to pay"
       trouble_paying_link: "Trouble paying?"
     relevant_conviction:
@@ -1312,6 +1312,6 @@ en:
       confirm_label: "Confirm registration"
       declaration_link: Declaration
       main_contact_legend: "Main contact"
-      subtitle: Summary
-      title: Summary
+      subtitle: "Summary"
+      title: "Summary"
       use_your_information_link: "How we use your personal information"
