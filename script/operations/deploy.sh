@@ -92,10 +92,16 @@ sudo service nginx start
 if [ "${WCRS_FRONTEND_RAILS_ENV}" != "production" ]; then
   echo "Running tests."
   rake db:test:prepare
+  echo "Running unit tests (using rspec)"
+  rake spec SPEC_OPTS=". --tag ~sauce"
+  echo "Running integration tests (using cucumber)"
   xvfb-run cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
 fi
 
 if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
+  echo "Copying RSpec reports to Jenkins"
+  scp -rp ${WCRS_FRONTEND_HOME}/live/spec/reports \
+      jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/spec/  
   echo "Copying cucumber report to Jenkins."
   scp ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json \
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/features/reports/

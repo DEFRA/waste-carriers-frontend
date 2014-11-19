@@ -39,15 +39,14 @@ describe "The Registration flow", :sauce => true do
     check('registration_declaration')
     click_on 'Next'
     
-    page.should have_content "Complete registration"
+    page.should have_content "Account details"
     fill_in('registration_accountEmail', :with => unique_email)
     fill_in('registration_accountEmail_confirmation', :with => unique_email)
     fill_in('registration_password', :with => 'MySecret123')
     fill_in('registration_password_confirmation', :with  => 'MySecret123')
-    click_on 'Complete registration'
+    click_on 'Next'
 
-    #page.should have_content "Registration complete"
-    click_on "Finish"
+    page.should have_content "Confirm your account"
 
   end
 
