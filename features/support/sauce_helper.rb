@@ -2,7 +2,7 @@
 # For options, check out http://saucelabs.com/docs/platforms
 require "sauce"
 require "sauce/capybara"
-require "sauce/cucumber"
+#require "sauce/cucumber"
 
 ## If the default driver is set to :selenium, tests will open a Firefox browser window for each feature/test/scenario.
 #Capybara.default_driver = :selenium
