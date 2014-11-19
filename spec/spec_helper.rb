@@ -42,7 +42,7 @@ RSpec.configure do |config|
   #     --seed 1234
   config.order = "random"
 end
-require "sauce_helper"
+# require "sauce_helper"
 
 # The default driver should be :sauce for Saucelabs testing.
 #Capybara.default_driver = :sauce
