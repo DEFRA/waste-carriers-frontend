@@ -348,10 +348,12 @@ class RegistrationsController < ApplicationController
     postcodeSearch = registration.postcodeSearch
     if postcodeSearch and postcodeSearch != ""
       postcode = registration.postcodeSearch
-      logger.info "getting addresses for: "+postcode
+      logger.info "getting addresses for: " + postcode.to_s
       begin
         @addresses = Address.find(:all, :params => {:postcode => postcode})
       rescue ActiveResource::ServerError
+        @addresses = []
+      rescue ActiveResource::BadRequest
         @addresses = []
       #
       # TMP HACK ---
