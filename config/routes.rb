@@ -200,19 +200,17 @@ Registrations::Application.routes.draw do
     end
 
 
-#  end
+    resources :agency_users
 
-  resources :agency_users
+    get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user
 
-  get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user
+    get "version" => 'home#version', :via => [:get], :as => :app_version  
 
-  get "version" => 'home#version', :via => [:get], :as => :app_version
+    get "cookies" => 'home#cookies', :via => [:get], :as => :cookies
 
-  get "cookies" => 'home#cookies', :via => [:get], :as => :cookies
+    get "privacy" => 'home#privacy', :via => [:get], :as => :privacy
 
-  get "privacy" => 'home#privacy', :via => [:get], :as => :privacy
-
-
+  #end
 
 
   # Add a route for a 404, Define this catch all unknowns last
