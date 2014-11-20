@@ -292,6 +292,7 @@ en:
     betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/contact/govuk' target='_blank'> feedback  </a> will help us improve it."
     bracketsEA: " Environment Agency (England) helpline:\ "
     bracketsNRW: "(Natural Resources Wales)"
+    naturalResourcesWales: "Natural Resources Wales"
     cookieMessage_html: "<a href='https://www.gov.uk/help/cookies'>GOV.UK uses cookies to make the site simpler. Find out more about cookies</a>"
     england: "England"
     footerCopyright_html: "<a href='http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm'>© Crown Copyright</a>"
@@ -331,6 +332,9 @@ en:
         subject: "The %{tier} tier registration for %{companyName} has been revoked."
       complete:
         subject: "Waste Carrier Registration Complete"
+    language:
+      english: "English"
+      welsh: "Cymraeg"
   order:
     new:
       debit_card_note: "You will be transferred to the secure WorldPay site for you to enter your credit or debit card details. We accept MasterCard, Maestro and Visa."
