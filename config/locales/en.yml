@@ -9,7 +9,7 @@ en:
         dob: "Date of birth"
         first_name: "First name"
         last_name: "Last name"
-        positon: "Position in organisation"
+        position: "Position"
       metadata:
         anotherString: "Note"
         dateActivated: "Date activated"
@@ -535,10 +535,15 @@ en:
     relevant_person_form:
       legend: "Relevant person details"
       subtitle: "These will not be made public"
+      relevant_people_page_guidance: "Who are relevant people?"
+      relevant_people_bullet_1: "a person who is a director, manager, company secretary or other similar officer of a company organisation"
+      relevant_people_bullet_2: "a business partner"
     index:
       legend: "Existing key people"
       subtitle: "These will not be made public"
       title: "Key people"
+      dob_hint: "(dd/mm/yyyy)"
+      dob_guidance: "For example, 26 5 1976"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
@@ -730,6 +735,7 @@ en:
       smart_answers_heading: "You told us"
       edit_smart_answers_link: "Edit what you told us"
       edit_change_reg_type_link: "Edit your registration type"
+      registrationType_heading: "Registration type"
       business_details_heading: "Business or organisation address"
       business_details_limited_heading: "Business address"
       business_details_public_heading: "Organisation address"
