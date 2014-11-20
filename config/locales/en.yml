@@ -117,7 +117,7 @@ en:
         route_digital: "Digital"
         to: "To"
       upper_registration:
-        broker_dealer: broker/dealer
+        broker_dealer: "broker/dealer"
         business_name: "Business or organisation trading name"
         carrier_broker_dealer: "carrier/broker/dealer"
         carrier_dealer: "carrier/dealer"
