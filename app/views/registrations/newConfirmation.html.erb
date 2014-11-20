@@ -106,7 +106,7 @@
         <% if @registration.upper? %>
         <!-- Registration type section ::: Only shown for Upper tier -->
         <div class='form-group'>
-          <h2 class="heading-medium">Registration type</h2>
+          <h2 class="heading-medium"><%= t '.registrationType_heading' %></h2>
             <ul id='registrationtype_display'>
               <li>
                 <%  reg_type_prettify = give_meaning_to_reg_type( @registration.registrationType) %>
