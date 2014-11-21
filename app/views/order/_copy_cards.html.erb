@@ -7,6 +7,6 @@
         <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>
       </div>
         <%= f.number_field :copy_cards, :min => 0 %>
-          <%= f.label :Copy_cards_cost_£5_each, for: 'registration_copy_cards', class: 'form-hint' %>
+          <%= f.label :copy_card_fee, for: 'registration_copy_cards', class: 'form-hint' %>
     </div>
 </div>

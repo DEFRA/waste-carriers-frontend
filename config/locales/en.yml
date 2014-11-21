@@ -63,6 +63,8 @@ en:
         company_no: "Companies House number"
         constructionWaste: "Do you deal with construction waste"
         contactEmail: "Email address"
+        copy_cards: "Copy cards"
+        copy_card_fee: "Copy cards cost £5 each"
         country: "Country"
         declaration: "Declaration"
         declaredConvictions: "Declared convictions"
@@ -268,6 +270,7 @@ en:
       too_short: "is too short (minimum is %{count} characters)"
       too_long: "is too long (maximum is %{count} characters)"
       too_weak: "is not secure; use letters (uppercase and downcase), numbers and special characters"
+      greater_than_or_equal_to: "must be greater than or equal to %{count}"
 
   form:
     add_button_label: "Add"
@@ -355,6 +358,7 @@ en:
       copy_card_information: "Additional copy cards can be purchased after your registration is complete. You will need to sign into your account to do this."
       copy_card_text1: "Please note"
       copy_card_text2: "- copy cards can take up to 10 working days to arrive depending on the status of your registration."
+      copy_card_alt_text: "Example of a copy card registration"
     copy_cards:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
