@@ -314,6 +314,7 @@ class RegistrationsController < ApplicationController
   
   def clearAddress(registration)
     clearAddressNonManual registration
+    registration.houseNumber = nil
     registration.streetLine1 = nil
     registration.streetLine2 = nil
     registration.streetLine3 = nil
@@ -362,7 +363,7 @@ class RegistrationsController < ApplicationController
         # This overrides default behaviour for service not running, by logging and carrying on rather than, 
         # redirecting to service unavailable page. This is currently neccesary to navigate using the system
         # if the service is not running.
-        logger.error 'ERROR: Address Lookup Not running, or not Found'
+        logger.error 'ERROR: Address Lookup Not running, or not found'
         @addresses = []
       #
       # ---
@@ -386,6 +387,8 @@ class RegistrationsController < ApplicationController
     end
     
     if @address and @address.lines!=nil
+      registration.houseNumber = nil
+      registration.country = nil
       registration.streetLine1 = @address.lines[0]
       registration.streetLine2 = @address.lines[1]
       registration.streetLine3 = @address.lines[2]
@@ -405,6 +408,7 @@ class RegistrationsController < ApplicationController
   
   def copyAddressToSession(registration)
   	  session[:registration_params][:addressMode] = registration.addressMode
+      session[:registration_params][:houseNumber] = registration.houseNumber
   	  session[:registration_params][:streetLine1] = registration.streetLine1
       session[:registration_params][:streetLine2] = registration.streetLine2
       session[:registration_params][:streetLine3] = registration.streetLine3
