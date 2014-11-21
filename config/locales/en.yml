@@ -263,6 +263,7 @@ en:
       ir_notFound: "you've provided is not correct"
       is_empty: "is empty. You must add at least 1 record."
       no_copy_cards_selected: "must be more than 0."
+      accepted: "must be accepted"
 
   form:
     add_button_label: "Add"
