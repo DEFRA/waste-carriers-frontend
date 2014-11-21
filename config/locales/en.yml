@@ -760,12 +760,8 @@ en:
       privacy_policy_link: "Privacy and shared cookies policy"
       privacy_policy_link1: "privacy"
       privacy_policy_link2: "cookies"
-      data_protection_text2: "to find out how the Environment Agency will use this information."
-      privacy_data_text1: "See our"
-      privacy_policy_link1: "privacy"
-      privacy_data_text2: "and"
-      privacy_policy_link2: "cookies"
-      privacy_data_text3: "policy to find out how the Environment Agency will use this information."
+      privacy_data_text_html: "See our %{policy_link} policy to find out how the Environment Agency will use this information."
+      
     newOrRenew:
       subtitle: "Are you renewing an existing licence?"
       title: "New or renew a registration"
