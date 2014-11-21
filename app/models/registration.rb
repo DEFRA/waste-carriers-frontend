@@ -82,10 +82,6 @@ class Registration < Ohm::Model
   attribute :declaration
   attribute :regIdentifier
   attribute :status
-
-  attribute :password
-  attribute :sign_up_mode
-
   attribute :password
   attribute :sign_up_mode
   attribute :accessCode
