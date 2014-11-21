@@ -264,7 +264,10 @@ en:
       is_empty: "is empty. You must add at least 1 record."
       no_copy_cards_selected: "must be more than 0."
       accepted: "must be accepted"
-      confirmation: "doesn't match email address"
+      confirmation: "doesn't match %{attribute}"
+      too_short: "is too short (minimum is %{count} characters)"
+      too_long: "is too long (maximum is %{count} characters)"
+      too_weak: "is not secure; use letters (uppercase and downcase), numbers and special characters"
 
   form:
     add_button_label: "Add"
@@ -779,6 +782,7 @@ en:
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
       createPassword: "Create password"
       sign_in_link: "I already have an account"
+      password_hint: "Password be at least 8 characters long and contain minimum 1 capital and minimum 1 number"
     newSignin:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"

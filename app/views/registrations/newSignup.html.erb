@@ -46,7 +46,7 @@
             <!-- Restored the original strength line for debugging purposes -->
             <!-- The script currently assumes it should changes all siblings of registration_password to use its class. Which it was at the time.-->
             <!--<span class="strength_icon none">&#9650;<span class="strength_message"></span></span>-->
-            <p class='form-hint text'>Password be at least 8 characters long and contain minimum 1 capital and minimum 1 number</p>
+            <p class='form-hint text'><%= t '.password_hint' %></p>
         </div>
 
         <div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_password_confirmation">
