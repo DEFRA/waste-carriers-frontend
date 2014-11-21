@@ -444,6 +444,7 @@ class RegistrationsController < ApplicationController
     end
     
     render 'newBusinessDetails'
+    registration.houseNumber = nil
   end
 
   # POST /your-registration/business-details
@@ -547,7 +548,7 @@ class RegistrationsController < ApplicationController
         end
       rescue Errno::ECONNREFUSED
         session[:address_lookup_failure] = true
-        logger.error 'ERROR: Address Lookup Not running, or not Found'
+        logger.error 'ERROR: Address Lookup Not running, or not found'
       rescue ActiveResource::ServerError
         session[:address_lookup_failure] = true
         logger.error 'ERROR: ActiveResource Server error!'
