@@ -50,6 +50,6 @@ end
 
 Then(/^I cannot proceed until I have added a key person$/) do
   click_on 'next_btn'
-  page.should have_content 'Error'
+  page.should have_content 'error'
   page.should_not have_content 'Relevant'
 end

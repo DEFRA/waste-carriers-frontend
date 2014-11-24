@@ -26,7 +26,7 @@ end
 
 Then(/^I cannot proceed until I have added a relevant person$/) do
   click_on 'next_btn'
-  page.should have_content 'Error'
+  page.should have_content 'error'
   page.should_not have_content 'Check your details'
 end
 
