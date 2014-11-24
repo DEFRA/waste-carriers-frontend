@@ -1,6 +1,11 @@
 
 class ApplicationController < ActionController::Base
   layout "govuk_template"
+  
+  # If changes are required to the layout template, create a copy of the file from the version on GitHUb
+  # and place a copy of the file inside the layouts folder (create it if neccessary, under views) 
+  # and name it appropriately e.g. govuk_template_v0_10_0 if the file is a copy from the gov.uk template v0.10.0
+  #layout "layouts/govuk_template_v0_10_0"
 
   protect_from_forgery
 
