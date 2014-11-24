@@ -1,21 +1,20 @@
-<% isRegisteredMessageKey = @registration.lower? ? 'registrations.print.isRegisteredAsLower' : 'registrations.print.isRegisteredAsUpper' %>
 
-<%= t isRegisteredMessageKey, :companyName => @registration.companyName %>
+<%= t('registration_mailer.welcome_email.tier_result_message', :companyName => @registration.companyName, :tier_with_article => @registration.tier.downcase.with_indefinite_article) %>
 ===============================================================================
 
 <%= t 'registrations.finish.your_reg_number', :reg => @registration.regIdentifier %>.
 
 <%=t 'registration_mailer.welcome_email.registeredOn', date: @registration.formatted_registration_date %>
 
-<%= t 'registrations.print.proof' %>
+<%= t 'registration_mailer.welcome_email.proof' %>
 
 <%=t 'registration_mailer.welcome_email.detailsHeading'%>
 --------------------------------
 
-<%=t 'registration_mailer.welcome_email.contactName'%>:
+<%=t 'registration_mailer.welcome_email.contactName'%>
 <%= @registration.firstName %> <%= @registration.lastName %>
 
-<%=t 'registration_mailer.welcome_email.phoneNumber'%>:
+<%=t 'registration_mailer.welcome_email.phoneNumber'%>
 <%= @registration.phoneNumber %>
 
 <%=t 'registration_mailer.welcome_email.address'%>:
@@ -31,8 +30,10 @@
 <%= @registration.townCity%>
 <%= @registration.postcode%>
 
-<%=t 'registration_mailer.welcome_email.renewal_html'%>
+<% if @registration.lower? %>
+<%=t 'registration_mailer.welcome_email.lower_renewal_html'%>
 <%=t 'registration_mailer.welcome_email.updateWebsite_html', link: new_user_session_url %>
+<% end %>
 
 <%=t 'registration_mailer.welcome_email.enquiresMessage'%>
 <%=t 'registration_mailer.welcome_email.telephone'%> <%= Rails.configuration.registrations_service_phone %>
