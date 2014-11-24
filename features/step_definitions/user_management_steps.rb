@@ -55,7 +55,7 @@ When(/^I am not logged in as an administrator$/) do
 end
 
 When(/^I access the user administration page$/) do
-  visit "/agency_users"
+  visit new_admin_session_path
 end
 
 Then(/^I should be prompted to login as an administrator$/) do
