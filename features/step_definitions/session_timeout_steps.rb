@@ -3,7 +3,7 @@ When(/^I do nothing for more than (\d+) minutes$/) do |m|
 end
 
 When(/^I want to continue with my administration tasks$/) do
-  visit agency_users_path
+  visit new_admin_session_path
 end
 
 Then(/^I am informed that my session has expired$/) do

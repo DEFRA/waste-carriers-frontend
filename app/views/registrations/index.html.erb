@@ -25,7 +25,7 @@
         <!-- WF 4.3.2 -->
         <div id="page0"  data-journey="waste-carriers-registration:agency-user-controls">
           <% content_for :page_title, createTitle('.title') %></div>
-          <%= form_tag('/registrations', { method: :get }) do %>
+          <%= form_tag(registrations_path, { method: :get }) do %>
 
             <fieldset id='find-registration'>
               <div class="form-group">
