@@ -38,13 +38,13 @@
 			<fieldset>
 				<legend></legend>
 
-				<table class="" summary='This table details the orders available for a refund'>
+				<table class="" summary='This table details the orders available for a reversal'>
 					<thead class="">
 						<tr>
-							<th class="">Date</th>
-							<th class="">Order Code</th>
-							<th class="">Type</th>
-							<th class="">£</th>
+							<th class=""><%= t '.reversal_table_heading_date' %></th>
+							<th class=""><%= t '.reversal_table_heading_ordercode' %></th>
+							<th class=""><%= t '.reversal_table_heading_type' %></th>
+							<th class=""><%= t '.reversal_table_heading_amount' %></th>
 							<th class=""></th>
 						</tr>
 					</thead>
@@ -128,7 +128,7 @@
 							<% end %>
 						<% else %>
 							<tr class="solid-box">
-								<td class="">No Payment History</td>
+								<td class=""><%= t 'registrations.paymentstatus.noPaymentHistory' %>No Payment History</td>
 								<td class=""> </td>
 								<td class=""> </td>
 								<td class=""> </td>
@@ -147,7 +147,7 @@
   <div class="grid-1-3">
     <div class="inner-block related">
       <div class="inner group related-subsection">
-        <h2 class="heading-small">Current user</h2>
+        <h2 class="heading-small"><%= t 'registrations.form.currentUser' %></h2>
           <nav aria-labelledby="parent-subsection" role="navigation">
             <ul>
               <li><%= render "shared/current_user" %></li>
