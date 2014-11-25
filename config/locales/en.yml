@@ -316,6 +316,7 @@ en:
     renew_button_label: "Renew registration"
     approve_button_label: "Approve registration"
     refuse_button_label: "Refuse registration"
+    recreate_button_label: "Recreate registration"
   global:
     betaMessage: "BETA"
     betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/contact/govuk' target='_blank'> feedback  </a> will help us improve it."
@@ -439,6 +440,7 @@ en:
       reversal_table_heading_ordercode: "Order Code"
       reversal_table_heading_type: "Type"
       reversal_table_heading_amount: "£"
+      reversal_table_heading_amount_long: "Amount"
     newAdjustment:
       heading: "Enter charge"
       step: "Enter an additional charge into the system"
@@ -461,6 +463,7 @@ en:
     WORLDPAY: "Worldpay"
     WRITEOFFSMALL: "Small Write off"
     WRITEOFFLARGE: "Large Write off"
+    REFUND: "Refund"
   please_select: "Please select..."
   registration_mailer:
     year: "year"
@@ -990,6 +993,7 @@ en:
       paymentFailed: "Your payment failed"
       paymentCancelled: "You have cancelled your payment"
       paymentWorldPay: "Paid via Worldpay"
+      refund_request: "A refund has been requested for this worldpay payment"
     nccc_edit:
       registeredOn: "Registered on: %{date}"
       revokedQuestion: "Do you wish to revoke this registration?"
