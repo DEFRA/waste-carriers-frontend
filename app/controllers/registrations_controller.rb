@@ -325,7 +325,7 @@ class RegistrationsController < ApplicationController
   end
   
   def addressSearchLogic(registration)
-    
+
     @addresses = []
     if params[:sManual]
       registration.addressMode = "manual-uk"
@@ -363,7 +363,7 @@ class RegistrationsController < ApplicationController
         # This overrides default behaviour for service not running, by logging and carrying on rather than, 
         # redirecting to service unavailable page. This is currently neccesary to navigate using the system
         # if the service is not running.
-        logger.error 'ERROR: Address Lookup Not running, or not found'
+        logger.error 'ERROR: Address Lookup not running, or not found'
         @addresses = []
       #
       # ---
@@ -382,7 +382,7 @@ class RegistrationsController < ApplicationController
     end
     selectedMoniker = registration.selectedMoniker
     if selectedMoniker and selectedMoniker!="" and !@address
-      logger.info "Getting address for: "+selectedMoniker
+      logger.info "Getting address for selected moniker: " + selectedMoniker
       @address = Address.find(selectedMoniker)
     end
     
@@ -407,22 +407,26 @@ class RegistrationsController < ApplicationController
   end
   
   def copyAddressToSession(registration)
-  	  session[:registration_params][:addressMode] = registration.addressMode
-      session[:registration_params][:houseNumber] = registration.houseNumber
-  	  session[:registration_params][:streetLine1] = registration.streetLine1
-      session[:registration_params][:streetLine2] = registration.streetLine2
-      session[:registration_params][:streetLine3] = registration.streetLine3
-      session[:registration_params][:streetLine4] = registration.streetLine4
-      session[:registration_params][:townCity] = registration.townCity
-      session[:registration_params][:postcode] = registration.postcode
-      session[:registration_params][:uprn] = registration.uprn
-      session[:registration_params][:easting] = registration.easting
-      session[:registration_params][:northing] = registration.northing
-      session[:registration_params][:dependentLocality] = registration.dependentLocality
-      session[:registration_params][:dependentThroughfare] = registration.dependentThroughfare
-      session[:registration_params][:administrativeArea] = registration.administrativeArea
-      session[:registration_params][:localAuthorityUpdateDate] = registration.localAuthorityUpdateDate
-      session[:registration_params][:royalMailUpdateDate] = registration.royalMailUpdateDate
+      # Note: Apparently the registration properties need to be specified 
+      # as strings (e.g. 'houseNumber') rather than symbols (:houseNumber), 
+      # or otherwise we end up with two different properties, and the properties with symbols
+      # seem not to be recognised elsewhere in the code
+      session[:registration_params]['addressMode'] = registration.addressMode
+      session[:registration_params]['houseNumber'] = registration.houseNumber
+      session[:registration_params]['streetLine1'] = registration.streetLine1
+      session[:registration_params]['streetLine2'] = registration.streetLine2
+      session[:registration_params]['streetLine3'] = registration.streetLine3
+      session[:registration_params]['streetLine4'] = registration.streetLine4
+      session[:registration_params]['townCity'] = registration.townCity
+      session[:registration_params]['postcode'] = registration.postcode
+      session[:registration_params]['uprn'] = registration.uprn
+      session[:registration_params]['easting'] = registration.easting
+      session[:registration_params]['northing'] = registration.northing
+      session[:registration_params]['dependentLocality'] = registration.dependentLocality
+      session[:registration_params]['dependentThroughfare'] = registration.dependentThroughfare
+      session[:registration_params]['administrativeArea'] = registration.administrativeArea
+      session[:registration_params]['localAuthorityUpdateDate'] = registration.localAuthorityUpdateDate
+      session[:registration_params]['royalMailUpdateDate'] = registration.royalMailUpdateDate
   end
   
   def updateNewContactDetails
