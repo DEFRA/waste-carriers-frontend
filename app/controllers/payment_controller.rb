@@ -549,9 +549,16 @@ class PaymentController < ApplicationController
     @order.dateCreated = now
     @order.dateLastUpdated = now
 
+    theAmount = 0  
+    begin
+      theAmount = Float(@order.totalAmount)
+    rescue => e
+      logger.info 'Couldnt convert to float: ' + e.to_s
+    end
+
     # Create Order Item
     orderItem = OrderItem.new
-    orderItem.amount = (Float(@order.totalAmount)*100).to_i
+    orderItem.amount = (theAmount*100).to_i
 
     if params[:positiveAdjustment] == I18n.t('registrations.form.enteradjustment_button_label')
       # positive
