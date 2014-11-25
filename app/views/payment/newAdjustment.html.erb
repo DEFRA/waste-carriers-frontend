@@ -43,7 +43,7 @@
 		  	<legend></legend>
 
 		    <div class="form-group">
-	        <label class="form-label">Enter a <%= @order.amountType.downcase %> charge</label>
+	        <label class="form-label"><%= t '.adjustmentType', :type=>@order.amountType.downcase %></label>
 	          <%= f.hidden_field :orderId %>
 				</div>
 
@@ -83,7 +83,7 @@
 	  <div class="grid-1-3">
 	    <div class="inner-block related">
 	      <div class="inner group related-subsection">
-	        <h2 class="heading-small">This is a sidebar</h2>
+	        <h2 class="heading-small"><%= t 'registrations.form.currentUser' %></h2>
 	          <nav aria-labelledby="parent-subsection" role="navigation">
 	            <ul>
 	              <li> <%= render "shared/current_user" %></li>
