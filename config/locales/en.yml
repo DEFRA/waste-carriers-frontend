@@ -431,6 +431,10 @@ en:
       heading: "Reversals"
       step: "Select which payment you wish to reverse"
       alreadyReversed: "Already reversed"
+      reversal_table_heading_date: "Date"
+      reversal_table_heading_ordercode: "Order Code"
+      reversal_table_heading_type: "Type"
+      reversal_table_heading_amount: "£"
     newAdjustment:
       heading: "Enter charge"
       step: "Enter an additional charge into the system"
@@ -1051,6 +1055,8 @@ en:
       paymenthistory_date_table_heading: "Date"
       paymenthistory_reference_table_heading: "Reference"
       paymenthistory_table_heading: "Payment History"
+      noChargeHistory: "No Charge History"
+      noPaymentHistory: "No Payment History"
     pending:
       title: "Confirm your account"
       subtitle: "Confirm your account"
