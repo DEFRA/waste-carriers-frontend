@@ -131,6 +131,22 @@ en:
       payment: Payment
       order: Order
       registration: Registration
+      
+  mongoid:
+    attributes:
+      agency_user:
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+      user:
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+      admin:
+        email: "Email"
+        password: "Password"
+        password_confirmation: "Password confirmation"
+        
   address_select: "Please select an address…"
   agencyUsers:
     Role_financeAdmin: "Finance Admin User"
