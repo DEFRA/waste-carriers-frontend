@@ -137,14 +137,17 @@ en:
       agency_user:
         email: "Email"
         password: "Password"
+        current_password: "Current password"
         password_confirmation: "Password confirmation"
       user:
         email: "Email"
         password: "Password"
+        current_password: "Current password"
         password_confirmation: "Password confirmation"
       admin:
         email: "Email"
         password: "Password"
+        current_password: "Current password"
         password_confirmation: "Password confirmation"
         
   address_select: "Please select an address…"
