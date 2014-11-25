@@ -32,6 +32,7 @@ en:
         updatedByUser: "Placed by user"
         description: "Description"
         exception: "Services error:"
+        order_item_reference: "Order item reference"
       order_item:
         amount: "Amount"
         currency: "Currency"
@@ -427,6 +428,9 @@ en:
     chargeIndex:
       heading: "Charge adjustments"
       step: "Select what type of charge adjustment you want to make"
+      page_guidance: "Here you can add additional entries in the orders list, with either positive or negative values"
+      positive_charge: "Enter a charge with a positive amount"
+      negative_charge: "Enter a charge with a negative amount"
     reversalIndex:
       heading: "Reversals"
       step: "Select which payment you wish to reverse"
@@ -438,6 +442,7 @@ en:
     newAdjustment:
       heading: "Enter charge"
       step: "Enter an additional charge into the system"
+      adjustmentType: "Enter a %{type} charge"
     createAdjustment:
       success: "Charge has been successfully entered."
     newReversal:
@@ -918,6 +923,7 @@ en:
       chargePositive_button_label: "Add a charge"
       check_details_and_register_heading: "Check details and register"
       companyRegistrationNumber_label: "Company registration number"
+      currentUser: "Current user"
       declaration_label: "I declare that as far as I know and believe, the information in this registration is true."
       declaration_legal_text: "...(TBD) some legal text to go here..."
       declaration_legend: "Declaration"
