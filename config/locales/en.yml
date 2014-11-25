@@ -915,6 +915,7 @@ en:
       declaration_legal_text: "...(TBD) some legal text to go here..."
       declaration_legend: "Declaration"
       delete_button_label: "Delete"
+      edit_button_label: "Edit Registration"
       emailAddress_label: "E-mail address"
       enterpayment_button_label: "Enter Payment"
       enteradjustment_button_label: "Enter charge adjustment"
