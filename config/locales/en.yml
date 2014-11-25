@@ -32,6 +32,7 @@ en:
         updatedByUser: "Placed by user"
         description: "Description"
         exception: "Services error:"
+        order_item_reference: "Order item reference"
       order_item:
         amount: "Amount"
         currency: "Currency"
@@ -131,6 +132,25 @@ en:
       payment: Payment
       order: Order
       registration: Registration
+      
+  mongoid:
+    attributes:
+      agency_user:
+        email: "Email"
+        password: "Password"
+        current_password: "Current password"
+        password_confirmation: "Password confirmation"
+      user:
+        email: "Email"
+        password: "Password"
+        current_password: "Current password"
+        password_confirmation: "Password confirmation"
+      admin:
+        email: "Email"
+        password: "Password"
+        current_password: "Current password"
+        password_confirmation: "Password confirmation"
+        
   address_select: "Please select an address…"
   agencyUsers:
     Role_financeAdmin: "Finance Admin User"
@@ -296,6 +316,7 @@ en:
     renew_button_label: "Renew registration"
     approve_button_label: "Approve registration"
     refuse_button_label: "Refuse registration"
+    recreate_button_label: "Recreate registration"
   global:
     betaMessage: "BETA"
     betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/contact/govuk' target='_blank'> feedback  </a> will help us improve it."
@@ -408,13 +429,22 @@ en:
     chargeIndex:
       heading: "Charge adjustments"
       step: "Select what type of charge adjustment you want to make"
+      page_guidance: "Here you can add additional entries in the orders list, with either positive or negative values"
+      positive_charge: "Enter a charge with a positive amount"
+      negative_charge: "Enter a charge with a negative amount"
     reversalIndex:
       heading: "Reversals"
       step: "Select which payment you wish to reverse"
       alreadyReversed: "Already reversed"
+      reversal_table_heading_date: "Date"
+      reversal_table_heading_ordercode: "Order Code"
+      reversal_table_heading_type: "Type"
+      reversal_table_heading_amount: "£"
+      reversal_table_heading_amount_long: "Amount"
     newAdjustment:
       heading: "Enter charge"
       step: "Enter an additional charge into the system"
+      adjustmentType: "Enter a %{type} charge"
     createAdjustment:
       success: "Charge has been successfully entered."
     newReversal:
@@ -433,6 +463,7 @@ en:
     WORLDPAY: "Worldpay"
     WRITEOFFSMALL: "Small Write off"
     WRITEOFFLARGE: "Large Write off"
+    REFUND: "Refund"
   please_select: "Please select..."
   registration_mailer:
     year: "year"
@@ -895,10 +926,12 @@ en:
       chargePositive_button_label: "Add a charge"
       check_details_and_register_heading: "Check details and register"
       companyRegistrationNumber_label: "Company registration number"
+      currentUser: "Current user"
       declaration_label: "I declare that as far as I know and believe, the information in this registration is true."
       declaration_legal_text: "...(TBD) some legal text to go here..."
       declaration_legend: "Declaration"
       delete_button_label: "Delete"
+      edit_button_label: "Edit Registration"
       emailAddress_label: "E-mail address"
       enterpayment_button_label: "Enter Payment"
       enteradjustment_button_label: "Enter charge adjustment"
@@ -960,6 +993,7 @@ en:
       paymentFailed: "Your payment failed"
       paymentCancelled: "You have cancelled your payment"
       paymentWorldPay: "Paid via Worldpay"
+      refund_request: "A refund has been requested for this worldpay payment"
     nccc_edit:
       registeredOn: "Registered on: %{date}"
       revokedQuestion: "Do you wish to revoke this registration?"
@@ -1031,6 +1065,8 @@ en:
       paymenthistory_date_table_heading: "Date"
       paymenthistory_reference_table_heading: "Reference"
       paymenthistory_table_heading: "Payment History"
+      noChargeHistory: "No Charge History"
+      noPaymentHistory: "No Payment History"
     pending:
       title: "Confirm your account"
       subtitle: "Confirm your account"

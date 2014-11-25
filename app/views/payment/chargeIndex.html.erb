@@ -41,16 +41,16 @@
 				<legend></legend>
 
 				<div class="form-group">
-						<p class="text">Here you can add additional entries in the orders list, with either positive or negative values</p>
+						<p class="text"><%= t '.page_guidance' %></p>
 				</div>
 
 				<div class="form-group">
-						<label class="form-label">Enter a charge with a positive amount</label>
+						<label class="form-label"><%= t '.positive_charge' %></label>
 						<input name="positive_payment" class="button" type="submit" value="<%= t 'registrations.form.chargePositive_button_label' %>"/>
 				</div>
 
 				<div class="form-group">
-						<label class="form-label">Enter a charge with a negative amount</label>
+						<label class="form-label"><%= t '.negative_charge' %></label>
             <input name="negative_payment" class="button" type="submit" value="<%= t 'registrations.form.chargeNegative_button_label' %>"/>
 				</div>
 
@@ -63,7 +63,7 @@
     <div class="grid-1-3">
       <div class="inner-block related">
         <div class="inner group related-subsection">
-          <h2 class="heading-small">Current user</h2>
+          <h2 class="heading-small"><%= t 'registrations.form.currentUser' %></h2>
             <nav aria-labelledby="parent-subsection" role="navigation">
               <ul>
                 <li><%= render "shared/current_user" %></li>
