@@ -384,7 +384,7 @@ class PaymentController < ApplicationController
 	@payment.paymentType = 'REFUND'
 	@payment.dateReceived = now
     @payment.updatedByUser = current_agency_user.email
-    @payment.comment = 'A refund has been requested for this worldpay payment'
+    @payment.comment = I18n.t('registrations.form.refund_request')
 
     # This makes the payment a refund by updating the orderCode to include a refund postfix
     @payment.makeRefund

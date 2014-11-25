@@ -81,13 +81,13 @@
             <tr>
               <td>
               <% if registration.can_view_certificate? %>
-                <%= link_to 'View Certificate', print_path(registration.uuid) %>
+                <%= link_to t('registrations.form.print_button_label'), print_path(registration.uuid) %>
               <% end %>
               </td>
 
               <td>
               <% if registration.can_be_edited? %>
-                <%= link_to 'Edit Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT), :id => 'edit_'+registration.regIdentifier %>
+                <%= link_to t('registrations.form.edit_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT), :id => 'edit_'+registration.regIdentifier %>
               <% end %>
               </td>
 
@@ -96,9 +96,9 @@
 
 	            <td>
 		            <% if registration.upper? and registration.about_to_expire? %>
-	            	<%= link_to 'Renew Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL), :id => 'renew_'+registration.regIdentifier %>
+	            	<%= link_to t('form.renew_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL), :id => 'renew_'+registration.regIdentifier %>
 	            	<% elsif registration.upper? and registration.can_be_recreated? %>
-		            	<%= link_to 'Re-create Registration', edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
+		            	<%= link_to t('form.recreate_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
 	            	<% end %>
 	            </td>
 
