@@ -55,7 +55,7 @@
 
             <% confirm_link = confirmation_url(@resource, :confirmation_token => @token) %>
 
-            <p style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 15px 0;"><%= link_to confirm_link, confirm_link %></p>
+            <p style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 15px 0;"><%= link_to(confirm_link, confirm_link, {:id => 'confirmation_link'}) %></p>
 
             <ul>
               <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0;"><%= t 'devise.mailer.confirmation_instructions.footer_1' %>
