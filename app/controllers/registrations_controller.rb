@@ -407,7 +407,7 @@ class RegistrationsController < ApplicationController
   end
   
   def copyAddressToSession(registration)
-      # Note: Apparently the registration properties need to be specified 
+      # Note (GM): Apparently the registration properties need to be specified 
       # as strings (e.g. 'houseNumber') rather than symbols (:houseNumber), 
       # or otherwise we end up with two different properties, and the properties with symbols
       # seem not to be recognised elsewhere in the code
@@ -419,6 +419,7 @@ class RegistrationsController < ApplicationController
       session[:registration_params]['streetLine4'] = registration.streetLine4
       session[:registration_params]['townCity'] = registration.townCity
       session[:registration_params]['postcode'] = registration.postcode
+      session[:registration_params]['country'] = nil
       session[:registration_params]['uprn'] = registration.uprn
       session[:registration_params]['easting'] = registration.easting
       session[:registration_params]['northing'] = registration.northing
