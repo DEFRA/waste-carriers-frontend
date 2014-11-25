@@ -22,10 +22,11 @@ en:
       confirmation_instructions:
         paragraph1: "Hello,"
         paragraph2: "We need you to confirm your email details so we can verify who you are."
-        paragraph3: "If you are lower tier you must confirm your details to complete your registration."
-        confirmLabel: "Confirm my account"
-        footer_1: "If you have any enquiries please contact the Environment Agency Helpline: 03708 506506"
-        footer_2: "Please do not reply to this email"
+        paragraph3: "You must verify your details to complete your lower tier registration."
+        paragraph4: "Click on the link below or copy and paste it into a new browser window."
+        footer_1: "If you're unsure this email is from GOV.UK:"
+        footer_2: "do not reply or click on any links"
+        footer_3: "contact the Environment Agency Helpline: 03708 506506"
       reset_password_instructions:
         subject: "Reset password instructions"
         heading: "Register as a waste carrier: forgotten password"
