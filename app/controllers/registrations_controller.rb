@@ -308,6 +308,7 @@ class RegistrationsController < ApplicationController
   
   def clearAddressNonForeign(registration)
     clearAddressNonManual registration
+    registration.houseNumber = nil
     registration.townCity = nil
     registration.postcode = nil
   end
