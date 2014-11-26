@@ -377,8 +377,7 @@ en:
       copy_card_description: "Copy cards are credit-card sized copies of your registration. Copy cards are a useful way to carry around and show your registration details."
       copy_card_caption: "Example of a copy card"
       copy_card_information: "Additional copy cards can be purchased after your registration is complete. You will need to sign into your account to do this."
-      copy_card_text1: "Please note"
-      copy_card_text2: "- copy cards can take up to 10 working days to arrive depending on the status of your registration."
+      copy_card_text_html: "<strong>Please note</strong> - copy cards can take up to 10 working days to arrive depending on the status of your registration."
       copy_card_alt_text: "Example of a copy card registration"
     copy_cards:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
