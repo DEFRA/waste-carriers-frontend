@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 #Needed for pre-release gov.uk gems
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'rails', '4.0.11'
+gem 'rails', '4.0.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -93,6 +93,9 @@ group :test, :development do
   #needed for headless testing with Javascript
   gem 'capybara-webkit'
   gem 'capybara-email', '~> 2.2.0'
+
+  #not required directly but updating to patch security vulnerabilities
+#  gem 'nokogiri', '~> 1.6.1', :require => false
 
   gem "launchy", "~> 2.4.2", :require => false
   gem 'rspec-rails', '~> 2.12'
