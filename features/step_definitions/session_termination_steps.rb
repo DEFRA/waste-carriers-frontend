@@ -38,7 +38,7 @@ end
 Given(/^I have confirmed my user account$/) do
   sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.click_link 'Confirm your account'
+  current_email.click_link 'confirmation_link'
 end
 
 Given(/^I have finished my registration session$/) do
