@@ -419,7 +419,7 @@ class RegistrationsController < ApplicationController
       session[:registration_params]['streetLine4'] = registration.streetLine4
       session[:registration_params]['townCity'] = registration.townCity
       session[:registration_params]['postcode'] = registration.postcode
-      session[:registration_params]['country'] = nil
+      session[:registration_params]['country'] = registration.country
       session[:registration_params]['uprn'] = registration.uprn
       session[:registration_params]['easting'] = registration.easting
       session[:registration_params]['northing'] = registration.northing
