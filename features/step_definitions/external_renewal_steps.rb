@@ -1,6 +1,6 @@
 Given(/^The renewal link is available$/) do
   # This will only be true given the current set of expiration parameters, ie any new registration created is automatically able to be expired
-  page.should have_content 'Renew Registration'
+  page.should have_content 'Renew registration'
 end
 
 Then(/^I click the renew link for: (.*)$/) do |name|
