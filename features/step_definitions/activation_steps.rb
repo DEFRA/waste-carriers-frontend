@@ -3,7 +3,7 @@ When(/^I activate the account within (\d+) hours$/) do |number_of_hours|
     visit find_path # refreshes page so don't get timed out after 20 minutes
     sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
     open_email my_email_address
-    current_email.click_link 'Confirm your account'
+    current_email.click_link 'confirmation_link'
   end
 end
 
@@ -12,7 +12,7 @@ When(/^I attempt to activate the account after (\d+) hours$/) do |number_of_hour
     visit find_path # refreshes page so don't get timed out after 20 minutes
     sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
     open_email my_email_address
-    current_email.click_link 'Confirm your account'
+    current_email.click_link 'confirmation_link'
   end
 end
 
@@ -23,7 +23,7 @@ end
 When(/^I have confirmed my email address$/) do
   sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.click_link 'Confirm your account'
+  current_email.click_link 'confirmation_link'
 end
 
 Given(/^I have received an awaiting payment email$/) do
@@ -54,8 +54,8 @@ Given(/^I re-request activation for my account$/) do
   click_on 'Resend confirmation instructions'
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.click_link 'Confirm your account'
-  
+  current_email.click_link 'confirmation_link'
+
   if !page.body.to_s.include?('Your account has been activated successfully')
     puts '... Waiting 5 seconds for page to load'
     sleep 5.0
@@ -64,16 +64,16 @@ Given(/^I re-request activation for my account$/) do
       sleep 15.0
     end
   end
-  
+
   page.should have_content 'Your account has been activated successfully'
-  
+
 end
 
 Then(/^I need to request a new confirmation email to activate my account$/) do
   click_on 'Resend confirmation instructions'
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.click_link 'Confirm your account'
+  current_email.click_link 'confirmation_link'
   page.should have_content 'Your registration number is: CBD'
 end
 

@@ -24,14 +24,13 @@ en:
       unconfirmed: "You have to confirm your account before continuing."
     mailer:
       confirmation_instructions:
-        subject: "Confirmation instructions"
-        heading: "Confirm your email details for your waste carrier, broker or dealer registation"
         paragraph1: "Hello,"
         paragraph2: "We need you to confirm your email details so we can verify who you are."
-        paragraph3: "If you are lower tier you must confirm your details to complete your registration."
-        confirmLabel: "Confirm your account"
-        newInstructionsLabel: "Send new instructions to confirm my account"
-        paragraph4: "Please contact the Environment Agency helpline on 03708 506506 if you have any questions about this."
+        paragraph3: "You must verify your details to complete your lower tier registration."
+        paragraph4: "Click on the link below or copy and paste it into a new browser window."
+        footer_1: "If you're unsure this email is from GOV.UK:"
+        footer_2: "do not reply or click on any links"
+        footer_3: "contact the Environment Agency Helpline: 03708 506506"
       reset_password_instructions:
         subject: "Reset password instructions"
         heading: "Register as a waste carrier: forgotten password"
