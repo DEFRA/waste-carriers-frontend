@@ -24,10 +24,11 @@
 
       <% if !notice.nil? %>
         <div id="note_explanation" class="validation-summary">
-          <ul class="list-bullet error-text">
-            <li><%= notice %></li>
-          </ul>
-        </div>
+		    <h2 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(1, t('registrations.errors.error')) %></h2>
+            <ul>
+                <li><a class="error-text" href="#q"><%= notice %></a></li>
+            </ul>
+	    </div>
         <p class="panel-indent"><%= t '.outsideuk' %></p>
       <% end %>
 
@@ -39,7 +40,7 @@
         </div>
       <% end %>
 
-      <form method="get" action="/registrations/search">
+      <form method="get" action="<%= public_path %>">
       <div class="box" data-journey="waste-carriers-registration:search-register">
 
       <fieldset>
@@ -109,7 +110,7 @@
 
 
   <% if @registrations.count > 0 %>
-      <table class="search" summary='This is an example table' role='presentation'>
+      <table class="search" summary='Details search results for publicly registered businesses' role='presentation'>
       	<thead class="search-header">
       		<tr>
       			<th class="search-header-field"><%= t '.companyName_table_heading' %></th>
