@@ -160,6 +160,7 @@ module WorldpayHelper
 
       # Note: The URL returned from WP already has some query parameters e.g. for the orderCode
       redirect_args = ''
+      redirect_args << '&language=' + params[:locale] if params[:locale]
       redirect_args << '&successURL=' + success_url
       redirect_args << '&failureURL=' + failure_url
       redirect_args << '&pendingURL=' + pending_url
