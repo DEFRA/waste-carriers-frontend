@@ -140,6 +140,7 @@ en:
         password: "Password"
         current_password: "Current password"
         password_confirmation: "Password confirmation"
+        roles: "Roles"
       user:
         email: "Email"
         password: "Password"
@@ -173,6 +174,7 @@ en:
     roleGuidance_2: "If no role is selected the user has by default, nccc agency user permissions."
     show: "Show"
     updateLabel: "Update agency user"
+    no_role: "No role"
   business_types:
     authority: "Waste collection, disposal or regulation authority"
     charity: "Charity or voluntary organisation"
