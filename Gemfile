@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 #Needed for pre-release gov.uk gems
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.12'
 
-gem 'debugger', :require => false
+# gem 'debugger', :require => false
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -33,7 +33,7 @@ gem 'govuk_frontend_toolkit'
 # Gems used only for assets and not required
 # in production environments by default.
 
-gem 'sass-rails',   '~> 4.0.0'
+gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.0'
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -74,15 +74,18 @@ group :test, :development do
   #needed for headless testing with Javascript
   gem 'capybara-webkit'
 
+  #not required directly but updating to patch security vulnerabilities
+#  gem 'nokogiri', '~> 1.6.1', :require => false
+
   gem "launchy", "~> 2.4.2", :require => false
 end
 
 #cross-browser testing using saucelabs
 group :test, :development do
   gem 'rspec-rails', '~> 2.12'
-  gem 'sauce', '~> 3.2.0'
-  gem 'sauce-connect', :require => false
-  gem 'sauce-cucumber', :require => false
+#  gem 'sauce', '~> 3.2.0'
+#  gem 'sauce-connect', :require => false
+#  gem 'sauce-cucumber', :require => false
   gem 'capybara', '~> 2.1.0'
   gem 'parallel_tests', :require => false
 end

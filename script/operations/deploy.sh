@@ -13,7 +13,7 @@ function env_alert() {
 }
 
 DATESTAMP=`date +%Y.%m.%d-%H.%M`
-WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p247"
+WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p598"
 
 echo ""
 
@@ -92,10 +92,17 @@ sudo service nginx start
 if [ "${WCRS_FRONTEND_RAILS_ENV}" != "production" ]; then
   echo "Running tests."
   rake db:test:prepare
+  echo "Running unit tests (using rspec)"
+  rm -rf ${WCRS_FRONTEND_HOME}/live/spec/reports/*
+  rake spec SPEC_OPTS=". --tag ~sauce"
+  echo "Running integration tests (using cucumber)"
   xvfb-run cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
 fi
 
 if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
+  echo "Copying RSpec reports to Jenkins"
+  scp -rp ${WCRS_FRONTEND_HOME}/live/spec/reports \
+      jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/spec/  
   echo "Copying cucumber report to Jenkins."
   scp ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json \
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/features/reports/

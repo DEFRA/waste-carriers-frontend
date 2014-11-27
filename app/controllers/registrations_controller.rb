@@ -308,12 +308,14 @@ class RegistrationsController < ApplicationController
   
   def clearAddressNonForeign(registration)
     clearAddressNonManual registration
+    registration.houseNumber = nil
     registration.townCity = nil
     registration.postcode = nil
   end
   
   def clearAddress(registration)
     clearAddressNonManual registration
+    registration.houseNumber = nil
     registration.streetLine1 = nil
     registration.streetLine2 = nil
     registration.streetLine3 = nil
@@ -324,7 +326,7 @@ class RegistrationsController < ApplicationController
   end
   
   def addressSearchLogic(registration)
-    
+
     @addresses = []
     if params[:sManual]
       registration.addressMode = "manual-uk"
@@ -348,10 +350,12 @@ class RegistrationsController < ApplicationController
     postcodeSearch = registration.postcodeSearch
     if postcodeSearch and postcodeSearch != ""
       postcode = registration.postcodeSearch
-      logger.info "getting addresses for: "+postcode
+      logger.info "getting addresses for: " + postcode.to_s
       begin
         @addresses = Address.find(:all, :params => {:postcode => postcode})
       rescue ActiveResource::ServerError
+        @addresses = []
+      rescue ActiveResource::BadRequest
         @addresses = []
       #
       # TMP HACK ---
@@ -360,7 +364,7 @@ class RegistrationsController < ApplicationController
         # This overrides default behaviour for service not running, by logging and carrying on rather than, 
         # redirecting to service unavailable page. This is currently neccesary to navigate using the system
         # if the service is not running.
-        logger.error 'ERROR: Address Lookup Not running, or not Found'
+        logger.error 'ERROR: Address Lookup not running, or not found'
         @addresses = []
       #
       # ---
@@ -379,11 +383,13 @@ class RegistrationsController < ApplicationController
     end
     selectedMoniker = registration.selectedMoniker
     if selectedMoniker and selectedMoniker!="" and !@address
-      logger.info "Getting address for: "+selectedMoniker
+      logger.info "Getting address for selected moniker: " + selectedMoniker
       @address = Address.find(selectedMoniker)
     end
     
     if @address and @address.lines!=nil
+      registration.houseNumber = nil
+      registration.country = nil
       registration.streetLine1 = @address.lines[0]
       registration.streetLine2 = @address.lines[1]
       registration.streetLine3 = @address.lines[2]
@@ -402,21 +408,27 @@ class RegistrationsController < ApplicationController
   end
   
   def copyAddressToSession(registration)
-  	  session[:registration_params][:addressMode] = registration.addressMode
-  	  session[:registration_params][:streetLine1] = registration.streetLine1
-      session[:registration_params][:streetLine2] = registration.streetLine2
-      session[:registration_params][:streetLine3] = registration.streetLine3
-      session[:registration_params][:streetLine4] = registration.streetLine4
-      session[:registration_params][:townCity] = registration.townCity
-      session[:registration_params][:postcode] = registration.postcode
-      session[:registration_params][:uprn] = registration.uprn
-      session[:registration_params][:easting] = registration.easting
-      session[:registration_params][:northing] = registration.northing
-      session[:registration_params][:dependentLocality] = registration.dependentLocality
-      session[:registration_params][:dependentThroughfare] = registration.dependentThroughfare
-      session[:registration_params][:administrativeArea] = registration.administrativeArea
-      session[:registration_params][:localAuthorityUpdateDate] = registration.localAuthorityUpdateDate
-      session[:registration_params][:royalMailUpdateDate] = registration.royalMailUpdateDate
+      # Note (GM): Apparently the registration properties need to be specified 
+      # as strings (e.g. 'houseNumber') rather than symbols (:houseNumber), 
+      # or otherwise we end up with two different properties, and the properties with symbols
+      # seem not to be recognised elsewhere in the code
+      session[:registration_params]['addressMode'] = registration.addressMode
+      session[:registration_params]['houseNumber'] = registration.houseNumber
+      session[:registration_params]['streetLine1'] = registration.streetLine1
+      session[:registration_params]['streetLine2'] = registration.streetLine2
+      session[:registration_params]['streetLine3'] = registration.streetLine3
+      session[:registration_params]['streetLine4'] = registration.streetLine4
+      session[:registration_params]['townCity'] = registration.townCity
+      session[:registration_params]['postcode'] = registration.postcode
+      session[:registration_params]['country'] = registration.country
+      session[:registration_params]['uprn'] = registration.uprn
+      session[:registration_params]['easting'] = registration.easting
+      session[:registration_params]['northing'] = registration.northing
+      session[:registration_params]['dependentLocality'] = registration.dependentLocality
+      session[:registration_params]['dependentThroughfare'] = registration.dependentThroughfare
+      session[:registration_params]['administrativeArea'] = registration.administrativeArea
+      session[:registration_params]['localAuthorityUpdateDate'] = registration.localAuthorityUpdateDate
+      session[:registration_params]['royalMailUpdateDate'] = registration.royalMailUpdateDate
   end
   
   def updateNewContactDetails

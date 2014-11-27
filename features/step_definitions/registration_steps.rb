@@ -38,7 +38,7 @@ Then(/^I fill in valid contact details$/) do
 
   fill_in('sPostcode', :with => 'BS1 5AH')
   click_button 'Find address'
-  page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
+  page.select("ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH", :from => 'sSelect')
 
   page.select('Mr', :from => 'registration_title')
   fill_in('registration_firstName', :with => 'Joe')
@@ -87,7 +87,7 @@ When(/^I provide valid contact details$/) do
 
   fill_in('sPostcode', :with => 'BS1 5AH')
   click_button 'Find address'
-  page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
+  page.select("ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH", :from => 'sSelect')
 
   page.select('Mr', :from => 'registration_title')
   fill_in('registration_firstName', :with => 'Joe')
@@ -107,7 +107,7 @@ Given(/^I provide valid contact details for "(.*?)"$/) do |email|
   #fill_in('registration_postcode', :with => 'SW12 3AB')
   fill_in('sPostcode', :with => 'BS1 5AH')
   click_button 'Find address'
-  page.select("Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH", :from => 'sSelect')
+  page.select("ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH", :from => 'sSelect')
 
   page.select('Mr', :from => 'registration_title')
   fill_in('registration_firstName', :with => 'Joe')
