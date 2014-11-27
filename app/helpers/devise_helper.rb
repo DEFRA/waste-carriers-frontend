@@ -26,9 +26,8 @@ module DeviseHelper
     :resource => resource.class.model_name.human.downcase)
 
     html = <<-HTML
-    <div id="error_explanation" class="validation-summary">
-      <h2>#{sentence}</h2>
-      <ul>#{messages}</ul>
+    <div id="error_explanation">
+      <ul class="heading-large">#{messages}</ul>
     </div>
     HTML
 
