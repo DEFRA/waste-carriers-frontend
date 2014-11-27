@@ -3,7 +3,11 @@
 en:
   devise:
     confirmations:
-      resendHeading: "Resend confirmation instructions"
+      resendHeading: "Send email confirmation instructions"
+      resendText: "What email address did you use to register?"
+      resendSummaryLink: "I can't remember my email"
+      resendSummaryText: "Please contact our helpline: 03708 506506 and speak to one of our advisors."
+      resendButton: "Resend confirmation instructions"
       confirmed: "Your account has been activated successfully and an email confirmation of your registration has been sent to you."
       confirmed_and_signed_in: "Your account was successfully confirmed. You are now signed in."
       send_instructions: "You will receive an email with instructions about how to confirm your account in a few minutes."
