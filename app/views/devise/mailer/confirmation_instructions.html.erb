@@ -51,13 +51,13 @@
 
             <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph2' %></p>
 
-            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph3' %></p>
-
             <% unless @resource.current_tier == 'UPPER' %>
               <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;" id="lower_tier_text">
-                Well cor blimey guvnor, I appear to be a lower tier application
+                <%= t 'devise.mailer.confirmation_instructions.paragraph3' %>
               </p>
             <% end %>
+
+            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph4' %></p>
 
             <% confirm_link = confirmation_url(@resource, :confirmation_token => @token) %>
 
