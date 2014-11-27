@@ -3,7 +3,7 @@
 en:
   devise:
     confirmations:
-      resendHeading: "Send email confirmation instructions"
+      resendHeading: "We need to send you new confirmation instructions"
       resendText: "What email address did you use to register?"
       resendSummaryLink: "I can't remember my email"
       resendSummaryText: "Please contact our helpline: 03708 506506 and speak to one of our advisors."
@@ -105,7 +105,7 @@ en:
     messages:
       already_confirmed: "was already confirmed, please try signing in"
       confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
-      confirmation_token: "whats up whats up"
+      confirmation_token: "Your confirmation email has expired"
       expired: "has expired, please request a new one"
       not_found: "not found"
       not_locked: "was not locked"

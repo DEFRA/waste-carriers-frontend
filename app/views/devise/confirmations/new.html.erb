@@ -9,16 +9,16 @@
       <li><%= link_to t('registrations.form.back_button_label'), :back %></li>
     </ol>
   </div>
-
+<%= devise_token_error_messages! %>
   <header class="page-header group">
     <div class="hgroup">
-      <h1 class="heading-large"><%= t 'devise.confirmations.resendHeading'%></h1>
+      <h1 class="heading-small"><%= t 'devise.confirmations.resendHeading'%></h1>
     </div>
   </header>
 
 
     <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
-    <%= devise_token_error_messages! %>
+
 
     <div class="form-group">
      <p><%= t 'devise.confirmations.resendText'%></p>
