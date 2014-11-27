@@ -46,7 +46,7 @@ class RegistrationsController < ApplicationController
       end
     else
       @registrations = []
-      flash.now[:notice] = 'You must provide valid search parameters. Please only use letters, numbers,or any of \' . & ! %.'
+      flash.now[:notice] = I18n.t('errors.messages.search_criteria')
     end
     session[:registration_step] = session[:registration_params] = nil
     logger.debug "index: #{ @registrations.size.to_s} items"

@@ -291,6 +291,7 @@ en:
       too_long: "is too long (maximum is %{count} characters)"
       too_weak: "is not secure; use letters (uppercase and downcase), numbers and special characters"
       greater_than_or_equal_to: "must be greater than or equal to %{count}"
+      search_criteria: "You must provide valid search parameters. Please only use letters, numbers,or any of \' . & ! %."
 
   form:
     add_button_label: "Add"
