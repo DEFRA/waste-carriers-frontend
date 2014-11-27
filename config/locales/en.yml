@@ -547,6 +547,10 @@ en:
       paragraph7: "While it's unlikely that the Environment Agency would take any enforcement action against anyone who did continue to operate during this period, we cannot comment on what the Local Authority or Police decide to do."
       paragraph8: "If we do not receive your payment within 28 days from the date of this email we will serve you with a revocation notice which will prevent you from lawfully operating as a waste carrier, broker or dealer."
       payment_notice: "Payment notice"
+  agency_users:
+    index:
+      title: "Administration"
+      subtitle: "Listing agency users"
   key_people:
     newKeyPerson:
       title: "Key person"
