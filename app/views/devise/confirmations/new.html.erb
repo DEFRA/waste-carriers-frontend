@@ -16,21 +16,30 @@
     </div>
   </header>
 
-  <fieldset>
-    <legend></legend>
 
     <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
     <%= devise_error_messages! %>
 
     <div class="form-group">
+     <p><%= t 'devise.confirmations.resendText'%></p>
+
+       <details class="text">
+        <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
+          <span class='summary'><%= t 'devise.confirmations.resendSummaryLink'%></span>
+        </summary>
+        <div style='display:block' class='panel-indent' id='details-content-0' >
+          <p><%= t 'devise.confirmations.resendSummaryText'%></p>
+        </div>
+        </details>
+
 	   <%= f.label :email, class: 'form-label' %>
 	   <%= f.email_field :email, :autofocus => true %>
     </div>
 
-	   <%= f.submit t('devise.confirmations.resendHeading'), :class => "button" %>
+	   <%= f.submit t('devise.confirmations.resendButton'), :class => "button" %>
 
     <% end %>
-  </fieldset>
+
 
 </main><!-- end content -->
 </div><!-- end wrapper -->
