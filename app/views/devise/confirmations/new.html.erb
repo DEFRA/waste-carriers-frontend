@@ -18,7 +18,7 @@
 
 
     <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
-    <%= devise_error_messages! %>
+    <%= devise_token_error_messages! %>
 
     <div class="form-group">
      <p><%= t 'devise.confirmations.resendText'%></p>
