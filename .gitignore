@@ -19,4 +19,5 @@ pickle-email-*.html
 /features/reports/*.xml
 /spec/reports/*.xml
 sauce_connect.*
-
+/spec/reports/*
+dump.rdb
