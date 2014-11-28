@@ -52,6 +52,8 @@
 
             </fieldset>
 
+            <span id="full-search-label" style="display:none"><%= t '.full_search_link_label' %></span>
+            <span id="refine-search-label" style="display:none"><%= t '.refine_search_link_label' %></span>
             <a href="#" id="toggle-search">
               <% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
                 <%= t '.refine_search_link_label' %>

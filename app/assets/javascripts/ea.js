@@ -346,11 +346,12 @@
 		advancedSearch = !advancedSearch;
 
 		if(advancedSearch){
-			$("a#toggle-search").html("Full search");
+			var myFullLabel = $("#full-search-label").html();
+			$("a#toggle-search").html(myFullLabel);
 			$("#advanced-options").css("display","block");
 		}else{
-
-			$("a#toggle-search").html("Refine search");
+			var myRefineLabel = $("#refine-search-label").html();
+			$("a#toggle-search").html(myRefineLabel);
 			$("#advanced-options").css("display","none");
 		}
 	}
