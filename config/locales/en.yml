@@ -447,6 +447,9 @@ en:
       heading: "Enter charge"
       step: "Enter an additional charge into the system"
       adjustmentType: "Enter a %{type} charge"
+      amountType:
+        POSITIVE: "positive"
+        NEGATIVE: "negative"
     createAdjustment:
       success: "Charge has been successfully entered."
     newReversal:
