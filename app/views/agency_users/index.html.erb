@@ -4,7 +4,8 @@
 
 <main id="content" role="main" class="group">
 
-<h1 class="heading-large">Listing agency users</h1>
+<% content_for :page_title, createTitle('.title') %>
+<h1 class="heading-large"><%= t '.subtitle' %></h1>
 <% if !notice.nil? %>
 <div id="note_explanation" class="note-summary">
   <h2 class="heading-small"><%= notice%></h2>

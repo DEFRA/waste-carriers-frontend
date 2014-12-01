@@ -140,6 +140,7 @@ en:
         password: "Password"
         current_password: "Current password"
         password_confirmation: "Password confirmation"
+        roles: "Roles"
       user:
         email: "Email"
         password: "Password"
@@ -173,6 +174,7 @@ en:
     roleGuidance_2: "If no role is selected the user has by default, nccc agency user permissions."
     show: "Show"
     updateLabel: "Update agency user"
+    no_role: "No role"
   business_types:
     authority: "Waste collection, disposal or regulation authority"
     charity: "Charity or voluntary organisation"
@@ -291,6 +293,7 @@ en:
       too_long: "is too long (maximum is %{count} characters)"
       too_weak: "is not secure; use letters (uppercase and downcase), numbers and special characters"
       greater_than_or_equal_to: "must be greater than or equal to %{count}"
+      search_criteria: "You must provide valid search parameters. Please only use letters, numbers,or any of \' . & ! %."
 
   form:
     add_button_label: "Add"
@@ -547,6 +550,10 @@ en:
       paragraph7: "While it's unlikely that the Environment Agency would take any enforcement action against anyone who did continue to operate during this period, we cannot comment on what the Local Authority or Police decide to do."
       paragraph8: "If we do not receive your payment within 28 days from the date of this email we will serve you with a revocation notice which will prevent you from lawfully operating as a waste carrier, broker or dealer."
       payment_notice: "Payment notice"
+  agency_users:
+    index:
+      title: "Administration"
+      subtitle: "Listing agency users"
   key_people:
     newKeyPerson:
       title: "Key person"

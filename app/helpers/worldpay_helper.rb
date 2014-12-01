@@ -61,7 +61,7 @@ module WorldpayHelper
       xml << '<lastName>' + shopperLastName.to_s + '</lastName>'
       xml << '<address1>' + shopperAddress1.to_s + '</address1>'
       xml << '<address2>' + shopperAddress2.to_s + '</address2>'
-      xml << '<postalCode>' + shopperPostalCode + '</postalCode>'
+      xml << '<postalCode>' + shopperPostalCode.to_s + '</postalCode>'
       xml << '<city>' + shopperCity.to_s + '</city>'
       xml << '<countryCode>' + shopperCountryCode + '</countryCode>'
       xml << '</address>'
@@ -160,6 +160,7 @@ module WorldpayHelper
 
       # Note: The URL returned from WP already has some query parameters e.g. for the orderCode
       redirect_args = ''
+      redirect_args << '&language=' + params[:locale] if params[:locale]
       redirect_args << '&successURL=' + success_url
       redirect_args << '&failureURL=' + failure_url
       redirect_args << '&pendingURL=' + pending_url
