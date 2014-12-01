@@ -94,9 +94,6 @@ group :test, :development do
   gem 'capybara-webkit'
   gem 'capybara-email', '~> 2.2.0'
 
-  #not required directly but updating to patch security vulnerabilities
-#  gem 'nokogiri', '~> 1.6.1', :require => false
-
   gem "launchy", "~> 2.4.2", :require => false
   gem 'rspec-rails', '~> 2.12'
 
