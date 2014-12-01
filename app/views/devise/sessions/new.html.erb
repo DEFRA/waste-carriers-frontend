@@ -29,12 +29,12 @@
     <% end%>
 
     <% if alert %>
-    <div id="error_explanation" class="validation-summary">
-      <h2 class="heading-medium"><%= t '.standard_error' %></h2>
-      <ul>
-        <li><%= alert %></li>
-      </ul>
-    </div>
+        <div id="error_explanation" class="validation-summary">
+            <h2 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(1, t('registrations.errors.error')) %></h2>
+            <ul>
+                <li><a class="error-text" href="#<%= resource_name %>_<%= :email %>"><%= alert %></a></li>
+            </ul>
+        </div>
     <% end %>
 
     <% if notice %>
