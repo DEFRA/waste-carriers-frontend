@@ -42,8 +42,21 @@ class KeyPeopleController < ApplicationController
 
       @key_person.cross_check_convictions
       @key_person.save
+      
+      #
+      # Create a list of all non key people (ie.'RELEVANT'), to ensure they are retained when the list is replaced.
+      # We are assuming that the only 'KEY' person is the key person from the params which we add after.
+      #
+      personList = Array.new
+      @registration.key_people.each do |kPerson|
+        if !kPerson.person_type.eql? "KEY"
+          personList.push(kPerson)
+        end
+      end
+      # Add key person from params
+      personList.push(@key_person)
 
-      @registration.key_people.replace([@key_person])
+      @registration.key_people.replace(personList)
       @registration.save
 
       redirect_to :newRelevantConvictions
