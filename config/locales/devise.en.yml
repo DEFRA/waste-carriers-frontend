@@ -24,6 +24,7 @@ en:
       unconfirmed: "You have to confirm your account before continuing."
     mailer:
       confirmation_instructions:
+        subject: "Verify your email address"
         paragraph1: "Hello,"
         paragraph2: "We need you to confirm your email details so we can verify who you are."
         paragraph3: "You must verify your details to complete your lower tier registration."
