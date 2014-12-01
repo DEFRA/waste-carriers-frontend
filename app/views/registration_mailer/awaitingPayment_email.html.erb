@@ -161,38 +161,37 @@
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext1' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.reference_number' %>
                             <%= @registration.regIdentifier %>
                           </p>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext2' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.payment_due' %>
+                            <%= Money.new(@registration.finance_details.first.balance).format %>
                           </p><br/>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext3' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.environment_agency' %>
+                            <%= Rails.configuration.environment_agency_bank_account_name %>
                           </p>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext4' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.bank_name' %>
+                            <%= Rails.configuration.environment_agency_bank_name %>
                           </p>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext5' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.bank_address' %>
+                            <%= Rails.configuration.environment_agency_bank_address %>
                           </p><br/>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext6' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.sortcode' %>
+                            <%= Rails.configuration.bank_transfer_sort_code %>
                           </p>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext7' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.account_number' %>
+                            <%= Rails.configuration.bank_transfer_account_number %>
                           </p><br/>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
@@ -201,12 +200,12 @@
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext8' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.iban_number' %>
+                            <%= Rails.configuration.iban_number  %>
                           </p>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext9' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.swiftbic_number' %>
+                            <%= Rails.configuration.swiftbic_number %>
                           </p><br/>
 
                           <p style="font-size: 19px; line-height: 1.31579; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;">
@@ -223,17 +222,17 @@
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext10' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.email' %>
+                            <%= Rails.configuration.income_email_address %>
                           </p>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext11' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.fax' %>
+                            <%= Rails.configuration.income_fax_number %>
                           </p>
 
                           <p style="font-size: 16px; line-height: 1.31579;">
                             <strong><%= t 'registration_mailer.awaitingPayment.pretext12' %></strong>
-                            <%= t 'registration_mailer.awaitingPayment.postal_address' %>
+                            <%= Rails.configuration.income_postal_address %>
                           </p><br/>
 
                           <h4 style="font-size: 19px; line-height: 1.31579; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px; margin: 0 0 30px 0;">
