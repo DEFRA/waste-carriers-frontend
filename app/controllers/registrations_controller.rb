@@ -380,7 +380,7 @@ class RegistrationsController < ApplicationController
     end
 
     @registration.save
-    
+
     #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
     if 'address-results'.eql? @registration.addressMode
       begin
@@ -406,7 +406,7 @@ class RegistrationsController < ApplicationController
   def editBusinessDetails
     session[:edit_link_business_details] = '1'
     new_step_action 'businessdetails'
-    
+
     if params[:changeAddress]
       @registration.addressMode = nil
     elsif params[:manualUkAddress] #we're in the manual uk address page
@@ -420,9 +420,9 @@ class RegistrationsController < ApplicationController
     elsif params[:autoUkAddress] #user clicked to go back to address lookup
       @registration.addressMode = nil
     end
-    
+
     @registration.save
-    
+
     #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
     if 'address-results'.eql? @registration.addressMode
       begin
@@ -442,7 +442,7 @@ class RegistrationsController < ApplicationController
         logger.error 'ERROR: ActiveResource Server error!'
       end
     end
-    
+
     render 'newBusinessDetails'
     registration.houseNumber = nil
   end
@@ -458,19 +458,19 @@ class RegistrationsController < ApplicationController
 
     #if params[:addressSelector]  #user selected an address from drop-down list
     #if @registration.selectedAddress and !@registration.selectedAddress.empty?
-    if params[:registration][:selectedAddress]    
+    if params[:registration][:selectedAddress]
       logger.info '>>>>>>>> validate selected address'
-      @registration.validateSelectedAddress = true     
+      @registration.validateSelectedAddress = true
     end
-    
+
     if @registration.selectedAddress and !@registration.selectedAddress.empty?
 
       logger.info '>>>>>>>> @registration.selectedAddress has a value'
-    
+
       fullVal = @registration.selectedAddress
 
       logger.info 'fullVal: ' + fullVal.to_s
-      
+
       array = fullVal.split('::')
       logger.error 'array: ' + array.to_s
       logger.error 'array[0]: ' + array[0].to_s
@@ -478,31 +478,31 @@ class RegistrationsController < ApplicationController
       logger.error 'array[1]: ' + array[1].to_s
       @registration.selectedAddress = array[1].to_s
       logger.error '@registration.selectedAddress: ' +  @registration.selectedAddress
-    
+
       logger.info 'Retrieving address for the selected moniker: ' + moniker.to_s
       @selected_address = Address.find(moniker)
       logger.info 'Retrieved @selected_address = ' + @selected_address.inspect.to_s
       session[:address_lookup_selected] = true
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
-      
+
     end
-    
-    if params[:findAddress] #user clicked on Find Address button  
-      logger.info '>>>>>>>> in findAddress' 
+
+    if params[:findAddress] #user clicked on Find Address button
+      logger.info '>>>>>>>> in findAddress'
       if @registration.valid?
-        # clicked find and valid        
+        # clicked find and valid
         @registration.update(:addressMode => 'address-results')
         @registration.update(:postcode => params[:registration][:postcode])
-        
+
         redirect_to :newBusinessDetails and return
       else
         # clicked find and not valid
-        render 'newBusinessDetails', status: '200' and return        
+        render 'newBusinessDetails', status: '200' and return
       end
 
 #      if @registration.postcode.empty?
 #        @registration.errors.add(:postcode, ' test1')
-#        
+#
 #        render 'newBusinessDetails', status: '200' and return
 #      else
 #
@@ -511,7 +511,7 @@ class RegistrationsController < ApplicationController
 #      redirect_to :newBusinessDetails and return
 #      end
     elsif @registration.valid?
-    
+
       logger.info '>>>>>>>> elsif valid'
 
       if @registration.tier.eql? 'UPPER'
@@ -533,7 +533,7 @@ class RegistrationsController < ApplicationController
         redirect_to :newContact and return
       end
     else
-    
+
     logger.error '>>>>>>>> if not valid'
 
     #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
@@ -554,7 +554,7 @@ class RegistrationsController < ApplicationController
         logger.error 'ERROR: ActiveResource Server error!'
       end
     end
-    
+
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
       render 'newBusinessDetails', :status => '400'
@@ -1135,7 +1135,7 @@ class RegistrationsController < ApplicationController
       @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after).to_s
     end
 
-    # Note: we are assigning a unique identifier to the registration in order to make the 
+    # Note: we are assigning a unique identifier to the registration in order to make the
     # POST request idempotent
     @registration.reg_uuid = SecureRandom.uuid
 
@@ -1155,6 +1155,7 @@ class RegistrationsController < ApplicationController
     @user = User.new
     @user.email = @registration.accountEmail
     @user.password = @registration.password
+    @user.current_tier = @registration.tier
     logger.debug "About to save the new user."
     if @user.save
       logger.debug 'User has been saved.'
@@ -2014,11 +2015,11 @@ class RegistrationsController < ApplicationController
     logger.debug "#{edited_registration.attributes}"
 
     #
-    # PT 81010558 : Disallow the user to change tier 
+    # PT 81010558 : Disallow the user to change tier
     #
     if (original_registration.tier != edited_registration.tier)
       logger.debug 'Registration has changed Tier, Not Allowed'
-      res = EditResult::CHANGE_NOT_ALLOWED 
+      res = EditResult::CHANGE_NOT_ALLOWED
     else
       #
       # BUSINESS RULES for Determining NEW REGISTRATION:
