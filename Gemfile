@@ -88,10 +88,10 @@ end
 
 group :test, :development do
   #We need the selenium webdriver for javascript
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '~> 2.44.0'
 
   #needed for headless testing with Javascript
-  gem 'capybara-webkit'
+  gem 'capybara-webkit', '~> 1.3.1'
   gem 'capybara-email', '~> 2.2.0'
 
   gem "launchy", "~> 2.4.2", :require => false
