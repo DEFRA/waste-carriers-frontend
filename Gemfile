@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 #Needed for pre-release gov.uk gems
 source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
-gem 'rails', '4.0.10'
+gem 'rails', '4.0.12'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -26,9 +26,9 @@ gem 'indefinite_article', '~> 0.2.0'
 
 # Provided by GDS - Template gives us the master layout into which
 # we can inject our content using yield and content_for
-gem 'govuk_template', '~> 0.10.0'
+gem 'govuk_template', '~> 0.10.0', :source => 'https://rubygems.org/'
 # Access to some of the most common styles and scripts used by GDS
-gem 'govuk_frontend_toolkit', '~> 2.0.1'
+gem 'govuk_frontend_toolkit', '~> 2.0.1', :source => 'https://rubygems.org/'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -36,7 +36,7 @@ gem 'govuk_frontend_toolkit', '~> 2.0.1'
 # Using Nokogiri for parsing XML retrieved from WorldPay
 gem 'nokogiri', '~> 1.6.2.1'
 
-gem 'sass-rails',   '~> 4.0.0'
+gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.0'
 
 gem 'uglifier', '>= 1.3.0'
