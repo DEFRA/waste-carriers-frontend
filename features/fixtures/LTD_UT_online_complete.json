@@ -1,0 +1,63 @@
+{
+  "reg_uuid" : "REG_UUID_REPLACE_ME",
+  "contactEmail":"ltd_ut@example.org",
+  "tier":"UPPER",
+  "isMainService":"yes",
+  "company_no":"00445790",
+  "declaredConvictions":"no",
+  "registrationType":"carrier_broker_dealer",
+  "administrativeArea":"BRISTOL",
+  "accountEmail":"ltd_ut@example.org",
+  "firstName":"FName",
+  "easting":"358205",
+  "phoneNumber":"32143",
+  "companyName":"LTD UT Company",
+  "businessType":"limitedCompany",
+  "lastName":"LName",
+  "streetLine1":"DEANERY ROAD",
+  "current_step":"signup",
+  "northing":"172708",
+  "townCity":"BRISTOL",
+  "dependentThroughfare":"",
+  "dependentLocality":"",
+  "uprn":"340116",
+  "postcode":"BS1 5AH",
+  "newOrRenew":"new",
+  "onlyAMF":"no",
+  "localAuthorityUpdateDate":"",
+  "declaration":"1",
+  "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
+  "addressMode":"address-results",
+  "otherBusinesses":"yes",
+  "royalMailUpdateDate":"",
+  "sign_up_mode":"sign_up",
+  "houseNumber":"ENVIRONMENT AGENCY",
+  "address_lookup_page":"yes",
+  "password":"test1234",
+  "expires_on":"1448928000000",
+  "metaData":{
+    "route":"DIGITAL"
+  },
+  "key_people":[
+    {
+      "first_name":"KPFNamw",
+      "last_name":"KPLName",
+      "position":"Director",
+      "dob_day":"12",
+      "dob_month":"3",
+      "dob_year":"1981",
+      "dob":"1981-03-12",
+      "person_type":"KEY",
+      "conviction_search_result":{
+        "match_result":"NO",
+        "searched_at":"1417447209053",
+        "confirmed":"no"
+      }
+    }
+  ],
+  "conviction_search_result":{
+    "match_result":"NO",
+    "searched_at":"1417447162921",
+    "confirmed":"no"
+  }
+}
