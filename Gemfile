@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
-#Needed for pre-release gov.uk gems
-source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
+#Needed for pre-release gov.uk gems - not needed anymore?
+# source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
 
 gem 'rails', '4.0.12'
 
@@ -26,9 +26,9 @@ gem 'indefinite_article', '~> 0.2.0'
 
 # Provided by GDS - Template gives us the master layout into which
 # we can inject our content using yield and content_for
-gem 'govuk_template', '~> 0.10.0', :source => 'https://rubygems.org/'
+gem 'govuk_template', '~> 0.10.0'
 # Access to some of the most common styles and scripts used by GDS
-gem 'govuk_frontend_toolkit', '~> 2.0.1', :source => 'https://rubygems.org/'
+gem 'govuk_frontend_toolkit', '~> 2.0.1'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -88,10 +88,10 @@ end
 
 group :test, :development do
   #We need the selenium webdriver for javascript
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '~> 2.44.0'
 
   #needed for headless testing with Javascript
-  gem 'capybara-webkit'
+  gem 'capybara-webkit', '~> 1.3.1'
   gem 'capybara-email', '~> 2.2.0'
 
   gem "launchy", "~> 2.4.2", :require => false

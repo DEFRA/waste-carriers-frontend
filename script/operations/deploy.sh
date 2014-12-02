@@ -13,7 +13,7 @@ function env_alert() {
 }
 
 DATESTAMP=`date +%Y.%m.%d-%H.%M`
-WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p598"
+WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p598" ## TODO this is currently hardcoded but could get it from RVM
 
 echo ""
 
@@ -73,6 +73,7 @@ fi
 echo "Installing bundle."
 cd "${WCRS_FRONTEND_HOME}/live"
 rvm use "${WCRS_FRONTEND_RUBY_VERSION}"
+gem install rails -v '4.0.12'
 bundle install
 
 echo "Migrating database changes, if any."

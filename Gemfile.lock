@@ -1,5 +1,4 @@
 GEM
-  remote: https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/
   remote: https://rubygems.org/
   specs:
     actionmailer (4.0.12)
@@ -326,15 +325,15 @@ DEPENDENCIES
   capistrano (~> 3.0.0)
   capybara (~> 2.1.0)
   capybara-email (~> 2.2.0)
-  capybara-webkit
+  capybara-webkit (~> 1.3.1)
   ci_reporter (~> 1.9.0)
   coffee-rails (~> 4.0.0)
   cucumber-rails (~> 1.4.0)
   database_cleaner (~> 1.3.0)
   devise (~> 3.1.1)
   factory_girl_rails (~> 4.4.1)
-  govuk_frontend_toolkit (~> 2.0.1)!
-  govuk_template (~> 0.10.0)!
+  govuk_frontend_toolkit (~> 2.0.1)
+  govuk_template (~> 0.10.0)
   indefinite_article (~> 0.2.0)
   jquery-rails
   jquery-turbolinks
@@ -356,7 +355,7 @@ DEPENDENCIES
   sauce
   sauce-connect
   sauce-cucumber
-  selenium-webdriver
+  selenium-webdriver (~> 2.44.0)
   shoulda-matchers
   timecop (~> 0.7.1)
   turbolinks
