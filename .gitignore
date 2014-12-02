@@ -23,7 +23,6 @@ sauce_connect.*
 
 jenkins_build_number
 runCucumber.sh
-
 runRedis.sh
 remoteToJenkins.sh
 

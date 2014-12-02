@@ -43,7 +43,7 @@
 		  	<legend></legend>
 
 		    <div class="form-group">
-	        <label class="form-label"><%= t '.adjustmentType', :type=>@order.amountType.downcase %></label>
+	        <label class="form-label"><%= t '.adjustmentType', :type=>t('.amountType.'+@order.amountType.upcase) %></label>
 	          <%= f.hidden_field :orderId %>
 				</div>
 
