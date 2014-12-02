@@ -73,6 +73,7 @@ fi
 echo "Installing bundle."
 cd "${WCRS_FRONTEND_HOME}/live"
 rvm use "${WCRS_FRONTEND_RUBY_VERSION}"
+gem install rails -v '4.0.12'
 bundle install
 
 echo "Migrating database changes, if any."
