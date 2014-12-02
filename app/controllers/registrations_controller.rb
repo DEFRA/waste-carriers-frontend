@@ -444,7 +444,6 @@ class RegistrationsController < ApplicationController
     end
 
     render 'newBusinessDetails'
-    registration.houseNumber = nil
   end
 
   # POST /your-registration/business-details
