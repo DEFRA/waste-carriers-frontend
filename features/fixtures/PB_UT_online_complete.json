@@ -1,0 +1,62 @@
+{
+  "reg_uuid" : "REG_UUID_REPLACE_ME",
+  "contactEmail":"pb_ut@example.org",
+  "tier":"UPPER",
+  "isMainService":"yes",
+  "declaredConvictions":"no",
+  "registrationType":"carrier_dealer",
+  "administrativeArea":"BRISTOL",
+  "accountEmail":"pb_ut@example.org",
+  "firstName":"FName",
+  "easting":"358205",
+  "phoneNumber":"342435546",
+  "companyName":"PB UT Company",
+  "businessType":"publicBody",
+  "lastName":"LName",
+  "streetLine1":"DEANERY ROAD",
+  "current_step":"signup",
+  "northing":"172708",
+  "townCity":"BRISTOL",
+  "dependentThroughfare":"",
+  "dependentLocality":"",
+  "uprn":"340116",
+  "postcode":"BS1 5AH",
+  "newOrRenew":"new",
+  "onlyAMF":"no",
+  "address_lookup_page":"yes",
+  "localAuthorityUpdateDate":"",
+  "declaration":"1",
+  "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
+  "addressMode":"address-results",
+  "otherBusinesses":"yes",
+  "royalMailUpdateDate":"",
+  "sign_up_mode":"sign_up",
+  "houseNumber":"ENVIRONMENT AGENCY",
+  "password":"test1234",
+  "expires_on":"1448928000000",
+  "metaData":{
+    "route":"DIGITAL"
+  },
+  "key_people":[
+    {
+      "first_name":"CEOFName",
+      "last_name":"CEOLName",
+      "position":"CEO",
+      "dob_day":"23",
+      "dob_month":"11",
+      "dob_year":"1964",
+      "dob":"1964-11-23",
+      "person_type":"KEY",
+      "conviction_search_result":{
+        "match_result":"NO",
+        "searched_at":"1417447746129",
+        "confirmed":"no"
+      }
+    }
+  ],
+  "conviction_search_result":{
+    "match_result":"NO",
+    "searched_at":"1417447654243",
+    "confirmed":"no"
+  }
+}
