@@ -10,21 +10,38 @@
         </ol>
     </div>
 
+    <% if !cookies['_registrations_session'] %>
+
     <header class="page-header group">
       <div class="hgroup" data-journey="waste-carriers-registration:cannot-edit">
-          <h1 class="heading-large"><%= t '.title' %></h1>
+          <h1 class="heading-large"><%= t '.titleCookies' %></h1>
       </div>
-
     </header>
 
-    <p><%= t '.instructions1' %><%= link_to t('shared.current_user.sign_in'), new_user_session_path %><%= t '.instructions2' %></p>
+    <div class="grid">
+      <div class="grid-2-3">
 
-      <% if !cookies['_registrations_session'] %>
+
       <p>
-        <%= t '.cookies' %>
-        <%= link_to t('global.footer_cookies_link'), cookies_path %>
+        <%= t '.cookies1' %>
+        <%= link_to t('.cookiesLink'), cookies_path %>
+        <%= t '.cookies2' %>
       </p>
-      <% end %>
+
+    <% else !new_user_session_path['_registrations_session'] %>
+
+    <header class="page-header group">
+      <div class="hgroup" data-journey="waste-carriers-registration:cannot-edit">
+          <h1 class="heading-large"><%= t '.titleCannotEdit' %></h1>
+      </div>
+    </header>
+
+      <p><%= link_to t('shared.current_user.sign_in'), new_user_session_path %><%= t '.instructions1' %></p>
+
+    <% end %>
+
+  </div>
+</div>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->
