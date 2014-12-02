@@ -1,0 +1,14 @@
+{
+  "amount": 0,
+  "dateReceived_day":"11",
+  "dateReceived_month":"11",
+  "dateReceived_year":"1111",
+  "registrationReference":"3334",
+  "paymentType":"BANKTRANSFER",
+  "comment":"eere",
+  "dateReceived":"1111-11-11",
+  "updatedByUser":"financebasic1@waste-exemplar.gov.uk",
+  "orderKey":"1417379915",
+  "currency":"GBP",
+  "manualPayment":true
+}
