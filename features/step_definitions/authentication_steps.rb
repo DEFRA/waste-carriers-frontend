@@ -1,6 +1,6 @@
 Given(/^there is an activated user$/) do
   open_email my_user.email
-  current_email.click_link 'Confirm your account'
+  current_email.click_link 'confirmation_link'
 end
 
 When(/^the user visits the login page$/) do
@@ -72,4 +72,3 @@ When(/^the user tries to access the user login URL from the internal admin domai
   url = base_url + new_user_session_path
   visit url
 end
-

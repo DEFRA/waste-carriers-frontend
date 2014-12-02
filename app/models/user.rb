@@ -3,12 +3,12 @@
 class User
   include Mongoid::Document
 
-  # Note: Devise standard default modules are 
+  # Note: Devise standard default modules are
   # :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
-  # However, We do not want to use :registerable, as registration (i.e. user sign-up) 
+  # However, We do not want to use :registerable, as registration (i.e. user sign-up)
   # is done as part of the waste carrier registration flow.
   # We also do not use :rememberable (remember me tokens)
 
@@ -43,7 +43,11 @@ class User
   field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
   field :locked_at,       :type => Time
 
-  attr_accessor :current_registration
+  # We need to know the tier in the confirmation email we send, however as Devise
+  # handles it all 'auto-magically' we only get to see the user passed as the resource to the
+  # email template. There seems no way we can break into the flow and pass our own variables
+  # to the temaplate, hence we add it as an attribute on the user object
+  attr_accessor :current_tier
 
   validates_strength_of :password, :with => :email
 
@@ -58,7 +62,7 @@ class User
   def is_agency_user?
     false
   end
-  
+
   def self.find_by_email(some_email)
     User.find_by(email: some_email)
   end
@@ -76,6 +80,5 @@ private
   def confirmed_at_present?
     confirmed_at?
   end
-  
-end
 
+end
