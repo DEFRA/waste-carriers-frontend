@@ -13,7 +13,7 @@ function env_alert() {
 }
 
 DATESTAMP=`date +%Y.%m.%d-%H.%M`
-WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p247" ## TODO this is currently hardcoded but could get it from RVM
+WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p598"
 
 echo ""
 
@@ -95,6 +95,7 @@ if [ ${WCRS_FRONTEND_RAILS_ENV} != "production" -a ${WCRS_FRONTEND_RAILS_ENV} !=
   echo "Running tests."
   rake db:test:prepare
   echo "Running unit tests (using rspec)"
+  rm -rf ${WCRS_FRONTEND_HOME}/live/spec/reports/*
   rake spec SPEC_OPTS=". --tag ~sauce"
   echo "Running integration tests (using cucumber)"
   xvfb-run cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json

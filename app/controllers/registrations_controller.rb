@@ -444,6 +444,7 @@ class RegistrationsController < ApplicationController
     end
 
     render 'newBusinessDetails'
+    registration.houseNumber = nil
   end
 
   # POST /your-registration/business-details
@@ -547,7 +548,7 @@ class RegistrationsController < ApplicationController
         end
       rescue Errno::ECONNREFUSED
         session[:address_lookup_failure] = true
-        logger.error 'ERROR: Address Lookup Not running, or not Found'
+        logger.error 'ERROR: Address Lookup not running, or not found'
       rescue ActiveResource::ServerError
         session[:address_lookup_failure] = true
         logger.error 'ERROR: ActiveResource Server error!'
@@ -602,6 +603,10 @@ class RegistrationsController < ApplicationController
       logger.info 'Registration is not valid, and data is not yet saved'
       render 'newContactDetails', :status => '400'
     end
+      session[:registration_params]['dependentThroughfare'] = registration.dependentThroughfare
+      session[:registration_params]['administrativeArea'] = registration.administrativeArea
+      session[:registration_params]['localAuthorityUpdateDate'] = registration.localAuthorityUpdateDate
+      session[:registration_params]['royalMailUpdateDate'] = registration.royalMailUpdateDate
   end
 
   # GET /your-registration/registration-type
