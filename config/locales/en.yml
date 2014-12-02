@@ -132,7 +132,7 @@ en:
       payment: Payment
       order: Order
       registration: Registration
-      
+
   mongoid:
     attributes:
       agency_user:
@@ -151,7 +151,7 @@ en:
         password: "Password"
         current_password: "Current password"
         password_confirmation: "Password confirmation"
-        
+
   address_select: "Please select an address…"
   agencyUsers:
     Role_financeAdmin: "Finance Admin User"
@@ -604,10 +604,12 @@ en:
       subtitle: "What type of business or organisation are you?"
       title: "Business type"
     cannot_edit:
-      title: "You can't edit your registration at the moment"
-      instructions1: "If you've already completed your registration please "
-      instructions2: " again."
-      cookies: "You need to enable session cookies in your browser."
+      titleCookies: "The cookies in your browser have been disabled"
+      titleCannotEdit: "You can't make changes to your application at the moment"
+      instructions1: " to your account if you've completed your registration."
+      cookies1: "To carry on with your registration please enable session"
+      cookiesLink: "cookies"
+      cookies2: "in your browser."
     confirmDelete:
       deleteLabel: "Delete registration"
       message_html: "Are you sure that you want to delete registration <b>%{companyName}</b>?"
@@ -797,7 +799,7 @@ en:
       privacy_policy_link1: "privacy"
       privacy_policy_link2: "cookies"
       privacy_data_text_html: "See our %{policy_link} policy to find out how the Environment Agency will use this information."
-      
+
     newOrRenew:
       subtitle: "Are you renewing an existing licence?"
       title: "New or renew a registration"
