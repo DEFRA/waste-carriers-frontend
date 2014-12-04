@@ -5,6 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+require_relative '../features/step_definitions/data_creation.rb'
+
+def output_created_registration(registration)
+  puts "Registration created: #{registration['regIdentifier']}, #{registration['tier']}, #{registration['companyName']}, #{registration['contactEmail']}, #{registration['metaData']['status']}"
+end
 
 unless Rails.env.production?
   unless Admin.find_by_email('admin@waste-exemplar.gov.uk')
@@ -61,44 +66,15 @@ unless Rails.env.production?
 end  #unless Rails.env.production?
 
 if (Rails.env.eql? 'development') && (ENV["WCRS_REG_SEED"].eql? 'true')
+  output_created_registration(create_complete_lower_tier_reg('Charity_LT_online_complete'))
+  output_created_registration(create_complete_lower_tier_reg('LTD_LT_online_complete'))
+  output_created_registration(create_complete_lower_tier_reg('PB_LT_online_complete'))
+  output_created_registration(create_complete_lower_tier_reg('PT_LT_online_complete'))
+  output_created_registration(create_complete_lower_tier_reg('ST_LT_online_complete'))
+  output_created_registration(create_complete_lower_tier_reg('WA_LT_online_complete'))
 
-  #load some sample registrations
-  data =  YAML::load(File.read("db/lower_tier_registrations.json")) +  YAML::load(File.read("db/upper_tier_registrations.json"))
-
-  data.each do |reg|
-    r = Registration.init(reg)
-
-    if r && r.commit
-      puts "waste carrier #{r.companyName} registered!"
-      r.metaData.first.update(status: 'ACTIVE')
-      r.finance_details.first.update(balance: 0) if r.tier == 'UPPER'
-      r.save!
-
-    else
-      puts "Registration failed for #{reg['companyName']}"
-    end
-
-  end
-
-  #load some users
-  data =  YAML::load(File.read("db/users.json"))
-  data.each do |usr|
-    u = User.new(usr)
-    puts "user #{u.email} created" if u.save
-  end
-
-end  #if
-
-#Loading agency users from file.
-data = YAML::load(File.read("db/NCCC-Users.txt"))
-data.split(" ").each {|e|
-  if AgencyUser.find_by_email(e)
-    puts "AgencyUser with email " + e + " already exists. Not added again."
-  else
-    pw = AgencyUser.random_password
-    au = AgencyUser.new(:email => e, :password => pw)
-    if !au.save
-      puts "AgencyUser with email " + e + " could not be saved."
-    end
-  end
-}
+  output_created_registration(create_complete_upper_tier_reg('LTD_UT_online_complete', 'Bank Transfer', 5))
+  output_created_registration(create_complete_upper_tier_reg('PB_UT_online_complete', 'Bank Transfer', 0))
+  output_created_registration(create_complete_upper_tier_reg('PT_UT_online_complete', 'World Pay', 0))
+  output_created_registration(create_complete_upper_tier_reg('ST_UT_online_complete', 'World Pay', 4))
+end
