@@ -1,11 +1,13 @@
 <%= render 'shared/content_for_pages' %>
 
-<% content_for :page_title, createTitle('global.unavailable.heading') %>
-<main id="content" role="main" class="group">
-	<header class="page-header group">
-		<div>
-			<h1><%=t 'global.unavailable.heading'%></h1>
-		</div>
-	</header>
+<div id="wrapper">
+	<% content_for :page_title, createTitle('global.unavailable.heading') %>
+	<main id="content" role="main" class="group">
+		<header class="page-header group">
+	  		<div class="hgroup">
+	  			<h1 class="heading-large"><%=t 'global.unavailable.heading'%></h1>
+	  		</div>
+	  	</header>
 		<p><%=t 'global.unavailable.message_html'%></p>
-</main>
+	</main>
+</div>
