@@ -115,7 +115,7 @@ en:
         total_fee: "Total charge"
         townCity: "Town or city"
       report:
-        from: From
+        from: "From"
         route_assisted_digital: "Assisted Digital"
         route_digital: "Digital"
         to: "To"
