@@ -33,3 +33,40 @@ end
 And(/^I click next$/) do
   click_on 'Next'
 end
+
+Given(/^I am registering as a sole trader$/) do
+  visit find_path
+  choose 'registration_businessType_soletrader'
+  click_on 'Next'
+  choose 'registration_otherBusinesses_yes'
+  click_on 'Next'
+  choose 'registration_isMainService_yes'
+  click_on 'Next'
+  choose 'registration_onlyAMF_no'
+  click_on 'Next'
+end
+
+Given(/^I finish my convictions declaration$/) do
+  click_on 'next_btn'
+end
+
+When(/^I choose to edit the conviction declaration$/) do
+  click_link 'Edit your conviction declaration'
+end
+
+Given(/^I am registering as a Partnership$/) do
+  visit find_path
+  choose 'registration_businessType_partnership'
+  click_on 'Next'
+  choose 'registration_otherBusinesses_yes'
+  click_on 'Next'
+  choose 'registration_isMainService_yes'
+  click_on 'Next'
+  choose 'registration_onlyAMF_no'
+  click_on 'Next'
+end
+
+ And(/^I am a broker dealer$/) do
+   choose 'registration_registrationType_broker_dealer'
+   click_on 'Next'
+ end
