@@ -52,6 +52,8 @@ end
 
 When(/^I choose to edit the conviction declaration$/) do
   click_link 'Edit your conviction declaration'
+  choose 'registration_declaredConvictions_yes'
+  click_on 'Next'
 end
 
 Given(/^I am registering as a Partnership$/) do
@@ -70,3 +72,10 @@ end
    choose 'registration_registrationType_broker_dealer'
    click_on 'Next'
  end
+
+ Given(/^I edit my sole trader business details$/) do
+  click_link 'Edit your business or organisation owners details'
+  fill_in 'key_person_first_name', with: 'Jenson'
+  fill_in 'key_person_last_name', with: 'Button'
+  click_on 'Next'
+end
