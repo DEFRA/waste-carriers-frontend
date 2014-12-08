@@ -393,10 +393,13 @@ class RegistrationsController < ApplicationController
         end
       rescue Errno::ECONNREFUSED
         session[:address_lookup_failure] = true
-        logger.error 'ERROR: Address Lookup Not running, or not Found'
+        logger.error 'ERROR: Address Lookup Not running, or not found'
       rescue ActiveResource::ServerError
         session[:address_lookup_failure] = true
         logger.error 'ERROR: ActiveResource Server error!'
+      rescue ActiveResource::BadRequest
+        logger.warn 'Address lookup returned Bad Request error code - postcode valid? - ' + @registration.postcode.to_s 
+        @address_match_list = []
       end
     end
 
