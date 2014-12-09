@@ -73,9 +73,36 @@ end
    click_on 'Next'
  end
 
- Given(/^I edit my sole trader business details$/) do
+
+
+Given(/^I edit my sole trader business owner details$/) do
   click_link 'Edit your business or organisation owners details'
   fill_in 'key_person_first_name', with: 'Jenson'
   fill_in 'key_person_last_name', with: 'Button'
+  click_on 'Next'
+end
+
+When(/^I edit my business owner details$/) do
+  click_link 'Edit your business or organisation owners details'
+end
+
+When(/^add another Partner$/) do
+  fill_in 'key_person_first_name', with: 'Stirling'
+  fill_in 'key_person_last_name', with: 'Moss'
+  fill_in 'key_person_dob_day', with: '02'
+  fill_in 'key_person_dob_month', with: '08'
+  fill_in 'key_person_dob_year', with: '1900'
+  click_on 'add_btn'
+  click_on 'Next'
+end
+
+When(/^change another Partner$/) do
+  click_link 'Delete'
+  fill_in 'key_person_first_name', with: 'Stirling'
+  fill_in 'key_person_last_name', with: 'Moss'
+  fill_in 'key_person_dob_day', with: '02'
+  fill_in 'key_person_dob_month', with: '08'
+  fill_in 'key_person_dob_year', with: '1900'
+  click_on 'add_btn'
   click_on 'Next'
 end
