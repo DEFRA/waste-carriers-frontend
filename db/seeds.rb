@@ -65,7 +65,7 @@ unless Rails.env.production?
 
 end  #unless Rails.env.production?
 
-if (Rails.env.eql? 'development') && (ENV["WCRS_REG_SEED"].eql? 'true')
+if (Rails.env.eql? 'development')
   output_created_registration(create_complete_lower_tier_reg('Charity_LT_online_complete'))
   output_created_registration(create_complete_lower_tier_reg('LTD_LT_online_complete'))
   output_created_registration(create_complete_lower_tier_reg('PB_LT_online_complete'))
