@@ -90,7 +90,7 @@ echo "Starting nginx."
 sudo service nginx start
 
 ## Test.
-if [ ${WCRS_FRONTEND_RAILS_ENV} != "production" -a ${WCRS_FRONTEND_RAILS_ENV} != "sandbox" ]; then
+if [ ${WCRS_FRONTEND_RAILS_ENV} != "production" ]; then
   # Wanted to use the -e option to stop the build if RSpec tests fail, but this would also stop publishing test reports further down
   # set -e
   echo "Running tests."
@@ -111,11 +111,10 @@ fi
 if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
   echo "Copying RSpec reports to Jenkins"
   scp -rp ${WCRS_FRONTEND_HOME}/live/spec/reports \
-      jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/spec/  
+      jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/spec/
   echo "Copying cucumber report to Jenkins."
   scp ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json \
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/features/reports/
 fi
 
 exit 0
-
