@@ -45,6 +45,9 @@ Registrations::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method =  config.use_letter_opener ? :letter_opener : :smtp
 
+  config.action_controller.asset_host = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || 'localhost:3000'
+  config.action_mailer.asset_host = "#{config.use_letter_opener ? 'http' : 'https'}://#{ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || 'localhost:3000'}"
+
   # Overriding 'Done' URL for development
   #config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"
   config.waste_exemplar_end_url = "/gds-end"
