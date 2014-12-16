@@ -15,7 +15,7 @@ Registrations::Application.configure do
   # config.whiny_nils = true
 
   config.eager_load = false
-  
+
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
@@ -33,6 +33,12 @@ Registrations::Application.configure do
 
   # Sending e-mails is required for user management and registration e-mails
   config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'] }
+
+  # Ensures images included in emails that originate from our assest folder and pipepline
+  # can still be viewed in emails. See
+  # http://stackoverflow.com/questions/6152231/is-there-a-ruby-library-gem-that-will-generate-a-url-based-on-a-set-of-parameter for an explanation of the problem we faced and hopefully (!) the solution
+  config.action_controller.asset_host = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"]
+  config.action_mailer.asset_host = "#{'https'}://#{ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"]}"
 
   # Deprecated - Raise exception on mass assignment protection for Active Record models
   # config.active_record.mass_assignment_sanitizer = :strict
