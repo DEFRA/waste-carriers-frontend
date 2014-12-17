@@ -87,10 +87,8 @@ group :development do
 end
 
 group :test, :development do
-  #We need the selenium webdriver for javascript
-  gem 'selenium-webdriver', '~> 2.44.0'
 
-  #needed for headless testing with Javascript
+  #needed for headless testing with Javascript or pages that ref external sites
   gem 'capybara-webkit', '~> 1.3.1'
   gem 'capybara-email', '~> 2.2.0'
 

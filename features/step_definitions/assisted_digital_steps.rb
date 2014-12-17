@@ -1,11 +1,9 @@
 Given(/^I am logged in as an NCCC agency user$/) do
   visit new_agency_user_session_path
-  page.should have_content 'Sign in'
-  page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_agency_user.email
   fill_in 'Password', with: my_agency_user.password
   click_button 'Sign in'
-  page.should have_content "Signed in as agency user #{my_agency_user.email}"
+  page.has_content? 'agency-user-signed-in'
 end
 
 Given(/^I start a new registration on behalf of a caller$/) do

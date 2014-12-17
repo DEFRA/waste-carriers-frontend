@@ -7,11 +7,7 @@ When(/^I want to continue with my administration tasks$/) do
 end
 
 Then(/^I am informed that my session has expired$/) do
-  # TODO Strangely, when running tests with Cucumber, after the session has expired, the login page is rendered,
-  # while otherwise the Session Expired page is shown. But at least the session has apparently expired somehow.
-  # How can this be changed or reconfigured to make Cucumber behaviour consistent with actual application behviour?
-  #page.should have_content 'Your session has expired'
-  page.should have_content 'Sign in'
+  page.should have_content 'Your session has expired'
 end
 
 Given(/^I have started my registration$/) do

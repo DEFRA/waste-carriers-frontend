@@ -1,9 +1,8 @@
 Feature: User Management
 
-As an Administrator, I want to manage the accounts of internal agency users (including NCCC workers)
-so that these users can access the service and create and manage registrations on behalf of businesses.
+  As an Administrator, I want to manage the accounts of internal agency users (including NCCC workers) so that these users can access the service and create and manage registrations on behalf of businesses.
 
-Administrators can create, modify and delete users.
+  Administrators can create, modify and delete users.
 
 @admin
 Scenario: Login as Administrator
@@ -27,9 +26,8 @@ Scenario: Delete a user
   And I confirm to delete the user
   Then the user should have been deleted
 
-@admin
+@javascript @admin
 Scenario: Attempt to access user administration without being logged in
   When I am not logged in as an administrator
   And I access the user administration page
   Then I should be prompted to login as an administrator
-

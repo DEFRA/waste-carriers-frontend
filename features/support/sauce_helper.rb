@@ -4,14 +4,6 @@ require "sauce"
 require "sauce/capybara"
 require "sauce/cucumber"
 
-## If the default driver is set to :selenium, tests will open a Firefox browser window for each feature/test/scenario.
-#Capybara.default_driver = :selenium
-
-Capybara.default_driver = :webkit
-
-#Setting the default javascript driver to :sauce causes tests marked with @javascript or @selenium to run against Saucelabs
-Capybara.javascript_driver = :sauce
-
 Capybara.default_selector = :xpath
 
 Sauce.config do |config|
