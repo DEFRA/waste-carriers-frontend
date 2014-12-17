@@ -14,16 +14,15 @@ end
 
 After do |scenario|
   DatabaseCleaner.clean
-  
+
   # Checks if in development mode
   if !Rails.env.production?
-  
+
     sleep 0.25
-    
-    puts 'Running Force delete of all registrations at end'
+
     # Manually call the services to clear down any existing regitrations
     RestClient.post Rails.configuration.waste_exemplar_services_admin_url + '/tasks/dbcleaner', :content_type => :json, :accept => :json
-    
+
     sleep 0.5
   end
 end

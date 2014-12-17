@@ -5,9 +5,7 @@ end
 
 Then(/^I click the renew link for: (.*)$/) do |name|
   # FIXME: Improve this test to find a unique renew link
-  puts 'Searching reg for: ' + name.to_s
   # Uses the saved registration ID to find the correct registration to renew
-  puts 'Using @stored_value: ' + @stored_value
   click_on 'renew_'+@stored_value
 end
 
@@ -35,12 +33,10 @@ end
 
 Given(/^I provide the following company name: (.*)$/) do |table|
   # table is a Cucumber::Ast::Table
-  puts 'Creating reg for: ' + table.to_s
   fill_in 'registration_companyName', with: table
 end
 
 Then(/^I remember the registration id$/) do
   # Find the registration ID and saves it as a variable for use in a later test
   @stored_value = find_by_id('registrationNumber').text.to_s
-  puts 'Saves @stored_value: ' + @stored_value
 end

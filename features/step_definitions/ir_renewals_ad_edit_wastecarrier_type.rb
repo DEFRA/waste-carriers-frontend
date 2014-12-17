@@ -5,7 +5,7 @@ Given(/^I have logged in as an Environment Agency user$/) do
   fill_in 'Email', with: my_agency_user.email
   fill_in 'Password', with: my_agency_user.password
   click_button 'Sign in'
-  page.should have_content "Signed in as agency user #{my_agency_user.email}"
+  page.has_content? 'agency-user-signed-in'
 end
 
 Given(/^have chosen to renew a customers existing licence$/) do

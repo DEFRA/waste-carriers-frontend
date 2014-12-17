@@ -49,13 +49,11 @@ Given(/^I am logged in as a nccc refunds user$/) do
   fill_in 'Email', with: my_agency_refund_user.email
   fill_in 'Password', with: my_agency_refund_user.password
   click_button 'Sign in'
-  page.should have_content "Signed in as agency user #{my_agency_refund_user.email}"
+  page.has_content? 'agency-user-signed-in'
 end
 
 Given(/^I change user to a nccc refunds user$/) do
   click_button 'Sign out'
-#  visit new_agency_user_session_path
-#  click_button 'Sign out'
   visit '/agency_users/sign_in'
   save_and_open_page
   page.should have_content 'Sign in'
@@ -69,7 +67,6 @@ end
 Given(/^I have found a registrations payment details$/) do
   visit registrations_path
   page.should have_content 'Registration search'
-  puts 'Looking for registrationCount: ' + registrationCount.to_s
   fill_in 'q', with: 'PaymentReg'+registrationCount.to_s
   click_button 'Search'
   waitForSearchAndRetry('PaymentReg'+registrationCount.to_s)
@@ -80,22 +77,20 @@ end
 Given(/^I have found a registrations payment details using the remembered id$/) do
   visit registrations_path
   page.should have_content 'Registration search'
-  puts 'Using @stored_value: ' + @stored_value
   fill_in 'q', with: @stored_value.to_s
   click_button 'Search'
   waitForSearchAndRetry(@stored_value.to_s)
-  find_link('paymentStatus1').click  
+  find_link('paymentStatus1').click
   page.should have_content 'Payment status'
 end
 
 Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
   visit registrations_path
   page.should have_content 'Registration search'
-  puts 'Using param: ' + param
   fill_in 'q', with: param.to_s
   click_button 'Search'
   waitForSearchAndRetry(param.to_s)
-  find_link('paymentStatus1').click  
+  find_link('paymentStatus1').click
   page.should have_content 'Payment status'
 end
 
@@ -340,7 +335,6 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
 
   # Change registration to be unique
   registrationCount = SecureRandom.uuid.delete "-"
-  puts 'registrationCount: ' + registrationCount.to_s
 
   click_on 'New registration'
 

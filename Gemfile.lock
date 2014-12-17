@@ -355,7 +355,6 @@ DEPENDENCIES
   sauce
   sauce-connect
   sauce-cucumber
-  selenium-webdriver (~> 2.44.0)
   shoulda-matchers
   timecop (~> 0.7.1)
   turbolinks
