@@ -25,7 +25,7 @@ module RegistrationsHelper
           "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.dependentLocality)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
         else
           "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
-        end          
+        end
       else
         # Print UK Address
         if model.dependentLocality.present?
@@ -61,7 +61,7 @@ module RegistrationsHelper
 
     end
 
-    errors_with_keys 
+    errors_with_keys
   end
 
 
@@ -95,19 +95,19 @@ module RegistrationsHelper
   # This method is called when updating from the registration's 'editing' pages (i.e. PUT/POST/MATCH)
   # to set up the @registration etc.
   def setup_registration current_step, no_update=false
-  
+
     logger.info 'setup_registration: current_step = ' + current_step.to_s
-  
-    if !session[:editing] && current_step != 'payment' && current_step != 'confirmation' && current_step != 'businesstype'
+
+    if !session[:editing] && current_step != 'payment' && current_step != 'confirmation'
       logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
       redirect_to cannot_edit_path and return
     end
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
       logger.debug "Got Registration from session"
-      
+
       @registration.update(current_step: current_step)
-      
+
     else
       logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
       @registration = Registration[ params[:id]]
@@ -121,13 +121,13 @@ module RegistrationsHelper
       @registration.add( params[:registration] ) unless no_update
       # now check if we're on the address lookup page and -if yes- set
       # the relevant model attribute
-      if params[:registration] && 
-              params[:registration].keys.size == 2 && 
+      if params[:registration] &&
+              params[:registration].keys.size == 2 &&
               (params[:registration].keys[0].eql? "companyName") &&
               (params[:registration].keys[1].eql? "postcode")
         @registration.update(address_lookup_page: 'yes')
-      elsif params[:registration] && 
-              params[:registration].keys.size == 3 && 
+      elsif params[:registration] &&
+              params[:registration].keys.size == 3 &&
               (params[:registration].keys[0].eql? "company_no") &&
               (params[:registration].keys[1].eql? "companyName") &&
               (params[:registration].keys[2].eql? "postcode")
@@ -208,7 +208,7 @@ module RegistrationsHelper
       if @registration
         logger.debug "retrieving registration for edit #{@registration.id}"
       else
-        logger.warn 'Could not find registration for id = ' + session[:registration_id].to_s        
+        logger.warn 'Could not find registration for id = ' + session[:registration_id].to_s
       end
     else #creating new registration but not first step
       logger.info 'We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
@@ -270,7 +270,7 @@ module RegistrationsHelper
     session.delete(:ga_tier)
     session.delete(:ga_status)
   end
-  
+
   def clear_order_session
     session.delete(:renderType)
     session.delete(:orderCode)
@@ -349,7 +349,7 @@ module RegistrationsHelper
       ga_color = 'green'
     elsif confirmation_type.eql? STATUS_COMPLETE_LOWER
       ga_color = 'green'
-    elsif confirmation_type.eql? STATUS_ALMOST_COMPLETE 
+    elsif confirmation_type.eql? STATUS_ALMOST_COMPLETE
       ga_color = 'amber'
     elsif confirmation_type.eql? STATUS_CRIMINALLY_SUSPECT
       ga_color = 'amber'
@@ -457,12 +457,12 @@ module RegistrationsHelper
       logger.debug "Method: #{caller} - Registration is nil"
     end
   end
-  
+
   # Show the confirm button unless the changes requested have been detected as not allowed
   def showConfirmButton?
     res = true
     if session[:edit_mode]
-      if session[:edit_mode].to_i.eql? RegistrationsController::EditMode::EDIT 
+      if session[:edit_mode].to_i.eql? RegistrationsController::EditMode::EDIT
         if session[:edit_result].to_i.eql? RegistrationsController::EditResult::CHANGE_NOT_ALLOWED
           res = false
         end
@@ -470,7 +470,7 @@ module RegistrationsHelper
     end
     res
   end
-  
+
   def format_date_as_dd_mm_yyyy registration
     res = nil
     if registration.metaData.first
