@@ -3,7 +3,7 @@
 # ensure the system has been updated correctly
 #
 def waitForSearchAndRetry(searchParam)
-  if !page.find_by_id('paymentStatus1')
+  if !page.has_content?('paymentStatus1')
     puts '... Waiting 5 seconds for ES to have been updated'
     sleep 5.0
     fill_in 'q', with: searchParam
@@ -91,7 +91,7 @@ Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
   click_button 'Search'
   waitForSearchAndRetry(param.to_s)
   find_link('paymentStatus1').click
-  page.should have_content 'Payment status'
+  page.has_content? 'payment status'
 end
 
 Given(/^the registration is valid for a small write off$/) do
@@ -333,9 +333,6 @@ end
 #
 When(/^I create an upper tier registration on behalf of a caller for payments$/) do
 
-  # Change registration to be unique
-  registrationCount = SecureRandom.uuid.delete "-"
-
   click_on 'New registration'
 
   choose 'registration_newOrRenew_new'
@@ -357,7 +354,7 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   click_on 'Next'
 
   click_on 'I want to add an address myself'
-  fill_in 'registration_companyName', with: 'PaymentReg'+registrationCount.to_s
+  fill_in 'registration_companyName', with: 'PaymentReg'+rand(1..1000).to_s
   fill_in 'registration_houseNumber', with: '123'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
   fill_in 'registration_streetLine2', with: 'EA Building'
@@ -379,4 +376,5 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   click_on 'Confirm'
 
   click_on 'Pay by credit or debit card'
+  sleep(60)
 end
