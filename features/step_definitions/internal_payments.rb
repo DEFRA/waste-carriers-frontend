@@ -356,7 +356,7 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   click_on 'Next'
 
   click_on 'I want to add an address myself'
-  fill_in 'registration_companyName', with: 'PaymentReg'+registrationCount
+  fill_in 'registration_companyName', with: 'PaymentReg'+registrationCount.to_s
   fill_in 'registration_houseNumber', with: '123'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
   fill_in 'registration_streetLine2', with: 'EA Building'
