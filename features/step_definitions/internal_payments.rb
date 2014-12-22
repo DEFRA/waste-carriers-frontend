@@ -378,5 +378,4 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   click_on 'Confirm'
 
   click_on 'Pay by credit or debit card'
-  sleep(60)
 end
