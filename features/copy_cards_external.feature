@@ -1,3 +1,4 @@
+@quarantine
 Feature: Copy cards
 
   As a registered waste carrier
@@ -25,13 +26,13 @@ Background:
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
-@javascript
+@javascript @quarantine
 Scenario: Waste carrier can order copy cards - external
   Given I have selected copy cards option for that registration
   And I will be prompted to fill in "registration_copy_cards" with "3"
   And I can choose to pay by card or electronic transfer
 
-@javascript
+@javascript @quarantine
 Scenario Outline: Pay for copy cards via Worldpad - external
   Given I have selected copy cards option for that registration
   And I'm on the copy cards payment summary page
@@ -44,7 +45,7 @@ Scenario Outline: Pay for copy cards via Worldpad - external
       |	5			      |	25.00        |
       |	10		      |	50.00        |
 
-@javascript
+@javascript @quarantine
 Scenario Outline: Pay for copy cards via bank transfer - external
   Given I have selected copy cards option for that registration
   And I'm on the copy cards payment summary page

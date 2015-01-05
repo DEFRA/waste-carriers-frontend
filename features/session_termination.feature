@@ -8,7 +8,7 @@ Feature: Session termination
 
   After the user has completed his registration and finished his session, it should not be possible anymore to access the registration and session data.
 
-@javascript
+@javascript @quarantine
 Scenario: Clicking Back after finishing the registration session
   Given I have completed my lower tier registration
   And I have confirmed my user account
