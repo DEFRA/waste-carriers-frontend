@@ -93,7 +93,7 @@ end
 
 When(/^the maximum number of invalid login attempts is exceeded for the ([\w ]+) account$/) do |user_type|
   emailAddress = get_factorygirl_user_for_user_type(user_type).email
-  new_session_page = get_new_session_path_for_user_type(user_type)
+  new_session_page = get_sign_in_path_for_user_type(user_type)
 
   maxAttempts = Devise.maximum_attempts.to_i + 1
 
