@@ -1,6 +1,6 @@
 <main id="content" role="main" class="group"><article role="article" class="group">
 
-<%= form_for(@registration) do |f| %>
+<%= form_for(@registration, :html => {:autocomplete => "off"}) do |f| %>
 
 <!--<h1><%= t '.title' %></h1>-->
 <%= render "shared/meta_phases"%>
