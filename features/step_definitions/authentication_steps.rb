@@ -36,15 +36,6 @@ And(/^the maximum number of invalid login attempts is exceeded$/) do
 
 end
 
-Then(/^the user should see a login account locked email$/) do
-  open_email my_user.email
-  current_email.should have_content 'Your account has been locked temporarily'
-end
-
-And(/^I click the unlock account link$/) do
-  current_email.click_link 'Unlock my account'
-end
-
 Then(/^the user should see a login account unlocked successfully page$/) do
   page.should have_content 'Your account has been unlocked successfully'
 end
