@@ -62,7 +62,7 @@ Scenario Outline: It should not be possible to enumerate accounts using the pass
 
 Scenario Outline: It should not be possible to enumerate accounts using the account unlock page and known email addresses
   Given an <user_type> exists and has an activated, non-locked account
-  When four consecutive unsuccessful log-in attempts cause the <user_type> account to be locked
+  When 4 consecutive unsuccessful log-in attempts cause the <user_type> account to be locked
   And somebody visits the <user_type> Send Unlock Instructions page
   And completes the request using the email address of a valid <user_type>
   Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown

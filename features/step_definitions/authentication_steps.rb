@@ -11,7 +11,7 @@ When(/^enters valid credentials$/) do
   page.should have_content 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: my_user.password
-  click_button 'Sign in'
+  click_button 'sign_in_button'
 end
 
 Then(/^the user should be logged in successfully$/) do
@@ -22,7 +22,7 @@ When(/^enters invalid credentials$/) do
   page.should have_content 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: 'incorrect_password'
-  click_button 'Sign in'
+  click_button 'sign_in_button'
 end
 
 Then(/^the user should see a login error$/) do
@@ -38,7 +38,7 @@ When(/^the user tries to access the internal admin login URL from the public dom
 end
 
 Then(/^the page is not found$/) do
-  page.should_not have_content "Sign in"
+  current_path.should_not match /sign_in/i
 end
 
 When(/^the user tries to access the internal agency login URL from the public domain$/) do
@@ -54,7 +54,7 @@ When(/^the user tries to access the internal admin login URL from the admin doma
 end
 
 Then(/^the admin login page is shown$/) do
-  page.should have_content "Sign in"
+  current_path.should match /admins\/sign_in/i
 end
 
 When(/^the user tries to access the internal agency login URL from the admin domain$/) do
@@ -64,7 +64,7 @@ When(/^the user tries to access the internal agency login URL from the admin dom
 end
 
 Then(/^the agency user login page is shown$/) do
-  page.should have_content "Sign in"
+  current_path.should match /agency_users\/sign_in/i
 end
 
 When(/^the user tries to access the user login URL from the internal admin domain$/) do
@@ -80,20 +80,21 @@ Given(/^an ([\w ]+) exists and has an activated, non-locked account$/) do |user_
     open_email my_user.email
     current_email.click_link 'confirmation_link'
   end
+  get_database_object_for_user_type(user_type).access_locked?.should be_false
 end
 
 Given(/^an External User exists but has not confirmed their account$/) do
   get_database_object_for_user_type('External User').confirmed?.should be_false
 end
 
-When(/^four consecutive unsuccessful log-in attempts cause the ([\w ]+) account to be locked$/) do |user_type|
+When(/^(\d+) consecutive unsuccessful log-in attempts cause the ([\w ]+) account to be locked$/) do |num_login_attempts, user_type|
   emailAddress = get_factorygirl_user_for_user_type(user_type).email
   new_session_page = get_new_session_path_for_user_type(user_type)
-  for n in (1..4)
+  for n in (1..(num_login_attempts.to_i()))
     visit new_session_page
     fill_in 'Email', with: emailAddress
     fill_in 'Password', with: 'this_is_the_wrong_password'
-    click_button 'Sign in'
+    click_button 'sign_in_button'
     page.should have_content 'Invalid email or password'
   end
   get_database_object_for_user_type(user_type).access_locked?.should be_true
@@ -122,7 +123,7 @@ When (/^completes the request using a guessed email address$/) do
 end
 
 Then(/^they should be redirected to the login page, but not told if the email address they supplied was known or unknown$/) do
-  page.should have_content 'Sign in'
+  current_path.should match /sign_in/i
   # Note: we can't really guarantee that the page doesn't contain ANY clues about whether or not the
   # email address exists; we limit our test to looking for the key phrase "*IF* your account exists..."
   find_by_id('notice_explanation').should have_content /if your (email address|account) exists/i
@@ -132,16 +133,15 @@ end
 Then(/^the ([\w ]+) should receive an email containing a link which allows the password to be reset$/) do |user_type|
   open_email get_factorygirl_user_for_user_type(user_type).email
   current_email.subject.should == 'Reset password instructions'
-  current_email.click_link 'Change my password'
-  page.should have_content 'Change your password'
-  page.should have_content 'New password'
+  current_email.click_link 'password_reset_link'
+  page.has_content? 'user_password_confirmation'
 end
 
 Then(/^the ([\w ]+) should receive an email containing a link which unlocks the account$/) do |user_type|
   open_email get_factorygirl_user_for_user_type(user_type).email
   current_email.subject.should == 'Unlock Instructions'
-  current_email.click_link 'Unlock my account'
-  page.should have_content 'Sign in'
+  current_email.click_link 'unlock_link'
+  current_path.should match /sign_in/i
 end
 
 Then(/^the ([\w ]+) account 'locked' status should be (\w+)$/) do |user_type, expected_locked_status|
@@ -157,6 +157,6 @@ end
 Then(/^the External User should receive an email allowing them to confirm their account$/) do
   open_email my_user.email
   current_email.subject.should == 'Verify your email address'
-  current_email.click_link 'confirm', exact: false
+  current_email.click_link 'confirmation_link'
   get_database_object_for_user_type('External User').confirmed?.should be_true
 end
