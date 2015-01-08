@@ -32,14 +32,14 @@ Scenario: Log in as Waste Carrier - invalid password
   And enters invalid credentials
   Then the user should see a login error
 
-@lock
+
 Scenario: Lock a user account
   Given there is an activated user
   When the user visits the login page
   And the maximum number of invalid login attempts is exceeded
   Then the user should see a login account locked email
 
-@lock
+
 Scenario: Unlock a user account
   Given there is an activated user
   When the user visits the login page
