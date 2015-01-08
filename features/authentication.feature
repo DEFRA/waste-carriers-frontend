@@ -21,31 +21,43 @@ Internal and administrative functions can only be accessed from known locations 
 
 Scenario: Log in successfully as Waste Carrier
   Given there is an activated user
-  When the user visits the login page
+  When somebody visits the External User Sign In page
   And enters valid credentials
   Then the user should be logged in successfully
 
 
 Scenario: Log in as Waste Carrier - invalid password
   Given there is an activated user
-  When the user visits the login page
+  When somebody visits the External User Sign In page
   And enters invalid credentials
   Then the user should see a login error
 
 
-Scenario: Lock a user account
-  Given there is an activated user
-  When the user visits the login page
-  And the maximum number of invalid login attempts is exceeded
-  Then the External User should receive an email containing a link which unlocks the account
+Scenario Outline: Lock a user account
+  Given an <user_type> exists and has an activated, non-locked account
+  When somebody visits the <user_type> Sign In page
+  When the maximum number of invalid login attempts is exceeded for the <user_type> account
+  Then the <user_type> should receive an email containing a link which unlocks the account
+
+  Examples:
+    | user_type     |
+    | External User |
+    | Internal User |
+    | Admin User    |
 
 
-Scenario: Unlock a user account
-  Given there is an activated user
-  When the user visits the login page
-  And the maximum number of invalid login attempts is exceeded
-  Then the External User should receive an email containing a link which unlocks the account
+Scenario Outline: Unlock a user account
+  Given an <user_type> exists and has an activated, non-locked account
+  When somebody visits the <user_type> Sign In page
+  When the maximum number of invalid login attempts is exceeded for the <user_type> account
+  Then the <user_type> should receive an email containing a link which unlocks the account
   Then the user should see a login account unlocked successfully page
+
+  Examples:
+    | user_type     |
+    | External User |
+    | Internal User |
+    | Admin User    |
 
 
 Scenario Outline: It should not be possible to enumerate accounts using the password reset page and known email addresses
@@ -74,10 +86,9 @@ Scenario Outline: It should not be possible to enumerate accounts using the pass
     | Internal User |
     | Admin User    |
 
-
 Scenario Outline: It should not be possible to enumerate accounts using the account unlock page and known email addresses
   Given an <user_type> exists and has an activated, non-locked account
-  When 4 consecutive unsuccessful log-in attempts cause the <user_type> account to be locked
+  When the maximum number of invalid login attempts is exceeded for the <user_type> account
   And somebody visits the <user_type> Send Unlock Instructions page
   And completes the request using the email address of a valid <user_type>
   Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
