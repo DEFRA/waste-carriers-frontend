@@ -70,7 +70,7 @@
         </div>
       <% end -%>
 
-        <%= f.submit t('shared.current_user.sign_in'), :class => "button" %>
+        <%= f.submit t('shared.current_user.sign_in'), {:class => "button", :id => 'sign_in_button'} %>
 
       <% end %>
     </fieldset>
@@ -79,4 +79,3 @@
 
   </main><!-- end content -->
 </div><!-- end wrapper -->
-
