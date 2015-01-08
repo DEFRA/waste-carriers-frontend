@@ -3,11 +3,11 @@ Given(/^I am logged in as an administrator$/) do
   page.should have_content 'Administration login'
   fill_in 'Email', with: my_admin.email
   fill_in 'Password', with: my_admin.password
-  click_button 'Sign in'
+  click_button 'sign_in_button'
 end
 
 Then(/^I should see the user administration page$/) do
-  page.should have_content 'Signed in as admin'
+  page.should have_content 'Signed in successfully'
   page.should have_content 'Listing agency users'
 end
 
