@@ -33,6 +33,21 @@ Scenario: Log in as Waste Carrier - invalid password
   Then the user should see a login error
 
 
+Scenario: Lock a user account
+  Given there is an activated user
+  When the user visits the login page
+  And the maximum number of invalid login attempts is exceeded
+  Then the user should see a login account locked email
+
+
+Scenario: Unlock a user account
+  Given there is an activated user
+  When the user visits the login page
+  And the maximum number of invalid login attempts is exceeded
+  Then the user should see a login account locked email
+  And I click the unlock account link
+  Then the user should see a login account unlocked successfully page
+
 #Scenario: Log in as admin from the public URL
 #  When the user tries to access the internal admin login URL from the public domain
 #  Then the page is not found
