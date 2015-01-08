@@ -37,7 +37,16 @@ Scenario: Lock a user account
   Given there is an activated user
   When the user visits the login page
   And the maximum number of invalid login attempts is exceeded
-  Then the user should see a login account locked email
+  Then the External User should receive an email containing a link which unlocks the account
+
+
+Scenario: Unlock a user account
+  Given there is an activated user
+  When the user visits the login page
+  And the maximum number of invalid login attempts is exceeded
+  Then the External User should receive an email containing a link which unlocks the account
+  Then the user should see a login account unlocked successfully page
+
 
 Scenario Outline: It should not be possible to enumerate accounts using the password reset page and known email addresses
   Given an <user_type> exists and has an activated, non-locked account
@@ -45,14 +54,6 @@ Scenario Outline: It should not be possible to enumerate accounts using the pass
   And completes the request using the email address of a valid <user_type>
   Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
   And the <user_type> should receive an email containing a link which allows the password to be reset
-
-Scenario: Unlock a user account
-  Given there is an activated user
-  When the user visits the login page
-  And the maximum number of invalid login attempts is exceeded
-  Then the user should see a login account locked email
-  And I click the unlock account link
-  Then the user should see a login account unlocked successfully page
 
   Examples:
     | user_type     |
