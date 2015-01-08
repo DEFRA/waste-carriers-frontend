@@ -25,6 +25,30 @@ When(/^enters invalid credentials$/) do
   click_button 'Sign in'
 end
 
+And(/^the maximum number of invalid login attempts is exceeded$/) do
+
+  # +1 to cause unlock email
+  maxAttempts = Devise.maximum_attempts.to_i + 1
+
+  maxAttempts.times do
+    step "enters invalid credentials"
+  end
+
+end
+
+Then(/^the user should see a login account locked email$/) do
+  open_email my_user.email
+  current_email.should have_content 'Your account has been locked temporarily'
+end
+
+And(/^I click the unlock account link$/) do
+  current_email.click_link 'Unlock my account'
+end
+
+Then(/^the user should see a login account unlocked successfully page$/) do
+  page.should have_content 'Your account has been unlocked successfully'
+end
+
 Then(/^the user should see a login error$/) do
   page.should have_content 'Invalid email or password.'
 end
