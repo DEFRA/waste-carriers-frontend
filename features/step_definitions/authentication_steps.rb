@@ -3,8 +3,8 @@ Given(/^there is an activated user$/) do
   current_email.click_link 'confirmation_link'
 end
 
-When (/^the user visits the login page$/) do
-  visit new_user_session_path
+When(/^somebody visits the ([\w ]+) Sign In page$/) do |user_type|
+  visit get_sign_in_path_for_user_type(user_type)
 end
 
 When(/^enters valid credentials$/) do
@@ -23,17 +23,6 @@ When(/^enters invalid credentials$/) do
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: 'incorrect_password'
   click_button 'sign_in_button'
-end
-
-And(/^the maximum number of invalid login attempts is exceeded$/) do
-
-  # +1 to cause unlock email
-  maxAttempts = Devise.maximum_attempts.to_i + 1
-
-  maxAttempts.times do
-    step "enters invalid credentials"
-  end
-
 end
 
 Then(/^the user should see a login account unlocked successfully page$/) do
@@ -102,16 +91,20 @@ Given(/^an External User exists but has not confirmed their account$/) do
   get_database_object_for_user_type('External User').confirmed?.should be_false
 end
 
-When(/^(\d+) consecutive unsuccessful log-in attempts cause the ([\w ]+) account to be locked$/) do |num_login_attempts, user_type|
+When(/^the maximum number of invalid login attempts is exceeded for the ([\w ]+) account$/) do |user_type|
   emailAddress = get_factorygirl_user_for_user_type(user_type).email
   new_session_page = get_new_session_path_for_user_type(user_type)
-  for n in (1..(num_login_attempts.to_i()))
+
+  maxAttempts = Devise.maximum_attempts.to_i + 1
+
+  maxAttempts.times do
     visit new_session_page
     fill_in 'Email', with: emailAddress
     fill_in 'Password', with: 'this_is_the_wrong_password'
     click_button 'sign_in_button'
     page.should have_content 'Invalid email or password'
   end
+
   get_database_object_for_user_type(user_type).access_locked?.should be_true
 end
 
