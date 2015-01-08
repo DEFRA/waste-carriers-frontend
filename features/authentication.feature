@@ -33,6 +33,84 @@ Scenario: Log in as Waste Carrier - invalid password
   Then the user should see a login error
 
 
+Scenario Outline: It should not be possible to enumerate accounts using the password reset page and known email addresses
+  Given an <user_type> exists and has an activated, non-locked account
+  When somebody visits the <user_type> Forgot Password page
+  And completes the request using the email address of a valid <user_type>
+  Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
+  And the <user_type> should receive an email containing a link which allows the password to be reset
+
+  Examples:
+    | user_type     |
+    | External User |
+    | Internal User |
+    | Admin User    |
+
+
+Scenario Outline: It should not be possible to enumerate accounts using the password reset page and guessed email addresses
+  Given an <user_type> exists and has an activated, non-locked account
+  When somebody visits the <user_type> Forgot Password page
+  And completes the request using a guessed email address
+  Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
+
+  Examples:
+    | user_type     |
+    | External User |
+    | Internal User |
+    | Admin User    |
+
+
+Scenario Outline: It should not be possible to enumerate accounts using the account unlock page and known email addresses
+  Given an <user_type> exists and has an activated, non-locked account
+  When four consecutive unsuccessful log-in attempts cause the <user_type> account to be locked
+  And somebody visits the <user_type> Send Unlock Instructions page
+  And completes the request using the email address of a valid <user_type>
+  Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
+  And the <user_type> should receive an email containing a link which unlocks the account
+  And the <user_type> account 'locked' status should be unlocked
+
+  Examples:
+    | user_type     |
+    | External User |
+    | Internal User |
+    | Admin User    |
+
+
+Scenario Outline: It should not be possible to enumerate accounts using the account unlock page and guessed email addresses
+  Given an <user_type> exists and has an activated, non-locked account
+  When somebody visits the <user_type> Send Unlock Instructions page
+  And completes the request using a guessed email address
+  Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
+
+  Examples:
+    | user_type     |
+    | External User |
+    | Internal User |
+    | Admin User    |
+
+
+Scenario: It should not be possible to enumerate accounts by requesting account confirmation using a known email address
+  Given an External User exists and has an activated, non-locked account
+  When somebody visits the Resend Confirmation Instructions page
+  And completes the request using the email address of a valid External User
+  Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
+
+
+Scenario: It should not be possible to enumerate accounts by requesting account confirmation using a guessed email address
+  Given an External User exists and has an activated, non-locked account
+  When somebody visits the Resend Confirmation Instructions page
+  And completes the request using a guessed email address
+  Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
+
+
+Scenario: It should not be possible to enumerate accounts by requesting account confirmation using a known but unconfirmed email address
+  Given an External User exists but has not confirmed their account
+  When somebody visits the Resend Confirmation Instructions page
+  And completes the request using the email address of a valid External User
+  Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
+  And the External User should receive an email allowing them to confirm their account
+
+
 #Scenario: Log in as admin from the public URL
 #  When the user tries to access the internal admin login URL from the public domain
 #  Then the page is not found
@@ -56,4 +134,3 @@ Scenario: Log in as Waste Carrier - invalid password
 #Scenario: Log in as waste carrier from the admin URL
 #  When the user tries to access the user login URL from the internal admin domain
 #  Then the page is not found
-
