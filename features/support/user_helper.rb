@@ -30,20 +30,6 @@ module UserHelper
     end
   end
 
-  # Returns the path / URL for a new session of the specified user type.
-  def get_new_session_path_for_user_type(friendly_user_type_name)
-    case friendly_user_type_name
-    when 'External User'
-      new_user_session_path
-    when 'Internal User'
-      new_agency_user_session_path
-    when 'Admin User'
-      new_admin_session_path
-    else
-      throw 'Unknown friendly_user_type_name specified'
-    end
-  end
-
   # Returns the path / URL for a password reset of the specified user type.
   def get_new_password_path_for_user_type(friendly_user_type_name)
     case friendly_user_type_name
@@ -72,6 +58,7 @@ module UserHelper
     end
   end
 
+  # Returns the path / URL for a new session ("log in") of the specified user type.
   def get_sign_in_path_for_user_type(friendly_user_type_name)
     case friendly_user_type_name
       when 'External User'
