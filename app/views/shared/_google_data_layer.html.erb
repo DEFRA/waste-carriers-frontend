@@ -1,0 +1,11 @@
+<% if Rails.application.config.use_google_analytics %>
+  <script>
+  dataLayer = [{
+    'renewal': '<%= session[:ga_is_renewal]%>',
+    'tier': '<%= session[:ga_tier]%>',
+    'convictions': '<%= google_analytics_convictions_indicator(@registration)%>',
+    'payment': '<%= google_analytics_payment_indicator(@order)%>',
+    'status': '<%= google_analytics_status_color(@confirmationType)%>',
+  }];
+  </script>
+<% end %>
