@@ -17,7 +17,7 @@ Scenario: Lower tier
   And the print page contains the six-digit access code for the user
   But the registration confirmation email should not be sent
 
-@javascript @worldpay
+@javascript @quarantine @worldpay
 Scenario: Upper tier
   When I create an upper tier registration on behalf of a caller for payments
   And I provide valid credit card payment details on behalf of a caller

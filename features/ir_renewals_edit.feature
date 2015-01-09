@@ -14,7 +14,7 @@ Background:
   And I provide my personal contact details
   And I enter the details of the business owner
 
-@javascript
+@javascript @quarantine
 Scenario: IR Renewal changed business type causing full fee, No convictions, Online payment
   Given no key people in the organisation have convictions
   And I check the declaration

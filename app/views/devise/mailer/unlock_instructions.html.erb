@@ -159,9 +159,7 @@
 
                             <p style="font-size: 19px; line-height: 1.31579;"><%= t 'devise.mailer.unlock_instructions.paragraph3'%><br/>
 
-                            <p style="font-size: 19px; line-height: 1.31579;">><%= t 'devise.mailer.unlock_instructions.paragraph3'%></p>
-
-                            <p style="font-size: 19px; line-height: 1.31579;">><%= link_to t('devise.mailer.unlock_instructions.unlockLabel'), unlock_url(@resource, :unlock_token => @token) %></p>
+                            <p style="font-size: 19px; line-height: 1.31579;"><%= link_to(t('devise.mailer.unlock_instructions.unlockLabel'), unlock_url(@resource, :unlock_token => @token), {:id => 'unlock_link'}) %></p>
                           </td>
                                  </tr>
                                  <!-- end of content -->

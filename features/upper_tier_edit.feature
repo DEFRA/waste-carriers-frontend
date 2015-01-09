@@ -1,3 +1,4 @@
+@quarantine
 Feature: upper tier external edit
   As a waste carrier
   I want to be able to edit my registration
@@ -22,14 +23,14 @@ Background:
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
-@javascript
+@javascript @quarantine
 Scenario: Upper tier Edit with no change
   Given The edit link is available
   Then I click the edit link for: EditTest
   And I check the declaration
   Then I check that no changes have occurred
 
-@javascript
+@javascript @quarantine
 Scenario: Upper tier Edit with change, Online payment
   Given The edit link is available
   Then I click the edit link for: EditTest
@@ -39,7 +40,7 @@ Scenario: Upper tier Edit with change, Online payment
   And I pay by card
   Then my edit should be complete
 
-@javascript
+@javascript @quarantine
 Scenario: Upper tier Edit with change, Offline payment
   Given The edit link is available
   Then I click the edit link for: EditTest
@@ -49,7 +50,7 @@ Scenario: Upper tier Edit with change, Offline payment
   And I choose pay via electronic transfer
   Then my edit should be awaiting payment
 
-@javascript
+@javascript @quarantine
 Scenario: Upper tier Edit that forces a New Registration, Online payment
   Given The edit link is available
   Then I click the edit link for: EditTest
@@ -59,7 +60,7 @@ Scenario: Upper tier Edit that forces a New Registration, Online payment
   And I pay by card
   Then my edit with full fee should be complete
 
-@javascript
+@javascript @quarantine
 Scenario: Upper tier Edit that forces a New Registration, Offline payment
   Given The edit link is available
   Then I click the edit link for: EditTest
