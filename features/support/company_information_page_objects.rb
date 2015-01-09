@@ -78,7 +78,6 @@ module ContactDetailsPage
     fill_in 'registration_lastName', with: lastName
     fill_in 'registration_phoneNumber', with: phoneNumber
     fill_in 'registration_contactEmail', with: my_email_address
-    puts firstName
     submit_contact_details_page
   end
   def submit_contact_details_page()
