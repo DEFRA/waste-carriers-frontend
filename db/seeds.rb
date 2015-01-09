@@ -5,7 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-require_relative '../features/step_definitions/data_creation.rb'
+require_relative '../features/support/data_creation.rb'
 
 def output_created_registration(registration)
   puts "Registration created: #{registration['regIdentifier']}, #{registration['tier']}, #{registration['companyName']}, #{registration['contactEmail']}, #{registration['metaData']['status']}"
