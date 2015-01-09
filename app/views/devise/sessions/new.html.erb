@@ -46,7 +46,7 @@
     <% end %>
 
 
-    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:autocomplete => "off"}) do |f| %>
       <div class="form-group<% if alert %> validation<% end %>">
         <ul>
           <li><%= f.label :email, class: 'form-label' %>
