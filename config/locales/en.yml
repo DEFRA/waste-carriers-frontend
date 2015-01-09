@@ -581,6 +581,10 @@ en:
       title: "Key people"
       dob_hint: "(dd/mm/yyyy)"
       dob_guidance: "For example, 26 5 1976"
+  business_type:
+    index:
+      subtitle: "What type of business or organisation are you?"
+      title: "Business type"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
@@ -600,9 +604,6 @@ en:
       title_approve: "Approve registration"
       title_refuse: "Refuse registration"
     back_link_unavailable: "JavaScript has been disabled - please use your browser's back button."
-    businesstype_step:
-      subtitle: "What type of business or organisation are you?"
-      title: "Business type"
     cannot_edit:
       titleCookies: "The cookies in your browser have been disabled"
       titleCannotEdit: "You can't make changes to your application at the moment"
