@@ -1,3 +1,4 @@
+@quarantine
 Feature: nccc internal payments
 
   As an NCCC user
@@ -6,13 +7,16 @@ Feature: nccc internal payments
 
 Background:
   Given I am logged in as an NCCC agency user
-  And I create an upper tier registration on behalf of a caller for payments
-  And I have found a registrations payment details
+  And I create an upper tier registration on behalf of a caller who wants to pay offline
+  And I make a note of the details
+  And I remember the registration id
+  And I finish the registration
+  And I have found a registrations payment details by name: Assisted Enterprises & Co
   And I logout
   And I am logged in as a finance basic user
-  And I have found a registrations payment details
+  And I have found a registrations payment details by name: Assisted Enterprises & Co
 
-@javascript @happy_days
+@javascript @quarantine @happy_days
 Scenario: Successful payment of total balance
   When I select to enter payment
   And I pay the full amount owed
@@ -22,7 +26,7 @@ Scenario: Successful payment of total balance
   And payment history will be updated
   And payment balance will be 0.00
 
-@javascript
+@javascript @quarantine
 Scenario Outline: Internal payment scenarios, underpayment and overpayment
   When I select to enter payment
   And payment status is <start_payment_status>

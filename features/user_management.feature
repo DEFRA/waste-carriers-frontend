@@ -26,7 +26,7 @@ Scenario: Delete a user
   And I confirm to delete the user
   Then the user should have been deleted
 
-@javascript @admin
+@javascript @quarantine @admin
 Scenario: Attempt to access user administration without being logged in
   When I am not logged in as an administrator
   And I access the user administration page

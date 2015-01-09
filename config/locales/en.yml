@@ -1267,8 +1267,8 @@ en:
       sign_out: "Sign out"
       sign_up: "Sign up"
       signed_in_as: "Signed in as"
-      signed_in_as_admin: "Signed in as admin"
-      signed_in_as_agency_user: "Signed in as agency user"
+      signed_in_as_admin: "Signed in as"
+      signed_in_as_agency_user: "Signed in as"
     progress:
       progress: "Progress"
   route_options:

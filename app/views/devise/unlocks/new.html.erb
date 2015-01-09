@@ -29,7 +29,7 @@
   				<%= f.email_field :email, :autofocus => true %>
   			</div>
 
-  		<%= f.submit t('devise.unlocks.resendUnlockInstructions'), :class => "button" %>
+  		<%= f.submit t('devise.unlocks.resendUnlockInstructions'), {:class => "button", :id => "submitButton"} %>
 
 		<% end %>
 		</fieldset>
