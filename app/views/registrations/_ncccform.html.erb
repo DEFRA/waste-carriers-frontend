@@ -2,7 +2,7 @@
 
 <main id="content" role="main" class="group"><article role="article" class="group">
 
-<%= form_for(@registration, url: ncccedit_url(:id => @registration.id)) do |f| %>
+<%= form_for(@registration, url: ncccedit_url(:id => @registration.id), :html => {:autocomplete => "off"}) do |f| %>
 
 <!--<h1><%= t 'registrations.form.title' %></h1>-->
 
