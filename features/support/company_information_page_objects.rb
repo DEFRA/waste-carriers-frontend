@@ -88,23 +88,6 @@ end
 World(ContactDetailsPage)
 
 module KeyPeoplePage
-  # #for sole trader
-  # def enter_business_owner_details_and_submit()
-  #   enter_key_people_details_and_submit
-  # end
-  # # for partnership
-  # def enter_partner_details_and_submit()
-  #   enter_key_people_details_and_submit
-  # end
-  # #for limited company
-  # def enter_director_details_and_submit()
-  #   enter_key_people_details_and_submit
-  # end
-  # #for public body
-  # def enter_ceo_details_and_submit()
-  #   enter_key_people_details_and_submit
-  # end
-
   def enter_key_people_details_and_submit(firstName: 'Joe',
     lastName: 'Bloggs', day: '15', month: '12', year: '1977')
 
