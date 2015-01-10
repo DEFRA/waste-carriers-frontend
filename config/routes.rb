@@ -23,7 +23,7 @@ Registrations::Application.routes.draw do
     get "home/index"
     get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
 
-    get "registrations/find" => 'business_type#index', :via => [:get, :post], :as => :find
+    get "registrations/find" => 'business_type#show', :via => [:get, :post], :as => :find
 
     # Add routing for Public Search
     get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
@@ -80,7 +80,7 @@ Registrations::Application.routes.draw do
     match "registrations/:id/approve" => 'registrations#updateApprove', :via => [:post]
 
     # Registration urls - Smart answers
-    get "your-registration/business-type" => 'business_type#index', :as => :business_type
+    get "your-registration/business-type" => 'business_type#show', :as => :business_type
     post "your-registration/business-type" => 'business_type#create'
 
     match "your-registration/no-registration" => 'registrations#newNoRegistration', :via => [:get], :as => :newNoRegistration

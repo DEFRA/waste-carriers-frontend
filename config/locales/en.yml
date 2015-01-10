@@ -582,7 +582,7 @@ en:
       dob_hint: "(dd/mm/yyyy)"
       dob_guidance: "For example, 26 5 1976"
   business_type:
-    index:
+    show:
       subtitle: "What type of business or organisation are you?"
       title: "Business type"
   registrations:
