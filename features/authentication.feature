@@ -128,26 +128,27 @@ Scenario: It should not be possible to enumerate accounts by requesting account 
   Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
   And the External User should receive an email allowing them to confirm their account
 
-#Scenario: Log in as admin from the public URL
-#  When the user tries to access the internal admin login URL from the public domain
-#  Then the page is not found
+@wip
+Scenario: Log in as admin from the public URL
+  When the user tries to access the internal admin login URL from the public domain
+  Then the page is not found
 
+@wip
+Scenario: Log in as agency user from the public URL
+  When the user tries to access the internal agency login URL from the public domain
+  Then the page is not found
 
-#Scenario: Log in as agency user from the public URL
-#  When the user tries to access the internal agency login URL from the public domain
-#  Then the page is not found
+@wip
+Scenario: Log in as admin from the admin URL
+  When the user tries to access the internal admin login URL from the admin domain
+  Then the admin login page is shown
 
+@wip
+Scenario: Log in as agency user from the admin URL
+  When the user tries to access the internal agency login URL from the admin domain
+  Then the agency user login page is shown
 
-#Scenario: Log in as admin from the admin URL
-#  When the user tries to access the internal admin login URL from the admin domain
-#  Then the admin login page is shown
-
-
-#Scenario: Log in as agency user from the admin URL
-#  When the user tries to access the internal agency login URL from the admin domain
-#  Then the agency user login page is shown
-
-
-#Scenario: Log in as waste carrier from the admin URL
-#  When the user tries to access the user login URL from the internal admin domain
-#  Then the page is not found
+@wip
+Scenario: Log in as waste carrier from the admin URL
+  When the user tries to access the user login URL from the internal admin domain
+  Then the page is not found
