@@ -16,7 +16,7 @@ Administrators can create and manage other internal users.
 
 Users can change their password (once signed in), or have their password reset if they have forgotten their password.
 
-Internal and administrative functions can only be accessed from known locations (registered IP addresses) and via a special 'admin' URL subdomain. Administrative functions will have special URLs such as '/agency_users/*'' or '/admins/*'.
+Internal and administrative functions can only be accessed from known locations (registered IP addresses) and via a special "admin" URL subdomain. Administrative functions will have special URLs such as "/agency_users/*" or "/admins/*".
 
 
 Scenario: Log in successfully as Waste Carrier
@@ -32,7 +32,6 @@ Scenario: Log in as Waste Carrier - invalid password
   And enters invalid credentials
   Then the user should see a login error
 
-
 Scenario Outline: Lock a user account
   Given an <user_type> exists and has an activated, non-locked account
   When somebody visits the <user_type> Sign In page
@@ -44,7 +43,6 @@ Scenario Outline: Lock a user account
     | External User |
     | Internal User |
     | Admin User    |
-
 
 Scenario Outline: Unlock a user account
   Given an <user_type> exists and has an activated, non-locked account
@@ -59,7 +57,6 @@ Scenario Outline: Unlock a user account
     | Internal User |
     | Admin User    |
 
-
 Scenario Outline: It should not be possible to enumerate accounts using the password reset page and known email addresses
   Given an <user_type> exists and has an activated, non-locked account
   When somebody visits the <user_type> Forgot Password page
@@ -72,7 +69,6 @@ Scenario Outline: It should not be possible to enumerate accounts using the pass
     | External User |
     | Internal User |
     | Admin User    |
-
 
 Scenario Outline: It should not be possible to enumerate accounts using the password reset page and guessed email addresses
   Given an <user_type> exists and has an activated, non-locked account
@@ -101,7 +97,6 @@ Scenario Outline: It should not be possible to enumerate accounts using the acco
     | Internal User |
     | Admin User    |
 
-
 Scenario Outline: It should not be possible to enumerate accounts using the account unlock page and guessed email addresses
   Given an <user_type> exists and has an activated, non-locked account
   When somebody visits the <user_type> Send Unlock Instructions page
@@ -114,20 +109,17 @@ Scenario Outline: It should not be possible to enumerate accounts using the acco
     | Internal User |
     | Admin User    |
 
-
 Scenario: It should not be possible to enumerate accounts by requesting account confirmation using a known email address
   Given an External User exists and has an activated, non-locked account
   When somebody visits the Resend Confirmation Instructions page
   And completes the request using the email address of a valid External User
   Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
 
-
 Scenario: It should not be possible to enumerate accounts by requesting account confirmation using a guessed email address
   Given an External User exists and has an activated, non-locked account
   When somebody visits the Resend Confirmation Instructions page
   And completes the request using a guessed email address
   Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
-
 
 Scenario: It should not be possible to enumerate accounts by requesting account confirmation using a known but unconfirmed email address
   Given an External User exists but has not confirmed their account
@@ -136,27 +128,27 @@ Scenario: It should not be possible to enumerate accounts by requesting account 
   Then they should be redirected to the login page, but not told if the email address they supplied was known or unknown
   And the External User should receive an email allowing them to confirm their account
 
+@wip
+Scenario: Log in as admin from the public URL
+  When the user tries to access the internal admin login URL from the public domain
+  Then the page is not found
 
-#Scenario: Log in as admin from the public URL
-#  When the user tries to access the internal admin login URL from the public domain
-#  Then the page is not found
+@wip
+Scenario: Log in as agency user from the public URL
+  When the user tries to access the internal agency login URL from the public domain
+  Then the page is not found
 
+@wip
+Scenario: Log in as admin from the admin URL
+  When the user tries to access the internal admin login URL from the admin domain
+  Then the admin login page is shown
 
-#Scenario: Log in as agency user from the public URL
-#  When the user tries to access the internal agency login URL from the public domain
-#  Then the page is not found
+@wip
+Scenario: Log in as agency user from the admin URL
+  When the user tries to access the internal agency login URL from the admin domain
+  Then the agency user login page is shown
 
-
-#Scenario: Log in as admin from the admin URL
-#  When the user tries to access the internal admin login URL from the admin domain
-#  Then the admin login page is shown
-
-
-#Scenario: Log in as agency user from the admin URL
-#  When the user tries to access the internal agency login URL from the admin domain
-#  Then the agency user login page is shown
-
-
-#Scenario: Log in as waste carrier from the admin URL
-#  When the user tries to access the user login URL from the internal admin domain
-#  Then the page is not found
+@wip
+Scenario: Log in as waste carrier from the admin URL
+  When the user tries to access the user login URL from the internal admin domain
+  Then the page is not found
