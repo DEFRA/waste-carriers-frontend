@@ -27,7 +27,7 @@ describe BusinessTypeController, :type => :controller do
 
       let(:registration) { Registration.create }
 
-      it 'sets #businessType on the registration' do
+      it "sets #businessType to 'soleTrader' on the registration" do
         post :create, :registration => { "businessType" => "soleTrader" }
         expect(assigns(:registration).businessType).to eq('soleTrader')
       end
@@ -35,6 +35,102 @@ describe BusinessTypeController, :type => :controller do
       it "redirects to the 'other businesses' page" do
         post :create, :registration => { "businessType" => "soleTrader" }
         expect(response).to redirect_to :newOtherBusinesses
+      end
+
+    end
+
+    context "when 'partnership' is selected" do
+
+      let(:registration) { Registration.create }
+
+      it "sets #businessType to 'partnership' on the registration" do
+        post :create, :registration => { "businessType" => "partnership" }
+        expect(assigns(:registration).businessType).to eq('partnership')
+      end
+
+      it "redirects to the 'other businesses' page" do
+        post :create, :registration => { "businessType" => "partnership" }
+        expect(response).to redirect_to :newOtherBusinesses
+      end
+
+    end
+
+    context "when 'limitedCompany' is selected" do
+
+      let(:registration) { Registration.create }
+
+      it "sets #businessType to 'limitedCompany' on the registration" do
+        post :create, :registration => { "businessType" => "limitedCompany" }
+        expect(assigns(:registration).businessType).to eq('limitedCompany')
+      end
+
+      it "redirects to the 'other businesses' page" do
+        post :create, :registration => { "businessType" => "limitedCompany" }
+        expect(response).to redirect_to :newOtherBusinesses
+      end
+
+    end
+
+    context "when 'publicBody' is selected" do
+
+      let(:registration) { Registration.create }
+
+      it "sets #businessType to 'publicBody' on the registration" do
+        post :create, :registration => { "businessType" => "publicBody" }
+        expect(assigns(:registration).businessType).to eq('publicBody')
+      end
+
+      it "redirects to the 'other businesses' page" do
+        post :create, :registration => { "businessType" => "publicBody" }
+        expect(response).to redirect_to :newOtherBusinesses
+      end
+
+    end
+
+    context "when 'charity' is selected" do
+
+      let(:registration) { Registration.create }
+
+      it "sets #businessType to 'charity' on the registration" do
+        post :create, :registration => { "businessType" => "charity" }
+        expect(assigns(:registration).businessType).to eq('charity')
+      end
+
+      it "redirects to the 'business details' page" do
+        post :create, :registration => { "businessType" => "charity" }
+        expect(response).to redirect_to :newBusinessDetails
+      end
+
+    end
+
+    context "when 'authority' is selected" do
+
+      let(:registration) { Registration.create }
+
+      it "sets #businessType to 'authority' on the registration" do
+        post :create, :registration => { "businessType" => "authority" }
+        expect(assigns(:registration).businessType).to eq('authority')
+      end
+
+      it "redirects to the 'business details' page" do
+        post :create, :registration => { "businessType" => "authority" }
+        expect(response).to redirect_to :newBusinessDetails
+      end
+
+    end
+
+    context "when 'other' is selected" do
+
+      let(:registration) { Registration.create }
+
+      it "sets #businessType to 'other' on the registration" do
+        post :create, :registration => { "businessType" => "other" }
+        expect(assigns(:registration).businessType).to eq('other')
+      end
+
+      it "redirects to the 'no registration' page" do
+        post :create, :registration => { "businessType" => "other" }
+        expect(response).to redirect_to :newNoRegistration
       end
 
     end
