@@ -398,7 +398,7 @@ class RegistrationsController < ApplicationController
         session[:address_lookup_failure] = true
         logger.error 'ERROR: ActiveResource Server error!'
       rescue ActiveResource::BadRequest
-        logger.warn 'Address lookup returned Bad Request error code - postcode valid? - ' + @registration.postcode.to_s 
+        logger.warn 'Address lookup returned Bad Request error code - postcode valid? - ' + @registration.postcode.to_s
         @address_match_list = []
       end
     end
@@ -1504,9 +1504,7 @@ class RegistrationsController < ApplicationController
           @registration.commit
           logger.debug "uuid: #{@registration.uuid}"
 
-          logger.info 'About to send revoke email'
-          @user = User.find_by_email(@registration.accountEmail)
-          RegistrationMailer.revoke_email(@user, @registration).deliver
+          # We don't send revokation emails.
 
           redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_revoked') )
         else
@@ -1633,11 +1631,7 @@ class RegistrationsController < ApplicationController
             @registration.save!
             logger.debug "uuid: #{@registration.uuid}"
 
-            # Send revoke email, if registration was Digital
-            if @registration.digital_route?
-              @user = User.find_by_email(@registration.accountEmail)
-              RegistrationMailer.revoke_email(@user, @registration).deliver
-            end
+            # We don't send a revoke email, because NCCC handle this process manually.
 
             # Redirect to registrations page
             redirect_to registrations_path(:note => I18n.t('registrations.form.reg_revoked') ) and return
