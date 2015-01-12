@@ -16,24 +16,29 @@ describe BusinessTypeController, :type => :controller do
 
   end
 
-  # describe 'POST #create' do
-  #   context "when 'sole trader' is selected" do
-  #     # it 'sets #businessType on the registration' do
-  #     # end
-  #     it "redirects to the 'other businesses' page" do
-  #       post :create, registration: Registration.ctor
-  #     end
-  #   end
-  #
-  #
-  #   # context 'with valid attributes' do
-  #   #
-  #   #
-  #   # end
-  #   #
-  #   # context 'with invalid attributes' do
-  #   #
-  #   # end
-  # end
+  describe 'POST #create' do
+
+    before :each do
+      session[:registration_id] = registration.id
+      session[:editing] = true
+    end
+
+    context "when 'sole trader' is selected" do
+
+      let(:registration) { Registration.create }
+
+      it 'sets #businessType on the registration' do
+        post :create, :registration => { "businessType" => "soleTrader" }
+        expect(assigns(:registration).businessType).to eq('soleTrader')
+      end
+
+      it "redirects to the 'other businesses' page" do
+        post :create, :registration => { "businessType" => "soleTrader" }
+        expect(response).to redirect_to :newOtherBusinesses
+      end
+
+    end
+
+  end
 
 end
