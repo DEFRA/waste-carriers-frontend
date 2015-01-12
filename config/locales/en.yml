@@ -472,10 +472,6 @@ en:
   please_select: "Please select..."
   registration_mailer:
     year: "year"
-    revoke_email:
-      p1: "To %{name} (%{id})"
-      p2: "This email is to inform you that the Environment Agency has revoked your lower tier waste carrier registration for the following reason:"
-      p3: "Please contact the Environment Agency helpline on %{phone} if you have any questions about this."
     welcome_email:
       address: "Address"
       contactName: "Contact name:\ "
