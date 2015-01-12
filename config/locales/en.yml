@@ -585,6 +585,13 @@ en:
     show:
       subtitle: "What type of business or organisation are you?"
       title: "Business type"
+      authority: "Waste collection, disposal or regulation authority"
+      charity: "Charity or voluntary organisation"
+      limited_company: "Limited company"
+      other: "Other"
+      partnership: "Partnership"
+      public_body: "Public body"
+      sole_trader: "Sole trader"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
