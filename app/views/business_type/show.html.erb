@@ -21,11 +21,33 @@
 
         <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>" id="registration_businessType" role="group" aria-labelledby="groupLabel">
           <%= validation_for(@registration, :businessType) %>
-          <% Registration.business_type_options_for_select.each do |option| %>
-            <%= f.label :businessType, for: "registration_businessType_#{option.second.downcase}",  class: 'block-label' do %>
-              <%= f.radio_button :businessType, option.second %>
-              <%= option.first %>
+          <%= f.label :businessType, for: "registration_businessType_soletrader",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'soleTrader' %>
+            <%= t '.sole_trader' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_partnership",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'partnership' %>
+            <%= t '.partnership' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_limitedcompany",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'limitedCompany' %>
+            <%= t '.limited_company' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_publicbody",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'publicBody' %>
+            <%= t '.public_body' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_charity",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'charity' %>
+            <%= t '.charity' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_authority",  class: 'block-label' do %>
+          <%= f.radio_button :businessType, 'authority' %>
+            <%= t '.authority' %>
             <% end %>
+          <%= f.label :businessType, for: "registration_businessType_other",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'other' %>
+            <%= t '.other' %>
           <% end %>
         </div>
         <%= render 'shared/registration_next_link' %>
