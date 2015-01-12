@@ -135,6 +135,22 @@ describe BusinessTypeController, :type => :controller do
 
     end
 
+    context "when no selection is made" do
+
+      let(:registration) { Registration.create }
+
+      it 'does not set #businessType' do
+        post :create, :registration => { "businessType" => "" }
+        expect(assigns(:registration).businessType).to eq('')
+      end
+
+      # it "redirects to the 'business details' page" do
+      #   post :create, :registration => { "businessType" => "other" }
+      #   expect(response).to redirect_to :newNoRegistration
+      # end
+
+    end
+
   end
 
 end
