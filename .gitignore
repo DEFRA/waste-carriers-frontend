@@ -29,3 +29,5 @@ remoteToJenkins.sh
 brakeman-report.txt
 
 dump.rdb
+
+.idea/
