@@ -4,7 +4,7 @@ describe BusinessTypeController, :type => :controller do
 
   describe 'GET #show' do
 
-    it 'responds successfully with an HTTP 200 status code' do
+    it 'responds successfully with a HTTP 200 status code' do
       get :show
       expect(response.code).to eq('200')
     end
@@ -144,10 +144,11 @@ describe BusinessTypeController, :type => :controller do
         expect(assigns(:registration).businessType).to eq('')
       end
 
-      # it "redirects to the 'business details' page" do
-      #   post :create, :registration => { "businessType" => "other" }
-      #   expect(response).to redirect_to :newNoRegistration
-      # end
+      it "re-renders the business type page with a HTTP status code of 400" do
+        post :create, :registration => { "businessType" => "" }
+        expect(response).to render_template("show")
+        expect(response.code).to eq('400')
+      end
 
     end
 
