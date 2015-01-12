@@ -38,8 +38,6 @@ Registrations::Application.routes.draw do
     get "registrations/finish-assisted" => 'registrations#finishAssisted', :as => :finishAssisted
     match "registrations/finish-assisted" => 'registrations#updateFinishAssisted', :via => [:post,:put,:patch]
 
-    match "registrations/:id/ncccedit" => 'registrations#ncccedit', :via => [:get], :as => :ncccedit
-    match "registrations/:id/ncccedit" => 'registrations#ncccupdate', :via => [:post,:put,:patch]
     get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
     get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
     get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
@@ -204,7 +202,7 @@ Registrations::Application.routes.draw do
 
     get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user
 
-    get "version" => 'home#version', :via => [:get], :as => :app_version  
+    get "version" => 'home#version', :via => [:get], :as => :app_version
 
     get "cookies" => 'home#cookies', :via => [:get], :as => :cookies
 

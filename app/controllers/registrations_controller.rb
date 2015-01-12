@@ -31,7 +31,7 @@ class RegistrationsController < ApplicationController
 
   before_filter :authenticate_admin_request!
 
-  before_filter :authenticate_external_user!, :only => [:update, :ncccedit, :ncccupdate, :destroy, :finish, :print]
+  before_filter :authenticate_external_user!, :only => [:update, :destroy, :finish, :print]
 
   # GET /registrations
   # GET /registrations.json
@@ -398,7 +398,7 @@ class RegistrationsController < ApplicationController
         session[:address_lookup_failure] = true
         logger.error 'ERROR: ActiveResource Server error!'
       rescue ActiveResource::BadRequest
-        logger.warn 'Address lookup returned Bad Request error code - postcode valid? - ' + @registration.postcode.to_s 
+        logger.warn 'Address lookup returned Bad Request error code - postcode valid? - ' + @registration.postcode.to_s
         @address_match_list = []
       end
     end
@@ -1284,21 +1284,11 @@ class RegistrationsController < ApplicationController
         redirect_to Rails.configuration.waste_exemplar_end_url
       end
     elsif params[:back]
-      if params[:from] == "NCCCEdit"
-        logger.debug 'From page found, redirecting back to NCCC edit'
-        redirect_to ncccedit_path(:id => @registration.id)
-      else
-        logger.debug 'Default, redirecting back to Finish page'
-        redirect_to finish_url(:id => @registration.id)
-      end
+      logger.debug 'Default, redirecting back to Finish page'
+      redirect_to finish_url(:id => @registration.id)
     else
-      if params[:reprint]
-        logger.debug 'Save Reprint state in the print page (go to NCCCedit)'
-        flash[:alert] = 'NCCCEdit'
-      else
-        logger.debug 'Save Print state in the print page (go to Finish)'
-        flash[:alert] = 'Finish'
-      end
+      logger.debug 'Save Print state in the print page (go to Finish)'
+      flash[:alert] = 'Finish'
     end
   end
 
@@ -1396,15 +1386,6 @@ class RegistrationsController < ApplicationController
     redirect_to :newConfirmation
   end
 
-  def ncccedit
-    logger.debug  "nccedit looking for: #{params[:id]}"
-    @registration = Registration.find_by_id(session[:registration_uuid])
-    logger.debug  "registration found@ #{@registration['id']}"
-    session[:registration_id] = @registration.id
-    session[:registration_uuid] = @registration.uuid
-    authorize! :update, @registration
-  end
-
   def paymentstatus
     @registration = Registration.find_by_id(params[:id])
     if @registration.nil?
@@ -1471,81 +1452,6 @@ class RegistrationsController < ApplicationController
     end
   end
 
-
-
-
-  #PUT...
-  def ncccupdate
-    @registration = Registration.find_by_id(params[:id])
-    authorize! :update, @registration
-
-
-    if params[:findAddress]
-      render "ncccedit"
-    elsif params[:reprint]
-      logger.debug 'Redirect to Print page'
-      redirect_to print_url(:id => params[:id], :reprint => params[:reprint])
-    elsif params[:revoke]
-      if agency_user_signed_in?
-        logger.info 'Revoke action detected'
-
-        # Merge param information with registration from DB
-        @registration.update_attributes(updatedParameters(@registration.metaData, params[:registration]))
-
-        # Forceably set the revoked value in the registration to now check for a revoke reason
-        if params[:revoke_question] == 'yes'
-          logger.info 'Revoke set, so should now run additional rule'
-          @registration.revoked = 'true'
-        end
-
-        if @registration.valid?
-          @registration.metaData.first.update(status: 'REVOKED')
-          @registration.save
-          @registration.commit
-          logger.debug "uuid: #{@registration.uuid}"
-
-          logger.info 'About to send revoke email'
-          @user = User.find_by_email(@registration.accountEmail)
-          RegistrationMailer.revoke_email(@user, @registration).deliver
-
-          redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_revoked') )
-        else
-          render "ncccedit"
-        end
-      else
-        renderAccessDenied
-      end
-    elsif params[:unrevoke] && agency_user_signed_in?
-      if agency_user_signed_in?
-        logger.info 'Revoke action detected'
-        @registration.metaData.first.update(status: 'ACTIVE')
-        logger.debug "COMMIT line: #{__LINE__}"
-        @registration.commit
-        logger.debug "uuid: #{@registration.uuid}"
-        redirect_to ncccedit_path(:note => I18n.t('registrations.form.reg_unrevoked'))
-      else
-        renderAccessDenied
-      end
-    else
-      logger.info 'About to Update Registration'
-      if agency_user_signed_in?
-        # Merge param information with registration from DB
-        @registration.update_attributes(updatedParameters(@registration.metaData.first, params[:registration]))
-      else
-        @registration.update_attributes(params[:registration])
-      end
-      if @registration.valid?
-        @registration.save
-        if agency_user_signed_in?
-          redirect_to registrations_path(:note => I18n.t('registrations.form.reg_updated') )
-        else
-          redirect_to userRegistrations_path(:id => current_user.id, :note => I18n.t('registrations.form.reg_updated') )
-        end
-      else
-        render "ncccedit"
-      end
-    end
-  end
 
   def updatedParameters(databaseMetaData, submittedParams)
     # Save DB MetaData
@@ -1633,11 +1539,7 @@ class RegistrationsController < ApplicationController
             @registration.save!
             logger.debug "uuid: #{@registration.uuid}"
 
-            # Send revoke email, if registration was Digital
-            if @registration.digital_route?
-              @user = User.find_by_email(@registration.accountEmail)
-              RegistrationMailer.revoke_email(@user, @registration).deliver
-            end
+            # We don't send a revoke email, because NCCC handle this process manually.
 
             # Redirect to registrations page
             redirect_to registrations_path(:note => I18n.t('registrations.form.reg_revoked') ) and return

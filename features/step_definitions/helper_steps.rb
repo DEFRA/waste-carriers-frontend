@@ -1,3 +1,23 @@
 Given /^PENDING/ do
   pending
 end
+
+When(/^I wait for (\d+) seconds{0,1} for these actions to be finalised$/) do |delay_in_seconds|
+  sleep delay_in_seconds.to_i
+end
+
+When(/^the inbox for '([\w@\.]+)' is emptied now as part of this test$/) do |email_address|
+  open_email email_address
+  clear_emails
+  all_emails.should be_empty
+end
+
+Then(/^the inbox for '([\w@\.]+)' should be empty$/) do |email_address|
+  open_email email_address
+  msg = ''
+  if all_emails.count > 0
+    msg = ["Expected inbox for #{email_address} to be empty, but it contains #{all_emails.count} email(s).",
+           "The last email has the subject line: '#{current_email.subject}'"].join("\n")
+  end
+  all_emails.should be_empty, msg
+end
