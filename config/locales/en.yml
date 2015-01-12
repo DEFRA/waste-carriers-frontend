@@ -1001,12 +1001,6 @@ en:
       paymentCancelled: "You have cancelled your payment"
       paymentWorldPay: "Paid via Worldpay"
       refund_request: "A refund has been requested for this worldpay payment"
-    nccc_edit:
-      registeredOn: "Registered on: %{date}"
-      revokedQuestion: "Do you wish to revoke this registration?"
-      revokedReason: "Why do you wish to revoke this registration"
-    ncccform:
-      subtitle: "Change your registration details"
     newOfflinePayment:
       account_name: "Account name"
       account_number: "Account number"
