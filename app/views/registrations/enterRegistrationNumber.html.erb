@@ -19,7 +19,7 @@
     </header>
 
     <% content_for :page_title, createTitle('.title') %>
-    <%= form_for(@registration, :url => enterRegistration_path) do |f| %>
+    <%= form_for(@registration, :url => enterRegistration_path, :html => {:autocomplete => "off"}) do |f| %>
 
     <div id="enterRegistrationNumber" data-journey="waste-carriers-registration:enter-registration-number">
     </div>
