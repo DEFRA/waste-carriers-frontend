@@ -32,7 +32,7 @@
 	  <!-- Usefull for showing default messages -->
 	  <% if alert %><%= alert %><% end %>
 
-	  <%= form_for @order, url: {action: "createAdjustment", controller: "payment"}, :method => 'post' do |f| %>
+	  <%= form_for @order, url: {action: "createAdjustment", controller: "payment"}, :method => 'post', :html => {:autocomplete => "off"} do |f| %>
 
 		<%= render "orderErrors" %>	<!-- FIXME: Bit ugly, Reimplemented errors as it assumed @registration -->
 
