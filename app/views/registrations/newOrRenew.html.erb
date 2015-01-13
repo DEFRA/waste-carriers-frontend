@@ -2,7 +2,7 @@
 <div id="wrapper">
   <main id="content" role="main" class="group">
     <% content_for :page_title, createTitle('.title') %>
-    <%= form_for(@registration, :url => selectRegistrationType_path) do |f| %>
+    <%= form_for(@registration, :url => selectRegistrationType_path, :html => {:autocomplete => "off"}) do |f| %>
 
     <div id="start" data-journey="waste-carriers-registration:new-or-renew">
 
