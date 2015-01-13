@@ -2,7 +2,7 @@
 
 <main id="content" role="main" class="group">
 
-<%= form_for(@registration, :url => :upper_business_address) do |f| %>
+<%= form_for(@registration, :url => :upper_business_address, :html => {:autocomplete => "off"}) do |f| %>
 
   <% content_for :page_title, createTitle('.title') %>
 

@@ -22,7 +22,7 @@
   <div class="grid grid-2-3">
   <div class="inner-block">
 
-    <%= form_for(@registration, :url => :upper_payment, :method => 'post') do |f| %>
+    <%= form_for(@registration, :url => :upper_payment, :method => 'post', :html => {:autocomplete => "off"}) do |f| %>
     <% content_for :page_title, createTitle('.title') %>
 
     <%= render "order/notice_or_alert" %>

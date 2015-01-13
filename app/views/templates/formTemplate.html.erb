@@ -91,7 +91,7 @@
               <!-- WF 4.3.2 -->
               <% content_for :page_title, createTitle('.title') %>
               <%= render 'errors' %>
-              <%= form_for(@registration, :url => formExample_path) do |f| %>
+              <%= form_for(@registration, :url => formExample_path, :html => {:autocomplete => "off"}) do |f| %>
               <%= render 'formTemplate_step', f: f, r: @registration %>
               <%= render 'next_link' %>
               <% end %>

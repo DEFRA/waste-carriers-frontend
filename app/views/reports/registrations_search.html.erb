@@ -25,7 +25,7 @@
             <div id="page0"  data-journey="waste-carriers-registration:registrations-export"></div>
               <% content_for :page_title, createTitle('.title') %>
               <%= render 'errors' %>
-              <%= form_for(@report, :url => 'registrations') do |f| %>
+              <%= form_for(@report, :url => 'registrations', :html => {:autocomplete => "off"}) do |f| %>
 
               <fieldset class="registration-search">
                 <legend></legend>
