@@ -60,6 +60,8 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+    Ohm.redis.call "FLUSHDB"   # Cleans the Redis DB.
+    RestClient.delete "#{Rails.configuration.waste_exemplar_elasticsearch_url}/registrations/_query?q=*:*"
   end
 
   config.after(:each) do
