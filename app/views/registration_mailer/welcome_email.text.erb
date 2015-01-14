@@ -1,67 +1,53 @@
+<%= t 'registration_mailer.welcome_email.reg_number_html', :reg => @registration.regIdentifier %>
 
-<%= t('registration_mailer.welcome_email.tier_result_message', :companyName => @registration.companyName, :tier_with_article => @registration.tier.downcase.with_indefinite_article) %>
-===============================================================================
+===================================================================================
 
-<%= t 'registrations.finish.your_reg_number', :reg => @registration.regIdentifier %>.
+<%=t 'registration_mailer.welcome_email.salutation' %><%= @registration.firstName%>
 
-<%=t 'registration_mailer.welcome_email.registeredOn', date: @registration.formatted_registration_date %>
+<% if @registration.lower? %>
+<%=t 'registration_mailer.welcome_email.paragraph1_lower' %>
 
-<%= t 'registration_mailer.welcome_email.proof' %>
+<%=t 'registration_mailer.welcome_email.paragraph2_lower' %>
 
-<%=t 'registration_mailer.welcome_email.detailsHeading'%>
---------------------------------
+<%=t 'registration_mailer.welcome_email.bullet1_lower' %>
+<%=t 'registration_mailer.welcome_email.bullet2_lower' %>
 
-<%=t 'registration_mailer.welcome_email.contactName'%>
-<%= @registration.firstName %> <%= @registration.lastName %>
+<% else %>
+<%=t 'registration_mailer.welcome_email.paragraph1_upper' %>
 
-<%=t 'registration_mailer.welcome_email.phoneNumber'%>
-<%= @registration.phoneNumber %>
+<%=t 'registration_mailer.welcome_email.paragraph2_upper' %>
 
-<%=t 'registration_mailer.welcome_email.address'%>:
-<%= @registration.houseNumber %> <%= @registration.streetLine1 %>
+<%=t 'registration_mailer.welcome_email.bullet1_upper' %>
+<%=t 'registration_mailer.welcome_email.bullet2_upper' %>
+
+<%=t 'registration_mailer.welcome_email.paragraph3_upper' %>
+<%=t 'registration_mailer.welcome_email.bullet3_upper' %>
+<%=t 'registration_mailer.welcome_email.bullet4_upper' %>
+<%=t 'registration_mailer.welcome_email.bullet5_upper' %>
+<%=t 'registration_mailer.welcome_email.bullet6_upper' %>
+<% end %>
+
+===================================================================================
+
+<%=t 'registration_mailer.welcome_email.heading_update_registration' %>
+
+<%=t 'registration_mailer.welcome_email.paragraph3' %>
+
+<%= @registration.firstName%> <%= @registration.lastName%>
+<%= @registration.houseNumber %>
+<%= @registration.streetLine1 %>
 <%= @registration.streetLine2 %>
 <%= @registration.dependentLocality %>
-<%= @registration.townCity %>
-<%= @registration.postcode %>
-
-
-<%= @registration.houseNumber %> <%= @registration.streetLine1 %>
-<% if @registration.streetLine2.present? %><%= @registration.streetLine2 %><% end %>
 <%= @registration.townCity%>
 <%= @registration.postcode%>
 
-<% if @registration.lower? %>
-<%=t 'registration_mailer.welcome_email.lower_renewal_html'%>
-<%=t 'registration_mailer.welcome_email.updateWebsite_html', link: new_user_session_url %>
-<% end %>
+<%=t 'registration_mailer.welcome_email.contactNumber'%><%= @registration.phoneNumber%>
+<%= t 'registration_mailer.welcome_email.registeredOn', date: @registration.formatted_registration_date %>
 
-<%=t 'registration_mailer.welcome_email.enquiresMessage'%>
-<%=t 'registration_mailer.welcome_email.telephone'%> <%= Rails.configuration.registrations_service_phone %>
-<%=t 'registration_mailer.welcome_email.email'%> <%= Rails.configuration.registrations_service_email %>
-<% if @registration.lower? %>
-<%=t 'registration_mailer.welcome_email.lowerTierRegistration'%>
------------------------
-<%=t 'registration_mailer.welcome_email.criteriaIntro'%>
+<%=t 'registration_mailer.welcome_email.updateWebsite1_html',:link=>link_to('sign in', new_user_session_url)%>
 
-- <%=t 'registration_mailer.welcome_email.criteria1'%>
-- <%=t 'registration_mailer.welcome_email.criteria2'%>
-- <%=t 'registration_mailer.welcome_email.criteria3'%>
-- <%=t 'registration_mailer.welcome_email.criteria4'%>
-<% else %>
-<%=t 'registration_mailer.welcome_email.upperTierRegistration'%>
------------------------
-<%=t 'registration_mailer.welcome_email.criteriaIntroUpper'%>
+===================================================================================
 
-- <%=t 'registration_mailer.welcome_email.criteria5'%>
-- <%=t 'registration_mailer.welcome_email.criteria6'%>
-- <%=t 'registration_mailer.welcome_email.criteria7'%>
-<% end %>
+<%=t 'registration_mailer.welcome_email.footer_bullet1' %>
+<%=t 'registration_mailer.welcome_email.footer_bullet2' %>
 
-<%=t 'registration_mailer.welcome_email.responsibilitiesHeading'%>
--------------------------------------
-<%=t 'registration_mailer.welcome_email.responsibilitiesIntro'%>
-
-- <%=t 'registration_mailer.welcome_email.responsibilities1'%>
-- <%=t 'registration_mailer.welcome_email.responsibilities2'%>
-- <%=t 'registration_mailer.welcome_email.responsibilities3'%>
-- <%=t 'registration_mailer.welcome_email.responsibilities4'%>

@@ -29,7 +29,7 @@
       end
    %>
 
-    <%= form_for(resource, :as => resource_name, :url => my_registration_path, :html => { :method => :put }) do |f| %>
+    <%= form_for(resource, :as => resource_name, :url => my_registration_path, :html => { :method => :put , :autocomplete => "off"}) do |f| %>
     <%= devise_error_messages! %>
 
     <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
@@ -53,6 +53,7 @@
         <%= f.password_field :password_confirmation %>
     </div>
 
+    <div class='form-group'>
         <%= f.submit t('devise.registrations.update'), :class => "button" %>
     </div>
 
