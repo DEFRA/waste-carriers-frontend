@@ -1,24 +1,86 @@
 <%= render 'shared/content_for_pages' %>
 <div id="wrapper">
 
-  <main id="content" role="main" class="group">
+<main id="content" role="main" class="group">
 
-    <% content_for :page_title, createTitle('.title') %>
+<% content_for :page_title, createTitle('.title') %>
 
-    <!-- Header section -->
-    <header class="page-header group">
-      <div class="hgroup">
-        <% message = "#{t('registration_mailer.welcome_email.tier_result_message', :companyName => @registration.companyName, :tier_with_article => @registration.tier.downcase.with_indefinite_article)}" %>
-        <h1 class="heading-medium"><%= message %></h1>
-      </div>
-    </header>
+<!-- Back button section -->
+<div class="back-section">
+  <%= link_to t('registrations.form.back_button_label'), :back, :class => 'link-button-secondary' %>
+  <% if session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RENEWAL  %>
+  <%= link_to t('registrations.form.finish_button_label'), action: "finish_renewal", :class => 'link-button-secondary' %>
+   <% end %>
+</div>
 
-    <div class="grid-2-3">
+  <!-- Header section -->
+  <header class="page-header group">
+    <div class="hgroup">
+      <% message = "#{t('registration_mailer.welcome_email.tier_result_message', :companyName => @registration.companyName, :tier_with_article => @registration.tier.downcase.with_indefinite_article)}" %>
+      <h1 class="heading-small"><%=t 'registrations.print.heading' %></h1>
+    </div>
+  </header>
 
-      <!-- Business details section -->
-      <div class="print-section"  data-journey="waste-carriers-registration:print">
-        <h2 class="heading-small"><%= t 'registration_mailer.welcome_email.detailsHeading'%></h2>
-          <%= @registration.firstName%> <%= @registration.lastName%></br>
+  <div class="grid-2-3">
+
+  <table summary='This is an example table' class="certificate_table" role='presentation'>
+    <thead>
+      <tr>
+        <th><%=t 'registrations.print.authority' %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.name' %></td>
+        <td><div width="100%" bgcolor="#ffffff" align="left">
+        <img src="https://assets.digital.cabinet-office.gov.uk/government/uploads/system/uploads/organisation/logo/199/EAlogo.png" alt="The Environment Agency logo" width="129px" height="39px" /></div></td>
+      </tr>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.nccc_address_pretext' %></td>
+        <td><%=t 'registrations.print.nccc_address_line1' %></br>
+            <%=t 'registrations.print.nccc_address_line2' %></br>
+            <%=t 'registrations.print.nccc_address_line3' %></br>
+            <%=t 'registrations.print.nccc_address_line4' %></br>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.telephone_number_pretext' %></td>
+        <td><%=t 'registrations.print.nccc_number' %></td>
+      </tr>
+    </tbody>
+  </table>
+</br>
+
+  <p><%=t 'registrations.print.certify_message' %></p>
+
+  <table summary='This is an example table' role='presentation'>
+    <thead>
+      <tr>
+        <th><%=t 'registrations.print.carrier_table_heading' %></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.carrier_name' %></td>
+        <td><%= @registration.firstName%> <%= @registration.lastName%></td>
+      </tr>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.registered' %></td>
+        <td><%= message %></td>
+      </tr>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.registration_number' %></td>
+        <td><%= @registration.regIdentifier%></td>
+      </tr>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.business_name' %></td>
+        <td><%= @registration.companyName%></td>
+      </tr>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.business_address' %></td>
+        <td>
           <% unless @registration.houseNumber.blank? %>
               <%= @registration.houseNumber %></br>
           <% end %>
@@ -46,75 +108,36 @@
           <% unless @registration.country.blank? %>
               <%= @registration.country %></br>
           <% end %>
-      </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.carrier_telephone_number' %></td>
+        <td><%= @registration.phoneNumber%></td>
+      </tr>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.registration_date' %></td>
+        <td><%= @registration.formatted_registration_date %></td>
+      </tr>
+    </tbody>
+  </table></br>
 
-      <!-- Registration section -->
-      <div class="registration-details">
-        <h3 class="heading-small"><%= t 'registration_mailer.welcome_email.registrationHeading'%></h2>
-        <h2 class="email" style="font-size: 19px; line-height: 1.11111; margin: 0 0 15px 0;">
-          <%=t 'registration_mailer.welcome_email.proof'%></h2>
-        <ul>
-          <li>
-            <%=t 'registration_mailer.welcome_email.contactName'%><%= @registration.firstName%> <%= @registration.lastName%></li>
-          <li>
-            <%=t 'registration_mailer.welcome_email.phoneNumber'%><%= @registration.phoneNumber%></li>
-          <li>
-            <%= t 'registrations.finish.your_reg_number', :reg => @registration.regIdentifier %></li>
-          <li>
-            <%=t 'registration_mailer.welcome_email.registeredOn', :date => @registration.formatted_registration_date %></li>
-        </ul>
-      </div>
+   <!-- Upper Lower Tier registration details section -->
 
-      <!-- Renewal details section -->
-      <div class="renewal">
-        <% if @registration.upper? %>
-          <p><%= t 'registration_mailer.welcome_email.upper_renewal_html', :expires_after_pluralized => pluralize(get_expires_in_as_int, t('registration_mailer.year')) %></p>
-        <% else %>
-          <p><%= t 'registration_mailer.welcome_email.lower_renewal_html' %></p>
-        <% end %>
-        <% if @registration.assisted_digital? %>
-          <p><%= t 'registration_mailer.welcome_email.updatePhone' %><strong><span id='accessCode'><%= @registration.accessCode %><span></strong>.</p>
-        <% else %>
-          <p><%= t 'registration_mailer.welcome_email.updateWebsite_html', :link => user_session_url().split('?')[0] %></p>
-        <% end %>
-      </div>
+   <h3 class="heading-small">Making changes to your registration</h3>
 
-      <!-- Tier registration details section -->
-      <div class="finish-section">
-        <% if @registration.upper? %>
-          <h3 class="heading-small"><%=t 'registration_mailer.welcome_email.upperTierRegistration'%></h3>
-          <p><%=t 'registration_mailer.welcome_email.criteriaIntroUpper'%></p>
-        <ul>
-          <li><%=t 'registration_mailer.welcome_email.criteria5'%></li>
-          <li><%=t 'registration_mailer.welcome_email.criteria6'%></li>
-          <li><%=t 'registration_mailer.welcome_email.criteria7'%></li>
-        </ul>
-        <% else %>
-          <h3 class="heading-small">
-            <%=t 'registration_mailer.welcome_email.lowerTierRegistration'%></h3>
-          <p><%=t 'registration_mailer.welcome_email.criteriaIntroLower'%></p>
-        <ul>
-          <li><%=t 'registration_mailer.welcome_email.criteria1'%></li>
-          <li><%=t 'registration_mailer.welcome_email.criteria2'%></li>
-          <li><%=t 'registration_mailer.welcome_email.criteria3'%></li>
-          <li><%=t 'registration_mailer.welcome_email.criteria4'%></li>
-        </ul>
-        <% end %>
-      </div>
+    <!-- Renewal details section -->
+    <div class="renewal">
+      <% if @registration.upper? %>
+        <p><%= t 'registration_mailer.welcome_email.upper_renewal_html', :expires_after_pluralized => pluralize(get_expires_in_as_int, t('registration_mailer.year')) %></p>
+      <% else %>
+        <p><%= t 'registration_mailer.welcome_email.lower_renewal_html' %></p>
+      <% end %>
+      <% if @registration.assisted_digital? %>
+        <p><%= t 'registration_mailer.welcome_email.updatePhone' %><strong><span id='accessCode'><%= @registration.accessCode %><span></strong>.</p>
+      <% end %>
+    </div>
 
-       <!-- Responsibilites section -->
-      <div class="finish-section">
-        <h3 class="heading-small"><%=t 'registration_mailer.welcome_email.responsibilitiesHeading'%></h3>
-        <p><%=t 'registration_mailer.welcome_email.responsibilitiesIntro'%></p>
-        <ul>
-          <li><%=t 'registration_mailer.welcome_email.responsibilities1'%></li>
-          <li><%=t 'registration_mailer.welcome_email.responsibilities2'%></li>
-          <li><%=t 'registration_mailer.welcome_email.responsibilities3'%></li>
-          <li><%=t 'registration_mailer.welcome_email.responsibilities4'%></li>
-        </ul>
-      </div>
-
-      <!-- EA contact details -->
+     <!-- EA contact details -->
       <div class="ea-contact">
         <p><%= t 'registration_mailer.welcome_email.enquiresMessage' %></p>
         <ul>
@@ -125,13 +148,7 @@
         </ul>
       </div>
 
-      <!-- Back button section -->
-      <div class="back-button-section">
-        <%= link_to t('registrations.form.back_button_label'), :back, :class => 'link-button-secondary' %>
-        <% if session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RENEWAL  %>
-        <%= link_to t('registrations.form.finish_button_label'), action: "finish_renewal", :class => 'link-button-secondary' %>
-         <% end %>
-      </div>
+      <a href="print" class="button">Print certificate</a>
 
     </div><!--end grid-2-3 -->
   </main><!-- end main -->
