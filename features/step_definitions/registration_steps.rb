@@ -15,9 +15,20 @@ When(/^I revoke the registration$/) do
   click_button 'Revoke'
 end
 
+When(/^I approve the registration$/) do
+  # This step assumes that only one registration is currently shown in the search results.
+  click_link 'approve'
+  fill_in 'registration_metaData_approveReason', with: 'approved by cucumber test'
+  click_button 'approve'
+end
+
 Then(/^searching the public register for '(.+)' should return (\d+) records{0,1}$/) do |search_term, expected_record_count|
   visit public_path
   fill_in 'q', with: search_term    # 'q' is the 'Name of organisation' field.
   click_button 'reg-search'
   page.should have_content "Showing #{expected_record_count} of #{expected_record_count}"
+end
+
+Then(/^the registration can no longer be approved$/) do
+  page.should_not have_link 'Approve'
 end

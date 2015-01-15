@@ -55,12 +55,14 @@
             
             <div class="inline">
             <% 
-            approveLabel = t('form.approve_button_label') 
-            unless @isApprove 
-              approveLabel = t('form.refuse_button_label') 
-            end 
+                submitLabel = t('form.approve_button_label')
+                submitId = "approve"
+            unless @isApprove
+              submitLabel = t('form.refuse_button_label')
+              submitId = "refuse"
+            end
             %>
-                <input name="<% if @isApprove %>approve<% else %>refuse<% end %>" class="button" type="submit" value="<%= approveLabel %>"/>
+                <input name="<% if @isApprove %>approve<% else %>refuse<% end %>" class="button" type="submit" value="<%= submitLabel %>" id="<%= submitId %>"/>
             </div>
         </fieldset>
     </div>
