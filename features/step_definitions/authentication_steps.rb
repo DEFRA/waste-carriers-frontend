@@ -84,11 +84,11 @@ Given(/^an ([\w ]+) exists and has an activated, non-locked account$/) do |user_
     open_email my_user.email
     current_email.click_link 'confirmation_link'
   end
-  get_database_object_for_user_type(user_type).access_locked?.should be_false
+  get_database_object_for_user_type(user_type).access_locked?.should == false
 end
 
 Given(/^an External User exists but has not confirmed their account$/) do
-  get_database_object_for_user_type('External User').confirmed?.should be_false
+  get_database_object_for_user_type('External User').confirmed?.should == false
 end
 
 When(/^the maximum number of invalid login attempts is exceeded for the ([\w ]+) account$/) do |user_type|
@@ -105,7 +105,7 @@ When(/^the maximum number of invalid login attempts is exceeded for the ([\w ]+)
     page.should have_content 'Invalid email or password'
   end
 
-  get_database_object_for_user_type(user_type).access_locked?.should be_true
+  get_database_object_for_user_type(user_type).access_locked?.should == true
 end
 
 When(/^somebody visits the ([\w ]+) Forgot Password page$/) do |user_type|
@@ -154,9 +154,9 @@ end
 
 Then(/^the ([\w ]+) account 'locked' status should be (\w+)$/) do |user_type, expected_locked_status|
   if expected_locked_status == 'unlocked'
-    get_database_object_for_user_type(user_type).access_locked?.should be_false
+    get_database_object_for_user_type(user_type).access_locked?.should == false
   elsif expected_locked_status == 'locked'
-    get_database_object_for_user_type(user_type).access_locked?.should be_true
+    get_database_object_for_user_type(user_type).access_locked?.should == true
   else
     throw 'Unknown value specified for expected_locked_status'
   end
@@ -166,7 +166,7 @@ Then(/^the External User should receive an email allowing them to confirm their 
   open_email my_user.email
   current_email.subject.should == 'Verify your email address'
   current_email.click_link 'confirmation_link'
-  get_database_object_for_user_type('External User').confirmed?.should be_true
+  get_database_object_for_user_type('External User').confirmed?.should == true
 end
 
 When(/^I am logged in as waste carrier user '([\w@\.]+)'$/) do | email|
