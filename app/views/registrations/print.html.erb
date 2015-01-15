@@ -118,6 +118,12 @@
         <td class="table-column-text"><%=t 'registrations.print.registration_date' %></td>
         <td><%= @registration.formatted_registration_date %></td>
       </tr>
+       <% if @registration.upper? %>
+      <tr>
+        <td class="table-column-text"><%=t 'registrations.print.expiry_date' %></td>
+        <td>Expiry date tbc</td>
+      </tr>
+        <% end %>
     </tbody>
   </table></br>
 
