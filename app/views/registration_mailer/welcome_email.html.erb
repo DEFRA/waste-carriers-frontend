@@ -53,7 +53,8 @@
         <tr>
           <td width="75%" style="font-family: Helvetica, Arial, sans-serif;">
 
-            <p style="font-size: 19px; line-height: 1.315789474;margin: 30px 0 15px 0;"><%=t 'registration_mailer.welcome_email.salutation' %><%= @registration.firstName%></p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 30px 0 15px 0;">
+              <%= @registration.firstName%></p>
 
             <% if @registration.lower? %>
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;"><%=t 'registration_mailer.welcome_email.paragraph1_lower' %></p>
