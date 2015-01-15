@@ -48,7 +48,7 @@
           <tr>
             <td bgcolor="#F47738" style="font-family: Helvetica, Arial, sans-serif; margin: 0 0 30px 0;">
               <p style="font-size: 36px; font-weight: bold; color:#ffffff; line-height: 1.315789474; margin: 30px 0 30px 30px;">
-               <%= t 'registration_mailer.awaitingConvictionsCheck.subject' %><%= @registration.regIdentifier %>
+               <%= t 'registration_mailer.awaitingConvictionsCheck.subject' %>&nbsp;<%= @registration.regIdentifier %>
               </p>
             </td>
             <td width="25%">&nbsp;</td>
@@ -70,9 +70,9 @@
                 </p>
 
                <ul>
-                <li style="font-size: 16px; font-weight:bold; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'registration_mailer.awaitingPayment.paragraph6' %></li>
+                <li style="font-size: 16px; font-weight:bold; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'registration_mailer.awaitingConvictionsCheck.paragraph2' %></li>
                 <li style="font-size: 16px; line-height: 1.315789474;margin: 0 0 30px 0;">
-                  <%= t 'registration_mailer.awaitingPayment.paragraph7' %></li>
+                  <%= t 'registration_mailer.awaitingConvictionsCheck.paragraph3' %></li>
                </ul>
 
              </td>
