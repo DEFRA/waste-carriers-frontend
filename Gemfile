@@ -98,12 +98,7 @@ group :test, :development do
   gem "launchy", "~> 2.4.2", :require => false
   gem 'rspec-rails', '~> 2.12'
 
-  #cross-browser testing using saucelabs
-  gem 'sauce'
-  gem 'sauce-connect', :require => false
-  gem 'sauce-cucumber', :require => false
   gem 'capybara', '~> 2.1.0'
-  gem 'parallel_tests', :require => false
   
   # Required to populate the database with load-test data for Convictions.
   gem 'elasticsearch-persistence', '~> 0.1.6'

@@ -6,9 +6,6 @@
 
 require 'cucumber/rails'
 
-# Added for cross-browser testing using Saucelabs
-require 'sauce/cucumber'
-
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.
@@ -59,5 +56,3 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 # To allow the cucumber features to all run, we disable WebMock for everything; no HTTP calls are stubbed in
 # the cucumber tests.
 WebMock.disable!()
-
-require 'cucumber/rspec/doubles'
