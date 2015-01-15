@@ -93,7 +93,7 @@ Then(/^I am registered as an upper tier waste carrier pending conviction checks$
   sleep 1  # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
 #  current_email.save_and_open
-  current_email.should have_content 'Your application details are being checked' # Update this test once we have defined content for the convictions email
+  current_email.should have_content 'What happens next' # Update this test once we have defined content for the convictions email
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending conviction checks$/) do
@@ -106,7 +106,7 @@ Then(/^I am registered as an upper tier waste carrier pending payment$/) do
   sleep 1  # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
 #  current_email.save_and_open
-  current_email.should have_content 'Your registration requires payment'  # Update this test once we have defined content for the awaiting payment email
+  current_email.should have_content 'Application received'  # Update this test once we have defined content for the awaiting payment email
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending payment$/) do
