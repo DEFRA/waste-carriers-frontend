@@ -21,3 +21,8 @@ Then(/^the inbox for '([\w@\.]+)' should be empty$/) do |email_address|
   end
   all_emails.should be_empty, msg
 end
+
+Then(/^the inbox for '([\w@\.]+)' should contain an email with the subject '([\w ]+)'$/) do |email_address, expected_subject|
+  open_email email_address
+  current_email.subject.should == expected_subject
+end
