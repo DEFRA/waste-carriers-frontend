@@ -35,7 +35,7 @@ end
 Given(/^I have received an awaiting payment email$/) do
   sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.should have_content 'Your registration requires payment'
+  current_email.should have_content 'Application received'
 end
 
 When(/^I attempt to sign in$/) do

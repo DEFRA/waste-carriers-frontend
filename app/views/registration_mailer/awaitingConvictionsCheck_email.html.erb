@@ -1,221 +1,99 @@
-<html xmlns="http://www.w3.org/1999/xhtml"><head>
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title><%= t 'devise.mailer.registration_mailer.awaitingConvictionsCheck.subject' %></title>
-      <style type="text/css">
-         /* Client-specific Styles */
-         #outlook a {padding:0;} /* Force Outlook to provide a "view in browser" menu link. */
-         body{width:100% !important; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0; padding:0;}
-         /* Prevent Webkit and Windows Mobile platforms from changing default font sizes, while not breaking desktop design. */
-         .ExternalClass {width:100%;} /* Force Hotmail to display emails at full width */
-         .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing. */
-         #backgroundTable {margin:0; padding:0; width:100% !important; line-height: 100% !important;}
-         img {outline:none; text-decoration:none;border:none; -ms-interpolation-mode: bicubic;}
-         a img {border:none;}
-         .image_fix {display:block;}
-         p {margin: 0px 0px !important;}
-
-         table td {border-collapse: collapse;}
-         table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
-         /*a {color: #e95353;text-decoration: none;text-decoration:none!important;}*/
-         /*STYLES*/
-         table[class=full] { width: 100%; clear: both; }
-
-         /*################################################*/
-         /*TABLET STYLES*/
-         /*################################################*/
-         @media only screen and (max-width: 640px) {
-         a[href^="tel"], a[href^="sms"] {
-         text-decoration: none;
-         color: #6f777b;
-         pointer-events: none;
-         cursor: default;
-         }
-         .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
-         text-decoration: default;
-         color: #6f777b !important;
-         pointer-events: auto;
-         cursor: default;
-         }
-         table[class=devicewidth] {width: 440px!important;text-align:center!important;}
-         table[class=devicewidthinner] {width: 420px!important;text-align:center!important;}
-         table[class="sthide"]{display: none!important;}
-         img[class="bigimage"]{width: 420px!important;height:219px!important;}
-         img[class="col2img"]{width: 420px!important;height:258px!important;}
-         img[class="image-banner"]{width: 440px!important;height:106px!important;}
-         td[class="menu"]{text-align:center !important; padding: 0 0 10px 0 !important;}
-         td[class="logo"]{padding:10px 0 5px 0!important;margin: 0 auto !important;}
-         img[class="logo"]{padding:0!important;margin: 0 auto !important;}
-
-         }
-         /*##############################################*/
-         /*MOBILE STYLES*/
-         /*##############################################*/
-         @media only screen and (max-width: 480px) {
-         a[href^="tel"], a[href^="sms"] {
-         text-decoration: none;
-         color: #6f777b; /* or whatever your want */
-         pointer-events: none;
-         cursor: default;
-         }
-         .mobile_link a[href^="tel"], .mobile_link a[href^="sms"] {
-         text-decoration: default;
-         color: #6f777b !important;
-         pointer-events: auto;
-         cursor: default;
-         }
-         table[class=devicewidth] {width: 280px!important;text-align:center!important;}
-         table[class=devicewidthinner] {width: 260px!important;text-align:center!important;}
-         table[class="sthide"]{display: none!important;}
-         img[class="bigimage"]{width: 260px!important;height:136px!important;}
-         img[class="col2img"]{width: 260px!important;height:160px!important;}
-         img[class="image-banner"]{width: 280px!important;height:68px!important;}
-         img{valign:left;}
-
-         }
-      </style>
-
-
+<!doctype html>
+<!--[if lt IE 7]>  <html class="ie ie6 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 7]>     <html class="ie ie7 lte9 lte8 lte7"> <![endif]-->
+<!--[if IE 8]>     <html class="ie ie8 lte9 lte8"> <![endif]-->
+<!--[if IE 9]>     <html class="ie ie9 lte9"> <![endif]-->
+<!--[if gt IE 9]>  <html> <![endif]-->
+<!--[if !IE]><!--> <html> <!--<![endif]-->
+<head>
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>Waste Carriers Application Being Checked</title>
 </head>
 
-<body style="font-family: Helvetica, Arial, sans-serif; font-size: 19px; color:#0b0c0c;" >
-<div class="block">
-   <!-- start of header -->
-   <table width="100%" bgcolor="#0b0c0c" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="header">
-      <tbody>
-         <tr>
-            <td>
-               <table width="500" bgcolor="#0b0c0c" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth" hlitebg="edit" shadow="edit">
-                  <tbody>
-                     <tr>
-                        <td>
-                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                              <tr>
-                                <td width="100%" bgcolor="#0b0c0c">
-                                  <table cellpadding="0" height="53" cellspacing="0" border="0" align="left">
-                                    <tr>
-                                      <td width="75%" bgcolor="#0b0c0c" align="left" >
-                                        <img src="http://govuk-prototyping.herokuapp.com/hmrc-email/govuk_logotype_email.png" alt="GOV.UK" border="0">
-                                      </td>
-                                    </tr>
-                                  </table>
-                                </td>
-                              </tr>
-                            </table>
-                           <!-- End of logo -->
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-         </tr>
-      </tbody>
-   </table>
-   <!-- end of header -->
-</div><div class="block">
-   <!-- image + text -->
-   <table width="100%" bgcolor="#ffffff" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="bigimage">
-      <tbody>
-         <tr>
-            <td>
-               <table bgcolor="#ffffff" width="500" align="center" cellspacing="0" cellpadding="0" border="0" class="devicewidth" modulebg="edit">
-                  <tbody>
-                     <tr>
-                        <td width="100%" height="20"></td>
-                     </tr>
-                     <tr>
-                        <td>
-                           <table width="500" align="left" cellspacing="0" cellpadding="0" border="0" class="devicewidthinner">
-                              <tbody>
-                                 <tr>
-                                 <!-- start of image -->
-                                 <td width="100%" bgcolor="#ffffff" align="left">
-                                      <img src="https://assets.digital.cabinet-office.gov.uk/government/uploads/system/uploads/organisation/logo/199/EAlogo.png" alt="" width="250px" height="69px" />
-                                 </td>
-                                 </tr>
-                                 <!-- end of image -->
-                                 <!-- Spacing -->
-                                 <tr>
-                                    <td width="100%" height="20"></td>
-                                 </tr>
-                                 <!-- Spacing -->
-                                 <!-- title -->
-                                 <tr>
-                                 <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;"><h1 class="email" style="font-weight: 700; font-size: 36px; line-height: 1.041666667; margin: 30px 0;"><%= t 'registration_mailer.awaitingConvictionsCheck.heading' %></h1></td>
-                                 </tr>
-                                 <!-- end of title -->
-                                 <!-- Spacing -->
-                                 <tr>
-                                    <td width="100%" height="20"></td>
-                                 </tr>
-                                 <!-- Spacing -->
-                                 <!-- content -->
-                                 <tr>
-                                 <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                                 <p style="font-size: 19px; line-height: 1.31579;"><%= t 'registration_mailer.awaitingConvictionsCheck.paragraph1' %></p><br/>
-
-                                 <p style="font-size: 19px; line-height: 1.31579;"><%= t 'registration_mailer.awaitingConvictionsCheck.paragraph2' %></p><br/>
-
-                                 <p style="font-size: 19px; line-height: 1.31579;"><%= t 'registration_mailer.awaitingConvictionsCheck.helpline_number' %></p>
-                                </td>
-                                 </tr>
-                                 <!-- end of content -->
-                                 <!-- Spacing -->
-                                 <tr>
-                                    <td width="100%" height="100"></td>
-                                 </tr>
-                                 <!-- Spacing -->
-                              </tbody>
-                           </table>
-                        </td>
-                     </tr>
-                  </tbody>
-               </table>
-            </td>
-         </tr>
-      </tbody>
-   </table>
-</div><div class="block">
-<!-- Start of footer -->
-<table width="500" bgcolor="#f6f4f5" cellpadding="0" cellspacing="0" border="0" id="backgroundTable" st-sortable="postfooter">
-   <tbody>
-      <tr>
-         <td width="100%" style="border-top: 1px solid #DEE0E2">
-            <table width="500" cellpadding="0" cellspacing="0" border="0" align="center" class="devicewidth">
-               <tbody>
-                  <!-- Spacing -->
-                  <tr>
-                     <td width="100%" height="60"></td>
-                  </tr>
-                  <!-- Spacing -->
-                  <tr>
-                 <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                     <h2 style="font-size: 19px; color: #6f777b; line-height: 1.11111; margin: 0 0 30px 0;"><%= t 'devise.mailer.email_security.heading'%></h2>
-                     <p style="font-size: 14px; color: #6f777b; line-height: 1.31579; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line1'%></p>
-                     <p style="font-size: 14px; color: #6f777b; line-height: 1.31579; border-left: 4px solid rgb(191, 193, 195); padding: 5px 0 5px 10px;"><%= t 'devise.mailer.email_security.text_line2'%></p>
-                 </td>
-                  </tr>
-                  <!-- end of content -->
-                  <!-- Spacing -->
-                  <tr>
-                     <td width="100%" height="0"></td>
-                  </tr>
-                  <!-- Spacing -->
-                  <tr>
-                     <td width="100%" height="10"></td>
-                  </tr>
-                  <!-- Spacing -->
-                  <tr>
-                     <td width="100%" height="10"></td>
-                  </tr>
-                  <!-- Spacing -->
-               </tbody>
-            </table>
-         </td>
-      </tr>
-   </tbody>
+<body style="font-family: Helvetica, Arial, sans-serif;font-size: 16px;margin: 0;color:#0b0c0c">
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr>
+    <td width="100%" height="53px" bgcolor="#0b0c0c">
+      <table width="580" cellpadding="0" cellspacing="0" border="0" align="center">
+        <tr>
+          <td width="100%" bgcolor="#0b0c0c" valign="middle">
+            <img src="http://govuk-prototyping.herokuapp.com/hmrc-email/govuk_logotype_email.png" alt="GOV.UK" border="0">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 </table>
-<!-- End of footer -->
-</div>
+<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF">
+  <tr>
+    <td width="100%">
+      <table width="580" cellpadding="0" cellspacing="0" border="0" align="center">
+        <tr>
+          <td width="100%" class="header" style="padding-top: 10px;" colspan="2">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF">
+              <tr>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td width="75%" style="font-family: Helvetica, Arial, sans-serif;">
+            <p style="font-weight: 400;font-size: 16px;line-height: 1 ;margin: 10px 0 10px 0;">&nbsp;</p>
+          </td>
+          <td width="25%">&nbsp;</td>
+        </tr>
 
-</body></html>
+          <tr>
+            <td bgcolor="#F47738" style="font-family: Helvetica, Arial, sans-serif; margin: 0 0 30px 0;">
+              <p style="font-size: 36px; font-weight: bold; color:#ffffff; line-height: 1.315789474; margin: 30px 0 30px 30px;">
+               <%= t 'registration_mailer.awaitingConvictionsCheck.subject' %>&nbsp;<%= @registration.regIdentifier %>
+              </p>
+            </td>
+            <td width="25%">&nbsp;</td>
+          </tr>
+
+            <tr>
+              <td width="75%" style="font-family: Helvetica, Arial, sans-serif;">
+
+                <p style="font-size: 36px; font-weight: bold; line-height: 1.315789474;margin: 45px 0 30px 0;">
+                  <%= t 'registration_mailer.awaitingConvictionsCheck.heading' %>
+                </p>
+
+                <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;">
+                  <%= @registration.firstName%>
+                </p>
+
+                <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
+                  <%= t 'registration_mailer.awaitingConvictionsCheck.paragraph1' %>
+                </p>
+
+               <ul>
+                <li style="font-size: 16px; font-weight:bold; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'registration_mailer.awaitingConvictionsCheck.paragraph2' %></li>
+                <li style="font-size: 16px; line-height: 1.315789474;margin: 0 0 30px 0;">
+                  <%= t 'registration_mailer.awaitingConvictionsCheck.paragraph3' %></li>
+               </ul>
+
+             </td>
+            </tr>
+
+            <tr>
+            <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
+               <ul>
+                  <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 15px 0;">
+                    <%=t 'registration_mailer.welcome_email.footer_bullet1' %></li>
+                  <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 30px 0;">
+                    <%=t 'registration_mailer.welcome_email.footer_bullet2' %></li>
+               </ul>
+            </td>
+            </tr>
+            <td width="25%">&nbsp;</td>
+           </td>
+           </tr>
+        </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
