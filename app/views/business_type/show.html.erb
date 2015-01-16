@@ -1,0 +1,57 @@
+<%= render 'shared/content_for_pages' %>
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+    <% content_for :page_title, createTitle('.title') %>
+    <%= form_for(@registration, :url => business_type_path, html: {autocomplete: 'off'}) do |f| %>
+      <!-- WF 4.3.1 -->
+      <div id="page1" data-journey="waste-carriers-registration:business-type">
+
+        <div class="back-section">
+          <ol>
+            <li></li>
+          </ol>
+        </div>
+
+        <%= render 'shared/registration_errors' %>
+        <header class="page-header group">
+          <div class="hgroup">
+            <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
+          </div>
+        </header>
+
+        <div class="form-group<%if @registration.errors[:businessType].any?%> validation<%end%>" id="registration_businessType" role="group" aria-labelledby="groupLabel">
+          <%= validation_for(@registration, :businessType) %>
+          <%= f.label :businessType, for: "registration_businessType_soletrader",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'soleTrader' %>
+            <%= t '.sole_trader' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_partnership",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'partnership' %>
+            <%= t '.partnership' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_limitedcompany",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'limitedCompany' %>
+            <%= t '.limited_company' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_publicbody",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'publicBody' %>
+            <%= t '.public_body' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_charity",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'charity' %>
+            <%= t '.charity' %>
+          <% end %>
+          <%= f.label :businessType, for: "registration_businessType_authority",  class: 'block-label' do %>
+          <%= f.radio_button :businessType, 'authority' %>
+            <%= t '.authority' %>
+            <% end %>
+          <%= f.label :businessType, for: "registration_businessType_other",  class: 'block-label' do %>
+            <%= f.radio_button :businessType, 'other' %>
+            <%= t '.other' %>
+          <% end %>
+        </div>
+        <%= render 'shared/registration_next_link' %>
+      </div>
+    <% end %>
+  </main>
+</div>

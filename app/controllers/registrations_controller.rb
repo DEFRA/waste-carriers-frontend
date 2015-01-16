@@ -92,7 +92,7 @@ class RegistrationsController < ApplicationController
     elsif @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[1].downcase
       logger.debug "Redirect to new registration"
       session[:ga_is_renewal] = false
-      redirect_to :newBusinessType
+      redirect_to business_type_url
       return
     else
       # If newOrRenew not found, error
@@ -157,7 +157,7 @@ class RegistrationsController < ApplicationController
           @registration.save
 
           logger.debug "Legacy registration matched, Redirect to smart answers"
-          redirect_to :newBusinessType
+          redirect_to business_type_url
           return
         else
           # No IR data found
@@ -176,39 +176,6 @@ class RegistrationsController < ApplicationController
     # Error must have occured, re-render view
     render :enterRegistrationNumber, :status => '400'
 
-  end
-
-  # GET /your-registration/business-type
-  def newBusinessType
-
-    new_step_action 'businesstype'
-    logger.debug "Route is #{@registration.metaData.first.route}"
-
-
-  end
-
-  # POST /your-registration/business-type
-  def updateNewBusinessType
-    setup_registration 'businesstype'
-    return unless @registration
-
-    if @registration.valid?
-      logger.info 'Registration is valid so far, go to next page'
-      # (redirect_to :newConfirmation and return) if session[:edit_mode]
-
-      case @registration.businessType
-      when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
-        redirect_to :newOtherBusinesses
-      when 'charity', 'authority'
-        proceed_as_lower
-      when 'other'
-        redirect_to :newNoRegistration
-      end
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newBusinessType", :status => '400'
-    end
   end
 
   # GET /your-registration/no-registration
@@ -1197,20 +1164,6 @@ class RegistrationsController < ApplicationController
     searchString_valid = searchString == nil || !searchString.empty? && searchString.match(Registration::VALID_CHARACTERS)
     searchWithin_valid = searchWithin == nil || searchWithin.empty? || (['any','companyName','contactName','postcode'].include? searchWithin)
     searchString_valid && searchWithin_valid
-  end
-
-  def proceed_as_upper
-    @registration.tier = 'UPPER'
-    @registration.save
-    session[:ga_tier] = 'upper'
-    redirect_to action: 'newRegistrationType'
-  end
-
-  def proceed_as_lower
-    @registration.tier = 'LOWER'
-    @registration.save
-    session[:ga_tier] = 'lower'
-    redirect_to action: 'newBusinessDetails'
   end
 
   def validate_public_search_parameters?(searchString, searchWithin, searchDistance, searchPostcode)
