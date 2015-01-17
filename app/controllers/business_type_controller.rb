@@ -3,10 +3,8 @@ class BusinessTypeController < ApplicationController
 
   # GET /your-registration/business-type
   def show
-
     new_step_action 'businesstype'
     logger.debug "Route is #{@registration.metaData.first.route}"
-
   end
 
   # POST /your-registration/business-type
@@ -18,7 +16,7 @@ class BusinessTypeController < ApplicationController
 
       case @registration.businessType
       when 'soleTrader', 'partnership', 'limitedCompany', 'publicBody'
-        redirect_to :newOtherBusinesses
+        redirect_to :other_businesses
       when 'charity', 'authority'
         proceed_as_lower
       when 'other'
