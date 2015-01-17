@@ -613,6 +613,10 @@ en:
       partnership: "Partnership"
       public_body: "Public body"
       sole_trader: "Sole trader"
+  other_businesses:
+    show:
+      subtitle: "Do you ever deal with waste from other businesses or households?"
+      title: "Waste from other businesses"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
@@ -1055,9 +1059,6 @@ en:
       step: "Step 4 of 8"
       subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
       title: "Type of waste"
-    otherBusinesses_step:
-      subtitle: "Do you ever deal with waste from other businesses or households?"
-      title: "Waste from other businesses"
     order:
       initial: "Initial Registration"
       edit: "Edit Registration"
