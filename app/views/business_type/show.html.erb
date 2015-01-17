@@ -1,18 +1,22 @@
 <%= render 'shared/content_for_pages' %>
+
 <div id="wrapper">
   <main id="content" role="main" class="group">
-    <% content_for :page_title, createTitle('.title') %>
-    <%= form_for(@registration, :url => business_type_path, html: {autocomplete: 'off'}) do |f| %>
-      <!-- WF 4.3.1 -->
-      <div id="page1" data-journey="waste-carriers-registration:business-type">
 
-        <div class="back-section">
-          <ol>
-            <li></li>
-          </ol>
-        </div>
+    <% content_for :page_title, createTitle('.title') %>
+
+    <div id="page1" data-journey="waste-carriers-registration:business-type">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('form.back_button_label'), newOrRenew_path %></li>
+        </ol>
+      </div>
+
+      <%= form_for(@registration, :url => business_type_path, html: {autocomplete: 'off'}) do |f| %>
 
         <%= render 'shared/registration_errors' %>
+
         <header class="page-header group">
           <div class="hgroup">
             <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
@@ -50,8 +54,11 @@
             <%= t '.other' %>
           <% end %>
         </div>
+
         <%= render 'shared/registration_next_link' %>
-      </div>
-    <% end %>
+
+      <% end %>
+
+    </div>
   </main>
 </div>

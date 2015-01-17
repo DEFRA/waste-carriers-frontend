@@ -34,7 +34,7 @@ describe BusinessTypeController, :type => :controller do
 
       it "redirects to the 'other businesses' page" do
         post :create, :registration => { "businessType" => "soleTrader" }
-        expect(response).to redirect_to :newOtherBusinesses
+        expect(response).to redirect_to :other_businesses
       end
 
     end
@@ -50,7 +50,7 @@ describe BusinessTypeController, :type => :controller do
 
       it "redirects to the 'other businesses' page" do
         post :create, :registration => { "businessType" => "partnership" }
-        expect(response).to redirect_to :newOtherBusinesses
+        expect(response).to redirect_to :other_businesses
       end
 
     end
@@ -66,7 +66,7 @@ describe BusinessTypeController, :type => :controller do
 
       it "redirects to the 'other businesses' page" do
         post :create, :registration => { "businessType" => "limitedCompany" }
-        expect(response).to redirect_to :newOtherBusinesses
+        expect(response).to redirect_to :other_businesses
       end
 
     end
@@ -82,7 +82,7 @@ describe BusinessTypeController, :type => :controller do
 
       it "redirects to the 'other businesses' page" do
         post :create, :registration => { "businessType" => "publicBody" }
-        expect(response).to redirect_to :newOtherBusinesses
+        expect(response).to redirect_to :other_businesses
       end
 
     end
