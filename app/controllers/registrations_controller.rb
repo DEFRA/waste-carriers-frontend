@@ -197,32 +197,6 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # GET /your-registration/other-businesses
-  def newOtherBusinesses
-    new_step_action 'otherbusinesses'
-  end
-
-  # POST /your-registration/other-businesses
-  def updateNewOtherBusinesses
-    setup_registration 'otherbusinesses'
-    return unless @registration
-
-    if @registration.valid?
-      # (redirect_to :newConfirmation and return) if session[:edit_mode]
-      # TODO this is where you need to make the choice and update the steps
-      case @registration.otherBusinesses
-      when 'yes'
-        redirect_to :newServiceProvided
-      when 'no'
-        redirect_to :newConstructionDemolition
-      end
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newOtherBusinesses", :status => '400'
-    end
-  end
-
   # GET /your-registration/service-provided
   def newServiceProvided
     new_step_action 'serviceprovided'

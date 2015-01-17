@@ -1,0 +1,46 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+
+    <% content_for :page_title, createTitle('.title') %>
+
+    <div id="page2" data-journey="waste-carriers-registration:otherbusinesses">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('form.back_button_label'), business_type_path %></li>
+        </ol>
+      </div>
+
+      <%= form_for(@registration, :url => other_businesses_path, html: {autocomplete: 'off'}) do |f| %>
+
+        <%= render 'shared/registration_errors' %>
+
+        <header class="page-header group">
+          <div class="hgroup">
+            <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
+          </div>
+        </header>
+
+        <div class="form-group<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>" id="registration_otherBusinesses" role="group" aria-labelledby="groupLabel">
+          <div class="inline">
+            <%= validation_for(@registration, :otherBusinesses) %>
+              <%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
+              <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %>
+              <%= t 'form.yes_option_label' %>
+            <% end %>
+            <%= f.label :no_option_label, for: "registration_otherBusinesses_no", :class => "block-label" do %>
+              <%= f.radio_button :otherBusinesses, "no", :class => "radio" %>
+              <%= t 'form.no_option_label' %>
+            <% end %>
+          </div>
+        </div>
+
+        <%= render 'shared/registration_next_link' %>
+
+      <% end %>
+
+    </div>
+  </main>
+</div>
