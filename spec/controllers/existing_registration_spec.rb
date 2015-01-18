@@ -59,6 +59,40 @@ describe ExistingRegistrationController, :type => :controller do
 
     end
 
+    context "when an unrecognised entry is made" do
+
+      let(:registration) { Registration.create }
+
+      it 'does not set #originalRegistrationNumber' do
+        post :create, :registration => { "originalRegistrationNumber" => "1234XYZ" }
+        expect(assigns(:registration).originalRegistrationNumber).to eq('1234XYZ')
+      end
+
+      it "re-renders the 'existing registration' page with a HTTP status code of 400" do
+        post :create, :registration => { "originalRegistrationNumber" => "1234XYZ" }
+        expect(response).to render_template("show")
+        expect(response.code).to eq('400')
+      end
+
+    end
+
+    context "when no entry is made" do
+
+      let(:registration) { Registration.create }
+
+      it 'does not set #originalRegistrationNumber' do
+        post :create, :registration => { "originalRegistrationNumber" => "" }
+        expect(assigns(:registration).originalRegistrationNumber).to eq('')
+      end
+
+      it "re-renders the 'existing registration' page with a HTTP status code of 400" do
+        post :create, :registration => { "originalRegistrationNumber" => "" }
+        expect(response).to render_template("show")
+        expect(response.code).to eq('400')
+      end
+
+    end
+
   end
 
 end
