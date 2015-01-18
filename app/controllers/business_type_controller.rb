@@ -20,7 +20,7 @@ class BusinessTypeController < ApplicationController
       when 'charity', 'authority'
         proceed_as_lower
       when 'other'
-        redirect_to :newNoRegistration
+        redirect_to :no_registration
       end
     else
       # there is an error (but data not yet saved)

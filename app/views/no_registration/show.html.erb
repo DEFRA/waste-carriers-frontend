@@ -1,0 +1,32 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+
+    <% content_for :page_title, createTitle('.title') %>
+
+    <div id="page2" data-journey="waste-carriers-registration:noregistration">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('form.back_button_label'), business_type_path %></li>
+        </ol>
+      </div>
+
+      <header class="page-header group">
+        <div class="hgroup">
+          <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
+        </div>
+      </header>
+
+      <div id="contactText">
+        <div class="text">
+          <p><%= t '.contact_line_1' %></p>
+          <p><%= t '.contact_line_2' %></p>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+</div>
