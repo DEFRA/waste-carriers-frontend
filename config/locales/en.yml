@@ -613,6 +613,12 @@ en:
       partnership: "Partnership"
       public_body: "Public body"
       sole_trader: "Sole trader"
+  no_registration:
+    show:
+      subtitle: "Contact the Environment Agency"
+      title: "Contact us"
+      contact_line_1: "We need some more information about your organisation before we can register you as a waste carrier."
+      contact_line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
   other_businesses:
     show:
       subtitle: "Do you ever deal with waste from other businesses or households?"
@@ -1049,12 +1055,6 @@ en:
       table_heading2: "use our account details below to make your internet or telephone banking payment."
       table_heading3: "Step 2 - "
       table_heading4: "tell us the date, amount of your payment and payment reference number, so we can send you your registration. You can contact us by email, fax or in writing."
-    noregistration_step:
-      contact_Line_1: "We need some more information about your organisation before we can register you as a waste carrier."
-      contact_Line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
-      step: "Last step"
-      subtitle: "Contact the Environment Agency"
-      title: "Contact us"
     onlydealwith_step:
       step: "Step 4 of 8"
       subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
