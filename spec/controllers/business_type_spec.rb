@@ -144,7 +144,7 @@ describe BusinessTypeController, :type => :controller do
         expect(assigns(:registration).businessType).to eq('')
       end
 
-      it "re-renders the business type page with a HTTP status code of 400" do
+      it "re-renders the 'business type' page with a HTTP status code of 400" do
         post :create, :registration => { "businessType" => "" }
         expect(response).to render_template("show")
         expect(response.code).to eq('400')
