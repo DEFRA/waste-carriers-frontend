@@ -57,6 +57,23 @@ describe OtherBusinessesController, :type => :controller do
 
     end
 
+    context "when no selection is made" do
+
+      let(:registration) { Registration.create }
+
+      it 'does not set #otherBusinesses' do
+        post :create, :registration => { "otherBusinesses" => "" }
+        expect(assigns(:registration).otherBusinesses).to eq('')
+      end
+
+      it "re-renders the 'other businesses' page with a HTTP status code of 400" do
+        post :create, :registration => { "otherBusinesses" => "" }
+        expect(response).to render_template("show")
+        expect(response.code).to eq('400')
+      end
+
+    end
+
   end
 
 end
