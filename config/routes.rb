@@ -81,8 +81,7 @@ Registrations::Application.routes.draw do
     get "your-registration/business-type" => 'business_type#show', :as => :business_type
     post "your-registration/business-type" => 'business_type#create'
 
-    match "your-registration/no-registration" => 'registrations#newNoRegistration', :via => [:get], :as => :newNoRegistration
-    match "your-registration/no-registration" => 'registrations#updateNewNoRegistration', :via => [:post,:put,:patch]
+    get "your-registration/no-registration" => 'no_registration#show', :as => :no_registration
 
     get "your-registration/other-businesses" => 'other_businesses#show', :as => :other_businesses
     post "your-registration/other-businesses" => 'other_businesses#create'
