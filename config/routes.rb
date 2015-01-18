@@ -26,8 +26,6 @@ Registrations::Application.routes.draw do
     # Add routing for Public Search
     get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
 
-    get "registrations/whatTypeOfRegistrationAreYou" => 'registrations#enterRegistrationNumber', :as => :enterRegistration
-    match "registrations/whatTypeOfRegistrationAreYou" => 'registrations#calculateRegistrationType', :via => [:post], :as => :calculateRegistrationType
     get "registrations/finish" => 'registrations#finish', :as => :finish
     match "registrations/finish" => 'registrations#updateFinish', :via => [:post,:put,:patch]
 
@@ -76,6 +74,9 @@ Registrations::Application.routes.draw do
     get "registrations/find" => 'start#show', :as => :find
     get "registrations/start" => 'start#show', :as => :start
     post "registrations/start" => 'start#create'
+
+    get "your-registration/existing-registration" => 'existing_registration#show', :as => :existing_registration
+    post "your-registration/existing-registration" => 'existing_registration#create'
 
     # Registration urls - Smart answers
     get "your-registration/business-type" => 'business_type#show', :as => :business_type
