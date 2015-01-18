@@ -130,7 +130,7 @@ describe BusinessTypeController, :type => :controller do
 
       it "redirects to the 'no registration' page" do
         post :create, :registration => { "businessType" => "other" }
-        expect(response).to redirect_to :newNoRegistration
+        expect(response).to redirect_to :no_registration
       end
 
     end
