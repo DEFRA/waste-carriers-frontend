@@ -23,13 +23,9 @@ Registrations::Application.routes.draw do
     get "home/index"
     get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
 
-    get "registrations/find" => 'business_type#show', :via => [:get, :post], :as => :find
-
     # Add routing for Public Search
     get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
 
-    get "registrations/start" => 'registrations#newOrRenew', :as => :newOrRenew
-    match "registrations/start" => 'registrations#selectRegistrationType', :via => [:post], :as => :selectRegistrationType
     get "registrations/whatTypeOfRegistrationAreYou" => 'registrations#enterRegistrationNumber', :as => :enterRegistration
     match "registrations/whatTypeOfRegistrationAreYou" => 'registrations#calculateRegistrationType', :via => [:post], :as => :calculateRegistrationType
     get "registrations/finish" => 'registrations#finish', :as => :finish
@@ -76,6 +72,10 @@ Registrations::Application.routes.draw do
     get "registrations/:id/approve"   => 'registrations#approve', :via => [:get], :as => :approve
     get "registrations/:id/refuse"    => 'registrations#refuse',  :via => [:get], :as => :refuse
     match "registrations/:id/approve" => 'registrations#updateApprove', :via => [:post]
+
+    get "registrations/find" => 'start#show', :as => :find
+    get "registrations/start" => 'start#show', :as => :start
+    post "registrations/start" => 'start#create'
 
     # Registration urls - Smart answers
     get "your-registration/business-type" => 'business_type#show', :as => :business_type

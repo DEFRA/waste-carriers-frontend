@@ -68,41 +68,6 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # GET /registrations/start
-  def newOrRenew
-
-    # Create a new registration for purpose of using :newOrRenew field
-    new_step_action 'newOrRenew'
-
-  end
-
-  # POST /registrations/start
-  def selectRegistrationType
-    # Get registration from params
-    setup_registration 'newOrRenew'
-    return unless @registration
-
-    # Validate which registration type selected, checking against known types
-    if @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[0].downcase
-      logger.debug "Redirect to renewal"
-      #These :ga_... are used for Google Analytics
-      session[:ga_is_renewal] = true
-      redirect_to :enterRegistration
-      return
-    elsif @registration.newOrRenew and @registration.newOrRenew.downcase.eql? Registration::REGISTRATION_TYPES[1].downcase
-      logger.debug "Redirect to new registration"
-      session[:ga_is_renewal] = false
-      redirect_to business_type_url
-      return
-    else
-      # If newOrRenew not found, error
-      @registration.errors.add(:newOrRenew, I18n.t('errors.messages.blank'))
-    end
-
-    # Error must have occured, re-render view
-    render :newOrRenew, :status => '400'
-  end
-
   # GET /registrations/whatTypeOfRegistrationAreYou
   def enterRegistrationNumber
 
