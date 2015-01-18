@@ -27,6 +27,7 @@ class BusinessTypeController < ApplicationController
       logger.info 'Registration is not valid, and data is not yet saved'
       render 'show', :status => '400'
     end
+    
   end
 
   private

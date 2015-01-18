@@ -12,7 +12,6 @@ class OtherBusinessesController < ApplicationController
     return unless @registration
 
     if @registration.valid?
-      # TODO this is where you need to make the choice and update the steps
       case @registration.otherBusinesses
       when 'yes'
         redirect_to :newServiceProvided
