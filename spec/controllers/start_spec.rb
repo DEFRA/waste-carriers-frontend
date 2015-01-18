@@ -55,6 +55,23 @@ describe StartController, :type => :controller do
 
     end
 
+    context "when no selection is made" do
+
+      let(:registration) { Registration.create }
+
+      it 'does not set #newOrRenew' do
+        post :create, :registration => { "newOrRenew" => "" }
+        expect(assigns(:registration).newOrRenew).to eq('')
+      end
+
+      it "re-renders the 'start' page with a HTTP status code of 400" do
+        post :create, :registration => { "newOrRenew" => "" }
+        expect(response).to render_template("show")
+        expect(response.code).to eq('400')
+      end
+
+    end
+
   end
 
 end
