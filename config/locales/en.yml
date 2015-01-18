@@ -602,6 +602,12 @@ en:
       title: "Key people"
       dob_hint: "(dd/mm/yyyy)"
       dob_guidance: "For example, 26 5 1976"
+  start:
+    show:
+      subtitle: "Are you renewing an existing licence?"
+      title: "New or renew a registration"
+      renew: "Yes"
+      new: "No, this is a new application"
   business_type:
     show:
       subtitle: "What type of business or organisation are you?"
@@ -838,10 +844,6 @@ en:
       privacy_policy_link1: "privacy"
       privacy_policy_link2: "cookies"
       privacy_data_text_html: "See our %{policy_link} policy to find out how the Environment Agency will use this information."
-
-    newOrRenew:
-      subtitle: "Are you renewing an existing licence?"
-      title: "New or renew a registration"
     newSignup:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
