@@ -178,25 +178,6 @@ class RegistrationsController < ApplicationController
 
   end
 
-  # GET /your-registration/no-registration
-  def newNoRegistration
-    new_step_action 'noregistration'
-  end
-
-  # POST /your-registration/no-registration
-  def updateNewNoRegistration
-    setup_registration 'noregistration'
-    return unless @registration
-
-    # TODO set steps
-
-    if @registration.new_record?
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newNoRegistration", :status => '400'
-    end
-  end
-
   # GET /your-registration/service-provided
   def newServiceProvided
     new_step_action 'serviceprovided'
