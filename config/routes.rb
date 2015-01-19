@@ -26,8 +26,6 @@ Registrations::Application.routes.draw do
     # Add routing for Public Search
     get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
 
-    get "registrations/whatTypeOfRegistrationAreYou" => 'registrations#enterRegistrationNumber', :as => :enterRegistration
-    match "registrations/whatTypeOfRegistrationAreYou" => 'registrations#calculateRegistrationType', :via => [:post], :as => :calculateRegistrationType
     get "registrations/finish" => 'registrations#finish', :as => :finish
     match "registrations/finish" => 'registrations#updateFinish', :via => [:post,:put,:patch]
 
