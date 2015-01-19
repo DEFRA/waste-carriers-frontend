@@ -1,6 +1,6 @@
 #
 Given(/^I have completed my lower tier registration$/) do
-  visit find_path
+  visit business_type_path
 
   choose 'registration_businessType_soletrader'
   click_on 'Next'
