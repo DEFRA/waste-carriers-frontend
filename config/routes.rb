@@ -75,6 +75,9 @@ Registrations::Application.routes.draw do
     get "registrations/start" => 'start#show', :as => :start
     post "registrations/start" => 'start#create'
 
+    get "your-registration/existing-registration" => 'existing_registration#show', :as => :existing_registration
+    post "your-registration/existing-registration" => 'existing_registration#create'
+
     # Registration urls - Smart answers
     get "your-registration/business-type" => 'business_type#show', :as => :business_type
     post "your-registration/business-type" => 'business_type#create'
