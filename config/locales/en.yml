@@ -629,6 +629,12 @@ en:
     show:
       subtitle: "Do you ever deal with waste from other businesses or households?"
       title: "Waste from other businesses"
+  service_provided:
+    show:
+      subtitle: "Who produces the waste that you deal with?"
+      title: "Service provided"
+      main_service_label: "I produce the waste as part of another service I provide to my customer (e.g. a gardener taking away grass cuttings)"
+      part_of_service_label: "My customer creates the waste - I just collect or move it for them"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
@@ -1174,11 +1180,6 @@ en:
     revoke:
       title_revoke: "Revoke registration"
       title_unrevoke: "UnRevoke registration"
-    serviceprovided_step:
-      main_service_label: "I produce the waste as part of another service I provide to my customer (e.g. a gardener taking away grass cuttings)"
-      part_of_service_label: "My customer creates the waste - I just collect or move it for them"
-      subtitle: "Who produces the waste that you deal with?"
-      title: "Service provided"
     smartanswers_display:
       business_type: "You are a %{businessType}"
       construction_demolition_no: "You never deal with construction or demolition waste"
