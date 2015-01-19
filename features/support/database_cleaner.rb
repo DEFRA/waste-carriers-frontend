@@ -18,16 +18,16 @@ Before do
 
   # Clean the Elastic Search database if in development environment.
   if !Rails.env.production?
-    #sleep 0.25    # Doesn't seem to be necessary.
+    sleep 0.25    # Doesn't seem to be necessary.
 
     # Old version: goes via the WCR Services layer, which deletes each registration one-by-one.
     # Manually call the services to clear down any existing regitrations
-    #RestClient.post Rails.configuration.waste_exemplar_services_admin_url + '/tasks/dbcleaner', :content_type => :json, :accept => :json
+    RestClient.post Rails.configuration.waste_exemplar_services_admin_url + '/tasks/dbcleaner', :content_type => :json, :accept => :json
 
     # New version: direct call into ElasticSearch REST API.
-    RestClient.delete "#{Rails.configuration.waste_exemplar_elasticsearch_url}/registrations/_query?q=*:*"
+    # RestClient.delete "#{Rails.configuration.waste_exemplar_elasticsearch_url}/registrations/_query?q=*:*"
 
-    #sleep 0.5       # Doesn't seem to be necessary.
+    sleep 0.5       # Doesn't seem to be necessary.
   end
 end
 
