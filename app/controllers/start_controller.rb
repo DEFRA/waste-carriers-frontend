@@ -16,10 +16,10 @@ class StartController < ApplicationController
       when 'renew'
         #These :ga_... are used for Google Analytics
         session[:ga_is_renewal] = true
-        redirect_to :enterRegistration
+        redirect_to :existing_registration
       when 'new'
         session[:ga_is_renewal] = false
-        redirect_to business_type_url
+        redirect_to :business_type
       end
     else
       # there is an error (but data not yet saved)
