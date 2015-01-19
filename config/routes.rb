@@ -84,8 +84,8 @@ Registrations::Application.routes.draw do
     get "your-registration/other-businesses" => 'other_businesses#show', :as => :other_businesses
     post "your-registration/other-businesses" => 'other_businesses#create'
 
-    match "your-registration/service-provided" => 'registrations#newServiceProvided', :via => [:get], :as => :newServiceProvided
-    match "your-registration/service-provided" => 'registrations#updateNewServiceProvided', :via => [:post,:put,:patch]
+    get "your-registration/service-provided" => 'service_provided#show', :as => :service_provided
+    post "your-registration/service-provided" => 'service_provided#create'
 
     match "your-registration/construction-demolition" => 'registrations#newConstructionDemolition', :via => [:get], :as => :newConstructionDemolition
     match "your-registration/construction-demolition" => 'registrations#updateNewConstructionDemolition', :via => [:post,:put,:patch]
