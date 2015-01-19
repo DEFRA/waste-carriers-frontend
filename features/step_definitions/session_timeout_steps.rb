@@ -11,7 +11,7 @@ Then(/^I am informed that my session has expired$/) do
 end
 
 Given(/^I have started my registration$/) do
-  visit newOrRenew_path
+  visit start_path
   choose 'registration_newOrRenew_renew'
   click_on 'Next'
 end

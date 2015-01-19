@@ -1,5 +1,5 @@
 Given(/^I have come to the lower tier summary page$/) do
-  visit find_path
+  visit business_type_path
 
   choose 'registration_businessType_soletrader'
   click_on 'Next'
@@ -31,7 +31,7 @@ Then(/^I see I am a lower tier waste carrier$/) do
 end
 
 Given(/^I have come to the upper tier summary page$/) do
-  visit find_path
+  visit business_type_path
 
   choose 'registration_businessType_soletrader'
   click_on 'Next'
