@@ -14,7 +14,8 @@ Feature: Email tests
     Then searching the public register for 'company' should return 0 records
     And the inbox for 'st_ut@example.org' should be empty
 
-
+  # This test currently passes locally but not on the server. Quaranting till we understand why
+  @quarantine
   Scenario: When a registration with a conviction check is approved, the waste carrier should receive a welcome email
     Given a pending "ST_UT_online_with_conviction" upper tier registration paid for by "Bank Transfer" with 0 copy cards
     And I wait for 2 seconds for these actions to be finalised
