@@ -608,6 +608,15 @@ en:
       title: "New or renew a registration"
       renew: "Yes"
       new: "No, this is a new application"
+  existing_registration:
+    show:
+      subtitle: "Enter your waste carrier registration number"
+      title: "Existing registration renewal"
+      ir_number_example: "Example: CB/AF7003CS/A001"
+      renewal_link: "I can't find my registration number"
+      paragraph1: "Your registration number starts with the letters 'CB' and can be found at the top of your renewal letter."
+      epr_link_html: "If you don't have your letter to hand search the <a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>Environment Agency Public Register.</a>"
+      paragraph2: "If you have any queries about your registration number, please contact our helpline: 03708 506506 and speak to an advisor."
   business_type:
     show:
       subtitle: "What type of business or organisation are you?"
@@ -717,14 +726,6 @@ en:
     editRenewComplete:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"
-    enterRegistrationNumber:
-      subtitle: "Enter your waste carrier registration number"
-      ir_number_example: "Example: CB/AF7003CS/A001"
-      renewal_link: "I can't find my registration number"
-      paragraph1: "Your registration number starts with the letters 'CB' and can be found at the top of your renewal letter."
-      epr_link_html: "If you don't have your letter to hand search the <a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>Environment Agency Public Register.</a>"
-      paragraph2: "If you have any queries about your registration number, please contact our helpline: 03708 506506 and speak to an advisor."
-      title: "Existing registration renewal"
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Business details"
