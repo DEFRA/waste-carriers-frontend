@@ -1,4 +1,5 @@
 class RegistrationMailer < ActionMailer::Base
+	helper :registrations
   default from: "registrations@wastecarriersregistration.service.gov.uk"
 
   # This line should have set the defailt from name, but didnt in testing,
