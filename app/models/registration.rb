@@ -167,7 +167,7 @@ class Registration < Ohm::Model
   end
 
 
-  def empty_set(a_set) 
+  def empty_set(a_set)
     done = false
     if a_set.kind_of? Ohm::BasicSet && a_set.size > 0
       a_set.each {|item| a_set.delete(item)}
@@ -1229,19 +1229,6 @@ class Registration < Ohm::Model
       end
     end
     foundOrder
-  end
-
-  #TODO Replace with method from helper or have decorator
-  def formatted_registration_date
-    if date_registered
-      d = date_registered.to_date
-      d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
-    else
-      ''
-    end
-  rescue
-    Rails.logger.error 'Cannot format invalid registration_date '
-    ''
   end
 
   # Call to determine whether the registration is 'complete' i.e. there are no
