@@ -35,7 +35,7 @@ Scenario: IR Renewal changed business type causing full fee, No Convictions, Off
   And I make a note of the details
   And I am registered as an upper tier waste carrier pending payment
   Then registration should be pending payment
-  When I re-request activation for my account
+  When I activate my account by clicking the link in the activation email
   Then I am shown the sign in page
   And I attempt to sign in
   Then I am registered and activated as an upper tier waste carrier pending payment
