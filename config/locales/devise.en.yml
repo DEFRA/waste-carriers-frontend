@@ -41,10 +41,9 @@ en:
         paragraph3: "Your password won't change until you access the link above and create a new one."
       unlock_instructions:
         subject: "Unlock Instructions"
-        heading: "Register as a waste carrier: unlock account"
-        paragraph1: "Hello,"
-        paragraph2: "Your account has been locked temporarily due to an excessive number of unsuccessful sign in attempts."
-        paragraph3: "To unlock your account straight away, please click the link below:"
+        heading: "Your account is locked"
+        salutation: "Hello"
+        paragraph1: "You've tried to sign-in to many times and as a result your account has been temporaily locked."
         unlockLabel: "Unlock my account"
       email_security:
         heading: "Email security"
