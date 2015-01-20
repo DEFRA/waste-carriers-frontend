@@ -17,16 +17,18 @@ class StartController < ApplicationController
         #These :ga_... are used for Google Analytics
         session[:ga_is_renewal] = true
         redirect_to :existing_registration
+        return
       when 'new'
         session[:ga_is_renewal] = false
         redirect_to :business_type
+        return
       end
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      @registration.errors.add(:newOrRenew, I18n.t('errors.messages.blank'))
-      render 'show', :status => '400'
     end
+
+    # there is an error (but data not yet saved)
+    logger.info 'No selection made'
+    @registration.errors.add(:newOrRenew, I18n.t('errors.messages.blank'))
+    render 'show', :status => '400'
 
   end
 

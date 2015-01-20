@@ -32,9 +32,9 @@ describe StartController, :type => :controller do
         expect(assigns(:registration).newOrRenew).to eq('renew')
       end
 
-      it "redirects to the 'enter registration' page" do
+      it "redirects to the 'existing registration' page" do
         post :create, :registration => { "newOrRenew" => "renew" }
-        expect(response).to redirect_to :enterRegistration
+        expect(response).to redirect_to :existing_registration
       end
 
     end
