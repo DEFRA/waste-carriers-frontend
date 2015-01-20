@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OtherBusinessesController, :type => :controller do
+describe ServiceProvidedController, :type => :controller do
 
   before :each do
     session[:registration_id] = registration.id
@@ -29,14 +29,14 @@ describe OtherBusinessesController, :type => :controller do
 
       let(:registration) { Registration.create }
 
-      it "sets #otherBusinesses to 'yes' on the registration" do
-        post :create, :registration => { "otherBusinesses" => "yes" }
-        expect(assigns(:registration).otherBusinesses).to eq('yes')
+      it "sets #isMainService to 'yes' on the registration" do
+        post :create, :registration => { "isMainService" => "yes" }
+        expect(assigns(:registration).isMainService).to eq('yes')
       end
 
       it "redirects to the 'other businesses' page" do
-        post :create, :registration => { "otherBusinesses" => "yes" }
-        expect(response).to redirect_to :service_provided
+        post :create, :registration => { "isMainService" => "yes" }
+        expect(response).to redirect_to :newOnlyDealWith
       end
 
     end
@@ -45,13 +45,13 @@ describe OtherBusinessesController, :type => :controller do
 
       let(:registration) { Registration.create }
 
-      it "sets #otherBusinesses to 'no' on the registration" do
-        post :create, :registration => { "otherBusinesses" => "no" }
-        expect(assigns(:registration).otherBusinesses).to eq('no')
+      it "sets #isMainService to 'no' on the registration" do
+        post :create, :registration => { "isMainService" => "no" }
+        expect(assigns(:registration).isMainService).to eq('no')
       end
 
       it "redirects to the 'Construction/demolition' page" do
-        post :create, :registration => { "otherBusinesses" => "no" }
+        post :create, :registration => { "isMainService" => "no" }
         expect(response).to redirect_to :newConstructionDemolition
       end
 
@@ -61,13 +61,13 @@ describe OtherBusinessesController, :type => :controller do
 
       let(:registration) { Registration.create }
 
-      it 'does not set #otherBusinesses' do
-        post :create, :registration => { "otherBusinesses" => "" }
-        expect(assigns(:registration).otherBusinesses).to eq('')
+      it 'does not set #isMainService' do
+        post :create, :registration => { "isMainService" => "" }
+        expect(assigns(:registration).isMainService).to eq('')
       end
 
-      it "re-renders the 'other businesses' page with a HTTP status code of 400" do
-        post :create, :registration => { "otherBusinesses" => "" }
+      it "re-renders the 'is main service' page with a HTTP status code of 400" do
+        post :create, :registration => { "isMainService" => "" }
         expect(response).to render_template("show")
         expect(response.code).to eq('400')
       end
