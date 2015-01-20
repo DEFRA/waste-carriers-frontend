@@ -26,7 +26,7 @@
         <div class="form-group<%if @registration.errors[:otherBusinesses].any?%> validation<%end%>" id="registration_otherBusinesses" role="group" aria-labelledby="groupLabel">
           <div class="inline">
             <%= validation_for(@registration, :otherBusinesses) %>
-              <%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
+            <%= f.label :yes_option_label, for: "registration_otherBusinesses_yes", :class => "block-label" do %>
               <%= f.radio_button :otherBusinesses, "yes", :class => "radio" %>
               <%= t 'form.yes_option_label' %>
             <% end %>

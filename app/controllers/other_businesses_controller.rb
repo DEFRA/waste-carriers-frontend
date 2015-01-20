@@ -14,7 +14,7 @@ class OtherBusinessesController < ApplicationController
     if @registration.valid?
       case @registration.otherBusinesses
       when 'yes'
-        redirect_to :newServiceProvided
+        redirect_to :service_provided
       when 'no'
         redirect_to :newConstructionDemolition
       end
