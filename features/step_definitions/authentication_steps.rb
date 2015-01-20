@@ -168,3 +168,22 @@ Then(/^the External User should receive an email allowing them to confirm their 
   current_email.click_link 'confirmation_link'
   get_database_object_for_user_type('External User').confirmed?.should be_true
 end
+
+When(/^I am logged in as waste carrier user '([\w@\.]+)'$/) do | email|
+   visit new_user_session_path
+   fill_in 'Email', with: email
+   fill_in 'Password', with: carrier_password
+   click_button 'Sign in'
+end
+
+# TODO AH need to centralise date formatting and get expire date from services
+Then(/^my registration Certificate has a correct Expiry Date$/) do
+  expectedExpiryDate = Date.today + Rails.configuration.registration_expires_after
+  first(:css, '.viewCertificate').click
+  page.should have_content expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
+end
+
+Then(/^my registration Certificate does not have an Expiry Date/) do
+  first(:css, '.viewCertificate').click
+  page.should_not have_content 'Expiry date of registration (unless revoked)'
+end
