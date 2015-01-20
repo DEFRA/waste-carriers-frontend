@@ -1,5 +1,5 @@
 Given(/^I have completed the lower tier registration form$/) do
-  visit find_path
+  visit business_type_path
 
   choose 'registration_businessType_soletrader'
   click_on 'Next'
@@ -37,7 +37,7 @@ Given(/^I have completed the lower tier registration form$/) do
 end
 
 Given(/^I have been funneled into the lower tier path$/) do
-  visit find_path
+  visit business_type_path
 
   choose 'registration_businessType_charity'
   click_on 'Next'
@@ -146,7 +146,7 @@ And(/^add my address manually if I wanted to$/) do
 end
 
 Given(/^I have gone through the lower tier waste carrier process$/) do
-  visit find_path
+  visit business_type_path
 
   choose 'registration_businessType_soletrader'
   click_on 'Next'

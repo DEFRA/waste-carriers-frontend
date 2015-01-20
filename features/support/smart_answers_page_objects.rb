@@ -1,6 +1,6 @@
 module StartPage
   def start_new_registration_and_submit(type)
-    visit newOrRenew_path
+    visit start_path
     choose (type)
     submit_start_page
   end

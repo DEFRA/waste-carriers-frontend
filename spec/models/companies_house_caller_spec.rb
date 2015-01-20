@@ -4,32 +4,37 @@ describe CompaniesHouseCaller do
   describe '#url' do
     context '8 characters in total with whitespace leading whitespace' do
       subject { CompaniesHouseCaller.new ' 2050399' }
-
-      its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/02050399.json' }
+      it 'should strip leading whitespace' do
+        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/02050399.json')
+      end
     end
 
     context '8 characters in total with whitespace trailing whitespace' do
       subject { CompaniesHouseCaller.new '2050399 ' }
-
-      its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/02050399.json' }
+      it 'should strip trailing whitespace' do
+        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/02050399.json')
+      end
     end
 
     context '8 characters' do
       subject { CompaniesHouseCaller.new '02050399' }
-
-      its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/02050399.json' }
+      it 'should work with 8 characters' do
+        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/02050399.json')
+      end
     end
 
     context 'fewer than 8 characters' do
       subject { CompaniesHouseCaller.new '2050399' }
-
-      its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/02050399.json' }
+      it 'should prepend zeroes when fewer than 8 characters' do
+        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/02050399.json')
+      end
     end
 
     context 'lowercase prefix' do
       subject { CompaniesHouseCaller.new 'sc002180' }
-
-      its(:url) { should == 'http://data.companieshouse.gov.uk/doc/company/SC002180.json' }
+      it 'should convert lowercase prefixes to uppercase' do
+        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/SC002180.json')
+      end
     end
   end
 
@@ -73,7 +78,9 @@ describe CompaniesHouseCaller do
 
       subject { CompaniesHouseCaller.new '02050399' }
 
-      its(:status) { should == :error_calling_service }
+      it 'should error upon timeout' do
+        expect(subject.status).to eq(:error_calling_service)
+      end
     end
 
     context 'server error' do
@@ -81,7 +88,9 @@ describe CompaniesHouseCaller do
 
       subject { CompaniesHouseCaller.new '02050399' }
 
-      its(:status) { should == :error_calling_service }
+      it 'should error upon server error' do
+        expect(subject.status).to eq(:error_calling_service)
+      end
     end
   end
 end

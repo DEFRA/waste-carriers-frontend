@@ -35,7 +35,7 @@ And(/^I click next$/) do
 end
 
 Given(/^I am registering as a sole trader$/) do
-  visit find_path
+  visit business_type_path
   choose 'registration_businessType_soletrader'
   click_on 'Next'
   choose 'registration_otherBusinesses_yes'
@@ -57,7 +57,7 @@ When(/^I choose to edit the conviction declaration$/) do
 end
 
 Given(/^I am registering as a Partnership$/) do
-  visit find_path
+  visit business_type_path
   choose 'registration_businessType_partnership'
   click_on 'Next'
   choose 'registration_otherBusinesses_yes'
