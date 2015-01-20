@@ -56,10 +56,10 @@
             <div class="inline">
             <% 
                 submitLabel = t('form.approve_button_label')
-                submitId = "approve"
+                submitId = "approveButton"
             unless @isApprove
               submitLabel = t('form.refuse_button_label')
-              submitId = "refuse"
+              submitId = "refuseButton"
             end
             %>
                 <input name="<% if @isApprove %>approve<% else %>refuse<% end %>" class="button" type="submit" value="<%= submitLabel %>" id="<%= submitId %>"/>

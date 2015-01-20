@@ -602,6 +602,48 @@ en:
       title: "Key people"
       dob_hint: "(dd/mm/yyyy)"
       dob_guidance: "For example, 26 5 1976"
+  start:
+    show:
+      subtitle: "Are you renewing an existing licence?"
+      title: "New or renew a registration"
+      renew: "Yes"
+      new: "No, this is a new application"
+  existing_registration:
+    show:
+      subtitle: "Enter your waste carrier registration number"
+      title: "Existing registration renewal"
+      ir_number_example: "Example: CB/AF7003CS/A001"
+      renewal_link: "I can't find my registration number"
+      paragraph1: "Your registration number starts with the letters 'CB' and can be found at the top of your renewal letter."
+      epr_link_html: "If you don't have your letter to hand search the <a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>Environment Agency Public Register.</a>"
+      paragraph2: "If you have any queries about your registration number, please contact our helpline: 03708 506506 and speak to an advisor."
+  business_type:
+    show:
+      subtitle: "What type of business or organisation are you?"
+      title: "Business type"
+      authority: "Waste collection, disposal or regulation authority"
+      charity: "Charity or voluntary organisation"
+      limited_company: "Limited company"
+      other: "Other"
+      partnership: "Partnership"
+      public_body: "Public body"
+      sole_trader: "Sole trader"
+  no_registration:
+    show:
+      subtitle: "Contact the Environment Agency"
+      title: "Contact us"
+      contact_line_1: "We need some more information about your organisation before we can register you as a waste carrier."
+      contact_line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
+  other_businesses:
+    show:
+      subtitle: "Do you ever deal with waste from other businesses or households?"
+      title: "Waste from other businesses"
+  service_provided:
+    show:
+      subtitle: "Who produces the waste that you deal with?"
+      title: "Service provided"
+      main_service_label: "I produce the waste as part of another service I provide to my customer (e.g. a gardener taking away grass cuttings)"
+      part_of_service_label: "My customer creates the waste - I just collect or move it for them"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
@@ -621,9 +663,6 @@ en:
       title_approve: "Approve registration"
       title_refuse: "Refuse registration"
     back_link_unavailable: "JavaScript has been disabled - please use your browser's back button."
-    businesstype_step:
-      subtitle: "What type of business or organisation are you?"
-      title: "Business type"
     cannot_edit:
       titleCookies: "The cookies in your browser have been disabled"
       titleCannotEdit: "You can't make changes to your application at the moment"
@@ -687,14 +726,6 @@ en:
     editRenewComplete:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"
-    enterRegistrationNumber:
-      subtitle: "Enter your waste carrier registration number"
-      ir_number_example: "Example: CB/AF7003CS/A001"
-      renewal_link: "I can't find my registration number"
-      paragraph1: "Your registration number starts with the letters 'CB' and can be found at the top of your renewal letter."
-      epr_link_html: "If you don't have your letter to hand search the <a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>Environment Agency Public Register.</a>"
-      paragraph2: "If you have any queries about your registration number, please contact our helpline: 03708 506506 and speak to an advisor."
-      title: "Existing registration renewal"
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Business details"
@@ -820,10 +851,6 @@ en:
       privacy_policy_link1: "privacy"
       privacy_policy_link2: "cookies"
       privacy_data_text_html: "See our %{policy_link} policy to find out how the Environment Agency will use this information."
-
-    newOrRenew:
-      subtitle: "Are you renewing an existing licence?"
-      title: "New or renew a registration"
     newSignup:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
@@ -1037,19 +1064,10 @@ en:
       table_heading2: "use our account details below to make your internet or telephone banking payment."
       table_heading3: "Step 2 - "
       table_heading4: "tell us the date, amount of your payment and payment reference number, so we can send you your registration. You can contact us by email, fax or in writing."
-    noregistration_step:
-      contact_Line_1: "We need some more information about your organisation before we can register you as a waste carrier."
-      contact_Line_2: "Telephone the Environment Agency on 03708 506 506 (Monday to Friday, 8am to 6pm)."
-      step: "Last step"
-      subtitle: "Contact the Environment Agency"
-      title: "Contact us"
     onlydealwith_step:
       step: "Step 4 of 8"
       subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
       title: "Type of waste"
-    otherBusinesses_step:
-      subtitle: "Do you ever deal with waste from other businesses or households?"
-      title: "Waste from other businesses"
     order:
       initial: "Initial Registration"
       edit: "Edit Registration"
@@ -1163,11 +1181,6 @@ en:
     revoke:
       title_revoke: "Revoke registration"
       title_unrevoke: "UnRevoke registration"
-    serviceprovided_step:
-      main_service_label: "I produce the waste as part of another service I provide to my customer (e.g. a gardener taking away grass cuttings)"
-      part_of_service_label: "My customer creates the waste - I just collect or move it for them"
-      subtitle: "Who produces the waste that you deal with?"
-      title: "Service provided"
     smartanswers_display:
       business_type: "You are a %{businessType}"
       construction_demolition_no: "You never deal with construction or demolition waste"

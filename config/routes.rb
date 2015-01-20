@@ -23,15 +23,9 @@ Registrations::Application.routes.draw do
     get "home/index"
     get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
 
-    get "registrations/find" => 'registrations#newBusinessType', :via => [:get, :post], :as => :find
-
     # Add routing for Public Search
     get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
 
-    get "registrations/start" => 'registrations#newOrRenew', :as => :newOrRenew
-    match "registrations/start" => 'registrations#selectRegistrationType', :via => [:post], :as => :selectRegistrationType
-    get "registrations/whatTypeOfRegistrationAreYou" => 'registrations#enterRegistrationNumber', :as => :enterRegistration
-    match "registrations/whatTypeOfRegistrationAreYou" => 'registrations#calculateRegistrationType', :via => [:post], :as => :calculateRegistrationType
     get "registrations/finish" => 'registrations#finish', :as => :finish
     match "registrations/finish" => 'registrations#updateFinish', :via => [:post,:put,:patch]
 
@@ -77,18 +71,24 @@ Registrations::Application.routes.draw do
     get "registrations/:id/refuse"    => 'registrations#refuse',  :via => [:get], :as => :refuse
     match "registrations/:id/approve" => 'registrations#updateApprove', :via => [:post]
 
+    get "registrations/find" => 'start#show', :as => :find
+    get "registrations/start" => 'start#show', :as => :start
+    post "registrations/start" => 'start#create'
+
+    get "your-registration/existing-registration" => 'existing_registration#show', :as => :existing_registration
+    post "your-registration/existing-registration" => 'existing_registration#create'
+
     # Registration urls - Smart answers
-    match "your-registration/business-type" => 'registrations#newBusinessType', :via => [:get], :as => :newBusinessType
-    match "your-registration/business-type" => 'registrations#updateNewBusinessType', :via => [:post,:put,:patch]
+    get "your-registration/business-type" => 'business_type#show', :as => :business_type
+    post "your-registration/business-type" => 'business_type#create'
 
-    match "your-registration/no-registration" => 'registrations#newNoRegistration', :via => [:get], :as => :newNoRegistration
-    match "your-registration/no-registration" => 'registrations#updateNewNoRegistration', :via => [:post,:put,:patch]
+    get "your-registration/no-registration" => 'no_registration#show', :as => :no_registration
 
-    match "your-registration/other-businesses" => 'registrations#newOtherBusinesses', :via => [:get], :as => :newOtherBusinesses
-    match "your-registration/other-businesses" => 'registrations#updateNewOtherBusinesses', :via => [:post,:put,:patch]
+    get "your-registration/other-businesses" => 'other_businesses#show', :as => :other_businesses
+    post "your-registration/other-businesses" => 'other_businesses#create'
 
-    match "your-registration/service-provided" => 'registrations#newServiceProvided', :via => [:get], :as => :newServiceProvided
-    match "your-registration/service-provided" => 'registrations#updateNewServiceProvided', :via => [:post,:put,:patch]
+    get "your-registration/service-provided" => 'service_provided#show', :as => :service_provided
+    post "your-registration/service-provided" => 'service_provided#create'
 
     match "your-registration/construction-demolition" => 'registrations#newConstructionDemolition', :via => [:get], :as => :newConstructionDemolition
     match "your-registration/construction-demolition" => 'registrations#updateNewConstructionDemolition', :via => [:post,:put,:patch]

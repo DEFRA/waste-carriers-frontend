@@ -115,7 +115,7 @@
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
             <%=t 'registration_mailer.welcome_email.contactNumber'%><%= @registration.phoneNumber%></p>
 
-            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;"><%= t 'registration_mailer.welcome_email.registeredOn', date: @registration.formatted_registration_date %></p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;"><%= t 'registration_mailer.welcome_email.registeredOn', date: format_date(@registration.date_registered) %></p>
 
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%=t 'registration_mailer.welcome_email.updateWebsite1_html',:link=>link_to('sign in', new_user_session_url)%></p>
 

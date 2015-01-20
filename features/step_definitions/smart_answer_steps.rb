@@ -1,5 +1,5 @@
 Given(/^I start a new registration$/) do
-  visit find_path
+  visit business_type_path
 end
 
 And(/^I enter my business type as (.*)$/) do |business_type|
@@ -68,7 +68,7 @@ Then(/^I am told to ring the Environment Agency$/) do
 end
 
 Given(/^I navigate to the construction\/demolition step via the other businesses step$/) do
-  visit find_path
+  visit business_type_path
   choose 'registration_businessType_soletrader'
   click_on 'Next'
   choose 'registration_otherBusinesses_no'
@@ -76,7 +76,7 @@ Given(/^I navigate to the construction\/demolition step via the other businesses
 end
 
 Given(/^I navigate to the construction\/demolition step via the main service step$/) do
-  visit find_path
+  visit business_type_path
   choose 'registration_businessType_soletrader'
   click_on 'Next'
   choose 'registration_otherBusinesses_yes'
