@@ -3,32 +3,26 @@ Then(/^I should see the Finish page$/) do
   page.should have_button 'finished_btn'
 end
 
-When(/^I search for a registration using the text '([\w ]+)'$/) do |search_text|
-  fill_in 'q', with: search_text    # 'q' is the 'Search for' field.
-  click_button 'reg-search'
-end
-
-When(/^I revoke the registration$/) do
-  # This step assumes that only one registration is currently shown in the search results.
-  click_link 'Revoke'
+When(/^I search for and revoke the first registration that matches the text '(.+)'$/) do |search_text|
+  waitForSearchResultsToContainElementWithId(search_text, 'searchResult1')
+  click_link 'revokeRegistration1'
   fill_in 'registration_metaData_revokedReason', with: 'revoked by cucumber test'
-  click_button 'Revoke'
+  click_button 'revokeButton'
 end
 
-When(/^I approve the registration$/) do
-  # This step assumes that only one registration is currently shown in the search results.
-  click_link 'approve'
+When(/^I search for and approve the first registration that matches the text '(.+)'$/) do |search_text|
+  waitForSearchResultsToContainElementWithId(search_text, 'searchResult1')
+  click_link 'approveRegistration1'
   fill_in 'registration_metaData_approveReason', with: 'approved by cucumber test'
-  click_button 'approve'
+  click_button 'approveButton'
 end
 
 Then(/^searching the public register for '(.+)' should return (\d+) records{0,1}$/) do |search_term, expected_record_count|
   visit public_path
-  fill_in 'q', with: search_term    # 'q' is the 'Name of organisation' field.
-  click_button 'reg-search'
-  page.should have_content "Showing #{expected_record_count} of #{expected_record_count}"
+  waitForSearchResultsToContainText(search_term, "Showing #{expected_record_count} of #{expected_record_count}")
 end
 
-Then(/^the registration can no longer be approved$/) do
-  page.should_not have_link 'Approve'
+Then(/^when I repeat the search for '(.+)', the registration can no longer be approved$/) do |search_text|
+  waitForSearchResultToPassLambda(search_text, lambda {|page| !(page.has_xpath?("//*[@id = 'approveRegistration1']")) })
+  page.should_not have_link 'approveRegistration1'
 end

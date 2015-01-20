@@ -78,7 +78,7 @@
           
             <% @registrations.each do |reg| %>
             <!--grid one third-->
-            <div class="grid-wrapper agency-edit">
+            <div class="grid-wrapper agency-edit" id="searchResult<%= regCount.to_s %>" >
               <div class="container-border">
                 
                 <div class="grid grid-1-3">
@@ -123,10 +123,10 @@
                       <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.print_button_label'), print_path(reg.uuid) %></li><% end %>
                       <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to t('registrations.form.edit_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::EDIT) %></li><% end %>
                       <% if reg.can_be_deleted?(current_agency_user) %><li><%= link_to t('form.delete_button_label'), confirmDelete_path(reg.uuid) %></li><% end %>
-                      <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid) %></li><% end %>
+                      <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid), id: "revokeRegistration#{regCount}" %></li><% end %>
                       <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
                       <% if reg.upper? %>
-                        <% if reg.can_be_approved?(current_agency_user) %><li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid), :id => "approve" %></li><% end %>
+                        <% if reg.can_be_approved?(current_agency_user) %><li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid), id: "approveRegistration#{regCount}" %></li><% end %>
                         <% if reg.can_be_refused?(current_agency_user) %><li><%= link_to t('form.refuse_button_label'), refuse_path(reg.uuid) %></li><% end %>
                         <% if reg.can_view_payment_status? %><li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li><% end %>
                         <% if reg.about_to_expire? %>
