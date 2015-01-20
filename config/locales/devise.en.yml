@@ -34,11 +34,11 @@ en:
         footer_3: "contact the Environment Agency Helpline: 03708 506506"
       reset_password_instructions:
         subject: "Reset password instructions"
-        heading: "Register as a waste carrier: forgotten password"
-        paragraph1: "Someone has requested a link to change your password. You can do this through the link below."
-        changeLabel: "Change my password"
-        paragraph2: "If you didn't ask for your password to be reset, please ignore this email."
-        paragraph3: "Your password won't change until you access the link above and create a new one."
+        heading: "Reset your Waste Carriers password"
+        salutation: "Hello"
+        paragraph1: "This email has been sent to you because we received a request to reset your account password."
+        paragraph2: "If you didn't request this change, please ignore this email."
+        changeLabel: "Reset my password"
       unlock_instructions:
         subject: "Unlock Instructions"
         heading: "Your account is locked"
