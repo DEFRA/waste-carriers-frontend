@@ -99,7 +99,7 @@ if [ ${WCRS_FRONTEND_RAILS_ENV} != "production" ]; then
   rm -rf ${WCRS_FRONTEND_HOME}/live/spec/reports/*
   rake spec SPEC_OPTS=". --tag ~sauce"
   echo "Running integration tests (using cucumber)"
-  cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
+  bundle exec cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
 fi
 
 ## re-Seed the database again after tests have cleared the database
