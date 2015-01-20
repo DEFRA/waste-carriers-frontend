@@ -75,6 +75,25 @@ Given(/^I re-request activation for my account$/) do
 
 end
 
+When(/^I activate my account by clicking the link in the activation email$/) do
+  open_email my_email_address
+  activation_email_found = false
+  
+  # Cycle through all emails in the inbox to find the activation email...
+  current_emails.each do |this_email|
+    if (this_email.subject == 'Verify your email address')
+      activation_email_found = true
+      this_email.click_link 'confirmation_link'
+      break
+    end
+  end
+  
+  # ... if we didn't find the activation email, produce an error that will be meaningful to Cucumber.
+  unless activation_email_found
+    current_email.subject.should == 'Verify your email address'
+  end
+end
+
 Then(/^I need to request a new confirmation email to activate my account$/) do
   click_on 'Resend confirmation instructions'
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event

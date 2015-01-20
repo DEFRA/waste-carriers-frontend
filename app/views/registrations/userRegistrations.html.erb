@@ -81,7 +81,7 @@
             <tr>
               <td>
               <% if registration.can_view_certificate? %>
-                <%= link_to t('registrations.form.print_button_label'), print_path(registration.uuid) %>
+                <%= link_to t('registrations.form.print_button_label'), print_path(registration.uuid), :class => 'viewCertificate' %>
               <% end %>
               </td>
 

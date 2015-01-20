@@ -1,14 +1,28 @@
 #
-# A Helper function to retry the search after waiting a period of time to
+# Helper functions to retry the search after waiting a period of time to
 # ensure the system has been updated correctly
 #
-def waitForSearchAndRetry(searchParam)
-  if !page.has_content?('paymentStatus1')
-    puts '... Waiting 5 seconds for ES to have been updated'
-    sleep 5.0
+def waitForSearchResultToPassLambda(searchParam, test)
+  totalWaitTime = 0
+  loop do
     fill_in 'q', with: searchParam
-    click_button 'Search'
+    click_button 'reg-search'
+    break if test.call(page) || (totalWaitTime > 20)
+    puts '... Waiting 1 second before re-trying search (maximum wait time is 20 seconds)'
+    sleep 1
+    totalWaitTime += 1
   end
+end
+  
+def waitForSearchResultsToContainElementWithId(searchParam, elementIdToWaitFor)
+  xpathToWaitFor = "//*[@id = '#{elementIdToWaitFor}']"
+  waitForSearchResultToPassLambda(searchParam, lambda {|page| page.has_xpath?(xpathToWaitFor) })
+  page.should have_xpath xpathToWaitFor
+end
+
+def waitForSearchResultsToContainText(searchParam, textToWaitFor)
+  waitForSearchResultToPassLambda(searchParam, lambda {|page| page.has_content?(textToWaitFor) })
+  page.should have_content textToWaitFor
 end
 
 #
@@ -67,30 +81,24 @@ end
 Given(/^I have found a registrations payment details$/) do
   visit registrations_path
   page.should have_content 'Registration search'
-  fill_in 'q', with: 'PaymentReg'+registrationCount.to_s
-  click_button 'Search'
-  waitForSearchAndRetry('PaymentReg'+registrationCount.to_s)
-  find_link('paymentStatus1').click
+  waitForSearchResultsToContainElementWithId('PaymentReg'+registrationCount.to_s, 'searchResult1')
+  click_link('paymentStatus1')
   page.should have_content 'Payment status'
 end
 
 Given(/^I have found a registrations payment details using the remembered id$/) do
   visit registrations_path
   page.should have_content 'Registration search'
-  fill_in 'q', with: @stored_value.to_s
-  click_button 'Search'
-  waitForSearchAndRetry(@stored_value.to_s)
-  find_link('paymentStatus1').click
+  waitForSearchResultsToContainElementWithId(@stored_value.to_s, 'searchResult1')
+  click_link('paymentStatus1')
   page.should have_content 'Payment status'
 end
 
 Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
   visit registrations_path
   page.should have_content 'Registration search'
-  fill_in 'q', with: param.to_s
-  click_button 'Search'
-  waitForSearchAndRetry(param.to_s)
-  find_link('paymentStatus1').click
+  waitForSearchResultsToContainElementWithId(param.to_s, 'searchResult1')
+  click_link('paymentStatus1')
   page.has_content? 'payment status'
 end
 

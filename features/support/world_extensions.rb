@@ -18,7 +18,11 @@ module KnowsTheDomain
   def agency_password
     @agency_password ||= 'secret123'
   end
-  
+
+  def carrier_password
+    @carrier_password ||= 'test1234'
+  end
+
   def my_finance_admin_user
     @my_finance_admin_user ||= FactoryGirl.create :finance_admin_user
   end
