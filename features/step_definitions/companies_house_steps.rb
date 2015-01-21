@@ -1,5 +1,5 @@
 Given(/^I am registering as a limited company$/) do
-  visit find_path
+  visit business_type_path
 
   choose 'registration_businessType_limitedcompany'
   click_on 'Next'
@@ -32,14 +32,9 @@ And(/^I enter my company name and address$/) do
 
   fill_in 'sPostcode', with: 'HP10 9BX'
   click_on 'Find UK address'
-  
-#
-# Removed as Find UK adress now validates and thus returns errros for other fields
-#  select '33 Fennels Way, Flackwell Heath HP10 9BX'
 end
 
 Given(/^I select an address$/) do
-  #select '33 Fennels Way, Flackwell Heath HP10 9BX'
   select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
 end
 

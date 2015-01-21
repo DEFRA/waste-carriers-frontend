@@ -1,0 +1,44 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+
+    <% content_for :page_title, createTitle('.title') %>
+
+    <div id="start" data-journey="waste-carriers-registration:new-or-renew">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('form.back_button_label'), :back %></li>
+        </ol>
+      </div>
+
+      <%= form_for(@registration, :url => start_path, :html => {:autocomplete => "off"}) do |f| %>
+
+        <%= render 'shared/registration_errors' %>
+
+        <header class="page-header group">
+          <div class="hgroup">
+            <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
+          </div>
+        </header>
+
+        <div class="form-group<%if @registration.errors[:newOrRenew].any?%> validation<%end%>" id="registration_newOrRenew" role="group" aria-labelledby="groupLabel">
+          <%= validation_for(@registration, :newOrRenew) %>
+          <%= f.label :newOrRenew, for: "registration_newOrRenew_renew",  class: 'block-label' do %>
+            <%= f.radio_button :newOrRenew, 'renew' %>
+            <%= t '.renew' %>
+          <% end %>
+          <%= f.label :newOrRenew, for: "registration_newOrRenew_new",  class: 'block-label' do %>
+            <%= f.radio_button :newOrRenew, 'new' %>
+            <%= t '.new' %>
+          <% end %>
+        </div>
+
+        <%= render 'shared/registration_next_link' %>
+
+      <% end %>
+
+    </div>
+  </main>
+</div>

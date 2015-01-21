@@ -1,6 +1,6 @@
 Given(/^have chosen to renew an existing licence$/) do
    RestClient.post Rails.configuration.waste_exemplar_services_admin_url + '/tasks/ir-repopulate', :content_type => :json, :accept => :json
-   visit newOrRenew_path
+   visit start_path
 end
 
 Given(/^I am renewing a valid CBD IR registration for limited company$/) do
