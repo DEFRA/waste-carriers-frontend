@@ -198,3 +198,9 @@ Then(/^I logout$/) do
   click_on 'signout_button'
   visit destroy_agency_user_session_path
 end
+
+Then(/^the print page does not contain unnecessary content$/) do
+  click_on 'view-certificate'
+  page.should_not have_xpath("//a[@id='logo']") # No Gov Uk Template
+  page.should_not have_content 'registrations@wastecarriersregistration.service.gov.uk' # No contact details
+end
