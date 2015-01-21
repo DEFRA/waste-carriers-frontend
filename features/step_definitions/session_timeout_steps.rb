@@ -11,13 +11,13 @@ Then(/^I am informed that my session has expired$/) do
 end
 
 Given(/^I have started my registration$/) do
-  visit newOrRenew_path
+  visit start_path
   choose 'registration_newOrRenew_renew'
   click_on 'Next'
 end
 
 When(/^I try to proceed with my unfinished registration$/) do
-  visit newBusinessType_path
+  visit business_type_path
 end
 
 Then(/^I can still proceed$/) do
@@ -30,7 +30,7 @@ Given(/^I keep working on my registration for more than (\d+) hours$/) do |numbe
 end
 
 Then(/^I can continue with my registration$/) do
-  visit newBusinessType_path
+  visit business_type_path
   page.should have_content 'What type of business or organisation are you?'
 end
 

@@ -1,0 +1,50 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+
+    <% content_for :page_title, createTitle('.title') %>
+
+    <div id="existing-registration" data-journey="waste-carriers-registration:existing-registration">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('form.back_button_label'), start_path %></li>
+        </ol>
+      </div>
+
+      <%= form_for(@registration, :url => existing_registration_path, :html => {:autocomplete => "off"}) do |f| %>
+
+        <%= render 'shared/registration_errors' %>
+
+        <header class="page-header group">
+          <div class="hgroup">
+            <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
+            <p class="form-hint"><%= t '.ir_number_example' %></p>
+          </div>
+        </header>
+
+        <details class="text">
+          <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
+            <span class='summary'><%= t '.renewal_link' %></span>
+          </summary>
+          <div style='display:block' class='panel-indent' id='details-content-0' >
+            <p><%= t '.paragraph1' %></p>
+            <p><%= t '.epr_link_html' %></p>
+            <p><%= t '.paragraph2' %></p>
+          </div>
+        </details>
+
+        <div class="form-group<%if @registration.errors[:originalRegistrationNumber].any?%> validation<%end%>" id="enterRegistrationNumber" role="group" aria-labelledby="groupLabel">
+          <%= validation_for(@registration, :originalRegistrationNumber) %>
+          <%= f.label :originalRegistrationNumber, class: 'form-label' %>
+          <%= f.text_field :originalRegistrationNumber, :size => 20, :maxlength => 35, :autocomplete => :off %>
+        </div>
+
+        <%= render 'shared/registration_next_link' %>
+
+      <% end %>
+
+    </div>
+  </main>
+</div>

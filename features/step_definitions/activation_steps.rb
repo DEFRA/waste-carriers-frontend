@@ -3,7 +3,7 @@ When(/^I activate the account within the permissible timeout period$/) do
   timeoutPeriodEnd = Devise.confirm_within.to_i
 
   Timecop.travel(timeoutPeriodEnd.from_now - 1.minute) do
-    visit find_path # refreshes page so don't get timed out after 20 minutes
+    visit business_type_path # refreshes page so don't get timed out after 20 minutes
     sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
     open_email my_email_address
     current_email.click_link 'confirmation_link'
@@ -15,7 +15,7 @@ When(/^I attempt to activate the account after the permissible timeout period$/)
   timeoutPeriodEnd = Devise.confirm_within.to_i
 
   Timecop.travel(timeoutPeriodEnd.from_now + 1.minute) do
-    visit find_path # refreshes page so don't get timed out after 20 minutes
+    visit business_type_path # refreshes page so don't get timed out after 20 minutes
     sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
     open_email my_email_address
     current_email.click_link 'confirmation_link'

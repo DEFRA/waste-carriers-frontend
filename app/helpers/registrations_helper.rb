@@ -484,4 +484,18 @@ module RegistrationsHelper
     res
   end
 
+  def proceed_as_upper
+    @registration.tier = 'UPPER'
+    @registration.save
+    session[:ga_tier] = 'upper'
+    redirect_to newRegistrationType_url
+  end
+
+  def proceed_as_lower
+    @registration.tier = 'LOWER'
+    @registration.save
+    session[:ga_tier] = 'lower'
+    redirect_to newBusinessDetails_url
+  end
+
 end
