@@ -1287,6 +1287,8 @@ class RegistrationsController < ApplicationController
       logger.debug 'Default, redirecting back to Finish page'
       redirect_to finish_url(:id => @registration.id)
     else
+      # Turn off default gov uk template so certificate can be printed exactly as is
+      render :layout => false
       logger.debug 'Save Print state in the print page (go to Finish)'
       flash[:alert] = 'Finish'
     end

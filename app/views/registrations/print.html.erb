@@ -1,4 +1,3 @@
-<%= render 'shared/content_for_pages' %>
 <div id="wrapper">
 
 <main id="content" role="main" class="group">
@@ -142,19 +141,6 @@
         <p><%= t 'registration_mailer.welcome_email.updatePhone' %><strong><span id='accessCode'><%= @registration.accessCode %></span></strong>.</p>
       <% end %>
     </div>
-
-     <!-- EA contact details -->
-      <div class="ea-contact">
-        <p><%= t 'registration_mailer.welcome_email.enquiresMessage' %></p>
-        <ul>
-          <li>
-            <%= t 'registration_mailer.welcome_email.telephone'%><%= Rails.configuration.registrations_service_phone %></li>
-          <li>
-            <%= t 'registration_mailer.welcome_email.email'%><%= Rails.configuration.registrations_service_email %></li>
-        </ul>
-      </div>
-
-      <a href="print" class="button">Print certificate</a>
 
     </div><!--end grid-2-3 -->
   </main><!-- end main -->
