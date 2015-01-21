@@ -529,7 +529,7 @@ en:
       updateWebsite_html: "You can <a href='link' %{link}></a> here to make a change to your account."
       upperTierRegistration: "Upper tier registration"
     awaitingConvictionsCheck:
-      subject: "Registration receieved"
+      subject: "Registration received"
       heading: "What happens next"
       paragraph1: "We'll check your details and let you know whether your application has been successful. We aim to do this within 10 working days."
       paragraph2: "You’re not legally entitled to operate as a waste carrier until we have received your payment and confirmed your registration"
