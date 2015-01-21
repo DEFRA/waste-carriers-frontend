@@ -42,3 +42,7 @@ Scenario: Valid registration on behalf of a caller
   And the lower tier waste carrier registration id
   And the print page contains the six-digit access code for the user
   But the registration confirmation email should not be sent
+
+Scenario: A registration certificate created on behalf of a caller should be in a printable format
+  When I create a lower tier registration on behalf of a caller
+  Then the print page does not contain unnecessary content
