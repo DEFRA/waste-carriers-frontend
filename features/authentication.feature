@@ -153,6 +153,7 @@ Scenario: Log in as waste carrier from the admin URL
   When the user tries to access the user login URL from the internal admin domain
   Then the page is not found
 
+@bad-test
 Scenario: A Upper Tier registration Certificate has an Expiry Date
   Given a "LTD_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
   And I wait for 2 seconds for these actions to be finalised
