@@ -79,6 +79,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'vcr'
   gem 'webmock'
+  gem 'faker', '~> 1.4.3'
 end
 
 group :development do
