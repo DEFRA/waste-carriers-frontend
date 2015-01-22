@@ -102,4 +102,7 @@ group :test, :development do
   gem 'sauce-cucumber', :require => false
   gem 'capybara', '~> 2.1.0'
   gem 'parallel_tests', :require => false
+  
+  # Required to populate the database with load-test data for Convictions.
+  gem 'elasticsearch-persistence', '~> 0.1.6'
 end
