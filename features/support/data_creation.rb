@@ -1,14 +1,19 @@
 def create_complete_lower_tier_reg(type)
-  registration =  JSON.parse(create_registration(type))
-  id = registration['id']
-  account_email = registration['accountEmail']
+  return create_complete_lower_tier_reg_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")))
+end
 
-  create_user(account_email)
-  return get_registration(id)
+def create_complete_lower_tier_reg_from_hash(reg_hash)
+  registration =  JSON.parse(create_registration_from_hash(reg_hash))
+  create_user(registration['accountEmail'])
+  return get_registration(registration['id'])
 end
 
 def create_complete_upper_tier_reg(type, method, copy_cards)
-  registration =  JSON.parse(create_registration(type))
+  return create_complete_upper_tier_reg_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")), method, copy_cards)
+end
+
+def create_complete_upper_tier_reg_from_hash(reg_hash, method, copy_cards)
+  registration =  JSON.parse(create_registration_from_hash(reg_hash))
   id = registration['id']
   account_email = registration['accountEmail']
 
@@ -22,14 +27,15 @@ def create_complete_upper_tier_reg(type, method, copy_cards)
 end
 
 def create_registration(type)
+  create_registration_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")))
+end
+
+def create_registration_from_hash(reg_hash)
   #post registration
-  create_reg_file = File.read("features/fixtures/#{type}.json")
-  create_reg_data = JSON.parse(create_reg_file)
-  reg_uuid = SecureRandom.uuid
-  create_reg_data['reg_uuid'] = reg_uuid
+  reg_hash['reg_uuid'] = SecureRandom.uuid
 
   url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
-  create_reg_response = RestClient.post url, create_reg_data.to_json, :content_type => :json, :accept => :json
+  create_reg_response = RestClient.post url, reg_hash.to_json, :content_type => :json, :accept => :json
 
   #get variables to use later
   edit_reg_data = JSON.parse(create_reg_response)
