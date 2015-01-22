@@ -1,7 +1,7 @@
 require 'faker'
 require "#{Rails.root}/features/support/data_creation.rb"
 
-namespace :stress_data do
+namespace :performance_testing do
   @counties = ['Avon', 'Bedfordshire', 'Berkshire', 'Buckinghamshire', 'Cambridgeshire', 'Cheshire', 'Cornwall', 'Cumbria', 'Derbyshire', 'Devon', 'Dorset', 'Durham', 'East Sussex', 'Essex', 'Gloucestershire', 'Greater Manchester', 'Hampshire', 'Herefordshire', 'Hertfordshire', 'Humberside', 'Isle of Wight', 'Kent', 'Lancashire', 'Leicestershire', 'Lincolnshire', 'Merseyside', 'Norfolk', 'North Yorkshire', 'Northamptonshire', 'Northumberland', 'Nottinghamshire', 'Oxfordshire', 'Shropshire', 'Somerset', 'South Yorkshire', 'Staffordshire', 'Suffolk', 'Surrey', 'Tyne and Wear', 'Warwickshire', 'West Midlands', 'West Sussex', 'West Yorkshire', 'Wiltshire', 'Worcestershire']
   
   def make_company_name
@@ -45,7 +45,7 @@ namespace :stress_data do
     return reg_data
   end
   
-  task :seed_lower_tier, [:num_records] => :environment do |t, args|
+  task :seed_lower_tier_registrations, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete lower-tier registrations..."
     reg_data = JSON.parse(File.read('features/fixtures/LTD_LT_online_complete.json')).except('selectedAddress')
@@ -54,7 +54,7 @@ namespace :stress_data do
     end
   end
   
-  task :seed_upper_tier, [:num_records] => :environment do |t, args|
+  task :seed_upper_tier_registrations, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete upper-tier registrations..."
     reg_data = JSON.parse(File.read('features/fixtures/LTD_UT_online_complete.json')).except('selectedAddress')
