@@ -40,6 +40,65 @@ namespace :stress_data do
     reg_data['key_people'][0]['dob'] = Faker::Date.between(70.years.ago, 20.years.ago).strftime('%F')
     return reg_data
   end
+
+  def make_random_ref_num
+    #define the middle group of characters eg. AE8437YD
+    @mid_group = ''
+    while @mid_group.length < 8 do
+      if @mid_group.length > 2 and @mid_group.length < 6
+        @mid_group += rand(9).to_s
+      else
+        @mid_group += (65 + rand(26)).chr
+      end
+    end
+    #define the end group eg. R034
+    @end_group = (65 + rand(26)).chr
+    while @end_group.length < 4 do
+      @end_group += rand(9).to_s
+    end
+
+    return "CB/#{@mid_group}/#{@end_group}"
+  end
+
+  def randomise_ir_renewal_data(ir_data)
+    @applicantTypes = ['Person', 'Company', 'Organisation of Individuals', 'Public Body']
+    ir_data['applicantType'] = @applicantTypes[rand(4)]
+    ir_data['expiryDate'] = Faker::Date.between(2.months.from_now, 3.years.from_now).strftime('%F')
+    ir_data['referenceNumber'] = make_random_ref_num
+    @registrationTypes = ['Carrier', 'Carrier and Broker']
+    ir_data['registrationType'] = @registrationTypes[rand(1)]
+    if ir_data['applicantType'] == 'Company'
+      ir_data['irType'] = 'COMPANY'
+    elsif ir_data['applicantType'] == 'Person'
+      ir_data['irType'] = 'INDIVIDUAL'
+    elsif ir_data['applicantType'] == 'Organisation of Individuals'
+      ir_data['irType'] = 'PARTNER'
+    elsif ir_data['applicantType'] == 'Public Body'
+      ir_data['irType'] = 'PUBLIC_BODY'
+    end
+    @companyNames = ['', Faker::Company::name + ' ' + Faker::Commerce.department(2, true)]
+    ir_data['companyName'] = @companyNames[rand(1)]
+    @tradingNames = ['', Faker::Company::name, ir_data['companyName']]
+    ir_data['tradingName'] = @tradingNames[rand(2)]
+    @companyNumber = '07'
+    while @companyNumber.length < 8 do
+      @companyNumber += rand(9).to_s
+    end
+    @companyNumbers = ['', @companyNumber]
+    ir_data['companyNumber'] = @companyNumbers[rand(1)]
+    ir_data['trueRegistrationType'] = ir_data['registrationType'].upcase
+    @permitHolderNames = ['', Faker::Name::first_name + ' ' + Faker::Name::last_name]
+    ir_data['permitHolderName'] = @permitHolderNames[rand(1)]
+    @datesOfBirth = ['', Faker::Date.between(70.years.ago, 20.years.ago).strftime('%F')]
+    ir_data['dateOfBirth'] = @datesOfBirth[rand(1)]
+    @partySubTypes = ['', 'Partnership']
+    ir_data['partySubType'] = @partySubTypes[rand(1)]
+    @partnershipNames = ['', Faker::Name::first_name + ' ' + Faker::Name::last_name]
+    ir_data['partnershipName'] = @partnershipNames[rand(1)]
+    @partyNames = ['', Faker::Name::first_name + ' ' + Faker::Name::last_name]
+    ir_data['partyName'] = @partyNames[rand(1)]
+
+  end
   
   task :seed_lower_tier, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
@@ -56,6 +115,30 @@ namespace :stress_data do
     reg_data = JSON.parse(File.read('features/fixtures/LTD_UT_online_complete.json')).except('selectedAddress')
     for n in (1..args.num_records.to_i) do
       create_complete_upper_tier_reg_from_hash(randomise_upper_tier_reg_data(reg_data), 'Bank Transfer', 0)
+    end
+  end
+
+  task :seed_irrenewals, [:num_records] => :environment do |t, args|
+    args.with_defaults(:num_records => 10)
+    puts "Creating #{args.num_records} complete IR-renewals..."
+    irdata = {
+                applicantType: '',
+                expiryDate: '',
+                referenceNumber: '',
+                registrationType: '',
+                irType: '',
+                companyName: '',
+                tradingName: '',
+                companyNumber: '',
+                trueRegistrationType: '',
+                permitHolderName: '',
+                dateOfBirth: '',
+                partySubType: '',
+                partnershipName: '',
+                partyName: ''
+              }
+    for n in (1..args.num_records.to_i) do
+      randomise_ir_renewal_data(ir_data)
     end
   end
 

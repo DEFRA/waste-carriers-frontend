@@ -11,5 +11,10 @@ class Irrenewals
   field :tradingName,           :type => String,  :default => ''
   field :companyNumber,         :type => String,  :default => ''
   field :trueRegistrationType,  :type => String,  :default => ''
+  field :permitHolderName,      :type => String,  :default => ''
+  field :dateOfBirth,           :type => Date
+  field :partySubType,          :type => String
+  field :partnershipName,       :type => String
+  field :partyName,             :type => String
 
 end
