@@ -165,7 +165,7 @@ namespace :performance_testing do
     end
   end
 
-  task :seed_irrenewals, [:num_records] => :environment do |t, args|
+  task :seed_ir_renewals, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete IR-renewals..."
     for n in (1..args.num_records.to_i) do
