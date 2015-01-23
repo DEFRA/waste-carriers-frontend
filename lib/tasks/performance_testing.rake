@@ -5,7 +5,24 @@ namespace :performance_testing do
   @counties = ['Avon', 'Bedfordshire', 'Berkshire', 'Buckinghamshire', 'Cambridgeshire', 'Cheshire', 'Cornwall', 'Cumbria', 'Derbyshire', 'Devon', 'Dorset', 'Durham', 'East Sussex', 'Essex', 'Gloucestershire', 'Greater Manchester', 'Hampshire', 'Herefordshire', 'Hertfordshire', 'Humberside', 'Isle of Wight', 'Kent', 'Lancashire', 'Leicestershire', 'Lincolnshire', 'Merseyside', 'Norfolk', 'North Yorkshire', 'Northamptonshire', 'Northumberland', 'Nottinghamshire', 'Oxfordshire', 'Shropshire', 'Somerset', 'South Yorkshire', 'Staffordshire', 'Suffolk', 'Surrey', 'Tyne and Wear', 'Warwickshire', 'West Midlands', 'West Sussex', 'West Yorkshire', 'Wiltshire', 'Worcestershire']
   
   def make_company_name
-    return (Faker::Company::name + " " + Faker::Commerce.department(2, true))
+    service = ['waste', 'disposal', 'demolition', 'recycling', 'removal', 'reclamation', 'reprocessing', 'clearance', 'scrappage', 'junk'].sample
+    suffix = ['LTD', 'services', 'company', 'contractors', 'limitted', 'industrial services', 'group'].sample
+    if (rand < 0.2)
+      county = @counties.sample
+      return "#{county} #{service} #{suffix}"
+    else
+      name1 = Faker::Name::last_name
+      if (rand < 0.5)
+        return "#{name1} #{service} #{suffix}"
+      else
+        name2 = Faker::Name::last_name
+        return "#{name1} & #{name2} #{service} #{suffix}"
+      end
+    end
+  end
+  
+  def make_company_number
+    return (1 + rand(99999998)).to_s.rjust(8, '0')
   end
   
   def make_random_postcode
@@ -31,14 +48,14 @@ namespace :performance_testing do
     reg_data['houseNumber'] = (1 + rand(300)).to_s
     reg_data['streetLine1'] = Faker::Address::street_name
     reg_data['townCity'] = Faker::Address::city
-    reg_data['administrativeArea'] = @counties[rand(@counties.length)]
+    reg_data['administrativeArea'] = @counties.sample
     reg_data['postcode'] = make_random_postcode()
     return reg_data
   end
   
   def randomise_upper_tier_reg_data(reg_data)
     randomise_lower_tier_reg_data(reg_data)
-    reg_data['company_no'] = rand(99999999).to_s.rjust(8, '0')
+    reg_data['company_no'] = make_company_number()
     reg_data['key_people'][0]['first_name'] = reg_data['firstName']
     reg_data['key_people'][0]['last_name'] = reg_data['lastName']
     reg_data['key_people'][0]['dob'] = Faker::Date.between(70.years.ago, 20.years.ago).strftime('%F')
@@ -84,7 +101,7 @@ namespace :performance_testing do
           Conviction.create name: person_name, systemFlag: system_flag_names.sample, incidentNumber: incident_number, dateOfBirth: Faker::Date.between(70.years.ago, 20.years.ago)
         end
       else
-        Conviction.create name: make_company_name(), companyNumber: rand(99999999).to_s.rjust(8, '0'), systemFlag: system_flag_names.sample, incidentNumber: incident_number
+        Conviction.create name: make_company_name(), companyNumber: make_company_number(), systemFlag: system_flag_names.sample, incidentNumber: incident_number
       end
     end
   end
