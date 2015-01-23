@@ -43,7 +43,7 @@ en:
         subject: "Unlock Instructions"
         heading: "Your account is locked"
         salutation: "Hello"
-        paragraph1: "You've tried to sign-in to many times and as a result your account has been temporaily locked."
+        paragraph1: "You've tried to sign-in too many times and as a result your account has been temporaily locked."
         unlockLabel: "Unlock my account"
       email_security:
         heading: "Email security"
