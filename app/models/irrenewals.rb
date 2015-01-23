@@ -1,20 +1,22 @@
-class Irrenewals
+#This class represents an IRRenewal in Mongo
+
+class Irrenewal
 
   include Mongoid::Document
 
-  field :applicantType,         :type => String,  :default => ''
-  field :expiryDate,            :type => Date,    :default => '0000-01-01T00:00:00.000Z'
-  field :referenceNumber,       :type => String,  :default => ''
-  field :registrationType,      :type => String,  :default => ''
-  field :irType,                :type => String,  :default => ''
-  field :companyName,           :type => String,  :default => ''
-  field :tradingName,           :type => String,  :default => ''
-  field :companyNumber,         :type => String,  :default => ''
-  field :trueRegistrationType,  :type => String,  :default => ''
-  field :permitHolderName,      :type => String,  :default => ''
-  field :dateOfBirth,           :type => Date
-  field :partySubType,          :type => String
-  field :partnershipName,       :type => String
-  field :partyName,             :type => String
+  field :applicant_type,         :type => String
+  field :expiry_date,            :type => Date
+  field :reference_number,       :type => String
+  field :registration_type,      :type => String
+  field :ir_type,                :type => String
+  field :company_name,           :type => String
+  field :trading_name,           :type => String
+  field :company_number,         :type => String
+  field :true_registration_type, :type => String
+  field :permit_holder_name,     :type => String
+  field :dob,                    :type => Date
+  field :party_sub_type,         :type => String
+  field :partnership_name,       :type => String
+  field :party_name,             :type => String
 
 end
