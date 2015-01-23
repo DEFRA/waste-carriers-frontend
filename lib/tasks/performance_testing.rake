@@ -81,10 +81,9 @@ namespace :performance_testing do
     return "CB/#{@mid_group}/#{@end_group}"
   end
 
-  def randomise_ir_renewal_data
+  def randomise_ir_renewal_data(renewal_type)
     ir_data = Irrenewal.create
-    applicant_types = ['Person', 'Company', 'Organisation of Individuals', 'Public Body']
-    ir_data.applicant_type = applicant_types[rand(4)]
+    ir_data.applicant_type = renewal_type
     ir_data.expiry_date = Faker::Date.between(2.months.from_now, 3.years.from_now).strftime('%F')
     ir_data.reference_number = make_random_ref_num
     registration_types = ['Carrier', 'Carrier and Broker']
@@ -170,7 +169,10 @@ namespace :performance_testing do
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete IR-renewals..."
     for n in (1..args.num_records.to_i) do
-      randomise_ir_renewal_data
+      randomise_ir_renewal_data('Person')
+      randomise_ir_renewal_data('Company')
+      randomise_ir_renewal_data('Organisation of Individuals')
+      randomise_ir_renewal_data('Public Body')
     end
   end
 
