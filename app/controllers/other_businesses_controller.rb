@@ -16,7 +16,7 @@ class OtherBusinessesController < ApplicationController
       when 'yes'
         redirect_to :service_provided
       when 'no'
-        redirect_to :newConstructionDemolition
+        redirect_to :construction_demolition
       end
     else
       # there is an error (but data not yet saved)
