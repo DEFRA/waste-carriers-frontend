@@ -130,17 +130,18 @@ input#registration_copy_cards {
 /* Registration complete page ============================================= */
 
 .completeSummary {
-  background-color: $green;
-  padding:2em;
+  background-color: $button_colour;
+  padding:$gutter;
   color: $page-colour;
   text-align: center;
+  margin-top:$gutter-half;
   margin-bottom:$gutter-half;
 }
 
 .almostComplete,
 .criminallySuspect {
-  background-color: $orange;
-  padding:2em;
+  background-color: $light-blue;
+  padding:$gutter;
   color: $page-colour;
   text-align: center;
   margin-bottom:$gutter-half;
@@ -148,19 +149,20 @@ input#registration_copy_cards {
 
 .completeSummaryTitle {
   @include bold-48;
-  margin-bottom: $gutter-half;
 }
 
 .completeSummaryMessage {
   @include bold-19;
-  margin-bottom: $gutter-half;
 }
 
 .summary-box {
-  margin-top: $gutter-half;
+  margin-top: $gutter;
 }
 
-
+.heading-with-border {
+  border-top: 1px solid $grey-2;
+  padding-top: $gutter-half;
+}
 
 
 

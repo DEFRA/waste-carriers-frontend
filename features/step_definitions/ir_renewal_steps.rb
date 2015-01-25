@@ -61,7 +61,7 @@ Then(/^the callers registration should be complete$/) do
 end
 
 Then(/^registration should be pending convictions checks$/) do
-  page.should have_content 'Incomplete'
+  page.should have_content 'Application Received'
   page.should have_content 'We are running background checks on the information you have provided'
 end
 
@@ -74,7 +74,7 @@ Then(/^the callers registration should be pending convictions checks$/) do
 end
 
 Then(/^registration should be pending payment$/) do
-  page.should have_content 'Almost there'
+  page.should have_content 'Application received'
   page.should have_content 'Waiting for confirmation of payment'
 end
 

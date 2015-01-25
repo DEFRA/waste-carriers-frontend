@@ -42,14 +42,14 @@ end
 
 And(/^I pay by card$/) do
   page.should have_content 'Payment summary'
-  
+
   click_on 'Pay by credit or debit card'
 
   sleep 0.5
 
   # Wait a period for worldpay to load
   waitForWorldpayToLoad
-  
+
   click_on 'MasterCard'
 
   fill_in 'Card number', with: '4444333322221111'
@@ -69,7 +69,7 @@ And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
   click_on 'Pay by credit or debit card'
 
   sleep 0.5
-  
+
   # Wait a period for worldpay to load
   waitForWorldpayToLoad
 
@@ -109,7 +109,7 @@ end
 When(/^I provide valid credit card payment details on behalf of a caller$/) do
   #Select MasterCard by clicking on the button:
   sleep 1.0
-  
+
   # Wait a period for worldpay to load
   waitForWorldpayToLoad
 
@@ -159,6 +159,6 @@ Then(/^I make a note of the details$/) do
 end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
-  page.should have_content 'registration number: CBDU'
-  page.should have_content 'Please remember to arrange your bank transfer'
+  page.should have_content 'Your reference number is'
+  page.should have_content 'Please allow 5 working days for your payment to reach us'
 end

@@ -129,7 +129,7 @@ When(/^I confirm account creation via email$/) do
 end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
-  page.should have_content 'has been registered as a lower tier waste carrier'
+  page.should have_content 'you don’t need to pay a registration fee'
   open_email my_email_address
   current_email.should have_content 'Based on what you told us about your organisation and what it does, we have registered you as a lower tier waste carrier'
 end
