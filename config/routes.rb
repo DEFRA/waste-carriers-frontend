@@ -93,8 +93,8 @@ Registrations::Application.routes.draw do
     get "your-registration/construction-demolition" => 'construction_demolition#show', :as => :construction_demolition
     post "your-registration/construction-demolition" => 'construction_demolition#create'
 
-    match "your-registration/only-deal-with" => 'registrations#newOnlyDealWith', :via => [:get], :as => :newOnlyDealWith
-    match "your-registration/only-deal-with" => 'registrations#updateNewOnlyDealWith', :via => [:post,:put,:patch]
+    get "your-registration/only-deal-with" => 'only_deal_with#show', :as => :only_deal_with
+    post "your-registration/only-deal-with" => 'only_deal_with#create'
 
     # Registration urls - Lower tier
     match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
