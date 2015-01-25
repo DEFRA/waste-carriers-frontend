@@ -122,7 +122,7 @@ Then(/^I have applied as an upper tier waste carrier$/) do
 end
 
 Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do
-  page.should have_content 'not yet registered as an upper tier waste carrier'
+  page.should have_content 'Please allow 5 working days for your payment to reach us'
 end
 
 And(/^no key people in the organisation have convictions$/) do
@@ -136,7 +136,7 @@ And(/^key people in the organisation have convictions$/) do
 end
 
 But(/^I am told my registration is pending a convictions check$/) do
-  page.should have_content 'We are required to cross check the declared relevant people'
+  page.should have_content 'We aim to do this within 10 working days'
 end
 
 Given(/^I finish the registration$/) do

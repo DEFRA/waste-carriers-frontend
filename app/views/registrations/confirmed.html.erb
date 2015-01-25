@@ -1,109 +1,125 @@
 <%= render 'shared/content_for_pages' %>
 
 <div id="wrapper">
-
 <main id="content" role="main" class="group">
-
-<div class="back-section">
-    <ol>
-      <li></li>
-    </ol>
-</div>
-
-<header class="page-header group">
-  <div class="hgroup">
-      <h1 class="heading-large"></h1>
-  </div>
-</header>
 
   <!-- WF 4.3.2 -->
   <div id="page0"  data-journey="waste-carriers-registration:confirmed-account"></div>
-
     <% content_for :page_title, createTitle('.title') %>
 
-    <div class="summary-box text">
-      <%= render 'shared/complete_summary', :type => @confirmationType %>
-    </div>
+  <div class="grid">
+    <div class="grid-2-3">
 
-    <fieldset class="text">
+    <!-- uppper and lower tier end page -->
 
-      <legend></legend>
+    <header class="page-header group">
+      <div class="hgroup summary-box">
+          <h1><%= render 'shared/complete_summary', :type => @confirmationType %></h1>
+      </div>
+    </header>
 
       <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
 
-      <h1 class="heading-large"><%= t '.your_reg_number_html', :reg => @registration.regIdentifier %></h1>
+      <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
-        <div class="form-group text">
+      <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next' %></h4>
 
-          <h2 class="heading-medium"><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %>
-          </h2>
+        <% if @registration.lower? %>
+      <p><%=t 'registrations.confirmed.paragraph1_lower' %></p>
+      <p><%=t 'registrations.confirmed.paragraph2_lower' %></p>
 
-          <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
-          <p><%= t '.details_change' %></p>
+      <ul class="list-bullet">
+        <li><%=t 'registrations.confirmed.waste_bullet1_lower' %></li>
+        <li><%=t 'registrations.confirmed.waste_bullet2_lower' %></li>
+      </ul>
 
-    			<!-- The original screens for this had direct access to the View Certificate button, but this is ony available if logged in -->
+      <h4 class="heading-small"><%= t'registrations.confirmed.update_heading' %></h4>
 
-          <% if can? :print, @registration %>
+        <% else %>
+      <p><%=t 'registrations.confirmed.paragraph1_upper' %></p>
+      <p><%=t 'registrations.confirmed.being_waste_heading' %></p>
 
-          <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %>
-          </p>
-          <% else %>
-          <p><%= t '.sign_in_to_view' %></p>
-          <p><%= link_to t('form.sign_in_button_label'), user_session_url(), :class => 'link-button-secondary' %></p>
-          <% end %>
+      <ul class="list-bullet">
+        <li><%=t 'registrations.confirmed.waste_bullet1' %></li>
+        <li><%=t 'registrations.confirmed.waste_bullet2' %></li>
+      </ul>
 
-            <!-- Below - almost complete -->
+      <p><%=t 'registrations.confirmed.guidance_heading' %></p>
 
-            <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+      <ul class="list-bullet">
+        <li><%=t 'registrations.confirmed.guide_bullet1' %></li>
+        <li><%=t 'registrations.confirmed.guide_bullet2' %></li>
+        <li><%=t 'registrations.confirmed.guide_bullet3' %></li>
+        <li><%=t 'registrations.confirmed.guide_bullet4' %></li>
+      </ul>
 
-            <p class="heading-small"><%= t('.not_yet_registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+       <!-- end uppper and lower tier end page -->
 
-            <p class="panel-indent"><%= t '.payment_message', :regNum => @registration.regIdentifier %></p>
+      <h4 class="heading-small"><%= t'registrations.confirmed.update_heading' %></h4>
+        <% end %>
 
-            <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
+      <p><%= t 'registrations.confirmed.update_details' %></p>
 
-            <!-- end - not yet registered -->
+			<!-- Sign in  -->
 
+        <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
 
-            <!-- Below - declared convictions -->
+      <p><%=t 'registrations.confirmed.signin_view_html' %></p>
 
-            <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+        <% else %>
 
-            <h1 class="heading-large"><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></h1>
+      <p><%=t 'registrations.confirmed.signin__check_html' %></p>
 
-            <% if @registration.declaredConvictions %>
-              <p><%= t '.declared_convictions_message' %></p>
-            <% else %>
-              <p>2 <%= t '.pending_key_people_check_message' %></p>
-            <% end %>
+        <% end %>
 
-            <p><%= t '.limit_exceeded', :limit => Rails.configuration.registrations_service_exceed_limit %></p>
+      <!-- end sign -->
 
-            <h3><%= t '.phone_number', :number => Rails.configuration.registrations_service_phone %></h3>
+      <!-- bank transfer  -->
 
-            <% unless @registration.paid_in_full? %>
-              <p><%= t '.payment_message', :regNum => @registration.regIdentifier %></p>
-            <% end %>
+        <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
 
-            <% end %>
+      <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
 
-            <!-- end - if user has convictions -->
+      <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next_step' %></h4>
 
-            <!-- finished btns -->
+      <p><%= t '.payment_details', :regNum => @registration.regIdentifier %></p>
+      <p><%= t'registrations.confirmed.payment_timescale' %></p>
+      <p class="panel-indent"><%= t'registrations.confirmed.legally_entitled' %></p>
 
-            <div class="form-group">
-              <%= form_tag do |f| %>
-                <input id="finished" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
-              <% end %>
-              <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE  and @registration.tier.downcase.eql? 'upper' %>
-                <p class='form-hint' id="world-pay-subtitle"><%= t '.if_upper' %></p>
-              <% end %>
-            </div>
+      <!-- end bank transfer -->
 
-          <!-- end - finished btns -->
+      <!-- convictions check -->
 
-        </div>
-      </fieldset>
+        <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
 
+      <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+
+      <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next' %></h4>
+
+      <p><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></p>
+      <p class="panel-indent"><%= t'registrations.confirmed.legally_entitled' %></p>
+
+        <% end %>
+
+      <!-- end convictions check -->
+
+      <!-- finished btns -->
+
+      <p><%= t'registrations.confirmed.contact_agency_html' %></p>
+
+      <p class="heading-with-border"><%= t'registrations.confirmed.survey_html' %><%= t'registrations.confirmed.survey_text' %></p>
+
+      <div class="form-group ">
+        <%= form_tag do |f| %>
+        <input id="finished" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
+        <% end %>
+        <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE  and @registration.tier.downcase.eql? 'upper' %>
+        <% end %>
+      </div>
+
+      <!-- end - finished btns -->
+
+    </div><!-- end grid -->
+    </div><!-- end grid -->
   </main><!-- end main -->
 </div><!-- end wrapper -->
