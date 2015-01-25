@@ -651,6 +651,10 @@ en:
       explanation: "Construction and demolition wastes typically include soils, concrete, bricks, glass, wood, plasterboard, asbestos, metals and plastics."
       explanation2: "It can be produced as part of a large construction project or a smaller business activity such as a general builder replacing a bathroom or a gardener replacing fence panels and paving slabs."
       explanation_link: "What is construction and demolition waste?"
+  only_deal_with:
+    show:
+      subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
+      title: "Type of waste"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
@@ -1065,10 +1069,6 @@ en:
       table_heading2: "use our account details below to make your internet or telephone banking payment."
       table_heading3: "Step 2 - "
       table_heading4: "tell us the date, amount of your payment and payment reference number, so we can send you your registration. You can contact us by email, fax or in writing."
-    onlydealwith_step:
-      step: "Step 4 of 8"
-      subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
-      title: "Type of waste"
     order:
       initial: "Initial Registration"
       edit: "Edit Registration"

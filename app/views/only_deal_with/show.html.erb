@@ -1,0 +1,45 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+
+    <% content_for :page_title, createTitle('.title') %>
+
+    <div id="page5" data-journey="waste-carriers-registration:onlydealwith">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('form.back_button_label'), service_provided_path %></li>
+        </ol>
+      </div>
+
+      <%= form_for(@registration, :url => only_deal_with_path, html: {autocomplete: 'off'}) do |f| %>
+
+        <%= render 'shared/registration_errors' %>
+
+        <header class="page-header group">
+          <div class="hgroup">
+            <h1 class="heading-medium" id="groupLabel"><%= t '.subtitle' %></h1>
+          </div>
+        </header>
+
+        <div class="form-group<%if @registration.errors[:onlyAMF].any?%> validation<%end%>" id="registration_onlyAMF" role="group" aria-labelledby="groupLabel">
+          <%= validation_for(@registration, :onlyAMF) %>
+          <div class="inline"><%= f.label :yes_option_label, for: "registration_onlyAMF_yes", :class => "block-label" do %>
+            <%= f.radio_button :onlyAMF, "yes", :class => "radio" %>
+              <%= t 'form.yes_option_label' %>
+            <% end %>
+          </div>
+          <div class="inline"><%= f.label :yes_option_label, for: "registration_onlyAMF_no", :class => "block-label" do %>
+            <%= f.radio_button :onlyAMF, "no", :class => "radio" %>
+              <%= t 'form.no_option_label' %>
+            <% end %>
+          </div>
+        </div>
+
+        <%= render 'shared/registration_next_link' %>
+
+      <% end %>
+    </div>
+  </main>
+</div>
