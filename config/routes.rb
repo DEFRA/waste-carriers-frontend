@@ -59,8 +59,8 @@ Registrations::Application.routes.draw do
     # Add routing for confirm delete registration
     get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
 
-    # Add a new route for the print view
-    match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
+    # Add a new route for the view certificate view
+    match "registrations/:id/view" => 'registrations#view', :via => [:get,:patch], :as => :view
 
     # Add routing for revoke/unrevoke registration
     get "registrations/:id/revoke" => 'registrations#revoke', :via => [:get], :as => :revoke
