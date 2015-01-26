@@ -31,7 +31,7 @@ class RegistrationsController < ApplicationController
 
   before_filter :authenticate_admin_request!
 
-  before_filter :authenticate_external_user!, :only => [:update, :destroy, :finish, :print]
+  before_filter :authenticate_external_user!, :only => [:update, :destroy, :finish, :view]
 
   # GET /registrations
   # GET /registrations.json
@@ -65,78 +65,6 @@ class RegistrationsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @registrations }
-    end
-  end
-
-  # GET /your-registration/construction-demolition
-  def newConstructionDemolition
-    new_step_action 'constructiondemolition'
-  end
-
-  # POST /your-registration/construction-demolition
-  def updateNewConstructionDemolition
-    setup_registration 'constructiondemolition'
-    return unless @registration
-
-    if @registration.valid?
-      # this is the last step of the smart answers, so we need to check if
-      # we're doing a smart edit or not
-      # Removed quick edit for smart answers until more time to implement and test
-      #      if session[:edit_mode]
-      #        original_registration = Registration[ session[:original_registration_id] ]
-      #        redirect_to determine_smart_answers_route(@registration, original_registration)
-      #        return
-      #      end
-      # TODO this is where you need to make the choice and update the steps
-      case @registration.constructionWaste
-      when 'yes'
-        proceed_as_upper
-      when 'no'
-        proceed_as_lower
-      end
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newConstructionDemolition", :status => '400'
-    end
-  end
-
-  # GET /your-registration/only-deal-with
-  def newOnlyDealWith
-    new_step_action 'onlydealwith'
-  end
-
-  # POST /your-registration/only-deal-with
-  def updateNewOnlyDealWith
-    setup_registration 'onlydealwith'
-    return unless @registration
-
-    if @registration.valid?
-      # this is the last step of the smart answers, so we need to check if
-      # we're doing a smart edit or not
-
-      #
-      # Commenting this out as it is broken and causes a:
-      # No route matches {:action=>"{:controller=>\"key_people\", :action=>\"newKeyPeople\"}", :locale=>:en, :controller=>"registrations"} Error
-      #
-      #
-      #  if session[:edit_mode]
-      #    original_registration = Registration[ session[:original_registration_id] ]
-      #    redirect_to action: determine_smart_answers_route(@registration, original_registration)
-      #    return
-      #  end
-
-      # TODO this is where you need to make the choice and update the steps
-      case @registration.onlyAMF
-      when 'yes'
-        proceed_as_lower
-      when 'no'
-        proceed_as_upper
-      end
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render "newOnlyDealWith", :status => '400'
     end
   end
 
@@ -1037,7 +965,7 @@ class RegistrationsController < ApplicationController
   end
 
 
-  def print
+  def view
 
     reg_uuid = params[:id] || session[:registration_uuid]
 
@@ -1061,7 +989,7 @@ class RegistrationsController < ApplicationController
     else
       # Turn off default gov uk template so certificate can be printed exactly as is
       render :layout => "non_govuk_template"
-      logger.debug 'Save Print state in the print page (go to Finish)'
+      logger.debug 'Save View state in the view page (go to Finish)'
       flash[:alert] = 'Finish'
     end
   end

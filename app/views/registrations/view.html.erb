@@ -6,7 +6,7 @@
     <% content_for :page_title, createTitle('.title') %>
 
     <!-- Back button section -->
-    <div class="back-section no-print">
+    <div class="no-print back-section">
       <%= link_to t('registrations.form.back_button_label'), :back, :class => 'link-button-secondary' %>
       <% if session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RENEWAL  %>
       <%= link_to t('registrations.form.finish_button_label'), action: "finish_renewal", :class => 'link-button-secondary' %>
@@ -17,7 +17,7 @@
     <header class="page-header group">
       <div class="hgroup">
         <% message = "#{t('registration_mailer.welcome_email.tier_result_message', :companyName => @registration.companyName, :tier_with_article => @registration.tier.downcase.with_indefinite_article)}" %>
-        <h1 class="heading-small"><%=t 'registrations.print.heading' %></h1>
+        <h1 class="heading-small"><%=t 'registrations.view.heading' %></h1>
       </div>
     </header>
 
@@ -26,60 +26,60 @@
       <table summary='This is an example table' class="certificate_table" role='presentation'>
         <thead>
           <tr>
-            <th><%=t 'registrations.print.authority' %></th>
+            <th><%=t 'registrations.view.authority' %></th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.name' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.name' %></td>
             <td><div width="100%" bgcolor="#ffffff" align="left">
             <img src="https://assets.digital.cabinet-office.gov.uk/government/uploads/system/uploads/organisation/logo/199/EAlogo.png" alt="The Environment Agency logo" width="129px" height="39px" /></div></td>
           </tr>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.nccc_address_pretext' %></td>
-            <td><%=t 'registrations.print.nccc_address_line1' %></br>
-                <%=t 'registrations.print.nccc_address_line2' %></br>
-                <%=t 'registrations.print.nccc_address_line3' %></br>
-                <%=t 'registrations.print.nccc_address_line4' %></br>
+            <td class="table-column-text"><%=t 'registrations.view.nccc_address_pretext' %></td>
+            <td><%=t 'registrations.view.nccc_address_line1' %></br>
+                <%=t 'registrations.view.nccc_address_line2' %></br>
+                <%=t 'registrations.view.nccc_address_line3' %></br>
+                <%=t 'registrations.view.nccc_address_line4' %></br>
             </td>
           </tr>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.telephone_number_pretext' %></td>
-            <td><%=t 'registrations.print.nccc_number' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.telephone_number_pretext' %></td>
+            <td><%=t 'registrations.view.nccc_number' %></td>
           </tr>
         </tbody>
       </table>
       </br>
 
-      <p><%=t 'registrations.print.certify_message' %></p>
+      <p><%=t 'registrations.view.certify_message' %></p>
 
       <table summary='This is an example table' role='presentation'>
         <thead>
           <tr>
-            <th><%=t 'registrations.print.carrier_table_heading' %></th>
+            <th><%=t 'registrations.view.carrier_table_heading' %></th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.carrier_name' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.carrier_name' %></td>
             <td><%= @registration.firstName%> <%= @registration.lastName%></td>
           </tr>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.registered' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.registered' %></td>
             <td><%= message %></td>
           </tr>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.registration_number' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.registration_number' %></td>
             <td><%= @registration.regIdentifier%></td>
           </tr>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.business_name' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.business_name' %></td>
             <td><%= @registration.companyName%></td>
           </tr>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.business_address' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.business_address' %></td>
             <td>
               <% unless @registration.houseNumber.blank? %>
                   <%= @registration.houseNumber %></br>
@@ -111,16 +111,16 @@
             </td>
           </tr>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.carrier_telephone_number' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.carrier_telephone_number' %></td>
             <td><%= @registration.phoneNumber%></td>
           </tr>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.registration_date' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.registration_date' %></td>
             <td><%= format_date  @registration.date_registered %></td>
           </tr>
            <% if @registration.upper? %>
           <tr>
-            <td class="table-column-text"><%=t 'registrations.print.expiry_date' %></td>
+            <td class="table-column-text"><%=t 'registrations.view.expiry_date' %></td>
             <td><%= format_date  @registration.expires_on %></td>
           </tr>
             <% end %>

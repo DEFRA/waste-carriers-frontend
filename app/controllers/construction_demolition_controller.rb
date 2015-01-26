@@ -1,22 +1,23 @@
-class ServiceProvidedController < ApplicationController
+class ConstructionDemolitionController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/service-provided
+  # GET /your-registration/construction-demolition
   def show
-    new_step_action 'serviceprovided'
+    new_step_action 'constructiondemolition'
   end
 
-  # POST /your-registration/service-provided
+  # POST /your-registration/construction-demolition
   def create
-    setup_registration 'serviceprovided'
+    setup_registration 'constructiondemolition'
     return unless @registration
 
     if @registration.valid?
-      case @registration.isMainService
+
+      case @registration.constructionWaste
       when 'yes'
-        redirect_to :only_deal_with
+        proceed_as_upper
       when 'no'
-        redirect_to :construction_demolition
+        proceed_as_lower
       end
     else
       # there is an error (but data not yet saved)
@@ -31,7 +32,7 @@ class ServiceProvidedController < ApplicationController
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
     params.require(:registration).permit(
-    :isMainService)
+    :constructionWaste)
   end
 
 end
