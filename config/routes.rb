@@ -59,8 +59,8 @@ Registrations::Application.routes.draw do
     # Add routing for confirm delete registration
     get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
 
-    # Add a new route for the print view
-    match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
+    # Add a new route for the view certificate view
+    match "registrations/:id/view" => 'registrations#view', :via => [:get,:patch], :as => :view
 
     # Add routing for revoke/unrevoke registration
     get "registrations/:id/revoke" => 'registrations#revoke', :via => [:get], :as => :revoke
@@ -93,8 +93,8 @@ Registrations::Application.routes.draw do
     get "your-registration/construction-demolition" => 'construction_demolition#show', :as => :construction_demolition
     post "your-registration/construction-demolition" => 'construction_demolition#create'
 
-    match "your-registration/only-deal-with" => 'registrations#newOnlyDealWith', :via => [:get], :as => :newOnlyDealWith
-    match "your-registration/only-deal-with" => 'registrations#updateNewOnlyDealWith', :via => [:post,:put,:patch]
+    get "your-registration/only-deal-with" => 'only_deal_with#show', :as => :only_deal_with
+    post "your-registration/only-deal-with" => 'only_deal_with#create'
 
     # Registration urls - Lower tier
     match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails

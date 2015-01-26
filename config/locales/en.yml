@@ -309,7 +309,7 @@ en:
     next_button_label: "Next"
     no_option_label: "No"
     payment_status_button_label: "Payment Status"
-    print_button_label: "Print certificate"
+    view_button_label: "View certificate"
     search_button_label: "Search"
     sign_in_button_label: "Sign in"
     update_button_label: "Update"
@@ -651,6 +651,10 @@ en:
       explanation: "Construction and demolition wastes typically include soils, concrete, bricks, glass, wood, plasterboard, asbestos, metals and plastics."
       explanation2: "It can be produced as part of a large construction project or a smaller business activity such as a general builder replacing a bathroom or a gardener replacing fence panels and paving slabs."
       explanation_link: "What is construction and demolition waste?"
+  only_deal_with:
+    show:
+      subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
+      title: "Type of waste"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
@@ -1045,7 +1049,7 @@ en:
       phoneNumber_label: "Telephone number"
       please_select_address: "Please select an address.."
       postcode_label: "Post code"
-      print_button_label: "View your certificate"
+      view_button_label: "View your certificate"
       progress: "Progress:\ "
       publicBodyType_label: "Type of public body"
       refund_button_label: "Refund"
@@ -1100,10 +1104,6 @@ en:
       table_heading2: "use our account details below to make your internet or telephone banking payment."
       table_heading3: "Step 2 - "
       table_heading4: "tell us the date, amount of your payment and payment reference number, so we can send you your registration. You can contact us by email, fax or in writing."
-    onlydealwith_step:
-      step: "Step 4 of 8"
-      subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
-      title: "Type of waste"
     order:
       initial: "Initial Registration"
       edit: "Edit Registration"
@@ -1155,22 +1155,19 @@ en:
       pendingText3: "Once you have confirmed your account and completed your registration, please close this web page."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
       yourRegNumber: "Your registration number is: %{reg}"
-    print:
-      environment_agency_logo_alt: "The Environment Agency logo"
-      title: "Waste carrier registration certificate"
+    view:
       heading: "Certificate of Registration under the Waste (England and Wales) Regulations 2011"
       authority: "Regulation authority"
-      title: "Name"
-      environment_agency: "Environment Agency"
-      nccc_address_pretext: "Address"
+      name: "Name"
       nccc_address_line1: "National Customer Service Centre"
       nccc_address_line2: "99 Parkway Avenue"
       nccc_address_line3: "Sheffield"
       nccc_address_line4: "S9 4WF"
+      nccc_address_pretext: "Address"
       telephone_number_pretext: "Telephone number"
       nccc_number: "03708 506506"
-      carrier_table_heading: "Carriers details"
       certify_message: "The Environment Agency certify that the following information is entered in the register which they maintain under regulation 28 of the Waste (England and Wales) Regulations 2011."
+      carrier_table_heading: "Carriers details"
       carrier_name: "Name of registered carrier"
       registered: "Registered as"
       registration_number: "Registration number"
