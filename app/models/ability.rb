@@ -29,7 +29,7 @@ class Ability
     # See the wiki for details:
     # https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
-    can :print, Registration do |registration|
+    can :view, Registration do |registration|
       user.try(:is_agency_user?) or ((registration.user == user) and owe_nothing?(registration))
     end
 

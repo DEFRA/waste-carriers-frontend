@@ -36,7 +36,7 @@ describe ServiceProvidedController, :type => :controller do
 
       it "redirects to the 'other businesses' page" do
         post :create, :registration => { "isMainService" => "yes" }
-        expect(response).to redirect_to :newOnlyDealWith
+        expect(response).to redirect_to :only_deal_with
       end
 
     end
@@ -52,7 +52,7 @@ describe ServiceProvidedController, :type => :controller do
 
       it "redirects to the 'Construction/demolition' page" do
         post :create, :registration => { "isMainService" => "no" }
-        expect(response).to redirect_to :newConstructionDemolition
+        expect(response).to redirect_to :construction_demolition
       end
 
     end
