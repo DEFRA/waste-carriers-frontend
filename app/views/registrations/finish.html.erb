@@ -29,8 +29,8 @@
       <% if isComplete %>
         <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
       <% end %>
-      <% if can? :print, @registration and isComplete %>
-        <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %></p>
+      <% if can? :view, @registration and isComplete %>
+        <p><%= link_to t('form.view_certificate_link_label'), view_url(@registration.uuid), :class => 'link-button-secondary' %></p>
       <% end %>
 
       <% unless @registration.paid_in_full? %>
