@@ -31,7 +31,7 @@ class RegistrationsController < ApplicationController
 
   before_filter :authenticate_admin_request!
 
-  before_filter :authenticate_external_user!, :only => [:update, :destroy, :finish, :print]
+  before_filter :authenticate_external_user!, :only => [:update, :destroy, :finish, :view]
 
   # GET /registrations
   # GET /registrations.json
@@ -1037,7 +1037,7 @@ class RegistrationsController < ApplicationController
   end
 
 
-  def print
+  def view
 
     reg_uuid = params[:id] || session[:registration_uuid]
 
@@ -1061,7 +1061,7 @@ class RegistrationsController < ApplicationController
     else
       # Turn off default gov uk template so certificate can be printed exactly as is
       render :layout => "non_govuk_template"
-      logger.debug 'Save Print state in the print page (go to Finish)'
+      logger.debug 'Save View state in the view page (go to Finish)'
       flash[:alert] = 'Finish'
     end
   end

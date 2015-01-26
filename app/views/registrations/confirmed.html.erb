@@ -43,13 +43,17 @@
 
     			<!-- The original screens for this had direct access to the View Certificate button, but this is ony available if logged in -->
 
-          <% if can? :print, @registration %>
-
-          <p><%= link_to t('form.view_certificate_link_label'), print_url(@registration.uuid), :class => 'link-button-secondary' %>
-          </p>
+          <% if can? :view, @registration %>
+            <p>
+                <%= link_to t('form.view_certificate_link_label'), view_url(@registration.uuid), :class => 'link-button-secondary' %>
+            </p>
           <% else %>
-          <p><%= t '.sign_in_to_view' %></p>
-          <p><%= link_to t('form.sign_in_button_label'), user_session_url(), :class => 'link-button-secondary' %></p>
+            <p>
+                <%= t '.sign_in_to_view' %>
+            </p>
+            <p>
+              <%= link_to t('form.sign_in_button_label'), user_session_url(), :class => 'link-button-secondary' %>
+            </p>
           <% end %>
 
             <!-- Below - almost complete -->
