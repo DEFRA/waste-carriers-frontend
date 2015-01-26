@@ -96,6 +96,10 @@ Registrations::Application.routes.draw do
     get "your-registration/only-deal-with" => 'only_deal_with#show', :as => :only_deal_with
     post "your-registration/only-deal-with" => 'only_deal_with#create'
 
+    get "your-registration/registration-type" => "registration_type#show", :as => :registration_type
+    get "your-registration/registration-type/edit" => "registration_type#edit", :as => :edit_registration_type
+    post "your-registration/registration-type" => "registration_type#create"
+
     # Registration urls - Lower tier
     match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
     get   "your-registration/edit/business-details" => "registrations#editBusinessDetails", :via => [:get], :as => :editBusinessDetails
@@ -122,10 +126,6 @@ Registrations::Application.routes.draw do
     match "your-registration/confirmed" => 'registrations#completeConfirmed', :via => [:post]
 
     get "your-registration/cannot-edit" => 'registrations#cannot_edit', :as => :cannot_edit
-
-    get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
-    get "your-registration/edit/registration-type" => "registrations#editRegistrationType", :via => [:get], :as => :editRegistrationType
-    match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
     resources :registrations
 
