@@ -321,38 +321,6 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # GET /your-registration/registration-type
-  def newRegistrationType
-    new_step_action 'registrationtype'
-  end
-
-  # GET /your-registration/edit/registration-type
-  def editRegistrationType
-    session[:edit_link_reg_type] = '1'
-    new_step_action 'registrationtype'
-    render 'newRegistrationType'
-  end
-
-  # POST /your-registration/registration-type
-  def updateNewRegistrationType
-    setup_registration 'registrationtype'
-    return unless @registration
-
-    if @registration.valid?
-      if session[:edit_link_reg_type]
-        #if session[:edit_mode]
-        session.delete(:edit_link_reg_type)
-        redirect_to :newConfirmation and return
-      else
-        redirect_to :newBusinessDetails  and return
-      end
-    else
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render 'newRegistrationType', :status => '400'
-    end
-  end
-
   def newRelevantConvictions
     new_step_action 'convictions'
   end

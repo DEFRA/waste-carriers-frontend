@@ -279,11 +279,11 @@ module RegistrationsHelper
   def give_meaning_to_reg_type(attr_value)
     case attr_value
     when 'carrier_broker_dealer'
-      I18n.t('registrations.registrationtype_step.readable_carrier_broker_dealer')
+      I18n.t('registration_type.show.readable_carrier_broker_dealer')
     when 'carrier_dealer'
-      I18n.t('registrations.registrationtype_step.readable_carrier_dealer')
+      I18n.t('registration_type.show.readable_carrier_dealer')
     when 'broker_dealer'
-      I18n.t('registrations.registrationtype_step.readable_broker_dealer')
+      I18n.t('registration_type.show.readable_broker_dealer')
     end
   end
 
@@ -488,14 +488,14 @@ module RegistrationsHelper
     @registration.tier = 'UPPER'
     @registration.save
     session[:ga_tier] = 'upper'
-    redirect_to newRegistrationType_url
+    redirect_to :registration_type
   end
 
   def proceed_as_lower
     @registration.tier = 'LOWER'
     @registration.save
     session[:ga_tier] = 'lower'
-    redirect_to newBusinessDetails_url
+    redirect_to :newBusinessDetails
   end
 
 end
