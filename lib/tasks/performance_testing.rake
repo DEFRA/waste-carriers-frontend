@@ -3,7 +3,7 @@ require "#{Rails.root}/features/support/data_creation.rb"
 
 namespace :performance_testing do
   @counties = ['Avon', 'Bedfordshire', 'Berkshire', 'Buckinghamshire', 'Cambridgeshire', 'Cheshire', 'Cornwall', 'Cumbria', 'Derbyshire', 'Devon', 'Dorset', 'Durham', 'East Sussex', 'Essex', 'Gloucestershire', 'Greater Manchester', 'Hampshire', 'Herefordshire', 'Hertfordshire', 'Humberside', 'Isle of Wight', 'Kent', 'Lancashire', 'Leicestershire', 'Lincolnshire', 'Merseyside', 'Norfolk', 'North Yorkshire', 'Northamptonshire', 'Northumberland', 'Nottinghamshire', 'Oxfordshire', 'Shropshire', 'Somerset', 'South Yorkshire', 'Staffordshire', 'Suffolk', 'Surrey', 'Tyne and Wear', 'Warwickshire', 'West Midlands', 'West Sussex', 'West Yorkshire', 'Wiltshire', 'Worcestershire']
-  
+
   def make_company_name
     service = ['waste', 'disposal', 'demolition', 'recycling', 'removal', 'reclamation', 'reprocessing', 'clearance', 'scrappage', 'junk'].sample
     suffix = ['LTD', 'services', 'company', 'contractors', 'limitted', 'industrial services', 'group'].sample
@@ -20,11 +20,11 @@ namespace :performance_testing do
       end
     end
   end
-  
+
   def make_company_number
     return (1 + rand(99999998)).to_s.rjust(8, '0')
   end
-  
+
   def make_random_postcode
     a1 = (65 + rand(26)).chr
     a2 = (65 + rand(26)).chr
@@ -34,7 +34,7 @@ namespace :performance_testing do
     a4 = (65 + rand(26)).chr
     return "#{a1}#{a2}#{n1} #{n2}#{a3}#{a4}"
   end
-  
+
   def randomise_lower_tier_reg_data(reg_data)
     reg_data['firstName'] = Faker::Name::first_name
     reg_data['lastName'] = Faker::Name::last_name
@@ -52,7 +52,7 @@ namespace :performance_testing do
     reg_data['postcode'] = make_random_postcode()
     return reg_data
   end
-  
+
   def randomise_upper_tier_reg_data(reg_data)
     randomise_lower_tier_reg_data(reg_data)
     reg_data['company_no'] = make_company_number()
@@ -61,7 +61,66 @@ namespace :performance_testing do
     reg_data['key_people'][0]['dob'] = Faker::Date.between(70.years.ago, 20.years.ago).strftime('%F')
     return reg_data
   end
-  
+
+  def make_random_ref_num
+    #define the middle group of characters eg. AE8437YD
+    @mid_group = ''
+    while @mid_group.length < 8 do
+      if @mid_group.length > 2 and @mid_group.length < 6
+        @mid_group += rand(9).to_s
+      else
+        @mid_group += (65 + rand(26)).chr
+      end
+    end
+    #define the end group eg. R034
+    @end_group = (65 + rand(26)).chr
+    while @end_group.length < 4 do
+      @end_group += rand(9).to_s
+    end
+
+    return "CB/#{@mid_group}/#{@end_group}"
+  end
+
+  def randomise_ir_renewal_data(renewal_type)
+    ir_data = Irrenewal.create
+    ir_data.applicant_type = renewal_type
+    ir_data.expiry_date = Faker::Date.between(2.months.from_now, 3.years.from_now).strftime('%F')
+    ir_data.reference_number = make_random_ref_num
+    registration_types = ['Carrier', 'Carrier and Broker']
+    ir_data.registration_type = registration_types[rand(1)]
+    if ir_data.applicant_type == 'Company'
+      ir_data.ir_type = 'COMPANY'
+    elsif ir_data.applicant_type == 'Person'
+      ir_data.ir_type = 'INDIVIDUAL'
+    elsif ir_data.applicant_type== 'Organisation of Individuals'
+      ir_data.ir_type = 'PARTNER'
+    elsif ir_data.applicant_type == 'Public Body'
+      ir_data.ir_type = 'PUBLIC_BODY'
+    end
+    company_names = ['', Faker::Company::name + ' ' + Faker::Commerce.department(2, true)]
+    ir_data.company_name = company_names[rand(1)]
+    trading_names = ['', Faker::Company::name, ir_data.company_name]
+    ir_data.trading_name = trading_names[rand(2)]
+    company_number = '07'
+    while company_number.length < 8 do
+      company_number += rand(9).to_s
+    end
+    company_numbers = ['', company_number]
+    ir_data.company_number = company_numbers[rand(1)]
+    ir_data.true_registration_type = ir_data.registration_type.upcase
+    permit_holder_names = ['', Faker::Name::first_name + ' ' + Faker::Name::last_name]
+    ir_data.permit_holder_name = permit_holder_names[rand(1)]
+    dobs = ['', Faker::Date.between(70.years.ago, 20.years.ago).strftime('%F')]
+    ir_data.dob = dobs[rand(1)]
+    party_sub_types = ['', 'Partnership']
+    ir_data.party_sub_type = party_sub_types[rand(1)]
+    partnership_names = ['', Faker::Name::first_name + ' ' + Faker::Name::last_name]
+    ir_data.partnership_name = partnership_names[rand(1)]
+    party_names = ['', Faker::Name::first_name + ' ' + Faker::Name::last_name]
+    ir_data.party_name = party_names[rand(1)]
+    ir_data.save!
+  end
+
   task :seed_lower_tier_registrations, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete lower-tier registrations..."
@@ -70,7 +129,7 @@ namespace :performance_testing do
       create_complete_lower_tier_reg_from_hash(randomise_lower_tier_reg_data(reg_data))
     end
   end
-  
+
   task :seed_upper_tier_registrations, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete upper-tier registrations..."
@@ -79,14 +138,14 @@ namespace :performance_testing do
       create_complete_upper_tier_reg_from_hash(randomise_upper_tier_reg_data(reg_data), 'Bank Transfer', 0)
     end
   end
-  
+
   task :seed_convictions, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} conviction records..."
 
     # Configure the ElasticSearch client connection.
     Conviction.gateway.client = Elasticsearch::Client.new host: Rails.configuration.waste_exemplar_elasticsearch_url
-    
+
     # Generate a mixture of company and individual conviction records.
     system_flag_names = ['EMS', 'NEDS']
     for n in (1..args.num_records.to_i) do
@@ -103,6 +162,17 @@ namespace :performance_testing do
       else
         Conviction.create name: make_company_name(), companyNumber: make_company_number(), systemFlag: system_flag_names.sample, incidentNumber: incident_number
       end
+    end
+  end
+
+  task :seed_ir_renewals, [:num_records] => :environment do |t, args|
+    args.with_defaults(:num_records => 10)
+    puts "Creating #{args.num_records} complete IR-renewals..."
+    for n in (1..args.num_records.to_i) do
+      randomise_ir_renewal_data('Person')
+      randomise_ir_renewal_data('Company')
+      randomise_ir_renewal_data('Organisation of Individuals')
+      randomise_ir_renewal_data('Public Body')
     end
   end
 
