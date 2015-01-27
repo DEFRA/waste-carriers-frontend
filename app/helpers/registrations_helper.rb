@@ -1,3 +1,5 @@
+require 'json'
+
 module RegistrationsHelper
 
   def validation_for(model, attribute)
@@ -265,10 +267,12 @@ module RegistrationsHelper
     session.delete(:registration_id)
     session.delete(:registration_uuid)
 
-    #clear/reset session variables used for Google Analytics
+    # Clear session variables used for Google Analytics.
     session.delete(:ga_is_renewal)
     session.delete(:ga_tier)
-    session.delete(:ga_status)
+    session.delete(:ga_convictions)
+    session.delete(:ga_payment_method)
+    session.delete(:ga_status_color)
   end
 
   def clear_order_session
@@ -343,53 +347,57 @@ module RegistrationsHelper
     return confirmationType
   end
 
-  #return the status color indicator for Google Analytics: 'green' or 'amber' depending on registration confirmation status
-  def google_analytics_status_color confirmation_type
-    logger.info 'Determine Google Analytics status color to show for confirmation type: ' + confirmation_type.to_s
-    ga_color = ''
-    if !confirmation_type
-      return ga_color
+  # Sets a flag in the session based on the registraiton status (complete, pending, etc), or clears
+  # the flag if this is currently unknown.  Only used by Google Analytics.
+  def set_google_analytics_status_color(session, confirmation_type)
+    session.delete(:ga_status_color)
+    if confirmation_type
+      case confirmation_type
+        when STATUS_COMPLETE, STATUS_COMPLETE_LOWER
+          session[:ga_status_color] = 'green'
+        when STATUS_ALMOST_COMPLETE, STATUS_CRIMINALLY_SUSPECT
+          session[:ga_status_color] = 'amber'
+      end
     end
-
-    if confirmation_type.eql? STATUS_COMPLETE
-      ga_color = 'green'
-    elsif confirmation_type.eql? STATUS_COMPLETE_LOWER
-      ga_color = 'green'
-    elsif confirmation_type.eql? STATUS_ALMOST_COMPLETE
-      ga_color = 'amber'
-    elsif confirmation_type.eql? STATUS_CRIMINALLY_SUSPECT
-      ga_color = 'amber'
-    end
-    ga_color
   end
 
-  #return 'bacs' for bank transfer, or 'cc' for card payments, or an empty string if not yet determined
-  def google_analytics_payment_indicator current_order
-    payment_indicator = ''
-    if !current_order
-      return payment_indicator
+  # Sets a flag in the session indicating how the user wants to pay (bank transfer or credit card), or clears
+  # the flag if this is currently unknown.  Only used by Google Analytics.
+  def set_google_analytics_payment_indicator(session, order)
+    session.delete(:ga_payment_method)
+    if order
+      if order.isOnlinePayment?
+        session[:ga_payment_method] = 'cc'
+      elsif order.isOfflinePayment?
+        session[:ga_payment_method] = 'bacs'
+      end
     end
-    if current_order.isOnlinePayment?
-      payment_indicator = 'cc'
-    elsif current_order.isOfflinePayment?
-      payment_indicator = 'bacs'
-    end
-    payment_indicator
   end
 
-  #Return true or false based on the user's andwer to the has-relevant-convictions question
-  def google_analytics_convictions_indicator registration
-    if !registration
-      return ''
+  # Sets a flag in the session based on the user's answer to the has-relevant-convictions question, or clears
+  # the flag if the answer is currently unknown.  Only used by Google Analytics.
+  def set_google_analytics_convictions_indicator(session, registration)
+    session.delete(:ga_convictions)
+    if registration
+      if registration.declaredConvictions == 'yes'
+        session[:ga_convictions] = 'true'
+      elsif registration.declaredConvictions == 'no'
+        session[:ga_convictions] = 'false'
+      end
     end
-    if registration.declaredConvictions == 'yes'
-      return 'true'
-    elsif registration.declaredConvictions == 'no'
-      return 'false'
-    end
-    ''
   end
-
+  
+  # Returns a string of JSON containing indicators which help Google Analytics identify which route
+  # through the site a visitor has taken.  Indicators are only set when their value is known.
+  def get_google_analytics_indicators_as_json(session)
+    result = {}
+    result['renewal']     = session[:ga_is_renewal] if session.has_key?(:ga_is_renewal)
+    result['tier']        = session[:ga_tier] if session.has_key?(:ga_tier)
+    result['convictions'] = session[:ga_convictions] if session.has_key?(:ga_convictions)
+    result['payment']     = session[:ga_payment_method] if session.has_key?(:ga_payment_method)
+    result['status']      = session[:ga_status_color] if session.has_key?(:ga_status_color)
+    return result.to_json.html_safe
+  end
 
   def isCurrentRegistrationType registrationNumber
     # Strip leading and trailing whitespace from number
