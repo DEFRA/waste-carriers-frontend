@@ -1,123 +1,134 @@
 <%= render 'shared/content_for_pages' %>
 
 <div id="wrapper">
-<main id="content" role="main" class="group">
 
-  <!-- WF 4.3.2 -->
-  <div id="page0"  data-journey="waste-carriers-registration:confirmed-account"></div>
+  <main id="content" role="main" class="group">
+
+    <!-- WF 4.3.2 -->
+    <div id="page0" data-journey="waste-carriers-registration:confirmed-account"></div>
     <% content_for :page_title, createTitle('.title') %>
 
-  <div class="grid">
-    <div class="grid-2-3">
+    <div class="grid">
 
-    <!-- uppper and lower tier end page -->
+      <div class="grid-2-3">
 
-    <header class="page-header group">
-      <div class="hgroup summary-box">
-          <h1><%= render 'shared/complete_summary', :type => @confirmationType %></h1>
-      </div>
-    </header>
+        <!-- upper and lower tier end page -->
 
-      <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
-
-      <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
-
-      <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next' %></h4>
-
-        <% if @registration.lower? %>
-      <p><%=t 'registrations.confirmed.paragraph1_lower' %></p>
-      <p><%=t 'registrations.confirmed.paragraph2_lower' %></p>
-
-      <ul class="list-bullet">
-        <li><%=t 'registrations.confirmed.waste_bullet1_lower' %></li>
-        <li><%=t 'registrations.confirmed.waste_bullet2_lower' %></li>
-      </ul>
-
-      <h4 class="heading-small"><%= t'registrations.confirmed.update_heading' %></h4>
-
-        <% else %>
-      <p><%=t 'registrations.confirmed.paragraph1_upper' %></p>
-      <p><%=t 'registrations.confirmed.being_waste_heading' %></p>
-
-      <ul class="list-bullet">
-        <li><%=t 'registrations.confirmed.waste_bullet1' %></li>
-        <li><%=t 'registrations.confirmed.waste_bullet2' %></li>
-      </ul>
-
-      <p><%=t 'registrations.confirmed.guidance_heading' %></p>
-
-      <ul class="list-bullet">
-        <li><%=t 'registrations.confirmed.guide_bullet1' %></li>
-        <li><%=t 'registrations.confirmed.guide_bullet2' %></li>
-        <li><%=t 'registrations.confirmed.guide_bullet3' %></li>
-        <li><%=t 'registrations.confirmed.guide_bullet4' %></li>
-      </ul>
-
-       <!-- end uppper and lower tier end page -->
-
-      <h4 class="heading-small"><%= t'registrations.confirmed.update_heading' %></h4>
-        <% end %>
-
-      <p><%= t 'registrations.confirmed.update_details' %></p>
-
-			<!-- Sign in  -->
+        <header class="page-header group">
+          <div class="hgroup summary-box">
+            <h1><%= render 'shared/complete_summary', :type => @confirmationType %></h1>
+          </div>
+        </header>
 
         <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
+<h1 style="color: lime">* UPPER TIER AND COMPLETE or LOWER TIER *</h1>
+          <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
-      <p><%=t 'registrations.confirmed.signin_view_html' %></p>
+          <h4 class="heading-small heading-with-border"><%= t 'registrations.confirmed.next' %></h4>
 
-        <% else %>
+          <% if @registration.lower? %>
+            <p><%= t 'registrations.confirmed.paragraph1_lower' %></p>
 
-      <p><%=t 'registrations.confirmed.signin__check_html' %></p>
+            <p><%= t 'registrations.confirmed.paragraph2_lower' %></p>
 
-        <% end %>
+            <ul class="list-bullet">
+              <li><%= t 'registrations.confirmed.waste_bullet1_lower' %></li>
+              <li><%= t 'registrations.confirmed.waste_bullet2_lower' %></li>
+            </ul>
 
-      <!-- end sign -->
+            <h4 class="heading-small"><%= t 'registrations.confirmed.update_heading' %></h4>
 
+          <% else %>
+            <p><%= t 'registrations.confirmed.paragraph1_upper' %></p>
 
-      <!-- bank transfer  -->
+            <p><%= t 'registrations.confirmed.being_waste_heading' %></p>
 
+            <ul class="list-bullet">
+              <li><%= t 'registrations.confirmed.waste_bullet1' %></li>
+              <li><%= t 'registrations.confirmed.waste_bullet2' %></li>
+            </ul>
+
+            <p><%= t 'registrations.confirmed.guidance_heading' %></p>
+
+            <ul class="list-bullet">
+              <li><%= t 'registrations.confirmed.guide_bullet1' %></li>
+              <li><%= t 'registrations.confirmed.guide_bullet2' %></li>
+              <li><%= t 'registrations.confirmed.guide_bullet3' %></li>
+              <li><%= t 'registrations.confirmed.guide_bullet4' %></li>
+            </ul>
+
+            <!-- end upper and lower tier end page -->
+
+            <h4 class="heading-small"><%= t 'registrations.confirmed.update_heading' %></h4>
+          <% end %>
+
+          <p><%= t 'registrations.confirmed.update_details' %></p>
+
+          <!-- Sign in  -->
+
+          <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
+
+            <p><%= t 'registrations.confirmed.signin_view_html' %></p>
+
+          <% else %>
+
+            <p><%= t 'registrations.confirmed.signin__check_html' %></p>
+
+          <% end %>
+
+          <!-- end sign -->
+
+        <!-- convictions check -->
+        <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+<h1 style="color: lime">* UPPER TIER - HAS CONVICTIONS *</h1>
+
+          <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+          <h4 class="heading-small heading-with-border"><%= t 'registrations.confirmed.next' %></h4>
+
+          <p><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></p>
+
+          <p class="panel-indent"><%= t 'registrations.confirmed.legally_entitled' %></p>
+
+        <!-- end convictions check -->
+
+        <!-- bank transfer  -->
         <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+<h1 style="color: lime">* UPPER TIER - IS BANK TRANSFER *</h1>
 
-      <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
-      <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next_step' %></h4>
-      <p><%= t '.payment_details', :regNum => @registration.regIdentifier %></p>
-      <p><%= t'registrations.confirmed.payment_timescale' %></p>
-      <p class="panel-indent"><%= t'registrations.confirmed.legally_entitled' %></p>
+          <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
+          <h4 class="heading-small heading-with-border"><%= t 'registrations.confirmed.next_step' %></h4>
 
-      <% end %>
-      <!-- end bank transfer -->
+          <p><%= t '.payment_details', :regNum => @registration.regIdentifier %></p>
 
-      <!-- convictions check -->
+          <p><%= t 'registrations.confirmed.payment_timescale' %></p>
 
-        <% if @confirmationType.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+          <p class="panel-indent"><%= t 'registrations.confirmed.legally_entitled' %></p>
 
-      <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
-      <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next' %></h4>
-      <p><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></p>
-      <p class="panel-indent"><%= t'registrations.confirmed.legally_entitled' %></p>
+        <!-- end bank transfer -->
 
         <% end %>
 
-      <!-- end convictions check -->
+        <!-- finished btns -->
 
-      <!-- finished btns -->
+        <p><%= t 'registrations.confirmed.contact_agency_html' %></p>
 
-      <p><%= t'registrations.confirmed.contact_agency_html' %></p>
+        <p class="heading-with-border"><%= t 'registrations.confirmed.survey_html' %><%= t 'registrations.confirmed.survey_text' %></p>
 
-      <p class="heading-with-border"><%= t'registrations.confirmed.survey_html' %><%= t'registrations.confirmed.survey_text' %></p>
+        <div class="form-group ">
+          <%= form_tag do |f| %>
+            <input id="finished" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
+          <% end %>
+          <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE and @registration.tier.downcase.eql? 'upper' %>
+<h1 style="color: lime">???????????????</h1>
+          <% end %>
+        </div>
 
-      <div class="form-group ">
-        <%= form_tag do |f| %>
-        <input id="finished" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
-        <% end %>
-        <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE  and @registration.tier.downcase.eql? 'upper' %>
-        <% end %>
-      </div>
+        <!-- end - finished btns -->
 
-      <!-- end - finished btns -->
+      </div> <!-- end grid -->
 
-    </div><!-- end grid -->
-    </div><!-- end grid -->
-  </main><!-- end main -->
+    </div> <!-- end grid -->
+
+  </main> <!-- end main -->
+
 </div><!-- end wrapper -->
