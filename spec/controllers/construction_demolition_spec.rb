@@ -36,7 +36,7 @@ describe ConstructionDemolitionController, :type => :controller do
 
       it "redirects to the 'Registration type' page" do
         post :create, :registration => { "constructionWaste" => "yes" }
-        expect(response).to redirect_to :newRegistrationType
+        expect(response).to redirect_to :registration_type
       end
 
     end
