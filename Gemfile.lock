@@ -379,6 +379,7 @@ DEPENDENCIES
   indefinite_article (~> 0.2.0)
   jquery-rails
   jquery-turbolinks
+  json (>= 1.8.0)
   launchy (~> 2.4.2)
   letter_opener (~> 1.2.0)
   meta_request (~> 0.3.4)
