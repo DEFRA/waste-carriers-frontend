@@ -52,7 +52,7 @@ describe OtherBusinessesController, :type => :controller do
 
       it "redirects to the 'Construction/demolition' page" do
         post :create, :registration => { "otherBusinesses" => "no" }
-        expect(response).to redirect_to :newConstructionDemolition
+        expect(response).to redirect_to :construction_demolition
       end
 
     end

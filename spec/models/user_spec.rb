@@ -15,7 +15,7 @@ describe User do
           allow(registration).to receive(:tier).and_return('LOWER')
         end
 
-        it { should be_able_to(:print, registration) }
+        it { should be_able_to(:view, registration) }
       end
 
       context 'certificate for other waste carrier' do
@@ -28,7 +28,7 @@ describe User do
           allow(registration).to receive(:tier).and_return('LOWER')
         end
 
-        it { should_not be_able_to(:print, registration) }
+        it { should_not be_able_to(:view, registration) }
       end
 
       context 'upper tier' do
@@ -42,7 +42,7 @@ describe User do
             allow(registration).to receive(:tier).and_return('UPPER')
           end
 
-          it { should be_able_to(:print, registration) }
+          it { should be_able_to(:view, registration) }
         end
 
         context 'unpaid' do
@@ -55,7 +55,7 @@ describe User do
             allow(registration).to receive(:tier).and_return('UPPER')
           end
 
-          it { should_not be_able_to(:print, registration) }
+          it { should_not be_able_to(:view, registration) }
         end
       end
     end
@@ -74,7 +74,7 @@ describe User do
           allow(registration).to receive(:tier).and_return('UPPER')
         end
 
-        it { should be_able_to(:print, registration) }
+        it { should be_able_to(:view, registration) }
       end
     end
   end
