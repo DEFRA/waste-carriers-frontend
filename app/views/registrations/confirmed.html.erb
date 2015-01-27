@@ -74,28 +74,26 @@
 
       <!-- end sign -->
 
+
       <!-- bank transfer  -->
 
         <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
 
       <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
-
       <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next_step' %></h4>
-
       <p><%= t '.payment_details', :regNum => @registration.regIdentifier %></p>
       <p><%= t'registrations.confirmed.payment_timescale' %></p>
       <p class="panel-indent"><%= t'registrations.confirmed.legally_entitled' %></p>
 
+      <% end %>
       <!-- end bank transfer -->
 
       <!-- convictions check -->
 
-        <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+        <% if @confirmationType.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
 
       <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
-
       <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next' %></h4>
-
       <p><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></p>
       <p class="panel-indent"><%= t'registrations.confirmed.legally_entitled' %></p>
 

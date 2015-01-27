@@ -4,85 +4,52 @@
 
   <main id="content" role="main" class="group">
 
-    <div class="back-section">
-        <ol>
-          <li></li>
-        </ol>
-    </div>
+  <div class="grid">
+  <div class="grid-2-3">
+
+    <%= render "order/notice_or_alert" %>
+    <%= render "shared/registration_errors" %>
 
     <header class="page-header group">
       <div class="hgroup">
-          <h1 class="heading-large"></h1>
+        <h1>
+          <div id='payment-copycardcomplete-page'>
+            <% content_for :page_title, createTitle('.title') %>
+            <% type = @confirmationType %>
+            <div class="completeSummary <%= type %>">
+              <div class="completeSummaryTitle">
+                <%= t'shared.complete_summary.endpageReceivedBank' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+                <%= t'shared.complete_summary.endpageReceivedConvictions' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+                <%= t'shared.complete_summary.endpageComplete' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+                <%= t'shared.complete_summary.endpageCompleteLower' if type.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
+              </div>
+              <div class="completeSummaryMessage">
+                <h2 class="heading-small"><%= t'registrations.confirmed.summary_ref_number' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %></h2>
+                <h2 class="heading-small"><%= t'registrations.confirmed.summary_ref_number' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %></h2>
+                <h3 class="heading-large"><%= @registration.regIdentifier %></h3>
+              </div>
+            </div>
+          </div>
+        </h1>
       </div>
     </header>
 
-    <section id='payment-copycardcomplete-page' class="text">
+    <p><%= t'registrations.confirmed.how_to_pay_message', :email => @registration.accountEmail %></p>
 
-      <% content_for :page_title, createTitle('.title') %>
+    <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next_step_ir' %></h4>
 
-      <%= render "order/notice_or_alert" %>
-      <%= render "shared/registration_errors" %>
-      
-      <% type = @confirmationType %>
-      <div class="completeSummary <%= type %>">
-        <div class="completeSummaryTitle">
-          <%= t'shared.complete_summary.almost_there_title' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
-          <%= t'shared.complete_summary.criminal_title' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
-          <%= t'shared.complete_summary.edit_complete_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
-          <%= t'shared.complete_summary.edit_complete_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
-        </div>
-        <div class="completeSummaryMessage">
-          <%= t'shared.complete_summary.almost_there_message' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
-          <%= t'shared.complete_summary.criminal_message' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
-        </div>
-      </div>
+    <p><%= t'registrations.confirmed.payment_details_ir', :regNum => @registration.regIdentifier %></p>
+    <p><%= t'registrations.confirmed.payment_timescale' %></p>
+    <p class="panel-indent"><%= t'registrations.confirmed.legally_entitled' %></p>
 
-      <fieldset>
+    <%= form_tag(@exitRoute) do |f| %>
+      <span class="next_link">
+        <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
+      </span>
+    <% end %>
 
+    </div><!-- end grid -->
+  </div><!-- end grid -->
 
-    <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
-    
-    <!-- Removed as not required according to Balsamiq screens
-        <% title =  ''  %>
-        <% subtitle =  'TBC - Edit / Renew order complete page'  %>
-        <% case  @edit_mode.to_i%>
-        <% when  RegistrationsController::EditMode::RENEWAL %>
-            <% title =  t '.title_renew_reg'  %>
-           <% subtitle =  t '.subtitle_renew_reg'  %>
-        <% when  RegistrationsController::EditMode::RECREATE %>
-           <% title =  t '.title_recreate_reg'  %>
-           <% subtitle =  t '.subtitle_recreate_reg'  %>
-        <% when  RegistrationsController::EditMode::EDIT %>
-            <% title =  t '.title_edit_reg'  %>
-            <% case  @edit_result.to_i %>
-            <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE  %>
-             <% subtitle =  t '.subtitle_edit_reg_no_charge'  %>
-            <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
-            <% subtitle =  t '.subtitle_edit_reg_with_charge'  %>
-            <% when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION  %>
-             <% subtitle =  t '.subtitle_edit_reg_new_reg'  %>
-            <% when  RegistrationsController::EditResult::NO_CHANGES  %>
-            <% end %>
-        <% end %>
-
-        <legend class="heading-large"><%= title %></legend>
-
-        <p class='registered'><%= subtitle %></p>
-    -->
-
-    <!--   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
-    
-        <p><%= t 'registrations.confirmed.details_emailed', :email => @registration.accountEmail %></p>
-        
-        <p><%= t 'registrations.confirmed.details_change' %></p>
-
-        <%= form_tag(@exitRoute) do |f| %>
-          <span class="next_link">
-            <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
-          </span>
-        <% end %>
-
-      </fieldset>
-    </section>
   </main><!-- end main -->
 </div><!-- end wrapper -->

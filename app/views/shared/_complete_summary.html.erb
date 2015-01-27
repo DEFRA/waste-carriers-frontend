@@ -11,10 +11,10 @@ Note: These values should match styles in the css if needed
 <!-- Show a summary box of the status of the registration -->
 <div class="completeSummary <%= type %>">
 	<div class="completeSummaryTitle">
-		<%= t'.endpageReceivedBank' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
-		<%= t'.endpageReceivedConvictions' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
-		<%= t'.endpageComplete' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
-		<%= t'.endpageCompleteLower' if type.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
+    <%= t'.endpageReceivedBank' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+    <%= t'.endpageReceivedConvictions' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+    <%= t'.endpageComplete' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+    <%= t'.endpageCompleteLower' if type.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
 	</div>
 	<div>
 		<% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
