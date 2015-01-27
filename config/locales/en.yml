@@ -186,10 +186,6 @@ en:
   registration_types:
     renew: "Yes"
     new: "No, this is a new application"
-  buttons:
-    broker_dealer: "We arrange for other people to carry it"
-    carrier_broker_dealer: "We do both"
-    carrier_dealer: "We carry the waste ourselves"
   key_people:
     edit:
       title: "Edit key person details"
@@ -309,7 +305,7 @@ en:
     next_button_label: "Next"
     no_option_label: "No"
     payment_status_button_label: "Payment Status"
-    print_button_label: "Print certificate"
+    view_button_label: "View certificate"
     search_button_label: "Search"
     sign_in_button_label: "Sign in"
     update_button_label: "Update"
@@ -644,6 +640,31 @@ en:
       title: "Service provided"
       main_service_label: "I produce the waste as part of another service I provide to my customer (e.g. a gardener taking away grass cuttings)"
       part_of_service_label: "My customer creates the waste - I just collect or move it for them"
+  construction_demolition:
+    show:
+      subtitle: "Do you ever deal with construction or demolition waste?"
+      title: "Construction or demolition"
+      explanation: "Construction and demolition wastes typically include soils, concrete, bricks, glass, wood, plasterboard, asbestos, metals and plastics."
+      explanation2: "It can be produced as part of a large construction project or a smaller business activity such as a general builder replacing a bathroom or a gardener replacing fence panels and paving slabs."
+      explanation_link: "What is construction and demolition waste?"
+  only_deal_with:
+    show:
+      subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
+      title: "Type of waste"
+  registration_type:
+    show:
+      subtitle: "Do you carry the waste yourselves or arrange for other people to transport it?"
+      title: "Registration type"
+      carrier_dealer: "We carry the waste ourselves"
+      broker_dealer: "We arrange for other people to carry it"
+      carrier_broker_dealer: "We do both"
+      subtitle_carrier_dealer: "(carrier and dealer)"
+      subtitle_broker_dealer: "(broker and dealer)"
+      subtitle_carrier_broker_dealer: "(carrier, broker and dealer)"
+      text: "or"
+      readable_broker_dealer: "broker dealer (you arrange for other people to carry the waste)"
+      readable_carrier_broker_dealer: "carrier broker and dealer"
+      readable_carrier_dealer: "carrier dealer (you carry the waste yourselves)"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
@@ -713,12 +734,6 @@ en:
       limit_exceeded: "If it has been more than %{limit} days and you have still not received confirmation please contact the helpline and speak to one of our advisors"
       phone_number: "☎ %{number}"
       sign_in_to_view: "You must sign in to view your certificate"
-    constructiondemolition_step:
-      explanation: "Construction and demolition wastes typically include soils, concrete, bricks, glass, wood, plasterboard, asbestos, metals and plastics."
-      explanation2: "It can be produced as part of a large construction project or a smaller business activity such as a general builder replacing a bathroom or a gardener replacing fence panels and paving slabs."
-      explanation_link: "What is construction and demolition waste?"
-      subtitle: "Do you ever deal with construction or demolition waste?"
-      title: "Construction or demolition"
     copyCardComplete:
       subtitle: "Thank you for your copy card order"
       title: "Order Complete"
@@ -1009,7 +1024,7 @@ en:
       phoneNumber_label: "Telephone number"
       please_select_address: "Please select an address.."
       postcode_label: "Post code"
-      print_button_label: "View your certificate"
+      view_button_label: "View your certificate"
       progress: "Progress:\ "
       publicBodyType_label: "Type of public body"
       refund_button_label: "Refund"
@@ -1064,10 +1079,6 @@ en:
       table_heading2: "use our account details below to make your internet or telephone banking payment."
       table_heading3: "Step 2 - "
       table_heading4: "tell us the date, amount of your payment and payment reference number, so we can send you your registration. You can contact us by email, fax or in writing."
-    onlydealwith_step:
-      step: "Step 4 of 8"
-      subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
-      title: "Type of waste"
     order:
       initial: "Initial Registration"
       edit: "Edit Registration"
@@ -1119,22 +1130,19 @@ en:
       pendingText3: "Once you have confirmed your account and completed your registration, please close this web page."
       problems_html: "If you have any problems with this service email: <a href='mailto:%{email}?Subject=%{subject}'>%{email}</a>"
       yourRegNumber: "Your registration number is: %{reg}"
-    print:
-      environment_agency_logo_alt: "The Environment Agency logo"
-      title: "Waste carrier registration certificate"
+    view:
       heading: "Certificate of Registration under the Waste (England and Wales) Regulations 2011"
       authority: "Regulation authority"
-      title: "Name"
-      environment_agency: "Environment Agency"
-      nccc_address_pretext: "Address"
+      name: "Name"
       nccc_address_line1: "National Customer Service Centre"
       nccc_address_line2: "99 Parkway Avenue"
       nccc_address_line3: "Sheffield"
       nccc_address_line4: "S9 4WF"
+      nccc_address_pretext: "Address"
       telephone_number_pretext: "Telephone number"
       nccc_number: "03708 506506"
-      carrier_table_heading: "Carriers details"
       certify_message: "The Environment Agency certify that the following information is entered in the register which they maintain under regulation 28 of the Waste (England and Wales) Regulations 2011."
+      carrier_table_heading: "Carriers details"
       carrier_name: "Name of registered carrier"
       registered: "Registered as"
       registration_number: "Registration number"
@@ -1164,20 +1172,6 @@ en:
       search_found: "%{count} %{carrier} found"
       search_label: "Name of organisation"
       search_results: "Showing %{count} of %{records}"
-    registration_step: "Step %{step_no} of 8"
-    registrationtype_step:
-      broker_dealer: "broker/dealer"
-      carrier_broker_dealer: "carrier/broker/dealer"
-      carrier_dealer: "carrier/dealer"
-      legend: "Do you carry the waste yourselves or arrange for other people to transport it?"
-      subtitle_carrier_dealer: "(carrier and dealer)"
-      subtitle_broker_dealer: "(broker and dealer)"
-      subtitle_carrier_broker_dealer: "(carrier, broker and dealer)"
-      readable_broker_dealer: "broker dealer (you arrange for other people to carry the waste)"
-      readable_carrier_broker_dealer: "carrier broker and dealer"
-      readable_carrier_dealer: "carrier dealer (you carry the waste yourselves)"
-      text: "or"
-      title: "Registration type"
     revoke:
       title_revoke: "Revoke registration"
       title_unrevoke: "UnRevoke registration"

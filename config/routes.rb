@@ -59,8 +59,8 @@ Registrations::Application.routes.draw do
     # Add routing for confirm delete registration
     get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
 
-    # Add a new route for the print view
-    match "registrations/:id/print" => 'registrations#print', :via => [:get,:patch], :as => :print
+    # Add a new route for the view certificate view
+    match "registrations/:id/view" => 'registrations#view', :via => [:get,:patch], :as => :view
 
     # Add routing for revoke/unrevoke registration
     get "registrations/:id/revoke" => 'registrations#revoke', :via => [:get], :as => :revoke
@@ -90,11 +90,15 @@ Registrations::Application.routes.draw do
     get "your-registration/service-provided" => 'service_provided#show', :as => :service_provided
     post "your-registration/service-provided" => 'service_provided#create'
 
-    match "your-registration/construction-demolition" => 'registrations#newConstructionDemolition', :via => [:get], :as => :newConstructionDemolition
-    match "your-registration/construction-demolition" => 'registrations#updateNewConstructionDemolition', :via => [:post,:put,:patch]
+    get "your-registration/construction-demolition" => 'construction_demolition#show', :as => :construction_demolition
+    post "your-registration/construction-demolition" => 'construction_demolition#create'
 
-    match "your-registration/only-deal-with" => 'registrations#newOnlyDealWith', :via => [:get], :as => :newOnlyDealWith
-    match "your-registration/only-deal-with" => 'registrations#updateNewOnlyDealWith', :via => [:post,:put,:patch]
+    get "your-registration/only-deal-with" => 'only_deal_with#show', :as => :only_deal_with
+    post "your-registration/only-deal-with" => 'only_deal_with#create'
+
+    get "your-registration/registration-type" => "registration_type#show", :as => :registration_type
+    get "your-registration/registration-type/edit" => "registration_type#edit", :as => :edit_registration_type
+    post "your-registration/registration-type" => "registration_type#create"
 
     # Registration urls - Lower tier
     match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
@@ -122,10 +126,6 @@ Registrations::Application.routes.draw do
     match "your-registration/confirmed" => 'registrations#completeConfirmed', :via => [:post]
 
     get "your-registration/cannot-edit" => 'registrations#cannot_edit', :as => :cannot_edit
-
-    get "your-registration/registration-type" => "registrations#newRegistrationType", :via => [:get], :as => :newRegistrationType
-    get "your-registration/edit/registration-type" => "registrations#editRegistrationType", :via => [:get], :as => :editRegistrationType
-    match "your-registration/registration-type" => "registrations#updateNewRegistrationType", :via => [:post,:put,:patch]
 
     resources :registrations
 
