@@ -45,8 +45,13 @@
           <td width="25%">&nbsp;</td>
         </tr>
         <tr>
-          <td bgcolor="green" style="font-family: Helvetica, Arial, sans-serif; margin: 0 0 30px 0;">
-            <p style="font-size: 36px; font-weight: bold; color:#ffffff; line-height: 1.315789474; margin: 30px 0 30px 30px;"><%= t 'registration_mailer.welcome_email.reg_number_html', :reg => @registration.regIdentifier %></p>
+          <td bgcolor="#00823B" style="font-family: Helvetica, Arial, sans-serif; margin: 0 0 30px 0;">
+            <p style="font-size: 36px; font-weight: bold; text-align: center; color:#ffffff; line-height: 1.315789474; margin: 30px 0px 15px 0px;"><%= t 'registration_mailer.welcome_email.reg_complete' %></p>
+
+            <p style="font-size: 19px; text-align: center; color:#ffffff; line-height: 1.315789474; margin: 0;"><%= t 'registration_mailer.welcome_email.reg_complete_number' %>
+            </p>
+
+            <p style="font-size: 36px; font-weight: bold; text-align: center; color:#ffffff; line-height: 1.315789474; margin: 15px 0px 30px 0px;"><%= @registration.regIdentifier %></p>
           </td>
           <td width="25%">&nbsp;</td>
         </tr>
