@@ -163,6 +163,21 @@ p {
   }
 }
 
+.certificate_title {
+  @include bold-19;
+  margin-top: $gutter;
+  margin-bottom: $gutter-half;
+}
+
+.certificate_text {
+  @include copy-16;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+    @include media (mobile){
+    margin-bottom: $gutter-half;
+  }
+}
+
 #content {
   @include copy-19;
   -webkit-font-smoothing: antialiased;
