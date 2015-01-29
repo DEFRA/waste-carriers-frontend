@@ -2,6 +2,7 @@
 
 class User
   include Mongoid::Document
+  store_in session: 'users'
 
   # Note: Devise standard default modules are
   # :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable

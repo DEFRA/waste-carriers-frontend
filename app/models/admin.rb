@@ -3,15 +3,16 @@
 
 class Admin
   include Mongoid::Document
+  store_in session: 'users'
   resourcify :resources
   rolify
 
-  # Note: Devise standard default modules are 
+  # Note: Devise standard default modules are
   # :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
-  # However, We do not want to use :registerable, as registration (i.e. user sign-up) 
+  # However, We do not want to use :registerable, as registration (i.e. user sign-up)
   # is done as part of the waste carrier registration flow.
   # We also do not use :rememberable (remember me tokens)
 
@@ -53,11 +54,11 @@ class Admin
   def is_admin?
   	true
   end
-  
+
   def is_agency_user?
     false
   end
-  
+
   def self.find_by_email(some_email)
     Admin.find_by(email: some_email)
   end
@@ -65,5 +66,5 @@ class Admin
   def subdomain
     Rails.application.config.waste_exemplar_frontend_admin_subdomain
   end
-  
+
 end
