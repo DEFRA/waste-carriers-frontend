@@ -4,7 +4,7 @@
 
   <main id="content" role="main" class="group">
 
-  <div class="grid">
+  <div class="grid-wrapper">
   <div class="grid-2-3">
 
     <%= render "order/notice_or_alert" %>
@@ -12,25 +12,24 @@
 
     <header class="page-header group">
       <div class="hgroup">
-        <h1>
           <div id='payment-copycardcomplete-page'>
             <% content_for :page_title, createTitle('.title') %>
             <% type = @confirmationType %>
             <div class="completeSummary <%= type %>">
-              <div class="completeSummaryTitle">
+              <h1 class="heading-large completeSummaryTitle">
                 <%= t'shared.complete_summary.endpageReceivedBank' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
                 <%= t'shared.complete_summary.endpageReceivedConvictions' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
                 <%= t'shared.complete_summary.endpageComplete' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
                 <%= t'shared.complete_summary.endpageCompleteLower' if type.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
-              </div>
+              </h1>
               <div class="completeSummaryMessage">
-                <h2 class="heading-small"><%= t'registrations.confirmed.summary_ref_number' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %></h2>
-                <h2 class="heading-small"><%= t'registrations.confirmed.summary_ref_number' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %></h2>
+                <h2 class="heading-small"><%= t'registrations.confirmed.summary_ref_number' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+                  <%= t'registrations.confirmed.summary_ref_number' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+                </h2>
                 <h3 class="heading-large"><%= @registration.regIdentifier %></h3>
               </div>
             </div>
           </div>
-        </h1>
       </div>
     </header>
 
@@ -40,7 +39,6 @@
 
     <p><%= t'registrations.confirmed.payment_details_ir', :regNum => @registration.regIdentifier %></p>
     <p><%= t'registrations.confirmed.payment_timescale' %></p>
-    <p class="panel-indent"><%= t'registrations.confirmed.legally_entitled' %></p>
 
     <%= form_tag(@exitRoute) do |f| %>
       <span class="next_link">
@@ -49,7 +47,7 @@
     <% end %>
 
     </div><!-- end grid -->
-  </div><!-- end grid -->
+  </div><!-- end grid-wrapper -->
 
   </main><!-- end main -->
 </div><!-- end wrapper -->
