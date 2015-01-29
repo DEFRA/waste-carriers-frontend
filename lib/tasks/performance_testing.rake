@@ -83,41 +83,41 @@ namespace :performance_testing do
 
   def randomise_ir_renewal_data(renewal_type)
     ir_data = Irrenewal.create
-    ir_data.applicant_type = renewal_type
-    ir_data.expiry_date = Faker::Date.between(2.months.from_now, 3.years.from_now).strftime('%F')
-    ir_data.reference_number = make_random_ref_num
+    ir_data.applicantType = renewal_type
+    ir_data.expiryDate = Faker::Date.between(2.months.from_now, 3.years.from_now).strftime('%F')
+    ir_data.referenceNumber = make_random_ref_num
     registration_types = ['Carrier', 'Carrier and Broker']
-    ir_data.registration_type = registration_types[rand(1)]
-    if ir_data.applicant_type == 'Company'
-      ir_data.ir_type = 'COMPANY'
-    elsif ir_data.applicant_type == 'Person'
-      ir_data.ir_type = 'INDIVIDUAL'
-    elsif ir_data.applicant_type== 'Organisation of Individuals'
-      ir_data.ir_type = 'PARTNER'
-    elsif ir_data.applicant_type == 'Public Body'
-      ir_data.ir_type = 'PUBLIC_BODY'
+    ir_data.registrationType = registration_types[rand(1)]
+    if ir_data.applicantType == 'Company'
+      ir_data.irType = 'COMPANY'
+    elsif ir_data.applicantType == 'Person'
+      ir_data.irType = 'INDIVIDUAL'
+    elsif ir_data.applicantType== 'Organisation of Individuals'
+      ir_data.irType = 'PARTNER'
+    elsif ir_data.applicantType == 'Public Body'
+      ir_data.irType = 'PUBLIC_BODY'
     end
     company_names = ['', Faker::Company::name + ' ' + Faker::Commerce.department(2, true)]
-    ir_data.company_name = company_names[rand(1)]
-    trading_names = ['', Faker::Company::name, ir_data.company_name]
-    ir_data.trading_name = trading_names[rand(2)]
+    ir_data.companyName = company_names[rand(2)]
+    trading_names = ['', Faker::Company::name, ir_data.companyName]
+    ir_data.tradingName = trading_names[rand(2)]
     company_number = '07'
     while company_number.length < 8 do
       company_number += rand(9).to_s
     end
     company_numbers = ['', company_number]
-    ir_data.company_number = company_numbers[rand(1)]
-    ir_data.true_registration_type = ir_data.registration_type.upcase
+    ir_data.companyNumber = company_numbers[rand(2)]
+    ir_data.trueRegistrationType = ir_data.registrationType.upcase
     permit_holder_names = ['', Faker::Name::first_name + ' ' + Faker::Name::last_name]
-    ir_data.permit_holder_name = permit_holder_names[rand(1)]
+    ir_data.permitHolderName = permit_holder_names[rand(2)]
     dobs = ['', Faker::Date.between(70.years.ago, 20.years.ago).strftime('%F')]
-    ir_data.dob = dobs[rand(1)]
+    ir_data.dateOfBirth = dobs[rand(1)]
     party_sub_types = ['', 'Partnership']
-    ir_data.party_sub_type = party_sub_types[rand(1)]
+    ir_data.partySubType = party_sub_types[rand(2)]
     partnership_names = ['', Faker::Name::first_name + ' ' + Faker::Name::last_name]
-    ir_data.partnership_name = partnership_names[rand(1)]
+    ir_data.partnershipName = partnership_names[rand(2)]
     party_names = ['', Faker::Name::first_name + ' ' + Faker::Name::last_name]
-    ir_data.party_name = party_names[rand(1)]
+    ir_data.partyName = party_names[rand(2)]
     ir_data.save!
   end
 
