@@ -3,8 +3,6 @@
 
   <main id="content" role="main" class="group">
 
-    <% content_for :page_title, createTitle('.title') %>
-
     <!-- Back button section -->
     <div class="no-print back-section">
       <%= link_to t('registrations.form.back_button_label'), :back, :class => 'link-button-secondary' %>
@@ -12,6 +10,8 @@
       <%= link_to t('registrations.form.finish_button_label'), action: "finish_renewal", :class => 'link-button-secondary' %>
        <% end %>
     </div>
+
+    <div class="grid-2-3">
 
     <!-- Header section -->
     <header class="page-header group">
@@ -21,27 +21,29 @@
       </div>
     </header>
 
-    <div class="grid-2-3">
-
-      <table summary='This is an example table' class="certificate_table" role='presentation'>
+      <table summary='Registration Certificate' class="certificate_table" role='presentation'>
         <thead>
           <tr>
             <th><%=t 'registrations.view.authority' %></th>
-            <th></th>
+            <td></td>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.name' %></td>
-            <td><div width="100%" bgcolor="#ffffff" align="left">
-            <img src="https://assets.digital.cabinet-office.gov.uk/government/uploads/system/uploads/organisation/logo/199/EAlogo.png" alt="The Environment Agency logo" width="129px" height="39px" /></div></td>
+              <td>
+                <%= image_tag("Environment_Agency_logo.png", {:alt => 'Environment Agency Logo', :border => '0', :height => '39', :width => '129'}) %>
+              </td>
           </tr>
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.nccc_address_pretext' %></td>
-            <td><%=t 'registrations.view.nccc_address_line1' %></br>
-                <%=t 'registrations.view.nccc_address_line2' %></br>
-                <%=t 'registrations.view.nccc_address_line3' %></br>
-                <%=t 'registrations.view.nccc_address_line4' %></br>
+            <td>
+              <ul>
+                <li><%=t 'registrations.view.nccc_address_line1' %></li>
+                <li><%=t 'registrations.view.nccc_address_line2' %></li>
+                <li><%=t 'registrations.view.nccc_address_line3' %></li>
+                <li><%=t 'registrations.view.nccc_address_line4' %></li>
+              </ul>
             </td>
           </tr>
           <tr>
@@ -52,13 +54,13 @@
       </table>
       </br>
 
-      <p><%=t 'registrations.view.certify_message' %></p>
+      <p class="certificate_text"><%=t 'registrations.view.certify_message' %></p>
 
       <table summary='This is an example table' role='presentation'>
         <thead>
           <tr>
             <th><%=t 'registrations.view.carrier_table_heading' %></th>
-            <th></th>
+            <td></td>
           </tr>
         </thead>
         <tbody>
@@ -126,21 +128,20 @@
             <% end %>
         </tbody>
       </table>
-      </br>
 
        <!-- Upper Lower Tier registration details section -->
 
-      <h3 class="heading-small">Making changes to your registration</h3>
+      <h2 class="certificate_title"><%=t 'registrations.view.heading2' %></h2>
 
         <!-- Renewal details section -->
       <div class="renewal">
         <% if @registration.upper? %>
-          <p><%= t 'registration_mailer.welcome_email.upper_renewal_html', :expires_after_pluralized => pluralize(get_expires_in_as_int, t('registration_mailer.year')) %></p>
+          <p class="certificate_text"><%= t 'registration_mailer.welcome_email.upper_renewal_html', :expires_after_pluralized => pluralize(get_expires_in_as_int, t('registration_mailer.year')) %></p>
         <% else %>
-          <p><%= t 'registration_mailer.welcome_email.lower_renewal_html' %></p>
+          <p class="certificate_text"><%= t 'registration_mailer.welcome_email.lower_renewal_html' %></p>
         <% end %>
         <% if @registration.assisted_digital? %>
-          <p><%= t 'registration_mailer.welcome_email.updatePhone' %><strong><span id='accessCode'><%= @registration.accessCode %></span></strong>.</p>
+          <p class="certificate_text"><%= t 'registration_mailer.welcome_email.updatePhone' %><strong><span id='accessCode'><%= @registration.accessCode %></span></strong>.</p>
         <% end %>
       </div>
 
