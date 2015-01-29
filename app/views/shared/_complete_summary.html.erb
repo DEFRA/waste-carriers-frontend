@@ -20,7 +20,7 @@ Note: These values should match styles in the css if needed
 		<% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
 		<h2 class="heading-small"><%= t'registrations.confirmed.summary_reg_number' %></h2>
     <% elsif @registration.declaredConvictions %>
-   		<h2 class="heading-small"><%= t'registrations.confirmed.summary_ref_number' %></h2>
+   		<p class="heading-small"><%= t'registrations.confirmed.summary_ref_number' %></p>
     <% end %>
 			<h3 class="heading-large"><%= @registration.regIdentifier %></h3>
 	</div>

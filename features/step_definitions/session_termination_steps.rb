@@ -54,7 +54,7 @@ Then(/^my registration data is not shown anymore$/) do
 end
 
 Then(/^I am informed that I have to login again to change my registration$/) do
-  page.should have_content "You can't make changes"
+  page.should have_content "Sorry you can't make changes"
 end
 
 When(/^I attempt to access the confirmation page$/) do
