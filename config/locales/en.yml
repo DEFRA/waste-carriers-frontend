@@ -1132,6 +1132,7 @@ en:
       yourRegNumber: "Your registration number is: %{reg}"
     view:
       heading: "Certificate of Registration under the Waste (England and Wales) Regulations 2011"
+      heading2: "Making changes to your registration"
       authority: "Regulation authority"
       name: "Name"
       nccc_address_line1: "National Customer Service Centre"
