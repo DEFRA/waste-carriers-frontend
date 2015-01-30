@@ -5,16 +5,14 @@ development:
     default:
       # Defines the name of the default database that Mongoid can connect to.
       # (required).
-      database: <%= ENV['WCRS_FRONTEND_USERSDB_NAME'] || 'waste-carriers' %>
-      username: <%= ENV['WCRS_FRONTEND_USERSDB_USERNAME'] || 'mongoUser' %>
-      password: <%= ENV['WCRS_FRONTEND_USERSDB_PASSWORD'] || 'password1234' %>
+      # In this case its the database which holds all the registrations
+      database: <%= ENV['WCRS_REGSDB_NAME'] || 'waste-carriers' %>
+      username: <%= ENV['WCRS_REGSDB_USERNAME'] || 'mongoUser' %>
+      password: <%= ENV['WCRS_REGSDB_PASSWORD'] || 'password1234' %>
       # Provides the hosts the default session can connect to. Must be an array
       # of host:port pairs. (required)
       hosts:
-        - <%= ENV['WCRS_FRONTEND_USERSDB_URL'] || 'localhost:27017' %>
-#        - <%= ENV['WCRS_FRONTEND_USERSDB_URL2'] || 'localhost:28017' %>
-#        - <%= ENV['WCRS_FRONTEND_USERSDB_URL3'] || 'localhost:29017' %>
-
+        - <%= ENV['WCRS_REGSDB_URL1'] || 'localhost:27017' %>
       options:
         # Change the default write concern. (default = { w: 1 })
         # write:
@@ -32,6 +30,14 @@ development:
         # The time in seconds that Moped should wait before retrying an
         # operation on failure. (default: 1)
         # retry_interval: 1
+    users:
+      # Details for the user database
+      database: <%= ENV['WCRS_USERSDB_NAME'] || 'waste-carriers-users' %>
+      username: <%= ENV['WCRS_USERSDB_USERNAME'] || 'mongoUser' %>
+      password: <%= ENV['WCRS_USERSDB_PASSWORD'] || 'password1234' %>
+      hosts:
+        - <%= ENV['WCRS_USERSDB_URL1'] || 'localhost:27017' %>
+      options:
   # Configure Mongoid specific options. (optional)
   options:
     # Enable the identity map, needed for eager loading. (default: false)
@@ -70,15 +76,26 @@ development:
 test:
   sessions:
     default:
-      database: <%= ENV['WCRS_FRONTEND_USERSDB_NAME'] %>
-      username: <%= ENV['WCRS_FRONTEND_USERSDB_USERNAME'] %>
-      password: <%= ENV['WCRS_FRONTEND_USERSDB_PASSWORD'] %>
+      database: <%= ENV['WCRS_REGSDB_NAME'] %>
+      username: <%= ENV['WCRS_REGSDB_USERNAME'] %>
+      password: <%= ENV['WCRS_REGSDB_PASSWORD'] %>
       hosts:
-        - <%= ENV['WCRS_FRONTEND_USERSDB_URL'] %>
+        - <%= ENV['WCRS_REGSDB_URL1'] %>
       options:
         read: primary
         # In the test environment we lower the retries and retry interval to
         # low amounts for fast failures.
+        max_retries: 1
+        retry_interval: 0
+    users:
+      # Details for the user database
+      database: <%= ENV['WCRS_USERSDB_NAME'] %>
+      username: <%= ENV['WCRS_USERSDB_USERNAME'] %>
+      password: <%= ENV['WCRS_USERSDB_PASSWORD'] %>
+      hosts:
+        - <%= ENV['WCRS_USERSDB_URL1'] %>
+      options:
+        read: primary
         max_retries: 1
         retry_interval: 0
   options:
@@ -87,35 +104,61 @@ test:
 sandbox:
   sessions:
     default:
-      database: <%= ENV['WCRS_FRONTEND_USERSDB_NAME'] %>
-      username: <%= ENV['WCRS_FRONTEND_USERSDB_USERNAME'] %>
-      password: <%= ENV['WCRS_FRONTEND_USERSDB_PASSWORD'] %>
+      database: <%= ENV['WCRS_REGSDB_NAME'] %>
+      username: <%= ENV['WCRS_REGSDB_USERNAME'] %>
+      password: <%= ENV['WCRS_REGSDB_PASSWORD'] %>
       hosts:
-        - <%= ENV['WCRS_FRONTEND_USERSDB_URL'] %>
-        - <%= ENV['WCRS_FRONTEND_USERSDB_URL2'] %>
+        - <%= ENV['WCRS_REGSDB_URL1'] %>
+        - <%= ENV['WCRS_REGSDB_URL2'] %>
       options:
         read: primary
         # In the test environment we lower the retries and retry interval to
         # low amounts for fast failures.
         max_retries: 1
         retry_interval: 0
+    users:
+      # Details for the user database
+      database: <%= ENV['WCRS_USERSDB_NAME'] %>
+      username: <%= ENV['WCRS_USERSDB_USERNAME'] %>
+      password: <%= ENV['WCRS_USERSDB_PASSWORD'] %>
+      hosts:
+        - <%= ENV['WCRS_USERSDB_URL1'] %>
+        - <%= ENV['WCRS_USERSDB_URL2'] %>
+      options:
+        options:
+          read: primary
+          max_retries: 1
+          retry_interval: 0
   options:
     raise_not_found_error: false
 #Settings for Production
 production:
   sessions:
     default:
-      database: <%= ENV['WCRS_FRONTEND_USERSDB_NAME'] %>
-      username: <%= ENV['WCRS_FRONTEND_USERSDB_USERNAME'] %>
-      password: <%= ENV['WCRS_FRONTEND_USERSDB_PASSWORD'] %>
+      database: <%= ENV['WCRS_REGSDB_NAME'] %>
+      username: <%= ENV['WCRS_REGSDB_USERNAME'] %>
+      password: <%= ENV['WCRS_REGSDB_PASSWORD'] %>
       hosts:
-        - <%= ENV['WCRS_FRONTEND_USERSDB_URL'] %>
-        - <%= ENV['WCRS_FRONTEND_USERSDB_URL2'] %>
+        - <%= ENV['WCRS_REGSDB_URL1'] %>
+        - <%= ENV['WCRS_REGSDB_URL2'] %>
       options:
         read: primary
         # In the test environment we lower the retries and retry interval to
         # low amounts for fast failures.
         max_retries: 1
         retry_interval: 0
+    users:
+      # Details for the user database
+      database: <%= ENV['WCRS_USERSDB_NAME'] %>
+      username: <%= ENV['WCRS_USERSDB_USERNAME'] %>
+      password: <%= ENV['WCRS_USERSDB_PASSWORD'] %>
+      hosts:
+        - <%= ENV['WCRS_USERSDB_URL1'] %>
+        - <%= ENV['WCRS_USERSDB_URL2'] %>
+      options:
+        options:
+          read: primary
+          max_retries: 1
+          retry_interval: 0
   options:
     raise_not_found_error: false
