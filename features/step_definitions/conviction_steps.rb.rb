@@ -27,7 +27,7 @@ And(/^I enter convictee details$/) do
 
   click_on 'Add another person'
 
-  click_on 'Next'
+  click_on 'next_btn'
 end
 
 When(/^I come to the confirmation step$/) do
