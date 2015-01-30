@@ -2,15 +2,16 @@
 
 class AgencyUser
   include Mongoid::Document
+  store_in session: 'users'
   resourcify :resources
   rolify
 
-  # Note: Devise standard default modules are 
+  # Note: Devise standard default modules are
   # :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
 
-  # However, We do not want to use :registerable, as registration (i.e. user sign-up) 
+  # However, We do not want to use :registerable, as registration (i.e. user sign-up)
   # is done as part of the waste carrier registration flow.
   # We also do not use :rememberable (remember me tokens)
 
@@ -52,7 +53,7 @@ class AgencyUser
   def is_admin?
   	false
   end
-  
+
   def is_agency_user?
     true
   end
@@ -68,7 +69,7 @@ class AgencyUser
   def subdomain
     Rails.application.config.waste_exemplar_frontend_admin_subdomain
   end
-  
+
   def confirmed?
     true
   end
