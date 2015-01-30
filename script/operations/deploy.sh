@@ -16,6 +16,7 @@ DATESTAMP=`date +%Y.%m.%d-%H.%M`
 WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p598" ## TODO this is currently hardcoded but could get it from RVM
 
 echo ""
+echo "Running Frontend deploy.sh script"
 
 ## Ensure required environment variables have been set.
 if [[ -z "${WCRS_FRONTEND_RAILS_ENV}" ]]; then env_alert WCRS_FRONTEND_RAILS_ENV; fi
@@ -28,18 +29,17 @@ if [[ -z "${WCRS_FRONTEND_EMAIL_PASSWORD}" ]]; then env_alert WCRS_FRONTEND_EMAI
 if [[ -z "${WCRS_FRONTEND_WCRS_SERVICES_URL}" ]]; then env_alert WCRS_FRONTEND_WCRS_SERVICES_URL; fi
 if [[ -z "${WCRS_FRONTEND_PUBLIC_APP_DOMAIN}" ]]; then env_alert WCRS_FRONTEND_PUBLIC_APP_DOMAIN; fi
 if [[ -z "${WCRS_FRONTEND_ADMIN_APP_DOMAIN}" ]]; then env_alert WCRS_FRONTEND_ADMIN_APP_DOMAIN; fi
-if [[ -z "${WCRS_REGSDB_HOST}" ]]; then env_alert WCRS_REGSDB_HOST; fi
-if [[ -z "${WCRS_REGSDB_PORT1}" ]]; then env_alert WCRS_REGSDB_PORT1; fi
 if [[ -z "${WCRS_REGSDB_NAME}" ]]; then env_alert WCRS_REGSDB_NAME; fi
 if [[ -z "${WCRS_REGSDB_USERNAME}" ]]; then env_alert WCRS_REGSDB_USERNAME; fi
 if [[ -z "${WCRS_REGSDB_PASSWORD}" ]]; then env_alert WCRS_REGSDB_PASSWORD; fi
-if [[ -z "${WCRS_USERSDB_HOST}" ]]; then env_alert WCRS_USERSDB_HOST; fi
-if [[ -z "${WCRS_USERSDB_PORT1}" ]]; then env_alert WCRS_USERSDB_PORT1; fi
+if [[ -z "${WCRS_REGSDB_URL1}" ]]; then env_alert WCRS_REGSDB_URL1; fi
+if [[ -z "${WCRS_REGSDB_URL2}" ]]; then env_alert WCRS_REGSDB_URL2; fi
 if [[ -z "${WCRS_USERSDB_NAME}" ]]; then env_alert WCRS_USERSDB_NAME; fi
 if [[ -z "${WCRS_USERSDB_USERNAME}" ]]; then env_alert WCRS_SERVICES_USERSDB_USER; fi
 if [[ -z "${WCRS_USERSDB_PASSWORD}" ]]; then env_alert WCRS_SERVICES_USERSDB_PASSWD; fi
-if [[ -z "${WCRS_ELASDB_HOST}" ]]; then env_alert WCRS_ELASDB_HOST; fi
-if [[ -z "${WCRS_ELASDB_PORT1}" ]]; then env_alert WCRS_ELASDB_PORT1; fi
+if [[ -z "${WCRS_USERSDB_URL1}" ]]; then env_alert WCRS_USERSDB_URL1; fi
+if [[ -z "${WCRS_USERSDB_URL2}" ]]; then env_alert WCRS_USERSDB_URL2; fi
+if [[ -z "${WCRS_ELASDB_URL_REST}" ]]; then env_alert WCRS_ELASDB_URL_REST; fi
 
 ## Stop nginx.
 echo "Stopping nginx."
@@ -88,12 +88,6 @@ bundle install
 echo "Migrating database changes, if any."
 rake db:migrate RAILS_ENV="${WCRS_FRONTEND_RAILS_ENV}"
 
-## Seed the database as long as we're not in a production environment.
-if [ ${WCRS_FRONTEND_RAILS_ENV} == "development" -o ${WCRS_FRONTEND_RAILS_ENV} == "test" ]; then
-  echo "Seeding the database."
-  rake db:seed
-fi
-
 ## Start nginx.
 echo "Starting nginx."
 sudo service nginx start
@@ -111,9 +105,9 @@ if [ ${WCRS_FRONTEND_RAILS_ENV} != "production" ]; then
   bundle exec cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
 fi
 
-## re-Seed the database again after tests have cleared the database
+## Seed the database after tests have cleared the database
 if [ ${WCRS_FRONTEND_RAILS_ENV} == "development" -o ${WCRS_FRONTEND_RAILS_ENV} == "test" -o ${WCRS_FRONTEND_RAILS_ENV} == "sandbox" ]; then
-  echo "Re-seeding the database."
+  echo "Seeding the database."
   rake db:seed
 fi
 
