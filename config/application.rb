@@ -79,7 +79,7 @@ module Registrations
     config.waste_exemplar_services_url = ENV["WCRS_FRONTEND_WCRS_SERVICES_URL"] || "http://localhost:9090"
     config.waste_exemplar_services_admin_url = ENV["WCRS_FRONTEND_WCRS_SERVICES_ADMIN_URL"] || "http://localhost:9091"
     config.waste_exemplar_addresses_url = ENV["WCRS_FRONTEND_WCRS_ADDRESSES_URL"] || "http://localhost:9190"
-    config.waste_exemplar_elasticsearch_url = ENV["WCRS_FRONTEND_ELASTICSEARCH_URL"] || 'http://localhost:9200'
+    config.waste_exemplar_elasticsearch_url = ENV["WCRS_ELASDB_URL_REST"] || 'http://localhost:9200'
 
     #The application URL
     config.waste_exemplar_frontend_url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "http://localhost:3000"
