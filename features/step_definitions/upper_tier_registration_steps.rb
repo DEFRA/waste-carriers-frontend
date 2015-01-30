@@ -72,8 +72,8 @@ Given(/^I enter new user account details$/) do
 end
 
 And(/^I choose pay via electronic transfer$/) do
-  click_on 'Pay by bank transfer'
-  click_on 'Next'
+  click_button 'offline_pay_button'
+  click_button 'next'
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
@@ -127,16 +127,12 @@ end
 
 And(/^no key people in the organisation have convictions$/) do
   choose 'registration_declaredConvictions_no'
-  click_on 'Next'
+  click_button 'next'
 end
 
 And(/^key people in the organisation have convictions$/) do
   choose 'Yes'
   click_on 'Next'
-end
-
-But(/^I am told my registration is pending a convictions check$/) do
-  page.should have_content 'We aim to do this within 10 working days'
 end
 
 Given(/^I finish the registration$/) do

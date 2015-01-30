@@ -101,9 +101,9 @@
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post, html: {autocomplete: 'off'}) do |f| %>
 
-    <%= render 'next_link' %>
+    <%= render 'shared/registration_next_link' %> 
 
-    <% end %>
+      <% end %>
     </div><!-- end payment-table-wrapper -->
     </div><!-- end grid -->
   </div><!-- end grid -->

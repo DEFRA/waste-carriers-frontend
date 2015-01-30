@@ -17,10 +17,17 @@
             <% type = @confirmationType %>
             <div class="completeSummary <%= type %>">
               <h1 class="heading-large completeSummaryTitle">
-                <%= t'shared.complete_summary.endpageReceivedBank' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
-                <%= t'shared.complete_summary.endpageReceivedConvictions' if type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
-                <%= t'shared.complete_summary.endpageComplete' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
-                <%= t'shared.complete_summary.endpageCompleteLower' if type.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
+
+                <% if type.eql? RegistrationsHelper::STATUS_COMPLETE %> 
+                  <span id="ut_complete_or_lower_tier"><%= t'shared.complete_summary.endpageReceivedBank' %></span>
+                <% elsif type.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %> 
+                  <span id="ut_complete_or_lower_tier"><%= t'shared.complete_summary.endpageCompleteLower' %></span>
+                <% elsif type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %> 
+                  <span id="ut_pending_convictions_check"><%= t'shared.complete_summary.endpageReceivedConvictions' %></span>
+                <% elsif type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %> 
+                  <span id="ut_bank_transfer"><%= t'shared.complete_summary.endpageComplete' %></span>
+                <% end %> 
+
               </h1>
               <div class="completeSummaryMessage">
                 <h2 class="heading-small"><%= t'registrations.confirmed.summary_ref_number' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>

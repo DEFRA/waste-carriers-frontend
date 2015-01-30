@@ -135,7 +135,7 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
 end
 
 And(/^I choose to pay by bank transfer$/) do
-  click_on 'Pay by bank transfer'
+  click_button 'offline_pay_button'
 end
 
 And(/^I choose pay via electronic transfer ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
@@ -155,7 +155,7 @@ Then(/^I make a note of the details$/) do
   page.text.should match /Sort code/
   page.text.should match /Account number/
 
-  click_on 'Next'
+  click_button 'next'
 end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
