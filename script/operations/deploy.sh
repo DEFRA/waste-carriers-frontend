@@ -28,10 +28,18 @@ if [[ -z "${WCRS_FRONTEND_EMAIL_PASSWORD}" ]]; then env_alert WCRS_FRONTEND_EMAI
 if [[ -z "${WCRS_FRONTEND_WCRS_SERVICES_URL}" ]]; then env_alert WCRS_FRONTEND_WCRS_SERVICES_URL; fi
 if [[ -z "${WCRS_FRONTEND_PUBLIC_APP_DOMAIN}" ]]; then env_alert WCRS_FRONTEND_PUBLIC_APP_DOMAIN; fi
 if [[ -z "${WCRS_FRONTEND_ADMIN_APP_DOMAIN}" ]]; then env_alert WCRS_FRONTEND_ADMIN_APP_DOMAIN; fi
-if [[ -z "${WCRS_FRONTEND_USERSDB_NAME}" ]]; then env_alert WCRS_FRONTEND_USERSDB_NAME; fi
-if [[ -z "${WCRS_FRONTEND_USERSDB_USERNAME}" ]]; then env_alert WCRS_FRONTEND_USERSDB_USERNAME; fi
-if [[ -z "${WCRS_FRONTEND_USERSDB_PASSWORD}" ]]; then env_alert WCRS_FRONTEND_USERSDB_PASSWORD; fi
-if [[ -z "${WCRS_FRONTEND_USERSDB_URL}" ]]; then env_alert WCRS_FRONTEND_USERSDB_URL; fi
+if [[ -z "${WCRS_REGSDB_HOST}" ]]; then env_alert WCRS_REGSDB_HOST; fi
+if [[ -z "${WCRS_REGSDB_PORT1}" ]]; then env_alert WCRS_REGSDB_PORT1; fi
+if [[ -z "${WCRS_REGSDB_NAME}" ]]; then env_alert WCRS_REGSDB_NAME; fi
+if [[ -z "${WCRS_REGSDB_USERNAME}" ]]; then env_alert WCRS_REGSDB_USERNAME; fi
+if [[ -z "${WCRS_REGSDB_PASSWORD}" ]]; then env_alert WCRS_REGSDB_PASSWORD; fi
+if [[ -z "${WCRS_USERSDB_HOST}" ]]; then env_alert WCRS_USERSDB_HOST; fi
+if [[ -z "${WCRS_USERSDB_PORT1}" ]]; then env_alert WCRS_USERSDB_PORT1; fi
+if [[ -z "${WCRS_USERSDB_NAME}" ]]; then env_alert WCRS_USERSDB_NAME; fi
+if [[ -z "${WCRS_USERSDB_USERNAME}" ]]; then env_alert WCRS_SERVICES_USERSDB_USER; fi
+if [[ -z "${WCRS_USERSDB_PASSWORD}" ]]; then env_alert WCRS_SERVICES_USERSDB_PASSWD; fi
+if [[ -z "${WCRS_ELASDB_HOST}" ]]; then env_alert WCRS_ELASDB_HOST; fi
+if [[ -z "${WCRS_ELASDB_PORT1}" ]]; then env_alert WCRS_ELASDB_PORT1; fi
 
 ## Stop nginx.
 echo "Stopping nginx."
