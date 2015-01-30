@@ -33,6 +33,7 @@ Capybara.javascript_driver = :webkit
 #
 ActionController::Base.allow_rescue = false
 
+# Below is generated text. All code related to database cleaner can be found in database_cleaner.rb
 # You may also want to configure DatabaseCleaner to use different strategies for certain features and scenarios.
 # See the DatabaseCleaner documentation for details. Example:
 #
@@ -46,8 +47,9 @@ ActionController::Base.allow_rescue = false
 #   Before('~@no-txn', '~@selenium', '~@culerity', '~@celerity', '~@javascript') do
 #     DatabaseCleaner.strategy = :transaction
 #   end
-#
-DatabaseCleaner.strategy = :truncation
+# We don't want cucumber-rails to automatically call DatabaseCleaner.start and .clean
+# as we control this ourselves in database_cleaner.rb
+Cucumber::Rails::Database.autorun_database_cleaner = false
 
 # Possible values are :truncation and :transaction
 # The :transaction strategy is faster, but might give you threading problems.
