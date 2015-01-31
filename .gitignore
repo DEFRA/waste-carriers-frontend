@@ -25,6 +25,7 @@ jenkins_build_number
 runCucumber.sh
 runRedis.sh
 remoteToJenkins.sh
+Jenkins_Frontend_Env_Vars.txt
 
 brakeman-report.txt
 
