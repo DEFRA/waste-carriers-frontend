@@ -25,6 +25,7 @@ module Registrations
       value = ENV[environment_variable_name]
       value = default_value if value.blank?
       value = format("http://#{value}") unless (value =~ /:\/\//)
+      value
     end
     
     # Settings in config/environments/* take precedence over those specified here.
