@@ -23,14 +23,8 @@ module Registrations
     # variable isn't set, and ensures it is prefixed with a protocol (such as 'http://').
     def self.get_url_from_environment_or_default(environment_variable_name, default_value)
       value = ENV[environment_variable_name]
-      if (value === nil || value === '')
-        value = default_value
-      end
-      url = URI.parse(value)
-      if (!url.scheme)
-        url = URI.parse("http://#{value}")
-      end
-      url.to_s()
+      value = default_value if value.blank?
+      value = format("http://#{value}") unless (value =~ /:\/\//)
     end
     
     # Settings in config/environments/* take precedence over those specified here.
