@@ -10,7 +10,6 @@ Feature: Companies House
     Given I am registering as a limited company
 
   @happy_days
-  @vcr
   Scenario: Active upper tier company
     Given I am on the business details page as an upper tier
     And I enter an active company number
@@ -20,12 +19,10 @@ Feature: Companies House
     Then I proceed to the next wizard step
 
   @happy_days
-  @vcr
   Scenario: Active lower tier company
     Given I am on the business details page as an lower tier
     Then I am not asked for my company number
 
-  @vcr
   Scenario: Inactive company
     Given I am on the business details page as an upper tier
     And I enter an inactive company number
@@ -34,7 +31,6 @@ Feature: Companies House
     Then I am told the company is not active
       And I remain on the upper tier business details page
 
-  @vcr
   Scenario: Company not found
     Given I am on the business details page as an upper tier
     And I enter a company number which does not exist
@@ -50,5 +46,3 @@ Feature: Companies House
     #When I click to advance
     Then I am told the company number needs to be filled in
       And I remain on the upper tier business details page
-
-
