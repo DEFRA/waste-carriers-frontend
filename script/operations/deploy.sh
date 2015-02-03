@@ -100,7 +100,7 @@ if [ ${WCRS_FRONTEND_RAILS_ENV} != "production" ]; then
   rake db:test:prepare
   echo "Running unit tests (using rspec)"
   rm -rf ${WCRS_FRONTEND_HOME}/live/spec/reports/*
-  rake spec
+  rake spec SPEC_OPTS="."
   echo "Running integration tests (using cucumber)"
   bundle exec cucumber -f json -o ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json
 fi
