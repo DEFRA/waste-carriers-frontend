@@ -2,7 +2,7 @@ Feature: Email tests
 
   Miscellaneous email-related tests that don't easily fit into the other features.
 
-  @quarantine
+
   Scenario: When a registration is revoked, the waste carrier should not receive an email
     Given a "ST_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
     And searching the public register for 'company' should return 1 record
@@ -12,9 +12,8 @@ Feature: Email tests
     And I wait for 2 seconds for these actions to be finalised
     Then searching the public register for 'company' should return 0 records
     And the inbox for 'st_ut@example.org' should be empty
+cd ../wast
 
-  # This test currently passes locally but not on the server. Quaranting till we understand why
-  @quarantine
   Scenario: When a registration with a conviction check is approved, the waste carrier should receive a welcome email
     Given a pending "ST_UT_online_with_conviction" upper tier registration paid for by "Bank Transfer" with 0 copy cards
     And the inbox for 'st_ut@example.org' is emptied now as part of this test
