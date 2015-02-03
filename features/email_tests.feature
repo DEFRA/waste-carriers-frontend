@@ -12,7 +12,6 @@ Feature: Email tests
     And I wait for 2 seconds for these actions to be finalised
     Then searching the public register for 'company' should return 0 records
     And the inbox for 'st_ut@example.org' should be empty
-cd ../wast
 
   Scenario: When a registration with a conviction check is approved, the waste carrier should receive a welcome email
     Given a pending "ST_UT_online_with_conviction" upper tier registration paid for by "Bank Transfer" with 0 copy cards
