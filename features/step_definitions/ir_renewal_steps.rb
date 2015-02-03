@@ -6,23 +6,23 @@ Given(/^I am renewing an IR registration$/) do
 
   visit start_path
   choose 'registration_newOrRenew_renew'
-  click_on 'Next'
+  click_button 'next'
   fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R002'
-  click_on 'Next'
+  click_button 'next'
 end
 
 Given(/^I have completed smart answers given my existing IR data$/) do
   # Prepopulated business type
   #choose 'registration_businessType_soletrader'  # assume pre pop business type
-  click_on 'Next'
+  click_button 'next'
 
   # Remaining smart answer questions are not prepopulated
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'next'
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'next'
   choose 'registration_onlyAMF_no'
-  click_on 'Next'
+  click_button 'next'
 end
 
 Given(/^I have completed smart answers, but changed my business type$/) do
@@ -40,7 +40,7 @@ Given(/^I have completed smart answers, but changed my business type$/) do
 end
 
 Given(/^my waste carrier status is prepopulated$/) do
-  click_on 'Next'
+  click_button 'next'
 end
 
 Given(/^my company name is prepopulated$/) do
@@ -61,8 +61,7 @@ Then(/^the callers registration should be complete$/) do
 end
 
 Then(/^registration should be pending convictions checks$/) do
-  page.should have_content 'Incomplete'
-  page.should have_content 'We are running background checks on the information you have provided'
+  page.find_by_id "ut_pending_convictions_check"
 end
 
 Then(/^the callers registration should be pending convictions checks$/) do
@@ -74,8 +73,7 @@ Then(/^the callers registration should be pending convictions checks$/) do
 end
 
 Then(/^registration should be pending payment$/) do
-  page.should have_content 'Almost there'
-  page.should have_content 'Waiting for confirmation of payment'
+  page.find_by_id "ut_bank_transfer"
 end
 
 Then(/^the callers registration should be pending payment$/) do

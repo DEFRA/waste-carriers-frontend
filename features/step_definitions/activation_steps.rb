@@ -47,11 +47,11 @@ When(/^I attempt to sign in$/) do
 
 And(/^I am shown my pending registration$/) do
   page.should_not have_content 'confirm your account'
-  page.should have_content 'is not yet registered as an upper tier waste carrier'
+  page.should have_content 'Your reference number is'
 end
 
 Then(/^my account is successfully activated$/) do
-  page.should have_content 'Your registration number is: CBD'
+  page.should have_content 'Your registration number is'
 end
 
 Given(/^I re-request activation for my account$/) do
@@ -78,7 +78,7 @@ end
 When(/^I activate my account by clicking the link in the activation email$/) do
   open_email my_email_address
   activation_email_found = false
-  
+
   # Cycle through all emails in the inbox to find the activation email...
   current_emails.each do |this_email|
     if (this_email.subject == 'Verify your email address')
@@ -87,7 +87,7 @@ When(/^I activate my account by clicking the link in the activation email$/) do
       break
     end
   end
-  
+
   # ... if we didn't find the activation email, produce an error that will be meaningful to Cucumber.
   unless activation_email_found
     current_email.subject.should == 'Verify your email address'
@@ -99,7 +99,7 @@ Then(/^I need to request a new confirmation email to activate my account$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'confirmation_link'
-  page.should have_content 'Your registration number is: CBD'
+  page.should have_content 'Your registration number is'
 end
 
 Then(/^I am told to confirm my email address$/) do
@@ -108,7 +108,7 @@ end
 
 Then(/^I am shown my confirmed registration$/) do
   page.should_not have_content 'confirm your account'
-  page.should have_content 'Registration complete'
+  page.should have_content 'Your registration number is'
 end
 
 Then(/^I am not shown how to pay in my confirmation email$/) do
