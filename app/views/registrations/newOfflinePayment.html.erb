@@ -14,6 +14,10 @@
     <div class="hgroup">
       <h1 class="heading-xlarge"><%= t '.heading' %></h1>
       <h2 class="heading-medium"><%= t '.bank_transfer_instructions' %></h2>
+      <ul>
+        <li><%= t '.bank_transfer_instructions1' %></li>
+        <li><%= t '.bank_transfer_instructions2' %></li>
+      </ul>
     </div>
   </header>
 
@@ -97,9 +101,9 @@
 
     <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post, html: {autocomplete: 'off'}) do |f| %>
 
-    <%= render 'next_link' %>
+    <%= render 'shared/registration_next_link' %> 
 
-    <% end %>
+      <% end %>
     </div><!-- end payment-table-wrapper -->
     </div><!-- end grid -->
   </div><!-- end grid -->

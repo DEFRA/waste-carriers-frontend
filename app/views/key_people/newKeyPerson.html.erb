@@ -15,7 +15,7 @@
       <% content_for :page_title, createTitle('.title') %>
       <%= form_for(@key_person, url: {action: "updateNewKeyPerson"}, html: {autocomplete: 'off'} ) do |f| %>
         <%= render 'key_person_form', f: f, d: @key_person, :legend => t('.legend') %>
-        <%= render 'next_link' %>
+        <%= render 'shared/registration_next_link' %>
       <% end %>
     </div>
 

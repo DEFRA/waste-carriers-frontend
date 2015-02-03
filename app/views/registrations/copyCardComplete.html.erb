@@ -1,58 +1,55 @@
 <%= render 'shared/content_for_pages' %>
 
 <div id="wrapper">
-
 <main id="content" role="main" class="group">
 
-<div class="back-section">
-    <ol>
-      <li></li>
-    </ol>
-</div>
+<div class="grid">
+  <div class="grid-2-3">
 
-<%# Removed Back section as we do not intentionally want users to ever go back from this point. %>
+    <header class="page-header group">
+      <div class="hgroup summary-box">
+          <%type = RegistrationsHelper::STATUS_COMPLETE type = RegistrationsHelper::STATUS_ALMOST_COMPLETE unless @registration.paid_in_full?%>
+          <div class="completeSummary <%= type %>">
+      	  <h1 class="completeSummaryTitle">
+        		<%= t'shared.complete_summary.copycard_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+        		<%= t'shared.complete_summary.almost_there_title' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+      	  </h1>
+      	    <% if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+      	  <div class="completeSummaryMessage">
+      		  <%= t 'shared.complete_summary..almost_there_message' %>
+      	  </div>
+      	    <% end %>
+          </div>
+      </div>
+    </header>
 
-  <div class="summary-box text">
-    <%
-    type = RegistrationsHelper::STATUS_COMPLETE
-    type = RegistrationsHelper::STATUS_ALMOST_COMPLETE unless @registration.paid_in_full?
-    %>
-    <div class="completeSummary <%= type %>">
-	  <div class="completeSummaryTitle">
-		<%= t'shared.complete_summary.copycard_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
-		<%= t'shared.complete_summary.almost_there_title' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
-	  </div>
-	  <% if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
-	  <div class="completeSummaryMessage">
-		<%= t 'shared.complete_summary..almost_there_message' %>
-	  </div>
-	  <% end %>
-    </div>
-  </div>
+    <p><%= t '.subtitle' %></p>
 
-  <header class="page-header group">
-    <div class="hgroup">
-      <h1 class="heading-large"><%= t '.subtitle' %></h1>
-    </div>
-  </header>
+    <p class="heading-small heading-with-border"><%= t'registrations.confirmed.next' %></p>
 
-    <section id='payment-copycardcomplete-page' class="text">
+      <div id='payment-copycardcomplete-page'>
 
-      <%#= form_for(@registration, :url => :upper_payment, :method => 'post') do |f| %>
-        <% content_for :page_title, createTitle('.title') %>
+        <%#= form_for(@registration, :url => :upper_payment, :method => 'post') do |f| %>
+          <% content_for :page_title, createTitle('.title') %>
 
-        <%= render "order/notice_or_alert" %>
-        <%= render "shared/registration_errors" %>
-        <ul>
-          <li><p class="panel-indent"><%= t '.copyCardDelayNotice' %></p></li>
-          <li><% if current_user %><p><%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), :class => 'button' %></p><% else %>
-          <p><%= link_to t('form.finished_button_label'), registrations_path, :class => 'button' %></p><% end %>
-          </li>
-        </ul>
+          <%= render "order/notice_or_alert" %>
+          <%= render "shared/registration_errors" %>
+          <ul>
+            <li><%= t '.copyCardDelayNotice' %></p></li>
+            <li><p class="panel-indent"><%= t '.copyCardDelayTime' %></p></li>
+            <li><p class="heading-with-border"><%= t'registrations.confirmed.survey_html' %><%= t'registrations.confirmed.survey_text' %></p></li>
+            <li><% if current_user %><p><%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), :class => 'button' %></p>
+              <% else %>
+            <p><%= link_to t('form.finished_button_label'), registrations_path, :class => 'button' %></p>
+              <% end %>
+            </li>
+          </ul>
+        <%# end %>
 
-      <%# end %>
+      </div>
 
-    </section>
+      </div><!-- end grid -->
+    </div><!-- end grid -->
 
   </main><!-- end main -->
 </div><!-- end wrapper -->
