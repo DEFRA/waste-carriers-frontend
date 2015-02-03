@@ -1358,7 +1358,7 @@ class Registration < Ohm::Model
   end
 
   def self.isAwaitingPayment(reg)
-    !reg.paid_in_full? and !reg.is_awaiting_conviction_confirmation?
+    return !reg.paid_in_full?
   end
 
   def self.isAwaitingConvictions(reg)

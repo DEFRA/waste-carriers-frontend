@@ -40,7 +40,7 @@ World(OrderPage)
 
 module OfflinePaymentPage
   def complete_offline_payment()
-    click_button 'Next'
+    click_button 'next'
   end
 end
 World(OfflinePaymentPage)
