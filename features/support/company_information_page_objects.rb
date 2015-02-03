@@ -125,7 +125,7 @@ module KeyPeoplePage
   end
 
   def submit_key_people_page()
-    click_on 'next_btn'
+    click_button 'Next'
   end
 end
 World(KeyPeoplePage)

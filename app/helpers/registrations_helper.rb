@@ -314,12 +314,18 @@ module RegistrationsHelper
         logger.debug "registration NOT paid_in_full"
       end
 
-      if awaiting_conviction_confirm
+      # Rules to determine registration status -
+      #   If Conviction(s) declared & paid in full (must be via World Pay)
+      #     mark as conviction(s) check pending
+      #   else if registration has not been paid in full (must be via Bank Transfer)
+      #       mark registration as almost complete
+      #   else no convictions & paid in full (via World Pay)
+      #       mark registration as complete
+      if awaiting_conviction_confirm && @registration.paid_in_full?
         confirmationType = STATUS_CRIMINALLY_SUSPECT
-      elsif !@registration.paid_in_full? && !awaiting_conviction_confirm
+      elsif !@registration.paid_in_full?
         confirmationType = STATUS_ALMOST_COMPLETE
       else
-        # session[:edit_result].to_i ==  EditResult::CREATE_NEW_REGISTRATION
         confirmationType = STATUS_COMPLETE
       end
     else # lower registration
@@ -334,7 +340,7 @@ module RegistrationsHelper
       logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE status: #{@registration.metaData.first.status.downcase}"
     end
 
-    confirmationType
+    return confirmationType
   end
 
   #return the status color indicator for Google Analytics: 'green' or 'amber' depending on registration confirmation status

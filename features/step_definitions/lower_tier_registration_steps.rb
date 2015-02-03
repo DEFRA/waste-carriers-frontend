@@ -52,7 +52,7 @@ Given(/^I autocomplete my business address$/) do
   click_on 'Find UK address'
   #select '33 Fennels Way, Flackwell Heath HP10 9BX'
   select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
-  click_on 'Next'
+  click_button 'next'
 end
 
 Given(/^I want my business address autocompleted but I provide an unrecognised postcode$/) do
@@ -103,13 +103,13 @@ And(/^I provide my personal contact details$/) do
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
   fill_in 'registration_contactEmail', with: my_email_address
 
-  click_on 'Next'
+  click_button 'next'
 end
 
 And(/^I check the declaration$/) do
   check 'registration_declaration'
 
-  click_on 'Confirm'
+  click_button 'confirm'
 end
 
 And(/^I provide my email address and create a password$/) do
@@ -118,7 +118,7 @@ And(/^I provide my email address and create a password$/) do
   fill_in 'registration_password', with: my_password
   fill_in 'registration_password_confirmation', with: my_password
 
-  click_on 'Next'
+  click_button 'next'
 end
 
 When(/^I confirm account creation via email$/) do
@@ -129,7 +129,7 @@ When(/^I confirm account creation via email$/) do
 end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
-  page.should have_content 'has been registered as a lower tier waste carrier'
+  page.should have_content 'you don’t need to pay a registration fee'
   open_email my_email_address
   current_email.should have_content 'Based on what you told us about your organisation and what it does, we have registered you as a lower tier waste carrier'
 end

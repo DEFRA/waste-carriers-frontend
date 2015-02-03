@@ -72,8 +72,8 @@ Given(/^I enter new user account details$/) do
 end
 
 And(/^I choose pay via electronic transfer$/) do
-  click_on 'Pay by bank transfer'
-  click_on 'Next'
+  click_button 'offline_pay_button'
+  click_button 'next'
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
@@ -122,21 +122,17 @@ Then(/^I have applied as an upper tier waste carrier$/) do
 end
 
 Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do
-  page.should have_content 'not yet registered as an upper tier waste carrier'
+  page.should have_content 'Please allow 5 working days for your payment to reach us'
 end
 
 And(/^no key people in the organisation have convictions$/) do
   choose 'registration_declaredConvictions_no'
-  click_on 'Next'
+  click_button 'next'
 end
 
 And(/^key people in the organisation have convictions$/) do
   choose 'Yes'
   click_on 'Next'
-end
-
-But(/^I am told my registration is pending a convictions check$/) do
-  page.should have_content 'We are required to cross check the declared relevant people'
 end
 
 Given(/^I finish the registration$/) do

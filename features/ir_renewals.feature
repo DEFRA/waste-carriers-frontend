@@ -69,8 +69,8 @@ Scenario: IR Renewal, Convictions, Offline payment
   And I provide my email address and create a password
   And I choose to pay by bank transfer
   And I make a note of the details
-  And I am registered as an upper tier waste carrier pending conviction checks
-  Then registration should be pending convictions checks
+  And I am registered as an upper tier waste carrier pending payment
+  Then registration should be pending payment
   When I activate my account by clicking the link in the activation email
   Then I am shown the sign in page
   And I attempt to sign in

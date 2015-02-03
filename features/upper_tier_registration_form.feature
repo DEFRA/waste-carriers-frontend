@@ -85,4 +85,4 @@ Scenario: With convictions
   And I check the declaration
   And I provide my email address and create a password
   And I choose pay via electronic transfer
-  Then I am told my registration is pending a convictions check
+  Then my upper tier waste carrier registration is pending until payment is received by the Environment Agency
