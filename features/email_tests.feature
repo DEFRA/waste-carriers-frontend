@@ -2,6 +2,7 @@ Feature: Email tests
 
   Miscellaneous email-related tests that don't easily fit into the other features.
 
+  @quarantine
   Scenario: When a registration is revoked, the waste carrier should not receive an email
     Given a "ST_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
     And searching the public register for 'company' should return 1 record
