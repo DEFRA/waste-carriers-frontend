@@ -13,6 +13,7 @@ Feature: Email tests
     Then searching the public register for 'company' should return 0 records
     And the inbox for 'st_ut@example.org' should be empty
 
+    @quarantine
   Scenario: When a registration with a conviction check is approved, the waste carrier should receive a welcome email
     Given a pending "ST_UT_online_with_conviction" upper tier registration paid for by "Bank Transfer" with 0 copy cards
     And the inbox for 'st_ut@example.org' is emptied now as part of this test
