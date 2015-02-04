@@ -35,8 +35,8 @@ if [[ -z "${WCRS_REGSDB_PASSWORD}" ]]; then env_alert WCRS_REGSDB_PASSWORD; fi
 if [[ -z "${WCRS_REGSDB_URL1}" ]]; then env_alert WCRS_REGSDB_URL1; fi
 if [[ -z "${WCRS_REGSDB_URL2}" ]]; then env_alert WCRS_REGSDB_URL2; fi
 if [[ -z "${WCRS_USERSDB_NAME}" ]]; then env_alert WCRS_USERSDB_NAME; fi
-if [[ -z "${WCRS_USERSDB_USERNAME}" ]]; then env_alert WCRS_SERVICES_USERSDB_USER; fi
-if [[ -z "${WCRS_USERSDB_PASSWORD}" ]]; then env_alert WCRS_SERVICES_USERSDB_PASSWD; fi
+if [[ -z "${WCRS_USERSDB_USERNAME}" ]]; then env_alert WCRS_USERSDB_USERNAME; fi
+if [[ -z "${WCRS_USERSDB_PASSWORD}" ]]; then env_alert WCRS_USERSDB_PASSWORD; fi
 if [[ -z "${WCRS_USERSDB_URL1}" ]]; then env_alert WCRS_USERSDB_URL1; fi
 if [[ -z "${WCRS_USERSDB_URL2}" ]]; then env_alert WCRS_USERSDB_URL2; fi
 if [[ -z "${WCRS_ELASDB_URL_REST}" ]]; then env_alert WCRS_ELASDB_URL_REST; fi
