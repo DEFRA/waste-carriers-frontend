@@ -27,7 +27,7 @@ module Registrations
       value = format("http://#{value}") unless (value =~ /:\/\//)
       value
     end
-    
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -191,9 +191,9 @@ module Registrations
     config.registrations_service_exceed_limit = '10'
 
     # registration expiration (upper tier only - lower tier registrations are indefinite)
-    config.registration_expires_after = ENV['WCRS_FRONTEND_EXPIRES_AFTER'].to_i.years || 3.years
+    config.registration_expires_after = ENV['WCRS_REGISTRATION_EXPIRES_AFTER'].to_i.years || 3.years
 
     # upper tier registrations can be renewed starting a given time period (e.g. 6 months) before their expiration date
-    config.registration_renewal_window = ENV['WCRS_FRONTEND_RENEWAL_WINDOW'].to_i.months || 6.months
+    config.registration_renewal_window = ENV['WCRS_REGISTRATION_RENEWAL_WINDOW'].to_i.months || 6.months
   end
 end
