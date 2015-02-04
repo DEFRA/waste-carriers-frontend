@@ -25,7 +25,7 @@
                 <% elsif type.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %> 
                   <span id="ut_pending_convictions_check"><%= t'shared.complete_summary.endpageReceivedConvictions' %></span>
                 <% elsif type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %> 
-                  <span id="ut_bank_transfer"><%= t'shared.complete_summary.endpageComplete' %></span>
+                  <span id="ut_bank_transfer"><%= t'shared.complete_summary.endpageReceivedConvictions' %></span>
                 <% end %> 
 
               </h1>
@@ -46,6 +46,8 @@
 
     <p><%= t'registrations.confirmed.payment_details_ir', :regNum => @registration.regIdentifier %></p>
     <p><%= t'registrations.confirmed.payment_timescale' %></p>
+    <p><%= t'registrations.confirmed.contact_agency_html' %></p>
+    <p class="heading-with-border"><%= t'registrations.confirmed.survey_html' %><%= t'registrations.confirmed.survey_text' %></p>
 
     <%= form_tag(@exitRoute) do |f| %>
       <span class="next_link">
