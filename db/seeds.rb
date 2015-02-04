@@ -77,4 +77,6 @@ if (Rails.env.eql? 'development') || (Rails.env.eql? 'sandbox')
   output_created_registration(create_complete_upper_tier_reg('PB_UT_online_complete', 'Bank Transfer', 0))
   output_created_registration(create_complete_upper_tier_reg('PT_UT_online_complete', 'World Pay', 0))
   output_created_registration(create_complete_upper_tier_reg('ST_UT_online_complete', 'World Pay', 4))
+  
+  RestClient.post "#{Rails.configuration.waste_exemplar_services_admin_url}/tasks/ir-repopulate", {}
 end
