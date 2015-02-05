@@ -6,7 +6,6 @@
 
 function env_alert() {
     echo "Environment variable $1 is not set."
-    echo "Refer to the README.deploy file for more details."
     echo "Please set the required environment variable and try again. Exiting now."
     echo ""
     exit 2
@@ -35,11 +34,13 @@ if [[ -z "${WCRS_REGSDB_PASSWORD}" ]]; then env_alert WCRS_REGSDB_PASSWORD; fi
 if [[ -z "${WCRS_REGSDB_URL1}" ]]; then env_alert WCRS_REGSDB_URL1; fi
 if [[ -z "${WCRS_REGSDB_URL2}" ]]; then env_alert WCRS_REGSDB_URL2; fi
 if [[ -z "${WCRS_USERSDB_NAME}" ]]; then env_alert WCRS_USERSDB_NAME; fi
-if [[ -z "${WCRS_USERSDB_USERNAME}" ]]; then env_alert WCRS_SERVICES_USERSDB_USER; fi
-if [[ -z "${WCRS_USERSDB_PASSWORD}" ]]; then env_alert WCRS_SERVICES_USERSDB_PASSWD; fi
+if [[ -z "${WCRS_USERSDB_USERNAME}" ]]; then env_alert WCRS_USERSDB_USERNAME; fi
+if [[ -z "${WCRS_USERSDB_PASSWORD}" ]]; then env_alert WCRS_USERSDB_PASSWORD; fi
 if [[ -z "${WCRS_USERSDB_URL1}" ]]; then env_alert WCRS_USERSDB_URL1; fi
 if [[ -z "${WCRS_USERSDB_URL2}" ]]; then env_alert WCRS_USERSDB_URL2; fi
 if [[ -z "${WCRS_ELASDB_URL_REST}" ]]; then env_alert WCRS_ELASDB_URL_REST; fi
+if [[ -z "${WCRS_REGISTRATION_EXPIRES_AFTER}" ]]; then env_alert WCRS_REGISTRATION_EXPIRES_AFTER; fi
+if [[ -z "${WCRS_REGISTRATION_RENEWAL_WINDOW}" ]]; then env_alert WCRS_REGISTRATION_RENEWAL_WINDOW; fi
 
 ## Stop nginx.
 echo "Stopping nginx."
