@@ -330,6 +330,7 @@ class RegistrationsController < ApplicationController
     return unless @registration
 
     if @registration.valid?
+      set_google_analytics_convictions_indicator(session, @registration)
       #      (redirect_to :newConfirmation and return) if session[:edit_mode]
       if @registration.declaredConvictions == 'yes'
         redirect_to :newRelevantPeople
@@ -765,6 +766,7 @@ class RegistrationsController < ApplicationController
     authorize! :read, @registration
 
     @confirmationType = getConfirmationType
+    set_google_analytics_status_color(session, @confirmationType)
     unless @confirmationType
       flash[:notice] = 'Invalid confirmation type. Check routing to this page'
       renderNotFound and return
@@ -994,6 +996,7 @@ class RegistrationsController < ApplicationController
     end
 
     @confirmationType = getConfirmationType
+    set_google_analytics_status_color(session, @confirmationType)
     unless @confirmationType
       flash[:notice] = 'Invalid confirmation type. Check routing to this page'
       renderNotFound and return
@@ -1472,6 +1475,7 @@ class RegistrationsController < ApplicationController
   def copyCardComplete
     @registration = Registration.find_by_id(params[:id])
     @confirmationType = getConfirmationType
+    set_google_analytics_status_color(session, @confirmationType)
     authorize! :read, @registration
   end
 
@@ -1490,7 +1494,7 @@ class RegistrationsController < ApplicationController
     logger.debug '@edit_result: ' + @edit_result.to_s
 
     @confirmationType = getConfirmationType
-
+    set_google_analytics_status_color(session, @confirmationType)
 
     # Determine routing for Finish button
     if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
