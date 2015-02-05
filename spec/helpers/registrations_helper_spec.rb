@@ -102,9 +102,9 @@ describe RegistrationsHelper do
 
     it 'should show as empty otherwise' do
       session = {:ga_status_color => 'green'}
-      session.has_key?(:ga_status_color).should be_true
+      session.has_key?(:ga_status_color).should be_truthy
       helper.set_google_analytics_status_color(session, nil)
-      session.has_key?(:ga_status_color).should be_false
+      session.has_key?(:ga_status_color).should be_falsey
     end
 
   end
