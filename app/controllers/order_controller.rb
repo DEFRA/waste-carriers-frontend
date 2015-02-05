@@ -166,6 +166,7 @@ class OrderController < ApplicationController
       end
 
       logger.info "About to redirect to Worldpay/Offline payment"
+      set_google_analytics_payment_indicator(session, @order)
       if params[:offline_next] == I18n.t('registrations.form.pay_offline_button_label')
         logger.info "The registration is valid - redirecting to Offline payment page..."
         redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
