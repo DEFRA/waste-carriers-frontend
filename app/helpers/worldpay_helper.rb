@@ -9,6 +9,19 @@ require 'open-uri'
 
 module WorldpayHelper
 
+    def test_connection?
+      test_uri = Rails.configuration.worldpay_uri
+      uri = URI(test_uri)
+      https = Net::HTTP.new(uri.host,uri.port)
+      https.use_ssl = true
+      if https.get(uri.path)
+        true
+      else
+        @order.errors.add(:connection, I18n.t('errors.messages.connection'))
+        false
+      end
+    end
+
     def redirect_to_worldpay(registration, order)
       xml = create_xml(registration, order)
       logger.info 'About to contact WorldPay: XML username = ' + worldpay_xml_username
