@@ -14,7 +14,8 @@ module WorldpayHelper
       uri = URI(test_uri)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
-      if https.get(uri.path)
+      res = https.get(uri.path)
+      if res.code == '200'
         true
       else
         @order.errors.add(:connection, I18n.t('errors.messages.connection'))
