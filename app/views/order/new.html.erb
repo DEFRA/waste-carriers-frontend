@@ -70,15 +70,9 @@
 
 
           <div class="payment-option">
-            <% if @order.errors[:connection] %>
-              <input id="worldpay_button" name="next" class="button" type="submit" /
-              value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-              <p class="panel-indent"><%= t '.debit_card_note' %></p>
-            <% else %>
-              <input id="worldpay_button" name="next" class="button" type="submit" /
-              value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>" disabled/>
-              <p class="panel-indent">Payment by credit or debit card is not available at the moment.</p>
-            <% end %>
+            <input id="worldpay_button" name="next" class="button" type="submit" /
+            value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
+            <p class="panel-indent"><%= t '.debit_card_note' %></p>
           </div>
 
           <div class="payment-option">
