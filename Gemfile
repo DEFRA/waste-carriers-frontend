@@ -18,7 +18,6 @@ gem "cancan", "~> 1.6.10"
 
 # Use ActiveResource, this app being the client of the REST-based service API (implemented in waste-exemplar-services)
 gem 'activeresource', '~>4.0.0'
-gem 'password_strength', '~>0.3.2'
 
 gem 'rolify','~> 3.4.0'
 

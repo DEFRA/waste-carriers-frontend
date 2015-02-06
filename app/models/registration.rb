@@ -3,6 +3,7 @@ class Registration < Ohm::Model
   include ActiveModel::Conversion
   include ActiveModel::Validations
   extend ActiveModel::Naming
+  include PasswordHelper
 
   FIRST_STEP = 'newOrRenew'
 
@@ -802,8 +803,8 @@ class Registration < Ohm::Model
 
   with_options if: [:signup_step?, :sign_up_mode_present?] do |registration|
     registration.validates :password, presence: true, length: { in: 8..128 }
-    registration.validates_strength_of :password, with: :accountEmail
     registration.validates :password, confirmation: true
+    registration.validate :password_must_have_lowercase_uppercase_and_numeric
   end
 
   validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
