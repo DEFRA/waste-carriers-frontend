@@ -123,7 +123,6 @@ sandbox:
       password: <%= ENV['WCRS_USERSDB_PASSWORD'] %>
       hosts:
         - <%= ENV['WCRS_USERSDB_URL1'] %>
-        - <%= ENV['WCRS_USERSDB_URL2'] %>
       options:
         read: primary
         max_retries: 1
