@@ -121,7 +121,7 @@ end
 def create_user(account_email)
   user = User.new
   user.email = account_email
-  user.password = 'test1234'
+  user.password = 'Test1234'
   user.confirmed_at = DateTime.now.strftime('%FT%T%:z')
   user.save
 end

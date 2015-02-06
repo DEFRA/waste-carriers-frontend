@@ -2,6 +2,10 @@ require 'spec_helper'
 require 'cancan/matchers'
 
 describe User do
+  describe 'password field' do
+    it_behaves_like 'password with strength restrictions'
+  end
+  
   describe 'abilities' do
     context 'waste carrier user' do
       let(:user) { FactoryGirl.create :user }
