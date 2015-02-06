@@ -122,13 +122,7 @@ describe Registration do
       context 'unpersisted' do
         before { allow(subject).to receive(:persisted?).and_return(false) }
 
-        it { should validate_presence_of(:password).with_message(/must be completed/) }
-        it { should validate_confirmation_of(:password) }
-
-        it { should allow_value('myPass145', 'myPass145$').for(:password) }
-        it { should_not allow_value('123', '123abc', 'aaaaa').for(:password) }
-
-        it { should ensure_length_of(:password).is_at_least(8).is_at_most(128) }
+        it_behaves_like 'password with strength restrictions'
 
         describe 'unique user registration using accountEmail' do
           context 'User exists with supplied accountEmail' do
