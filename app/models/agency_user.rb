@@ -6,6 +6,8 @@ class AgencyUser
   resourcify :resources
   rolify
 
+  include PasswordHelper
+  
   # Note: Devise standard default modules are
   # :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
   # Include default devise modules. Others available are:
@@ -46,9 +48,8 @@ class AgencyUser
   field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
   field :locked_at,       :type => Time
 
-
-  validates_strength_of :password, :with => :email
-
+  validate :password, presence: true, length: { in: 8..128 }
+  validate :password_must_have_lowercase_uppercase_and_numeric
 
   def is_admin?
   	false
