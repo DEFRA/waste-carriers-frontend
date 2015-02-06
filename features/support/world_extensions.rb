@@ -4,7 +4,7 @@ module KnowsTheDomain
   end
 
   def my_password
-    @my_password ||= 'password123'
+    @my_password ||= 'Password123'
   end
 
   def my_unrecognised_postcode
@@ -16,11 +16,11 @@ module KnowsTheDomain
   end
 
   def agency_password
-    @agency_password ||= 'secret123'
+    @agency_password ||= 'Secret123'
   end
 
   def carrier_password
-    @carrier_password ||= 'test1234'
+    @carrier_password ||= 'Test1234'
   end
 
   def my_finance_admin_user

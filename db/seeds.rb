@@ -13,12 +13,12 @@ end
 
 unless Rails.env.production?
   unless Admin.find_by_email('admin@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'secret123')
+    admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'Secret123')
     admin.save!
   end
 
   unless Admin.find_by_email('finance@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'finance@waste-exemplar.gov.uk', :password => 'secret123')
+    admin = Admin.new(:email => 'finance@waste-exemplar.gov.uk', :password => 'Secret123')
     admin.add_role :Role_financeSuper, Admin
     admin.save!
   end
@@ -38,29 +38,29 @@ unless Rails.env.production?
     admin.save!
   end
 
-  AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: 'secret123'
+  AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: 'Secret123'
 
-  AgencyUser.find_or_create_by email: 'nccc1@waste-exemplar.gov.uk', password: 'secret123'
+  AgencyUser.find_or_create_by email: 'nccc1@waste-exemplar.gov.uk', password: 'Secret123'
 
-  AgencyUser.find_or_create_by email: 'nccc2@waste-exemplar.gov.uk', password: 'secret123'
+  AgencyUser.find_or_create_by email: 'nccc2@waste-exemplar.gov.uk', password: 'Secret123'
 
   # Adds a agency user associated with the finance basic role
-  agencyUser = AgencyUser.find_or_create_by email: 'financebasic1@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'financebasic1@waste-exemplar.gov.uk', password: 'Secret123'
   agencyUser.add_role :Role_financeBasic, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'financebasic2@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'financebasic2@waste-exemplar.gov.uk', password: 'Secret123'
   agencyUser.add_role :Role_financeBasic, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin1@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin1@waste-exemplar.gov.uk', password: 'Secret123'
   agencyUser.add_role :Role_financeAdmin, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin2@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin2@waste-exemplar.gov.uk', password: 'Secret123'
   agencyUser.add_role :Role_financeAdmin, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment1@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment1@waste-exemplar.gov.uk', password: 'Secret123'
   agencyUser.add_role :Role_agencyRefundPayment, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment2@waste-exemplar.gov.uk', password: 'secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment2@waste-exemplar.gov.uk', password: 'Secret123'
   agencyUser.add_role :Role_agencyRefundPayment, AgencyUser
 
 end  #unless Rails.env.production?
