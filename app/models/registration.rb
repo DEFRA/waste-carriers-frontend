@@ -745,7 +745,7 @@ class Registration < Ohm::Model
   VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|[a-zA-Z]{2}\d{6}\z/i
 
   # Maximum field lengths
-  MAX_COMPANY_NAME_LENGTH = 255
+  MAX_COMPANY_NAME_LENGTH = 150
 
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: :businesstype_step?
   validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :otherbusinesses_step?
