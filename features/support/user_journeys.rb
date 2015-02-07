@@ -1,14 +1,16 @@
 module CompleteSmartAnswerJourneys
   def complete_smart_answers_for_new_registration_upper_tier(bussiness_type)
-    start_new_registration_and_submit('new')
-    select_business_type_and_submit(bussiness_type)
-    select_other_business_and_submit('registration_otherBusinesses_no')
-    select_construction_demolition_and_submit('registration_constructionWaste_yes')
+    go_to_start_page
+    start_page_select_and_submit('new')
+    business_type_page_select_and_submit(bussiness_type)
+    other_businesses_page_select_and_submit('registration_otherBusinesses_no')
+    construction_demolition_page_select_and_submit('registration_constructionWaste_yes')
   end
   def complete_smart_answers_for_new_registration_lower_tier_type_business(bussiness_type)
     #for Charity and Waste Collection business type
-    start_new_registration_and_submit('new')
-    select_business_type_and_submit(bussiness_type)
+    go_to_start_page
+    start_page_select_and_submit('new')
+    business_type_page_select_and_submit(bussiness_type)
   end
 end
 World(CompleteSmartAnswerJourneys)
