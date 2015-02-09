@@ -13,6 +13,11 @@ require 'capybara/poltergeist'
 # Capybara.default_selector = :xpath
 
 Capybara.javascript_driver = :poltergeist
+options = { js_errors: false, timeout: 180, phantomjs_logger: StringIO.new, logger: nil, phantomjs_options: ['--load-images=yes', '--ignore-ssl-errors=yes'] }
+
+Capybara.register_driver(:poltergeist) do |app|
+    Capybara::Poltergeist::Driver.new app, options
+end
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
