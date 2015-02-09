@@ -742,7 +742,7 @@ class Registration < Ohm::Model
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
-  VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\'\[\]\,\(\)]+\z/
+  VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\'\u2019\[\]\,\(\)]+\z/
   VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|[a-zA-Z]{2}\d{6}\z/i
 
   # Maximum field lengths
