@@ -255,7 +255,7 @@ en:
     messages:
       35characters: "can not be longer than 35 characters"
       70characters: "can not be longer than 70 characters"
-      invalid_company_name_characters: "can only contain letters, numbers, spaces and special characters (.-&'[],) and be no longer than %{maxLength} characters"
+      invalid_company_name_characters: "can only contain letters, numbers, spaces and special characters (.-&'’[],) and be no longer than %{maxLength} characters"
       blank: "must be completed"
       emailTaken: "has already been taken"
       invalid: "is not valid"
