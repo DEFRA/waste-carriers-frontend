@@ -91,8 +91,8 @@ end
 
 group :test, :development do
 
-  #needed for headless testing with Javascript or pages that ref external sites
-  gem 'capybara-webkit', '~> 1.3.1'
+  # Needed for headless testing with Javascript or pages that ref external sites
+  gem 'poltergeist', '~> 1.6.0'
   gem 'capybara-email', '~> 2.2.0'
 
   gem "launchy", "~> 2.4.2", :require => false

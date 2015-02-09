@@ -11,7 +11,7 @@ Background:
   And my waste carrier status is prepopulated
   And my company name is prepopulated
 
-@javascript @quarantine @happy_days
+@javascript @happy_days
 Scenario: Assisted Digital IR Renewal, No convictions, Online payment
   Given I autocomplete my business address
   And the caller provides his contact details
