@@ -3,6 +3,7 @@
 @import '_shims';
 @import '_typography';
 @import '_measurements';
+@import 'grid_layout';
 
 @import 'design-patterns/_alpha-beta';
 @import 'design-patterns/_buttons';
@@ -173,6 +174,7 @@ input {
   margin-bottom: $gutter-half;
   float:left;
   clear:both;
+  background-image: file-url("icons/icon-pointer.png");
 }
 
 .button-secondary {

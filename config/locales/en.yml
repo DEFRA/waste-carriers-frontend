@@ -606,19 +606,20 @@ en:
       dob_guidance: "For example, 26 5 1976"
   start:
     show:
-      subtitle: "Are you renewing an existing licence?"
+      subtitle: "Is this a new registration?"
       title: "New or renew a registration"
-      renew: "Yes"
-      new: "No, this is a new application"
+      new: "Yes"
+      renew: "No, this is a new registration"
   existing_registration:
     show:
-      subtitle: "Enter your waste carrier registration number"
+      subtitle: "What is your waste carrier registration number"
       title: "Existing registration renewal"
       ir_number_example: "Example: CB/AF7003CS/A001"
-      renewal_link: "I can't find my registration number"
-      paragraph1: "Your registration number starts with the letters 'CB' and can be found at the top of your renewal letter."
-      epr_link_html: "If you don't have your letter to hand search the <a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>Environment Agency Public Register.</a>"
-      paragraph2: "If you have any queries about your registration number, please contact our helpline: 03708 506506 and speak to an advisor."
+      renewal_link: "I don't know my registration number"
+      heading: "You can:"
+      bullet1: "check your renewal letter (your registration number will be at the top)"
+      bullet2_html: "<a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>look up your registration number online</a>"
+      paragraph: "Call 03708 506506 if you have any problems."
   business_type:
     show:
       subtitle: "What type of business or organisation are you?"
