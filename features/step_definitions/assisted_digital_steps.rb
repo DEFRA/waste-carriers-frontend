@@ -11,12 +11,12 @@ Given(/^I start a new registration on behalf of a caller$/) do
   click_on 'New registration'
 
   choose 'registration_newOrRenew_new'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^the caller provides initial answers for the lower tier$/) do
   choose 'registration_businessType_charity'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^the caller provides his business organisation details$/) do
@@ -29,7 +29,7 @@ Given(/^the caller provides his business organisation details$/) do
   fill_in 'registration_townCity', with: 'Bristol'
   fill_in 'registration_postcode', with: 'BS1 5AH'
 
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^the caller provides his contact details$/) do
@@ -37,7 +37,7 @@ Given(/^the caller provides his contact details$/) do
   fill_in 'registration_lastName', with: 'Assisted'
   fill_in 'registration_phoneNumber', with: '0123 456 789'
 
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^the caller declares the information provided is correct$/) do
@@ -63,10 +63,10 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   click_on 'New registration'
 
   choose 'registration_newOrRenew_new'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_businessType_charity'
-  click_on 'Next'
+  click_button 'continue'
 
   click_on 'I want to add an address myself'
   fill_in 'registration_companyName', with: 'Grades & Co'
@@ -75,12 +75,12 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   fill_in 'registration_streetLine2', with: 'EA Building'
   fill_in 'registration_townCity', with: 'Bristol'
   fill_in 'registration_postcode', with: 'BS1 5AH'
-  click_on 'Next'
+  click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Joe'
   fill_in 'registration_lastName', with: 'Bloggs'
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
-  click_on 'Next'
+  click_button 'continue'
 
   check 'registration_declaration'
   click_on 'Confirm'
@@ -91,22 +91,22 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   click_on 'New registration'
 
   choose 'registration_newOrRenew_new'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_businessType_soletrader'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_onlyAMF_no'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_registrationType_carrier_dealer'
-  click_on 'Next'
+  click_button 'continue'
 
   click_on 'I want to add an address myself'
   fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
@@ -115,17 +115,17 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   fill_in 'registration_streetLine2', with: 'EA Building'
   fill_in 'registration_townCity', with: 'Bristol'
   fill_in 'registration_postcode', with: 'BS1 5AH'
-  click_on 'Next'
+  click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Antony'
   fill_in 'registration_lastName', with: 'Assisted'
   fill_in 'registration_phoneNumber', with: '0123 456 789'
-  click_on 'Next'
+  click_button 'continue'
 
   step 'I enter the details of the business owner'
 
   choose 'No'
-  click_on 'Next'
+  click_button 'continue'
 
   check 'registration_declaration'
   click_on 'Confirm'
@@ -136,22 +136,22 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
   click_on 'New registration'
 
   choose 'registration_newOrRenew_new'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_businessType_soletrader'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_onlyAMF_no'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_registrationType_carrier_dealer'
-  click_on 'Next'
+  click_button 'continue'
 
   click_on 'I want to add an address myself'
   fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
@@ -160,17 +160,17 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
   fill_in 'registration_streetLine2', with: 'EA Building'
   fill_in 'registration_townCity', with: 'Bristol'
   fill_in 'registration_postcode', with: 'BS1 5AH'
-  click_on 'Next'
+  click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Antony'
   fill_in 'registration_lastName', with: 'Assisted'
   fill_in 'registration_phoneNumber', with: '0123 456 789'
-  click_on 'Next'
+  click_button 'continue'
 
   step 'I enter the details of the business owner'
 
   choose 'No'
-  click_on 'Next'
+  click_button 'continue'
 
   check 'registration_declaration'
   click_on 'Confirm'
@@ -191,7 +191,7 @@ Then(/^I see the six\-character access code for the user$/) do
 end
 
 And(/^I see the payment details to tell the customer$/) do
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Then(/^I logout$/) do
