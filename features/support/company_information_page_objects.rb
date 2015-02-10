@@ -1,14 +1,4 @@
-module RegistrationTypePage
-  def select_registration_type_and_submit(value)
-    choose(value)
-    submit_registration_type_page
-  end
 
-  def submit_registration_type_page()
-    click_button 'Next'
-  end
-end
-World(RegistrationTypePage)
 
 module BusinessDetailsPage
   # for sole trader, partnership, public body, charity and authority
