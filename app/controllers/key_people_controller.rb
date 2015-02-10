@@ -105,7 +105,7 @@ class KeyPeopleController < ApplicationController
         logger.info 'Key person is not valid, and data is not yet saved'
         render "newKeyPeople", :status => '400'
       end
-    elsif params[:next]
+    elsif params[:continue]
       if @key_person.valid?
 
         @key_person.cross_check_convictions
@@ -184,7 +184,7 @@ class KeyPeopleController < ApplicationController
         logger.info 'Relevant person is not valid, and data is not yet saved'
         render "newRelevantPeople", :status => '400'
       end
-    elsif params[:next]
+    elsif params[:continue]
       if @key_person.valid?
 
         @key_person.cross_check_convictions

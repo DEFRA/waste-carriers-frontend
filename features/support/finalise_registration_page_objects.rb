@@ -20,7 +20,7 @@ module SignupPage
   end
 
   def submit_signup_page()
-    click_on 'Next'
+    click_button 'continue'
   end
 end
 World(SignupPage)
@@ -40,7 +40,7 @@ World(OrderPage)
 
 module OfflinePaymentPage
   def complete_offline_payment()
-    click_button 'next'
+    click_button 'continue'
   end
 end
 World(OfflinePaymentPage)

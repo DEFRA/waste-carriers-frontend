@@ -5,7 +5,7 @@ module RegistrationTypePage
   end
 
   def submit_registration_type_page()
-    click_button 'Next'
+    click_button 'continue'
   end
 end
 World(RegistrationTypePage)
@@ -66,7 +66,7 @@ module BusinessDetailsPage
   end
 
   def submit_business_details_page()
-    click_on 'Next'
+    click_button 'continue'
   end
 end
 World(BusinessDetailsPage)
@@ -81,7 +81,7 @@ module ContactDetailsPage
     submit_contact_details_page
   end
   def submit_contact_details_page()
-    click_on 'Next'
+    click_button 'continue'
   end
 end
 World(ContactDetailsPage)
@@ -125,7 +125,7 @@ module KeyPeoplePage
   end
 
   def submit_key_people_page()
-    click_button 'Next'
+    click_button 'continue'
   end
 end
 World(KeyPeoplePage)
@@ -137,7 +137,7 @@ module RelevantConvictionsPage
   end
 
   def submit_relevant_convictions_page()
-    click_button 'Next'
+    click_button 'continue'
   end
 end
 World(RelevantConvictionsPage)
@@ -181,7 +181,7 @@ module RelevantPeoplePage
   end
 
   def submit_relevant_people()
-    click_button 'next_btn'
+    click_button 'continue'
   end
 
 end

@@ -6,7 +6,7 @@ module StartPage
   end
 
   def submit_start_page()
-    click_button 'Next'
+    click_button 'continue'
   end
 end
 World(StartPage)
@@ -18,7 +18,7 @@ module BusinessTypePage
   end
 
   def submit_business_type_page()
-    click_button 'Next'
+    click_button 'continue'
   end
 end
 World(BusinessTypePage)
@@ -30,7 +30,7 @@ module OtherBusinessPage
   end
 
   def submit_other_business_page()
-    click_button 'Next'
+    click_button 'continue'
   end
 end
 World(OtherBusinessPage)
@@ -42,7 +42,7 @@ module ConstructinDemolitionPage
   end
 
   def submit_construction_demolition_page()
-    click_button 'Next'
+    click_button 'continue'
   end
 end
 World(ConstructinDemolitionPage)
@@ -54,7 +54,7 @@ module ServiceProvidedPage
   end
 
   def submit_service_provided_page()
-    click_button 'Next'
+    click_button 'continue'
   end
 end
 World(ServiceProvidedPage)
