@@ -6,6 +6,10 @@ When(/^select the start page's 'new' option$/) do
   start_page_select_new
 end
 
+When(/^select the start page's 'renew' option$/) do
+  start_page_select_renew
+end
+
 When(/^I select the business type page's 'sole trader' option$/) do
   business_type_page_select_sole_trader
 end
@@ -52,4 +56,8 @@ end
 
 When(/^I am shown the 'only deal with' page$/) do
   only_deal_with_page?
+end
+
+When(/^I enter a recognised IR number$/) do
+  existing_registration_page_complete_form
 end
