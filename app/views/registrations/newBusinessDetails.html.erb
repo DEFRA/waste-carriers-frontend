@@ -42,7 +42,7 @@
         <%= render 'address_finder', :f => f, :r => @registration %>
       </div>
 
-      <%= render 'shared/registration_next_link' if @registration.addressMode and !@registration.addressMode.empty? %>
+      <%= render 'shared/registration_continue_link' if @registration.addressMode and !@registration.addressMode.empty? %>
     <% end %>
 
   </main><!--main end-->

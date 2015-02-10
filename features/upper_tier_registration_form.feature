@@ -81,7 +81,7 @@ Scenario: With convictions
     | first_name | last_name | position | dob_day | dob_month | dob_year |
     | James      | Hunt      | Driver   | 29      | 08        | 1947     |
     | Nikki      | Lauda     | Driver   | 22      | 02        | 1949     |
-  And I click next
+  And I click continue
   And I check the declaration
   And I provide my email address and create a password
   And I choose pay via electronic transfer
