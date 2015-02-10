@@ -1,3 +1,6 @@
+# These steps relate to a quarantined feature and should not be reused. Please
+# see the comment in page_helpers.feature for an explanation
+
 When(/^I visit the start page$/) do
   go_to_start_page
 end
