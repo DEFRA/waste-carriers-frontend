@@ -112,7 +112,7 @@ if [ ${WCRS_FRONTEND_RAILS_ENV} == "development" -o ${WCRS_FRONTEND_RAILS_ENV} =
   rake db:seed
 fi
 
-if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
+if [ "${WCRS_FRONTEND_RAILS_ENV}" != "development" ]; then
   echo "Copying RSpec reports to Jenkins"
   scp -rp ${WCRS_FRONTEND_HOME}/live/spec/reports \
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/spec/
