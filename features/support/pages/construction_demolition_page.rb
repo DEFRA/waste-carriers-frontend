@@ -4,17 +4,16 @@ module ConstructionDemolitionPage
     visit construction_demolition_path
   end
 
-  def construction_demolition_page_select(value)
-    choose value
+  def construction_demolition_page_select_no
+    choose 'registration_constructionWaste_no'
+  end
+
+  def construction_demolition_page_select_yes
+    choose 'registration_constructionWaste_yes'
   end
 
   def construction_demolition_page_submit
-    click_button 'Next'
-  end
-
-  def construction_demolition_page_select_and_submit(value)
-    construction_demolition_page_select value
-    construction_demolition_page_submit
+    click_button 'next'
   end
 end
 World(ConstructionDemolitionPage)

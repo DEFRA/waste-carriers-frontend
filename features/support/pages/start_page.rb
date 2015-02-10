@@ -4,17 +4,16 @@ module StartPage
     visit start_path
   end
 
-  def start_page_select(value)
-    choose value
+  def start_page_select_new
+    choose 'new'
+  end
+
+  def start_page_select_renew
+    choose 'renew'
   end
 
   def start_page_submit
-    click_button 'Next'
-  end
-
-  def start_page_select_and_submit(value)
-    start_page_select value
-    start_page_submit
+    click_button 'next'
   end
 end
 World(StartPage)
