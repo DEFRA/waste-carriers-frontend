@@ -5,7 +5,7 @@
 		<% full_messages.each do |msg| %>
           <% if msg == 'Services error: worldPayConnectionIssue' %>
               <ul>
-                <li><a class="error-text" href="#"><%= t 'errors.messages.worldpayErrorConnection_html', :sign_in => Rails.app.config.waste_exemplar_frontend_url + '/users/sign_in' %></a></li>
+                <li><a class="error-text" href="#"><%= t 'errors.messages.worldpayErrorConnection_html', :sign_in => Rails.config.waste_exemplar_frontend_url + '/users/sign_in' %></a></li>
               </ul>
           <% else %>
               <ul>
