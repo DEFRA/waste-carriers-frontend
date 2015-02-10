@@ -4,12 +4,14 @@ module ServiceProvidedPage
     visit construction_demolition_path
   end
 
-  def service_provided_page_select_no
+  def service_provided_page_select_no(submit: 'true')
     choose 'registration_isMainService_no'
+    service_provided_page_submit if submit
   end
 
-  def service_provided_page_select_yes
+  def service_provided_page_select_yes(submit: 'true')
     choose 'registration_isMainService_yes'
+    service_provided_page_submit if submit
   end
 
   def service_provided_page_submit

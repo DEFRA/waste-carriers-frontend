@@ -4,12 +4,14 @@ module OtherBusinessesPage
     visit other_business_path
   end
 
-  def other_businesses_page_select_no
+  def other_businesses_page_select_no(submit: 'true')
     choose 'registration_otherBusinesses_no'
+    other_businesses_page_submit if submit
   end
 
-  def other_businesses_page_select_yes
+  def other_businesses_page_select_yes(submit: 'true')
     choose 'registration_otherBusinesses_yes'
+    other_businesses_page_submit if submit
   end
 
   def other_businesses_page_submit

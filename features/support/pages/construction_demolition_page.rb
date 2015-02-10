@@ -4,12 +4,14 @@ module ConstructionDemolitionPage
     visit construction_demolition_path
   end
 
-  def construction_demolition_page_select_no
+  def construction_demolition_page_select_no(submit: 'true')
     choose 'registration_constructionWaste_no'
+    construction_demolition_page_submit if submit
   end
 
-  def construction_demolition_page_select_yes
+  def construction_demolition_page_select_yes(submit: 'true')
     choose 'registration_constructionWaste_yes'
+    construction_demolition_page_submit if submit
   end
 
   def construction_demolition_page_submit
