@@ -29,10 +29,6 @@
   }
 }
 
-.validation-summary a {
-  text-decoration: none;
-}
-
 .validation-summary .error-text {
   color: $error-colour;
 }
@@ -42,7 +38,13 @@
   text-decoration: underline;
 }
 
+.validation-summary .error-text {
+  list-style-type:none;
+  text-decoration: none;
+}
+
 .validation-summary a {
+  text-decoration: none;
   color: $error-colour;
   @include ie-lte(6) {
     color: $error-colour !important;
@@ -51,11 +53,7 @@
 
 .error-text {
   color: $error-colour;
-}
-
-.validation-summary .error-text {
-  list-style-type:none;
-  text-decoration: none;
+  display:inherit;
 }
 
 .validation,
@@ -63,12 +61,20 @@
 #validation-postcode {
   border-left: 3px solid $error-colour;
   list-style: none;
-  margin: 0;
   padding: 0.5em 0.5em 0.5em 1em;
 }
 
 .validation .block-label {
-  float:none;
-  max-width:23.5em;
+  @include media (mobile){
+    box-sizing: border-box;
+    font-size: 19px;
+    margin-right: 15px;
+  }
 }
+
+
+
+
+
+
 

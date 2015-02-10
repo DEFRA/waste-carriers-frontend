@@ -14,6 +14,18 @@
 @import '_font_stack';
 
 
+/* Page layout ========================================================== */
+
+#wrapper {
+  @include outer-block;
+}
+
+#content {
+  @include inner-block;
+  text-align: left;
+  padding-bottom: $gutter;
+}
+
 /* Body  */
 
 .js {
