@@ -4,12 +4,14 @@ module StartPage
     visit start_path
   end
 
-  def start_page_select_new
+  def start_page_select_new(submit: 'true')
     choose 'new'
+    start_page_submit if submit
   end
 
-  def start_page_select_renew
+  def start_page_select_renew(submit: 'true')
     choose 'renew'
+    start_page_submit if submit
   end
 
   def start_page_submit

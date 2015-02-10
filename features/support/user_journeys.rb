@@ -2,7 +2,6 @@ module SoleTraderJourneys
   def complete_sole_trader_online()
     go_to_start_page
     start_page_select_new
-    start_page_submit
     business_type_page_select_sole_trader
     business_type_page_submit
     other_businesses_page_select_no
@@ -28,7 +27,6 @@ module PartnershipJourneys
   def complete_partnership_online()
     go_to_start_page
     start_page_select_new
-    start_page_submit
     business_type_page_select_partnership
     business_type_page_submit
     other_businesses_page_select_no
@@ -54,7 +52,6 @@ module LimitedCompanyJourneys
   def complete_limited_company_online()
     go_to_start_page
     start_page_select_new
-    start_page_submit
     business_type_page_select_limited_company
     business_type_page_submit
     other_businesses_page_select_no
@@ -80,7 +77,6 @@ module PublicBodyJourneys
   def complete_public_body_online()
     go_to_start_page
     start_page_select_new
-    start_page_submit
     business_type_page_select_public_body
     business_type_page_submit
     other_businesses_page_select_no
@@ -106,7 +102,6 @@ module CharityJourneys
   def complete_charity_online()
     go_to_start_page
     start_page_select_new
-    start_page_submit
     business_type_page_select_charity
     business_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
@@ -121,7 +116,6 @@ module WasteCollectionJourneys
   def complete_waste_collection_online()
     go_to_start_page
     start_page_select_new
-    start_page_submit
     business_type_page_select_authority
     business_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit

@@ -4,7 +4,6 @@ end
 
 When(/^select the start page's 'new' option$/) do
   start_page_select_new
-  start_page_submit
 end
 
 When(/^I select the business type page's 'sole trader' option$/) do
