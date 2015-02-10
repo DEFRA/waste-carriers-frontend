@@ -9,12 +9,12 @@ module StartPage
   end
 
   def start_page_select_new(submit: 'true')
-    choose 'new'
+    choose 'registration_newOrRenew_new'
     start_page_submit if submit
   end
 
   def start_page_select_renew(submit: 'true')
-    choose 'renew'
+    choose 'registration_newOrRenew_renew'
     start_page_submit if submit
   end
 
