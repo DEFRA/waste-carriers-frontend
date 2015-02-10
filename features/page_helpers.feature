@@ -46,3 +46,9 @@ Feature: Page Helpers
     And I select the service provided page's 'yes' option
     And I select the only deal with page's 'no' option
     Then I am shown the 'carrier, broker and dealer' page
+
+  Scenario: I complete the existing registration page
+    When I visit the start page
+    And select the start page's 'renew' option
+    And I enter a recognised IR number
+    Then I am shown the 'type of business' page
