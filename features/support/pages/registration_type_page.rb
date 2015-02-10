@@ -4,13 +4,20 @@ module RegistrationTypePage
     visit registration_type_path
   end
 
-  def select_and_submit(value)
-    choose(value)
-    submit
+  def registration_type_page_select_
+    choose ''
   end
 
-  def submit
-    click_button 'Next'
+  def registration_type_page_select_
+    choose ''
+  end
+
+  def registration_type_page_select_
+    choose ''
+  end
+
+  def registration_type_page_submit
+    click_button 'next'
   end
 end
 World(RegistrationTypePage)

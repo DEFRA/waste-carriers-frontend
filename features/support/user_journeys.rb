@@ -1,23 +1,14 @@
-module CompleteSmartAnswerJourneys
-  def complete_smart_answers_for_new_registration_upper_tier(bussiness_type)
-    go_to_start_page
-    start_page_select_and_submit('new')
-    business_type_page_select_and_submit(bussiness_type)
-    other_businesses_page_select_and_submit('registration_otherBusinesses_no')
-    construction_demolition_page_select_and_submit('registration_constructionWaste_yes')
-  end
-  def complete_smart_answers_for_new_registration_lower_tier_type_business(bussiness_type)
-    #for Charity and Waste Collection business type
-    go_to_start_page
-    start_page_select_and_submit('new')
-    business_type_page_select_and_submit(bussiness_type)
-  end
-end
-World(CompleteSmartAnswerJourneys)
-
 module SoleTraderJourneys
   def complete_sole_trader_online()
-    complete_smart_answers_for_new_registration_upper_tier('registration_businessType_soletrader')
+    go_to_start_page
+    start_page_select_new
+    start_page_submit
+    business_type_page_select_sole_trader
+    business_type_page_submit
+    other_businesses_page_select_no
+    other_businesses_page_submit
+    construction_demolition_page_select_yes
+    construction_demolition_page_submit
     select_registration_type_and_submit('registration_registrationType_carrier_dealer')
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit(firstName: 'Nick')
@@ -34,7 +25,15 @@ World(SoleTraderJourneys)
 
 module PartnershipJourneys
   def complete_partnership_online()
-    complete_smart_answers_for_new_registration_upper_tier('registration_businessType_partnership')
+    go_to_start_page
+    start_page_select_new
+    start_page_submit
+    business_type_page_select_partnership
+    business_type_page_submit
+    other_businesses_page_select_no
+    other_businesses_page_submit
+    construction_demolition_page_select_yes
+    construction_demolition_page_submit
     select_registration_type_and_submit('registration_registrationType_carrier_dealer')
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
@@ -51,7 +50,15 @@ World(PartnershipJourneys)
 
 module LimitedCompanyJourneys
   def complete_limited_company_online()
-    complete_smart_answers_for_new_registration_upper_tier('registration_businessType_limitedcompany')
+    go_to_start_page
+    start_page_select_new
+    start_page_submit
+    business_type_page_select_limited_company
+    business_type_page_submit
+    other_businesses_page_select_no
+    other_businesses_page_submit
+    construction_demolition_page_select_yes
+    construction_demolition_page_submit
     select_registration_type_and_submit('registration_registrationType_carrier_dealer')
     enter_ltd_business_details_manual_postcode_and_submit
     enter_contact_details_and_submit
@@ -68,7 +75,15 @@ World(LimitedCompanyJourneys)
 
 module PublicBodyJourneys
   def complete_public_body_online()
-    complete_smart_answers_for_new_registration_upper_tier('registration_businessType_publicbody')
+    go_to_start_page
+    start_page_select_new
+    start_page_submit
+    business_type_page_select_public_body
+    business_type_page_submit
+    other_businesses_page_select_no
+    other_businesses_page_submit
+    construction_demolition_page_select_yes
+    construction_demolition_page_submit
     select_registration_type_and_submit('registration_registrationType_carrier_dealer')
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
@@ -85,7 +100,11 @@ World(PublicBodyJourneys)
 
 module CharityJourneys
   def complete_charity_online()
-    complete_smart_answers_for_new_registration_lower_tier_type_business('registration_businessType_charity')
+    go_to_start_page
+    start_page_select_new
+    start_page_submit
+    business_type_page_select_charity
+    business_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     confirm_registration_and_submit
@@ -96,7 +115,11 @@ World(CharityJourneys)
 
 module WasteCollectionJourneys
   def complete_waste_collection_online()
-    complete_smart_answers_for_new_registration_lower_tier_type_business('registration_businessType_authority')
+    go_to_start_page
+    start_page_select_new
+    start_page_submit
+    business_type_page_select_authority
+    business_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     confirm_registration_and_submit

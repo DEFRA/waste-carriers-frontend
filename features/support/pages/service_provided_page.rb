@@ -4,17 +4,16 @@ module ServiceProvidedPage
     visit construction_demolition_path
   end
 
-  def service_provided_page_select(value)
-    choose value
+  def service_provided_page_select_no
+    choose 'registration_isMainService_no'
+  end
+
+  def service_provided_page_select_yes
+    choose 'registration_isMainService_yes'
   end
 
   def service_provided_page_submit
-    click_button 'Next'
-  end
-
-  def service_provided_page_select_and_submit(value)
-    service_provided_page_select value
-    service_provided_page_submit
+    click_button 'next'
   end
 end
 World(ServiceProvidedPage)

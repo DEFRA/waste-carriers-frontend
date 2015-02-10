@@ -4,17 +4,16 @@ module OtherBusinessesPage
     visit other_business_path
   end
 
-  def other_businesses_page_select(value)
-    choose value
+  def other_businesses_page_select_no
+    choose 'registration_otherBusinesses_no'
+  end
+
+  def other_businesses_page_select_yes
+    choose 'registration_otherBusinesses_yes'
   end
 
   def other_businesses_page_submit
-    click_button 'Next'
-  end
-
-  def other_businesses_page_select_and_submit(value)
-    other_businesses_page_select value
-    other_businesses_page_submit
+    click_button 'next'
   end
 end
 World(OtherBusinessesPage)
