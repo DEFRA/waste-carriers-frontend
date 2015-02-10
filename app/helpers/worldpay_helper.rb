@@ -18,7 +18,7 @@ module WorldpayHelper
       if res.code == '200'
         true
       else
-        @order.errors.add('', I18n.t('errors.messages.worldpayErrorConnection'))
+        @order.errors.add(:exception, I18n.t('errors.messages.worldpayErrorConnection'))
         false
       end
     end
