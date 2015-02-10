@@ -30,6 +30,26 @@ When(/^I select the only deal with page's 'no' option$/) do
   only_deal_with_page_select_no
 end
 
-When(/^I am shown the "(.*?)" page$/) do |name|
-  page.should have_content name
+When(/^I am shown the 'start' page$/) do
+  page.should start_page?
+end
+
+When(/^I am shown the 'type of business' page$/) do
+  business_type_page?
+end
+
+When(/^I am shown the 'other businesses' page$/) do
+  other_businesses_page?
+end
+
+When(/^I am shown the 'construction' page$/) do
+  construction_demolition_page?
+end
+
+When(/^I am shown the 'carrier, broker and dealer' page$/) do
+  registration_type_page?
+end
+
+When(/^I am shown the 'only deal with' page$/) do
+  only_deal_with_page?
 end

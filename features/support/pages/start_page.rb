@@ -4,6 +4,10 @@ module StartPage
     visit start_path
   end
 
+  def start_page?
+    page.has_css? 'a[data-journey$="new-or-renew"]'
+  end
+
   def start_page_select_new(submit: 'true')
     choose 'new'
     start_page_submit if submit

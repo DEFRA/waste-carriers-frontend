@@ -4,6 +4,10 @@ module OnlyDealWithPage
     visit only_deal_with_path
   end
 
+  def only_deal_with_page?
+    page.has_css? 'a[data-journey$="onlydealwith"]'
+  end
+
   def only_deal_with_page_select_no(submit: 'true')
     choose 'registration_onlyAMF_no'
     only_deal_with_page_submit if submit
