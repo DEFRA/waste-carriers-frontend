@@ -9,7 +9,8 @@ module SoleTraderJourneys
     other_businesses_page_submit
     construction_demolition_page_select_yes
     construction_demolition_page_submit
-    select_registration_type_and_submit('registration_registrationType_carrier_dealer')
+    registration_type_page_select_carrier_dealer
+    registration_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit(firstName: 'Nick')
     enter_key_people_details_and_submit
@@ -34,7 +35,8 @@ module PartnershipJourneys
     other_businesses_page_submit
     construction_demolition_page_select_yes
     construction_demolition_page_submit
-    select_registration_type_and_submit('registration_registrationType_carrier_dealer')
+    registration_type_page_select_carrier_dealer
+    registration_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     enter_key_people_details_and_submit
@@ -59,7 +61,8 @@ module LimitedCompanyJourneys
     other_businesses_page_submit
     construction_demolition_page_select_yes
     construction_demolition_page_submit
-    select_registration_type_and_submit('registration_registrationType_carrier_dealer')
+    registration_type_page_select_carrier_dealer
+    registration_type_page_submit
     enter_ltd_business_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     enter_key_people_details_and_submit
@@ -84,7 +87,8 @@ module PublicBodyJourneys
     other_businesses_page_submit
     construction_demolition_page_select_yes
     construction_demolition_page_submit
-    select_registration_type_and_submit('registration_registrationType_carrier_dealer')
+    registration_type_page_select_carrier_dealer
+    registration_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     enter_key_people_details_and_submit
