@@ -1,3 +1,6 @@
+# This feature is quarantined as it is not a true test, just as example of using
+# the new page helpers (found in features/support/pages)
+@quarantine
 Feature: Page Helpers
 
   As a newb with cucumber
