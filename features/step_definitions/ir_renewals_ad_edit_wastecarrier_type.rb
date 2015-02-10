@@ -18,7 +18,7 @@ When(/^I Enter their contact details$/) do
     fill_in 'registration_firstName', with: 'Joe'
     fill_in 'registration_lastName', with: 'Bloggs'
     fill_in 'registration_phoneNumber', with: '0117 926 8332'
-    click_on 'Next'
+    click_button 'continue'
 end
 
 When(/^I confirm their details$/) do

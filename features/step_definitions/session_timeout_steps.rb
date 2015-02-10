@@ -13,7 +13,7 @@ end
 Given(/^I have started my registration$/) do
   visit start_path
   choose 'registration_newOrRenew_renew'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 When(/^I try to proceed with my unfinished registration$/) do
