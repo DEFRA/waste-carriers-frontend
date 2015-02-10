@@ -19,7 +19,7 @@ module ConstructionDemolitionPage
   end
 
   def construction_demolition_page_submit
-    click_button 'next'
+    click_button 'continue'
   end
 end
 World(ConstructionDemolitionPage)

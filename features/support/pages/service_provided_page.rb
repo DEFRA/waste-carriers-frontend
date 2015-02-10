@@ -19,7 +19,7 @@ module ServiceProvidedPage
   end
 
   def service_provided_page_submit
-    click_button 'next'
+    click_button 'continue'
   end
 end
 World(ServiceProvidedPage)

@@ -16,7 +16,7 @@ module ExistingRegistrationPage
   end
 
   def existing_registration_page_submit
-    click_button 'next'
+    click_button 'continue'
   end
 end
 World(ExistingRegistrationPage)

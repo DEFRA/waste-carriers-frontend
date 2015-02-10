@@ -19,7 +19,7 @@ module OtherBusinessesPage
   end
 
   def other_businesses_page_submit
-    click_button 'next'
+    click_button 'continue'
   end
 end
 World(OtherBusinessesPage)
