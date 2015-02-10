@@ -3,9 +3,15 @@
 	<div id="error_explanation" class="validation-summary">
 		<h2 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(full_messages.count, t('registrations.errors.error')) %></h2>
 		<% full_messages.each do |msg| %>
-        <ul>
-            <li><a class="error-text" href="#registration_<%= msg %>"><%= msg %></a></li>
-        </ul>
+          <% if msg == 'Services error: worldPayConnectionIssue' %>
+              <ul>
+                <li><a class="error-text" href="#"><%= t 'errors.messages.worldpayErrorConnection_html', :sign_in => Rails.app.config.waste_exemplar_frontend_url + '/users/sign_in' %></a></li>
+              </ul>
+          <% else %>
+              <ul>
+                <li><a class="error-text" href="#registration_<%= msg %>"><%= msg %></a></li>
+              </ul>
+          <% end %>
     	<% end %>
 	</div>
 <% end %>
