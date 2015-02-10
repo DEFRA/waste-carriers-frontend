@@ -4,6 +4,10 @@ module BusinessTypePage
     visit business_type_path
   end
 
+  def business_type_page?
+    page.has_css? 'a[data-journey$="business-type"]'
+  end
+
   def business_type_page_select_sole_trader(submit: 'true')
     choose 'registration_businessType_soletrader'
     business_type_page_submit if submit

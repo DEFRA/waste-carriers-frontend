@@ -4,6 +4,10 @@ module RegistrationTypePage
     visit registration_type_path
   end
 
+  def registration_type_page?
+    page.has_css? 'a[data-journey$="registration-type"]'
+  end
+
   def registration_type_page_select_carrier_dealer(submit: 'true')
     choose 'registration_registrationType_carrier_dealer'
     registration_type_page_submit if submit

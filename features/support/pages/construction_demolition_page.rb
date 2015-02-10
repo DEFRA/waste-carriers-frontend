@@ -4,6 +4,10 @@ module ConstructionDemolitionPage
     visit construction_demolition_path
   end
 
+  def construction_demolition_page?
+    page.has_css? 'a[data-journey$="constructiondemolition"]'
+  end
+
   def construction_demolition_page_select_no(submit: 'true')
     choose 'registration_constructionWaste_no'
     construction_demolition_page_submit if submit

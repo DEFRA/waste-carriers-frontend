@@ -4,6 +4,10 @@ module ServiceProvidedPage
     visit construction_demolition_path
   end
 
+  def service_provided_page?
+    page.has_css? 'a[data-journey$="serviceprovided"]'
+  end
+
   def service_provided_page_select_no(submit: 'true')
     choose 'registration_isMainService_no'
     service_provided_page_submit if submit
