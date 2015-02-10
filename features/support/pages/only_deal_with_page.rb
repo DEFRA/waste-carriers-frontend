@@ -4,12 +4,14 @@ module OnlyDealWithPage
     visit only_deal_with_path
   end
 
-  def only_deal_with_page_select_no
+  def only_deal_with_page_select_no(submit: 'true')
     choose 'registration_onlyAMF_no'
+    only_deal_with_page_submit if submit
   end
 
-  def only_deal_with_page_select_yes
+  def only_deal_with_page_select_yes(submit: 'true')
     choose 'registration_onlyAMF_yes'
+    only_deal_with_page_submit if submit
   end
 
   def only_deal_with_page_submit

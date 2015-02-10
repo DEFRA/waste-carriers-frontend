@@ -3,13 +3,9 @@ module SoleTraderJourneys
     go_to_start_page
     start_page_select_new
     business_type_page_select_sole_trader
-    business_type_page_submit
     other_businesses_page_select_no
-    other_businesses_page_submit
     construction_demolition_page_select_yes
-    construction_demolition_page_submit
     registration_type_page_select_carrier_dealer
-    registration_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit(firstName: 'Nick')
     enter_key_people_details_and_submit
@@ -28,13 +24,9 @@ module PartnershipJourneys
     go_to_start_page
     start_page_select_new
     business_type_page_select_partnership
-    business_type_page_submit
     other_businesses_page_select_no
-    other_businesses_page_submit
     construction_demolition_page_select_yes
-    construction_demolition_page_submit
     registration_type_page_select_carrier_dealer
-    registration_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     enter_key_people_details_and_submit
@@ -53,13 +45,9 @@ module LimitedCompanyJourneys
     go_to_start_page
     start_page_select_new
     business_type_page_select_limited_company
-    business_type_page_submit
     other_businesses_page_select_no
-    other_businesses_page_submit
     construction_demolition_page_select_yes
-    construction_demolition_page_submit
     registration_type_page_select_carrier_dealer
-    registration_type_page_submit
     enter_ltd_business_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     enter_key_people_details_and_submit
@@ -78,13 +66,9 @@ module PublicBodyJourneys
     go_to_start_page
     start_page_select_new
     business_type_page_select_public_body
-    business_type_page_submit
     other_businesses_page_select_no
-    other_businesses_page_submit
     construction_demolition_page_select_yes
-    construction_demolition_page_submit
     registration_type_page_select_carrier_dealer
-    registration_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     enter_key_people_details_and_submit
@@ -103,7 +87,6 @@ module CharityJourneys
     go_to_start_page
     start_page_select_new
     business_type_page_select_charity
-    business_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     confirm_registration_and_submit
@@ -117,7 +100,6 @@ module WasteCollectionJourneys
     go_to_start_page
     start_page_select_new
     business_type_page_select_authority
-    business_type_page_submit
     enter_business_or_organisation_details_manual_postcode_and_submit
     enter_contact_details_and_submit
     confirm_registration_and_submit
