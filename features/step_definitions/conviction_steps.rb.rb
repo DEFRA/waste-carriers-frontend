@@ -8,12 +8,12 @@ end
 
 And(/^I declare convictions$/) do
   choose 'Yes'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I do not declare convictions$/) do
   choose 'No'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I enter convictee details$/) do
@@ -27,7 +27,7 @@ And(/^I enter convictee details$/) do
 
   click_on 'Add another person'
 
-  click_on 'next_btn'
+  click_on 'continue'
 end
 
 When(/^I come to the confirmation step$/) do
@@ -62,11 +62,11 @@ When(/^I come to the final step$/) do
   fill_in 'registration_accountEmail_confirmation', with: my_email_address
   fill_in 'registration_password', with: my_password
   fill_in 'registration_password_confirmation', with: my_password
-  click_on 'Next'
+  click_button 'continue'
 
   click_on 'Pay via electronic transfer'
 
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Then(/^I am told my application is being checked$/) do

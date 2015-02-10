@@ -50,7 +50,7 @@
     <p class="heading-with-border"><%= t'registrations.confirmed.survey_html' %><%= t'registrations.confirmed.survey_text' %></p>
 
     <%= form_tag(@exitRoute) do |f| %>
-      <span class="next_link">
+      <span class="continue_link">
         <input id="finished_btn" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
       </span>
     <% end %>

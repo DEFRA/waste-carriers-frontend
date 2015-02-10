@@ -19,7 +19,7 @@ module OnlyDealWithPage
   end
 
   def only_deal_with_page_submit
-    click_button 'next'
+    click_button 'continue'
   end
 end
 World(OnlyDealWithPage)

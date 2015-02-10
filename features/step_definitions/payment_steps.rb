@@ -155,7 +155,7 @@ Then(/^I make a note of the details$/) do
   page.text.should match /Sort code/
   page.text.should match /Account number/
 
-  click_button 'next'
+  click_button 'continue'
 end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do

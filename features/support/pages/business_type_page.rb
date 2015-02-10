@@ -44,7 +44,7 @@ module BusinessTypePage
   end
 
   def business_type_page_submit
-    click_button 'next'
+    click_button 'continue'
   end
 end
 World(BusinessTypePage)

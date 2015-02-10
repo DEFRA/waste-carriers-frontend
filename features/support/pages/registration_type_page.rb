@@ -24,7 +24,7 @@ module RegistrationTypePage
   end
 
   def registration_type_page_submit
-    click_button 'next'
+    click_button 'continue'
   end
 end
 World(RegistrationTypePage)
