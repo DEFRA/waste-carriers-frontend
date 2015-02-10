@@ -101,7 +101,7 @@ Scenario Outline: Definite lower tier determined just by business type
 Scenario: First wizard page
   Given I start a new registration
   Then there is no back button on the page
-  But there is a next button on the page
+  But there is a continue button on the page
 
 Scenario: Some other business type
   Given I start a new registration

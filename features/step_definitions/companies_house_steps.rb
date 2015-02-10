@@ -2,29 +2,29 @@ Given(/^I am registering as a limited company$/) do
   visit business_type_path
 
   choose 'registration_businessType_limitedcompany'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^I am on the business details page as an upper tier$/) do
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_onlyAMF_no'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_registrationType_carrier_dealer'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^I am on the business details page as an lower tier$/) do
   choose 'registration_otherBusinesses_no'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_constructionWaste_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I enter my company name and address$/) do
@@ -55,7 +55,7 @@ Given(/^I leave the company number blank$/) do
 end
 
 When(/^I click to advance$/) do
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I remain on the upper tier business details page$/) do

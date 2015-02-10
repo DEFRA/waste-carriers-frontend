@@ -4,7 +4,7 @@ And(/^I enter the details of the business owner$/) do
   fill_in 'key_person_dob_day', with: '01'
   fill_in 'key_person_dob_month', with: '02'
   fill_in 'key_person_dob_year', with: '1980'
-  click_button 'next'
+  click_button 'continue'
 end
 
 And(/^I add a key person to the registration$/) do
@@ -36,11 +36,11 @@ end
 
 Then(/^I should only have to enter one key person$/) do
   page.should_not have_button 'add_btn'
-  page.should have_button 'next'
+  page.should have_button 'continue'
 end
 
 Then(/^I cannot proceed until I have added a key person$/) do
-  click_button 'next'
+  click_button 'continue'
   page.should have_content 'error'
   page.should_not have_content 'Relevant'
 end

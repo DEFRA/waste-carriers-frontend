@@ -27,7 +27,7 @@
   "lastName":"LName",
   "localAuthorityUpdateDate":"",
   "accountEmail":"wa_lt@example.org",
-  "password":"test1234",
+  "password":"Test1234",
   "metaData":{
     "route":"DIGITAL"
   }

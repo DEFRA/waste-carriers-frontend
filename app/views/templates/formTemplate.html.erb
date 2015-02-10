@@ -93,7 +93,7 @@
               <%= render 'errors' %>
               <%= form_for(@registration, :url => formExample_path, :html => {:autocomplete => "off"}) do |f| %>
               <%= render 'formTemplate_step', f: f, r: @registration %>
-              <%= render 'next_link' %>
+              <%= render 'continue_link' %>
               <% end %>
           </div>
         </div>
