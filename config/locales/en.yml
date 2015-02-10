@@ -277,7 +277,7 @@ en:
       weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
       worldpayFailed: "failed to get a ok response from Worldpay"
       worldpayErrorRedirect: "There was a problem redirecting to the payment pages. "
-      worldpayErrorConnection_html: "Sorry, Worldpay is currently unavailable.<br />You can:<br /><div class=\"panel-indent\"><ol><li class=\"list-bullets\">try again later</li><li class=\"list-bullets\">pay now by bank transfer</li><li class=\"list-bullets\">sign in <a href=\"%{sign_in}\">here</a> if you have an account<br />(don’t forget to validate your email first if you have just set up your account)</li><li class=\"list-bullets\">start your registration again if you do not yet have an account</li></ol></div>"
+      worldpayErrorConnection_html: "Sorry, Worldpay is currently unavailable.<br />You can:<br /><div class=\"panel-indent\"><ol><li class=\"list-bullets\" style=\"list-style-type: disc; position: relative; left: 1em;\">try again later</li><li class=\"list-bullets\" style=\"list-style-type: disc; position: relative; left: 1em;\">pay now by bank transfer</li><li class=\"list-bullets\" style=\"list-style-type: disc; position: relative; left: 1em;\">sign in <a href=\"%{sign_in}\">here</a> if you have an account<br />(don’t forget to validate your email first if you have just set up your account)</li><li class=\"list-bullets\" style=\"list-style-type: disc; position: relative; left: 1em;\">start your registration again if you do not yet have an account</li></ol></div>"
       invalidPassword: "does not match your email"
       unconfirmedEmail: "This account has not been confirmed"
       no_results: "No results found"
