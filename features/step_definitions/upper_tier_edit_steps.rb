@@ -5,7 +5,7 @@ end
 
 Then(/^I click the edit link for: (.*)$/) do |name|
   # Uses the saved registration ID to find the correct registration to renew
-  click_on 'edit_'+@stored_value
+  click_link 'edit_'+@stored_value
 end
 
 Then(/^I check that no changes have occurred$/) do
@@ -15,19 +15,19 @@ end
 
 Then(/^I change the way we carry waste$/) do
   page.should have_link('changeRegistrationType')
-  click_on 'changeRegistrationType'
+  click_link 'changeRegistrationType'
   # Change type to different registration type assuming this is different from original
   choose 'registration_registrationType_carrier_broker_dealer'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Then(/^I change the legal entity$/) do
   page.should have_link('changeSmartAnswers')
-  click_on 'changeSmartAnswers'
+  click_link 'changeSmartAnswers'
 
   # The following pages are shown if Partner now selected
   choose 'registration_businessType_partnership'
-  click_on 'Next'
+  click_button 'continue'
 
   #
   #
@@ -35,16 +35,16 @@ Then(/^I change the legal entity$/) do
   #
   #
   #choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   #choose 'registration_isMainService_no'
-  click_on 'Next'
+  click_button 'continue'
 
   #choose 'registration_constructionWaste_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   # Now on registration type
-  click_on 'Next'
+  click_button 'continue'
 
   #
   # Alternatives to try to select the second value in the drop down list
@@ -64,10 +64,10 @@ Then(/^I change the legal entity$/) do
   select(find_by_id('registration_selectedAddress').find(:xpath, 'option[2]').text.to_s, :from => 'registration_selectedAddress')
 
   # Now on business details
-  click_on 'Next'
+  click_button 'continue'
 
   # Now on contact type
-  click_on 'Next'
+  click_button 'continue'
 
   # Now on Parter details page
 
@@ -78,11 +78,11 @@ Then(/^I change the legal entity$/) do
   fill_in 'key_person_dob_month', with: '10'
   fill_in 'key_person_dob_year', with: '1964'
 
-  click_on 'Next'
+  click_button 'continue'
 
   # Then on declared convictions page
   #choose 'registration_declaredConvictions_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Then(/^I am asked to pay for the edits$/) do
@@ -102,7 +102,7 @@ Then(/^my edit should be complete$/) do
   page.should have_content 'Your changes have been successful'
   # Update this once more appropriate content has been created
   page.should have_content 'Your certificate and guidance have been emailed to'
-  click_on 'Finish'
+  click_button 'finish'
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
   page.should have_content 'Edit Registration'
@@ -113,7 +113,7 @@ Then(/^my edit should be awaiting payment$/) do
   page.should have_content 'Almost there'
   # Update this once more appropriate content has been created
   page.should have_content 'Your certificate and guidance have been emailed to'
-  click_on 'Finish'
+  click_button 'finish'
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
   page.should have_content 'Edit Registration'
@@ -125,7 +125,8 @@ Then(/^my edit with full fee should be complete$/) do
   # Update this once more appropriate content has been created
   page.should have_content 'Registration complete'
   page.should have_content 'Your registration number is'
-  click_on 'Finish'
+  click_button 'finish'
+
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
   page.should have_content 'Edit Registration'
@@ -137,7 +138,7 @@ Then(/^my edit with full fee should be awaiting payment$/) do
   # Update this once more appropriate content has been created
   page.should have_content 'Your registration number is'
   page.should have_content 'Please remember to arrange your bank transfer'
-  click_on 'Finish'
+  click_button 'finish'
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
   page.should have_content 'PENDING'

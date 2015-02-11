@@ -6,41 +6,41 @@ Given(/^I am renewing an IR registration$/) do
 
   visit start_path
   choose 'registration_newOrRenew_renew'
-  click_button 'next'
+  click_button 'continue'
   fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R002'
-  click_button 'next'
+  click_button 'continue'
 end
 
 Given(/^I have completed smart answers given my existing IR data$/) do
   # Prepopulated business type
   #choose 'registration_businessType_soletrader'  # assume pre pop business type
-  click_button 'next'
+  click_button 'continue'
 
   # Remaining smart answer questions are not prepopulated
   choose 'registration_otherBusinesses_yes'
-  click_button 'next'
+  click_button 'continue'
   choose 'registration_isMainService_yes'
-  click_button 'next'
+  click_button 'continue'
   choose 'registration_onlyAMF_no'
-  click_button 'next'
+  click_button 'continue'
 end
 
 Given(/^I have completed smart answers, but changed my business type$/) do
   # Prepopulated business type
   choose 'registration_businessType_partnership'  # assumes original value was soletrader, thus partnership is a change from original
-  click_on 'Next'
+  click_button 'continue'
 
   # Remaining smart answer questions are not prepopulated
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_onlyAMF_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^my waste carrier status is prepopulated$/) do
-  click_button 'next'
+  click_button 'continue'
 end
 
 Given(/^my company name is prepopulated$/) do

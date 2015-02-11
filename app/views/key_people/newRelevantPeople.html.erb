@@ -24,10 +24,10 @@
           <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"}, html: {autocomplete: 'off'} ) do |f| %>
             <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
 
-            <div class="next_link">
+            <div class="continue_link">
               <input id="add_btn" name="add" class="button button-get-started" type="submit" value="<%= t '.button_label' %>"/>
             </div>
-            <span class="next_link"><%= render 'next_link' %></span>
+            <span class="continue_link"><%= render 'continue_link' %></span>
           <% end %>
 
         </div><!-- end inner-block -->

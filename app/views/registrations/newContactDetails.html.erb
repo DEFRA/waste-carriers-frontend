@@ -16,7 +16,7 @@
 
           <%= form_for(@registration, :url => newContact_path, html: {autocomplete: 'off'}) do |f| %>
           <%= render 'contactdetails_step', f: f, r: @registration %>
-          <%= render 'shared/registration_next_link' %>
+          <%= render 'shared/registration_continue_link' %>
         <% end %>
       </div>
 

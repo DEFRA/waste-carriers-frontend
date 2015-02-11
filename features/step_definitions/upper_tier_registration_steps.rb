@@ -13,40 +13,40 @@ end
 Given(/^I have been funneled into the upper tier path$/) do
   visit business_type_path
   choose 'registration_businessType_soletrader'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_onlyAMF_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^I am a partnership on the upper tier path$/) do
   visit business_type_path
   choose 'registration_businessType_partnership'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_onlyAMF_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I am a carrier dealer$/) do
   choose 'registration_registrationType_carrier_dealer'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I enter my business details$/) do
   fill_in 'registration_companyName', with: 'Bespoke'
   fill_in 'sPostcode', with: 'BS1 5AH'
-  click_on 'Find UK address'
+  click_button 'find_address'
 
   #select 'Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH'
   select 'ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I enter my contact details$/) do
@@ -54,12 +54,12 @@ And(/^I enter my contact details$/) do
   fill_in 'registration_lastName', with: 'Bloggs'
   fill_in 'registration_phoneNumber', with: '0117 926 9999'
   fill_in 'registration_contactEmail', with: my_email_address
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I confirm the declaration$/) do
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 end
 
 Given(/^I enter new user account details$/) do
@@ -68,12 +68,12 @@ Given(/^I enter new user account details$/) do
   fill_in 'registration_password', with: my_password
   fill_in 'registration_password_confirmation', with: my_password
 
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I choose pay via electronic transfer$/) do
   click_button 'offline_pay_button'
-  click_button 'next'
+  click_button 'continue'
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
@@ -127,14 +127,14 @@ end
 
 And(/^no key people in the organisation have convictions$/) do
   choose 'registration_declaredConvictions_no'
-  click_button 'next'
+  click_button 'continue'
 end
 
 And(/^key people in the organisation have convictions$/) do
   choose 'Yes'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^I finish the registration$/) do
-  click_on 'Finished'
+  click_button 'finished_btn'
 end

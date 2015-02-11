@@ -9,7 +9,7 @@
 
       <div class="back-section">
         <ol>
-          <li><%= link_to t('form.back_button_label'), service_provided_path %></li>
+          <li><%= link_to t('form.back_button_label'), service_provided_path, :id => 'back' %></li>
         </ol>
       </div>
 
@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <%= render 'shared/registration_next_link' %>
+        <%= render 'shared/registration_continue_link' %>
 
       <% end %>
     </div>

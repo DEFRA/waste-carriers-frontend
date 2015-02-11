@@ -4,7 +4,7 @@
   <div class="inline">
   <div class="postcode-entry"><%= f.text_field :postcode, id: 'sPostcode', :size => 14, :maxlength => 10 %></div>
   <div class="find-address-button">
-  <input type="submit" class="button find_address" name="findAddress" value="<%=t '.find_address_button'%>" />
+  <input type="submit" class="button find_address" name="findAddress" id="find_address" value="<%=t '.find_address_button'%>" />
   </div>
 </div>
   <% if @address_match_list %>
@@ -19,8 +19,8 @@
 
 <div class="form-group">
   <ul>
-    <li><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></li>
-    <li><a href="?foreignAddress=true"><%= t '.foreign_address_link'%></a></li>
+    <li><a href="?manualUkAddress=true" id="manual_uk_address"><%= t '.manual_address_link'%></a></li>
+    <li><a href="?foreignAddress=true" id="foreign_address"><%= t '.foreign_address_link'%></a></li>
   </ul>
 </div>
 

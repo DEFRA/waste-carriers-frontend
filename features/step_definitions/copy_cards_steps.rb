@@ -1,6 +1,6 @@
 Given(/^I have selected copy cards option for that registration$/) do
   page.should have_content 'Add copy cards'
-  click_on 'addcopycards_'+@stored_value
+  click_link 'addcopycards_'+@stored_value
 end
 
 When /^I will be prompted to fill in "([^"]*)" with "([^"]*)"$/ do |element, text|
@@ -8,8 +8,8 @@ When /^I will be prompted to fill in "([^"]*)" with "([^"]*)"$/ do |element, tex
 end
 
 Then(/^I can choose to pay by card or electronic transfer$/) do
-  page.has_button?('next')
-  page.has_button?('offline_next')
+  page.has_button?('continue')
+  page.has_button?('offline_continue')
 end
 
 Given(/^I'm on the copy cards payment summary page$/) do
@@ -22,7 +22,7 @@ Then(/^I will be shown confirmation of paid order$/) do
   # Content specific checks
   page.should have_content 'Thank you for your copy card order'
 
-  click_on 'Finish'
+  click_button 'finish'
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
 
@@ -35,7 +35,7 @@ Then(/^I will be shown confirmation of unpaid order$/) do
   # Content specific checks
   page.should have_content 'Thank you for your copy card order'
 
-  click_on 'Finish'
+  click_button 'finish'
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
 
@@ -43,5 +43,5 @@ end
 
 Then(/^I finish my registration$/) do
   # Perform this as it cleans the session variables
-  click_on 'Finish'
+  click_button 'finish'
 end

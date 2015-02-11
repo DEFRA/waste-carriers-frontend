@@ -1,0 +1,3 @@
+<% unless @registration.last_step? %>
+  <input name="continue" id="continue" class="button button-get-started" type="submit" value="<%= t 'form.continue_button_label' %>"/>
+<% end %>

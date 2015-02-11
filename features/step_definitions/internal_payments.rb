@@ -30,7 +30,7 @@ end
 #
 #  fill_in 'Email', with: my_user.email
 #  fill_in 'Password', with: my_user.password
-#  click_button 'Sign in'
+#  click_button 'sign_in'
 #
 
 # This counter is to log the number of uniquely created registrations for the payment scenarios
@@ -42,7 +42,7 @@ Given(/^I am logged in as a finance admin user$/) do
   page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_finance_admin_user.email
   fill_in 'Password', with: my_finance_admin_user.password
-  click_button 'Sign in'
+  click_button 'sign_in'
   page.should have_content "Signed in as agency user #{my_finance_admin_user.email}"
 end
 
@@ -52,7 +52,7 @@ Given(/^I am logged in as a finance basic user$/) do
   page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_finance_basic_user.email
   fill_in 'Password', with: my_finance_basic_user.password
-  click_button 'Sign in'
+  click_button 'sign_in'
   page.should have_content "Signed in as agency user #{my_finance_basic_user.email}"
 end
 
@@ -62,7 +62,7 @@ Given(/^I am logged in as a nccc refunds user$/) do
   page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_agency_refund_user.email
   fill_in 'Password', with: my_agency_refund_user.password
-  click_button 'Sign in'
+  click_button 'sign_in'
   page.has_content? 'agency-user-signed-in'
 end
 
@@ -74,7 +74,7 @@ Given(/^I change user to a nccc refunds user$/) do
   page.should have_content 'Environment Agency login'
   fill_in 'Email', with: my_agency_refund_user.email
   fill_in 'Password', with: my_agency_refund_user.password
-  click_button 'Sign in'
+  click_button 'sign_in'
   page.should have_content "Signed in as agency user #{my_agency_refund_user.email}"
 end
 
@@ -116,7 +116,7 @@ end
 
 Given(/^I sign out$/) do
 #  save_and_open_page
-  click_button 'Sign out'
+  click_button 'sign_out'
 #  save_and_open_page
 #  visit new_agency_user_session_path
 #  page.should have_content 'Sign in'
@@ -178,11 +178,11 @@ When(/^I enter payment details$/) do
 end
 
 When(/^I confirm payment$/) do
-  click_on 'Enter Payment'
+  click_button 'enter_payment'
 end
 
 When(/^I confirm write off$/) do
-  click_on 'Write off'
+  click_button 'write_off'
 end
 
 Then(/^payment history will be updated$/) do
@@ -343,48 +343,48 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
 
   registrationCount = rand(1..1000)
 
-  click_on 'New registration'
+  click_link 'new_registration'
 
   choose 'registration_newOrRenew_new'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_businessType_soletrader'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_onlyAMF_no'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_registrationType_carrier_dealer'
-  click_on 'Next'
+  click_button 'continue'
 
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'PaymentReg'+registrationCount.to_s
   fill_in 'registration_houseNumber', with: '123'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
   fill_in 'registration_streetLine2', with: 'EA Building'
   fill_in 'registration_townCity', with: 'Bristol'
   fill_in 'registration_postcode', with: 'BS1 5AH'
-  click_on 'Next'
+  click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Antony'
   fill_in 'registration_lastName', with: 'Assisted'
   fill_in 'registration_phoneNumber', with: '0123 456 789'
-  click_on 'Next'
+  click_button 'continue'
 
   step 'I enter the details of the business owner'
 
   choose 'No'
-  click_on 'Next'
+  click_button 'continue'
 
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 
-  click_on 'Pay by credit or debit card'
+  click_button 'worldpay_button'
   sleep(9000)
 end

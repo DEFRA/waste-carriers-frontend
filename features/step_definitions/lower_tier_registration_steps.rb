@@ -2,36 +2,36 @@ Given(/^I have completed the lower tier registration form$/) do
   visit business_type_path
 
   choose 'registration_businessType_soletrader'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_otherBusinesses_no'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_constructionWaste_no'
-  click_on 'Next'
+  click_button 'continue'
 
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Grades & Co'
   fill_in 'registration_houseNumber', with: '12'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
   fill_in 'registration_streetLine2', with: 'EA Building'
   fill_in 'registration_townCity', with: 'Bristol'
   fill_in 'registration_postcode', with: 'BS1 5AH'
-  click_on 'Next'
+  click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Joe'
   fill_in 'registration_lastName', with: 'Bloggs'
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
   fill_in 'registration_contactEmail', with: my_email_address
-  click_on 'Next'
+  click_button 'continue'
 
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 
   fill_in 'registration_accountEmail_confirmation', with: my_email_address
   fill_in 'registration_password', with: my_password
   fill_in 'registration_password_confirmation', with: my_password
-  click_on 'Next'
+  click_button 'continue'
 
   sleep 0.2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
 end
@@ -40,7 +40,7 @@ Given(/^I have been funneled into the lower tier path$/) do
   visit business_type_path
 
   choose 'registration_businessType_charity'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I provide my company name$/) do
@@ -49,10 +49,10 @@ end
 
 Given(/^I autocomplete my business address$/) do
   fill_in 'sPostcode', with: 'HP10 9BX'
-  click_on 'Find UK address'
+  click_button 'find_address'
   #select '33 Fennels Way, Flackwell Heath HP10 9BX'
   select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
-  click_button 'next'
+  click_button 'continue'
 end
 
 Given(/^I want my business address autocompleted but I provide an unrecognised postcode$/) do
@@ -66,11 +66,11 @@ Then(/^no address suggestions will be shown$/) do
 end
 
 When(/^I try to select an address$/) do
-  click_on 'Find UK address'
+  click_button 'find_address'
 end
 
 Given(/^I enter my business address manually$/) do
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
 
   fill_in 'registration_companyName', with: 'Grades'
   fill_in 'registration_houseNumber', with: '44'
@@ -79,11 +79,11 @@ Given(/^I enter my business address manually$/) do
   fill_in 'registration_townCity', with: 'Bristol'
   fill_in 'registration_postcode', with: 'BS1 2EP'
 
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^I enter my foreign business address manually$/) do
-  click_on 'I have an address outside the United Kingdom'
+  click_link 'foreign_address'
 
   fill_in 'registration_companyName', with: 'IWC'
 
@@ -94,7 +94,7 @@ Given(/^I enter my foreign business address manually$/) do
 
   fill_in 'registration_country', with: 'France'
 
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I provide my personal contact details$/) do
@@ -103,7 +103,7 @@ And(/^I provide my personal contact details$/) do
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
   fill_in 'registration_contactEmail', with: my_email_address
 
-  click_button 'next'
+  click_button 'continue'
 end
 
 And(/^I check the declaration$/) do
@@ -118,7 +118,7 @@ And(/^I provide my email address and create a password$/) do
   fill_in 'registration_password', with: my_password
   fill_in 'registration_password_confirmation', with: my_password
 
-  click_button 'next'
+  click_button 'continue'
 end
 
 When(/^I confirm account creation via email$/) do
@@ -149,36 +149,36 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   visit business_type_path
 
   choose 'registration_businessType_soletrader'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_otherBusinesses_no'
-  click_on 'Next'
+  click_button 'continue'
 
   choose 'registration_constructionWaste_no'
-  click_on 'Next'
+  click_button 'continue'
 
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Grades & Co'
   fill_in 'registration_houseNumber', with: '12'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
   fill_in 'registration_streetLine2', with: 'EA Building'
   fill_in 'registration_townCity', with: 'Bristol'
   fill_in 'registration_postcode', with: 'BS1 5AH'
-  click_on 'Next'
+  click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Joe'
   fill_in 'registration_lastName', with: 'Bloggs'
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
   fill_in 'registration_contactEmail', with: my_email_address
-  click_on 'Next'
+  click_button 'continue'
 
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 
   fill_in 'Confirm email', with: my_email_address
   fill_in 'Create password', with: my_password
   fill_in 'Confirm password', with: my_password
-  click_on 'Next'
+  click_button 'continue'
 
   sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
 end

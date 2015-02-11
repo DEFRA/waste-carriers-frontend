@@ -8,12 +8,12 @@ end
 
 And(/^I declare convictions$/) do
   choose 'Yes'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I do not declare convictions$/) do
   choose 'No'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I enter convictee details$/) do
@@ -25,9 +25,9 @@ And(/^I enter convictee details$/) do
   fill_in 'Month', with: '1'
   fill_in 'Year', with: '1970'
 
-  click_on 'Add another person'
+  click_button 'add_btn'
 
-  click_on 'next_btn'
+  click_button 'continue'
 end
 
 When(/^I come to the confirmation step$/) do
@@ -47,7 +47,7 @@ Then(/^I see a link to edit my conviction declaration$/) do
 end
 
 And(/^this takes me back to the conviction step$/) do
-  click_on 'Edit your conviction declaration'
+  click_link 'edit_conviction_declaration'
   page.should have_content 'any relevant convictions in the last 12 months?'
 end
 
@@ -57,16 +57,16 @@ end
 
 When(/^I come to the final step$/) do
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 
   fill_in 'registration_accountEmail_confirmation', with: my_email_address
   fill_in 'registration_password', with: my_password
   fill_in 'registration_password_confirmation', with: my_password
-  click_on 'Next'
+  click_button 'continue'
 
-  click_on 'Pay via electronic transfer'
+  click_button 'offline_pay_button'
 
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Then(/^I am told my application is being checked$/) do

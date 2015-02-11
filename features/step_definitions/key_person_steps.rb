@@ -4,7 +4,7 @@ And(/^I enter the details of the business owner$/) do
   fill_in 'key_person_dob_day', with: '01'
   fill_in 'key_person_dob_month', with: '02'
   fill_in 'key_person_dob_year', with: '1980'
-  click_button 'next'
+  click_button 'continue'
 end
 
 And(/^I add a key person to the registration$/) do
@@ -13,7 +13,7 @@ And(/^I add a key person to the registration$/) do
   fill_in 'key_person_dob_day', with: '01'
   fill_in 'key_person_dob_month', with: '02'
   fill_in 'key_person_dob_year', with: '1980'
-  click_on 'add_btn'
+  click_button 'add_btn'
 end
 
 And /^I add the following people:$/ do |table|
@@ -23,7 +23,7 @@ And /^I add the following people:$/ do |table|
     fill_in 'key_person_dob_day', with: row[:dob_day]
     fill_in 'key_person_dob_month', with: row[:dob_month]
     fill_in 'key_person_dob_year', with: row[:dob_year]
-    click_on 'add_btn'
+    click_button 'add_btn'
   end
 end
 
@@ -36,11 +36,11 @@ end
 
 Then(/^I should only have to enter one key person$/) do
   page.should_not have_button 'add_btn'
-  page.should have_button 'next'
+  page.should have_button 'continue'
 end
 
 Then(/^I cannot proceed until I have added a key person$/) do
-  click_button 'next'
+  click_button 'continue'
   page.should have_content 'error'
   page.should_not have_content 'Relevant'
 end
