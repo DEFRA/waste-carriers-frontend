@@ -74,7 +74,7 @@
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
 <% row << registration.accessCode %>
-<% row << format_time(registration.expires_on) %>
+<% row << format_as_date_only(registration.expires_on) %>
 <% row << registration.conviction_search_result.first.match_result %>
 <% row << registration.declaredConvictions %>
 <% row << person.first_name %>
@@ -117,7 +117,7 @@
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
 <% row << registration.accessCode %>
-<% row << format_time(registration.expires_on) %>
+<% row << format_as_date_only(registration.expires_on) %>
 <% row << '' %>
 <% row << '' %>
 <% row << '' %>
