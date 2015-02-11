@@ -97,15 +97,15 @@
                       <li><span><%= t 'activemodel.attributes.metadata.status' %></span><p><%= reg.registration_status %></p></li>
                       <li class="container-border-lines">
                         <span><%= t 'activemodel.attributes.metadata.dateRegistered' %></span>
-                        <% if format_date_as_dd_mm_yyyy(reg) %>
-                        <p><%= format_date_as_dd_mm_yyyy(reg) %></p>
+                        <% if reg.metaData.first.dateActivated %>
+                          <p><%= format_as_date_only reg.metaData.first.dateActivated %></p>
                         <% else %>
-                        <p><%= t('registrations.form.not_applicable') %></p>
+                          <p><%= t('registrations.form.not_applicable') %></p>
                         <% end %>
                       </li>
                       <li><span><%= t 'activemodel.attributes.registration.expires_on' %></span>
                       <% if reg.expires_on %>
-                        <p><%= reg.expires_on.strftime("%d/%m/%Y") %></p>
+                        <p><%= format_as_date_only reg.expires_on %></p>
                       <% else %>
                         <p><%= t('registrations.form.not_applicable') %></p>
                       <% end %>
