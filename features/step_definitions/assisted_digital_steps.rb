@@ -2,13 +2,13 @@ Given(/^I am logged in as an NCCC agency user$/) do
   visit new_agency_user_session_path
   fill_in 'Email', with: my_agency_user.email
   fill_in 'Password', with: my_agency_user.password
-  click_button 'Sign in'
+  click_button 'sign_in'
   page.has_content? 'agency-user-signed-in'
 end
 
 Given(/^I start a new registration on behalf of a caller$/) do
   visit registrations_path
-  click_on 'New registration'
+  click_link 'new_registration'
 
   choose 'registration_newOrRenew_new'
   click_button 'continue'
@@ -20,7 +20,7 @@ Given(/^the caller provides initial answers for the lower tier$/) do
 end
 
 Given(/^the caller provides his business organisation details$/) do
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
 
   fill_in 'registration_companyName', with: 'Assisted Digital & Co'
   fill_in 'registration_houseNumber', with: '12'
@@ -43,7 +43,7 @@ end
 Given(/^the caller declares the information provided is correct$/) do
   check 'registration_declaration'
 
-  click_on 'Confirm'
+  click_button 'confirm'
 end
 
 Then(/^the registration confirmation email should not be sent$/) do
@@ -53,14 +53,14 @@ Then(/^the registration confirmation email should not be sent$/) do
 end
 
 Then(/^the print page contains the six-digit access code for the user$/) do
-  click_on 'view-certificate'
+  click_link 'view_certificate'
 
   access_code = page.find_by_id 'accessCode'
   access_code.text.length.should == 6
 end
 
 When(/^I create a lower tier registration on behalf of a caller$/) do
-  click_on 'New registration'
+  click_link 'new_registration'
 
   choose 'registration_newOrRenew_new'
   click_button 'continue'
@@ -68,7 +68,7 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   choose 'registration_businessType_charity'
   click_button 'continue'
 
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Grades & Co'
   fill_in 'registration_houseNumber', with: '12'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
@@ -83,12 +83,12 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   click_button 'continue'
 
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 
 end
 
 When(/^I create an upper tier registration on behalf of a caller$/) do
-  click_on 'New registration'
+  click_link 'new_registration'
 
   choose 'registration_newOrRenew_new'
   click_button 'continue'
@@ -108,7 +108,7 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   choose 'registration_registrationType_carrier_dealer'
   click_button 'continue'
 
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
   fill_in 'registration_houseNumber', with: '123'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
@@ -128,12 +128,12 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
   click_button 'continue'
 
   check 'registration_declaration'
-  click_on 'Confirm'
-  click_on 'Pay by debit/credit card'
+  click_button 'confirm'
+  click_button 'worldpay_button'
 end
 
 When(/^I create an upper tier registration on behalf of a caller who wants to pay offline$/) do
-  click_on 'New registration'
+  click_link 'New registration'
 
   choose 'registration_newOrRenew_new'
   click_button 'continue'
@@ -153,7 +153,7 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
   choose 'registration_registrationType_carrier_dealer'
   click_button 'continue'
 
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
   fill_in 'registration_houseNumber', with: '123'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
@@ -173,9 +173,9 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
   click_button 'continue'
 
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 
-  click_on 'Pay by bank transfer'
+  click_button 'offline_pay_button'
 end
 
 And(/^the lower tier waste carrier registration id$/) do
@@ -195,12 +195,12 @@ And(/^I see the payment details to tell the customer$/) do
 end
 
 Then(/^I logout$/) do
-  click_on 'signout_button'
+  click_button 'signout_button'
   visit destroy_agency_user_session_path
 end
 
 Then(/^the print page does not contain unnecessary content$/) do
-  click_on 'view-certificate'
+  click_link 'view_certificate'
   page.should_not have_xpath("//a[@id='logo']") # No Gov Uk Template
   page.should_not have_content 'registrations@wastecarriersregistration.service.gov.uk' # No contact details
 end

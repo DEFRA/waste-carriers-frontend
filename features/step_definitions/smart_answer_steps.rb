@@ -86,7 +86,7 @@ Given(/^I navigate to the construction\/demolition step via the main service ste
 end
 
 When(/^I click the back link$/) do
-  click_on 'Back'
+  click_link 'back'
 end
 
 Then(/^I end up on the other businesses step$/) do
@@ -98,9 +98,9 @@ Then(/^I end up on the main service step$/) do
 end
 
 When(/^I click the back link twice$/) do
-  click_on 'Back'
+  click_link 'back'
   sleep 0.1
-  click_on 'Back'
+  click_link 'back'
 end
 
 Then(/^I follow the breadcrumb trail$/) do
