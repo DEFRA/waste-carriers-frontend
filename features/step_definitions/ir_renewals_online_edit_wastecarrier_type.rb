@@ -31,7 +31,7 @@ end
 
 When(/^I Enter business details$/) do
   fill_in 'sPostcode', with: 'HP10 9BX'
-  click_on 'Find UK address'
+  click_button 'find_address'
   select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
   click_button 'continue'
 end
@@ -50,7 +50,7 @@ When(/^I Enter key people details$/) do
     fill_in 'key_person_dob_day', with: '01'
     fill_in 'key_person_dob_month', with: '02'
     fill_in 'key_person_dob_year', with: '1980'
-    click_on 'add_btn'
+    click_button 'add_btn'
     click_button 'continue'
 end
 
@@ -61,7 +61,7 @@ end
 
 When(/^I confirm my details$/) do
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 
    fill_in 'registration_accountEmail', with: my_email_address
   fill_in 'registration_accountEmail_confirmation', with: my_email_address

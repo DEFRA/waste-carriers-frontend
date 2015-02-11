@@ -154,7 +154,7 @@
             <h2 class='heading-medium'><%= t '.key_person_heading' %></h2>
           <% end %>
             <%= render '/key_people/key_people_display', r: @registration %>
-          <%= link_to t('.edit_key_person_link'), registration_key_people_path %>
+          <%= link_to t('.edit_key_person_link'), registration_key_people_path, :id => 'edit_key_person' %>
         </div><!-- end key people form-group -->
         <% end %>
 
@@ -167,7 +167,7 @@
               <% else %>
                 <p><%= t '.have_not_declared_convictions' %></p>
               <% end %>
-          <a><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path %></a>
+          <a><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path, :id => 'edit_conviction_declaration' %></a>
         </div><!-- end convictions form-group -->
         <% end %>
 

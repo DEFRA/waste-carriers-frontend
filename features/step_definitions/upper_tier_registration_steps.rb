@@ -42,7 +42,7 @@ end
 And(/^I enter my business details$/) do
   fill_in 'registration_companyName', with: 'Bespoke'
   fill_in 'sPostcode', with: 'BS1 5AH'
-  click_on 'Find UK address'
+  click_button 'find_address'
 
   #select 'Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH'
   select 'ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH'
@@ -59,7 +59,7 @@ end
 
 And(/^I confirm the declaration$/) do
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 end
 
 Given(/^I enter new user account details$/) do
@@ -136,5 +136,5 @@ And(/^key people in the organisation have convictions$/) do
 end
 
 Given(/^I finish the registration$/) do
-  click_on 'Finished'
+  click_button 'finished_btn'
 end
