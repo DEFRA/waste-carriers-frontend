@@ -1,4 +1,3 @@
-@quarantine
 Feature:   nccc admin write offs
 
   As an nccc admin user
@@ -18,7 +17,7 @@ Background:
   And I am logged in as a finance admin user
   And I have found a registrations payment details by name: Assisted Enterprises & Co
 
-@javascript @quarantine @happy_days
+@javascript @happy_days
 Scenario: Write off underpayment
   When I select to enter a large writeoff
   And I writeoff equal to underpayment amount

@@ -1,4 +1,3 @@
-@quarantine
 Feature: external renewals
 
   As a waste carrier
@@ -25,7 +24,7 @@ Background:
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
-@javascript @quarantine @happydays
+@javascript @happydays
 Scenario: Upper tier Renewal, No changes, Online payment
   Given The renewal link is available
   Then I click the renew link for: RenewalTest
@@ -34,7 +33,7 @@ Scenario: Upper tier Renewal, No changes, Online payment
   Then my renewal should be complete
   And the expiry date should be updated
 
-@javascript @quarantine
+@javascript
 Scenario: Upper tier Renewal, No changes, Offline payment
   Given The renewal link is available
   Then I click the renew link for: RenewalTest
@@ -44,7 +43,7 @@ Scenario: Upper tier Renewal, No changes, Offline payment
   # This is a silly test as the expiry date wont be updated till the after payment is received but it validates the date
   And the expiry date should be updated
 
-@javascript @quarantine
+@javascript
 Scenario: Upper tier Renewal that forces a New Registration, Online payment
   Given The renewal link is available
   Then I click the renew link for: RenewalTest
@@ -54,7 +53,7 @@ Scenario: Upper tier Renewal that forces a New Registration, Online payment
   Then my renewal should be complete
   And the expiry date should be updated
 
-@javascript @quarantine
+@javascript
 Scenario: Upper tier Renewal that forces a New Registration, Offline payment
   Given The renewal link is available
   Then I click the renew link for: RenewalTest
