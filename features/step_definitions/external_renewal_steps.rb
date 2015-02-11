@@ -6,20 +6,20 @@ end
 Then(/^I click the renew link for: (.*)$/) do |name|
   # FIXME: Improve this test to find a unique renew link
   # Uses the saved registration ID to find the correct registration to renew
-  click_on 'renew_'+@stored_value
+  click_link 'renew_'+@stored_value
 end
 
 Then(/^my renewal should be complete$/) do
   page.should have_content 'Your changes have been successful'
   page.should have_content 'Your certificate and guidance have been emailed to'
-  click_on 'Finish'
+  click_button 'finish'
   page.should have_content 'ACTIVE'
 end
 
 Then(/^my renewal should be awaiting payment$/) do
   page.should have_content 'Almost there'
   page.should have_content 'Your certificate and guidance have been emailed to'
-  click_on 'Finish'
+  click_button 'finish'
   # This is not a great test as it checks if the previous registration is still active not if the new one has been extended
   # That test is covered by the step 'the expiry date should be updated'
   page.should have_content 'ACTIVE'

@@ -1,7 +1,7 @@
 When(/^I change business details$/) do
   fill_in 'registration_companyName', with: 'Company Name Change'
   fill_in 'sPostcode', with: 'HP10 9BX'
-  click_on 'Find UK address'
+  click_button 'find_address'
   select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
   # save_and_open_page
   click_button 'continue'
