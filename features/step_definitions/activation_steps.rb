@@ -44,6 +44,14 @@ When(/^I attempt to sign in$/) do
   fill_in 'user_password', with: my_password
   click_button 'sign_in'
  end
+ 
+ When(/^I log in to the "(.+)" account$/) do |email_address|
+   visit new_user_session_path
+   fill_in 'user_email', with: email_address
+   fill_in 'user_password', with: my_password
+   click_button 'sign_in'
+   page.should have_content 'Your registrations'
+end
 
 And(/^I am shown my pending registration$/) do
   page.should_not have_content 'confirm your account'

@@ -100,7 +100,7 @@ Then(/^I set test simulator page to all okay$/) do
   sleep 3.0
   #By now we should be on the Test Simulator page...
   page.should have_content 'Secure Test Simulator Page'
-  click_button 'continue'
+  find(:css, 'input[src*="makepayment.gif"]').click
 
   # Wait for worldpay redirect to occur
   waitForWorldpayRedirect
