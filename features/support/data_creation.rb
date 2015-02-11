@@ -1,5 +1,7 @@
 def create_complete_lower_tier_reg(type)
-  return create_complete_lower_tier_reg_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")))
+  registration = create_complete_lower_tier_reg_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")))
+  @cucumber_reg_id = registration['regIdentifier']
+  return registration
 end
 
 def create_complete_lower_tier_reg_from_hash(reg_hash)
@@ -9,7 +11,9 @@ def create_complete_lower_tier_reg_from_hash(reg_hash)
 end
 
 def create_complete_upper_tier_reg(type, method, copy_cards)
-  return create_complete_upper_tier_reg_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")), method, copy_cards)
+  registration = create_complete_upper_tier_reg_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")), method, copy_cards)
+  @cucumber_reg_id = registration['regIdentifier']
+  return registration
 end
 
 def create_complete_upper_tier_reg_from_hash(reg_hash, method, copy_cards)
@@ -121,7 +125,7 @@ end
 def create_user(account_email)
   user = User.new
   user.email = account_email
-  user.password = 'Test1234'
+  user.password = 'Password123'  # Keep this in-sync with the value in world_extensions.rb
   user.confirmed_at = DateTime.now.strftime('%FT%T%:z')
   user.save
 end
