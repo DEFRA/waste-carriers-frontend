@@ -33,7 +33,7 @@ module KeyPeoplePage
   end
 
   def add_another_key_person()
-    click_on 'add_btn'
+    click_button 'add_btn'
   end
 
   def submit_key_people_page()

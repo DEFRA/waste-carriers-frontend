@@ -68,7 +68,7 @@
   </br>
   </br>
 
-  <input name="continue" class="button" type="submit" value="<%if @agency_user.persisted?%><%=t 'agencyUsers.updateLabel'%><%else%><%=t 'agencyUsers.createLabel'%><%end%>"/>
+  <input name="continue" id='create_agency_user' class="button" type="submit" value="<%if @agency_user.persisted?%><%=t 'agencyUsers.updateLabel'%><%else%><%=t 'agencyUsers.createLabel'%><%end%>"/>
 </fieldset>
 
 <% end %>
