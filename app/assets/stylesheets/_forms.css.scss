@@ -3,6 +3,7 @@
 @import '_shims';
 @import '_typography';
 @import '_measurements';
+@import 'grid_layout';
 
 @import 'design-patterns/_alpha-beta';
 @import 'design-patterns/_buttons';
@@ -12,139 +13,170 @@
 @import '_device-pixels';
 @import '_font_stack';
 
+
 /* Form Elements  ========================================================== */
 
+
+form {
+
+}
+
 fieldset {
-  margin-bottom: $gutter-half;
-  max-width:30em;
+
 }
 
 legend {
-  margin:0;
-  padding:0;
+
 }
 
+
 .form-group {
-  margin-bottom: $gutter-half;
-  width:30em;
+  float: left;
+  width: 100%;
+    @extend %contain-floats;
+    margin-bottom: $gutter-half;
+    @include media(tablet) {
+    margin-bottom: $gutter;
+  }
+}
+
+/* Form labels */
+
+.form-label,
+.form-label-bold {
+  display: block;
+  color: $text-colour;
 }
 
 .form-label {
-  @include copy-19;
-    display: block;
-    padding-top:$gutter;
-    box-sizing:border-box;
-  @include media (mobile){
-    padding-top: $gutter-half;
+  @include core-19;
+  margin-bottom: 5px;
+}
+
+// Form controls
+
+.form-control {
+  @include core-19;
+  @include box-sizing(border-box);
+  padding: 4px;
+  background-color: $white;
+  border: 1px solid $border-colour;
+  -webkit-appearance: none;
+  border-radius: 0;
+    @include media(tablet) {
+    width: 50%;
   }
 }
 
-#registration_accountEmail_confirmation,
-#registration_contactEmail,
-#registration_accountEmail,
-#agency_user_email,
-#user_email,
-#admin_email {
-  width:75%;
-  @include media (mobile){
-    width:75%;
+// Form control widths
+
+.form-control-1-8 {
+  width: 12.5%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+    @include media(mobile) {
+    width: 25%;
   }
 }
 
-#registration_companyName {
-  width:60%;
-  @include media (mobile) {
-    width:61%;
+.form-control-1-4 {
+  width: 25%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+      @include media(mobile) {
+      width: 50%;
+  }
+}
+
+.form-control-1-2 {
+  width: 50%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+  @include media(mobile) {
+    width: 75%;
+  }
+}
+
+.form-control-3-4 {
+  width: 75%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+  @include media(mobile) {
+    width: 100%;
   }
 }
 
 
-input {
-  @include copy-19;
-  margin-bottom: $gutter-half;
-  display:block;
-  max-width: 30em;
-  box-sizing: border-box;
-  padding-left: 5px;
-}
-
-
-/* Address look-up */
-
-.addressSelector {
-  @include copy-19;
-  display: block;
-  width: auto;
-  border: 1px solid rgb(170, 170, 170);
-  max-width: 100%;
-  overflow: hidden;
-  border-radius:0px;
-}
-
-
-.postcode {
-  margin-right:$gutter-half;
-  @include media (mobile) {
-    margin-right:$gutter-half;
-    width:25%;
-  }
-}
-
-.find-address-button {
-  float:left;
-  vertical-align:top;
-}
-
-.find-address-button input {
-  margin:0;
-  padding: 0.2em 0.6em 0.1em;
-}
-
-.postcode-entry {
-  float:left;
-  vertical-align:top;
-  margin-right:$gutter-half;
-}
-
-
-/* Radio buttons and check boxes ========================================================== */
+/* Block-labels */
 
 .block-label {
   display: block;
   float: none;
   clear: left;
   position: relative;
+
   background: $panel-colour;
   border: 1px solid $panel-colour;
-  padding: (15px $gutter $gutter-half $gutter*1.5);
+  padding: (18px $gutter $gutter-half $gutter*1.5);
   margin-top: 10px;
   margin-bottom: 10px;
-  font-size: 19px;
+
   cursor: pointer;
+
   @include media(tablet) {
     float: left;
     margin-top: 5px;
     margin-bottom: 5px;
-// width: 25%; - Test : check that text within labels will wrap
+  }
+
+  input {
+    position: absolute;
+    top: 18px;
+    left: $gutter-half;
+    cursor: pointer;
+  }
+
+  &:hover {
+    border-color: $black;
   }
 }
 
-.block-label:hover {
+// Selected and focused states
+
+// Add selected state
+.js-enabled label.selected {
+  background: $white;
   border-color: $black;
 }
 
-// Position checkbox within label, to allow text to wrap
-.block-label input {
-  position: absolute;
-  top: $gutter-half;
-  left: $gutter-half;
-  cursor: pointer;
+// Add focus to block labels
+.js-enabled label.focused {
+  outline: 3px solid $yellow;
 }
 
-// Use inline, to sit block labels next to each other
-.inline .block-label {
-  clear: none;
-  margin-right: $gutter-half;
+// Remove focus from radio/checkboxes
+.js-enabled .focused input:focus {
+  outline: none;
 }
 
 // Only if JavaScript is enabled
@@ -164,64 +196,6 @@ input {
   border-color: $black;
 }
 
-
-/* Buttons ========================================================== */
-
-.button {
-  @include button;
-  margin-top: $gutter;
-  margin-bottom: $gutter-half;
-  float:left;
-  clear:both;
-}
-
-.button-secondary {
-  @include button($grey-3);
-  margin-top: $gutter;
-  margin-bottom: $gutter-half;
-  float:left;
-  clear:both;
-}
-
-.button-warning {
-  @include button($red);
-  margin-top: $gutter;
-  margin-bottom: $gutter-half;
-  float:left;
-  clear:both;
-}
-
-/* Date of birth ========================================================== */
-
-.inline-date {
-  display:inline-block;
-}
-
-#date-subtitle {
-  margin:0;
-}
-
-.inline-date label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.inline-date .form-group {
-  width: 50px;
-  float: left;
-  margin-right: 20px;
-  clear: none;
-}
-
-.inline-date .form-group-year {
-  width: 70px;
-}
-.inline-date .form-group input {
-  width: 100%;
-}
-
-// Use Modernizr to detect for touch events
-// Build: http://modernizr.com/download/#-touch-cssclasses-teststyles-prefixes
 // Hide date of birth
 .touch .inline-date {
   display: none;
@@ -240,4 +214,176 @@ input {
 // Set a minimum height for date inputs
 .touch input[type="date"] {
   min-height: 36px;
+}
+
+
+/* Inline elements ========================================================== */
+
+.inline {
+  @include media (mobile){
+    box-sizing: border-box;
+    font-size: 19px;
+    clear: both;
+    margin: 0em 0em 1.1em 0em;
+    width: 100%;
+  }
+}
+
+.inline .block-label {
+  clear: none;
+  margin-right: 10px;
+}
+
+.inline-block {
+  display:inline-block;
+}
+
+.form-text {
+  @include copy-19;
+  float: left;
+  clear:both;
+}
+
+/* Buttons ========================================================== */
+
+.button {
+  @include button ;
+    display: inline;
+    float: none;
+    clear: left;
+    position: relative;
+}
+
+.button-secondary {
+  @include button ($grey-3);
+    display: block;
+    float: none;
+    clear: left;
+    position: relative;
+}
+
+.button-warning {
+  @include button ($red);
+    display: block;
+    float: none;
+    clear: left;
+    position: relative;
+}
+
+#continue {
+  @include media (mobile){
+    box-sizing: border-box;
+    font-size: 19px;
+    text-align: center;
+    clear: both;
+    width: 100%;
+  }
+}
+
+/* Address look-up */
+
+.postcode-entry {
+  @include box-sizing(border-box);
+  display: inline-block;
+  vertical-align:top;
+  width: 30%;
+  margin-right: 15px;
+    @include media (mobile){
+    width:100%;
+   }
+ }
+
+ #sPostcode {
+  width: 100%;
+    @include media(mobile) {
+    width: 75%;
+  }
+}
+
+.find-address-button {
+  @include box-sizing(border-box);
+  width:30%;
+  display: inline-block;
+  vertical-align:top;
+    @include media (mobile){
+    width:100%;
+    margin-top:30px;
+  }
+}
+
+.find-address {
+  width:61%;
+  padding: 0.3em 0.6em 0.2em 0.6em;
+    @include media (mobile){
+    width:100%;
+   }
+}
+
+.addressSelector {
+  width: 50%;
+  @include core-19;
+  @include box-sizing(border-box);
+  padding: 4px;
+  background-color: $white;
+  border: 1px solid $border-colour;
+  border-radius: 0;
+    @include media(mobile) {
+    width: 75%;
+  }
+}
+
+/* Date of birth ========================================================== */
+
+.inline-date {
+  display:inline-block;
+}
+
+#date-subtitle {
+  margin:0;
+}
+
+.inline-date .form-group {
+  width: 50px;
+  float: left;
+  margin-right: 20px;
+  clear: none;
+}
+
+.form-date-day {
+  @include core-19;
+  @include box-sizing(border-box);
+  padding: 4px;
+  background-color: $white;
+  border: 1px solid $border-colour;
+  -webkit-appearance: none;
+  border-radius: 0;
+    @include media(mobile) {
+    width: 100%;
+  }
+}
+
+.form-date-month {
+  @include core-19;
+  @include box-sizing(border-box);
+  padding: 4px;
+  background-color: $white;
+  border: 1px solid $border-colour;
+  -webkit-appearance: none;
+  border-radius: 0;
+    @include media(mobile) {
+    width: 100%;
+  }
+}
+
+.form-date-year {
+  @include core-19;
+  @include box-sizing(border-box);
+  padding: 4px;
+  background-color: $white;
+  border: 1px solid $border-colour;
+  -webkit-appearance: none;
+  border-radius: 0;
+    @include media(mobile) {
+    width: 100%;
+  }
 }

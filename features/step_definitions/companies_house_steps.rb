@@ -59,7 +59,7 @@ When(/^I click to advance$/) do
 end
 
 And(/^I remain on the upper tier business details page$/) do
-  page.should have_content 'Enter your business details'
+  page.should have_content 'Business or organisation details'
 end
 
 Then(/^I proceed to the next wizard step$/) do
@@ -75,7 +75,7 @@ Then(/^I am told the company was not found$/) do
 end
 
 Then(/^I am told the company number needs to be filled in$/) do
-  page.should have_content 'Companies House number must be completed'
+  page.should have_content 'Company registration number (CN) must be completed'
 end
 
 

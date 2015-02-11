@@ -122,7 +122,7 @@
           <td><%= reg.metaData.first.status %></td>
           <td><%= reg.metaData.first.route %></td>
           <td><%= reg.accessCode %></td>
-          <td><%= format_time reg.expires_on %></td>
+          <td><%= format_as_date_only reg.expires_on %></td>
           <td><%= reg.conviction_search_result.first.match_result %></td>
           <td><%= reg.declaredConvictions %></td>
           <td><%= person.first_name %></td>
@@ -163,7 +163,7 @@
         <td><%= reg.metaData.first.status %></td>
         <td><%= reg.metaData.first.route %></td>
         <td><%= reg.accessCode %></td>
-        <td><%= format_time reg.expires_on %></td>
+        <td><%= format_as_date_only reg.expires_on %></td>
         <td>&nbsp;</td><!-- reg.conviction_search_result.first.match_result -->
         <td>&nbsp;</td><!-- reg.declaredConvictions -->
         <td>&nbsp;</td><!-- person.first_name -->
