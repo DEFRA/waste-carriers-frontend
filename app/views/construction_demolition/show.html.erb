@@ -33,9 +33,8 @@
           </div>
         </details>
 
-        <div class="form-group<%if @registration.errors[:constructionWaste].any?%> validation<%end%>" id="registration_constructionWaste" role="group" aria-labelledby="groupLabel">
+        <div class="form-group inline<%if @registration.errors[:constructionWaste].any?%> validation<%end%>" id="registration_constructionWaste" role="group" aria-labelledby="groupLabel">
           <%= validation_for(@registration, :constructionWaste) %>
-          <div class="inline">
             <%= f.label :yes_option_label, for: "registration_constructionWaste_yes", :class => 'block-label' do %>
               <%= f.radio_button :constructionWaste, "yes", :class => "radio" %>
               <%= t 'form.yes_option_label' %>
@@ -44,7 +43,6 @@
               <%= f.radio_button :constructionWaste, "no", :class => "radio" %>
               <%= t 'form.no_option_label' %>
             <% end %>
-          </div>
         </div>
 
         <%= render 'shared/registration_continue_link' %>

@@ -524,9 +524,6 @@ class RegistrationsController < ApplicationController
 
           logger.debug "Is normal RENEWAL"
 
-          # not needed as expiry date set in the services when payment is reveived for the renewal
-          #@registration.expires_on = (Time.parse(@registration.expires_on) + Rails.configuration.registration_expires_after).to_s
-
           @registration.renewalRequested = true;
 
           @registration.save
@@ -814,7 +811,7 @@ class RegistrationsController < ApplicationController
   def commit_new_registration?
 
     unless @registration.tier == 'LOWER'
-      @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after).to_s
+      @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
     end
 
     # Note: we are assigning a unique identifier to the registration in order to make the

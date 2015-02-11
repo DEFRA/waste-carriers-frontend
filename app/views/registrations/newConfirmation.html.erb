@@ -173,7 +173,7 @@
 
         <!-- Declaration section -->
         <fieldset class="declaration">
-        <legend class='heading-xlarge'><%= t '.declaration_legend' %></legend>
+        <legend class='heading-xlarge'><div class="icon-important"><%= image_tag("icon-important.png", {:alt => 'Important'}) %></div><%= t '.declaration_legend' %></legend>
           <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
             <ol>
               <li class="list-bullets"><%= t '.declaration_text1' %></li>
