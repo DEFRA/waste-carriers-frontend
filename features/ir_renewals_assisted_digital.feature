@@ -21,7 +21,7 @@ Scenario: Assisted Digital IR Renewal, No convictions, Online payment
   And I pay by card
   Then the callers registration should be complete
 
-@javascript @quarantine
+@javascript
 Scenario: Assisted Digital IR Renewal, Convictions, Online payment
   Given I autocomplete my business address
   And the caller provides his contact details

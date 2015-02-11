@@ -532,7 +532,7 @@ class Registration < Ohm::Model
       registrations = []
       all_regs = {}
       searchFor = {:q => some_text}
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?q=#{searchFor.to_query}&searchWithin=#{within_field}"
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{searchFor.to_query}&searchWithin=#{within_field}"
       begin
         response = RestClient.get url
         if response.code == 200
