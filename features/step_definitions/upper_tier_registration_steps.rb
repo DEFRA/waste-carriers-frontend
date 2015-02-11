@@ -79,8 +79,8 @@ end
 Then(/^I am registered as an upper tier waste carrier$/) do
   sleep 1  # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-#  current_email.save_and_open
-  current_email.should have_content 'is registered as an upper tier waste carrier'
+  current_email.should have_content 'Registration complete'
+  current_email.should have_content 'we have registered you as an upper tier waste carrier'
 end
 
 Then(/^I am successfully registered and activated as an upper tier waste carrier$/) do
