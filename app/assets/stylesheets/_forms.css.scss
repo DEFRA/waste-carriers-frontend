@@ -55,59 +55,80 @@ legend {
 
 // Form controls
 
-// By default, form controls are 50% width for desktop,
-// and 100% width for mobile
-
 .form-control {
   @include core-19;
-
-  width: 100%;
   @include box-sizing(border-box);
   padding: 4px;
   background-color: $white;
   border: 1px solid $border-colour;
-
-  // Disable webkit appearance and remove rounded corners
   -webkit-appearance: none;
   border-radius: 0;
-
-  @include media(tablet) {
+    @include media(tablet) {
     width: 50%;
   }
 }
-
 
 // Form control widths
 
 .form-control-1-8 {
   width: 12.5%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+    @include media(mobile) {
+    width: 25%;
+  }
 }
 
 .form-control-1-4 {
   width: 25%;
-    @include media(mobile) {
-    width: 75%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+      @include media(mobile) {
+      width: 50%;
   }
 }
 
 .form-control-1-2 {
-  width: 100%;
-  @include media(tablet) {
-    width: 50%;
-  }
-}
-
-.form-control-3-4 {
-  width: 100%;
-  @include media(tablet) {
+  width: 50%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+  @include media(mobile) {
     width: 75%;
   }
 }
 
-
+.form-control-3-4 {
+  width: 75%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+  @include media(mobile) {
+    width: 100%;
+  }
+}
 
 
 /* Block-labels */
+
 .block-label {
   display: block;
   float: none;
@@ -175,8 +196,6 @@ legend {
   border-color: $black;
 }
 
-// Use Modernizr to detect for touch events
-// Build: http://modernizr.com/download/#-touch-cssclasses-teststyles-prefixes
 // Hide date of birth
 .touch .inline-date {
   display: none;
@@ -263,39 +282,54 @@ legend {
 
 /* Address look-up */
 
-.addressSelector {
-  @include copy-19;
-  display: block;
-  width: auto;
-  border: 1px solid rgb(170, 170, 170);
-  max-width: 100%;
-  overflow: hidden;
-  border-radius:0px;
-}
+.postcode-entry {
+  @include box-sizing(border-box);
+  display: inline-block;
+  vertical-align:top;
+  width: 30%;
+  margin-right: 15px;
+    @include media (mobile){
+    width:100%;
+   }
+ }
 
-
-.postcode {
-  margin-right:$gutter-half;
-  @include media (mobile) {
-    margin-right:$gutter-half;
-    width:25%;
+ #sPostcode {
+  width: 100%;
+    @include media(mobile) {
+    width: 75%;
   }
 }
 
 .find-address-button {
-  float:left;
+  @include box-sizing(border-box);
+  width:30%;
+  display: inline-block;
   vertical-align:top;
+    @include media (mobile){
+    width:100%;
+    margin-top:30px;
+  }
 }
 
-.find-address-button input {
-  margin:0;
-  padding: 0.2em 0.6em 0.1em;
+.find-address {
+  width:61%;
+  padding: 0.3em 0.6em 0.2em 0.6em;
+    @include media (mobile){
+    width:100%;
+   }
 }
 
-.postcode-entry {
-  float:left;
-  vertical-align:top;
-  margin-right:$gutter-half;
+.addressSelector {
+  width: 50%;
+  @include core-19;
+  @include box-sizing(border-box);
+  padding: 4px;
+  background-color: $white;
+  border: 1px solid $border-colour;
+  border-radius: 0;
+    @include media(mobile) {
+    width: 75%;
+  }
 }
 
 /* Date of birth ========================================================== */
@@ -308,11 +342,6 @@ legend {
   margin:0;
 }
 
-.inline-date label {
-  display: block;
-  margin-bottom: 5px;
-}
-
 .inline-date .form-group {
   width: 50px;
   float: left;
@@ -320,9 +349,41 @@ legend {
   clear: none;
 }
 
-.inline-date .form-group-year {
-  width: 70px;
+.form-date-day {
+  @include core-19;
+  @include box-sizing(border-box);
+  padding: 4px;
+  background-color: $white;
+  border: 1px solid $border-colour;
+  -webkit-appearance: none;
+  border-radius: 0;
+    @include media(mobile) {
+    width: 100%;
+  }
 }
-.inline-date .form-group input {
-  width: 100%;
+
+.form-date-month {
+  @include core-19;
+  @include box-sizing(border-box);
+  padding: 4px;
+  background-color: $white;
+  border: 1px solid $border-colour;
+  -webkit-appearance: none;
+  border-radius: 0;
+    @include media(mobile) {
+    width: 100%;
+  }
+}
+
+.form-date-year {
+  @include core-19;
+  @include box-sizing(border-box);
+  padding: 4px;
+  background-color: $white;
+  border: 1px solid $border-colour;
+  -webkit-appearance: none;
+  border-radius: 0;
+    @include media(mobile) {
+    width: 100%;
+  }
 }

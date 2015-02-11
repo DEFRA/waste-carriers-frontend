@@ -49,7 +49,7 @@ end
 
 Given(/^I autocomplete my business address$/) do
   fill_in 'sPostcode', with: 'HP10 9BX'
-  click_on 'Find UK address'
+  click_on 'Find address'
   #select '33 Fennels Way, Flackwell Heath HP10 9BX'
   select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
   click_button 'continue'
@@ -66,7 +66,7 @@ Then(/^no address suggestions will be shown$/) do
 end
 
 When(/^I try to select an address$/) do
-  click_on 'Find UK address'
+  click_on 'Find address'
 end
 
 Given(/^I enter my business address manually$/) do
