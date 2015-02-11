@@ -165,7 +165,7 @@ module Registrations
     config.worldpay_moto_macsecret = ENV['WCRS_WORLDPAY_MOTO_MACSECRET'] || 'MACSECRET'
 
     #Using the Worldpay TEST service in all environments by default
-    config.worldpay_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService_rtft.jsp'
+    config.worldpay_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
 
     # Offline payment
     config.environment_agency_bank_account_name = 'Environment Agency'
