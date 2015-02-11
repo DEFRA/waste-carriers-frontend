@@ -2,5 +2,5 @@
   <%= validation_for(@registration, :companyName) %>
   <br/>
   <%= f.label n, for: 'registration_companyName', class: 'form-label' %>
-  <%= f.text_field :companyName, :size => 35, :maxlength => Registration::MAX_COMPANY_NAME_LENGTH %>
+  <%= f.text_field :companyName, class: 'form-control-1-2', :size => 35, :maxlength => Registration::MAX_COMPANY_NAME_LENGTH %>
 </div>
