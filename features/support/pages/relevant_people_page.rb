@@ -33,7 +33,7 @@ module RelevantPeoplePage
   end
 
   def add_another_relevant_person()
-    click_on 'add_btn'
+    click_button 'add_btn'
   end
 
   def submit_relevant_people()
