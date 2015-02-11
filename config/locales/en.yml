@@ -255,7 +255,7 @@ en:
     messages:
       35characters: "can not be longer than 35 characters"
       70characters: "can not be longer than 70 characters"
-      alpha70: "can only contain alpha numeric characters and be no longer than 70 characters"
+      invalid_company_name_characters: "can only contain letters, numbers, spaces and special characters (.-&'’[],) and be no longer than %{maxLength} characters"
       blank: "must be completed"
       emailTaken: "has already been taken"
       invalid: "is not valid"
@@ -274,7 +274,7 @@ en:
       maxlength50: "is too long (maximum is 50 characters)"
       min8: "is too short (minimum is 8 characters)"
       numbers: "can only contain numbers"
-      weakPassword: "is not strong enough. Please use letters (uppercase and lowercase) and numbers"
+      weakPassword: "is not strong enough. It must include at least one lowercase letter, uppercase letter and number"
       worldpayFailed: "failed to get a ok response from Worldpay"
       worldpayErrorRedirect: "There was a problem redirecting to the payment pages. "
       worldpayErrorConnection_html: "<h2 class=\"heading-medium\">Sorry, Worldpay is currently unavailable.</h2>You can:<br /><ol><li class=\"list-bullets\" style=\"list-style-type: disc; position: relative; left: 1em;\">try again later</li><li class=\"list-bullets\" style=\"list-style-type: disc; position: relative; left: 1em;\">pay now by <a href=\"%{bank_transfer}\">bank transfer</a></li><li class=\"list-bullets\" style=\"list-style-type: disc; position: relative; left: 1em;\"><a href=\"%{sign_in}\">sign in</a> if you have an account<br />(don’t forget to validate your email first if you have just set up your account)</li><li class=\"list-bullets\" style=\"list-style-type: disc; position: relative; left: 1em;\">start your registration again if you do not yet have an account</li></ol>"
@@ -288,9 +288,9 @@ en:
       confirmation: "doesn't match %{attribute}"
       too_short: "is too short (minimum is %{count} characters)"
       too_long: "is too long (maximum is %{count} characters)"
-      too_weak: "is not secure; use letters (uppercase and downcase), numbers and special characters"
+      too_weak: "is not secure; it must include at least one lowercase letter, uppercase letter and number"
       greater_than_or_equal_to: "must be greater than or equal to %{count}"
-      search_criteria: "You must provide valid search parameters. Please only use letters, numbers,or any of \' . & ! %."
+      search_criteria: "You must provide valid search parameters. Please only use letters, numbers, or any of \' . & ! %."
 
   form:
     add_button_label: "Add"
@@ -911,7 +911,7 @@ en:
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
       createPassword: "Create password"
       sign_in_link: "I already have an account"
-      password_hint: "Password be at least 8 characters long and contain minimum 1 capital and minimum 1 number"
+      password_hint: "Password must be at least 8 characters and contain at least 1 uppercase letter, 1 lowercase letter and 1 number"
     newSignin:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
