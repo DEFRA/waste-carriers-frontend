@@ -20,12 +20,12 @@ And(/^I enter the following people with relevant convictions:$/) do |table|
     fill_in 'key_person_dob_day', with: row[:dob_day]
     fill_in 'key_person_dob_month', with: row[:dob_month]
     fill_in 'key_person_dob_year', with: row[:dob_year]
-    click_on 'add_btn'
+    click_button 'add_btn'
   end
 end
 
 Then(/^I cannot proceed until I have added a relevant person$/) do
-  click_on 'continue'
+  click_button 'continue'
   page.should have_content 'error'
   page.should_not have_content 'Check your details'
 end
@@ -47,11 +47,11 @@ Given(/^I am registering as a sole trader$/) do
 end
 
 Given(/^I finish my convictions declaration$/) do
-  click_on 'continue'
+  click_button 'continue'
 end
 
 When(/^I choose to edit the conviction declaration$/) do
-  click_link 'Edit your conviction declaration'
+  click_link 'edit_conviction_declaration'
   choose 'registration_declaredConvictions_yes'
   click_button 'continue'
 end
@@ -76,14 +76,14 @@ end
 
 
 Given(/^I edit my sole trader business owner details$/) do
-  click_link 'Edit your business or organisation owners details'
+  click_link 'edit_key_person'
   fill_in 'key_person_first_name', with: 'Jenson'
   fill_in 'key_person_last_name', with: 'Button'
   click_button 'continue'
 end
 
 When(/^I edit my business owner details$/) do
-  click_link 'Edit your business or organisation owners details'
+  click_link 'edit_key_person'
 end
 
 When(/^add another Partner$/) do
@@ -92,7 +92,7 @@ When(/^add another Partner$/) do
   fill_in 'key_person_dob_day', with: '02'
   fill_in 'key_person_dob_month', with: '08'
   fill_in 'key_person_dob_year', with: '1900'
-  click_on 'add_btn'
+  click_button 'add_btn'
   click_button 'continue'
 end
 
@@ -103,6 +103,6 @@ When(/^change another Partner$/) do
   fill_in 'key_person_dob_day', with: '02'
   fill_in 'key_person_dob_month', with: '08'
   fill_in 'key_person_dob_year', with: '1900'
-  click_on 'add_btn'
+  click_button 'add_btn'
   click_button 'continue'
 end

@@ -40,7 +40,7 @@ Given(/^I am logged in as a waste carrier$/) do
   visit new_user_session_path
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: my_user.password
-  click_button 'Sign in'
+  click_button 'sign_in'
 end
 
 When(/^I try to continue with my registrations$/) do

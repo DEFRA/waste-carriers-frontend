@@ -17,7 +17,7 @@
         <p><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
 
         <% if can? :view, @registration %>
-          <p><%= link_to t('form.view_certificate_link_label'), view_url(@registration.uuid), { :class => 'link-button-secondary', :id => 'view-certificate'} %></p>
+          <p><%= link_to t('form.view_certificate_link_label'), view_url(@registration.uuid), { :class => 'link-button-secondary', :id => 'view_certificate'} %></p>
         <% end %>
 
       <% else %>

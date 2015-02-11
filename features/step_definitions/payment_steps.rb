@@ -43,7 +43,7 @@ end
 And(/^I pay by card$/) do
   page.should have_content 'Payment summary'
 
-  click_on 'Pay by credit or debit card'
+  click_button 'worldpay_button'
 
   sleep 0.5
 
@@ -66,7 +66,7 @@ And(/^I pay by card$/) do
 end
 
 And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
-  click_on 'Pay by credit or debit card'
+  click_button 'worldpay_button'
 
   sleep 0.5
 
@@ -100,7 +100,7 @@ Then(/^I set test simulator page to all okay$/) do
   sleep 3.0
   #By now we should be on the Test Simulator page...
   page.should have_content 'Secure Test Simulator Page'
-  click_on 'Continue'
+  click_button 'continue'
 
   # Wait for worldpay redirect to occur
   waitForWorldpayRedirect
@@ -139,7 +139,7 @@ And(/^I choose to pay by bank transfer$/) do
 end
 
 And(/^I choose pay via electronic transfer ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
-  click_on 'Pay by bank transfer'
+  click_button 'offline_pay_button'
 
   # Build test parameter to compare to offline payment page
   totalParams = '£' + arg1 + '.' + arg2

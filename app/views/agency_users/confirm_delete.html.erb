@@ -22,7 +22,7 @@
       <div class="form-group">
       <%= form_for @agency_user, :method => 'delete', :html => {:autocomplete => "off"} do |f| %>
       <p><%= t 'agencyUsers.deleteText'%> <strong><%= @agency_user.email %></strong>?</p>
-      <input name="delete" class="button" type="submit" value="<%= t 'agencyUsers.deleteLabel'%>"/>
+      <input name="delete" id="delete_agency_user" class="button" type="submit" value="<%= t 'agencyUsers.deleteLabel'%>"/>
     </div>
     <% end %>
   </fieldset>
