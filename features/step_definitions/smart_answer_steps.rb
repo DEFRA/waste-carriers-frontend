@@ -4,27 +4,27 @@ end
 
 And(/^I enter my business type as (.*)$/) do |business_type|
   choose "registration_businessType_#{business_type}"
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I indicate I deal only with my own waste$/) do
   choose 'registration_otherBusinesses_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I indicate I deal with other people's waste too$/) do
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I indicate I never deal with waste from building or demolition work$/) do
   choose 'registration_constructionWaste_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I indicate I sometimes deal with waste from building or demolition work$/) do
   choose 'registration_constructionWaste_yes'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Then(/^I will be on the lower tier waste carrier registration path$/) do
@@ -37,26 +37,26 @@ end
 
 And(/^I indicate disposing waste is my main service$/) do
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I indicate disposing waste is not my main service$/) do
   choose 'registration_isMainService_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I indicate I only deal with animal, farm, quarry or mine waste$/) do
   choose 'registration_onlyAMF_yes'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 And(/^I indicate I don't deal with animal, farm, quarry or mine waste$/) do
   choose 'registration_onlyAMF_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
-Then(/^there is a next button on the page$/) do
-  page.should have_button 'Next'
+Then(/^there is a continue button on the page$/) do
+  page.should have_button 'continue'
 end
 
 Then(/^there is no back button on the page/) do
@@ -70,23 +70,23 @@ end
 Given(/^I navigate to the construction\/demolition step via the other businesses step$/) do
   visit business_type_path
   choose 'registration_businessType_soletrader'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_otherBusinesses_no'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 Given(/^I navigate to the construction\/demolition step via the main service step$/) do
   visit business_type_path
   choose 'registration_businessType_soletrader'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_otherBusinesses_yes'
-  click_on 'Next'
+  click_button 'continue'
   choose 'registration_isMainService_yes'
-  click_on 'Next'
+  click_button 'continue'
 end
 
 When(/^I click the back link$/) do
-  click_on 'Back'
+  click_link 'back'
 end
 
 Then(/^I end up on the other businesses step$/) do
@@ -98,9 +98,9 @@ Then(/^I end up on the main service step$/) do
 end
 
 When(/^I click the back link twice$/) do
-  click_on 'Back'
+  click_link 'back'
   sleep 0.1
-  click_on 'Back'
+  click_link 'back'
 end
 
 Then(/^I follow the breadcrumb trail$/) do

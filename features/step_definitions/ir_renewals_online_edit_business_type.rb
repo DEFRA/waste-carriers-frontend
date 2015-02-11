@@ -1,7 +1,7 @@
   
 Given(/^I change business type to Sole Trader$/) do
   choose 'registration_businessType_soletrader'
-  click_on 'Next'
+  click_button 'continue'
 end
 
  Then(/^I should be told that I have to start a new registration$/) do

@@ -12,7 +12,7 @@
     </div>
     <% if !current_agency_user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser }) %>
     <div>
-      <%= link_to t('.new_registration'), start_path %>
+      <%= link_to t('.new_registration'), start_path, :id => "new_registration" %>
     </div>
     <% end %>
     <div>

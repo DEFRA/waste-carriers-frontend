@@ -400,12 +400,12 @@
 		if (showReason) {
 			$('#registration_metaData_revokedReason').parent().removeClass("js-hidden");
 			$('input[name="revoke"]').removeClass("js-hidden");
-			$('input[name="next"]').addClass("js-hidden");
+			$('input[name="continue"]').addClass("js-hidden");
 		} else {
 			$('#registration_metaData_revokedReason').val('');
 			$('#registration_metaData_revokedReason').parent().addClass("js-hidden");
 			$('input[name="revoke"]').addClass("js-hidden");
-			$('input[name="next"]').removeClass("js-hidden");
+			$('input[name="continue"]').removeClass("js-hidden");
 		}
 	}
 

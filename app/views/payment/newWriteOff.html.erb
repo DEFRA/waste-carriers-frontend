@@ -62,11 +62,11 @@
 		</div>
 
 		<div class="inline">
-		    <span class="next_link">
+		    <span class="continue_link">
 		    <% if @type == 'writeOffLarge' %>
-		      <input name="writeOffLarge" class="button button-get-started" type="submit" value="<%= t 'registrations.form.writeoff_button_label' %>"/>
+		      <input name="writeOffLarge" class="button button-get-started" type="submit" value="<%= t 'registrations.form.writeoff_button_label', :id => 'write_off' %>"/>
 		    <% elsif @type == 'writeOffSmall' %>
-		      <input name="writeOffSmall" class="button button-get-started" type="submit" value="<%= t 'registrations.form.writeoff_button_label' %>"/>
+		      <input name="writeOffSmall" class="button button-get-started" type="submit" value="<%= t 'registrations.form.writeoff_button_label', :id => 'write_off' %>"/>
 		    <% end %>
 		    </span>
 		</div>
