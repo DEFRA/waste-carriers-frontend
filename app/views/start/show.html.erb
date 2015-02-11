@@ -25,13 +25,13 @@
 
         <div class="form-group<%if @registration.errors[:newOrRenew].any?%> validation<%end%>" id="registration_newOrRenew" role="group" aria-labelledby="groupLabel">
           <%= validation_for(@registration, :newOrRenew) %>
-          <%= f.label :newOrRenew, for: "registration_newOrRenew_renew",  class: 'block-label' do %>
-            <%= f.radio_button :newOrRenew, 'renew' %>
-            <%= t '.renew' %>
-          <% end %>
           <%= f.label :newOrRenew, for: "registration_newOrRenew_new",  class: 'block-label' do %>
             <%= f.radio_button :newOrRenew, 'new' %>
             <%= t '.new' %>
+          <% end %>
+          <%= f.label :newOrRenew, for: "registration_newOrRenew_renew",  class: 'block-label' do %>
+            <%= f.radio_button :newOrRenew, 'renew' %>
+            <%= t '.renew' %>
           <% end %>
         </div>
 
