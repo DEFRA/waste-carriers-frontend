@@ -3,6 +3,7 @@
 @import '_shims';
 @import '_typography';
 @import '_measurements';
+@import 'grid_layout';
 
 @import 'design-patterns/_alpha-beta';
 @import 'design-patterns/_buttons';
@@ -12,6 +13,18 @@
 @import '_device-pixels';
 @import '_font_stack';
 
+
+/* Page layout ========================================================== */
+
+#wrapper {
+  @include outer-block;
+}
+
+#content {
+  @include inner-block;
+  text-align: left;
+  padding-bottom: $gutter;
+}
 
 /* Body  */
 
