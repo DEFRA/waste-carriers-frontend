@@ -3,6 +3,7 @@
 @import '_shims';
 @import '_typography';
 @import '_measurements';
+@import 'grid_layout';
 
 @import 'design-patterns/_alpha-beta';
 @import 'design-patterns/_buttons';
@@ -183,9 +184,26 @@ p {
   -webkit-font-smoothing: antialiased;
 }
 
-a[rel="external"]:after {
-    background-position: right 6px;
-    background-image: url("/assets/external-links/external-link-d002b7f52534832ec88667ca0a25e1ed.png");
-    background-repeat: no-repeat;
+
+/* Icons ========================================================== */
+
+.icon {
+  background-position: 0 0;
+  background-repeat: no-repeat;
 }
+
+.icon-important {
+  display:inline;
+  margin-right: $gutter-half;
+  @include device-pixel-ratio() {
+    background-size: 100%;
+  }
+  width: 34px;
+  height: 34px;
+}
+
+
+
+
+
 
