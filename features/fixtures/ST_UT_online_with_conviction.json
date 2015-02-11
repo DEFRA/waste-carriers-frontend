@@ -31,7 +31,7 @@
   "current_step":"signup",
   "businessType":"soleTrader",
   "tier":"UPPER",
-  "password":"test1234",
+  "password":"Test1234",
   "expires_on":"1448841600000",
   "metaData":{
     "route":"DIGITAL"
