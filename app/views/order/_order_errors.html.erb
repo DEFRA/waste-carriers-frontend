@@ -5,7 +5,7 @@
 		<% full_messages.each do |msg| %>
           <% if msg == 'Services error: worldPayConnectionIssue' %>
               <ul>
-                <li><%= t 'errors.messages.worldpayErrorConnection_html', :sign_in => Rails.configuration.waste_exemplar_services_url + '/users/sign_in' %></li>
+                <li><%= t 'errors.messages.worldpayErrorConnection_html', :bank_transfer => Rails.configuration.waste_exemplar_services_url + "/your-registration/offline-payment?orderCode=#{@order.orderCode}", :sign_in => Rails.configuration.waste_exemplar_services_url + '/users/sign_in' %></li>
               </ul>
           <% else %>
               <ul>
