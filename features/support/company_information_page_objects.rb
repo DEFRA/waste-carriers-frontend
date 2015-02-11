@@ -7,7 +7,7 @@ module BusinessDetailsPage
 
     fill_in 'registration_companyName', with: companyName
     fill_in 'sPostcode', with: postcode
-    click_on 'Find UK address'
+    click_button 'find_address'
     #select 'Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH'
     select address
     submit_business_details_page
@@ -17,7 +17,7 @@ module BusinessDetailsPage
     houseNumber: '12', line1: 'Deanery Road',
     line2: 'EA Building', townCity: 'Bristol', postcode: 'BS1 5AH')
 
-    click_on 'I want to add an address myself'
+    click_link 'manual_uk_address'
     fill_in 'registration_companyName', with: companyName
     fill_in 'registration_houseNumber', with: houseNumber
     fill_in 'registration_streetLine1', with: line1
@@ -31,7 +31,7 @@ module BusinessDetailsPage
     companyName: 'Test Company', houseNumber: '12', line1: 'Deanery Road',
     line2: 'EA Building', townCity: 'Bristol', postcode: 'BS1 5AH')
 
-    click_on 'I want to add an address myself'
+    click_link 'manual_uk_address'
     fill_in 'registration_company_no', with: companyNo
     fill_in 'registration_companyName', with: companyName
     fill_in 'registration_houseNumber', with: houseNumber
@@ -49,7 +49,7 @@ module BusinessDetailsPage
     fill_in 'registration_company_no', with: companyNo
     fill_in 'registration_companyName', with: companyName
     fill_in 'sPostcode', with: postcode
-    click_on 'Find UK address'
+    click_button 'find_address'
     #select 'Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH'
     select address
     submit_business_details_page
@@ -111,7 +111,7 @@ module KeyPeoplePage
   end
 
   def add_another_key_person()
-    click_on 'add_btn'
+    click_button 'add_btn'
   end
 
   def submit_key_people_page()
@@ -167,7 +167,7 @@ module RelevantPeoplePage
   end
 
   def add_another_relevant_person()
-    click_on 'add_btn'
+    click_button 'add_btn'
   end
 
   def submit_relevant_people()

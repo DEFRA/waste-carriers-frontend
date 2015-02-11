@@ -5,7 +5,7 @@ module ConfirmationPage
   end
 
   def submit_confirmation_page()
-    click_on 'Confirm'
+    click_button 'confirm'
   end
 end
 World(ConfirmationPage)

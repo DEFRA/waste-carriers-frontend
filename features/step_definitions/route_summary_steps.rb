@@ -10,7 +10,7 @@ Given(/^I have come to the lower tier summary page$/) do
   choose 'registration_constructionWaste_no'
   click_button 'continue'
 
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Grades & Co'
   fill_in 'registration_houseNumber', with: '12'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
@@ -47,7 +47,7 @@ Given(/^I have come to the upper tier summary page$/) do
 
   fill_in 'registration_companyName', with: 'Bespoke'
   fill_in 'sPostcode', with: 'BS1 5AH'
-  click_on 'Find UK address'
+  click_button 'find_address'
 
   #select 'Environment Agency, Horizon House, Deanery Road, City Centre, Bristol BS1 5AH'
   select 'ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH'

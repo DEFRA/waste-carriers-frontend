@@ -11,7 +11,7 @@ When(/^enters valid credentials$/) do
   page.should have_content 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: my_user.password
-  click_button 'sign_in_button'
+  click_button 'sign_in'
 end
 
 Then(/^the user should be logged in successfully$/) do
@@ -22,7 +22,7 @@ When(/^enters invalid credentials$/) do
   page.should have_content 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: 'incorrect_password'
-  click_button 'sign_in_button'
+  click_button 'sign_in'
 end
 
 Then(/^the user should see a login account unlocked successfully page$/) do
@@ -101,7 +101,7 @@ When(/^the maximum number of invalid login attempts is exceeded for the ([\w ]+)
     visit new_session_page
     fill_in 'Email', with: emailAddress
     fill_in 'Password', with: 'this_is_the_wrong_password'
-    click_button 'sign_in_button'
+    click_button 'sign_in'
     page.should have_content 'Invalid email or password'
   end
 
@@ -122,12 +122,12 @@ end
 
 When (/^completes the request using the email address of a valid ([\w ]+)$/) do |user_type|
   fill_in 'Email', with: get_factorygirl_user_for_user_type(user_type).email
-  click_button 'submitButton'
+  click_button 'send'
 end
 
 When (/^completes the request using a guessed email address$/) do
   fill_in 'Email', with: 'a_guessed_address@example.com'
-  click_button 'submitButton'
+  click_button 'send'
 end
 
 Then(/^they should be redirected to the login page, but not told if the email address they supplied was known or unknown$/) do
@@ -173,7 +173,7 @@ When(/^I am logged in as waste carrier user '([\w@\.]+)'$/) do | email|
    visit new_user_session_path
    fill_in 'Email', with: email
    fill_in 'Password', with: carrier_password
-   click_button 'Sign in'
+   click_button 'sign_in'
 end
 
 # TODO AH need to centralise date formatting and get expire date from services

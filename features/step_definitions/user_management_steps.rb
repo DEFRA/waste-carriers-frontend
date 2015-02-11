@@ -3,7 +3,7 @@ Given(/^I am logged in as an administrator$/) do
   page.should have_content 'Administration login'
   fill_in 'Email', with: my_admin.email
   fill_in 'Password', with: my_admin.password
-  click_button 'sign_in_button'
+  click_button 'sign_in'
 end
 
 Then(/^I should see the user administration page$/) do
@@ -12,14 +12,14 @@ Then(/^I should see the user administration page$/) do
 end
 
 When(/^I elect to create a new agency user$/) do
-  click_button 'New agency user'
+  click_button 'new_agency_user'
 end
 
 When(/^I fill in details for an agency user$/) do
   page.should have_content 'New agency user'
   fill_in 'Email', with: agency_email_address
   fill_in 'Password', with: agency_password
-  click_button 'Create agency user'
+  click_button 'create_agency_user'
 end
 
 Then(/^the user should have been created$/) do
@@ -43,7 +43,7 @@ When(/^I elect to delete the user$/) do
 end
 
 When(/^I confirm to delete the user$/) do
-  click_button 'Delete agency user'
+  click_button 'delete_agency_user'
 end
 
 Then(/^the user should have been deleted$/) do

@@ -10,7 +10,7 @@ Given(/^I have completed the lower tier registration form$/) do
   choose 'registration_constructionWaste_no'
   click_button 'continue'
 
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Grades & Co'
   fill_in 'registration_houseNumber', with: '12'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
@@ -26,7 +26,7 @@ Given(/^I have completed the lower tier registration form$/) do
   click_button 'continue'
 
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 
   fill_in 'registration_accountEmail_confirmation', with: my_email_address
   fill_in 'registration_password', with: my_password
@@ -49,7 +49,7 @@ end
 
 Given(/^I autocomplete my business address$/) do
   fill_in 'sPostcode', with: 'HP10 9BX'
-  click_on 'Find UK address'
+  click_button 'find_address'
   #select '33 Fennels Way, Flackwell Heath HP10 9BX'
   select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
   click_button 'continue'
@@ -66,11 +66,11 @@ Then(/^no address suggestions will be shown$/) do
 end
 
 When(/^I try to select an address$/) do
-  click_on 'Find UK address'
+  click_button 'find_address'
 end
 
 Given(/^I enter my business address manually$/) do
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
 
   fill_in 'registration_companyName', with: 'Grades'
   fill_in 'registration_houseNumber', with: '44'
@@ -83,7 +83,7 @@ Given(/^I enter my business address manually$/) do
 end
 
 Given(/^I enter my foreign business address manually$/) do
-  click_on 'I have an address outside the United Kingdom'
+  click_link 'foreign_address'
 
   fill_in 'registration_companyName', with: 'IWC'
 
@@ -157,7 +157,7 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   choose 'registration_constructionWaste_no'
   click_button 'continue'
 
-  click_on 'I want to add an address myself'
+  click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Grades & Co'
   fill_in 'registration_houseNumber', with: '12'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
@@ -173,7 +173,7 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   click_button 'continue'
 
   check 'registration_declaration'
-  click_on 'Confirm'
+  click_button 'confirm'
 
   fill_in 'Confirm email', with: my_email_address
   fill_in 'Create password', with: my_password
