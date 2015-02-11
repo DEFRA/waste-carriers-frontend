@@ -8,10 +8,10 @@ module ApplicationHelper
   end
 
   def createTitle(pageTitle)
-    t(pageTitle) + " - " + t('registrations.form.root_site')
+    "#{t(pageTitle)} - #{t('registrations.form.root_site')}"
   end
 
-  def convert_date d
+  def convert_date(d)
     res = Time.new(1970,1,1)
     if d
       begin
@@ -20,7 +20,7 @@ module ApplicationHelper
       rescue NoMethodError
         res = Time.parse(d)
       end
-    end #if
+    end
     res
   end
 
@@ -31,12 +31,17 @@ module ApplicationHelper
     (expires_date - epoch_date).to_i / 365
   end
 
-  def format_time d
+  def format_time(d)
     convert_date(d.to_i).strftime("%d/%m/%Y %H:%M")
   end
 
-  def format_as_date_only d
+  def format_as_date_only(d)
     convert_date(d.to_i).strftime("%d/%m/%Y")
+  end
+
+  def format_as_ordinal_date_only(d)
+    new_date = convert_date(d.to_i)
+    new_date.strftime('%A ' + new_date.mday.ordinalize + ' %B %Y')
   end
 
   def getDefaultCurrency

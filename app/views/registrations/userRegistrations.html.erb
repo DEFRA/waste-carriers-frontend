@@ -61,7 +61,7 @@
                 <% case registration.get_status %>
                 <% when 'ACTIVE', 'EXPIRED'  %>
                   <% if registration.expires_on %>
-                    <%= registration.expires_on.strftime("%d-%^B-%Y") %>
+                    <%= format_as_date_only registration.expires_on %>
                   <% else %>
                     <%= t 'registrations.form.not_applicable' %>
                   <% end %>
