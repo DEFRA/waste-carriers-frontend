@@ -8,22 +8,19 @@ require 'base64'
 require 'open-uri'
 
 module WorldpayHelper
-
-    def test_connection?
-      test_uri = Rails.configuration.worldpay_uri
-      uri = URI(test_uri)
-      https = Net::HTTP.new(uri.host,uri.port)
-      https.use_ssl = true
-      res = https.get(uri.path)
-      if res.code == '401' || res.code == '200'
-        logger.info 'Worldpay test connection returned ' + res.code.to_s + ' and passed.'
-        true
-      else
-        logger.info 'Worldpay test connection returned ' + res.code.to_s + ' and failed.'
-        @order.errors.add(:exception, 'worldPayConnectionIssue')
-        false
-      end
+  def test_connection?
+    uri = URI(Rails.configuration.worldpay_uri)
+    https = Net::HTTP.new(uri.host, uri.port)
+    https.use_ssl = true
+    res = https.get(uri.path)
+    if res.code == '401' || res.code == '200'
+      true
+    else
+      logger.info "Worldpay connection test returned #{res.code} and failed."
+      @order.errors.add(:exception, 'worldPayConnectionIssue')
+      false
     end
+  end
 
     def redirect_to_worldpay(registration, order)
       xml = create_xml(registration, order)
