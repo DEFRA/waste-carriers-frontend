@@ -46,18 +46,6 @@ Then(/^I will be shown confirmation of paid order$/) do
   payment_copy_cards_complete_check_order
 end
 
-Then(/^I will be shown confirmation of unpaid order$/) do
-  # Payment Checks
-  page.should have_content 'Almost there'
-  # Content specific checks
-  page.should have_content 'Thank you for your copy card order'
-
-  click_on 'Finish'
-  # Check routing after clicking finish
-  page.should have_content 'Your registrations'
-
-end
-
 Then(/^I finish my registration$/) do
   # Perform this as it cleans the session variables
   click_on 'Finish'
