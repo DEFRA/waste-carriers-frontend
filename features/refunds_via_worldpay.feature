@@ -18,7 +18,6 @@ Scenario: Refund via worldpay
   And balance is in credit
   And refund is selected
 
-@javascript
 Scenario: Refund rejected when balance is not in credit
   Given I create an upper tier registration on behalf of a caller who wants to pay offline
   And I make a note of the details

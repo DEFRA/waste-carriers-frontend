@@ -15,7 +15,7 @@ Background:
   And I am logged in as a finance basic user
   And I have found a registrations payment details by name: Assisted Enterprises & Co
 
-@javascript @happy_days
+@happy_days
 Scenario: Successful payment of total balance
   When I select to enter payment
   And I pay the full amount owed
@@ -25,7 +25,6 @@ Scenario: Successful payment of total balance
   And payment history will be updated
   And payment balance will be 0.00
 
-@javascript
 Scenario Outline: Internal payment scenarios, underpayment and overpayment
   When I select to enter payment
   And payment status is <start_payment_status>
