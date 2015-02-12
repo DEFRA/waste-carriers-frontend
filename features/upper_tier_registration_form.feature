@@ -46,7 +46,7 @@ Scenario: Foreign waste carrier
   And I choose pay via electronic transfer
   Then I have completed the application as an upper tier waste carrier via electronic transfer
 
-@javascript @quarantine @worldpay
+@javascript @worldpay
 Scenario: Card payment
   Given I autocomplete my business address
   And I provide my personal contact details

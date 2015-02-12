@@ -68,7 +68,9 @@ Then(/^I am told to ring the Environment Agency$/) do
 end
 
 Given(/^I navigate to the construction\/demolition step via the other businesses step$/) do
-  visit business_type_path
+  visit start_path
+  choose 'registration_newOrRenew_new'
+  click_button 'continue'
   choose 'registration_businessType_soletrader'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'
@@ -76,7 +78,9 @@ Given(/^I navigate to the construction\/demolition step via the other businesses
 end
 
 Given(/^I navigate to the construction\/demolition step via the main service step$/) do
-  visit business_type_path
+  visit start_path
+  choose 'registration_newOrRenew_new'
+  click_button 'continue'
   choose 'registration_businessType_soletrader'
   click_button 'continue'
   choose 'registration_otherBusinesses_yes'
@@ -86,27 +90,27 @@ Given(/^I navigate to the construction\/demolition step via the main service ste
 end
 
 When(/^I click the back link$/) do
-  click_link 'back'
+  click_link 'back_link'
 end
 
 Then(/^I end up on the other businesses step$/) do
-  page.should have_content 'Do you ever deal with waste from other businesses'
+  expect(page).to have_xpath("//*[@id = 'registration_otherBusinesses_yes']")
 end
 
 Then(/^I end up on the main service step$/) do
-  page.should have_content 'I produce the waste as part of another service'
+  expect(page).to have_xpath("//*[@id = 'registration_isMainService_yes']")
 end
 
 When(/^I click the back link twice$/) do
-  click_link 'back'
+  click_link 'back_link'
   sleep 0.1
-  click_link 'back'
+  click_link 'back_link'
 end
 
 Then(/^I follow the breadcrumb trail$/) do
-  page.should_not have_content 'Do you ever deal with construction'
+  expect(page).not_to have_xpath("//*[@id = 'registration_constructionWaste_yes']")
 end
 
 And(/^I end up on the business type step$/) do
-  page.should have_content 'What type of business'
+  expect(page).to have_xpath("//*[@id = 'registration_businessType_soletrader']")
 end

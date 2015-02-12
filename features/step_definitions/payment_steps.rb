@@ -81,7 +81,7 @@ And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
   worldpayAmount.should match totalParams
 
   # Continue with Worlpay payment
-  click_on 'MasterCard'
+  click_button 'MasterCard'
 
   fill_in 'Card number', with: '4444333322221111'
   select '12', from: 'cardExp.month'
@@ -100,7 +100,7 @@ Then(/^I set test simulator page to all okay$/) do
   sleep 3.0
   #By now we should be on the Test Simulator page...
   page.should have_content 'Secure Test Simulator Page'
-  click_button 'continue'
+  find(:css, 'input[src*="makepayment.gif"]').click
 
   # Wait for worldpay redirect to occur
   waitForWorldpayRedirect
