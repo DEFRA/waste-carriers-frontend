@@ -1,9 +1,11 @@
-@quarantine
+@wip
 Feature: external renewals
 
   As a waste carrier
   I want to be able to renew my registration
   So that I can continue to be registered as a waste carrier
+
+# TODO marked as @wip as tests cannot be completed until renewal code fixed (using renewal link on certificates page)
 
 # This background task creates a registration for which the scenarios can perform renew related tests
 Background:
@@ -22,10 +24,11 @@ Background:
   And I am registered as an upper tier waste carrier
   When I re-request activation for my account
   And I am shown the sign in page
+  And I am in the Expiry period
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
-@javascript @quarantine @happydays
+@wip @javascript
 Scenario: Upper tier Renewal, No changes, Online payment
   Given The renewal link is available
   Then I click the renew link for: RenewalTest
@@ -34,7 +37,7 @@ Scenario: Upper tier Renewal, No changes, Online payment
   Then my renewal should be complete
   And the expiry date should be updated
 
-@javascript @quarantine
+@wip @javascript
 Scenario: Upper tier Renewal, No changes, Offline payment
   Given The renewal link is available
   Then I click the renew link for: RenewalTest
@@ -44,7 +47,7 @@ Scenario: Upper tier Renewal, No changes, Offline payment
   # This is a silly test as the expiry date wont be updated till the after payment is received but it validates the date
   And the expiry date should be updated
 
-@javascript @quarantine
+@wip @javascript
 Scenario: Upper tier Renewal that forces a New Registration, Online payment
   Given The renewal link is available
   Then I click the renew link for: RenewalTest
@@ -54,7 +57,7 @@ Scenario: Upper tier Renewal that forces a New Registration, Online payment
   Then my renewal should be complete
   And the expiry date should be updated
 
-@javascript @quarantine
+@wip @javascript
 Scenario: Upper tier Renewal that forces a New Registration, Offline payment
   Given The renewal link is available
   Then I click the renew link for: RenewalTest

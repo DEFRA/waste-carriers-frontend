@@ -10,7 +10,7 @@ Background:
   And my waste carrier status is prepopulated
   And my company name is prepopulated
 
-@javascript @quarantine @happydays
+@javascript @happydays
 Scenario: IR Renewal, No convictions, Online payment
   Given I autocomplete my business address
   And I provide my personal contact details
@@ -26,7 +26,7 @@ Scenario: IR Renewal, No convictions, Online payment
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
-@javascript @quarantine
+@javascript
 Scenario: IR Renewal, Convictions, Online payment
   Given I autocomplete my business address
   And I provide my personal contact details

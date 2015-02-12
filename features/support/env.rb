@@ -5,16 +5,19 @@
 # files.
 
 require 'cucumber/rails'
-
-# Added for cross-browser testing using Saucelabs
-require 'sauce/cucumber'
+require 'capybara/poltergeist'
 
 # Capybara defaults to CSS3 selectors rather than XPath.
 # If you'd prefer to use XPath, just uncomment this line and adjust any
 # selectors in your step definitions to use the XPath syntax.
 # Capybara.default_selector = :xpath
 
-Capybara.javascript_driver = :webkit
+Capybara.javascript_driver = :poltergeist
+options = { js_errors: false, timeout: 180, phantomjs_logger: StringIO.new, logger: nil, phantomjs_options: ['--load-images=yes', '--ignore-ssl-errors=yes'] }
+
+Capybara.register_driver(:poltergeist) do |app|
+    Capybara::Poltergeist::Driver.new app, options
+end
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
@@ -59,5 +62,3 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 # To allow the cucumber features to all run, we disable WebMock for everything; no HTTP calls are stubbed in
 # the cucumber tests.
 WebMock.disable!()
-
-require 'cucumber/rspec/doubles'

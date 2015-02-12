@@ -10,16 +10,15 @@ Then(/^I click the renew link for: (.*)$/) do |name|
 end
 
 Then(/^my renewal should be complete$/) do
-  page.should have_content 'Your changes have been successful'
-  page.should have_content 'Your certificate and guidance have been emailed to'
-  click_button 'finish'
+  page.should have_content 'Registration complete'
+  click_button 'finished'
   page.should have_content 'ACTIVE'
 end
 
 Then(/^my renewal should be awaiting payment$/) do
   page.should have_content 'Almost there'
   page.should have_content 'Your certificate and guidance have been emailed to'
-  click_button 'finish'
+  click_button 'finished'
   # This is not a great test as it checks if the previous registration is still active not if the new one has been extended
   # That test is covered by the step 'the expiry date should be updated'
   page.should have_content 'ACTIVE'
@@ -39,4 +38,9 @@ end
 Then(/^I remember the registration id$/) do
   # Find the registration ID and saves it as a variable for use in a later test
   @stored_value = find_by_id('registrationNumber').text.to_s
+end
+
+And(/^I am in the Expiry period$/) do
+  # Expiry date - 1 day
+  Timecop.travel(Time.now + Rails.configuration.registration_expires_after - 1.day)
 end

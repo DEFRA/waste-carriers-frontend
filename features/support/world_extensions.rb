@@ -4,7 +4,7 @@ module KnowsTheDomain
   end
 
   def my_password
-    @my_password ||= 'Password123'
+    @my_password ||= 'Password123'   # Keep this in-sync with the value in data_creation.rb
   end
 
   def my_unrecognised_postcode
@@ -17,10 +17,6 @@ module KnowsTheDomain
 
   def agency_password
     @agency_password ||= 'Secret123'
-  end
-
-  def carrier_password
-    @carrier_password ||= 'Test1234'
   end
 
   def my_finance_admin_user

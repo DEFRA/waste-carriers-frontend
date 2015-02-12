@@ -8,7 +8,8 @@
 
     <header class="page-header group">
       <div class="hgroup summary-box">
-          <%type = RegistrationsHelper::STATUS_COMPLETE type = RegistrationsHelper::STATUS_ALMOST_COMPLETE unless @registration.paid_in_full?%>
+          <%type = RegistrationsHelper::STATUS_COMPLETE
+          type = RegistrationsHelper::STATUS_ALMOST_COMPLETE unless @registration.paid_in_full?%>
           <div class="completeSummary <%= type %>">
       	  <h1 class="completeSummaryTitle">
         		<%= t'shared.complete_summary.copycard_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
@@ -38,9 +39,9 @@
             <li><%= t '.copyCardDelayNotice' %></p></li>
             <li><p class="panel-indent"><%= t '.copyCardDelayTime' %></p></li>
             <li><p class="heading-with-border"><%= t'registrations.confirmed.survey_html' %><%= t'registrations.confirmed.survey_text' %></p></li>
-            <li><% if current_user %><p><%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), :class => 'button' %></p>
+            <li><% if current_user %><p><%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), id: 'finished_btn', class: 'button' %></p>
               <% else %>
-            <p><%= link_to t('form.finished_button_label'), registrations_path, :class => 'button' %></p>
+            <p><%= link_to t('form.finished_button_label'), registrations_path, id: 'finished_btn', class: 'button' %></p>
               <% end %>
             </li>
           </ul>
