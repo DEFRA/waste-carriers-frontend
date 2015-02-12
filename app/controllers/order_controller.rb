@@ -153,7 +153,7 @@ class OrderController < ApplicationController
             @order.errors.add(:exception, @order.exception.to_s)
 
             # error updating services
-            logger.warn 'The new order was not commited to services.'
+            logger.warn 'The new order was not committed to services.'
             render 'new', :status => '400'
             return
           end
@@ -172,7 +172,11 @@ class OrderController < ApplicationController
         redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
       else
         logger.info "The registration is valid - redirecting to Worldpay..."
-        redirect_to_worldpay(@registration, @order)
+        if test_connection?
+          redirect_to_worldpay(@registration, @order)
+        else
+          render 'new', :status => '400'
+        end
       end
       return
     else
