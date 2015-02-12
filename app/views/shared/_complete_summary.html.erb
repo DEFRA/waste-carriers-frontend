@@ -22,7 +22,7 @@ Note: These values should match styles in the css if needed
     <% elsif @registration.declaredConvictions %>
    		<p class="heading-small"><%= t'registrations.confirmed.summary_ref_number' %></p>
     <% end %>
-			<h3 class="heading-large"><%= @registration.regIdentifier %></h3>
+			<h3 class="heading-large" id="registrationNumber"><%= @registration.regIdentifier %></h3>
 	</div>
 </div>
 <% else %>
