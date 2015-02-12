@@ -59,7 +59,7 @@ When(/^I click to advance$/) do
 end
 
 And(/^I remain on the upper tier business details page$/) do
-  page.should have_content 'Business or organisation details'
+  page.should have_content 'Business details'
 end
 
 Then(/^I proceed to the next wizard step$/) do

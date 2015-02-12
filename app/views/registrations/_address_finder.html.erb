@@ -45,10 +45,13 @@
 
     <% when r.addressMode == 'manual-uk' %>
         <%= render 'uk_address_entry', f: f  %>
-    <a href="?autoUkAddress=true"><%= t '.find_address_using_postcode'%></a>
-
+        <ul>
+            <li><a href="?autoUkAddress=true"><%= t '.find_address_using_postcode'%></a></li>
+        </ul>
     <% when r.addressMode == 'manual-foreign'  %>
         <%= render 'foreign_address_entry', f: f  %>
-    <a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a>
+        <ul>
+            <li><a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a></li>
+        </ul>
     <% end %>
 
