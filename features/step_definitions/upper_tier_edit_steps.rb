@@ -99,47 +99,33 @@ Then(/^I am asked to pay for the edits expecting a full fee$/) do
 end
 
 Then(/^my edit should be complete$/) do
-  page.should have_content 'Your changes have been successful'
-  # Update this once more appropriate content has been created
-  page.should have_content 'Your certificate and guidance have been emailed to'
-  click_button 'finish'
-  # Check routing after clicking finish
-  page.should have_content 'Your registrations'
-  page.should have_content 'Edit Registration'
+  page.find_by_id "ut_complete_or_lower_tier"
+  click_button 'finished_btn'
+  # Check routing after clicking finished
+  page.find_by_id "edit_#{@cucumber_reg_id}"
 end
 
 Then(/^my edit should be awaiting payment$/) do
-  # This is currently registration complete as that is how it works but ideally renewals should state edit complete
-  page.should have_content 'Almost there'
-  # Update this once more appropriate content has been created
-  page.should have_content 'Your certificate and guidance have been emailed to'
-  click_button 'finish'
-  # Check routing after clicking finish
-  page.should have_content 'Your registrations'
-  page.should have_content 'Edit Registration'
+  page.find_by_id "ut_bank_transfer"
+  click_button 'finished_btn'
+  # Check routing after clicking finished
+  page.find_by_id "edit_#{@cucumber_reg_id}"
 end
 
 Then(/^my edit with full fee should be complete$/) do
-  # This is currently registration complete as that is how it works but ideally renewals should state edit complete
   page.should have_content 'Registration complete'
-  # Update this once more appropriate content has been created
-  page.should have_content 'Registration complete'
-  page.should have_content 'Your registration number is'
-  click_button 'finish'
-
+  @new_reg_id = find_by_id('registrationNumber').text.to_s
+  click_button 'finished_btn'
   # Check routing after clicking finish
-  page.should have_content 'Your registrations'
-  page.should have_content 'Edit Registration'
+  page.find_by_id "edit_#{@new_reg_id}"
+  page.should have_content 'ACTIVE'
 end
 
 Then(/^my edit with full fee should be awaiting payment$/) do
-  # This is currently registration complete as that is how it works but ideally renewals should state edit complete
-  page.should have_content 'Almost there'
-  # Update this once more appropriate content has been created
-  page.should have_content 'Your registration number is'
-  page.should have_content 'Please remember to arrange your bank transfer'
-  click_button 'finish'
+  page.should have_content 'Application received'
+  @new_reg_id = find_by_id('registrationNumber').text.to_s
+  click_button 'finished_btn'
   # Check routing after clicking finish
-  page.should have_content 'Your registrations'
+  page.should have_content "#{@new_reg_id}"
   page.should have_content 'PENDING'
 end
