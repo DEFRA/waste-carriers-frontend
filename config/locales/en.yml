@@ -9,7 +9,7 @@ en:
         dob: "Date of birth"
         first_name: "First name"
         last_name: "Last name"
-        position: "Position"
+        position: "Position in organisation"
       metadata:
         anotherString: "Note"
         dateActivated: "Date activated"
@@ -326,7 +326,7 @@ en:
     england: "England"
     footerCopyright_html: "<a href='http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm'>© Crown Copyright</a>"
     footerLicence_html: "All content is available under the <a href='http://www.nationalarchives.gov.uk/doc/open-government-licence/version/2'>Open Government Licence v2.0</a>, except where otherwise stated"
-    footer_privacy_link: "Privacy"
+    footer_privacy_link: "Privacy\ "
     footer_cookies_link: "Cookies"
     headerLinkTitle: "Go to the GOV.UK homepage"
     helpline: "Helpline:\ "
@@ -589,7 +589,7 @@ en:
       subtitle: "These will not be made public"
     newRelevantPeople:
       title: "Relevant people"
-      legend: "Relevant people in your organisation who have been convicted in the last 12 months"
+      legend: "Details of the person with a conviction"
       button_label: "Add another person"
       you_have_added: "You have added the following"
     relevant_person_form:
@@ -609,7 +609,7 @@ en:
       subtitle: "Is this a new registration?"
       title: "New or renew a registration"
       new: "Yes"
-      renew: "No, this is a new registration"
+      renew: "No, I want to renew an existing registration"
   existing_registration:
     show:
       subtitle: "What is your waste carrier registration number"
@@ -618,7 +618,7 @@ en:
       renewal_link: "I don't know my registration number"
       heading: "You can:"
       bullet1: "check your renewal letter (your registration number will be at the top)"
-      bullet2_html: "<a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>look up your registration number online</a>"
+      bullet2_html: "<a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>find your registration number online</a>"
       paragraph: "Call 03708 506506 if you have any problems."
   business_type:
     show:
@@ -663,10 +663,10 @@ en:
       bullet3: "farm or agricultural waste"
   registration_type:
     show:
-      subtitle: "Do you carry the waste yourselves or arrange for other people to transport it?"
+      subtitle: "Do you carry the waste yourselves or arrange for others to do it?"
       title: "Registration type"
       carrier_dealer: "we carry the waste ourselves"
-      broker_dealer: "we arrange for other people to carry it"
+      broker_dealer: "we arrange for others to carry it"
       carrier_broker_dealer: "we do both"
       subtitle_carrier_dealer: "(carrier and dealer)"
       subtitle_broker_dealer: "(broker and dealer)"
@@ -779,20 +779,21 @@ en:
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Business details"
-      legend: "Business or organisation address"
-      legend_limited: "Business or organisation details"
-      legend_public: "Enter your organisation details"
+      legend: "Business or organisation details"
+      legend_limited: "Business details"
+      legend_public: "Business or organisation details"
       name_field: "Business or organisation trading name"
       name_field_limited: "Business trading name"
-      name_field_public: "Public body name"
+      name_field_public: "Business or organisation trading name"
       subtitle: ""
     company_details_finder:
       companies_house_explain: "This is your company registration number"
       companies_house_details_link: "What's this?"
       companies_house_paragraph1: "A Company Registration Number (CRN) is allocated by"
-      companies_house_html: "Companies House:\ "
-      companies_house_paragraph2: "when a limited company is registered. It comprises an 8 digit number or 2 alpha characters followed by a 6 digit number."
-      companies_house_paragraph3: "You will find it on any documentation received from Companies House. If you cannot locate this number please contact your HM Revenue & Customs (HMRC) Corporation Tax Office."
+      companies_house_html: "Companies House"
+      companies_house_paragraph2: "\ when a limited company is registered."
+      companies_house_paragraph3: "It comprises an 8 digit number or 2 letters followed by a 6 digit number."
+      companies_house_paragraph4: "You will find it on any documentation received from Companies House. If you cannot locate this number please contact your HM Revenue & Customs (HMRC) Corporation Tax Office."
       companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
       companies_house_registration_number_not_found: "is not listed by Companies House"
       companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
@@ -808,7 +809,7 @@ en:
     address_postcode_lookup:
       find_address_button: "Find address"
       manual_address_link: "I want to add an address myself"
-      foreign_address_link: "I have an address outside the United Kingdom"
+      foreign_address_link: "The address is outside the United Kingdom"
       postcode: "Postcode"
     newContactDetails:
       step: "Step %{step_x} of %{step_y}"
@@ -817,8 +818,8 @@ en:
       legend: "Contact details"
       subtitle: "These will not be made public"
     convictions_step:
-      title: "Has any owner, partner, manager, director or relevant person had any relevant convictions in the last 12 months?"
-      relevant_convictions_link_text: "What are relevant convictions?"
+      title: "Has anyone involved in managing your organisation been convicted of an environmental offence in the last 12 months?"
+      relevant_convictions_link_text: "Offences you must tell us about"
       relevant_convictions_text: "Relevant convictions are offences that come under"
       relevant_convictions_scrap_1964: "Scrap Metal Dealers Act 1964"
       relevant_convictions_theft_act: "section 1, 8, 9, 10, 11, 17, 18, 22 or 25 of the Theft Act 1968, where the offence relates to scrap metal or is an environment-related offence"
