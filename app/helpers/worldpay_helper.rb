@@ -15,9 +15,11 @@ module WorldpayHelper
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
       res = https.get(uri.path)
-      if res.code == '200'
+      if res.code == '401' || res.code == '200'
+        logger.info 'Worldpay test connection returned ' + res.code.to_s + ' and passed.'
         true
       else
+        logger.info 'Worldpay test connection returned ' + res.code.to_s + ' and failed.'
         @order.errors.add(:exception, 'worldPayConnectionIssue')
         false
       end
@@ -35,7 +37,7 @@ module WorldpayHelper
       redirect_to redirect_url
     end
 
-    # Construct an XML message according to the Worldpay DTD    
+    # Construct an XML message according to the Worldpay DTD
     def create_xml(registration, order)
       merchantCode = worldpay_merchant_code
       orderCode = order.orderCode
@@ -93,7 +95,7 @@ module WorldpayHelper
       uri = URI(test_uri)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
-      headers = 
+      headers =
       {
         "Authorization" => 'Basic ' + Base64.encode64(username + ':' + password).to_s
       }
@@ -108,7 +110,7 @@ module WorldpayHelper
       uri = URI(worldpay_service_uri)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
-      headers = 
+      headers =
       {
         "Authorization" => 'Basic ' + Base64.encode64(username + ':' + password).to_s
       }
@@ -121,13 +123,13 @@ module WorldpayHelper
     def parse_xml(xml)
       doc = Nokogiri::XML(xml)
     end
-    
+
     def send_xml_with_username_password(xml, username, password)
       worldpay_service_uri = Rails.configuration.worldpay_uri
       uri = URI(worldpay_service_uri)
       https = Net::HTTP.new(uri.host,uri.port)
       https.use_ssl = true
-      headers = 
+      headers =
       {
         "Authorization" => 'Basic ' + Base64.encode64(username + ':' + password).to_s
       }
@@ -146,7 +148,7 @@ module WorldpayHelper
         logger.warn 'WORLDPAY::REDIRECT_ERROR - The was a problem redirecting to the payment pages.'
         errorMessage = ''
         begin
-        
+
           #####################################################################################################
           #                                                                                                   #
           # NOTE:                                                                                             #
@@ -154,7 +156,7 @@ module WorldpayHelper
           # on screen, this will (thus far) always be in english and thus not be translatable.                #
           #                                                                                                   #
           #####################################################################################################
-          
+
           errorMessage = doc.at_css('error').text
           logger.warn 'WORLDPAY::REDIRECT_ERROR - errorMessage: ' + errorMessage
         rescue
@@ -191,8 +193,8 @@ module WorldpayHelper
       else
         Rails.configuration.worldpay_ecom_merchantcode
       end
-    end  
-    
+    end
+
     def isMoto? orderMerchantCode
       if orderMerchantCode == Rails.configuration.worldpay_moto_merchantcode
         true
@@ -200,7 +202,7 @@ module WorldpayHelper
         false
       end
     end
-    
+
     def worldpay_xml_username isMoto=nil
       if use_moto? isMoto
         Rails.configuration.worldpay_moto_username
@@ -256,7 +258,7 @@ module WorldpayHelper
       logger.info 'Received response from Worldpay: ' + @response
       @response
     end
-    
+
     # This function effectivly replaces the above function as it passes in the required order information
     def request_refund_from_worldpay(myOrderCode, ordersMerchantCode, myAmount)
       #TODO Get values to be refunded from the registration and/or its relevant payment
@@ -278,7 +280,7 @@ module WorldpayHelper
       logger.info 'Received response from Worldpay: ' + @response
       @response
     end
-    
+
     def responseOk? (responseBody)
       parse_xml(responseBody).css("paymentService reply ok").first.to_s.include?("ok")
     end
@@ -298,7 +300,7 @@ module WorldpayHelper
       xml << "</paymentService>\n"
       xml
     end
-    
+
     def create_cancel_or_refund_request_xml(merchantCode, orderCode)
       xml = "<?xml version=\"1.0\"?>\n"
       xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>\n"
@@ -315,7 +317,7 @@ module WorldpayHelper
     def process_order_notification(notification)
       logger.info "Processing order notification: " + notification.to_s
     end
-    
+
     def use_moto? isMoto
       #
       # REVIEW ME:
