@@ -54,7 +54,7 @@ class PaymentController < ApplicationController
     @payment.currency = getDefaultCurrency
 
     # Set override to validate amount as pounds as came from user screen in pounds not in pence from Worldpay
-	@payment.manualPayment = true
+	  @payment.manualPayment = true
 
     # Check the payment type for a reversal payment type, If found negate the amount
     @payment.negateAmount
