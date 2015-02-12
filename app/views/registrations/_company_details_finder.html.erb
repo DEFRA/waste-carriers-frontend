@@ -7,10 +7,13 @@
     </summary>
     <div style='display:block' class='panel-indent' id='details-content-0' >
       <p><%= t '.companies_house_paragraph1' %>
-        <a href="<%= Rails.configuration.waste_exemplar_companies_house_url %>" target="_blank"><%= t '.companies_house'%></a><a rel="external">
-        </a><%= t '.companies_house_paragraph2' %>
+        <a href="<%= Rails.configuration.waste_exemplar_companies_house_url %>" target="_blank">
+          <%= t '.companies_house'%><a rel="external"></a><%= t '.companies_house_paragraph2' %>
+        </a>
       </p>
+
       <p><%= t '.companies_house_paragraph3' %></p>
+      <p><%= t '.companies_house_paragraph4' %></p>
     </div>
   </details>
   <%= f.text_field :company_no, class: 'form-control-1-2', :size => 35, :maxlength => 10 %>
