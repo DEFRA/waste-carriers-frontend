@@ -1,11 +1,17 @@
 <% if @order.errors.any? %>
 	<% full_messages = one_full_message_per_invalid_attribute(@order) %>
 	<div id="error_explanation" class="validation-summary">
-		<h2 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(full_messages.count, t('registrations.errors.error')) %></h2>
+		<!--<h2 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(full_messages.count, t('registrations.errors.error')) %></h2>-->
 		<% full_messages.each do |msg| %>
-        <ul>
-            <li><a class="error-text" href="#registration_<%= msg %>"><%= msg %></a></li>
-        </ul>
+          <% if msg == 'Services error: worldPayConnectionIssue' %>
+              <ul>
+                <li><%= t 'errors.messages.worldpayErrorConnection_html', :bank_transfer => Rails.configuration.waste_exemplar_services_url + "/your-registration/offline-payment?orderCode=#{@order.orderCode}", :sign_in => Rails.configuration.waste_exemplar_services_url + '/users/sign_in' %></li>
+              </ul>
+          <% else %>
+              <ul>
+                <li><a class="error-text" href="#registration_<%= msg %>"><%= msg %></a></li>
+              </ul>
+          <% end %>
     	<% end %>
 	</div>
 <% end %>
