@@ -42,6 +42,9 @@ if [[ -z "${WCRS_ELASDB_URL_REST}" ]]; then env_alert WCRS_ELASDB_URL_REST; fi
 if [[ -z "${WCRS_REGISTRATION_EXPIRES_AFTER}" ]]; then env_alert WCRS_REGISTRATION_EXPIRES_AFTER; fi
 if [[ -z "${WCRS_REGISTRATION_RENEWAL_WINDOW}" ]]; then env_alert WCRS_REGISTRATION_RENEWAL_WINDOW; fi
 
+##Disable cron job or service will be restarted during deploy
+sudo crontab -u servicecheck /home/servicecheck/off
+
 ## Stop nginx.
 echo "Stopping nginx."
 sudo service nginx stop
@@ -92,6 +95,9 @@ rake db:migrate RAILS_ENV="${WCRS_FRONTEND_RAILS_ENV}"
 ## Start nginx.
 echo "Starting nginx."
 sudo service nginx start
+
+## Re-enable cron job to check services
+sudo crontab -u servicecheck /home/servicecheck/on
 
 ## Test.
 if [ ${WCRS_FRONTEND_RAILS_ENV} != "production" ]; then
