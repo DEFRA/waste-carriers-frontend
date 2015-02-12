@@ -90,11 +90,11 @@ When(/^I click the back link$/) do
 end
 
 Then(/^I end up on the other businesses step$/) do
-  page.should have_content 'Do you ever deal with waste from other businesses'
+  expect(page).to have_xpath("//*[@id = 'registration_otherBusinesses_yes']")
 end
 
 Then(/^I end up on the main service step$/) do
-  page.should have_content 'I produce the waste as part of another service'
+  expect(page).to have_xpath("//*[@id = 'registration_isMainService_yes']")
 end
 
 When(/^I click the back link twice$/) do
@@ -108,5 +108,5 @@ Then(/^I follow the breadcrumb trail$/) do
 end
 
 And(/^I end up on the business type step$/) do
-  page.should have_content 'What type of business'
+  expect(page).to have_xpath("//*[@id = 'registration_businessType_soletrader']")
 end
