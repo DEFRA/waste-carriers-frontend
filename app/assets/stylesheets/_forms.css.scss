@@ -108,7 +108,7 @@ legend {
     -webkit-appearance: none;
     border-radius: 0;
   @include media(mobile) {
-    width: 75%;
+    width: 100%;
   }
 }
 
@@ -283,40 +283,31 @@ legend {
 /* Address look-up */
 
 .postcode-entry {
+  width: 25%;
+  margin-bottom:15px;
+  margin-right:5px;
+  display:inline;
   @include box-sizing(border-box);
-  display: inline-block;
-  vertical-align:top;
-  width: 30%;
-  margin-right: 15px;
     @include media (mobile){
     width:100%;
    }
  }
 
- #sPostcode {
-  width: 100%;
-    @include media(mobile) {
-    width: 75%;
-  }
-}
-
-.find-address-button {
-  @include box-sizing(border-box);
-  width:30%;
-  display: inline-block;
+#find_address {
+  width: 25%;
   vertical-align:top;
-    @include media (mobile){
-    width:100%;
-    margin-top:30px;
-  }
+  @include media (mobile){
+  width:100%;
+ }
 }
 
-.find-address {
-  width:61%;
-  padding: 0.3em 0.6em 0.2em 0.6em;
-    @include media (mobile){
-    width:100%;
-   }
+#sPostcode {
+  width: 24%;
+  margin-bottom:15px;
+  vertical-align:top;
+  @include media (mobile){
+  width:100%;
+ }
 }
 
 .addressSelector {
@@ -328,7 +319,7 @@ legend {
   border: 1px solid $border-colour;
   border-radius: 0;
     @include media(mobile) {
-    width: 75%;
+    width: 100%;
   }
 }
 
