@@ -172,8 +172,9 @@ end
 When(/^I am logged in as waste carrier user '([\w@\.]+)'$/) do | email|
    visit new_user_session_path
    fill_in 'Email', with: email
-   fill_in 'Password', with: carrier_password
+   fill_in 'Password', with: my_password
    click_button 'sign_in'
+   expect(page).to have_xpath("//*[@id = 'external-user-signed-in']")
 end
 
 # TODO AH need to centralise date formatting and get expire date from services

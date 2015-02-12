@@ -1,11 +1,11 @@
 Given(/^The edit link is available$/) do
   page.should have_content 'Edit Registration'
-  page.should have_link('edit_'+@stored_value)
+  page.should have_link("edit_#{@cucumber_reg_id}")
 end
 
-Then(/^I click the edit link for: (.*)$/) do |name|
+Then(/^I click the Edit Registration link$/) do
   # Uses the saved registration ID to find the correct registration to renew
-  click_link 'edit_'+@stored_value
+  click_link "edit_#{@cucumber_reg_id}"
 end
 
 Then(/^I check that no changes have occurred$/) do
