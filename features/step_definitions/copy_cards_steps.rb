@@ -1,6 +1,6 @@
-Given(/^I have selected copy cards option for that registration$/) do
+When(/^I visit the Add Copy Cards page for my registration$/) do
   page.should have_content 'Add copy cards'
-  click_link 'addcopycards_'+@stored_value
+  click_link "addcopycards_#{@cucumber_reg_id}"
 end
 
 When /^I will be prompted to fill in "([^"]*)" with "([^"]*)"$/ do |element, text|
@@ -18,11 +18,11 @@ end
 
 Then(/^I will be shown confirmation of paid order$/) do
   # Payment Checks
-  page.should have_content 'Your order has been sucessful'
+  page.should have_content 'Your order has been successful'
   # Content specific checks
   page.should have_content 'Thank you for your copy card order'
 
-  click_button 'finish'
+  click_link 'finished_btn'
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
 
@@ -31,11 +31,11 @@ end
 
 Then(/^I will be shown confirmation of unpaid order$/) do
   # Payment Checks
-  page.should have_content 'Almost there'
+  page.should have_content 'Almost There'   # TODO: Update this when the page wording is finalised
   # Content specific checks
   page.should have_content 'Thank you for your copy card order'
 
-  click_button 'finish'
+  click_link 'finished_btn'
   # Check routing after clicking finish
   page.should have_content 'Your registrations'
 

@@ -52,4 +52,7 @@ Registrations::Application.configure do
   # require access via www or admin service domain URLs for testing
   config.require_admin_requests = false
 
+  # During testing, don't redirect to an external site on log-out, so we can
+  # use the Rack driver for testing.
+  config.waste_exemplar_end_url = "/"
 end

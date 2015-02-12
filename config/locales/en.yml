@@ -61,7 +61,7 @@ en:
         business_type: "Business type"
         business_or_organisation_address: "Business or organisation address"
         companyName: "Business or organisation trading name"
-        company_no: "Companies House number"
+        company_no: "Company registration number (CN)"
         constructionWaste: "Do you deal with construction waste"
         contactEmail: "Email address"
         copy_cards: "Copy cards"
@@ -606,30 +606,31 @@ en:
       dob_guidance: "For example, 26 5 1976"
   start:
     show:
-      subtitle: "Are you renewing an existing licence?"
+      subtitle: "Is this a new registration?"
       title: "New or renew a registration"
-      renew: "Yes"
-      new: "No, this is a new application"
+      new: "Yes"
+      renew: "No, this is a new registration"
   existing_registration:
     show:
-      subtitle: "Enter your waste carrier registration number"
+      subtitle: "What is your waste carrier registration number"
       title: "Existing registration renewal"
       ir_number_example: "Example: CB/AF7003CS/A001"
-      renewal_link: "I can't find my registration number"
-      paragraph1: "Your registration number starts with the letters 'CB' and can be found at the top of your renewal letter."
-      epr_link_html: "If you don't have your letter to hand search the <a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>Environment Agency Public Register.</a>"
-      paragraph2: "If you have any queries about your registration number, please contact our helpline: 03708 506506 and speak to an advisor."
+      renewal_link: "I don't know my registration number"
+      heading: "You can:"
+      bullet1: "check your renewal letter (your registration number will be at the top)"
+      bullet2_html: "<a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>look up your registration number online</a>"
+      paragraph: "Call 03708 506506 if you have any problems."
   business_type:
     show:
       subtitle: "What type of business or organisation are you?"
       title: "Business type"
-      authority: "Waste collection, disposal or regulation authority"
-      charity: "Charity or voluntary organisation"
+      authority: "Local or regulatory authority"
+      charity: "Charity or non-profit"
       limited_company: "Limited company"
-      other: "Other"
+      other: "I don't know"
       partnership: "Partnership"
       public_body: "Public body"
-      sole_trader: "Sole trader"
+      sole_trader: "Sole trader or individual"
   no_registration:
     show:
       subtitle: "Contact the Environment Agency"
@@ -644,26 +645,29 @@ en:
     show:
       subtitle: "Who produces the waste that you deal with?"
       title: "Service provided"
-      main_service_label: "I produce the waste as part of another service I provide to my customer (e.g. a gardener taking away grass cuttings)"
-      part_of_service_label: "My customer creates the waste - I just collect or move it for them"
+      main_service_label: "We produce the waste as part of another service we provide to our customers (eg a gardener taking away grass cuttings)"
+      part_of_service_label: "Our customers create the waste; we just collect or move it for them"
   construction_demolition:
     show:
-      subtitle: "Do you ever deal with construction or demolition waste?"
+      subtitle: "Do you ever deal with building, construction or demolition waste?"
       title: "Construction or demolition"
-      explanation: "Construction and demolition wastes typically include soils, concrete, bricks, glass, wood, plasterboard, asbestos, metals and plastics."
-      explanation2: "It can be produced as part of a large construction project or a smaller business activity such as a general builder replacing a bathroom or a gardener replacing fence panels and paving slabs."
-      explanation_link: "What is construction and demolition waste?"
+      explanation: "This waste typically includes soil, concrete, bricks, glass, wood, plasterboard, asbestos, metal and plastic."
+      explanation2: "It can be produced as part of a large construction project or a smaller business activity, like  a general builder replacing a bathroom, or a gardener replacing fence panels and paving slabs."
+      explanation_link: "What is building, construction and demolition waste?"
   only_deal_with:
     show:
-      subtitle: "Do you only deal with the following waste: animal by-products, waste from a mine or quarry, or farm or agricultural waste?"
+      subtitle: "Do you only deal with the following waste?"
       title: "Type of waste"
+      bullet1: "animal by-products"
+      bullet2: "waste from a mine or quarry"
+      bullet3: "farm or agricultural waste"
   registration_type:
     show:
       subtitle: "Do you carry the waste yourselves or arrange for other people to transport it?"
       title: "Registration type"
-      carrier_dealer: "We carry the waste ourselves"
-      broker_dealer: "We arrange for other people to carry it"
-      carrier_broker_dealer: "We do both"
+      carrier_dealer: "we carry the waste ourselves"
+      broker_dealer: "we arrange for other people to carry it"
+      carrier_broker_dealer: "we do both"
       subtitle_carrier_dealer: "(carrier and dealer)"
       subtitle_broker_dealer: "(broker and dealer)"
       subtitle_carrier_broker_dealer: "(carrier, broker and dealer)"
@@ -775,8 +779,8 @@ en:
     newBusinessDetails:
       step: "Step %{step_x} of %{step_y}"
       title: "Business details"
-      legend: "Enter your business or organisation address"
-      legend_limited: "Enter your business details"
+      legend: "Business or organisation address"
+      legend_limited: "Business or organisation details"
       legend_public: "Enter your organisation details"
       name_field: "Business or organisation trading name"
       name_field_limited: "Business trading name"
@@ -784,7 +788,11 @@ en:
       subtitle: ""
     company_details_finder:
       companies_house_explain: "This is your company registration number"
-      companies_house_link: "I don't know my Companies House number"
+      companies_house_details_link: "What's this?"
+      companies_house_paragraph1: "A Company Registration Number (CRN) is allocated by"
+      companies_house_html: "Companies House:\ "
+      companies_house_paragraph2: "when a limited company is registered. It comprises an 8 digit number or 2 alpha characters followed by a 6 digit number."
+      companies_house_paragraph3: "You will find it on any documentation received from Companies House. If you cannot locate this number please contact your HM Revenue & Customs (HMRC) Corporation Tax Office."
       companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
       companies_house_registration_number_not_found: "is not listed by Companies House"
       companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
@@ -798,7 +806,7 @@ en:
       manual_address_link: "I want to add an address myself"
       num_addresses_found: "addresses found"
     address_postcode_lookup:
-      find_address_button: "Find UK address"
+      find_address_button: "Find address"
       manual_address_link: "I want to add an address myself"
       foreign_address_link: "I have an address outside the United Kingdom"
       postcode: "Postcode"
@@ -806,7 +814,7 @@ en:
       step: "Step %{step_x} of %{step_y}"
       title: "Contact details"
     contactdetails_step:
-      legend: "Enter your contact details"
+      legend: "Contact details"
       subtitle: "These will not be made public"
     convictions_step:
       title: "Has any owner, partner, manager, director or relevant person had any relevant convictions in the last 12 months?"

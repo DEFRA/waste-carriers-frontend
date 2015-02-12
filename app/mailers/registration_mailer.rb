@@ -1,4 +1,5 @@
 class RegistrationMailer < ActionMailer::Base
+    helper :application
 	helper :registrations
   default from: "registrations@wastecarriersregistration.service.gov.uk"
 
@@ -38,13 +39,6 @@ class RegistrationMailer < ActionMailer::Base
     mail(to: @user.email, subject: subjectMessage,
     	from: email_with_name,
     	reply_to: Rails.configuration.registrations_service_email)
-  end
-
-
-  ## TODO - Replace with helper or decorator
-  def format_date(string)
-    d = string.to_date
-    d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
   end
 
 end
