@@ -7,11 +7,12 @@ Feature: Copy cards
 
 Background:
   Given a "PB_UT_online_complete" upper tier registration paid for by "World Pay" with 3 copy cards
-  And I log in as a Public body
+  
 
-@javascript
-Scenario: Public Body Waste carrier can order copy cards and pay by credit card
-  Given I have selected copy cards option for that registration
+@javascript @quarantine
+Scenario: Public Body Waste carrier can order copy cards and pay by credit card online
+  Given I log in as a Public body
+  And I have selected copy cards option for that registration
   And I have chosen 3 copy cards
   And I choose to pay by credit card
   And I choose to pay by Mastercard
@@ -19,17 +20,17 @@ Scenario: Public Body Waste carrier can order copy cards and pay by credit card
   When I submit my Mastercard detals
   Then I will be shown confirmation of paid order
 
-@quarantine
-Scenario Outline: Pay for copy cards via bank transfer - external
-  Given I have selected copy cards option for that registration
+Scenario Outline: Public Body Waste carrier can order copy cards and pay via bank transfer online
+  Given I log in as a Public body
+  And I have selected copy cards option for that registration
   And I'm on the copy cards payment summary page
   And I will be prompted to fill in "registration_copy_cards" with "<card_number>"
   And I choose pay via electronic transfer ensuring the total amount is <total_charge>
-  And I make a note of the details
-  Then I will be shown confirmation of unpaid order
     Examples:
     | card_number	|	total_charge |
     |	1			      |	5.00		     |
     |	5			      |	25.00		     |
     |	10		      |	50.00		     |
 
+Scenario: Public Body Waste carrier can order copy cards and pay by credit card (AD)
+  Given 
