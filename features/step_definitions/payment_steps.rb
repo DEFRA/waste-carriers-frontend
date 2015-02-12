@@ -81,7 +81,7 @@ And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
   worldpayAmount.should match totalParams
 
   # Continue with Worlpay payment
-  click_on 'MasterCard'
+  click_button 'MasterCard'
 
   fill_in 'Card number', with: '4444333322221111'
   select '12', from: 'cardExp.month'
