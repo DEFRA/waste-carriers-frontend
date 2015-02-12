@@ -11,11 +11,6 @@ module RegistrationsHelper
     end
   end
 
-  def format_date(string)
-    d = string.to_date
-    d.strftime('%A ' + d.mday.ordinalize + ' %B %Y')
-  end
-
   def format_address(model)
     if model.postcode.nil?
       # Print International address
@@ -386,7 +381,7 @@ module RegistrationsHelper
       end
     end
   end
-  
+
   # Returns a string of JSON containing indicators which help Google Analytics identify which route
   # through the site a visitor has taken.  Indicators are only set when their value is known.
   def get_google_analytics_indicators_as_json(session)
@@ -485,18 +480,7 @@ module RegistrationsHelper
     res
   end
 
-  def format_date_as_dd_mm_yyyy registration
-    res = nil
-    if registration.metaData.first
-      if registration.metaData.first.dateActivated
-        da = registration.metaData.first.dateActivated
-        if !da.empty?
-          res = Date.parse(da).strftime("%d/%m/%Y")
-        end
-      end
-    end
-    res
-  end
+  
 
   def proceed_as_upper
     @registration.tier = 'UPPER'

@@ -4,6 +4,7 @@ class Registration < Ohm::Model
   include ActiveModel::Validations
   extend ActiveModel::Naming
   include PasswordHelper
+  include ApplicationHelper
 
   FIRST_STEP = 'newOrRenew'
 
@@ -338,23 +339,7 @@ class Registration < Ohm::Model
     result_hash = {}
     datetime_format = "%Y-%m-%dT%H:%M:%S%z"
     self.attributes.each do |k, v|
-      if (k.to_s.eql? 'expires_on')
-        Rails.logger.debug "#{k} -- #{k.class.to_s} "
-
-        #convert date to millisecs from epoch so that  the Java service can understand it
-        if v.is_a? String
-          Rails.logger.debug "MODELS::REGISTRATION::to_json #{v}"
-          result_hash[k] = DateTime.parse(v).strftime('%Q')
-        elsif v.is_a? DateTime
-          result_hash[k] = v.strftime('%Q')
-        elsif v.is_a? Time
-          result_hash[k] = v.to_i * 1000
-        else
-          result_hash[k] = v
-        end
-      else
-        result_hash[k] = v
-      end
+      result_hash[k] = v
     end
 
     result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
@@ -532,7 +517,7 @@ class Registration < Ohm::Model
       registrations = []
       all_regs = {}
       searchFor = {:q => some_text}
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?q=#{searchFor.to_query}&searchWithin=#{within_field}"
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{searchFor.to_query}&searchWithin=#{within_field}"
       begin
         response = RestClient.get url
         if response.code == 200
@@ -659,9 +644,6 @@ class Registration < Ohm::Model
         case k
         when 'id'
           new_reg.uuid = v
-        when 'expiresOn', 'expires_on'
-          new_reg.expires_on = convert_date(v) if v
-
         when 'address', 'uprn'
           #TODO: do nothing for now, but these API fields are redundant and should be removed
         when 'key_people'
@@ -1097,7 +1079,7 @@ class Registration < Ohm::Model
       if metaData.first.status == 'EXPIRED'
         true
       end
-      if expires_on and expires_on < Time.now
+      if expires_on and convert_date(expires_on) < Time.now
         true
       end
     else
@@ -1126,7 +1108,7 @@ class Registration < Ohm::Model
   end
 
   def about_to_expire?
-    metaData.first.status == 'ACTIVE' && expires_on && (expires_on - Rails.configuration.registration_renewal_window) < Time.now && expires_on  > Time.now
+    metaData.first.status == 'ACTIVE' && expires_on && (convert_date(expires_on) - Rails.configuration.registration_renewal_window) < Time.now && convert_date(expires_on)  > Time.now
   end
 
   def can_be_recreated?

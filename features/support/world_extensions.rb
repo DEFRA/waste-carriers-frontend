@@ -4,7 +4,7 @@ module KnowsTheDomain
   end
 
   def my_password
-    @my_password ||= 'Password123'
+    @my_password ||= 'Password123'   # Keep this in-sync with the value in data_creation.rb
   end
 
   def my_unrecognised_postcode
