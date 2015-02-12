@@ -138,13 +138,12 @@ display: block;
 /* EA Footer ========================================================== */
 
 .ea-footer {
- @include inner-block;
-  @include copy-16;
+  @include inner-block;
+  @include core-16;
 }
 
 .ea-footer li {
- margin-right: $gutter-half;
+  @include core-16;
+  margin-right:10px;
 }
-
-
 

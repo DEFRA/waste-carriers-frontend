@@ -42,7 +42,7 @@ Given(/^I have confirmed my user account$/) do
 end
 
 Given(/^I have finished my registration session$/) do
-  click_button 'finish'
+  click_button 'finished'
 end
 
 When(/^I attempt to access the previous page$/) do

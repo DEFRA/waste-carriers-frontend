@@ -48,7 +48,7 @@ end
 
 And(/^this takes me back to the conviction step$/) do
   click_link 'edit_conviction_declaration'
-  page.should have_content 'any relevant convictions in the last 12 months?'
+  page.should have_content 'environmental offence in the last 12 months?'
 end
 
 But(/^the convictions service says I am suspect$/) do
