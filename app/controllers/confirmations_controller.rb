@@ -1,4 +1,16 @@
 class ConfirmationsController < Devise::ConfirmationsController
+  # Override the normal "create" behaviour, so that we send a customised email
+  # when people who have already confirmed their account request
+  # re-confirmation instructions.
+  def create
+    if (resource_class == User) && resource_params.key?('email')
+      user = User.find_by_email(resource_params['email'])
+      if user && user.confirmed?
+        RegistrationMailer.account_already_confirmed_email(user).deliver
+      end
+    end
+    super
+  end
 
   private
 
@@ -13,7 +25,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     registrations = Registration.find_by_email(@user.email)
     unless registrations.empty?
     
-      sorted = registrations.sort_by { |r| r.date_registered}.reverse!
+      sorted = registrations.sort_by { |r| r.date_registered }.reverse!
       registration = sorted.first
       session[:registration_uuid] = registration.uuid
       
