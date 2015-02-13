@@ -27,11 +27,19 @@
 
 .summary-page .form-group {
   margin-bottom: $gutter;
+    @include media (mobile) {
+    margin-bottom: $gutter-half;
+  }
 }
 
 .summary-page .form-group h2 {
   border-top: 1px solid rgb(191, 193, 195);
   padding-top: $gutter-half;
+}
+
+.end-summary {
+  border-bottom: 1px solid rgb(191, 193, 195);
+  padding-bottom: 45px;
 }
 
 //Declaration section
