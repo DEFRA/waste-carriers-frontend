@@ -119,12 +119,12 @@
           </tr>
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.registration_date' %></td>
-            <td><%= @registration.date_registered.to_s %><%= format_as_ordinal_date_only  @registration.date_registered %></td>
+            <td><%= format_as_ordinal_date_only  @registration.date_registered %></td>
           </tr>
            <% if @registration.upper? %>
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.expiry_date' %></td>
-            <td><%= @registration.expires_on.to_s %> <%= format_as_ordinal_date_only  @registration.expires_on %></td>
+            <td><%= format_as_ordinal_date_only  @registration.expires_on %></td>
           </tr>
             <% end %>
         </tbody>
