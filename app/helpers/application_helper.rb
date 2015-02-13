@@ -48,4 +48,17 @@ module ApplicationHelper
     "GBP"
   end
 
+  # Sets a flag in the session based on the current user type.  Called after a user signs in.
+  # This flag is used by other methods in RegistrationsHelper, and will be removed automatically
+  # when a user logs-out because the session is reset at that point.
+  def set_google_analytics_user_type_indicator(session)
+    session[:ga_user_type] = 'newUser'
+    if user_signed_in?
+      session[:ga_user_type] = 'existingUser'
+    elsif agency_user_signed_in?
+      session[:ga_user_type] = 'agencyUser'
+    elsif admin_signed_in?
+      session[:ga_user_type] = 'adminUser'
+    end
+  end
 end
