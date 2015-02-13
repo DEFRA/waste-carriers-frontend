@@ -382,24 +382,11 @@ module RegistrationsHelper
     end
   end
   
-  # Returns a string indicating the current user type (admin, agency, existing waste carrier or new user).
-  def get_google_analytics_user_type_indicator()
-    userType = 'newUser'
-    if user_signed_in?
-      userType = 'existingUser'
-    elsif agency_user_signed_in?
-      userType = 'agencyUser'
-    elsif admin_signed_in?
-      userType = 'adminUser'
-    end
-    return userType
-  end
-
   # Returns a string of JSON containing indicators which help Google Analytics identify which route
   # through the site a visitor has taken.  Indicators are only set when their value is known.
   def get_google_analytics_indicators_as_json(session)
     result = {}
-    result['user_type']   = get_google_analytics_user_type_indicator()
+    result['user_type']   = session.has_key?(:ga_user_type) ? session[:ga_user_type] : 'newUser'
     result['renewal']     = session[:ga_is_renewal] if session.has_key?(:ga_is_renewal)
     result['tier']        = session[:ga_tier] if session.has_key?(:ga_tier)
     result['convictions'] = session[:ga_convictions] if session.has_key?(:ga_convictions)
