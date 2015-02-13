@@ -172,11 +172,14 @@ class OrderController < ApplicationController
         redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
       else
         logger.info "The registration is valid - redirecting to Worldpay..."
-        if test_connection?
-          redirect_to_worldpay(@registration, @order)
-        else
+
+        response = send_xml(create_xml(@registration, @order))
+        unless response
           render 'new', :status => '400'
+          return
         end
+
+        redirect_to get_redirect_url(parse_xml(response.body))
       end
       return
     else

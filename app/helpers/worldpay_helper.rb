@@ -8,32 +8,6 @@ require 'base64'
 require 'open-uri'
 
 module WorldpayHelper
-  def test_connection?
-    uri = URI(Rails.configuration.worldpay_uri)
-    https = Net::HTTP.new(uri.host, uri.port)
-    https.use_ssl = true
-    res = https.get(uri.path)
-    if res.code == '401' || res.code == '200'
-      true
-    else
-      logger.info "Worldpay connection test returned #{res.code} and failed."
-      @order.errors.add(:exception, 'worldPayConnectionIssue')
-      false
-    end
-  end
-
-    def redirect_to_worldpay(registration, order)
-      xml = create_xml(registration, order)
-      logger.info 'About to contact WorldPay: XML username = ' + worldpay_xml_username
-      logger.info 'WORLDPAY::SEND Worldpay orderCode = ' + order.orderCode.to_s
-      logger.info 'Sending XML to Worldpay: ' + xml
-
-      response = send_xml(xml)
-      logger.info 'WORLDPAY::RESPONSE - Received response from Worldpay: ' + response.body.to_s
-      redirect_url = get_redirect_url(parse_xml(response.body))
-      redirect_to redirect_url
-    end
-
     # Construct an XML message according to the Worldpay DTD
     def create_xml(registration, order)
       merchantCode = worldpay_merchant_code
@@ -86,21 +60,17 @@ module WorldpayHelper
     end
 
     def send_xml(xml)
-      username = worldpay_xml_username
-      password = worldpay_xml_password
-      test_uri = Rails.configuration.worldpay_uri
-      uri = URI(test_uri)
-      https = Net::HTTP.new(uri.host,uri.port)
+      uri = URI(Rails.configuration.worldpay_uri)
+      https = Net::HTTP.new(uri.host, uri.port)
       https.use_ssl = true
-      headers =
-      {
-        "Authorization" => 'Basic ' + Base64.encode64(username + ':' + password).to_s
-      }
-      response = https.post(uri.path, xml, headers)
-
-      response
+      auth = Base64.encode64("#{worldpay_xml_username}:#{worldpay_xml_password}").to_s
+      headers = { "Authorization" => "Basic #{auth}" }
+      res = https.post(uri.path, xml, headers)
+      return res if res.code == '200'
+      logger.info "Worldpay connection returned #{res.code} and failed."
+      @order.errors.add(:exception, 'worldPayConnectionIssue')
+      nil
     end
-
 
     def send_xml_with_username_password(xml, username, password)
       worldpay_service_uri = Rails.configuration.worldpay_uri
