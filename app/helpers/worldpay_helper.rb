@@ -68,6 +68,8 @@ module WorldpayHelper
       res = https.post(uri.path, xml, headers)
       return res if res.code == '200'
       logger.info "Worldpay connection returned #{res.code} and failed."
+      # This error is built using a tag.
+      # The intended message contains html which renders when called from a view
       @order.errors.add(:exception, 'worldPayConnectionIssue')
       nil
     end
