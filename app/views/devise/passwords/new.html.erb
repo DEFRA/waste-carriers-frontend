@@ -24,11 +24,11 @@
 
     <div id="wrapper" data-journey="waste-carriers-registration:forgot-password">
 
-			<div class="form-group">
+			<div class="form-group text">
         <ul>
           <li><%= validation_for(resource, :email) %></li>
 			    <li><%= f.label :email, class: 'form-label' %>
-			    <%= f.email_field :email, :autofocus => true %></li>
+			    <%= f.email_field :email, class: 'form-control-1-2', :autofocus => true %></li>
         </ul>
 			</div>
 			<%= f.submit t('devise.passwords.sendInstructions'), {:class => "button", :id => "send"} %>

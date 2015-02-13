@@ -82,6 +82,11 @@
   float:right;
 }
 
+.currency-container
+.form-control-1-8 {
+  @include core-19;
+}
+
 .payment-copycard-page
 .currency-sign {
   display:inline;
@@ -135,6 +140,8 @@ input#registration_copy_cards {
 .payment-option p {
   @include core-16;
 }
+
+
 
 /* Registration complete page ============================================= */
 

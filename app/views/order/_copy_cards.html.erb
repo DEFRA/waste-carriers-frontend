@@ -4,9 +4,9 @@
         <%= f.label :copy_cards, for: 'registration_copy_card_fee', class: 'form-label' %>
         <div class="currency-container">
         <p class="currency-sign">£</p>
-        <%= f.text_field :copy_card_fee, :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>
-      </div>
-        <%= f.number_field :copy_cards, :min => 0 %>
-          <%= f.label :copy_card_fee, for: 'registration_copy_cards', class: 'form-hint' %>
+        <%= f.text_field :copy_card_fee, class: 'form-control-1-8', :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>
+        </div>
+        <%= f.number_field :copy_cards, class: 'form-control-1-8', :min => 0 %>
+        <%= f.label :copy_card_fee, for: 'registration_copy_cards', class: 'form-hint' %>
     </div>
 </div>

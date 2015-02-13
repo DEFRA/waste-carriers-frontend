@@ -59,7 +59,7 @@
             <%= f.label :total_fee, class: 'form-label' %>
             <div class="currency-container">
             <p class="currency-sign">£</p>
-            <%= f.text_field :total_fee, :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
+            <%= f.text_field :total_fee, class: 'form-control-1-8', :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
           </div>
           </td>
         </tr>
@@ -67,8 +67,6 @@
     </table>
 
     <p class='form-note'><%= t '.total_fee_vat' %></p>
-
-
           <div class="payment-option">
             <input id="worldpay_button" name="continue" id="continue" class="button" type="submit"
                    value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>

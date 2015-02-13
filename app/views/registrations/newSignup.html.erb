@@ -5,9 +5,9 @@
   <main id="content" role="main" class="group">
 
   <div class="back-section">
-    <ol>
+    <ul>
       <li><%= render 'back_link' %></li>
-    </ol>
+    </ul>
   </div>
 
   <%= render 'errors' %>
@@ -19,43 +19,40 @@
     </div>
   </header>
 
-  <div class="inline">
+  <div class="text">
     <ul>
       <li><a href="/your-registration/signin"><%= t '.sign_in_link'%></a></li>
     </ul>
   </div>
 
 	<!-- WF 4.3.4 -->
-	<div id="page4"  data-journey="waste-carriers-registration:signup">
+	<div id="page4" data-journey="waste-carriers-registration:signup">
     <% content_for :page_title, createTitle('.title') %></div>
 		<%= form_for(@registration, :url => newSignup_path, html: {autocomplete: 'off'}) do |f| %>
-        <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_accountEmail">
+
+        <div class="form-group text <%if @registration.errors[:accountEmail].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_accountEmail">
             <%= validation_for(@registration, :accountEmail) %>
             <%= f.label :accountEmail, class: 'form-label' %>
-            <%= f.email_field :accountEmail, :autofocus => true %>
+            <%= f.email_field :accountEmail, class: 'form-control-1-2', :autofocus => true %>
         </div>
-        <div class="form-group <%if @registration.errors[:accountEmail_confirmation].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_accountEmail_confirmation">
+        <div class="form-group text <%if @registration.errors[:accountEmail_confirmation].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_accountEmail_confirmation">
             <%= validation_for(@registration, :accountEmail_confirmation) %>
             <%= f.label :accountEmail_confirmation, class: 'form-label' %>
-            <%= f.email_field :accountEmail_confirmation %>
+            <%= f.email_field :accountEmail_confirmation, class: 'form-control-1-2' %>
         </div>
-        <div class="form-group <%if @registration.errors[:password].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_password">
+        <div class="form-group text <%if @registration.errors[:password].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_password">
             <%= validation_for(@registration, :password) %>
             <%= f.label :password, t('.createPassword'), class: 'form-label' %>
-            <%= f.password_field :password %>
-            <!-- Restored the original strength line for debugging purposes -->
-            <!-- The script currently assumes it should changes all siblings of registration_password to use its class. Which it was at the time.-->
-            <!--<span class="strength_icon none">&#9650;<span class="strength_message"></span></span>-->
             <p class='form-hint text'><%= t '.password_hint' %></p>
+            <%= f.password_field :password, class: 'form-control-1-2' %>
         </div>
 
-        <div class="form-group <%if @registration.errors[:password_confirmation].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_password_confirmation">
+        <div class="form-group text<%if @registration.errors[:password_confirmation].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_password_confirmation">
           <%= validation_for(@registration, :password_confirmation) %>
           <%= f.label :password_confirmation, class: 'form-label' %>
-          <%= f.password_field :password_confirmation %>
+          <%= f.password_field :password_confirmation, class: 'form-control-1-2' %>
+           <div class="block"><%= render 'shared/registration_continue_link' %></div>
         </div>
-
-		 <%= render 'shared/registration_continue_link' %>
 
  	<% end %>
 

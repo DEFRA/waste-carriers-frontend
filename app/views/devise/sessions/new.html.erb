@@ -19,9 +19,7 @@
 
 <div id="wrapper" data-journey="waste-carriers-registration:sign-in"></div>
 
-  <fieldset>
-    <legend></legend>
-
+  <div class="form-group text">
     <% if request.original_url.include? "agency_users/sign_in" %>
       <h2 class="heading-medium"><%= t '.agency_heading' %></h2>
     <% elsif request.original_url.include? "admins/sign_in" %>
@@ -50,14 +48,14 @@
       <div class="form-group<% if alert %> validation<% end %>">
         <ul>
           <li><%= f.label :email, class: 'form-label' %>
-          <%= f.email_field :email, :autofocus => true, :autocomplete => :off %></li>
+          <%= f.email_field :email, class: 'form-control-1-2', :autofocus => true, :autocomplete => :off %></li>
         </ul>
       </div>
 
       <div class="form-group<% if alert %> validation<% end %>">
         <ul>
           <li><%= f.label :password, class: 'form-label' %>
-          <%= f.password_field :password %></li>
+          <%= f.password_field :password, class: 'form-control-1-2' %></li>
         </ul>
       </div>
 
@@ -73,7 +71,7 @@
         <%= f.submit t('shared.current_user.sign_in'), {:class => "button", :id => 'sign_in'} %>
 
       <% end %>
-    </fieldset>
+    </div>
 
   <%= render "devise/shared/links" %>
 
