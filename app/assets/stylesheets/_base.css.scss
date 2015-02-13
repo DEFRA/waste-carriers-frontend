@@ -141,6 +141,13 @@ legend {
   margin-bottom: 0em;
 }
 
+.form-hint {
+  @include media (mobile){
+    box-sizing: border-box;
+    margin-right: 15px;
+  }
+}
+
 .form-note {
   @include copy-16;
   color: $secondary-text-colour;

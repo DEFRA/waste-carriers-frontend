@@ -244,6 +244,11 @@ legend {
   clear:both;
 }
 
+.block {
+  display:block;
+  margin-top: $gutter;
+}
+
 /* Buttons ========================================================== */
 
 .button {
