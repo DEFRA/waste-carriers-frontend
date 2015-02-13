@@ -29,14 +29,12 @@
         <div class="text registration-tier">
           <% unless session[:edit_mode]  %>
             <h2 class="heading-small"><%= t '.tier_aside_heading' %></h2>
-            <div class='form-group'>
               <% if  @registration.tier == 'UPPER' %>
                 <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
               <% else %>
                 <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)}" %>
               <% end %>
               <%= message %>
-              </div>
            <% end %>
 
            <% if session[:edit_mode]  %>
@@ -44,34 +42,34 @@
            <% case  session[:edit_mode] .to_i %>
             <% when RegistrationsController::EditMode::RENEWAL %>
               <h2 class="heading-small"><%= t '.title_renew_reg' %></h2>
-              <div class='form-group'> <%=  t '.subtitle_renew_reg' %> </div>
+              <div class='text'> <%=  t '.subtitle_renew_reg' %> </div>
             <% when RegistrationsController::EditMode::RECREATE %>
               <h2 class="heading-small"><%= t '.title_recreate_reg' %></h2>
-              <div class='form-group'> <%=  t '.subtitle_recreate_reg' %> </div>
+              <div class='text'> <%=  t '.subtitle_recreate_reg' %> </div>
 
             <% when RegistrationsController::EditMode::EDIT %>
               <h2 class="heading-small"><%= t '.title_edit_reg' %></h2>
               <% case  session[:edit_result].to_i %>
               <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE  %>
-                   <div class='form-group'> <%=  t '.subtitle_edit_reg_no_charge' %> </div>
+                   <div class='text'> <%=  t '.subtitle_edit_reg_no_charge' %> </div>
 
               <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
-                    <div class='form-group'> <%=  t '.subtitle_edit_reg_with_charge', :fee => Money.new(Rails.configuration.fee_reg_type_change) %> </div>
+                    <div class='text'> <%=  t '.subtitle_edit_reg_with_charge', :fee => Money.new(Rails.configuration.fee_reg_type_change) %> </div>
 
               <% when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION  %>
-                     <div class='form-group'> <%=  t '.subtitle_edit_reg_new_reg', :fee => Money.new(Rails.configuration.fee_registration) %> </div>
+                     <div class='text'> <%=  t '.subtitle_edit_reg_new_reg', :fee => Money.new(Rails.configuration.fee_registration) %> </div>
 
               <% when  RegistrationsController::EditResult::NO_CHANGES  %>
               <% when RegistrationsController::EditResult::CHANGE_NOT_ALLOWED %>
-                     <div class='form-group'><%= t '.subtitle_edit_change_not_allowed' %></div>
+                     <div class='text'><%= t '.subtitle_edit_change_not_allowed' %></div>
               <% else %>
-                     <div class='form-group'> <%=  t '.subtitle_edit_reg' %> </div>
+                     <div class='text'> <%=  t '.subtitle_edit_reg' %> </div>
               <% end %>
             <% end %>
           <% end %>
         </div><!-- end registration tier -->
 
-    <div class='text form-group'>
+    <div class='text'>
 
     <details class="text">
       <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
@@ -160,7 +158,7 @@
 
         <!-- Convictions section -->
         <% unless @registration.tier.eql?('LOWER') %>
-        <div class='form-group'>
+        <div class='form-group end-summary'>
           <h2 class='heading-medium'><%= t '.convictions_declaration_heading' %></h2>
               <% if @registration.declaredConvictions == 'yes' %>
                 <p><%= t '.have_declared_convictions' %></p>
@@ -172,19 +170,23 @@
         <% end %>
 
         <!-- Declaration section -->
-        <fieldset class="declaration">
-        <legend class='heading-xlarge'><div class="icon-important"><%= image_tag("icon-important.png", {:alt => 'Important'}) %></div><%= t '.declaration_legend' %></legend>
-          <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
-            <ol>
-              <li class="list-bullets"><%= t '.declaration_text1' %></li>
-              <li class='list-bullets'><%= t '.declaration_text2' %></li>
-            </ol>
-            <%= validation_for(@registration, :declaration) %>
-            <label class="block-label" for="registration_declaration">
-            <%= f.check_box :declaration%><%= t '.check_box_label' %>
-            </label>
-          </div>
-        </fieldset><!-- end declaration form-group -->
+          <fieldset>
+          <legend class='heading-xlarge'>
+            <div class="icon-important">
+              <%= image_tag("icon-important.png", {:alt => 'Important message'}) %>
+            </div><%= t '.declaration_legend' %>
+          </legend>
+            <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
+              <ol>
+                <li class="list-bullets"><%= t '.declaration_text1' %></li>
+                <li class='list-bullets'><%= t '.declaration_text2' %></li>
+              </ol>
+              <%= validation_for(@registration, :declaration) %>
+              <label class="block-label" for="registration_declaration">
+              <%= f.check_box :declaration%><%= t '.check_box_label' %>
+              </label>
+            </div>
+          </fieldset><!-- end declaration -->
 
           <!-- Privacy notice -->
           <div class="form-group">
