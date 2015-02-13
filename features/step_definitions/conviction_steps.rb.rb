@@ -35,15 +35,15 @@ When(/^I come to the confirmation step$/) do
 end
 
 Then(/^I see I declared convictions$/) do
-  page.should have_content 'You have declared you have relevant people with convictions'
+  page.should have_content 'You told us you have relevant people with convictions in your business or organisation'
 end
 
 Then(/^I see I did not declare convictions$/) do
-  page.should have_content 'You have declared there are no relevant people with convictions'
+  page.should have_content 'You told us there are no relevant people with convictions in your business or organisation'
 end
 
 Then(/^I see a link to edit my conviction declaration$/) do
-  page.should have_link 'Edit your conviction declaration'
+  page.should have_link 'Edit relevant convictions'
 end
 
 And(/^this takes me back to the conviction step$/) do
