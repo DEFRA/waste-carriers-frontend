@@ -16,20 +16,6 @@
 
 /* Form Elements  ========================================================== */
 
-
-form {
-
-}
-
-fieldset {
-
-}
-
-legend {
-
-}
-
-
 .form-group {
   float: left;
   width: 100%;
@@ -232,6 +218,10 @@ legend {
 .inline .block-label {
   clear: none;
   margin-right: 10px;
+  @include media (mobile){
+    font-size: 16px;
+    margin-right: 0px;
+  }
 }
 
 .inline-block {
@@ -247,6 +237,10 @@ legend {
 .block {
   display:block;
   margin-top: $gutter;
+}
+
+.ea-footer .inline {
+  display: inline;
 }
 
 /* Buttons ========================================================== */
@@ -280,6 +274,16 @@ legend {
     box-sizing: border-box;
     font-size: 19px;
     text-align: center;
+    clear: both;
+    width: 100%;
+    padding: 0.3em 0.6em 0.2em 0.6em;
+  }
+}
+
+input {
+  @include media (mobile){
+    box-sizing: border-box;
+    font-size: 19px;
     clear: both;
     width: 100%;
   }

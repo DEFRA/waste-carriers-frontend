@@ -51,12 +51,12 @@ display: block;
 }
 
 #proposition-menu {
-  position:relative;
-  top:5px;
-  @include media (mobile) {
-    padding-left:$gutter-half;
-    top:-5px;
-  }
+  display:inline;
+  padding-top:5px;
+}
+
+#global-header .header-proposition {
+  padding-top:5px;
 }
 
 /* Phase banner ========================================================== */
