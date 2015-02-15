@@ -1,7 +1,25 @@
 <div class="inner-payment-box">
 	<%= validation_for(@registration, :copy_cards) %>
     <div class='payment-group'>
+
         <%= f.label :copy_cards, for: 'registration_copy_card_fee', class: 'form-label' %>
+        <details class="text">
+        <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="true" role="button">
+        <span class='summary'><%= t 'registrations.form.copy_card_heading' %></span>
+          </summary>
+          <div style='display:block' class='panel-indent' id='details-content-0' >
+          <h2 class="heading-small"><%= t 'registrations.form.copy_card_heading' %></h2>
+            <ul id='copy-card-text'>
+                <li><p><%= t 'registrations.form.copy_card_description' %></p></li>
+                <li class="image-holder"><%= image_tag "copy_card_"+I18n.locale.to_s+".png", :alt => 'Copy card' %>
+                </li>
+                <li class='form-hint'><%= t 'registrations.form.copy_card_caption' %></li>
+                <li><p><%= t 'registrations.form.copy_card_information' %></p></li>
+                <li><p><%= t 'registrations.form.copy_card_text_html' %></p></li>
+            </ul>
+          </div>
+        </details>
+
         <div class="currency-container">
         <p class="currency-sign">£</p>
         <%= f.text_field :copy_card_fee, class: 'form-control-1-8', :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>

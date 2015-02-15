@@ -17,10 +17,6 @@
   </header>
 
   <!-- payment summary section -->
-  <div class="grid-wrapper">
-
-  <div class="grid grid-2-3">
-  <div class="inner-block">
 
     <%= form_for(@registration, :url => :upper_payment, :method => 'post', :html => {:autocomplete => "off"}) do |f| %>
     <% content_for :page_title, createTitle('.title') %>
@@ -29,10 +25,10 @@
     <%= render "shared/registration_errors" %>
     <%= render "order/order_errors" %>
 
-    <table summary='payment-summary' role='presentation' id="payment-summary-table">
+    <table summary='payment-summary' role='presentation' id="payment-summary-table" class="text">
       <thead>
         <tr>
-          <th></th>
+          <td></td>
         </tr>
       </thead>
       <tbody>
@@ -66,39 +62,21 @@
       </tbody>
     </table>
 
-    <p class='form-note'><%= t '.total_fee_vat' %></p>
-          <div class="payment-option">
-            <input id="worldpay_button" name="continue" id="continue" class="button" type="submit"
-                   value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
-            <p class="panel-indent"><%= t '.debit_card_note' %></p>
-          </div>
-
-          <div class="payment-option">
-            <input id="offline_pay_button" name="offline_continue" id="offline_continue" class="button" type="submit"
-                   value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
-            <p class="panel-indent"><%= t '.bank_transfer_note' %></p>
-          </div>
-
-      </div><!-- end inner-block -->
-    </div><!-- end grid-2-3 -->
-
-    <div class="grid grid-1-3">
-      <div class="inner-block related">
-        <div class="inner group related-subsection">
-          <h2 class="heading-small"><%= t '.copy_card_heading' %></h2>
-            <ul id='copy-card-text'>
-              <li><p><%= t '.copy_card_description' %></p></li>
-              <li class="image-holder" alt="<%= t '.copy_card_alt_text' %>"><%= image_tag "copy_card_"+I18n.locale.to_s+".png"%></li>
-              <li><figcaption><%= t '.copy_card_caption' %></figcaption></li>
-              <li class="related"><p><%= t '.copy_card_information' %></p></li>
-              <li><p><%= t '.copy_card_text_html' %></p></li>
-            </ul>
-          <% end %>
-        </div>
+    <fieldset>
+    <legend class='form-note'><%= t '.total_fee_vat' %></legend>
+      <div class="payment-option inline">
+        <input id="worldpay_button" name="continue" id="continue" class="button" type="submit"
+          value="<%= t 'registrations.form.pay_by_worldpay_button_label' %>"/>
+        <p class="panel-indent"><%= t '.debit_card_note' %></p>
       </div>
-    </div><!-- end grid-1-3 -->
 
-    </div><!-- end grid-wrapper -->
+      <div class="payment-option inline">
+        <input id="offline_pay_button" name="offline_continue" id="offline_continue" class="button" type="submit"
+          value="<%= t 'registrations.form.pay_offline_button_label' %>"/>
+        <p class="panel-indent"><%= t '.bank_transfer_note' %></p>
+      </div>
+    </fieldset>
+    <% end %>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->

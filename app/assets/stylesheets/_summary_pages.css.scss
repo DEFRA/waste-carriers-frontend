@@ -101,6 +101,7 @@ input#registration_total_fee {
   display:inline;
   padding: 5px 5px 5px 0px;
   width:4em;
+  color: #0b0c0c;
 }
 
 input#registration_copy_cards {
@@ -108,40 +109,51 @@ input#registration_copy_cards {
 }
 
 #registration_copy_cards {
-  margin-top: $gutter-half;
+  margin-top: 5px;
 }
 
 
 //Copy card image
 
-#copy-card-text li p {
-  @include core-16;
-}
-
 .image-holder img {
-  width:100%;
+  width:60%;
   height:100%;
   padding:0px;
   margin:0px;
   position:relative;
   left:-0.8em;
+  @include media (mobile) {
+    width:60%;
+    height:100%;
+  }
  }
 
 //Payment option buttons
 
 .payment-option {
- display:inline-block;
+ display:block;
  vertical-align: top;
  max-width:15em;
  box-sizing: border-box;
  margin-right:1em;
 }
 
-.payment-option p {
+.payment-option .panel-indent {
+  width: 100%;
   @include core-16;
 }
 
-
+#offline_pay_button,
+#worldpay_button {
+  @include media (mobile){
+    box-sizing: border-box;
+    font-size: 19px;
+    text-align: center;
+    clear: both;
+    width: 125%;
+    padding: 0.3em 0.6em 0.2em 0.6em;
+  }
+}
 
 /* Registration complete page ============================================= */
 
