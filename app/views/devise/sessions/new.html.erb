@@ -13,13 +13,13 @@
 
 <header class="page-header group">
     <div class="hgroup">
-        <h1 class="heading-xlarge"><%= t '.sign_in_heading' %></h1>
+      <h1 class="heading-xlarge"><%= t '.sign_in_heading' %></h1>
     </div>
 </header>
-
+<br />
 <div id="wrapper" data-journey="waste-carriers-registration:sign-in"></div>
 
-  <div class="form-group text">
+  <div class="form-group">
     <% if request.original_url.include? "agency_users/sign_in" %>
       <h2 class="heading-medium"><%= t '.agency_heading' %></h2>
     <% elsif request.original_url.include? "admins/sign_in" %>
@@ -29,9 +29,7 @@
     <% if alert %>
         <div id="error_explanation" class="validation-summary">
             <h2 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(1, t('registrations.errors.error')) %></h2>
-            <ul>
-                <li><a class="error-text" href="#<%= resource_name %>_<%= :email %>"><%= alert %></a></li>
-            </ul>
+              <a class="error-text text" href="#<%= resource_name %>_<%= :email %>"><%= alert %></a>
         </div>
     <% end %>
 
@@ -43,32 +41,27 @@
     </div>
     <% end %>
 
-
     <%= form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:autocomplete => "off"}) do |f| %>
-      <div class="form-group<% if alert %> validation<% end %>">
-        <ul>
-          <li><%= f.label :email, class: 'form-label' %>
-          <%= f.email_field :email, class: 'form-control-1-2', :autofocus => true, :autocomplete => :off %></li>
-        </ul>
-      </div>
+        <div class="form-group<% if alert %> validation<% end %>">
+          <%= f.label :email, class: 'form-label' %>
+          <%= f.email_field :email, class: 'form-control-1-2', :autofocus => true, :autocomplete => :off %>
+        </div>
 
-      <div class="form-group<% if alert %> validation<% end %>">
-        <ul>
-          <li><%= f.label :password, class: 'form-label' %>
-          <%= f.password_field :password, class: 'form-control-1-2' %></li>
-        </ul>
-      </div>
+        <div class="form-group<% if alert %> validation<% end %>">
+          <%= f.label :password, class: 'form-label' %>
+          <%= f.password_field :password, class: 'form-control-1-2' %>
+        </div>
 
       <% if devise_mapping.rememberable? -%>
         <div class="form-group">
-          <ul>
-            <li><%= f.check_box :remember_me %>
-            <%= f.label :remember_me, class: 'form-label' %></li>
-          </ul>
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me, class: 'form-label' %>
         </div>
       <% end -%>
 
-        <%= f.submit t('shared.current_user.sign_in'), {:class => "button", :id => 'sign_in'} %>
+        <div class="form-group">
+          <%= f.submit t('shared.current_user.sign_in'), {:class => "button", :id => 'sign_in'} %>
+        </div>
 
       <% end %>
     </div>
