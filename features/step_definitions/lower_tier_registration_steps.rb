@@ -175,9 +175,9 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   check 'registration_declaration'
   click_button 'confirm'
 
-  fill_in 'Confirm email', with: my_email_address
-  fill_in 'Create password', with: my_password
-  fill_in 'Confirm password', with: my_password
+  fill_in 'registration_accountEmail_confirmation', with: my_email_address
+  fill_in 'registration_password', with: my_password
+  fill_in 'registration_password_confirmation', with: my_password
   click_button 'continue'
 
   sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
