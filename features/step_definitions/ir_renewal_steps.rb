@@ -48,12 +48,12 @@ Given(/^my company name is prepopulated$/) do
 end
 
 Then(/^registration should be complete$/) do
-  page.should have_content 'Registration complete'
+  page.has_text? 'Registration complete'
 end
 
 Then(/^the callers registration should be complete$/) do
-  page.should have_content 'Registration complete'
-  page.should have_content 'has been registered as an upper tier waste carrier'
+  page.has_text? 'Registration complete'
+  page.has_text? 'has been registered as an upper tier waste carrier'
 
   # validate the access code is present and of the correct length
   access_code = page.find_by_id 'accessCode'
@@ -65,7 +65,7 @@ Then(/^registration should be pending convictions checks$/) do
 end
 
 Then(/^the callers registration should be pending convictions checks$/) do
-  page.should have_content 'The applicant declared relevant people with convictions'
+  page.has_text? 'The applicant declared relevant people with convictions'
 
   # validate the access code is present and of the correct length
   access_code = page.find_by_id 'accessCode'
@@ -77,7 +77,7 @@ Then(/^registration should be pending payment$/) do
 end
 
 Then(/^the callers registration should be pending payment$/) do
-  page.should have_content 'Please remind the applicant to arrange a bank transfer'
+  page.has_text? 'Please remind the applicant to arrange a bank transfer'
 
   # validate the access code is present and of the correct length
   access_code = page.find_by_id 'accessCode'
