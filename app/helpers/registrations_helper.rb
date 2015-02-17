@@ -267,7 +267,6 @@ module RegistrationsHelper
     session.delete(:ga_tier)
     session.delete(:ga_convictions)
     session.delete(:ga_payment_method)
-    session.delete(:ga_status_color)
   end
 
   def clear_order_session
@@ -342,20 +341,6 @@ module RegistrationsHelper
     return confirmationType
   end
 
-  # Sets a flag in the session based on the registraiton status (complete, pending, etc), or clears
-  # the flag if this is currently unknown.  Only used by Google Analytics.
-  def set_google_analytics_status_color(session, confirmation_type)
-    session.delete(:ga_status_color)
-    if confirmation_type
-      case confirmation_type
-        when STATUS_COMPLETE, STATUS_COMPLETE_LOWER
-          session[:ga_status_color] = 'complete'
-        when STATUS_ALMOST_COMPLETE, STATUS_CRIMINALLY_SUSPECT
-          session[:ga_status_color] = 'pending'
-      end
-    end
-  end
-
   # Sets a flag in the session indicating how the user wants to pay (bank transfer or credit card), or clears
   # the flag if this is currently unknown.  Only used by Google Analytics.
   def set_google_analytics_payment_indicator(session, order)
@@ -390,7 +375,6 @@ module RegistrationsHelper
     result['tier']        = session[:ga_tier] if session.has_key?(:ga_tier)
     result['convictions'] = session[:ga_convictions] if session.has_key?(:ga_convictions)
     result['payment']     = session[:ga_payment_method] if session.has_key?(:ga_payment_method)
-    result['status']      = session[:ga_status_color] if session.has_key?(:ga_status_color)
     return result.to_json.html_safe
   end
 
