@@ -59,7 +59,7 @@ When(/^I click to advance$/) do
 end
 
 And(/^I remain on the upper tier business details page$/) do
-  page.should have_content 'Business details'
+  page.has_text? 'Business details'
 end
 
 Then(/^I proceed to the next wizard step$/) do
@@ -67,15 +67,15 @@ Then(/^I proceed to the next wizard step$/) do
 end
 
 Then(/^I am told the company is not active$/) do
-  page.should have_content 'does not have active status'
+  page.has_text? 'does not have active status'
 end
 
 Then(/^I am told the company was not found$/) do
-  page.should have_content 'is not listed by Companies House'
+  page.has_text? 'is not listed by Companies House'
 end
 
 Then(/^I am told the company number needs to be filled in$/) do
-  page.should have_content 'Company registration number (CN) must be completed'
+  page.has_text? 'Company registration number (CN) must be completed'
 end
 
 

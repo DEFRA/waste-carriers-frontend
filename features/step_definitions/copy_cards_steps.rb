@@ -39,7 +39,7 @@ When /^I will be prompted to fill in "([^"]*)" with "([^"]*)"$/ do |element, tex
 end
 
 Given(/^I'm on the copy cards payment summary page$/) do
-  page.should have_content 'Copy cards'
+  page.has_text? 'Copy cards'
 end
 
 Then(/^I will be shown confirmation of paid order$/) do
@@ -52,6 +52,6 @@ Then(/^I finish my registration$/) do
 end
 
 When(/^I visit the Add Copy Cards page for my registration$/) do
-  page.should have_content 'Add copy cards'
+  page.has_text? 'Add copy cards'
   click_link "addcopycards_#{@cucumber_reg_id}"
 end

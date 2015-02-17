@@ -7,7 +7,7 @@ When(/^I want to continue with my administration tasks$/) do
 end
 
 Then(/^I am informed that my session has expired$/) do
-  page.should have_content 'Your session has expired'
+  page.has_text? 'Your session has expired'
 end
 
 Given(/^I have started my registration$/) do
@@ -21,7 +21,7 @@ When(/^I try to proceed with my unfinished registration$/) do
 end
 
 Then(/^I can still proceed$/) do
-  page.should have_content 'What type of business or organisation are you?'
+  page.has_text? 'What type of business or organisation are you?'
 end
 
 Given(/^I keep working on my registration for more than (\d+) hours$/) do |number_of_hours|
@@ -31,7 +31,7 @@ end
 
 Then(/^I can continue with my registration$/) do
   visit business_type_path
-  page.should have_content 'What type of business or organisation are you?'
+  page.has_text? 'What type of business or organisation are you?'
 end
 
 Given(/^I am logged in as a waste carrier$/) do
@@ -48,5 +48,5 @@ When(/^I try to continue with my registrations$/) do
 end
 
 Then(/^my waste carrier session has expired$/) do
-  page.should have_content 'Your session has expired'
+  page.has_text? 'Your session has expired'
 end

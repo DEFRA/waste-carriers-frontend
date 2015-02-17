@@ -8,29 +8,29 @@ When(/^somebody visits the ([\w ]+) Sign In page$/) do |user_type|
 end
 
 When(/^enters valid credentials$/) do
-  page.should have_content 'Sign in'
+  page.has_text? 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: my_user.password
   click_button 'sign_in'
 end
 
 Then(/^the user should be logged in successfully$/) do
-  page.should have_content 'Signed in as'
+  page.has_text? 'Signed in as'
 end
 
 When(/^enters invalid credentials$/) do
-  page.should have_content 'Sign in'
+  page.has_text? 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: 'incorrect_password'
   click_button 'sign_in'
 end
 
 Then(/^the user should see a login account unlocked successfully page$/) do
-  page.should have_content 'Your account has been unlocked successfully'
+  page.has_text? 'Your account has been unlocked successfully'
 end
 
 Then(/^the user should see a login error$/) do
-  page.should have_content 'Invalid email or password.'
+  page.has_text? 'Invalid email or password.'
 end
 
 # TODO GM - still need to figure out how to switch between www and admin subdomains in Cucumber
@@ -102,7 +102,7 @@ When(/^the maximum number of invalid login attempts is exceeded for the ([\w ]+)
     fill_in 'Email', with: emailAddress
     fill_in 'Password', with: 'this_is_the_wrong_password'
     click_button 'sign_in'
-    page.should have_content 'Invalid email or password'
+    page.has_text? 'Invalid email or password'
   end
 
   get_database_object_for_user_type(user_type).access_locked?.should == true
@@ -181,10 +181,10 @@ end
 Then(/^my registration Certificate has a correct Expiry Date$/) do
   expectedExpiryDate = Date.today + Rails.configuration.registration_expires_after
   first(:css, '.viewCertificate').click
-  page.should have_content expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
+  page.has_text? expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
 end
 
 Then(/^my registration Certificate does not have an Expiry Date/) do
   first(:css, '.viewCertificate').click
-  page.should_not have_content 'Expiry date of registration (unless revoked)'
+  page.has_no_text? 'Expiry date of registration (unless revoked)'
 end

@@ -1,5 +1,5 @@
 Given(/^The edit link is available$/) do
-  page.should have_content 'Edit Registration'
+  page.has_text? 'Edit Registration'
   page.should have_link("edit_#{@cucumber_reg_id}")
 end
 
@@ -9,8 +9,8 @@ Then(/^I click the Edit Registration link$/) do
 end
 
 Then(/^I check that no changes have occurred$/) do
-  page.should have_content 'Your registrations'
-  page.should have_content 'Edit Registration'
+  page.has_text? 'Your registrations'
+  page.has_text? 'Edit Registration'
 end
 
 Then(/^I change the way we carry waste$/) do
@@ -86,14 +86,14 @@ Then(/^I change the legal entity$/) do
 end
 
 Then(/^I am asked to pay for the edits$/) do
-  page.should have_content 'Payment summary'
+  page.has_text? 'Payment summary'
   # Verify the edit change fee of 40
   Money.new(Rails.configuration.fee_reg_type_change)
   find_by_id('registration_registration_fee').value.should == '40.00'
 end
 
 Then(/^I am asked to pay for the edits expecting a full fee$/) do
-  page.should have_content 'Payment summary'
+  page.has_text? 'Payment summary'
   # Verify the edit change fee of 154
   find_by_id('registration_registration_fee').value.should == Money.new(Rails.configuration.fee_registration).to_s
 end
@@ -113,19 +113,19 @@ Then(/^my edit should be awaiting payment$/) do
 end
 
 Then(/^my edit with full fee should be complete$/) do
-  page.should have_content 'Registration complete'
+  page.has_text? 'Registration complete'
   @new_reg_id = find_by_id('registrationNumber').text.to_s
   click_button 'finished_btn'
   # Check routing after clicking finish
   page.find_by_id "edit_#{@new_reg_id}"
-  page.should have_content 'ACTIVE'
+  page.has_text? 'ACTIVE'
 end
 
 Then(/^my edit with full fee should be awaiting payment$/) do
-  page.should have_content 'Application received'
+  page.has_text? 'Application received'
   @new_reg_id = find_by_id('registrationNumber').text.to_s
   click_button 'finished_btn'
   # Check routing after clicking finish
-  page.should have_content "#{@new_reg_id}"
-  page.should have_content 'PENDING'
+  page.has_text? "#{@new_reg_id}"
+  page.has_text? 'PENDING'
 end

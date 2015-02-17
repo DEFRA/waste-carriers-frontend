@@ -1,7 +1,7 @@
 Given(/^I have logged in as an Environment Agency user$/) do
    visit new_agency_user_session_path
-  page.should have_content 'Sign in'
-  page.should have_content 'Environment Agency login'
+  page.has_text? 'Sign in'
+  page.has_text? 'Environment Agency login'
   fill_in 'Email', with: my_agency_user.email
   fill_in 'Password', with: my_agency_user.password
   click_button 'sign_in'

@@ -35,11 +35,11 @@ When(/^I come to the confirmation step$/) do
 end
 
 Then(/^I see I declared convictions$/) do
-  page.should have_content 'You told us you have relevant people with convictions in your business or organisation'
+  page.has_text? 'You told us you have relevant people with convictions in your business or organisation'
 end
 
 Then(/^I see I did not declare convictions$/) do
-  page.should have_content 'You told us there are no relevant people with convictions in your business or organisation'
+  page.has_text? 'You told us there are no relevant people with convictions in your business or organisation'
 end
 
 Then(/^I see a link to edit my conviction declaration$/) do
@@ -48,7 +48,7 @@ end
 
 And(/^this takes me back to the conviction step$/) do
   click_link 'edit_conviction_declaration'
-  page.should have_content 'environmental offence in the last 12 months?'
+  page.has_text? 'environmental offence in the last 12 months?'
 end
 
 But(/^the convictions service says I am suspect$/) do
@@ -70,5 +70,5 @@ When(/^I come to the final step$/) do
 end
 
 Then(/^I am told my application is being checked$/) do
-  page.should have_content 'Your registration is pending checks.'
+  page.has_text? 'Your registration is pending checks.'
 end
