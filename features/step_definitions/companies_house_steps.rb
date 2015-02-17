@@ -63,7 +63,7 @@ And(/^I remain on the upper tier business details page$/) do
 end
 
 Then(/^I proceed to the next wizard step$/) do
-  page.should_not have_field 'registration_company_no'
+  page.has_no_field? 'registration_company_no'
 end
 
 Then(/^I am told the company is not active$/) do
@@ -80,5 +80,5 @@ end
 
 
 Then(/^I am not asked for my company number$/) do
-  page.should_not have_field 'registration_company_no'
+  page.has_no_field? 'registration_company_no'
 end
