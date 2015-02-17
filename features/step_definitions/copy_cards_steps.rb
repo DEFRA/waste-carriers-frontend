@@ -48,5 +48,10 @@ end
 
 Then(/^I finish my registration$/) do
   # Perform this as it cleans the session variables
-  click_on 'Finish'
+  click_button 'finish'
+end
+
+When(/^I visit the Add Copy Cards page for my registration$/) do
+  page.should have_content 'Add copy cards'
+  click_link "addcopycards_#{@cucumber_reg_id}"
 end
