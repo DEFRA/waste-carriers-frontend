@@ -31,6 +31,3 @@ Scenario Outline: Public Body Waste carrier can order copy cards and pay via ban
     |	1			      |	5.00		     |
     |	5			      |	25.00		     |
     |	10		      |	50.00		     |
-
-Scenario: Public Body Waste carrier can order copy cards and pay by credit card (AD)
-  Given 
