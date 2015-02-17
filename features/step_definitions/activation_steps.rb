@@ -50,16 +50,16 @@ When(/^I attempt to sign in$/) do
    fill_in 'user_email', with: email_address
    fill_in 'user_password', with: my_password
    click_button 'sign_in'
-   page.should have_content 'Your registrations'
+   page.has_text? 'Your registrations'
 end
 
 And(/^I am shown my pending registration$/) do
-  page.should_not have_content 'confirm your account'
-  page.should have_content 'Your reference number is'
+  page.assert_no_text 'confirm your account'
+  page.has_text? 'Your reference number is'
 end
 
 Then(/^my account is successfully activated$/) do
-  page.should have_content 'Your registration number is'
+  page.has_text? 'Your registration number is'
 end
 
 Given(/^I re-request activation for my account$/) do
@@ -79,7 +79,7 @@ Given(/^I re-request activation for my account$/) do
     end
   end
 
-  page.should have_content 'Your account has been activated successfully'
+  page.has_text? 'Your account has been activated successfully'
 
 end
 
@@ -107,16 +107,16 @@ Then(/^I need to request a new confirmation email to activate my account$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'confirmation_link'
-  page.should have_content 'Your registration number is'
+  page.has_text? 'Your registration number is'
 end
 
 Then(/^I am told to confirm my email address$/) do
-  page.should have_content 'confirm your account'
+  page.has_text? 'confirm your account'
 end
 
 Then(/^I am shown my confirmed registration$/) do
-  page.should_not have_content 'confirm your account'
-  page.should have_content 'Your registration number is'
+  page.assert_no_text have_content 'confirm your account'
+  page.has_text? 'Your registration number is'
 end
 
 Then(/^I am not shown how to pay in my confirmation email$/) do
@@ -126,5 +126,5 @@ Then(/^I am not shown how to pay in my confirmation email$/) do
 end
 
 Then(/^I am shown the sign in page$/) do
-  page.should have_content 'Sign in'
+  page.has_text? 'Sign in'
 end
