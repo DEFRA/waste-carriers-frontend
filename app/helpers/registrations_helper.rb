@@ -349,9 +349,9 @@ module RegistrationsHelper
     if confirmation_type
       case confirmation_type
         when STATUS_COMPLETE, STATUS_COMPLETE_LOWER
-          session[:ga_status_color] = 'green'
+          session[:ga_status_color] = 'complete'
         when STATUS_ALMOST_COMPLETE, STATUS_CRIMINALLY_SUSPECT
-          session[:ga_status_color] = 'amber'
+          session[:ga_status_color] = 'pending'
       end
     end
   end
@@ -386,7 +386,6 @@ module RegistrationsHelper
   # through the site a visitor has taken.  Indicators are only set when their value is known.
   def get_google_analytics_indicators_as_json(session)
     result = {}
-    result['user_type']   = session.has_key?(:ga_user_type) ? session[:ga_user_type] : 'newUser'
     result['renewal']     = session[:ga_is_renewal] if session.has_key?(:ga_is_renewal)
     result['tier']        = session[:ga_tier] if session.has_key?(:ga_tier)
     result['convictions'] = session[:ga_convictions] if session.has_key?(:ga_convictions)
