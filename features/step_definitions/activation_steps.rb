@@ -35,7 +35,7 @@ end
 Given(/^I have received an awaiting payment email$/) do
   sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.should have_content 'Application received'
+  current_email.has_text? 'Application received'
 end
 
 When(/^I attempt to sign in$/) do
@@ -44,7 +44,7 @@ When(/^I attempt to sign in$/) do
   fill_in 'user_password', with: my_password
   click_button 'sign_in'
  end
- 
+
  When(/^I log in to the "(.+)" account$/) do |email_address|
    visit new_user_session_path
    fill_in 'user_email', with: email_address
@@ -54,7 +54,7 @@ When(/^I attempt to sign in$/) do
 end
 
 And(/^I am shown my pending registration$/) do
-  page.assert_no_text 'confirm your account'
+  page.has_no_text? 'confirm your account'
   page.has_text? 'Your reference number is'
 end
 
@@ -115,14 +115,14 @@ Then(/^I am told to confirm my email address$/) do
 end
 
 Then(/^I am shown my confirmed registration$/) do
-  page.assert_no_text have_content 'confirm your account'
+  page.has_no_text? have_content 'confirm your account'
   page.has_text? 'Your registration number is'
 end
 
 Then(/^I am not shown how to pay in my confirmation email$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.should_not have_content 'How to pay'
+  current_email.has_no_text? 'How to pay'
 end
 
 Then(/^I am shown the sign in page$/) do

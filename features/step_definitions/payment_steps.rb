@@ -41,7 +41,7 @@ def waitForWorldpayToLoad
 end
 
 And(/^I pay by card$/) do
-  page.should have_content 'Payment summary'
+  page.has_text? 'Payment summary'
 
   click_button 'worldpay_button'
 
@@ -99,7 +99,7 @@ end
 Then(/^I set test simulator page to all okay$/) do
   sleep 3.0
   #By now we should be on the Test Simulator page...
-  page.should have_content 'Secure Test Simulator Page'
+  page.has_text? 'Secure Test Simulator Page'
   find(:css, 'input[src*="makepayment.gif"]').click
 
   # Wait for worldpay redirect to occur
@@ -113,9 +113,9 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   # Wait a period for worldpay to load
   waitForWorldpayToLoad
 
-  page.should have_content 'Secure Payment Page'
+  page.has_text? 'Secure Payment Page'
 
-  page.should have_content 'MasterCard'
+  page.has_text? 'MasterCard'
 
   click_on 'MasterCard'
 
@@ -159,6 +159,6 @@ Then(/^I make a note of the details$/) do
 end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
-  page.should have_content 'Your reference number is'
-  page.should have_content 'Please allow 5 working days for your payment to reach us'
+  page.has_text? 'Your reference number is'
+  page.has_text? 'Please allow 5 working days for your payment to reach us'
 end
