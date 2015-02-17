@@ -83,9 +83,9 @@ Then(/^I am registered as an upper tier waste carrier$/) do
 end
 
 Then(/^I am successfully registered and activated as an upper tier waste carrier$/) do
-  page.should have_content 'Signed in as'
-  page.should have_content 'CBDU'
-  page.should have_content 'ACTIVE'
+  page.has_text? 'Signed in as'
+  page.has_text? 'CBDU'
+  page.has_text? 'ACTIVE'
 end
 
 Then(/^I am registered as an upper tier waste carrier pending conviction checks$/) do
@@ -96,9 +96,9 @@ Then(/^I am registered as an upper tier waste carrier pending conviction checks$
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending conviction checks$/) do
-  page.should have_content 'Signed in as'
-  page.should have_content 'CBDU'
-  page.should have_content 'PENDING'
+  page.has_text? 'Signed in as'
+  page.has_text? 'CBDU'
+  page.has_text? 'PENDING'
 end
 
 Then(/^I am registered as an upper tier waste carrier pending payment$/) do
@@ -109,19 +109,19 @@ Then(/^I am registered as an upper tier waste carrier pending payment$/) do
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending payment$/) do
-  page.should have_content 'Signed in as'
-  page.should have_content 'CBDU'
-  page.should have_content 'PENDING'
+  page.has_text? 'Signed in as'
+  page.has_text? 'CBDU'
+  page.has_text? 'PENDING'
 end
 
 Then(/^I have applied as an upper tier waste carrier$/) do
-  page.should have_content 'Signed in as'
-  page.should have_content 'CBDU'
-  page.should have_content 'PENDING'
+  page.has_text? 'Signed in as'
+  page.has_text? 'CBDU'
+  page.has_text? 'PENDING'
 end
 
 Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do
-  page.should have_content 'Please allow 5 working days for your payment to reach us'
+  page.has_text? 'Please allow 5 working days for your payment to reach us'
 end
 
 And(/^no key people in the organisation have convictions$/) do
