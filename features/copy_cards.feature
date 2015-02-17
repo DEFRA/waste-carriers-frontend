@@ -9,7 +9,7 @@ Background:
   Given a "PB_UT_online_complete" upper tier registration paid for by "World Pay" with 3 copy cards
   
 
-@javascript @quarantine
+@javascript
 Scenario: Public Body Waste carrier can order copy cards and pay by credit card online
   Given I log in as a Public body
   And I have selected copy cards option for that registration
