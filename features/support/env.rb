@@ -19,6 +19,12 @@ Capybara.register_driver(:poltergeist) do |app|
     Capybara::Poltergeist::Driver.new app, options
 end
 
+Capybara.register_driver :selenium do |app|
+  http_client = Selenium::WebDriver::Remote::Http::Default.new
+  http_client.timeout = 180
+  Capybara::Selenium::Driver.new(app, :browser => :chrome, :http_client => http_client)
+end
+
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
 # your application behaves in the production environment, where an error page will
