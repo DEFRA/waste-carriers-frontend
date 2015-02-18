@@ -153,6 +153,9 @@ legend {
   color: $secondary-text-colour;
   margin-top: 0em;
   margin-bottom: $gutter;
+  @include media (mobile){
+    font-size:16px;
+  }
 }
 
 figcaption {

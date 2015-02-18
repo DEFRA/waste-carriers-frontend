@@ -72,7 +72,9 @@ Given(/^I enter new user account details$/) do
 end
 
 And(/^I choose pay via electronic transfer$/) do
-  click_button 'offline_pay_button'
+  choose 'registration_payment_type_bank_transfer'
+  click_button 'proceed_to_payment'
+
   click_button 'continue'
 end
 

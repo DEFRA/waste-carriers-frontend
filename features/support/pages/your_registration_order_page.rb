@@ -3,7 +3,8 @@ module YourRegistrationOrderPage
    fill_in 'registration_copy_cards', with: no_of_cards.to_i
    end
   def your_registration_order_page_pay_by_credit_card()
-   click_button 'worldpay_button'
+    choose 'registration_payment_type_world_pay'
+    click_button 'proceed_to_payment'
   end
 end
 World(YourRegistrationOrderPage)
