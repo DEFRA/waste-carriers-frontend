@@ -102,7 +102,9 @@ group :test, :development do
   gem 'rspec-rails', '~> 2.12'
 
   gem 'capybara', '~> 2.1.0'
-  
+  gem 'selenium-webdriver', '~> 2.44.0'
+  gem 'chromedriver-helper', '~> 0.0.8'
+
   # Required to populate the database with load-test data for Convictions.
   gem 'elasticsearch-persistence', '~> 0.1.6'
 end
