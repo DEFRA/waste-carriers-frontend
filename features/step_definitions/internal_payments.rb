@@ -363,6 +363,10 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   click_button 'continue'
 
   click_link 'manual_uk_address'
+
+  # Needs a sleep here for some reason?, without it, companyName is not filled in generating required error
+  sleep 1
+
   fill_in 'registration_companyName', with: 'PaymentReg'+registrationCount.to_s
   fill_in 'registration_houseNumber', with: '123'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
@@ -384,5 +388,6 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   check 'registration_declaration'
   click_button 'confirm'
 
-  click_button 'worldpay_button'
+  choose 'registration_payment_type_world_pay'
+  click_button 'proceed_to_payment'
 end
