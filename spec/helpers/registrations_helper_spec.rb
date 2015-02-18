@@ -38,37 +38,4 @@ describe RegistrationsHelper do
     end
   end
 
-  describe 'google analytics status colours' do
-    it 'should show as green if complete' do
-      session = {}
-      helper.set_google_analytics_status_color(session, RegistrationsHelper::STATUS_COMPLETE)
-      session[:ga_status_color].should == 'green'
-    end
-
-    it 'should show as green if complete for lower tier' do
-      session = {}
-      helper.set_google_analytics_status_color(session, RegistrationsHelper::STATUS_COMPLETE_LOWER)
-      session[:ga_status_color].should == 'green'
-    end
-
-    it 'should show as amber if almost complete' do
-      session = {}
-      helper.set_google_analytics_status_color(session, RegistrationsHelper::STATUS_ALMOST_COMPLETE)
-      session[:ga_status_color].should == 'amber'
-    end
-
-    it 'should show as amber if criminally suspect' do
-      session = {}
-      helper.set_google_analytics_status_color(session, RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT)
-      session[:ga_status_color].should == 'amber'
-    end
-
-    it 'should show as empty otherwise' do
-      session = {:ga_status_color => 'green'}
-      session.has_key?(:ga_status_color).should be_truthy
-      helper.set_google_analytics_status_color(session, nil)
-      session.has_key?(:ga_status_color).should be_falsey
-    end
-
-  end
 end
