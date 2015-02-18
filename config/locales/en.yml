@@ -1080,6 +1080,7 @@ en:
       organisationType_publicBody: "A public body"
       overpaid_text: "Overpaid by"
       paidInFull_text: "Paid in full"
+      payment_title: "Make a payment"
       pay_by_worldpay_label: "Pay by credit or debit card"
       proceed_to_payment: "Proceed to payment"
       pay_bank_transfer_label: "Pay by bank transfer"
