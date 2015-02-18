@@ -43,7 +43,8 @@ end
 And(/^I pay by card$/) do
   page.should have_content 'Payment summary'
 
-  click_button 'worldpay_button'
+  choose 'registration_payment_type_world_pay'
+  click_button 'proceed_to_payment'
 
   sleep 0.5
 
@@ -66,7 +67,8 @@ And(/^I pay by card$/) do
 end
 
 And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
-  click_button 'worldpay_button'
+  choose 'registration_payment_type_world_pay'
+  click_button 'proceed_to_payment'
 
   sleep 0.5
 
@@ -135,11 +137,13 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
 end
 
 And(/^I choose to pay by bank transfer$/) do
-  click_button 'offline_pay_button'
+  choose 'registration_payment_type_bank_transfer'
+  click_button 'proceed_to_payment'
 end
 
 And(/^I choose pay via electronic transfer ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
-  click_button 'offline_pay_button'
+  choose 'registration_payment_type_bank_transfer'
+  click_button 'proceed_to_payment'
 
   # Build test parameter to compare to offline payment page
   totalParams = '£' + arg1 + '.' + arg2

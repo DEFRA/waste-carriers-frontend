@@ -67,6 +67,7 @@ class Registration < Ohm::Model
   attribute :copy_card_fee
   attribute :copy_cards
   attribute :balance
+  attribute :payment_type
 
   # Non UK address fields
   attribute :streetLine3
@@ -91,7 +92,7 @@ class Registration < Ohm::Model
   attribute :tier
 
   attribute :renewalRequested
-  
+
   attribute :selectedAddress
   attribute :validateSelectedAddress
 
@@ -198,9 +199,9 @@ class Registration < Ohm::Model
     commited = false
     begin
       response = RestClient.post url,
-        to_json,
-        :content_type => :json,
-        :accept => :json
+                                 to_json,
+                                 :content_type => :json,
+                                 :accept => :json
 
       result = JSON.parse(response.body)
 
@@ -276,8 +277,8 @@ class Registration < Ohm::Model
     saved = true
     begin
       response = RestClient.put url,
-        to_json,
-        :content_type => :json
+                                to_json,
+                                :content_type => :json
 
       result = JSON.parse(response.body)
 
@@ -603,9 +604,9 @@ class Registration < Ohm::Model
     def find_by_params(params, options = {})
 
       defaults = {
-        :root_url => "#{Rails.configuration.waste_exemplar_services_url}",
-        :url => "/registrations",
-        :format => ".json"
+          :root_url => "#{Rails.configuration.waste_exemplar_services_url}",
+          :url => "/registrations",
+          :format => ".json"
       }
       options = defaults.merge(options)
 
@@ -642,35 +643,35 @@ class Registration < Ohm::Model
       response_hash.each do |k, v|
 
         case k
-        when 'id'
-          new_reg.uuid = v
-        when 'address', 'uprn'
-          #TODO: do nothing for now, but these API fields are redundant and should be removed
-        when 'key_people'
-          if v && v.size > 0
-            v.each do |person|
-              new_reg.key_people.add KeyPerson.init(person)
+          when 'id'
+            new_reg.uuid = v
+          when 'address', 'uprn'
+            #TODO: do nothing for now, but these API fields are redundant and should be removed
+          when 'key_people'
+            if v && v.size > 0
+              v.each do |person|
+                new_reg.key_people.add KeyPerson.init(person)
+              end
+            end #if
+          when 'metaData'
+            new_reg.metaData.add HashToObject(v, 'Metadata')
+          when 'location'
+            new_reg.location.add HashToObject(v, 'Location')
+          when 'financeDetails'
+            #Rails.logger.debug '-----------------'
+            #Rails.logger.debug 'Create finance details from v: ' + v.to_s
+            #Rails.logger.debug '-----------------'
+            new_reg.finance_details.add FinanceDetails.init(v)
+          when 'conviction_search_result'
+            new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
+          when 'conviction_sign_offs'
+            if v
+              v.each do |sign_off|
+                new_reg.conviction_sign_offs.add ConvictionSignOff.init(sign_off)
+              end
             end
-          end #if
-        when 'metaData'
-          new_reg.metaData.add HashToObject(v, 'Metadata')
-        when 'location'
-          new_reg.location.add HashToObject(v, 'Location')
-        when 'financeDetails'
-          #Rails.logger.debug '-----------------'
-          #Rails.logger.debug 'Create finance details from v: ' + v.to_s
-          #Rails.logger.debug '-----------------'
-          new_reg.finance_details.add FinanceDetails.init(v)
-        when 'conviction_search_result'
-          new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
-        when 'conviction_sign_offs'
-          if v
-            v.each do |sign_off|
-              new_reg.conviction_sign_offs.add ConvictionSignOff.init(sign_off)
-            end
-          end
-        else  #normal attribute'
-          new_reg.send(:update, {k.to_sym => v})
+          else  #normal attribute'
+            new_reg.send(:update, {k.to_sym => v})
         end
       end #each
       new_reg.save
@@ -801,9 +802,10 @@ class Registration < Ohm::Model
   end
 
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
-  
+  validates :payment_type, :presence => true, if: :payment_step?
+
   validate :has_selected_address, if: (:businessdetails_step? && :isAddressLookup?)
-  
+
   def isAddressLookup?
     Rails.logger.debug '>>>>>>> isAddressLookup'
     Rails.logger.debug '>>>>>>> self.validateSelectedAddress: ' + self.validateSelectedAddress.to_s
@@ -813,7 +815,7 @@ class Registration < Ohm::Model
       false
     end
   end
-  
+
   def has_selected_address
     if addressMode == 'address-results'
       if selectedAddress.eql? ''
@@ -977,7 +979,7 @@ class Registration < Ohm::Model
 
   def address_lookup?
     addressMode != 'manual-uk' &&
-      addressMode != 'manual-foreign'
+        addressMode != 'manual-foreign'
   end
 
   def limited_company?
@@ -1043,12 +1045,12 @@ class Registration < Ohm::Model
 
   def limited_company_must_be_active
     case CompaniesHouseCaller.new(company_no).status
-    when :not_found
-      errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_not_found'))
-    when :inactive
-      errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_inactive'))
-    when :error_calling_service
-      errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_service_error'))
+      when :not_found
+        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_not_found'))
+      when :inactive
+        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_inactive'))
+      when :error_calling_service
+        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_service_error'))
     end
   end
 
@@ -1187,12 +1189,12 @@ class Registration < Ohm::Model
 
   def boxClassSuffix
     case metaData.first.status
-    when 'REVOKED'
-      'revoked'
-    when 'PENDING'
-      'pending'
-    else
-      ''
+      when 'REVOKED'
+        'revoked'
+      when 'PENDING'
+        'pending'
+      else
+        ''
     end
   end
 
@@ -1400,7 +1402,7 @@ class Registration < Ohm::Model
       if d
         begin
           res =  Time.at(d / 1000.0)
-          # if d is String the NoMethodError will be raised
+            # if d is String the NoMethodError will be raised
         rescue NoMethodError
           res =  Time.parse(d)
         end
