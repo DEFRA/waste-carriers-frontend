@@ -19,10 +19,10 @@ Scenario: Public Body Waste carrier can order copy cards and pay by credit card 
 Scenario Outline: Public Body Waste carrier can order copy cards and pay via bank transfer online
   Given I log in as a Public body waste carrier
   And I choose to order copy cards for my registration
-  When I order "registration_copy_cards" with "<card_number>" and choose to pay offline
-  Then the total amount is <total_charge>
+  When I order "<no_of_cards>" of copy cards and choose to pay offline
+  Then the total amount is "<total_charge>"
     Examples:
-    | card_number	|	total_charge |
+    | no_of_cards	|	total_charge |
     |	1			      |	5.00		     |
     |	5			      |	25.00		     |
     |	10		      |	50.00		     |

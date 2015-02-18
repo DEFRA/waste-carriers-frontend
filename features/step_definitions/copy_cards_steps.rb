@@ -13,9 +13,9 @@ Given(/^I order and pay for 3 cards with Mastercard$/) do
   secure_test_simulator_page_continue
 end
 
-When /^I order "(.*?)" with "(.*?)" and choose to pay offline$/ do |element, text|
-  fill_in element, with: text
-  click_button 'offline_pay_button'
+When /^I order "(.*?)" of copy cards and choose to pay offline$/ do |text|
+  your_registration_order_page_enter_copy_cards(no_of_cards: text.to_i)
+  your_registration_order_page_pay_by_bank_transfer
 end
 
 Given(/^I choose to order copy cards for my registration$/) do
@@ -26,6 +26,7 @@ Then(/^I will be shown confirmation of paid order$/) do
   payment_copy_cards_complete_check_order
 end
 
-Then(/^the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
-secure_payment_details_page_check_bank_transfer_amount(amount:5)
+Then(/^the total amount is "(.*?)"$/) do |amount|
+secure_payment_details_page_check_bank_transfer_amount(amount: amount)
 end
+

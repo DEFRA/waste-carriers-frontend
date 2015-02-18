@@ -37,7 +37,7 @@ module SecurePaymentDetailsPage
   def secure_payment_details_page_check_bank_transfer_amount(amount: '154.00')
   # Get amount value from bank transfer page
   bankTransferAmount = find(:xpath, '//*[@id="payment-table-wrapper"]/table[1]/tbody/tr[2]/td[2]').text
-  bankTransferAmount.should match "£#{amount}.00"
+  bankTransferAmount.should match "£#{amount}"
   end
 end
 World(SecurePaymentDetailsPage)
