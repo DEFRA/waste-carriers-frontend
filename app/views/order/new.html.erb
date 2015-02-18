@@ -61,24 +61,24 @@
         </tr>
         </tbody>
       </table>
+      <div class="form-note"><%= t '.total_fee_vat' %></div>
 
-      <fieldset>
-        <legend class='form-note'><%= t '.total_fee_vat' %></legend>
+      <fieldset class="text">
+        <legend><%= t 'registrations.form.payment_title' %></legend>
+        <div class="form-group inline">
+          <%= f.label :payment_type, class: 'block-label', for: "registration_payment_type_world_pay" do %>
+            <%= f.radio_button :payment_type, 'world_pay', :checked => true %>
+            <%= t 'registrations.form.pay_by_worldpay_label' %>
+          <% end %>
+          <p class="form-note inline"><%= t '.debit_card_note' %></p>
 
-        <%= f.label :payment_type, for: "registration_payment_type_world_pay" do %>
-          <%= f.radio_button :payment_type, 'world_pay', :checked => true %>
-          <%= t 'registrations.form.pay_by_worldpay_label' %>
-        <% end %>
-        <p><%= t '.debit_card_note' %></p>
-
-        <%= f.label :payment_type, for: "registration_payment_type_bank_transfer" do %>
-          <%= f.radio_button :payment_type, 'bank_transfer' %>
-          <%= t 'registrations.form.pay_bank_transfer_label' %>
-        <% end %>
-        <p><%= t '.bank_transfer_note' %></p>
-
+          <%= f.label :payment_type, class: 'block-label', for: "registration_payment_type_bank_transfer" do %>
+            <%= f.radio_button :payment_type, 'bank_transfer' %>
+            <%= t 'registrations.form.pay_bank_transfer_label' %>
+          <% end %>
+          <p class="form-note inline"><%= t '.bank_transfer_note' %></p>
+        </div>
         <input id="proceed_to_payment" name="proceed_to_payment" class="button" type="submit" value="<%= t 'registrations.form.proceed_to_payment' %>"/>
-
       </fieldset>
     <% end %>
 
