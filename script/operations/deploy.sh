@@ -68,7 +68,7 @@ ln -s "${RELEASE_DIR}" live
 
 ## Deploy the new code.
 echo "Copying new code to ${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/"
-cp -pr ${WCRS_FRONTEND_SOURCE}/* "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/"
+cp -pr ${WCRS_FRONTEND_SOURCE}/. "${WCRS_FRONTEND_HOME}/${RELEASE_DIR}/"
 
 ## Create a backup of the codedrop if on the dev server.
 if [ ! -d "${WCRS_FRONTEND_HOME}/baselines" ]; then
@@ -84,7 +84,7 @@ fi
 ## Bundle
 echo "Installing bundle."
 cd "${WCRS_FRONTEND_HOME}/live"
-rvm use "${WCRS_FRONTEND_RUBY_VERSION}"
+rvm use '2.0.0-p598@waste-exemplar-frontend'
 gem install rails -v '4.0.12'
 bundle clean --force
 bundle install
