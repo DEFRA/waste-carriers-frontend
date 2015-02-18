@@ -69,7 +69,9 @@ class OrderController < ApplicationController
     logger.debug 'renderType session: ' + session[:renderType].to_s
 
     # Determine what kind of payment selected and redirect to other action if required
-    if params[:offline_continue] == I18n.t('registrations.form.pay_offline_button_label')
+    bank_transfer = @registration.payment_type === "bank_transfer"
+
+    if bank_transfer
       @order = prepareOfflinePayment @registration, @renderType
     else
       @order = prepareOnlinePayment @registration, @renderType
@@ -167,7 +169,7 @@ class OrderController < ApplicationController
 
       logger.info "About to redirect to Worldpay/Offline payment"
       set_google_analytics_payment_indicator(session, @order)
-      if params[:offline_continue] == I18n.t('registrations.form.pay_offline_button_label')
+      if bank_transfer
         logger.info "The registration is valid - redirecting to Offline payment page..."
         redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
       else

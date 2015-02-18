@@ -11,11 +11,6 @@ Given(/^I have chosen 3 copy cards$/) do
   your_registration_order_page_enter_copy_cards
 end
 
-Then(/^I can choose to pay by card or electronic transfer$/) do
-  page.has_button?('continue')
-  page.has_button?('offline_continue')
-end
-
 Given(/^I choose to pay by credit card$/) do
   your_registration_order_page_pay_by_credit_card
 end
