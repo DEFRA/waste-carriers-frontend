@@ -85,6 +85,7 @@ group :test do
   gem 'vcr'
   gem 'webmock'
   gem 'faker', '~> 1.4.3'
+  gem 'chromedriver-helper', '~> 0.0.8'
 end
 
 group :development do
@@ -103,7 +104,6 @@ group :test, :development do
 
   gem 'capybara', '~> 2.1.0'
   gem 'selenium-webdriver', '~> 2.44.0'
-  gem 'chromedriver-helper', '~> 0.0.8'
 
   # Required to populate the database with load-test data for Convictions.
   gem 'elasticsearch-persistence', '~> 0.1.6'
