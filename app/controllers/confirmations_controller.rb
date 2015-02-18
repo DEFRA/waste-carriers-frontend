@@ -20,10 +20,10 @@ class ConfirmationsController < Devise::ConfirmationsController
       if registration.tier.eql? 'LOWER'
         goto_page = confirmed_path
       else
-        goto_page = new_user_session_path
+        goto_page = account_confirmed_path
       end
     else
-      flash[:notice] = 'Registration list is empty, Found no registrations for user: ' + @user.email.to_s       
+      flash[:notice] = 'Registration list is empty, Found no registrations for user: ' + @user.email.to_s
       ## todo put here path to sign in page
       goto_page = new_user_session_path
     end
