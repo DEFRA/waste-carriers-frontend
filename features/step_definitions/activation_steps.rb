@@ -62,27 +62,6 @@ Then(/^my account is successfully activated$/) do
   page.should have_content 'Your registration number is'
 end
 
-Given(/^I re-request activation for my account$/) do
-  visit new_user_confirmation_path
-  fill_in 'user_email', with: my_email_address
-  click_button 'resend'
-  sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
-  open_email my_email_address
-  current_email.click_link 'confirmation_link'
-
-  if !page.body.to_s.include?('Your account has been activated successfully')
-    puts '... Waiting 5 seconds for page to load'
-    sleep 5.0
-    if !page.body.to_s.include?('Your account has been activated successfully')
-      puts '... Waiting a further 15 seconds for for page to load'
-      sleep 15.0
-    end
-  end
-
-  page.should have_content 'Your account has been activated successfully'
-
-end
-
 When(/^I activate my account by clicking the link in the activation email$/) do
   open_email my_email_address
   activation_email_found = false
@@ -96,7 +75,8 @@ When(/^I activate my account by clicking the link in the activation email$/) do
     end
   end
 
-  # ... if we didn't find the activation email, produce an error that will be meaningful to Cucumber.
+  # ... if we didn't find the activation email, produce an error that will be
+  # meaningful to Cucumber.
   unless activation_email_found
     current_email.subject.should == 'Verify your email address'
   end

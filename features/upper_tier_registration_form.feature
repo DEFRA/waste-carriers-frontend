@@ -56,9 +56,8 @@ Scenario: Card payment
   And I provide my email address and create a password
   And I pay by card
   And I am registered as an upper tier waste carrier
-  When I re-request activation for my account
-  Then I am shown the sign in page
-  And I attempt to sign in
+  And I activate my account by clicking the link in the activation email
+  When I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
 Scenario: Bank transfer
