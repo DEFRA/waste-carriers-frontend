@@ -128,3 +128,7 @@ end
 Then(/^I am shown the sign in page$/) do
   page.should have_content 'Sign in'
 end
+
+Then(/I am shown the 'email address confirmed' page$/) do
+  page.should have_content 'Email address confirmed'
+end
