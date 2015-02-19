@@ -11,6 +11,9 @@ class ExistingRegistrationController < ApplicationController
     setup_registration 'enterRegNumber'
     return unless @registration
 
+    # Strip off leading/trailing whitespace and force to uppercase
+    @registration.originalRegistrationNumber = formatIRRenewalNumber(@registration.originalRegistrationNumber)
+
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
     if @registration.originalRegistrationNumber.blank?
       # If orignalRegistrationNumber not found, error
