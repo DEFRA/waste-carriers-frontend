@@ -22,8 +22,7 @@ Background:
   Then registration should be complete
   And I remember the registration id
   And I am registered as an upper tier waste carrier
-  When I re-request activation for my account
-  And I am shown the sign in page
+  When I activate my account by clicking the link in the activation email
   And I am in the Expiry period
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
