@@ -89,6 +89,7 @@ gem install rails -v '4.0.12'
 bundle clean --force
 bundle install
 
+
 echo "Migrating database changes, if any."
 rake db:migrate RAILS_ENV="${WCRS_FRONTEND_RAILS_ENV}"
 
