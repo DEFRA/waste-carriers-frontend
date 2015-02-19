@@ -86,7 +86,6 @@ echo "Installing bundle."
 cd "${WCRS_FRONTEND_HOME}/live"
 rvm use '2.0.0-p598@waste-exemplar-frontend'
 gem install rails -v '4.0.12'
-gem install rake -v '10.4.1'
 bundle clean --force
 bundle install
 
