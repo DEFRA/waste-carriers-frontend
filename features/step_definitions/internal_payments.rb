@@ -158,7 +158,7 @@ When(/^I pay the full amount owed$/) do
   amountSummary = page.find_by_id 'amountSummary'
   amountDue = page.find_by_id 'amountDue'
   amountDueWithout = amountDue.text.delete '£'
-  amountSummary.text.should == 'Awaiting payment £' + amountDueWithout
+  amountSummary.has_text? "Awaiting payment £#{amountDueWithout}"
   fill_in 'payment_amount', with: amountDueWithout.to_s
 end
 
@@ -208,7 +208,7 @@ end
 Then(/^payment balance will be (\d+)\.(\d+)$/) do |arg1, arg2|
   balanceDue = page.find_by_id 'balanceDue'
   totalVal = arg1 + '.' + arg2
-  balanceDue.text.should == totalVal
+  balanceDue.has_text? totalVal
 end
 
 
