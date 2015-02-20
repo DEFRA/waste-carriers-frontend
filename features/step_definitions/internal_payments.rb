@@ -17,7 +17,7 @@ end
 def waitForSearchResultsToContainElementWithId(searchParam, elementIdToWaitFor)
   xpathToWaitFor = "//*[@id = '#{elementIdToWaitFor}']"
   waitForSearchResultToPassLambda(searchParam, lambda {|page| page.has_xpath?(xpathToWaitFor) })
-  page.should have_xpath xpathToWaitFor
+  page.has_xpath? xpathToWaitFor
 end
 
 def waitForSearchResultsToContainText(searchParam, textToWaitFor)
