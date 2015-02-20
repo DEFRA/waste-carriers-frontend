@@ -45,12 +45,42 @@ When(/^I attempt to sign in$/) do
   click_button 'sign_in'
  end
 
- When(/^I log in to the "(.+)" account$/) do |email_address|
-   visit new_user_session_path
-   fill_in 'user_email', with: email_address
-   fill_in 'user_password', with: my_password
-   click_button 'sign_in'
+When(/^I log in to the '(.+)' account$/) do |email_address|
+  visit new_user_session_path
+  fill_in 'user_email', with: email_address
+  fill_in 'user_password', with: my_password
+  click_button 'sign_in'
    page.has_text? 'Your registrations'
+end
+
+Then(/^my account should not be locked, and I should be able to log in to my account$/) do
+  User.find_by(email: my_email_address).access_locked?.should == false
+  step "I log in to the '#{my_email_address}' account"
+end
+
+When(/^I request that account confirmation instructions are re-sent for '(.+)'$/) do |email_address|
+  visit new_user_confirmation_path
+  fill_in 'user_email', with: email_address
+  click_button 'resend'
+  sleep 0.5   # Wait for the email to be 'delivered'
+end
+
+Then(/^the inbox for '(.+)' should contain an email stating that the account is already confirmed$/) do |email_address|
+  open_email email_address
+  current_email.should have_content 'already been confirmed'
+  current_email.click_link 'sign_in_link'
+  URI.parse(current_url).path.should == new_user_session_path
+end
+
+When(/^my account becomes locked due to several successive failed sign-in attempts$/) do
+  (Devise.maximum_attempts.to_i + 1).times do
+    visit new_user_session_path
+    fill_in 'Email', with: my_email_address
+    fill_in 'Password', with: 'this_is_the_wrong_password'
+    click_button 'sign_in'
+    page.should have_content 'Invalid email or password'
+  end
+  User.find_by(email: my_email_address).access_locked?.should == true
 end
 
 And(/^I am shown my pending registration$/) do

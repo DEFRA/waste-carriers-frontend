@@ -18,5 +18,10 @@ module ExistingRegistrationPage
   def existing_registration_page_submit
     click_button 'continue'
   end
+
+   def existing_registration_page_enter_limited_company_registration_number(submit: 'true')
+      fill_in 'registration_originalRegistrationNumber', with: 'CB/AE9999XX/A001'
+      existing_registration_page_submit if submit
+  end
 end
 World(ExistingRegistrationPage)
