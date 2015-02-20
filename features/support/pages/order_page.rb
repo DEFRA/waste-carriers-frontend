@@ -10,5 +10,11 @@ module OrderPage
     choose 'registration_payment_type_bank_transfer'
     click_button 'proceed_to_payment'
   end
+
+  def complete_order_pay_check_total_charge(amount:'105.00')
+   totalChargeAmount = find(:xpath, '//*[@id="registration_registration_fee"]').text
+   totalChargeAmount.should match "#{amount}"
+  end
+
 end
 World(OrderPage)

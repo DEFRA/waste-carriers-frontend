@@ -1,14 +1,10 @@
 Given(/^have chosen to renew an existing licence$/) do
    RestClient.post Rails.configuration.waste_exemplar_services_admin_url + '/tasks/ir-repopulate', :content_type => :json, :accept => :json
    visit start_path
+   start_page_select_renew
 end
 
-Given(/^I am renewing a valid CBD IR registration for limited company$/) do
-   choose 'registration_newOrRenew_renew'
-  click_button 'continue'
-  fill_in 'registration_originalRegistrationNumber', with: 'CB/AE8888XX/A001'
-  click_button 'continue'
-end
+
 
 Given(/^I don't change business type$/) do
   click_button 'continue'
@@ -126,11 +122,8 @@ When(/^I change waste carrier type from CD to BD$/) do
   click_button 'continue'
 end
 
-Given(/^I am renewing a valid BD IR registration for limited company$/) do
-   choose 'registration_newOrRenew_renew'
-  click_button 'continue'
-  fill_in 'registration_originalRegistrationNumber', with: 'CB/AE8888XX/A001'
-  click_button 'continue'
+Given(/^I am renewing a valid CBD IR registration for limited company$/) do
+   existing_registration_page_enter_limited_company_registration_number
 end
 
 When(/^I change waste carrier type from BD to CD$/) do
