@@ -26,8 +26,8 @@ end
 
 Then(/^I cannot proceed until I have added a relevant person$/) do
   click_button 'continue'
-  page.should have_content 'error'
-  page.should_not have_content 'Check your details'
+  page.has_text? 'error'
+  page.has_no_text? 'Check your details'
 end
 
 And(/^I click continue$/) do
