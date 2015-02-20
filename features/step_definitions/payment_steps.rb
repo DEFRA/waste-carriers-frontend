@@ -41,7 +41,7 @@ def waitForWorldpayToLoad
 end
 
 And(/^I pay by card$/) do
-  page.should have_content 'Payment summary'
+  page.has_text? 'Payment summary'
 
   choose 'registration_payment_type_world_pay'
   click_button 'proceed_to_payment'
@@ -80,7 +80,7 @@ And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
   # Get amount value from worldpay page
   worldpayAmount = find(:xpath, '//body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/span/b').text
   # Check worldpay site matches expected value
-  worldpayAmount.should match totalParams
+  expect(worldpayAmount).to have_text totalParams
 
   # Continue with Worlpay payment
   click_button 'MasterCard'
@@ -101,7 +101,7 @@ end
 Then(/^I set test simulator page to all okay$/) do
   sleep 3.0
   #By now we should be on the Test Simulator page...
-  page.should have_content 'Secure Test Simulator Page'
+  page.has_text? 'Secure Test Simulator Page'
   find(:css, 'input[src*="makepayment.gif"]').click
 
   # Wait for worldpay redirect to occur
@@ -115,9 +115,9 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   # Wait a period for worldpay to load
   waitForWorldpayToLoad
 
-  page.should have_content 'Secure Payment Page'
+  page.has_text? 'Secure Payment Page'
 
-  page.should have_content 'MasterCard'
+  page.has_text? 'MasterCard'
 
   click_on 'MasterCard'
 
@@ -150,19 +150,19 @@ And(/^I choose pay via electronic transfer ensuring the total amount is (\d+)\.(
   # Get amount value from offline payment page
   offlineAmount = find_by_id('payment-table-wrapper').find(:xpath, '//table[1]/tbody/tr[2]/td[2]').text
   # Check worldpay site matches expected value
-  offlineAmount.should match totalParams
+  expect(offlineAmount).to have_text totalParams
 
 end
 
 Then(/^I make a note of the details$/) do
-  page.text.should match /CBDU\d+/
-  page.text.should match /Sort code/
-  page.text.should match /Account number/
+  page.has_text? /CBDU\d+/
+  page.has_text? /Sort code/
+  page.has_text? /Account number/
 
   click_button 'continue'
 end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
-  page.should have_content 'Your reference number is'
-  page.should have_content 'Please allow 5 working days for your payment to reach us'
+  page.has_text? 'Your reference number is'
+  page.has_text? 'Please allow 5 working days for your payment to reach us'
 end

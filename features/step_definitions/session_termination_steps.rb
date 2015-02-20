@@ -50,11 +50,11 @@ When(/^I attempt to access the previous page$/) do
 end
 
 Then(/^my registration data is not shown anymore$/) do
-  page.should have_content 'You may have mistyped the address or the page may have moved'
+  page.has_text? 'You may have mistyped the address or the page may have moved'
 end
 
 Then(/^I am informed that I have to login again to change my registration$/) do
-  page.should have_content "Sorry you can't make changes"
+  page.has_text? "Sorry you can't make changes"
 end
 
 When(/^I attempt to access the confirmation page$/) do

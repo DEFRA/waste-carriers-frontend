@@ -73,8 +73,8 @@ Then(/^I should be shown the total cost "(.*?)"$/) do |amount|
 end
 
 Then(/^have the option to pay by Credit or Debit card or by bank transfer$/) do
-  page.should have_button 'worldpay_button'
-  page.should have_button 'offline_pay_button'
+  page.has_button? 'worldpay_button'
+  page.has_button? 'offline_pay_button'
 end
 
 Given(/^I am renewing a valid IR registration for sole trader$/) do

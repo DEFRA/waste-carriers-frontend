@@ -35,7 +35,7 @@ end
 Given(/^I have received an awaiting payment email$/) do
   sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.should have_content 'Application received'
+  current_email.has_text? 'Application received'
 end
 
 When(/^I attempt to sign in$/) do
@@ -44,17 +44,17 @@ When(/^I attempt to sign in$/) do
   fill_in 'user_password', with: my_password
   click_button 'sign_in'
  end
- 
+
 When(/^I log in to the '(.+)' account$/) do |email_address|
   visit new_user_session_path
   fill_in 'user_email', with: email_address
   fill_in 'user_password', with: my_password
   click_button 'sign_in'
-  page.should have_content 'Your registrations'
+   page.has_text? 'Your registrations'
 end
 
 Then(/^my account should not be locked, and I should be able to log in to my account$/) do
-  User.find_by(email: my_email_address).access_locked?.should == false
+  expect(User.find_by(email: my_email_address).access_locked?).to be false
   step "I log in to the '#{my_email_address}' account"
 end
 
@@ -67,9 +67,9 @@ end
 
 Then(/^the inbox for '(.+)' should contain an email stating that the account is already confirmed$/) do |email_address|
   open_email email_address
-  current_email.should have_content 'already been confirmed'
+  current_email.has_text? 'already been confirmed'
   current_email.click_link 'sign_in_link'
-  URI.parse(current_url).path.should == new_user_session_path
+  expect(URI.parse(current_url).path).to have_text new_user_session_path
 end
 
 When(/^my account becomes locked due to several successive failed sign-in attempts$/) do
@@ -78,18 +78,18 @@ When(/^my account becomes locked due to several successive failed sign-in attemp
     fill_in 'Email', with: my_email_address
     fill_in 'Password', with: 'this_is_the_wrong_password'
     click_button 'sign_in'
-    page.should have_content 'Invalid email or password'
+    page.has_text? 'Invalid email or password'
   end
-  User.find_by(email: my_email_address).access_locked?.should == true
+  expect(User.find_by(email: my_email_address).access_locked?).to be true
 end
 
 And(/^I am shown my pending registration$/) do
-  page.should_not have_content 'confirm your account'
-  page.should have_content 'Your reference number is'
+  page.has_no_text? 'confirm your account'
+  page.has_text? 'Your reference number is'
 end
 
 Then(/^my account is successfully activated$/) do
-  page.should have_content 'Your registration number is'
+  page.has_text? 'Your registration number is'
 end
 
 When(/^I activate my account by clicking the link in the activation email$/) do
@@ -108,7 +108,7 @@ When(/^I activate my account by clicking the link in the activation email$/) do
   # ... if we didn't find the activation email, produce an error that will be
   # meaningful to Cucumber.
   unless activation_email_found
-    current_email.subject.should == 'Verify your email address'
+    current_email.subject.has_text? 'Verify your email address'
   end
 end
 
@@ -117,28 +117,28 @@ Then(/^I need to request a new confirmation email to activate my account$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'confirmation_link'
-  page.should have_content 'Your registration number is'
+  page.has_text? 'Your registration number is'
 end
 
 Then(/^I am told to confirm my email address$/) do
-  page.should have_content 'confirm your account'
+  page.has_text? 'confirm your account'
 end
 
 Then(/^I am shown my confirmed registration$/) do
-  page.should_not have_content 'confirm your account'
-  page.should have_content 'Your registration number is'
+  page.has_no_text? have_content 'confirm your account'
+  page.has_text? 'Your registration number is'
 end
 
 Then(/^I am not shown how to pay in my confirmation email$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.should_not have_content 'How to pay'
+  current_email.has_no_text? 'How to pay'
 end
 
 Then(/^I am shown the sign in page$/) do
-  page.should have_content 'Sign in'
+  page.has_text? 'Sign in'
 end
 
 Then(/I am shown the 'email address confirmed' page$/) do
-  page.should have_content 'Email address confirmed'
+  page.has_text? 'Email address confirmed'
 end
