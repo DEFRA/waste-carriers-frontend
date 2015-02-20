@@ -1,4 +1,4 @@
-Feature: IR registrationss with edits
+Feature: IR registrations with edits
 
   As a waste carrier
   I want to be able to renew my ir registration
@@ -14,7 +14,7 @@ Background:
   And I provide my personal contact details
   And I enter the details of the business owner
 
-@javascript
+@javascript @wip
 Scenario: IR registrations changed business type causing full fee, No convictions, Online payment
   Given no key people in the organisation have convictions
   And I check the declaration
@@ -22,8 +22,7 @@ Scenario: IR registrations changed business type causing full fee, No conviction
   And I pay by card ensuring the total amount is 154.00
   And I am registered as an upper tier waste carrier
   Then registration should be complete
-  When I re-request activation for my account
-  Then I am shown the sign in page
+  When I activate my account by clicking the link in the activation email
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
@@ -36,6 +35,5 @@ Scenario: IR registrations changed business type causing full fee, No Conviction
   And I am registered as an upper tier waste carrier pending payment
   Then registration should be pending payment
   When I activate my account by clicking the link in the activation email
-  Then I am shown the sign in page
   And I attempt to sign in
   Then I am registered and activated as an upper tier waste carrier pending payment
