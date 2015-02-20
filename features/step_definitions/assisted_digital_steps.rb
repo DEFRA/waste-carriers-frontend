@@ -56,7 +56,7 @@ Then(/^the print page contains the six-digit access code for the user$/) do
   click_link 'view_certificate'
 
   access_code = page.find_by_id 'accessCode'
-  access_code.text.length.should == 6
+  expect(access_code.text.length).to eq(6)
 end
 
 When(/^I create a lower tier registration on behalf of a caller$/) do

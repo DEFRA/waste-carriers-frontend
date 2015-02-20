@@ -89,13 +89,13 @@ Then(/^I am asked to pay for the edits$/) do
   page.has_text? 'Payment summary'
   # Verify the edit change fee of 40
   Money.new(Rails.configuration.fee_reg_type_change)
-  find_by_id('registration_registration_fee').value.should == '40.00'
+  expect(find_by_id('registration_registration_fee').value).to have_text '40.00'
 end
 
 Then(/^I am asked to pay for the edits expecting a full fee$/) do
   page.has_text? 'Payment summary'
   # Verify the edit change fee of 154
-  find_by_id('registration_registration_fee').value.should == Money.new(Rails.configuration.fee_registration).to_s
+  expect(find_by_id('registration_registration_fee').value).to have_text Money.new(Rails.configuration.fee_registration).to_s
 end
 
 Then(/^my edit should be complete$/) do

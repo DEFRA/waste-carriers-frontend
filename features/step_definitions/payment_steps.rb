@@ -80,7 +80,7 @@ And(/^I pay by card ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
   # Get amount value from worldpay page
   worldpayAmount = find(:xpath, '//body/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr[1]/td[2]/form/table/tbody/tr/td/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/span/b').text
   # Check worldpay site matches expected value
-  worldpayAmount.should match totalParams
+  expect(worldpayAmount).to have_text totalParams
 
   # Continue with Worlpay payment
   click_button 'MasterCard'
@@ -150,14 +150,14 @@ And(/^I choose pay via electronic transfer ensuring the total amount is (\d+)\.(
   # Get amount value from offline payment page
   offlineAmount = find_by_id('payment-table-wrapper').find(:xpath, '//table[1]/tbody/tr[2]/td[2]').text
   # Check worldpay site matches expected value
-  offlineAmount.should match totalParams
+  expect(offlineAmount).to have_text totalParams
 
 end
 
 Then(/^I make a note of the details$/) do
-  page.text.should match /CBDU\d+/
-  page.text.should match /Sort code/
-  page.text.should match /Account number/
+  page.has_text? /CBDU\d+/
+  page.has_text? /Sort code/
+  page.has_text? /Account number/
 
   click_button 'continue'
 end

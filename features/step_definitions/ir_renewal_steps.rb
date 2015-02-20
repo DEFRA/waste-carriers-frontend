@@ -57,7 +57,7 @@ Then(/^the callers registration should be complete$/) do
 
   # validate the access code is present and of the correct length
   access_code = page.find_by_id 'accessCode'
-  access_code.text.length.should == 6
+  expect(access_code.text.length).to eq(6)
 end
 
 Then(/^registration should be pending convictions checks$/) do
@@ -69,7 +69,7 @@ Then(/^the callers registration should be pending convictions checks$/) do
 
   # validate the access code is present and of the correct length
   access_code = page.find_by_id 'accessCode'
-  access_code.text.length.should == 6
+  expect(access_code.text.length).to eq(6)
 end
 
 Then(/^registration should be pending payment$/) do
@@ -81,5 +81,5 @@ Then(/^the callers registration should be pending payment$/) do
 
   # validate the access code is present and of the correct length
   access_code = page.find_by_id 'accessCode'
-  access_code.text.length.should == 6
+  expect(access_code.text.length).to eq(6)
 end
