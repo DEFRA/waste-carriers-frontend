@@ -122,7 +122,7 @@ And(/^I provide my email address and create a password$/) do
 end
 
 When(/^I confirm account creation via email$/) do
-  sleep 3.0 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  sleep 0.5 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   #current_email.save_and_open      # Useful for debugging email content
   current_email.click_link 'confirmation_link'

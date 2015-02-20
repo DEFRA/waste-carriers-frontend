@@ -1476,3 +1476,10 @@ en:
       subtitle: "Summary"
       title: "Summary"
       use_your_information_link: "How we use your personal information"
+  pages:
+    account_confirmed:
+      title: 'Email address confirmed'
+      paragraph1: 'Thank you for confirming your email address.'
+      paragraph2: 'You can use your email address and password to sign-in to your Waste Carriers Registration account in the future, if you need to change any of your details.'
+      paragraph3: 'If you have not already done so, we recommend that you finish your Waste Carriers Registration request now, before signing in for the first time.'
+      paragraph4: 'You can now close this page.'
