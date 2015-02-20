@@ -48,3 +48,11 @@ Feature: Email confirmation
      When the inbox for 'st_lt@example.org' is emptied now as part of this test
       And I request that account confirmation instructions are re-sent for 'st_lt@example.org'
      Then the inbox for 'st_lt@example.org' should contain an email stating that the account is already confirmed
+     
+  Scenario: If a new user locks their account before confirming their email address, confirming their address should also unlock their account
+    Given I have gone through the lower tier waste carrier process
+     When my account becomes locked due to several successive failed sign-in attempts
+      And I activate my account by clicking the link in the activation email
+     Then I am shown my confirmed registration
+      And my account should not be locked, and I should be able to log in to my account
+    

@@ -15,6 +15,9 @@ class ConfirmationsController < Devise::ConfirmationsController
   private
 
   def after_confirmation_path_for(resource_name, resource)
+    # In case the account has been locked prior to confirmation, unlock it now.
+    @user.unlock_access!
+
     Registration.activate_registrations(resource)
 
     # Temporarily storing the confirmed user in the session to be picked up from
