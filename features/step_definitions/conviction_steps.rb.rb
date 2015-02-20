@@ -43,7 +43,7 @@ Then(/^I see I did not declare convictions$/) do
 end
 
 Then(/^I see a link to edit my conviction declaration$/) do
-  page.should have_link 'Edit relevant convictions'
+  page.has_link? 'Edit relevant convictions'
 end
 
 And(/^this takes me back to the conviction step$/) do

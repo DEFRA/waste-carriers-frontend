@@ -1,6 +1,6 @@
 Given(/^The edit link is available$/) do
   page.has_text? 'Edit Registration'
-  page.should have_link("edit_#{@cucumber_reg_id}")
+  page.has_link? "edit_#{@cucumber_reg_id}"
 end
 
 Then(/^I click the Edit Registration link$/) do
@@ -14,7 +14,7 @@ Then(/^I check that no changes have occurred$/) do
 end
 
 Then(/^I change the way we carry waste$/) do
-  page.should have_link('changeRegistrationType')
+  page.has_link? 'changeRegistrationType'
   click_link 'changeRegistrationType'
   # Change type to different registration type assuming this is different from original
   choose 'registration_registrationType_carrier_broker_dealer'
@@ -22,7 +22,7 @@ Then(/^I change the way we carry waste$/) do
 end
 
 Then(/^I change the legal entity$/) do
-  page.should have_link('changeSmartAnswers')
+  page.has_link? 'changeSmartAnswers'
   click_link 'changeSmartAnswers'
 
   # The following pages are shown if Partner now selected
