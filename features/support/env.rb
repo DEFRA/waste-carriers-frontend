@@ -13,10 +13,16 @@ require 'capybara/poltergeist'
 # Capybara.default_selector = :xpath
 
 Capybara.javascript_driver = :poltergeist
-options = { js_errors: false, timeout: 180, phantomjs_logger: StringIO.new, logger: nil, phantomjs_options: ['--load-images=yes', '--ignore-ssl-errors=yes'] }
+options = { js_errors: false, timeout: 30, phantomjs_logger: StringIO.new, logger: nil, phantomjs_options: ['--load-images=yes', '--ignore-ssl-errors=yes'] }
 
 Capybara.register_driver(:poltergeist) do |app|
     Capybara::Poltergeist::Driver.new app, options
+end
+
+Capybara.register_driver :selenium do |app|
+  http_client = Selenium::WebDriver::Remote::Http::Default.new
+  http_client.timeout = 30
+  Capybara::Selenium::Driver.new(app, :browser => :chrome, :http_client => http_client)
 end
 
 # By default, any exception happening in your Rails application will bubble up

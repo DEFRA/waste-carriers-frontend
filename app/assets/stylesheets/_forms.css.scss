@@ -208,7 +208,7 @@
 .inline {
   @include media (mobile){
     box-sizing: border-box;
-    font-size: 19px;
+    font-size: 16px;
     clear: both;
     margin: 0em 0em 1.1em 0em;
     width: 100%;
@@ -251,6 +251,27 @@
     float: none;
     clear: left;
     position: relative;
+}
+
+/* the following two classes style buttons as links.
+this is only intended as a temporary work around until a proper fix for multiple primary buttons is found */
+.link-button {
+  background: none;
+  border: none;
+  color: #005ea5;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: "nta", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.25;
+  font-weight: 400;
+  text-transform: none;
+  padding: 0;
+  position: relative;
+  top: -4em;
+}
+.link-button:focus {
+  outline: none;
 }
 
 .button-secondary {

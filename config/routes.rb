@@ -22,6 +22,9 @@ Registrations::Application.routes.draw do
 
     get "home/index"
     get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
+    
+    # Static pages controller
+    get '/account_confirmed' => 'pages#account_confirmed'
 
     # Add routing for Public Search
     get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public

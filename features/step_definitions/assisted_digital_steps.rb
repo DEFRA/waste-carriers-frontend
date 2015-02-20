@@ -129,7 +129,9 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
 
   check 'registration_declaration'
   click_button 'confirm'
-  click_button 'worldpay_button'
+
+  choose 'registration_payment_type_world_pay'
+  click_button 'proceed_to_payment'
 end
 
 When(/^I create an upper tier registration on behalf of a caller who wants to pay offline$/) do
@@ -175,7 +177,8 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
   check 'registration_declaration'
   click_button 'confirm'
 
-  click_button 'offline_pay_button'
+  choose 'registration_payment_type_bank_transfer'
+  click_button 'proceed_to_payment'
 end
 
 And(/^the lower tier waste carrier registration id$/) do

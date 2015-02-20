@@ -64,7 +64,8 @@ When(/^I come to the final step$/) do
   fill_in 'registration_password_confirmation', with: my_password
   click_button 'continue'
 
-  click_button 'offline_pay_button'
+  choose 'registration_payment_type_bank_transfer'
+  click_button 'proceed_to_payment'
 
   click_button 'continue'
 end
