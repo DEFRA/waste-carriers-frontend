@@ -78,7 +78,7 @@ When(/^my account becomes locked due to several successive failed sign-in attemp
     fill_in 'Email', with: my_email_address
     fill_in 'Password', with: 'this_is_the_wrong_password'
     click_button 'sign_in'
-    page.should have_content 'Invalid email or password'
+    page.has_text? 'Invalid email or password'
   end
   User.find_by(email: my_email_address).access_locked?.should == true
 end
@@ -140,5 +140,5 @@ Then(/^I am shown the sign in page$/) do
 end
 
 Then(/I am shown the 'email address confirmed' page$/) do
-  page.should have_content 'Email address confirmed'
+  page.has_text? 'Email address confirmed'
 end
