@@ -35,8 +35,8 @@ Then /^I should see the following names listed:$/ do |table|
 end
 
 Then(/^I should only have to enter one key person$/) do
-  page.should_not have_button 'add_btn'
-  page.should have_button 'continue'
+  page.has_no_button? 'add_btn'
+  page.has_button? 'continue'
 end
 
 Then(/^I cannot proceed until I have added a key person$/) do
