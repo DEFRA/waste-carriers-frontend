@@ -204,6 +204,6 @@ end
 
 Then(/^the print page does not contain unnecessary content$/) do
   click_link 'view_certificate'
-  page.should_not have_xpath("//a[@id='logo']") # No Gov Uk Template
+  page.has_no_xpath? "//a[@id='logo']")# No Gov Uk Template
   page.has_no_text? 'registrations@wastecarriersregistration.service.gov.uk' # No contact details
 end
