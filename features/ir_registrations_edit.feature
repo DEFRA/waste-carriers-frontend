@@ -1,4 +1,4 @@
-Feature: ir renewals with edits
+Feature: IR registrations with edits
 
   As a waste carrier
   I want to be able to renew my ir registration
@@ -14,8 +14,8 @@ Background:
   And I provide my personal contact details
   And I enter the details of the business owner
 
-@javascript
-Scenario: IR Renewal changed business type causing full fee, No convictions, Online payment
+@javascript @wip
+Scenario: IR registrations changed business type causing full fee, No convictions, Online payment
   Given no key people in the organisation have convictions
   And I check the declaration
   And I provide my email address and create a password
@@ -26,7 +26,7 @@ Scenario: IR Renewal changed business type causing full fee, No convictions, Onl
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
-Scenario: IR Renewal changed business type causing full fee, No Convictions, Offline payment
+Scenario: IR registrations changed business type causing full fee, No Convictions, Offline payment
   Given no key people in the organisation have convictions
   And I check the declaration
   And I provide my email address and create a password
