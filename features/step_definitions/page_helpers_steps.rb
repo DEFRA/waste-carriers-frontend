@@ -38,7 +38,7 @@ When(/^I select the only deal with page's 'no' option$/) do
 end
 
 When(/^I am shown the 'start' page$/) do
-  page.should start_page?
+  start_page?
 end
 
 When(/^I am shown the 'type of business' page$/) do
