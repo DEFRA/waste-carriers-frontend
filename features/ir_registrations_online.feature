@@ -10,7 +10,7 @@ Background:
   And my waste carrier status is prepopulated
   And my company name is prepopulated
 
-@javascript @happydays
+@javascript @happydays @wip
 Scenario: IR registrations, No convictions, Online payment
   Given I autocomplete my business address
   And I provide my personal contact details
@@ -26,7 +26,7 @@ Scenario: IR registrations, No convictions, Online payment
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
-@javascript
+@javascript @wip
 Scenario: IR registrations, Convictions, Online payment
   Given I autocomplete my business address
   And I provide my personal contact details
@@ -43,6 +43,7 @@ Scenario: IR registrations, Convictions, Online payment
   And I attempt to sign in
   Then I am registered and activated as an upper tier waste carrier pending conviction checks
 
+@wip
 Scenario: IR registrations, No Convictions, Offline payment
   Given I autocomplete my business address
   And I provide my personal contact details
@@ -58,7 +59,7 @@ Scenario: IR registrations, No Convictions, Offline payment
   Then I am shown the sign in page
   And I attempt to sign in
   Then I am registered and activated as an upper tier waste carrier pending payment
-
+@wip
 Scenario: IR registrations, Convictions, Offline payment
   Given I autocomplete my business address
   And I provide my personal contact details

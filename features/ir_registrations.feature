@@ -1,4 +1,4 @@
-Feature: ir renewals
+Feature: IR registrations
 
   As a waste carrier
   I want to be able to renew my ir registration
@@ -11,7 +11,7 @@ Background:
   And my company name is prepopulated
 
 @javascript @happydays
-Scenario: IR Renewal, No convictions, Online payment
+Scenario: IR registrations, No convictions, Online payment
   Given I autocomplete my business address
   And I provide my personal contact details
   And I enter the details of the business owner
@@ -26,7 +26,7 @@ Scenario: IR Renewal, No convictions, Online payment
   Then I am successfully registered and activated as an upper tier waste carrier
 
 @javascript
-Scenario: IR Renewal, Convictions, Online payment
+Scenario: IR registrations, Convictions, Online payment
   Given I autocomplete my business address
   And I provide my personal contact details
   And I enter the details of the business owner
@@ -41,7 +41,7 @@ Scenario: IR Renewal, Convictions, Online payment
   And I attempt to sign in
   Then I am registered and activated as an upper tier waste carrier pending conviction checks
 
-Scenario: IR Renewal, No Convictions, Offline payment
+Scenario: IR registrations, No Convictions, Offline payment
   Given I autocomplete my business address
   And I provide my personal contact details
   And I enter the details of the business owner
@@ -56,7 +56,7 @@ Scenario: IR Renewal, No Convictions, Offline payment
   And I attempt to sign in
   Then I am registered and activated as an upper tier waste carrier pending payment
 
-Scenario: IR Renewal, Convictions, Offline payment
+Scenario: IR registrations, Convictions, Offline payment
   Given I autocomplete my business address
   And I provide my personal contact details
   And I enter the details of the business owner
