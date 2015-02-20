@@ -53,6 +53,20 @@ When(/^I attempt to sign in$/) do
    page.should have_content 'Your registrations'
 end
 
+When(/^I request that account confirmation instructions are re-sent for '(.+)'$/) do |email_address|
+  visit new_user_confirmation_path
+  fill_in 'user_email', with: email_address
+  click_button 'resend'
+  sleep 0.5   # Wait for the email to be 'delivered'
+end
+
+Then(/^the inbox for '(.+)' should contain an email stating that the account is already confirmed$/) do |email_address|
+  open_email email_address
+  current_email.should have_content 'already been confirmed'
+  current_email.click_link 'sign_in_link'
+  URI.parse(current_url).path.should == new_user_session_path
+end
+
 And(/^I am shown my pending registration$/) do
   page.should_not have_content 'confirm your account'
   page.should have_content 'Your reference number is'
