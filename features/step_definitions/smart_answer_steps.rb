@@ -56,11 +56,11 @@ And(/^I indicate I don't deal with animal, farm, quarry or mine waste$/) do
 end
 
 Then(/^there is a continue button on the page$/) do
-  page.should have_button 'continue'
+  page.has_button? 'continue'
 end
 
 Then(/^there is no back button on the page/) do
-  page.should_not have_button 'Back'
+  page.has_no_button? 'Back'
 end
 
 Then(/^I am told to ring the Environment Agency$/) do

@@ -1,6 +1,6 @@
 Then(/^I should see the Finish page$/) do
   page.has_text? 'The registration number is'
-  page.should have_button 'finished_btn'
+  page.has_button? 'finished_btn'
 end
 
 When(/^I search for and revoke the first registration that matches the text '(.+)'$/) do |search_text|
