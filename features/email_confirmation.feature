@@ -4,7 +4,7 @@ Feature: Email confirmation
   I want to be told to confirm my email address only when it's unconfirmed
   So that I get the added security this provides and aren't continually asked for it when it's no longer relevant
   
-  Note: we *cannot* use the data_creation steps here, because that skips sending the verification email.
+  Note: generally, we *cannot* use the data_creation steps here, because that skips sending the verification email.
 
   Scenario: lower tier unconfirmed
     Given I have gone through the lower tier waste carrier process
@@ -41,3 +41,10 @@ Feature: Email confirmation
     Given I have completed the upper tier and chosen to pay by bank transfer
       And I am shown my pending registration
      Then I am not shown how to pay in my confirmation email
+  
+  Scenario: When a user who has already confirmed their account requests that confirmation instructions are re-sent, they should get an email with the sign-in link.
+    Given a "ST_LT_online_complete" lower tier registration
+     Then searching the public register for 'company' should return 1 record
+     When the inbox for 'st_lt@example.org' is emptied now as part of this test
+      And I request that account confirmation instructions are re-sent for 'st_lt@example.org'
+     Then the inbox for 'st_lt@example.org' should contain an email stating that the account is already confirmed
