@@ -21,8 +21,7 @@ Scenario: IR Renewal, No convictions, Online payment
   And I pay by card
   And I am registered as an upper tier waste carrier
   Then registration should be complete
-  When I re-request activation for my account
-  Then I am shown the sign in page
+  When I activate my account by clicking the link in the activation email
   And I attempt to sign in
   Then I am successfully registered and activated as an upper tier waste carrier
 
@@ -38,8 +37,7 @@ Scenario: IR Renewal, Convictions, Online payment
   And I pay by card
   And I am registered as an upper tier waste carrier pending conviction checks
   Then registration should be pending convictions checks
-  When I re-request activation for my account
-  Then I am shown the sign in page
+  When I activate my account by clicking the link in the activation email
   And I attempt to sign in
   Then I am registered and activated as an upper tier waste carrier pending conviction checks
 
@@ -55,7 +53,6 @@ Scenario: IR Renewal, No Convictions, Offline payment
   And I am registered as an upper tier waste carrier pending payment
   Then registration should be pending payment
   When I activate my account by clicking the link in the activation email
-  Then I am shown the sign in page
   And I attempt to sign in
   Then I am registered and activated as an upper tier waste carrier pending payment
 
@@ -72,6 +69,5 @@ Scenario: IR Renewal, Convictions, Offline payment
   And I am registered as an upper tier waste carrier pending payment
   Then registration should be pending payment
   When I activate my account by clicking the link in the activation email
-  Then I am shown the sign in page
   And I attempt to sign in
   Then I am registered and activated as an upper tier waste carrier pending conviction checks
