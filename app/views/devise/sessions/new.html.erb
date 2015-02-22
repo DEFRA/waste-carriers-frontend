@@ -66,7 +66,48 @@
       <% end %>
     </div>
 
-  <%= render "devise/shared/links" %>
+    <details class="text">
+      <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="false" role="button">
+        <span class='summary'><%= t '.sign_in_problems' %></span>
+      </summary>
+      <div style='display:block' id='details-content-0' >
+
+      <h2 class="heading-small"><%= t '.sign_in_password_unknown' %></h2>
+        <p><%= t '.sign_in_password_unknown_paragraph' %></p>
+          <ul>
+           <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+            <li><%= link_to t('.forgotPassword'), new_password_path(resource_name) %></li>
+          </ul>
+        <% end -%>
+
+      <h2 class="heading-small heading-with-border"><%= t '.sign_in_email_unknown' %></h2>
+        <p><%= t '.sign_in_email_unknown_paragraph' %></p>
+
+        <details class="text heading-with-border">
+          <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" aria-expanded="false" role="button">
+            <span class='summary'><%= t '.sign_in_other_problems' %></span>
+          </summary>
+            <div style='display:block' id='details-content-0' >
+            <h2 class="heading-small"><%= t '.sign_in_other_problems_heading' %></h2>
+            <ul>
+              <li class='list-bullet'><%= t '.sign_in_other_problems_bullet1' %></li>
+              <%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+              <li><%= link_to t('.sendUnlockInstructions'), new_unlock_path(resource_name) %></li>
+              <% end -%>
+            </ul>
+
+            <ul>
+              <li class="list-bullet"><%= t '.sign_in_other_problems_bullet2' %></li>
+              <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+              <li><%= link_to t('.sendConfirmInstructions'), new_confirmation_path(resource_name) %></li>
+              <% end -%>
+            </ul>
+
+            </div>
+        </details>
+
+      </div>
+    </details>
 
   </main><!-- end content -->
 </div><!-- end wrapper -->
