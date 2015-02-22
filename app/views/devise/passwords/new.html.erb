@@ -11,7 +11,7 @@
 </div>
 
 <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
-  <%= devise_error_messages! %>
+<div class="text"><%= devise_error_messages! %></div>
 
 <header class="page-header group">
     <div class="hgroup">
@@ -30,6 +30,5 @@
     <% end %>
   </div>
 
-
-</main><!-- end content -->
+  </main><!-- end content -->
 </div><!-- end wrapper -->
