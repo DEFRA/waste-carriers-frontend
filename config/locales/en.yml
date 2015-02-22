@@ -932,8 +932,8 @@ en:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
       subtitle: ""
-      legend: "Sign in to your account"
-      sign_up_link: "I do not have an account"
+      legend: "Sign in"
+      sign_up_link: "I don't have an account"
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
