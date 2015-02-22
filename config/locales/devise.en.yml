@@ -3,8 +3,14 @@
 en:
   devise:
     confirmations:
-      resendHeading: "We need to send you new confirmation instructions"
-      resendText: "What email address did you use to register?"
+      resendHeading: "Request email verification"
+      resendHeading2: "Next steps"
+      resendText1: "If you can’t sign in, even with the correct details (email and password), it’s possible the email address has not yet been confirmed."
+      resendText2: "A confirmation email is sent when a waste carrier account is first set up. When you use the link within this message, we can confirm that the email address is real."
+      resendText3: "Provide the email address used to create your waste carrier account."
+      resendText4: "You will receive an email shortly. Follow the link it contains to confirm the email address."
+      resendBullet1: "Some email companies may direct emails to your spam folder. Check to see if the email we sent you is there."
+      resendBullet2: "For your security, the email verification period is limited to 24 hours. After this you’ll have to ask us to send you another confirmation email."
       resendSummaryLink: "I can't remember my email"
       resendSummaryText: "Please contact our helpline: 03708 506506 and speak to one of our advisors."
       resendButton: "Resend confirmation instructions"
@@ -61,7 +67,7 @@ en:
       heading: "Change your password"
       confirmLabel: "Confirm new password"
       changeLabel: "Change my password"
-      forgotHeading: "Forgot your password?"
+      forgotHeading: "I don't know the password"
       sendInstructions: "Send me reset password instructions"
     registrations:
       destroyed: "Bye! Your account was successfully cancelled. We hope to see you again soon."
@@ -88,6 +94,15 @@ en:
         admin_heading: "Administration login"
         standard_error: "You have 1 error on this page"
         standard_notice: "Information"
+        sign_in_problems: "Having problems with sign in?"
+        sign_in_password_unknown: "Don't know the password?"
+        sign_in_password_unknown_paragraph: "Select ‘Get password’ and we’ll send an email with password recovery instructions."
+        sign_in_email_unknown: "Don't know the email address?"
+        sign_in_email_unknown_paragraph: "If you don’t know the email address belonging to this waste carrier account, contact our helpline on 03708 506506."
+        sign_in_other_problems: "Other problems with sign in"
+        sign_in_other_problems_heading: "Other problems may include:"
+        sign_in_other_problems_bullet1: "Your account being temporarily locked due to too many sign in attempts using incorrect details"
+        sign_in_other_problems_bullet2: "Your account being temporarily locked because its email address has not yet been confirmed"
     shared:
       links:
         forgotPassword: "Forgot your password?"
@@ -100,7 +115,9 @@ en:
       send_instructions: "You will receive an email with instructions about how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions about how to unlock it in a few minutes."
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
-      resendUnlockInstructions: "Resend unlock instructions"
+      resendUnlockInstructions: "Send unlock instructions"
+      instructions_paragraph1: "If you or someone else tries to sign in too many times using incorrect details the account may be temporarily locked. This is for your security."
+      instructions_paragraph2: "Tell us which email address was used to register and we’ll send instructions on how to unlock the account."
   errors:
     messages:
       already_confirmed: "was already confirmed, please try signing in"
