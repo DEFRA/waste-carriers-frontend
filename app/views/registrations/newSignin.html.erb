@@ -10,32 +10,34 @@
 </div>
 
 <%= render 'errors' %>
-<header class="page-header group">
+  <header class="page-header group">
     <div class="hgroup">
-        <h1 class="heading-large" id="groupLabel"><%= t '.legend' %></h1>
+      <h1 class="heading-xlarge" id="groupLabel"><%= t '.legend' %></h1>
+        <ul>
+          <li><a href="/your-registration/signup"><%= t '.sign_up_link'%></a></li>
+        <ul>
     </div>
-</header>
+  </header>
 
   <!-- WF 4.3.4 -->
-  <div id="page4"  data-journey="waste-carriers-registration:signin">
+  <div id="page4"  data-journey="waste-carriers-registration:signin"></div>
     <% content_for :page_title, createTitle('.title') %>
     <%= form_for(@registration, :url => newSignin_path, html: {autocomplete: 'off'}) do |f| %>
+
     <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>" id="registration_accountEmail" role="group" aria-labelledby="groupLabel">
       <%= validation_for(@registration, :accountEmail) %>
       <%= f.label :accountEmail, class: 'form-label' %>
-      <%= f.email_field :accountEmail, :autofocus => true %>
+      <%= f.email_field :accountEmail, class: 'form-control-1-2', :autofocus => true %>
     </div>
+
     <div class="form-group <%if @registration.errors[:password].any?%> validation<%end%>" id="registration_password" role="group" aria-labelledby="groupLabel">
       <%= validation_for(@registration, :password) %>
       <%= f.label :password, class: 'form-label' %>
-      <%= f.password_field :password %>
+      <%= f.password_field :password, class: 'form-control-1-2' %>
     </div>
-  </div>
 
-  <ul class="inline">
-    <li><a href="/your-registration/signup"><%= t '.sign_up_link'%></a></li>
-    <li class="continue_link"><%= render 'continue_link' %></li>
-  </ul>
+      <%= render 'continue_link' %>
+
   <% end %>
 
   </main><!-- end main -->
