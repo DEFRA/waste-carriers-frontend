@@ -81,49 +81,47 @@ end
 Then(/^I am registered as an upper tier waste carrier$/) do
   sleep 1  # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.should have_content 'you need to renew your registration every 3 years'
+  current_email.has_text? have_content 'you need to renew your registration every 3 years'
 end
 
 Then(/^I am successfully registered and activated as an upper tier waste carrier$/) do
-  page.should have_content 'Signed in as'
-  page.should have_content 'CBDU'
-  page.should have_content 'ACTIVE'
+  page.has_text? 'Signed in as'
+  page.has_text? 'CBDU'
+  page.has_text? 'ACTIVE'
 end
 
 Then(/^I am registered as an upper tier waste carrier pending conviction checks$/) do
   sleep 1  # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-#  current_email.save_and_open
-  current_email.should have_content 'What happens next' # Update this test once we have defined content for the convictions email
+  current_email.has_text? 'What happens next' # Update this test once we have defined content for the convictions email
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending conviction checks$/) do
-  page.should have_content 'Signed in as'
-  page.should have_content 'CBDU'
-  page.should have_content 'PENDING'
+  page.has_text? 'Signed in as'
+  page.has_text? 'CBDU'
+  page.has_text? 'PENDING'
 end
 
 Then(/^I am registered as an upper tier waste carrier pending payment$/) do
   sleep 1  # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-#  current_email.save_and_open
-  current_email.should have_content 'Application received'  # Update this test once we have defined content for the awaiting payment email
+  current_email.has_text? 'Application received'  # Update this test once we have defined content for the awaiting payment email
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending payment$/) do
-  page.should have_content 'Signed in as'
-  page.should have_content 'CBDU'
-  page.should have_content 'PENDING'
+  page.has_text? 'Signed in as'
+  page.has_text? 'CBDU'
+  page.has_text? 'PENDING'
 end
 
 Then(/^I have applied as an upper tier waste carrier$/) do
-  page.should have_content 'Signed in as'
-  page.should have_content 'CBDU'
-  page.should have_content 'PENDING'
+  page.has_text? 'Signed in as'
+  page.has_text? 'CBDU'
+  page.has_text? 'PENDING'
 end
 
 Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do
-  page.should have_content 'Please allow 5 working days for your payment to reach us'
+  page.has_text? 'Please allow 5 working days for your payment to reach us'
 end
 
 And(/^no key people in the organisation have convictions$/) do

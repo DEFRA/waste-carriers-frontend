@@ -29,18 +29,18 @@ end
 
 Then /^I should see the following names listed:$/ do |table|
   table.hashes.each do |row|
-    page.should have_content row[:first_name]
-    page.should have_content row[:last_name]
+    page.has_text? row[:first_name]
+    page.has_text? row[:last_name]
   end
 end
 
 Then(/^I should only have to enter one key person$/) do
-  page.should_not have_button 'add_btn'
-  page.should have_button 'continue'
+  page.has_no_button? 'add_btn'
+  page.has_button? 'continue'
 end
 
 Then(/^I cannot proceed until I have added a key person$/) do
   click_button 'continue'
-  page.should have_content 'error'
-  page.should_not have_content 'Relevant'
+  page.has_text? 'error'
+  page.has_no_text? 'Relevant'
 end

@@ -23,5 +23,11 @@ module ExistingRegistrationPage
       fill_in 'registration_originalRegistrationNumber', with: 'CB/AE9999XX/A001'
       existing_registration_page_submit if submit
   end
+
+     def existing_registration_page_enter_sole_trader_registration_number(submit: 'true')
+      fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R002'
+      existing_registration_page_submit if submit
+  end
+
 end
 World(ExistingRegistrationPage)

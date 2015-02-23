@@ -61,8 +61,8 @@ end
 
 Then(/^no address suggestions will be shown$/) do
   # Changed validation message
-  page.should have_content 'Postcode is not valid'
-  #page.should have_content 'There are no addresses for the given postcode'
+  page.has_text? 'Postcode is not valid'
+  #page.has_text? 'There are no addresses for the given postcode'
 end
 
 When(/^I try to select an address$/) do
@@ -129,9 +129,9 @@ When(/^I confirm account creation via email$/) do
 end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
-  page.should have_content 'you don’t need to pay a registration fee'
+  page.has_text? 'you don’t need to pay a registration fee'
   open_email my_email_address
-  current_email.should have_content 'Based on what you told us about your organisation and what it does, we have registered you as a lower tier waste carrier'
+  current_email.has_text? 'Based on what you told us about your organisation and what it does, we have registered you as a lower tier waste carrier'
 end
 
 But(/^I can edit this postcode$/) do
@@ -142,7 +142,7 @@ But(/^I can edit this postcode$/) do
 end
 
 And(/^add my address manually if I wanted to$/) do
-  page.should have_link 'I want to add an address myself'
+  page.has_link? 'I want to add an address myself'
 end
 
 Given(/^I have gone through the lower tier waste carrier process$/) do

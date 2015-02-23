@@ -27,7 +27,7 @@ Given(/^I have come to the lower tier summary page$/) do
 end
 
 Then(/^I see I am a lower tier waste carrier$/) do
-  page.should have_content 'you are a lower tier'
+  page.has_text? 'you are a lower tier'
 end
 
 Given(/^I have come to the upper tier summary page$/) do
@@ -66,5 +66,5 @@ Given(/^I have come to the upper tier summary page$/) do
 end
 
 Then(/^I see I am an upper tier waste carrier$/) do
-  page.should have_content 'you are an upper tier'
+  page.has_text? 'you are an upper tier'
 end
