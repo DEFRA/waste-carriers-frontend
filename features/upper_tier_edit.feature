@@ -5,7 +5,7 @@ Feature: upper tier external edit
 
 Background:
   Given a "ST_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
-  And I log in to the "st_ut@example.org" account
+  And I log in to the 'st_ut@example.org' account
 
 Scenario: Upper tier Edit with no change
   Given The edit link is available
