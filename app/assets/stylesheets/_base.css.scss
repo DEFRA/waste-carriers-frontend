@@ -126,7 +126,7 @@ legend {
   display: block;
   clear:left;
   margin-top: $gutter-half;
-  margin-bottom: $gutter;
+  margin-bottom: 5px;
     @include media (mobile){
 	   margin-bottom: 0.5em;
   }
