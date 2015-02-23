@@ -24,7 +24,3 @@ Given I am renewing a valid CBD IR registration for limited company
 When I only change business name
 Then I should be shown the total cost is the charge amount and renewal amount "105.00"
 And have the option to pay by Credit or Debit card or by bank transfer
-
-
-
-

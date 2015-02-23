@@ -34,7 +34,7 @@
     <% end %>
 
     <% if notice %>
-    <div id="notice_explanation" class="note-summary">
+    <div id="notice_explanation" class="note-summary text">
       <ul>
         <li><%= notice %></li>
       </ul>
@@ -66,7 +66,41 @@
       <% end %>
     </div>
 
-  <%= render "devise/shared/links" %>
+    <details class="text">
+      <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+        <span class='summary'><%= t '.sign_in_problems' %></span>
+      </summary>
+      <div style='display:block' id='details-content-0' >
+         <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+          <p><%= t '.sign_in_problems_paragraph' %><%= link_to t('.sign_in_problems_link'), new_password_path(resource_name) %></p>
+        <% end -%>
+      </div>
+    </details>
+
+    <details class="text">
+      <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+        <span class='summary'><%= t '.sign_in_email_unknown' %></span>
+      </summary>
+        <div style='display:block' id='details-content-0' >
+        <p><%= t '.sign_in_email_unknown_paragraph' %></p>
+      </div>
+    </details>
+
+    <details class="text">
+      <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+        <span class='summary'><%= t '.sign_in_confirm' %></span>
+      </summary>
+        <div style='display:block' id='details-content-0' >
+          <p><%= t '.sign_in_confirm_heading' %></p>
+          <p class="panel-indent"><%= t '.sign_in_confirm_paragraph' %></p>
+
+            <ul>
+              <%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+              <li><%= link_to t('.sign_in_confirm_link'), new_confirmation_path(resource_name) %></li>
+              <% end -%>
+            </ul>
+        </div>
+    </details>
 
   </main><!-- end content -->
 </div><!-- end wrapper -->
