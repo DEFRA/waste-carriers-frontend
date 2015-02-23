@@ -189,6 +189,10 @@ p {
   }
 }
 
+.small-text {
+  @include copy-16;
+}
+
 #content {
   @include copy-19;
   -webkit-font-smoothing: antialiased;

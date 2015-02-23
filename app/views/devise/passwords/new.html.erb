@@ -15,14 +15,25 @@
 
 <header class="page-header group">
     <div class="hgroup">
-      <h1 class="heading-large"><%= t 'devise.passwords.forgotHeading'%></h1>
+      <h1 class="heading-large" id="groupLabel"><%= t 'devise.passwords.forgotHeading'%></h1>
     </div>
 </header>
 
   <div id="wrapper" data-journey="waste-carriers-registration:forgot-password">
 
-		<div class="form-group">
+		<div class="form-group" role="group" aria-labelledby="groupLabel">
       <%= validation_for(resource, :email) %>
+      <p class="text"><%= t 'devise.passwords.sendInstructionsText'%></p>
+
+        <details class="text">
+          <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+            <span class='summary'><%= t 'devise.passwords.sendInstructionsDetails'%></span>
+          </summary>
+            <div style='display:block' id='details-content-0' >
+            <p><%= t 'devise.passwords.sendInstructionsSummaryText'%></p>
+          </div>
+        </details>
+
 		  <%= f.label :email, class: 'form-label' %>
 		  <%= f.email_field :email, class: 'form-control-1-2', :autofocus => true %>
 		</div>
