@@ -1,5 +1,6 @@
 require 'faker'
 require "#{Rails.root}/features/support/data_creation.rb"
+require "ruby-progressbar"
 
 namespace :performance_testing do
   @counties = ['Avon', 'Bedfordshire', 'Berkshire', 'Buckinghamshire', 'Cambridgeshire', 'Cheshire', 'Cornwall', 'Cumbria', 'Derbyshire', 'Devon', 'Dorset', 'Durham', 'East Sussex', 'Essex', 'Gloucestershire', 'Greater Manchester', 'Hampshire', 'Herefordshire', 'Hertfordshire', 'Humberside', 'Isle of Wight', 'Kent', 'Lancashire', 'Leicestershire', 'Lincolnshire', 'Merseyside', 'Norfolk', 'North Yorkshire', 'Northamptonshire', 'Northumberland', 'Nottinghamshire', 'Oxfordshire', 'Shropshire', 'Somerset', 'South Yorkshire', 'Staffordshire', 'Suffolk', 'Surrey', 'Tyne and Wear', 'Warwickshire', 'West Midlands', 'West Sussex', 'West Yorkshire', 'Wiltshire', 'Worcestershire']
@@ -124,24 +125,29 @@ namespace :performance_testing do
   task :seed_lower_tier_registrations, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete lower-tier registrations..."
+    pb = ProgressBar.create(total: args.num_records.to_i, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
     reg_data = JSON.parse(File.read('features/fixtures/LTD_LT_online_complete.json')).except('selectedAddress')
     for n in (1..args.num_records.to_i) do
       create_complete_lower_tier_reg_from_hash(randomise_lower_tier_reg_data(reg_data))
+      pb.increment
     end
   end
 
   task :seed_upper_tier_registrations, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete upper-tier registrations..."
+    pb = ProgressBar.create(total: args.num_records.to_i, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
     reg_data = JSON.parse(File.read('features/fixtures/LTD_UT_online_complete.json')).except('selectedAddress')
     for n in (1..args.num_records.to_i) do
       create_complete_upper_tier_reg_from_hash(randomise_upper_tier_reg_data(reg_data), 'Bank Transfer', 0)
+      pb.increment
     end
   end
 
   task :seed_convictions, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} conviction records..."
+    pb = ProgressBar.create(total: args.num_records.to_i, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
 
     # Configure the ElasticSearch client connection.
     Conviction.gateway.client = Elasticsearch::Client.new host: Rails.configuration.waste_exemplar_elasticsearch_url
@@ -162,17 +168,20 @@ namespace :performance_testing do
       else
         Conviction.create name: make_company_name(), companyNumber: make_company_number(), systemFlag: system_flag_names.sample, incidentNumber: incident_number
       end
+      pb.increment
     end
   end
 
   task :seed_ir_renewals, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete IR-renewals..."
+    pb = ProgressBar.create(total: args.num_records.to_i, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
     for n in (1..args.num_records.to_i) do
       randomise_ir_renewal_data('Person')
       randomise_ir_renewal_data('Company')
       randomise_ir_renewal_data('Organisation of Individuals')
       randomise_ir_renewal_data('Public Body')
+      pb.increment
     end
   end
 
