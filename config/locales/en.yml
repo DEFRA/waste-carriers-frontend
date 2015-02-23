@@ -565,6 +565,13 @@ en:
       paragraph9: "You’re not legally entitled to operate as a waste carrier until we have received your payment and confirmed your registration"
       paragraph10: "We probably won’t take action against you for operating while we’re waiting for your payment to come through. But the police or your local council might"
       payment_notice: "Payment notice"
+    account_already_confirmed:
+      title: "Waste Carriers Registraiton account confirmation"
+      paragraph1: "Somebody recently used this email address when requesting Account Confirmation instructions on the Waste Carriers Registration service."
+      paragraph2: "Your account on the Waste Carriers Registration service has already been confirmed, and you can log in using your email address and password."
+      sign_in_heading: "Sign in to your Waste Carriers Registration account:"
+      paragraph3: "If you have forgotten your password, you can reset it from the sign-in page."
+      paragraph4: "If you did not request that these instructions were sent, please contact us on the number below."
   agency_users:
     index:
       title: "Administration"
@@ -925,8 +932,8 @@ en:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
       subtitle: ""
-      legend: "Sign in to your account"
-      sign_up_link: "I do not have an account"
+      legend: "Sign in"
+      sign_up_link: "I don't have an account"
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"

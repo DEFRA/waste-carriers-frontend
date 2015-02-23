@@ -9,7 +9,7 @@ end
 When(/^the inbox for '([\w@\.]+)' is emptied now as part of this test$/) do |email_address|
   open_email email_address
   clear_emails
-  all_emails.should be_empty
+  expect(all_emails).to be_empty
 end
 
 Then(/^the inbox for '([\w@\.]+)' should be empty$/) do |email_address|
@@ -19,10 +19,10 @@ Then(/^the inbox for '([\w@\.]+)' should be empty$/) do |email_address|
     msg = ["Expected inbox for #{email_address} to be empty, but it contains #{all_emails.count} email(s).",
            "The last email has the subject line: '#{current_email.subject}'"].join("\n")
   end
-  all_emails.should be_empty, msg
+  expect(all_emails).to be_empty, msg
 end
 
 Then(/^the inbox for '([\w@\.]+)' should contain an email with the subject '([\w ]+)'$/) do |email_address, expected_subject|
   open_email email_address
-  current_email.subject.should == expected_subject
+  expect(current_email.subject).to have_text expected_subject
 end

@@ -16,23 +16,21 @@
     </div>
   </header>
 
-	<fieldset>
-		<legend></legend>
+		<div id="wrapper" data-journey="waste-carriers-registration:unlock-account"></div>
 
-			<div id="wrapper" data-journey="waste-carriers-registration:unlock-account"></div>
+			<%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
+				<%= devise_error_messages! %>
 
-				<%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
-  				<%= devise_error_messages! %>
+			<div class="form-group">
+        <p class="text"><%=t 'devise.unlocks.instructions_paragraph1'%></p>
+        <p class="text"><%=t 'devise.unlocks.instructions_paragraph2'%></p>
+				<%= f.label :email, class: 'form-label' %>
+				<%= f.email_field :email, class: 'form-control-1-2', :autofocus => true %>
+			</div>
 
-  			<div class="form-group">
-  				<%= f.label :email, class: 'form-label' %>
-  				<%= f.email_field :email, class: 'form-control-1-2', :autofocus => true %>
-  			</div>
+		<%= f.submit t('devise.unlocks.resendUnlockInstructions'), {:class => "button", :id => "send"} %>
 
-  		<%= f.submit t('devise.unlocks.resendUnlockInstructions'), {:class => "button", :id => "send"} %>
-
-		<% end %>
-		</fieldset>
+	<% end %>
 
 </main><!-- end content -->
 </div><!-- end wrapper -->

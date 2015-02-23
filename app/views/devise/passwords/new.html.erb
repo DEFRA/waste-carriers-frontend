@@ -11,7 +11,7 @@
 </div>
 
 <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
-  <%= devise_error_messages! %>
+<div class="text"><%= devise_error_messages! %></div>
 
 <header class="page-header group">
     <div class="hgroup">
@@ -19,22 +19,16 @@
     </div>
 </header>
 
-	<fieldset>
-		<legend></legend>
+  <div id="wrapper" data-journey="waste-carriers-registration:forgot-password">
 
-    <div id="wrapper" data-journey="waste-carriers-registration:forgot-password">
+		<div class="form-group">
+      <%= validation_for(resource, :email) %>
+		  <%= f.label :email, class: 'form-label' %>
+		  <%= f.email_field :email, class: 'form-control-1-2', :autofocus => true %>
+		</div>
+		<%= f.submit t('devise.passwords.sendInstructions'), {:class => "button", :id => "send"} %>
+    <% end %>
+  </div>
 
-			<div class="form-group text">
-        <ul>
-          <li><%= validation_for(resource, :email) %></li>
-			    <li><%= f.label :email, class: 'form-label' %>
-			    <%= f.email_field :email, class: 'form-control-1-2', :autofocus => true %></li>
-        </ul>
-			</div>
-			<%= f.submit t('devise.passwords.sendInstructions'), {:class => "button", :id => "send"} %>
-	    <% end %>
-    </div>
-	 </fieldset>
-
-</main><!-- end content -->
+  </main><!-- end content -->
 </div><!-- end wrapper -->

@@ -8,29 +8,29 @@ When(/^somebody visits the ([\w ]+) Sign In page$/) do |user_type|
 end
 
 When(/^enters valid credentials$/) do
-  page.should have_content 'Sign in'
+  page.has_text? 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: my_user.password
   click_button 'sign_in'
 end
 
 Then(/^the user should be logged in successfully$/) do
-  page.should have_content 'Signed in as'
+  page.has_text? 'Signed in as'
 end
 
 When(/^enters invalid credentials$/) do
-  page.should have_content 'Sign in'
+  page.has_text? 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: 'incorrect_password'
   click_button 'sign_in'
 end
 
 Then(/^the user should see a login account unlocked successfully page$/) do
-  page.should have_content 'Your account has been unlocked successfully'
+  page.has_text? 'Your account has been unlocked successfully'
 end
 
 Then(/^the user should see a login error$/) do
-  page.should have_content 'Invalid email or password.'
+  page.has_text? 'Invalid email or password.'
 end
 
 # TODO GM - still need to figure out how to switch between www and admin subdomains in Cucumber
@@ -42,7 +42,7 @@ When(/^the user tries to access the internal admin login URL from the public dom
 end
 
 Then(/^the page is not found$/) do
-  current_path.should_not match /sign_in/i
+  expect(current_path).to have_text /sign_in/i
 end
 
 When(/^the user tries to access the internal agency login URL from the public domain$/) do
@@ -58,7 +58,7 @@ When(/^the user tries to access the internal admin login URL from the admin doma
 end
 
 Then(/^the admin login page is shown$/) do
-  current_path.should match /admins\/sign_in/i
+  expect(current_path).to have_text /admins\/sign_in/i
 end
 
 When(/^the user tries to access the internal agency login URL from the admin domain$/) do
@@ -68,7 +68,7 @@ When(/^the user tries to access the internal agency login URL from the admin dom
 end
 
 Then(/^the agency user login page is shown$/) do
-  current_path.should match /agency_users\/sign_in/i
+  expect(current_path).to have_text /agency_users\/sign_in/i
 end
 
 When(/^the user tries to access the user login URL from the internal admin domain$/) do
@@ -84,11 +84,11 @@ Given(/^an ([\w ]+) exists and has an activated, non-locked account$/) do |user_
     open_email my_user.email
     current_email.click_link 'confirmation_link'
   end
-  get_database_object_for_user_type(user_type).access_locked?.should == false
+  expect(get_database_object_for_user_type(user_type).access_locked?).to eq(false)
 end
 
 Given(/^an External User exists but has not confirmed their account$/) do
-  get_database_object_for_user_type('External User').confirmed?.should == false
+  expect(get_database_object_for_user_type('External User').confirmed?).to eq(false)
 end
 
 When(/^the maximum number of invalid login attempts is exceeded for the ([\w ]+) account$/) do |user_type|
@@ -102,10 +102,10 @@ When(/^the maximum number of invalid login attempts is exceeded for the ([\w ]+)
     fill_in 'Email', with: emailAddress
     fill_in 'Password', with: 'this_is_the_wrong_password'
     click_button 'sign_in'
-    page.should have_content 'Invalid email or password'
+    page.has_text? 'Invalid email or password'
   end
 
-  get_database_object_for_user_type(user_type).access_locked?.should == true
+  expect(get_database_object_for_user_type(user_type).access_locked?).to be true
 end
 
 When(/^somebody visits the ([\w ]+) Forgot Password page$/) do |user_type|
@@ -131,32 +131,32 @@ When (/^completes the request using a guessed email address$/) do
 end
 
 Then(/^they should be redirected to the login page, but not told if the email address they supplied was known or unknown$/) do
-  current_path.should match /sign_in/i
+  expect(current_path).to have_text /sign_in/i
   # Note: we can't really guarantee that the page doesn't contain ANY clues about whether or not the
   # email address exists; we limit our test to looking for the key phrase "*IF* your account exists..."
-  find_by_id('notice_explanation').should have_content /if your (email address|account) exists/i
-  find_field('Email').value.should be_blank
+  find_by_id('notice_explanation').has_text? /if your (email address|account) exists/i
+  expect(find_field('Email').value).to be_blank
 end
 
 Then(/^the ([\w ]+) should receive an email containing a link which allows the password to be reset$/) do |user_type|
   open_email get_factorygirl_user_for_user_type(user_type).email
-  current_email.subject.should == 'Reset password instructions'
+  expect(current_email.subject).to have_text 'Reset password instructions'
   current_email.click_link 'password_reset_link'
   page.has_content? 'user_password_confirmation'
 end
 
 Then(/^the ([\w ]+) should receive an email containing a link which unlocks the account$/) do |user_type|
   open_email get_factorygirl_user_for_user_type(user_type).email
-  current_email.subject.should == 'Unlock Instructions'
+  expect(current_email.subject).to have_text 'Unlock Instructions'
   current_email.click_link 'unlock_link'
-  current_path.should match /sign_in/i
+  expect(current_path).to have_text /sign_in/i
 end
 
 Then(/^the ([\w ]+) account 'locked' status should be (\w+)$/) do |user_type, expected_locked_status|
   if expected_locked_status == 'unlocked'
-    get_database_object_for_user_type(user_type).access_locked?.should == false
+    expect(get_database_object_for_user_type(user_type).access_locked?).to be false
   elsif expected_locked_status == 'locked'
-    get_database_object_for_user_type(user_type).access_locked?.should == true
+    expect(get_database_object_for_user_type(user_type).access_locked?).to be true
   else
     throw 'Unknown value specified for expected_locked_status'
   end
@@ -164,9 +164,9 @@ end
 
 Then(/^the External User should receive an email allowing them to confirm their account$/) do
   open_email my_user.email
-  current_email.subject.should == 'Verify your email address'
+  expect(current_email.subject).to have_text 'Verify your email address'
   current_email.click_link 'confirmation_link'
-  get_database_object_for_user_type('External User').confirmed?.should == true
+  expect(get_database_object_for_user_type('External User').confirmed?).to be true
 end
 
 When(/^I am logged in as waste carrier user '([\w@\.]+)'$/) do | email|
@@ -181,10 +181,10 @@ end
 Then(/^my registration Certificate has a correct Expiry Date$/) do
   expectedExpiryDate = Date.today + Rails.configuration.registration_expires_after
   first(:css, '.viewCertificate').click
-  page.should have_content expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
+  page.has_text? expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
 end
 
 Then(/^my registration Certificate does not have an Expiry Date/) do
   first(:css, '.viewCertificate').click
-  page.should_not have_content 'Expiry date of registration (unless revoked)'
+  page.has_no_text? 'Expiry date of registration (unless revoked)'
 end

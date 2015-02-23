@@ -38,7 +38,7 @@ describe ExistingRegistrationController, type: :controller do
       end
 
       it "redirects to the 'business type' page" do
-        pending('a solution to populating IR data during tests')
+        skip('a solution to populating IR data during tests')
         post :create, registration: { originalRegistrationNumber: VALID_REG_NO }
         expect(response).to redirect_to :business_type
       end
@@ -53,7 +53,7 @@ describe ExistingRegistrationController, type: :controller do
       end
 
       it "redirects to the 'User sign in' page" do
-        pending('"a solution to populating registration data during tests')
+        skip('"a solution to populating registration data during tests')
         post :create, registration: { originalRegistrationNumber: 'CBDU1' }
         expect(response).to redirect_to :new_user_session
       end
