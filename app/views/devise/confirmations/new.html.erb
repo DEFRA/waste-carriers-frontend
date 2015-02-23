@@ -12,25 +12,28 @@
 <%= devise_token_error_messages! %>
   <header class="page-header group">
     <div class="hgroup">
-      <h1 class="heading-large"><%= t 'devise.confirmations.resendHeading'%></h1>
+      <h1 class="heading-large" id="groupLabel"><%= t 'devise.confirmations.resendHeading'%></h1>
     </div>
   </header>
 
     <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
 
-      <p class="text"><%= t 'devise.confirmations.resendText1'%></p>
-      <p class="text"><%= t 'devise.confirmations.resendText2'%></p>
-      <ul class="list-bullet text">
-        <li><%= t 'devise.confirmations.resendBullet1'%></li>
-        <li><%= t 'devise.confirmations.resendBullet2'%></li>
-      </ul>
-      <h2 class="heading-small"><%= t 'devise.confirmations.resendHeading2'%></h2>
-      <ol class="list-number text">
-        <li><%= t 'devise.confirmations.resendText3'%></li>
-        <li><%= t 'devise.confirmations.resendText4'%></li>
-      </ol>
+    <p class="text"><%= t 'devise.confirmations.resendText1'%></p>
+      <details class="text">
+        <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+          <span class='summary'><%= t 'devise.passwords.sendInstructionsDetails'%></span>
+        </summary>
+          <div style='display:block' id='details-content-0' >
+          <p><%= t 'devise.passwords.sendInstructionsSummaryText'%></p>
+        </div>
+      </details>
 
-    <div class="form-group">
+      <ul class="panel-indent text">
+        <li class="small-text"><%= t 'devise.confirmations.resendBullet1'%></li>
+        <li class="small-text"><%= t 'devise.confirmations.resendBullet2'%></li>
+      </ul>
+
+    <div class="form-group" role="group" aria-labelledby="groupLabel">
 	     <%= f.label :email, class: 'form-label' %>
 	     <%= f.email_field :email, class: 'form-control-1-2', :autofocus => true %>
     </div>

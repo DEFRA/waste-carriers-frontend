@@ -10,18 +10,18 @@
     <%= f.label :firstName, class: 'form-label' %>
     <%= f.text_field :firstName, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
 </div>
-<div class="form-group<%if r.errors[:lastName].any?%> validation<%end%>">
+<div class="form-group<%if r.errors[:lastName].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
     <%= validation_for(r, :lastName) %>
     <%= f.label :lastName, class: 'form-label' %>
     <%= f.text_field :lastName, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
 </div>
-<div class="form-group<%if r.errors[:phoneNumber].any?%> validation<%end%>">
+<div class="form-group<%if r.errors[:phoneNumber].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
     <%= validation_for(r, :phoneNumber) %>
     <%= f.label :phoneNumber, class: 'form-label' %>
     <%= f.telephone_field :phoneNumber, class: 'form-control-1-2', :size => 20, :maxlength => 20 %>
 </div>
 <% unless r.assisted_digital? %>
-  <div class="form-group<%if r.errors[:contactEmail].any?%> validation<%end%>">
+  <div class="form-group<%if r.errors[:contactEmail].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
     <%= validation_for(r, :contactEmail) %>
     <%= f.label :contactEmail, class: 'form-label' %>
     <%= f.email_field :contactEmail, class: 'form-control-1-2', :size => 20, :maxlength => 70 %>
