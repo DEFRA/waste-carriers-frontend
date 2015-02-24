@@ -266,6 +266,7 @@ module RegistrationsHelper
     # Clear session variables
     session.delete(:registration_id)
     session.delete(:registration_uuid)
+    session.delete(:at_mid_registration_signin_step)
 
     # Clear session variables used for Google Analytics.
     session.delete(:ga_is_renewal)

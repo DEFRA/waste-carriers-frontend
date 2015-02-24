@@ -606,6 +606,7 @@ class RegistrationsController < ApplicationController
 
   # GET /your-registration/signin
   def newSignin
+    session[:at_mid_registration_signin_step] = true
     new_step_action 'signin'
   end
 
@@ -639,6 +640,7 @@ class RegistrationsController < ApplicationController
       complete_new_registration
     end
 
+    session.delete(:at_mid_registration_signin_step)
     @registration.sign_up_mode = ''
     @registration.save
 
