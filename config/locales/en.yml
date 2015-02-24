@@ -1387,6 +1387,21 @@ en:
       signed_in_as_agency_user: "Signed in as"
     progress:
       progress: "Progress"
+    sign_in_help:
+      sign_in_problems: "I'm having trouble with my sign in details"
+      sign_in_problems_paragraph: "If your sign in details are not working, you will need to\ "
+      sign_in_problems_link: "reset your password."
+      sign_in_email_unknown: "I don't know the email address for my account"
+      sign_in_email_unknown_paragraph: "If you don’t know the email address belonging to your account, contact our helpline on 03708 506506."
+      sign_in_confirm: "I'm having other problems signing in"
+      sign_in_confirm_heading: "Have you confirmed your email address?"
+      sign_in_confirm_paragraph: "After you've registered as a waste carrier you must confirm your email address to access your account."
+      sign_in_confirm_step: "Next step: confirm your email address"
+      sign_in_confirm_text: "We need to send you instructions so you can confirm your email address."
+      sign_in_confirm_link: "I need to confirm my email address"
+      sign_in_unlock: "I think my account is locked"
+      sign_in_unlock_paragraph: "If you think your account has been temporarily locked, you will need to\ "
+      sign_in_unlock_link: "request unlock instructions"
   route_options:
     ASSISTED_DIGITAL: "Assisted Digital"
     DIGITAL: "Digital"
