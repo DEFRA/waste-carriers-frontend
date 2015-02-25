@@ -268,11 +268,20 @@ en:
       lettersSpaces: "can only contain letters and spaces"
       lettersSpacesNumbers35: "can only contain letters, spaces, numbers and hyphens and be no longer than 35 characters"
 
-      # TODO AH wip until all validation message changes complete
+      # TODO AH start wip until all validation message changes complete
+      # Section 0 (start)
       select_new_or_renew: "You must answer this question" 
       blank_registration_number: "You must enter your registration number"
       invalid_registration_number: "The registration number you have entered is not recognised"
 
+      # Section 1 (smart answers)
+      select_business_type: "You must answer this question"
+      select_other_businesses: "You must answer this question"
+      select_service_provided: "You must answer this question"
+      select_only_deal_with: "You must answer this question"
+      select_registration_type: "You must answer this questionddd"
+      select_registration_type: "You must answer this question"
+      # TODO AH end wip until all validation message changes complete
 
       max128: "is too long (maximum is 128 characters)"
       maxlength20: "is too long (maximum is 20 characters)"
