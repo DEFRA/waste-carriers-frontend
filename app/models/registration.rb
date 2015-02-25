@@ -731,6 +731,10 @@ class Registration < Ohm::Model
   # Maximum field lengths
   MAX_COMPANY_NAME_LENGTH = 150
 
+  validates :newOrRenew, :presence => { :message => I18n.t('errors.messages.select_new_or_renew') }, if: :newOrRenew_step?
+
+  validates :originalRegistrationNumber, :presence => { :message => I18n.t('errors.messages.blank_registration_number') }, if: :enterRegNumber_step?
+
   validates :businessType, presence: true, inclusion: { in: BUSINESS_TYPES }, if: :businesstype_step?
   validates :otherBusinesses, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :otherbusinesses_step?
   validates :isMainService, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :serviceprovided_step?
@@ -867,6 +871,14 @@ class Registration < Ohm::Model
 
   def address_lookup_page?
     address_lookup_page
+  end
+
+  def newOrRenew_step?
+    current_step.inquiry.newOrRenew?
+  end
+
+  def enterRegNumber_step?
+    current_step.inquiry.enterRegNumber?
   end
 
   def businesstype_step?

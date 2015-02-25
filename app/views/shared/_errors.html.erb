@@ -1,0 +1,8 @@
+<% if @registration && @registration.errors.any? %>
+  <div id="error_explanation" class="validation-summary">
+    <h1 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(@registration.errors.count, t('registrations.errors.error')) %></h1>
+    <% @registration.errors.each do |attr,msg| %>
+      <li><a class="error-text" href="#registration_<%= attr %>"><%= msg %></a></li>
+    <% end %>
+  </div>
+<% end %>
