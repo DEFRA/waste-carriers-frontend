@@ -27,7 +27,6 @@ class StartController < ApplicationController
 
     # there is an error (but data not yet saved)
     logger.info 'No selection made'
-    @registration.errors.add(:newOrRenew, I18n.t('errors.messages.blank'))
     render 'show', :status => '400'
 
   end
