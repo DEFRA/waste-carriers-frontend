@@ -47,7 +47,9 @@
         <tr>
           <td width="75%" style="font-family: Helvetica, Arial, sans-serif;">
 
-            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph1' %></p>
+            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;" id="confirmation_instructions_email">
+              <%= t 'devise.mailer.confirmation_instructions.paragraph1' %>
+            </p>
 
             <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph2' %></p>
 
@@ -61,7 +63,9 @@
 
             <% confirm_link = confirmation_url(@resource, :confirmation_token => @token) %>
 
-            <p style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 15px 0;"><%= link_to(confirm_link, confirm_link, {:id => 'confirmation_link'}) %></p>
+            <p style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 15px 0;">
+              <%= link_to(confirm_link, confirm_link, {:id => 'confirmation_link'}) %>
+            </p>
 
             <p style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0;"><%= t 'devise.mailer.confirmation_instructions.footer_1' %></p>
 

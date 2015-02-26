@@ -28,7 +28,7 @@
   <p class="group"><%= f.label :password_confirmation, t('devise.passwords.confirmLabel') %>
   <%= f.password_field :password_confirmation %></p>
 
-  <p class="action group"><%= f.submit t('devise.passwords.changeLabel'), :class => "button" %></p>
+  <p class="action group"><%= f.submit t('devise.passwords.changeLabel'), { class: 'button', id: 'change_password_button' } %></p>
 <% end %>
 
   </main><!-- end main -->

@@ -67,9 +67,9 @@ end
 
 Then(/^the inbox for '(.+)' should contain an email stating that the account is already confirmed$/) do |email_address|
   open_email email_address
-  current_email.has_text? 'already been confirmed'
+  expect(current_email).to have_selector(:id, 'account_already_confirmed_email')
   current_email.click_link 'sign_in_link'
-  expect(URI.parse(current_url).path).to have_text new_user_session_path
+  expect(URI.parse(current_url).path).to eq(new_user_session_path)
 end
 
 When(/^my account becomes locked due to several successive failed sign-in attempts$/) do
