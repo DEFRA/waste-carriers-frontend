@@ -41,8 +41,9 @@ class RegistrationMailer < ActionMailer::Base
       reply_to: Rails.configuration.registrations_service_email)
   end
 
-  # Call via: RegistrationMailer.account_already_confirmed_email(user).deliver
-  def account_already_confirmed_email(user)
+  # Call via: RegistrationMailer.account_already_confirmed_email(user, is_mid_registration).deliver
+  def account_already_confirmed_email(user, is_mid_registration)
+    @is_mid_registration = is_mid_registration
     mail(
       to: user.email,
       subject: I18n.t('registration_mailer.account_already_confirmed.title'),

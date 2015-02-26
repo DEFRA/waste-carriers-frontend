@@ -18,6 +18,16 @@
           <ul>
       </div>
     </header>
+    
+    <% if notice %>
+    <div id="notice_explanation" class="note-summary text">
+      <ul>
+        <li><%= notice %></li>
+        <li><%= t '.keep_window_open' %></li>
+      </ul>
+    </div>
+    <% end %>
+
 
     <!-- WF 4.3.4 -->
     <div id="page4"  data-journey="waste-carriers-registration:signin"></div>
