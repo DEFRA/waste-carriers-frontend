@@ -15,10 +15,7 @@ class ExistingRegistrationController < ApplicationController
     @registration.originalRegistrationNumber = formatIRRenewalNumber(@registration.originalRegistrationNumber)
 
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
-    if @registration.originalRegistrationNumber.blank?
-      # If orignalRegistrationNumber not found, error
-      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.blank'))
-    else
+    if @registration.valid?
 
       # Check current format
       if isCurrentRegistrationType @registration.originalRegistrationNumber
@@ -57,11 +54,11 @@ class ExistingRegistrationController < ApplicationController
           return
         else
           # No IR data found
-          @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.ir_notFound'))
+          @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid_registration_number'))
         end
         # Error not matched
       else
-        @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid'))
+        @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid_registration_number'))
       end
     end
 
@@ -75,7 +72,7 @@ class ExistingRegistrationController < ApplicationController
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
     params.require(:registration).permit(
-    :originalRegistrationNumber)
+        :originalRegistrationNumber)
   end
 
 end
