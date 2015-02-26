@@ -122,12 +122,12 @@ end
 
 When (/^completes the request using the email address of a valid ([\w ]+)$/) do |user_type|
   fill_in 'Email', with: get_factorygirl_user_for_user_type(user_type).email
-  click_button 'send'
+  click_button 'send_instructions_button'
 end
 
 When (/^completes the request using a guessed email address$/) do
   fill_in 'Email', with: 'a_guessed_address@example.com'
-  click_button 'send'
+  click_button 'send_instructions_button'
 end
 
 Then(/^they should be redirected to the login page, but not told if the email address they supplied was known or unknown$/) do

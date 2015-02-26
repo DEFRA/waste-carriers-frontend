@@ -94,19 +94,19 @@ end
 When(/^I request Password Reset instructions$/) do
   click_link('password_reset_link')
   fill_in "#{@resource_name}_email", with: @this_test_email
-  click_button 'send'
+  click_button 'send_instructions_button'
 end
 
 When(/^I request Account Confirmation instructions$/) do
   click_link('confirmation_instructions_link')
   fill_in "#{@resource_name}_email", with: @this_test_email
-  click_button 'send'
+  click_button 'send_instructions_button'
 end
 
 When(/^I request Account Unlock instructions$/) do
   click_link('unlock_instructions_link')
   fill_in "#{@resource_name}_email", with: @this_test_email
-  click_button 'send'
+  click_button 'send_instructions_button'
 end
 
 When(/^I update my password$/) do
