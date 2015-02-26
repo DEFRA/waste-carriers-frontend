@@ -566,12 +566,13 @@ en:
       paragraph10: "We probably won’t take action against you for operating while we’re waiting for your payment to come through. But the police or your local council might"
       payment_notice: "Payment notice"
     account_already_confirmed:
-      title: "Waste Carriers Registraiton account confirmation"
+      title: "Waste Carrier Registraiton: email confirmed"
       paragraph1: "Somebody recently used this email address when requesting Account Confirmation instructions on the Waste Carriers Registration service."
-      paragraph2: "Your account on the Waste Carriers Registration service has already been confirmed, and you can log in using your email address and password."
+      paragraph2: "Your email address for the Waste Carriers Registration service has already been confirmed, and you can log in using your email address and password."
       sign_in_heading: "Sign in to your Waste Carriers Registration account:"
-      paragraph3: "If you have forgotten your password, you can reset it from the sign-in page."
-      paragraph4: "If you did not request that these instructions were sent, please contact us on the number below."
+      password_help_paragraph: "If you have forgotten your password, you can reset it from the sign-in page."
+      email_unexpected_paragraph: "If you did not request that these instructions were sent, please contact us on the number below."
+      continue_registration_paragraph: 'It looks like you were in the middle of creating a new Registration when you requested these instructions.  If so, please continue with your application now.'
   agency_users:
     index:
       title: "Administration"
@@ -934,6 +935,7 @@ en:
       subtitle: ""
       legend: "Sign in"
       sign_up_link: "I don't have an account"
+      keep_window_open: 'If you wish to continue with your registration, please keep this browser window open.'
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
@@ -1505,3 +1507,7 @@ en:
       paragraph2: 'You can use your email address and password to sign-in to your Waste Carriers Registration account in the future, if you need to change any of your details.'
       paragraph3: 'If you have not already done so, we recommend that you finish your Waste Carriers Registration request now, before signing in for the first time.'
       paragraph4: 'You can now close this page.'
+    mid_registration_password_changed:
+      title: 'Your password has been changed'
+      paragraph1: 'It looks like you were in the middle of creating a new Registration when you changed your password.'
+      paragraph2: 'You can now close this page and continue with your registration in the previous browser window.'

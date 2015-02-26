@@ -45,14 +45,28 @@
         </tr>
         <tr>
           <td width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'registration_mailer.account_already_confirmed.paragraph1' %></p>
-            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'registration_mailer.account_already_confirmed.paragraph2' %></p>
-            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
-              <strong><%= t 'registration_mailer.account_already_confirmed.sign_in_heading' %></strong><br />
-              <%= link_to(new_user_session_url, new_user_session_url, {:id => 'sign_in_link'}) %>
+            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;" id="account_already_confirmed_email">
+              <%= t 'registration_mailer.account_already_confirmed.paragraph1' %>
             </p>
-            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'registration_mailer.account_already_confirmed.paragraph3' %></p>
-            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'registration_mailer.account_already_confirmed.paragraph4' %></p>
+            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
+              <%= t 'registration_mailer.account_already_confirmed.paragraph2' %>
+              </p>
+            
+            <% if @is_mid_registration %>
+              <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;" id="continue_registration_paragraph">
+                <%= t 'registration_mailer.account_already_confirmed.continue_registration_paragraph' %>
+              </p>
+            <% else %>
+              <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
+                <strong><%= t 'registration_mailer.account_already_confirmed.sign_in_heading' %></strong><br />
+                <%= link_to(new_user_session_url, new_user_session_url, {:id => 'sign_in_link'}) %>
+              </p>
+              <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
+                <%= t 'registration_mailer.account_already_confirmed.password_help_paragraph' %>
+              </p>
+            <% end %>
+            
+            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'registration_mailer.account_already_confirmed.email_unexpected_paragraph' %></p>
 
             <p style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0;"><%= t 'devise.mailer.confirmation_instructions.footer_1' %></p>
             <ul>
