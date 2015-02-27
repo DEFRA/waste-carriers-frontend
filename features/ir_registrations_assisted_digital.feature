@@ -25,11 +25,12 @@ Scenario: IR registrations - AD - Limited company changes business name should b
   Then I should be shown the total cost is the charge amount and renewal amount "105.00"
   And have the option to pay by Credit or Debit card or by bank transfer
 
+#charges new registration fee
 @javascript @happy_days
 Scenario: Assisted Digital IR registrations, No convictions, Online payment
-  Given I am renewing an IR registration for a Sole trader and pay by credit card
-  # Then I should be shown the total cost is the charge amount and renewal amount "154.00"
-  And the callers registration should be complete
+  Given I am registering an IR registration for a Sole trader and pay by credit card
+  Then a renewal fee will be charged
+  And the callers registration should be complete when payment is successful
 
 @javascript @wip
 Scenario: Assisted Digital IR registrations, Convictions, Online payment
