@@ -63,3 +63,91 @@ Scenario: Assisted Digital IR registrations, Convictions, Offline payment
   And I choose to pay by bank transfer
   And I make a note of the details
   Then the callers registration should be pending convictions checks
+
+  @wip
+Scenario: IR registrations - AD - Limited company changes waste carrier type
+Given I am renewing a valid CBD IR registration for limited company
+And I don't change business type
+And the smart answers keep me in Upper tier
+When I change waste carrier type from CBD to CD
+And I Enter business details
+And I Enter their contact details
+And I Enter key people details
+And I have no relevant convictions
+And I confirm their details
+Then I should be shown the total cost is the charge amount and renewal amount "145.00"
+And have the option to pay by Credit or Debit card or by bank transfer
+
+
+@wip
+Scenario: IR registrations - AD - Sole Trader changes waste carrier type
+Given I am renewing a valid IR registration for sole trader
+And I don't change business type
+And the smart answers keep me in Upper tier
+When I change waste carrier type from CD to CBD
+And I Enter business details
+And I Enter their contact details
+And I Enter my details
+And I have no relevant convictions
+And I confirm their details
+Then I should be shown the total cost is the charge amount and renewal amount "145.00"
+And have the option to pay by Credit or Debit card or by bank transfer
+
+
+@wip
+Scenario: IR registrations - AD - Partner changes waste carrier type
+Given I am renewing a valid CBD IR registration for Partnership
+And I don't change business type
+And the smart answers keep me in Upper tier
+When I change waste carrier type from CBD to BD
+And I Enter business details
+And I Enter their contact details
+And I Enter key people details
+And I have no relevant convictions
+And I confirm their details
+Then I should be shown the total cost "145.00"
+And have the option to pay by Credit or Debit card or by bank transfer
+
+# Check Public body data
+@wip
+Scenario: IR registrations - AD - Public body changes waste carrier type
+Given I am renewing a valid CD IR registration for Public Body
+And I don't change business type
+And the smart answers keep me in Upper tier
+When I change waste carrier type from CD to BD
+And I Enter business details
+And I Enter their contact details
+And I Enter key people details
+And I have no relevant convictions
+And I confirm their details
+Then I should be shown the total cost "145.00"
+And have the option to pay by Credit or Debit card or by bank transfer
+
+@wip
+Scenario: IR registrations - AD - Limited company changes waste carrier type
+Given have chosen to renew an existing licence
+And I am renewing a valid BD IR registration for limited company
+And I don't change business type
+And the smart answers keep me in Upper tier
+When I change waste carrier type from BD to CD
+And I Enter business details
+And I Enter their contact details
+And I Enter key people details
+And I have no relevant convictions
+And I confirm their details
+Then I should be shown the total cost "145.00"
+And have the option to pay by Credit or Debit card or by bank transfer
+
+@wip
+Scenario: IR registrations - AD - Partner changes waste carrier type
+Given I am renewing a valid BD IR registration for Partnership
+And I don't change business type
+And the smart answers keep me in Upper tier
+When I change waste carrier type from BD to CBD
+And I Enter business details
+And I Enter their contact details
+And I Enter key people details
+And I have no relevant convictions
+And I confirm their details
+Then I should be shown the total cost "145.00"
+And have the option to pay by Credit or Debit card or by bank transfer
