@@ -61,15 +61,15 @@ end
 When(/^I request that account confirmation instructions are re-sent for '(.+)'$/) do |email_address|
   visit new_user_confirmation_path
   fill_in 'user_email', with: email_address
-  click_button 'resend'
+  click_button 'send_instructions_button'
   sleep 0.5   # Wait for the email to be 'delivered'
 end
 
 Then(/^the inbox for '(.+)' should contain an email stating that the account is already confirmed$/) do |email_address|
   open_email email_address
-  current_email.has_text? 'already been confirmed'
+  expect(current_email).to have_selector(:id, 'account_already_confirmed_email')
   current_email.click_link 'sign_in_link'
-  expect(URI.parse(current_url).path).to have_text new_user_session_path
+  expect(URI.parse(current_url).path).to eq(new_user_session_path)
 end
 
 When(/^my account becomes locked due to several successive failed sign-in attempts$/) do
@@ -113,7 +113,7 @@ When(/^I activate my account by clicking the link in the activation email$/) do
 end
 
 Then(/^I need to request a new confirmation email to activate my account$/) do
-  click_button 'resend'
+  click_button 'send_instructions_button'
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'confirmation_link'

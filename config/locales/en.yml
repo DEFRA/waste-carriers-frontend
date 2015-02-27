@@ -581,12 +581,13 @@ en:
       paragraph10: "We probably won’t take action against you for operating while we’re waiting for your payment to come through. But the police or your local council might"
       payment_notice: "Payment notice"
     account_already_confirmed:
-      title: "Waste Carriers Registraiton account confirmation"
+      title: "Waste Carrier Registraiton: email confirmed"
       paragraph1: "Somebody recently used this email address when requesting Account Confirmation instructions on the Waste Carriers Registration service."
-      paragraph2: "Your account on the Waste Carriers Registration service has already been confirmed, and you can log in using your email address and password."
+      paragraph2: "Your email address for the Waste Carriers Registration service has already been confirmed, and you can log in using your email address and password."
       sign_in_heading: "Sign in to your Waste Carriers Registration account:"
-      paragraph3: "If you have forgotten your password, you can reset it from the sign-in page."
-      paragraph4: "If you did not request that these instructions were sent, please contact us on the number below."
+      password_help_paragraph: "If you have forgotten your password, you can reset it from the sign-in page."
+      email_unexpected_paragraph: "If you did not request that these instructions were sent, please contact us on the number below."
+      continue_registration_paragraph: 'It looks like you were in the middle of creating a new Registration when you requested these instructions.  If so, please continue with your application now.'
   agency_users:
     index:
       title: "Administration"
@@ -949,6 +950,7 @@ en:
       subtitle: ""
       legend: "Sign in"
       sign_up_link: "I don't have an account"
+      keep_window_open: 'If you wish to continue with your registration, please keep this browser window open.'
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
       point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
@@ -1402,6 +1404,21 @@ en:
       signed_in_as_agency_user: "Signed in as"
     progress:
       progress: "Progress"
+    sign_in_help:
+      sign_in_problems: "I'm having trouble with my sign in details"
+      sign_in_problems_paragraph: "If your sign in details are not working, you will need to\ "
+      sign_in_problems_link: "reset your password."
+      sign_in_email_unknown: "I don't know the email address for my account"
+      sign_in_email_unknown_paragraph: "If you don’t know the email address belonging to your account, contact our helpline on 03708 506506."
+      sign_in_confirm: "I'm having other problems signing in"
+      sign_in_confirm_heading: "Have you confirmed your email address?"
+      sign_in_confirm_paragraph: "After you've registered as a waste carrier you must confirm your email address to access your account."
+      sign_in_confirm_step: "Next step: confirm your email address"
+      sign_in_confirm_text: "We need to send you instructions so you can confirm your email address."
+      sign_in_confirm_link: "I need to confirm my email address"
+      sign_in_unlock: "I think my account is locked"
+      sign_in_unlock_paragraph: "If you think your account has been temporarily locked, you will need to\ "
+      sign_in_unlock_link: "request unlock instructions"
   route_options:
     ASSISTED_DIGITAL: "Assisted Digital"
     DIGITAL: "Digital"
@@ -1505,3 +1522,7 @@ en:
       paragraph2: 'You can use your email address and password to sign-in to your Waste Carriers Registration account in the future, if you need to change any of your details.'
       paragraph3: 'If you have not already done so, we recommend that you finish your Waste Carriers Registration request now, before signing in for the first time.'
       paragraph4: 'You can now close this page.'
+    mid_registration_password_changed:
+      title: 'Your password has been changed'
+      paragraph1: 'It looks like you were in the middle of creating a new Registration when you changed your password.'
+      paragraph2: 'You can now close this page and continue with your registration in the previous browser window.'
