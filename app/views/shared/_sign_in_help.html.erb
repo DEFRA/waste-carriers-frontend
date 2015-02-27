@@ -1,0 +1,57 @@
+<% registration_in_progress ||= false %>
+
+<details class="text">
+  <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+    <span class='summary'><%= t 'shared.sign_in_help.sign_in_problems' %></span>
+  </summary>
+  <div style='display:block' id='details-content-0' >
+    <p id='password_reset_help'>
+      <%= t 'shared.sign_in_help.sign_in_problems_paragraph' %>
+      <%= link_to t('shared.sign_in_help.sign_in_problems_link'), new_password_path(resource_name), {id: 'password_reset_link'} %>
+    </p>
+  </div>
+</details>
+
+<% if resource_name == :user %>
+  <% unless registration_in_progress %>
+    <details class="text">
+      <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+        <span class='summary'><%= t 'shared.sign_in_help.sign_in_email_unknown' %></span>
+      </summary>
+      <div style='display:block' id='details-content-0' >
+        <p id='unknown_email_help'>
+          <%= t 'shared.sign_in_help.sign_in_email_unknown_paragraph' %>
+        </p>
+      </div>
+    </details>
+  <% end %>
+
+  <details class="text">
+    <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+      <span class='summary'><%= t 'shared.sign_in_help.sign_in_confirm' %></span>
+    </summary>
+    <div style='display:block' id='details-content-0' >
+      <p><%= t 'shared.sign_in_help.sign_in_confirm_heading' %></p>
+      <p class="panel-indent" id='confirmation_instructions_help'>
+        <%= t '.sign_in_confirm_paragraph' %>
+      </p>
+      <ul>
+        <li><%= link_to t('shared.sign_in_help.sign_in_confirm_link'), new_confirmation_path(resource_name), {id: 'confirmation_instructions_link'} %></li>
+      </ul>
+    </div>
+  </details>
+<% end %>
+
+<% if resource_name == :agency_user || resource_name == :admin %>
+  <details class="text">
+    <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+      <span class='summary'><%= t 'shared.sign_in_help.sign_in_unlock' %></span>
+    </summary>
+    <div style='display:block' id='details-content-0' >
+      <p id='unlock_instructions_help'>
+        <%= t 'shared.sign_in_help.sign_in_unlock_paragraph' %>
+        <%= link_to t('shared.sign_in_help.sign_in_unlock_link'), new_unlock_path(resource_name), {id: 'unlock_instructions_link'} %>
+        </p>
+    </div>
+  </details>
+<% end %>
