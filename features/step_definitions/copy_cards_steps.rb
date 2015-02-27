@@ -4,8 +4,8 @@ end
 
 Given(/^I order and pay for 3 cards with Mastercard$/) do
  user_registrations_page_add_copy_cards
- your_registration_order_page_enter_copy_cards
- your_registration_order_page_pay_by_credit_card
+ order_page_enter_copy_cards
+ order_page_pay_by_credit_card
   waitForWorldpayToLoad
   secure_payment_page_pay_by_mastercard
   secure_payment_details_page_check_worldpay_amount(amount: '15.00')
@@ -14,8 +14,8 @@ Given(/^I order and pay for 3 cards with Mastercard$/) do
 end
 
 When /^I order "(.*?)" of copy cards and choose to pay offline$/ do |text|
-  your_registration_order_page_enter_copy_cards(no_of_cards: text.to_i)
-  your_registration_order_page_pay_by_bank_transfer
+  order_page_enter_copy_cards(no_of_cards: text.to_i)
+  order_page_pay_by_bank_transfer
 end
 
 Given(/^I choose to order copy cards for my registration$/) do
