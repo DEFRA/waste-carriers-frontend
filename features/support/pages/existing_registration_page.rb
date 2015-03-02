@@ -29,5 +29,15 @@ module ExistingRegistrationPage
       existing_registration_page_submit if submit
   end
 
+     def existing_registration_page_enter_public_body_registration_number(submit: 'true')
+      fill_in 'registration_originalRegistrationNumber', with: 'CB/VM9999WW/A001'
+      existing_registration_page_submit if submit
+  end
+
+     def existing_registration_page_enter_partnership_registration_number(submit: 'true')
+      fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999ZZ/R002 '
+      existing_registration_page_submit if submit
+  end
+
 end
 World(ExistingRegistrationPage)
