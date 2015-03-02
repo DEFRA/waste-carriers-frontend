@@ -61,7 +61,7 @@ en:
         business_type: "Business type"
         business_or_organisation_address: "Business or organisation address"
         companyName: "Business or organisation trading name"
-        company_no: "Company registration number (CN)"
+        company_no: "Company registration number (CRN)"
         constructionWaste: "Do you deal with construction waste"
         contactEmail: "Email address"
         copy_cards: "Copy cards"
@@ -254,33 +254,67 @@ en:
     messages:
       35characters: "can not be longer than 35 characters"
       70characters: "can not be longer than 70 characters"
-      invalid_company_name_characters: "can only contain letters, numbers, spaces and special characters (.-&'’[],) and be no longer than %{maxLength} characters"
       blank: "must be completed"
       emailTaken: "has already been taken"
       invalid: "is not valid"
       invalidEmail: "must be a valid email address"
       invalid_characters: "contains invalid characters. Please only use letters, numbers, or \\'&%!."
-      invalid_date: "is not a valid date (dd/mm/yyyy)"
-      date_not_in_past: "must be in the past"
-      dob_less_than_18_years: "must be more than 18 years ago"
       invalid_selection: "has an invalid selection"
       letters: "can only contain letters"
       lettersSpaces: "can only contain letters and spaces"
-      lettersSpacesNumbers35: "can only contain letters, spaces, numbers and hyphens and be no longer than 35 characters"
 
       # TODO AH start wip until all validation message changes complete
+
       # Section 0 (start)
       select_new_or_renew: "You must answer this question" 
       blank_registration_number: "You must enter your registration number"
-      invalid_registration_number: "The registration number you have entered is not recognised"
+      invalid_registration_number: "The registration number you entered is not recognised"
 
       # Section 1 (smart answers)
       select_business_type: "You must answer this question"
       select_other_businesses: "You must answer this question"
       select_service_provided: "You must answer this question"
       select_only_deal_with: "You must answer this question"
-      select_registration_type: "You must answer this questionddd"
       select_registration_type: "You must answer this question"
+
+      # Section 2 (contact details)
+      blank_non_ltd_company_name: "You must enter the trading name of your business or organisation"
+      blank_ltd_company_name: "You must enter the trading name of the business"
+      invalid_company_name_characters: "The business or organisation trading name can use letters, numbers, spaces and some special characters (.-&”[],) and must be no longer than 150 characters"
+      blank_uk_company_number: "You must enter the company registration number (CRN)"
+      invalid_uk_company_number_characters: "Please check your company registration number (CRN). It should be either an 8 digit number, or 2 letters followed by a 6 digit number"
+      inactive_uk_company_number: "This company registration number (CRN) is associated with a company that is no longer active. Please try again"
+      not_found_uk_company_number: "This company registration number (CRN) can’t be found. Please try again"
+      companies_house_service_error: "This company registration number (CRN) couldn’t be verified because of a problem contacting Companies House. Please try again"
+      blank_address_line: "You must enter at least one address line"
+      blank_building_name_or_number: "You must enter a building name or number"
+      invalid_building_name_or_number_characters: "The building name or number can use letters, numbers, spaces and some special characters (-’,). It must be no longer than 35 characters"
+      blank_town_or_city: "You must enter a town or city"
+      invalid_town_or_city: "The town or city can use letters, numbers, spaces and some special characters (-’,). It must be no longer than 35 characters"
+      blank_country: "You must enter a country"
+      enter_at_least_1_person: "You must add the details of at least one person"
+      blank_first_name: "You must enter a first name"
+      invalid_first_name: "The first name can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
+      blank_last_name: "You must enter a last name"
+      invalid_last_name: "The last name  can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
+      blank_telephone: "You must enter a telephone"
+      invalid_telephone: "The telephone number can use numbers, spaces and some special characters (-+). It must be no longer than 20 characters"
+      blank_email: "You must enter an email address"
+      invalid_email: "Please enter a valid email address"
+      blank_day: "You must enter a day"
+      invalid_day: "You must enter a valid day"
+      blank_month: "You must enter a month"
+      invalid_month: "You must enter a valid month"
+      blank_year: "You must enter a year"
+      invalid_year: "You must enter a valid year"
+      invalid_date: "You must enter a valid date"
+      date_not_in_past: "The date must be in the past"
+      dob_less_than_18_years: "You must be over 18 to use this service"
+
+      # Common
+      blank_post_code: "You must enter your postcode"
+      invalid_post_code: "Please enter a valid postcode"
+
       # TODO AH end wip until all validation message changes complete
 
       max128: "is too long (maximum is 128 characters)"

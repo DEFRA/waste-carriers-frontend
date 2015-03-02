@@ -1,21 +1,21 @@
 require 'spec_helper'
 
 describe KeyPerson do
-  it { should validate_presence_of(:first_name) }
-  it { should validate_presence_of(:last_name) }
+  it { should validate_presence_of(:first_name).with_message(/You must enter/) }
+  it { should validate_presence_of(:last_name).with_message(/You must enter/) }
 
-  it { should validate_presence_of(:dob_day) }
-  it { should validate_presence_of(:dob_month) }
-  it { should validate_presence_of(:dob_year) }
+  it { should validate_presence_of(:dob_day).with_message(/You must enter/) }
+  it { should validate_presence_of(:dob_month).with_message(/You must enter/) }
+  it { should validate_presence_of(:dob_year).with_message(/You must enter/) }
 
   describe 'dob' do
     context 'past within 18 years' do
       Timecop.freeze('5 Jul 2014'.to_date) do
-        it { should_not allow_value('4 Jul 2014'.to_date).for(:dob) }
+        it { should_not allow_value('4 Jul 2014'.to_date).for(:dob).with_message(/You must be over 18 to use this service/) }
       end
     end
 
-    context 'past ouside 18 years' do
+    context 'past outside 18 years' do
       Timecop.freeze('5 Jul 2014'.to_date) do
         it { should allow_value('4 Jul 1996'.to_date).for(:dob) }
       end
