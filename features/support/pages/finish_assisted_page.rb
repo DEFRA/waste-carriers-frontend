@@ -19,11 +19,13 @@ module FinishAssistedPage
 
    def finish_assisted_page_check_pending_payment_text(amount:'105.00')
    page.should have_content 'pay the registration fee'
+   # pp totalChargeAmount
+   end
+
+   def finish_assisted_page_check_charge_amount(amount:'105.00')
    totalChargeAmount = find(:xpath, '//*[@id="payment-table-wrapper"]/table[1]/tbody/tr[2]/td[2]').text
    expect(totalChargeAmount).to have_text "#{amount}"
    # pp totalChargeAmount
-
-    end
-
+   end
 end
 World(FinishAssistedPage)
