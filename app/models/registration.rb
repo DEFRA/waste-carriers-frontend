@@ -718,70 +718,99 @@ class Registration < Ohm::Model
   # well-defined such as for UK postcodes
 
   VALID_CHARACTERS = /\A[A-Za-z0-9\s\'\.&!%]*\Z/
+
+  # TODO AH - ditch this one when individual ones created
   GENERAL_WORD_REGEX = /\A[a-zA-Z\s\-\']+\z/
+
+  FIRST_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
+  LAST_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
+  POSITION_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
   DISTANCES = %w[any 10 50 100]
   VALID_HOUSE_NAME_OR_NUMBER_REGEX = /\A[a-zA-Z0-9\'\s\,-]+\z/
+  TOWN_CITY_REGEX = /\A[a-zA-Z0-9\'\s\,-]+\z/
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
   YES_NO_ANSWER = %w(yes no)
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
   VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\'\u2019\[\]\,\(\)]+\z/
-  VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|[a-zA-Z]{2}\d{6}\z/i
 
   # Maximum field lengths
   MAX_COMPANY_NAME_LENGTH = 150
 
-  # Start of Section 0 (start)
+  # ******************************
+  # * Start of Section 0 (start) *
+  # *****************************
   validates :newOrRenew, :presence => { :message => I18n.t('errors.messages.select_new_or_renew') }, if: :newOrRenew_step?
   validates :originalRegistrationNumber, :presence => { :message => I18n.t('errors.messages.blank_registration_number') }, if: :enterRegNumber_step?
-  # End of Section 0 (start)
+  # * End of Section 0 (start) *
 
-  # Start of Section 1 (smart answers)
+  # **************************************
+  # ***** Start of Section 1 (smart answers)
+  # **************************************
   validates :businessType, :presence => { :message => I18n.t('errors.messages.select_business_type') }, inclusion: { in: BUSINESS_TYPES, :allow_blank => true }, if: :businesstype_step?
   validates :otherBusinesses, :presence => { :message => I18n.t('errors.messages.select_other_businesses') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :otherbusinesses_step?
   validates :isMainService, :presence => { :message => I18n.t('errors.messages.select_service_provided') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :serviceprovided_step?
   validates :constructionWaste, :presence => { :message => I18n.t('errors.messages.select_only_deal_with') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :constructiondemolition_step?
   validates :registrationType, :presence => { :message => I18n.t('errors.messages.select_registration_type') }, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer), :allow_blank => true }, if: :registrationtype_step?
   validates :onlyAMF, :presence => { :message => I18n.t('errors.messages.select_only_deal_with') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :onlydealwith_step?
-  # End of Section 1 (smart answers)
+  # ***** End of Section 1 (smart answers) *****
 
-  validates :declaredConvictions, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :convictions_step?
-
-  validates :companyName, presence: true, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }, if: 'businessdetails_step?'
-
-  with_options if: :contactdetails_step? do |registration|
-    registration.validates :firstName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
-    registration.validates :lastName, presence: true, format: { with: GENERAL_WORD_REGEX }, length: { maximum: 35 }
-    registration.validates :position, format: { with: GENERAL_WORD_REGEX }, :allow_nil => true, :allow_blank => true
-    registration.validates :phoneNumber, presence: true, format: { with: VALID_TELEPHONE_NUMBER_REGEX }, length: { maximum: 20 }
+  # **************************************
+  # * Start of Section 2 (contact details) *****
+  # **************************************
+  # Any company type except Limited company
+  with_options if: [:businessdetails_step?, :not_limited_company?] do |registration|
+    registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_non_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
   end
 
-  validates :contactEmail, presence: true, email: true, if: [:digital_route?, :contactdetails_step?]
-
-  with_options if: [:address_step?, :manual_uk_address?] do |registration|
-    registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 }
-    registration.validates :streetLine1, presence: true, length: { maximum: 35 }
-    registration.validates :streetLine2, length: { maximum: 35 }
-    registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }
-    registration.validates :postcode, presence: true, uk_postcode: true
+  # Limited company
+  with_options if: [:businessdetails_step?, :limited_company?] do |registration|
+    registration.validates :company_no, uk_company_number: true
+    registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
   end
 
   with_options if: [:address_step?, :address_lookup? ] do |registration|
-
-    registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, \
-      message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 },  unless: :address_lookup_page?
+    registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.lettersSpacesNumbers35') }, length: { maximum: 35 },  unless: :address_lookup_page?
     # we're avoiding street field validation here, as sometime the Experian service fails to populate these fields so
     # we don't want validation errors to stop the flow because the lookup isn't working properly.
-    registration.validates :townCity, presence: true, format: { with: GENERAL_WORD_REGEX }, unless: :address_lookup_page?
-    registration.validates :postcode, presence: true, uk_postcode: true
+    registration.validates :townCity, presence: true, format: { with: TOWN_CITY_REGEX }, unless: :address_lookup_page?
+    registration.validates :postcode, uk_postcode: true
   end
 
+  with_options if: [:address_step?, :manual_uk_address?] do |registration|
+    registration.validates :houseNumber, :presence => { :message => I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), :allow_blank => true }, length: { maximum: 35 }
+    registration.validates :streetLine1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+    registration.validates :streetLine2, length: { maximum: 35 }
+    registration.validates :townCity, :presence => { :message => I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), :allow_blank => true }
+    registration.validates :postcode, uk_postcode: true
+  end
 
   with_options if: [:address_step?, :manual_foreign_address?] do |registration|
-    registration.validates :streetLine1, presence: true, length: { maximum: 35 }
+    registration.validates :streetLine1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
     registration.validates :streetLine2, :streetLine3, :streetLine4, length: { maximum: 35 }
-    registration.validates :country, presence: true, length: { maximum: 35 }
+    registration.validates :country, :presence => { :message => I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
   end
+
+  # TODO AH - is position ever used?
+  with_options if: :contactdetails_step? do |registration|
+    registration.validates :firstName, :presence => { :message => I18n.t('errors.messages.blank_first_name') }, format: { with: FIRST_NAME_REGEX, message: I18n.t('errors.messages.invalid_first_name'), allow_blank: true}, length: { maximum: 35 }
+    registration.validates :lastName, :presence => { :message => I18n.t('errors.messages.blank_last_name') }, format: { with: LAST_NAME_REGEX, message: I18n.t('errors.messages.invalid_last_name'), allow_blank: true }, length: { maximum: 35 }
+    registration.validates :position, format: { with: POSITION_NAME_REGEX }, :allow_nil => true, :allow_blank => true
+    registration.validates :phoneNumber, :presence => { :message => I18n.t('errors.messages.blank_telephone') }, format: { with: VALID_TELEPHONE_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_telephone'), allow_blank: true }, length: { maximum: 20 }
+  end
+
+  # TODO AH - not sure if this is common one yet?
+  validates :contactEmail, email: true, if: [:digital_route?, :contactdetails_step?]
+
+  # ***** End of Section 2 (contact details) *****
+
+  # **************************************
+  # ***** Start of common validations *****
+  # **************************************
+  # ***** End of common validations *****
+
+  validates :declaredConvictions, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :convictions_step?
+
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
   validate :validate_key_people, :if => :should_validate_key_people?
@@ -802,11 +831,6 @@ class Registration < Ohm::Model
   validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
 
   validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
-
-  with_options if: [:businessdetails_step?, :limited_company?, :upper?] do |registration|
-    registration.validates :company_no, presence: true, format: { with: VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX }
-    registration.validate :limited_company_must_be_active
-  end
 
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
   validates :payment_type, :presence => true, if: :payment_step?
@@ -1001,6 +1025,10 @@ class Registration < Ohm::Model
     businessType == 'limitedCompany'
   end
 
+  def not_limited_company?
+    businessType != 'limitedCompany'
+  end
+
   def account_email_present?
     accountEmail.present?
   end
@@ -1056,17 +1084,6 @@ class Registration < Ohm::Model
 
   def confirmation_step?
     current_step == 'confirmation'
-  end
-
-  def limited_company_must_be_active
-    case CompaniesHouseCaller.new(company_no).status
-      when :not_found
-        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_not_found'))
-      when :inactive
-        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_registration_number_inactive'))
-      when :error_calling_service
-        errors.add(:company_no, I18n.t('registrations.company_details_finder.companies_house_service_error'))
-    end
   end
 
   def pending?
@@ -1429,11 +1446,11 @@ class Registration < Ohm::Model
   def validate_key_people
     if relevant_people_step?
       if key_people.select { |person| person.person_type == 'RELEVANT'}.empty?
-        errors.add(I18n.t('activemodel.attributes.registration.relevant_people'), I18n.t('errors.messages.is_empty'))
+        errors.add(I18n.t('activemodel.attributes.registration.relevant_people'), I18n.t('errors.messages.enter_at_least_1_person'))
       end
     elsif key_person_step? || key_people_step?
       if key_people.select { |person| person.person_type == 'KEY'}.empty?
-        errors.add(I18n.t('activemodel.attributes.registration.key_people'), I18n.t('errors.messages.is_empty'))
+        errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_person'))
       end
     end
   end

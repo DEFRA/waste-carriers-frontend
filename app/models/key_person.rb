@@ -27,11 +27,15 @@ class KeyPerson < Ohm::Model
 
   before_validation :strip_whitespace, :only => [:dob_day, :dob_month, :dob_year]
 
-  validates :first_name, :last_name, :dob_day, :dob_month, :dob_year, presence: true
+  validates :first_name, :presence => { :message => I18n.t('errors.messages.blank_first_name') }
+  validates :last_name, :presence => { :message => I18n.t('errors.messages.blank_last_name') }
+  validates :dob_day, :presence => { :message => I18n.t('errors.messages.blank_day') }
+  validates :dob_month, :presence => { :message => I18n.t('errors.messages.blank_month') }
+  validates :dob_year, :presence => { :message => I18n.t('errors.messages.blank_year') }
 
-  validates :dob_day, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :dob_month, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :dob_year, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :dob_day, numericality: { only_integer: true, greater_than_or_equal_to: 1, :message => I18n.t('errors.messages.invalid_day'), allow_blank: true }
+  validates :dob_month, numericality: { only_integer: true, greater_than_or_equal_to: 1, :message => I18n.t('errors.messages.invalid_month'), allow_blank: true }
+  validates :dob_year, numericality: { only_integer: true, greater_than_or_equal_to: 1, :message => I18n.t('errors.messages.invalid_year'), allow_blank: true }
 
   validate :validate_dob
 
