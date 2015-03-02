@@ -372,16 +372,39 @@ module RegistrationsHelper
       end
     end
   end
-  
-  # Returns a string of JSON containing indicators which help Google Analytics identify which route
-  # through the site a visitor has taken.  Indicators are only set when their value is known.
-  def get_google_analytics_indicators_as_json(session)
+
+  # Returns a hash containing the indicators used for Google Analytics.  Keys
+  # will only be set when their value is known.
+  def get_google_analytics_indicators_as_hash(session)
     result = {}
     result['renewal']     = session[:ga_is_renewal] if session.has_key?(:ga_is_renewal)
     result['tier']        = session[:ga_tier] if session.has_key?(:ga_tier)
     result['convictions'] = session[:ga_convictions] if session.has_key?(:ga_convictions)
     result['payment']     = session[:ga_payment_method] if session.has_key?(:ga_payment_method)
-    return result.to_json.html_safe
+    result
+  end
+
+  # Returns a string of JSON containing indicators which help Google Analytics
+  # identify which route through the site a visitor has taken.  Indicators are
+  # only set when their value is known.
+  def get_google_analytics_indicators_as_json(session)
+    get_google_analytics_indicators_as_hash(session).to_json.html_safe
+  end
+
+  # Returns a string containing a partial URL that records a page-view in
+  # Google Analytics, for browsers that don't support Javascript.
+  def get_google_tag_manager_noscript_request(session)
+    indicators = get_google_analytics_indicators_as_hash(session)
+    request = format(
+      '//www.googletagmanager.com/ns.html?id=%s',
+      Rails.application.config.google_tag_manager_id
+    ).html_safe
+
+    unless indicators.empty?
+      request << format('&%s', indicators.to_query).html_safe
+    end
+
+    request
   end
 
   def isCurrentRegistrationType registrationNumber
