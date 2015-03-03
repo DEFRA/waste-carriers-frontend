@@ -11,6 +11,28 @@ Given(/^I am renewing an IR registration$/) do
   click_button 'continue'
 end
 
+Given(/^I have chosen to renew my registration from IR$/) do
+ # Manually force a repopulation of IR data in database
+  RestClient.post Rails.configuration.waste_exemplar_services_admin_url + '/tasks/ir-repopulate', :content_type => :json, :accept => :json
+  #sleep 1.0      # Wait a period for background task of pre-population to occur  
+  go_to_start_page
+  start_page_select_renew
+end
+
+When(/^I enter my IR registration number for a Sole trader and pay by credit card$/) do
+  existing_registration_page_enter_sole_trader_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_submit
+  business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
+  contact_details_page_enter_contact_details_and_submit
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_no
+
+end
+
 When(/^I am registering an IR registration for a Sole trader and pay by credit card$/) do
   existing_registration_page_enter_sole_trader_registration_number
   business_type_page_submit
@@ -65,6 +87,20 @@ Given(/^I am registering an IR registration for a limited company with convictio
   relevant_people_page_enter_multiple_convicted_people_and_submit
 end
 
+When(/^I enter my IR registration number for a limited company and pay by credit card$/) do
+  existing_registration_page_enter_limited_company_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_submit
+  business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
+  contact_details_page_enter_contact_details_and_submit
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_yes
+  relevant_people_page_enter_multiple_convicted_people_and_submit
+end
+
 Given(/^I am registering an IR registration for a limited company changing waste carrier type and pay by credit card$/) do
   existing_registration_page_enter_limited_company_registration_number
   business_type_page_submit
@@ -96,15 +132,24 @@ Then(/^a renewal fee will be charged$/) do
   confirmation_page_registration_check_for_renewal_text
   confirmation_page_registration_and_submit
   order_page_enter_copy_cards(no_of_cards:0)
-  order_page_check_total_charge(amount:'154.00')
+  order_page_check_total_charge(amount:'105.00')
 end
 
+Then(/^I will be charged a renewal fee$/) do
+  confirmation_page_registration_check_for_renewal_text
+  confirmation_page_registration_and_submit
+  enter_email_details_and_submit
+  # order_page_enter_copy_cards(no_of_cards:0)
+  order_page_check_total_charge(amount:'105.00')
+end
+
+
 Then(/^there will be a renewal and edit amount charged$/) do
-    confirmation_page_registration_check_for_renewal_text
+  confirmation_page_registration_check_for_renewal_text
   confirmation_page_registration_and_submit
   order_page_enter_copy_cards(no_of_cards:0)
   #renewal fee is £105 plus £30 edit charge
-  order_page_check_total_charge(amount:'154.00')
+  order_page_check_total_charge(amount:'135.00')
 end
 
 Then(/^the correct renewal charge should be shown$/) do
@@ -117,14 +162,22 @@ end
 
 Then(/^the callers registration should be complete when payment is successful$/) do
   order_page_submit
-  secure_payment_page_pay_by_maestro
+  secure_payment_page_pay_by_visa
   secure_payment_details_page_enter_visa_details_and_submit
   secure_test_simulator_page_continue
   finish_assisted_page_check_registration_complete_text
 end
 
+Then(/^my registration should be pending convictions checks when payment is successful$/) do
+  order_page_submit
+  secure_payment_page_pay_by_maestro
+  secure_payment_details_page_enter_visa_details_and_submit
+  secure_test_simulator_page_continue
+  confirmed_page_check_pending_convictions_text
+end
+
 Then(/^the callers registration should be pending convictions checks when payment is successful$/) do
-   order_page_submit
+  order_page_submit
   secure_payment_page_pay_by_maestro
   secure_payment_details_page_enter_visa_details_and_submit
   secure_test_simulator_page_continue
@@ -219,6 +272,11 @@ When(/^I only change business details$/) do
   relevant_convictions_page_select_no
   confirm_registration_page_and_submit
 end
+
+When(/^I make no other changes to my registration details$/) do
+# noop (step exists for readability of the feature only)
+end
+
 
 When(/^I only change business name$/) do
   business_type_page_submit
@@ -410,5 +468,13 @@ end
 When(/^I change waste carrier type from BD to CBD$/) do
    choose 'registration_registrationType_carrier_broker_dealer'
  click_button 'continue'
+end
+
+Then(/^registration should be complete when payment is successful$/) do
+  order_page_submit
+  secure_payment_page_pay_by_visa
+  secure_payment_details_page_enter_visa_details_and_submit
+  secure_test_simulator_page_continue
+  confirmed_page_check_text_registration_complete
 end
 
