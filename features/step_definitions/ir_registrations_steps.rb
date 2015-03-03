@@ -30,7 +30,20 @@ When(/^I enter my IR registration number for a Sole trader and pay by credit car
   contact_details_page_enter_contact_details_and_submit
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
+end
 
+When(/^I enter my IR registration number for a Sole trader with convictions and pay by bank transfer$/) do
+  existing_registration_page_enter_sole_trader_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_submit
+  business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
+  contact_details_page_enter_contact_details_and_submit
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_yes
+  relevant_people_page_enter_multiple_convicted_people_and_submit
 end
 
 When(/^I am registering an IR registration for a Sole trader and pay by credit card$/) do
@@ -73,6 +86,19 @@ Given(/^I am registering an IR registration for a Partnership and pay by bank tr
   relevant_convictions_page_select_no
 end
 
+When(/^I enter my IR registration number for a partnership and pay by credit card$/) do
+  existing_registration_page_enter_partnership_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_submit
+  business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
+  contact_details_page_enter_contact_details_and_submit
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_no
+end
+
 Given(/^I am registering an IR registration for a limited company with convictions and pay by bank transfer$/) do
   existing_registration_page_enter_limited_company_registration_number
   business_type_page_submit
@@ -87,7 +113,7 @@ Given(/^I am registering an IR registration for a limited company with convictio
   relevant_people_page_enter_multiple_convicted_people_and_submit
 end
 
-When(/^I enter my IR registration number for a limited company and pay by credit card$/) do
+When(/^I enter my IR registration number for a limited company with convictions and pay by credit card$/) do
   existing_registration_page_enter_limited_company_registration_number
   business_type_page_submit
   other_businesses_page_select_yes
@@ -154,6 +180,10 @@ end
 
 Then(/^the correct renewal charge should be shown$/) do
   finish_assisted_page_check_charge_amount(amount:'135.00')
+end
+
+Then(/^my correct renewal charge should be shown$/) do
+  confirmed_page_check_charge_amount(amount:'105.00')
 end
 
 Then(/^the correct renewal and edit charge should be shown$/) do
@@ -247,6 +277,11 @@ end
 Then(/^the callers registration should be pending payment$/) do
   order_page_pay_by_bank_transfer_and_submit(0)
   finish_assisted_page_check_pending_payment_text
+end
+
+Then(/^my registration should be pending payment$/) do
+  order_page_pay_ir_by_bank_transfer_and_submit(0)
+  confirmed_page_check_pending_payment_text
 end
 
 
