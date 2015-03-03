@@ -12,13 +12,13 @@ module OrderPage
   end
 
   def order_page_check_registration_fee(amount:'105.00')
-   totalChargeAmount = find(:xpath, '//*[@id="registration_registration_fee"]').text
+   totalChargeAmount = find(:xpath, '//*[@id="registration_registration_fee"]').value
    expect(totalChargeAmount).to have_text "#{amount}"
   end
 
   def order_page_check_total_charge(amount:'105.00')
-   totalChargeAmount = find(:xpath, '//*[@id="registration_total_fee"]').text
-   pp totalChargeAmount
+   totalChargeAmount = find(:xpath, '//*[@id="registration_total_fee"]').value
+   # pp totalChargeAmount
    expect(totalChargeAmount).to have_text "#{amount}"
   end
  
