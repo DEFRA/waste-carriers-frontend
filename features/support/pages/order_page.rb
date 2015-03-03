@@ -11,6 +11,13 @@ module OrderPage
     click_button 'proceed_to_payment'
   end
 
+    def order_page_pay_ir_by_bank_transfer_and_submit(number)
+    # currently no option to order copy cards for IR online registrations
+    # fill_in 'registration_copy_cards', with: number
+    choose 'registration_payment_type_bank_transfer'
+    click_button 'proceed_to_payment'
+  end
+
   def order_page_check_registration_fee(amount:'105.00')
    totalChargeAmount = find(:xpath, '//*[@id="registration_registration_fee"]').value
    expect(totalChargeAmount).to have_text "#{amount}"
