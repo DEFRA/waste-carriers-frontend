@@ -86,7 +86,20 @@ Given(/^I am registering an IR registration for a Partnership and pay by bank tr
   relevant_convictions_page_select_no
 end
 
-When(/^I enter my IR registration number for a partnership and pay by credit card$/) do
+When(/^I enter my IR registration number for a public body and change my business name$/) do
+  existing_registration_page_enter_public_body_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_submit
+  business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit(companyName:'New Public Body')
+  contact_details_page_enter_contact_details_and_submit
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_no
+end
+
+When(/^I enter my IR registration number for a partnership and pay by bank transfer$/) do
   existing_registration_page_enter_partnership_registration_number
   business_type_page_submit
   other_businesses_page_select_yes
@@ -111,6 +124,19 @@ Given(/^I am registering an IR registration for a limited company with convictio
   enter_key_people_details_and_submit
   relevant_convictions_page_select_yes
   relevant_people_page_enter_multiple_convicted_people_and_submit
+end
+
+When(/^I enter my IR registration number for a limited company and change my companies house number$/) do
+  existing_registration_page_enter_limited_company_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_submit
+  business_details_page_enter_ltd_business_details_postcode_lookup_and_submit(companyNo: '00099405')
+  contact_details_page_enter_contact_details_and_submit
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_no
 end
 
 When(/^I enter my IR registration number for a limited company with convictions and pay by credit card$/) do
@@ -169,6 +195,12 @@ Then(/^I will be charged a renewal fee$/) do
   order_page_check_total_charge(amount:'105.00')
 end
 
+Then(/^I will be charged for a new registration$/) do
+  confirmation_page_registration_check_for_new_registration_text
+  confirmation_page_registration_and_submit
+  enter_email_details_and_submit
+  order_page_check_total_charge(amount:'154.00')
+end
 
 Then(/^there will be a renewal and edit amount charged$/) do
   confirmation_page_registration_check_for_renewal_text
