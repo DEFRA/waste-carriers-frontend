@@ -272,7 +272,7 @@ en:
       # Section 0 (start)
       select_new_or_renew: "You must answer this question" 
       blank_registration_number: "You must enter your registration number"
-      invalid_registration_number: "The registration number you have entered is not recognised"
+      invalid_registration_number: "The registration number you entered is not recognised"
 
       # Section 1 (smart answers)
       select_business_type: "You must answer this question"
