@@ -131,10 +131,12 @@ When (/^completes the request using a guessed email address$/) do
 end
 
 Then(/^they should be redirected to the login page, but not told if the email address they supplied was known or unknown$/) do
-  expect(current_path).to have_text /sign_in/i
-  # Note: we can't really guarantee that the page doesn't contain ANY clues about whether or not the
-  # email address exists; we limit our test to looking for the key phrase "*IF* your account exists..."
-  find_by_id('notice_explanation').has_text? /if your (email address|account) exists/i
+  expect(current_path).to have_text(/sign_in/i)
+  # Note: we can't really guarantee that the page doesn't contain ANY clues
+  # about whether or not the email address exists; we limit our test to looking
+  # for the key phrase "*IF* your account exists..."
+  notice = find_by_id 'notice_explanation'
+  expect(notice).to have_text(/if your (email address|account) exists/i)
   expect(find_field('Email').value).to be_blank
 end
 

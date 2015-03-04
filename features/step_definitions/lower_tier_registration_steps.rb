@@ -122,16 +122,20 @@ And(/^I provide my email address and create a password$/) do
 end
 
 When(/^I confirm account creation via email$/) do
-  sleep 0.5 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  # capybara-email recommends forcing a sleep prior to trying to read any email
+  # after an asynchronous event
+  sleep 0.5
   open_email my_email_address
-  #current_email.save_and_open      # Useful for debugging email content
   current_email.click_link 'confirmation_link'
 end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
   expect(page).to have_text 'you don’t need to pay a registration fee'
   open_email my_email_address
-  current_email.has_text? 'Based on what you told us about your organisation and what it does, we have registered you as a lower tier waste carrier'
+  expect(current_email).to have_text 'Based on what you told us about your '\
+                                     'organisation and what it does, we have '\
+                                     'registered you as a lower tier waste '\
+                                     'carrier'
 end
 
 But(/^I can edit this postcode$/) do

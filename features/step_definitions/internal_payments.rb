@@ -155,18 +155,18 @@ end
 
 When(/^I pay the full amount owed$/) do
   expect(page).to have_text 'Awaiting payment'
-  amountSummary = page.find_by_id 'amountSummary'
-  amountDue = page.find_by_id 'amountDue'
-  amountDueWithout = amountDue.text.delete '£'
-  amountSummary.has_text? "Awaiting payment £#{amountDueWithout}"
-  fill_in 'payment_amount', with: amountDueWithout.to_s
+  amount_summary = page.find_by_id 'amountSummary'
+  amount_due = page.find_by_id 'amountDue'
+  amount_due_without = amount_due.text.delete '£'
+  expect(amount_summary).to have_text "Awaiting payment £#{amount_due_without}"
+  fill_in 'payment_amount', with: amount_due_without.to_s
 end
 
 When(/^I writeoff equal to underpayment amount$/) do
   expect(page).to have_text 'Amount to write off'
-  amountDue = page.find_by_id 'amountDue'
-  amountDue = (amountDue.text.delete '£').to_i
-  expect(amountDue).to be > 0
+  amount_due = page.find_by_id 'amountDue'
+  amount_due = (amount_due.text.delete '£').to_i
+  expect(amount_due).to be > 0
 end
 
 When(/^I enter payment details$/) do
@@ -193,7 +193,7 @@ Then(/^payment history will show writeoff$/) do
 end
 
 When(/^balance is (\d+)$/) do |arg1|
-  expect(page).to have_text 'Awaiting payment £'+arg1
+  expect(page).to have_text 'Awaiting payment £' + arg1
 end
 
 When(/^I enter (\d+)$/) do |arg1|
@@ -201,14 +201,14 @@ When(/^I enter (\d+)$/) do |arg1|
 end
 
 When(/^I enter (\d+)\.(\d+)$/) do |arg1, arg2|
-  totalVal = arg1 + '.' + arg2
-  fill_in 'payment_amount', with: totalVal
+  total_val = arg1 + '.' + arg2
+  fill_in 'payment_amount', with: total_val
 end
 
 Then(/^payment balance will be (\d+)\.(\d+)$/) do |arg1, arg2|
-  balanceDue = page.find_by_id 'balanceDue'
-  totalVal = arg1 + '.' + arg2
-  balanceDue.has_text? totalVal
+  balance_due = page.find_by_id 'balanceDue'
+  total_val = arg1 + '.' + arg2
+  expect(balance_due).to have_text total_val
 end
 
 
