@@ -35,7 +35,7 @@ end
 Given(/^I have received an awaiting payment email$/) do
   sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
-  current_email.has_text? 'Application received'
+  expect(current_email).to have_text 'Application received'
 end
 
 When(/^I attempt to sign in$/) do
@@ -108,7 +108,7 @@ When(/^I activate my account by clicking the link in the activation email$/) do
   # ... if we didn't find the activation email, produce an error that will be
   # meaningful to Cucumber.
   unless activation_email_found
-    current_email.subject.has_text? 'Verify your email address'
+    expect(current_email.subject).to have_text 'Verify your email address'
   end
 end
 
