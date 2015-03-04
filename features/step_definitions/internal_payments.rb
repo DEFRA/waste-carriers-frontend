@@ -21,7 +21,7 @@ def waitForSearchResultsToContainElementWithId(searchParam, elementIdToWaitFor)
 end
 
 def waitForSearchResultsToContainText(searchParam, textToWaitFor)
-  waitForSearchResultToPassLambda(searchParam, lambda {|page| page.has_content?(textToWaitFor) })
+  waitForSearchResultToPassLambda(searchParam, lambda {|page| page.has_text?(textToWaitFor) })
   expect(page).to have_text textToWaitFor
 end
 

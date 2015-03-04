@@ -80,10 +80,10 @@ end
 Then(/^the NCCC contract number (should|should not) be shown$/) do |should|
   if should.eql?('should')
     expect(page).to have_selector(:id, 'unknown_email_help')
-    expect(page).to have_content 'contact our helpline'
+    expect(page).to have_text 'contact our helpline'
   else
     expect(page).not_to have_selector(:id, 'unknown_email_help')
-    expect(page).not_to have_content 'contact our helpline'
+    expect(page).not_to have_text 'contact our helpline'
   end
 end
 
@@ -111,9 +111,9 @@ end
 
 When(/^I update my password$/) do
   page_before_opening_email = current_url
-  
+
   open_email @this_test_email
-  expect(current_email.subject).to have_content 'password'
+  expect(current_email.subject).to have_text 'password'
   current_email.click_link 'password_reset_link'
   expect(URI.parse(current_url).path).to eq(edit_user_password_path)
   @this_test_password = 'NewPassword789'
@@ -121,7 +121,7 @@ When(/^I update my password$/) do
   fill_in 'user_password_confirmation', with: @this_test_password
   click_button 'change_password_button'
   expect(URI.parse(current_url).path).to eq(mid_registration_password_changed_path)
-  
+
   visit page_before_opening_email
 end
 
@@ -150,11 +150,11 @@ end
 
 When(/^I confirm my my account, then close the browser window$/) do
   page_before_opening_email = current_url
-  
+
   open_email @this_test_email
   current_email.click_link 'confirmation_link'
-  expect(page).to have_content 'Registration complete'
-  
+  expect(page).to have_text 'Registration complete'
+
   visit page_before_opening_email
 end
 
@@ -164,7 +164,7 @@ end
 
 When(/^I make a new registration and progress as far as accepting the Declaration$/) do
   visit start_path
-  
+
   choose 'registration_newOrRenew_new'
   click_button 'continue'
 
@@ -193,17 +193,17 @@ end
 Then(/^I should be able to continue with my registration$/) do
   fill_in 'registration_password', with: @this_test_password
   click_button 'continue'
-  
+
   expect(URI.parse(current_url).path).to eq(finish_path)
-  expect(page).to have_content 'Registration complete'
+  expect(page).to have_text 'Registration complete'
   click_button 'finished_btn'
-  
+
   expect(page).to have_selector(:id, 'external-user-signed-in')
 end
 
 When(/^I complete my first registration but do not confirm my email address$/) do
   step 'I make a new registration and progress as far as accepting the Declaration'
-  
+
   fill_in 'registration_accountEmail', with: @this_test_email
   fill_in 'registration_accountEmail_confirmation', with: @this_test_email
   fill_in 'registration_password', with: @this_test_password
