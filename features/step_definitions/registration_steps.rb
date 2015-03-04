@@ -1,5 +1,5 @@
 Then(/^I should see the Finish page$/) do
-  page.has_text? 'The registration number is'
+  expect(page).to have_text 'The registration number is'
   page.has_button? 'finished_btn'
 end
 

@@ -1,5 +1,5 @@
 Given(/^The edit link is available$/) do
-  page.has_text? 'Edit Registration'
+  expect(page).to have_text 'Edit Registration'
   page.has_link? "edit_#{@cucumber_reg_id}"
 end
 
@@ -9,8 +9,8 @@ Then(/^I click the Edit Registration link$/) do
 end
 
 Then(/^I check that no changes have occurred$/) do
-  page.has_text? 'Your registrations'
-  page.has_text? 'Edit Registration'
+  expect(page).to have_text 'Your registrations'
+  expect(page).to have_text 'Edit Registration'
 end
 
 Then(/^I change the way we carry waste$/) do
@@ -86,14 +86,14 @@ Then(/^I change the legal entity$/) do
 end
 
 Then(/^I am asked to pay for the edits$/) do
-  page.has_text? 'Payment summary'
+  expect(page).to have_text 'Payment summary'
   # Verify the edit change fee of 40
   Money.new(Rails.configuration.fee_reg_type_change)
   expect(find_by_id('registration_registration_fee').value).to have_text '40.00'
 end
 
 Then(/^I am asked to pay for the edits expecting a full fee$/) do
-  page.has_text? 'Payment summary'
+  expect(page).to have_text 'Payment summary'
   # Verify the edit change fee of 154
   expect(find_by_id('registration_registration_fee').value).to have_text Money.new(Rails.configuration.fee_registration).to_s
 end
@@ -113,19 +113,19 @@ Then(/^my edit should be awaiting payment$/) do
 end
 
 Then(/^my edit with full fee should be complete$/) do
-  page.has_text? 'Registration complete'
+  expect(page).to have_text 'Registration complete'
   @new_reg_id = find_by_id('registrationNumber').text.to_s
   click_button 'finished_btn'
   # Check routing after clicking finish
   page.find_by_id "edit_#{@new_reg_id}"
-  page.has_text? 'ACTIVE'
+  expect(page).to have_text 'ACTIVE'
 end
 
 Then(/^my edit with full fee should be awaiting payment$/) do
-  page.has_text? 'Application received'
+  expect(page).to have_text 'Application received'
   @new_reg_id = find_by_id('registrationNumber').text.to_s
   click_button 'finished_btn'
   # Check routing after clicking finish
-  page.has_text? "#{@new_reg_id}"
-  page.has_text? 'PENDING'
+  expect(page).to have_text "#{@new_reg_id}"
+  expect(page).to have_text 'PENDING'
 end

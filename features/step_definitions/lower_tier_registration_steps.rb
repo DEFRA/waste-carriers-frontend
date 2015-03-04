@@ -61,8 +61,8 @@ end
 
 Then(/^no address suggestions will be shown$/) do
   # Changed validation message
-  page.has_text? 'Postcode is not valid'
-  #page.has_text? 'There are no addresses for the given postcode'
+  expect(page).to have_text 'Postcode is not valid'
+  #expect(page).to have_text 'There are no addresses for the given postcode'
 end
 
 When(/^I try to select an address$/) do
@@ -129,7 +129,7 @@ When(/^I confirm account creation via email$/) do
 end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
-  page.has_text? 'you don’t need to pay a registration fee'
+  expect(page).to have_text 'you don’t need to pay a registration fee'
   open_email my_email_address
   current_email.has_text? 'Based on what you told us about your organisation and what it does, we have registered you as a lower tier waste carrier'
 end

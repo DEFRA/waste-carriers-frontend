@@ -182,15 +182,15 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
 end
 
 And(/^the lower tier waste carrier registration id$/) do
-  page.has_text? 'The registration number is: CBDL'
+  expect(page).to have_text 'The registration number is: CBDL'
 end
 
 And(/^the upper tier waste carrier registration id/) do
-  page.has_text? 'The registration number is: CBDU'
+  expect(page).to have_text 'The registration number is: CBDU'
 end
 
 Then(/^I see the six\-character access code for the user$/) do
-  page.has_text? 'The assisted digital access code is:'
+  expect(page).to have_text 'The assisted digital access code is:'
 end
 
 And(/^I see the payment details to tell the customer$/) do

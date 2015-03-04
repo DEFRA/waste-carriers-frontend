@@ -64,7 +64,7 @@ Then(/^there is no back button on the page/) do
 end
 
 Then(/^I am told to ring the Environment Agency$/) do
-  page.has_text? 'Contact the Environment Agency'
+  expect(page).to have_text 'Contact the Environment Agency'
 end
 
 Given(/^I navigate to the construction\/demolition step via the other businesses step$/) do
