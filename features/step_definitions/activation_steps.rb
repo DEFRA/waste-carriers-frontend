@@ -50,7 +50,7 @@ When(/^I log in to the '(.+)' account$/) do |email_address|
   fill_in 'user_email', with: email_address
   fill_in 'user_password', with: my_password
   click_button 'sign_in'
-   page.has_text? 'Your registrations'
+   expect(page).to have_text 'Your registrations'
 end
 
 Then(/^my account should not be locked, and I should be able to log in to my account$/) do
@@ -78,18 +78,18 @@ When(/^my account becomes locked due to several successive failed sign-in attemp
     fill_in 'Email', with: my_email_address
     fill_in 'Password', with: 'this_is_the_wrong_password'
     click_button 'sign_in'
-    page.has_text? 'Invalid email or password'
+    expect(page).to have_text 'Invalid email or password'
   end
   expect(User.find_by(email: my_email_address).access_locked?).to be true
 end
 
 And(/^I am shown my pending registration$/) do
   page.has_no_text? 'confirm your account'
-  page.has_text? 'Your reference number is'
+  expect(page).to have_text 'Your reference number is'
 end
 
 Then(/^my account is successfully activated$/) do
-  page.has_text? 'Your registration number is'
+  expect(page).to have_text 'Your registration number is'
 end
 
 When(/^I activate my account by clicking the link in the activation email$/) do
@@ -117,16 +117,16 @@ Then(/^I need to request a new confirmation email to activate my account$/) do
   sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
   open_email my_email_address
   current_email.click_link 'confirmation_link'
-  page.has_text? 'Your registration number is'
+  expect(page).to have_text 'Your registration number is'
 end
 
 Then(/^I am told to confirm my email address$/) do
-  page.has_text? 'confirm your account'
+  expect(page).to have_text 'confirm your account'
 end
 
 Then(/^I am shown my confirmed registration$/) do
   page.has_no_text? have_content 'confirm your account'
-  page.has_text? 'Your registration number is'
+  expect(page).to have_text 'Your registration number is'
 end
 
 Then(/^I am not shown how to pay in my confirmation email$/) do
@@ -136,9 +136,9 @@ Then(/^I am not shown how to pay in my confirmation email$/) do
 end
 
 Then(/^I am shown the sign in page$/) do
-  page.has_text? 'Sign in'
+  expect(page).to have_text 'Sign in'
 end
 
 Then(/I am shown the 'email address confirmed' page$/) do
-  page.has_text? 'Email address confirmed'
+  expect(page).to have_text 'Email address confirmed'
 end

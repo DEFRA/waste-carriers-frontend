@@ -29,8 +29,8 @@ end
 
 Then /^I should see the following names listed:$/ do |table|
   table.hashes.each do |row|
-    page.has_text? row[:first_name]
-    page.has_text? row[:last_name]
+    expect(page).to have_text row[:first_name]
+    expect(page).to have_text row[:last_name]
   end
 end
 
@@ -41,6 +41,6 @@ end
 
 Then(/^I cannot proceed until I have added a key person$/) do
   click_button 'continue'
-  page.has_text? 'error'
+  expect(page).to have_text 'error'
   page.has_no_text? 'Relevant'
 end

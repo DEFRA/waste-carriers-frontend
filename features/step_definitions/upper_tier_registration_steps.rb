@@ -85,9 +85,9 @@ Then(/^I am registered as an upper tier waste carrier$/) do
 end
 
 Then(/^I am successfully registered and activated as an upper tier waste carrier$/) do
-  page.has_text? 'Signed in as'
-  page.has_text? 'CBDU'
-  page.has_text? 'ACTIVE'
+  expect(page).to have_text 'Signed in as'
+  expect(page).to have_text 'CBDU'
+  expect(page).to have_text 'ACTIVE'
 end
 
 Then(/^I am registered as an upper tier waste carrier pending conviction checks$/) do
@@ -97,9 +97,9 @@ Then(/^I am registered as an upper tier waste carrier pending conviction checks$
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending conviction checks$/) do
-  page.has_text? 'Signed in as'
-  page.has_text? 'CBDU'
-  page.has_text? 'PENDING'
+  expect(page).to have_text 'Signed in as'
+  expect(page).to have_text 'CBDU'
+  expect(page).to have_text 'PENDING'
 end
 
 Then(/^I am registered as an upper tier waste carrier pending payment$/) do
@@ -109,19 +109,19 @@ Then(/^I am registered as an upper tier waste carrier pending payment$/) do
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending payment$/) do
-  page.has_text? 'Signed in as'
-  page.has_text? 'CBDU'
-  page.has_text? 'PENDING'
+  expect(page).to have_text 'Signed in as'
+  expect(page).to have_text 'CBDU'
+  expect(page).to have_text 'PENDING'
 end
 
 Then(/^I have applied as an upper tier waste carrier$/) do
-  page.has_text? 'Signed in as'
-  page.has_text? 'CBDU'
-  page.has_text? 'PENDING'
+  expect(page).to have_text 'Signed in as'
+  expect(page).to have_text 'CBDU'
+  expect(page).to have_text 'PENDING'
 end
 
 Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do
-  page.has_text? 'Please allow 5 working days for your payment to reach us'
+  expect(page).to have_text 'Please allow 5 working days for your payment to reach us'
 end
 
 And(/^no key people in the organisation have convictions$/) do

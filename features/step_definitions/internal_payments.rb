@@ -22,7 +22,7 @@ end
 
 def waitForSearchResultsToContainText(searchParam, textToWaitFor)
   waitForSearchResultToPassLambda(searchParam, lambda {|page| page.has_content?(textToWaitFor) })
-  page.has_text? textToWaitFor
+  expect(page).to have_text textToWaitFor
 end
 
 #
@@ -38,8 +38,8 @@ registrationCount = 0
 
 Given(/^I am logged in as a finance admin user$/) do
   visit new_agency_user_session_path
-  page.has_text? 'Sign in'
-  page.has_text? 'Environment Agency login'
+  expect(page).to have_text 'Sign in'
+  expect(page).to have_text 'Environment Agency login'
   fill_in 'Email', with: my_finance_admin_user.email
   fill_in 'Password', with: my_finance_admin_user.password
   click_button 'sign_in'
@@ -48,8 +48,8 @@ end
 
 Given(/^I am logged in as a finance basic user$/) do
   visit new_agency_user_session_path
-  page.has_text? 'Sign in'
-  page.has_text? 'Environment Agency login'
+  expect(page).to have_text 'Sign in'
+  expect(page).to have_text 'Environment Agency login'
   fill_in 'Email', with: my_finance_basic_user.email
   fill_in 'Password', with: my_finance_basic_user.password
   click_button 'sign_in'
@@ -58,8 +58,8 @@ end
 
 Given(/^I am logged in as a nccc refunds user$/) do
   visit new_agency_user_session_path
-  page.has_text? 'Sign in'
-  page.has_text? 'Environment Agency login'
+  expect(page).to have_text 'Sign in'
+  expect(page).to have_text 'Environment Agency login'
   fill_in 'Email', with: my_agency_refund_user.email
   fill_in 'Password', with: my_agency_refund_user.password
   click_button 'sign_in'
@@ -70,8 +70,8 @@ Given(/^I change user to a nccc refunds user$/) do
   click_button 'Sign out'
   visit '/agency_users/sign_in'
   save_and_open_page
-  page.has_text? 'Sign in'
-  page.has_text? 'Environment Agency login'
+  expect(page).to have_text 'Sign in'
+  expect(page).to have_text 'Environment Agency login'
   fill_in 'Email', with: my_agency_refund_user.email
   fill_in 'Password', with: my_agency_refund_user.password
   click_button 'sign_in'
@@ -80,26 +80,26 @@ end
 
 Given(/^I have found a registrations payment details$/) do
   visit registrations_path
-  page.has_text? 'Registration search'
+  expect(page).to have_text 'Registration search'
   waitForSearchResultsToContainElementWithId('PaymentReg'+registrationCount.to_s, 'searchResult1')
   click_link('paymentStatus1')
-  page.has_text? 'Payment status'
+  expect(page).to have_text 'Payment status'
 end
 
 Given(/^I have found a registrations payment details using the remembered id$/) do
   visit registrations_path
-  page.has_text? 'Registration search'
+  expect(page).to have_text 'Registration search'
   waitForSearchResultsToContainElementWithId(@stored_value.to_s, 'searchResult1')
   click_link('paymentStatus1')
-  page.has_text? 'Payment status'
+  expect(page).to have_text 'Payment status'
 end
 
 Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
   visit registrations_path
-  page.has_text? 'Registration search'
+  expect(page).to have_text 'Registration search'
   waitForSearchResultsToContainElementWithId(param.to_s, 'searchResult1')
   click_link('paymentStatus1')
-  page.has_text? 'Payment status'
+  expect(page).to have_text 'Payment status'
 end
 
 Given(/^the registration is valid for a small write off$/) do
@@ -119,7 +119,7 @@ Given(/^I sign out$/) do
   click_button 'sign_out'
 #  save_and_open_page
 #  visit new_agency_user_session_path
-#  page.has_text? 'Sign in'
+#  expect(page).to have_text 'Sign in'
 #  save_and_open_page
 end
 
@@ -136,25 +136,25 @@ Given(/^I provided a payment type of Postal Order$/) do
 end
 
 When(/^I select to enter payment$/) do
-  page.has_text? 'Payment status'
+  expect(page).to have_text 'Payment status'
   click_link 'enterPayment'
-  page.has_text? 'Enter payment'
+  expect(page).to have_text 'Enter payment'
 end
 
 When(/^I select to enter a large writeoff$/) do
-  page.has_text? 'Payment status'
+  expect(page).to have_text 'Payment status'
   click_link 'writeOffLarge'
-  page.has_text? 'Write off difference'
+  expect(page).to have_text 'Write off difference'
 end
 
 When(/^I select to enter a small writeoff$/) do
-  page.has_text? 'Payment status'
+  expect(page).to have_text 'Payment status'
   click_link 'writeOffSmall'
-  page.has_text? 'Write off difference'
+  expect(page).to have_text 'Write off difference'
 end
 
 When(/^I pay the full amount owed$/) do
-  page.has_text? 'Awaiting payment'
+  expect(page).to have_text 'Awaiting payment'
   amountSummary = page.find_by_id 'amountSummary'
   amountDue = page.find_by_id 'amountDue'
   amountDueWithout = amountDue.text.delete '£'
@@ -163,7 +163,7 @@ When(/^I pay the full amount owed$/) do
 end
 
 When(/^I writeoff equal to underpayment amount$/) do
-  page.has_text? 'Amount to write off'
+  expect(page).to have_text 'Amount to write off'
   amountDue = page.find_by_id 'amountDue'
   amountDue = (amountDue.text.delete '£').to_i
   expect(amountDue).to be > 0
@@ -185,15 +185,15 @@ When(/^I confirm write off$/) do
 end
 
 Then(/^payment history will be updated$/) do
-  page.has_text? 'MYTESTREFERENCE'
+  expect(page).to have_text 'MYTESTREFERENCE'
 end
 
 Then(/^payment history will show writeoff$/) do
-  page.has_text? 'Large Write off'
+  expect(page).to have_text 'Large Write off'
 end
 
 When(/^balance is (\d+)$/) do |arg1|
-  page.has_text? 'Awaiting payment £'+arg1
+  expect(page).to have_text 'Awaiting payment £'+arg1
 end
 
 When(/^I enter (\d+)$/) do |arg1|
@@ -213,29 +213,29 @@ end
 
 
 Then(/^payment status will be paid$/) do
-  page.has_text? 'Paid in full'
-  page.has_text? 'has been successfully entered'
+  expect(page).to have_text 'Paid in full'
+  expect(page).to have_text 'has been successfully entered'
 end
 
 When(/^payment status is paid$/) do
-  page.has_text? 'Paid in full'
-  page.has_text? 'Payment has been successfully entered'
+  expect(page).to have_text 'Paid in full'
+  expect(page).to have_text 'Payment has been successfully entered'
 end
 
 Then(/^payment status will be pending$/) do
-  page.has_text? 'Awaiting payment'
+  expect(page).to have_text 'Awaiting payment'
 end
 
 When(/^payment status is pending$/) do
-  page.has_text? 'Awaiting payment'
+  expect(page).to have_text 'Awaiting payment'
 end
 
 Then(/^payment status will be overpaid$/) do
-  page.has_text? 'Overpaid'
+  expect(page).to have_text 'Overpaid'
 end
 
 When(/^payment balance is underpaid$/) do
-  page.has_text? 'Awaiting payment'
+  expect(page).to have_text 'Awaiting payment'
 end
 
 When(/^renewal charge changes$/) do
@@ -259,7 +259,7 @@ When(/^I enter negative payment amount$/) do
 end
 
 Then(/^the system will reject payment$/) do
-  page.has_text? 'Enter payment'
+  expect(page).to have_text 'Enter payment'
 end
 
 Given(/^I am authenticated as a finance refunds user$/) do
@@ -271,7 +271,7 @@ When(/^balance is in credit$/) do
 end
 
 When(/^refund is selected$/) do
-  page.has_text? 'Payment status'
+  expect(page).to have_text 'Payment status'
   click_link 'refund'
 end
 
@@ -288,7 +288,7 @@ When(/^original payment method was via BACS$/) do
 end
 
 Then(/^refund is rejected$/) do
-  page.has_text? 'Payment status'
+  expect(page).to have_text 'Payment status'
 end
 
 When(/^original payment method was via Cheque$/) do
@@ -304,7 +304,7 @@ When(/^original payment method was via Postal Order$/) do
 end
 
 When(/^original payment method was via Worldpay$/) do
-  page.has_text? 'Worldpay'
+  expect(page).to have_text 'Worldpay'
 end
 
 When(/^balance is not in credit$/) do
@@ -312,7 +312,7 @@ When(/^balance is not in credit$/) do
 #
 # Commenting out test as this is currently a bug.
 #
-  page.has_text? 'Awaiting payment'
+  expect(page).to have_text 'Awaiting payment'
 end
 
 When(/^refund amount is greater than original payment amount$/) do
