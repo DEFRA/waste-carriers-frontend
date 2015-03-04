@@ -1,14 +1,11 @@
 class KeyPerson < Ohm::Model
 
-
   # N.B: order of includes is important
   include ActiveModel::Conversion
   extend ActiveModel::Callbacks
   include ActiveModel::Validations
   extend ActiveModel::Naming
   include ActiveModel::Validations::Callbacks
-
-
 
   attribute :first_name
   attribute :last_name
@@ -33,8 +30,8 @@ class KeyPerson < Ohm::Model
   validates :dob_month, :presence => { :message => I18n.t('errors.messages.blank_month') }
   validates :dob_year, :presence => { :message => I18n.t('errors.messages.blank_year') }
 
-  validates :dob_day, numericality: { only_integer: true, greater_than_or_equal_to: 1, :message => I18n.t('errors.messages.invalid_day'), allow_blank: true }
-  validates :dob_month, numericality: { only_integer: true, greater_than_or_equal_to: 1, :message => I18n.t('errors.messages.invalid_month'), allow_blank: true }
+  validates :dob_day, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 31, :message => I18n.t('errors.messages.invalid_day'), allow_blank: true }
+  validates :dob_month, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 12, :message => I18n.t('errors.messages.invalid_month'), allow_blank: true }
   validates :dob_year, numericality: { only_integer: true, greater_than_or_equal_to: 1, :message => I18n.t('errors.messages.invalid_year'), allow_blank: true }
 
   validate :validate_dob
@@ -115,9 +112,17 @@ class KeyPerson < Ohm::Model
 
   def validate_dob
     set_dob
+
     errors.add(:dob, I18n.t('errors.messages.invalid_date')) unless dob
     errors.add(:dob, I18n.t('errors.messages.date_not_in_past')) unless dob.try(:past?)
-    errors.add(:dob, I18n.t('errors.messages.dob_less_than_18_years')) if dob.try(:>, Date.today-18.years)
+
+    if director?
+      errors.add(:dob, I18n.t('errors.messages.director_dob_less_than_16_years')) if dob.try(:>, Date.today-16.years)
+    else
+      errors.add(:dob, I18n.t('errors.messages.non-director_dob_less_than_18_years')) if dob.try(:>, Date.today-18.years)
+    end
+
+    errors.add(:dob, I18n.t('errors.messages.invalid_date')) if dob.try(:<, Date.today-130.years)
   end
 
   def set_dob
@@ -136,4 +141,7 @@ class KeyPerson < Ohm::Model
     self.dob_year = self.dob_year.strip unless self.dob_year.blank?
   end
 
+  def director?
+    position == 'Director'
+  end
 end
