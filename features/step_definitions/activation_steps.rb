@@ -114,7 +114,9 @@ end
 
 Then(/^I need to request a new confirmation email to activate my account$/) do
   click_button 'send_instructions_button'
-  sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  # capybara-email recommends forcing a sleep prior to trying to read any email
+  # after an asynchronous event
+  sleep 2
   open_email my_email_address
   current_email.click_link 'confirmation_link'
   expect(page).to have_text 'Your registration number is'
@@ -125,12 +127,14 @@ Then(/^I am told to confirm my email address$/) do
 end
 
 Then(/^I am shown my confirmed registration$/) do
-  page.has_no_text? have_content 'confirm your account'
+  expect(page).to_not have_text 'confirm your account'
   expect(page).to have_text 'Your registration number is'
 end
 
 Then(/^I am not shown how to pay in my confirmation email$/) do
-  sleep 2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  # capybara-email recommends forcing a sleep prior to trying to read any email
+  # after an asynchronous event
+  sleep 2
   open_email my_email_address
   current_email.has_no_text? 'How to pay'
 end
