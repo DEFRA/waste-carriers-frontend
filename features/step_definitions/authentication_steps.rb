@@ -144,7 +144,7 @@ Then(/^the ([\w ]+) should receive an email containing a link which allows the p
   open_email get_factorygirl_user_for_user_type(user_type).email
   expect(current_email.subject).to have_text 'Reset password instructions'
   current_email.click_link 'password_reset_link'
-  page.has_content? 'user_password_confirmation'
+  expect(page).to have_css "input[id$='_password_confirmation']"
 end
 
 Then(/^the ([\w ]+) should receive an email containing a link which unlocks the account$/) do |user_type|
