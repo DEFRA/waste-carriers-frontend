@@ -309,7 +309,8 @@ en:
       invalid_year: "You must enter a valid year"
       invalid_date: "You must enter a valid date"
       date_not_in_past: "The date must be in the past"
-      dob_less_than_18_years: "You must be over 18 to use this service"
+      non-director_dob_less_than_18_years: "You must be over 18 to use this service"
+      director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
 
       # Common
       blank_post_code: "You must enter your postcode"
