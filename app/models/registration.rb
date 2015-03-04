@@ -735,6 +735,7 @@ class Registration < Ohm::Model
   VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\'\u2019\[\]\,\(\)]+\z/
 
   # Maximum field lengths
+  MAX_COMPANY_REGISTRATION_NO = 8
   MAX_COMPANY_NAME_LENGTH = 150
 
   # ******************************
