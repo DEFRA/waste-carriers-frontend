@@ -1,8 +1,21 @@
-<% if @registration && @registration.errors.any? %>
+<% if @registration && @registration.errors.any? || @key_person && @key_person.errors.any? %>
+
+  <% errors = nil %>
+  <% href_prefix = nil %>
+
+  <% if @registration && @registration.errors.any? %>
+    <% errors = @registration.errors %>
+    <% href_prefix = "registration_" %>
+  <% elsif @key_person && @key_person.errors.any? %>
+    <% errors = @key_person.errors %>
+    <% href_prefix = "key_person_" %>
+  <% end %>
+
   <div id="error_explanation" class="validation-summary">
-    <h1 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(@registration.errors.count, t('registrations.errors.error')) %></h1>
-    <% @registration.errors.each do |attr,msg| %>
-      <li><a class="error-text" href="#registration_<%= attr %>"><%= msg %></a></li>
+    <h1 class="heading-medium"><%= t 'registrations.errors.errorMessage', :count => pluralize(errors.count, t('registrations.errors.error')) %></h1>
+    <% errors.each do |attr,msg| %>
+      <li><a class="error-text" href="#<%= href_prefix %><%= attr %>"><%= msg %></a></li>
+      <br>
     <% end %>
   </div>
 <% end %>
