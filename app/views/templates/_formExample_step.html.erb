@@ -78,7 +78,7 @@
 <h3 class="heading-medium">Hidden Text</h3>
   <div class='form-group'>
     <details>
-      <summary aria controls='details-content-0' tabindex='0'>
+      <summary id="show-hide-details-summary-0" aria controls='details-content-0' tabindex='0'>
         <span class='summary'>This is an example of hidden text</span>
         </summary>
         <div id='details-content-0' class='panel-indent' aria-expanded='true' style='display:block'>
@@ -135,7 +135,7 @@
 
 <!-- Radio Button Styles -->
 
-<h3 class-"heading-medium">Radio and Checkbox Examples</h3>
+<h3 class="heading-medium">Radio and Checkbox Examples"</h3>
   <div class="form-group<%if @registration.errors[:registrationType].any?%> validation<%end%>">
     <%= f.label :carrier_dealer, for: "registration_registrationType_carrier_dealer", :class => "block-label" do %>
       <%= f.radio_button :registrationType, "carrier_dealer", :class => "radio" %>
