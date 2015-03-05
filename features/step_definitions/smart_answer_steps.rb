@@ -56,7 +56,7 @@ And(/^I indicate I don't deal with animal, farm, quarry or mine waste$/) do
 end
 
 Then(/^there is a continue button on the page$/) do
-  page.has_button? 'continue'
+  expect(page).to have_button 'continue'
 end
 
 Then(/^there is no back button on the page/) do
