@@ -255,7 +255,7 @@ When(/^I enter negative payment amount$/) do
   #
   # FIXME: Currently the enter payment screen does allow negative inputs from the user, not sure if this is a bad test or not?
   #
-#  fill_in 'payment_amount', with: ''
+  # fill_in 'payment_amount', with: ''
 end
 
 Then(/^the system will reject payment$/) do
@@ -267,7 +267,7 @@ Given(/^I am authenticated as a finance refunds user$/) do
 end
 
 When(/^balance is in credit$/) do
-  page.has_no_text? 'Awaiting payment'
+  expect(page).not_to have_text 'Awaiting payment'
 end
 
 When(/^refund is selected$/) do

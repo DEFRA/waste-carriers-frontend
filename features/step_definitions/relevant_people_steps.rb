@@ -27,7 +27,7 @@ end
 Then(/^I cannot proceed until I have added a relevant person$/) do
   click_button 'continue'
   expect(page).to have_text 'error'
-  page.has_no_text? 'Check your details'
+  expect(page).not_to have_text 'Check your details'
 end
 
 And(/^I click continue$/) do

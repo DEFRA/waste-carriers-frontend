@@ -50,7 +50,7 @@ When(/^I log in to the '(.+)' account$/) do |email_address|
   fill_in 'user_email', with: email_address
   fill_in 'user_password', with: my_password
   click_button 'sign_in'
-   expect(page).to have_text 'Your registrations'
+  expect(page).to have_text 'Your registrations'
 end
 
 Then(/^my account should not be locked, and I should be able to log in to my account$/) do
@@ -84,7 +84,7 @@ When(/^my account becomes locked due to several successive failed sign-in attemp
 end
 
 And(/^I am shown my pending registration$/) do
-  page.has_no_text? 'confirm your account'
+  expect(page).not_to have_text 'confirm your account'
   expect(page).to have_text 'Your reference number is'
 end
 
@@ -136,7 +136,7 @@ Then(/^I am not shown how to pay in my confirmation email$/) do
   # after an asynchronous event
   sleep 2
   open_email my_email_address
-  current_email.has_no_text? 'How to pay'
+  expect(current_email).not_to have_text 'How to pay'
 end
 
 Then(/^I am shown the sign in page$/) do
