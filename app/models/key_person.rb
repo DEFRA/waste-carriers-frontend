@@ -113,16 +113,27 @@ class KeyPerson < Ohm::Model
   def validate_dob
     set_dob
 
-    errors.add(:dob, I18n.t('errors.messages.invalid_date')) unless dob
-    errors.add(:dob, I18n.t('errors.messages.date_not_in_past')) unless dob.try(:past?)
-
-    if director?
-      errors.add(:dob, I18n.t('errors.messages.director_dob_less_than_16_years')) if dob.try(:>, Date.today-16.years)
-    else
-      errors.add(:dob, I18n.t('errors.messages.non-director_dob_less_than_18_years')) if dob.try(:>, Date.today-18.years)
+    if no_existing_dob_errors?
+      if dob
+        if dob.try(:>, Date.today)
+          errors.add(:dob, I18n.t('errors.messages.date_not_in_past'))
+        elsif dob.try(:<, Date.today-130.years)
+          errors.add(:dob, I18n.t('errors.messages.invalid_date'))
+        else
+          if position == 'Director'
+            if dob.try(:>, Date.today-16.years)
+              errors.add(:dob, I18n.t('errors.messages.director_dob_less_than_16_years'))
+            end
+          else
+            if dob.try(:>, Date.today-18.years)
+              errors.add(:dob, I18n.t('errors.messages.non-director_dob_less_than_18_years'))
+            end
+          end
+        end
+      else
+        errors.add(:dob, I18n.t('errors.messages.invalid_date'))
+      end
     end
-
-    errors.add(:dob, I18n.t('errors.messages.invalid_date')) if dob.try(:<, Date.today-130.years)
   end
 
   def set_dob
@@ -143,5 +154,9 @@ class KeyPerson < Ohm::Model
 
   def director?
     position == 'Director'
+  end
+
+  def no_existing_dob_errors?
+    ret = (!self.errors.include? :dob_day) && (!self.errors.include? :dob_month) && (!self.errors.include? :dob_year)
   end
 end
