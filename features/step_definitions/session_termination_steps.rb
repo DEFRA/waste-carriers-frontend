@@ -36,7 +36,7 @@ Given(/^I have completed my lower tier registration$/) do
 end
 
 Given(/^I have confirmed my user account$/) do
-  sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
   open_email my_email_address
   current_email.click_link 'confirmation_link'
 end
@@ -50,11 +50,11 @@ When(/^I attempt to access the previous page$/) do
 end
 
 Then(/^my registration data is not shown anymore$/) do
-  page.has_text? 'You may have mistyped the address or the page may have moved'
+  expect(page).to have_text 'You may have mistyped the address or the page may have moved'
 end
 
 Then(/^I am informed that I have to login again to change my registration$/) do
-  page.has_text? "Sorry you can't make changes"
+  expect(page).to have_text "Sorry you can't make changes"
 end
 
 When(/^I attempt to access the confirmation page$/) do
