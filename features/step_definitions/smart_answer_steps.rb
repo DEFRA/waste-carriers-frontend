@@ -60,7 +60,7 @@ Then(/^there is a continue button on the page$/) do
 end
 
 Then(/^there is no back button on the page/) do
-  page.has_no_button? 'Back'
+  expect(page).not_to have_button 'Back'
 end
 
 Then(/^I am told to ring the Environment Agency$/) do
