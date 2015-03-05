@@ -141,8 +141,8 @@ end
 But(/^I can edit this postcode$/) do
   postcode_field = find_field('sPostcode')
 
-  postcode_field.value.should == my_unrecognised_postcode
-  postcode_field['disabled'].should_not be
+  expect(postcode_field.value).to eq(my_unrecognised_postcode)
+  expect(postcode_field['disabled']).to_not be
 end
 
 And(/^add my address manually if I wanted to$/) do
