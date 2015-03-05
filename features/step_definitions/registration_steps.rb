@@ -30,5 +30,5 @@ Then(/^when I repeat the search for '(.+)', the registration can no longer be ap
   waitForSearchResultToPassLambda(
     search_text,
     lambda {|page| !(page.has_xpath?("//*[@id = 'approveRegistration1']")) })
-  page.has_no_link? 'approveRegistration1'
+  expect(page).not_to have_link 'approveRegistration1'
 end
