@@ -1,5 +1,5 @@
-<%= render 'errors' %>
-<header class="page-header group">
+<%= render 'shared/errors' %>
+<header id="registration_key_people" class="page-header group">
     <div class="hgroup">
         <h1 class="heading-large"><%= legend %></h1>
     </div>
@@ -17,7 +17,7 @@
     <%= f.text_field :last_name, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
   </div>
 
-  <div class="form-group inline-date<%if d.errors[:dob].any?%> validation<%end%>">
+  <div id="key_person_dob" class="form-group inline-date<%if d.errors[:dob].any?%> validation<%end%>">
     <ul>
       <li><%= validation_for(d, :dob) %></li>
       <li class="form-label"><%= f.label :dob %>
