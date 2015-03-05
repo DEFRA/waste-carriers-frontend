@@ -28,7 +28,8 @@ module FinishAssistedPage
   def finish_assisted_page_check_charge_amount(amount:'105.00')
     total = find(
       :xpath,
-      '//*[@id="payment-table-wrapper"]/table[1]/tbody/tr[2]/td[2]').text
+      '//*[@id="payment-table-wrapper"]/table[1]/tbody/tr[2]/td[2]'
+    ).text
     expect(total).to have_text "#{amount}"
   end
 end
