@@ -213,8 +213,8 @@ end
 
 Given(/^I have completed smart answers given my existing IR data$/) do
   # Prepopulated business type
-  # choose 'registration_businessType_soletrader'
   # assume pre pop business type
+  # choose 'registration_businessType_soletrader'
   click_button 'continue'
 
   # Remaining smart answer questions are not prepopulated
@@ -434,7 +434,8 @@ end
 Then(/^I should be shown the total cost "(.*?)"$/) do |amount|
   registration_total_fee = page.find(
     :xpath,
-    ".//input[@id='registration_total_fee']").value
+    ".//input[@id='registration_total_fee']"
+  ).value
   assert_equal amount, registration_total_fee
 end
 
