@@ -28,11 +28,14 @@ And(/^I indicate I sometimes deal with waste from building or demolition work$/)
 end
 
 Then(/^I will be on the lower tier waste carrier registration path$/) do
-  expect(page).not_to have_field 'registration_companyName'
+  # Lower Tier carriers are *not* asked if they are a carrier / dealer / broker,
+  # and instead go straight to the Business Details page.
+  expect(page).to have_field 'registration_companyName'
 end
 
 Then(/^I will be on the upper tier waste carrier registration path$/) do
-  expect(page).not_to have_field 'registration_registrationType_carrier_dealer'
+  # Only Upper Tier carriers are asked if they are a carrier / dealer / broker.
+  expect(page).to have_field 'registration_registrationType_carrier_dealer'
 end
 
 And(/^I indicate disposing waste is my main service$/) do
