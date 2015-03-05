@@ -36,7 +36,7 @@ Given(/^I have completed my lower tier registration$/) do
 end
 
 Given(/^I have confirmed my user account$/) do
-  sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
   open_email my_email_address
   current_email.click_link 'confirmation_link'
 end

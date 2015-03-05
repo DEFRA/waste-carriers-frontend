@@ -1,7 +1,5 @@
 Given(/^I am renewing an IR registration$/) do
-  # Manually force a repopulation of IR data in database
-  RestClient.post Rails.configuration.waste_exemplar_services_admin_url +
-    '/tasks/ir-repopulate', content_type: :json, accept: :json
+  repopulate_database_with_IR_data
   visit start_path
   choose 'registration_newOrRenew_renew'
   click_button 'continue'
@@ -10,9 +8,7 @@ Given(/^I am renewing an IR registration$/) do
 end
 
 Given(/^I have chosen to renew my registration from IR$/) do
-  # Manually force a repopulation of IR data in database
-  RestClient.post Rails.configuration.waste_exemplar_services_admin_url +
-    '/tasks/ir-repopulate', content_type: :json, accept: :json
+  repopulate_database_with_IR_data
   go_to_start_page
   start_page_select_renew
 end
@@ -290,8 +286,7 @@ Given(/^I have signed in as an Environment Agency user$/) do
 end
 
 Given(/^have chosen to renew a customers existing licence$/) do
-  RestClient.post Rails.configuration.waste_exemplar_services_admin_url +
-    '/tasks/ir-repopulate', content_type: :json, accept: :json
+  repopulate_database_with_IR_data
   registrations_page_select_new_registration
   start_page_select_renew
 end
@@ -368,8 +363,7 @@ Then(/^I should be told that I have to start a new registration$/) do
 end
 
 Given(/^have chosen to renew an existing licence$/) do
-  RestClient.post Rails.configuration.waste_exemplar_services_admin_url +
-    '/tasks/ir-repopulate', content_type: :json, accept: :json
+  repopulate_database_with_IR_data
   visit start_path
   start_page_select_renew
 end

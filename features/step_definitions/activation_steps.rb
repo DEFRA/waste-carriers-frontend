@@ -4,7 +4,7 @@ When(/^I activate the account within the permissible timeout period$/) do
 
   Timecop.travel(timeoutPeriodEnd.from_now - 1.minute) do
     visit business_type_path # refreshes page so don't get timed out after 20 minutes
-    sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+    do_short_pause_for_email_delivery
     open_email my_email_address
     current_email.click_link 'confirmation_link'
   end
@@ -16,7 +16,7 @@ When(/^I attempt to activate the account after the permissible timeout period$/)
 
   Timecop.travel(timeoutPeriodEnd.from_now + 1.minute) do
     visit business_type_path # refreshes page so don't get timed out after 20 minutes
-    sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+    do_short_pause_for_email_delivery
     open_email my_email_address
     current_email.click_link 'confirmation_link'
   end
@@ -27,13 +27,13 @@ But(/^I have not confirmed my email address$/) do
 end
 
 When(/^I have confirmed my email address$/) do
-  sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
   open_email my_email_address
   current_email.click_link 'confirmation_link'
 end
 
 Given(/^I have received an awaiting payment email$/) do
-  sleep 1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
   open_email my_email_address
   expect(current_email).to have_text 'Application received'
 end
@@ -62,7 +62,7 @@ When(/^I request that account confirmation instructions are re-sent for '(.+)'$/
   visit new_user_confirmation_path
   fill_in 'user_email', with: email_address
   click_button 'send_instructions_button'
-  sleep 0.5   # Wait for the email to be 'delivered'
+  do_short_pause_for_email_delivery
 end
 
 Then(/^the inbox for '(.+)' should contain an email stating that the account is already confirmed$/) do |email_address|
@@ -114,9 +114,7 @@ end
 
 Then(/^I need to request a new confirmation email to activate my account$/) do
   click_button 'send_instructions_button'
-  # capybara-email recommends forcing a sleep prior to trying to read any email
-  # after an asynchronous event
-  sleep 2
+  do_short_pause_for_email_delivery
   open_email my_email_address
   current_email.click_link 'confirmation_link'
   expect(page).to have_text 'Your registration number is'
@@ -132,9 +130,7 @@ Then(/^I am shown my confirmed registration$/) do
 end
 
 Then(/^I am not shown how to pay in my confirmation email$/) do
-  # capybara-email recommends forcing a sleep prior to trying to read any email
-  # after an asynchronous event
-  sleep 2
+  do_short_pause_for_email_delivery
   open_email my_email_address
   expect(current_email).not_to have_text 'How to pay'
 end

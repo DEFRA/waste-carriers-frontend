@@ -79,9 +79,7 @@ And(/^I choose pay via electronic transfer$/) do
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
-  # capybara-email recommends forcing a sleep prior to trying to read any email
-  # after an asynchronous event
-  sleep 1
+  do_short_pause_for_email_delivery
   open_email my_email_address
   expect(current_email).to have_text 'you need to renew your registration '\
                                      'every 3 years'
@@ -95,9 +93,7 @@ end
 
 # TODO: Update this test once we have defined content for the convictions email
 Then(/^I am registered as an upper tier waste carrier pending conviction checks$/) do
-  # capybara-email recommends forcing a sleep prior to trying to read any email
-  # after an asynchronous event
-  sleep 1
+  do_short_pause_for_email_delivery
   open_email my_email_address
   expect(current_email).to have_text 'What happens next'
 end
@@ -111,9 +107,7 @@ end
 # TODO: Update this test once we have defined content for the awaiting payment
 # email
 Then(/^I am registered as an upper tier waste carrier pending payment$/) do
-  # capybara-email recommends forcing a sleep prior to trying to read any email
-  # after an asynchronous event
-  sleep 1
+  do_short_pause_for_email_delivery
   open_email my_email_address
   expect(current_email).to have_text 'Application received'
 end
