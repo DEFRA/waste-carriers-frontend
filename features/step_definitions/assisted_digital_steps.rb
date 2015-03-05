@@ -3,7 +3,7 @@ Given(/^I am logged in as an NCCC agency user$/) do
   fill_in 'Email', with: my_agency_user.email
   fill_in 'Password', with: my_agency_user.password
   click_button 'sign_in'
-  expect(page).to have_css '#agency-user-signed-in'
+  expect(page).to have_selector(:id, 'agency-user-signed-in')
 end
 
 Given(/^I start a new registration on behalf of a caller$/) do
