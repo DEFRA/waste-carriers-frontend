@@ -5,7 +5,7 @@ module BusinessTypePage
   end
 
   def business_type_page?
-    page.has_css? 'a[data-journey$="business-type"]'
+    expect(page).to have_css 'a[data-journey$="business-type"]'
   end
 
   def business_type_page_select_sole_trader(submit: 'true')
