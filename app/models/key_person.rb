@@ -1,5 +1,4 @@
 class KeyPerson < Ohm::Model
-
   # N.B: order of includes is important
   include ActiveModel::Conversion
   extend ActiveModel::Callbacks
@@ -21,6 +20,10 @@ class KeyPerson < Ohm::Model
   VALID_DAY = /\A[0-9]{2}/
   VALID_MONTH = /\A[0-9]{2}/
   VALID_YEAR = /\A[0-9]{4}/
+
+  MAX_ALLOWED_AGE = 130.years
+  MIN_DIRECTOR_AGE = 16.years
+  MIN_NON_DIRECTOR_AGE = 18.years
 
   before_validation :strip_whitespace, :only => [:dob_day, :dob_month, :dob_year]
 
@@ -117,15 +120,15 @@ class KeyPerson < Ohm::Model
       if dob
         if dob.try(:>, Date.today)
           errors.add(:dob, I18n.t('errors.messages.date_not_in_past'))
-        elsif dob.try(:<, Date.today-130.years)
+        elsif dob.try(:<, Date.today-MAX_ALLOWED_AGE)
           errors.add(:dob, I18n.t('errors.messages.invalid_date'))
         else
           if position == 'Director'
-            if dob.try(:>, Date.today-16.years)
+            if dob.try(:>, Date.today-MIN_DIRECTOR_AGE)
               errors.add(:dob, I18n.t('errors.messages.director_dob_less_than_16_years'))
             end
           else
-            if dob.try(:>, Date.today-18.years)
+            if dob.try(:>, Date.today-MIN_NON_DIRECTOR_AGE)
               errors.add(:dob, I18n.t('errors.messages.non-director_dob_less_than_18_years'))
             end
           end
@@ -153,10 +156,10 @@ class KeyPerson < Ohm::Model
   end
 
   def director?
-    position == 'Director'
+    self.position == 'Director'
   end
 
   def no_existing_dob_errors?
-    ret = (!self.errors.include? :dob_day) && (!self.errors.include? :dob_month) && (!self.errors.include? :dob_year)
+    (!self.errors.include? :dob_day) && (!self.errors.include? :dob_month) && (!self.errors.include? :dob_year)
   end
 end
