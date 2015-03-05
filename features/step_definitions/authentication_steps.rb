@@ -188,5 +188,5 @@ end
 
 Then(/^my registration Certificate does not have an Expiry Date/) do
   first(:css, '.viewCertificate').click
-  page.has_no_text? 'Expiry date of registration (unless revoked)'
+  expect(page).not_to have_text 'Expiry date of registration (unless revoked)'
 end

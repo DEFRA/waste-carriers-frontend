@@ -60,5 +60,5 @@ end
 
 Then(/^I should be prompted to login as an administrator$/) do
   expect(page).to have_text 'Administration login'
-  page.has_no_text? 'Listing agency users'
+  expect(page).not_to have_text 'Listing agency users'
 end

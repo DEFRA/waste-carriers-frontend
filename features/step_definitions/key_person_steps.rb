@@ -42,5 +42,5 @@ end
 Then(/^I cannot proceed until I have added a key person$/) do
   click_button 'continue'
   expect(page).to have_text 'error'
-  page.has_no_text? 'Relevant'
+  expect(page).not_to have_text 'Relevant'
 end
