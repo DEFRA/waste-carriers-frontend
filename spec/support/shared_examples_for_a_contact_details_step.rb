@@ -1,9 +1,9 @@
 shared_examples_for 'a contact details step' do
   describe 'presence' do
-    it { should validate_presence_of(:firstName).with_message(/must be completed/) }
-    it { should validate_presence_of(:lastName).with_message(/must be completed/) }
+    it { should validate_presence_of(:firstName).with_message(/You must enter/) }
+    it { should validate_presence_of(:lastName).with_message(/You must enter/) }
     it { should_not validate_presence_of(:position).with_message(/must be completed/) }
-    it { should validate_presence_of(:phoneNumber).with_message(/must be completed/) }
+    it { should validate_presence_of(:phoneNumber).with_message(/You must enter/) }
   end
 
   describe 'format' do
