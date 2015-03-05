@@ -255,7 +255,7 @@ Then(/^the callers registration should be complete$/) do
 end
 
 Then(/^registration should be pending convictions checks$/) do
-  expect(page).to have_css '#ut_pending_convictions_check'
+  expect(page).to have_selector(:id, 'ut_pending_convictions_check')
 end
 
 Then(/^the callers registration should be pending convictions checks$/) do
@@ -268,7 +268,7 @@ Then(/^the callers registration should be pending convictions checks$/) do
 end
 
 Then(/^registration should be pending payment$/) do
-  expect(page).to have_css '#ut_bank_transfer'
+  expect(page).to have_selector(:id, 'ut_bank_transfer')
 end
 
 Then(/^the callers registration should be pending payment$/) do
