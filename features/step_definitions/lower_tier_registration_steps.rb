@@ -50,7 +50,6 @@ end
 Given(/^I autocomplete my business address$/) do
   fill_in 'sPostcode', with: 'HP10 9BX'
   click_button 'find_address'
-  #select '33 Fennels Way, Flackwell Heath HP10 9BX'
   select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
   click_button 'continue'
 end
@@ -60,9 +59,7 @@ Given(/^I want my business address autocompleted but I provide an unrecognised p
 end
 
 Then(/^no address suggestions will be shown$/) do
-  # Changed validation message
-  expect(page).to have_text 'Postcode is not valid'
-  #expect(page).to have_text 'There are no addresses for the given postcode'
+  expect(page).to have_text 'Please enter a valid postcode'
 end
 
 When(/^I try to select an address$/) do
