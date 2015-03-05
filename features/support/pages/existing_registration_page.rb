@@ -5,7 +5,7 @@ module ExistingRegistrationPage
   end
 
   def existing_registration_page?
-    page.has_css? 'a[data-journey$="existing-registration"]'
+    page.expect(page).to have_css 'a[data-journey$="existing-registration"]'
   end
 
   def existing_registration_page_complete_form(
