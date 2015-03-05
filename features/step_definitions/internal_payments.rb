@@ -1,27 +1,30 @@
-#
 # Helper functions to retry the search after waiting a period of time to
 # ensure the system has been updated correctly
-#
 def waitForSearchResultToPassLambda(searchParam, test)
-  totalWaitTime = 0
+  total_wait_time = 0
   loop do
     fill_in 'q', with: searchParam
     click_button 'reg-search'
-    break if test.call(page) || (totalWaitTime > 20)
-    puts '... Waiting 1 second before re-trying search (maximum wait time is 20 seconds)'
+    break if test.call(page) || (total_wait_time > 20)
+    puts '... Waiting 1 second before re-trying search '\
+         '(maximum wait time is 20 seconds)'
     sleep 1
-    totalWaitTime += 1
+    total_wait_time += 1
   end
 end
 
 def waitForSearchResultsToContainElementWithId(searchParam, elementIdToWaitFor)
-  xpathToWaitFor = "//*[@id = '#{elementIdToWaitFor}']"
-  waitForSearchResultToPassLambda(searchParam, lambda {|page| page.has_xpath?(xpathToWaitFor) })
-  page.has_xpath? xpathToWaitFor
+  xpath_to_wait_for = "//*[@id = '#{elementIdToWaitFor}']"
+  waitForSearchResultToPassLambda(
+    searchParam,
+    lambda {|page| page.has_xpath?(xpath_to_wait_for) })
+  expect(page).to have_xpath xpath_to_wait_for
 end
 
 def waitForSearchResultsToContainText(searchParam, textToWaitFor)
-  waitForSearchResultToPassLambda(searchParam, lambda {|page| page.has_text?(textToWaitFor) })
+  waitForSearchResultToPassLambda(
+    searchParam,
+    lambda {|page| page.has_text?(textToWaitFor) })
   expect(page).to have_text textToWaitFor
 end
 
