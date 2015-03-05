@@ -755,7 +755,7 @@ en:
     back_link_unavailable: "JavaScript has been disabled - please use your browser's back button."
     cannot_edit:
       titleCookies: "The cookies in your browser have been disabled"
-      titleCannotEdit: "Sorry you can't make changes to your application right now"
+      titleCannotEdit: "Sorry, you can't make changes to your application right now"
       instructions1: "\ to your account to check the status of your application."
       cookies1: "To carry on with your registration please enable session"
       cookiesLink: "cookies"
@@ -1127,7 +1127,7 @@ en:
       invalid_public_params: "Name of organisation must be completed."
       lastName_label: "Last name"
       manual_payment_button_label: "Select (Manual)"
-      new_button_label: "New Registration"
+      new_button_label: "New registration"
       continue_button_label: "Continue"
       not_applicable: "n/a"
       option_please_select: "Please select..."
