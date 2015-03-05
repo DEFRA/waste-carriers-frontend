@@ -33,7 +33,7 @@ Given(/^I have completed the lower tier registration form$/) do
   fill_in 'registration_password_confirmation', with: my_password
   click_button 'continue'
 
-  sleep 0.2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
 end
 
 Given(/^I have been funneled into the lower tier path$/) do
@@ -122,9 +122,7 @@ And(/^I provide my email address and create a password$/) do
 end
 
 When(/^I confirm account creation via email$/) do
-  # capybara-email recommends forcing a sleep prior to trying to read any email
-  # after an asynchronous event
-  sleep 0.5
+  do_short_pause_for_email_delivery
   open_email my_email_address
   current_email.click_link 'confirmation_link'
 end
@@ -183,5 +181,5 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   fill_in 'registration_password_confirmation', with: my_password
   click_button 'continue'
 
-  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
 end

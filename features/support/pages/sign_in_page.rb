@@ -18,8 +18,7 @@ module SignInPage
   end
 
   def sign_in_page_select_new_registration
-    RestClient.post Rails.configuration.waste_exemplar_services_admin_url +
-      '/tasks/ir-repopulate', content_type: :json, accept: :json
+    repopulate_database_with_IR_data
     click_link 'new_registration'
   end
 end
