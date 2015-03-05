@@ -63,7 +63,7 @@ And(/^I remain on the upper tier business details page$/) do
 end
 
 Then(/^I proceed to the next wizard step$/) do
-  page.has_no_field? 'registration_company_no'
+  expect(page).not_to have_field 'registration_company_no'
 end
 
 Then(/^I am told the company is not active$/) do
@@ -78,7 +78,6 @@ Then(/^I am told the company number needs to be filled in$/) do
   expect(page).to have_text 'Company registration number (CN) must be completed'
 end
 
-
 Then(/^I am not asked for my company number$/) do
-  page.has_no_field? 'registration_company_no'
+  expect(page).not_to have_field 'registration_company_no'
 end
