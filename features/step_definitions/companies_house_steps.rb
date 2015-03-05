@@ -67,15 +67,15 @@ Then(/^I proceed to the next wizard step$/) do
 end
 
 Then(/^I am told the company is not active$/) do
-  expect(page).to have_text 'does not have active status'
+  expect(page).to have_text 'no longer active'
 end
 
 Then(/^I am told the company was not found$/) do
-  expect(page).to have_text 'is not listed by Companies House'
+  expect(page).to have_text 'can’t be found'
 end
 
 Then(/^I am told the company number needs to be filled in$/) do
-  expect(page).to have_text 'Company registration number (CN) must be completed'
+  expect(page).to have_text 'You must enter the company registration number (CRN)'
 end
 
 Then(/^I am not asked for my company number$/) do
