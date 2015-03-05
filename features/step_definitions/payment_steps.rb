@@ -41,7 +41,7 @@ def waitForWorldpayToLoad
 end
 
 And(/^I pay by card$/) do
-  page.has_text? 'Payment summary'
+  expect(page).to have_text 'Payment summary'
 
   choose 'registration_payment_type_world_pay'
   click_button 'proceed_to_payment'
@@ -101,7 +101,7 @@ end
 Then(/^I set test simulator page to all okay$/) do
   sleep 3.0
   #By now we should be on the Test Simulator page...
-  page.has_text? 'Secure Test Simulator Page'
+  expect(page).to have_text 'Secure Test Simulator Page'
   find(:css, 'input[src*="makepayment.gif"]').click
 
   # Wait for worldpay redirect to occur
@@ -115,9 +115,9 @@ When(/^I provide valid credit card payment details on behalf of a caller$/) do
   # Wait a period for worldpay to load
   waitForWorldpayToLoad
 
-  page.has_text? 'Secure Payment Page'
+  expect(page).to have_text 'Secure Payment Page'
 
-  page.has_text? 'MasterCard'
+  expect(page).to have_text 'MasterCard'
 
   click_on 'MasterCard'
 
@@ -155,14 +155,14 @@ And(/^I choose pay via electronic transfer ensuring the total amount is (\d+)\.(
 end
 
 Then(/^I make a note of the details$/) do
-  page.has_text? /CBDU\d+/
-  page.has_text? /Sort code/
-  page.has_text? /Account number/
+  expect(page).to have_text /CBDU\d+/
+  expect(page).to have_text /Sort code/
+  expect(page).to have_text /Account number/
 
   click_button 'continue'
 end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
-  page.has_text? 'Your reference number is'
-  page.has_text? 'Please allow 5 working days for your payment to reach us'
+  expect(page).to have_text 'Your reference number is'
+  expect(page).to have_text 'Please allow 5 working days for your payment to reach us'
 end
