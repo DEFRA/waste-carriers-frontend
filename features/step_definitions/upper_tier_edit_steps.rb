@@ -86,17 +86,17 @@ Then(/^I am asked to pay for the edits expecting a full fee$/) do
 end
 
 Then(/^my edit should be complete$/) do
-  page.find_by_id "ut_complete_or_lower_tier"
+  expect(page).to have_css '#ut_complete_or_lower_tier'
   click_button 'finished_btn'
   # Check routing after clicking finished
-  page.find_by_id "edit_#{@cucumber_reg_id}"
+  expect(page).to have_css "edit_#{@cucumber_reg_id}"
 end
 
 Then(/^my edit should be awaiting payment$/) do
-  page.find_by_id "ut_bank_transfer"
+  expect(page).to have_css '#ut_bank_transfer'
   click_button 'finished_btn'
   # Check routing after clicking finished
-  page.find_by_id "edit_#{@cucumber_reg_id}"
+  expect(page).to have_css "edit_#{@cucumber_reg_id}"
 end
 
 Then(/^my edit with full fee should be complete$/) do
@@ -104,7 +104,7 @@ Then(/^my edit with full fee should be complete$/) do
   @new_reg_id = find_by_id('registrationNumber').text.to_s
   click_button 'finished_btn'
   # Check routing after clicking finish
-  page.find_by_id "edit_#{@new_reg_id}"
+  expect(page).to have_css "edit_#{@new_reg_id}"
   expect(page).to have_text 'ACTIVE'
 end
 
