@@ -54,7 +54,7 @@ Then(/^my registration data is not shown anymore$/) do
 end
 
 Then(/^I am informed that I have to login again to change my registration$/) do
-  expect(page).to have_text "Sorry you can't make changes"
+  expect(page).to have_text "Sorry, you can't make changes"
 end
 
 When(/^I attempt to access the confirmation page$/) do
