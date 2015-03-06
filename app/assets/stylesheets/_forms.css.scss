@@ -290,25 +290,27 @@ this is only intended as a temporary work around until a proper fix for multiple
     position: relative;
 }
 
-#continue {
+#continue,
+#confirm,
+#proceed_to_payment {
   @include media (mobile){
     box-sizing: border-box;
     font-size: 19px;
     text-align: center;
     clear: both;
     width: 100%;
-    padding: 0.3em 0.6em 0.2em 0.6em;
+    padding: 0.7em 0.6em 0.4em 0.6em;
   }
 }
 
-input {
-  @include media (mobile){
-    box-sizing: border-box;
-    font-size: 19px;
-    clear: both;
-    width: 100%;
-  }
-}
+// input {
+//   @include media (mobile){
+//     box-sizing: border-box;
+//     font-size: 19px;
+//     clear: both;
+//     width: 100%;
+//   }
+// }
 
 /* Address look-up */
 
@@ -328,6 +330,7 @@ input {
   vertical-align:top;
   @include media (mobile){
   width:100%;
+  padding: 0.7em 0.6em 0.4em 0.6em;
  }
 }
 
@@ -337,6 +340,7 @@ input {
   vertical-align:top;
   @include media (mobile){
   width:100%;
+  margin-bottom: $gutter;
  }
 }
 
