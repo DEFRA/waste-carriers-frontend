@@ -163,6 +163,6 @@ Then(/^I make a note of the details$/) do
 end
 
 Then(/^my upper tier waste carrier registration is pending until payment is received by the Environment Agency$/) do
-  expect(page).to have_text 'Your reference number is'
+  expect(page).to have_text 'Please use this reference number if you contact us:'
   expect(page).to have_text 'Please allow 5 working days for your payment to reach us'
 end
