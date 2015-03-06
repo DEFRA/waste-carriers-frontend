@@ -110,7 +110,7 @@ legend {
   margin-top: $gutter-half;
   margin-bottom: $gutter;
     @include media (mobile){
-	  margin-bottom: 0;
+	  margin-bottom: $gutter-half;
   }
 }
 

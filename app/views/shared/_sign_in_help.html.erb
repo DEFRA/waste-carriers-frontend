@@ -1,7 +1,7 @@
 <% registration_in_progress ||= false %>
 
 <details class="text">
-  <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+  <summary id="show-hide-details-summary-0" aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
     <span class='summary'><%= t 'shared.sign_in_help.sign_in_problems' %></span>
   </summary>
   <div style='display:block' id='details-content-0' >
@@ -15,7 +15,7 @@
 <% if resource_name == :user %>
   <% unless registration_in_progress %>
     <details class="text">
-      <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+      <summary id="show-hide-details-summary-1" aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
         <span class='summary'><%= t 'shared.sign_in_help.sign_in_email_unknown' %></span>
       </summary>
       <div style='display:block' id='details-content-0' >
@@ -27,7 +27,7 @@
   <% end %>
 
   <details class="text">
-    <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+    <summary id="show-hide-details-summary-2" aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
       <span class='summary'><%= t 'shared.sign_in_help.sign_in_confirm' %></span>
     </summary>
     <div style='display:block' id='details-content-0' >
@@ -44,7 +44,7 @@
 
 <% if resource_name == :agency_user || resource_name == :admin %>
   <details class="text">
-    <summary aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+    <summary id="show-hide-details-summary-3" aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
       <span class='summary'><%= t 'shared.sign_in_help.sign_in_unlock' %></span>
     </summary>
     <div style='display:block' id='details-content-0' >

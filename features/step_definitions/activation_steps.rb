@@ -85,7 +85,7 @@ end
 
 And(/^I am shown my pending registration$/) do
   expect(page).not_to have_text 'confirm your account'
-  expect(page).to have_text 'Your reference number is'
+  expect(page).to have_text 'Please use this reference number if you contact us:'
 end
 
 Then(/^my account is successfully activated$/) do
