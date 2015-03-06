@@ -1,5 +1,4 @@
 class ConvictionSearchResult < Ohm::Model
-
   @@VALID_KEYS = [:name, :dateOfBirth, :companyNumber]
 
   include ActiveModel::Conversion
@@ -14,16 +13,15 @@ class ConvictionSearchResult < Ohm::Model
   attribute :confirmed_at
   attribute :confirmed_by
 
-  # returns a hash representation of the ConvictionSearchResult object
-  #
+  # Returns a hash representation of the ConvictionSearchResult object.
   # @param none
   # @return  [Hash]  the ConvictionSearchResult object as a hash
   def to_hash
     self.attributes.to_hash
   end
 
-  # returns a JSON Java/DropWizard API compatible representation of the ConvictionSearchResult object
-  #
+  # Returns a JSON Java/DropWizard API compatible representation of the
+  # ConvictionSearchResult object.
   # @param none
   # @return  [String]  the ConvictionSearchResult object in JSON form
   def to_json
@@ -32,26 +30,23 @@ class ConvictionSearchResult < Ohm::Model
 
   def add(a_hash)
     a_hash.each do |prop_name, prop_value|
-      self.send(:update, {prop_name.to_sym => prop_value})
+      self.send(:update, { prop_name.to_sym => prop_value })
     end
   end
 
   class << self
-    def init (conviction_search_result_hash)
-
+    def init(conviction_search_result_hash)
       conviction_search_result = ConvictionSearchResult.create
-
+      
       conviction_search_result_hash.each do |k, v|
-        conviction_search_result.send(:update, {k.to_sym => v})
+        conviction_search_result.send(:update, { k.to_sym => v })
       end
 
       conviction_search_result.save
       conviction_search_result
-
     end
 
-    def search_convictions params
-
+    def search_convictions(params)
       validate_params params
       search_result = ConvictionSearchResult.new
 
@@ -59,7 +54,7 @@ class ConvictionSearchResult < Ohm::Model
         result = JSON.parse RestClient.get Rails.configuration.waste_exemplar_convictions_service_url, params: params
         search_result = ConvictionSearchResult.init(result)
       rescue Errno::ECONNREFUSED => e
-        Rails.logger.error "Services unavailable: "
+        Rails.logger.error 'Services unavailable: '
         search_result.match_result = 'UNKNOWN'
         search_result.matching_system = 'SERVICE_UNAVAILABLE'
         search_result.searched_at = Time.now.to_i
@@ -76,18 +71,17 @@ class ConvictionSearchResult < Ohm::Model
       search_result
     end
 
-    def validate_params params
+    def validate_params(params)
       raise_if_no_params params
       raise_if_have_invalid_keys params
     end
 
-    def raise_if_no_params params
-      raise if params.empty?
+    def raise_if_no_params(params)
+      fail if params.empty?
     end
 
-    def raise_if_have_invalid_keys params
+    def raise_if_have_invalid_keys(params)
       params.assert_valid_keys @@VALID_KEYS
     end
   end
-
 end
