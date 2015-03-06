@@ -580,7 +580,7 @@ en:
     awaitingConvictionsCheck:
       subject: "Application received"
       app_received: "Application received"
-      ref_number: "Your reference number is"
+      ref_number: "Please use this reference number if you contact us:"
       heading: "What happens next"
       paragraph1: "We'll check your details and let you know whether your application has been successful. We aim to do this within 10 working days."
       paragraph2: "You’re not legally entitled to operate as a waste carrier until we have received your payment and confirmed your registration"
@@ -588,7 +588,7 @@ en:
     awaitingPayment:
       heading: "Application received"
       app_received: "Application received"
-      ref_number: "Your reference number is"
+      ref_number: "Please use this reference number if you contact us:"
       paragraph1: "Before we can complete your registration, you need to:"
       paragraph2: "1. pay the registration fee."
       paragraph3: "2. send us confirmation that you have paid the registration fee."
@@ -789,7 +789,7 @@ en:
     confirmed:
       title: "End of registration"
       summary_reg_number: "Your registration number is"
-      summary_ref_number: "Your reference number is"
+      summary_ref_number: "Please use this reference number if you contact us:"
       reg_number: "%{reg}"
       details_emailed: "We have sent a confirmation email to %{email}"
       how_to_pay_message: "Details of how to pay have been emailed to %{email}"
@@ -847,7 +847,7 @@ en:
       subtitle: ""
     company_details_finder:
       companies_house_explain: "This is your company registration number"
-      companies_house_details_link: "What's this?"
+      companies_house_details_link: "What's a Company Registration Number?"
       companies_house_paragraph1: "A Company Registration Number (CRN) is allocated by"
       companies_house_html: "Companies House"
       companies_house_paragraph2: "\ when a limited company is registered."
@@ -1021,7 +1021,7 @@ en:
     finish_page_declared_convictions:
       title: "Application received"
       subtitle_complete: "Application received"
-      reference: "Your reference number is"
+      reference: "Please use this reference number if you contact us:"
       ref_number: "%{reg}"
       registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
       applied_as: "%{companyName} thank you for applying as %{tier_with_article} tier waste carrier with the Environment Agency."
