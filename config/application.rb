@@ -100,6 +100,10 @@ module Registrations
     config.waste_exemplar_frontend_public_subdomain = ENV["WCRS_FRONTEND_PUBLIC_APP_SUBDOMAIN"] || "localhost"
     config.waste_exemplar_frontend_admin_subdomain = ENV["WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN"] || "localhost"
 
+    # Settings relating to the Convictions Service.
+    config.waste_exemplar_convictions_service_url = get_url_from_environment_or_default('WCRS_FRONTEND_CONVICTIONS_SERVICE_URL', 'http://localhost:9290/')
+    
+    # Settings relating to Companies House.
     config.waste_exemplar_companies_house_url = 'http://www.companieshouse.gov.uk/info'
 
     #In Production we want to verify that requests to agency user and administration functionality

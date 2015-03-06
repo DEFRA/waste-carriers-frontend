@@ -1,6 +1,5 @@
 class ConvictionSearchResult < Ohm::Model
 
-  @@URL = 'http://localhost:9290/convictions'
   @@VALID_KEYS = [:name, :dateOfBirth, :companyNumber]
 
   include ActiveModel::Conversion
@@ -57,7 +56,7 @@ class ConvictionSearchResult < Ohm::Model
       search_result = ConvictionSearchResult.new
 
       begin
-        result = JSON.parse RestClient.get @@URL, params: params
+        result = JSON.parse RestClient.get Rails.configuration.waste_exemplar_convictions_service_url, params: params
         search_result = ConvictionSearchResult.init(result)
       rescue Errno::ECONNREFUSED => e
         Rails.logger.error "Services unavailable: "
