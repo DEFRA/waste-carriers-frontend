@@ -33,7 +33,7 @@ Given(/^I have completed the lower tier registration form$/) do
   fill_in 'registration_password_confirmation', with: my_password
   click_button 'continue'
 
-  sleep 0.2 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
 end
 
 Given(/^I have been funneled into the lower tier path$/) do
@@ -50,7 +50,6 @@ end
 Given(/^I autocomplete my business address$/) do
   fill_in 'sPostcode', with: 'HP10 9BX'
   click_button 'find_address'
-  #select '33 Fennels Way, Flackwell Heath HP10 9BX'
   select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
   click_button 'continue'
 end
@@ -60,9 +59,7 @@ Given(/^I want my business address autocompleted but I provide an unrecognised p
 end
 
 Then(/^no address suggestions will be shown$/) do
-  # Changed validation message
-  page.has_text? 'Postcode is not valid'
-  #page.has_text? 'There are no addresses for the given postcode'
+  expect(page).to have_text 'Please enter a valid postcode'
 end
 
 When(/^I try to select an address$/) do
@@ -122,27 +119,28 @@ And(/^I provide my email address and create a password$/) do
 end
 
 When(/^I confirm account creation via email$/) do
-  sleep 0.5 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
   open_email my_email_address
-  #current_email.save_and_open      # Useful for debugging email content
   current_email.click_link 'confirmation_link'
 end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
-  page.has_text? 'you don’t need to pay a registration fee'
+  expect(page).to have_text 'you don’t need to pay a registration fee'
   open_email my_email_address
-  current_email.has_text? 'Based on what you told us about your organisation and what it does, we have registered you as a lower tier waste carrier'
+  expect(current_email).to have_text 'Based on what you told us about your '\
+                                     'organisation and what it does, we have '\
+                                     'registered you as a lower tier waste '\
+                                     'carrier'
 end
 
 But(/^I can edit this postcode$/) do
   postcode_field = find_field('sPostcode')
-
-  postcode_field.value.should == my_unrecognised_postcode
-  postcode_field['disabled'].should_not be
+  expect(postcode_field.value).to eq(my_unrecognised_postcode)
+  expect(postcode_field).not_to be_disabled
 end
 
 And(/^add my address manually if I wanted to$/) do
-  page.has_link? 'I want to add an address myself'
+  expect(page).to have_link 'I want to add an address myself'
 end
 
 Given(/^I have gone through the lower tier waste carrier process$/) do
@@ -180,5 +178,5 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   fill_in 'registration_password_confirmation', with: my_password
   click_button 'continue'
 
-  sleep 0.1 # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
 end

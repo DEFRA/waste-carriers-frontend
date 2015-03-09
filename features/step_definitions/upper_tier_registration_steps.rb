@@ -79,49 +79,53 @@ And(/^I choose pay via electronic transfer$/) do
 end
 
 Then(/^I am registered as an upper tier waste carrier$/) do
-  sleep 1  # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
   open_email my_email_address
-  current_email.has_text? have_content 'you need to renew your registration every 3 years'
+  expect(current_email).to have_text 'you need to renew your registration '\
+                                     'every 3 years'
 end
 
 Then(/^I am successfully registered and activated as an upper tier waste carrier$/) do
-  page.has_text? 'Signed in as'
-  page.has_text? 'CBDU'
-  page.has_text? 'ACTIVE'
+  expect(page).to have_text 'Signed in as'
+  expect(page).to have_text 'CBDU'
+  expect(page).to have_text 'ACTIVE'
 end
 
+# TODO: Update this test once we have defined content for the convictions email
 Then(/^I am registered as an upper tier waste carrier pending conviction checks$/) do
-  sleep 1  # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
   open_email my_email_address
-  current_email.has_text? 'What happens next' # Update this test once we have defined content for the convictions email
+  expect(current_email).to have_text 'What happens next'
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending conviction checks$/) do
-  page.has_text? 'Signed in as'
-  page.has_text? 'CBDU'
-  page.has_text? 'PENDING'
+  expect(page).to have_text 'Signed in as'
+  expect(page).to have_text 'CBDU'
+  expect(page).to have_text 'PENDING'
 end
 
+# TODO: Update this test once we have defined content for the awaiting payment
+# email
 Then(/^I am registered as an upper tier waste carrier pending payment$/) do
-  sleep 1  # capybara-email recommends forcing a sleep prior to trying to read any email after an asynchronous event
+  do_short_pause_for_email_delivery
   open_email my_email_address
-  current_email.has_text? 'Application received'  # Update this test once we have defined content for the awaiting payment email
+  expect(current_email).to have_text 'Application received'
 end
 
 Then(/^I am registered and activated as an upper tier waste carrier pending payment$/) do
-  page.has_text? 'Signed in as'
-  page.has_text? 'CBDU'
-  page.has_text? 'PENDING'
+  expect(page).to have_text 'Signed in as'
+  expect(page).to have_text 'CBDU'
+  expect(page).to have_text 'PENDING'
 end
 
 Then(/^I have applied as an upper tier waste carrier$/) do
-  page.has_text? 'Signed in as'
-  page.has_text? 'CBDU'
-  page.has_text? 'PENDING'
+  expect(page).to have_text 'Signed in as'
+  expect(page).to have_text 'CBDU'
+  expect(page).to have_text 'PENDING'
 end
 
 Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do
-  page.has_text? 'Please allow 5 working days for your payment to reach us'
+  expect(page).to have_text 'Please allow 5 working days for your payment to reach us'
 end
 
 And(/^no key people in the organisation have convictions$/) do

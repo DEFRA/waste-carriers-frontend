@@ -10,11 +10,11 @@ shared_examples_for 'a physical address step' do
     before { subject.addressMode = 'manual-foreign' }
 
     describe 'presence' do
-      it { should validate_presence_of(:streetLine1).with_message(/must be completed/) }
+      it { should validate_presence_of(:streetLine1).with_message(/You must enter/) }
       it { should_not validate_presence_of(:streetLine2).with_message(/must be completed/) }
       it { should_not validate_presence_of(:streetLine3) }
       it { should_not validate_presence_of(:streetLine4) }
-      it { should validate_presence_of(:country).with_message(/must be completed/) }
+      it { should validate_presence_of(:country).with_message(/You must enter/) }
     end
 
     describe 'length' do

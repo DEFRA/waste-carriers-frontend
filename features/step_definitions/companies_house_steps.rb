@@ -59,26 +59,25 @@ When(/^I click to advance$/) do
 end
 
 And(/^I remain on the upper tier business details page$/) do
-  page.has_text? 'Business details'
+  expect(page).to have_text 'Business details'
 end
 
 Then(/^I proceed to the next wizard step$/) do
-  page.has_no_field? 'registration_company_no'
+  expect(page).not_to have_field 'registration_company_no'
 end
 
 Then(/^I am told the company is not active$/) do
-  page.has_text? 'does not have active status'
+  expect(page).to have_text 'no longer active'
 end
 
 Then(/^I am told the company was not found$/) do
-  page.has_text? 'is not listed by Companies House'
+  expect(page).to have_text 'can’t be found'
 end
 
 Then(/^I am told the company number needs to be filled in$/) do
-  page.has_text? 'Company registration number (CN) must be completed'
+  expect(page).to have_text 'You must enter the company registration number (CRN)'
 end
 
-
 Then(/^I am not asked for my company number$/) do
-  page.has_no_field? 'registration_company_no'
+  expect(page).not_to have_field 'registration_company_no'
 end

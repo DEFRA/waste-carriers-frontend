@@ -28,11 +28,14 @@ And(/^I indicate I sometimes deal with waste from building or demolition work$/)
 end
 
 Then(/^I will be on the lower tier waste carrier registration path$/) do
-  page.has_no_field? 'registration_companyName'
+  # Lower Tier carriers are *not* asked if they are a carrier / dealer / broker,
+  # and instead go straight to the Business Details page.
+  expect(page).to have_field 'registration_companyName'
 end
 
 Then(/^I will be on the upper tier waste carrier registration path$/) do
-  page.has_no_field? 'registration_registrationType_carrier_dealer'
+  # Only Upper Tier carriers are asked if they are a carrier / dealer / broker.
+  expect(page).to have_field 'registration_registrationType_carrier_dealer'
 end
 
 And(/^I indicate disposing waste is my main service$/) do
@@ -56,15 +59,15 @@ And(/^I indicate I don't deal with animal, farm, quarry or mine waste$/) do
 end
 
 Then(/^there is a continue button on the page$/) do
-  page.has_button? 'continue'
+  expect(page).to have_button 'continue'
 end
 
 Then(/^there is no back button on the page/) do
-  page.has_no_button? 'Back'
+  expect(page).not_to have_button 'Back'
 end
 
 Then(/^I am told to ring the Environment Agency$/) do
-  page.has_text? 'Contact the Environment Agency'
+  expect(page).to have_text 'Contact the Environment Agency'
 end
 
 Given(/^I navigate to the construction\/demolition step via the other businesses step$/) do
