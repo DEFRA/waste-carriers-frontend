@@ -12,6 +12,10 @@ Given(/^I have completed my lower tier registration$/) do
   click_button 'continue'
 
   click_link 'manual_uk_address'
+
+  # Needs a sleep here for some reason?, without it, companyName is not filled in generating required error
+  sleep 0.1
+
   fill_in 'registration_companyName', with: 'Grades & Co'
   fill_in 'registration_houseNumber', with: '12'
   fill_in 'registration_streetLine1', with: 'Deanery Road'
