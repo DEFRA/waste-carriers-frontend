@@ -42,6 +42,18 @@ module KnowsTheDomain
   def my_user
     @my_user ||= FactoryGirl.create :user
   end
+
+  def do_short_pause_for_email_delivery
+    # capybara-email recommends forcing a sleep prior to trying to read any
+    # email after an asynchronous event.
+    sleep 0.2
+  end
+
+  def repopulate_database_with_IR_data
+    # Manually force a repopulation of IR data in database
+    RestClient.post Rails.configuration.waste_exemplar_services_admin_url +
+      '/tasks/ir-repopulate', content_type: :json, accept: :json
+  end
 end
 
 World(KnowsTheDomain)

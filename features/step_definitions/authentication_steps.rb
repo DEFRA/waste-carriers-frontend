@@ -8,29 +8,29 @@ When(/^somebody visits the ([\w ]+) Sign In page$/) do |user_type|
 end
 
 When(/^enters valid credentials$/) do
-  page.has_text? 'Sign in'
+  expect(page).to have_text 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: my_user.password
   click_button 'sign_in'
 end
 
 Then(/^the user should be logged in successfully$/) do
-  page.has_text? 'Signed in as'
+  expect(page).to have_text 'Signed in as'
 end
 
 When(/^enters invalid credentials$/) do
-  page.has_text? 'Sign in'
+  expect(page).to have_text 'Sign in'
   fill_in 'Email', with: my_user.email
   fill_in 'Password', with: 'incorrect_password'
   click_button 'sign_in'
 end
 
 Then(/^the user should see a login account unlocked successfully page$/) do
-  page.has_text? 'Your account has been unlocked successfully'
+  expect(page).to have_text 'Your account has been unlocked successfully'
 end
 
 Then(/^the user should see a login error$/) do
-  page.has_text? 'Invalid email or password.'
+  expect(page).to have_text 'Invalid email or password.'
 end
 
 # TODO GM - still need to figure out how to switch between www and admin subdomains in Cucumber
@@ -102,7 +102,7 @@ When(/^the maximum number of invalid login attempts is exceeded for the ([\w ]+)
     fill_in 'Email', with: emailAddress
     fill_in 'Password', with: 'this_is_the_wrong_password'
     click_button 'sign_in'
-    page.has_text? 'Invalid email or password'
+    expect(page).to have_text 'Invalid email or password'
   end
 
   expect(get_database_object_for_user_type(user_type).access_locked?).to be true
@@ -131,10 +131,12 @@ When (/^completes the request using a guessed email address$/) do
 end
 
 Then(/^they should be redirected to the login page, but not told if the email address they supplied was known or unknown$/) do
-  expect(current_path).to have_text /sign_in/i
-  # Note: we can't really guarantee that the page doesn't contain ANY clues about whether or not the
-  # email address exists; we limit our test to looking for the key phrase "*IF* your account exists..."
-  find_by_id('notice_explanation').has_text? /if your (email address|account) exists/i
+  expect(current_path).to have_text(/sign_in/i)
+  # Note: we can't really guarantee that the page doesn't contain ANY clues
+  # about whether or not the email address exists; we limit our test to looking
+  # for the key phrase "*IF* your account exists..."
+  notice = find_by_id 'notice_explanation'
+  expect(notice).to have_text(/if your (email address|account) exists/i)
   expect(find_field('Email').value).to be_blank
 end
 
@@ -142,7 +144,7 @@ Then(/^the ([\w ]+) should receive an email containing a link which allows the p
   open_email get_factorygirl_user_for_user_type(user_type).email
   expect(current_email.subject).to have_text 'Reset password instructions'
   current_email.click_link 'password_reset_link'
-  page.has_content? 'user_password_confirmation'
+  expect(page).to have_css "input[id$='_password_confirmation']"
 end
 
 Then(/^the ([\w ]+) should receive an email containing a link which unlocks the account$/) do |user_type|
@@ -181,10 +183,10 @@ end
 Then(/^my registration Certificate has a correct Expiry Date$/) do
   expectedExpiryDate = Date.today + Rails.configuration.registration_expires_after
   first(:css, '.viewCertificate').click
-  page.has_text? expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
+  expect(page).to have_text expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
 end
 
 Then(/^my registration Certificate does not have an Expiry Date/) do
   first(:css, '.viewCertificate').click
-  page.has_no_text? 'Expiry date of registration (unless revoked)'
+  expect(page).not_to have_text 'Expiry date of registration (unless revoked)'
 end

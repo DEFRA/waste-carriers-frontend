@@ -172,7 +172,7 @@ describe Registration do
         subject.tier = 'UPPER'
       end
 
-      it { should validate_presence_of(:company_no) }
+      it { should validate_presence_of(:company_no).with_message(/You must enter/) }
 
       it 'should not allow company which is not active', :vcr do
         subject.should_not allow_value('05868270').for(:company_no)

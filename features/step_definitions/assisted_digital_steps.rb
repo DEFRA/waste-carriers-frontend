@@ -3,7 +3,7 @@ Given(/^I am logged in as an NCCC agency user$/) do
   fill_in 'Email', with: my_agency_user.email
   fill_in 'Password', with: my_agency_user.password
   click_button 'sign_in'
-  page.has_content? 'agency-user-signed-in'
+  expect(page).to have_selector(:id, 'agency-user-signed-in')
 end
 
 Given(/^I start a new registration on behalf of a caller$/) do
@@ -182,15 +182,15 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
 end
 
 And(/^the lower tier waste carrier registration id$/) do
-  page.has_text? 'The registration number is: CBDL'
+  expect(page).to have_text 'The registration number is: CBDL'
 end
 
 And(/^the upper tier waste carrier registration id/) do
-  page.has_text? 'The registration number is: CBDU'
+  expect(page).to have_text 'The registration number is: CBDU'
 end
 
 Then(/^I see the six\-character access code for the user$/) do
-  page.has_text? 'The assisted digital access code is:'
+  expect(page).to have_text 'The assisted digital access code is:'
 end
 
 And(/^I see the payment details to tell the customer$/) do
@@ -204,6 +204,8 @@ end
 
 Then(/^the print page does not contain unnecessary content$/) do
   click_link 'view_certificate'
-  page.has_no_xpath? "//a[@id='logo']" # No Gov Uk Template
-  page.has_no_text? 'registrations@wastecarriersregistration.service.gov.uk' # No contact details
+  expect(page).not_to have_xpath "//a[@id='logo']" # No Gov Uk Template
+  # No contact details
+  expect(page).not_to have_text(
+    'registrations@wastecarriersregistration.service.gov.uk')
 end

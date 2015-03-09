@@ -1,6 +1,6 @@
 Given(/^The renewal link is available$/) do
   # This will only be true given the current set of expiration parameters, ie any new registration created is automatically able to be expired
-  page.has_text? 'Renew registration'
+  expect(page).to have_text 'Renew registration'
 end
 
 Then(/^I click the renew link for: (.*)$/) do |name|
@@ -10,24 +10,24 @@ Then(/^I click the renew link for: (.*)$/) do |name|
 end
 
 Then(/^my renewal should be complete$/) do
-  page.has_text? 'Registration complete'
+  expect(page).to have_text 'Registration complete'
   click_button 'finished'
-  page.has_text? 'ACTIVE'
+  expect(page).to have_text 'ACTIVE'
 end
 
 Then(/^my renewal should be awaiting payment$/) do
-  page.has_text? 'Almost there'
-  page.has_text? 'Your certificate and guidance have been emailed to'
+  expect(page).to have_text 'Almost there'
+  expect(page).to have_text 'Your certificate and guidance have been emailed to'
   click_button 'finished'
   # This is not a great test as it checks if the previous registration is still active not if the new one has been extended
   # That test is covered by the step 'the expiry date should be updated'
-  page.has_text? 'ACTIVE'
+  expect(page).to have_text 'ACTIVE'
 end
 
 Then(/^the expiry date should be updated$/) do
   # Get expiry period from configuration and check page has expected expiry date
   d = Date.today + Rails.configuration.registration_expires_after
-  page.has_text? d.strftime("%d-%^B-%Y")
+  expect(page).to have_text d.strftime("%d-%^B-%Y")
 end
 
 Given(/^I provide the following company name: (.*)$/) do |table|

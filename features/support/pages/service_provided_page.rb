@@ -5,7 +5,7 @@ module ServiceProvidedPage
   end
 
   def service_provided_page?
-    page.has_css? 'a[data-journey$="serviceprovided"]'
+    page.expect(page).to have_css 'a[data-journey$="serviceprovided"]'
   end
 
   def service_provided_page_select_no(submit: 'true')
