@@ -26,6 +26,32 @@ When(/^I enter my IR registration number for a Sole trader and pay by credit car
   relevant_convictions_page_select_no
 end
 
+When(/^I enter my IR registration number for a public body and change my business name$/) do
+  existing_registration_page_enter_public_body_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_submit
+  business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit(companyName:'New Public Body')
+  contact_details_page_enter_contact_details_and_submit
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_no
+end
+
+When(/^I enter my IR registration number for a partnership and pay by bank transfer$/) do
+  existing_registration_page_enter_partnership_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_submit
+  business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
+  contact_details_page_enter_contact_details_and_submit
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_no
+end
+
 When(/^I enter my IR registration number for a Sole trader with convictions and pay by bank transfer$/) do
   existing_registration_page_enter_sole_trader_registration_number
   business_type_page_submit
