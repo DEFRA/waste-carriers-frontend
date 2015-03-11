@@ -2,7 +2,7 @@ class ReportsController < ApplicationController
 
   #We require authentication for all reports and authorisation for some reports.
 
-  before_action :authenticate_admin_request!
+  before_action :authenticate_agency_user!
 
   # GET /report/registrations
   def registrations_search
