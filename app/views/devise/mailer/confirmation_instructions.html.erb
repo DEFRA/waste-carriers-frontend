@@ -53,13 +53,16 @@
 
             <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph2' %></p>
 
+
+            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph3' %></p>
+
             <% unless @resource.current_tier == 'UPPER' %>
               <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;" id="lower_tier_text">
-                <%= t 'devise.mailer.confirmation_instructions.paragraph3' %>
+                <%= t 'devise.mailer.confirmation_instructions.paragraph4' %>
               </p>
             <% end %>
 
-            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph4' %></p>
+            <p class="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'devise.mailer.confirmation_instructions.paragraph5' %></p>
 
             <% confirm_link = confirmation_url(@resource, :confirmation_token => @token) %>
 
@@ -67,15 +70,18 @@
               <%= link_to(confirm_link, confirm_link, {:id => 'confirmation_link'}) %>
             </p>
 
-            <p style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0;"><%= t 'devise.mailer.confirmation_instructions.footer_1' %></p>
-
-            <ul>
-              <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0;"><%= t 'devise.mailer.confirmation_instructions.footer_2' %>
-              </li>
-              <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0;"><%= t 'devise.mailer.confirmation_instructions.footer_3' %>
-              </li>
-            </ul>
-          </td>
+            <tr>
+              <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
+                <ul>
+                  <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 15px 0;">
+                    <%= t 'devise.mailer.confirmation_instructions.footer_1' %>
+                  </li>
+                  <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 15px 0;">
+                    <%= t 'devise.mailer.confirmation_instructions.footer_2' %>
+                  </li>
+                </ul>
+              </td>
+            </tr>
           <td width="25%">&nbsp;</td>
         </tr>
       </table>

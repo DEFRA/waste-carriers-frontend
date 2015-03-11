@@ -98,7 +98,7 @@ When(/^I activate my account by clicking the link in the activation email$/) do
 
   # Cycle through all emails in the inbox to find the activation email...
   current_emails.each do |this_email|
-    if (this_email.subject == 'Verify your email address')
+    if (this_email.subject == 'Confirm your email address')
       activation_email_found = true
       this_email.click_link 'confirmation_link'
       break
@@ -108,7 +108,7 @@ When(/^I activate my account by clicking the link in the activation email$/) do
   # ... if we didn't find the activation email, produce an error that will be
   # meaningful to Cucumber.
   unless activation_email_found
-    expect(current_email.subject).to have_text 'Verify your email address'
+    expect(current_email.subject).to have_text 'Confirm your email address'
   end
 end
 
@@ -121,11 +121,11 @@ Then(/^I need to request a new confirmation email to activate my account$/) do
 end
 
 Then(/^I am told to confirm my email address$/) do
-  expect(page).to have_text 'confirm your account'
+  expect(page).to have_text 'confirm your email'
 end
 
 Then(/^I am shown my confirmed registration$/) do
-  expect(page).to_not have_text 'confirm your account'
+  expect(page).to_not have_text 'confirm your email'
   expect(page).to have_text 'Your registration number is'
 end
 
