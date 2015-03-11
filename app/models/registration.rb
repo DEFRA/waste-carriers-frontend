@@ -740,13 +740,15 @@ class Registration < Ohm::Model
 
   # ******************************
   # * Start of Section 0 (start) *
-  # *****************************
+  # ******************************
   validates :newOrRenew, :presence => { :message => I18n.t('errors.messages.select_new_or_renew') }, if: :newOrRenew_step?
   validates :originalRegistrationNumber, :presence => { :message => I18n.t('errors.messages.blank_registration_number') }, if: :enterRegNumber_step?
-  # * End of Section 0 (start) *
+  # ******************************
+  # *  End of Section 0 (start)  *
+  # ******************************
 
   # **************************************
-  # ***** Start of Section 1 (smart answers)
+  # * Start of Section 1 (smart answers) *
   # **************************************
   validates :businessType, :presence => { :message => I18n.t('errors.messages.select_business_type') }, inclusion: { in: BUSINESS_TYPES, :allow_blank => true }, if: :businesstype_step?
   validates :otherBusinesses, :presence => { :message => I18n.t('errors.messages.select_other_businesses') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :otherbusinesses_step?
@@ -754,18 +756,20 @@ class Registration < Ohm::Model
   validates :constructionWaste, :presence => { :message => I18n.t('errors.messages.select_only_deal_with') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :constructiondemolition_step?
   validates :registrationType, :presence => { :message => I18n.t('errors.messages.select_registration_type') }, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer), :allow_blank => true }, if: :registrationtype_step?
   validates :onlyAMF, :presence => { :message => I18n.t('errors.messages.select_only_deal_with') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :onlydealwith_step?
-  # ***** End of Section 1 (smart answers) *****
+  # **************************************
+  # *  End of Section 1 (smart answers)  *
+  # **************************************
 
-  # **************************************
-  # * Start of Section 2 (contact details) *****
-  # **************************************
+  # ****************************************
+  # * Start of Section 2 (contact details) *
+  # ****************************************
   # Any company type except Limited company
   with_options if: [:businessdetails_step?, :not_limited_company?] do |registration|
     registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_non_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
   end
 
   # Limited company
-  with_options if: [:businessdetails_step?, :limited_company?] do |registration|
+  with_options if: [:businessdetails_step?, :limited_company?, :upper?] do |registration|
     registration.validates :company_no, uk_company_number: true
     registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
   end
@@ -802,13 +806,24 @@ class Registration < Ohm::Model
 
   # TODO AH - not sure if this is common one yet?
   validates :contactEmail, email: true, if: [:digital_route?, :contactdetails_step?]
-
-  # ***** End of Section 2 (contact details) *****
+  # ****************************************
+  # *  End of Section 2 (contact details)  *
+  # ****************************************
 
   # **************************************
-  # ***** Start of common validations *****
+  # * Start of Section 4 (check details) *
   # **************************************
-  # ***** End of common validations *****
+  validates :declaration, :acceptance => { :message => I18n.t('errors.messages.confirm_declaration') }, if: 'confirmation_step? or upper_summary_step?'
+  # **************************************
+  # *  End of Section 4 (check details   *
+  # **************************************
+
+  # *******************************
+  # * Start of common validations *
+  # *******************************
+  # *******************************
+  # *  End of common validations  *
+  # *******************************
 
   validates :declaredConvictions, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :convictions_step?
 
@@ -830,8 +845,6 @@ class Registration < Ohm::Model
   end
 
   validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
-
-  validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
 
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
   validates :payment_type, :presence => true, if: :payment_step?

@@ -297,7 +297,7 @@ en:
       invalid_first_name: "The first name can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
       blank_last_name: "You must enter a last name"
       invalid_last_name: "The last name  can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
-      blank_telephone: "You must enter a telephone"
+      blank_telephone: "You must enter a telephone number"
       invalid_telephone: "The telephone number can use numbers, spaces and some special characters (-+). It must be no longer than 20 characters"
       blank_email: "You must enter an email address"
       invalid_email: "Please enter a valid email address"
@@ -312,9 +312,13 @@ en:
       non-director_dob_less_than_18_years: "You must be over 18 to use this service"
       director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
 
+      # Section 3 (check details)
+      confirm_declaration: "Please confirm the declaration"
+
       # Common
-      blank_post_code: "You must enter your postcode"
+      blank_post_code: "You must enter a postcode"
       invalid_post_code: "Please enter a valid postcode"
+      no_addresses_for_postcode: "No addresses match this postcode"
 
       # TODO AH end wip until all validation message changes complete
 
@@ -847,7 +851,7 @@ en:
       subtitle: ""
     company_details_finder:
       companies_house_explain: "This is your company registration number"
-      companies_house_details_link: "What's a Company Registration Number?"
+      companies_house_details_link: "What’s this?"
       companies_house_paragraph1: "A Company Registration Number (CRN) is allocated by"
       companies_house_html: "Companies House"
       companies_house_paragraph2: "\ when a limited company is registered."
