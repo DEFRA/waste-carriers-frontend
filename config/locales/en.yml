@@ -1240,10 +1240,10 @@ en:
       noChargeHistory: "No Charge History"
       noPaymentHistory: "No Payment History"
     pending:
-      title: "Confirm your account"
-      subtitle: "You need to confirm your account so we can verify who you are"
-      details_emailed: "We've sent instructions to your email %{email}"
-      details_emailed_instruction: "Please follow the instructions to confirm your account"
+      title: "Confirm your email address"
+      subtitle: "Confirm your email address"
+      details_emailed: "We've sent an email to %{email} with instructions for you to confirm your email address."
+      details_emailed_instruction: "Please follow the instructions to confirm your email address"
       close_page: "Once you have confirmed your account and completed your registration, please close this web page."
       payment_pending: "Payment pending"
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
@@ -1558,9 +1558,9 @@ en:
     account_confirmed:
       title: 'Email address confirmed'
       paragraph1: 'Thank you for confirming your email address.'
-      paragraph2: 'You can use your email address and password to sign-in to your Waste Carriers Registration account in the future, if you need to change any of your details.'
-      paragraph3: 'If you have not already done so, we recommend that you finish your Waste Carriers Registration request now, before signing in for the first time.'
-      paragraph4: 'You can now close this page.'
+      paragraph2: 'If you haven’t done it already, we recommend that you complete your waste carriers registration request now.'
+      paragraph3: 'When your registration is complete you can use your email address and password to sign in to your account at any time.'
+      paragraph4: 'You can now safely close this page.'
     mid_registration_password_changed:
       title: 'Your password has been changed'
       paragraph1: 'It looks like you were in the middle of creating a new Registration when you changed your password.'
