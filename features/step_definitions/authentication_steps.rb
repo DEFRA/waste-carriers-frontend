@@ -166,7 +166,7 @@ end
 
 Then(/^the External User should receive an email allowing them to confirm their account$/) do
   open_email my_user.email
-  expect(current_email.subject).to have_text 'Verify your email address'
+  expect(current_email.subject).to have_text 'Confirm your email address'
   current_email.click_link 'confirmation_link'
   expect(get_database_object_for_user_type('External User').confirmed?).to be true
 end
