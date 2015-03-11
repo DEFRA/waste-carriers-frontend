@@ -312,6 +312,9 @@ en:
       non-director_dob_less_than_18_years: "You must be over 18 to use this service"
       director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
 
+      # Section 3 (check details)
+      confirm_declaration: "Please confirm the declaration"
+
       # Common
       blank_post_code: "You must enter a postcode"
       invalid_post_code: "Please enter a valid postcode"
