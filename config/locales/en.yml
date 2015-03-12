@@ -761,6 +761,14 @@ en:
     approve:
       title_approve: "Approve registration"
       title_refuse: "Refuse registration"
+      declared_convictions_label: "Declared convictions?"
+      declared_convictions_no: "No"
+      declared_convictions_yes: "Yes"
+      matched_convictions_label: "Possible conviction matches found?"
+      matched_convictions_none: "No"
+      matched_convictions_company: "Yes (company)"
+      matched_convictions_people: "Yes (key people)"
+      matched_convictions_both: "Yes (company and key people)"
     back_link_unavailable: "JavaScript has been disabled - please use your browser's back button."
     cannot_edit:
       titleCookies: "The cookies in your browser have been disabled"
