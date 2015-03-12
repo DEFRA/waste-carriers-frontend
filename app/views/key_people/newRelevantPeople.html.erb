@@ -20,7 +20,7 @@
         <div class="inner-block">
 
           <% content_for :page_title, createTitle('.title') %>
-          <%= render 'errors' %>
+          <%= render 'shared/errors' %>
           <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"}, html: {autocomplete: 'off'} ) do |f| %>
             <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
 

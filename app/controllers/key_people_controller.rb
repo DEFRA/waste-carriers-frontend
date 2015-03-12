@@ -1,5 +1,7 @@
 require 'securerandom'
 
+# TODO AH could enjoy major refactoring using single logic for all person types
+
 class KeyPeopleController < ApplicationController
   include RegistrationsHelper
 
@@ -123,11 +125,11 @@ class KeyPeopleController < ApplicationController
           render "newKeyPeople", :status => '400'
         end
       else
-        # Form is blank
-        if key_people_form_blank?
+        # No data entered
+        if form_blank?
 
           # 1st person
-          if @registration.key_people.empty?
+          if @key_people.empty?
             @key_person.errors.clear
 
             # TODO AH adds "You must add at least 1 person...." message - could this be done in here?
@@ -205,25 +207,29 @@ class KeyPeopleController < ApplicationController
           logger.info 'Registration is not valid, and data is not yet saved'
           render "newRelevantPeople", :status => '400'
         end
-      elsif @key_person.first_name.blank?
-        @key_person.errors.clear
+      else
+        # No data entered
+        if form_blank?
 
-        # Assume the person has not entered anything and just wants to
-        # progress to the next step. We still have to check they have entered
-        # at least one person
-        if @registration.valid?
-          @registration.save
+          # 1st person
+          if @relevant_people.empty?
+            @key_person.errors.clear
 
-          redirect_to :newConfirmation
+            # TODO AH adds "You must add at least 1 person...." message - could this be done in here?
+            @registration.valid?
+
+            # there is an error (but data not yet saved)
+            logger.info 'Key person is not valid, and data is not yet saved'
+            render "newRelevantPeople", :status => '400'
+          else
+            # Not 1st person and Form is blank so can go to declaration
+            redirect_to :newConfirmation
+          end
         else
           # there is an error (but data not yet saved)
-          logger.info 'Registration is not valid, and data is not yet saved'
+          logger.info 'Key person is not valid, and data is not yet saved'
           render "newRelevantPeople", :status => '400'
         end
-      else
-        # there is an error (but data not yet saved)
-        logger.info 'Key person is not valid, and data is not yet saved'
-        render "newRelevantPeople", :status => '400'
       end
     else
       logger.info 'Unrecognised button found, sending back to newRelevantPeople page'
@@ -287,7 +293,7 @@ class KeyPeopleController < ApplicationController
     @relevant_people = @registration.key_people.to_a.find_all{ |person| person.person_type == 'RELEVANT' }
   end
 
-  def key_people_form_blank?
+  def form_blank?
     ret =  (@key_person.first_name.empty?) && (@key_person.last_name.empty?) && (@key_person.dob_day.empty?) && (@key_person.dob_month.empty?) &&  (@key_person.dob_year.empty?)
   end
 
