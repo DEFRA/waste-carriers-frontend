@@ -29,6 +29,7 @@ class KeyPerson < Ohm::Model
 
   validates :first_name, :presence => { :message => I18n.t('errors.messages.blank_first_name') }
   validates :last_name, :presence => { :message => I18n.t('errors.messages.blank_last_name') }
+  validates :position, :presence => { :message => I18n.t('errors.messages.blank_position') }
   validates :dob_day, :presence => { :message => I18n.t('errors.messages.blank_day') }
   validates :dob_month, :presence => { :message => I18n.t('errors.messages.blank_month') }
   validates :dob_year, :presence => { :message => I18n.t('errors.messages.blank_year') }
