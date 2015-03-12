@@ -104,8 +104,12 @@ class KeyPerson < Ohm::Model
   end
 
   def cross_check_convictions
+    result = ConvictionSearchResult.search_person_convictions(
+      firstname: first_name,
+      lastname:  last_name,
+      dateOfBirth: dob
+    )
 
-    result = ConvictionSearchResult.search_convictions(name: "#{first_name} #{last_name}", dateOfBirth: dob)
     Rails.logger.debug "KEY_PERSON::CROSS_CHECK_CONVICTIONS #{result}"
     conviction_search_result.replace([result])
 
