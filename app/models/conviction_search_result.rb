@@ -33,6 +33,12 @@ class ConvictionSearchResult < Ohm::Model
     end
   end
 
+  # Returns a single string containing both the system name and reference
+  # number of conviction match.
+  def get_formatted_reference
+    format('%s-%s', matching_system, reference)
+  end
+  
   class << self
     def init(conviction_search_result_hash)
       conviction_search_result = ConvictionSearchResult.create
