@@ -297,7 +297,7 @@ en:
       invalid_first_name: "The first name can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
       blank_last_name: "You must enter a last name"
       invalid_last_name: "The last name  can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
-      blank_telephone: "You must enter a telephone"
+      blank_telephone: "You must enter a telephone number"
       invalid_telephone: "The telephone number can use numbers, spaces and some special characters (-+). It must be no longer than 20 characters"
       blank_email: "You must enter an email address"
       invalid_email: "Please enter a valid email address"
@@ -312,9 +312,13 @@ en:
       non-director_dob_less_than_18_years: "You must be over 18 to use this service"
       director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
 
+      # Section 3 (check details)
+      confirm_declaration: "Please confirm the declaration"
+
       # Common
-      blank_post_code: "You must enter your postcode"
+      blank_post_code: "You must enter a postcode"
       invalid_post_code: "Please enter a valid postcode"
+      no_addresses_for_postcode: "No addresses match this postcode"
 
       # TODO AH end wip until all validation message changes complete
 
@@ -847,7 +851,7 @@ en:
       subtitle: ""
     company_details_finder:
       companies_house_explain: "This is your company registration number"
-      companies_house_details_link: "What's a Company Registration Number?"
+      companies_house_details_link: "What’s this?"
       companies_house_paragraph1: "A Company Registration Number (CRN) is allocated by"
       companies_house_html: "Companies House"
       companies_house_paragraph2: "\ when a limited company is registered."
@@ -1236,10 +1240,10 @@ en:
       noChargeHistory: "No Charge History"
       noPaymentHistory: "No Payment History"
     pending:
-      title: "Confirm your account"
-      subtitle: "You need to confirm your account so we can verify who you are"
-      details_emailed: "We've sent instructions to your email %{email}"
-      details_emailed_instruction: "Please follow the instructions to confirm your account"
+      title: "Confirm your email address"
+      subtitle: "Confirm your email address"
+      details_emailed: "We've sent an email to %{email} with instructions for you to confirm your email address."
+      details_emailed_instruction: "Please follow the instructions to confirm your email address"
       close_page: "Once you have confirmed your account and completed your registration, please close this web page."
       payment_pending: "Payment pending"
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
@@ -1554,9 +1558,9 @@ en:
     account_confirmed:
       title: 'Email address confirmed'
       paragraph1: 'Thank you for confirming your email address.'
-      paragraph2: 'You can use your email address and password to sign-in to your Waste Carriers Registration account in the future, if you need to change any of your details.'
-      paragraph3: 'If you have not already done so, we recommend that you finish your Waste Carriers Registration request now, before signing in for the first time.'
-      paragraph4: 'You can now close this page.'
+      paragraph2: 'If you haven’t done it already, we recommend that you complete your waste carriers registration request now.'
+      paragraph3: 'When your registration is complete you can use your email address and password to sign in to your account at any time.'
+      paragraph4: 'You can now safely close this page.'
     mid_registration_password_changed:
       title: 'Your password has been changed'
       paragraph1: 'It looks like you were in the middle of creating a new Registration when you changed your password.'

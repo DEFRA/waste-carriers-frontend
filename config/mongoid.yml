@@ -154,9 +154,8 @@ production:
         - <%= ENV['WCRS_USERSDB_URL1'] %>
         - <%= ENV['WCRS_USERSDB_URL2'] %>
       options:
-        options:
-          read: primary
-          max_retries: 1
-          retry_interval: 0
+        read: primary
+        max_retries: 1
+        retry_interval: 0
   options:
     raise_not_found_error: false
