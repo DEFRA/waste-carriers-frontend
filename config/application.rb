@@ -69,7 +69,7 @@ module Registrations
     config.waste_exemplar_frontend_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_ADMIN_APP_DOMAIN',        'http://localhost:3000')
 
     # Settings relating to the Convictions Service.
-    config.waste_exemplar_convictions_service_url = get_url_from_environment_or_default('WCRS_FRONTEND_CONVICTIONS_SERVICE_URL', 'http://localhost:9290/')
+    config.waste_exemplar_convictions_service_url = get_url_from_environment_or_default('WCRS_FRONTEND_CONVICTIONS_SERVICE_URL', 'http://localhost:9290')
 
     # The subdomains used in links for password reset and other e-mails sent by
     # the Devise authentication component.
