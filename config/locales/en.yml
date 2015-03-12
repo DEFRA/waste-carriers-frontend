@@ -391,8 +391,8 @@ en:
     headerLinkTitle: "Go to the GOV.UK homepage"
     helpline: "Helpline:\ "
     notfound:
-      heading: "This page cannot be found"
-      message: "You may have mistyped the address or the page may have moved."
+      heading: "Page not found"
+      message: "Sorry, the page you're looking for can't be found. If you already have a waste carriers account <a href='/users/sign_in'>sign in</a> or <a href='https://www.gov.uk/waste-carrier-or-broker-registration'>start a new registration</a>."
     privacyAndCookies: "Privacy and cookies"
     rejected:
       heading: "The change you wanted was rejected."
@@ -625,13 +625,15 @@ en:
       paragraph10: "We probably won’t take action against you for operating while we’re waiting for your payment to come through. But the police or your local council might"
       payment_notice: "Payment notice"
     account_already_confirmed:
-      title: "Waste Carrier Registraiton: email confirmed"
-      paragraph1: "Somebody recently used this email address when requesting Account Confirmation instructions on the Waste Carriers Registration service."
-      paragraph2: "Your email address for the Waste Carriers Registration service has already been confirmed, and you can log in using your email address and password."
-      sign_in_heading: "Sign in to your Waste Carriers Registration account:"
-      password_help_paragraph: "If you have forgotten your password, you can reset it from the sign-in page."
-      email_unexpected_paragraph: "If you did not request that these instructions were sent, please contact us on the number below."
-      continue_registration_paragraph: 'It looks like you were in the middle of creating a new Registration when you requested these instructions.  If so, please continue with your application now.'
+      title: "Waste Carriers Service"
+      heading: "Your email address is already confirmed"
+      salutation: "Hello,"
+      paragraph1: "You have received this email because:"
+      bullet1: "You've already confirmed your email address"
+      bullet2: "Someone else is trying to confirm your email address"
+      paragraph2: "If you did not make this request, please call our helpline: 03708 506506."
+      paragraph3: "If you already have an account select or copy and paste the link below into a new browser window."
+      continue_registration_paragraph: 'If you were in the middle of a registration, please go back and finish your application.'
   agency_users:
     index:
       title: "Administration"
