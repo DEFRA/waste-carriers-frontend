@@ -373,11 +373,13 @@ class Registration < Ohm::Model
   end
 
   def cross_check_convictions
+    result = ConvictionSearchResult.search_company_convictions(
+      companyName: companyName,
+      companyNumber: company_no
+    )
 
-    result = ConvictionSearchResult.search_convictions(name: companyName, companyNumber: company_no)
     Rails.logger.debug "REGISTRATION::CROSS_CHECK_CONVICTIONS #{result}"
     conviction_search_result.replace([result])
-
   end
 
   def has_unconfirmed_convictionMatches?
