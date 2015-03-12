@@ -292,15 +292,30 @@ en:
       blank_town_or_city: "You must enter a town or city"
       invalid_town_or_city: "The town or city can use letters, numbers, spaces and some special characters (-’,). It must be no longer than 35 characters"
       blank_country: "You must enter a country"
-      enter_at_least_1_person: "You must add the details of at least one person"
-      blank_first_name: "You must enter a first name"
+      enter_at_least_1_key_person: "You must add the details of at least one person"
       invalid_first_name: "The first name can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
-      blank_last_name: "You must enter a last name"
       invalid_last_name: "The last name  can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
       blank_telephone: "You must enter a telephone number"
       invalid_telephone: "The telephone number can use numbers, spaces and some special characters (-+). It must be no longer than 20 characters"
       blank_email: "You must enter an email address"
       invalid_email: "Please enter a valid email address"
+      non-director_dob_less_than_18_years: "You must be over 18 to use this service"
+      director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
+
+      # Section 3 (convictions)
+      select_declared_convictions: "You must answer this question"
+      enter_at_least_1_relevant_person: "You must add the details of at least one person"
+
+      # Section 4 (check details)
+      confirm_declaration: "Please confirm the declaration"
+
+      # Common
+      blank_post_code: "You must enter a postcode"
+      invalid_post_code: "Please enter a valid postcode"
+      no_addresses_for_postcode: "No addresses match this postcode"
+      blank_first_name: "You must enter a first name"
+      blank_last_name: "You must enter a last name"
+      blank_position: "You must enter a position"
       blank_day: "You must enter a day"
       invalid_day: "You must enter a valid day"
       blank_month: "You must enter a month"
@@ -309,16 +324,6 @@ en:
       invalid_year: "You must enter a valid year"
       invalid_date: "You must enter a valid date"
       date_not_in_past: "The date must be in the past"
-      non-director_dob_less_than_18_years: "You must be over 18 to use this service"
-      director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
-
-      # Section 3 (check details)
-      confirm_declaration: "Please confirm the declaration"
-
-      # Common
-      blank_post_code: "You must enter a postcode"
-      invalid_post_code: "Please enter a valid postcode"
-      no_addresses_for_postcode: "No addresses match this postcode"
 
       # TODO AH end wip until all validation message changes complete
 
