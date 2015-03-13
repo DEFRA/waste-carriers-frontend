@@ -382,6 +382,38 @@ class Registration < Ohm::Model
     conviction_search_result.replace([result])
   end
 
+  # Returns a boolean indicating if the user declared convictions.
+  def has_declared_convictions?
+    declaredConvictions != 'no'
+  end
+  
+  # Returns a boolean indicating if a possible match was found when searching
+  # for convictions against the company.
+  def company_convictions_match_found?
+    conviction_search_result.first &&
+      (conviction_search_result.first.match_result != 'NO')
+  end
+  
+  # Returns a boolean indicating if a possible match was found when searching
+  # for convictions against the key people.
+  def people_convictions_match_found?
+    if key_people
+      key_people.each do |person|
+        search_result = person.conviction_search_result.first
+        if search_result && search_result.match_result != 'NO'
+          return true;
+        end
+      end
+    end
+    false
+  end
+  
+  # Returns a boolean indicating if a possible match was found when searching
+  # for convictions, for the company AND for the key people.
+  def company_and_people_convictions_match_found?
+    company_convictions_match_found? && people_convictions_match_found?
+  end
+    
   def has_unconfirmed_convictionMatches?
 
     result = false

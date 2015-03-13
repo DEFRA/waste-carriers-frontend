@@ -32,40 +32,56 @@
         
             <div class="form-group">
                 <div class="form-label"><strong><%= @registration.regIdentifier %></strong></div>
-                    <div class="form-label"><strong><%= @registration.companyName %></strong></div>
-                    <div class="form-label"><%= format_address(@registration) %></div>
+                <div class="form-label"><strong><%= @registration.companyName %></strong></div>
+                <div class="form-label"><%= format_address(@registration) %></div>
+                <div class="form-label">
+                  <strong><%= t '.declared_convictions_label' %></strong>
+                  <%= @registration.has_declared_convictions? ? t('.declared_convictions_yes') : t('.declared_convictions_no') %>
                 </div>
-
-                <%= f.fields_for :metaData do |mdFields| %>
-                    <% if @isApprove %>
-                        <div class="form-group<% if @registration.errors[:approveReason].any?%> validation<%end%>">
-                            <%= validation_for(@registration, :approveReason) %>
-                            <%= f.label :approveReason, :for=>'registration_metaData_approveReason', :class => 'form-label' %>
-                            <%= mdFields.text_area :approveReason, :size => "40x10" %>
-                        </div>
-                    <% else %>
-                        <div class="form-group<% if @registration.errors[:refusedReason].any?%> validation<%end%>">
-                            <%= validation_for(@registration, :refusedReason) %>
-                            <%= f.label :refusedReason, :for=>'registration_metaData_refusedReason', :class => 'form-label' %>
-                            <%= mdFields.text_area :refusedReason, :size => "40x10" %>
-                        </div>
-                    <% end %>
-                <% end %>
+                <div class="form-label">
+                  <strong><%= t '.matched_convictions_label' %></strong>
+                  <% if @registration.company_and_people_convictions_match_found? %>
+                    <%= t '.matched_convictions_both' %>
+                  <% elsif @registration.people_convictions_match_found? %>
+                    <%= t '.matched_convictions_people' %>
+                  <% elsif @registration.company_convictions_match_found? %>
+                    <%= t '.matched_convictions_company' %>
+                  <% else %>
+                    <%= t '.matched_convictions_none' %>
+                  <% end %>
+                </div>
             </div>
+
+            <%= f.fields_for :metaData do |mdFields| %>
+                <% if @isApprove %>
+                    <div class="form-group<% if @registration.errors[:approveReason].any?%> validation<%end%>">
+                        <%= validation_for(@registration, :approveReason) %>
+                        <%= f.label :approveReason, :for=>'registration_metaData_approveReason', :class => 'form-label' %>
+                        <%= mdFields.text_area :approveReason, :size => "40x10" %>
+                    </div>
+                <% else %>
+                    <div class="form-group<% if @registration.errors[:refusedReason].any?%> validation<%end%>">
+                        <%= validation_for(@registration, :refusedReason) %>
+                        <%= f.label :refusedReason, :for=>'registration_metaData_refusedReason', :class => 'form-label' %>
+                        <%= mdFields.text_area :refusedReason, :size => "40x10" %>
+                    </div>
+                <% end %>
+            <% end %>
             
             <div class="inline">
-            <% 
+              <%
                 submitLabel = t('form.approve_button_label')
                 submitId = "approveButton"
-            unless @isApprove
-              submitLabel = t('form.refuse_button_label')
-              submitId = "refuseButton"
-            end
-            %>
-                <input name="<% if @isApprove %>approve<% else %>refuse<% end %>" class="button" type="submit" value="<%= submitLabel %>" id="<%= submitId %>"/>
+                unless @isApprove
+                  submitLabel = t('form.refuse_button_label')
+                  submitId = "refuseButton"
+                end
+              %>
+              <input name="<% if @isApprove %>approve<% else %>refuse<% end %>" class="button" type="submit" value="<%= submitLabel %>" id="<%= submitId %>"/>
             </div>
         </fieldset>
     </div>
+</div>
 
   <% end %>
 
