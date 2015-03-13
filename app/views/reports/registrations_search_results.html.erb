@@ -78,6 +78,8 @@
       <th><%= t 'reports.fields.access_code' %></th>
       <th><%= t 'reports.fields.expires_on' %></th>
       <th><%= t 'reports.fields.company_match_result' %></th>
+      <th><%= t 'reports.fields.company_matched_name' %></th>
+      <th><%= t 'reports.fields.company_match_reference' %></th>
       <th><%= t 'reports.fields.declared_convictions' %></th>
       <th><%= t 'reports.fields.key_first_name' %></th>
       <th><%= t 'reports.fields.key_last_name' %></th>
@@ -85,7 +87,8 @@
       <th><%= t 'reports.fields.key_position' %></th>
       <th><%= t 'reports.fields.key_person_type' %></th>
       <th><%= t 'reports.fields.key_match_result' %></th>
-      <th><%= t 'reports.fields.key_search_at' %></th>
+      <th><%= t 'reports.fields.key_matched_name' %></th>
+      <th><%= t 'reports.fields.key_match_reference' %></th>
       <th><%= t 'reports.fields.key_confirmed' %></th>
     </tr>
   </thead>
@@ -124,6 +127,8 @@
           <td><%= reg.accessCode %></td>
           <td><%= format_as_date_only reg.expires_on %></td>
           <td><%= reg.conviction_search_result.first.match_result %></td>
+          <td><%= reg.conviction_search_result.first.matched_name %></td>
+          <td><%= reg.conviction_search_result.first.get_formatted_reference() %></td>
           <td><%= reg.declaredConvictions %></td>
           <td><%= person.first_name %></td>
           <td><%= person.last_name %></td>
@@ -131,7 +136,8 @@
           <td><%= person.position %></td>
           <td><%= person.person_type %></td>
           <td><%= person.conviction_search_result.first.match_result %></td>
-          <td><%= person.conviction_search_result.first.searched_at %></td>
+          <td><%= person.conviction_search_result.first.matched_name %></td>
+          <td><%= person.conviction_search_result.first.get_formatted_reference() %></td>
           <td><%= person.conviction_search_result.first.confirmed %></td>
         <% end %>
       <% else %>
@@ -165,6 +171,8 @@
         <td><%= reg.accessCode %></td>
         <td><%= format_as_date_only reg.expires_on %></td>
         <td>&nbsp;</td><!-- reg.conviction_search_result.first.match_result -->
+        <td>&nbsp;</td><!-- reg.conviction_search_result.first.matched_name -->
+        <td>&nbsp;</td><!-- reg.conviction_search_result.first.get_formatted_reference() -->
         <td>&nbsp;</td><!-- reg.declaredConvictions -->
         <td>&nbsp;</td><!-- person.first_name -->
         <td>&nbsp;</td><!-- person.last_name -->
@@ -172,7 +180,8 @@
         <td>&nbsp;</td><!-- person.position -->
         <td>&nbsp;</td><!-- person.person_type -->
         <td>&nbsp;</td><!-- person.match_result -->
-        <td>&nbsp;</td><!-- person.searched_at -->
+        <td>&nbsp;</td><!-- person.matched_name -->
+        <td>&nbsp;</td><!-- person.get_formatted_reference() -->
         <td>&nbsp;</td><!-- person.confirmed -->
       <% end %>
       </tr>
