@@ -54,7 +54,7 @@ When(/^I attempt to access the previous page$/) do
 end
 
 Then(/^my registration data is not shown anymore$/) do
-  expect(page).to have_text 'You may have mistyped the address or the page may have moved'
+  expect(page).to have_text 'Page not found'
 end
 
 Then(/^I am informed that I have to login again to change my registration$/) do
