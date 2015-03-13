@@ -35,10 +35,10 @@ en:
         footer_2: "if you have any enquiries please contact the Environment Agency helpline: 03708 506506"
       reset_password_instructions:
         subject: "Reset password instructions"
-        heading: "Reset your Waste Carriers password"
+        heading: "Reset your waste carriers password"
         salutation: "Hello"
-        paragraph1: "This email has been sent to you because we received a request to reset your account password."
-        paragraph2: "If you didn't request this change, please ignore this email."
+        paragraph1: "You've received this email because we got a request to reset your waste carriers account password."
+        paragraph2: "If you didn't make a request, please ignore this email."
         changeLabel: "Reset my password"
       unlock_instructions:
         subject: "Unlock Instructions"
