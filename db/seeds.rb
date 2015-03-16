@@ -38,12 +38,6 @@ unless Rails.env.production?
     admin.save!
   end
 
-  admin = Admin.find_by_email('stephen.badman@cyfoethnaturiolcymru.gov.uk')
-  if admin
-    admin.add_role :Role_financeAdmin, Admin
-    admin.save!
-  end
-  
   AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: 'Secret123'
 
   AgencyUser.find_or_create_by email: 'nccc1@waste-exemplar.gov.uk', password: 'Secret123'
@@ -68,42 +62,6 @@ unless Rails.env.production?
 
   agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment2@waste-exemplar.gov.uk', password: 'Secret123'
   agencyUser.add_role :Role_agencyRefundPayment, AgencyUser
-  
-  agencyUser = AgencyUser.find_by_email('owen.jones@cyfoethnaturiolcymru.gov.uk')
-  if agencyUser
-    agencyUser.add_role :Role_financeAdmin, AgencyUser
-  end
-  
-  agencyUser = AgencyUser.find_by_email('alex.bowder@cyfoethnaturiolcymru.gov.uk')
-  if agencyUser
-    agencyUser.add_role :Role_financeAdmin, AgencyUser
-  end
-  
-  agencyUser = AgencyUser.find_by_email('iwan.jones@cyfoethnaturiolcymru.gov.uk')
-  if agencyUser
-    agencyUser.add_role :Role_financeAdmin, AgencyUser
-  end
-  
-  agencyUser = AgencyUser.find_by_email('iestyn.jones@cyfoethnaturiolcymru.gov.uk')
-  if agencyUser
-    agencyUser.add_role :Role_financeAdmin, AgencyUser
-  end
-  
-  agencyUser = AgencyUser.find_by_email('jack.d.newby@cyfoethnaturiolcymru.gov.uk')
-  if agencyUser
-    agencyUser.add_role :Role_financeAdmin, AgencyUser
-  end
-  
-  agencyUser = AgencyUser.find_by_email('marc.cryer@cyfoethnaturiolcymru.gov.uk')
-  if agencyUser
-    agencyUser.add_role :Role_financeAdmin, AgencyUser
-  end
-  
-  agencyUser = AgencyUser.find_by_email('hywel.jones@cyfoethnaturiolcymru.gov.uk')
-  if agencyUser
-    agencyUser.add_role :Role_financeAdmin, AgencyUser
-  end
-  
 
 end  #unless Rails.env.production?
 
