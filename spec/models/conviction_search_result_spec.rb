@@ -45,10 +45,12 @@ describe ConvictionSearchResult do
       # error text from the REST call.  This gives an unconventional but
       # acceptable way to simulate error conditions.
       it 'should return a result flagged as an error' do
-        skip 'Cannot get WebMock & VCR to behave as intended' # TODO: Make this test work with WebMock + VCR
         result = ConvictionSearchResult.search_person_convictions(firstname: 'Fred', lastname: 'Blogs')
         expect(result.match_result).to eq('UNKNOWN')
         expect(result.matching_system).to start_with('ERROR')
+        expect(result.reference).to be_blank
+        expect(result.matched_name).to be_blank
+        expect(result.confirmed).to eq('no')
       end
     end
 
@@ -143,10 +145,12 @@ describe ConvictionSearchResult do
       # error text from the REST call.  This gives an unconventional but
       # acceptable way to simulate error conditions.
       it 'should return a result flagged as an error' do
-        skip 'Cannot get WebMock & VCR to behave as intended' # TODO: Make this test work with WebMock + VCR
         result = ConvictionSearchResult.search_company_convictions(companyName: 'Acme Ltd.', companyNumber: '99999999')
         expect(result.match_result).to eq('UNKNOWN')
-        expect(result.matching_system).to start_with('SERVICE_UNAVAILABLE')
+        expect(result.matching_system).to start_with('ERROR')
+        expect(result.reference).to be_blank
+        expect(result.matched_name).to be_blank
+        expect(result.confirmed).to eq('no')
       end
     end
 

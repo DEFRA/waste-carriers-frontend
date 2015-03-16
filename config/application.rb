@@ -111,15 +111,17 @@ module Registrations
     config.registrations_service_phone = '03708 506506'
     config.registrations_cy_service_phone = '03000 653000'
 
-    # Tracking using Google Analytics; must be performed only in Production, but
-    # is optional in development (and uses a different Google Tag Manager ID;
-    # see below).
-    config.use_google_analytics = ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] == 'true' || Rails.env.production?
+    # Attempt to pick up the Google Tag Manager ID from an environment variable.
+    # If the variable is not set, we cannot use Google Analytics.
+    config.google_tag_manager_id = ENV['WCRS_FRONTEND_GOOGLE_TAGMANAGER_ID']
 
-    # The Google Tag Manager ID used with Google Analytics and the Google Tag
-    # Manager.  We use a different ID in production; this here is the
-    # development ID.
-    config.google_tag_manager_id = 'GTM-W27LBD'
+    # Tracking using Google Analytics. As noted above, we can only do this if we
+    # know the Google Tag Manager ID.  Additionally, whilst we want to do this
+    # in production, it is optional elsewhere.
+    config.use_google_analytics = false
+    unless config.google_tag_manager_id.blank?
+      config.use_google_analytics = (ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] == 'true') || Rails.env.production?
+    end
 
     # Total (a.k.a. global) session timeout - total session duration.
     config.app_session_total_timeout = 8.hours
