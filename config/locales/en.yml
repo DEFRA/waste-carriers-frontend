@@ -297,8 +297,6 @@ en:
       invalid_last_name: "The last name  can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
       blank_telephone: "You must enter a telephone number"
       invalid_telephone: "The telephone number can use numbers, spaces and some special characters (-+). It must be no longer than 20 characters"
-      blank_email: "You must enter an email address"
-      invalid_email: "Please enter a valid email address"
       non-director_dob_less_than_18_years: "You must be over 18 to use this service"
       director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
 
@@ -308,6 +306,15 @@ en:
 
       # Section 4 (check details)
       confirm_declaration: "Please confirm the declaration"
+
+      # Section 5 (create account)
+      invalid_confirmation_email: "You must confirm your email address"
+      blank_password: "You must create a password"
+      blank_email: "You must enter an email address"
+      invalid_email: "You must enter a valid email address"
+      email_already_in_use: "Email address is already in use"
+      invalid_password: "You must create a valid password"
+      invalid_confirmation_password: "You must confirm your password"
 
       # Common
       blank_post_code: "You must enter a postcode"
@@ -324,6 +331,8 @@ en:
       invalid_year: "You must enter a valid year"
       invalid_date: "You must enter a valid date"
       date_not_in_past: "The date must be in the past"
+      your_blank_email: "You must enter your email address"
+      invalid_email: "Please enter a valid email address"
 
       # TODO AH end wip until all validation message changes complete
 
@@ -995,7 +1004,7 @@ en:
       signedInAsText: "You are currently signed in as"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
-      createPassword: "Password"
+      createPassword: "Create Password"
       sign_in_link: "I already have an account"
       password_hint: "Password must be at least 8 characters and contain at least 1 uppercase letter, 1 lowercase letter and 1 number"
     newSignin:

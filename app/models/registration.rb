@@ -845,27 +845,30 @@ class Registration < Ohm::Model
   # *****************************************
   validates :declaration, :acceptance => { :message => I18n.t('errors.messages.confirm_declaration') }, if: 'confirmation_step? or upper_summary_step?'
 
+  # ******************************************
+  # * Section 5 (create account) validations *
+  # ******************************************
+  validates :accountEmail, :presence => { :message => I18n.t('errors.messages.your_blank_email') }, :email => { :message => I18n.t('errors.messages.invalid_email'), :allow_blank => true } , if: [:signup_step?, :sign_up_mode_present?]
+
+  with_options if: [:signup_step?,  :do_sign_up?] do |registration|
+    registration.validates :accountEmail, :confirmation => { :message => I18n.t('errors.messages.invalid_confirmation_email') }
+    registration.validate :user_cannot_exist_with_same_account_email
+  end
+
+  with_options if: [:signup_step?, :sign_up_mode_present?] do |registration|
+    registration.validates :password, :presence => { :message => I18n.t('errors.messages.blank_password') }
+    registration.validates :password, :confirmation => { :message => I18n.t('errors.messages.invalid_confirmation_password') }
+    registration.validate :validate_password
+  end
+
   # **********************
   # * Common validations *
   # **********************
 
 
-
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
   validate :validate_key_people, :if => :should_validate_key_people?
 
-  validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
-
-  with_options if: [:signup_step?,  :do_sign_up?] do |registration|
-    registration.validates :accountEmail, confirmation: true
-    registration.validate :user_cannot_exist_with_same_account_email
-  end
-
-  with_options if: [:signup_step?, :sign_up_mode_present?] do |registration|
-    registration.validates :password, presence: true, length: { in: 8..128 }
-    registration.validates :password, confirmation: true
-    registration.validate :password_must_have_lowercase_uppercase_and_numeric
-  end
 
   validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
 
@@ -1245,7 +1248,7 @@ class Registration < Ohm::Model
   end
 
   def user_cannot_exist_with_same_account_email
-    errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') ) if User.where(email: accountEmail).exists?
+    errors.add(:accountEmail, I18n.t('errors.messages.email_already_in_use') ) if User.where(email: accountEmail).exists?
   end
 
   def user

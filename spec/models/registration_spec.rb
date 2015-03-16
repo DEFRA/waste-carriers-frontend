@@ -114,14 +114,14 @@ describe Registration do
     context 'sign_in signup mode' do
       before { subject.sign_up_mode = 'sign_in' }
 
-      it { should validate_presence_of(:accountEmail).with_message(/must be completed/) }
+      it { should validate_presence_of(:accountEmail).with_message(/You must enter/) }
     end
 
     context 'sign_up signup mode' do
       before { subject.sign_up_mode = 'sign_up' }
 
       it_behaves_like 'email validation', :accountEmail
-      it { should validate_confirmation_of(:accountEmail) }
+      it { should validate_confirmation_of(:accountEmail).with_message(/You must confirm/) }
 
       context 'unpersisted' do
         before { allow(subject).to receive(:persisted?).and_return(false) }
