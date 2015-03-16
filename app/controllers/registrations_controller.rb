@@ -690,6 +690,10 @@ class RegistrationsController < ApplicationController
     setup_registration 'signup'
     return unless @registration
 
+    # Quick fix to prevent Rails default validation failure firing when account already exists
+    @registration.accountEmail = @registration.accountEmail.downcase
+    @registration.accountEmail_confirmation = @registration.accountEmail_confirmation.downcase
+
     if @registration.valid?
       logger.debug 'The registration is valid...'
       logger.info 'Check to commit registration, unless: ' + @registration.persisted?.to_s
