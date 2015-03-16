@@ -1460,7 +1460,7 @@ en:
       edit_complete_title: "Your changes have been successful"
     current_user:
       change_password: "Change password"
-      new_registration: "New registration"
+      new_registration: "New / renew registration"
       registrations_export: "Registrations export"
       payments_export: "Payments export"
       sign_in: "Sign in"
