@@ -36,7 +36,11 @@ class ConvictionSearchResult < Ohm::Model
   # Returns a single string containing both the system name and reference
   # number of conviction match.
   def get_formatted_reference
-    format('%s-%s', matching_system, reference)
+    result = ''
+    unless matching_system.blank? && reference.blank?
+      result = format('%s-%s', matching_system, reference)
+    end
+    result
   end
   
   class << self
