@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:9290/convictions/person?firstname=Fred&lastname=Blogs
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - '*/*; q=0.5, application/xml'
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 16 Mar 2015 12:54:57 GMT
+      Content-Type:
+      - application/json
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding, User-Agent
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAAE3NQQ6CMBCF4auYWXdBoWp0J0Qv4MpVU2FAknaaTMuCGO/u
+        iCFh+73kf29g7JGRWoQz6LIyoKCN1I8csBOiKBBcbl+WMU0+iz2u9xVHGmya
+        U8Ygfqmb1bGz5MKvWfs4JLW7seQUJHS8rE5C2pSHvS7M6airYnO7jDR5v7Xn
+        /LfPF220awCzAAAA
+    http_version: 
+  recorded_at: Mon, 16 Mar 2015 12:54:57 GMT
+recorded_with: VCR 2.9.3
