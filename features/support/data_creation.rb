@@ -5,8 +5,8 @@ def create_complete_lower_tier_reg(type)
 end
 
 def create_complete_lower_tier_reg_from_hash(reg_hash)
+  create_user(reg_hash['accountEmail'])
   registration =  JSON.parse(create_registration_from_hash(reg_hash))
-  create_user(registration['accountEmail'])
   return get_registration(registration['id'])
 end
 

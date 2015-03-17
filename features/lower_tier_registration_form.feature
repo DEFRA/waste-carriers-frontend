@@ -38,3 +38,13 @@ Feature: Lower tier
     And I provide my email address and create a password
     When I confirm account creation via email
     Then I am registered as a lower tier waste carrier
+    
+  Scenario: Must confirm email address before appearing on the Public Register
+    Given I autocomplete my business address
+      And I provide my personal contact details
+      And I check the declaration
+      And I provide my email address and create a password
+     When I wait for 2 seconds for these actions to be finalised
+     Then My company name should not appear on the Public Register
+     When I confirm account creation via email
+     Then My company name should appear on the Public Register
