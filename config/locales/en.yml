@@ -990,9 +990,10 @@ en:
       declaration_text2: "You can be fined up to £5000 if you provide false or misleading information"
       data_protection_text1: "See the"
       privacy_policy_link: "Privacy and shared cookies policy"
-      privacy_policy_link1: "privacy"
+      privacy_policy_link1: "\ privacy"
       privacy_policy_link2: "cookies"
-      privacy_data_text_html: "See our %{policy_link} policy to find out how the Environment Agency will use this information."
+      privacy_policy_text1: "See our"
+      privacy_policy_text2: "\ policy to find out how the Environment Agency will use this information."
     newSignup:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
@@ -1004,7 +1005,7 @@ en:
       signedInAsText: "You are currently signed in as"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
-      createPassword: "Create Password"
+      createPassword: "Create a password"
       sign_in_link: "I already have a waste carrier account"
       password_hint: "Password must be at least 8 characters and contain at least 1 uppercase letter, 1 lowercase letter and 1 number"
     newSignin:
@@ -1012,7 +1013,7 @@ en:
       title: "User account"
       subtitle: ""
       legend: "Sign in"
-      sign_up_link: "I don't have an account"
+      sign_up_link: "I don't have a waste carrier account"
       keep_window_open: 'If you wish to continue with your registration, please keep this browser window open.'
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
