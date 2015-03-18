@@ -48,17 +48,13 @@ Given(/^I have not confirmed my email address details$/) do
 end
 
 Then(/^my lower tier charity waste registration details should be found on the public register$/) do
-  search_page_search(companyName: 'Find me in the public register')
-  search_page_check_search_result_positive
+  search_page_check_search_result_positive('Find me in the public register')
 end
 
 Then(/^my lower tier local autority registration details should not be found on the public register$/) do
-  search_page_search(companyName: 'Unconfirmed company')
-  search_page_check_search_result_negative
+  search_page_check_search_result_negative('Unconfirmed company')
 end
 
 Then(/^my upper tier sole trader registration details should not be found on the public register$/) do
-  search_page_search(companyName: 'Unpaid company')
-  search_page_check_search_result_negative
+  search_page_check_search_result_negative('Unpaid company')
 end
-
