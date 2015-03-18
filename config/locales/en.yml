@@ -906,8 +906,10 @@ en:
       subtitle: "These will not be made public"
     convictions_step:
       title: "Has anyone involved in managing your organisation been convicted of an environmental offence in the last 12 months?"
+      subtitle: "If you don’t tell us about any unspent environmental offences you may not be able to register."
+      paragraph: "If anyone involved in managing your organisation has been convicted of an environmental offence it might affect this registration."
       relevant_convictions_link_text: "Offences you must tell us about"
-      relevant_convictions_text: "We need to know about any convictions under these areas of law:"
+      relevant_convictions_text: "You only need to tell us about unspent convictions for offences under these areas of law:"
       relevant_convictions_scrap_1964: "Scrap Metal Dealers Act 1964"
       relevant_convictions_theft_act: "section 1, 8, 9, 10, 11, 17, 18, 22 or 25 of the Theft Act 1968, where the offence relates to scrap metal or is an environment-related offence"
       relevant_convictions_customs: "section 170 or 170B of the Customs and Excise Management Act 1979, where the offence relates to scrap metal"
