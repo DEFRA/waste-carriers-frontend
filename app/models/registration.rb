@@ -373,13 +373,47 @@ class Registration < Ohm::Model
   end
 
   def cross_check_convictions
+    result = ConvictionSearchResult.search_company_convictions(
+      companyName: companyName,
+      companyNumber: company_no
+    )
 
-    result = ConvictionSearchResult.search_convictions(name: companyName, companyNumber: company_no)
     Rails.logger.debug "REGISTRATION::CROSS_CHECK_CONVICTIONS #{result}"
     conviction_search_result.replace([result])
-
   end
 
+  # Returns a boolean indicating if the user declared convictions.
+  def has_declared_convictions?
+    declaredConvictions != 'no'
+  end
+  
+  # Returns a boolean indicating if a possible match was found when searching
+  # for convictions against the company.
+  def company_convictions_match_found?
+    conviction_search_result.first &&
+      (conviction_search_result.first.match_result != 'NO')
+  end
+  
+  # Returns a boolean indicating if a possible match was found when searching
+  # for convictions against the key people.
+  def people_convictions_match_found?
+    if key_people
+      key_people.each do |person|
+        search_result = person.conviction_search_result.first
+        if search_result && search_result.match_result != 'NO'
+          return true;
+        end
+      end
+    end
+    false
+  end
+  
+  # Returns a boolean indicating if a possible match was found when searching
+  # for convictions, for the company AND for the key people.
+  def company_and_people_convictions_match_found?
+    company_convictions_match_found? && people_convictions_match_found?
+  end
+    
   def has_unconfirmed_convictionMatches?
 
     result = false
@@ -738,34 +772,32 @@ class Registration < Ohm::Model
   MAX_COMPANY_REGISTRATION_NO = 8
   MAX_COMPANY_NAME_LENGTH = 150
 
-  # ******************************
-  # * Start of Section 0 (start) *
-  # *****************************
+  # *********************************
+  # * Section 0 (start) validations *
+  # *********************************
   validates :newOrRenew, :presence => { :message => I18n.t('errors.messages.select_new_or_renew') }, if: :newOrRenew_step?
   validates :originalRegistrationNumber, :presence => { :message => I18n.t('errors.messages.blank_registration_number') }, if: :enterRegNumber_step?
-  # * End of Section 0 (start) *
 
-  # **************************************
-  # ***** Start of Section 1 (smart answers)
-  # **************************************
+  # *****************************************
+  # * Section 1 (smart answers) validations *
+  # *****************************************
   validates :businessType, :presence => { :message => I18n.t('errors.messages.select_business_type') }, inclusion: { in: BUSINESS_TYPES, :allow_blank => true }, if: :businesstype_step?
   validates :otherBusinesses, :presence => { :message => I18n.t('errors.messages.select_other_businesses') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :otherbusinesses_step?
   validates :isMainService, :presence => { :message => I18n.t('errors.messages.select_service_provided') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :serviceprovided_step?
   validates :constructionWaste, :presence => { :message => I18n.t('errors.messages.select_only_deal_with') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :constructiondemolition_step?
   validates :registrationType, :presence => { :message => I18n.t('errors.messages.select_registration_type') }, inclusion: { in: %w(carrier_dealer broker_dealer carrier_broker_dealer), :allow_blank => true }, if: :registrationtype_step?
   validates :onlyAMF, :presence => { :message => I18n.t('errors.messages.select_only_deal_with') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :onlydealwith_step?
-  # ***** End of Section 1 (smart answers) *****
 
-  # **************************************
-  # * Start of Section 2 (contact details) *****
-  # **************************************
+  # *******************************************
+  # * Section 2 (contact details) validations *
+  # *******************************************
   # Any company type except Limited company
   with_options if: [:businessdetails_step?, :not_limited_company?] do |registration|
     registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_non_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
   end
 
   # Limited company
-  with_options if: [:businessdetails_step?, :limited_company?] do |registration|
+  with_options if: [:businessdetails_step?, :limited_company?, :upper?] do |registration|
     registration.validates :company_no, uk_company_number: true
     registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
   end
@@ -803,35 +835,42 @@ class Registration < Ohm::Model
   # TODO AH - not sure if this is common one yet?
   validates :contactEmail, email: true, if: [:digital_route?, :contactdetails_step?]
 
-  # ***** End of Section 2 (contact details) *****
+  # ***************************************
+  # * Section 3 (convictions) validations *
+  # ***************************************
+  validates :declaredConvictions, :presence => { :message => I18n.t('errors.messages.select_declared_convictions') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :convictions_step?
 
-  # **************************************
-  # ***** Start of common validations *****
-  # **************************************
-  # ***** End of common validations *****
+  # *****************************************
+  # * Section 4 (check details) validations *
+  # *****************************************
+  validates :declaration, :acceptance => { :message => I18n.t('errors.messages.confirm_declaration') }, if: 'confirmation_step? or upper_summary_step?'
 
-  validates :declaredConvictions, presence: true, inclusion: { in: YES_NO_ANSWER }, if: :convictions_step?
+  # ******************************************
+  # * Section 5 (create account) validations *
+  # ******************************************
+  validates :accountEmail, :presence => { :message => I18n.t('errors.messages.your_blank_email') }, :email => { :message => I18n.t('errors.messages.invalid_email'), :allow_blank => true } , if: [:signup_step?, :sign_up_mode_present?]
+
+  with_options if: [:signup_step?,  :do_sign_up?] do |registration|
+    registration.validates :accountEmail, :confirmation => { :message => I18n.t('errors.messages.invalid_confirmation_email') }
+    registration.validate :user_cannot_exist_with_same_account_email
+  end
+
+  with_options if: [:signup_step?, :sign_up_mode_present?] do |registration|
+    registration.validates :password, :presence => { :message => I18n.t('errors.messages.blank_password') }
+    registration.validates :password, :confirmation => { :message => I18n.t('errors.messages.invalid_confirmation_password') }
+    registration.validate :validate_password
+  end
+
+  # **********************
+  # * Common validations *
+  # **********************
 
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
   validate :validate_key_people, :if => :should_validate_key_people?
 
-  validates :accountEmail, presence: true, email: true, if: [:signup_step?, :sign_up_mode_present?]
-
-  with_options if: [:signup_step?,  :do_sign_up?] do |registration|
-    registration.validates :accountEmail, confirmation: true
-    registration.validate :user_cannot_exist_with_same_account_email
-  end
-
-  with_options if: [:signup_step?, :sign_up_mode_present?] do |registration|
-    registration.validates :password, presence: true, length: { in: 8..128 }
-    registration.validates :password, confirmation: true
-    registration.validate :password_must_have_lowercase_uppercase_and_numeric
-  end
 
   validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
-
-  validates :declaration, acceptance: true, if: 'confirmation_step? or upper_summary_step?'
 
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
   validates :payment_type, :presence => true, if: :payment_step?
@@ -1209,7 +1248,7 @@ class Registration < Ohm::Model
   end
 
   def user_cannot_exist_with_same_account_email
-    errors.add(:accountEmail, I18n.t('errors.messages.emailTaken') ) if User.where(email: accountEmail).exists?
+    errors.add(:accountEmail, I18n.t('errors.messages.email_already_in_use') ) if User.where(email: accountEmail).exists?
   end
 
   def user
@@ -1447,11 +1486,11 @@ class Registration < Ohm::Model
   def validate_key_people
     if relevant_people_step?
       if key_people.select { |person| person.person_type == 'RELEVANT'}.empty?
-        errors.add(I18n.t('activemodel.attributes.registration.relevant_people'), I18n.t('errors.messages.enter_at_least_1_person'))
+        errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_relevant_person'))
       end
     elsif key_person_step? || key_people_step?
       if key_people.select { |person| person.person_type == 'KEY'}.empty?
-        errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_person'))
+        errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_key_person'))
       end
     end
   end

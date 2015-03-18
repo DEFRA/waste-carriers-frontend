@@ -96,7 +96,7 @@ en:
         publicBodyTypeOther: "Other type of public body"
         regIdentifier: "Identifier"
         registrationType: "Registration type"
-        registration_fee: "Registration"
+        registration_fee: "Registration charge"
         relevant_people: "Relevant people"
         renewal_fee: "Renewal charge"
         edit_registration_fee: "Edit registration charge"
@@ -292,15 +292,37 @@ en:
       blank_town_or_city: "You must enter a town or city"
       invalid_town_or_city: "The town or city can use letters, numbers, spaces and some special characters (-’,). It must be no longer than 35 characters"
       blank_country: "You must enter a country"
-      enter_at_least_1_person: "You must add the details of at least one person"
-      blank_first_name: "You must enter a first name"
+      enter_at_least_1_key_person: "You must add the details of at least one person"
       invalid_first_name: "The first name can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
-      blank_last_name: "You must enter a last name"
       invalid_last_name: "The last name  can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
       blank_telephone: "You must enter a telephone number"
       invalid_telephone: "The telephone number can use numbers, spaces and some special characters (-+). It must be no longer than 20 characters"
+      non-director_dob_less_than_18_years: "You must be over 18 to use this service"
+      director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
+
+      # Section 3 (convictions)
+      select_declared_convictions: "You must answer this question"
+      enter_at_least_1_relevant_person: "You must add the details of at least one person"
+
+      # Section 4 (check details)
+      confirm_declaration: "Please confirm the declaration"
+
+      # Section 5 (create account)
+      invalid_confirmation_email: "You must confirm your email address"
+      blank_password: "You must create a password"
       blank_email: "You must enter an email address"
-      invalid_email: "Please enter a valid email address"
+      invalid_email: "You must enter a valid email address"
+      email_already_in_use: "Email address is already in use"
+      invalid_password: "You must create a valid password"
+      invalid_confirmation_password: "You must confirm your password"
+
+      # Common
+      blank_post_code: "You must enter a postcode"
+      invalid_post_code: "Please enter a valid postcode"
+      no_addresses_for_postcode: "No addresses match this postcode"
+      blank_first_name: "You must enter a first name"
+      blank_last_name: "You must enter a last name"
+      blank_position: "You must enter a position"
       blank_day: "You must enter a day"
       invalid_day: "You must enter a valid day"
       blank_month: "You must enter a month"
@@ -309,13 +331,8 @@ en:
       invalid_year: "You must enter a valid year"
       invalid_date: "You must enter a valid date"
       date_not_in_past: "The date must be in the past"
-      non-director_dob_less_than_18_years: "You must be over 18 to use this service"
-      director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
-
-      # Common
-      blank_post_code: "You must enter a postcode"
-      invalid_post_code: "Please enter a valid postcode"
-      no_addresses_for_postcode: "No addresses match this postcode"
+      your_blank_email: "You must enter your email address"
+      invalid_email: "Please enter a valid email address"
 
       # TODO AH end wip until all validation message changes complete
 
@@ -383,8 +400,9 @@ en:
     headerLinkTitle: "Go to the GOV.UK homepage"
     helpline: "Helpline:\ "
     notfound:
-      heading: "This page cannot be found"
-      message: "You may have mistyped the address or the page may have moved."
+      heading: "Page not found"
+      message: "Sorry, the page you're looking for can't be found."
+      links_html: "If you already have a waste carriers account <a href='/users/sign_in'>sign in</a> or <a href='https://www.gov.uk/waste-carrier-or-broker-registration'>start a new registration</a>."
     privacyAndCookies: "Privacy and cookies"
     rejected:
       heading: "The change you wanted was rejected."
@@ -422,7 +440,7 @@ en:
       bank_transfer_note: "Pay by bank transfer requires 2 steps, both must be done to complete your registration."
       subtitle: "Payment summary"
       title: "Payment"
-      total_fee_vat: "All charges are exempt from VAT"
+      total_fee_vat: "All charges are outside the scope of VAT"
       trouble_paying_link: "Trouble paying?"
       copy_card_heading: "What are copy cards?"
       copy_card_description: "These are handy, pocket-sized cards that prove you are registered."
@@ -617,13 +635,15 @@ en:
       paragraph10: "We probably won’t take action against you for operating while we’re waiting for your payment to come through. But the police or your local council might"
       payment_notice: "Payment notice"
     account_already_confirmed:
-      title: "Waste Carrier Registraiton: email confirmed"
-      paragraph1: "Somebody recently used this email address when requesting Account Confirmation instructions on the Waste Carriers Registration service."
-      paragraph2: "Your email address for the Waste Carriers Registration service has already been confirmed, and you can log in using your email address and password."
-      sign_in_heading: "Sign in to your Waste Carriers Registration account:"
-      password_help_paragraph: "If you have forgotten your password, you can reset it from the sign-in page."
-      email_unexpected_paragraph: "If you did not request that these instructions were sent, please contact us on the number below."
-      continue_registration_paragraph: 'It looks like you were in the middle of creating a new Registration when you requested these instructions.  If so, please continue with your application now.'
+      title: "Waste Carriers Service"
+      heading: "Your email address is already confirmed"
+      salutation: "Hello,"
+      paragraph1: "You have received this email because:"
+      bullet1: "You've already confirmed your email address"
+      bullet2: "Someone else is trying to confirm your email address"
+      paragraph2: "If you did not make this request, please call our helpline: 03708 506506."
+      paragraph3: "If you already have an account select or copy and paste the link below into a new browser window."
+      continue_registration_paragraph: 'If you were in the middle of a registration, please go back and finish your application.'
   agency_users:
     index:
       title: "Administration"
@@ -753,6 +773,14 @@ en:
     approve:
       title_approve: "Approve registration"
       title_refuse: "Refuse registration"
+      declared_convictions_label: "Declared convictions?"
+      declared_convictions_no: "No"
+      declared_convictions_yes: "Yes"
+      matched_convictions_label: "Possible conviction matches found?"
+      matched_convictions_none: "No"
+      matched_convictions_company: "Yes (company)"
+      matched_convictions_people: "Yes (key people)"
+      matched_convictions_both: "Yes (company and key people)"
     back_link_unavailable: "JavaScript has been disabled - please use your browser's back button."
     cannot_edit:
       titleCookies: "The cookies in your browser have been disabled"
@@ -879,8 +907,10 @@ en:
       subtitle: "These will not be made public"
     convictions_step:
       title: "Has anyone involved in managing your organisation been convicted of an environmental offence in the last 12 months?"
-      relevant_convictions_link_text: "Offences we need to know about"
-      relevant_convictions_text: "We need to know about any convictions under these areas of law:"
+      subtitle: "If you don’t tell us about any unspent environmental offences you may not be able to register."
+      paragraph: "If anyone involved in managing your organisation has been convicted of an environmental offence it might affect this registration."
+      relevant_convictions_link_text: "Offences you must tell us about"
+      relevant_convictions_text: "You only need to tell us about unspent convictions for offences under these areas of law:"
       relevant_convictions_scrap_1964: "Scrap Metal Dealers Act 1964"
       relevant_convictions_theft_act: "section 1, 8, 9, 10, 11, 17, 18, 22 or 25 of the Theft Act 1968, where the offence relates to scrap metal or is an environment-related offence"
       relevant_convictions_customs: "section 170 or 170B of the Customs and Excise Management Act 1979, where the offence relates to scrap metal"
@@ -963,9 +993,10 @@ en:
       declaration_text2: "You can be fined up to £5000 if you provide false or misleading information"
       data_protection_text1: "See the"
       privacy_policy_link: "Privacy and shared cookies policy"
-      privacy_policy_link1: "privacy"
+      privacy_policy_link1: "\ privacy"
       privacy_policy_link2: "cookies"
-      privacy_data_text_html: "See our %{policy_link} policy to find out how the Environment Agency will use this information."
+      privacy_policy_text1: "See our"
+      privacy_policy_text2: "\ policy to find out how the Environment Agency will use this information."
     newSignup:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
@@ -977,15 +1008,15 @@ en:
       signedInAsText: "You are currently signed in as"
       accountExists: "An account already exists with the email you have provided, sign in with this email address."
       emailUsernameText: "Provide an email and password to allow you to login and make future changes to your registration details."
-      createPassword: "Password"
-      sign_in_link: "I already have an account"
+      createPassword: "Create a password"
+      sign_in_link: "I already have a waste carrier account"
       password_hint: "Password must be at least 8 characters and contain at least 1 uppercase letter, 1 lowercase letter and 1 number"
     newSignin:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
       subtitle: ""
       legend: "Sign in"
-      sign_up_link: "I don't have an account"
+      sign_up_link: "I don't have a waste carrier account"
       keep_window_open: 'If you wish to continue with your registration, please keep this browser window open.'
     dataProtection:
       point1: "offer you documents or services relating to environmental matters"
@@ -1237,10 +1268,10 @@ en:
       noChargeHistory: "No Charge History"
       noPaymentHistory: "No Payment History"
     pending:
-      title: "Confirm your account"
-      subtitle: "You need to confirm your account so we can verify who you are"
-      details_emailed: "We've sent instructions to your email %{email}"
-      details_emailed_instruction: "Please follow the instructions to confirm your account"
+      title: "Confirm your email address"
+      subtitle: "Confirm your email address"
+      details_emailed: "We've sent an email to %{email} with instructions for you to confirm your email address."
+      details_emailed_instruction: "Please follow the instructions to confirm your email address"
       close_page: "Once you have confirmed your account and completed your registration, please close this web page."
       payment_pending: "Payment pending"
       hasBeenRegistered: "%{companyName} has been registered with the Environment Agency"
@@ -1363,6 +1394,8 @@ en:
       access_code: "Access code"
       expires_on: "Expires on"
       company_match_result: "Company match result"
+      company_matched_name: "Company matched name"
+      company_match_reference: "Company match ref."
       declared_convictions: "Declared convictions"
       key_first_name: "Key Per. first name"
       key_last_name: "Key Per. last name"
@@ -1370,6 +1403,8 @@ en:
       key_position: "Key Per. position"
       key_person_type: "Key Per. type"
       key_match_result: "Key Per. match result"
+      key_matched_name: "Key Per. matched name"
+      key_match_reference: "Key Per. match ref."
       key_search_at: "Key Per. searched at"
       key_confirmed: "Key Per. confirmed"
       transaction_date: "Transaction date"
@@ -1429,7 +1464,7 @@ en:
       edit_complete_title: "Your changes have been successful"
     current_user:
       change_password: "Change password"
-      new_registration: "New registration"
+      new_registration: "New / renew registration"
       registrations_export: "Registrations export"
       payments_export: "Payments export"
       sign_in: "Sign in"
@@ -1555,9 +1590,9 @@ en:
     account_confirmed:
       title: 'Email address confirmed'
       paragraph1: 'Thank you for confirming your email address.'
-      paragraph2: 'You can use your email address and password to sign-in to your Waste Carriers Registration account in the future, if you need to change any of your details.'
-      paragraph3: 'If you have not already done so, we recommend that you finish your Waste Carriers Registration request now, before signing in for the first time.'
-      paragraph4: 'You can now close this page.'
+      paragraph2: 'If you haven’t done it already, we recommend that you complete your waste carriers registration request now.'
+      paragraph3: 'When your registration is complete you can use your email address and password to sign in to your account at any time.'
+      paragraph4: 'You can now safely close this page.'
     mid_registration_password_changed:
       title: 'Your password has been changed'
       paragraph1: 'It looks like you were in the middle of creating a new Registration when you changed your password.'

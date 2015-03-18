@@ -1,6 +1,6 @@
 module BusinessDetailsPage
   # for sole trader, partnership, public body, charity and authority
-  def business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit(companyName: 'Test Company',
+  def business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit(companyName: 'Testing Company',
     postcode: 'BS1 5AH', address: 'ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH')
     fill_in 'registration_companyName', with: companyName
     fill_in 'sPostcode', with: postcode

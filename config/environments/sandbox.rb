@@ -99,7 +99,9 @@ Registrations::Application.configure do
   #will redirect the user to a suitable entry point, such as the 'Find out if I need to register' page
   config.show_developer_index_page = true
 
-  #Use Google Analytics
-  config.use_google_analytics = true
+  # Use Google Analytics, if the Tag Manager ID is set.
+  unless (config.google_tag_manager_id.blank?)
+    config.use_google_analytics = true
+  end
 
 end

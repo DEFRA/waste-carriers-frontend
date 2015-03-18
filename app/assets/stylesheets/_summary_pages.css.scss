@@ -34,7 +34,7 @@
 
 .summary-page .form-group h2 {
   border-top: 1px solid rgb(191, 193, 195);
-  padding-top: $gutter-half;
+  padding-top: $gutter;
 }
 
 .end-summary {
@@ -106,6 +106,7 @@ input#registration_total_fee {
 
 input#registration_copy_cards {
   width:5em;
+  margin-bottom:0.4em;
 }
 
 #registration_copy_cards {

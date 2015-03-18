@@ -139,7 +139,6 @@ Then(/^I should recieve an email informing me that my email address is already c
   open_email @this_test_email
   expect(current_email).to have_selector(:id, 'account_already_confirmed_email')
   expect(current_email).to have_selector(:id, 'continue_registration_paragraph')
-  expect(current_email).not_to have_selector(:link, 'sign_in_link')
 end
 
 Then(/^I should recieve an email containing account confirmation instructions$/) do

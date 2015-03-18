@@ -29,6 +29,7 @@ class KeyPerson < Ohm::Model
 
   validates :first_name, :presence => { :message => I18n.t('errors.messages.blank_first_name') }
   validates :last_name, :presence => { :message => I18n.t('errors.messages.blank_last_name') }
+  validates :position, :presence => { :message => I18n.t('errors.messages.blank_position') }
   validates :dob_day, :presence => { :message => I18n.t('errors.messages.blank_day') }
   validates :dob_month, :presence => { :message => I18n.t('errors.messages.blank_month') }
   validates :dob_year, :presence => { :message => I18n.t('errors.messages.blank_year') }
@@ -104,8 +105,12 @@ class KeyPerson < Ohm::Model
   end
 
   def cross_check_convictions
+    result = ConvictionSearchResult.search_person_convictions(
+      firstname: first_name,
+      lastname:  last_name,
+      dateOfBirth: dob
+    )
 
-    result = ConvictionSearchResult.search_convictions(name: "#{first_name} #{last_name}", dateOfBirth: dob)
     Rails.logger.debug "KEY_PERSON::CROSS_CHECK_CONVICTIONS #{result}"
     conviction_search_result.replace([result])
 
