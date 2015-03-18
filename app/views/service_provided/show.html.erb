@@ -25,13 +25,13 @@
 
         <div class="form-group<%if @registration.errors[:isMainService].any?%> validation<%end%>" id="registration_isMainService" role="group" aria-labelledby="groupLabel">
           <%= validation_for(@registration, :isMainService) %>
-          <%= f.label :part_of_service_label, for: "registration_isMainService_no", :class => "block-label" do %>
+          <%= f.label :main_service_label, for: "registration_isMainService_no", :class => "block-label" do %>
             <%= f.radio_button :isMainService, "no", :class => "radio" %>
-            <%= t '.part_of_service_label' %>
-          <% end %>
-          <%= f.label :main_service_label, for: "registration_isMainService_yes", :class => "block-label" do %>
-            <%= f.radio_button :isMainService, "yes", :class => "radio" %>
             <%= t '.main_service_label' %>
+          <% end %>
+          <%= f.label :part_of_service_label, for: "registration_isMainService_yes", :class => "block-label" do %>
+            <%= f.radio_button :isMainService, "yes", :class => "radio" %>
+            <%= t '.part_of_service_label' %>
           <% end %>
         </div>
 
