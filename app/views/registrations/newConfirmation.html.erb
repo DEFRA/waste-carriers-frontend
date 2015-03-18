@@ -168,7 +168,7 @@
       <fieldset class="form-group">
         <legend class='heading-xlarge'>
           <div class="icon-important">
-            <%= image_tag("icon-important.png", {:alt => 'Important message'}) %>
+            <%= image_tag("icon-important-2x.png", {:alt => 'Important message'}) %>
           </div><%= t '.declaration_legend' %>
         </legend>
 
@@ -187,7 +187,7 @@
             <ul>
               <li>
                 <p class="privacy-data">
-                  <%= t '.privacy_data_text_html', :policy_link=>(link_to t('.privacy_policy_link1'), :privacy) %>
+                  <%= t '.privacy_policy_text1' %><a href="/privacy?locale=en" target="_blank"><%= t '.privacy_policy_link1' %></a><%= t '.privacy_policy_text2' %>
                 </p>
               </li>
             </ul>
