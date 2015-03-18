@@ -14,7 +14,7 @@
 
   <header class="page-header group">
       <div class="hgroup">
-          <h1 class="heading-large"><%= t '.heading' %></h1>
+          <h1 class="heading-large" id="groupLabel"><%= t '.heading' %></h1>
       </div>
   </header>
 
@@ -43,13 +43,9 @@
       <form method="get" action="<%= public_path %>">
       <div class="box" data-journey="waste-carriers-registration:search-register">
 
-      <fieldset>
-      	<legend></legend>
-        <div class="form-group">
-          <ul>
-      	    <li><label for="q" class="form-label"><%= t '.search_label' %></label></li>
-      	    <li><input id="q" name="q" type="text" value="<%= params[:q]%>" /></li>
-          </ul>
+        <div class="form-group" role="group" aria-labelledby="groupLabel">
+      	  <label for="q" class="form-label"><%= t '.search_label' %></label>
+      	  <input id="q" name="q" type="text" class="form-control-1-2" value="<%= params[:q]%>" />
         </div>
 
       		<div class="hidden">
@@ -98,7 +94,7 @@
       		<div class="form-group">
       		 <input type="submit" id="reg-search" class="button" value="<%= t '.search_button_label' %>" />
       		</div>
-      	</fieldset>
+
       </div>
       </form>
 
