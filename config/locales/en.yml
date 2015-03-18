@@ -401,7 +401,8 @@ en:
     helpline: "Helpline:\ "
     notfound:
       heading: "Page not found"
-      message: "Sorry, the page you're looking for can't be found. If you already have a waste carriers account <a href='/users/sign_in'>sign in</a> or <a href='https://www.gov.uk/waste-carrier-or-broker-registration'>start a new registration</a>."
+      message: "Sorry, the page you're looking for can't be found."
+      links_html: "If you already have a waste carriers account <a href='/users/sign_in'>sign in</a> or <a href='https://www.gov.uk/waste-carrier-or-broker-registration'>start a new registration</a>."
     privacyAndCookies: "Privacy and cookies"
     rejected:
       heading: "The change you wanted was rejected."
