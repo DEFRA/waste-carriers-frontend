@@ -691,8 +691,8 @@ class RegistrationsController < ApplicationController
     return unless @registration
 
     # Quick fix to prevent Rails default validation failure firing when account already exists
-    @registration.accountEmail = @registration.accountEmail.downcase
-    @registration.accountEmail_confirmation = @registration.accountEmail_confirmation.downcase
+    @registration.accountEmail = format_email(@registration.accountEmail.downcase)
+    @registration.accountEmail_confirmation = format_email(@registration.accountEmail_confirmation.downcase)
 
     if @registration.valid?
       logger.debug 'The registration is valid...'
