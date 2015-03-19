@@ -39,7 +39,7 @@ namespace :performance_testing do
   def randomise_lower_tier_reg_data(reg_data)
     reg_data['firstName'] = Faker::Name::first_name
     reg_data['lastName'] = Faker::Name::last_name
-    reg_data['contactEmail'] = reg_data['accountEmail'] = "#{reg_data['firstName']}.#{reg_data['lastName']}" + rand(9999).to_s + "@example.com"
+    reg_data['contactEmail'] = reg_data['accountEmail'] = "#{reg_data['firstName']}.#{reg_data['lastName']}" + rand(9999).to_s + "@example.com".downcase
     reg_data['password'] = Faker::Internet::password
     reg_data['phoneNumber'] = "01" + rand(999999999).to_s.rjust(9, '0')
     reg_data['easting'] =  (200000 + rand(200000)).to_s
@@ -180,7 +180,7 @@ namespace :performance_testing do
     reg.position = Faker::Name::title
     reg.phoneNumber = '01' + rand(999999999).to_s.rjust(9, '0')
     reg.contactEmail = "#{reg.firstName}.#{reg.lastName}#{rand(9999)}"\
-      '@example.com'
+      '@example.com'.downcase
     reg.accountEmail = reg.contactEmail
     reg.declaration = '1'
     reg.regIdentifier = 'CBDL' + recId.to_s
