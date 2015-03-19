@@ -1411,7 +1411,7 @@ en:
     registrations_search:
       title: "Registrations Search"
       subtitle: "Registrations search"
-      date_filters: "Date filters"
+      date_filters: "Date filters (dd-MM-yyyy)"
       route_type: "Route"
       route_assisted_digital: "Assisted Digital"
       route_digital: "Digital"
@@ -1421,6 +1421,10 @@ en:
       convictions: "Convictions"
       has_declared_convictions: "Has declared convictions"
       conviction_check_match: "Has conviction check match"
+      copy_cards: "Copy Cards"
+      new_registration: "New Registration"
+      any_time: "Any Time"
+      renewal: "Renewal"
     registrations_search_results:
       title: "Registrations Search Results"
       subtitle: "Registration search results summary"
