@@ -5,13 +5,13 @@ namespace :data_migration do
   task :lower_tier => :environment do |t|
     puts '*** Waste Carriers Data Migration Script ***'
     
-    host = ENV['WCRS_FRONTEND_USERSDB_URL']
+    host = ENV['WCRS_REGSDB_URL1']
     throw 'MongoDB host URL not available' unless host != nil
-    database = ENV['WCRS_FRONTEND_USERSDB_NAME']
+    database = ENV['WCRS_REGSDB_NAME']
     throw 'MongoDB database name not available' unless database != nil
-    username = ENV['WCRS_FRONTEND_USERSDB_USERNAME']
+    username = ENV['WCRS_REGSDB_USERNAME']
     throw 'MongoDB username not available' unless username != nil
-    password = ENV['WCRS_FRONTEND_USERSDB_PASSWORD']
+    password = ENV['WCRS_REGSDB_PASSWORD']
     throw 'MongoDB password not avaialble' unless password != nil
     
     databaseURL = "#{host}/#{database}"
@@ -24,7 +24,18 @@ namespace :data_migration do
     puts 'About to update - adding "tier" property...'
     result = system('mongo', databaseURL, '-u', username, '-p', password, '--quiet', '--eval', "db.registrations.update({'tier':{$exists:false}},{$set:{'tier':'LOWER'}},{multi:true})")
     throw '!! Migration query failed, manual investigation required !!' unless result == true
-    
+
+    puts 'About to update - all dates to datetime....'
+    result = system('mongo', databaseURL, '-u', username, '-p', password, '--quiet', '--eval', '
+    db.registrations.find().forEach(
+      function(element){
+        element.metaData.dateRegistered = new Date(element.metaData.dateRegistered);
+        element.metaData.lastModified = new Date(element.metaData.lastModified);
+        db.registrations.save(element);
+      }
+    )')
+    throw '!! Migration query failed, manual investigation required !!' unless result == true
+
     puts 'Update completed.'
   end
   
