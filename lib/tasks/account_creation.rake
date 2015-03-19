@@ -8,13 +8,13 @@ namespace :account_creation do
 
     # Check Admin with specified email address does not already exist.
     unless Admin.find_by_email(args.email).nil?
-      fail 'ERROR: An account with this email address alread exists.'
+      fail 'ERROR: An account with this email address already exists.'
     end
 
     # Create the new account, using a randomised password.
     puts 'Creating a new Assisted Digital Account Manager...'
     puts "Using email address '#{args.email}' and randomised password..."
-    admin = Admin.new(email: args.email, password: SecureRandom.base64(10))
+    admin = Admin.new(email: args.email, password: 'aA0' + SecureRandom.base64(10))
     admin.save!
     puts 'Advise the user to set their initial password using the password recovery link.'
   end
@@ -28,13 +28,13 @@ namespace :account_creation do
 
     # Check Admin with specified email address does not already exist.
     unless Admin.find_by_email(args.email).nil?
-      fail 'ERROR: An account with this email address alread exists.'
+      fail 'ERROR: An account with this email address already exists.'
     end
 
     # Create the new account, using a randomised password.
     puts 'Creating a new Finance Account Manager...'
     puts "Using email address '#{args.email}' and randomised password..."
-    admin = Admin.new(email: args.email, password: SecureRandom.base64(10))
+    admin = Admin.new(email: args.email, password: 'aA0' + SecureRandom.base64(10))
     admin.add_role :Role_financeSuper, Admin
     admin.save!
     puts 'Advise the user to set their initial password using the password recovery link.'
