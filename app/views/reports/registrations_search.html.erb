@@ -29,7 +29,7 @@
 
               <fieldset class="registration-search">
                 <legend></legend>
-                <div class="heading-small"><%=t '.date_filters' %></div>
+                <div class="report-heading"><%=t '.date_filters' %></div>
                 <%= f.hidden_field :is_new, :value => 'false' %>
                 <div class="form-group inline<%if @report.errors[:from].any?%> validation<% end %>">
                   <%= validation_for(@report, :from) %>
@@ -42,7 +42,7 @@
                   <%= f.text_field :to, :size => 20, :maxlength => 20 %>
                 </div>
 
-              <h2 class="heading-small"><%= t '.route_type' %></h2>
+              <h2 class="report-heading"><%= t '.route_type' %></h2>
 
                 <div class='form-group inline'>
                   <% Report.route_options.each do |option| %>
@@ -53,7 +53,7 @@
                   <% end %>
                 </div>
 
-              <h2 class="heading-small"><%= t '.tier' %></h2>
+              <h2 class="report-heading"><%= t '.tier' %></h2>
 
                 <div class='form-group inline'>
                   <% Report.tier_options.each do |option| %>
@@ -65,7 +65,7 @@
                 </div>
 
 
-              <h2 class="heading-small"><%= t '.status' %></h2>
+              <h2 class="report-heading"><%= t '.status' %></h2>
                 <div class='form-group inline'>
                   <% Report.status_options.each do |option| %>
                   <%= f.label :statuses, for: "statuses_#{option.second.downcase}",  class: 'block-label' do %>
@@ -75,7 +75,7 @@
                   <% end %>
                 </div>
 
-              <h2 class="heading-small"><%= t '.business_type' %></h2>
+              <h2 class="report-heading"><%= t '.business_type' %></h2>
                 <div class="form-group inline">
                   <% Registration.business_type_options_for_select.each do |option| %>
                   <%= f.label :business_types, for: "business_types_#{option.second.downcase}",  class: 'block-label' do %>
@@ -85,13 +85,26 @@
                   <% end %>
                 </div>
 
-              <h2 class="heading-medium"><%= t '.convictions' %></h2>
+              <h2 class="report-heading"><%= t '.convictions' %></h2>
                 <div class='form-group inline'>
                   <%= f.label :has_declared_convictions, for: 'report_has_declared_convictions', class: 'block-label' do %>
                   <%= f.check_box :has_declared_convictions, {}, "yes", "" %> <%= t '.has_declared_convictions' %>
                   <% end %>
                   <%= f.label :conviction_check_match, for: 'report_conviction_check_match', class: 'block-label' do %>
                   <%= f.check_box :conviction_check_match, {}, "YES", "" %> <%= t '.conviction_check_match' %>
+                  <% end %>
+                </div>
+
+              <h2 class="report-heading"><%= t '.copy_cards' %></h2>
+                <div class='form-group inline'>
+                  <%= f.label :new_registration, for: 'report_new_registration', class: 'block-label' do %>
+                  <%= f.check_box :new_registration, {}, "yes", "" %> <%= t 'new_registration' %>
+                  <% end %>
+                  <%= f.label :any_time, for: 'report_any_time', class: 'block-label' do %>
+                  <%= f.check_box :any_time, {}, "yes", "" %> <%= t 'any_time' %>
+                  <% end %>
+                  <%= f.label :renewal, for: 'report_renewal', class: 'block-label' do %>
+                  <%= f.check_box :renewal, {}, "yes", "" %> <%= t 'renewal' %>
                   <% end %>
                 </div>
 
@@ -108,7 +121,7 @@
         <div class="grid-1-3">
           <div class="inner-block related">
             <div class="inner group related-subsection">
-              <h3 class="heading-small"><%= t 'registrations.index.aside_heading' %></h3>
+              <h3 class="report-heading"><%= t 'registrations.index.aside_heading' %></h3>
                 <nav aria-labelledby="parent-subsection" role="navigation">
                   <ol>
                     <li><%= render "shared/current_user" %></li>

@@ -7,6 +7,7 @@ class Report
   attr_accessor :routes, :tiers, :statuses, :business_types
   attr_accessor :payment_statuses, :payment_types, :charge_types
   attr_accessor :result_count
+  attr_accessor :new_registration, :any_time, :renewal
 
   validate :validate_from
   validate :validate_to
@@ -169,6 +170,8 @@ class Report
         return
       end
 
+      Time.parse(from)
+
       unless from.is_date?
         Rails.logger.debug "report 'from' field is invalid"
         errors.add(:from, I18n.t('errors.messages.invalid_date') )
@@ -183,6 +186,8 @@ class Report
         errors.add(:to, I18n.t('errors.messages.blank') )
         return
       end
+
+      Time.parse(to)
 
       unless to.is_date?
         Rails.logger.debug "report 'to' field is invalid"
