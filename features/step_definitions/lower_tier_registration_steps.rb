@@ -125,7 +125,7 @@ When(/^I confirm account creation via email$/) do
 end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
-  expect(page).to have_text 'you don’t need to pay a registration fee'
+  expect(page).to have_text 'you don’t need to pay a registration charge'
   open_email my_email_address
   expect(current_email).to have_text 'Based on what you told us about your '\
                                      'organisation and what it does, we have '\
