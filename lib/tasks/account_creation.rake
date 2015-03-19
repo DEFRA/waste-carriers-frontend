@@ -1,5 +1,3 @@
-require 'SecureRandom'
-
 namespace :account_creation do
   # Creates a new Assisted Digital Account Manager user.
   # This maps to an Admin, with the 'Refunds' role assigned.
