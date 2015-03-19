@@ -133,6 +133,8 @@ namespace :performance_testing do
     reg.phase_one_registration_info.status = 'PENDING'
 
     reg.save
+
+    reg
   end
 
   def create_phase_one_lower_tier_active_registration(recId)
@@ -144,9 +146,12 @@ namespace :performance_testing do
     randomise_phase_one_lower_tier_registration(reg, recId)
 
     reg.phase_one_registration_info.status = 'ACTIVE'
-    reg.phase_one_registration_info.dateActivated = reg.phase_one_registration_info.lastModified
+    reg.phase_one_registration_info.dateActivated =
+      reg.phase_one_registration_info.lastModified
 
     reg.save
+
+    reg
   end
 
   def randomise_phase_one_lower_tier_registration(reg, recId)
@@ -174,8 +179,9 @@ namespace :performance_testing do
     reg.lastName = Faker::Name::last_name
     reg.position = Faker::Name::title
     reg.phoneNumber = '01' + rand(999999999).to_s.rjust(9, '0')
-    reg.contactEmail = Faker::Internet.email
-    reg.accountEmail = Faker::Internet.email
+    reg.contactEmail = "#{reg.firstName}.#{reg.lastName}#{rand(9999)}"\
+      '@example.com'
+    reg.accountEmail = reg.contactEmail
     reg.declaration = '1'
     reg.regIdentifier = 'CBDL' + recId.to_s
 
@@ -262,7 +268,8 @@ namespace :performance_testing do
     pb = ProgressBar.create(total: pendingRecs, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
     puts "Creating #{pendingRecs} phase one PENDING registrations..."
     for n in (1..pendingRecs) do
-      create_phase_one_lower_tier_pending_registration n
+      reg = create_phase_one_lower_tier_pending_registration n
+      create_user(reg.accountEmail)
       pb.increment
     end
 
@@ -270,7 +277,8 @@ namespace :performance_testing do
       pb = ProgressBar.create(total: activeRecs, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
       puts "and #{activeRecs} phase one ACTIVE registrations..."
       for n in (1..activeRecs) do
-        create_phase_one_lower_tier_active_registration n
+        reg = create_phase_one_lower_tier_active_registration n
+        create_user(reg.accountEmail)
         pb.increment
       end
     end
