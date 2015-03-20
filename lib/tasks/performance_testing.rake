@@ -122,22 +122,7 @@ namespace :performance_testing do
     ir_data.save!
   end
 
-  def create_phase_one_lower_tier_pending_registration(recId)
-    reg = PhaseOneRegistration.new
-
-    reg.phase_one_registration_info = PhaseOneRegistrationInfo.new
-    reg.phase_one_location = PhaseOneLocation.new
-
-    randomise_phase_one_lower_tier_registration(reg, recId)
-
-    reg.phase_one_registration_info.status = 'PENDING'
-
-    reg.save
-
-    reg
-  end
-
-  def create_phase_one_lower_tier_active_registration(recId)
+  def create_phase_one_lower_tier_registration(recId)
     reg = PhaseOneRegistration.new
 
     reg.phase_one_registration_info = PhaseOneRegistrationInfo.new
@@ -259,28 +244,26 @@ namespace :performance_testing do
   end
 
   task :seed_phase_one_lower_tier_registrations, [:num_records] => :environment do |t, args|
-    args.with_defaults(:num_records => 10)
+    args.with_defaults(num_records: 10)
 
-    maxRecs = args.num_records.to_i
-    pendingRecs = (maxRecs / 2.to_f).ceil
-    activeRecs = maxRecs - pendingRecs
+    max_recs = args.num_records.to_i
 
-    pb = ProgressBar.create(total: pendingRecs, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
-    puts "Creating #{pendingRecs} phase one PENDING registrations..."
-    for n in (1..pendingRecs) do
-      reg = create_phase_one_lower_tier_pending_registration n
+    pb = ProgressBar.create(
+      total: max_recs,
+      throttle_rate: 0.1,
+      format: '%E |%b>%i| %p%%'
+    )
+
+    puts "Creating #{max_recs} phase one registrations..."
+    for n in (1..max_recs) do
+      reg = create_phase_one_lower_tier_registration n
       create_user(reg.accountEmail)
       pb.increment
     end
 
-    if activeRecs > 0
-      pb = ProgressBar.create(total: activeRecs, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
-      puts "and #{activeRecs} phase one ACTIVE registrations..."
-      for n in (1..activeRecs) do
-        reg = create_phase_one_lower_tier_active_registration n
-        create_user(reg.accountEmail)
-        pb.increment
-      end
-    end
+    send_mongo_command('db.registrations.update({}, '\
+      "{ $unset: { 'metaData._id': 1 } }, false, true)")
+    send_mongo_command('db.registrations.update({},'\
+      "{ $unset: { 'location._id': 1 } }, false, true)")
   end
 end
