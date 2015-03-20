@@ -39,7 +39,7 @@ namespace :performance_testing do
   def randomise_lower_tier_reg_data(reg_data)
     reg_data['firstName'] = Faker::Name::first_name
     reg_data['lastName'] = Faker::Name::last_name
-    reg_data['contactEmail'] = reg_data['accountEmail'] = "#{reg_data['firstName']}.#{reg_data['lastName']}" + rand(9999).to_s + "@example.com"
+    reg_data['contactEmail'] = reg_data['accountEmail'] = "#{reg_data['firstName']}.#{reg_data['lastName']}" + rand(9999).to_s + "@example.com".downcase
     reg_data['password'] = Faker::Internet::password
     reg_data['phoneNumber'] = "01" + rand(999999999).to_s.rjust(9, '0')
     reg_data['easting'] =  (200000 + rand(200000)).to_s
@@ -122,22 +122,7 @@ namespace :performance_testing do
     ir_data.save!
   end
 
-  def create_phase_one_lower_tier_pending_registration(recId)
-    reg = PhaseOneRegistration.new
-
-    reg.phase_one_registration_info = PhaseOneRegistrationInfo.new
-    reg.phase_one_location = PhaseOneLocation.new
-
-    randomise_phase_one_lower_tier_registration(reg, recId)
-
-    reg.phase_one_registration_info.status = 'PENDING'
-
-    reg.save
-
-    reg
-  end
-
-  def create_phase_one_lower_tier_active_registration(recId)
+  def create_phase_one_lower_tier_registration(recId)
     reg = PhaseOneRegistration.new
 
     reg.phase_one_registration_info = PhaseOneRegistrationInfo.new
@@ -180,7 +165,7 @@ namespace :performance_testing do
     reg.position = Faker::Name::title
     reg.phoneNumber = '01' + rand(999999999).to_s.rjust(9, '0')
     reg.contactEmail = "#{reg.firstName}.#{reg.lastName}#{rand(9999)}"\
-      '@example.com'
+      '@example.com'.downcase
     reg.accountEmail = reg.contactEmail
     reg.declaration = '1'
     reg.regIdentifier = 'CBDL' + recId.to_s
@@ -259,28 +244,26 @@ namespace :performance_testing do
   end
 
   task :seed_phase_one_lower_tier_registrations, [:num_records] => :environment do |t, args|
-    args.with_defaults(:num_records => 10)
+    args.with_defaults(num_records: 10)
 
-    maxRecs = args.num_records.to_i
-    pendingRecs = (maxRecs / 2.to_f).ceil
-    activeRecs = maxRecs - pendingRecs
+    max_recs = args.num_records.to_i
 
-    pb = ProgressBar.create(total: pendingRecs, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
-    puts "Creating #{pendingRecs} phase one PENDING registrations..."
-    for n in (1..pendingRecs) do
-      reg = create_phase_one_lower_tier_pending_registration n
+    pb = ProgressBar.create(
+      total: max_recs,
+      throttle_rate: 0.1,
+      format: '%E |%b>%i| %p%%'
+    )
+
+    puts "Creating #{max_recs} phase one registrations..."
+    for n in (1..max_recs) do
+      reg = create_phase_one_lower_tier_registration n
       create_user(reg.accountEmail)
       pb.increment
     end
 
-    if activeRecs > 0
-      pb = ProgressBar.create(total: activeRecs, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
-      puts "and #{activeRecs} phase one ACTIVE registrations..."
-      for n in (1..activeRecs) do
-        reg = create_phase_one_lower_tier_active_registration n
-        create_user(reg.accountEmail)
-        pb.increment
-      end
-    end
+    send_mongo_command('db.registrations.update({}, '\
+      "{ $unset: { 'metaData._id': 1 } }, false, true)")
+    send_mongo_command('db.registrations.update({},'\
+      "{ $unset: { 'location._id': 1 } }, false, true)")
   end
 end
