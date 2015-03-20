@@ -125,7 +125,9 @@ end
 def create_user(account_email)
   user = User.new
   user.email = account_email
-  user.password = 'Password123'  # Keep this in-sync with the value in world_extensions.rb
-  user.confirmed_at = DateTime.now.strftime('%FT%T%:z')
+  
+  # Keep this in-sync with the value in world_extensions.rb
+  user.password = 'Password123'
+  user.skip_confirmation!
   user.save
 end
