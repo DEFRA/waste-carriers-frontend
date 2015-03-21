@@ -22,7 +22,7 @@ Registrations::Application.routes.draw do
 
     get "home/index"
     get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
-    
+
     # Static pages controller
     get '/account_confirmed' => 'pages#account_confirmed'
     get '/password_changed'  => 'pages#mid_registration_password_changed', as: 'mid_registration_password_changed'
@@ -84,25 +84,25 @@ Registrations::Application.routes.draw do
 
     # Registration urls - Smart answers
     get "your-registration/business-type" => 'business_type#show', :as => :business_type
-    match "your-registration/business-type" => 'business_type#create', :via => [:post,:put,:patch]
+    post "your-registration/business-type" => 'business_type#create'
 
     get "your-registration/no-registration" => 'no_registration#show', :as => :no_registration
 
     get "your-registration/other-businesses" => 'other_businesses#show', :as => :other_businesses
-    match "your-registration/other-businesses" => 'other_businesses#create', :via => [:post,:put,:patch]
+    post "your-registration/other-businesses" => 'other_businesses#create'
 
     get "your-registration/service-provided" => 'service_provided#show', :as => :service_provided
     post "your-registration/service-provided" => 'service_provided#create'
 
     get "your-registration/construction-demolition" => 'construction_demolition#show', :as => :construction_demolition
-    match "your-registration/construction-demolition" => 'construction_demolition#create', :via => [:post,:put,:patch]
+    post "your-registration/construction-demolition" => 'construction_demolition#create'
 
     get "your-registration/only-deal-with" => 'only_deal_with#show', :as => :only_deal_with
     post "your-registration/only-deal-with" => 'only_deal_with#create'
 
     get "your-registration/registration-type" => "registration_type#show", :as => :registration_type
     get "your-registration/registration-type/edit" => "registration_type#edit", :as => :edit_registration_type
-    match "your-registration/registration-type" => "registration_type#create", :via => [:post,:put,:patch]
+    post "your-registration/registration-type" => "registration_type#create"
 
     # Registration urls - Lower tier
     match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
