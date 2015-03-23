@@ -120,19 +120,19 @@
             <td><%= reg.tier %></td>
             <td><%= reg.registrationType %></td>
             <td><%= reg.company_no %></td>
-            <td><%= reg.metaData.first.dateRegistered %></td>
-            <td><%= reg.metaData.first.dateActivated %></td>
+            <td><%= format_as_date_only(reg.metaData.first.dateRegistered) %></td>
+            <td><%= format_as_date_only(reg.metaData.first.dateActivated) %></td>
             <td><%= reg.metaData.first.status %></td>
             <td><%= reg.metaData.first.route %></td>
             <td><%= reg.accessCode %></td>
-            <td><%= format_as_date_only reg.expires_on %></td>
+            <td><%= format_as_date_only(reg.expires_on, blank_if_epoch: true) %></td>
             <td><%= reg.conviction_search_result.first.match_result %></td>
             <td><%= reg.conviction_search_result.first.matched_name %></td>
             <td><%= reg.conviction_search_result.first.get_formatted_reference() %></td>
             <td><%= reg.declaredConvictions %></td>
             <td><%= person.first_name %></td>
             <td><%= person.last_name %></td>
-            <td><%= format_as_date_only person.dob %></td>
+            <td><%= format_as_date_only(person.dob) %></td>
             <td><%= person.position %></td>
             <td><%= person.person_type %></td>
             <td><%= person.conviction_search_result.first.match_result %></td>
@@ -166,12 +166,12 @@
           <td><%= reg.tier %></td>
           <td>&nbsp;</td><!-- reg.registrationType -->
           <td>&nbsp;</td><!-- reg.company_no -->
-          <td><%= reg.metaData.first.dateRegistered %></td>
-          <td><%= reg.metaData.first.dateActivated %></td>
+          <td><%= format_as_date_only(reg.metaData.first.dateRegistered) %></td>
+          <td><%= format_as_date_only(reg.metaData.first.dateActivated) %></td>
           <td><%= reg.metaData.first.status %></td>
           <td><%= reg.metaData.first.route %></td>
           <td><%= reg.accessCode %></td>
-          <td><%= format_as_date_only reg.expires_on %></td>
+          <td><%= format_as_date_only(reg.expires_on, blank_if_epoch: true) %></td>
           <td>&nbsp;</td><!-- reg.conviction_search_result.first.match_result -->
           <td>&nbsp;</td><!-- reg.conviction_search_result.first.matched_name -->
           <td>&nbsp;</td><!-- reg.conviction_search_result.first.get_formatted_reference() -->

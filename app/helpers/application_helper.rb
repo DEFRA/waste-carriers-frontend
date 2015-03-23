@@ -35,8 +35,12 @@ module ApplicationHelper
     convert_date(d.to_i).strftime("%d/%m/%Y %H:%M")
   end
 
-  def format_as_date_only(d)
-    convert_date(d.to_i).strftime("%d/%m/%Y")
+  def format_as_date_only(d, blank_if_epoch: false)
+    if d.to_i == 0 && blank_if_epoch
+      ''
+    else
+      convert_date(d.to_i).strftime("%d/%m/%Y")
+    end
   end
 
   def format_as_ordinal_date_only(d)
