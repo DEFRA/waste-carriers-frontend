@@ -164,6 +164,11 @@ describe ConvictionSearchResult do
         expect(result.matched_name).to eq('Test Waste Services Ltd.')
       end
 
+      it 'works when company name is omitted', :vcr do
+        result = ConvictionSearchResult.search_company_convictions(companyNumber: '12345678')
+        expect(result.match_result).to eq('YES')
+      end
+
       it 'will match company number with leading zeros 1', :vcr do
         # Convictions CSV database omits the leadings zeros in company number,
         # but client keeps leading zeros.
@@ -179,6 +184,20 @@ describe ConvictionSearchResult do
         expect(result.matched_name).to eq('Recycle-pro (UK) Limited')
       end
 
+      it 'will match company number with leading zeros 3', :vcr do
+        # Convictions CSV database has leading zeros, but client does not.
+        result = ConvictionSearchResult.search_company_convictions(companyNumber: '9876', companyName: 'Wrong company name')
+        expect(result.match_result).to eq('YES')
+        expect(result.matched_name).to eq('Recycle-pro (UK) Limited')
+      end
+
+      it 'whitespace does not affect the result', :vcr do
+        # Convictions CSV database has leading zeros, but client does not.
+        result = ConvictionSearchResult.search_company_convictions(companyNumber: '  9876 ', companyName: 'Wrong company name')
+        expect(result.match_result).to eq('YES')
+        expect(result.matched_name).to eq('Recycle-pro (UK) Limited')
+      end
+
       it 'doesnt match when it shouldnt', :vcr do
         result = ConvictionSearchResult.search_company_convictions(companyNumber: '99999999', companyName: 'Wrong company name')
         expect(result.match_result).to eq('NO')
@@ -190,6 +209,11 @@ describe ConvictionSearchResult do
         result = ConvictionSearchResult.search_company_convictions(companyNumber: '99999999', companyName: 'Test Waste Services Ltd.')
         expect(result.match_result).to eq('YES')
         expect(result.get_formatted_reference).to eq('PQR-7766')
+      end
+
+      it 'works when company number is omitted', :vcr do
+        result = ConvictionSearchResult.search_company_convictions(companyName: 'Test Waste Services Ltd.')
+        expect(result.match_result).to eq('YES')
       end
 
       it 'will find a word match ignoring puctuation', :vcr do
