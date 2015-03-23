@@ -75,6 +75,11 @@ class ConvictionSearchResult < Ohm::Model
       fail if params.empty?
       params.assert_valid_keys [:companyName, :companyNumber]
 
+      # If company number is provided, pad it out to eight characters.
+      if params.key?(:companyNumber)
+        params[:companyNumber] = params[:companyNumber].to_s.strip.rjust(8, '0')
+      end
+
       # Perform the convictions search.
       do_convictions_search(
         format(
