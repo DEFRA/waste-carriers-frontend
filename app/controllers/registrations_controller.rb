@@ -179,7 +179,7 @@ class RegistrationsController < ApplicationController
       @registration.validateSelectedAddress = true
     end
 
-    if @registration.selectedAddress and !@registration.selectedAddress.empty?
+    if @registration.selectedAddress and !@registration.selectedAddress.empty? and 'address-results'.eql? @registration.addressMode
 
       logger.info '>>>>>>>> @registration.selectedAddress has a value'
 
