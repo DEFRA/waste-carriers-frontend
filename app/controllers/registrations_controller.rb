@@ -599,7 +599,13 @@ class RegistrationsController < ApplicationController
           # This session variable needs to be set every time the order/new action
           # is requested.
           #
-          newOrder @registration.uuid
+          if @registration.originalRegistrationNumber &&
+              isIRRegistrationType(@registration.originalRegistrationNumber) &&
+              @registration.newOrRenew
+            newOrderRenew @registration.uuid
+          else
+            newOrder @registration.uuid
+          end
         end
       else
         render "newConfirmation", :status => '400'
