@@ -1,4 +1,4 @@
-#Controller for resource-oriented CRUD operations on agency users (a.k.a. internal users) 
+#Controller for resource-oriented CRUD operations on agency users (a.k.a. internal users)
 
 class AgencyUsersController < ApplicationController
 
@@ -52,7 +52,7 @@ class AgencyUsersController < ApplicationController
   def update
     respond_to do |format|
       logger.info 'GET HERE'+agency_user_params.to_s
-      
+
       if @agency_user.update(agency_user_params)
         addRemoveRoles
         format.html { redirect_to @agency_user, notice: I18n.t('registrations.form.agencyUserUpdated') }
@@ -82,7 +82,7 @@ class AgencyUsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_agency_user
       @agency_user = AgencyUser.find(params[:id])
-      if !@agency_user 
+      if !@agency_user
         renderNotFound
       end
     end
@@ -95,12 +95,11 @@ class AgencyUsersController < ApplicationController
     def require_admin_request!
       if Rails.application.config.require_admin_requests
         if !is_admin_request? && !is_local_request?
-          #renderAccessDenied
           renderNotFound
         end
       end
     end
-    
+
     # This functions adds or removes the roles from the user
     def addRemoveRoles
       isFinanceSuper = current_admin.has_role? :Role_financeSuper, Admin
@@ -125,7 +124,7 @@ class AgencyUsersController < ApplicationController
         end
       end
     end
-    
+
     # Adds or removes a role from a user
     def addRemoveRole(role)
       if params[role] == '1'
@@ -136,4 +135,3 @@ class AgencyUsersController < ApplicationController
     end
 
 end
-
