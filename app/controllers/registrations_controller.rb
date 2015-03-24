@@ -820,7 +820,20 @@ class RegistrationsController < ApplicationController
   def commit_new_registration?
 
     unless @registration.tier == 'LOWER'
-      @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
+
+      # Detect standard or IR renewal
+      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
+
+        logger.debug "Is IR RENEWAL"
+
+          # 3 years from existing registration expiry date
+        @registration.expires_on = convert_date(@registration.originalDateExpiry.to_i) + Rails.configuration.registration_expires_after
+      else
+        logger.debug "Is normal RENEWAL"
+
+        # 3 years from todays date
+        @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
+      end
     end
 
     # Note: we are assigning a unique identifier to the registration in order to make the
