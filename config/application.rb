@@ -51,7 +51,7 @@ module Registrations
     }
 
     # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '1.0'
+    config.assets.version = '2.0'
 
     # Our services URL. This application is the REST-based client of that
     # service API.  As described in the comments above, this setting can be
@@ -99,7 +99,7 @@ module Registrations
     # of the frontend application. The version number of the services
     # application may change separately.
     # Use semantic versioning (Major.Minor.Patch).
-    config.application_version = '2.0.0-alpha.1'
+    config.application_version = '2.0-beta'
 
     # The e-mail address shown on the Finish page and used in e-mails sent by
     # the application.

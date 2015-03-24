@@ -22,7 +22,7 @@
       </div>
     </header>
 
-      <table summary='Registration Certificate' class="certificate_table" role='presentation'>
+      <table summary='Regulation Authority details' class="certificate_table" role='presentation'>
         <thead>
           <tr>
             <th><%=t 'registrations.view.authority' %></th>
@@ -57,7 +57,7 @@
 
       <p class="certificate_text"><%=t 'registrations.view.certify_message' %></p>
 
-      <table summary='This is an example table' role='presentation'>
+      <table summary='Registration Certificate' role='presentation'>
         <thead>
           <tr>
             <th><%=t 'registrations.view.carrier_table_heading' %></th>
@@ -65,10 +65,32 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="table-column-text"><%=t 'registrations.view.carrier_name' %></td>
-            <td><%= @registration.firstName%> <%= @registration.lastName%></td>
-          </tr>
+          <% if @registration.businessType == 'soleTrader' %>
+            <tr>
+              <td class="table-column-text"><%=t 'registrations.view.carrier_name' %></td>
+              <td><%= @registration.get_tier_appropriate_key_people_array.join('<br>').html_safe %></td>
+            </tr>
+            <tr>
+              <td class="table-column-text"><%=t 'registrations.view.business_name_if_applicable' %></td>
+              <td><%= @registration.companyName%></td>
+            </tr>
+          <% elsif @registration.businessType == 'partnership' %>
+            <tr>
+              <td class="table-column-text"><%=t 'registrations.view.carrier_name' %></td>
+              <td><%= @registration.companyName%></td>
+            </tr>
+            <% if @registration.tier == 'UPPER' %>
+              <tr>
+                <td class="table-column-text"><%=t 'registrations.view.partners' %></td>
+                <td><%= @registration.get_tier_appropriate_key_people_array.join('<br>').html_safe %></td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td class="table-column-text"><%=t 'registrations.view.carrier_name' %></td>
+              <td><%= @registration.companyName%></td>
+            </tr>
+          <% end %>
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.registered' %></td>
             <td><%= message %></td>
@@ -76,10 +98,6 @@
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.registration_number' %></td>
             <td><%= @registration.regIdentifier%></td>
-          </tr>
-          <tr>
-            <td class="table-column-text"><%=t 'registrations.view.business_name' %></td>
-            <td><%= @registration.companyName%></td>
           </tr>
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.business_address' %></td>
