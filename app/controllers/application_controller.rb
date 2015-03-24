@@ -1,9 +1,9 @@
 
 class ApplicationController < ActionController::Base
   layout "govuk_template"
-  
+
   # If changes are required to the layout template, create a copy of the file from the version on GitHUb
-  # and place a copy of the file inside the layouts folder (create it if neccessary, under views) 
+  # and place a copy of the file inside the layouts folder (create it if neccessary, under views)
   # and name it appropriately e.g. govuk_template_v0_10_0 if the file is a copy from the gov.uk template v0.10.0
   #layout "layouts/govuk_template_v0_10_0"
 
@@ -106,7 +106,7 @@ class ApplicationController < ActionController::Base
         reset_session
         render :file => "/public/session_expired.html", :status => 401
       end
-    end 
+    end
   end
 
   #Session inactivity timeout.
@@ -128,11 +128,10 @@ class ApplicationController < ActionController::Base
   end
 
   def require_admin_url
-    #This is to ensure that the Devise-managed login URLs for agency users and admins are visible 
+    #This is to ensure that the Devise-managed login URLs for agency users and admins are visible
     #and available only via the internal admin URLs
     if Rails.application.config.require_admin_requests && !is_admin_request? && request.fullpath[0..5] != '/users'
       logger.warn "Attempted request to access internal login pages. Returning 404 not found."
-      #renderAccessDenied
       renderNotFound
       return
     end
@@ -140,7 +139,6 @@ class ApplicationController < ActionController::Base
     #However, when using the internal admin interface, it should not be possible to login as an external waste carrier either.
     if Rails.application.config.require_admin_requests && is_admin_request? && request.fullpath[0..5] == '/users'
       logger.warn "Attempted request to log in as user via admin URL. Returning 404 not found."
-      #renderAccessDenied
       renderNotFound
     end
 

@@ -374,10 +374,16 @@ class Registration < Ohm::Model
   end
 
   def cross_check_convictions
-    result = ConvictionSearchResult.search_company_convictions(
-      companyName: companyName,
-      companyNumber: company_no
-    )
+    if company_no.nil? || company_no.empty?
+      result = ConvictionSearchResult.search_company_convictions(
+        companyName: companyName,
+      )
+    else
+      result = ConvictionSearchResult.search_company_convictions(
+        companyName: companyName,
+        companyNumber: company_no
+      )
+    end
 
     Rails.logger.debug "REGISTRATION::CROSS_CHECK_CONVICTIONS #{result}"
     conviction_search_result.replace([result])
@@ -1496,6 +1502,21 @@ class Registration < Ohm::Model
     end
   end
 
+  # For Upper Tier registrations, returns an array containing the names of the
+  # Key People (but excluding Relevant People).  For Lower Tier registrations,
+  # returns a single-element array containing the contact name.
+  def get_tier_appropriate_key_people_array
+    result = []
+    if tier == 'UPPER'
+      result = key_people
+        .select { |person| person.person_type == 'KEY' }
+        .map    { |person| format('%s %s', person.first_name, person.last_name) }
+    elsif tier == 'LOWER'
+      result.push(format('%s %s', firstName, lastName))
+    end
+    result
+  end
+  
   # Changes the registration's status to INACTIVE
   # i.e. a 'soft' delete
   #

@@ -1160,13 +1160,9 @@ class RegistrationsController < ApplicationController
     regFromParams.attributes
   end
 
-
-
   # DELETE /registrations/1
   # DELETE /registrations/1.json
   def destroy
-    #TODO re-introduce when needed
-    #renderAccessDenied
     @registration = Registration.find_by_id(params[:id])
     deletedCompany = @registration.companyName
     authorize! :update, @registration
