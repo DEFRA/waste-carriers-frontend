@@ -29,6 +29,7 @@ class Registration < Ohm::Model
   # New or renew field used to determine initial routing prior to smart answers
   attribute :newOrRenew
   attribute :originalRegistrationNumber
+  attribute :originalDateExpiry
 
   attribute :businessType
   attribute :otherBusinesses
