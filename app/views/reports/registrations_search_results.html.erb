@@ -121,7 +121,7 @@
             <td><%= reg.registrationType %></td>
             <td><%= reg.company_no %></td>
             <td><%= format_as_date_only(reg.metaData.first.dateRegistered) %></td>
-            <td><%= format_as_date_only(reg.metaData.first.dateActivated) %></td>
+            <td><%= format_as_date_only(reg.metaData.first.dateActivated, blank_if_epoch: true) %></td>
             <td><%= reg.metaData.first.status %></td>
             <td><%= reg.metaData.first.route %></td>
             <td><%= reg.accessCode %></td>
@@ -167,7 +167,7 @@
           <td>&nbsp;</td><!-- reg.registrationType -->
           <td>&nbsp;</td><!-- reg.company_no -->
           <td><%= format_as_date_only(reg.metaData.first.dateRegistered) %></td>
-          <td><%= format_as_date_only(reg.metaData.first.dateActivated) %></td>
+          <td><%= format_as_date_only(reg.metaData.first.dateActivated, blank_if_epoch: true) %></td>
           <td><%= reg.metaData.first.status %></td>
           <td><%= reg.metaData.first.route %></td>
           <td><%= reg.accessCode %></td>
