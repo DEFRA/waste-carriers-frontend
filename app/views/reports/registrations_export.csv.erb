@@ -73,7 +73,7 @@
 <% row << registration.registrationType %>
 <% row << registration.company_no %>
 <% row << format_as_date_only(registration.metaData.first.dateRegistered) %>
-<% row << format_as_date_only(registration.metaData.first.dateActivated) %>
+<% row << format_as_date_only(registration.metaData.first.dateActivated, blank_if_epoch: true) %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
 <% row << registration.accessCode %>
@@ -119,7 +119,7 @@
 <% row << '' %>
 <% row << '' %>
 <% row << format_as_date_only(registration.metaData.first.dateRegistered) %>
-<% row << format_as_date_only(registration.metaData.first.dateActivated) %>
+<% row << format_as_date_only(registration.metaData.first.dateActivated, blank_if_epoch: true) %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
 <% row << registration.accessCode %>
