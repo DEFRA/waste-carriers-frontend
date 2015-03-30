@@ -435,7 +435,7 @@ class RegistrationsController < ApplicationController
           if current_user
             redirect_to userRegistrations_path(current_user)
           else
-            redirect_to complete_edit_renew_path(id: @registration.uuid, edit_mode: edit_mode, edit_result: edit_result) and return
+            redirect_to registrations_path and return
           end
         when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
           newOrderEdit @registration.uuid
