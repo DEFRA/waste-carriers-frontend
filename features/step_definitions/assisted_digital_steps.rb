@@ -135,7 +135,7 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
 end
 
 When(/^I create an upper tier registration on behalf of a caller who wants to pay offline$/) do
-  click_link 'New registration'
+  click_link 'new_registration'
 
   choose 'registration_newOrRenew_new'
   click_button 'continue'

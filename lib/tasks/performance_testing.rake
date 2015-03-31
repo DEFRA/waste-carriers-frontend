@@ -39,7 +39,7 @@ namespace :performance_testing do
   def randomise_lower_tier_reg_data(reg_data)
     reg_data['firstName'] = Faker::Name::first_name
     reg_data['lastName'] = Faker::Name::last_name
-    reg_data['contactEmail'] = reg_data['accountEmail'] = "#{reg_data['firstName']}.#{reg_data['lastName']}" + rand(9999).to_s + "@example.com"
+    reg_data['contactEmail'] = reg_data['accountEmail'] = "#{reg_data['firstName']}.#{reg_data['lastName']}" + rand(9999).to_s + "@example.com".downcase
     reg_data['password'] = Faker::Internet::password
     reg_data['phoneNumber'] = "01" + rand(999999999).to_s.rjust(9, '0')
     reg_data['easting'] =  (200000 + rand(200000)).to_s
@@ -122,6 +122,64 @@ namespace :performance_testing do
     ir_data.save!
   end
 
+  def create_phase_one_lower_tier_registration(recId)
+    reg = PhaseOneRegistration.new
+
+    reg.phase_one_registration_info = PhaseOneRegistrationInfo.new
+    reg.phase_one_location = PhaseOneLocation.new
+
+    randomise_phase_one_lower_tier_registration(reg, recId)
+
+    reg.phase_one_registration_info.status = 'ACTIVE'
+    reg.phase_one_registration_info.dateActivated =
+      reg.phase_one_registration_info.lastModified
+
+    reg.save
+
+    reg
+  end
+
+  def randomise_phase_one_lower_tier_registration(reg, recId)
+    regDate = Faker::Time.between(DateTime.new(2014,1,1), 6.months.ago)
+    lastModDate = recId.odd? ? regDate : Faker::Time.between(regDate + 1.hour, 6.months.ago)
+
+    reg.uuid = SecureRandom.uuid
+    reg.businessType = 'soleTrader'
+    reg.companyName = Faker::Company::name
+    reg.streetLine1 = Faker::Address::street_name
+    reg.streetLine2 = Faker::Address::street_address
+    reg.townCity = Faker::Address::city
+    reg.postcode = make_random_postcode()
+    reg.easting = (200000 + rand(200000)).to_s
+    reg.northing = (100000 + rand(400000)).to_s
+    reg.dependentLocality = ''
+    reg.dependentThroughfare = ''
+    reg.administrativeArea = @counties.sample
+    reg.localAuthorityUpdateDate = ''
+    reg.royalMailUpdateDate = ''
+    reg.uprn = rand(999999999).to_s.rjust(12, '0')
+    reg.title = 'Mr'
+    reg.otherTitle = ''
+    reg.firstName = Faker::Name::first_name
+    reg.lastName = Faker::Name::last_name
+    reg.position = Faker::Name::title
+    reg.phoneNumber = '01' + rand(999999999).to_s.rjust(9, '0')
+    reg.contactEmail = "#{reg.firstName}.#{reg.lastName}#{rand(9999)}"\
+      '@example.com'.downcase
+    reg.accountEmail = reg.contactEmail
+    reg.declaration = '1'
+    reg.regIdentifier = 'CBDL' + recId.to_s
+
+    reg.phase_one_registration_info.dateRegistered = regDate.strftime('%Y/%m/%d %H:%M:%S')
+    reg.phase_one_registration_info.anotherString = 'userDetailAddedAtRegistration'
+    reg.phase_one_registration_info.lastModified = lastModDate.strftime('%Y/%m/%d %H:%M:%S')
+    reg.phase_one_registration_info.route = 'DIGITAL'
+    reg.phase_one_registration_info.distance = 'n/a'
+
+    reg.phase_one_location.lat = Faker::Address::latitude
+    reg.phase_one_location.lon = Faker::Address::longitude
+  end
+
   task :seed_lower_tier_registrations, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete lower-tier registrations..."
@@ -185,4 +243,27 @@ namespace :performance_testing do
     end
   end
 
+  task :seed_phase_one_lower_tier_registrations, [:num_records] => :environment do |t, args|
+    args.with_defaults(num_records: 10)
+
+    max_recs = args.num_records.to_i
+
+    pb = ProgressBar.create(
+      total: max_recs,
+      throttle_rate: 0.1,
+      format: '%E |%b>%i| %p%%'
+    )
+
+    puts "Creating #{max_recs} phase one registrations..."
+    for n in (1..max_recs) do
+      reg = create_phase_one_lower_tier_registration n
+      create_user(reg.accountEmail)
+      pb.increment
+    end
+
+    send_mongo_command('db.registrations.update({}, '\
+      "{ $unset: { 'metaData._id': 1 } }, false, true)")
+    send_mongo_command('db.registrations.update({},'\
+      "{ $unset: { 'location._id': 1 } }, false, true)")
+  end
 end

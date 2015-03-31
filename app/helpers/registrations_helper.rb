@@ -39,6 +39,10 @@ module RegistrationsHelper
     end
   end
 
+  def format_email(emailIn)
+    emailIn.downcase
+  end
+
   def one_full_message_per_invalid_attribute registration
     hash_without_base = registration.errors.messages.except :base
 
@@ -121,6 +125,12 @@ module RegistrationsHelper
     end
     if @registration
       @registration.add( params[:registration] ) unless no_update
+
+      # Force contact email to lower case
+      if @registration.contactEmail
+        @registration.contactEmail = format_email(@registration.contactEmail)
+      end
+
       # now check if we're on the address lookup page and -if yes- set
       # the relevant model attribute
       if params[:registration] &&
@@ -242,6 +252,15 @@ module RegistrationsHelper
     # TODO by setting the step here this should work better with forward and back buttons and urls
     # but this might have changed the behaviour
     @registration.current_step = current_step
+
+    # Quick fix to get around problem when coming from sign in page and sign_up_mode is still set to sign_in causing
+    # some validations to not fire correctly - must be a better place to put this?
+    if @registration.current_step == 'signup'
+      @registration.sign_up_mode = 'sign_up'
+    elsif @registration.current_step == 'signin'
+      @registration.sign_up_mode = 'sign_in'
+    end
+
     @registration.save
     logger.debug "new step action: #{current_step}"
     logger.debug "current step: #{ @registration.current_step}"
