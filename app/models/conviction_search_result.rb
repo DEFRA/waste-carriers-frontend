@@ -36,7 +36,11 @@ class ConvictionSearchResult < Ohm::Model
   # Returns a single string containing both the system name and reference
   # number of conviction match.
   def get_formatted_reference
-    format('%s-%s', matching_system, reference)
+    result = ''
+    unless matching_system.blank? && reference.blank?
+      result = format('%s-%s', matching_system, reference)
+    end
+    result
   end
   
   class << self
@@ -71,6 +75,11 @@ class ConvictionSearchResult < Ohm::Model
       fail if params.empty?
       params.assert_valid_keys [:companyName, :companyNumber]
 
+      # If company number is provided, pad it out to eight characters.
+      if params.key?(:companyNumber)
+        params[:companyNumber] = params[:companyNumber].to_s.strip.rjust(8, '0')
+      end
+
       # Perform the convictions search.
       do_convictions_search(
         format(
@@ -89,16 +98,10 @@ class ConvictionSearchResult < Ohm::Model
       begin
         result = JSON.parse(RestClient.get(url, params: params))
         search_result = ConvictionSearchResult.init(result)
-      rescue Errno::ECONNREFUSED => e
-        Rails.logger.error 'Services unavailable: '
-        search_result.match_result = 'UNKNOWN'
-        search_result.matching_system = 'SERVICE UNAVAILABLE'
-        search_result.searched_at = Time.now.to_i
-        search_result.confirmed = 'no'
       rescue Exception => e
-        Rails.logger.debug e.message
+        Rails.logger.error format('Convictions service error: %s', e.message)
         search_result.match_result = 'UNKNOWN'
-        search_result.matching_system = 'ERROR: ' + e.message
+        search_result.matching_system = 'ERROR'
         search_result.searched_at = Time.now.to_i
         search_result.confirmed = 'no'
       end

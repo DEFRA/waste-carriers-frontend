@@ -1,6 +1,11 @@
 shared_examples_for 'password with strength restrictions' do
-  it { should validate_presence_of(:password).with_message(/must be completed/) }
-  it { should validate_confirmation_of(:password) }
+  xit "waiting for validation messages completion for all sections" do
+    should validate_presence_of(:password).with_message(/You must create a password/)
+  end
+
+  xit "waiting for validation messages completion for all sections" do
+    should validate_confirmation_of(:password).with_message(/You must confirm your password/)
+  end
 
   # Valid passwords must contain lowercase, uppercase and numeric characters.
   # Symbols are also allowed, but not required.
@@ -16,5 +21,7 @@ shared_examples_for 'password with strength restrictions' do
   it { should_not allow_value('iflIEJMkf').for(:password) }   # No numbers
 
   # Valid passwords must be between 8 and 128 characters.
-  it { should ensure_length_of(:password).is_at_least(8).is_at_most(128) }
+  xit "waiting for validation messages completion for all sections" do
+    should ensure_length_of(:password).is_at_least(8).with_message(/You must create a valid password/).is_at_most(128).with_message(/You must create a valid password/)
+  end
 end

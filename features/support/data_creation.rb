@@ -5,8 +5,8 @@ def create_complete_lower_tier_reg(type)
 end
 
 def create_complete_lower_tier_reg_from_hash(reg_hash)
+  create_user(reg_hash['accountEmail'])
   registration =  JSON.parse(create_registration_from_hash(reg_hash))
-  create_user(registration['accountEmail'])
   return get_registration(registration['id'])
 end
 
@@ -125,7 +125,9 @@ end
 def create_user(account_email)
   user = User.new
   user.email = account_email
-  user.password = 'Password123'  # Keep this in-sync with the value in world_extensions.rb
-  user.confirmed_at = DateTime.now.strftime('%FT%T%:z')
+  
+  # Keep this in-sync with the value in world_extensions.rb
+  user.password = 'Password123'
+  user.skip_confirmation!
   user.save
 end

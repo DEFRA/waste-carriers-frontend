@@ -125,7 +125,7 @@ When(/^I confirm account creation via email$/) do
 end
 
 Then(/^I am registered as a lower tier waste carrier$/) do
-  expect(page).to have_text 'you don’t need to pay a registration fee'
+  expect(page).to have_text 'you don’t need to pay a registration charge'
   open_email my_email_address
   expect(current_email).to have_text 'Based on what you told us about your '\
                                      'organisation and what it does, we have '\
@@ -179,4 +179,18 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   click_button 'continue'
 
   do_short_pause_for_email_delivery
+end
+
+Then('My company name should not appear on the Public Register') do
+  visit public_path
+  waitForSearchResultsToContainText(
+    'Grades',
+    "Showing 0 of 0")
+end
+
+Then('My company name should appear on the Public Register') do
+  visit public_path
+  waitForSearchResultsToContainText(
+    'Grades',
+    "Showing 1 of 1")
 end

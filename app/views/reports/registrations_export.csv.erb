@@ -72,12 +72,12 @@
 <% row << registration.tier %>
 <% row << registration.registrationType %>
 <% row << registration.company_no %>
-<% row << registration.metaData.first.dateRegistered %>
-<% row << registration.metaData.first.dateActivated %>
+<% row << format_as_date_only(registration.metaData.first.dateRegistered) %>
+<% row << format_as_date_only(registration.metaData.first.dateActivated, blank_if_epoch: true) %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
 <% row << registration.accessCode %>
-<% row << format_as_date_only(registration.expires_on) %>
+<% row << format_as_date_only(registration.expires_on, blank_if_epoch: true) %>
 <% row << registration.conviction_search_result.first.match_result %>
 <% row << registration.conviction_search_result.first.matched_name %>
 <% row << registration.conviction_search_result.first.get_formatted_reference() %>
@@ -118,12 +118,12 @@
 <% row << registration.tier %>
 <% row << '' %>
 <% row << '' %>
-<% row << registration.metaData.first.dateRegistered %>
-<% row << registration.metaData.first.dateActivated %>
+<% row << format_as_date_only(registration.metaData.first.dateRegistered) %>
+<% row << format_as_date_only(registration.metaData.first.dateActivated, blank_if_epoch: true) %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
 <% row << registration.accessCode %>
-<% row << format_as_date_only(registration.expires_on) %>
+<% row << format_as_date_only(registration.expires_on, blank_if_epoch: true) %>
 <% row << '' %>
 <% row << '' %>
 <% row << '' %>
