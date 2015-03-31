@@ -1513,6 +1513,10 @@ en:
     RENEW: "Renewal"
     COPY_CARDS: "Copy Cards"
     EDIT: "Edit"
+  copy_card_options:
+    NEW_REG: "New Registration"
+    ANY: "Any Time"
+    RENEWAL: "Renewal"
   registration_status:
     INACTIVE: "Deleted"
     EXPIRED: "Expired"

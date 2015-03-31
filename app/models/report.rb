@@ -4,7 +4,7 @@ class Report
 
   attr_accessor :is_new, :search_type
   attr_accessor :from, :to, :has_declared_convictions, :conviction_check_match
-  attr_accessor :routes, :tiers, :statuses, :business_types
+  attr_accessor :routes, :tiers, :statuses, :business_types, :copy_cards
   attr_accessor :payment_statuses, :payment_types, :charge_types
   attr_accessor :result_count
   attr_accessor :new_registration, :any_time, :renewal
@@ -56,6 +56,12 @@ class Report
     EDIT
   ]
 
+  COPY_CARD_OPTIONS = %w[
+    NEW_REG
+    ANY
+    RENEWAL
+  ]
+
   # Class methods ##############################################################
 
   def self.route_options
@@ -80,6 +86,10 @@ class Report
 
   def self.charge_type_options
     (CHARGE_TYPE_OPTIONS.collect {|d| [I18n.t('charge_type_options.'+d), d.upcase]})
+  end
+
+  def self.copy_card_options
+    (COPY_CARD_OPTIONS.collect {|d| [I18n.t('copy_card_options.'+d), d.upcase]})
   end
 
   # Instance methods ###########################################################
@@ -110,6 +120,10 @@ class Report
 
     unless @business_types.nil? || @business_types.empty?
       param_args[:businessType] = @business_types
+    end
+
+    unless @copy_cards.nil? || @copy_cards.empty?
+      param_args[:copy_cards] = @copy_cards
     end
 
     unless has_declared_convictions.blank?
