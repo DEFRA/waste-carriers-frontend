@@ -85,6 +85,18 @@
                   <% end %>
                 </div>
 
+                <h2 class="report-heading"><%= t '.copy_cards' %></h2>
+                <div class='form-group inline'>
+                  <div class='form-group inline'>
+                    <% Report.copy_card_options.each do |option| %>
+                        <%= f.label :copy_cards, for: "copy_cards_#{option.second.downcase}",  class: 'block-label' do %>
+                            <%= check_box("copy_cards", option.second.downcase, {}, option.second, "") %>
+                            <%= option.first %>
+                        <% end %>
+                    <% end %>
+                  </div>
+                </div>
+
               <h2 class="report-heading"><%= t '.convictions' %></h2>
                 <div class='form-group inline'>
                   <%= f.label :has_declared_convictions, for: 'report_has_declared_convictions', class: 'block-label' do %>
@@ -92,19 +104,6 @@
                   <% end %>
                   <%= f.label :conviction_check_match, for: 'report_conviction_check_match', class: 'block-label' do %>
                   <%= f.check_box :conviction_check_match, {}, "YES", "" %> <%= t '.conviction_check_match' %>
-                  <% end %>
-                </div>
-
-              <h2 class="report-heading"><%= t '.copy_cards' %></h2>
-                <div class='form-group inline'>
-                  <%= f.label :new_registration, for: 'report_new_registration', class: 'block-label' do %>
-                  <%= f.check_box :new_registration, {}, "yes", "" %> <%= t 'new_registration' %>
-                  <% end %>
-                  <%= f.label :any_time, for: 'report_any_time', class: 'block-label' do %>
-                  <%= f.check_box :any_time, {}, "yes", "" %> <%= t 'any_time' %>
-                  <% end %>
-                  <%= f.label :renewal, for: 'report_renewal', class: 'block-label' do %>
-                  <%= f.check_box :renewal, {}, "yes", "" %> <%= t 'renewal' %>
                   <% end %>
                 </div>
 
