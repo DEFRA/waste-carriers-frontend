@@ -401,9 +401,6 @@ class RegistrationsController < ApplicationController
     setup_registration 'confirmation'
     return unless @registration
 
-    logger.debug "edit_mode = #{ session[:edit_mode]}"
-    logger.debug "edit_result = #{ session[:edit_result]}"
-
     if @registration.valid?
       case session[:edit_mode].to_i
       when EditMode::RECREATE
@@ -448,78 +445,72 @@ class RegistrationsController < ApplicationController
           newOrderEdit @registration.uuid
         when  EditResult::CREATE_NEW_REGISTRATION
           # If a new registration is needed at this point it should be created
-          # as the payment will they be processed aggainst that registration and
-          # not the original one, which should be marked as deleted
-
-          # TODO: Make a copy of the registration in memory (create a new local)
-          newRegistration = Registration.create
+          # as the payment will then be processed against that registration and
+          # not the original one, which will be marked as deleted
+          new_reg = Registration.create
           session[:editing] = true
 
-          # Need to re-get registration from DB as we are leaving the orig alone
-          originalRegistration = Registration.find_by_id(@registration.uuid)
-          # Mark original registration as deleted and save to db
-          originalRegistration.metaData.first.update(:status=>'INACTIVE')
-          logger.info 'updated meta data, about to save to db'
+          new_reg.add(@registration.to_hash)
+          new_reg.add(@registration.attributes)
 
-          if originalRegistration.save!
-            logger.info 'saved to db now update redis: ' + @registration.id
-            originalRegistration.save
+          # Need to re-get registration from DB as we are leaving the orig alone
+          original_reg = Registration.find_by_id(@registration.uuid)
+          # Mark original registration as deleted and save to db
+          original_reg.metaData.first.update(:status=>'INACTIVE')
+
+          if original_reg.save!
+            original_reg.save
           end
 
           # Use copy of registration in memory and save to database
-          logger.info 'Check if newRegistraiton is valid'
-          newRegistration.current_step = 'confirmation'
-          if newRegistration.valid?
-            newRegistration.reg_uuid = SecureRandom.uuid
-            if newRegistration.commit
-              newRegistration.save
-              @registration = newRegistration
-              session[:registration_id] = newRegistration.id
+          new_reg.current_step = 'confirmation'
+          if new_reg.valid?
+            new_reg.reg_uuid = SecureRandom.uuid
+            if new_reg.commit
+              new_reg.save
+              @registration = new_reg
+              session[:registration_id] = new_reg.id
               session[:registration_uuid] = @registration.uuid
             else
-              logger.info 'newRegistration failed to commit'
-              # return to new Confirmation
-              redirect_to :newConfirmation && return
+              render 'newConfirmation', status: '400'
             end
           else
-            logger.info 'newRegistration not valid.'
-            # return to new Confirmation
-            redirect_to :newConfirmation && return
+            render 'newConfirmation', status: '400'
           end
 
           # Save copied registration to redis and update any session variables
           @registration.save
-          logger.info 'new reg saved to db now save to redis: ' + @registration.id
-
-          logger.info '@registration.uuid:' + @registration.uuid
           newOrderCausedNew @registration.uuid
+          return
         else
           edit_mode = session[:edit_mode]
           edit_result = session[:edit_result]
-          clear_edit_session # we don't need edit variables polluting the session any more
+          # we don't need edit variables polluting the session any more
+          clear_edit_session
           redirect_to(
             action: 'editRenewComplete',
             edit_mode: edit_mode,
-            edit_result: edit_result) && return
+            edit_result: edit_result)
+          return
         end
 
       when EditMode::RENEWAL
         # Detect standard or IR renewal
-        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
-          redirect_to :action => :account_mode
+        if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+          redirect_to action: :account_mode
         else
           @registration.renewalRequested = true
 
           @registration.save
-          newOrderRenew(@registration.uuid) && return
+          newOrderRenew(@registration.uuid)
+          return
         end
       else # new registration
-        redirect_to :action => :account_mode
+        redirect_to action: :account_mode
       end
 
     else
       # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
       render 'newConfirmation', status: '400'
     end
   end
