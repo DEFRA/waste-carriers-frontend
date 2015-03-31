@@ -393,14 +393,14 @@ class Registration < Ohm::Model
   def has_declared_convictions?
     declaredConvictions != 'no'
   end
-  
+
   # Returns a boolean indicating if a possible match was found when searching
   # for convictions against the company.
   def company_convictions_match_found?
     conviction_search_result.first &&
       (conviction_search_result.first.match_result != 'NO')
   end
-  
+
   # Returns a boolean indicating if a possible match was found when searching
   # for convictions against the key people.
   def people_convictions_match_found?
@@ -414,13 +414,13 @@ class Registration < Ohm::Model
     end
     false
   end
-  
+
   # Returns a boolean indicating if a possible match was found when searching
   # for convictions, for the company AND for the key people.
   def company_and_people_convictions_match_found?
     company_convictions_match_found? && people_convictions_match_found?
   end
-    
+
   def has_unconfirmed_convictionMatches?
 
     result = false
@@ -1199,7 +1199,6 @@ class Registration < Ohm::Model
   def can_be_edited?(agency_user=nil)
     metaData.first.status != 'REVOKED' && \
       metaData.first.status != 'EXPIRED' && \
-      metaData.first.status != 'PENDING' && \
       metaData.first.status != 'INACTIVE' && \
       metaData.first.status != 'REFUSED' && \
       user_can_edit_registration(agency_user)
@@ -1516,7 +1515,7 @@ class Registration < Ohm::Model
     end
     result
   end
-  
+
   # Changes the registration's status to INACTIVE
   # i.e. a 'soft' delete
   #
