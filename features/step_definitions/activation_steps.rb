@@ -50,7 +50,7 @@ When(/^I log in to the '(.+)' account$/) do |email_address|
   fill_in 'user_email', with: email_address
   fill_in 'user_password', with: my_password
   click_button 'sign_in'
-  expect(page).to have_text 'Your registrations'
+  expect(page).to have_text 'Your waste carrier registrations'
 end
 
 Then(/^my account should not be locked, and I should be able to log in to my account$/) do
