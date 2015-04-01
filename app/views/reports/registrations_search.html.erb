@@ -89,10 +89,10 @@
                 <div class='form-group inline'>
                   <div class='form-group inline'>
                     <% Report.copy_card_options.each do |option| %>
-                        <%= f.label :copy_cards, for: "copy_cards_#{option.second.downcase}",  class: 'block-label' do %>
-                            <%= check_box("copy_cards", option.second.downcase, {}, option.second, "") %>
-                            <%= option.first %>
-                        <% end %>
+                      <%= f.label :copy_cards, for: "copy_cards_scope_#{option.second.downcase}",  class: 'block-label' do %>
+                        <%= radio_button('copy_cards', 'scope', option.second.upcase, {}) %>
+                        <%= option.first %>
+                      <% end %>
                     <% end %>
                   </div>
                 </div>
