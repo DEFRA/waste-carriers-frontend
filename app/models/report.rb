@@ -7,7 +7,6 @@ class Report
   attr_accessor :routes, :tiers, :statuses, :business_types, :copy_cards
   attr_accessor :payment_statuses, :payment_types, :charge_types
   attr_accessor :result_count
-  attr_accessor :new_registration, :any_time, :renewal
 
   validate :validate_from
   validate :validate_to
@@ -57,7 +56,7 @@ class Report
   ]
 
   COPY_CARD_OPTIONS = %w[
-    NEW_REG
+    NEW
     ANY
     RENEWAL
   ]
@@ -123,7 +122,7 @@ class Report
     end
 
     unless @copy_cards.nil? || @copy_cards.empty?
-      param_args[:copy_cards] = @copy_cards
+      param_args[:copyCards] = @copy_cards
     end
 
     unless has_declared_convictions.blank?
