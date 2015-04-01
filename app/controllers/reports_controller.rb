@@ -176,6 +176,10 @@ class ReportsController < ApplicationController
         @report.charge_types = filter_for_blanks params[:charge_types].values
       end
 
+      unless params[:copy_cards].nil?
+        @report.copy_cards = filter_for_blanks params[:copy_cards].values
+      end
+
     end
 
     def search_registrations
