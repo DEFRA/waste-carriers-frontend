@@ -11,15 +11,10 @@
           <%type = RegistrationsHelper::STATUS_COMPLETE
           type = RegistrationsHelper::STATUS_ALMOST_COMPLETE unless @registration.paid_in_full?%>
           <div class="completeSummary <%= type %>">
-      	  <h1 class="completeSummaryTitle">
-        		<%= t'shared.complete_summary.copycard_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
-        		<%= t'shared.complete_summary.almost_there_title' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
-      	  </h1>
-      	    <% if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
-      	  <div class="completeSummaryMessage">
-      		  <%= t 'shared.complete_summary..almost_there_message' %>
-      	  </div>
-      	    <% end %>
+        	  <h1 class="completeSummaryTitle">
+          		<%= t'shared.complete_summary.copycard_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+          		<%= t'shared.complete_summary.copycardAwaitingPayment_title' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+        	  </h1>
           </div>
       </div>
     </header>
@@ -35,16 +30,28 @@
 
           <%= render "order/notice_or_alert" %>
           <%= render "shared/registration_errors" %>
+
           <ul>
-            <li><%= t '.copyCardDelayNotice' %></p></li>
-            <li><p class="panel-indent"><%= t '.copyCardDelayTime' %></p></li>
-            <li><p class="heading-with-border"><%= t'registrations.confirmed.survey_html' %><%= t'registrations.confirmed.survey_text' %></p></li>
-            <li><% if current_user %><p><%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), id: 'finished_btn', class: 'button' %></p>
-              <% else %>
-            <p><%= link_to t('form.finished_button_label'), registrations_path, id: 'finished_btn', class: 'button' %></p>
-              <% end %>
-            </li>
-          </ul>
+            <% if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+              <li><%= t '.copyCardDelayNotice' %></li>
+            <% else %>
+              <li><%= t '.copyCardAwaitingPaymentNotice' %></li>
+            <% end %>
+              <li class="panel-indent">
+                <%= t '.copyCardDelayTime' %>
+              </li>
+              <li class="heading-with-border">
+                <%= t'registrations.confirmed.survey_html' %>
+                <%= t'registrations.confirmed.survey_text' %>
+              </li>
+            </ul>
+
+          <% if current_user %>
+          <%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), id: 'finished_btn', class: 'button' %>
+          <% else %>
+          <%= link_to t('form.finished_button_label'), registrations_path, id: 'finished_btn', class: 'button' %>
+          <% end %>
+
         <%# end %>
 
       </div>
