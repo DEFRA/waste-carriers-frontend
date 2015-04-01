@@ -9,7 +9,7 @@ Then(/^I click the Edit Registration link$/) do
 end
 
 Then(/^I check that no changes have occurred$/) do
-  expect(page).to have_text 'Your registrations'
+  expect(page).to have_text 'Your waste carrier registrations'
   expect(page).to have_text 'Edit Registration'
 end
 
