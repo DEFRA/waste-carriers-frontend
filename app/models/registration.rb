@@ -1536,4 +1536,8 @@ class Registration < Ohm::Model
   def get_status
     metaData.first.status
   end
+
+  def assisted_digital?
+    metaData.first.route == 'ASSISTED_DIGITAL'
+  end
 end
