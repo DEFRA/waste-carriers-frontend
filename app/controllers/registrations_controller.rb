@@ -762,8 +762,12 @@ class RegistrationsController < ApplicationController
     # Finished here, ok to clear session variables
     #
     clear_registration_session
-    reset_session
-    redirect_to Rails.configuration.waste_exemplar_end_url
+    if user_signed_in?
+      redirect_to userRegistrations_path(current_user)
+    else
+      reset_session
+      redirect_to Rails.configuration.waste_exemplar_end_url
+    end
   end
 
   # GET /registrations/finish-assisted
