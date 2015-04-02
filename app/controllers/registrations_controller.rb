@@ -1312,8 +1312,12 @@ class RegistrationsController < ApplicationController
             @registration.save
             logger.debug "uuid: #{@registration.uuid}"
 
-            @user = User.find_by_email(@registration.accountEmail)
-            RegistrationMailer.welcome_email(@user, @registration).deliver
+            unless @registration.assisted_digital?
+              if @registration.paid_in_full?
+                @user = User.find_by_email(@registration.accountEmail)
+                RegistrationMailer.welcome_email(@user, @registration).deliver
+              end
+            end
 
             # Redirect to registrations page
             redirect_to registrations_path(:note => I18n.t('registrations.form.reg_approved') ) and return
