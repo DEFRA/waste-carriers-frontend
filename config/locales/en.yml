@@ -859,9 +859,9 @@ en:
     copyCardComplete:
       subtitle: "Thank you for your copy card order"
       title: "Order Complete"
-      copyCardDelayNotice: "We will send your order to the postal address on your account."
-      copyCardAwaitingPaymentNotice: "We will send your order to the postal address on your account upon receipt of payment."
-      copyCardDelayTime: "Please allow 10 working days for your copy cards to arrive."
+      copyCardDelayNotice: "We’ll send your order to the postal address linked to your account."
+      copyCardAwaitingPaymentNotice: "Once we've received your payment by bank transfer, we’ll send the order to the postal address linked to your account."
+      copyCardDelayTime: "Please allow 10 working days for it to arrive."
     editRenewComplete:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"
@@ -1046,7 +1046,7 @@ en:
       your_reg_number: "Your registration number is: %{reg}"
       registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier with the Environment Agency."
       applied_as: "%{companyName} thank you for applying as %{tier_with_article} tier waste carrier with the Environment Agency."
-      details_emailed: "Your certificate and guidance have been emailed to %{email}."
+      details_emailed: "We've sent an email with your registration details to %{email}."
       payment_message_html: "Please remember to arrange your bank transfer. Alternatively <a href='/users/sign_in'>sign in</a> and pay by credit or debit card."
       declared_convictions_message: "We will let you know when your application has been successful."
       pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
@@ -1346,6 +1346,7 @@ en:
       service_provided_no: "You just dispose of clients' waste as part of another service"
       service_provided_yes: "This is the main service you provide"
     userRegistrations:
+      user_actions: "Actions"
       registered: "Status: Registered"
       name_header: "Name"
       status_header: "Status"
@@ -1363,6 +1364,7 @@ en:
       bullet1: "create new registrations for your business or organisation"
       bullet2: "change the details of your existing registrations"
       bullet3: "view your registration certificates"
+      summaryText2: "If any of your details do change in the future you must update the registration within 28 days."
   reports:
     record: "record"
     errors:
@@ -1469,8 +1471,8 @@ en:
       complete_edit_no_charge_message: "Your registration details have been successfully updated"
       complete_edit_with_charge_paid_message: "Your payment has been successful and registration details haven been updated"
       complete_edit_with_charge_unpaid_message: "Your registration details will be updated when we receive payment"
-      copycard_title: "Your copy card order has been successful"
-      copycardAwaitingPayment_title: "Your copy card order has been received"
+      copycard_title: "Your order has been completed"
+      copycardAwaitingPayment_title: "Your order has been received"
       edit_complete_title: "Your changes have been successful"
     current_user:
       change_password: "Change password"
