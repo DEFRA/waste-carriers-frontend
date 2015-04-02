@@ -765,7 +765,7 @@ class RegistrationsController < ApplicationController
       clear_registration_session
       redirect_to userRegistrations_path(current_user)
     else
-      renderNotFound
+      redirect_to new_user_session_path
     end
   end
 
@@ -781,7 +781,7 @@ class RegistrationsController < ApplicationController
       clear_registration_session
       redirect_to :action => 'index'
     else
-      renderNotFound
+      redirect_to controller: 'errors', action: 'server_error_500'
     end
   end
 
