@@ -290,6 +290,30 @@ this is only intended as a temporary work around until a proper fix for multiple
     position: relative;
 }
 
+td #delete {
+  @include button ($red);
+    display: block;
+    float: none;
+    clear: left;
+    position: relative;
+    color: #005ea5;
+    underline:none;
+    text-align:center;
+}
+
+td .button-secondary {
+  @include button ($grey-3);
+    display: block;
+    float: none;
+    clear: left;
+    position: relative;
+    color: #005ea5;
+    underline:none;
+    text-align:center;
+    margin-bottom:1em;
+    font-size: 14px;
+}
+
 #continue,
 #confirm,
 #proceed_to_payment {
