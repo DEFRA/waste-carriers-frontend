@@ -1530,7 +1530,7 @@ en:
   copy_card_options:
     NEW: "New Registration"
     ANY: "Any Time"
-    RENEWAL: "Renewal"
+    RENEW: "Renewal"
   registration_status:
     INACTIVE: "Deleted"
     EXPIRED: "Expired"

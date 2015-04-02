@@ -58,7 +58,7 @@ class Report
   COPY_CARD_OPTIONS = %w[
     NEW
     ANY
-    RENEWAL
+    RENEW
   ]
 
   # Class methods ##############################################################
