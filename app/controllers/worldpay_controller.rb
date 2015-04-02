@@ -111,18 +111,6 @@ class WorldpayController < ApplicationController
       end
     end
 
-#    if (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RECREATE) \
-#        || (session[:edit_mode].to_i  ==  RegistrationsController::EditMode::EDIT && \
-#            session[:edit_result].to_i  ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION)
-#      if @registration.commit #create new reg
-#        original_reg = Registration[ session[:original_registration_id] ]
-#        @registration.set_inactive #deactivate existing reg
-#      else
-#        logger.error "Commit failed for registration id: #{@registration.id}"
-#        #TODO: error handlling
-#      end
-#    end
-
     logger.debug next_step.to_s
     logger.debug next_step.class.to_s
 

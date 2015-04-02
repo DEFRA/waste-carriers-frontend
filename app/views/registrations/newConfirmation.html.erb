@@ -43,10 +43,6 @@
           <% when RegistrationsController::EditMode::RENEWAL %>
             <h2 class="heading-small"><%= t '.title_renew_reg' %></h2>
             <div class='text'> <%=  t '.subtitle_renew_reg' %> </div>
-          <% when RegistrationsController::EditMode::RECREATE %>
-            <h2 class="heading-small"><%= t '.title_recreate_reg' %></h2>
-            <div class='text'> <%=  t '.subtitle_recreate_reg' %> </div>
-
           <% when RegistrationsController::EditMode::EDIT %>
             <h2 class="heading-small"><%= t '.title_edit_reg' %></h2>
             <% case  session[:edit_result].to_i %>
