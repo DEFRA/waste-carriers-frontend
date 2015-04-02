@@ -1313,8 +1313,10 @@ class RegistrationsController < ApplicationController
             logger.debug "uuid: #{@registration.uuid}"
 
             unless @registration.assisted_digital?
-              @user = User.find_by_email(@registration.accountEmail)
-              RegistrationMailer.welcome_email(@user, @registration).deliver
+              if @registration.paid_in_full?
+                @user = User.find_by_email(@registration.accountEmail)
+                RegistrationMailer.welcome_email(@user, @registration).deliver
+              end
             end
 
             # Redirect to registrations page
