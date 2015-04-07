@@ -59,6 +59,7 @@ class Report
     NEW
     ANY
     RENEW
+    NONE
   ]
 
   # Class methods ##############################################################
@@ -105,23 +106,23 @@ class Report
       param_args[:until] = to
     end
 
-    unless @routes.nil? || @routes.empty?
+    unless @routes.nil? || @routes.empty? || @routes == '[]'
       param_args[:route] = @routes
     end
 
-    unless @tiers.nil? || @tiers.empty?
+    unless @tiers.nil? || @tiers.empty? || @tiers == '[]'
       param_args[:tier] = @tiers
     end
 
-    unless @statuses.nil? || @statuses.empty?
+    unless @statuses.nil? || @statuses.empty? || @statuses == '[]'
       param_args[:status] = @statuses
     end
 
-    unless @business_types.nil? || @business_types.empty?
+    unless @business_types.nil? || @business_types.empty? || @business_types == '[]'
       param_args[:businessType] = @business_types
     end
 
-    unless @copy_cards.nil? || @copy_cards.empty?
+    unless @copy_cards.nil? || @copy_cards.empty? || @copy_cards == '[]'
       param_args[:copyCards] = @copy_cards
     end
 
