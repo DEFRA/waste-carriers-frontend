@@ -101,8 +101,6 @@
 	            <td>
 		            <% if registration.upper? and registration.about_to_expire? %>
 	            	<%= link_to t('form.renew_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL), :id => 'renew_'+registration.regIdentifier %>
-	            	<% elsif registration.upper? and registration.can_be_recreated? %>
-		            	<%= link_to t('form.recreate_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %>
 	            	<% end %>
 	            </td>
 

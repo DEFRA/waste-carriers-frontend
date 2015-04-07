@@ -26,18 +26,18 @@
         </tr>
         </thead>
         <tbody>
-        <% if showRegistrationFee?(@renderType) or showEditFee?(@renderType) or showEditFullFee?(@renderType) or showRenewalFee?(@renderType) %>
+        <% if show_registration_fee?(@registration, @renderType) || show_edit_fee?(@renderType) || show_edit_full_fee?(@renderType) || show_renewal_fee?(@registration, @renderType) %>
           <tr>
             <td>
-              <%= render "order/registration_fee", :f => f if showRegistrationFee? @renderType %>
-              <%= render "order/edit_registration_fee", :f => f if showEditFee? @renderType %>
-              <%= render "order/edit_registration_fee", :f => f if showEditFullFee? @renderType %>
-              <%= render "order/renew_registration_fee", :f => f if showRenewalFee? @renderType %>
+              <%= render "order/registration_fee", :f => f if show_registration_fee?(@registration, @renderType) %>
+              <%= render "order/edit_registration_fee", :f => f if show_edit_fee?(@renderType) %>
+              <%= render "order/edit_registration_fee", :f => f if show_edit_full_fee?(@renderType) %>
+              <%= render "order/renew_registration_fee", :f => f if show_renewal_fee?(@registration, @renderType) %>
             </td>
           </tr>
         <% end %>
 
-        <% if showCopyCards?(@renderType) %>
+        <% if show_copy_cards?(@renderType) %>
           <tr>
             <td><%= render "order/copy_cards", :f => f %>
             </td>

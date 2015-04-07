@@ -440,7 +440,7 @@ module RegistrationsHelper
     regNo.upcase.match(current_reg_format)
   end
 
-  def isIRRegistrationType registrationNumber
+  def isIRRegistrationType(registrationNumber)
     if registrationNumber
       # Strip leading and trailing whitespace from number
       regNo = registrationNumber.rstrip.lstrip
@@ -452,12 +452,11 @@ module RegistrationsHelper
       legacy_reg_format = "CB/"
 
       # Check legacy format
-      res = regNo.upcase.match(legacy_reg_format)
+      regNo.upcase.match(legacy_reg_format)
     else
       false
     end
   end
-
 
   # determines what we need to do after Smart Answers have been edited
   #
@@ -473,22 +472,6 @@ module RegistrationsHelper
       {action: 'newConfirmation'}
     end
 
-  end
-
-  # TODO Is this method obsolete?
-  def create_new_reg
-    res = true
-    logger.debug session[:edit_mode]
-    logger.debug session[:edit_result]
-    if  session[:edit_result].to_i ==  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
-      if  session[:edit_mode].to_i == RegistrationsController::EditMode::RECREATE
-        original_registration = Registration[ session[:original_registration_id] ]
-        original_registration.metaData.first.update(status: 'DELETED')
-        res = original_registration.save!
-      end
-      res = @registration.commit if res
-    end
-    res
   end
 
   def debug_view_registration( caller )
