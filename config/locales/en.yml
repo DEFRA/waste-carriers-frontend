@@ -1533,6 +1533,7 @@ en:
     NEW: "New Registration"
     ANY: "Any Time"
     RENEW: "Renewal"
+    NONE: "Ignore Copy Cards"
   registration_status:
     INACTIVE: "Deleted"
     EXPIRED: "Expired"
