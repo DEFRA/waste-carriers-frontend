@@ -28,13 +28,13 @@
                 <%= f.hidden_field :from %>
                 <%= f.hidden_field :to %>
                 <% @report.payment_statuses.each do |value| %>
-                  <%= hidden_field_tag "payment_statuses[#{value.downcase}]", value.upcase %>
+                  <%= f.hidden_field :payment_statuses, :multiple => true, :value => value %>
                 <% end %>
                 <% @report.payment_types.each do |value| %>
-                  <%= hidden_field_tag "payment_types[#{value.downcase}]", value.upcase %>
+                  <%= f.hidden_field :payment_types, :multiple => true, :value => value %>
                 <% end %>
                 <% @report.charge_types.each do |value| %>
-                  <%= hidden_field_tag "charge_types[#{value.downcase}]", value.upcase %>
+                  <%= f.hidden_field :charge_types, :multiple => true, :value => value %>
                 <% end %>
               </fieldset>
               <span class="continue_link">
