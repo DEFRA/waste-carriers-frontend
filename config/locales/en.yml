@@ -1538,6 +1538,7 @@ en:
     NEW: "New Registration"
     ANY: "Any Time"
     RENEW: "Renewal"
+    NONE: "None"
   registration_status:
     INACTIVE: "Deleted"
     EXPIRED: "Expired"
