@@ -31,7 +31,7 @@
           <div class="text">
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
             <% if @registration.upper? %>
-              <p><%= t('.payment_message', fee: Money.new(Rails.configuration.fee_registration)) %></p>
+              <p><%= t('.payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_registration))) %></p>
             <% end %>
           </div>
         <% else %>
@@ -42,9 +42,9 @@
               <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
               <% if @registration.upper? %>
                 <% if @registration.within_ir_renewal_window? %>
-                  <p><%= t('.renewal_payment_message', fee: Money.new(Rails.configuration.fee_renewal)) %></p>
+                  <p><%= t('.renewal_payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_renewal))) %></p>
                 <% else %>
-                  <p><%= t('.expired_renewal_payment_message', fee: Money.new(Rails.configuration.fee_registration)) %></p>
+                  <p><%= t('.expired_renewal_payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_registration))) %></p>
                 <% end %>
               <% end %>
             </div>
