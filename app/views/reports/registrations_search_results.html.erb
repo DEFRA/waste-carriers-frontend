@@ -41,8 +41,10 @@
                 <% @report.tiers.each do |tier| %>
                     <%= f.hidden_field :tiers, :multiple => true, :value => tier %>
                 <% end %>
-                <% @report.copy_cards.each do |copy_card| %>
+                <% unless @report.copy_cards.nil? %>
+                  <% @report.copy_cards.each do |copy_card| %>
                     <%= f.hidden_field :copy_cards, :multiple => true, :value => copy_card %>
+                  <% end %>
                 <% end %>
               </fieldset>
               <span class="continue_link">
