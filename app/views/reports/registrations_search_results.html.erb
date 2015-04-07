@@ -41,7 +41,9 @@
                 <% @report.tiers.each do |tier| %>
                     <%= f.hidden_field :tiers, :multiple => true, :value => tier %>
                 <% end %>
-                <%= f.hidden_field :copy_cards %>
+                <% @report.copy_cards.each do |copy_card| %>
+                    <%= f.hidden_field :copy_cards, :multiple => true, :value => copy_card %>
+                <% end %>
               </fieldset>
               <span class="continue_link">
                 <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
