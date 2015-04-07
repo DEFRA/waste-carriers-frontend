@@ -440,7 +440,7 @@ module RegistrationsHelper
     regNo.upcase.match(current_reg_format)
   end
 
-  def isIRRegistrationType registrationNumber
+  def isIRRegistrationType(registrationNumber)
     if registrationNumber
       # Strip leading and trailing whitespace from number
       regNo = registrationNumber.rstrip.lstrip
@@ -452,12 +452,11 @@ module RegistrationsHelper
       legacy_reg_format = "CB/"
 
       # Check legacy format
-      res = regNo.upcase.match(legacy_reg_format)
+      regNo.upcase.match(legacy_reg_format)
     else
       false
     end
   end
-
 
   # determines what we need to do after Smart Answers have been edited
   #
