@@ -15,8 +15,14 @@ Scenario: IR registrations, No convictions, Online payment
   And I make no other changes to my registration details
   Then I will be charged a renewal fee
   And registration should be complete when payment is successful
-  
 
+@javascript
+Scenario: Expired IR registration, No convictions, Online payment
+  When I enter my expired IR registration number for a Sole trader and pay by credit card
+  And I make no other changes to my registration details
+  Then I will be charged the full fee
+  And registration should be complete when payment is successful
+  
 @javascript
 Scenario: IR registrations, Convictions, Online payment
   When I enter my IR registration number for a limited company with convictions and pay by credit card
@@ -49,5 +55,3 @@ Scenario: IR registrations - Limited company changes companies house number
 When I enter my IR registration number for a limited company and change my companies house number
 Then I will be charged for a new registration
 And my existing registration will be deleted and a new registration created
-
-
