@@ -19,24 +19,29 @@ module ExistingRegistrationPage
     click_button 'continue'
   end
 
-   def existing_registration_page_enter_limited_company_registration_number(submit: 'true')
-      fill_in 'registration_originalRegistrationNumber', with: 'CB/AE9999XX/A001'
-      existing_registration_page_submit if submit
+  def existing_registration_page_enter_limited_company_registration_number(submit: 'true')
+    fill_in 'registration_originalRegistrationNumber', with: 'CB/AE9999XX/A001'
+    existing_registration_page_submit if submit
   end
 
-     def existing_registration_page_enter_sole_trader_registration_number(submit: 'true')
-      fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R002'
-      existing_registration_page_submit if submit
+  def existing_registration_page_enter_sole_trader_registration_number(submit: 'true')
+    fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R002'
+    existing_registration_page_submit if submit
+  end
+  
+  def existing_registration_page_enter_sole_trader_expired_registration_number(submit: 'true')
+    fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R999'
+    existing_registration_page_submit if submit
   end
 
-     def existing_registration_page_enter_public_body_registration_number(submit: 'true')
-      fill_in 'registration_originalRegistrationNumber', with: 'CB/VM9999WW/A001'
-      existing_registration_page_submit if submit
+  def existing_registration_page_enter_public_body_registration_number(submit: 'true')
+    fill_in 'registration_originalRegistrationNumber', with: 'CB/VM9999WW/A001'
+    existing_registration_page_submit if submit
   end
 
-     def existing_registration_page_enter_partnership_registration_number(submit: 'true')
-      fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999ZZ/R002 '
-      existing_registration_page_submit if submit
+  def existing_registration_page_enter_partnership_registration_number(submit: 'true')
+    fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999ZZ/R002 '
+    existing_registration_page_submit if submit
   end
 
 end
