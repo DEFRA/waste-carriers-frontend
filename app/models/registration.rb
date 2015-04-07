@@ -1536,4 +1536,9 @@ class Registration < Ohm::Model
   def assisted_digital?
     metaData.first.route == 'ASSISTED_DIGITAL'
   end
+  
+  def within_ir_renewal_window?
+    originalDateExpiry ? (convert_date(originalDateExpiry.to_i) >= Date.today) : false
+  end
+    
 end
