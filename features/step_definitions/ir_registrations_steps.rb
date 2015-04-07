@@ -26,6 +26,19 @@ When(/^I enter my IR registration number for a Sole trader and pay by credit car
   relevant_convictions_page_select_no
 end
 
+When('I enter my expired IR registration number for a Sole trader and pay by credit card') do
+  existing_registration_page_enter_sole_trader_expired_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_submit
+  business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
+  contact_details_page_enter_contact_details_and_submit
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_no
+end
+
 When(/^I enter my IR registration number for a public body and change my business name$/) do
   existing_registration_page_enter_public_body_registration_number
   business_type_page_submit
@@ -187,6 +200,14 @@ Then(/^I will be charged a renewal fee$/) do
   enter_email_details_and_submit
   # order_page_enter_copy_cards(no_of_cards:0)
   order_page_check_total_charge(amount: '105.00')
+end
+
+Then(/^I will be charged the full fee$/) do
+  confirmation_page_registration_check_for_expired_renewal_text
+  confirmation_page_registration_and_submit
+  enter_email_details_and_submit
+  # order_page_enter_copy_cards(no_of_cards:0)
+  order_page_check_total_charge(amount: '154.00')
 end
 
 Then(/^there will be a renewal and edit amount charged$/) do
