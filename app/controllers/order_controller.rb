@@ -17,14 +17,13 @@ class OrderController < ApplicationController
 
   # GET /new
   def new
-
     # Renders a new Order page (formerly newPayment)
     @order ||= Order.new
 
     logger.debug 'renderType session: ' + session[:renderType].to_s
     @renderType = session[:renderType]
     # Could also determine here what view to render
-    if !@order.isValidRenderType? @renderType
+    unless @order.isValidRenderType? @renderType
       logger.error 'Cannot find a renderType variable in the session. It is needed to determine the type of payment page to render.'
       logger.error 'Rendering Page not found'
       renderNotFound
@@ -32,16 +31,13 @@ class OrderController < ApplicationController
 
     # Setup page
     setup_registration 'payment', true
-    if !@registration
+    unless @registration
       logger.warn 'No @registration. Cannot show order page.'
       renderNotFound
       return
     end
 
-    if !@registration.copy_cards
-      @registration.copy_cards = 0
-    end
-
+    @registration.copy_cards = 0 unless @registration.copy_cards
 
     if @renderType.eql? Order.extra_copycards_identifier
       @registration.update(copy_card_only_order: 'yes')
@@ -49,7 +45,6 @@ class OrderController < ApplicationController
 
     # Calculate fees shown on page
     @registration = calculate_fees @registration, @renderType
-
   end
 
   # POST /create
@@ -82,7 +77,7 @@ class OrderController < ApplicationController
 
       if @order.valid?
         logger.info "Determining order save/update"
-        if @renderType.eql?(Order.new_registration_identifier) or isIRRenewal?(@registration, @renderType) or @renderType.eql?(Order.editrenew_caused_new_identifier)
+        if @renderType.eql?(Order.new_registration_identifier) || isIRRenewal?(@registration, @renderType) || @renderType.eql?(Order.editrenew_caused_new_identifier)
           logger.info "Saving the order"
           # New registration, so update existing order
           if @order.save! @registration.uuid
