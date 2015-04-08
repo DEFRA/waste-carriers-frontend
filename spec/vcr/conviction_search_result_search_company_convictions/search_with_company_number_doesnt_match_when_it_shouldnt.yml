@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 16 Mar 2015 12:54:57 GMT
+      - Wed, 08 Apr 2015 15:13:35 GMT
       Content-Type:
       - application/json
       Content-Encoding:
@@ -31,9 +31,9 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAAAF3NTQqDMBQE4Lu8tQt/2+oh9AghxrEVkie8xIWId1dSlNLt
-        N8zMRoIRAjaghhdrEzIzj5M4DNQQz5SQ08F8lMAvNpzWdpdN/FZ+9QHu6kbG
-        oFi7e89DS0R9trMyf1RZWtbP4pX/fMXw71/169f2A6VaTFOmAAAA
+        H4sIAAAAAAAAAF3NSwqEMBAE0Lv02oWRUcRD6BFCjOUHkhY6cSHD3F2JKIPb
+        V1TVlwQjBGxBDW/OZWRXHhfxGKghXikjb6KdtSBsLp7WdrctPOmwhwh/dxNj
+        0Gz8sxdgJKE52+pT1GVe5aqsVfX3lcLXv+73y34HcM2jwqYAAAA=
     http_version: 
-  recorded_at: Mon, 16 Mar 2015 12:54:57 GMT
+  recorded_at: Wed, 08 Apr 2015 15:13:35 GMT
 recorded_with: VCR 2.9.3
