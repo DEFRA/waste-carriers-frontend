@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:9290/convictions/person?lastname=Brown
+    uri: http://localhost:9290/convictions/person?lastname=Blogs
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 16 Mar 2015 12:54:57 GMT
+      - Wed, 08 Apr 2015 15:13:35 GMT
       Content-Type:
       - application/json
       Content-Encoding:
@@ -31,10 +31,9 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAAAE3NwQrCMBAE0F+RnBXSmlb0ZrVf0JOnENOtLSQb2KRoEf/d
-        tVLo9c0w8xYEHRCgBXESe1WUYitswG4gDy0TBgZvku01QRxdYrvVzYIDPnSc
-        YgLPfrnWi0Or0fjf5tnBa9P4IfW7isITuRHB0FwxvJapvCwyqY6HXMrV9xzi
-        6Nza7tPfPl/sGdoZuAAAAA==
+        H4sIAAAAAAAAAF3NTQqDMBQE4Lu8tYv4i3iI9gghjaMVkie8xIUU765ELOL2
+        G2bmR4IBAragjhfnMrIzD5N49NQRz5SRN9F+tSAsLh72el828ajDGiL81U2M
+        XrPx/70AIwnN0c6roq1Vo/JaFeXtK4WPf/1ZT9t2uY7ryaYAAAA=
     http_version: 
-  recorded_at: Mon, 16 Mar 2015 12:54:57 GMT
+  recorded_at: Wed, 08 Apr 2015 15:13:35 GMT
 recorded_with: VCR 2.9.3
