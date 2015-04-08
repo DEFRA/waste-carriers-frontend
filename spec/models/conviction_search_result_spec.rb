@@ -88,6 +88,11 @@ describe ConvictionSearchResult do
         expect(result.matching_system).to eq('CDE')
         expect(result.reference).to eq('3456')
       end
+
+      it 'doesnt match against a record with a company number', :vcr do
+        result = ConvictionSearchResult.search_person_convictions(firstname: 'Waste', lastname: 'Want')
+        expect(result.match_result).to eq('NO')
+      end
     end
 
     context 'search with last name only' do
@@ -110,7 +115,7 @@ describe ConvictionSearchResult do
 
       it 'doesnt return a match even when the surname matches if no first initial is available to match against', :vcr do
         result = ConvictionSearchResult.search_person_convictions(lastname: 'Blogs')
-        expect(result.match_result).to eq('No')
+        expect(result.match_result).to eq('NO')
       end
     end
   end
@@ -240,6 +245,11 @@ describe ConvictionSearchResult do
         result = ConvictionSearchResult.search_company_convictions(companyNumber: '99999999', companyName: 'Recycle-pro')
         expect(result.match_result).to eq('YES')
         expect(result.matched_name).to eq('Recycle-pro (UK) Limited')
+      end
+
+      it 'doesnt match against a conviction record with a DOB', :vcr do
+        result = ConvictionSearchResult.search_company_convictions(companyNumber: '99999999', companyName: 'Blogs')
+        expect(result.match_result).to eq('NO')
       end
     end
   end
