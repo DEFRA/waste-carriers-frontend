@@ -65,9 +65,16 @@ describe ConvictionSearchResult do
       end
 
       it 'matches on last name only when required', :vcr do
+        skip 'This matching method deprecated to reduce False Positive rate'
         result = ConvictionSearchResult.search_person_convictions(firstname: 'Fred', lastname: 'Smith')
         expect(result.match_result).to eq('YES')
         expect(result.reference).to eq('A4567')
+      end
+
+      it 'matches on last name and first initial when required', :vcr do
+        result = ConvictionSearchResult.search_person_convictions(firstname: 'Jacob', lastname: 'Blogs')
+        expect(result.match_result).to eq('YES')
+        expect(result.reference).to eq('2345')
       end
 
       it 'doesnt match when it shouldnt', :vcr do
@@ -76,7 +83,7 @@ describe ConvictionSearchResult do
       end
 
       it 'will match part of a hypenated surname', :vcr do
-        result = ConvictionSearchResult.search_person_convictions(firstname: 'Roger', lastname: 'Brown')
+        result = ConvictionSearchResult.search_person_convictions(firstname: 'Alex', lastname: 'Brown')
         expect(result.match_result).to eq('YES')
         expect(result.matching_system).to eq('CDE')
         expect(result.reference).to eq('3456')
@@ -85,11 +92,13 @@ describe ConvictionSearchResult do
 
     context 'search with last name only' do
       it 'will match when it should', :vcr do
+        skip 'This matching method deprecated to reduce False Positive rate'
         result = ConvictionSearchResult.search_person_convictions(lastname: 'Brown')
         expect(result.match_result).to eq('YES')
       end
 
       it 'will match even when multiple possibilities', :vcr do
+        skip 'This matching method deprecated to reduce False Positive rate'
         result = ConvictionSearchResult.search_person_convictions(lastname: 'Blogs')
         expect(result.match_result).to eq('YES')
       end
@@ -97,6 +106,11 @@ describe ConvictionSearchResult do
       it 'doesnt match when it shouldnt', :vcr do
         result = ConvictionSearchResult.search_person_convictions(lastname: 'Bluehat')
         expect(result.match_result).to eq('NO')
+      end
+
+      it 'doesnt return a match even when the surname matches if no first initial is available to match against', :vcr do
+        result = ConvictionSearchResult.search_person_convictions(lastname: 'Blogs')
+        expect(result.match_result).to eq('No')
       end
     end
   end
