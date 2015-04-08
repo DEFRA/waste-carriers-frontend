@@ -42,9 +42,11 @@
 
     <p><%= t'registrations.confirmed.how_to_pay_message', :email => @registration.accountEmail %></p>
 
-    <h4 class="heading-small heading-with-border"><%= t'registrations.confirmed.next_step_ir' %></h4>
+    <h4 class="heading-small heading-with-border">
+      <%= @registration.within_ir_renewal_window? ? t('registrations.confirmed.next_step_ir') : t('registrations.confirmed.next_step') %>
+    </h4>
 
-    <p><%= t'registrations.confirmed.payment_details_ir', :regNum => @registration.regIdentifier %></p>
+    <p><%= @registration.within_ir_renewal_window? ? t('registrations.confirmed.payment_details_ir') : t('registrations.confirmed.payment_details') %></p>
     <p><%= t'registrations.confirmed.payment_timescale' %></p>
     <p><%= t'registrations.confirmed.contact_agency_html' %></p>
     <p class="heading-with-border"><%= t'registrations.confirmed.survey_html' %><%= t'registrations.confirmed.survey_text' %></p>

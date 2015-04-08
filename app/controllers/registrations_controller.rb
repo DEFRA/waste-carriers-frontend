@@ -1470,13 +1470,12 @@ class RegistrationsController < ApplicationController
 
   # Renders the edit renew order complete view
   def editRenewComplete
-
-    logger.debug "original id" + session[:original_registration_id].to_s
-    logger.debug "new id" + session[:registration_uuid].to_s
-    logger.debug "params id" + params[:id].to_s
+    logger.debug 'original id' + session[:original_registration_id].to_s
+    logger.debug 'new id' + session[:registration_uuid].to_s
+    logger.debug 'params id' + params[:id].to_s
     @registration = Registration.find_by_id(params[:id])
-    #need to store session variables as instance variable, so that editRenewComplete.html can
-    #use them, as session will be cleared shortly
+    # Need to store session variables as instance variable, so that
+    # editRenewComplete.html can use them, as session will be cleared shortly.
     @edit_mode = session[:edit_mode]
     @edit_result = session[:edit_result]
     logger.debug '@edit_mode: ' + @edit_mode.to_s
@@ -1485,16 +1484,13 @@ class RegistrationsController < ApplicationController
     @confirmationType = getConfirmationType
 
     # Determine routing for Finish button
-    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
+    if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
       @exitRoute = confirmed_path
+    elsif current_agency_user
+      @exitRoute = finishAssisted_path
     else
-      if current_agency_user
-        @exitRoute = finishAssisted_path
-      else
-        @exitRoute = registrations_finish_path
-      end
+      @exitRoute = registrations_finish_path
     end
-
   end
 
   def newOfflinePayment
