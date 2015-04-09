@@ -275,10 +275,8 @@ module RegistrationsHelper
   end
 
   def clear_edit_session
-
     session.delete(:edit_mode)
     session.delete(:edit_result)
-    logger.debug "#{ __method__}"
   end
 
   def clear_registration_session

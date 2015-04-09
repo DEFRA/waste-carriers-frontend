@@ -6,7 +6,7 @@ class WorldpayController < ApplicationController
   include RegistrationsHelper
 
   def success
-    #TODO - redirect to some other page after processing/saving the payment
+    # TODO: Redirect to some other page after processing/saving the payment
     #redirect_to paid_path
     @registration = Registration[session[:registration_id]]
 
@@ -16,6 +16,7 @@ class WorldpayController < ApplicationController
       # Get render type from session
       renderType = session[:renderType]
 
+      # If on the Digital route, send the new Registration email.
       if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
         if user_signed_in?
           logger.info 'Send registered email (as current_user)'
@@ -27,77 +28,37 @@ class WorldpayController < ApplicationController
         end
       end
 
+      # Now decide which page we'll redirect the user to.
       case renderType
-      when Order.new_registration_identifier, Order.editrenew_caused_new_identifier
-        # new registrations
+      when Order.new_registration_identifier,
+           Order.editrenew_caused_new_identifier,
+           Order.renew_registration_identifier
+           
+        # This was a new registration (perhaps via an edit or IR renewal).
         next_step = if user_signed_in?
-
-          # Attempt to activate registration
-          #Registration.send_registered_email(current_user, @registration)
-
           finish_path
         elsif agency_user_signed_in?
-
-          # Attempt to activate registration
-          #Registration.send_registered_email(current_agency_user, @registration)
-
           finishAssisted_path
         else
-
-          # Need to get newly created (possibly unactivated) user to pass to send email
-          #current_user = User.find_by_email(@registration.accountEmail)
-          #if current_user
-            # Attempt to activate registration
-            #Registration.send_registered_email(current_user, @registration)
-          #else
-            # This shouldnt be possible as a account email will always have a value and registration
-            # will always be a DIGITAL as agency registrations are picked up in agency_user_signed_in? check
-            #logger.error 'Error: Cannot find user from email: ' + @registration.accountEmail.to_s
-          #end
-
           confirmed_path
         end
       when Order.edit_registration_identifier
-        # edit/renew registration
-        next_step = complete_edit_renew_path(@registration.uuid)
-      when Order.renew_registration_identifier
-        # edit/renew registration
-        next_step = if isIRRegistrationType @registration.originalRegistrationNumber
-          if user_signed_in?
-            # Send registered email
-            #Registration.send_registered_email(current_user, @registration)
-            complete_edit_renew_path(@registration.uuid)
-          elsif agency_user_signed_in?
-            # Send registered email
-            #Registration.send_registered_email(current_agency_user, @registration)
-            complete_edit_renew_path(@registration.uuid)
-          else
-            confirmed_path
-          end
-        else
-          complete_edit_renew_path(@registration.uuid)
-        end
+        # An existing registration was edited.
+        next_step = complete_edit_renew_path(id: @registration.uuid,
+          edit_mode: session[:edit_mode],
+          edit_result: session[:edit_result])
       when Order.extra_copycards_identifier
-        # extra copy cards
-
+        # Extra copy cards were ordered.
         # TODO: Insert appropriate routing for copy cards routes here
         next_step = complete_copy_cards_path(@registration.uuid)
-      end
-
-      #
-      # This should be an acceptable time to delete the render type and
-      # the order code from the session, as these are used for payment
-      # and if reached here payment request succeeded
-      #
-      session.delete(:renderType)
-      session.delete(:orderCode)
-
-      # Should also Clear other registration variables for other routes...
-      if renderType.eql?(Order.extra_copycards_identifier)
         clear_registration_session
       end
 
-    else
+      # This should be an acceptable time to delete the render type, order code
+      # and edit-related items from the session.
+      clear_order_session
+      clear_edit_session
+    else # We get here if 'process_payment' returns false.
       # Used to redirect_to WorldpayController::Error however that doesn't actually
       # exist, plus the plan as discussed with Georg was to redirect back to the payment
       # summary page but display the error details.
@@ -110,20 +71,8 @@ class WorldpayController < ApplicationController
         renderAccessDenied and return
       end
     end
-
-    logger.debug next_step.to_s
-    logger.debug next_step.class.to_s
-
-    if next_step == complete_edit_renew_path(@registration.uuid).to_s
-      logger.debug "setting next step"
-      next_step = complete_edit_renew_path(id: @registration.uuid, edit_mode: session[:edit_mode],
-                                           edit_result: session[:edit_result])
-      logger.debug next_step.to_s
-      clear_edit_session # we don't need edit variables polluting the session any more
-    end
-
+    
     redirect_to next_step
-
   end
 
   def failure
@@ -137,7 +86,7 @@ class WorldpayController < ApplicationController
   end
 
   def pending
-    #TODO - Process response and edirect...
+    # TODO: Process response and redirect...
     process_payment
   end
 
