@@ -1491,6 +1491,7 @@ class RegistrationsController < ApplicationController
     else
       @exitRoute = registrations_finish_path
     end
+    clear_edit_session
   end
 
   def newOfflinePayment
