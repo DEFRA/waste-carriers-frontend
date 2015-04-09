@@ -113,6 +113,79 @@
 }
 
 
+/* NEW - form input control widths */
+
+.form-control-name {
+  width: 40%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+  @include media(mobile) {
+    width: 100%;
+  }
+}
+
+.form-control-email {
+  width: 50%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+  @include media(mobile) {
+    width: 100%;
+  }
+}
+
+.form-control-password {
+  width: 35%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+  @include media(mobile) {
+    width: 100%;
+  }
+}
+
+.form-control-date {
+  width: 65%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+  @include media(mobile) {
+    width: 100%;
+  }
+}
+
+.form-control-payment {
+  width: 12.5%;
+    @include core-19;
+    @include box-sizing(border-box);
+    padding: 4px;
+    background-color: $white;
+    border: 1px solid $border-colour;
+    -webkit-appearance: none;
+    border-radius: 0;
+  @include media(mobile) {
+    width: 25%;
+  }
+}
+
+
 /* Block-labels */
 
 .block-label {
@@ -126,7 +199,6 @@
   padding: (18px $gutter $gutter-half $gutter*1.5);
   margin-top: 10px;
   margin-bottom: 10px;
-
   cursor: pointer;
 
   @include media(tablet) {
