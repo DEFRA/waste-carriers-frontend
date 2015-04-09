@@ -27,18 +27,21 @@
           <% content_for :page_title, createTitle('.title') %></div>
           <%= form_tag(registrations_path, { method: :get }) do %>
 
-            <fieldset id='find-registration'>
+            <div id='find-registration'>
               <div class="form-group">
                 <%= label_tag 'query-label', t('.query_label'), { class: 'form-label', for: 'q'} %>
-                <%= text_field_tag 'q', params[:q], { id: 'q', size: 20, :autocomplete => :off } %>
+                <%= text_field_tag 'q', params[:q], { id: 'q', class: 'form-control-1-2', size: 20, :autocomplete => :off } %>
               </div>
 
               <div id="advanced-options" style="<% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>display:none<% end %>">
-                <div class="form-group">
+
                   <%= label_tag 'search-within-label', t('.search_within_label'), { class: 'form-label', for: 'searchWithin' } %>
+
                   <% options = { "#{t('.option_any')}" => 'any', "#{t('.option_company_name')}" => 'companyName', "#{t('.option_contact_name')}" => 'contactName', "#{t('.option_postcode')}" => 'postcode' } %>
+
                   <% selected = if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
                     <% t '.option_any' %>
+
                   <% elsif params[:searchWithin] == 'companyName' %>
                     <% t '.option_company_name' %>
                   <% elsif params[:searchWithin] == 'contactName' %>
@@ -46,11 +49,12 @@
                   <% elsif params[:searchWithin] == 'postcode' %>
                     <% t '.option_postcode' %>
                   <% end %>
+
                   <%= select_tag 'searchWithin', options_for_select(options, selected) %>
-                </div>
+
               </div>
 
-            </fieldset>
+            </div>
 
             <span id="full-search-label" style="display:none"><%= t '.full_search_link_label' %></span>
             <span id="refine-search-label" style="display:none"><%= t '.refine_search_link_label' %></span>
@@ -75,12 +79,12 @@
           <% end %>
           <% regCount = 1 %>
           <% if @registrations.size > 0 %>
-          
+
             <% @registrations.each do |reg| %>
             <!--grid one third-->
             <div class="grid-wrapper agency-edit" id="searchResult<%= regCount.to_s %>" >
               <div class="container-border">
-                
+
                 <div class="grid grid-1-3">
                   <div class="inner-block">
                     <ul>
@@ -138,7 +142,7 @@
                   </nav>
                 </div>
               </div><!-- end grid-1-3 -->
-              
+
             </div><!-- end agency-edit -->
             <% regCount = regCount + 1 %>
             <% end %>
