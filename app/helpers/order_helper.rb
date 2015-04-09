@@ -17,6 +17,7 @@ module OrderHelper
 
   def show_copy_cards?(render_type)
     render_type.eql?(Order.new_registration_identifier) ||
+      render_type.eql?(Order.renew_registration_identifier) ||
       render_type.eql?(Order.extra_copycards_identifier)
   end
 
@@ -43,53 +44,46 @@ module OrderHelper
 
   def calculate_fees(my_registration, render_type)
     logger.info 'render_type: ' + render_type.to_s
-    logger.info 'edit result: ' + session[:edit_result].to_s
+    
+    # Ensure copy cards contains a valid value.
+    my_registration.copy_cards = 0 unless my_registration.copy_cards
+    
+    # Fees common to all order types.
+    my_registration.registration_fee = Money.new(0, 'GBP').cents
+    my_registration.copy_card_fee = my_registration.copy_cards.to_i * Rails.configuration.fee_copycard
+    
     # Calculate default fees based on page to render
     case render_type
-    when Order.new_registration_identifier
+    when Order.new_registration_identifier, Order.editrenew_caused_new_identifier
       my_registration.registration_fee = Rails.configuration.fee_registration
-      my_registration.copy_card_fee = my_registration.copy_cards.to_i * Rails.configuration.fee_copycard
-      my_registration.total_fee = my_registration.registration_fee + my_registration.copy_card_fee
-      logger.info 'Create reg for new'
     when Order.edit_registration_identifier
+      logger.debug 'edit result: ' + session[:edit_result].to_s
       if session[:edit_result].to_i == RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
-        my_registration.copy_cards = '0'
         my_registration.registration_fee = Rails.configuration.fee_registration
-        my_registration.total_fee = my_registration.registration_fee
-        logger.info 'Createnew reg after edit'
       else
-        my_registration.copy_cards = '0'
         my_registration.registration_fee = Rails.configuration.fee_reg_type_change
-        my_registration.total_fee = my_registration.registration_fee
-        logger.info 'Create reg for edit with charge'
       end
-
     when Order.renew_registration_identifier
-      my_registration.copy_cards = '0'
       if my_registration.within_ir_renewal_window?
         my_registration.registration_fee = Rails.configuration.fee_renewal
       else
         my_registration.registration_fee = Rails.configuration.fee_registration
       end
-      my_registration.total_fee = my_registration.registration_fee
-      logger.info 'Create reg for renewal'
     when Order.extra_copycards_identifier
-      # Additional copy card has different initial fees
-      my_registration.copy_card_fee = my_registration.copy_cards.to_i * Rails.configuration.fee_copycard
-      my_registration.total_fee = my_registration.copy_card_fee
-      logger.info 'Create reg for copy cards'
-    when Order.editrenew_caused_new_identifier
-      # Edits forcing full fee
-      my_registration.copy_cards = '0'
-      my_registration.registration_fee = Rails.configuration.fee_registration
-      my_registration.total_fee = Rails.configuration.fee_registration
-      logger.info 'Create reg for edit/renew full fee'
+      # No special fees.
     else
       logger.error 'Unrecogniseable render_type: ' + render_type.to_s
       return
     end
-    logger.info 'copy card fee: ' + my_registration.copy_card_fee.to_s
-    logger.info 'total fee: ' + my_registration.total_fee.to_s
+    
+    # Calculate total
+    my_registration.total_fee = my_registration.registration_fee + my_registration.copy_card_fee
+    
+    logger.debug format('Fees: registration=%d, copy cards=%d, total=%d',
+                        my_registration.registration_fee,
+                        my_registration.copy_card_fee,
+                        my_registration.total_fee)
+
     my_registration
   end
 
