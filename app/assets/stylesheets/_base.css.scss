@@ -73,10 +73,22 @@
 }
 
 .grid-divider {
-    border-bottom: 1px solid rgb(191, 193, 195);
-    margin-bottom: 20px;
+    border-bottom: 10px solid $panel-colour;
+    margin-top: $gutter-half;
+    margin-bottom: $gutter-half;
 }
 
+.grid-wrapper-internal {
+  @extend %contain-floats;
+  @include media(tablet) {
+    margin-left:-30px;
+    margin-right:-30px;
+  }
+}
+
+.admin-actions {
+  padding-left: $gutter;
+}
 
 /* Typography ========================================================== */
 

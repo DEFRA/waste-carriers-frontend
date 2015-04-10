@@ -26,6 +26,10 @@
   }
 }
 
+#find-registration .form-group {
+  max-width: 25em;
+}
+
 /* Form labels */
 
 .form-label,
@@ -396,6 +400,22 @@ td .button-secondary {
     clear: both;
     width: 100%;
     padding: 0.7em 0.6em 0.4em 0.6em;
+  }
+}
+
+#reg-search {
+  margin: $gutter-half;
+}
+
+#reg-search {
+  @include media (mobile){
+    box-sizing: border-box;
+    font-size: 19px;
+    text-align: center;
+    clear: both;
+    width: 100%;
+    padding: 0.4em 0.6em 0.4em 0.6em;
+    margin: 15px 0px 0px 0px;
   }
 }
 
