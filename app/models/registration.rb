@@ -64,7 +64,6 @@ class Registration < Ohm::Model
   #payment
   attribute :total_fee
   attribute :registration_fee
-  attribute :renewal_fee
   attribute :copy_card_fee
   attribute :copy_cards
   attribute :balance
