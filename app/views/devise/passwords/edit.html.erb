@@ -12,24 +12,28 @@
 
     <header class="page-header group">
       <div class="hgroup">
-          <h1 class="heading-large"><%=t 'devise.passwords.heading'%></h1>
+        <h1 class="heading-large"><%=t 'devise.passwords.heading'%></h1>
       </div>
     </header>
 
-<div id="wrapper" data-journey="waste-carriers-registration:edit-password"></div>
+    <div id="wrapper" data-journey="waste-carriers-registration:edit-password"></div>
 
-<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, :autocomplete => :off }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
+    <div class="form-group">
 
-  <p class="group"><%= f.label :password, "New password" %>
-  <%= f.password_field :password, :autofocus => true %></p>
+      <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put, :autocomplete => :off }) do |f| %>
+        <div class="text"><%= devise_error_messages! %></div>
+        <%= f.hidden_field :reset_password_token %>
 
-  <p class="group"><%= f.label :password_confirmation, t('devise.passwords.confirmLabel') %>
-  <%= f.password_field :password_confirmation %></p>
+        <%= f.label :password, "New password", class: 'form-label' %>
+        <%= f.password_field :password, class: 'form-control-password', :autofocus => true %></p>
 
-  <p class="action group"><%= f.submit t('devise.passwords.changeLabel'), { class: 'button', id: 'change_password_button' } %></p>
-<% end %>
+        <%= f.label :password_confirmation, t('devise.passwords.confirmLabel'), class: 'form-label' %>
+        <%= f.password_field :password_confirmation, class: 'form-control-password' %></p>
+
+        <%= f.submit t('devise.passwords.changeLabel'), { class: 'button', id: 'change_password_button' } %>
+      <% end %>
+
+    </div>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->
