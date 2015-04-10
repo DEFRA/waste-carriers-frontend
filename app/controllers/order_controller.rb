@@ -112,7 +112,6 @@ class OrderController < ApplicationController
           # Remove un-needed fee values from the registration about to be saved
           @registration.total_fee = nil
           @registration.registration_fee = nil
-          @registration.renewal_fee = nil
           @registration.copy_card_fee = nil
           @registration.copy_cards = nil
 
