@@ -104,7 +104,7 @@
                         <% end %>
                       </li>
                       <li><span><%= t 'activemodel.attributes.registration.expires_on' %></span>
-                      <% if reg.expires_on %>
+                      <% if reg.metaData.first.dateActivated && reg.expires_on %>
                         <p><%= format_as_date_only reg.expires_on %></p>
                       <% else %>
                         <p><%= t('registrations.form.not_applicable') %></p>
@@ -134,7 +134,7 @@
 		                <% elsif reg.can_be_recreated? %>
 			              <li><%= link_to 'Re-create Registration', edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %></li>
 		                <% end %>
-		                <% if reg.can_request_copy_cards?(current_agency_user) %><li><%= link_to t('form.addCopyCards_button_label'), newOrderCopyCards_path(reg.uuid) %></li><% end %>		                
+		                <% if reg.can_request_copy_cards?(current_agency_user) %><li><%= link_to t('form.addCopyCards_button_label'), newOrderCopyCards_path(reg.uuid) %></li><% end %>
 		              <% end %>
                     </ul>
                   </nav>
