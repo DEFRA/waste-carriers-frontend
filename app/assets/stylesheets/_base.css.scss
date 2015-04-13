@@ -88,6 +88,9 @@
 
 .admin-actions {
   padding-left: $gutter;
+  @include media(mobile) {
+    padding-left:0px;
+  }
 }
 
 /* Typography ========================================================== */
@@ -243,6 +246,6 @@ a:focus {
 .panel-colour {
   background-color: #DEE0E2;
   padding: $gutter-half;
-  margin-top: $gutter-half;
 }
+
 

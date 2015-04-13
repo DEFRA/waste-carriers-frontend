@@ -56,7 +56,7 @@
 		      <div class="form-group<%if @payment.errors[:amount].any?%> validation<%end%>">
   					<%= validation_for(@payment, :amount) %>
   					<%= f.label :amount, class: 'form-label' %>
-  					<%= f.text_field :amount, :size => 7 %>
+  					<%= f.text_field :amount, class: "form-control-payment", :size => 7 %>
 				 </div>
 
 				<div class="form-group<%if @payment.errors[:dateReceived].any?%> validation<%end%>">
@@ -64,15 +64,15 @@
 					<%= f.label :dateReceived, class: 'form-label' %>
 			        <div class='inline-date'>
 			          <%= f.label :dateReceived_day, class: 'form-label' %>
-			          <%= f.text_field :dateReceived_day, :size => 2, :maxlength => 2 %>
+			          <%= f.text_field :dateReceived_day, class: "form-control-date", :size => 2, :maxlength => 2 %>
 			        </div>
 			        <div class='inline-date'>
 			          <%= f.label :dateReceived_month, class: 'form-label' %>
-			          <%= f.text_field :dateReceived_month, :size => 2, :maxlength => 2 %>
+			          <%= f.text_field :dateReceived_month, class: "form-control-date", :size => 2, :maxlength => 2 %>
 			        </div>
 			        <div class='inline-date'>
 			          <%= f.label :dateReceived_year, class: 'form-label' %>
-			          <%= f.text_field :dateReceived_year, :size => 4, :maxlength => 4 %>
+			          <%= f.text_field :dateReceived_year, class: "form-control-date", :size => 4, :maxlength => 4 %>
 			        </div>
 			         <p class='form-hint'>For example, 17 8 2001</p>
 			    </div>
@@ -80,7 +80,7 @@
 				<div class="form-group<%if @payment.errors[:registrationReference].any?%> validation<%end%>">
 					<%= validation_for(@payment, :registrationReference) %>
 					<%= f.label :registrationReference, class: 'form-label' %>
-					<%= f.text_field :registrationReference %>
+					<%= f.text_field :registrationReference, class: "form-control-name" %>
 				</div>
 
 				<!-- Show a different list of payment types if role is financeBasic -->
