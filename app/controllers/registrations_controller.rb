@@ -22,7 +22,6 @@ class RegistrationsController < ApplicationController
   module EditMode
     EDIT = 1
     RENEWAL = 2
-    RECREATE= 3
   end
 
 
@@ -351,8 +350,6 @@ class RegistrationsController < ApplicationController
       return
     end
     case session[:edit_mode].to_i
-    when EditMode::RECREATE
-      @registration.declaration = false
     when EditMode::EDIT, EditMode::RENEWAL
       @registration.declaration = false
       if session[:edit_result].to_i.eql? EditResult::START  #this is the first time we hit the confirmation page
@@ -403,8 +400,6 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       case session[:edit_mode].to_i
-      when EditMode::RECREATE
-        redirect_to upper_payment_path(@registration.uuid) and return
       when EditMode::EDIT
         case session[:edit_result].to_i
         # Check if no Immediate edit actions have occured, and redirect back to
@@ -1047,7 +1042,7 @@ class RegistrationsController < ApplicationController
 
     session[:registration_id] = @registration.id
     session[:registration_uuid] = @registration.uuid
-    session[:edit_mode] =  params[:edit_process] #view param knows if the user clicked edit, renew or recreate
+    session[:edit_mode] =  params[:edit_process] #view param knows if the user clicked edit or renew
     session[:edit_result] = EditResult::START #initial state
     session[:editing] = true
 
@@ -1475,13 +1470,12 @@ class RegistrationsController < ApplicationController
 
   # Renders the edit renew order complete view
   def editRenewComplete
-
-    logger.debug "original id" + session[:original_registration_id].to_s
-    logger.debug "new id" + session[:registration_uuid].to_s
-    logger.debug "params id" + params[:id].to_s
+    logger.debug 'original id' + session[:original_registration_id].to_s
+    logger.debug 'new id' + session[:registration_uuid].to_s
+    logger.debug 'params id' + params[:id].to_s
     @registration = Registration.find_by_id(params[:id])
-    #need to store session variables as instance variable, so that editRenewComplete.html can
-    #use them, as session will be cleared shortly
+    # Need to store session variables as instance variable, so that
+    # editRenewComplete.html can use them, as session will be cleared shortly.
     @edit_mode = session[:edit_mode]
     @edit_result = session[:edit_result]
     logger.debug '@edit_mode: ' + @edit_mode.to_s
@@ -1490,16 +1484,14 @@ class RegistrationsController < ApplicationController
     @confirmationType = getConfirmationType
 
     # Determine routing for Finish button
-    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
+    if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
       @exitRoute = confirmed_path
+    elsif current_agency_user
+      @exitRoute = finishAssisted_path
     else
-      if current_agency_user
-        @exitRoute = finishAssisted_path
-      else
-        @exitRoute = registrations_finish_path
-      end
+      @exitRoute = registrations_finish_path
     end
-
+    clear_edit_session
   end
 
   def newOfflinePayment

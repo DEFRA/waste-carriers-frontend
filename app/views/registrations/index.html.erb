@@ -1,169 +1,225 @@
 <%= render 'shared/content_for_pages' %>
 
 <div id="wrapper">
-
 <main id="content" role="main" class="group">
 
   <header class="page-header group">
     <div class="hgroup">
       <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
-      <% if params[:error] %>
-        <div id="error_explanation" class="validation-summary">
-          <h2 class="heading-medium"><%= params[:error]%></h2>
-        </div>
-      <% end %>
-      <% if !notice.nil? %>
-        <h2 class="heading-medium"><%= notice%></h2>
-      <% end %>
+        <!-- search validation -->
+        <% if params[:error] %>
+          <div id="error_explanation" class="validation-summary">
+            <p class="text"><%= params[:error]%></p>
+          </div>
+        <% end %>
+        <% if !notice.nil? %>
+          <p class="text"><%= notice%></p>
+        <% end %>
+        <!-- end search validation -->
     </div>
   </header>
 
-  <div class="grid-wrapper">
+  <div class="grid-wrapper-internal">
 
+  <!-- Grid -->
+
+  <div class="inner-block">
   <div class="grid-2-3">
-    <div class="inner-block">
-        <!-- WF 4.3.2 -->
-        <div id="page0"  data-journey="waste-carriers-registration:agency-user-controls">
-          <% content_for :page_title, createTitle('.title') %></div>
-          <%= form_tag(registrations_path, { method: :get }) do %>
 
-            <fieldset id='find-registration'>
-              <div class="form-group">
-                <%= label_tag 'query-label', t('.query_label'), { class: 'form-label', for: 'q'} %>
-                <%= text_field_tag 'q', params[:q], { id: 'q', size: 20, :autocomplete => :off } %>
-              </div>
+    <!-- WF 4.3.2 -->
+    <div id="page0"  data-journey="waste-carriers-registration:agency-user-controls">
+      <% content_for :page_title, createTitle('.title') %></div>
+      <%= form_tag(registrations_path, { method: :get }) do %>
 
-              <div id="advanced-options" style="<% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>display:none<% end %>">
-                <div class="form-group">
-                  <%= label_tag 'search-within-label', t('.search_within_label'), { class: 'form-label', for: 'searchWithin' } %>
-                  <% options = { "#{t('.option_any')}" => 'any', "#{t('.option_company_name')}" => 'companyName', "#{t('.option_contact_name')}" => 'contactName', "#{t('.option_postcode')}" => 'postcode' } %>
-                  <% selected = if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
-                    <% t '.option_any' %>
-                  <% elsif params[:searchWithin] == 'companyName' %>
-                    <% t '.option_company_name' %>
-                  <% elsif params[:searchWithin] == 'contactName' %>
-                    <% t '.option_contact_name' %>
-                  <% elsif params[:searchWithin] == 'postcode' %>
-                    <% t '.option_postcode' %>
-                  <% end %>
-                  <%= select_tag 'searchWithin', options_for_select(options, selected) %>
-                </div>
-              </div>
+    <!-- START OF SEARCH -->
+    <div id='find-registration'>
 
-            </fieldset>
+    <p><%= t '.bullet-heading' %></p>
+      <ul class="list-bullet">
+        <li><%= t '.bullet1' %></li>
+        <li><%= t '.bullet2' %></li>
+        <li><%= t '.bullet3' %></li>
+        <li><%= t '.bullet4' %></li>
+        <li><%= t '.bullet5' %></li>
+      </ul>
 
-            <span id="full-search-label" style="display:none"><%= t '.full_search_link_label' %></span>
-            <span id="refine-search-label" style="display:none"><%= t '.refine_search_link_label' %></span>
-            <a href="#" id="toggle-search">
-              <% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
-                <%= t '.refine_search_link_label' %>
-              <% else %>
-                <%= t '.full_search_link_label' %>
-              <% end %>
-            </a>
-            <div class="continue_link">
-              <%= submit_tag(t('form.search_button_label'), { id: 'reg-search', class: 'button button-get-started' })  %>
-            </div>
-          <% end %>
+      <!-- Search for label and input box -->
+      <div class="form-group panel-colour">
+      <!-- <%= label_tag 'query-label', t('.query_label'), { class: 'form-label', for: 'q'} %> -->
 
-          <% if params[:q]%>
-            <div id="reg-search-result" style="">
-              <h2><%= t('.results_count_message', :pluralized_registration => pluralize(@registrations.count, t('.registration'))) %></h2>
-              <p><%= t('.results_showing_message', :count => @registrations.count, :pluralized_record => pluralize(@registrations.count, t('.record'))) %>
-            </div>
+      <%= text_field_tag 'q', params[:q], { id: 'q', class: 'form-control-3-4', size: 20, :autocomplete => :off } %>
+      <!-- end search for label and input box -->
 
-          <% end %>
-          <% regCount = 1 %>
-          <% if @registrations.size > 0 %>
-          
-            <% @registrations.each do |reg| %>
-            <!--grid one third-->
-            <div class="grid-wrapper agency-edit" id="searchResult<%= regCount.to_s %>" >
-              <div class="container-border">
-                
-                <div class="grid grid-1-3">
-                  <div class="inner-block">
-                    <ul>
-                      <li><span><%= t '.company_name' %></span><p><%= reg.companyName %></p></li>
-                      <li class="container-border-lines"><span><%= t 'activemodel.attributes.registration.postcode' %></span><p><%= reg.postcode %></p></li>
-                      <li><span><%= t('.registration').humanize %></span><p><!-- Reg: <%= reg.uuid %> --><%= reg.regIdentifier %></p></li>
-                    </ul>
-                  </div>
-                </div>
+      <!-- Search button -->
+      <div class="inline">
+      <%= submit_tag(t('form.search_button_label'), { id: 'reg-search', class: 'button button-get-started' })  %>
+      </div>
+      <!-- End search button -->
 
-                <div class="grid grid-1-3">
-                  <div class="inner-block">
-                    <ul>
-                      <li><span><%= t 'activemodel.attributes.metadata.status' %></span><p><%= reg.registration_status %></p></li>
-                      <li class="container-border-lines">
-                        <span><%= t 'activemodel.attributes.metadata.dateRegistered' %></span>
-                        <% if reg.metaData.first.dateActivated %>
-                          <p><%= format_as_date_only reg.metaData.first.dateActivated %></p>
-                        <% else %>
-                          <p><%= t('registrations.form.not_applicable') %></p>
-                        <% end %>
-                      </li>
-                      <li><span><%= t 'activemodel.attributes.registration.expires_on' %></span>
-                      <% if reg.metaData.first.dateActivated && reg.expires_on %>
-                        <p><%= format_as_date_only reg.expires_on %></p>
-                      <% else %>
-                        <p><%= t('registrations.form.not_applicable') %></p>
-                      <% end %>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div><!--end line-dividers -->
+      <!-- Advanced search options -->
+      <div id="advanced-options" style="<% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>display:none<% end %>">
 
-              <div class="grid-1-3">
-                <div class="inner-block inline">
-                  <nav aria-labelledby="parent-subsection" role="navigation">
-                    <h3><%= t('.actions_heading') %></h3>
-                    <ul>
-                      <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.view_button_label'), view_path(reg.uuid) %></li><% end %>
-                      <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to t('registrations.form.edit_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::EDIT) %></li><% end %>
-                      <% if reg.can_be_deleted?(current_agency_user) %><li><%= link_to t('form.delete_button_label'), confirmDelete_path(reg.uuid) %></li><% end %>
-                      <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid), id: "revokeRegistration#{regCount}" %></li><% end %>
-                      <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
-                      <% if reg.upper? %>
-                        <% if reg.can_be_approved?(current_agency_user) %><li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid), id: "approveRegistration#{regCount}" %></li><% end %>
-                        <% if reg.can_be_refused?(current_agency_user) %><li><%= link_to t('form.refuse_button_label'), refuse_path(reg.uuid) %></li><% end %>
-                        <% if reg.can_view_payment_status? %><li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li><% end %>
-                        <% if reg.about_to_expire? %>
-		                  <li><%= link_to t('form.renew_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %></li>
-		                <% elsif reg.can_be_recreated? %>
-			              <li><%= link_to 'Re-create Registration', edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RECREATE) %></li>
-		                <% end %>
-		                <% if reg.can_request_copy_cards?(current_agency_user) %><li><%= link_to t('form.addCopyCards_button_label'), newOrderCopyCards_path(reg.uuid) %></li><% end %>
-		              <% end %>
-                    </ul>
-                  </nav>
-                </div>
-              </div><!-- end grid-1-3 -->
-              
-            </div><!-- end agency-edit -->
-            <% regCount = regCount + 1 %>
-            <% end %>
+      <%= label_tag 'search-within-label', t('.search_within_label'), { class: 'form-label', for: 'searchWithin' } %>
+       <% options = { "#{t('.option_any')}" => 'any', "#{t('.option_company_name')}" => 'companyName', "#{t('.option_contact_name')}" => 'contactName', "#{t('.option_postcode')}" => 'postcode' } %>
 
-          <% end %>
+      <!-- Select drop down -->
+      <div class="form-group inline">
+        <% selected = if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
+          <% t '.option_any' %>
+        <% elsif params[:searchWithin] == 'companyName' %>
+          <% t '.option_company_name' %>
+        <% elsif params[:searchWithin] == 'contactName' %>
+          <% t '.option_contact_name' %>
+        <% elsif params[:searchWithin] == 'postcode' %>
+          <% t '.option_postcode' %>
+        <% end %>
+        <%= select_tag 'searchWithin', options_for_select(options, selected) %>
+        <!-- End select drop down -->
 
-    </div><!-- end inner-block -->
-  </div><!-- end grid 2-3-->
-
-  <div class="grid-1-3">
-    <div class="inner-block related">
-      <div class="inner group related-subsection">
-        <h2 class="heading-small"><%= t 'registrations.form.currentUser' %></h2>
-          <nav aria-labelledby="parent-subsection" role="navigation">
-            <ul>
-              <li><%= render "shared/current_user" %></li>
-            </ul>
-          </nav>
+        <!-- Refine Search or Full Search -->
+        <div class="inline">
+        <p class="inline">
+          <span id="full-search-label" style="display:none"><%= t '.full_search_link_label' %></span>
+        </p>
+        <p class="inline">
+          <span id="refine-search-label" style="display:none"><%= t '.refine_search_link_label' %></span>
+        </p>
         </div>
       </div>
-    </div><!-- end grid 1-3-->
 
-    </div><!-- end grid-wrapper -->
+      </div><!-- End advanced search options -->
+
+    </div><!-- end form-group panel-colour -->
+    </div><!-- end find-registration -->
+
+    <!-- Refine link -->
+    <div class="form-group">
+    <a href="#" id="toggle-search">
+      <% if params[:searchWithin].nil? || params[:searchWithin] == 'any' %>
+        <%= t '.refine_search_link_label' %>
+      <% else %>
+        <%= t '.full_search_link_label' %>
+      <% end %>
+    </a>
+    </div><!-- End refine link-->
+
+    </div>
+    </div>
+
+    <% end %>
+    <div class="inner-block">
+      <div class="grid-1-3">
+        <div class="related">
+          <div class="inner group related-subsection">
+            <h2 class="heading-small"><%= t 'registrations.form.currentUser' %></h2>
+            <nav aria-labelledby="parent-subsection" role="navigation">
+              <ul>
+                <li><%= render "shared/current_user" %></li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <% if params[:q]%>
+
+    </div><!-- End Find Reg -->
+
+    <!-- End grid thirds -->
+
+    <div class="grid-divider"><span>&nbsp;</span></div>
+
+    <h2 class="heading-small"><%= t('.results_count_message', :pluralized_registration => pluralize(@registrations.count, t('.registration'))) %></h2>
+
+    <% end %>
+    <% regCount = 1 %>
+
+    <% if @registrations.size > 0 %>
+    <% @registrations.each do |reg| %>
+
+    <!-- SEARCH RESULTS -->
+    <!-- Grid quarters -->
+
+    <div class="agency-edit" id="searchResult<%= regCount.to_s %>" >
+
+    <div class="inner-block">
+      <div class="grid-1-4">
+          <ul class="panel-colour">
+            <li><span><%= t '.company_name' %></span><p><%= reg.companyName %></p></li>
+            <li><span><%= t 'activemodel.attributes.registration.postcode' %></span><p><%= reg.postcode %></p></li>
+          </ul>
+      </div>
+    </div>
+
+    <div class="inner-block">
+      <div class="grid-1-4">
+          <ul class="panel-colour">
+            <li><span><%= t('.registration').humanize %></span><p><!-- Reg: <%= reg.uuid %> --><%= reg.regIdentifier %></p>
+            </li>
+            <li><span><%= t 'activemodel.attributes.metadata.status' %></span>
+              <p><%= reg.registration_status %></p></li>
+          </ul>
+      </div>
+    </div>
+
+    <div class="inner-block">
+      <div class="grid-1-4">
+          <ul class="panel-colour">
+            <li>
+              <span><%= t 'activemodel.attributes.metadata.dateRegistered' %></span>
+              <% if reg.metaData.first.dateActivated %>
+                <p><%= format_as_date_only reg.metaData.first.dateActivated %></p>
+              <% else %>
+                <p><%= t('registrations.form.not_applicable') %></p>
+              <% end %>
+            </li>
+            <li><span><%= t 'activemodel.attributes.registration.expires_on' %></span>
+            <% if reg.metaData.first.dateActivated && reg.expires_on %>
+              <p><%= format_as_date_only reg.expires_on %></p>
+            <% else %>
+              <p><%= t('registrations.form.not_applicable') %></p>
+            <% end %>
+            </li>
+          </ul>
+      </div>
+    </div>
+
+    <div class="inner-block">
+      <div class="grid-1-4">
+          <nav aria-labelledby="parent-subsection" role="navigation">
+            <h3 class="admin-actions"><%= t('.actions_heading') %></h3>
+            <ul class="admin-actions">
+              <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.view_button_label'), view_path(reg.uuid) %></li><% end %>
+              <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to t('registrations.form.edit_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::EDIT) %></li><% end %>
+              <% if reg.can_be_deleted?(current_agency_user) %><li><%= link_to t('form.delete_button_label'), confirmDelete_path(reg.uuid) %></li><% end %>
+              <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid), id: "revokeRegistration#{regCount}" %></li><% end %>
+              <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
+              <% if reg.upper? %>
+                <% if reg.can_be_approved?(current_agency_user) %><li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid), id: "approveRegistration#{regCount}" %></li><% end %>
+                <% if reg.can_be_refused?(current_agency_user) %><li><%= link_to t('form.refuse_button_label'), refuse_path(reg.uuid) %></li><% end %>
+                <% if reg.can_view_payment_status? %><li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li><% end %>
+                <% if reg.about_to_expire? %>
+              <li><%= link_to t('form.renew_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %></li>
+              <% end %>
+                <% if reg.can_request_copy_cards?(current_agency_user) %><li><%= link_to t('form.addCopyCards_button_label'), newOrderCopyCards_path(reg.uuid) %></li><% end %>
+              <% end %>
+            </ul>
+          </nav>
+      </div>
+    </div>
+
+  </div><!-- End agency-edit -->
+
+  <!-- End grid quarters -->
+
+  <% regCount = regCount + 1 %>
+  <% end %>
+
+  <p class="inline"><%= t('.results_showing_message', :count => @registrations.count, :pluralized_record => pluralize(@registrations.count, t('.record'))) %>
+  <% end %>
+
+  </div><!-- end grid-wrapper-internal -->
 
   </main><!-- end main -->
 </div><!-- end wrapper -->
