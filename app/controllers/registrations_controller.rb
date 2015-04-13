@@ -837,7 +837,7 @@ class RegistrationsController < ApplicationController
       # first having to have clicked the link in the confirmaton email. The Confirmed action relies on pulling
       # out the user from the session as when you do click the link the ConfirmationsController::after_confirmation_path_for
       # action stores the confirmed user there.
-      session[:user] = @user
+      session[:userEmail] = @user.email
       return true
     else
       logger.info 'Could not save user. Errors: ' + @user.errors.full_messages.to_s
@@ -958,11 +958,17 @@ class RegistrationsController < ApplicationController
 
   # GET /your-registration/confirmed
   def confirmed
-    @user = session[:user]
+    unless session.key?(:userEmail)
+      logger.error 'Session does not contain expected "userEmail" key. Showing 404.'
+      renderNotFound
+      return
+    end
+    
+    @user = User.find_by_email(session[:userEmail])
     if !@user
-      logger.warn "Could not retrieve the activated user. Showing 404."
-      #flash[:notice] = 'Error: Could not find user ' + @user.to_s
-      renderNotFound and  return
+      logger.error 'Could not retrieve the activated user. Showing 404.'
+      renderNotFound
+      return
     end
 
     # If we come this way as part of the upper tier registration then we should have the ID for the
