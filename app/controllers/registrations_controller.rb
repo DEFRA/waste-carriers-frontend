@@ -753,14 +753,15 @@ class RegistrationsController < ApplicationController
 
   # POST /registrations/finish
   def updateFinish
+    #
+    # Finished here, ok to clear session variables
+    #
+    clear_registration_session
     if user_signed_in?
-      #
-      # Finished here, ok to clear session variables
-      #
-      clear_registration_session
       redirect_to userRegistrations_path(current_user)
     else
-      redirect_to new_user_session_path
+      reset_session
+      redirect_to Rails.configuration.waste_exemplar_end_url
     end
   end
 
@@ -994,7 +995,6 @@ class RegistrationsController < ApplicationController
   end
 
   def completeConfirmed
-    logger.info "Redirect to GDS site"
     #
     # Finished here, ok to clear session variables
     #
