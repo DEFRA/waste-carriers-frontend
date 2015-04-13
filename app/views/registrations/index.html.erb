@@ -47,7 +47,7 @@
       <div class="form-group panel-colour">
       <!-- <%= label_tag 'query-label', t('.query_label'), { class: 'form-label', for: 'q'} %> -->
 
-      <%= text_field_tag 'q', params[:q], { id: 'q', class: 'form-control-1-2', size: 20, :autocomplete => :off } %>
+      <%= text_field_tag 'q', params[:q], { id: 'q', class: 'form-control-3-4', size: 20, :autocomplete => :off } %>
       <!-- end search for label and input box -->
 
       <!-- Search button -->
@@ -216,7 +216,7 @@
   <% regCount = regCount + 1 %>
   <% end %>
 
-  <p class="inner-block inline"><%= t('.results_showing_message', :count => @registrations.count, :pluralized_record => pluralize(@registrations.count, t('.record'))) %>
+  <p class="inline"><%= t('.results_showing_message', :count => @registrations.count, :pluralized_record => pluralize(@registrations.count, t('.record'))) %>
   <% end %>
 
   </div><!-- end grid-wrapper-internal -->

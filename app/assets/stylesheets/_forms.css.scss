@@ -26,8 +26,15 @@
   }
 }
 
-#find-registration .form-group {
-  max-width: 25em;
+#find-registration
+.form-group {
+  max-width: 75%;
+}
+
+.form-group
+.panel-colour
+.form-control-3-4 {
+  vertical-align: top;
 }
 
 /* Form labels */
@@ -162,7 +169,7 @@
 }
 
 .form-control-date {
-  width: 65%;
+  width: 100%;
     @include core-19;
     @include box-sizing(border-box);
     padding: 4px;

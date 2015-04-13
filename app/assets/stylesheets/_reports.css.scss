@@ -73,17 +73,19 @@
 }
 
 #searchWithin {
-  width: 50%;
+  width: 100%;
     @include core-19;
     @include box-sizing(border-box);
     padding: 4px;
     border: 1px solid $border-colour;
     border-radius: 0;
     @include media(mobile) {
-    width: 25%;
+    width: 100%;
   }
 }
 
-
+.date-range {
+  margin-right: $gutter-half;
+}
 
 
