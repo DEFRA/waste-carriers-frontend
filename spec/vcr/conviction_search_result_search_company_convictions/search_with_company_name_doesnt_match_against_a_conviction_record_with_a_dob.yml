@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:9290/convictions/person?firstname=Billy&lastname=Bluehat
+    uri: http://localhost:9290/convictions/company?companyName=Blogs&companyNumber=99999999
     body:
       encoding: US-ASCII
       string: ''
@@ -31,9 +31,9 @@ http_interactions:
     body:
       encoding: ASCII-8BIT
       string: !binary |-
-        H4sIAAAAAAAAAF3NTQqDMBQE4Lu8tQsVf1oPUY8QYhxbIXnCS1wE8e5KxFK6
-        /YaZ2UgwQcAG1PFqbUZm4WkWh5E64oUycjqYjxL41YbTXv1tM7+Vjz7A3d3E
-        GBVr993z0JJQn+2iKh913uRFXT7bn68U/v2rIV62HxBB9uimAAAA
+        H4sIAAAAAAAAAF3NQQqDMBQE0Lv8tQsVo8VD1COEGMdWSL7wExdBevdKRCnd
+        vmFmdhLMELAF9bw5V5BdeV7EY6KeeKWCvIn2rQVhc/Gw53DZwi8dUojwVzcz
+        Js3G33sBRjKao1019UOVbVkpVXc/Xzn8+9djOu3zBShOFqKmAAAA
     http_version: 
   recorded_at: Wed, 08 Apr 2015 15:13:35 GMT
 recorded_with: VCR 2.9.3

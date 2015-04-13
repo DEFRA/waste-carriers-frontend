@@ -35,7 +35,6 @@
         <div class="inner-payment-box">
             <div class='payment-group'>
             <% case session[:edit_mode].to_i %>
-            <% when RegistrationsController::EditMode::RECREATE %>
             <% when RegistrationsController::EditMode::RENEWAL %>
             <%= f.label :renewal_fee, class: 'form-label' %>
 

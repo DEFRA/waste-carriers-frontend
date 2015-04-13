@@ -28,25 +28,26 @@
 
       <div class="text registration-tier">
         <% unless session[:edit_mode]  %>
-          <h2 class="heading-small"><%= t '.tier_aside_heading' %></h2>
-            <% if  @registration.tier == 'UPPER' %>
-              <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)} #{t('.payment_message')}" %>
-            <% else %>
-              <% message = "#{t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article)}" %>
+          <div class="text">
+            <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+            <% if @registration.upper? %>
+              <p><%= t('.payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_registration))) %></p>
             <% end %>
-            <%= message %>
-         <% end %>
-
-         <% if session[:edit_mode]  %>
-
-         <% case  session[:edit_mode] .to_i %>
-          <% when RegistrationsController::EditMode::RENEWAL %>
-            <h2 class="heading-small"><%= t '.title_renew_reg' %></h2>
-            <div class='text'> <%=  t '.subtitle_renew_reg' %> </div>
-          <% when RegistrationsController::EditMode::RECREATE %>
-            <h2 class="heading-small"><%= t '.title_recreate_reg' %></h2>
-            <div class='text'> <%=  t '.subtitle_recreate_reg' %> </div>
-
+          </div>
+        <% else %>
+         <% case session[:edit_mode].to_i %>
+         <% when RegistrationsController::EditMode::RENEWAL %>
+            <div class='text'>
+              <p><%= @registration.within_ir_renewal_window? ? t('.subtitle_renew_reg') : t('.subtitle_renew_expired_reg') %></p>
+              <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+              <% if @registration.upper? %>
+                <% if @registration.within_ir_renewal_window? %>
+                  <p><%= t('.renewal_payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_renewal))) %></p>
+                <% else %>
+                  <p><%= t('.expired_renewal_payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_registration))) %></p>
+                <% end %>
+              <% end %>
+            </div>
           <% when RegistrationsController::EditMode::EDIT %>
             <h2 class="heading-small"><%= t '.title_edit_reg' %></h2>
             <% case  session[:edit_result].to_i %>

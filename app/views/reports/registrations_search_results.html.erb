@@ -29,10 +29,23 @@
                 <%= f.hidden_field :to %>
                 <%= f.hidden_field :has_declared_convictions %>
                 <%= f.hidden_field :conviction_check_match %>
-                <%= f.hidden_field :routes %>
-                <%= f.hidden_field :statuses %>
-                <%= f.hidden_field :business_types %>
-                <%= f.hidden_field :tiers %>
+                <% @report.routes.each do |route| %>
+                    <%= f.hidden_field :routes, :multiple => true, :value => route %>
+                <% end %>
+                <% @report.statuses.each do |status| %>
+                    <%= f.hidden_field :statuses, :multiple => true, :value => status %>
+                <% end %>
+                <% @report.business_types.each do |business_type| %>
+                    <%= f.hidden_field :business_types, :multiple => true, :value => business_type %>
+                <% end %>
+                <% @report.tiers.each do |tier| %>
+                    <%= f.hidden_field :tiers, :multiple => true, :value => tier %>
+                <% end %>
+                <% unless @report.copy_cards.nil? %>
+                  <% @report.copy_cards.each do |copy_card| %>
+                    <%= f.hidden_field :copy_cards, :multiple => true, :value => copy_card %>
+                  <% end %>
+                <% end %>
               </fieldset>
               <span class="continue_link">
                 <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
