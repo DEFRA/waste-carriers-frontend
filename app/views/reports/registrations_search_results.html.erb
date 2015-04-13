@@ -44,7 +44,7 @@
     </div><!--grid-wrapper-->
   </main><!--main-->
 </div><!--wrapper-->
-
+<div style="max-width: 90%; overflow-x: scroll; margin: 0 auto;">
 <table summary="<%= t '.summary' %>" role='presentation'>
   <thead>
     <tr>
@@ -121,7 +121,7 @@
             <td><%= reg.registrationType %></td>
             <td><%= reg.company_no %></td>
             <td><%= format_as_date_only(reg.metaData.first.dateRegistered) %></td>
-            <td><%= format_as_date_only(reg.metaData.first.dateActivated) %></td>
+            <td><%= format_as_date_only(reg.metaData.first.dateActivated, blank_if_epoch: true) %></td>
             <td><%= reg.metaData.first.status %></td>
             <td><%= reg.metaData.first.route %></td>
             <td><%= reg.accessCode %></td>
@@ -167,7 +167,7 @@
           <td>&nbsp;</td><!-- reg.registrationType -->
           <td>&nbsp;</td><!-- reg.company_no -->
           <td><%= format_as_date_only(reg.metaData.first.dateRegistered) %></td>
-          <td><%= format_as_date_only(reg.metaData.first.dateActivated) %></td>
+          <td><%= format_as_date_only(reg.metaData.first.dateActivated, blank_if_epoch: true) %></td>
           <td><%= reg.metaData.first.status %></td>
           <td><%= reg.metaData.first.route %></td>
           <td><%= reg.accessCode %></td>
@@ -190,3 +190,4 @@
     <% end %>
   </tbody>
 </table>
+</div>
