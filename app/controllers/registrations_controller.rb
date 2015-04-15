@@ -707,13 +707,11 @@ class RegistrationsController < ApplicationController
     when 'LOWER'
       pending_url
     when 'UPPER'
-      #
       # Important!
       # Now storing an additional variable in the session for the type of order
       # you are about to make.
       # This session variable needs to be set every time the order/new action
       # is requested.
-      #
 
       # Determine what type of registration order to create
       # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
@@ -791,19 +789,14 @@ class RegistrationsController < ApplicationController
   end
 
   def commit_new_registration?
-
     unless @registration.tier == 'LOWER'
-
       # Detect standard or IR renewal
       if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
-
         logger.debug "Is IR RENEWAL"
-
           # 3 years from existing registration expiry date
         @registration.expires_on = convert_date(@registration.originalDateExpiry.to_i) + Rails.configuration.registration_expires_after
       else
         logger.debug "Is normal RENEWAL"
-
         # 3 years from todays date
         @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
       end
@@ -1530,18 +1523,9 @@ class RegistrationsController < ApplicationController
       renderAccessDenied and return
     end
 
-    # Removed as craete_new_reg not required here as already saved prior to order page
-    #    # Check if a new registration is required, and create prior to deleting session variables
-    #    if EditResult::CREATE_NEW_REGISTRATION.eql? session[:edit_result].to_i and !create_new_reg
-    #      # redirect to previous page due to error
-    #      redirect_to newOfflinePayment_path and return
-    #    end
-
-    #
     # This should be an acceptable time to delete the render type and
     # the order code from the session, as these are used for payment
     # and if reached here payment request succeeded
-    #
     session.delete(:renderType)
     session.delete(:orderCode)
 

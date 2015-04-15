@@ -252,16 +252,6 @@ class WorldpayController < ApplicationController
       if @order.save! reg.uuid
         if session[:edit_mode]
           logger.debug "edited registration id: #{@registration.id}"
-
-# removed as done prior to going to order
-#          # Check if a new registration is required, and create prior to deleting session variables
-#          if RegistrationsController::EditResult::CREATE_NEW_REGISTRATION.eql? session[:edit_result].to_i and !create_new_reg
-#            # redirect to previous page due to error
-#            logger.error "Failed to create new registration"
-#            # TODO: redirect to ??? because of failure?
-#
-#          end
-
           #
           # BUG:: The following line causes a services save of the registration in a log line for all routes that use the edit_mode variable
           # This will always be wrong as the order was just saved to the registraion, To ensure that you have at least the order you just save

@@ -190,35 +190,26 @@ class Registration < Ohm::Model
 
 
   # POSTs registration to Java/Dropwizard service - creates new registration to DB
-  #
-  # @param none
   # @return  [String] the uuid assigned by MongoDB
   def commit
-    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
-    Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
     commited = false
+    Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
     begin
-      response = RestClient.post url,
-                                 to_json,
-                                 :content_type => :json,
-                                 :accept => :json
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
+      response = RestClient.post(url, to_json, :content_type => :json, :accept => :json)
 
       result = JSON.parse(response.body)
 
-      # following fields are set by the java service, so we assign them from the response hash
+      # Update this object by replacing certain values that are determined by
+      # the Java services layer.
       self.update(uuid: result['id'])
       self.update(regIdentifier: result['regIdentifier'])
-
-      self.metaData.replace( [Metadata.init(result['metaData'])])
-
-      self.location.replace( [Location.init(result['location'])])
-
-      unless self.tier == 'LOWER'
-        Rails.logger.debug 'Initialise finance details'
-        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
+      self.metaData.replace([Metadata.init(result['metaData'])])
+      self.location.replace([Location.init(result['location'])])
+      
+      if result['conviction_search_result']
+        self.conviction_search_result.replace([ConvictionSearchResult.init(result['conviction_search_result'])])
       end
-
-      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])]) if result['conviction_search_result']
 
       if result['conviction_sign_offs'] #array of conviction sign offs
         sign_offs = []
@@ -226,20 +217,22 @@ class Registration < Ohm::Model
           sign_off = ConvictionSignOff.init(sign_off_hash)
           sign_offs << sign_off
         end
-        self.conviction_sign_offs.replace sign_offs
+        self.conviction_sign_offs.replace(sign_offs)
+      end
+      
+      unless self.tier == 'LOWER'
+        Rails.logger.debug 'Initialise finance details'
+        self.finance_details.replace([FinanceDetails.init(result['financeDetails'])])
       end
 
       save
-      Rails.logger.debug "Commited to service: #{to_json.to_s}"
       commited = true
     rescue Errno::ECONNREFUSED => e
-      Rails.logger.error "Services unavailable: " + e.to_s
+      Rails.logger.error 'Services unavailable: ' + e.to_s
       self.exception = e.to_s
-      commited = false
     rescue => e
-      Rails.logger.debug "Error in registration Commit to service: #{ e.to_s} || #{attributes.to_s}"
+      Rails.logger.debug "Error in registration Commit to service: #{e.to_s} || #{attributes.to_s}"
       self.exception = e.to_s
-      commited = false
     end
     commited
   end
