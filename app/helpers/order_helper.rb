@@ -89,19 +89,17 @@ module OrderHelper
   end
 
   def prepareOrder(my_registration, useWorldPay = true, render_type)
-    reg = my_registration
-
     # TODO: have a current_order method on the registration
-    ord = reg.finance_details.first.orders.first
+    ord = my_registration.finance_details.first.orders.first
 
     @order = Order.create
     # Create order description to reflect type of order
-    @order.description = generateOrderDescription(render_type, reg)
+    @order.description = generateOrderDescription(render_type, my_registration)
 
     if useWorldPay
-      @order = updateOrderForWorldpay(@order, reg)
+      @order = updateOrderForWorldpay(@order, my_registration)
     else
-      @order = updateOrderForOffline(@order, reg)
+      @order = updateOrderForOffline(@order, my_registration)
     end
 
     if show_registration_fee?(my_registration, render_type) || show_edit_full_fee?(render_type) || isIRRenewal?(my_registration, render_type)
@@ -121,7 +119,7 @@ module OrderHelper
       order_item.amount = Rails.configuration.fee_registration
       order_item.currency = 'GBP'
       order_item.description = I18n.t('registrations.order.initial')
-      order_item.reference = 'Reg: ' + reg.regIdentifier
+      order_item.reference = 'Reg: ' + my_registration.regIdentifier
       order_item.type = OrderItem::ORDERITEM_TYPES[0]
       order_item.save
 
@@ -135,7 +133,7 @@ module OrderHelper
       order_item.amount = Rails.configuration.fee_reg_type_change
       order_item.currency = 'GBP'
       order_item.description = I18n.t('registrations.order.edit')
-      order_item.reference = 'Reg: ' + reg.regIdentifier
+      order_item.reference = 'Reg: ' + my_registration.regIdentifier
       order_item.type = OrderItem::ORDERITEM_TYPES[1]
       order_item.save
 
@@ -149,7 +147,7 @@ module OrderHelper
       order_item.amount = Rails.configuration.fee_renewal
       order_item.currency = 'GBP'
       order_item.description = I18n.t('registrations.order.renewal')
-      order_item.reference = 'Reg: ' + reg.regIdentifier
+      order_item.reference = 'Reg: ' + my_registration.regIdentifier
       order_item.type = OrderItem::ORDERITEM_TYPES[2]
       order_item.save
 
@@ -163,21 +161,21 @@ module OrderHelper
       order_item.amount = Rails.configuration.fee_registration
       order_item.currency = 'GBP'
       order_item.description = I18n.t('registrations.order.editFullFee')
-      order_item.reference = 'Reg: ' + reg.regIdentifier
+      order_item.reference = 'Reg: ' + my_registration.regIdentifier
       order_item.type = OrderItem::ORDERITEM_TYPES[1]
       order_item.save
 
       @order.order_items.add order_item
     end
 
-    if show_copy_cards?(render_type) && (@registration.copy_cards.to_i > 0)
+    if show_copy_cards?(render_type) && (my_registration.copy_cards.to_i > 0)
       # Add additional order items for copy card amount
       # Create Order Item
       order_item = OrderItem.new
-      order_item.amount = @registration.copy_cards.to_i * Rails.configuration.fee_copycard
+      order_item.amount = my_registration.copy_cards.to_i * Rails.configuration.fee_copycard
       order_item.currency = 'GBP'
-      order_item.description = I18n.t('registrations.order.copyCards', amount: @registration.copy_cards.to_s)
-      order_item.reference = 'Reg: ' + reg.regIdentifier
+      order_item.description = I18n.t('registrations.order.copyCards', amount: my_registration.copy_cards.to_s)
+      order_item.reference = 'Reg: ' + my_registration.regIdentifier
       order_item.type = OrderItem::ORDERITEM_TYPES[4]
       order_item.save
 
@@ -267,7 +265,7 @@ module OrderHelper
     render_type.eql?(Order.renew_registration_identifier) &&
       my_registration.originalRegistrationNumber &&
       !my_registration.originalRegistrationNumber.empty? &&
-      isIRRegistrationType(@registration.originalRegistrationNumber)
+      isIRRegistrationType(my_registration.originalRegistrationNumber)
   end
 
 end
