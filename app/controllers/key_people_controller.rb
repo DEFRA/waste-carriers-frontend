@@ -26,6 +26,10 @@ class KeyPeopleController < ApplicationController
 
     if @key_people.empty?
       @key_person = KeyPerson.create
+      if @registration.businessType == 'soleTrader'
+        @key_person.first_name = @registration.firstName
+        @key_person.last_name = @registration.lastName
+      end
     else
       @key_person = @key_people.first
       Rails.logger.debug "key_person: #{@key_person.attributes.to_s}"

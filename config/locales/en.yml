@@ -1016,18 +1016,6 @@ en:
       legend: "Sign in"
       sign_up_link: "I don't have a waste carrier account"
       keep_window_open: 'If you wish to continue with your registration, please keep this browser window open.'
-    dataProtection:
-      point1: "offer you documents or services relating to environmental matters"
-      point2: "consult the public, public organisations and other organisations (for example, the Health and Safety Executive, local authorities, the emergency services, the Department for Environment, Food and Rural Affairs) on environmental issues"
-      point3: "carry out research and development work on environmental issues"
-      point4: "provide information from the public register to anyone who asks"
-      point5: "prevent anyone from breaking environmental law, investigate cases where environmental law may have been broken, and take any action that is needed"
-      point6: "assess whether customers are satisfied with our service, and to improve our service"
-      point7: "respond to requests for information under the Freedom of Information Act 2000 and the Environmental Information Regulations 2004 (if the Data Protection Act allows)"
-      subtitle: "Find out about other ways in which we may use your information."
-      text1: "The Environment Agency may also process or release the information to:"
-      text2: "The Environment Agency may pass the information on to their agents or representatives to do these things."
-      title: "The Data Protection Act 1998"
     details:
       address: "Address"
       contactName: "Contact name:\ "

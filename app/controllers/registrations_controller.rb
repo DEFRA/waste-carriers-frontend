@@ -783,11 +783,6 @@ class RegistrationsController < ApplicationController
   def cannot_edit
   end
 
-  # GET /registrations/data-protection
-  def dataProtection
-    # Renders static data proctection page
-  end
-
   def commit_new_registration?
     unless @registration.tier == 'LOWER'
       # Detect standard or IR renewal
@@ -1013,10 +1008,6 @@ class RegistrationsController < ApplicationController
     end
 
     render :layout => false
-  end
-
-  # Renders static data proctection page
-  def dataProtection
   end
 
   # GET /registrations/new
