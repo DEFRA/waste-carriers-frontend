@@ -36,7 +36,6 @@ Registrations::Application.routes.draw do
   match "registrations/finish-assisted" => 'registrations#updateFinishAssisted', :via => [:post,:put,:patch]
 
   get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
-  get "registrations/data-protection" => 'registrations#dataProtection', :via => [:get], :as => :dataProtection
   get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
 
   get   "registrations/:id/payments" => 'payment#new', :via => [:get], :as => :enterPayment
