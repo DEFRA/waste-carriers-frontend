@@ -6,8 +6,6 @@ class WorldpayController < ApplicationController
   include RegistrationsHelper
 
   def success
-    # TODO: Redirect to some other page after processing/saving the payment
-    #redirect_to paid_path
     @registration = Registration[session[:registration_id]]
 
     if process_payment
@@ -145,7 +143,7 @@ class WorldpayController < ApplicationController
 
       # Update order to reflect failed payment status
       orderCode = orderKey.split('^').at(2)
-      order = @registration.getOrder( orderCode)
+      order = @registration.getOrder(orderCode)
       now = Time.now.utc.xmlschema
       order.dateLastUpdated = now
       order.worldPayStatus = 'VERIFICATIONFAILED'
@@ -194,7 +192,7 @@ class WorldpayController < ApplicationController
 
       # Update order to reflect failed payment status
       if @registration
-        order = @registration.getOrder( orderCode)
+        order = @registration.getOrder(orderCode)
         now = Time.now.utc.xmlschema
         order.dateLastUpdated = now
         order.worldPayStatus = paymentStatus
@@ -218,7 +216,7 @@ class WorldpayController < ApplicationController
     reg = Registration.find_by_id(session[:registration_uuid])
 
     # Get the current_order from the registration
-    ord = reg.getOrder( orderCode)
+    ord = reg.getOrder(orderCode)
     #ord = reg.finance_details.first.orders.first
 
     @order = Order.init(ord.attributes)
