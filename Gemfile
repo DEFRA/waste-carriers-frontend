@@ -75,6 +75,8 @@ gem 'bundler-audit', :require => false
 # Simplifies some Google Analytics work.
 gem 'json', '>= 1.8.0'
 
+gem 'turnout', '~> 2.1.0'
+
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', '~> 1.4.0', require: false
