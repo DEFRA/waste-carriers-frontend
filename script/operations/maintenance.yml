@@ -1,8 +1,0 @@
----
-reason: |-
-  The system is being updated and will next be available at 2pm on 17 April 2015.
-allowed_paths:
-- ^/assets/*
-allowed_ips: []
-response_code: 503
-retry_after: 7200
