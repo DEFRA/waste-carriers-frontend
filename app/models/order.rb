@@ -29,15 +29,7 @@ class Order < Ohm::Model
 
   set :order_items, :OrderItem
 
-=begin
-{"orderCode"=>"1405600713639", "paymentMethod"=>"UNKNOWN", "merchantId"=>nil, "totalAmount"=>15400, "currency"=>"GBP",
-"dateCreated"=>nil, "worldPayStatus"=>nil, "dateLastUpdated"=>nil, "orderItems"=>[{"amount"=>2, "currency"=>"GBP",
-"reference"=>"KJ65"}],  "updatedByUser"=>nil, "description"=>"Initial Registration"}
-=end
-
-
   # Creates a new Order object from an order-formatted hash
-  #
   # @param order_hash [Hash] the order-formatted hash
   # @return [Order] the Ohm-derived Order object.
   class << self
@@ -48,16 +40,13 @@ class Order < Ohm::Model
         case k
         when 'orderItems'
           if v
-
-            # Important! Need to delete the order_items before new ones are added as this list exponentially grows
+            # Important! Need to delete the order_items before new ones are
+            # added.
             order.order_items.each do |orderItem|
               order.order_items.delete orderItem
             end
 
             v.each do |item_hash|
-#              orderItem = OrderItem.create
-#              item_hash.each {|k1, v1| orderItem.send("#{k1}=",v1)}
-#              orderItem.save
               orderItem = OrderItem.init(item_hash)
               order.order_items.add orderItem
             end
@@ -73,27 +62,26 @@ class Order < Ohm::Model
   end
 
 
-  # returns a JSON Java/DropWizard API compatible representation of the Order object
-  #
+  # Returns a JSON Java/DropWizard API compatible representation of this object.
   # @param none
   # @return  [String]  the order object in JSON form
   def to_json
     to_hash.to_json
   end
 
-  # returns a hash representation of the Order object
-  #
+  # Returns a hash representation of this object.
   # @param none
   # @return  [Hash]  the order object as a hash
   def to_hash
     h = self.attributes.to_hash
-    h["orderItems"] = order_items.map { |orderItem| orderItem.to_hash }  if self.order_items && self.order_items.size > 0
+    if self.order_items && self.order_items.size > 0
+      h["orderItems"] = order_items.map { |orderItem| orderItem.to_hash }
+    end
     h
   end
 
 
-  # POSTs order to Java/Dropwizard service
-  #
+  # POSTs order to Java/Dropwizard service.
   # @param none
   # @return  [Boolean] true if Post is successful (200), false if not
   def commit (registration_uuid)
@@ -107,7 +95,6 @@ class Order < Ohm::Model
         to_json,
         :content_type => :json,
         :accept => :json
-
 
       result = JSON.parse(response.body)
       Rails.logger.debug  result.class.to_s
@@ -141,13 +128,11 @@ class Order < Ohm::Model
     commited
   end
 
-  # PUT order to Java/Dropwizard service
-  #
+  # PUT order to Java/Dropwizard service.
   # @param none
   # @return  [Boolean] true if Post is successful (200), false if not
   def save!(registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders/#{orderId}.json"
-    Rails.logger.debug "about to put order: #{to_json.to_s}"
     commited = true
     begin
       response = RestClient.put url,
@@ -155,11 +140,9 @@ class Order < Ohm::Model
         :content_type => :json,
         :accept => :json
 
-
       result = JSON.parse(response.body)
       Rails.logger.debug  result.class.to_s
       save
-      Rails.logger.debug "Saving order to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
       if e.http_code == 422

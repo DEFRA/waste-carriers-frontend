@@ -182,11 +182,6 @@ module OrderHelper
       @order.order_items.add order_item
     end
 
-    logger.info '----------------------------'
-    logger.info '----- Created ORDER --------'
-    logger.info @order.to_json
-    logger.info '----------------------------'
-
     @order
   end
 

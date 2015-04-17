@@ -193,7 +193,6 @@ class Registration < Ohm::Model
   # @return  [String] the uuid assigned by MongoDB
   def commit
     commited = false
-    Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
     begin
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
       response = RestClient.post(url, to_json, :content_type => :json, :accept => :json)
@@ -260,8 +259,6 @@ class Registration < Ohm::Model
   end
 
   # PUTs registration to Java/Dropwizard service - updates registration to DB
-  #
-  # @param none
   # @return  [Boolean] true if registration updated
   def save!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
@@ -591,7 +588,6 @@ class Registration < Ohm::Model
       rescue => e
         Rails.logger.error e.to_s
       end
-      Rails.logger.debug "found reg: #{result.to_s}"
       result.size > 0 ? Registration.init(result) : nil
     end
   end
@@ -877,8 +873,6 @@ class Registration < Ohm::Model
   validate :has_selected_address, if: (:businessdetails_step? && :isAddressLookup?)
 
   def isAddressLookup?
-    Rails.logger.debug '>>>>>>> isAddressLookup'
-    Rails.logger.debug '>>>>>>> self.validateSelectedAddress: ' + self.validateSelectedAddress.to_s
     if !self.validateSelectedAddress.nil?
       self.validateSelectedAddress
     else

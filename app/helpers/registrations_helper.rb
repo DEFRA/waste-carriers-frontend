@@ -108,12 +108,12 @@ module RegistrationsHelper
       logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
       redirect_to cannot_edit_path and return
     end
+    
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
       logger.debug "Got Registration from session"
 
       @registration.update(current_step: current_step)
-
     else
       logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
       @registration = Registration[ params[:id]]
@@ -123,6 +123,7 @@ module RegistrationsHelper
         @registration = Registration.find_by_id(params[:id])
       end
     end
+    
     if @registration
       @registration.add( params[:registration] ) unless no_update
 
@@ -145,8 +146,8 @@ module RegistrationsHelper
               (params[:registration].keys[2].eql? "postcode")
         @registration.update(address_lookup_page: 'yes')
       end
+      
       @registration.save
-      logger.debug "Registration: id=#{@registration.id.to_s} #{@registration.attributes.to_s}"
       @registration.current_step = current_step
 
       # Additionally set these if route has not gone through registration process
@@ -155,7 +156,7 @@ module RegistrationsHelper
       session[:registration_id] ||= @registration.id
       session[:registration_uuid] ||= @registration.uuid
     else
-      logger.warn 'There is no @registration. Redirecting to the Cookies page'
+      logger.warn {'There is no @registration. Redirecting to the Cookies page'}
       redirect_to cookies_path
       return
     end

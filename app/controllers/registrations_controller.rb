@@ -293,26 +293,19 @@ class RegistrationsController < ApplicationController
     setup_registration 'contactdetails'
     return unless @registration
 
-    # TODO Check why this is here with Fred. Was in Upper Tier
-    # version of update contact details but don't see how you
-    # get to this post and need to check for findAddress
-    # if params[:findAddress]
-    #   render "newBusinessDetails" and return
-    # end
-
-
-
     if @registration.valid?
       if session[:edit_link_contact_details]
         session.delete(:edit_link_contact_details)
-        redirect_to :newConfirmation and return
+        redirect_to :newConfirmation
+        return
       end
       if @registration.tier.eql? 'LOWER'
-        redirect_to :newConfirmation and return
+        redirect_to :newConfirmation
+        return
       else
-        redirect_to :registration_key_people and return
+        redirect_to :registration_key_people
+        return
       end
-
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -686,7 +679,6 @@ class RegistrationsController < ApplicationController
         if commit_new_registration?
           logger.info 'The new registration has been committed successfully'
         else #registration was not committed
-          # there is an error (but data not yet saved)
           logger.error 'Registration was valid but data is not yet saved due to an error in the services'
           @registration.errors.add(:exception, @registration.exception.to_s)
           render "newSignup", :status => '400'
@@ -786,19 +778,18 @@ class RegistrationsController < ApplicationController
   def commit_new_registration?
     unless @registration.tier == 'LOWER'
       # Detect standard or IR renewal
-      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
-        logger.debug "Is IR RENEWAL"
-          # 3 years from existing registration expiry date
+      if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+        # This is an IR renewal, so set the expiry date to 3 years from the
+        # expiry of the existing IR registration.
         @registration.expires_on = convert_date(@registration.originalDateExpiry.to_i) + Rails.configuration.registration_expires_after
       else
-        logger.debug "Is normal RENEWAL"
-        # 3 years from todays date
+        # This is a new registration; set the expiry date to 3 years from today.
         @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
       end
     end
 
-    # Note: we are assigning a unique identifier to the registration in order to make the
-    # POST request idempotent
+    # Note: we are assigning a unique identifier to the registration in order to
+    # make the POST request idempotent
     @registration.reg_uuid = SecureRandom.uuid
 
     @registration.save
