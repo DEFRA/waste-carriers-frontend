@@ -1,112 +1,79 @@
+# Represents an address either selected or entered manually by a user which is
+# then held against the registration
+class Address < Ohm::Model
+  attribute :uprn
+  attribute :address_mode
+  attribute :house_number
+  attribute :address_line_1
+  attribute :address_line_2
+  attribute :address_line_3
+  attribute :address_line_4
+  attribute :town_city
+  attribute :postcode
+  attribute :country
+  attribute :easting
+  attribute :northing
+  attribute :dependentLocality
+  attribute :dependentThroughfare
+  attribute :administrativeArea
+  attribute :localAuthorityUpdateDate
+  attribute :royalMailUpdateDate
 
+  class << self
+    def init(address_hash)
+      address = Address.create
 
-require 'active_resource'
-
-class Address < ActiveResource::Base
-  #The services URL can be configured in config/application.rb and/or in the config/environments/*.rb files.
-
-  self.site = Rails.configuration.waste_exemplar_addresses_url
-
-  self.format = :json
-
-  #The schema is not strictly necessary for a model based on ActiveResource, but helpful for documentation
-  schema do
-    string :moniker
-    string :uprn
-    string :postcode
-    string :partial
-    Array :lines
-  end
-
-
-
-
-=begin
-
-
-class Address
-
-  ADDRESS_LOOKUP_URL =   "#{Rails.configuration.waste_exemplar_addresses_url}/addresses.json"
-  MONIKER_LOOKUP_URL =   "#{Rails.configuration.waste_exemplar_addresses_url}/addresses/"
-
-  def initialize(postcode=nil)
-    @search_postcode = postcode if postcode
-    Rails.logger.debug "postcode: #{ @search_postcode}"
-  end
-
-  def lookup(postcode=nil)
-
-    if @search_postcode
-      response = RestClient.get  ADDRESS_LOOKUP_URL,  {params: {postcode: @search_postcode}, :accept => :json}
-    end
-
-    if postcode
-      response =RestClient.get  ADDRESS_LOOKUP_URL,  {params: {postcode: postcode},:accept => :json}
-    end
-
-    Rails.logger.debug "services responded: #{response.code}"
-    Rails.logger.debug "services body: #{response.body}"
-    address_list = response.body.tr('[]', '').split('}')
-
-    addresses = []
-    address_list.each do |entry|
-      entry.tr!('{', '') #get rid off curly bracket
- Rails.logger.debug entry.to_s
-      h = {}
-      entry.split(',').each do |pair|
-        pair.tr!('"', '') #get rid off double quotes
-        key,value = pair.split(/:/)
-        h[key] = value
+      address_hash.each do |k, v|
+        address.send(:update, k.to_sym => v)
       end
 
-      addresses << h
-
+      address.save
+      address
     end
 
-#replace pipes with percentages, as required by address API
-addresses.each do |a|
-   Rails.logger.debug  a['moniker'].tr('|', '%')
+    def from_address_search_result(result)
+      address = Address.new
+
+      address.uprn = result.uprn
+      address.town_city = result.town
+      address.postcode = result.postcode
+      address.country = result.country
+      address.easting = result.easting
+      address.northing = result.northing
+      address.dependentLocality = result.dependentLocality
+      address.dependentThroughfare = result.dependentThroughfare
+      address.administrativeArea = result.administrativeArea
+      address.localAuthorityUpdateDate = result.localAuthorityUpdateDate
+      address.royalMailUpdateDate = result.royalMailUpdateDate
+
+      address_lines(address, result.lines)
+      address
+    end
+
+    private
+
+    def address_lines(address, lines)
+      return if lines.empty?
+
+      address.address_line_1 = lines[0] unless lines[0].blank?
+      address.address_line_2 = lines[0] unless lines[1].blank?
+      address.address_line_3 = lines[0] unless lines[2].blank?
+      address.address_line_4 = lines[0] unless lines[3].blank?
+    end
+  end
+
+  # Returns a hash representation of the Address object.
+  # @param none
+  # @return  [Hash]  the Address object as a hash
+  def to_hash
+    attributes.to_hash
+  end
+
+  # Returns a JSON Java/DropWizard API compatible representation of the
+  # Address object.
+  # @param none
+  # @return  [String]  the Address object in JSON form
+  def to_json
+    to_hash.to_json
+  end
 end
-
-    mon = addresses[1]['moniker'].tr('|', '%')
-     Rails.logger.debug mon
-     url = "#{MONIKER_LOOKUP_URL}#{mon}.json"
-     Rails.logger.debug url
-   response =RestClient.get  url
-    Rails.logger.debug "moniker responded: #{response.code}"
-    Rails.logger.debug "moniker body: #{response.body}"
-  end  #method
-
-
-
-=end
-
-
-
-
-
-  def streetLine1
-    if lines && lines.size > 0
-      lines[0]
-    else
-      ""
-    end
-  end
-
-  def streetLine2
-    if lines && lines.size > 1
-      lines[1]
-    else
-      ""
-    end
-  end
-
-  def townCity
-    if lines && lines.size > 2
-      lines[2]
-    else
-      ""
-    end
-  end
-
-end #class
