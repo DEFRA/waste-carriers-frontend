@@ -59,7 +59,6 @@ class Payment < Ohm::Model
     if isManualPayment?
       multiplyAmount #pounds to pennies
     end
-    Rails.logger.debug "about to post payment: #{to_json.to_s}"
     commited = true
     begin
       response = RestClient.post url,
