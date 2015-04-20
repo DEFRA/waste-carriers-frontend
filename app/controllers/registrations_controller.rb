@@ -2,6 +2,7 @@ class RegistrationsController < ApplicationController
 
   include WorldpayHelper
   include RegistrationsHelper
+  include OrderHelper
 
   module Status
     REVOKED = -2
@@ -196,10 +197,8 @@ class RegistrationsController < ApplicationController
 
       logger.info 'Retrieving address for the selected moniker: ' + moniker.to_s
       @selected_address = Address.find(moniker)
-      logger.info 'Retrieved @selected_address = ' + @selected_address.inspect.to_s
       session[:address_lookup_selected] = true
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
-
     end
 
     if params[:findAddress] #user clicked on Find Address button
@@ -226,9 +225,6 @@ class RegistrationsController < ApplicationController
 #      redirect_to :newBusinessDetails and return
 #      end
     elsif @registration.valid?
-
-      logger.info '>>>>>>>> elsif valid'
-
       if @registration.tier.eql? 'UPPER'
         @registration.cross_check_convictions
         @registration.save
@@ -293,26 +289,19 @@ class RegistrationsController < ApplicationController
     setup_registration 'contactdetails'
     return unless @registration
 
-    # TODO Check why this is here with Fred. Was in Upper Tier
-    # version of update contact details but don't see how you
-    # get to this post and need to check for findAddress
-    # if params[:findAddress]
-    #   render "newBusinessDetails" and return
-    # end
-
-
-
     if @registration.valid?
       if session[:edit_link_contact_details]
         session.delete(:edit_link_contact_details)
-        redirect_to :newConfirmation and return
+        redirect_to :newConfirmation
+        return
       end
       if @registration.tier.eql? 'LOWER'
-        redirect_to :newConfirmation and return
+        redirect_to :newConfirmation
+        return
       else
-        redirect_to :registration_key_people and return
+        redirect_to :registration_key_people
+        return
       end
-
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -558,13 +547,6 @@ class RegistrationsController < ApplicationController
           end
         when 'UPPER'
           complete_new_registration
-          #
-          # Important!
-          # Now storing an additional variable in the session for the type of order
-          # you are about to make.
-          # This session variable needs to be set every time the order/new action
-          # is requested.
-          #
           if @registration.originalRegistrationNumber &&
               isIRRegistrationType(@registration.originalRegistrationNumber) &&
               @registration.newOrRenew
@@ -686,7 +668,6 @@ class RegistrationsController < ApplicationController
         if commit_new_registration?
           logger.info 'The new registration has been committed successfully'
         else #registration was not committed
-          # there is an error (but data not yet saved)
           logger.error 'Registration was valid but data is not yet saved due to an error in the services'
           @registration.errors.add(:exception, @registration.exception.to_s)
           render "newSignup", :status => '400'
@@ -703,33 +684,35 @@ class RegistrationsController < ApplicationController
 
     logger.debug 'Determining next_step for redirection'
 
-    next_step = case @registration.tier
+    case @registration.tier
     when 'LOWER'
-      pending_url
+      next_step = pending_url
     when 'UPPER'
-      #
       # Important!
       # Now storing an additional variable in the session for the type of order
       # you are about to make.
       # This session variable needs to be set every time the order/new action
       # is requested.
-      #
 
       # Determine what type of registration order to create
       # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
       if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-        session[:renderType] = Order.renew_registration_identifier
+        my_render_type = Order.renew_registration_identifier
         if session[:edit_result]
           if session[:edit_result].to_i.eql? EditResult::CREATE_NEW_REGISTRATION
-            session[:renderType] = Order.editrenew_caused_new_identifier
+            my_render_type = Order.editrenew_caused_new_identifier
           end
         end
       else
-        session[:renderType] = Order.new_registration_identifier
+        my_render_type = Order.new_registration_identifier
       end
 
-      session[:orderCode] = generateOrderCode
-      upper_payment_path(:id => @registration.uuid)
+      # Generate and save a default order for this registration / renewal.
+      unless initiate_standard_order(@registration, my_render_type, skip_registration_validation: true)
+        return
+      end
+      
+      next_step = upper_payment_path(:id => @registration.uuid)
     end
 
     # Reset Signed up user to signed in status
@@ -786,26 +769,20 @@ class RegistrationsController < ApplicationController
   end
 
   def commit_new_registration?
-
     unless @registration.tier == 'LOWER'
-
       # Detect standard or IR renewal
-      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
-
-        logger.debug "Is IR RENEWAL"
-
-          # 3 years from existing registration expiry date
+      if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+        # This is an IR renewal, so set the expiry date to 3 years from the
+        # expiry of the existing IR registration.
         @registration.expires_on = convert_date(@registration.originalDateExpiry.to_i) + Rails.configuration.registration_expires_after
       else
-        logger.debug "Is normal RENEWAL"
-
-        # 3 years from todays date
+        # This is a new registration; set the expiry date to 3 years from today.
         @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
       end
     end
 
-    # Note: we are assigning a unique identifier to the registration in order to make the
-    # POST request idempotent
+    # Note: we are assigning a unique identifier to the registration in order to
+    # make the POST request idempotent
     @registration.reg_uuid = SecureRandom.uuid
 
     @registration.save
@@ -1066,7 +1043,6 @@ class RegistrationsController < ApplicationController
 
   def copyAddressToSession
     logger.info 'Copying address details into the registration...'
-    logger.info 'The @selected_address is: ' + @selected_address.inspect.to_s
 
     @registration = Registration[ session[:registration_id]]
 
@@ -1414,48 +1390,40 @@ class RegistrationsController < ApplicationController
     end
   end
 
-
   # Function to redirect newOrders to the order controller
   def newOrder registration_uuid
-    #
-    # Important!
-    # Now storing an additional variable in the session for the type of order
-    # you are about to make.
-    # This session variable needs to be set every time the order/new action
-    # is requested.
-    #
-    session[:renderType] = Order.new_registration_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    if initiate_standard_order(@registration, Order.new_registration_identifier)
+      redirect_to upper_payment_path(:id => registration_uuid)
+    end
   end
 
   # Function to redirect registration edit orders to the order controller
   def newOrderEdit registration_uuid
-    session[:renderType] = Order.edit_registration_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    if initiate_standard_order(@registration, Order.edit_registration_identifier)
+      redirect_to upper_payment_path(:id => registration_uuid)
+    end
   end
 
   # Function to redirect registration renew orders to the order controller
   def newOrderRenew registration_uuid
-    session[:renderType] = Order.renew_registration_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    if initiate_standard_order(@registration, Order.renew_registration_identifier)
+      redirect_to upper_payment_path(:id => registration_uuid)
+    end
   end
 
   # Function to redirect additional copy card orders to the order controller
   def newOrderCopyCards
     clear_registration_session
-    session[:renderType] = Order.extra_copycards_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path
+    if initiate_copy_card_order()
+      redirect_to upper_payment_path(:id => params[:id])
+    end
   end
 
   # Function to redirect renewal which caused new registration to the order controller
   def newOrderCausedNew registration_uuid
-    session[:renderType] = Order.editrenew_caused_new_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    if initiate_standard_order(@registration, Order.editrenew_caused_new_identifier)
+      redirect_to upper_payment_path(:id => registration_uuid)
+    end
   end
 
   # Renders the additional copy card order complete view
@@ -1521,20 +1489,10 @@ class RegistrationsController < ApplicationController
       renderAccessDenied and return
     end
 
-    # Removed as craete_new_reg not required here as already saved prior to order page
-    #    # Check if a new registration is required, and create prior to deleting session variables
-    #    if EditResult::CREATE_NEW_REGISTRATION.eql? session[:edit_result].to_i and !create_new_reg
-    #      # redirect to previous page due to error
-    #      redirect_to newOfflinePayment_path and return
-    #    end
-
-    #
     # This should be an acceptable time to delete the render type and
     # the order code from the session, as these are used for payment
     # and if reached here payment request succeeded
-    #
-    session.delete(:renderType)
-    session.delete(:orderCode)
+    clear_order_session()
 
     # Should also Clear other registration variables for other routes...
     if renderType.eql?(Order.extra_copycards_identifier)
@@ -1630,6 +1588,36 @@ class RegistrationsController < ApplicationController
   end
 
   private
+
+  # Helper that performs common setup when navigating to the New Order page.
+  def set_session_variables_for_new_order(my_render_type)
+    # We need to store some data in the session so the Registration and Order
+    # controllers (and their helpers) can communicate, to successfully process an
+    # order.  It would be nice to find a better way to do this when time allows.
+    session[:renderType] = my_render_type
+    session[:orderId] = SecureRandom.uuid
+    session[:orderCode] = generateOrderCode
+  end
+
+  # Helper that initiates a new order, for any order type other than a new
+  # 'copy cards only' order.  Returns true / false to indicate success.
+  def initiate_standard_order(my_registration, my_render_type, skip_registration_validation: false)
+    set_session_variables_for_new_order(my_render_type)
+    my_order = prepareGenericOrder(my_registration, session[:renderType], session[:orderId], session[:orderCode])
+    result = add_new_order_to_registration(my_registration, my_order, skip_registration_validation: skip_registration_validation)
+    unless result
+      logger.warn 'initiate_standard_order: failed to add order to registration'
+      redirect_to controller: 'errors', action: 'server_error_500'
+    end
+    result
+  end
+
+  # Helper that initiates a new 'copy cards only' order.  Returns true / false
+  # to indicate success.
+  def initiate_copy_card_order()
+    set_session_variables_for_new_order(Order.extra_copycards_identifier)
+    true
+  end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
