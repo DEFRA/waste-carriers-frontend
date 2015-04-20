@@ -219,11 +219,6 @@ class Registration < Ohm::Model
         self.conviction_sign_offs.replace(sign_offs)
       end
       
-      unless self.tier == 'LOWER'
-        Rails.logger.debug 'Initialise finance details'
-        self.finance_details.replace([FinanceDetails.init(result['financeDetails'])])
-      end
-
       save
       commited = true
     rescue Errno::ECONNREFUSED => e
@@ -261,28 +256,20 @@ class Registration < Ohm::Model
   # PUTs registration to Java/Dropwizard service - updates registration to DB
   # @return  [Boolean] true if registration updated
   def save!
-    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
-    Rails.logger.debug "Registration financeDetails to PUT: #{self.finance_details.first.to_s}"
-    Rails.logger.debug "Registration: #{uuid} about to PUT: #{ to_json}"
-    saved = true
+    saved = false
     begin
-      response = RestClient.put url,
-                                to_json,
-                                :content_type => :json
-
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
+      response = RestClient.put(url, to_json, :content_type => :json)
       result = JSON.parse(response.body)
 
-      # Update metadata and financedetails with that from the service
-      self.metaData.replace( [Metadata.init(result['metaData'])])
-
-      self.location.replace( [Location.init(result['location'])])
-
-      unless self.tier == 'LOWER'
-        Rails.logger.debug 'Initialise finance details'
-        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
+      # Update this object by replacing certain values that are determined by
+      # the Java services layer.
+      self.metaData.replace([Metadata.init(result['metaData'])])
+      self.location.replace([Location.init(result['location'])])
+      
+      if result['conviction_search_result']
+        self.conviction_search_result.replace([ConvictionSearchResult.init(result['conviction_search_result'])])
       end
-
-      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])]) if result['conviction_search_result']
 
       if result['conviction_sign_offs'] #array of conviction sign offs
         sign_offs = []
@@ -290,10 +277,11 @@ class Registration < Ohm::Model
           sign_off = ConvictionSignOff.init(sign_off_hash)
           sign_offs << sign_off
         end
-        self.conviction_sign_offs.replace sign_offs
+        self.conviction_sign_offs.replace(sign_offs)
       end
 
       save
+      saved = true
     rescue => e
       Rails.logger.error 'An error occurred during saving the registration: ' + e.to_s
 
@@ -316,9 +304,8 @@ class Registration < Ohm::Model
       else
         self.exception = e.to_s
       end
-
-      saved = false
     end
+    
     saved
   end
 
@@ -913,12 +900,10 @@ class Registration < Ohm::Model
 
 
   def copy_cards_added_to_copy_card_only_order?
-    if (copy_cards && copy_cards.to_i < 1) and copy_card_only_order
-      errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
-    end
-    if !copy_cards and copy_card_only_order
-      errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
-
+    if copy_card_only_order
+      if !copy_cards || (copy_cards && copy_cards.to_i < 1)
+        errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
+      end
     end
   end
 
@@ -1266,17 +1251,17 @@ class Registration < Ohm::Model
     end
   end
 
-  def getOrder( orderCode)
-    Rails.logger.info 'Registration getOrder ' + orderCode.to_s
-    foundOrder = nil
+  def getOrder(orderCode)
     self.finance_details.first.orders.each do |order|
-      Rails.logger.info 'Order ' + order.orderCode.to_s
       if orderCode.to_i == order.orderCode.to_i
-        Rails.logger.info 'Registration Found order ' + orderCode.to_s
-        foundOrder = order
+        return order
       end
     end
-    foundOrder
+    nil
+  end
+  
+  def hasOrder?(orderCode)
+    getOrder(orderCode) != nil
   end
 
   # Call to determine whether the registration is 'complete' i.e. there are no

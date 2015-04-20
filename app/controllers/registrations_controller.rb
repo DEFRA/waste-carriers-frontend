@@ -2,6 +2,7 @@ class RegistrationsController < ApplicationController
 
   include WorldpayHelper
   include RegistrationsHelper
+  include OrderHelper
 
   module Status
     REVOKED = -2
@@ -551,13 +552,6 @@ class RegistrationsController < ApplicationController
           end
         when 'UPPER'
           complete_new_registration
-          #
-          # Important!
-          # Now storing an additional variable in the session for the type of order
-          # you are about to make.
-          # This session variable needs to be set every time the order/new action
-          # is requested.
-          #
           if @registration.originalRegistrationNumber &&
               isIRRegistrationType(@registration.originalRegistrationNumber) &&
               @registration.newOrRenew
@@ -695,9 +689,9 @@ class RegistrationsController < ApplicationController
 
     logger.debug 'Determining next_step for redirection'
 
-    next_step = case @registration.tier
+    case @registration.tier
     when 'LOWER'
-      pending_url
+      next_step = pending_url
     when 'UPPER'
       # Important!
       # Now storing an additional variable in the session for the type of order
@@ -708,18 +702,22 @@ class RegistrationsController < ApplicationController
       # Determine what type of registration order to create
       # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
       if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-        session[:renderType] = Order.renew_registration_identifier
+        my_render_type = Order.renew_registration_identifier
         if session[:edit_result]
           if session[:edit_result].to_i.eql? EditResult::CREATE_NEW_REGISTRATION
-            session[:renderType] = Order.editrenew_caused_new_identifier
+            my_render_type = Order.editrenew_caused_new_identifier
           end
         end
       else
-        session[:renderType] = Order.new_registration_identifier
+        my_render_type = Order.new_registration_identifier
       end
 
-      session[:orderCode] = generateOrderCode
-      upper_payment_path(:id => @registration.uuid)
+      # Generate and save a default order for this registration / renewal.
+      unless initiate_standard_order(@registration, my_render_type, skip_registration_validation: true)
+        return
+      end
+      
+      next_step = upper_payment_path(:id => @registration.uuid)
     end
 
     # Reset Signed up user to signed in status
@@ -1398,48 +1396,40 @@ class RegistrationsController < ApplicationController
     end
   end
 
-
   # Function to redirect newOrders to the order controller
   def newOrder registration_uuid
-    #
-    # Important!
-    # Now storing an additional variable in the session for the type of order
-    # you are about to make.
-    # This session variable needs to be set every time the order/new action
-    # is requested.
-    #
-    session[:renderType] = Order.new_registration_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    if initiate_standard_order(@registration, Order.new_registration_identifier)
+      redirect_to upper_payment_path(:id => registration_uuid)
+    end
   end
 
   # Function to redirect registration edit orders to the order controller
   def newOrderEdit registration_uuid
-    session[:renderType] = Order.edit_registration_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    if initiate_standard_order(@registration, Order.edit_registration_identifier)
+      redirect_to upper_payment_path(:id => registration_uuid)
+    end
   end
 
   # Function to redirect registration renew orders to the order controller
   def newOrderRenew registration_uuid
-    session[:renderType] = Order.renew_registration_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    if initiate_standard_order(@registration, Order.renew_registration_identifier)
+      redirect_to upper_payment_path(:id => registration_uuid)
+    end
   end
 
   # Function to redirect additional copy card orders to the order controller
   def newOrderCopyCards
     clear_registration_session
-    session[:renderType] = Order.extra_copycards_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path
+    if initiate_copy_card_order()
+      redirect_to upper_payment_path(:id => params[:id])
+    end
   end
 
   # Function to redirect renewal which caused new registration to the order controller
   def newOrderCausedNew registration_uuid
-    session[:renderType] = Order.editrenew_caused_new_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    if initiate_standard_order(@registration, Order.editrenew_caused_new_identifier)
+      redirect_to upper_payment_path(:id => registration_uuid)
+    end
   end
 
   # Renders the additional copy card order complete view
@@ -1508,8 +1498,7 @@ class RegistrationsController < ApplicationController
     # This should be an acceptable time to delete the render type and
     # the order code from the session, as these are used for payment
     # and if reached here payment request succeeded
-    session.delete(:renderType)
-    session.delete(:orderCode)
+    clear_order_session()
 
     # Should also Clear other registration variables for other routes...
     if renderType.eql?(Order.extra_copycards_identifier)
@@ -1605,6 +1594,36 @@ class RegistrationsController < ApplicationController
   end
 
   private
+
+  # Helper that performs common setup when navigating to the New Order page.
+  def set_session_variables_for_new_order(my_render_type)
+    # We need to store some data in the session so the Registration and Order
+    # controllers (and their helpers) can communicate, to successfully process an
+    # order.  It would be nice to find a better way to do this when time allows.
+    session[:renderType] = my_render_type
+    session[:orderId] = SecureRandom.uuid
+    session[:orderCode] = generateOrderCode
+  end
+
+  # Helper that initiates a new order, for any order type other than a new
+  # 'copy cards only' order.  Returns true / false to indicate success.
+  def initiate_standard_order(my_registration, my_render_type, skip_registration_validation: false)
+    set_session_variables_for_new_order(my_render_type)
+    my_order = prepareOfflineOrder(my_registration, session[:renderType], session[:orderId], session[:orderCode])
+    result = add_new_order_to_registration(my_registration, my_order, skip_registration_validation: skip_registration_validation)
+    unless result
+      logger.warn 'initiate_standard_order: failed to add order to registration'
+      redirect_to controller: 'errors', action: 'server_error_500'
+    end
+    result
+  end
+
+  # Helper that initiates a new 'copy cards only' order.  Returns true / false
+  # to indicate success.
+  def initiate_copy_card_order()
+    set_session_variables_for_new_order(Order.extra_copycards_identifier)
+    true
+  end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
