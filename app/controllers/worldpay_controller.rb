@@ -234,9 +234,7 @@ class WorldpayController < ApplicationController
 
     @order.save
 
-    logger.info '---- Adding to list: '
     ord.order_items.each do |item|
-      logger.info 'item: ' + item.to_json.to_s
       # Test Re-add order items from original order
       @order.order_items.add item
     end
