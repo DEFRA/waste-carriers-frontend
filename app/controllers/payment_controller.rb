@@ -393,7 +393,7 @@ class PaymentController < ApplicationController
 	  logger.info 'payment is valid'
 
 	  # Find original order from registration
-	  order = Order.getOrder(@registration, params[:orderCode])
+	  order = @registration.getOrder(params[:orderCode])
 	  logger.info 'Merchant Id found from original order: ' + order.merchantId
 
 	  # Make request to worldpay
@@ -453,7 +453,7 @@ class PaymentController < ApplicationController
     end
 
     # Get original order (to get merchant ID)
-    order = Order.getOrder(registration, originalOrderCode)
+    order = registration.getOrder(originalOrderCode)
 
 	# authorise request
 	authorize! :read, registration
@@ -549,7 +549,7 @@ class PaymentController < ApplicationController
     @order.dateCreated = now
     @order.dateLastUpdated = now
 
-    theAmount = 0  
+    theAmount = 0
     begin
       theAmount = Float(@order.totalAmount)
     rescue => e
