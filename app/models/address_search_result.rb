@@ -9,7 +9,6 @@ class AddressSearchResult
   attr_accessor :lines
   attr_accessor :town
   attr_accessor :postcode
-  attr_accessor :postcode
   attr_accessor :easting
   attr_accessor :northing
   attr_accessor :country
