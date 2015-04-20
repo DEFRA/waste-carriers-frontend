@@ -1,5 +1,5 @@
 Given(/^The edit link is available$/) do
-  expect(page).to have_text 'Edit Registration'
+  expect(page).to have_text 'Edit registration'
   expect(page).to have_link "edit_#{@cucumber_reg_id}"
 end
 
@@ -10,7 +10,7 @@ end
 
 Then(/^I check that no changes have occurred$/) do
   expect(page).to have_text 'Your waste carrier registrations'
-  expect(page).to have_text 'Edit Registration'
+  expect(page).to have_text 'Edit registration'
 end
 
 Then(/^I change the way we carry waste$/) do
