@@ -344,8 +344,6 @@ class Registration < Ohm::Model
       result_hash['conviction_sign_offs'] = sign_offs
     end #if
 
-    Rails.logger.debug "registration to_json #{result_hash.to_json.to_s}"
-
     result_hash.to_json
   end
 
@@ -361,7 +359,6 @@ class Registration < Ohm::Model
       )
     end
 
-    Rails.logger.debug "REGISTRATION::CROSS_CHECK_CONVICTIONS #{result}"
     conviction_search_result.replace([result])
   end
 
@@ -657,7 +654,6 @@ class Registration < Ohm::Model
       new_reg = Registration.create
 
       response_hash.each do |k, v|
-
         case k
           when 'id'
             new_reg.uuid = v
@@ -674,9 +670,6 @@ class Registration < Ohm::Model
           when 'location'
             new_reg.location.add HashToObject(v, 'Location')
           when 'financeDetails'
-            #Rails.logger.debug '-----------------'
-            #Rails.logger.debug 'Create finance details from v: ' + v.to_s
-            #Rails.logger.debug '-----------------'
             new_reg.finance_details.add FinanceDetails.init(v)
           when 'conviction_search_result'
             new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
@@ -690,10 +683,8 @@ class Registration < Ohm::Model
             new_reg.send(:update, {k.to_sym => v})
         end
       end #each
+      
       new_reg.save
-      #Rails.logger.debug '-----------------'
-      #Rails.logger.debug 'Finance details from new_reg: ' + new_reg.finance_details.to_json.to_s
-      #Rails.logger.debug '-----------------'
       new_reg
     end #method
   end

@@ -197,10 +197,8 @@ class RegistrationsController < ApplicationController
 
       logger.info 'Retrieving address for the selected moniker: ' + moniker.to_s
       @selected_address = Address.find(moniker)
-      logger.info 'Retrieved @selected_address = ' + @selected_address.inspect.to_s
       session[:address_lookup_selected] = true
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
-
     end
 
     if params[:findAddress] #user clicked on Find Address button
@@ -227,9 +225,6 @@ class RegistrationsController < ApplicationController
 #      redirect_to :newBusinessDetails and return
 #      end
     elsif @registration.valid?
-
-      logger.info '>>>>>>>> elsif valid'
-
       if @registration.tier.eql? 'UPPER'
         @registration.cross_check_convictions
         @registration.save
@@ -1048,7 +1043,6 @@ class RegistrationsController < ApplicationController
 
   def copyAddressToSession
     logger.info 'Copying address details into the registration...'
-    logger.info 'The @selected_address is: ' + @selected_address.inspect.to_s
 
     @registration = Registration[ session[:registration_id]]
 
