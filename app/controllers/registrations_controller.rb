@@ -1609,7 +1609,7 @@ class RegistrationsController < ApplicationController
   # 'copy cards only' order.  Returns true / false to indicate success.
   def initiate_standard_order(my_registration, my_render_type, skip_registration_validation: false)
     set_session_variables_for_new_order(my_render_type)
-    my_order = prepareOfflineOrder(my_registration, session[:renderType], session[:orderId], session[:orderCode])
+    my_order = prepareGenericOrder(my_registration, session[:renderType], session[:orderId], session[:orderCode])
     result = add_new_order_to_registration(my_registration, my_order, skip_registration_validation: skip_registration_validation)
     unless result
       logger.warn 'initiate_standard_order: failed to add order to registration'
