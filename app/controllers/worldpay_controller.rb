@@ -6,8 +6,6 @@ class WorldpayController < ApplicationController
   include RegistrationsHelper
 
   def success
-    # TODO: Redirect to some other page after processing/saving the payment
-    #redirect_to paid_path
     @registration = Registration[session[:registration_id]]
 
     if process_payment
@@ -49,7 +47,6 @@ class WorldpayController < ApplicationController
           edit_result: session[:edit_result])
       when Order.extra_copycards_identifier
         # Extra copy cards were ordered.
-        # TODO: Insert appropriate routing for copy cards routes here
         next_step = complete_copy_cards_path(@registration.uuid)
         clear_registration_session
       end
@@ -145,7 +142,7 @@ class WorldpayController < ApplicationController
 
       # Update order to reflect failed payment status
       orderCode = orderKey.split('^').at(2)
-      order = @registration.getOrder( orderCode)
+      order = @registration.getOrder(orderCode)
       now = Time.now.utc.xmlschema
       order.dateLastUpdated = now
       order.worldPayStatus = 'VERIFICATIONFAILED'
@@ -194,7 +191,7 @@ class WorldpayController < ApplicationController
 
       # Update order to reflect failed payment status
       if @registration
-        order = @registration.getOrder( orderCode)
+        order = @registration.getOrder(orderCode)
         now = Time.now.utc.xmlschema
         order.dateLastUpdated = now
         order.worldPayStatus = paymentStatus
@@ -218,7 +215,7 @@ class WorldpayController < ApplicationController
     reg = Registration.find_by_id(session[:registration_uuid])
 
     # Get the current_order from the registration
-    ord = reg.getOrder( orderCode)
+    ord = reg.getOrder(orderCode)
     #ord = reg.finance_details.first.orders.first
 
     @order = Order.init(ord.attributes)
@@ -252,16 +249,6 @@ class WorldpayController < ApplicationController
       if @order.save! reg.uuid
         if session[:edit_mode]
           logger.debug "edited registration id: #{@registration.id}"
-
-# removed as done prior to going to order
-#          # Check if a new registration is required, and create prior to deleting session variables
-#          if RegistrationsController::EditResult::CREATE_NEW_REGISTRATION.eql? session[:edit_result].to_i and !create_new_reg
-#            # redirect to previous page due to error
-#            logger.error "Failed to create new registration"
-#            # TODO: redirect to ??? because of failure?
-#
-#          end
-
           #
           # BUG:: The following line causes a services save of the registration in a log line for all routes that use the edit_mode variable
           # This will always be wrong as the order was just saved to the registraion, To ensure that you have at least the order you just save
