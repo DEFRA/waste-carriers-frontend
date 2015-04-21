@@ -107,7 +107,7 @@ module RegistrationsHelper
       logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
       redirect_to cannot_edit_path and return
     end
-    
+
     if session[:registration_id]
       @registration = Registration[session[:registration_id]]
       logger.debug "Got Registration from session"
@@ -121,7 +121,7 @@ module RegistrationsHelper
         @registration = Registration.find_by_id(params[:id])
       end
     end
-    
+
     if @registration
       @registration.add( params[:registration] ) unless no_update
 
@@ -144,7 +144,7 @@ module RegistrationsHelper
               (params[:registration].keys[2].eql? "postcode")
         @registration.update(address_lookup_page: 'yes')
       end
-      
+
       @registration.save
       @registration.current_step = current_step
 
@@ -168,6 +168,9 @@ module RegistrationsHelper
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
+      # TODO: AC confirm this is bext place to set new address models
+      @registration.addresses.add Address.init(address_type: 'REGISTERED')
+      @registration.addresses.add Address.init(address_type: 'POSTAL')
       session[:registration_id]= @registration.id
       session[:editing] = true
       logger.debug "creating new registration #{@registration.id}"
@@ -189,6 +192,9 @@ module RegistrationsHelper
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
+      # TODO: AC confirm this is bext place to set new address models
+      @registration.addresses.add Address.init(address_type: 'REGISTERED')
+      @registration.addresses.add Address.init(address_type: 'POSTAL')
       session[:registration_id]= @registration.id
       session[:editing] = true
       logger.debug "creating new registration #{@registration.id}"
@@ -481,7 +487,7 @@ module RegistrationsHelper
     res
   end
 
-  
+
 
   def proceed_as_upper
     @registration.tier = 'UPPER'

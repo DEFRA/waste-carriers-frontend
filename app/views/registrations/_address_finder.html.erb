@@ -1,57 +1,51 @@
-  <% case %>
-    <% when  !r.addressMode  %>
-
-    <%= render 'address_postcode_lookup', f: f, postcode: r.postcode, show_error: false  %>
-    <% when  r.addressMode == 'address-results' %>
+<% case %>
+  <% when  !a.address_mode  %>
+    <%= render 'address_postcode_lookup', f: f, postcode: a.postcode, show_error: false  %>
+  <% when  a.address_mode == 'address-results' %>
     <% if @address_match_list %>
-    <% if @address_match_list.size  < 1 %>
-    <!-- no addresses found for postcode -->
-    <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
-    <% else %>
-    <!-- addresses were found for postcode -->
+      <% if @address_match_list.size  < 1 %>
+        <!-- no addresses found for postcode -->
+        <%= render 'address_postcode_lookup', f: f , postcode: a.postcode, show_error: true  %>
+      <% else %>
+        <!-- addresses were found for postcode -->
 
-    <div class="form-group<%if @registration.errors[:selectedAddress].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
-    <%= validation_for(@registration, :selectedAddress) %>
-    <%= f.label :business_or_organisation_address, for: "addressSelector", class: 'form-label' %>
-    <select id="registration_selectedAddress" name="registration[selectedAddress]" class="addressSelector"
-        size="<%=[1,@address_match_list.elements.count].min%>"required autofocus>
-        <option value=""><%= @address_match_list.size.to_s %> <%= t '.num_addresses_found'%></option>
-        <% savedAdd = @registration.selectedAddress %>
-        <% @address_match_list.elements.each do |address| %>
-        <option value="<%=address.moniker%>::<%=address.partial%>"<% if savedAdd and !savedAdd.empty? and \
-            address.partial.eql? savedAdd.split('::')[1]  %> selected<% end %>><%=address.partial%></option>
-        <%end%>
-    </select>
-    </div>
-    <!-- Saved Address: <%= savedAdd %>-->
+        <div class="form-group<%if @registration.errors[:selectedAddress].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+          <%= validation_for(@registration, :selectedAddress) %>
+          <%= f.label :business_or_organisation_address, for: "addressSelector", class: 'form-label' %>
+          <select id="registration_selectedAddress" name="registration[selectedAddress]" class="addressSelector"
+              size="<%=[1,@address_match_list.elements.count].min%>"required autofocus>
+              <option value=""><%= @address_match_list.size.to_s %> <%= t '.num_addresses_found'%></option>
+              <% savedAdd = @registration.selectedAddress %>
+              <% @address_match_list.elements.each do |address| %>
+              <option value="<%=address.moniker%>::<%=address.partial%>"<% if savedAdd and !savedAdd.empty? and \
+                  address.partial.eql? savedAdd.split('::')[1]  %> selected<% end %>><%=address.partial%></option>
+              <%end%>
+          </select>
+        </div>
+        <!-- Saved Address: <%= savedAdd %>-->
 
-    <div class="form-group">
-       <ul>
-        <li><a href="?changeAddress=true"><%= t '.change_link'%></a><li/>
-        <li><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></li>
-       </ul>
-    </div>
+        <div class="form-group">
+           <ul>
+            <li><a href="?changeAddress=true"><%= t '.change_link'%></a><li/>
+            <li><a href="?manualUkAddress=true"><%= t '.manual_address_link'%></a></li>
+           </ul>
+        </div>
 
-    <% end %> <!-- if -->
-
+      <% end %> <!-- if -->
     <% else %>  <!-- @address_match_list is nil, address service lookup may have failed -->
-
-    <% if session[:address_lookup_failure] %>
-        <span class="error-text"><%= t '.address_service_error'%></span>
-    <% end %>
-
-        <%= render 'address_postcode_lookup', f: f , postcode: r.postcode, show_error: true  %>
+      <% if session[:address_lookup_failure] %>
+          <span class="error-text"><%= t '.address_service_error'%></span>
+      <% end %>
+      <%= render 'address_postcode_lookup', f: f , postcode: a.postcode, show_error: true  %>
     <% end %>  <!-- if -->
-
-    <% when r.addressMode == 'manual-uk' %>
-        <%= render 'uk_address_entry', f: f  %>
-        <ul>
-            <li><a href="?autoUkAddress=true"><%= t '.find_address_using_postcode'%></a></li>
-        </ul>
-    <% when r.addressMode == 'manual-foreign'  %>
-        <%= render 'foreign_address_entry', f: f  %>
-        <ul>
-            <li><a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a></li>
-        </ul>
-    <% end %>
-
+  <% when a.address_mode == 'manual-uk' %>
+    <%= render 'uk_address_entry', f: f  %>
+    <ul>
+        <li><a href="?autoUkAddress=true"><%= t '.find_address_using_postcode'%></a></li>
+    </ul>
+  <% when a.address_mode == 'manual-foreign'  %>
+    <%= render 'foreign_address_entry', f: f  %>
+    <ul>
+        <li><a href="?autoUkAddress=true"><%= t '.uk_address_link'%></a></li>
+    </ul>
+<% end %>
