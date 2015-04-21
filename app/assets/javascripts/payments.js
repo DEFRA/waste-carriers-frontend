@@ -1,4 +1,3 @@
-
 $(function() {
   $(document).on('change', '#registration_copy_cards', function() {
 
@@ -33,8 +32,5 @@ $("#addressSelector").change(function(){
 
 
 $('input[type="radio"]').click(function(){
-          $(this).toggleClass('yeller');
+    $(this).toggleClass('yeller');
 });
-
-
-
