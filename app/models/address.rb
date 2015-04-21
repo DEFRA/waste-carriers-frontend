@@ -3,6 +3,7 @@
 class Address < Ohm::Model
   attribute :uprn
   attribute :address_mode
+  attribute :address_type
   attribute :house_number
   attribute :address_line_1
   attribute :address_line_2
@@ -11,20 +12,30 @@ class Address < Ohm::Model
   attribute :town_city
   attribute :postcode
   attribute :country
-  attribute :easting
-  attribute :northing
   attribute :dependentLocality
   attribute :dependentThroughfare
   attribute :administrativeArea
   attribute :localAuthorityUpdateDate
   attribute :royalMailUpdateDate
 
+  set :location, :Location # will always be size=1
+
+  ADDRESS_TYPES = %w[
+    (REGISTERED)
+    (POSTAL)
+  ]
+
   class << self
     def init(address_hash)
       address = Address.create
 
       address_hash.each do |k, v|
-        address.send(:update, k.to_sym => v)
+        case k
+        when 'location'
+          address.location.add Location.init(v)
+        else
+          address.send(:update, k.to_sym => v)
+        end
       end
 
       address.save
@@ -32,14 +43,15 @@ class Address < Ohm::Model
     end
 
     def from_address_search_result(result)
-      address = Address.new
+      address = Address.create
 
       address.uprn = result.uprn
       address.town_city = result.town
       address.postcode = result.postcode
       address.country = result.country
-      address.easting = result.easting
-      address.northing = result.northing
+
+      address.location.add Location.init(easting: result.easting, northing: result.northing)
+
       address.dependentLocality = result.dependentLocality
       address.dependentThroughfare = result.dependentThroughfare
       address.administrativeArea = result.administrativeArea
@@ -47,6 +59,7 @@ class Address < Ohm::Model
       address.royalMailUpdateDate = result.royalMailUpdateDate
 
       address_lines(address, result.lines)
+      address.save
       address
     end
 
@@ -66,7 +79,10 @@ class Address < Ohm::Model
   # @param none
   # @return  [Hash]  the Address object as a hash
   def to_hash
-    attributes.to_hash
+    hash = attributes.to_hash
+
+    hash['location'] = location.first.to_hash if location.size == 1
+    hash
   end
 
   # Returns a JSON Java/DropWizard API compatible representation of the
