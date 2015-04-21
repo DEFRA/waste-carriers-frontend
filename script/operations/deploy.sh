@@ -93,6 +93,9 @@ bundle install
 echo "Migrating database changes, if any."
 rake db:migrate RAILS_ENV="${WCRS_FRONTEND_RAILS_ENV}"
 
+## Pre-compile assets
+RAILS_ENV=production rake assets:precompile
+
 ## Start nginx.
 echo "Starting nginx."
 sudo service nginx start
