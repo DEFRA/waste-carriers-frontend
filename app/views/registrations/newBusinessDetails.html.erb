@@ -39,8 +39,8 @@
         <%= render 'company_details_finder', f: f, r: @registration %>
         <% end %>
         <%= render 'company_name', :f => f, :r => @registration, n: name_field %>
-        <%= render 'address_finder', :f => f, :r => @registration %>
-        <%= render 'shared/registration_continue_link' if @registration.addressMode and !@registration.addressMode.empty? %>
+        <%= render 'address_finder', :f => f, :r => @registration, a: @address %>
+        <%= render 'shared/registration_continue_link' unless @address.address_mode.blank? %>
       </div>
     <% end %>
 

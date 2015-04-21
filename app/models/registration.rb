@@ -41,23 +41,10 @@ class Registration < Ohm::Model
   attribute :publicBodyType
   attribute :publicBodyTypeOther
   attribute :registrationType
-  attribute :houseNumber
 
-  attribute :addressMode
-  attribute :postcodeSearch
-  attribute :selectedMoniker
-  attribute :streetLine1
-  attribute :streetLine2
-  attribute :townCity
-  attribute :postcode
-  attribute :uprn
-  attribute :easting
-  attribute :northing
-  attribute :dependentLocality
-  attribute :dependentThroughfare
-  attribute :administrativeArea
-  attribute :royalMailUpdateDate
-  attribute :localAuthorityUpdateDate
+  attribute :postcodeSearch # unknown address attribute
+  attribute :selectedMoniker # unknown address attribute
+
   attribute :company_no
   attribute :expires_on
 
@@ -68,11 +55,6 @@ class Registration < Ohm::Model
   attribute :copy_cards
   attribute :balance
   attribute :payment_type
-
-  # Non UK address fields
-  attribute :streetLine3
-  attribute :streetLine4
-  attribute :country
 
   attribute :title
   attribute :otherTitle
@@ -93,8 +75,8 @@ class Registration < Ohm::Model
 
   attribute :renewalRequested
 
-  attribute :selectedAddress
-  attribute :validateSelectedAddress
+  attribute :selectedAddress # unknown address attribute
+  attribute :validateSelectedAddress # unknown address attribute
 
   # The value that the waste carrier sets to say whether they admit to having
   # relevant people with relevant convictions
@@ -106,10 +88,10 @@ class Registration < Ohm::Model
   # whether the controller/view is at the address lookup page
   attribute :exception
   attribute :copy_card_only_order
-  attribute :address_lookup_page
+  attribute :address_lookup_page # unknown address attribute
 
+  set :addresses, :Address
   set :metaData, :Metadata #will always be size=1
-  set :location, :Location #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
   set :conviction_search_result, :ConvictionSearchResult #will always be size=1
@@ -203,9 +185,18 @@ class Registration < Ohm::Model
       # the Java services layer.
       self.update(uuid: result['id'])
       self.update(regIdentifier: result['regIdentifier'])
+
+      if result['addresses'] #array of conviction sign offs
+        address_list = []
+        result['addresses'].each do |address_hash|
+          address = Address.init(address_hash)
+          address_list << address
+        end
+        self.addresses.replace(address_list)
+      end
+
       self.metaData.replace([Metadata.init(result['metaData'])])
-      self.location.replace([Location.init(result['location'])])
-      
+
       if result['conviction_search_result']
         self.conviction_search_result.replace([ConvictionSearchResult.init(result['conviction_search_result'])])
       end
@@ -218,7 +209,7 @@ class Registration < Ohm::Model
         end
         self.conviction_sign_offs.replace(sign_offs)
       end
-      
+
       save
       commited = true
     rescue Errno::ECONNREFUSED => e
@@ -264,9 +255,17 @@ class Registration < Ohm::Model
 
       # Update this object by replacing certain values that are determined by
       # the Java services layer.
+      if result['addresses'] #array of conviction sign offs
+        address_list = []
+        result['addresses'].each do |address_hash|
+          address = Address.init(address_hash)
+          address_list << address
+        end
+        self.addresses.replace(address_list)
+      end
+
       self.metaData.replace([Metadata.init(result['metaData'])])
-      self.location.replace([Location.init(result['location'])])
-      
+
       if result['conviction_search_result']
         self.conviction_search_result.replace([ConvictionSearchResult.init(result['conviction_search_result'])])
       end
@@ -305,7 +304,7 @@ class Registration < Ohm::Model
         self.exception = e.to_s
       end
     end
-    
+
     saved
   end
 
@@ -320,9 +319,15 @@ class Registration < Ohm::Model
       result_hash[k] = v
     end
 
-    result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
+    address_list = []
+    if addresses && addresses.size > 0
+      addresses.each do |address|
+        address_list << address.to_hash
+      end
+      result_hash['addresses'] = address_list
+    end # if
 
-    result_hash['location'] = location.first.attributes.to_hash if location.size == 1
+    result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
 
     key_people_list = []
     if key_people && key_people.size > 0
@@ -657,8 +662,12 @@ class Registration < Ohm::Model
         case k
           when 'id'
             new_reg.uuid = v
-          when 'address', 'uprn'
-            #TODO: do nothing for now, but these API fields are redundant and should be removed
+          when 'addresses'
+            if v && v.size > 0
+              v.each do |address|
+                new_reg.addresses.add Address.init(address)
+              end
+            end
           when 'key_people'
             if v && v.size > 0
               v.each do |person|
@@ -666,13 +675,11 @@ class Registration < Ohm::Model
               end
             end #if
           when 'metaData'
-            new_reg.metaData.add HashToObject(v, 'Metadata')
-          when 'location'
-            new_reg.location.add HashToObject(v, 'Location')
+            new_reg.metaData.add Metadata.init(v)
           when 'financeDetails'
             new_reg.finance_details.add FinanceDetails.init(v)
           when 'conviction_search_result'
-            new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
+            new_reg.conviction_search_result.add ConvictionSearchResult.init(v)
           when 'conviction_sign_offs'
             if v
               v.each do |sign_off|
@@ -683,22 +690,10 @@ class Registration < Ohm::Model
             new_reg.send(:update, {k.to_sym => v})
         end
       end #each
-      
+
       new_reg.save
       new_reg
     end #method
-  end
-
-  class << self
-    def HashToObject(hash, klass_name)
-      klass = Object.const_get( klass_name )
-      obj = klass.new
-      hash.each do |k, v|
-        obj.send("#{k.to_s}=",v)
-      end
-      obj.save
-      obj
-    end
   end
 
   def copy_construct
@@ -1250,7 +1245,7 @@ class Registration < Ohm::Model
     end
     nil
   end
-  
+
   def hasOrder?(orderCode)
     getOrder(orderCode) != nil
   end
@@ -1503,4 +1498,13 @@ class Registration < Ohm::Model
     originalDateExpiry ? (convert_date(originalDateExpiry.to_i) >= Date.today) : false
   end
 
+  def registered_address
+    # Finds the first element that matches and returns it
+    addresses.to_a.find { |address| address.address_type == 'REGISTERED' }
+  end
+
+  def postal_address
+    # Finds the first element that matches and returns it
+    addresses.to_a.find { |address| address.address_type == 'POSTAL' }
+  end
 end

@@ -1,6 +1,10 @@
 # Represents an address either selected or entered manually by a user which is
 # then held against the registration
 class Address < Ohm::Model
+  include ActiveModel::Conversion
+  include ActiveModel::Validations
+  extend ActiveModel::Naming
+
   attribute :uprn
   attribute :address_mode
   attribute :address_type

@@ -76,44 +76,45 @@ class RegistrationsController < ApplicationController
       logger.warn 'There is no @registration - cannot proceed with address details'
       return
     end
+    @address = @registration.registered_address
 
     if params[:changeAddress]
-      @registration.addressMode = nil
+      @address.address_mode = nil
     end
 
     if params[:manualUkAddress] #we're in the manual uk address page
-      @registration.addressMode = 'manual-uk'
-      #clear any existing address fields, in case we changed over from foreign address
-      @registration.streetLine3 = @registration.streetLine4 = @registration.country = nil
+      @address.address_mode = 'manual-uk'
+      # TODO: AC commented this out whilst working on 2nd contact details
+      # #clear any existing address fields, in case we changed over from foreign address
+      # @registration.streetLine3 = @registration.streetLine4 = @registration.country = nil
     elsif params[:foreignAddress] #we're in the manual foreign address page
-      @registration.addressMode = 'manual-foreign'
-      #clear any existing address fields, in case we changed over from uk address
-      @registration.streetLine1 = @registration.streetLine2 = @registration.townCity = @registration.postcode = nil
+      @address.address_mode = 'manual-foreign'
+      # TODO: AC commented this out whilst working on 2nd contact details
+      # #clear any existing address fields, in case we changed over from uk address
+      # @registration.streetLine1 = @registration.streetLine2 = @registration.townCity = @registration.postcode = nil
     elsif params[:autoUkAddress] #user clicked to go back to address lookup
-      @registration.addressMode = nil
+      @address.address_mode = nil
     end
 
     @registration.save
 
     #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
-    if 'address-results'.eql? @registration.addressMode
+    if 'address-results'.eql? @address.address_mode
       begin
-        @address_match_list = Address.find(:all, :params => {:postcode => @registration.postcode})
+        @address_match_list = AddressSearchResult.search(@address.postcode)
         session.delete(:address_lookup_failure) if session[:address_lookup_failure]
         logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
-        logger.debug "@registration.postcode: '#{!@registration.postcode.empty?}'"
-        if @address_match_list.size < 1 && !@registration.postcode.empty?
-          @registration.errors.add(:postcode, ' test')
-        end
+        # TODO: AC commented this out whilst working on 2nd contact details
+        # if @address_match_list.size < 1 && !@registration.postcode.empty?
+        #   @registration.errors.add(:postcode, ' test')
+        # end
       rescue Errno::ECONNREFUSED
         session[:address_lookup_failure] = true
         logger.error 'ERROR: Address Lookup Not running, or not found'
-      rescue ActiveResource::ServerError
+      rescue => e
+        # TODO: Temp error handling/logging whilst working on 2nd contact dtls.
         session[:address_lookup_failure] = true
-        logger.error 'ERROR: ActiveResource Server error!'
-      rescue ActiveResource::BadRequest
-        logger.warn 'Address lookup returned Bad Request error code - postcode valid? - ' + @registration.postcode.to_s
-        @address_match_list = []
+        logger.error "ERROR: Address Lookup failed. #{e}"
       end
     end
 
@@ -711,7 +712,7 @@ class RegistrationsController < ApplicationController
       unless initiate_standard_order(@registration, my_render_type, skip_registration_validation: true)
         return
       end
-      
+
       next_step = upper_payment_path(:id => @registration.uuid)
     end
 
@@ -935,7 +936,7 @@ class RegistrationsController < ApplicationController
       renderNotFound
       return
     end
-    
+
     @user = User.find_by_email(session[:userEmail])
     if !@user
       logger.error 'Could not retrieve the activated user. Showing 404.'
