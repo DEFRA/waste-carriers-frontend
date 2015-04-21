@@ -41,19 +41,15 @@
 			$addresses.append(option);
 
 			addressTextLookup[addrValue] = addr;
-			//addressLookup[addrValue] = "<div>"+(i+5)+" Some street,</div><div>Some town,</div><div>"+value+"</div>";
 			addressLookup[addrValue] = {houseNumber:i+5, streetLine1:"Some street",streetLine2:"",townCity:"Some town",postcode:value};
 		}
 
-		//$("#addressSearch").css("display","none");
 		$("#addressSearchResults").css("display","");
 	}
 
 	function updateAddress(){
 		var address = $("#addresses").val();
 		if(address==="")return;
-
-		//$("#addressDisplay").html(addressLookup[address]);
 
 		var addressObject = addressLookup[address];
 		$("#registration_houseNumber").val(addressObject.houseNumber);
@@ -62,9 +58,6 @@
 		$("#registration_townCity").val(addressObject.townCity);
 		$("#registration_postcode").val(addressObject.postcode);
 
-
-		//$("#addressSearchResults").css("display","none");
-		//$("#selectedAddress").css("display","");
 		setHidden("uprn",address);
 		setHidden("address",addressTextLookup[address]);
 
@@ -125,7 +118,6 @@
 		updateSummaryWithData(data,$("#summary").get(0));
 	}
 
-
 	function searchResultSummaries(){
 		$("#reg-search-result .detail .data").each(function(index,elem){
 			var $elem = $(elem);
@@ -146,7 +138,6 @@
 				accessCode:$elem.attr("data-accessCode"),
 				address: address
 			}
-
 
 			updateSummaryWithData(data,elem);
 
@@ -256,34 +247,20 @@
 		var accessCode = data.accessCode;
 
 		var orgInfo = "";
-		/*
-		 * Remove this orgType/orgInfo details as these refer to old fields that are no longer present
-		 *
-		if (orgType==="organisationOfIndividuals") {orgInfo=data.individualsType;}
-		else if (orgType==="limitedCompany") {orgInfo=data.companyRegistrationNumber;}
-		else if (orgType==="publicBody") {orgInfo=data.publicBodyType;}
-
-		if(orgInfo!==""){
-			orgInfo = " ("+orgInfo+")";
-		}*/
 
 		var html = "";
-		//html += "<div>Registering for</div>";
 		html += "<div>"+orgName+orgInfo+"</div>";
 		html += "<div>Registration number: "+regIden+"</div>";
 		if (accessCode!=="") {
 		    html += "<div>Access code: "+accessCode+"</div>";
 		}
-		//html += "<p>At the following address</p>";
 		html += address;
-		//html += "<p>Contact</p>";
 		if (email !== "")
 		{
 			email = " (" + email + ")";
 		}
 		html += "<div>"+firstName+" "+lastName+email+"</div>";
 		html += "<div>Telephone number: "+phone+"</div>";
-
 
 		$(elem).html(html);
 	}
@@ -458,64 +435,6 @@
 	};
 
 	/**
-	* This function checks the registration email and password for strength and sets appropriate classes
-	* for the strength icon's and message depending on the results
-	*/
-	function passwordCheck(){
-
-	    var regword = $("#registration_password").val();
-	    var strengthIcon = $("#registration_password").parent().children().css( "name", "strength_icon" );
-	    var minCountBeforeCheck = 0;
-	    // Only perform check if minimum characters reached
-	    if (regword.length <= minCountBeforeCheck)
-	    {
-			// Show nothing/Hide all others
-			strengthIcon.removeClass("poor");
-			strengthIcon.removeClass("good");
-			strengthIcon.removeClass("strong");
-			strengthIcon.addClass("none");
-	    }
-	    else if (regword.length > minCountBeforeCheck)
-	    {
-		    var strengthText = strengthIcon.children().css( "name", "strength_message" );
-		    var regemail = $("#registration_email").val();
-
-		    // Perform password strength analysis
-		    //if (window.console) console.log('Validation regemail: ' + regemail + ' regword: ' + regword);
-		    var result = PasswordStrength.test(regemail, regword);
-		    var status = result.status; // possible values returned are: weak, good, strong
-		    //if (window.console) console.log('Validation status: ' + status + ' score: ' + result.score);
-
-			strengthIcon.removeClass("none");
-		    if (status == "weak") {
-				// Show poor
-				strengthIcon.addClass("poor");
-				strengthIcon.removeClass("good");
-				strengthIcon.removeClass("strong");
-
-				strengthText.html("Weak: try making the password longer, and add more uppercase, lowercase and number combinations");
-		    }
-		    else if (status == "good") {
-				// Show good
-				strengthIcon.removeClass("poor");
-				strengthIcon.removeClass("strong");
-				strengthIcon.addClass("good");
-
-				strengthText.html("Fair: try to use even more combinations of uppercase lowercase and numbers");
-		    }
-		    else if (status == "strong") {
-				// Show strong
-				strengthIcon.removeClass("poor");
-				strengthIcon.removeClass("good");
-				strengthIcon.addClass("strong");
-
-				strengthText.html("Strong: you have entered a strong password");
-		    }
-	    }
-
-	}
-
-	/**
 	* This function ensure than when internal links are activated a smooth transistion occurs between
 	* scroll of the page from the click to the target location
 	*/
@@ -539,44 +458,11 @@
 
 
 	$(document).ready(function(){
-
-    	//GOVUK.performance.stageprompt.setupForGoogleAnalytics();
-
-		//$('#registration_businessType').change(refreshQuestions);
-		//$("#registration_publicBodyType").change(refreshQuestions);
-		//$("input[name=findAddress]").click(function(e){e.preventDefault();findAddress();});
-		//$("#addresses").change(updateAddress);
-		//$("input[name=changeAddress]").click(function(e){e.preventDefault();changeAddress();});
-		//refreshQuestions();
-
-//		$("#registration_sign_up_mode").change(function(e){e.preventDefault();toggleSignInUp();});
-//		toggleSignInUp();
-
 		// Setup Revoke questions on NCCC edit
 		$("#revoke_question").change(function(e){showHideRevoke();});
 		showHideRevoke();
-
-		/*var uprn = $("#registration_uprn").val();
-		if(uprn && uprn !== ""){
-			findAddress();
-			$("#addresses").val(uprn);
-			updateAddress();
-		}else{
-			var address1 = $("#registration_streetLine1").val();
-			var address2 = $("#registration_streetLine2").val();
-			var city = $("#registration_townCity").val();
-			if(address1!=="" || address2!=="" || city!==""){
-				manualAddress();
-			}
-		}*/
-
 		searchResultSummaries();
-/*
-		$("#reg-search").click(function(e){
-			e.preventDefault();
-			regSearch();
-		});
-		*/
+
 		$("a#toggle-search").click(function(e){
 			e.preventDefault();
 			advancedToggle();
@@ -586,36 +472,13 @@
 			manualAddress();
 		});
 
-		/**
-		 * Call Password check on both keydown, and change
-		 */
-
-		$("#registration_password").keydown(function(e){
-			//if (window.console) console.log('password char was keydowned: ');
-			passwordCheck(e);
-		});
-
-		/*
-		$("#registration_password").change(function(e){
-			//if (window.console) console.log('password char was changed: ');
-			e.preventDefault();
-			passwordCheck();
-		});
-		*/
-
 		smoothInternalLinks();
-
-		/*$("form").submit(function(e){
-			submitAddress();
-		});*/
 
     	$("#sSelect").change(function(){
     		$("#sSelect").removeAttr("size");
     	});
 
     	GOVUK.performance.stageprompt.setupForGoogleAnalytics();
-
-
 	});
 }());
 
@@ -623,6 +486,3 @@
 $('input[type="radio"]').click(function(){
           $(this).toggleClass('red');
 });
-
-
-
