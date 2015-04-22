@@ -16,11 +16,11 @@ class Address < Ohm::Model
   attribute :town_city
   attribute :postcode
   attribute :country
-  attribute :dependentLocality
-  attribute :dependentThroughfare
-  attribute :administrativeArea
-  attribute :localAuthorityUpdateDate
-  attribute :royalMailUpdateDate
+  attribute :dependent_locality
+  attribute :dependent_thoroughfare
+  attribute :administrative_area
+  attribute :local_authority_update_date
+  attribute :royal_mail_update_date
 
   set :location, :Location # will always be size=1
 
