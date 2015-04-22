@@ -55,11 +55,11 @@ class Address < Ohm::Model
 
     address.location.add Location.init(easting: result.easting, northing: result.northing)
 
-    address.dependentLocality = result.dependentLocality
-    address.dependentThroughfare = result.dependentThroughfare
-    address.administrativeArea = result.administrativeArea
-    address.localAuthorityUpdateDate = result.localAuthorityUpdateDate
-    address.royalMailUpdateDate = result.royalMailUpdateDate
+    address.dependent_locality = result.dependentLocality
+    address.dependent_thoroughfare = result.dependentThroughfare
+    address.administrative_area = result.administrativeArea
+    address.local_authority_update_date = result.localAuthorityUpdateDate
+    address.royal_mail_update_date = result.royalMailUpdateDate
 
     address_lines(address, result.lines)
     address.save
