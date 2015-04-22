@@ -27,45 +27,43 @@ class AddressSearchResult
   attr_accessor :departmentName
   attr_accessor :doubleDependentLocality
 
-  class << self
-    def search(value)
-      fail if value.blank?
-      results = []
+  def self.search(value)
+    fail if value.blank?
+    results = []
 
-      do_search(
-        format(
-          '%s/addresses.json',
-          Rails.configuration.waste_exemplar_addresses_url
-        ),
-        postcode: value
-      ).each { | r | results << AddressSearchResult.new(r) }
+    do_search(
+      format(
+        '%s/addresses.json',
+        Rails.configuration.waste_exemplar_addresses_url
+      ),
+      postcode: value
+    ).each { | r | results << AddressSearchResult.new(r) }
 
-      results
+    results
+  end
+
+  def self.search_by_id(value)
+    fail if value.blank?
+
+    result = do_search(
+      format(
+        '%s/addresses/%s.json',
+        Rails.configuration.waste_exemplar_addresses_url,
+        value
+      ),
+      nil
+    )
+    AddressSearchResult.new(result)
+  end
+
+  private
+
+  def do_search(url, params)
+    begin
+      result = JSON.parse(RestClient.get(url, params: params))
+    rescue => e
+      Rails.logger.debug e
     end
-
-    def search_by_id(value)
-      fail if value.blank?
-
-      result = do_search(
-        format(
-          '%s/addresses/%s.json',
-          Rails.configuration.waste_exemplar_addresses_url,
-          value
-        ),
-        nil
-      )
-      AddressSearchResult.new(result)
-    end
-
-    private
-
-    def do_search(url, params)
-      begin
-        result = JSON.parse(RestClient.get(url, params: params))
-      rescue => e
-        Rails.logger.debug e
-      end
-      result
-    end
+    result
   end
 end
