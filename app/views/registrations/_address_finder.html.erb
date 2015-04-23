@@ -13,10 +13,10 @@
           <%= validation_for(@registration, :selectedAddress) %>
           <%= f.label :business_or_organisation_address, for: "addressSelector", class: 'form-label' %>
           <select id="registration_selectedAddress" name="registration[selectedAddress]" class="addressSelector"
-              size="<%=[1,@address_match_list.elements.count].min%>"required autofocus>
-              <option value=""><%= @address_match_list.size.to_s %> <%= t '.num_addresses_found'%></option>
+              size="<%=[1,@address_match_list.count].min%>"required autofocus>
+              <option value=""><%= @address_match_list.count %> <%= t '.num_addresses_found'%></option>
               <% savedAdd = @registration.selectedAddress %>
-              <% @address_match_list.elements.each do |address| %>
+              <% @address_match_list.each do |address| %>
               <option value="<%=address.moniker%>::<%=address.partial%>"<% if savedAdd and !savedAdd.empty? and \
                   address.partial.eql? savedAdd.split('::')[1]  %> selected<% end %>><%=address.partial%></option>
               <%end%>
