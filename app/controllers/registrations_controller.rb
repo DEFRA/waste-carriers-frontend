@@ -180,7 +180,7 @@ class RegistrationsController < ApplicationController
       @registration.validateSelectedAddress = true
     end
 
-    if @registration.selectedAddress and !@registration.selectedAddress.empty? and 'address-results'.eql? @registration.addressMode
+    if @registration.selectedAddress and !@registration.selectedAddress.empty? and 'address-results'.eql? @address.address_mode
 
       logger.info '>>>>>>>> @registration.selectedAddress has a value'
 
@@ -197,7 +197,7 @@ class RegistrationsController < ApplicationController
       logger.error '@registration.selectedAddress: ' +  @registration.selectedAddress
 
       logger.info 'Retrieving address for the selected moniker: ' + moniker.to_s
-      @selected_address = Address.find(moniker)
+      @selected_address = AddressSearchResult.search_by_id(moniker)
       session[:address_lookup_selected] = true
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
     end
@@ -231,21 +231,22 @@ class RegistrationsController < ApplicationController
     logger.error '>>>>>>>> if not valid'
 
     #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
-    if 'address-results'.eql? @registration.addressMode
+    if 'address-results'.eql? @address.address_mode
       logger.info 'We are in the address-results mode. About to retrieve the address match list (again)...'
       begin
-        @address_match_list = Address.find(:all, :params => {:postcode => @registration.postcode})
+        @address_match_list = AddressSearchResult.search(@address.postcode)
         session.delete(:address_lookup_failure) if session[:address_lookup_failure]
-        logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
-        if @address_match_list.size < 1 && !@registration.postcode.empty?
-          @registration.errors.add(:postcode, ' test')
+        logger.debug "Address lookup found #{@address_match_list.size} addresses"
+        if @address_match_list.size < 1 && !@address.postcode.empty?
+          @address.errors.add(:postcode, ' test')
         end
       rescue Errno::ECONNREFUSED
         session[:address_lookup_failure] = true
         logger.error 'ERROR: Address Lookup not running, or not found'
-      rescue ActiveResource::ServerError
+      rescue => e
+        # TODO: AC Once confirmed how we want to handle errors update this
         session[:address_lookup_failure] = true
-        logger.error 'ERROR: ActiveResource Server error!'
+        logger.error "ERROR: Address lookup failed! #{e}"
       end
     end
 
