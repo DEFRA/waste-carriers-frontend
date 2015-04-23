@@ -77,6 +77,7 @@ class RegistrationsController < ApplicationController
       return
     end
     @address = @registration.registered_address
+    logger.debug "The postcode on the address is #{@address.postcode}"
 
     if params[:changeAddress]
       @address.address_mode = nil
@@ -170,11 +171,10 @@ class RegistrationsController < ApplicationController
     return unless @registration
 
     logger.info 'Entering updateNewBusinessDetails - the @registration has been set up...'
+    @address = @registration.registered_address
 
     session.delete(:address_lookup_selected) if session[:address_lookup_selected]
 
-    #if params[:addressSelector]  #user selected an address from drop-down list
-    #if @registration.selectedAddress and !@registration.selectedAddress.empty?
     if params[:registration][:selectedAddress]
       logger.info '>>>>>>>> validate selected address'
       @registration.validateSelectedAddress = true
@@ -202,29 +202,18 @@ class RegistrationsController < ApplicationController
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
     end
 
-    if params[:findAddress] #user clicked on Find Address button
+    if params[:findAddress] # user clicked on Find Address button
       logger.info '>>>>>>>> in findAddress'
       if @registration.valid?
         # clicked find and valid
-        @registration.update(:addressMode => 'address-results')
-        @registration.update(:postcode => params[:registration][:postcode])
-
-        redirect_to :newBusinessDetails and return
+        @address.update(address_mode: 'address-results')
+        @address.update(postcode: params[:address][:postcode])
+        redirect_to :newBusinessDetails
+        return
       else
         # clicked find and not valid
         render 'newBusinessDetails', status: '200' and return
       end
-
-#      if @registration.postcode.empty?
-#        @registration.errors.add(:postcode, ' test1')
-#
-#        render 'newBusinessDetails', status: '200' and return
-#      else
-#
-#      #GGG - this bit should be done on the subsequent GET
-#      #render 'newBusinessDetails', status: '200'
-#      redirect_to :newBusinessDetails and return
-#      end
     elsif @registration.valid?
       if @registration.tier.eql? 'UPPER'
         @registration.cross_check_convictions
@@ -234,13 +223,6 @@ class RegistrationsController < ApplicationController
       if session[:edit_link_business_details]
         session.delete(:edit_link_business_details)
         redirect_to :newConfirmation and return
-        #if session[:edit_mode]
-        #  case @registration.businessType
-        #  when  'partnership', 'limitedCompany', 'publicBody'
-        #    redirect_to :newKeyPerson and return
-        #  else
-        #    redirect_to :newConfirmation and return
-        #  end
       else
         redirect_to :newContact and return
       end
