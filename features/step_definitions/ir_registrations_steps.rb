@@ -115,7 +115,7 @@ Given(/^I am registering an IR registration for a Partnership and pay by bank tr
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_ad_contact_details_and_submit
-  enter_key_people_details_and_submit
+  enter_multiple_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
 
@@ -128,7 +128,7 @@ When(/^I enter my IR registration number for a partnership and pay by credit car
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_contact_details_and_submit
-  enter_key_people_details_and_submit
+  enter_multiple_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
 
@@ -219,7 +219,7 @@ Then(/^there will be a renewal and edit amount charged$/) do
 end
 
 Then(/^the correct renewal charge should be shown$/) do
-  finish_assisted_page_check_charge_amount(amount: '135.00')
+  finish_assisted_page_check_charge_amount(amount: '105.00')
 end
 
 Then(/^my correct renewal charge should be shown$/) do
@@ -338,7 +338,7 @@ Given(/^have chosen to renew a customers existing licence$/) do
   start_page_select_renew
 end
 
-When(/^I only change business details$/) do
+When('I only change business details') do
   business_type_page_submit
   other_businesses_page_select_no
   construction_demolition_page_select_yes
@@ -350,7 +350,7 @@ When(/^I only change business details$/) do
   contact_details_page_enter_ad_contact_details_and_submit
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
-  confirm_registration_page_and_submit
+  confirmation_page_registration_and_submit
 end
 
 When(/^I make no other changes to my registration details$/) do
