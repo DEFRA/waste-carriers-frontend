@@ -729,9 +729,7 @@ class Registration < Ohm::Model
   POSITION_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
   DISTANCES = %w[any 10 50 100]
-  VALID_HOUSE_NAME_OR_NUMBER_REGEX = /\A[a-zA-Z0-9\'\s\,\&-]+\z/
-  TOWN_CITY_REGEX = /\A[a-zA-Z0-9\'\s\,-]+\z/
-  POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
+
   YES_NO_ANSWER = %w(yes no)
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
   VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\'\u2019\[\]\,\(\)]+\z/
@@ -768,28 +766,6 @@ class Registration < Ohm::Model
   with_options if: [:businessdetails_step?, :limited_company?, :upper?] do |registration|
     registration.validates :company_no, uk_company_number: true
     registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
-  end
-
-  with_options if: [:address_step?, :address_lookup? ] do |registration|
-    registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters') }, length: { maximum: 35 },  unless: :address_lookup_page?
-    # we're avoiding street field validation here, as sometime the Experian service fails to populate these fields so
-    # we don't want validation errors to stop the flow because the lookup isn't working properly.
-    registration.validates :townCity, presence: true, format: { with: TOWN_CITY_REGEX }, unless: :address_lookup_page?
-    registration.validates :postcode, uk_postcode: true
-  end
-
-  with_options if: [:address_step?, :manual_uk_address?] do |registration|
-    registration.validates :houseNumber, :presence => { :message => I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), :allow_blank => true }, length: { maximum: 35 }
-    registration.validates :streetLine1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
-    registration.validates :streetLine2, length: { maximum: 35 }
-    registration.validates :townCity, :presence => { :message => I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), :allow_blank => true }
-    registration.validates :postcode, uk_postcode: true
-  end
-
-  with_options if: [:address_step?, :manual_foreign_address?] do |registration|
-    registration.validates :streetLine1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
-    registration.validates :streetLine2, :streetLine3, :streetLine4, length: { maximum: 35 }
-    registration.validates :country, :presence => { :message => I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
   end
 
   # TODO AH - is position ever used?
@@ -932,10 +908,6 @@ class Registration < Ohm::Model
     current_step.inquiry.onlydealwith?
   end
 
-  def address_step?
-    businessdetails_step?
-  end
-
   def businessdetails_step?
     current_step.inquiry.businessdetails?
   end
@@ -1010,19 +982,6 @@ class Registration < Ohm::Model
     end
 
     route == 'ASSISTED_DIGITAL'
-  end
-
-  def manual_uk_address?
-    addressMode == 'manual-uk'
-  end
-
-  def manual_foreign_address?
-    addressMode == 'manual-foreign'
-  end
-
-  def address_lookup?
-    addressMode != 'manual-uk' &&
-        addressMode != 'manual-foreign'
   end
 
   def limited_company?
