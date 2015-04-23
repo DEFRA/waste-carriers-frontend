@@ -56,9 +56,7 @@ class AddressSearchResult
     AddressSearchResult.new(result)
   end
 
-  private
-
-  def do_search(url, params)
+  def self.do_search(url, params)
     begin
       result = JSON.parse(RestClient.get(url, params: params))
     rescue => e
