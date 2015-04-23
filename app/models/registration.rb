@@ -1037,6 +1037,10 @@ class Registration < Ohm::Model
   def not_limited_company?
     businessType != 'limitedCompany'
   end
+  
+  def partnership?
+    businessType == 'partnership'
+  end
 
   def account_email_present?
     accountEmail.present?
@@ -1453,7 +1457,10 @@ class Registration < Ohm::Model
         errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_relevant_person'))
       end
     elsif key_person_step? || key_people_step?
-      if key_people.select { |person| person.person_type == 'KEY'}.empty?
+      local_key_people = key_people.select { |person| person.person_type == 'KEY'}
+      if partnership? && (local_key_people.size < 2)
+        errors.add(:key_people, I18n.t('errors.messages.enter_at_least_2_partners'))
+      elsif local_key_people.empty?
         errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_key_person'))
       end
     end
