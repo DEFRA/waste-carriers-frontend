@@ -22,7 +22,7 @@ module FinishAssistedPage
   end
 
   def finish_assisted_page_check_pending_payment_text
-    expect(page).to have_text 'pay the registration fee'
+    expect(page).to have_text 'Pay the registration charge'
   end
 
   def finish_assisted_page_check_charge_amount(amount:'105.00')
