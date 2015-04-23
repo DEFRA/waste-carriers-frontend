@@ -61,7 +61,7 @@ When(/^I enter my IR registration number for a partnership and pay by bank trans
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_contact_details_and_submit
-  enter_key_people_details_and_submit
+  enter_multiple_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
 
@@ -271,9 +271,9 @@ end
 
 Given(/^I have completed smart answers, but changed my business type$/) do
   # Prepopulated business type
-  # assumes original value was soletrader, thus partnership is a change from
+  # assumes original value was soletrader, thus Public Body is a change from
   # original
-  choose 'registration_businessType_partnership'
+  choose 'registration_businessType_publicbody'
   click_button 'continue'
 
   # Remaining smart answer questions are not prepopulated
@@ -497,11 +497,27 @@ When(/^I change waste carrier type from CD to CBD$/) do
   click_button 'continue'
 end
 
-When(/^I Enter my details$/) do
+When('I Enter my details') do
   fill_in 'key_person_first_name', with: 'Joe'
   fill_in 'key_person_last_name', with: 'Bloggs'
   fill_in 'key_person_dob_day', with: '01'
   fill_in 'key_person_dob_month', with: '02'
+  fill_in 'key_person_dob_year', with: '1980'
+  click_button 'continue'
+end
+
+When('I Enter my details for two partners') do
+  fill_in 'key_person_first_name', with: 'Joe'
+  fill_in 'key_person_last_name', with: 'Bloggs'
+  fill_in 'key_person_dob_day', with: '01'
+  fill_in 'key_person_dob_month', with: '02'
+  fill_in 'key_person_dob_year', with: '1980'
+  click_button 'add_btn'
+  
+  fill_in 'key_person_first_name', with: 'Joanne'
+  fill_in 'key_person_last_name', with: 'Bloggs'
+  fill_in 'key_person_dob_day', with: '02'
+  fill_in 'key_person_dob_month', with: '03'
   fill_in 'key_person_dob_year', with: '1980'
   click_button 'continue'
 end

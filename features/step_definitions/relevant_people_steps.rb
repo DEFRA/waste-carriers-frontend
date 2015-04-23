@@ -96,8 +96,8 @@ When(/^add another Partner$/) do
   click_button 'continue'
 end
 
-When(/^change another Partner$/) do
-  click_link 'Delete'
+When('change another Partner') do
+  click_link('Delete', match: :first)
   fill_in 'key_person_first_name', with: 'Stirling'
   fill_in 'key_person_last_name', with: 'Moss'
   fill_in 'key_person_dob_day', with: '02'
