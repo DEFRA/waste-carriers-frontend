@@ -60,7 +60,7 @@ Feature: Relevant People
     And I provide my company name
     And I autocomplete my business address
     And I provide my personal contact details
-    And I Enter my details
+    And I Enter my details for two partners
     And There are relevant people with relevant convictions in my organisation
     Then I cannot proceed until I have added a relevant person
 
@@ -71,7 +71,7 @@ Feature: Relevant People
     And I provide my company name
     And I autocomplete my business address
     And I provide my personal contact details
-    And I Enter my details
+    And I Enter my details for two partners
     And There are relevant people with relevant convictions in my organisation
     And I enter the following people with relevant convictions:
         | first_name | last_name | position | dob_day | dob_month | dob_year |
@@ -88,7 +88,7 @@ Feature: Relevant People
     And I provide my company name
     And I autocomplete my business address
     And I provide my personal contact details
-    And I Enter my details
+    And I Enter my details for two partners
     And There are relevant people with relevant convictions in my organisation
     And I enter the following people with relevant convictions:
         | first_name | last_name | position | dob_day | dob_month | dob_year |
@@ -127,7 +127,7 @@ Scenario: Editing Partnership details with multiple relevant people - add partne
     And I provide my company name
     And I autocomplete my business address
     And I provide my personal contact details
-    And I Enter my details
+    And I Enter my details for two partners
     And There are relevant people with relevant convictions in my organisation
     And I enter the following people with relevant convictions:
         | first_name | last_name | position | dob_day | dob_month | dob_year |
@@ -148,7 +148,7 @@ Scenario: Editing Partnership details with multiple relevant people - change par
     And I provide my company name
     And I autocomplete my business address
     And I provide my personal contact details
-    And I Enter my details
+    And I Enter my details for two partners
     And There are relevant people with relevant convictions in my organisation
     And I enter the following people with relevant convictions:
         | first_name | last_name | position | dob_day | dob_month | dob_year |
