@@ -38,8 +38,7 @@ class Address < Ohm::Model
     address = Address.create
 
     address_hash.each do |k, v|
-      case k
-      when 'location'
+      if k == 'location'
         address.location.add Location.init(v)
       else
         address.send(:update, k.to_sym => v)
