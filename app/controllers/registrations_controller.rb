@@ -1028,23 +1028,9 @@ class RegistrationsController < ApplicationController
   def copyAddressToSession
     logger.info 'Copying address details into the registration...'
 
-    @registration = Registration[ session[:registration_id]]
-
-    @registration.houseNumber = @selected_address.lines[0] if @selected_address.lines[0]
-    @registration.streetLine1 = @selected_address.lines[1] if @selected_address.lines[1]
-    @registration.streetLine2 = @selected_address.lines[2] if @selected_address.lines[2]
-    @registration.streetLine3 = @selected_address.lines[3] if @selected_address.lines[3]
-    @registration.townCity = @selected_address.town  if @selected_address.town
-    @registration.postcode = @selected_address.postcode  if @selected_address.postcode
-    @registration.uprn = @selected_address.uprn if @selected_address.uprn
-    @registration.easting = @selected_address.easting if @selected_address.easting
-    @registration.northing = @selected_address.northing if @selected_address.northing
-    @registration.dependentLocality = @selected_address.dependentLocality if @selected_address.dependentLocality
-    @registration.dependentThroughfare = @selected_address.dependentThroughfare if @selected_address.dependentThroughfare
-    @registration.administrativeArea = @selected_address.administrativeArea if @selected_address.administrativeArea
-    @registration.localAuthorityUpdateDate = @selected_address.localAuthorityUpdateDate if @selected_address.localAuthorityUpdateDate
-    @registration.royalMailUpdateDate = @selected_address.royalMailUpdateDate if @selected_address.royalMailUpdateDate
-    @registration.save
+    @registration = Registration[session[:registration_id]]
+    @address = @registration.registered_address
+    @address.populate_from_address_search_result(@selected_address)
   end
 
   def pending
