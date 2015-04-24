@@ -9,8 +9,7 @@ Background: Environment agency user is logged into system
 Given I have signed in as an Environment Agency user
 And have chosen to renew a customers existing licence
 
-#Test updated should pass when #83644968 'IR renewals using NCCC login result in incorrect charge' is resolved
-@javascript @happy_days @wip
+@javascript @happy_days
 Scenario: Assisted Digital IR registrations, No convictions, Online payment
   Given I am registering an IR registration for a Sole trader and pay by credit card
   When I make no other changes to my registration details
@@ -33,16 +32,13 @@ Scenario: IR registrations - AD - Limited company changes business name should b
   Then I should be shown the total cost is the charge amount and renewal amount "105.00"
   And have the option to pay by Credit or Debit card or by bank transfer
 
-#Test updated should pass when #83644968 'IR renewals using NCCC login result in incorrect charge' is resolved
-@javascript @wip
+@javascript
 Scenario: Assisted Digital IR registrations, Convictions, Online payment
    Given I am registering an IR registration for a Public body and pay by credit card
    When I make no other changes to my registration details
    Then a renewal fee will be charged
    And the callers registration should be pending convictions checks when payment is successful
 
-#Test updated should pass when #83644968 'IR renewals using NCCC login result in incorrect charge' is resolved
-@wip
 Scenario: Assisted Digital IR registrations, No Convictions, Offline payment
   Given I am registering an IR registration for a Partnership and pay by bank transfer
   When I make no other changes to my registration details
@@ -50,8 +46,7 @@ Scenario: Assisted Digital IR registrations, No Convictions, Offline payment
    And the callers registration should be pending payment
    And the correct renewal charge should be shown
 
-#Test updated should pass when #83644968 'IR renewals using NCCC login result in incorrect charge' is resolved
-@javascript @wip
+@javascript
 Scenario: Assisted Digital IR registrations, Convictions, Offline payment
   Given I am registering an IR registration for a limited company with convictions and pay by bank transfer
   When I make no other changes to my registration details
@@ -75,6 +70,3 @@ Scenario: IR registrations - AD - Sole Trader changes waste carrier type with co
   Then there will be a renewal and edit amount charged
   And the callers registration should be pending payment
   And the correct renewal and edit charge should be shown
-
-
-

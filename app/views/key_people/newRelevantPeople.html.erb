@@ -22,7 +22,7 @@
           <% content_for :page_title, createTitle('.title') %>
           <%= render 'shared/errors' %>
           <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"}, html: {autocomplete: 'off'} ) do |f| %>
-            <%= render 'relevant_person_form', f: f, d: @key_person, :legend => t('.legend') %>
+            <%= render 'relevant_person_form', f: f, d: @key_person, legend: t('.legend') %>
 
             <span class="continue_link"><%= render 'continue_link' %></span>
             <div class="continue_link">
