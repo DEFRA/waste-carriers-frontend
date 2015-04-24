@@ -704,6 +704,36 @@ class Registration < Ohm::Model
   def copy_construct
     Registration.init(self.to_json)
   end
+  
+  # Creates and returns a new registraiton, initialising most fields from an
+  # existing instance.  This is intended to be used only in the case where the
+  # user makes an edit requiring a new registration.  Specifically, finance
+  # details and conviction sign-off results are not copied, and convictions
+  # checks are re-run.
+  def self.create_new_when_edit_requires_new_reg(original_registration)
+    # Create a new registration, and initialise from the old.
+    new_reg = Registration.create
+    new_reg.add(original_registration.to_hash)
+    new_reg.add(original_registration.attributes)
+    
+    # New registration should not get the Finance Details or Conviction
+    # sign-offs of the old.
+    unless original_registration.finance_details.empty?
+      new_reg.finance_details.replace([])
+    end
+    unless original_registration.conviction_sign_offs.empty?
+      new_reg.conviction_sign_offs.replace([])
+    end
+    
+    # New registration should trigger new conviction searches.
+    if new_reg.upper?
+      new_reg.key_people.each { |person| person.cross_check_convictions }
+      new_reg.cross_check_convictions
+    end
+    
+    # Return the result.
+    new_reg
+  end
 
   BUSINESS_TYPES = %w[
     soleTrader
