@@ -431,11 +431,8 @@ class RegistrationsController < ApplicationController
           # If a new registration is needed at this point it should be created
           # as the payment will then be processed against that registration and
           # not the original one, which will be marked as deleted
-          new_reg = Registration.create
+          new_reg = Registration.create_new_when_edit_requires_new_reg(@registration)
           session[:editing] = true
-
-          new_reg.add(@registration.to_hash)
-          new_reg.add(@registration.attributes)
 
           # Need to re-get registration from DB as we are leaving the orig alone
           original_reg = Registration.find_by_id(@registration.uuid)
