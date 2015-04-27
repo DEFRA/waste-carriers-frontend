@@ -1426,7 +1426,7 @@ en:
       payment_amount: "Payment amount"
       comment: "Comments"
       payment_updated_by: "Payment updated by"
-      payment_entered: "Payment entered"
+      payment_received: "Payment received"
       balance: "Balance"
     registrations_search:
       title: "Registration search"
