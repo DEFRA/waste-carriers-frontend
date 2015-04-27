@@ -160,7 +160,6 @@ class WorldpayController < ApplicationController
       @payment.dateReceived_month = now.month
       @payment.dateReceived_day = now.day
       #We don't need to set the dateEntered; this is done within the service
-      #@payment.dateEntered = now
       # TODO get the user if not yet logged in (still to be activated)
       @payment.updatedByUser = @registration.accountEmail
       @payment.amount = paymentAmount.to_i

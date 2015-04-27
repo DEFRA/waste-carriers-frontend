@@ -1,4 +1,5 @@
 class ReportsController < ApplicationController
+  include RegistrationExportHelper
 
   #We require authentication for all reports and authorisation for some reports.
 
@@ -72,7 +73,7 @@ class ReportsController < ApplicationController
         @report.errors.add(:base, t('errors.messages.no_results'))
         render 'registrations_search', :status => '400'
       else
-        render_registrations_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}")
+        render_registrations_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}.csv")
       end
     else
       logger.info 'Search filters are not valid'
@@ -216,13 +217,23 @@ class ReportsController < ApplicationController
 
     end
 
-    def render_registrations_csv(filename = nil)
-      filename ||= params[:action]
-      filename += '.csv'
-
-      set_export_headers filename
-
-      render "registrations_export.csv", :layout => false
+    def render_registrations_csv(filename)
+      csv_data = CSV.generate({ row_sep: "\r\n", force_quotes: true }) do |csv|
+        headers = regexport_get_headers('full')
+        csv << headers
+        @registrations.each do |registration|
+          reg_data = regexport_get_registration_data('full', registration)
+          if registration.lower?
+            csv << pad_array_to_match_length(headers, reg_data)
+          else
+            registration.key_people.each do |person|
+              person_data = regexport_get_person_data('full', registration, person)
+              csv << reg_data + person_data
+            end
+          end
+        end
+      end
+      send_data(csv_data, filename: filename)
     end
 
     def render_payments_csv(filename = nil)
