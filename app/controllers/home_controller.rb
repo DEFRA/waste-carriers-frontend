@@ -41,4 +41,8 @@ class HomeController < ApplicationController
       @apiVersion = @apiVersionObj.versionDetails
     end
   end
+
+  def maintenance
+    render file: '/public/maintenance_template.html'
+  end
 end
