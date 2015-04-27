@@ -117,13 +117,18 @@ class KeyPeopleController < ApplicationController
       end
     elsif form_blank?
       # Form was left blank.
-      @key_person.errors.clear
-      unless @registration.valid?
-        # We have too few Key People added so far.
+      if params[:add]
+        # The user clicked the 'add' button but didn't provide any details.
         render 'newKeyPeople', status: '400'
       else
-        # Everything is OK; continue to next page.
-        redirect_to :newRelevantConvictions
+        @key_person.errors.clear
+        unless @registration.valid?
+          # We have too few Key People added so far.
+          render 'newKeyPeople', status: '400'
+        else
+          # Everything is OK; continue to next page.
+          redirect_to :newRelevantConvictions
+        end
       end
     else
       # Key Person details are not blank, but failed validation.

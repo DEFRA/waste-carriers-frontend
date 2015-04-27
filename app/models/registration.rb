@@ -615,28 +615,25 @@ class Registration < Ohm::Model
   # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
     def find_by_params(params, options = {})
-
-      defaults = {
-          :root_url => "#{Rails.configuration.waste_exemplar_services_url}",
-          :url => "/registrations",
-          :format => ".json"
-      }
-      options = defaults.merge(options)
-
       registrations = []
-      url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
-      # url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{params.to_query}"
-      Rails.logger.debug "find_by_params url=#{url}"
       begin
-        response = RestClient.get url
+        defaults = {
+            :root_url => "#{Rails.configuration.waste_exemplar_services_url}",
+            :url => "/registrations",
+            :format => ".json"
+        }
+        options = defaults.merge(options)
+        
+        url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
+        response = RestClient.get(url)
+        
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug "find_by_params found #{all_regs.size.to_s} items"
           all_regs.each do |r|
             registrations << Registration.init(r)
           end
         else
-          Rails.logger.error "Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"
+          Rails.logger.error {"Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"}
         end
       rescue => e
         Rails.logger.error e.to_s
@@ -652,6 +649,7 @@ class Registration < Ohm::Model
   class << self
     def init (response_hash)
       new_reg = Registration.create
+      normal_attributes = Hash.new
 
       response_hash.each do |k, v|
         case k
@@ -680,9 +678,11 @@ class Registration < Ohm::Model
               end
             end
           else  #normal attribute'
-            new_reg.send(:update, {k.to_sym => v})
+            normal_attributes.store(k, v)
         end
       end #each
+      
+      new_reg.update_attributes(normal_attributes)
       
       new_reg.save
       new_reg
@@ -715,7 +715,7 @@ class Registration < Ohm::Model
     new_reg = Registration.create
     new_reg.add(original_registration.to_hash)
     new_reg.add(original_registration.attributes)
-    
+
     # New registration should not get the Finance Details or Conviction
     # sign-offs of the old.
     unless original_registration.finance_details.empty?
@@ -724,13 +724,13 @@ class Registration < Ohm::Model
     unless original_registration.conviction_sign_offs.empty?
       new_reg.conviction_sign_offs.replace([])
     end
-    
+
     # New registration should trigger new conviction searches.
     if new_reg.upper?
-      new_reg.key_people.each { |person| person.cross_check_convictions }
+        new_reg.key_people.each { |person| person.cross_check_convictions }
       new_reg.cross_check_convictions
     end
-    
+
     # Return the result.
     new_reg
   end
