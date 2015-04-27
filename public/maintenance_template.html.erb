@@ -1,0 +1,20 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+		<header class="page-header group">
+			<div class="hgroup">
+				<h1 class="heading-large"><%=t 'global.maintenance.heading'%></h1>
+			</div>
+		</header>
+
+		<% content_for :page_title, createTitle('global.maintenance.title') %>
+
+		<p class="text">{{ reason }}</p>
+    <p class="text">Please try again later.</p>
+    <p class="text">If you need assistance in the meantime please contact the Environment Agency on telephone: 03708 506506.</p>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->

@@ -23,6 +23,7 @@ Registrations::Application.routes.draw do
   get 'version' => 'home#version', :via => [:get], :as => :app_version
   get 'cookies' => 'home#cookies', :via => [:get], :as => :cookies
   get 'privacy' => 'home#privacy', :via => [:get], :as => :privacy
+  get 'maintenance' => 'home#maintenance'
 
   get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
 
