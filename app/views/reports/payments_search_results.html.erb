@@ -65,7 +65,7 @@
       <th><%= t 'reports.fields.payment_amount' %></th>
       <th><%= t 'reports.fields.comment' %></th>
       <th><%= t 'reports.fields.payment_updated_by' %></th>
-      <th><%= t 'reports.fields.payment_entered' %></th>
+      <th><%= t 'reports.fields.payment_received' %></th>
       <th><%= t 'reports.fields.balance' %></th>
     </tr>
   </thead>
@@ -95,7 +95,7 @@
                   <td>&nbsp;</td><!-- payment amount -->
                   <td>&nbsp;</td><!-- comments -->
                   <td>&nbsp;</td><!-- payment updated by -->
-                  <td>&nbsp;</td><!-- payment entered -->
+                  <td>&nbsp;</td><!-- payment received -->
                   <td><%= money_value_without_currency_symbol_and_with_pence_part registration.finance_details.first.balance %></td>
                 </tr>
               <% else %>
@@ -115,7 +115,7 @@
                     <td><%= money_value_without_currency_symbol_and_with_pence_part payment.amount %></td>
                     <td><%= payment.comment %></td>
                     <td><%= payment.updatedByUser %></td>
-                    <td><%= format_time payment.dateEntered %></td>
+                    <td><%= format_time payment.dateReceived %></td>
                     <td><%= money_value_without_currency_symbol_and_with_pence_part registration.finance_details.first.balance %></td>
                   </tr>
                 <% end %><!--related payments each-->
@@ -135,7 +135,7 @@
               <td><%= registration.companyName %></td>
               <td><%= registration.metaData.first.status %></td>
               <td><%= registration.metaData.first.route %></td>
-              <td><%= format_time payment.dateReceived %></td>
+              <td><%= format_time payment.dateEntered %></td>
               <td>&nbsp;</td><!-- order code -->
               <td>&nbsp;</td><!-- charge type -->
               <td>&nbsp;</td><!-- charge amount -->
@@ -145,7 +145,7 @@
               <td><%= money_value_without_currency_symbol_and_with_pence_part payment.amount %></td>
               <td><%= payment.comment %></td>
               <td><%= payment.updatedByUser %></td>
-              <td><%= format_time payment.dateEntered %></td>
+              <td><%= format_time payment.dateReceived %></td>
               <td><%= money_value_without_currency_symbol_and_with_pence_part registration.finance_details.first.balance %></td>
             </tr>
           <% end %><!--unrelated payments each-->
