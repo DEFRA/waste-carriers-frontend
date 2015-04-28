@@ -1,4 +1,5 @@
 <%= render 'shared/content_for_pages' %>
+<% content_for :page_title, createTitle('global.maintenance.title') %>
 
 <div id="wrapper">
 
@@ -10,11 +11,10 @@
 			</div>
 		</header>
 
-		<% content_for :page_title, createTitle('global.maintenance.title') %>
-
+    <p class="text">Sorry, this service is currently unavailable.</p>
 		<p class="text">{{ reason }}</p>
     <p class="text">Please try again later.</p>
-    <p class="text">If you need assistance in the meantime please contact the Environment Agency on telephone: 03708 506506.</p>
+    <p class="text">If you need assistance please contact the Environment Agency on telephone: 03708 506506.</p>
 
   </main><!-- end main -->
 </div><!-- end wrapper -->
