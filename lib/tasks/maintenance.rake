@@ -8,17 +8,26 @@ namespace :maintenance do
   end
 
   # Handy alternative to calling the 'generate' and 'start' tasks seperately. It
-  # will use a default reason though so cannot be used where a custom reason
-  # is required.
+  # ensures that the assets folder is added as an acceptable route to (needed
+  # for styling to come through) and will set a default reason if none is
+  # is given.
   task default: :environment do
     Rake::Task['maintenance:generate'].invoke
 
     # invoke() has the ability to accept arguments, but not named ones. To do
     # that we have to specify them as ENV variables first then call the rake
-    # task. Also be aware args are case senstive.
-    ENV['allowed_paths'] = '/assets/*'
+    # task. This checks if they were given when the task was called, setting
+    # them automatically if they were blank. Also be aware args are case
+    # senstive.
+    if ENV['allowed_paths'].blank?
+      ENV['allowed_paths'] = '/assets/*'
+    else
+      ENV['allowed_paths'] = "#{ENV['allowed_paths']},^/assets/*"
+    end
+
     ENV['reason'] = "The service is temporarily unavailable whilst we make \
-      important changes to it."
+      important changes to it." if ENV['reason'].blank?
+
     Rake::Task['maintenance:start'].invoke
   end
 
