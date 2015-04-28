@@ -1089,9 +1089,7 @@ class Registration < Ohm::Model
   def paid_in_full?
     begin
       the_balance = self.try(:finance_details).try(:first).try(:balance)
-
       the_balance = 0 if the_balance.nil?
-      Rails.logger.debug "paid_in_full balance: #{the_balance.to_s}"
     rescue Exception => e
       Rails.logger.debug e.message
     end
