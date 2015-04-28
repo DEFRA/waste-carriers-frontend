@@ -399,6 +399,9 @@ en:
     footer_cookies_link: "Cookies"
     headerLinkTitle: "Go to the GOV.UK homepage"
     helpline: "Helpline:\ "
+    maintenance:
+      heading: "Planned maintenance"
+      title: "Maintenance - GOV.UK"
     notfound:
       heading: "Page not found"
       message: "Sorry, the page you're looking for can't be found."
