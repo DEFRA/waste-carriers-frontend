@@ -35,6 +35,7 @@ class Order < Ohm::Model
   class << self
     def init (order_hash)
       order = Order.create
+      normal_attributes = Hash.new
 
       order_hash.each do |k, v|
         case k
@@ -50,12 +51,14 @@ class Order < Ohm::Model
               orderItem = OrderItem.init(item_hash)
               order.order_items.add orderItem
             end
-
           end #if
         else
-          order.send(:update, {k.to_sym => v})
+          normal_attributes.store(k, v)
         end #case
       end
+      
+      order.update_attributes(normal_attributes)
+      
       order.save
       order
     end
