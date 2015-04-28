@@ -41,6 +41,11 @@ module RegistrationExportHelper
   end
   
   private
+  def bool_to_string(value)
+    value ? 'Yes' : 'No'
+  end
+  
+  private
   def get_headers_full()
     [
       I18n.t('reports.fields.reg_identifier'),
@@ -69,6 +74,8 @@ module RegistrationExportHelper
       I18n.t('reports.fields.date_registered'),
       I18n.t('reports.fields.date_activated'),
       I18n.t('reports.fields.status'),
+      I18n.t('reports.fields.pending_payment'),
+      I18n.t('reports.fields.pending_convictions'),
       I18n.t('reports.fields.route'),
       I18n.t('reports.fields.access_code'),
       I18n.t('reports.fields.expires_on'),
@@ -118,6 +125,8 @@ module RegistrationExportHelper
       format_as_date_only(registration.metaData.first.dateRegistered),
       format_as_date_only(registration.metaData.first.dateActivated, blank_if_epoch: true),
       registration.metaData.first.status,
+      isUpper ? bool_to_string(!registration.paid_in_full?) : '',
+      isUpper ? bool_to_string(registration.is_awaiting_conviction_confirmation?) : '',
       registration.metaData.first.route,
       registration.accessCode,
       format_as_date_only(registration.expires_on, blank_if_epoch: true),

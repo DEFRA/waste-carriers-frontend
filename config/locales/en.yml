@@ -1394,6 +1394,8 @@ en:
       date_registered: "Date registered"
       date_activated: "Date activated"
       status: "Registration status"
+      pending_payment: "Pending payment"
+      pending_convictions: "Pending convictions"
       route: "Route"
       access_code: "Access code"
       expires_on: "Expires on"
