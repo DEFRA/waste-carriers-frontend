@@ -46,11 +46,7 @@ class ConvictionSearchResult < Ohm::Model
   class << self
     def init(conviction_search_result_hash)
       conviction_search_result = ConvictionSearchResult.create
-
-      conviction_search_result_hash.each do |k, v|
-        conviction_search_result.send(:update, { k.to_sym => v })
-      end
-
+      conviction_search_result.update_attributes(conviction_search_result_hash)
       conviction_search_result.save
       conviction_search_result
     end
