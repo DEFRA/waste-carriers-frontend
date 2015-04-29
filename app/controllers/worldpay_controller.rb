@@ -47,6 +47,7 @@ class WorldpayController < ApplicationController
           edit_result: session[:edit_result])
       when Order.extra_copycards_identifier
         # Extra copy cards were ordered.
+        # TODO: Insert appropriate routing for copy cards routes here
         next_step = complete_copy_cards_path(@registration.uuid)
         clear_registration_session
       end
