@@ -1,19 +1,19 @@
 def create_complete_lower_tier_reg(type)
   registration = create_complete_lower_tier_reg_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")))
   @cucumber_reg_id = registration['regIdentifier']
-  registration
+  return registration
 end
 
 def create_complete_lower_tier_reg_from_hash(reg_hash)
   create_user(reg_hash['accountEmail'])
   registration =  JSON.parse(create_registration_from_hash(reg_hash))
-  get_registration(registration['id'])
+  return get_registration(registration['id'])
 end
 
 def create_complete_upper_tier_reg(type, method, copy_cards)
   registration = create_complete_upper_tier_reg_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")), method, copy_cards)
   @cucumber_reg_id = registration['regIdentifier']
-  registration
+  return registration
 end
 
 def create_complete_upper_tier_reg_from_hash(reg_hash, method, copy_cards)
@@ -26,7 +26,8 @@ def create_complete_upper_tier_reg_from_hash(reg_hash, method, copy_cards)
   #create order and pay
   order_response = JSON.parse(create_order(registration, copy_cards.to_i, method))
   create_payment(id, order_response['totalAmount'], account_email, method)
-  get_registration(id)
+
+  return get_registration(id)
 end
 
 def create_registration(type)
@@ -47,7 +48,8 @@ def create_registration_from_hash(reg_hash)
 
   #edit registration
   edit_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{id}.json"
-  RestClient.put(edit_url, edit_reg_data.to_json, content_type: :json, accept: :json)
+  edit_reg_response = RestClient.put edit_url, edit_reg_data.to_json, :content_type => :json, :accept => :json
+  return edit_reg_response
 end
 
 def create_payment(id, amount, email, method)
@@ -67,12 +69,13 @@ def create_payment(id, amount, email, method)
   payment_data['amount'] = amount
 
   payment_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{id}/payments.json"
-  RestClient.post(payment_url, payment_data.to_json, content_type: :json, accept: :json)
+  payment_response = RestClient.post payment_url, payment_data.to_json, :content_type => :json, :accept => :json
 end
 
 def create_order(edit_reg_response, no_of_copy_cards, method)
+  edit_reg_response
   id = edit_reg_response['id']
-  order_id = SecureRandom::uuid
+  order_id = edit_reg_response['financeDetails']['orders'][0]['orderId']
   reg_identifier = edit_reg_response['regIdentifier']
 
   if method == "World Pay"
@@ -108,13 +111,15 @@ def create_order(edit_reg_response, no_of_copy_cards, method)
   end
 
   order_data['totalAmount'] = total_amount
-  order_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{id}/orders.json"
-  RestClient.post(order_url, order_data.to_json, content_type: :json, accept: :json)
+  order_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{id}/orders/#{order_id}.json"
+  order_response = RestClient.put order_url, order_data.to_json, :content_type => :json, :accept => :json
+  return order_response
 end
 
 def get_registration(id)
   get_reg_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{id}.json"
-  JSON.parse(RestClient.get(get_reg_url))
+  get_reg_response = RestClient.get get_reg_url
+  return JSON.parse(get_reg_response)
 end
 
 def create_user(account_email)
