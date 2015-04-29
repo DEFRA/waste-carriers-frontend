@@ -13,47 +13,29 @@ class FinanceDetails < Ohm::Model
   class << self
     def init (fd_hash)
       fd = FinanceDetails.create
+      normal_attributes = Hash.new
 
       fd_hash.each do |k, v|
         case k
         when 'orders'
           if v #array of order hashes
             v.each do |order_hash|
-
-              fd_order = Order.init(order_hash)
-
-              #Rails.logger.info 'orders size before ' + fd.orders.size.to_s
-              fd.orders.each do |checkOrder|
-                #Rails.logger.info '-----------------'
-                #Rails.logger.info 'before check order: ' + checkOrder.attributes.to_s
-              end
-
-              # add to oder list
-              fd.orders.add fd_order
-
-              # Alan idea
-              #fd.orders.replace([fd_order])
-
-              #Rails.logger.info 'orders size after ' + fd.orders.size.to_s
-              fd.orders.each do |checkOrder|
-                #Rails.logger.info '-----------------'
-                #Rails.logger.info 'FD id: ' + fd.id + ' Order id: ' + checkOrder.id
-                #Rails.logger.info 'after check order: ' + checkOrder.to_json.to_s
-              end
-
+              fd.orders.add(Order.init(order_hash))
             end
           end #if
         when 'payments'
           if v #array of payment hashes
             v.each do |payment_hash|
-              payment = Payment.init(payment_hash)
-              fd.payments.add payment
+              fd.payments.add(Payment.init(payment_hash))
             end
           end #if
         else #normal string attribute
-          fd.send(:update, {k.to_sym => v})
+          normal_attributes.store(k, v)
         end #case
       end
+      
+      fd.update_attributes(normal_attributes)
+      
       fd.save
       fd
     end
