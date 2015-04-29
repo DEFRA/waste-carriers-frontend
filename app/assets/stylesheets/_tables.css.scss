@@ -59,3 +59,23 @@ table th, table td {
 .finance-table td {
  width: 25%;
 }
+
+.registration-table {
+  border-top: 10px solid $panel-colour;
+  padding-top: 15px;
+    @include media (mobile) {
+      border-top: 0px;
+    }
+}
+
+.actions-border {
+    @include media (mobile) {
+      border-bottom: 10px solid $panel-colour;
+      padding-bottom: 15px;
+    }
+}
+
+
+
+
+
