@@ -26,6 +26,16 @@ module OrderHelper
     render_type.eql?(Order.editrenew_caused_new_identifier)
   end
 
+  def prepareOfflineOrder(my_registration, render_type, order_uuid, order_code)
+    my_registration = calculate_fees(my_registration, render_type)
+    prepareOrder(my_registration, false, render_type, order_uuid, order_code)
+  end
+
+  def prepareOnlineOrder(my_registration, render_type, order_uuid, order_code)
+    my_registration = calculate_fees(my_registration, render_type)
+    prepareOrder(my_registration, true, render_type, order_uuid, order_code)
+  end
+
   def calculate_fees(my_registration, render_type)
     logger.info 'render_type: ' + render_type.to_s
     
@@ -67,22 +77,22 @@ module OrderHelper
                           my_registration.registration_fee,
                           my_registration.copy_card_fee,
                           my_registration.total_fee) }
+
+    my_registration
   end
 
-  # Creates and returns a new Order object based on the provided parameters.
-  # The returned Order will have a payment method of 'UNKNOWN', and should be
-  # updated using updateOrderForWorldpay() or updateOrderForOffline() when the
-  # user's chosen payment method is known.
-  def prepareGenericOrder(my_registration, render_type, order_uuid, order_code)
-    # Update order-related fields on the Registration object.
-    calculate_fees(my_registration, render_type)
-    
-    # Create a new Order object and initialise its fields.
+  def prepareOrder(my_registration, useWorldPay = true, render_type, order_uuid, order_code)
+    # Create a new Order object, with suitable description & order-code.
     my_order = Order.create
     my_order.orderId = order_uuid
     my_order.orderCode = order_code
     my_order.description = generateOrderDescription(render_type, my_registration)
-    updateOrderGenerally(my_order, my_registration)
+
+    if useWorldPay
+      my_order = updateOrderForWorldpay(my_order, my_registration)
+    else
+      my_order = updateOrderForOffline(my_order, my_registration)
+    end
 
     if show_registration_fee?(my_registration, render_type)
       # Add order item for Initial registration
@@ -183,32 +193,27 @@ module OrderHelper
     end
 
     orderDescription = orderLabel + incCopyCards
+    logger.debug 'orderDescription: ' + orderDescription
     orderDescription
   end
 
-  # Updates an Order object, to reflect that the user has chosen to pay for the
-  # Order via Worldpay.
   def updateOrderForWorldpay(my_order, my_registration)
-    updateOrderGenerally(my_order, my_registration)
+    my_order = updateOrderGenerally my_order, my_registration
     my_order.paymentMethod = 'ONLINE'
     my_order.merchantId = worldpay_merchant_code
     my_order.worldPayStatus = 'IN_PROGRESS'
+    my_order
   end
 
-  # Updates an Order object, to reflect that the user has chosen to pay for the
-  # Order via an offline process (eg bank transfer).
   def updateOrderForOffline(my_order, my_registration)
-    updateOrderGenerally(my_order, my_registration)
+    my_order = updateOrderGenerally my_order, my_registration
     my_order.paymentMethod = 'OFFLINE'
+    my_order.merchantId = 'n/a'
+    my_order.worldPayStatus = 'n/a'
+    my_order
   end
 
   def updateOrderGenerally(my_order, my_registration)
-    # Payment-method related fields; set these to non-specific values.
-    my_order.paymentMethod = 'UNKNOWN'
-    my_order.merchantId = 'n/a'
-    my_order.worldPayStatus = 'n/a'
-    
-    # Other fields.
     now = Time.now.utc.xmlschema
     my_order.totalAmount = my_registration.total_fee
     my_order.currency = 'GBP'
@@ -222,6 +227,7 @@ module OrderHelper
       my_order.updatedByUser = my_registration.accountEmail
     end
     my_order.amountType = Order.getPositiveType
+    my_order
   end
 
   def isIRRenewal?(my_registration, render_type)
