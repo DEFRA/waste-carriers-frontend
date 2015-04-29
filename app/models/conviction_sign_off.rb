@@ -32,16 +32,10 @@ class ConvictionSignOff < Ohm::Model
 
   class << self
     def init (conviction_sign_off_hash)
-
       conviction_sign_off = ConvictionSignOff.create
-
-      conviction_sign_off_hash.each do |k, v|
-        conviction_sign_off.send(:update, {k.to_sym => v})
-      end
-
+      conviction_sign_off.update_attributes(conviction_sign_off_hash)
       conviction_sign_off.save
       conviction_sign_off
-
     end
   end
 
