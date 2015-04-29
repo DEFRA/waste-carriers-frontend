@@ -100,7 +100,8 @@ module RegistrationsHelper
 
   # This method is called when updating from the registration's 'editing' pages (i.e. PUT/POST/MATCH)
   # to set up the @registration etc.
-  def setup_registration(current_step, no_update = false)
+  def setup_registration current_step, no_update=false
+
     logger.info 'setup_registration: current_step = ' + current_step.to_s
 
     if !session[:editing] && current_step != 'payment' && current_step != 'confirmation'
@@ -109,12 +110,13 @@ module RegistrationsHelper
     end
     
     if session[:registration_id]
-      @registration = Registration[session[:registration_id]]
+      @registration = Registration[ session[:registration_id]]
       logger.debug "Got Registration from session"
+
       @registration.update(current_step: current_step)
     else
       logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
-      @registration = Registration[params[:id]]
+      @registration = Registration[ params[:id]]
       if @registration.nil? and params[:id]
         # Registration still not found in session, trying database
         logger.info 'Cannot find registration in session, trying database'
@@ -289,7 +291,6 @@ module RegistrationsHelper
 
   def clear_order_session
     session.delete(:renderType)
-    session.delete(:orderId)
     session.delete(:orderCode)
   end
 

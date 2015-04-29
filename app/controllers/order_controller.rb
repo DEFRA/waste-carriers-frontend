@@ -10,50 +10,28 @@ class OrderController < ApplicationController
 
   # GET /new
   def new
-    # Setup registration.
-    setup_registration('payment', true)
+    # Renders a new Order page (formerly newPayment)
+    @order ||= Order.new
+
+    @renderType = session[:renderType]
+    unless @order.isValidRenderType? @renderType
+      logger.error 'Cannot find a renderType variable in the session. It is needed to determine the type of payment page to render.'
+      logger.error 'Rendering Page not found'
+      renderNotFound
+    end
+
+    # Setup page
+    setup_registration 'payment', true
     unless @registration
-      logger.error {'OrderController::new: No @registration; cannot continue.'}
+      logger.warn 'No @registration. Cannot show order page.'
       renderNotFound
       return
     end
 
-    # If the order is for anything other than additional Copy Cards, then it
-    # should have already been created and added to the registration.  Otherwise
-    # we create a new (blank) order here, so that it only gets committed if the
-    # user actually goes ahead with their order.
-    @renderType = session[:renderType]
-    if @renderType.eql?(Order.extra_copycards_identifier)
-      @order ||= Order.new
+    @registration.copy_cards = 0 unless @registration.copy_cards
+
+    if @renderType.eql? Order.extra_copycards_identifier
       @registration.update(copy_card_only_order: 'yes')
-      if !@registration.copy_cards || (@registration.copy_cards.to_i < 1)
-        @registration.copy_cards = 1
-      end
-    else
-      @registration.update(copy_card_only_order: nil)
-      @registration.copy_cards = 0 unless @registration.copy_cards
-
-      # Check we have an Order Code.
-      unless session.key?(:orderCode)
-        logger.error {'OrderController::new: No orderCode in session; cannot continue.'}
-        renderNotFound
-        return
-      end
-
-      # Setup order.
-      @order = @registration.getOrder(session[:orderCode])
-      unless @order
-        logger.error {'OrderController::new: No @order; cannot continue.'}
-        renderNotFound
-        return
-      end
-
-      # Confirm the Render Type is valid.
-      unless @order.isValidRenderType?(@renderType)
-        logger.error {'OrderController::new: Invalid renderType; cannot continue.'}
-        renderNotFound
-        return
-      end
     end
 
     # Calculate fees shown on page
@@ -62,72 +40,134 @@ class OrderController < ApplicationController
 
   # POST /create
   def create
-    # Setup registration and get Render Type.
-    setup_registration('payment')
-    @renderType = session[:renderType]
-
-    # Validate the registration.
-    unless @registration.valid?
-      logger.error {'OrderController::create: @registration is not valid: ' + my_registration.errors.messages.to_s}
-      render 'new', :status => '400'
-      return
-    end
+    setup_registration 'payment'
     
-    # Determine what type of payment is chosen, and update the order accordingly.
+    # Must get render type to determine what actions to take, and for
+    # rerendering any errors if found.
+    @renderType = session[:renderType]
+    logger.debug 'renderType session: ' + session[:renderType].to_s
+
+    # Determine what kind of payment selected and redirect to other action if required
     bank_transfer = (@registration.payment_type === "bank_transfer")
+
     if bank_transfer
-      @order = prepareOfflineOrder(@registration, @renderType, session[:orderId], session[:orderCode])
+      @order = prepareOfflinePayment(@registration, @renderType)
     else
-      @order = prepareOnlineOrder(@registration, @renderType, session[:orderId], session[:orderCode])
+      @order = prepareOnlinePayment(@registration, @renderType)
     end
 
-    # Depending upon the Render Type, we may want to clear fee-related fields
-    # on the registration, and save it to Redis and Mongo.
-    unless @renderType.eql?(Order.new_registration_identifier) ||
-           @renderType.eql?(Order.editrenew_caused_new_identifier) ||
-           isIRRenewal?(@registration, @renderType)
+    logger.info "Check if the registration is valid. This checks the data entered is valid"
+    if @registration.valid?
 
-      @registration.total_fee = nil
-      @registration.registration_fee = nil
-      @registration.copy_card_fee = nil
-      @registration.copy_cards = nil
+      if @order.valid?
+        logger.info "Determining order save/update"
+        if @renderType.eql?(Order.new_registration_identifier) || isIRRenewal?(@registration, @renderType) || @renderType.eql?(Order.editrenew_caused_new_identifier)
+          logger.info "Saving the order"
+          # New registration, so update existing order
+          if @order.save! @registration.uuid
+            # order saved successfully
 
-      if @registration.save!  # Save to Mongo
-        @registration.save    # Save to Redis
+            #
+            # TODO:
+            # cleanup render Type from session
+            #
+            # However: should be done later than here, because otherwise you cannot select one payment type,
+            #           go back in browser and select again link you can currently
+            #session.delete(:renderType)
+
+            # Re-get registration from the database to update the local redis version
+            regFromDB = Registration.find_by_id(@registration.uuid)
+            logger.info "Updated redis version after order save!"
+
+            # Get all nested children out of registration, specifically finaince details and override local copy in redis and save to redis
+            @registration.finance_details.replace([regFromDB.finance_details.first])
+            @registration.save
+
+          else
+            @order.errors.add(:exception, @order.exception.to_s)
+
+            # error updating services
+            logger.warn 'The update order was not saved to services.'
+            render 'new', :status => '400'
+            return
+          end
+        else
+
+          # Remove un-needed fee values from the registration about to be saved
+          @registration.total_fee = nil
+          @registration.registration_fee = nil
+          @registration.copy_card_fee = nil
+          @registration.copy_cards = nil
+
+          #
+          # Save the updated registration prior to making the new order, that way the returned order contains the up to date registration
+          # including any changes that have happended to the registration.
+          #
+          # The downside to this is an edge-case whereby the registration saves, and the commit fails so we need to ensure
+          # that registrations marked as renewalRequested are treated appropriately
+          #
+          if @registration.save!
+            logger.info "Registration saved!"
+            @registration.save
+          else
+            logger.info "Failed to save registration prior to order"
+            @order.errors.add(:exception, @registration.exception.to_s)
+
+            # error updating services
+            render 'new', :status => '400'
+            return
+          end
+
+          # Must be an edit, update or copy card order
+          logger.info "Committing the order"
+          if @order.commit @registration.uuid
+            # Order commited to services
+            logger.info "New order committed to services"
+
+            # Re-get registration from the database to update the local redis version
+            @registration = Registration.find_by_id(@registration.uuid)
+            logger.info "Updated redis version after order commit"
+            @registration.save
+
+          else
+            @order.errors.add(:exception, @order.exception.to_s)
+
+            # error updating services
+            logger.warn 'The new order was not committed to services.'
+            render 'new', :status => '400'
+            return
+          end
+        end
       else
-        logger.error {'Failed to save registration prior to updating the order'}
-        my_order.errors.add(:exception, @registration.exception.to_s)
+        #We should hardly get into here given we constructed the order just above...
+        logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
         render 'new', :status => '400'
         return
       end
-    end
 
-    # Add the order to the registration, then redirect to the next page.
-    if @renderType.eql?(Order.extra_copycards_identifier) && !@registration.hasOrder?(session[:orderCode])
-      order_saved = add_new_order_to_registration(@registration, @order, skip_registration_validation: true)
-    else
-      order_saved = update_order_on_registration(@registration, @order)
-    end
-
-    unless order_saved
-      render 'new', :status => '400'
-      return
-    else
-      logger.info {'Order saved.  About to redirect to Worldpay/Offline payment.'}
+      logger.info "About to redirect to Worldpay/Offline payment"
       set_google_analytics_payment_indicator(session, @order)
-
       if bank_transfer
-        redirect_to newOfflinePayment_path(orderCode: @order.orderCode)
+        logger.info "The registration is valid - redirecting to Offline payment page..."
+        redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
       else
+        logger.info "The registration is valid - redirecting to Worldpay..."
+
         response = send_xml(create_xml(@registration, @order))
         unless response
           render 'new', :status => '400'
           return
         end
+
         redirect_to get_redirect_url(parse_xml(response.body))
       end
+      return
+    else
+      logger.error "validation errors: #{@registration.errors.messages.to_s}"
+      logger.error "The registration is not valid! " + @registration.to_s
+      render 'new', :status => '400'
     end
 
   end
-
+  
 end
