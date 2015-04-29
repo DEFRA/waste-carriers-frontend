@@ -57,7 +57,7 @@ class OrderController < ApplicationController
     end
 
     # Calculate fees shown on page
-    calculate_fees(@registration, @renderType)
+    @registration = calculate_fees(@registration, @renderType)
   end
 
   # POST /create
@@ -75,11 +75,10 @@ class OrderController < ApplicationController
     
     # Determine what type of payment is chosen, and update the order accordingly.
     bank_transfer = (@registration.payment_type === "bank_transfer")
-    @order = prepareGenericOrder(@registration, @renderType, session[:orderId], session[:orderCode])
     if bank_transfer
-      updateOrderForOffline(@order, @registration)
+      @order = prepareOfflineOrder(@registration, @renderType, session[:orderId], session[:orderCode])
     else
-      updateOrderForWorldpay(@order, @registration)
+      @order = prepareOnlineOrder(@registration, @renderType, session[:orderId], session[:orderCode])
     end
 
     # Depending upon the Render Type, we may want to clear fee-related fields

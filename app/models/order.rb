@@ -88,17 +88,24 @@ class Order < Ohm::Model
   # @param none
   # @return  [Boolean] true if Post is successful (200), false if not
   def commit(registration_uuid)
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
     negateAmount
     poundsToPence
-    commited = false
+    Rails.logger.debug "about to post order: #{to_json.to_s}"
+    commited = true
     begin
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
-      response = RestClient.post(url, to_json, :content_type => :json, :accept => :json)
+      response = RestClient.post url,
+        to_json,
+        :content_type => :json,
+        :accept => :json
+
       result = JSON.parse(response.body)
+      Rails.logger.debug  result.class.to_s
       save
-      commited = true
+      Rails.logger.debug "Commited order to service: #{attributes.to_s}"
     rescue => e
       Rails.logger.error e.to_s
+
       if e.http_code == 422
         # Get actual error from services
         htmlDoc = Nokogiri::HTML(e.http_body)
@@ -116,6 +123,8 @@ class Order < Ohm::Model
       else
         self.exception = e.to_s
       end
+
+      commited = false
     end
     unNegateAmount
     penceToPounds
@@ -126,13 +135,17 @@ class Order < Ohm::Model
   # @param none
   # @return  [Boolean] true if Post is successful (200), false if not
   def save!(registration_uuid)
-    commited = false
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders/#{orderId}.json"
+    commited = true
     begin
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders/#{orderId}.json"
-      response = RestClient.put(url, to_json, :content_type => :json, :accept => :json)
+      response = RestClient.put url,
+        to_json,
+        :content_type => :json,
+        :accept => :json
+
       result = JSON.parse(response.body)
+      Rails.logger.debug  result.class.to_s
       save
-      commited = true
     rescue => e
       Rails.logger.error e.to_s
       if e.http_code == 422
@@ -150,6 +163,7 @@ class Order < Ohm::Model
         # Update order with a exception message
         self.exception = messageFromServices
       end
+      commited = false
     end
     commited
   end
@@ -248,14 +262,18 @@ class Order < Ohm::Model
   end
 
   def negateAmount
+    Rails.logger.info 'Order, negateAmount, amountType: ' + self.amountType
     if self.amountType == Order.getNegativeType
       self.totalAmount = -self.totalAmount.to_f.abs
+      Rails.logger.info 'amount negated: ' + self.totalAmount.to_s
     end
   end
 
   def unNegateAmount
+    Rails.logger.info 'Order, unNegateAmount, amountType: ' + self.amountType
     if self.amountType == Order.getNegativeType
       self.totalAmount = self.totalAmount.to_f.abs
+      Rails.logger.info 'amount unNegated: ' + self.totalAmount.to_s
     end
   end
 
@@ -296,12 +314,14 @@ class Order < Ohm::Model
 
   # This multiplies the amount up from pounds to pence
   def multiplyAmount
-    self.totalAmount = (Float(self.totalAmount) * 100).to_i
+    self.totalAmount = (Float(self.totalAmount)*100).to_i
+    Rails.logger.info 'multiplyAmount result:' + self.totalAmount.to_s
   end
 
   # This divides the amount down from pence back to pounds
   def divideAmount
-    self.totalAmount = (Float(self.totalAmount) / 100).to_s
+    self.totalAmount = (Float(self.totalAmount)/100).to_s
+    Rails.logger.info 'divideAmount result:' + self.totalAmount.to_s
   end
 
   def validate_totalAmount
