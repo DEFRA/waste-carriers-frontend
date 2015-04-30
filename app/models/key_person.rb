@@ -42,30 +42,29 @@ class KeyPerson < Ohm::Model
 
   class << self
     def init (key_person_hash)
-
       key_person = KeyPerson.create
+      normal_attributes = Hash.new
 
       key_person_hash.each do |k, v|
-
         case k
         when 'dob', 'dateOfBirth'
           dob = ApplicationController.helpers.convert_date v
-          key_person.send(:update, {k.to_sym => v})
-          key_person.send(:update, {:dob_day => dob.day})
-          key_person.send(:update, {:dob_month => dob.month})
-          key_person.send(:update, {:dob_year => dob.year})
+          key_person.dob = v
+          key_person.dob_day = dob.day
+          key_person.dob_month = dob.month
+          key_person.dob_year = dob.year
         when 'conviction_search_result'
-          key_person.conviction_search_result.add ConvictionSearchResult.init(v)
+          key_person.conviction_search_result.add(ConvictionSearchResult.init(v))
         else
-          key_person.send(:update, {k.to_sym => v})
+          normal_attributes.store(k, v)
         end
       end
 
+      key_person.update_attributes(normal_attributes)
+      
       key_person.save
       key_person
-
     end
-
   end
 
   # returns a hash representation of the KeyPerson object

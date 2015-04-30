@@ -47,6 +47,7 @@ class WorldpayController < ApplicationController
           edit_result: session[:edit_result])
       when Order.extra_copycards_identifier
         # Extra copy cards were ordered.
+        # TODO: Insert appropriate routing for copy cards routes here
         next_step = complete_copy_cards_path(@registration.uuid)
         clear_registration_session
       end
@@ -160,7 +161,6 @@ class WorldpayController < ApplicationController
       @payment.dateReceived_month = now.month
       @payment.dateReceived_day = now.day
       #We don't need to set the dateEntered; this is done within the service
-      #@payment.dateEntered = now
       # TODO get the user if not yet logged in (still to be activated)
       @payment.updatedByUser = @registration.accountEmail
       @payment.amount = paymentAmount.to_i

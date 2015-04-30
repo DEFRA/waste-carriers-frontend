@@ -22,7 +22,8 @@
           <div id="page0"  data-journey="waste-carriers-registration:registrations-export-results">
             <% content_for :page_title, createTitle('.title') %>
             <%= render 'errors' %>
-            <h2 class="heading-small"><%= t('.summary', :record_count_pluralized => pluralize(@report.result_count, t('reports.record'))) %></h2>
+            <% table_summary = t('.summary', :record_count_pluralized => pluralize(@report.result_count, t('reports.record'))) %>
+            <h2 class="heading-small"><%= table_summary %></h2>
             <%= form_for(@report, :url => registrations_search_results_path, :html => {:autocomplete => "off"}) do |f| %>
               <fieldset>
                 <%= f.hidden_field :from %>
@@ -57,148 +58,31 @@
     </div><!--grid-wrapper-->
   </main><!--main-->
 </div><!--wrapper-->
+
+<% headers = regexport_get_headers('full') %>
 <div style="max-width: 90%; overflow-x: scroll; margin: 0 auto;">
-<table summary="<%= t '.summary' %>" role='presentation'>
+<table summary="<%= table_summary %>" role="presentation">
   <thead>
     <tr>
-      <th><%= t 'reports.fields.reg_identifier' %></th>
-      <th><%= t 'reports.fields.company_name' %></th>
-      <th><%= t 'reports.fields.house_number' %></th>
-      <th><%= t 'reports.fields.street_line_1' %></th>
-      <th><%= t 'reports.fields.street_line_2' %></th>
-      <th><%= t 'reports.fields.street_line_3' %></th>
-      <th><%= t 'reports.fields.street_line_4' %></th>
-      <th><%= t 'reports.fields.town_city' %></th>
-      <th><%= t 'reports.fields.postcode' %></th>
-      <th><%= t 'reports.fields.first_name' %></th>
-      <th><%= t 'reports.fields.last_name' %></th>
-      <th><%= t 'reports.fields.position' %></th>
-      <th><%= t 'reports.fields.phone_number' %></th>
-      <th><%= t 'reports.fields.contact_email' %></th>
-      <th><%= t 'reports.fields.account_email' %></th>
-      <th><%= t 'reports.fields.business_type' %></th>
-      <th><%= t 'reports.fields.other_businesses' %></th>
-      <th><%= t 'reports.fields.is_main_service' %></th>
-      <th><%= t 'reports.fields.construction_waste' %></th>
-      <th><%= t 'reports.fields.only_amf' %></th>
-      <th><%= t 'reports.fields.tier' %></th>
-      <th><%= t 'reports.fields.registration_type' %></th>
-      <th><%= t 'reports.fields.company_no' %></th>
-      <th><%= t 'reports.fields.date_registered' %></th>
-      <th><%= t 'reports.fields.date_activated' %></th>
-      <th><%= t 'reports.fields.status' %></th>
-      <th><%= t 'reports.fields.route' %></th>
-      <th><%= t 'reports.fields.access_code' %></th>
-      <th><%= t 'reports.fields.expires_on' %></th>
-      <th><%= t 'reports.fields.company_match_result' %></th>
-      <th><%= t 'reports.fields.company_matched_name' %></th>
-      <th><%= t 'reports.fields.company_match_reference' %></th>
-      <th><%= t 'reports.fields.declared_convictions' %></th>
-      <th><%= t 'reports.fields.key_first_name' %></th>
-      <th><%= t 'reports.fields.key_last_name' %></th>
-      <th><%= t 'reports.fields.key_dob' %></th>
-      <th><%= t 'reports.fields.key_position' %></th>
-      <th><%= t 'reports.fields.key_person_type' %></th>
-      <th><%= t 'reports.fields.key_match_result' %></th>
-      <th><%= t 'reports.fields.key_matched_name' %></th>
-      <th><%= t 'reports.fields.key_match_reference' %></th>
-      <th><%= t 'reports.fields.key_confirmed' %></th>
+      <% headers.each do |field| %><th><%= field %></th><% end %>
     </tr>
   </thead>
   <tbody>
-    <% @registrations.each do |reg| %>
-      <% if reg.tier == "UPPER" %>
-        <% reg.key_people.each do |person| %>
+    <% @registrations.each do |registration| %>
+      <% reg_data = regexport_get_registration_data('full', registration) %>
+      <% if registration.lower? %>
+        <% reg_data = pad_array_to_match_length(headers, reg_data) %>
+        <tr>
+          <% reg_data.each do |field| %><td><%= field %></td><% end %>
+        </tr>
+      <% else %>
+        <% registration.key_people.each do |person| %>
+          <% person_data = regexport_get_person_data('full', registration, person) %>
+          <% row_data = reg_data + person_data %>
           <tr>
-            <td><%= reg.regIdentifier %></td>
-            <td><%= reg.companyName %></td>
-            <td><%= reg.houseNumber %></td>
-            <td><%= reg.streetLine1 %></td>
-            <td><%= reg.streetLine2 %></td>
-            <td><%= reg.streetLine3 %></td>
-            <td><%= reg.streetLine4 %></td>
-            <td><%= reg.townCity %></td>
-            <td><%= reg.postcode %></td>
-            <td><%= reg.firstName %></td>
-            <td><%= reg.lastName %></td>
-            <td><%= reg.position %></td>
-            <td><%= reg.phoneNumber %></td>
-            <td><%= reg.contactEmail %></td>
-            <td><%= reg.accountEmail %></td>
-            <td><%= reg.businessType %></td>
-            <td><%= reg.otherBusinesses %></td>
-            <td><%= reg.isMainService %></td>
-            <td><%= reg.constructionWaste %></td>
-            <td><%= reg.onlyAMF %></td>
-            <td><%= reg.tier %></td>
-            <td><%= reg.registrationType %></td>
-            <td><%= reg.company_no %></td>
-            <td><%= format_as_date_only(reg.metaData.first.dateRegistered) %></td>
-            <td><%= format_as_date_only(reg.metaData.first.dateActivated, blank_if_epoch: true) %></td>
-            <td><%= reg.metaData.first.status %></td>
-            <td><%= reg.metaData.first.route %></td>
-            <td><%= reg.accessCode %></td>
-            <td><%= format_as_date_only(reg.expires_on, blank_if_epoch: true) %></td>
-            <td><%= reg.conviction_search_result.first.match_result %></td>
-            <td><%= reg.conviction_search_result.first.matched_name %></td>
-            <td><%= reg.conviction_search_result.first.get_formatted_reference() %></td>
-            <td><%= reg.declaredConvictions %></td>
-            <td><%= person.first_name %></td>
-            <td><%= person.last_name %></td>
-            <td><%= format_as_date_only(person.dob) %></td>
-            <td><%= person.position %></td>
-            <td><%= person.person_type %></td>
-            <td><%= person.conviction_search_result.first.match_result %></td>
-            <td><%= person.conviction_search_result.first.matched_name %></td>
-            <td><%= person.conviction_search_result.first.get_formatted_reference() %></td>
-            <td><%= person.conviction_search_result.first.confirmed %></td>
+            <% row_data.each do |field| %><td><%= field %></td><% end %>
           </tr>
         <% end %>
-      <% else %>
-        <tr>
-          <td><%= reg.regIdentifier %></td>
-          <td><%= reg.companyName %></td>
-          <td><%= reg.houseNumber %></td>
-          <td><%= reg.streetLine1 %></td>
-          <td><%= reg.streetLine2 %></td>
-          <td><%= reg.streetLine3 %></td>
-          <td><%= reg.streetLine4 %></td>
-          <td><%= reg.townCity %></td>
-          <td><%= reg.postcode %></td>
-          <td><%= reg.firstName %></td>
-          <td><%= reg.lastName %></td>
-          <td><%= reg.position %></td>
-          <td><%= reg.phoneNumber %></td>
-          <td><%= reg.contactEmail %></td>
-          <td><%= reg.accountEmail %></td>
-          <td><%= reg.businessType %></td>
-          <td><%= reg.otherBusinesses %></td>
-          <td><%= reg.isMainService %></td>
-          <td><%= reg.constructionWaste %></td>
-          <td><%= reg.onlyAMF %></td>
-          <td><%= reg.tier %></td>
-          <td>&nbsp;</td><!-- reg.registrationType -->
-          <td>&nbsp;</td><!-- reg.company_no -->
-          <td><%= format_as_date_only(reg.metaData.first.dateRegistered) %></td>
-          <td><%= format_as_date_only(reg.metaData.first.dateActivated, blank_if_epoch: true) %></td>
-          <td><%= reg.metaData.first.status %></td>
-          <td><%= reg.metaData.first.route %></td>
-          <td><%= reg.accessCode %></td>
-          <td><%= format_as_date_only(reg.expires_on, blank_if_epoch: true) %></td>
-          <td>&nbsp;</td><!-- reg.conviction_search_result.first.match_result -->
-          <td>&nbsp;</td><!-- reg.conviction_search_result.first.matched_name -->
-          <td>&nbsp;</td><!-- reg.conviction_search_result.first.get_formatted_reference() -->
-          <td>&nbsp;</td><!-- reg.declaredConvictions -->
-          <td>&nbsp;</td><!-- person.first_name -->
-          <td>&nbsp;</td><!-- person.last_name -->
-          <td>&nbsp;</td><!-- person.dob -->
-          <td>&nbsp;</td><!-- person.position -->
-          <td>&nbsp;</td><!-- person.person_type -->
-          <td>&nbsp;</td><!-- person.match_result -->
-          <td>&nbsp;</td><!-- person.matched_name -->
-          <td>&nbsp;</td><!-- person.get_formatted_reference() -->
-          <td>&nbsp;</td><!-- person.confirmed -->
-        </tr>
       <% end %>
     <% end %>
   </tbody>
