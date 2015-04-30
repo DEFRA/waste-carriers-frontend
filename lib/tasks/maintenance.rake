@@ -8,6 +8,7 @@ namespace :maintenance do
       .get_url_from_environment_or_default(
         ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'],
         'http://localhost:3000')
+    puts "Will request #{root_url}/maintenance as base for page."
     system "curl -X GET #{root_url}/maintenance \
       -o public/maintenance.html"
   end
