@@ -3,8 +3,13 @@ namespace :maintenance do
   # gem which provides the maintenance mode functionality.
   task generate: :environment do
     puts 'Generating maintenance.html for maintenance mode'
-    system 'curl -X GET http://localhost:3000/maintenance \
-      -o public/maintenance.html'
+    root_url =
+      Registrations::Application
+      .get_url_from_environment_or_default(
+        ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'],
+        'http://localhost:3000')
+    system "curl -X GET #{root_url}/maintenance \
+      -o public/maintenance.html"
   end
 
   # Handy alternative to calling the 'generate' and 'start' tasks seperately. It
