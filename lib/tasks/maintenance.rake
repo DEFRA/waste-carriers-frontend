@@ -4,16 +4,22 @@ namespace :maintenance do
   task generate: :environment do
     puts 'Generating maintenance.html for maintenance mode'
 
-    # Initial versions failed because in other environments the root
-    # address is http://localhost, not localhost:3000.
-    if Rails.env.downcase == 'development'.downcase
-      default_url = 'http://localhost:3000'
+    if Registrations::Application.config.force_ssl
+      url_prefix = 'https://'
     else
-      default_url = 'http://localhost'
+      url_prefix = 'http://'
     end
 
-    puts "Will request #{default_url}/maintenance as base for page."
-    system "curl -X GET #{default_url}/maintenance \
+    # Initial versions failed because in other environments the root
+    # address is localhost, not localhost:3000.
+    if Rails.env.downcase == 'development'.downcase
+      root_url = 'localhost:3000'
+    else
+      root_url = 'localhost'
+    end
+
+    puts "Will request #{url_prefix}#{root_url}/maintenance as base for page"
+    system "curl -X GET #{url_prefix}#{root_url}/maintenance \
       -o public/maintenance.html"
   end
 
@@ -52,5 +58,9 @@ namespace :maintenance do
     end
 
     Rake::Task['maintenance:end'].invoke
+  end
+
+  task test: :environment do
+    puts Registrations::Application.config.force_ssl
   end
 end
