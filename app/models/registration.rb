@@ -210,6 +210,11 @@ class Registration < Ohm::Model
         self.conviction_sign_offs.replace(sign_offs)
       end
 
+      unless self.tier == 'LOWER'
+        Rails.logger.debug 'Initialise finance details'
+        self.finance_details.replace([FinanceDetails.init(result['financeDetails'])])
+      end
+
       save
       commited = true
     rescue Errno::ECONNREFUSED => e
@@ -247,14 +252,18 @@ class Registration < Ohm::Model
   # PUTs registration to Java/Dropwizard service - updates registration to DB
   # @return  [Boolean] true if registration updated
   def save!
-    saved = false
+    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
+    Rails.logger.debug "Registration financeDetails to PUT: #{self.finance_details.first.to_s}"
+    Rails.logger.debug "Registration: #{uuid} about to PUT: #{ to_json}"
+    saved = true
     begin
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
-      response = RestClient.put(url, to_json, :content_type => :json)
+      response = RestClient.put url,
+                                to_json,
+                                :content_type => :json
+
       result = JSON.parse(response.body)
 
-      # Update this object by replacing certain values that are determined by
-      # the Java services layer.
+      # Update metadata and financedetails with that from the service
       if result['addresses'] #array of conviction sign offs
         address_list = []
         result['addresses'].each do |address_hash|
@@ -264,11 +273,15 @@ class Registration < Ohm::Model
         self.addresses.replace(address_list)
       end
 
-      self.metaData.replace([Metadata.init(result['metaData'])])
+      self.metaData.replace( [Metadata.init(result['metaData'])])
 
-      if result['conviction_search_result']
-        self.conviction_search_result.replace([ConvictionSearchResult.init(result['conviction_search_result'])])
+
+      unless self.tier == 'LOWER'
+        Rails.logger.debug 'Initialise finance details'
+        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
       end
+
+      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])]) if result['conviction_search_result']
 
       if result['conviction_sign_offs'] #array of conviction sign offs
         sign_offs = []
@@ -276,11 +289,10 @@ class Registration < Ohm::Model
           sign_off = ConvictionSignOff.init(sign_off_hash)
           sign_offs << sign_off
         end
-        self.conviction_sign_offs.replace(sign_offs)
+        self.conviction_sign_offs.replace sign_offs
       end
 
       save
-      saved = true
     rescue => e
       Rails.logger.error 'An error occurred during saving the registration: ' + e.to_s
 
@@ -303,8 +315,9 @@ class Registration < Ohm::Model
       else
         self.exception = e.to_s
       end
-    end
 
+      saved = false
+    end
     saved
   end
 
@@ -620,28 +633,25 @@ class Registration < Ohm::Model
   # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
     def find_by_params(params, options = {})
-
-      defaults = {
-          :root_url => "#{Rails.configuration.waste_exemplar_services_url}",
-          :url => "/registrations",
-          :format => ".json"
-      }
-      options = defaults.merge(options)
-
       registrations = []
-      url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
-      # url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{params.to_query}"
-      Rails.logger.debug "find_by_params url=#{url}"
       begin
-        response = RestClient.get url
+        defaults = {
+            :root_url => "#{Rails.configuration.waste_exemplar_services_url}",
+            :url => "/registrations",
+            :format => ".json"
+        }
+        options = defaults.merge(options)
+        
+        url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
+        response = RestClient.get(url)
+        
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug "find_by_params found #{all_regs.size.to_s} items"
           all_regs.each do |r|
             registrations << Registration.init(r)
           end
         else
-          Rails.logger.error "Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"
+          Rails.logger.error {"Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"}
         end
       rescue => e
         Rails.logger.error e.to_s
@@ -657,6 +667,7 @@ class Registration < Ohm::Model
   class << self
     def init (response_hash)
       new_reg = Registration.create
+      normal_attributes = Hash.new
 
       response_hash.each do |k, v|
         case k
@@ -687,10 +698,12 @@ class Registration < Ohm::Model
               end
             end
           else  #normal attribute'
-            new_reg.send(:update, {k.to_sym => v})
+            normal_attributes.store(k, v)
         end
       end #each
 
+      new_reg.update_attributes(normal_attributes)
+      
       new_reg.save
       new_reg
     end #method
@@ -698,6 +711,36 @@ class Registration < Ohm::Model
 
   def copy_construct
     Registration.init(self.to_json)
+  end
+  
+  # Creates and returns a new registraiton, initialising most fields from an
+  # existing instance.  This is intended to be used only in the case where the
+  # user makes an edit requiring a new registration.  Specifically, finance
+  # details and conviction sign-off results are not copied, and convictions
+  # checks are re-run.
+  def self.create_new_when_edit_requires_new_reg(original_registration)
+    # Create a new registration, and initialise from the old.
+    new_reg = Registration.create
+    new_reg.add(original_registration.to_hash)
+    new_reg.add(original_registration.attributes)
+
+    # New registration should not get the Finance Details or Conviction
+    # sign-offs of the old.
+    unless original_registration.finance_details.empty?
+      new_reg.finance_details.replace([])
+    end
+    unless original_registration.conviction_sign_offs.empty?
+      new_reg.conviction_sign_offs.replace([])
+    end
+
+    # New registration should trigger new conviction searches.
+    if new_reg.upper?
+        new_reg.key_people.each { |person| person.cross_check_convictions }
+      new_reg.cross_check_convictions
+    end
+
+    # Return the result.
+    new_reg
   end
 
   BUSINESS_TYPES = %w[
@@ -862,10 +905,12 @@ class Registration < Ohm::Model
 
 
   def copy_cards_added_to_copy_card_only_order?
-    if copy_card_only_order
-      if !copy_cards || (copy_cards && copy_cards.to_i < 1)
-        errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
-      end
+    if (copy_cards && copy_cards.to_i < 1) and copy_card_only_order
+      errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
+    end
+    if !copy_cards and copy_card_only_order
+      errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
+
     end
   end
 
@@ -991,6 +1036,10 @@ class Registration < Ohm::Model
   def not_limited_company?
     businessType != 'limitedCompany'
   end
+  
+  def partnership?
+    businessType == 'partnership'
+  end
 
   def account_email_present?
     accountEmail.present?
@@ -1009,9 +1058,7 @@ class Registration < Ohm::Model
   def paid_in_full?
     begin
       the_balance = self.try(:finance_details).try(:first).try(:balance)
-
       the_balance = 0 if the_balance.nil?
-      Rails.logger.debug "paid_in_full balance: #{the_balance.to_s}"
     rescue Exception => e
       Rails.logger.debug e.message
     end
@@ -1196,17 +1243,17 @@ class Registration < Ohm::Model
     end
   end
 
-  def getOrder(orderCode)
+  def getOrder( orderCode)
+    Rails.logger.info 'Registration getOrder ' + orderCode.to_s
+    foundOrder = nil
     self.finance_details.first.orders.each do |order|
+      Rails.logger.info 'Order ' + order.orderCode.to_s
       if orderCode.to_i == order.orderCode.to_i
-        return order
+        Rails.logger.info 'Registration Found order ' + orderCode.to_s
+        foundOrder = order
       end
     end
-    nil
-  end
-
-  def hasOrder?(orderCode)
-    getOrder(orderCode) != nil
+    foundOrder
   end
 
   # Call to determine whether the registration is 'complete' i.e. there are no
@@ -1407,7 +1454,10 @@ class Registration < Ohm::Model
         errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_relevant_person'))
       end
     elsif key_person_step? || key_people_step?
-      if key_people.select { |person| person.person_type == 'KEY'}.empty?
+      local_key_people = key_people.select { |person| person.person_type == 'KEY'}
+      if partnership? && (local_key_people.size < 2)
+        errors.add(:key_people, I18n.t('errors.messages.enter_at_least_2_partners'))
+      elsif local_key_people.empty?
         errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_key_person'))
       end
     end

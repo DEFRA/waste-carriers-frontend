@@ -17,9 +17,14 @@ Registrations::Application.routes.draw do
       put 'admins/:id' => 'devise/registrations#update', :as => 'admin_registration'
     end
 
-  root :to => "home#index"
+  # All routes managed by the Home controller
+  root to: 'home#index'
+  get 'home/index'
+  get 'version' => 'home#version', :via => [:get], :as => :app_version
+  get 'cookies' => 'home#cookies', :via => [:get], :as => :cookies
+  get 'privacy' => 'home#privacy', :via => [:get], :as => :privacy
+  get 'maintenance' => 'home#maintenance'
 
-  get "home/index"
   get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
 
   # Static pages controller
@@ -201,12 +206,6 @@ Registrations::Application.routes.draw do
   resources :agency_users
 
   get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user
-
-  get "version" => 'home#version', :via => [:get], :as => :app_version
-
-  get "cookies" => 'home#cookies', :via => [:get], :as => :cookies
-
-  get "privacy" => 'home#privacy', :via => [:get], :as => :privacy
 
   # Custom error handling routes
   match '/401', to: 'errors#client_error_401', via: :all

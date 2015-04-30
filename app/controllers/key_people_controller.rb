@@ -9,8 +9,6 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-people/registration
   def registration
-    #get_registration
-
     if @registration.businessType == 'soleTrader'
       redirect_to action: 'newKeyPerson'
     else
@@ -20,7 +18,6 @@ class KeyPeopleController < ApplicationController
 
   # GET /your-registration/key-person
   def newKeyPerson
-    #get_registration
     new_step_action 'key_person'
     get_key_people
 
@@ -38,21 +35,18 @@ class KeyPeopleController < ApplicationController
 
   # POST /your-registration/key-person
   def updateNewKeyPerson
-    #get_registration
     get_key_people
 
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
 
     if @key_person.valid?
-
       @key_person.cross_check_convictions
       @key_person.save
       
-      #
-      # Create a list of all non key people (ie.'RELEVANT'), to ensure they are retained when the list is replaced.
-      # We are assuming that the only 'KEY' person is the key person from the params which we add after.
-      #
+      # Create a list of all non key people (ie.'RELEVANT'), to ensure they are
+      # retained when the list is replaced.  We are assuming that the only 'KEY'
+      # person is the key person from the params which we add after.
       personList = Array.new
       @registration.key_people.each do |kPerson|
         if !kPerson.person_type.eql? "KEY"
@@ -77,7 +71,15 @@ class KeyPeopleController < ApplicationController
   def newKeyPeople
     new_step_action 'key_people'
     get_key_people
-
+    
+    # Check if we should force a validation of the key_people attribute on the
+    # registration.  We do this to trigger the validation message for a
+    # Partnership with < 2 partners.
+    if session.key?(:performKeyPeopleValidation)
+      @registration.validate_key_people()
+      session.delete(:performKeyPeopleValidation)
+    end
+    
     @key_person = KeyPerson.create
   end
 
@@ -87,74 +89,50 @@ class KeyPeopleController < ApplicationController
 
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
+    
+    if !(params[:add] || params[:continue])
+      logger.warn {'updateNewKeyPeople: unrecognised button found, sending back to newKeyPeople page'}
+      render 'newKeyPeople', status: '400'
+    elsif @key_person.valid?
+      @key_person.cross_check_convictions
+      @key_person.save
+      @registration.key_people.add(@key_person)
+      @registration.save
 
-    if params[:add]
-
-      if @key_person.valid?
-
-        @key_person.cross_check_convictions
-        @key_person.save
-
-        @registration.key_people.add(@key_person)
-
+      if params[:continue]
         if @registration.valid?
-          @registration.save
-
-          redirect_to action: 'newKeyPeople'
-        else
-          # there is an error (but data not yet saved)
-          logger.info 'Registration is not valid, and data is not yet saved'
-          render "newKeyPeople", :status => '400'
-        end
-      else
-        # there is an error (but data not yet saved)
-        logger.info 'Key person is not valid, and data is not yet saved'
-        render "newKeyPeople", :status => '400'
-      end
-    elsif params[:continue]
-      if @key_person.valid?
-
-        @key_person.cross_check_convictions
-        @key_person.save
-
-        @registration.key_people.add(@key_person)
-
-        if @registration.valid?
-          @registration.save
-
+          # Everything is OK; continue to next page.
           redirect_to :newRelevantConvictions
         else
-          # there is an error (but data not yet saved)
-          logger.info 'Registration is not valid, and data is not yet saved'
-          render "newKeyPeople", :status => '400'
+          # User wanted to continue, but they haven't added enough Key People.
+          # We set a variable in the session to force the re-validation of the
+          # Key People attribute on the registraiton.  This allows the page to
+          # display all the required information.
+          session[:performKeyPeopleValidation] = true
+          redirect_to :back
         end
       else
-        # No data entered
-        if form_blank?
-
-          # 1st person
-          if @key_people.empty?
-            @key_person.errors.clear
-
-            # TODO AH adds "You must add at least 1 person...." message - could this be done in here?
-            @registration.valid?
-
-            # there is an error (but data not yet saved)
-            logger.info 'Key person is not valid, and data is not yet saved'
-            render "newKeyPeople", :status => '400'
-          else
-            # Not 1st person and Form is blank so can go to convictions
-            redirect_to :newRelevantConvictions
-          end
+        # User wants to add another Key Person.
+        redirect_to :back
+      end
+    elsif form_blank?
+      # Form was left blank.
+      if params[:add]
+        # The user clicked the 'add' button but didn't provide any details.
+        render 'newKeyPeople', status: '400'
+      else
+        @key_person.errors.clear
+        unless @registration.valid?
+          # We have too few Key People added so far.
+          render 'newKeyPeople', status: '400'
         else
-          # there is an error (but data not yet saved)
-          logger.info 'Key person is not valid, and data is not yet saved'
-          render "newKeyPeople", :status => '400'
+          # Everything is OK; continue to next page.
+          redirect_to :newRelevantConvictions
         end
       end
     else
-      logger.info 'Unrecognised button found, sending back to newKeyPeople page'
-      render "newKeyPeople", :status => '400'
+      # Key Person details are not blank, but failed validation.
+      render 'newKeyPeople', status: '400'
     end
   end
 
@@ -263,7 +241,7 @@ class KeyPeopleController < ApplicationController
     if !person_to_remove
       renderNotFound
       return
-    end    
+    end
     logger.debug "reg is: #{@registration.id}"
     logger.debug "relevant person to remove is: #{person_to_remove.id}"
 
@@ -298,7 +276,11 @@ class KeyPeopleController < ApplicationController
   end
 
   def form_blank?
-    ret =  (@key_person.first_name.empty?) && (@key_person.last_name.empty?) && (@key_person.dob_day.empty?) && (@key_person.dob_month.empty?) &&  (@key_person.dob_year.empty?)
+    (@key_person.first_name.empty?) &&
+      (@key_person.last_name.empty?) &&
+      (@key_person.dob_day.empty?) &&
+      (@key_person.dob_month.empty?) &&
+      (@key_person.dob_year.empty?)
   end
 
   private
