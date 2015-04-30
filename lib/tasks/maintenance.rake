@@ -19,7 +19,7 @@ namespace :maintenance do
     end
 
     puts "Will request #{url_prefix}#{root_url}/maintenance as base for page"
-    system "curl -X GET #{url_prefix}#{root_url}/maintenance \
+    system "curl -k -X GET #{url_prefix}#{root_url}/maintenance \
       -o public/maintenance.html"
   end
 
