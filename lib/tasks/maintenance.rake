@@ -59,8 +59,4 @@ namespace :maintenance do
 
     Rake::Task['maintenance:end'].invoke
   end
-
-  task test: :environment do
-    puts Registrations::Application.config.force_ssl
-  end
 end
