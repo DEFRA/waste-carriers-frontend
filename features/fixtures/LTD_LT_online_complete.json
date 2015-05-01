@@ -2,35 +2,59 @@
   "reg_uuid" : "REG_UUID_REPLACE_ME",
   "contactEmail":"ltd_lt@example.org",
   "tier":"LOWER",
-  "administrativeArea":"BRISTOL",
   "accountEmail":"ltd_lt@example.org",
   "firstName":"FName",
-  "easting":"358205",
   "companyName":"LT LTD Company",
   "phoneNumber":"11",
   "businessType":"limitedCompany",
   "lastName":"LName",
-  "streetLine1":"DEANERY ROAD",
   "current_step":"signup",
-  "northing":"172708",
-  "townCity":"BRISTOL",
-  "dependentLocality":"",
-  "dependentThroughfare":"",
   "uprn":"340116",
-  "postcode":"BS1 5AH",
   "newOrRenew":"new",
   "address_lookup_page":"yes",
-  "localAuthorityUpdateDate":"",
   "declaration":"1",
   "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
-  "addressMode":"address-results",
   "otherBusinesses":"no",
-  "royalMailUpdateDate":"",
   "sign_up_mode":"sign_up",
   "constructionWaste":"no",
-  "houseNumber":"ENVIRONMENT AGENCY",
   "password":"Test1234",
   "metaData":{
     "route":"DIGITAL"
-  }
+  },
+  "addresses": [
+    {
+      "address_type" : "REGISTERED",
+      "administrative_area":"BRISTOL",
+      "location": {
+        "easting":"358205",
+        "northing":"172708"
+      },
+      "address_line_1":"DEANERY ROAD",
+      "town_city":"BRISTOL",
+      "dependent_locality":"",
+      "dependent_throughfare":"",
+      "post_code":"BS1 5AH",
+      "local_authority_update_date":"",
+      "address_mode":"address-results",
+      "royal_mail_update_date":"",
+      "house_number":"ENVIRONMENT AGENCY"
+    },
+    {
+      "address_type" : "POSTAL",
+      "administrative_area":"BRISTOL",
+      "location": {
+        "easting":"358205",
+        "northing":"172708"
+      },
+      "address_line_1":"DEANERY ROAD",
+      "town_city":"BRISTOL",
+      "dependent_locality":"",
+      "dependent_thoroughfare":"",
+      "post_code":"BS1 5AH",
+      "local_authority_update_date":"",
+      "address_mode":"address-results",
+      "royal_mail_update_date":"",
+      "house_number":"ENVIRONMENT AGENCY"
+    }
+  ]
 }

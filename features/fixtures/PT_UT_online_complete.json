@@ -5,33 +5,21 @@
   "isMainService":"no",
   "declaredConvictions":"no",
   "registrationType":"broker_dealer",
-  "administrativeArea":"BRISTOL",
   "accountEmail":"pt_ut@example.org",
   "firstName":"FName",
-  "easting":"358205",
   "phoneNumber":"22",
   "companyName":"PT UT Company",
   "businessType":"partnership",
   "lastName":"LName",
-  "streetLine1":"DEANERY ROAD",
   "current_step":"signup",
-  "northing":"172708",
-  "townCity":"BRISTOL",
-  "dependentThroughfare":"",
-  "dependentLocality":"",
   "uprn":"340116",
-  "postcode":"BS1 5AH",
   "newOrRenew":"new",
   "address_lookup_page":"yes",
-  "localAuthorityUpdateDate":"",
   "declaration":"1",
   "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
-  "addressMode":"address-results",
   "otherBusinesses":"yes",
-  "royalMailUpdateDate":"",
   "sign_up_mode":"sign_up",
   "constructionWaste":"yes",
-  "houseNumber":"ENVIRONMENT AGENCY",
   "password":"Test1234",
   "expires_on":"1448928000000",
   "metaData":{
@@ -73,5 +61,41 @@
     "match_result":"NO",
     "searched_at":"1417446011519",
     "confirmed":"no"
-  }
+  },
+  "addresses": [
+    {
+      "administrativeArea":"BRISTOL",
+      "address_type": "REGISTERED",
+      "location": {
+        "easting":"358205",
+        "northing":"172708"
+      },
+      "address_line_1":"DEANERY ROAD",
+      "town_city":"BRISTOL",
+      "dependent_thoroughfare":"",
+      "dependent_locality":"",
+      "post_code":"BS1 5AH",
+      "local_authority_update_date":"",
+      "address_mode":"address-results",
+      "royal_mail_update_date":"",
+      "house_number":"ENVIRONMENT AGENCY"
+    },
+    {
+      "administrativeArea":"BRISTOL",
+      "address_type": "POSTAL",
+      "location": {
+        "easting":"358205",
+        "northing":"172708"
+      },
+      "address_line_1":"DEANERY ROAD",
+      "town_city":"BRISTOL",
+      "dependent_thoroughfare":"",
+      "dependent_locality":"",
+      "post_code":"BS1 5AH",
+      "local_authority_update_date":"",
+      "address_mode":"address-results",
+      "royal_mail_update_date":"",
+      "house_number":"ENVIRONMENT AGENCY"
+    }
+  ]
 }

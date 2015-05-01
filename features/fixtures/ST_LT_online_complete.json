@@ -3,35 +3,59 @@
   "contactEmail":"st_lt@example.org",
   "tier":"LOWER",
   "isMainService":"yes",
-  "administrativeArea":"BRISTOL",
   "accountEmail":"st_lt@example.org",
   "firstName":"FName",
-  "easting":"358205",
   "phoneNumber":"3232",
   "companyName":"ST LT Company",
   "businessType":"soleTrader",
   "lastName":"LName",
-  "streetLine1":"DEANERY ROAD",
   "current_step":"signup",
-  "northing":"172708",
-  "townCity":"BRISTOL",
-  "dependentLocality":"",
-  "dependentThroughfare":"",
   "uprn":"340116",
-  "postcode":"BS1 5AH",
   "newOrRenew":"new",
   "onlyAMF":"yes",
   "address_lookup_page":"yes",
-  "localAuthorityUpdateDate":"",
   "declaration":"1",
   "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
-  "addressMode":"address-results",
   "otherBusinesses":"yes",
-  "royalMailUpdateDate":"",
   "sign_up_mode":"sign_up",
-  "houseNumber":"ENVIRONMENT AGENCY",
   "password":"Test1234",
   "metaData":{
     "route":"DIGITAL"
-  }
+  },
+  "addresses": [
+    {
+      "address_type": "REGISTERED",
+      "administrativeArea":"BRISTOL",
+      "location": {
+        "easting":"358205",
+        "northing":"172708"
+      },
+      "address_line_1":"DEANERY ROAD",
+      "town_city":"BRISTOL",
+      "dependent_locality":"",
+      "dependent_thoroughfare":"",
+      "post_code":"BS1 5AH",
+      "local_authority_update_date":"",
+      "address_mode":"address-results",
+      "royal_mail_update_date":"",
+      "house_number":"ENVIRONMENT AGENCY"
+    },
+    {
+      "address_type": "POSTAL",
+      "administrativeArea":"BRISTOL",
+      "location": {
+        "easting":"358205",
+        "northing":"172708"
+      },
+      "address_line_1":"DEANERY ROAD",
+      "town_city":"BRISTOL",
+      "dependent_locality":"",
+      "dependent_thoroughfare":"",
+      "post_code":"BS1 5AH",
+      "local_authority_update_date":"",
+      "address_mode":"address-results",
+      "royal_mail_update_date":"",
+      "house_number":"ENVIRONMENT AGENCY"
+    }
+  ]
 }
