@@ -42,15 +42,22 @@ namespace :performance_testing do
     reg_data['contactEmail'] = reg_data['accountEmail'] = "#{reg_data['firstName']}.#{reg_data['lastName']}" + rand(9999).to_s + "@example.com".downcase
     reg_data['password'] = Faker::Internet::password
     reg_data['phoneNumber'] = "01" + rand(999999999).to_s.rjust(9, '0')
-    reg_data['easting'] =  (200000 + rand(200000)).to_s
-    reg_data['northing'] = (100000 + rand(400000)).to_s
+    reg_data['addresses'][0]['location']['easting'] =  (200000 + rand(200000)).to_s
+    reg_data['addresses'][0]['location']['northing'] = (100000 + rand(400000)).to_s
+    reg_data['addresses'][1]['location']['easting'] =  (200000 + rand(200000)).to_s
+    reg_data['addresses'][1]['location']['northing'] = (100000 + rand(400000)).to_s
     reg_data['uprn'] =     (100000 + rand(400000)).to_s
     reg_data['companyName'] = make_company_name()
-    reg_data['houseNumber'] = (1 + rand(300)).to_s
-    reg_data['streetLine1'] = Faker::Address::street_name
-    reg_data['townCity'] = Faker::Address::city
-    reg_data['administrativeArea'] = @counties.sample
-    reg_data['postcode'] = make_random_postcode()
+    reg_data['addresses'][0]['house_number'] = (1 + rand(300)).to_s
+    reg_data['addresses'][0]['address_line_1'] = Faker::Address::street_name
+    reg_data['addresses'][0]['town_city'] = Faker::Address::city
+    reg_data['addresses'][0]['administrative_area'] = @counties.sample
+    reg_data['addresses'][0]['post_code'] = make_random_postcode()
+    reg_data['addresses'][1]['house_number'] = (1 + rand(300)).to_s
+    reg_data['addresses'][1]['address_line_1'] = Faker::Address::street_name
+    reg_data['addresses'][1]['town_city'] = Faker::Address::city
+    reg_data['addresses'][1]['administrative_area'] = @counties.sample
+    reg_data['addresses'][1]['post_code'] = make_random_postcode()
     return reg_data
   end
 
