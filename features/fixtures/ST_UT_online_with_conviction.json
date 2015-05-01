@@ -1,31 +1,19 @@
 {
   "reg_uuid" : "REG_UUID_REPLACE_ME",
   "declaredConvictions":"yes",
-  "localAuthorityUpdateDate":"",
   "otherBusinesses":"no",
-  "postcode":"BS1 5AH",
-  "houseNumber":"ENVIRONMENT AGENCY",
   "accountEmail":"st_ut@example.org",
-  "royalMailUpdateDate":"",
   "uprn":"340116",
-  "northing":"172708",
-  "easting":"358205",
   "newOrRenew":"new",
-  "addressMode":"address-results",
-  "streetLine1":"DEANERY ROAD",
   "firstName":"FName",
   "address_lookup_page":"yes",
   "contactEmail":"st_ut@example.org",
   "constructionWaste":"yes",
-  "administrativeArea":"BRISTOL",
-  "dependentLocality":"",
   "sign_up_mode":"sign_up",
   "declaration":"1",
   "lastName":"LName",
-  "dependentThroughfare":"",
   "registrationType":"carrier_dealer",
-      "companyName":"ST UT Company",
-  "townCity":"BRISTOL",
+  "companyName":"ST UT Company",
   "phoneNumber":"11",
   "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
   "current_step":"signup",
@@ -57,5 +45,41 @@
     "match_result":"NO",
     "searched_at":"1417386210463",
     "confirmed":"no"
-  }
+  },
+  "addresses": [
+    {
+      "address_type": "REGISTERED",
+      "local_authority_update_date":"",
+      "post_code":"BS1 5AH",
+      "house_number":"ENVIRONMENT AGENCY",
+      "royal_mail_update_date":"",
+      "location": {
+        "northing":"172708",
+        "easting":"358205"
+      },
+      "address_mode":"address-results",
+      "address_line_1":"DEANERY ROAD",
+      "administrative_area":"BRISTOL",
+      "dependent_locality":"",
+      "dependent_thoroughfare":"",
+      "town_city":"BRISTOL"
+    },
+    {
+      "address_type": "POSTAL",
+      "local_authority_update_date":"",
+      "post_code":"BS1 5AH",
+      "house_number":"ENVIRONMENT AGENCY",
+      "royal_mail_update_date":"",
+      "location": {
+        "northing":"172708",
+        "easting":"358205"
+      },
+      "address_mode":"address-results",
+      "address_line_1":"DEANERY ROAD",
+      "administrative_area":"BRISTOL",
+      "dependent_locality":"",
+      "dependent_thoroughfare":"",
+      "town_city":"BRISTOL"
+    }
+  ]
 }
