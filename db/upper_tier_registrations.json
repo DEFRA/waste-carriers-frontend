@@ -7,10 +7,6 @@
     "isMainService": "no",
     "constructionWaste": "yes",
     "companyName": "Carafe ",
-    "houseNumber": "7",
-    "streetLine1": "Aston Place",
-    "townCity": "CARDIFF",
-    "postcode": "CF3 0PH",
     "firstName": "Fred",
     "lastName": "Heath",
     "position": "Code Monkey",
@@ -59,6 +55,24 @@
         "dob_year": "1972",
         "person_type": "KEY"
       }
+    ],
+    "addresses": [
+      {
+        "address_type" : "REGISTERED",
+        "house_number": "7",
+        "address_line_1": "Aston Place",
+        "town_city": "CARDIFF",
+        "post_code": "CF3 0PH",
+        "location": {}
+      },
+      {
+        "address_type" : "POSTAL",
+        "house_number": "7",
+        "address_line_1": "Aston Place",
+        "town_city": "CARDIFF",
+        "post_code": "CF3 0PH",
+        "location": {}
+      }
     ]
   },
   {
@@ -69,10 +83,6 @@
     "isMainService": "no",
     "constructionWaste": "yes",
     "companyName": "Bloomberg",
-    "houseNumber": "7",
-    "streetLine1": "Aston Place",
-    "townCity": "CARDIFF",
-    "postcode": "CF3 0PH",
     "firstName": "Fred",
     "lastName": "Heath",
     "position": "Code Monkey",
@@ -130,6 +140,24 @@
         "dob_month": "12",
         "dob_year": "1978",
         "person_type": "KEY"
+      }
+    ],
+    "addresses": [
+      {
+        "address_type" : "REGISTERED",
+        "house_number": "7",
+        "address_line_1": "Aston Place",
+        "town_city": "CARDIFF",
+        "post_code": "CF3 0PH",
+        "location": {}
+      },
+      {
+        "address_type" : "POSTAL",
+        "house_number": "7",
+        "address_line_1": "Aston Place",
+        "town_city": "CARDIFF",
+        "post_code": "CF3 0PH",
+        "location": {}
       }
     ]
   }
