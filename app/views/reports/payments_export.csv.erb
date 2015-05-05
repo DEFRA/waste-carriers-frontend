@@ -13,7 +13,7 @@
   t('reports.fields.payment_amount'),
   t('reports.fields.comment'),
   t('reports.fields.payment_updated_by'),
-  t('reports.fields.payment_entered'),
+  t('reports.fields.payment_received'),
   t('reports.fields.balance')
 ] %>
 <% # Apologies for the formatting in this file, however any formatting such as %>
@@ -59,7 +59,7 @@
 <% row << money_value_without_currency_symbol_and_with_pence_part(payment.amount) %>
 <% row << payment.comment %>
 <% row << payment.updatedByUser %>
-<% row << format_time(payment.dateEntered) %>
+<% row << format_time(payment.dateReceived) %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(registration.finance_details.first.balance) %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <% end %>
@@ -74,7 +74,7 @@
 <% row << registration.companyName %>
 <% row << registration.metaData.first.status %>
 <% row << registration.metaData.first.route %>
-<% row << format_time(payment.dateReceived) %>
+<% row << format_time(payment.dateEntered) %>
 <% row << '' %>
 <% row << '' %>
 <% row << '' %>
@@ -84,7 +84,7 @@
 <% row << money_value_without_currency_symbol_and_with_pence_part(payment.amount) %>
 <% row << payment.comment %>
 <% row << payment.updatedByUser %>
-<% row << format_time(payment.dateEntered) %>
+<% row << format_time(payment.dateReceived) %>
 <% row << money_value_without_currency_symbol_and_with_pence_part(registration.finance_details.first.balance) %>
 <%= CSV.generate_line(row, {:row_sep => nil, :force_quotes => true}).html_safe %>
 <% end %>

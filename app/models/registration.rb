@@ -190,35 +190,25 @@ class Registration < Ohm::Model
 
 
   # POSTs registration to Java/Dropwizard service - creates new registration to DB
-  #
-  # @param none
   # @return  [String] the uuid assigned by MongoDB
   def commit
-    url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
-    Rails.logger.debug "Registration: about to POST: #{ to_json.to_s}"
     commited = false
     begin
-      response = RestClient.post url,
-                                 to_json,
-                                 :content_type => :json,
-                                 :accept => :json
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
+      response = RestClient.post(url, to_json, :content_type => :json, :accept => :json)
 
       result = JSON.parse(response.body)
 
-      # following fields are set by the java service, so we assign them from the response hash
+      # Update this object by replacing certain values that are determined by
+      # the Java services layer.
       self.update(uuid: result['id'])
       self.update(regIdentifier: result['regIdentifier'])
-
-      self.metaData.replace( [Metadata.init(result['metaData'])])
-
-      self.location.replace( [Location.init(result['location'])])
-
-      unless self.tier == 'LOWER'
-        Rails.logger.debug 'Initialise finance details'
-        self.finance_details.replace( [FinanceDetails.init(result['financeDetails'])] )
+      self.metaData.replace([Metadata.init(result['metaData'])])
+      self.location.replace([Location.init(result['location'])])
+      
+      if result['conviction_search_result']
+        self.conviction_search_result.replace([ConvictionSearchResult.init(result['conviction_search_result'])])
       end
-
-      self.conviction_search_result.replace( [ConvictionSearchResult.init(result['conviction_search_result'])]) if result['conviction_search_result']
 
       if result['conviction_sign_offs'] #array of conviction sign offs
         sign_offs = []
@@ -226,20 +216,22 @@ class Registration < Ohm::Model
           sign_off = ConvictionSignOff.init(sign_off_hash)
           sign_offs << sign_off
         end
-        self.conviction_sign_offs.replace sign_offs
+        self.conviction_sign_offs.replace(sign_offs)
+      end
+      
+      unless self.tier == 'LOWER'
+        Rails.logger.debug 'Initialise finance details'
+        self.finance_details.replace([FinanceDetails.init(result['financeDetails'])])
       end
 
       save
-      Rails.logger.debug "Commited to service: #{to_json.to_s}"
       commited = true
     rescue Errno::ECONNREFUSED => e
-      Rails.logger.error "Services unavailable: " + e.to_s
+      Rails.logger.error 'Services unavailable: ' + e.to_s
       self.exception = e.to_s
-      commited = false
     rescue => e
-      Rails.logger.debug "Error in registration Commit to service: #{ e.to_s} || #{attributes.to_s}"
+      Rails.logger.debug "Error in registration Commit to service: #{e.to_s} || #{attributes.to_s}"
       self.exception = e.to_s
-      commited = false
     end
     commited
   end
@@ -267,8 +259,6 @@ class Registration < Ohm::Model
   end
 
   # PUTs registration to Java/Dropwizard service - updates registration to DB
-  #
-  # @param none
   # @return  [Boolean] true if registration updated
   def save!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
@@ -367,8 +357,6 @@ class Registration < Ohm::Model
       result_hash['conviction_sign_offs'] = sign_offs
     end #if
 
-    Rails.logger.debug "registration to_json #{result_hash.to_json.to_s}"
-
     result_hash.to_json
   end
 
@@ -384,7 +372,6 @@ class Registration < Ohm::Model
       )
     end
 
-    Rails.logger.debug "REGISTRATION::CROSS_CHECK_CONVICTIONS #{result}"
     conviction_search_result.replace([result])
   end
 
@@ -598,7 +585,6 @@ class Registration < Ohm::Model
       rescue => e
         Rails.logger.error e.to_s
       end
-      Rails.logger.debug "found reg: #{result.to_s}"
       result.size > 0 ? Registration.init(result) : nil
     end
   end
@@ -642,28 +628,25 @@ class Registration < Ohm::Model
   # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
     def find_by_params(params, options = {})
-
-      defaults = {
-          :root_url => "#{Rails.configuration.waste_exemplar_services_url}",
-          :url => "/registrations",
-          :format => ".json"
-      }
-      options = defaults.merge(options)
-
       registrations = []
-      url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
-      # url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{params.to_query}"
-      Rails.logger.debug "find_by_params url=#{url}"
       begin
-        response = RestClient.get url
+        defaults = {
+            :root_url => "#{Rails.configuration.waste_exemplar_services_url}",
+            :url => "/registrations",
+            :format => ".json"
+        }
+        options = defaults.merge(options)
+        
+        url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
+        response = RestClient.get(url)
+        
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
-          Rails.logger.debug "find_by_params found #{all_regs.size.to_s} items"
           all_regs.each do |r|
             registrations << Registration.init(r)
           end
         else
-          Rails.logger.error "Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"
+          Rails.logger.error {"Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"}
         end
       rescue => e
         Rails.logger.error e.to_s
@@ -679,9 +662,9 @@ class Registration < Ohm::Model
   class << self
     def init (response_hash)
       new_reg = Registration.create
+      normal_attributes = Hash.new
 
       response_hash.each do |k, v|
-
         case k
           when 'id'
             new_reg.uuid = v
@@ -698,9 +681,6 @@ class Registration < Ohm::Model
           when 'location'
             new_reg.location.add HashToObject(v, 'Location')
           when 'financeDetails'
-            #Rails.logger.debug '-----------------'
-            #Rails.logger.debug 'Create finance details from v: ' + v.to_s
-            #Rails.logger.debug '-----------------'
             new_reg.finance_details.add FinanceDetails.init(v)
           when 'conviction_search_result'
             new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
@@ -711,13 +691,13 @@ class Registration < Ohm::Model
               end
             end
           else  #normal attribute'
-            new_reg.send(:update, {k.to_sym => v})
+            normal_attributes.store(k, v)
         end
       end #each
+      
+      new_reg.update_attributes(normal_attributes)
+      
       new_reg.save
-      #Rails.logger.debug '-----------------'
-      #Rails.logger.debug 'Finance details from new_reg: ' + new_reg.finance_details.to_json.to_s
-      #Rails.logger.debug '-----------------'
       new_reg
     end #method
   end
@@ -736,6 +716,36 @@ class Registration < Ohm::Model
 
   def copy_construct
     Registration.init(self.to_json)
+  end
+  
+  # Creates and returns a new registraiton, initialising most fields from an
+  # existing instance.  This is intended to be used only in the case where the
+  # user makes an edit requiring a new registration.  Specifically, finance
+  # details and conviction sign-off results are not copied, and convictions
+  # checks are re-run.
+  def self.create_new_when_edit_requires_new_reg(original_registration)
+    # Create a new registration, and initialise from the old.
+    new_reg = Registration.create
+    new_reg.add(original_registration.to_hash)
+    new_reg.add(original_registration.attributes)
+
+    # New registration should not get the Finance Details or Conviction
+    # sign-offs of the old.
+    unless original_registration.finance_details.empty?
+      new_reg.finance_details.replace([])
+    end
+    unless original_registration.conviction_sign_offs.empty?
+      new_reg.conviction_sign_offs.replace([])
+    end
+
+    # New registration should trigger new conviction searches.
+    if new_reg.upper?
+        new_reg.key_people.each { |person| person.cross_check_convictions }
+      new_reg.cross_check_convictions
+    end
+
+    # Return the result.
+    new_reg
   end
 
   BUSINESS_TYPES = %w[
@@ -884,8 +894,6 @@ class Registration < Ohm::Model
   validate :has_selected_address, if: (:businessdetails_step? && :isAddressLookup?)
 
   def isAddressLookup?
-    Rails.logger.debug '>>>>>>> isAddressLookup'
-    Rails.logger.debug '>>>>>>> self.validateSelectedAddress: ' + self.validateSelectedAddress.to_s
     if !self.validateSelectedAddress.nil?
       self.validateSelectedAddress
     else
@@ -1074,6 +1082,10 @@ class Registration < Ohm::Model
   def not_limited_company?
     businessType != 'limitedCompany'
   end
+  
+  def partnership?
+    businessType == 'partnership'
+  end
 
   def account_email_present?
     accountEmail.present?
@@ -1092,9 +1104,7 @@ class Registration < Ohm::Model
   def paid_in_full?
     begin
       the_balance = self.try(:finance_details).try(:first).try(:balance)
-
       the_balance = 0 if the_balance.nil?
-      Rails.logger.debug "paid_in_full balance: #{the_balance.to_s}"
     rescue Exception => e
       Rails.logger.debug e.message
     end
@@ -1490,7 +1500,10 @@ class Registration < Ohm::Model
         errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_relevant_person'))
       end
     elsif key_person_step? || key_people_step?
-      if key_people.select { |person| person.person_type == 'KEY'}.empty?
+      local_key_people = key_people.select { |person| person.person_type == 'KEY'}
+      if partnership? && (local_key_people.size < 2)
+        errors.add(:key_people, I18n.t('errors.messages.enter_at_least_2_partners'))
+      elsif local_key_people.empty?
         errors.add(:key_people, I18n.t('errors.messages.enter_at_least_1_key_person'))
       end
     end
