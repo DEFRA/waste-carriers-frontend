@@ -3,12 +3,23 @@ namespace :maintenance do
   # gem which provides the maintenance mode functionality.
   task generate: :environment do
     puts 'Generating maintenance.html for maintenance mode'
-    root_url =
-      Registrations::Application
-      .get_url_from_environment_or_default(
-        ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'],
-        'http://localhost:3000')
-    system "curl -X GET #{root_url}/maintenance \
+
+    if Registrations::Application.config.force_ssl
+      url_prefix = 'https://'
+    else
+      url_prefix = 'http://'
+    end
+
+    # Initial versions failed because in other environments the root
+    # address is localhost, not localhost:3000.
+    if Rails.env.downcase == 'development'.downcase
+      root_url = 'localhost:3000'
+    else
+      root_url = 'localhost'
+    end
+
+    puts "Will request #{url_prefix}#{root_url}/maintenance as base for page"
+    system "curl -k -X GET #{url_prefix}#{root_url}/maintenance \
       -o public/maintenance.html"
   end
 
