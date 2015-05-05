@@ -196,10 +196,8 @@ class RegistrationsController < ApplicationController
 
       logger.info 'Retrieving address for the selected moniker: ' + moniker.to_s
       @selected_address = Address.find(moniker)
-      logger.info 'Retrieved @selected_address = ' + @selected_address.inspect.to_s
       session[:address_lookup_selected] = true
       @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
-
     end
 
     if params[:findAddress] #user clicked on Find Address button
@@ -226,9 +224,6 @@ class RegistrationsController < ApplicationController
 #      redirect_to :newBusinessDetails and return
 #      end
     elsif @registration.valid?
-
-      logger.info '>>>>>>>> elsif valid'
-
       if @registration.tier.eql? 'UPPER'
         @registration.cross_check_convictions
         @registration.save
@@ -293,26 +288,19 @@ class RegistrationsController < ApplicationController
     setup_registration 'contactdetails'
     return unless @registration
 
-    # TODO Check why this is here with Fred. Was in Upper Tier
-    # version of update contact details but don't see how you
-    # get to this post and need to check for findAddress
-    # if params[:findAddress]
-    #   render "newBusinessDetails" and return
-    # end
-
-
-
     if @registration.valid?
       if session[:edit_link_contact_details]
         session.delete(:edit_link_contact_details)
-        redirect_to :newConfirmation and return
+        redirect_to :newConfirmation
+        return
       end
       if @registration.tier.eql? 'LOWER'
-        redirect_to :newConfirmation and return
+        redirect_to :newConfirmation
+        return
       else
-        redirect_to :registration_key_people and return
+        redirect_to :registration_key_people
+        return
       end
-
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
@@ -442,11 +430,8 @@ class RegistrationsController < ApplicationController
           # If a new registration is needed at this point it should be created
           # as the payment will then be processed against that registration and
           # not the original one, which will be marked as deleted
-          new_reg = Registration.create
+          new_reg = Registration.create_new_when_edit_requires_new_reg(@registration)
           session[:editing] = true
-
-          new_reg.add(@registration.to_hash)
-          new_reg.add(@registration.attributes)
 
           # Need to re-get registration from DB as we are leaving the orig alone
           original_reg = Registration.find_by_id(@registration.uuid)
@@ -686,7 +671,6 @@ class RegistrationsController < ApplicationController
         if commit_new_registration?
           logger.info 'The new registration has been committed successfully'
         else #registration was not committed
-          # there is an error (but data not yet saved)
           logger.error 'Registration was valid but data is not yet saved due to an error in the services'
           @registration.errors.add(:exception, @registration.exception.to_s)
           render "newSignup", :status => '400'
@@ -707,13 +691,11 @@ class RegistrationsController < ApplicationController
     when 'LOWER'
       pending_url
     when 'UPPER'
-      #
       # Important!
       # Now storing an additional variable in the session for the type of order
       # you are about to make.
       # This session variable needs to be set every time the order/new action
       # is requested.
-      #
 
       # Determine what type of registration order to create
       # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
@@ -785,32 +767,21 @@ class RegistrationsController < ApplicationController
   def cannot_edit
   end
 
-  # GET /registrations/data-protection
-  def dataProtection
-    # Renders static data proctection page
-  end
-
   def commit_new_registration?
-
     unless @registration.tier == 'LOWER'
-
       # Detect standard or IR renewal
-      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
-
-        logger.debug "Is IR RENEWAL"
-
-          # 3 years from existing registration expiry date
+      if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+        # This is an IR renewal, so set the expiry date to 3 years from the
+        # expiry of the existing IR registration.
         @registration.expires_on = convert_date(@registration.originalDateExpiry.to_i) + Rails.configuration.registration_expires_after
       else
-        logger.debug "Is normal RENEWAL"
-
-        # 3 years from todays date
+        # This is a new registration; set the expiry date to 3 years from today.
         @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
       end
     end
 
-    # Note: we are assigning a unique identifier to the registration in order to make the
-    # POST request idempotent
+    # Note: we are assigning a unique identifier to the registration in order to
+    # make the POST request idempotent
     @registration.reg_uuid = SecureRandom.uuid
 
     @registration.save
@@ -837,7 +808,7 @@ class RegistrationsController < ApplicationController
       # first having to have clicked the link in the confirmaton email. The Confirmed action relies on pulling
       # out the user from the session as when you do click the link the ConfirmationsController::after_confirmation_path_for
       # action stores the confirmed user there.
-      session[:user] = @user
+      session[:userEmail] = @user.email
       return true
     else
       logger.info 'Could not save user. Errors: ' + @user.errors.full_messages.to_s
@@ -958,11 +929,17 @@ class RegistrationsController < ApplicationController
 
   # GET /your-registration/confirmed
   def confirmed
-    @user = session[:user]
+    unless session.key?(:userEmail)
+      logger.error 'Session does not contain expected "userEmail" key. Showing 404.'
+      renderNotFound
+      return
+    end
+    
+    @user = User.find_by_email(session[:userEmail])
     if !@user
-      logger.warn "Could not retrieve the activated user. Showing 404."
-      #flash[:notice] = 'Error: Could not find user ' + @user.to_s
-      renderNotFound and  return
+      logger.error 'Could not retrieve the activated user. Showing 404.'
+      renderNotFound
+      return
     end
 
     # If we come this way as part of the upper tier registration then we should have the ID for the
@@ -1016,10 +993,6 @@ class RegistrationsController < ApplicationController
     render :layout => false
   end
 
-  # Renders static data proctection page
-  def dataProtection
-  end
-
   # GET /registrations/new
   # GET /registrations/new.json
   def new
@@ -1069,7 +1042,6 @@ class RegistrationsController < ApplicationController
 
   def copyAddressToSession
     logger.info 'Copying address details into the registration...'
-    logger.info 'The @selected_address is: ' + @selected_address.inspect.to_s
 
     @registration = Registration[ session[:registration_id]]
 
@@ -1524,18 +1496,9 @@ class RegistrationsController < ApplicationController
       renderAccessDenied and return
     end
 
-    # Removed as craete_new_reg not required here as already saved prior to order page
-    #    # Check if a new registration is required, and create prior to deleting session variables
-    #    if EditResult::CREATE_NEW_REGISTRATION.eql? session[:edit_result].to_i and !create_new_reg
-    #      # redirect to previous page due to error
-    #      redirect_to newOfflinePayment_path and return
-    #    end
-
-    #
     # This should be an acceptable time to delete the render type and
     # the order code from the session, as these are used for payment
     # and if reached here payment request succeeded
-    #
     session.delete(:renderType)
     session.delete(:orderCode)
 

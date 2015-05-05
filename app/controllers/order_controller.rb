@@ -1,14 +1,7 @@
 class OrderController < ApplicationController
-
   include OrderHelper
   include WorldpayHelper
   include RegistrationsHelper
-
-  #We require authentication (and authorisation) largely only for editing registrations,
-  #and for viewing the finished/completed registration.
-
-  # Removed as external user not logged in at time of first payment
-  #before_filter :authenticate_external_user!, :only => [:index, :new, :create]
 
   # GET /index
   def index
@@ -20,9 +13,7 @@ class OrderController < ApplicationController
     # Renders a new Order page (formerly newPayment)
     @order ||= Order.new
 
-    logger.debug 'renderType session: ' + session[:renderType].to_s
     @renderType = session[:renderType]
-    # Could also determine here what view to render
     unless @order.isValidRenderType? @renderType
       logger.error 'Cannot find a renderType variable in the session. It is needed to determine the type of payment page to render.'
       logger.error 'Rendering Page not found'
@@ -44,32 +35,25 @@ class OrderController < ApplicationController
     end
 
     # Calculate fees shown on page
-    @registration = calculate_fees @registration, @renderType
+    @registration = calculate_fees(@registration, @renderType)
   end
 
   # POST /create
   def create
-
-    #
-    # TODO:
-    # Calculates what type of create is required based on the route required
-    #
-    logger.debug 'params - reg: ' + params[:registration].to_s
-    logger.debug 'params - order: ' + params[:order].to_s
-
-    # for now assume old code is correct
     setup_registration 'payment'
-    # Must get render type to determine what actions to take, and for rerendering any errors if found
+    
+    # Must get render type to determine what actions to take, and for
+    # rerendering any errors if found.
     @renderType = session[:renderType]
     logger.debug 'renderType session: ' + session[:renderType].to_s
 
     # Determine what kind of payment selected and redirect to other action if required
-    bank_transfer = @registration.payment_type === "bank_transfer"
+    bank_transfer = (@registration.payment_type === "bank_transfer")
 
     if bank_transfer
-      @order = prepareOfflinePayment @registration, @renderType
+      @order = prepareOfflinePayment(@registration, @renderType)
     else
-      @order = prepareOnlinePayment @registration, @renderType
+      @order = prepareOnlinePayment(@registration, @renderType)
     end
 
     logger.info "Check if the registration is valid. This checks the data entered is valid"
@@ -185,19 +169,5 @@ class OrderController < ApplicationController
     end
 
   end
-
-
-  #######################################################################################################
-
-  private
-
-
-  # Removed as not required
-  #  # Duplicated from registraions controller
-  #  def authenticate_external_user!
-  #    if !is_admin_request? && !agency_user_signed_in?
-  #      authenticate_user!
-  #    end
-  #  end
-
+  
 end

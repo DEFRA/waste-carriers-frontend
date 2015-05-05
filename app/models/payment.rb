@@ -31,10 +31,7 @@ class Payment < Ohm::Model
   class << self
     def init (payment_hash)
       payment = Payment.create
-
-      payment_hash.each do |k, v|
-        payment.send("#{k}=",v)
-      end
+      payment.update_attributes(payment_hash)
       payment.save
       payment
     end
@@ -59,7 +56,6 @@ class Payment < Ohm::Model
     if isManualPayment?
       multiplyAmount #pounds to pennies
     end
-    Rails.logger.debug "about to post payment: #{to_json.to_s}"
     commited = true
     begin
       response = RestClient.post url,
