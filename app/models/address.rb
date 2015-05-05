@@ -51,26 +51,29 @@ class Address < Ohm::Model
 
   def self.from_address_search_result(result)
     address = Address.create
+    address.populate_from_address_search_result(result)
+    address
+  end
 
-    address.uprn = result.uprn
-    address.town_city = result.town
-    address.postcode = result.postcode
-    address.country = result.country
+  def populate_from_address_search_result(result)
+    self.uprn = result.uprn
+    self.town_city = result.town
+    self.postcode = result.postcode
+    self.country = result.country
 
-    address.location.add Location.init(
+    location.replace([Location.init(
       easting: result.easting,
       northing: result.northing
-    )
+    )])
 
-    address.dependent_locality = result.dependentLocality
-    address.dependent_thoroughfare = result.dependentThroughfare
-    address.administrative_area = result.administrativeArea
-    address.local_authority_update_date = result.localAuthorityUpdateDate
-    address.royal_mail_update_date = result.royalMailUpdateDate
+    self.dependent_locality = result.dependentLocality
+    self.dependent_thoroughfare = result.dependentThroughfare
+    self.administrative_area = result.administrativeArea
+    self.local_authority_update_date = result.localAuthorityUpdateDate
+    self.royal_mail_update_date = result.royalMailUpdateDate
 
-    address_lines(address, result.lines)
-    address.save
-    address
+    address_lines(result.lines)
+    save
   end
 
   # Returns a hash representation of the Address object.
@@ -88,6 +91,12 @@ class Address < Ohm::Model
   # @return  [String]  the Address object in JSON form
   def to_json
     to_hash.to_json
+  end
+
+  def add(a_hash)
+    a_hash.each do |prop_name, prop_value|
+      self.send(:update, {prop_name.to_sym => prop_value})
+    end
   end
 
   # Validations
@@ -113,13 +122,13 @@ class Address < Ohm::Model
 
   private
 
-  def address_lines(address, lines)
+  def address_lines(lines)
     return if lines.empty?
 
-    address.address_line_1 = lines[0] unless lines[0].blank?
-    address.address_line_2 = lines[0] unless lines[1].blank?
-    address.address_line_3 = lines[0] unless lines[2].blank?
-    address.address_line_4 = lines[0] unless lines[3].blank?
+    self.address_line_1 = lines[0] unless lines[0].blank?
+    self.address_line_2 = lines[0] unless lines[1].blank?
+    self.address_line_3 = lines[0] unless lines[2].blank?
+    self.address_line_4 = lines[0] unless lines[3].blank?
   end
 
   # Validation helpers
