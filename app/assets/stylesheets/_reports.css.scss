@@ -26,6 +26,8 @@
 .agency-edit {
   border: 1px solid rgb(222, 224, 226);
   list-style: none outside none;
+  width: 100%;
+  display: inline-block;
   @include core-16;
     @include media(mobile) {
     padding-left: $gutter-half;
