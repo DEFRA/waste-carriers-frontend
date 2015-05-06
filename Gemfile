@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-#ruby=2.0.0-p598
+#ruby=2.0.0-p645
 #ruby-gemset=waste-exemplar-frontend
 
 #Needed for pre-release gov.uk gems - not needed anymore?
