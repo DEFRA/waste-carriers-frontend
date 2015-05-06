@@ -1034,7 +1034,7 @@ class RegistrationsController < ApplicationController
       existingAccountEmail = @registration.accountEmail
       if (newAccountEmail != existingAccountEmail)
         @registration.accountEmail = newAccountEmail
-        @registration.save
+        @registration.save!
       end
     end
 
