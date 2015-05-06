@@ -158,6 +158,7 @@ Registrations::Application.routes.draw do
   # routes for renewals and edits
   match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
   match "registrations/:uuid/edit" => 'registrations#update', :via => [:post,:put,:patch]
+  match "registrations/:uuid/edit_account_email" => 'registrations#edit_account_email', :via => [:get, :patch], :as => :edit_account_email
 
   # Data reporting urls - Authenticated agency users only
   get "reports/registrations" => 'reports#registrations_search', :as => :registrations_search
