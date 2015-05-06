@@ -1020,6 +1020,26 @@ class RegistrationsController < ApplicationController
     redirect_to :newConfirmation
   end
 
+  # GET, PATCH /registrations/1/edit_account_email
+  def edit_account_email
+    Rails.logger.debug "edit account email for: #{params[:uuid]}"
+    @registration = Registration.find_by_id(params[:uuid])
+    if !@registration
+      renderNotFound and return
+    end
+    authorize! :update, @registration
+
+    if params.has_key?(:registration)
+      newAccountEmail = params[:registration][:accountEmail]
+      existingAccountEmail = @registration.accountEmail
+      if (newAccountEmail != existingAccountEmail)
+        @registration.accountEmail = newAccountEmail
+        @registration.save
+      end
+    end
+
+  end
+
   def paymentstatus
     @registration = Registration.find_by_id(params[:id])
     if @registration.nil?
