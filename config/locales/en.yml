@@ -781,17 +781,9 @@ en:
       manual_address_link: "I want to add an address myself"
       foreign_address_link: "The address is outside the United Kingdom"
       postcode: "Postcode"
-    company_details_finder:
-      companies_house_explain: "This is your company registration number"
-      companies_house_details_link: "What’s this?"
-      companies_house_paragraph1: "A Company Registration Number (CRN) is allocated by"
-      companies_house_html: "Companies House"
-      companies_house_paragraph2: "\ when a limited company is registered."
-      companies_house_paragraph3: "It comprises an 8 digit number or 2 letters followed by a 6 digit number."
-      companies_house_paragraph4: "You will find it on any documentation received from Companies House. If you cannot locate this number please contact your HM Revenue & Customs (HMRC) Corporation Tax Office."
-      companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
-      companies_house_registration_number_not_found: "is not listed by Companies House"
-      companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
+  business_details_manual:
+    show:
+      find_address_using_postcode: "Find address using postcode"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
@@ -1507,6 +1499,17 @@ en:
       copycard_title: "Your order has been completed"
       copycardAwaitingPayment_title: "Your order has been received"
       edit_complete_title: "Your changes have been successful"
+    company_details_finder:
+      companies_house_explain: "This is your company registration number"
+      companies_house_details_link: "What’s this?"
+      companies_house_paragraph1: "A Company Registration Number (CRN) is allocated by"
+      companies_house_html: "Companies House"
+      companies_house_paragraph2: "\ when a limited company is registered."
+      companies_house_paragraph3: "It comprises an 8 digit number or 2 letters followed by a 6 digit number."
+      companies_house_paragraph4: "You will find it on any documentation received from Companies House. If you cannot locate this number please contact your HM Revenue & Customs (HMRC) Corporation Tax Office."
+      companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
+      companies_house_registration_number_not_found: "is not listed by Companies House"
+      companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
     current_user:
       change_password: "Change password"
       new_registration: "New or renew registration"
