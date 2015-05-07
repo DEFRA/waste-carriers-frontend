@@ -61,8 +61,8 @@
 
         <% if @address_match_list %>
           <% if @address_match_list.empty? %>
-            <div id="validation-postcode">
-              <span class="error-text"><%= t 'errors.messages.no_addresses_for_postcode'%></span>
+            <div class="form-group">
+              <span class="validation error-text"><%= t 'errors.messages.no_addresses_for_postcode'%></span>
             </div>
           <% else %>
             <!-- addresses were found for postcode -->
