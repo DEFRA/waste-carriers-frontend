@@ -107,10 +107,12 @@ Registrations::Application.routes.draw do
   get "your-registration/registration-type/edit" => "registration_type#edit", :as => :edit_registration_type
   post "your-registration/registration-type" => "registration_type#create"
 
+  # Registrations - Business Details
+  get 'your-registration/business-details' => 'business_details#show', as: :business_details
+  post 'your-registration/business-details' => 'business_details#create'
+
   # Registration urls - Lower tier
-  match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
   get   "your-registration/edit/business-details" => "registrations#editBusinessDetails", :via => [:get], :as => :editBusinessDetails
-  match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
 
   match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
   get   "your-registration/edit/contact-details" => "registrations#editContactDetails", :via => [:get], :as => :editContact
