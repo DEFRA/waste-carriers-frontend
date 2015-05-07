@@ -488,8 +488,6 @@ module RegistrationsHelper
     res
   end
 
-
-
   def proceed_as_upper
     @registration.tier = 'UPPER'
     @registration.save
@@ -501,7 +499,6 @@ module RegistrationsHelper
     @registration.tier = 'LOWER'
     @registration.save
     session[:ga_tier] = 'lower'
-    redirect_to :newBusinessDetails
+    redirect_to :business_details
   end
-
 end
