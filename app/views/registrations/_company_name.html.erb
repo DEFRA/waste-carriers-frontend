@@ -1,5 +1,0 @@
-<div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
-  <%= validation_for(@registration, :companyName) %>
-  <%= f.label n, for: 'registration_companyName', class: 'form-label' %>
-  <%= f.text_field :companyName, class: 'form-control-1-2', :size => 35, :maxlength => Registration::MAX_COMPANY_NAME_LENGTH %>
-</div>
