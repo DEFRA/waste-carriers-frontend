@@ -36,7 +36,7 @@
         </header>
 
         <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
-          <%= render 'company_details_finder', f: f, r: @registration %>
+          <%= render 'shared/company_details_finder', f: f, r: @registration %>
         <% end %>
 
         <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
@@ -84,7 +84,7 @@
 
         <div class="form-group">
           <ul>
-            <li><a href="?manualUkAddress=true" id="manual_uk_address"><%= t '.manual_address_link'%></a></li>
+            <li><%= link_to t('.manual_address_link'), business_details_manual_path, id: 'manual_uk_address', class: 'link_to' %></li>
             <li><a href="?foreignAddress=true" id="foreign_address"><%= t '.foreign_address_link'%></a></li>
           </ul>
         </div>
