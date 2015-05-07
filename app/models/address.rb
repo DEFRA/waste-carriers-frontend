@@ -100,9 +100,7 @@ class Address < Ohm::Model
   end
 
   # Validations
-  with_options if: :address_lookup? do |address|
-    address.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters') }, length: { maximum: 35 },  unless: :address_lookup_page?
-    address.validates :townCity, presence: true, format: { with: TOWN_CITY_REGEX }, unless: :address_lookup_page?
+  with_options if: :address_results? do |address|
     address.validates :postcode, uk_postcode: true
   end
 
@@ -132,6 +130,10 @@ class Address < Ohm::Model
   end
 
   # Validation helpers
+
+  def address_results?
+    address_mode == 'address-results'
+  end
 
   def address_lookup?
     address_mode != 'manual-uk' && address_mode != 'manual-foreign'
