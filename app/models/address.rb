@@ -131,17 +131,17 @@ class Address < Ohm::Model
   end
 
   with_options if: :manual_uk_address? do |address|
-    address.validates :house_number, :presence => { :message => I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), :allow_blank => true }, length: { maximum: 35 }
-    address.validates :address_line_1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+    address.validates :house_number, presence: { message: I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), allow_blank: true }, length: { maximum: 35 }
+    address.validates :address_line_1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
     address.validates :address_line_2, length: { maximum: 35 }
-    address.validates :town_city, :presence => { :message => I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), :allow_blank => true }
+    address.validates :town_city, presence: { message:  I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), allow_blank: true }
     address.validates :postcode, uk_postcode: true
   end
 
   with_options if: :manual_foreign_address? do |address|
-    address.validates :address_line_1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+    address.validates :address_line_1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
     address.validates :address_line_2, :address_line_3, :address_line_4, length: { maximum: 35 }
-    address.validates :country, :presence => { :message => I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
+    address.validates :country, presence: { message: I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
   end
 
   private
