@@ -40,11 +40,12 @@ class BusinessDetailsController < ApplicationController
 
       # Setting the address mode to this helps determine what validations to
       # apply (see show action)
-      @address.update(address_mode: 'address-results')
+      @address.update_attributes(address_mode: 'address-results')
 
       # We update the postcode on the address so that it is retained when we
       # redirect to the page
-      @address.update(postcode: params[:address][:postcode])
+      @address.update_attributes(postcode: params[:address][:postcode])
+      @address.save
       redirect_to :business_details
     elsif @registration.selectedAddress
       # User clicked Continue button
