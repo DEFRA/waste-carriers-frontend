@@ -61,6 +61,7 @@ class AddressSearchResult
       result = JSON.parse(RestClient.get(url, params: params))
     rescue => e
       Rails.logger.debug e
+      result = []
     end
     result
   end
