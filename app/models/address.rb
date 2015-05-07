@@ -151,9 +151,9 @@ class Address < Ohm::Model
     return if lines.empty?
 
     self.address_line_1 = lines[0] unless lines[0].blank?
-    self.address_line_2 = lines[0] unless lines[1].blank?
-    self.address_line_3 = lines[0] unless lines[2].blank?
-    self.address_line_4 = lines[0] unless lines[3].blank?
+    self.address_line_2 = lines[1] unless lines[1].blank?
+    self.address_line_3 = lines[2] unless lines[2].blank?
+    self.address_line_4 = lines[3] unless lines[3].blank?
   end
 
   # Validation helpers
