@@ -111,6 +111,9 @@ Registrations::Application.routes.draw do
   get 'your-registration/business-details' => 'business_details#show', as: :business_details
   post 'your-registration/business-details' => 'business_details#create'
 
+  get 'your-registration/business-details-manual' => 'business_details_manual#show', as: :business_details_manual
+  post 'your-registration/business-details-manual' => 'business_details_manual#create'
+
   # Registration urls - Lower tier
   get   "your-registration/edit/business-details" => "registrations#editBusinessDetails", :via => [:get], :as => :editBusinessDetails
 
