@@ -84,8 +84,8 @@
 
         <div class="form-group">
           <ul>
-            <li><%= link_to t('.manual_address_link'), business_details_manual_path, id: 'manual_uk_address', class: 'link_to' %></li>
-            <li><a href="?foreignAddress=true" id="foreign_address"><%= t '.foreign_address_link'%></a></li>
+            <li><%= link_to t('.manual_address_link'), business_details_manual_path, class: 'link_to', id: 'manual_uk_address' %></li>
+            <li><%= link_to t('.foreign_address_link'), business_details_non_uk_path, class: 'link_to', id: 'foreign_address' %></li>
           </ul>
         </div>
 
