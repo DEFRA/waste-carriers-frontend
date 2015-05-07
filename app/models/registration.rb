@@ -88,7 +88,6 @@ class Registration < Ohm::Model
   # whether the controller/view is at the address lookup page
   attribute :exception
   attribute :copy_card_only_order
-  attribute :address_lookup_page # unknown address attribute
 
   set :addresses, :Address
   set :metaData, :Metadata #will always be size=1
@@ -641,10 +640,10 @@ class Registration < Ohm::Model
             :format => ".json"
         }
         options = defaults.merge(options)
-        
+
         url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
         response = RestClient.get(url)
-        
+
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
           all_regs.each do |r|
@@ -703,7 +702,7 @@ class Registration < Ohm::Model
       end #each
 
       new_reg.update_attributes(normal_attributes)
-      
+
       new_reg.save
       new_reg
     end #method
@@ -712,7 +711,7 @@ class Registration < Ohm::Model
   def copy_construct
     Registration.init(self.to_json)
   end
-  
+
   # Creates and returns a new registraiton, initialising most fields from an
   # existing instance.  This is intended to be used only in the case where the
   # user makes an edit requiring a new registration.  Specifically, finance
@@ -921,10 +920,6 @@ class Registration < Ohm::Model
     result
   end
 
-  def address_lookup_page?
-    address_lookup_page
-  end
-
   def newOrRenew_step?
     current_step.inquiry.newOrRenew?
   end
@@ -1036,7 +1031,7 @@ class Registration < Ohm::Model
   def not_limited_company?
     businessType != 'limitedCompany'
   end
-  
+
   def partnership?
     businessType == 'partnership'
   end
