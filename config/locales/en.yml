@@ -784,6 +784,9 @@ en:
   business_details_manual:
     show:
       find_address_using_postcode: "Find address using postcode"
+  business_details_non_uk:
+    show:
+      uk_address_link: "I have an address in the United Kingdom"
   registrations:
     step:
       step: "Step %{step_x} of %{step_y}"
