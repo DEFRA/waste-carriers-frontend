@@ -56,6 +56,8 @@ class Address < Ohm::Model
   end
 
   def populate_from_address_search_result(result)
+    clear
+
     self.uprn = result.uprn
     self.town_city = result.town
     self.postcode = result.postcode
@@ -99,22 +101,46 @@ class Address < Ohm::Model
     end
   end
 
+  # Will clear all attributes except the address_type. We need this because of
+  # the different address modes currently used. Depending on the mode only
+  # certain fields will be populated. So to avoid errors if we switch modes we
+  # we first clear out the existing data.
+  def clear
+    arg = {
+      uprn: nil,
+      address_mode: nil,
+      house_number: nil,
+      address_line_1: nil,
+      address_line_2: nil,
+      address_line_3: nil,
+      address_line_4: nil,
+      town_city: nil,
+      postcode: nil,
+      country: nil,
+      dependent_locality: nil,
+      dependent_thoroughfare: nil,
+      administrative_area: nil,
+      local_authority_update_date: nil,
+      royal_mail_update_date: nil }
+    update_attributes(arg)
+  end
+
   # Validations
   with_options if: :address_results? do |address|
     address.validates :postcode, uk_postcode: true
   end
 
   with_options if: :manual_uk_address? do |address|
-    address.validates :houseNumber, :presence => { :message => I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), :allow_blank => true }, length: { maximum: 35 }
-    address.validates :streetLine1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
-    address.validates :streetLine2, length: { maximum: 35 }
-    address.validates :townCity, :presence => { :message => I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), :allow_blank => true }
+    address.validates :house_number, :presence => { :message => I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), :allow_blank => true }, length: { maximum: 35 }
+    address.validates :address_line_1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+    address.validates :address_line_2, length: { maximum: 35 }
+    address.validates :town_city, :presence => { :message => I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), :allow_blank => true }
     address.validates :postcode, uk_postcode: true
   end
 
   with_options if: :manual_foreign_address? do |address|
-    address.validates :streetLine1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
-    address.validates :streetLine2, :streetLine3, :streetLine4, length: { maximum: 35 }
+    address.validates :address_line_1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+    address.validates :address_line_2, :address_line_3, :address_line_4, length: { maximum: 35 }
     address.validates :country, :presence => { :message => I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
   end
 
