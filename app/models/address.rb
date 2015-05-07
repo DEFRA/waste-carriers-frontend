@@ -123,6 +123,7 @@ class Address < Ohm::Model
       local_authority_update_date: nil,
       royal_mail_update_date: nil }
     update_attributes(arg)
+    save
   end
 
   # Validations
