@@ -501,7 +501,7 @@ module RegistrationsHelper
     @registration.tier = 'LOWER'
     @registration.save
     session[:ga_tier] = 'lower'
-    redirect_to :newBusinessDetails
+    redirect_to :business_details
   end
 
 end
