@@ -21,6 +21,8 @@ class BusinessDetailsManualController < ApplicationController
       return
     end
 
+    # Clear the existing address and then update it based on the mode we're in
+    # and the data posted from the form
     @address.clear
     @address.update_attributes(address_mode: 'manual-uk')
     @address.update_attributes(params[:address])
@@ -31,6 +33,13 @@ class BusinessDetailsManualController < ApplicationController
       return
     end
 
+    # If the registration is upper tier we run a conviction check against
+    # the company name.
+    unless @registration.tier.eql? 'LOWER'
+      @registration.cross_check_convictions
+      @registration.save
+    end
+
     redirect_to :newContact
   end
 
@@ -39,8 +48,6 @@ class BusinessDetailsManualController < ApplicationController
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment
   # from UI web pages
   def registration_params
-    params.require(:registration).permit(
-    :company_no,
-    :companyName)
+    params.require(:registration).permit(:company_no, :companyName)
   end
 end
