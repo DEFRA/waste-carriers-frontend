@@ -124,8 +124,8 @@
         <% else %>
           <h2 class='heading-medium'><%= t '.business_details_heading' %></h2>
         <% end %>
-          <%= render 'address_display', r: @registration %>
-        <%= link_to t('.edit_business_details_link'), editBusinessDetails_path %>
+          <%= render 'address_display', r: @registration, a: @address %>
+        <%= link_to t('.edit_business_details_link'), business_details_edit_path %>
       </div><!-- end business details form-group -->
 
       <!-- Contact details section -->

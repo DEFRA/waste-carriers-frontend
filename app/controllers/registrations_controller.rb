@@ -321,6 +321,7 @@ class RegistrationsController < ApplicationController
     if !@registration
       return
     end
+    @address = @registration.registered_address
     case session[:edit_mode].to_i
     when EditMode::EDIT, EditMode::RENEWAL
       @registration.declaration = false
