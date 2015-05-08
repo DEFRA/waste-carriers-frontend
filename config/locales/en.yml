@@ -654,6 +654,9 @@ en:
     index:
       title: "Administration"
       subtitle: "Listing agency users"
+    edit_account_email:
+      change_account_email: "Change account email"
+      change_account_email_helper_text: "This is where the account email address for any registration can be changed."
   key_people:
     newKeyPerson:
       title: "Key person"

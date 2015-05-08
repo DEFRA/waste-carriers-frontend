@@ -13,11 +13,11 @@
     <%= render 'shared/errors' %>
     <header class="page-header group">
       <div class="hgroup">
-        <h1 class="heading-xlarge" id="groupLabel">Edit Account Email</h1>
+        <h1 class="heading-xlarge" id="groupLabel"><%= t'agency_users.edit_account_email.change_account_email' %></h1>
       </div>
     </header>
     <div>
-      <p>The current account email address is:<br /><b><%= @registration.accountEmail %></b></p>
+      <p class="subtitle text"><%= t'agency_users.edit_account_email.change_account_email_helper_text' %></p>
     </div>
     <div>
       <%= form_for(@registration, :url => {:action => 'edit_account_email'}, :html => {:autocomplete => "off"}) do |f| %>
