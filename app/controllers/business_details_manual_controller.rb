@@ -1,4 +1,5 @@
 class BusinessDetailsManualController < ApplicationController
+  include BusinessDetailsHelper
   include RegistrationsHelper
 
   # GET /your-registration/business-details-manual
@@ -40,7 +41,10 @@ class BusinessDetailsManualController < ApplicationController
       @registration.save
     end
 
-    redirect_to :newContact
+    # This is a call into a method in the Bus Dtls helper. It looks at a value
+    # in the session to determine if we need to go to the next step in the
+    # application or back to the confirmation page
+    redirect_to redirect_to?
   end
 
   private
