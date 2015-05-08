@@ -128,8 +128,6 @@
 
     <!-- End grid thirds -->
 
-    <div class="grid-divider"><span>&nbsp;</span></div>
-
     <h2 class="heading-small"><%= t('.results_count_message', :pluralized_registration => pluralize(@registrations.count, t('.registration'))) %></h2>
 
     <% end %>
@@ -143,18 +141,19 @@
 
     <div class="agency-edit" id="searchResult<%= regCount.to_s %>" >
 
-    <div class="inner-block">
-      <div class="grid-1-4">
-          <ul class="panel-colour">
+    <div class="grid-1-4 registration-table">
+      <div class="inner-block">
+          <ul>
             <li><span><%= t '.company_name' %></span><p><%= reg.companyName %></p></li>
             <li><span><%= t 'activemodel.attributes.registration.postcode' %></span><p><%= reg.postcode %></p></li>
           </ul>
       </div>
     </div>
 
-    <div class="inner-block">
-      <div class="grid-1-4">
-          <ul class="panel-colour">
+
+    <div class="grid-1-4 registration-table">
+      <div class="inner-block">
+          <ul>
             <li><span><%= t('.registration').humanize %></span><p><!-- Reg: <%= reg.uuid %> --><%= reg.regIdentifier %></p>
             </li>
             <li><span><%= t 'activemodel.attributes.metadata.status' %></span>
@@ -163,9 +162,10 @@
       </div>
     </div>
 
-    <div class="inner-block">
-      <div class="grid-1-4">
-          <ul class="panel-colour">
+
+    <div class="grid-1-4 registration-table">
+      <div class="inner-block">
+          <ul>
             <li>
               <span><%= t 'activemodel.attributes.metadata.dateRegistered' %></span>
               <% if reg.metaData.first.dateActivated %>
@@ -185,11 +185,11 @@
       </div>
     </div>
 
-    <div class="inner-block">
-      <div class="grid-1-4">
+    <div class="grid-1-4 registration-table">
+      <div class="inner-block">
           <nav aria-labelledby="parent-subsection" role="navigation">
-            <h3 class="admin-actions"><%= t('.actions_heading') %></h3>
-            <ul class="admin-actions">
+            <ul class="actions-border">
+              <li><span><%= t('.actions_heading') %></span><li>
               <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.view_button_label'), view_path(reg.uuid) %></li><% end %>
               <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to t('registrations.form.edit_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::EDIT) %></li><% end %>
               <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to t('registrations.form.edit_account_email_label'), edit_account_email_path(reg.uuid) %></li><% end %>

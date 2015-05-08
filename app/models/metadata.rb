@@ -17,15 +17,9 @@ class Metadata < Ohm::Model
   class << self
     def init (md_hash)
       md = Metadata.create
-
-      md_hash.each do |k, v|
-          md.send(:update, {k.to_sym => v})
-      end
-
+      md.update_attributes(md_hash)
       md.save
       md
     end
   end
-
-
 end
