@@ -109,6 +109,7 @@ Registrations::Application.routes.draw do
 
   # Registrations - Business Details
   get 'your-registration/business-details' => 'business_details#show', as: :business_details
+  get 'your-registration/business-details/edit' => 'business_details#edit', as: :business_details_edit
   post 'your-registration/business-details' => 'business_details#create'
 
   get 'your-registration/business-details-manual' => 'business_details_manual#show', as: :business_details_manual
@@ -117,13 +118,12 @@ Registrations::Application.routes.draw do
   get 'your-registration/business-details-non-uk' => 'business_details_non_uk#show', as: :business_details_non_uk
   post 'your-registration/business-details-non-uk' => 'business_details_non_uk#create'
 
-  # Registration urls - Lower tier
-  get   "your-registration/edit/business-details" => "registrations#editBusinessDetails", :via => [:get], :as => :editBusinessDetails
-
+  # Registrations - Contact details
   match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
   get   "your-registration/edit/contact-details" => "registrations#editContactDetails", :via => [:get], :as => :editContact
   match "your-registration/contact-details" => 'registrations#updateNewContactDetails', :via => [:post,:put,:patch]
 
+  # Registrations - Confirmation
   match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
   match "your-registration/confirmation" => 'registrations#updateNewConfirmation', :via => [:post,:put,:patch]
 
