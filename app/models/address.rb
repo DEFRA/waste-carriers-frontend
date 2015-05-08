@@ -6,8 +6,8 @@ class Address < Ohm::Model
   extend ActiveModel::Naming
 
   attribute :uprn
-  attribute :address_mode
   attribute :address_type
+  attribute :address_mode
   attribute :house_number
   attribute :address_line_1
   attribute :address_line_2
