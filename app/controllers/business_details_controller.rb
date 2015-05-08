@@ -1,4 +1,5 @@
 class BusinessDetailsController < ApplicationController
+  include BusinessDetailsHelper
   include RegistrationsHelper
 
   # GET /your-registration/business-details
@@ -6,7 +7,7 @@ class BusinessDetailsController < ApplicationController
     new_step_action 'businessdetails'
     @address = @registration.registered_address
 
-    return unless 'address-results'.eql? @address.address_mode
+    return unless 'address-results' == @address.address_mode
 
     # When here it is because a user has clicked the find address button
     if @address.valid?
@@ -65,7 +66,29 @@ class BusinessDetailsController < ApplicationController
         @registration.cross_check_convictions
         @registration.save
       end
-      redirect_to :newContact
+
+      # This is a call into a method in the Bus Dtls helper. It looks at a value
+      # in the session to determine if we need to go to the next step in the
+      # application or back to the confirmation page
+      redirect_to redirect_to?
+    end
+  end
+
+  # GET /your-registration/business-details/edit
+  def edit
+    session[:edit_link_business_details] = '1'
+    new_step_action 'businessdetails'
+    @address = @registration.registered_address
+
+    if @address.address_mode == 'manual-uk'
+      redirect_to :business_details_manual
+      return
+    elsif @address.address_mode == 'manual-foreign'
+      redirect_to :business_details_non_uk
+      return
+    else
+      redirect_to :business_details
+      return
     end
   end
 
