@@ -58,6 +58,11 @@ class Address < Ohm::Model
   def populate_from_address_search_result(result)
     clear
 
+    # We want to retain the fact we are in address-results mode so that
+    # whenever the user returns to the business details page the list of
+    # addresses should be shown with their's automatically selected. It gets
+    # cleared in the call to clear above.
+    self.address_mode = 'address-results'
     self.uprn = result.uprn
     self.town_city = result.town
     self.postcode = result.postcode
