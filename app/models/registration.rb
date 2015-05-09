@@ -75,8 +75,10 @@ class Registration < Ohm::Model
 
   attribute :renewalRequested
 
-  attribute :selectedAddress # unknown address attribute
-  attribute :validateSelectedAddress # unknown address attribute
+  # This binds to the address select control on the business details page when
+  # used in its lookup mode, When posted the controller grabs the selected value
+  # and uses it to populate the registered address
+  attribute :selectedAddress
 
   # The value that the waste carrier sets to say whether they admit to having
   # relevant people with relevant convictions
@@ -861,25 +863,17 @@ class Registration < Ohm::Model
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
   validates :payment_type, :presence => true, if: :payment_step?
 
-  validate :has_selected_address, if: (:businessdetails_step? && :isAddressLookup?)
+  validate :selected_address?, if: [:businessdetails_step?, :address_results?]
 
-  def isAddressLookup?
-    if !self.validateSelectedAddress.nil?
-      self.validateSelectedAddress
-    else
-      false
-    end
+  def address_results?
+    registered_address.address_results?
   end
 
-  def has_selected_address
-    if addressMode == 'address-results'
-      if selectedAddress.eql? ''
-        errors.add(:selectedAddress, I18n.t('errors.messages.invalid_selection'))
-      end
-    end
+  def selected_address?
+    errors.add(
+      :selectedAddress,
+      I18n.t('errors.messages.address_not_selected')) if selectedAddress.blank?
   end
-
-
 
   validate :copy_cards_added_to_copy_card_only_order?
   # TODO the following validations were problematic or possibly redundant
@@ -902,7 +896,6 @@ class Registration < Ohm::Model
     end
   end
 
-
   def copy_cards_added_to_copy_card_only_order?
     if (copy_cards && copy_cards.to_i < 1) and copy_card_only_order
       errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
@@ -912,8 +905,6 @@ class Registration < Ohm::Model
 
     end
   end
-
-
 
   def should_validate_key_people?
     result = key_person_step? || key_people_step? || relevant_people_step?

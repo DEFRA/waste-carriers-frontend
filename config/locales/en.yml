@@ -286,6 +286,7 @@ en:
       inactive_uk_company_number: "This company registration number (CRN) is associated with a company that is no longer active. Please try again"
       not_found_uk_company_number: "This company registration number (CRN) can’t be found. Please try again"
       companies_house_service_error: "This company registration number (CRN) couldn’t be verified because of a problem contacting Companies House. Please try again"
+      address_not_selected: "You must select an address"
       blank_address_line: "You must enter at least one address line"
       blank_building_name_or_number: "You must enter a building name or number"
       invalid_building_name_or_number_characters: "The building name or number can use letters, numbers, spaces and some special characters -’,&. It must be no longer than 35 characters"
