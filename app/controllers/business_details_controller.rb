@@ -14,10 +14,8 @@ class BusinessDetailsController < ApplicationController
       # valid in this instance means the postcode field was completed. We then
       # have something to search against.
       @address_match_list = AddressSearchResult.search(@address.postcode)
-
-      # TODO: Understand what address_lookup_failure is used for
-      session.delete(:address_lookup_failure) if session[:address_lookup_failure]
     else
+      logger.debug
       render 'show', status: '400'
     end
   end
@@ -31,24 +29,32 @@ class BusinessDetailsController < ApplicationController
     # view as the view expects an instantiated address.
     @address = @registration.registered_address
 
-    unless @registration.valid?
-      render 'show', status: '400'
-      return
-    end
+    # Things are ordered in this way (below) to cover all possible combinations
+    # of clicking the find and continue buttons, and ensuring the validations
+    # work. For example checking for findAddress is first to cater for the user
+    # having initially searched for an address then not liking the results so
+    # searching again. If this wasn't first and if we didn't clear the address
+    # mode then they would be stuck by the 'address_not_selected' validation
+    # not letting them continue.
 
     if params[:findAddress]
       # User clicked find address button
+      @address.update(address_mode: nil)
+      if @registration.valid?
+        # Setting the address mode to this helps determine what validations to
+        # apply (see show action)
+        @address.update_attributes(address_mode: 'address-results')
 
-      # Setting the address mode to this helps determine what validations to
-      # apply (see show action)
-      @address.update_attributes(address_mode: 'address-results')
+        # We update the postcode on the address so that it is retained when we
+        # redirect to the page
+        @address.update_attributes(postcode: params[:address][:postcode])
+        @address.save
+        redirect_to :business_details
+        return
+      end
+    end
 
-      # We update the postcode on the address so that it is retained when we
-      # redirect to the page
-      @address.update_attributes(postcode: params[:address][:postcode])
-      @address.save
-      redirect_to :business_details
-    elsif @registration.selectedAddress
+    unless @registration.selectedAddress.blank?
       # User clicked Continue button
 
       # We convert the selected address into an actual address object.
@@ -71,6 +77,26 @@ class BusinessDetailsController < ApplicationController
       # in the session to determine if we need to go to the next step in the
       # application or back to the confirmation page
       redirect_to redirect_to?
+      return
+    end
+
+    unless @registration.valid?
+      # We're here either because there is something wrong with the
+      # registration. Either the company name has been left blank or if the line
+      # below is activated its because the user never selected an address from
+      # the results returned.
+      @address_match_list = AddressSearchResult.search(
+        @address.postcode) if 'address-results' == @address.address_mode
+      render 'show', status: '400'
+      return
+    end
+
+    # Else someone clicked continue without having entered a postcode so we
+    # want to validate the address to record the postcode error before
+    # returning the page back.
+    unless @address.valid?
+      render 'show', status: '400'
+      return
     end
   end
 
