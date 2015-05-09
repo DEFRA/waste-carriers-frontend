@@ -131,10 +131,23 @@ class Address < Ohm::Model
     save
   end
 
-  # Validations
-  with_options if: :address_results? do |address|
-    address.validates :postcode, uk_postcode: true
+  def address_results?
+    address_mode == 'address-results'
   end
+
+  def address_lookup?
+    address_mode != 'manual-uk' && address_mode != 'manual-foreign'
+  end
+
+  def manual_uk_address?
+    address_mode == 'manual-uk'
+  end
+
+  def manual_foreign_address?
+    address_mode == 'manual-foreign'
+  end
+
+  validates :postcode, uk_postcode: true, unless: :manual_foreign_address?
 
   with_options if: :manual_uk_address? do |address|
     address.validates :house_number, presence: { message: I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), allow_blank: true }, length: { maximum: 35 }
@@ -159,23 +172,5 @@ class Address < Ohm::Model
     self.address_line_1 = lines[1] unless lines[0].blank?
     self.address_line_2 = lines[2] unless lines[1].blank?
     self.address_line_3 = lines[3] unless lines[2].blank?
-  end
-
-  # Validation helpers
-
-  def address_results?
-    address_mode == 'address-results'
-  end
-
-  def address_lookup?
-    address_mode != 'manual-uk' && address_mode != 'manual-foreign'
-  end
-
-  def manual_uk_address?
-    address_mode == 'manual-uk'
-  end
-
-  def manual_foreign_address?
-    address_mode == 'manual-foreign'
   end
 end
