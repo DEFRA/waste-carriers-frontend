@@ -3,7 +3,7 @@
 # be handled by the caller.
 module RegistrationExportHelper
   include ApplicationHelper
-  
+
   def regexport_get_headers(style)
     case style
     when 'full'
@@ -12,7 +12,7 @@ module RegistrationExportHelper
       fail 'Unrecognised style requested'
     end
   end
-  
+
   def regexport_get_registration_data(style, registration)
     case style
     when 'full'
@@ -21,7 +21,7 @@ module RegistrationExportHelper
       fail 'Unrecognised style requested'
     end
   end
-  
+
   def regexport_get_person_data(style, registration, person)
     case style
     when 'full'
@@ -30,7 +30,7 @@ module RegistrationExportHelper
       fail 'Unrecognised style requested'
     end
   end
-  
+
   def pad_array_to_match_length(template, target)
     length_diff = template.length - target.length
     if length_diff > 0
@@ -39,13 +39,13 @@ module RegistrationExportHelper
       target
     end
   end
-  
+
   private
+
   def bool_to_string(value)
     value ? 'Yes' : 'No'
   end
-  
-  private
+
   def get_headers_full()
     [
       I18n.t('reports.fields.reg_identifier'),
@@ -94,10 +94,9 @@ module RegistrationExportHelper
       I18n.t('reports.fields.key_confirmed')
     ]
   end
-  
-  private
+
   def get_registration_data_full(registration)
-    isUpper = registration.upper?
+    is_upper = registration.upper?
     [
       registration.regIdentifier,
       registration.companyName,
@@ -120,24 +119,24 @@ module RegistrationExportHelper
       registration.constructionWaste,
       registration.onlyAMF,
       registration.tier,
-      isUpper ? registration.registrationType : '',
-      isUpper ? registration.company_no : '',
+      is_upper ? registration.registrationType : '',
+      is_upper ? registration.company_no : '',
       format_as_date_only(registration.metaData.first.dateRegistered),
-      format_as_date_only(registration.metaData.first.dateActivated, blank_if_epoch: true),
+      format_as_date_only(
+        registration.metaData.first.dateActivated, blank_if_epoch: true),
       registration.metaData.first.status,
-      isUpper ? bool_to_string(!registration.paid_in_full?) : '',
-      isUpper ? bool_to_string(registration.is_awaiting_conviction_confirmation?) : '',
+      is_upper ? bool_to_string(!registration.paid_in_full?) : '',
+      is_upper ? bool_to_string(registration.is_awaiting_conviction_confirmation?) : '',
       registration.metaData.first.route,
       registration.accessCode,
       format_as_date_only(registration.expires_on, blank_if_epoch: true),
-      isUpper ? registration.conviction_search_result.first.match_result : '',
-      isUpper ? registration.conviction_search_result.first.matched_name : '',
-      isUpper ? registration.conviction_search_result.first.get_formatted_reference() : '',
-      isUpper ? registration.declaredConvictions : ''
+      is_upper ? registration.conviction_search_result.first.match_result : '',
+      is_upper ? registration.conviction_search_result.first.matched_name : '',
+      is_upper ? registration.conviction_search_result.first.get_formatted_reference() : '',
+      is_upper ? registration.declaredConvictions : ''
     ]
   end
-  
-  private
+
   def get_keyperson_data_full(registration, person)
     [
       person.first_name,
@@ -147,7 +146,7 @@ module RegistrationExportHelper
       person.person_type,
       person.conviction_search_result.first.match_result,
       person.conviction_search_result.first.matched_name,
-      person.conviction_search_result.first.get_formatted_reference(),
+      person.conviction_search_result.first.get_formatted_reference,
       person.conviction_search_result.first.confirmed
     ]
   end
