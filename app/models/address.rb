@@ -79,7 +79,8 @@ class Address < Ohm::Model
     self.local_authority_update_date = result.localAuthorityUpdateDate
     self.royal_mail_update_date = result.royalMailUpdateDate
 
-    address_lines(result.lines)
+    # Protect against sending through a null object
+    address_lines(result.lines) if result.lines
     save
   end
 
