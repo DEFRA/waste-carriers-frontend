@@ -39,7 +39,7 @@ class Address < Ohm::Model
 
     address_hash.each do |k, v|
       if k == 'location'
-        address.location.add Location.init(v)
+        address.location.add Location.init(v) unless v.nil?
       else
         address.send(:update, k.to_sym => v)
       end
