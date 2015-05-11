@@ -22,6 +22,11 @@ class BusinessDetailsNonUkController < ApplicationController
       return
     end
 
+    # Reset the selectedAddress value on the registration. This is used in
+    # conjuntion with the lookup logic and can cause issues with the business
+    # details controller (should the use switch back) if left in place.
+    @registration.update(selectedAddress: nil)
+
     # Clear the existing address and then update it based on the mode we're in
     # and the data posted from the form
     @address.clear

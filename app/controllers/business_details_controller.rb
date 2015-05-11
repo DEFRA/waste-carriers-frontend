@@ -73,11 +73,13 @@ class BusinessDetailsController < ApplicationController
         @registration.save
       end
 
-      # This is a call into a method in the Bus Dtls helper. It looks at a value
-      # in the session to determine if we need to go to the next step in the
-      # application or back to the confirmation page
-      redirect_to redirect_to?
-      return
+      # Don't specifically redirect here and leave it for the catch all at the
+      # end of the method. This catchs an edge case identified in testing. If
+      # a user chooses to edit their registration, then selects enter manually
+      # and clicks ok, then selects edit again, this time chooses use postcode
+      # lookup and then just clicks continue. With no catch all we'd get a
+      # missing template error. As it is they are returned to the confirmation
+      # page with no changes made to their address details.
     end
 
     unless @registration.valid?
@@ -98,6 +100,11 @@ class BusinessDetailsController < ApplicationController
       render 'show', status: '400'
       return
     end
+
+    # This is a call into a method in the Bus Dtls helper. It looks at a value
+    # in the session to determine if we need to go to the next step in the
+    # application or back to the confirmation page
+    redirect_to redirect_to?
   end
 
   # GET /your-registration/business-details/edit
