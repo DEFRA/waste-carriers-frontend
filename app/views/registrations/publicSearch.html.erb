@@ -123,7 +123,7 @@
         <% @registrations.each do |registration| %>
         	<tr class="search-body<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
         		<td class="search-body-field"><%= registration.companyName %></td>
-        		<td class="search-body-field"><%= format_address(registration) %></td>
+        		<td class="search-body-field"><%= format_address(registration.registered_address) %></td>
         		<td class="search-body-field"><%= registration.regIdentifier %></td>
         		<% if params[:distance]!='any' %>
             <td class="search-body-field"><%= registration.metaData.first.distance %><%= t '.miles' %></td>
