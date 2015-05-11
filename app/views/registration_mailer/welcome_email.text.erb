@@ -33,7 +33,7 @@
 
 <%=t 'registration_mailer.welcome_email.paragraph3' %>
 <% address = @registration.registered_address %>
-<%= address.firstName%> <%= @registration.lastName%>
+<%= @registration.firstName%> <%= @registration.lastName%>
 <%= address.house_number %>
 <%= address.address_line_1 %>
 <%= address.address_line_2 %>
@@ -41,7 +41,7 @@
 <%= address.town_city%>
 <%= address.postcode%>
 
-<%=t 'registration_mailer.welcome_email.contactNumber'%><%= @registration.phoneNumber%>
+<%= t 'registration_mailer.welcome_email.contactNumber'%><%= @registration.phoneNumber%>
 <%= t 'registration_mailer.welcome_email.registeredOn', date: format_as_ordinal_date_only(@registration.date_registered) %>
 
 <%=t 'registration_mailer.welcome_email.updateWebsite1_html',:link=>link_to('sign in', new_user_session_url)%>
