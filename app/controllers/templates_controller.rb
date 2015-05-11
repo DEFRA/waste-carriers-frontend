@@ -82,15 +82,6 @@ class TemplatesController < ApplicationController
       :onlyAMF,
       :companyName,
       :routeName,
-      :addressMode,
-      :houseNumber,
-      :streetLine1,
-      :streetLine2,
-      :streetLine3,
-      :streetLine4,
-      :country,
-      :townCity,
-      :postcode,
       :postcodeSearch,
       :firstName,
       :lastName,
@@ -109,7 +100,7 @@ class TemplatesController < ApplicationController
       :copy_cards,
       :total_fee,
       :address_match_list,
-    :sign_up_mode)
+      :sign_up_mode)
   end
 
 end
