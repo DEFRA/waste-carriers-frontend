@@ -78,7 +78,9 @@
       "local_authority_update_date":"",
       "address_mode":"address-results",
       "royal_mail_update_date":"",
-      "house_number":"ENVIRONMENT AGENCY"
+      "house_number":"ENVIRONMENT AGENCY",
+      "first_name":"",
+      "last_name":""
     },
     {
       "administrativeArea":"BRISTOL",
@@ -95,7 +97,9 @@
       "local_authority_update_date":"",
       "address_mode":"address-results",
       "royal_mail_update_date":"",
-      "house_number":"ENVIRONMENT AGENCY"
+      "house_number":"ENVIRONMENT AGENCY",
+      "first_name":"",
+      "last_name":""
     }
   ]
 }

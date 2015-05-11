@@ -35,7 +35,9 @@
       "royal_mail_update_date":"",
       "dependent_throughfare":"",
       "house_number":"ENVIRONMENT AGENCY",
-      "local_authority_update_date":""
+      "local_authority_update_date":"",
+      "first_name":"",
+      "last_name":""
     },
     {
       "address_type": "POSTAL",
@@ -52,7 +54,9 @@
       "royal_mail_update_date":"",
       "dependent_thoroughfare":"",
       "house_number":"ENVIRONMENT AGENCY",
-      "local_authority_update_date":""
+      "local_authority_update_date":"",
+      "first_name":"",
+      "last_name":""
     }
   ]
 

@@ -64,7 +64,9 @@
       "address_mode":"address-results",
       "royal_mail_update_date":"",
       "house_number":"ENVIRONMENT AGENCY",
-      "address_line_1":"DEANERY ROAD"
+      "address_line_1":"DEANERY ROAD",
+      "first_name":"",
+      "last_name":""
     },
     {
       "address_type" : "POSTAL",
@@ -81,7 +83,9 @@
       "address_mode":"address-results",
       "royal_mail_update_date":"",
       "house_number":"ENVIRONMENT AGENCY",
-      "address_line_1":"DEANERY ROAD"
+      "address_line_1":"DEANERY ROAD",
+      "first_name":"",
+      "last_name":""
     }
   ]
 }
