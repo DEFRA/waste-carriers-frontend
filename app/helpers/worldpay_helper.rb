@@ -28,7 +28,7 @@ module WorldpayHelper
     shopper_address_1 = address.house_number.encode(xml: :text) if address.house_number
     shopper_address_2 = address.address_line_1.encode(xml: :text) if address.address_line_1
     shopper_postcode = address.postcode.encode(xml: :text) if address.postcode
-    shopper_city = address.town_city.encode(xml: :text) if address.townCity
+    shopper_city = address.town_city.encode(xml: :text) if address.town_city
     shopper_country_code = 'GB'
 
     xml = "<?xml version=\"1.0\"?>\n"
