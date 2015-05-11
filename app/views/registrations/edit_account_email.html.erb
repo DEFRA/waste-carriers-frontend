@@ -19,6 +19,13 @@
     <div>
       <p class="subtitle text"><%= t'agency_users.edit_account_email.change_account_email_helper_text' %></p>
     </div>
+    <% if session[:saved] %>
+      <div>
+        <p class="panel-colour text">Account email has been changed to: <%= @registration.accountEmail %>
+        </p>
+      </div>
+      <% session[:saved] = false %>
+    <% end %>
     <div>
       <%= form_for(@registration, :url => {:action => 'edit_account_email'}, :html => {:autocomplete => "off"}) do |f| %>
           <div class="form-group text <%if @registration.errors[:accountEmail].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_accountEmail">
