@@ -171,9 +171,12 @@ module RegistrationsHelper
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
-      # TODO: AC confirm this is bext place to set new address models
+
       @registration.addresses.add Address.init(address_type: 'REGISTERED')
-      @registration.addresses.add Address.init(address_type: 'POSTAL')
+
+      # TODO: Reinstate this line when we are in a position to support the
+      # postal address.
+      # @registration.addresses.add Address.init(address_type: 'POSTAL')
       session[:registration_id]= @registration.id
       session[:editing] = true
       logger.debug "creating new registration #{@registration.id}"
