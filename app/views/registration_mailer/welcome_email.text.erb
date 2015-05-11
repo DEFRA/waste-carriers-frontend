@@ -32,14 +32,14 @@
 <%=t 'registration_mailer.welcome_email.heading_update_registration' %>
 
 <%=t 'registration_mailer.welcome_email.paragraph3' %>
-
-<%= @registration.firstName%> <%= @registration.lastName%>
-<%= @registration.houseNumber %>
-<%= @registration.streetLine1 %>
-<%= @registration.streetLine2 %>
-<%= @registration.dependentLocality %>
-<%= @registration.townCity%>
-<%= @registration.postcode%>
+<% address = @registration.registered_address %>
+<%= address.firstName%> <%= @registration.lastName%>
+<%= address.house_number %>
+<%= address.address_line_1 %>
+<%= address.address_line_2 %>
+<%= address.dependent_locality %>
+<%= address.town_city%>
+<%= address.postcode%>
 
 <%=t 'registration_mailer.welcome_email.contactNumber'%><%= @registration.phoneNumber%>
 <%= t 'registration_mailer.welcome_email.registeredOn', date: format_as_ordinal_date_only(@registration.date_registered) %>
@@ -50,4 +50,3 @@
 
 <%=t 'registration_mailer.welcome_email.footer_bullet1' %>
 <%=t 'registration_mailer.welcome_email.footer_bullet2' %>
-

@@ -16,24 +16,25 @@ module RegistrationsHelper
     numberOut = numberIn.strip.upcase
   end
 
-  def format_address(model)
-    if model.postcode.nil?
+  def format_address(address)
+    if address.postcode.nil?
       # Print International address
-      "#{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.streetLine3)}<br />#{h(model.streetLine4)}<br />#{h(model.country)}".html_safe
+      "#{h(address.address_line_1)}<br />#{h(address.address_line_2)}<br />#{h(address.address_line_3)}<br />#{h(address.address_line_4)}<br />#{h(address.country)}".html_safe
     else
-      if model.streetLine2.present?
-        # Print UK Address Including Street line 2 (as its optional but been populated)
-        if model.dependentLocality.present?
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.dependentLocality)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+      if address.address_line_2.present?
+        # Print UK Address Including Address line 2 (as its optional but been
+        # populated)
+        if address.dependentLocality.present?
+          "#{h(address.house_number)} #{h(address.address_line_2)}<br />#{h(address.address_line_2)}<br />#{h(address.dependent_locality)}<br />#{h(address.town_city)}<br />#{h(address.postcode)}".html_safe
         else
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+          "#{h(address.house_number)} #{h(address.address_line_1)}<br />#{h(address.address_line_2)}<br />#{h(address.town_city)}<br />#{h(address.postcode)}".html_safe
         end
       else
         # Print UK Address
-        if model.dependentLocality.present?
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.dependentLocality)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+        if address.dependentLocality.present?
+          "#{h(address.house_number)} #{h(address.address_line_1)}<br />#{h(address.dependent_locality)}<br />#{h(address.town_city)}<br />#{h(address.postcode)}".html_safe
         else
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+          "#{h(address.house_number)} #{h(address.address_line_1)}<br />#{h(address.town_city)}<br />#{h(address.postcode)}".html_safe
         end
       end
     end
