@@ -62,7 +62,9 @@
       "administrative_area":"BRISTOL",
       "dependent_locality":"",
       "dependent_thoroughfare":"",
-      "town_city":"BRISTOL"
+      "town_city":"BRISTOL",
+      "first_name":"",
+      "last_name":""
     },
     {
       "address_type": "POSTAL",
@@ -79,7 +81,9 @@
       "administrative_area":"BRISTOL",
       "dependent_locality":"",
       "dependent_thoroughfare":"",
-      "town_city":"BRISTOL"
+      "town_city":"BRISTOL",
+      "first_name":"",
+      "last_name":""
     }
   ]
 }
