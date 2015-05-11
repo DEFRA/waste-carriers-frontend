@@ -13,19 +13,14 @@ class BusinessDetailsManualController < ApplicationController
     setup_registration 'businessdetails'
     return unless @registration
 
-    # You must get the address object before the possibility of returning to the
-    # view as the view expects an instantiated address.
-    @address = @registration.registered_address
-
-    unless @registration.valid?
-      render 'show', status: '400'
-      return
-    end
-
     # Reset the selectedAddress value on the registration. This is used in
     # conjuntion with the lookup logic and can cause issues with the business
     # details controller (should the use switch back) if left in place.
     @registration.update(selectedAddress: nil)
+
+    # You must get the address object before the possibility of returning to the
+    # view as the view expects an instantiated address.
+    @address = @registration.registered_address
 
     # Clear the existing address and then update it based on the mode we're in
     # and the data posted from the form
@@ -34,7 +29,7 @@ class BusinessDetailsManualController < ApplicationController
     @address.update_attributes(params[:address])
     @address.save
 
-    unless @address.valid?
+    unless @registration.valid? || @address.valid?
       render 'show', status: '400'
       return
     end
