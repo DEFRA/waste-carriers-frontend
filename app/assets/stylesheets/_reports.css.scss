@@ -10,7 +10,6 @@
 
 #manual-payment .form-group,
 #payment-reversal-page .form-group,
-#payment-status-page .form-group,
 #write-off-page .form-group,
 #charge-adjustments-page .form-group,
 #enter-charge-page .form-group,
@@ -21,6 +20,10 @@
   padding-bottom: $gutter-half/2;
   margin-top: $gutter-half/2;
   margin-bottom: $gutter-half/2;
+}
+
+.table-divider {
+  margin-bottom: 60px;
 }
 
 .agency-edit {

@@ -1257,6 +1257,10 @@ en:
     paymentstatus:
       balance_cost_table_heading: £
       balance_table_heading: "Balance"
+      chargehistory_name: "Name"
+      chargehistory_address: "Business address"
+      chargehistory_regNumber: "Registration number"
+      chargehistory_paymentStatus: "Payment status"
       chargehistory_amount_table_heading: £
       chargehistory_charge_table_heading: "Charge"
       chargehistory_date_table_heading: "Date"
