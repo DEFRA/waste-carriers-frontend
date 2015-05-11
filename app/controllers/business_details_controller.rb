@@ -127,13 +127,10 @@ class BusinessDetailsController < ApplicationController
     # This splits it into the 2 parts
     array = full_val.split('::')
 
-    # part 1 contains the unique ID for the address
+    # part 1 contains the unique ID for the address (part 2 is what gets
+    # displayed in the lookup list)
     moniker = array[0].to_s
 
-    # part 2 contains the address as displayed in the drop down list. I believe
-    # we capture it here so it can be used to reselect the option if you return
-    # to the page.
-    @registration.selectedAddress = array[1].to_s
     AddressSearchResult.search_by_id(moniker)
   end
 
