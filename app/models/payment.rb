@@ -31,10 +31,7 @@ class Payment < Ohm::Model
   class << self
     def init (payment_hash)
       payment = Payment.create
-
-      payment_hash.each do |k, v|
-        payment.send("#{k}=",v)
-      end
+      payment.update_attributes(payment_hash)
       payment.save
       payment
     end

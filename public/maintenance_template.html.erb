@@ -1,0 +1,20 @@
+<%= render 'shared/content_for_pages' %>
+<% content_for :page_title, createTitle('global.maintenance.title') %>
+
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+		<header class="page-header group">
+			<div class="hgroup">
+				<h1 class="heading-large"><%=t 'global.maintenance.heading'%></h1>
+			</div>
+		</header>
+
+    <p class="text"><%=t 'global.maintenance.sorry_text'%></p>
+		<p class="text">{{ reason }}</p>
+    <p class="text"><%=t 'global.maintenance.please_try_text'%></p>
+    <p class="text"><%=t 'global.maintenance.assistance_text'%></p>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
