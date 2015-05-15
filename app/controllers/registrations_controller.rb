@@ -130,10 +130,9 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/confirmation
   def newConfirmation
     new_step_action 'confirmation'
-    if !@registration
-      return
-    end
+    return unless @registration
     @address = @registration.registered_address
+    
     case session[:edit_mode].to_i
     when EditMode::EDIT, EditMode::RENEWAL
       @registration.declaration = false
