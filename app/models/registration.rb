@@ -649,6 +649,7 @@ class Registration < Ohm::Model
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
           all_regs.each do |r|
+            Rails.logger.debug "----------> #{r}"
             registrations << Registration.init(r)
           end
         else
@@ -1495,11 +1496,11 @@ class Registration < Ohm::Model
 
   def registered_address
     # Finds the first element that matches and returns it
-    addresses.to_a.find { |address| address.address_type == 'REGISTERED' }
+    addresses.to_a.find { |address| address.addressType == 'REGISTERED' }
   end
 
   def postal_address
     # Finds the first element that matches and returns it
-    addresses.to_a.find { |address| address.address_type == 'POSTAL' }
+    addresses.to_a.find { |address| address.addressType == 'POSTAL' }
   end
 end

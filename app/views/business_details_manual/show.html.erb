@@ -46,25 +46,25 @@
         </div>
 
         <%= fields_for @address do |adr| %>
-          <div class="form-group<%if @address.errors[:house_number].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
-              <%= validation_for(@address, :house_number) %>
-              <%= adr.label :house_number, class: 'form-label' %>
-              <%= adr.text_field :house_number, class: 'form-control-1-2',  :size => 20, :maxlength => 35 %>
+          <div class="form-group<%if @address.errors[:houseNumber].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+              <%= validation_for(@address, :houseNumber) %>
+              <%= adr.label :houseNumber, class: 'form-label' %>
+              <%= adr.text_field :houseNumber, class: 'form-control-1-2',  :size => 20, :maxlength => 35 %>
           </div>
-          <div class="form-group<%if @address.errors[:address_line_1].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
-              <%= validation_for(@address, :address_line_1) %>
-              <%= adr.label :address_line_1, class: 'form-label' %>
-              <%= adr.text_field :address_line_1, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
+          <div class="form-group<%if @address.errors[:addressLine1].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+              <%= validation_for(@address, :addressLine1) %>
+              <%= adr.label :addressLine1, class: 'form-label' %>
+              <%= adr.text_field :addressLine1, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
           </div>
-          <div class="form-group<%if @address.errors[:address_line_2].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
-              <%= validation_for(@address, :address_line_2) %>
-              <%= adr.label :address_line_2, class: 'form-label offscreen' %>
-              <%= adr.text_field :address_line_2, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
+          <div class="form-group<%if @address.errors[:addressLine2].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+              <%= validation_for(@address, :addressLine2) %>
+              <%= adr.label :addressLine2, class: 'form-label offscreen' %>
+              <%= adr.text_field :addressLine2, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
           </div>
-          <div class="form-group<%if @address.errors[:town_city].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
-              <%= validation_for(@address, :town_city) %>
-              <%= adr.label :town_city, class: 'form-label' %>
-              <%= adr.text_field :town_city, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
+          <div class="form-group<%if @address.errors[:townCity].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+              <%= validation_for(@address, :townCity) %>
+              <%= adr.label :townCity, class: 'form-label' %>
+              <%= adr.text_field :townCity, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
           </div>
           <div class="form-group<%if @address.errors[:postcode].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
               <%= validation_for(@address, :postcode) %>

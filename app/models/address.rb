@@ -5,22 +5,32 @@ class Address < Ohm::Model
   include ActiveModel::Validations
   extend ActiveModel::Naming
 
+  # We have had to conciously go with using CamelCase rather than the standard
+  # snake_case. When we do a public search or the agency does a search we query
+  # Elasticsearch via the services, and return directly what we find in
+  # Elasticsearch. The problem is that the jackson ObjectMapper seems to set
+  # those properties we annotate as being snake case (cause in the POJO they
+  # will be snake case) to null. We had no time to resolve this so had to accept
+  # the hack of using snake case in the Rails side in order to match with the
+  # POJO on the services side.
   attribute :uprn
-  attribute :address_type
-  attribute :address_mode
-  attribute :house_number
-  attribute :address_line_1
-  attribute :address_line_2
-  attribute :address_line_3
-  attribute :address_line_4
-  attribute :town_city
+  attribute :addressType
+  attribute :addressMode
+  attribute :houseNumber
+  attribute :addressLine1
+  attribute :addressLine2
+  attribute :addressLine3
+  attribute :addressLine4
+  attribute :townCity
   attribute :postcode
   attribute :country
-  attribute :dependent_locality
-  attribute :dependent_thoroughfare
-  attribute :administrative_area
-  attribute :local_authority_update_date
-  attribute :royal_mail_update_date
+  attribute :dependentLocality
+  attribute :dependentThoroughfare
+  attribute :administrativeArea
+  attribute :localAuthorityUpdateDate
+  attribute :royalMailUpdateDate
+  attribute :easting
+  attribute :northing
 
   set :location, :Location # will always be size=1
 
@@ -62,22 +72,18 @@ class Address < Ohm::Model
     # whenever the user returns to the business details page the list of
     # addresses should be shown with their's automatically selected. It gets
     # cleared in the call to clear above.
-    self.address_mode = 'address-results'
+    self.addressMode = 'address-results'
     self.uprn = result.uprn
-    self.town_city = result.town
+    self.townCity = result.town
     self.postcode = result.postcode
     self.country = result.country
-
-    location.replace([Location.init(
-      easting: result.easting,
-      northing: result.northing
-    )])
-
-    self.dependent_locality = result.dependentLocality
-    self.dependent_thoroughfare = result.dependentThroughfare
-    self.administrative_area = result.administrativeArea
-    self.local_authority_update_date = result.localAuthorityUpdateDate
-    self.royal_mail_update_date = result.royalMailUpdateDate
+    self.dependentLocality = result.dependentLocality
+    self.dependentThoroughfare = result.dependentThroughfare
+    self.administrativeArea = result.administrativeArea
+    self.localAuthorityUpdateDate = result.localAuthorityUpdateDate
+    self.royalMailUpdateDate = result.royalMailUpdateDate
+    self.easting = result.easting
+    self.northing = result.northing
 
     # Protect against sending through a null object
     address_lines(result.lines) if result.lines
@@ -107,60 +113,63 @@ class Address < Ohm::Model
     end
   end
 
-  # Will clear all attributes except the address_type. We need this because of
+  # Will clear all attributes except the addressType. We need this because of
   # the different address modes currently used. Depending on the mode only
   # certain fields will be populated. So to avoid errors if we switch modes we
   # we first clear out the existing data.
   def clear
     arg = {
       uprn: nil,
-      address_mode: nil,
-      house_number: nil,
-      address_line_1: nil,
-      address_line_2: nil,
-      address_line_3: nil,
-      address_line_4: nil,
-      town_city: nil,
+      addressMode: nil,
+      houseNumber: nil,
+      addressLine1: nil,
+      addressLine2: nil,
+      addressLine3: nil,
+      addressLine4: nil,
+      townCity: nil,
       postcode: nil,
       country: nil,
-      dependent_locality: nil,
-      dependent_thoroughfare: nil,
-      administrative_area: nil,
-      local_authority_update_date: nil,
-      royal_mail_update_date: nil }
+      dependentLocality: nil,
+      dependentThoroughfare: nil,
+      administrativeArea: nil,
+      localAuthorityUpdateDate: nil,
+      royalMailUpdateDate: nil,
+      easting: nil,
+      northing: nil}
     update_attributes(arg)
+
+    location[0] = nil if location[0]
     save
   end
 
   def address_results?
-    address_mode == 'address-results'
+    addressMode == 'address-results'
   end
 
   def address_lookup?
-    address_mode != 'manual-uk' && address_mode != 'manual-foreign'
+    addressMode != 'manual-uk' && addressMode != 'manual-foreign'
   end
 
   def manual_uk_address?
-    address_mode == 'manual-uk'
+    addressMode == 'manual-uk'
   end
 
   def manual_foreign_address?
-    address_mode == 'manual-foreign'
+    addressMode == 'manual-foreign'
   end
 
   validates :postcode, uk_postcode: true, unless: :manual_foreign_address?
 
   with_options if: :manual_uk_address? do |address|
-    address.validates :house_number, presence: { message: I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), allow_blank: true }, length: { maximum: 35 }
-    address.validates :address_line_1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
-    address.validates :address_line_2, length: { maximum: 35 }
-    address.validates :town_city, presence: { message:  I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), allow_blank: true }
-    address.validates :postcode, uk_postcode: true
+    address.validates :houseNumber, presence: { message: I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), allow_blank: true }, length: { maximum: 35 }
+    address.validates :addressLine1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+    address.validates :addressLine2, length: { maximum: 35 }
+    address.validates :townCity, presence: { message:  I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), allow_blank: true }
   end
 
   with_options if: :manual_foreign_address? do |address|
-    address.validates :address_line_1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
-    address.validates :address_line_2, :address_line_3, :address_line_4, length: { maximum: 35 }
+    address.validates :addressLine1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+    address.validates :addressLine2, :addressLine3, :addressLine4, length: { maximum: 35 }
     address.validates :country, presence: { message: I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
   end
 
@@ -169,9 +178,9 @@ class Address < Ohm::Model
   def address_lines(lines)
     return if lines.empty?
 
-    self.house_number = lines[0] unless lines[0].blank?
-    self.address_line_1 = lines[1] unless lines[0].blank?
-    self.address_line_2 = lines[2] unless lines[1].blank?
-    self.address_line_3 = lines[3] unless lines[2].blank?
+    self.houseNumber = lines[0] unless lines[0].blank?
+    self.addressLine1 = lines[1] unless lines[0].blank?
+    self.addressLine2 = lines[2] unless lines[1].blank?
+    self.addressLine3 = lines[3] unless lines[2].blank?
   end
 end
