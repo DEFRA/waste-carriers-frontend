@@ -860,7 +860,7 @@ class RegistrationsController < ApplicationController
   def redirect_to_failed_page(failedStep)
     logger.debug 'redirect_to_failed_page(failedStep) failedStep: ' +  failedStep
     if failedStep == "business"
-      redirect_to :newBusinessDetails
+      redirect_to :business_details
     elsif failedStep == "contact"
       redirect_to :newContact
     elsif failedStep == "confirmation"
