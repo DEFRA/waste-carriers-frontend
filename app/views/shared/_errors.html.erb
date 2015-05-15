@@ -1,4 +1,4 @@
-<% if @registration && @registration.errors.any? || @key_person && @key_person.errors.any? %>
+<% if @registration && @registration.errors.any? || @key_person && @key_person.errors.any? || @address && @address.errors.any? %>
 
   <% errors = nil %>
   <% href_prefix = nil %>
@@ -9,6 +9,9 @@
   <% elsif @key_person && @key_person.errors.any? %>
     <% errors = @key_person.errors %>
     <% href_prefix = "key_person_" %>
+  <% elsif @address && @address.errors.any? %>
+    <% errors = @address.errors %>
+    <% href_prefix = "address_" %>
   <% end %>
 
   <div id="error_explanation" class="validation-summary">

@@ -77,7 +77,6 @@
 						</thead>
 						<tbody>
 							<% regCount = 1; %>
-							<%#= @registration.to_json %>
 							<% if @registration.respond_to?('finance_details') and @registration.finance_details.first \
 							   && @registration.finance_details.size > 0 && @registration.finance_details.first.orders %>
 								<% @registration.finance_details.first.orders.each do |order| %>

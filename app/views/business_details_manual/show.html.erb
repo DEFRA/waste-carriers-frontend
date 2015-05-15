@@ -1,0 +1,89 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+
+    <% content_for :page_title, createTitle('business_details.show.title') %>
+
+    <div id="page6" data-journey="waste-carriers-registration:business-details">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('form.back_button_label'), :back, id: 'back_link' %></li>
+        </ol>
+      </div>
+
+      <%= form_for(@registration, :url => business_details_manual_path, html: {autocomplete: 'off', :method => :post}) do |f| %>
+
+        <% case @registration.businessType %>
+        <% when 'limitedCompany' %>
+          <% subtitle = t 'business_details.show.subtitle_limited' %>
+          <% name_field = t 'business_details.show.name_field_limited' %>
+        <% when 'publicBody' %>
+          <% subtitle = t 'business_details.show.subtitle_public' %>
+          <% name_field = t 'business_details.show.name_field_public' %>
+        <% else %>
+          <% subtitle = t 'business_details.show.subtitle' %>
+          <% name_field = t 'business_details.show.name_field' %>
+        <% end %>
+
+        <%= render 'shared/errors' %>
+
+        <header class="page-header group">
+          <div class="hgroup">
+            <h1 class="heading-large" id="groupLabel"><%= subtitle %></h1>
+          </div>
+        </header>
+
+        <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
+          <%= render 'shared/company_details_finder', f: f, r: @registration %>
+        <% end %>
+
+        <div class="form-group<%if @registration.errors[:companyName].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+          <%= validation_for(@registration, :companyName) %>
+          <%= f.label name_field, for: 'registration_companyName', class: 'form-label' %>
+          <%= f.text_field :companyName, class: 'form-control-1-2', size: 35, maxlength:  Registration::MAX_COMPANY_NAME_LENGTH %>
+        </div>
+
+        <%= fields_for @address do |adr| %>
+          <div class="form-group<%if @address.errors[:houseNumber].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+              <%= validation_for(@address, :houseNumber) %>
+              <%= adr.label :houseNumber, class: 'form-label' %>
+              <%= adr.text_field :houseNumber, class: 'form-control-1-2',  :size => 20, :maxlength => 35 %>
+          </div>
+          <div class="form-group<%if @address.errors[:addressLine1].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+              <%= validation_for(@address, :addressLine1) %>
+              <%= adr.label :addressLine1, class: 'form-label' %>
+              <%= adr.text_field :addressLine1, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
+          </div>
+          <div class="form-group<%if @address.errors[:addressLine2].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+              <%= validation_for(@address, :addressLine2) %>
+              <%= adr.label :addressLine2, class: 'form-label offscreen' %>
+              <%= adr.text_field :addressLine2, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
+          </div>
+          <div class="form-group<%if @address.errors[:townCity].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+              <%= validation_for(@address, :townCity) %>
+              <%= adr.label :townCity, class: 'form-label' %>
+              <%= adr.text_field :townCity, class: 'form-control-1-2', :size => 20, :maxlength => 35 %>
+          </div>
+          <div class="form-group<%if @address.errors[:postcode].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+              <%= validation_for(@address, :postcode) %>
+              <%= adr.label :postcode, class: 'form-label' %>
+              <%= adr.text_field :postcode, class: 'form-control-1-2', :size => 14, :maxlength => 10 %>
+          </div>
+        <% end %>
+
+        <div class="form-group">
+          <ul>
+            <li><%= link_to t('.find_address_using_postcode'), business_details_path, class: 'link_to' %></li>
+            <li><%= link_to t('business_details.show.foreign_address_link'), business_details_non_uk_path, class: 'link_to', id: 'foreign_address' %></li>
+          </ul>
+        </div>
+
+        <%= render 'shared/registration_continue_link' %>
+
+      <% end %>
+
+    </div>
+  </main>
+</div>

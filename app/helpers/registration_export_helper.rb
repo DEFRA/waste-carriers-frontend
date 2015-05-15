@@ -3,7 +3,7 @@
 # be handled by the caller.
 module RegistrationExportHelper
   include ApplicationHelper
-  
+
   def regexport_get_headers(style)
     case style
     when 'full'
@@ -12,7 +12,7 @@ module RegistrationExportHelper
       fail 'Unrecognised style requested'
     end
   end
-  
+
   def regexport_get_registration_data(style, registration)
     case style
     when 'full'
@@ -21,7 +21,7 @@ module RegistrationExportHelper
       fail 'Unrecognised style requested'
     end
   end
-  
+
   def regexport_get_person_data(style, registration, person)
     case style
     when 'full'
@@ -30,7 +30,7 @@ module RegistrationExportHelper
       fail 'Unrecognised style requested'
     end
   end
-  
+
   def pad_array_to_match_length(template, target)
     length_diff = template.length - target.length
     if length_diff > 0
@@ -39,23 +39,23 @@ module RegistrationExportHelper
       target
     end
   end
-  
+
   private
+
   def bool_to_string(value)
     value ? 'Yes' : 'No'
   end
-  
-  private
+
   def get_headers_full()
     [
       I18n.t('reports.fields.reg_identifier'),
       I18n.t('reports.fields.company_name'),
-      I18n.t('reports.fields.house_number'),
-      I18n.t('reports.fields.street_line_1'),
-      I18n.t('reports.fields.street_line_2'),
-      I18n.t('reports.fields.street_line_3'),
-      I18n.t('reports.fields.street_line_4'),
-      I18n.t('reports.fields.town_city'),
+      I18n.t('reports.fields.houseNumber'),
+      I18n.t('reports.fields.addressLine1'),
+      I18n.t('reports.fields.addressLine2'),
+      I18n.t('reports.fields.addressLine3'),
+      I18n.t('reports.fields.addressLine4'),
+      I18n.t('reports.fields.townCity'),
       I18n.t('reports.fields.postcode'),
       I18n.t('reports.fields.first_name'),
       I18n.t('reports.fields.last_name'),
@@ -94,21 +94,21 @@ module RegistrationExportHelper
       I18n.t('reports.fields.key_confirmed')
     ]
   end
-  
-  private
+
   def get_registration_data_full(registration)
     is_upper = registration.upper?
+    registered_addr = registration.registered_address
     has_conviction_search_result = is_upper && (registration.conviction_search_result.first != nil)
     [
       registration.regIdentifier,
       registration.companyName,
-      registration.houseNumber,
-      registration.streetLine1,
-      registration.streetLine2,
-      registration.streetLine3,
-      registration.streetLine4,
-      registration.townCity,
-      registration.postcode,
+      registered_addr.houseNumber,
+      registered_addr.addressLine1,
+      registered_addr.addressLine2,
+      registered_addr.addressLine3,
+      registered_addr.addressLine4,
+      registered_addr.townCity,
+      registered_addr.postcode,
       registration.firstName,
       registration.lastName,
       registration.position,
@@ -124,7 +124,8 @@ module RegistrationExportHelper
       is_upper ? registration.registrationType : '',
       is_upper ? registration.company_no : '',
       format_as_date_only(registration.metaData.first.dateRegistered),
-      format_as_date_only(registration.metaData.first.dateActivated, blank_if_epoch: true),
+      format_as_date_only(
+        registration.metaData.first.dateActivated, blank_if_epoch: true),
       registration.metaData.first.status,
       is_upper ? bool_to_string(!registration.paid_in_full?) : '',
       is_upper ? bool_to_string(registration.is_awaiting_conviction_confirmation?) : '',
@@ -137,8 +138,7 @@ module RegistrationExportHelper
       is_upper ? registration.declaredConvictions : ''
     ]
   end
-  
-  private
+
   def get_keyperson_data_full(registration, person)
     has_conviction_search_result = (person.conviction_search_result.first != nil)
     [
