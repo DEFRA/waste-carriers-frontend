@@ -25,11 +25,11 @@ class BusinessDetailsManualController < ApplicationController
     # Clear the existing address and then update it based on the mode we're in
     # and the data posted from the form
     @address.clear
-    @address.update_attributes(address_mode: 'manual-uk')
+    @address.update_attributes(addressMode: 'manual-uk')
     @address.update_attributes(params[:address])
     @address.save
 
-    unless @registration.valid? || @address.valid?
+    unless @registration.valid? && @address.valid?
       render 'show', status: '400'
       return
     end
