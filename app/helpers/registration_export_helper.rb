@@ -51,10 +51,10 @@ module RegistrationExportHelper
       I18n.t('reports.fields.reg_identifier'),
       I18n.t('reports.fields.company_name'),
       I18n.t('reports.fields.houseNumber'),
-      I18n.t('reports.fields.addressLine_1'),
-      I18n.t('reports.fields.addressLine_2'),
-      I18n.t('reports.fields.addressLine_3'),
-      I18n.t('reports.fields.addressLine_4'),
+      I18n.t('reports.fields.addressLine1'),
+      I18n.t('reports.fields.addressLine2'),
+      I18n.t('reports.fields.addressLine3'),
+      I18n.t('reports.fields.addressLine4'),
       I18n.t('reports.fields.townCity'),
       I18n.t('reports.fields.postcode'),
       I18n.t('reports.fields.first_name'),
@@ -98,6 +98,7 @@ module RegistrationExportHelper
   def get_registration_data_full(registration)
     is_upper = registration.upper?
     registered_addr = registration.registered_address
+    has_conviction_search_result = is_upper && (registration.conviction_search_result.first != nil)
     [
       registration.regIdentifier,
       registration.companyName,
@@ -131,24 +132,25 @@ module RegistrationExportHelper
       registration.metaData.first.route,
       registration.accessCode,
       format_as_date_only(registration.expires_on, blank_if_epoch: true),
-      is_upper ? registration.conviction_search_result.first.match_result : '',
-      is_upper ? registration.conviction_search_result.first.matched_name : '',
-      is_upper ? registration.conviction_search_result.first.get_formatted_reference() : '',
+      is_upper ? (has_conviction_search_result ? registration.conviction_search_result.first.match_result : 'UNKNOWN') : '',
+      has_conviction_search_result ? registration.conviction_search_result.first.matched_name : '',
+      has_conviction_search_result ? registration.conviction_search_result.first.get_formatted_reference() : '',
       is_upper ? registration.declaredConvictions : ''
     ]
   end
 
   def get_keyperson_data_full(registration, person)
+    has_conviction_search_result = (person.conviction_search_result.first != nil)
     [
       person.first_name,
       person.last_name,
       format_as_date_only(person.dob),
       person.position,
       person.person_type,
-      person.conviction_search_result.first.match_result,
-      person.conviction_search_result.first.matched_name,
-      person.conviction_search_result.first.get_formatted_reference,
-      person.conviction_search_result.first.confirmed
+      has_conviction_search_result ? person.conviction_search_result.first.match_result : 'UNKNOWN',
+      has_conviction_search_result ? person.conviction_search_result.first.matched_name : '',
+      has_conviction_search_result ? person.conviction_search_result.first.get_formatted_reference() : '',
+      has_conviction_search_result ? person.conviction_search_result.first.confirmed : ''
     ]
   end
 end
