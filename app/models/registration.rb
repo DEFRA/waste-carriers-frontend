@@ -523,8 +523,12 @@ class Registration < Ohm::Model
   # with the metaData and finance_details sets populated with their initial objects.
   class << self
     def ctor(attrs = {})
-      agency_user_signed_in = attrs.try(:key?, :agency_user_signed_in)
-      attrs.try(:delete, :agency_user_signed_in)
+      agency_user_signed_in = false
+      if (attrs != nil) && attrs.key?(:agency_user_signed_in)
+        agency_user_signed_in = attrs[:agency_user_signed_in]
+        attrs.delete(:agency_user_signed_in)
+      end
+      
       r = Registration.create attrs
 
       m = Metadata.create
@@ -536,8 +540,8 @@ class Registration < Ohm::Model
       end
       r.metaData.add m
 
-      r.addresses.add Address.init(addressType: 'REGISTERED')
-      r.addresses.add Address.init(addressType: 'POSTAL')
+      r.addresses.add(Address.init(addressType: 'REGISTERED'))
+      r.addresses.add(Address.init(addressType: 'POSTAL'))
 
       r.save
     end
