@@ -31,6 +31,8 @@ class Address < Ohm::Model
   attribute :royalMailUpdateDate
   attribute :easting
   attribute :northing
+  attribute :firstName
+  attribute :lastName
 
   set :location, :Location # will always be size=1
 
@@ -135,7 +137,9 @@ class Address < Ohm::Model
       localAuthorityUpdateDate: nil,
       royalMailUpdateDate: nil,
       easting: nil,
-      northing: nil}
+      northing: nil,
+      firstName: nil,
+      lastName: nil}
     update_attributes(arg)
 
     location[0] = nil if location[0]
