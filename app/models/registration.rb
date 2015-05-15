@@ -523,19 +523,21 @@ class Registration < Ohm::Model
   # with the metaData and finance_details sets populated with their initial objects.
   class << self
     def ctor(attrs = {})
-
+      agency_user_signed_in = attrs.try(:key?, :agency_user_signed_in)
+      attrs.try(:delete, :agency_user_signed_in)
       r = Registration.create attrs
 
       m = Metadata.create
-      m.update(:route => 'DIGITAL')
+      if agency_user_signed_in
+        m.update(:route => 'ASSISTED_DIGITAL')
+        r.update(:accessCode => @registration.generate_random_access_code)
+      else
+        m.update(:route => 'DIGITAL')
+      end
       r.metaData.add m
 
-      f = FinanceDetails.create
-      r.finance_details.add f
-
-      c = ConvictionSearchResult.create
-      c.update(:confirmed => 'no')
-      r.conviction_search_result.add c
+      r.addresses.add Address.init(addressType: 'REGISTERED')
+      r.addresses.add Address.init(addressType: 'POSTAL')
 
       r.save
     end

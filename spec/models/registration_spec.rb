@@ -69,6 +69,7 @@ describe Registration do
   end
 
   context 'businessdetails step' do
+    subject { Registration.ctor }
     before { subject.current_step = 'businessdetails' }
 
     it_behaves_like 'a company name step'
@@ -154,6 +155,7 @@ describe Registration do
   end
 
   context 'upper_business_details step' do
+    subject { Registration.ctor }
     before { subject.current_step = 'businessdetails' }
 
     it_behaves_like 'a company name step'
