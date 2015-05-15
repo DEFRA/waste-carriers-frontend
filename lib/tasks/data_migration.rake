@@ -56,7 +56,7 @@ namespace :data_migration do
     puts 'About to update - converting to new address model...'
     send_mongo_command 'db.registrations.find().forEach(
     function(element){
-     db.registrations.update({_id: element._id},{$set: {"addresses.0.addressType": "REGISTERED",
+     db.registrations.update({_id: element._id},{$set: {"addresses.0.uprn": element.uprn, "addresses.0.addressType": "REGISTERED",
       "addresses.0.addressMode": element.addressMode, "addresses.0.houseNumber": element.houseNumber,
       "addresses.0.addressLine1": element.streetLine1, "addresses.0.addressLine2": element.streetLine2,
       "addresses.0.addressLine3": element.streetLine3, "addresses.0.addressLine4": element.streetLine4,
@@ -68,6 +68,8 @@ namespace :data_migration do
       "addresses.0.location.lon": element.location.lon}});})
     db.registrations.find().forEach(
     function(element){
+      if(element.addresses[0].uprn == undefined) {
+        db.registrations.update({_id: element._id},{$unset: {"addresses.0.uprn": ""}});};
       if(element.addresses[0].addressMode == undefined) {
         db.registrations.update({_id: element._id},{$unset: {"addresses.0.addressMode": ""}});};
       if(element.addresses[0].houseNumber == undefined) {
