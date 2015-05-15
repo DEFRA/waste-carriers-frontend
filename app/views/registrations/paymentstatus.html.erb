@@ -14,186 +14,187 @@
 
 <header class="page-header group">
 	<div class="hgroup">
-	   <h1 class="heading-large"><%= t '.heading' %></h1>
+	   <h1 class="heading-xlarge"><%= t '.heading' %></h1>
 	</div>
 </header>
 
 <div class="grid-wrapper">
 
-		 <div class="grid-2-3">
+	<div class="grid-2-3">
     <div class="inner-block">
 
 	    <% content_for :page_title, createTitle('.heading') %>
 
 	    <% if alert %>
-	    <div id="note_explanation" class="note-summary">
-		  <div class="text panel-indent"><strong><%= alert%></strong></div>
-		</div>
-		<% end %>
+	    	<div id="note_explanation" class="note-summary">
+		  		<div class="text panel-indent"><strong><%= alert%></strong></div>
+				</div>
+			<% end %>
 
 	    <%= form_for(@registration, :url => enterPayment_path, html: {autocomplete: 'off'}) do |f| %>
 
-		<!-- <h1 class="subtitle"></h1> -->
-		<%= render "errors" %>
+			<%= render "errors" %>
 
 			<!-- WF 4.3.2 -->
 			<div id="paymentStatus"  data-journey="waste-carriers-registration:payment-status">
 
-			    <fieldset id='payment-status-page'>
-			    	<legend></legend>
-			        <div class="form-group">
-	              <div class="form-label"><strong><%= @registration.regIdentifier %></strong></div>
-				        <div class="form-label"><%= @registration.companyName %></div>
-				        <div class="form-label"><%= format_address(@registration.registered_address) %></div>
-			        </div>
 
-			        <% if @registration.respond_to? :finance_details %>
+				<h2 class="heading-small panel-colour">Registration details</h2>
+			  <table class="table-divider" summary='This is an example table' role='presentation'>
+			    <thead>
+			      <tr>
+			        <th><%= t '.chargehistory_name' %></th>
+			        <th><%= t '.chargehistory_address' %></th>
+			       	<th><%= t '.chargehistory_regNumber' %></th>
+			        <th><%= t '.chargehistory_paymentStatus' %></th>
+			      </tr>
+			    </thead>
+			    <tbody>
+			      <tr>
+			      	<td><%= @registration.companyName %></td>
+			      	<td><%= format_address(@registration) %></td>
+			        <td><%= @registration.regIdentifier %></td>
+			        <td><% if @registration.respond_to? :finance_details %>
 				        <div class="form-group">
-				        	<div class="form-label" id="amountSummary"><%= amount_payment_summary_for(@registration) %></div>
+				        	<div class="form-label" id="amountSummary"><%= amount_payment_summary_for(@registration) %>
+				        	</div>
 				        </div>
-			        <% end %>
-			      </br>
+			       		 <% end %>
+			      	</td>
+			      </tr>
+			    </tbody>
+			  </table>
 
-			        <div class="form-group">
-				  	    <h2 class="heading-medium"><%= t'.chargehistory_table_heading' %></h2>
-						<table class="finance-table" summary='This table details the charge history of a registration'>
-							<thead class="">
-								<tr>
-									<th class="" ><%= t '.chargehistory_date_table_heading' %></th>
-									<th class="" ><%= t '.chargehistory_charge_table_heading' %></th>
-									<th class="" ><%= t '.chargehistory_amount_table_heading' %></th>
-								</tr>
-							</thead>
-							<tbody>
-								<% regCount = 1; %>
-								<%#= @registration.to_json %>
-								<% if @registration.respond_to?('finance_details') and @registration.finance_details.first \
-								   && @registration.finance_details.size > 0 && @registration.finance_details.first.orders %>
-									<% @registration.finance_details.first.orders.each do |order| %>
-									  <% if order.respond_to?('order_items') and order.order_items and order.order_items.size > 0 %>
-									  	<% order.order_items.each do |orderItem| %>
-											<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %> orderItem">
-												<td class="" ><%= format_time order.dateLastUpdated %></td>
-												<td class="" ><%= orderItem.description %></td>
-												<td class="" ><%= Money.new(orderItem.amount) %></td>
-											</tr>
-										  <% regCount = regCount + 1; %>
-									    <% end %>
-									  <% else %>
-										  <tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %> order">
-											<td class="" >ORDER::<%= format_time order.dateLastUpdated %></td>
-											<td class="" ><%= order.description %></td>
-											<td class="" ><%= Money.new(order.totalAmount) %></td>
-										  </tr>
-										<% regCount = regCount + 1; %>
-									  <% end %>
-									<% end %>
-								<% else %>
-									<tr class="solid-box">
-											<td class="" ><%= t '.noChargeHistory' %></td>
-											<td class="" > </td>
-											<td class="" > </td>
-											<td class="" > </td>
-										</tr>
-								<% end %>
-							</tbody>
-						</table>
-					</div>
-				</br>
 
-			        <div class="form-group">
-		            	<h2 class="heading-medium"><%= t'.paymenthistory_table_heading' %></h2>
-						<table class="finance-table" summary='This table details the payment history of a registration'>
-							<thead class="">
-								<tr>
-									<th class="" ><%= t '.paymenthistory_date_table_heading' %></th>
-									<th class="" ><%= t '.paymenthistory_charge_table_heading' %></th>
-									<th class="" ><%= t '.paymenthistory_reference_table_heading' %></th>
-									<th class="" ><%= t '.paymenthistory_amount_table_heading' %></th>
-									<th class="" ><%= t '.paymenthistory_comments_table_heading' %></th>
-								</tr>
-							</thead>
-							<tbody>
-								<% regCount = 1; %>
-								<% if @registration.finance_details.size > 0 \
-									&& @registration.finance_details.first.payments \
-									&& @registration.finance_details.first.payments.size > 0 %>
-									<% @registration.finance_details.first.payments.each do |payment| %>
-										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
-											<td class="" ><%= format_time payment.dateReceived %></td>
-											<td class="" >
-												<%= t('payment_types.' + payment.paymentType) %>
-												<%# Remove retry link PT #80889956 %>
-												<% showRetryLink = false #(payment.paymentType.eql? Payment::PAYMENT_TYPES_NONVISIBLE[3]) %>
-												<%# if showRetryLink
-												      originalPaymentCode = payment.orderKey.split("_")[0]
-												      originalOrder = @registration.getOrder( originalPaymentCode)
-												      if !originalOrder
-												        # assume manual refund
-												        showRetryLink = false
-												      end
-												      #showRetryLink = payment.orderKey.include? "REQUEST"
-												   end %>
-												<%= link_to t('registrations.form.retry_request'), retryRefund_path(@registration.uuid, payment.orderKey), \
-													:style => 'font-size: medium;', :id => 'writeOffSmall' if showRetryLink %>
-											</td>
-											<td class="" ><% if hasOrderKey(payment) %><%= payment.orderKey %><%else%><%= t 'registrations.form.not_applicable' %><%end%>/<%= payment.registrationReference %></td>
-											<td class="" ><%= Money.new(payment.amount) %></td>
-											<td class="" ><%= payment.comment %></td>
+			  	<h2 class="heading-small panel-colour">Charge history</h2>
+					<table class="finance-table table-divider" summary='This table details the charge history of a registration'>
+						<thead class="">
+							<tr>
+								<th class="" ><%= t '.chargehistory_date_table_heading' %></th>
+								<th class="" ><%= t '.chargehistory_charge_table_heading' %></th>
+								<th class="" ><%= t '.chargehistory_amount_table_heading' %></th>
+							</tr>
+						</thead>
+						<tbody>
+							<% regCount = 1; %>
+							<% if @registration.respond_to?('finance_details') and @registration.finance_details.first \
+							   && @registration.finance_details.size > 0 && @registration.finance_details.first.orders %>
+								<% @registration.finance_details.first.orders.each do |order| %>
+								  <% if order.respond_to?('order_items') and order.order_items and order.order_items.size > 0 %>
+								  	<% order.order_items.each do |orderItem| %>
+										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %> orderItem">
+											<td class="" ><%= format_time order.dateLastUpdated %></td>
+											<td class="" ><%= orderItem.description %></td>
+											<td class="" ><%= Money.new(orderItem.amount) %></td>
 										</tr>
+									  <% regCount = regCount + 1; %>
+								    <% end %>
+								  <% else %>
+									  <tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %> order">
+										<td class="" >ORDER::<%= format_time order.dateLastUpdated %></td>
+										<td class="" ><%= order.description %></td>
+										<td class="" ><%= Money.new(order.totalAmount) %></td>
+									  </tr>
 									<% regCount = regCount + 1; %>
-									<% end %>
-								<% else %>
-									<tr class="solid-box">
-										<td class="" ><%= t '.noPaymentHistory' %></td>
-										<td class="" > </td>
+								  <% end %>
+								<% end %>
+							<% else %>
+								<tr class="solid-box">
+										<td class="" ><%= t '.noChargeHistory' %></td>
 										<td class="" > </td>
 										<td class="" > </td>
 										<td class="" > </td>
 									</tr>
-								<% end %>
-							</tbody>
-						</table>
-					</div>
-				</br>
+							<% end %>
+						</tbody>
+					</table>
 
-			   <div class="form-group">
-		      <h2 class="heading-medium"><%= t'.balance_table_heading' %></h2>
-						<table class="finance-table" summary='This table details the balance due on a registration'>
-							<thead class="">
-								<tr>
-									<th class="" ></th>
-									<th class="" ><%= t '.balance_cost_table_heading' %></th>
+	        <h2 class="heading-small panel-colour"><%= t'.paymenthistory_table_heading' %></h2>
+					<table class="finance-table table-divider" summary='This table details the payment history of a registration'>
+						<thead class="">
+							<tr>
+								<th class="" ><%= t '.paymenthistory_date_table_heading' %></th>
+								<th class="" ><%= t '.paymenthistory_charge_table_heading' %></th>
+								<th class="" ><%= t '.paymenthistory_reference_table_heading' %></th>
+								<th class="" ><%= t '.paymenthistory_amount_table_heading' %></th>
+								<th class="" ><%= t '.paymenthistory_comments_table_heading' %></th>
+							</tr>
+						</thead>
+						<tbody>
+							<% regCount = 1; %>
+							<% if @registration.finance_details.size > 0 \
+								&& @registration.finance_details.first.payments \
+								&& @registration.finance_details.first.payments.size > 0 %>
+								<% @registration.finance_details.first.payments.each do |payment| %>
+									<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %>">
+										<td class="" ><%= format_time payment.dateReceived %></td>
+										<td class="" >
+											<%= t('payment_types.' + payment.paymentType) %>
+											<%# Remove retry link PT #80889956 %>
+											<% showRetryLink = false #(payment.paymentType.eql? Payment::PAYMENT_TYPES_NONVISIBLE[3]) %>
+											<%# if showRetryLink
+											      originalPaymentCode = payment.orderKey.split("_")[0]
+											      originalOrder = @registration.getOrder( originalPaymentCode)
+											      if !originalOrder
+											        # assume manual refund
+											        showRetryLink = false
+											      end
+											      #showRetryLink = payment.orderKey.include? "REQUEST"
+											   end %>
+											<%= link_to t('registrations.form.retry_request'), retryRefund_path(@registration.uuid, payment.orderKey), \
+												:style => 'font-size: medium;', :id => 'writeOffSmall' if showRetryLink %>
+										</td>
+										<td class="" ><% if hasOrderKey(payment) %><%= payment.orderKey %><%else%><%= t 'registrations.form.not_applicable' %><%end%>/<%= payment.registrationReference %></td>
+										<td class="" ><%= Money.new(payment.amount) %></td>
+										<td class="" ><%= payment.comment %></td>
+									</tr>
+								<% regCount = regCount + 1; %>
+								<% end %>
+							<% else %>
+								<tr class="solid-box">
+									<td class="" ><%= t '.noPaymentHistory' %></td>
+									<td class="" > </td>
+									<td class="" > </td>
+									<td class="" > </td>
+									<td class="" > </td>
 								</tr>
-							</thead>
-							<tbody>
-								<% if @registration.finance_details %>
-								<tr class="">
-									<td class="" >
-						        	<%= amount_summary_for(@registration, false) %>
-									</td>
-									<td class="" id="balanceDue"><%= Money.new(@registration.finance_details.first.balance.to_f.abs) %></td>
-								</tr>
-								<%# Assume if finance_details are not available it is because no charges are present on the account therefore must have a zero balance %>
-								<% else %>
-							    <tr class="">
-									<td class="" ><%= t 'registrations.form.balanceDue_text' %></td>
-									<td class="" id="balanceDue">0.00</td>
-								</tr>
-							    <% end %>
-							</tbody>
-						</table>
-					</div>
-	      </fieldset>
+							<% end %>
+						</tbody>
+					</table>
+
+
+      <h2 class="heading-small panel-colour"><%= t'.balance_table_heading' %></h2>
+				<table class="finance-table table-divider" summary='This table details the balance due on a registration'>
+					<thead class="">
+						<tr>
+							<th class="" ></th>
+							<th class="" ><%= t '.balance_cost_table_heading' %></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% if @registration.finance_details %>
+						<tr class="">
+							<td class="" >
+				        	<%= amount_summary_for(@registration, false) %>
+							</td>
+							<td class="" id="balanceDue"><%= Money.new(@registration.finance_details.first.balance.to_f.abs) %>
+							</td>
+						</tr>
+						<%# Assume if finance_details are not available it is because no charges are present on the account therefore must have a zero balance %>
+						<% else %>
+					    <tr class="">
+								<td class="" ><%= t 'registrations.form.balanceDue_text' %></td>
+								<td class="" id="balanceDue">0.00</td>
+							</tr>
+					   <% end %>
+					</tbody>
+				</table>
 		  </div>
 
 	    <% end %>
 
-	  </br>
-	  </br>
-	  </br>
-
-	    <div class="form-group-buttons">
+	    <section>
+	    	<div class="form-group">
 		    <%
 		    isFinanceBasic = (current_agency_user.has_role? :Role_financeBasic, AgencyUser) && !(@registration.deleted?)
 		    isFinanceAdmin = (current_agency_user.has_role? :Role_financeAdmin, AgencyUser) && !(@registration.deleted?)
@@ -233,7 +234,8 @@
 		      <% end %>
 		    <% end %>
 		    </span>
-		</div>
+		  </div>
+		</section>
 
     </div><!-- end inner-block -->
   </div><!-- end grid 2-3-->
