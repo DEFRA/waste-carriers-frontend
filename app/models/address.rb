@@ -1,43 +1,186 @@
-require 'active_resource'
+# Represents an address either selected or entered manually by a user which is
+# then held against the registration
+class Address < Ohm::Model
+  include ActiveModel::Conversion
+  include ActiveModel::Validations
+  extend ActiveModel::Naming
 
-class Address < ActiveResource::Base
-  #The services URL can be configured in config/application.rb and/or in the config/environments/*.rb files.
+  # We have had to conciously go with using CamelCase rather than the standard
+  # snake_case. When we do a public search or the agency does a search we query
+  # Elasticsearch via the services, and return directly what we find in
+  # Elasticsearch. The problem is that the jackson ObjectMapper seems to set
+  # those properties we annotate as being snake case (cause in the POJO they
+  # will be snake case) to null. We had no time to resolve this so had to accept
+  # the hack of using snake case in the Rails side in order to match with the
+  # POJO on the services side.
+  attribute :uprn
+  attribute :addressType
+  attribute :addressMode
+  attribute :houseNumber
+  attribute :addressLine1
+  attribute :addressLine2
+  attribute :addressLine3
+  attribute :addressLine4
+  attribute :townCity
+  attribute :postcode
+  attribute :country
+  attribute :dependentLocality
+  attribute :dependentThoroughfare
+  attribute :administrativeArea
+  attribute :localAuthorityUpdateDate
+  attribute :royalMailUpdateDate
+  attribute :easting
+  attribute :northing
 
-  self.site = Rails.configuration.waste_exemplar_addresses_url
+  set :location, :Location # will always be size=1
 
-  self.format = :json
+  ADDRESS_TYPES = %w[
+    (REGISTERED)
+    (POSTAL)
+  ]
 
-  #The schema is not strictly necessary for a model based on ActiveResource, but helpful for documentation
-  schema do
-    string :moniker
-    string :uprn
-    string :postcode
-    string :partial
-    Array :lines
+  VALID_CHARACTERS = /\A[A-Za-z0-9\s\'\.&!%]*\Z/
+  VALID_HOUSE_NAME_OR_NUMBER_REGEX = /\A[a-zA-Z0-9\'\s\,\&-]+\z/
+  TOWN_CITY_REGEX = /\A[a-zA-Z0-9\'\s\,-]+\z/
+  POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
+
+  def self.init(address_hash)
+    address = Address.create
+
+    address_hash.each do |k, v|
+      if k == 'location'
+        address.location.add Location.init(v) unless v.nil?
+      else
+        address.send(:update, k.to_sym => v)
+      end
+    end
+
+    address.save
+    address
   end
 
-  def streetLine1
-    if lines && lines.size > 0
-      lines[0]
-    else
-      ""
+  def self.from_address_search_result(result)
+    address = Address.create
+    address.populate_from_address_search_result(result)
+    address
+  end
+
+  def populate_from_address_search_result(result)
+    clear
+
+    # We want to retain the fact we are in address-results mode so that
+    # whenever the user returns to the business details page the list of
+    # addresses should be shown with their's automatically selected. It gets
+    # cleared in the call to clear above.
+    self.addressMode = 'address-results'
+    self.uprn = result.uprn
+    self.townCity = result.town
+    self.postcode = result.postcode
+    self.country = result.country
+    self.dependentLocality = result.dependentLocality
+    self.dependentThoroughfare = result.dependentThroughfare
+    self.administrativeArea = result.administrativeArea
+    self.localAuthorityUpdateDate = result.localAuthorityUpdateDate
+    self.royalMailUpdateDate = result.royalMailUpdateDate
+    self.easting = result.easting
+    self.northing = result.northing
+
+    # Protect against sending through a null object
+    address_lines(result.lines) if result.lines
+    save
+  end
+
+  # Returns a hash representation of the Address object.
+  # @param none
+  # @return  [Hash]  the Address object as a hash
+  def to_hash
+    hash = attributes.to_hash
+    hash['location'] = location.first.to_hash if location.size == 1
+    hash
+  end
+
+  # Returns a JSON Java/DropWizard API compatible representation of the
+  # Address object.
+  # @param none
+  # @return  [String]  the Address object in JSON form
+  def to_json
+    to_hash.to_json
+  end
+
+  def add(a_hash)
+    a_hash.each do |prop_name, prop_value|
+      self.send(:update, {prop_name.to_sym => prop_value})
     end
   end
 
-  def streetLine2
-    if lines && lines.size > 1
-      lines[1]
-    else
-      ""
-    end
+  # Will clear all attributes except the addressType. We need this because of
+  # the different address modes currently used. Depending on the mode only
+  # certain fields will be populated. So to avoid errors if we switch modes we
+  # we first clear out the existing data.
+  def clear
+    arg = {
+      uprn: nil,
+      addressMode: nil,
+      houseNumber: nil,
+      addressLine1: nil,
+      addressLine2: nil,
+      addressLine3: nil,
+      addressLine4: nil,
+      townCity: nil,
+      postcode: nil,
+      country: nil,
+      dependentLocality: nil,
+      dependentThoroughfare: nil,
+      administrativeArea: nil,
+      localAuthorityUpdateDate: nil,
+      royalMailUpdateDate: nil,
+      easting: nil,
+      northing: nil}
+    update_attributes(arg)
+
+    location[0] = nil if location[0]
+    save
   end
 
-  def townCity
-    if lines && lines.size > 2
-      lines[2]
-    else
-      ""
-    end
+  def address_results?
+    addressMode == 'address-results'
   end
 
-end #class
+  def address_lookup?
+    addressMode != 'manual-uk' && addressMode != 'manual-foreign'
+  end
+
+  def manual_uk_address?
+    addressMode == 'manual-uk'
+  end
+
+  def manual_foreign_address?
+    addressMode == 'manual-foreign'
+  end
+
+  validates :postcode, uk_postcode: true, unless: :manual_foreign_address?
+
+  with_options if: :manual_uk_address? do |address|
+    address.validates :houseNumber, presence: { message: I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), allow_blank: true }, length: { maximum: 35 }
+    address.validates :addressLine1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+    address.validates :addressLine2, length: { maximum: 35 }
+    address.validates :townCity, presence: { message:  I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), allow_blank: true }
+  end
+
+  with_options if: :manual_foreign_address? do |address|
+    address.validates :addressLine1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+    address.validates :addressLine2, :addressLine3, :addressLine4, length: { maximum: 35 }
+    address.validates :country, presence: { message: I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
+  end
+
+  private
+
+  def address_lines(lines)
+    return if lines.empty?
+
+    self.houseNumber = lines[0] unless lines[0].blank?
+    self.addressLine1 = lines[1] unless lines[0].blank?
+    self.addressLine2 = lines[2] unless lines[1].blank?
+    self.addressLine3 = lines[3] unless lines[2].blank?
+  end
+end

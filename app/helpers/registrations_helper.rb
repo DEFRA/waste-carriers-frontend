@@ -16,24 +16,25 @@ module RegistrationsHelper
     numberOut = numberIn.strip.upcase
   end
 
-  def format_address(model)
-    if model.postcode.nil?
+  def format_address(address)
+    if address.postcode.nil?
       # Print International address
-      "#{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.streetLine3)}<br />#{h(model.streetLine4)}<br />#{h(model.country)}".html_safe
+      "#{h(address.addressLine1)}<br />#{h(address.addressLine2)}<br />#{h(address.addressLine3)}<br />#{h(address.addressLine4)}<br />#{h(address.country)}".html_safe
     else
-      if model.streetLine2.present?
-        # Print UK Address Including Street line 2 (as its optional but been populated)
-        if model.dependentLocality.present?
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.dependentLocality)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+      if address.addressLine2.present?
+        # Print UK Address Including Address line 2 (as its optional but been
+        # populated)
+        if address.dependentLocality.present?
+          "#{h(address.houseNumber)} #{h(address.addressLine2)}<br />#{h(address.addressLine2)}<br />#{h(address.dependentLocality)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         else
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+          "#{h(address.houseNumber)} #{h(address.addressLine1)}<br />#{h(address.addressLine2)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         end
       else
         # Print UK Address
-        if model.dependentLocality.present?
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.dependentLocality)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+        if address.dependentLocality.present?
+          "#{h(address.houseNumber)} #{h(address.addressLine1)}<br />#{h(address.dependentLocality)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         else
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+          "#{h(address.houseNumber)} #{h(address.addressLine1)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         end
       end
     end
@@ -108,7 +109,7 @@ module RegistrationsHelper
       logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
       redirect_to cannot_edit_path and return
     end
-    
+
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
       logger.debug "Got Registration from session"
@@ -123,7 +124,7 @@ module RegistrationsHelper
         @registration = Registration.find_by_id(params[:id])
       end
     end
-    
+
     if @registration
       @registration.add( params[:registration] ) unless no_update
 
@@ -146,7 +147,7 @@ module RegistrationsHelper
               (params[:registration].keys[2].eql? "postcode")
         @registration.update(address_lookup_page: 'yes')
       end
-      
+
       @registration.save
       @registration.current_step = current_step
 
@@ -170,6 +171,13 @@ module RegistrationsHelper
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
+
+      # TODO: AC confirm this is bext place to set new address models
+      @registration.addresses.add Address.init(addressType: 'REGISTERED')
+
+      # TODO: Reinstate this line when we are in a position to support the
+      # postal address.
+      # @registration.addresses.add Address.init(addressType: 'POSTAL')
       session[:registration_id]= @registration.id
       session[:editing] = true
       logger.debug "creating new registration #{@registration.id}"
@@ -191,6 +199,13 @@ module RegistrationsHelper
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
+
+      # TODO: AC confirm this is bext place to set new address models
+      @registration.addresses.add Address.init(addressType: 'REGISTERED')
+
+      # TODO: Reinstate this line when we are in a position to support the
+      # postal address.
+      @registration.addresses.add Address.init(addressType: 'POSTAL')
       session[:registration_id]= @registration.id
       session[:editing] = true
       logger.debug "creating new registration #{@registration.id}"
@@ -482,8 +497,6 @@ module RegistrationsHelper
     res
   end
 
-  
-
   def proceed_as_upper
     @registration.tier = 'UPPER'
     @registration.save
@@ -495,7 +508,6 @@ module RegistrationsHelper
     @registration.tier = 'LOWER'
     @registration.save
     session[:ga_tier] = 'lower'
-    redirect_to :newBusinessDetails
+    redirect_to :business_details
   end
-
 end

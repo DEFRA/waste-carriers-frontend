@@ -8,12 +8,12 @@ namespace :performance_testing do
   def make_company_name
     service = ['waste', 'disposal', 'demolition', 'recycling', 'removal', 'reclamation', 'reprocessing', 'clearance', 'scrappage', 'junk'].sample
     suffix = ['LTD', 'services', 'company', 'contractors', 'limitted', 'industrial services', 'group'].sample
-    if (rand < 0.2)
+    if rand < 0.2
       county = @counties.sample
       return "#{county} #{service} #{suffix}"
     else
       name1 = Faker::Name::last_name
-      if (rand < 0.5)
+      if rand < 0.5
         return "#{name1} #{service} #{suffix}"
       else
         name2 = Faker::Name::last_name
@@ -23,7 +23,7 @@ namespace :performance_testing do
   end
 
   def make_company_number
-    return (1 + rand(99999998)).to_s.rjust(8, '0')
+    (1 + rand(999_999_98)).to_s.rjust(8, '0')
   end
 
   def make_random_postcode
@@ -33,7 +33,7 @@ namespace :performance_testing do
     n2 = rand(1..9).to_s
     a3 = (65 + rand(26)).chr
     a4 = (65 + rand(26)).chr
-    return "#{a1}#{a2}#{n1} #{n2}#{a3}#{a4}"
+    "#{a1}#{a2}#{n1} #{n2}#{a3}#{a4}"
   end
 
   def randomise_lower_tier_reg_data(reg_data)
@@ -42,22 +42,24 @@ namespace :performance_testing do
     reg_data['contactEmail'] = reg_data['accountEmail'] = "#{reg_data['firstName']}.#{reg_data['lastName']}" + rand(9999).to_s + "@example.com".downcase
     reg_data['password'] = Faker::Internet::password
     reg_data['phoneNumber'] = "01" + rand(999999999).to_s.rjust(9, '0')
-    reg_data['addresses'][0]['location']['easting'] =  (200000 + rand(200000)).to_s
-    reg_data['addresses'][0]['location']['northing'] = (100000 + rand(400000)).to_s
-    reg_data['addresses'][1]['location']['easting'] =  (200000 + rand(200000)).to_s
-    reg_data['addresses'][1]['location']['northing'] = (100000 + rand(400000)).to_s
+    reg_data['addresses'][0]['easting'] =  (200000 + rand(200000)).to_s
+    reg_data['addresses'][0]['northing'] = (100000 + rand(400000)).to_s
+    #reg_data['addresses'][1]['easting'] =  (200000 + rand(200000)).to_s
+    #reg_data['addresses'][1]['northing'] = (100000 + rand(400000)).to_s
     reg_data['uprn'] =     (100000 + rand(400000)).to_s
     reg_data['companyName'] = make_company_name()
-    reg_data['addresses'][0]['house_number'] = (1 + rand(300)).to_s
-    reg_data['addresses'][0]['address_line_1'] = Faker::Address::street_name
-    reg_data['addresses'][0]['town_city'] = Faker::Address::city
-    reg_data['addresses'][0]['administrative_area'] = @counties.sample
-    reg_data['addresses'][0]['post_code'] = make_random_postcode()
-    reg_data['addresses'][1]['house_number'] = (1 + rand(300)).to_s
-    reg_data['addresses'][1]['address_line_1'] = Faker::Address::street_name
-    reg_data['addresses'][1]['town_city'] = Faker::Address::city
-    reg_data['addresses'][1]['administrative_area'] = @counties.sample
-    reg_data['addresses'][1]['post_code'] = make_random_postcode()
+    reg_data['addresses'][0]['houseNumber'] = (1 + rand(300)).to_s
+    reg_data['addresses'][0]['addressLine1'] = Faker::Address::street_name
+    reg_data['addresses'][0]['townCity'] = Faker::Address::city
+    reg_data['addresses'][0]['administrativeArea'] = @counties.sample
+    reg_data['addresses'][0]['postcode'] = make_random_postcode()
+    reg_data['addresses'][0]['addressType'] = 'REGISTERED'
+    #reg_data['addresses'][1]['houseNumber'] = (1 + rand(300)).to_s
+    #reg_data['addresses'][1]['addressLine1'] = Faker::Address::street_name
+    #reg_data['addresses'][1]['townCity'] = Faker::Address::city
+    #reg_data['addresses'][1]['administrativeArea'] = @counties.sample
+    #reg_data['addresses'][1]['postcode'] = make_random_postcode()
+    #reg_data['addresses'][1]['addressType'] = 'POSTAL'
     return reg_data
   end
 
@@ -67,7 +69,8 @@ namespace :performance_testing do
     reg_data['key_people'][0]['first_name'] = reg_data['firstName']
     reg_data['key_people'][0]['last_name'] = reg_data['lastName']
     reg_data['key_people'][0]['dob'] = Faker::Date.between(70.years.ago, 20.years.ago).strftime('%F')
-    return reg_data
+
+    reg_data
   end
 
   def make_random_ref_num
@@ -86,7 +89,7 @@ namespace :performance_testing do
       @end_group += rand(9).to_s
     end
 
-    return "CB/#{@mid_group}/#{@end_group}"
+    "CB/#{@mid_group}/#{@end_group}"
   end
 
   def randomise_ir_renewal_data(renewal_type)
