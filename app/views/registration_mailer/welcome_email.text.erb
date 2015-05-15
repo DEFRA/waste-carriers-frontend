@@ -34,11 +34,11 @@
 <%=t 'registration_mailer.welcome_email.paragraph3' %>
 <% address = @registration.registered_address %>
 <%= @registration.firstName%> <%= @registration.lastName%>
-<%= address.house_number %>
-<%= address.address_line_1 %>
-<%= address.address_line_2 %>
-<%= address.dependent_locality %>
-<%= address.town_city%>
+<%= address.houseNumber %>
+<%= address.addressLine1 %>
+<%= address.addressLine2 %>
+<%= address.dependentLocality %>
+<%= address.townCity%>
 <%= address.postcode%>
 
 <%= t 'registration_mailer.welcome_email.contactNumber'%><%= @registration.phoneNumber%>

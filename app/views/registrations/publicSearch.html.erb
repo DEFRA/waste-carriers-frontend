@@ -51,30 +51,14 @@
       		<div class="hidden">
       			<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
       			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
-
-      		<!-- // Original - outdated when replaced drop down witg radio buttons
-      		<div id="onelinewrapper">
-      			<label for="oneline" class="form-label"><%=t '.filterLabel'%></label>
-      			<div id="oneline">
-      			<span id="disLabel" for="distance"><%= t '.distance_label' %></span>
-      				<% defaultDistance='any'%>
-      				<% if !params[:distance].nil?
-      				defaultDistance=params[:distance]
-      				end %>
-      				<%= select_tag :distance, options_for_select(Registration.distance_options_for_select, defaultDistance) %>
-      			<span id="postLabel" for="postcode"><%= t '.postcode_label' %></span>
-      		    <input id="postcode" name="postcode" size="10" value="<%= params[:postcode]%>" type="text" />
-
-      		-->
-
       		    <div class='inline'>
 
-              		 <%
-              		 defaultDistance='any'
-              		 if !params[:distance].nil?
-      				   defaultDistance=params[:distance]
-      				 end
-      				 %>
+              		<%
+                		defaultDistance='any'
+                		unless params[:distance].nil?
+        				      defaultDistance=params[:distance]
+      				      end
+      				    %>
               		 <% Registration.distance_options_for_select.each do |dist| %>
               		 	<label class="block-label" for="<%= dist[1] %>">
       					<input type="radio" value="<%= dist[1] %>" name="distance" id="<%= dist[1] %>" <% if defaultDistance==dist[1] %>checked="checked"<% end %>>

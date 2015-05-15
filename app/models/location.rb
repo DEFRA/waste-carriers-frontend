@@ -2,8 +2,6 @@
 class Location < Ohm::Model
   attribute :lat
   attribute :lon
-  attribute :easting
-  attribute :northing
 
   # Creates a new Location object from a location formatted hash
   #
