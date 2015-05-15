@@ -7,7 +7,7 @@ class BusinessDetailsController < ApplicationController
     new_step_action 'businessdetails'
     @address = @registration.registered_address
 
-    return unless 'address-results' == @address.address_mode
+    return unless 'address-results' == @address.addressMode
 
     # When here it is because a user has clicked the find address button
     if @address.valid?
@@ -39,11 +39,11 @@ class BusinessDetailsController < ApplicationController
 
     if params[:findAddress]
       # User clicked find address button
-      @address.update(address_mode: nil)
+      @address.update(addressMode: nil)
       if @registration.valid?
         # Setting the address mode to this helps determine what validations to
         # apply (see show action)
-        @address.update_attributes(address_mode: 'address-results')
+        @address.update_attributes(addressMode: 'address-results')
 
         # We update the postcode on the address so that it is retained when we
         # redirect to the page
@@ -88,7 +88,7 @@ class BusinessDetailsController < ApplicationController
       # below is activated its because the user never selected an address from
       # the results returned.
       @address_match_list = AddressSearchResult.search(
-        @address.postcode) if 'address-results' == @address.address_mode
+        @address.postcode) if 'address-results' == @address.addressMode
       render 'show', status: '400'
       return
     end
@@ -113,10 +113,10 @@ class BusinessDetailsController < ApplicationController
     new_step_action 'businessdetails'
     @address = @registration.registered_address
 
-    if @address.address_mode == 'manual-uk'
+    if @address.addressMode == 'manual-uk'
       redirect_to :business_details_manual
       return
-    elsif @address.address_mode == 'manual-foreign'
+    elsif @address.addressMode == 'manual-foreign'
       redirect_to :business_details_non_uk
       return
     else

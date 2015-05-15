@@ -44,15 +44,15 @@ namespace :performance_testing do
     reg_data['phoneNumber'] = "01" + rand(999999999).to_s.rjust(9, '0')
     reg_data['companyName'] = make_company_name()
 
-    address = reg_data['addresses'].find { |address| address.address_type == 'REGISTERED' }
+    address = reg_data['addresses'].find { |address| address.addressType == 'REGISTERED' }
 
     address['location'][0]['easting'] =  (200000 + rand(200000)).to_s
     address['location'][0]['northing'] = (100000 + rand(400000)).to_s
     address['uprn'] =     (100000 + rand(400000)).to_s
-    address['house-Number'] = (1 + rand(300)).to_s
-    address['address_line_1'] = Faker::Address::street_name
-    address['town_city'] = Faker::Address::city
-    address['administrative_area'] = @counties.sample
+    address['houseNumber'] = (1 + rand(300)).to_s
+    address['addressLine1'] = Faker::Address::street_name
+    address['townCity'] = Faker::Address::city
+    address['administrativeArea'] = @counties.sample
     address['postcode'] = make_random_postcode()
 
     reg_data

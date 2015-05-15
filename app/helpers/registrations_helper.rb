@@ -19,22 +19,22 @@ module RegistrationsHelper
   def format_address(address)
     if address.postcode.nil?
       # Print International address
-      "#{h(address.address_line_1)}<br />#{h(address.address_line_2)}<br />#{h(address.address_line_3)}<br />#{h(address.address_line_4)}<br />#{h(address.country)}".html_safe
+      "#{h(address.addressLine1)}<br />#{h(address.addressLine2)}<br />#{h(address.addressLine3)}<br />#{h(address.addressLine4)}<br />#{h(address.country)}".html_safe
     else
-      if address.address_line_2.present?
+      if address.addressLine2.present?
         # Print UK Address Including Address line 2 (as its optional but been
         # populated)
         if address.dependentLocality.present?
-          "#{h(address.house_number)} #{h(address.address_line_2)}<br />#{h(address.address_line_2)}<br />#{h(address.dependent_locality)}<br />#{h(address.town_city)}<br />#{h(address.postcode)}".html_safe
+          "#{h(address.houseNumber)} #{h(address.addressLine2)}<br />#{h(address.addressLine2)}<br />#{h(address.dependentLocality)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         else
-          "#{h(address.house_number)} #{h(address.address_line_1)}<br />#{h(address.address_line_2)}<br />#{h(address.town_city)}<br />#{h(address.postcode)}".html_safe
+          "#{h(address.houseNumber)} #{h(address.addressLine1)}<br />#{h(address.addressLine2)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         end
       else
         # Print UK Address
         if address.dependentLocality.present?
-          "#{h(address.house_number)} #{h(address.address_line_1)}<br />#{h(address.dependent_locality)}<br />#{h(address.town_city)}<br />#{h(address.postcode)}".html_safe
+          "#{h(address.houseNumber)} #{h(address.addressLine1)}<br />#{h(address.dependentLocality)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         else
-          "#{h(address.house_number)} #{h(address.address_line_1)}<br />#{h(address.town_city)}<br />#{h(address.postcode)}".html_safe
+          "#{h(address.houseNumber)} #{h(address.addressLine1)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         end
       end
     end
@@ -172,11 +172,12 @@ module RegistrationsHelper
       clear_registration_session
       @registration = Registration.create
 
-      @registration.addresses.add Address.init(address_type: 'REGISTERED')
+      # TODO: AC confirm this is bext place to set new address models
+      @registration.addresses.add Address.init(addressType: 'REGISTERED')
 
       # TODO: Reinstate this line when we are in a position to support the
       # postal address.
-      # @registration.addresses.add Address.init(address_type: 'POSTAL')
+      # @registration.addresses.add Address.init(addressType: 'POSTAL')
       session[:registration_id]= @registration.id
       session[:editing] = true
       logger.debug "creating new registration #{@registration.id}"
@@ -198,9 +199,13 @@ module RegistrationsHelper
       clear_edit_session
       clear_registration_session
       @registration = Registration.create
+
       # TODO: AC confirm this is bext place to set new address models
-      @registration.addresses.add Address.init(address_type: 'REGISTERED')
-      @registration.addresses.add Address.init(address_type: 'POSTAL')
+      @registration.addresses.add Address.init(addressType: 'REGISTERED')
+
+      # TODO: Reinstate this line when we are in a position to support the
+      # postal address.
+      @registration.addresses.add Address.init(addressType: 'POSTAL')
       session[:registration_id]= @registration.id
       session[:editing] = true
       logger.debug "creating new registration #{@registration.id}"
