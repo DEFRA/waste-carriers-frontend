@@ -71,7 +71,7 @@
               <%= f.label :business_or_organisation_address, for: "addressSelector", class: 'form-label' %>
               <select id="registration_selectedAddress" name="registration[selectedAddress]" class="addressSelector"
                   size="<%=[1,@address_match_list.count].min%>" autofocus>
-                  <option value=""><%= @address_match_list.count %> <%= t '.num_addresses_found'%></option>
+                  <option value=""><%= t '.num_addresses_found', num: @address_match_list.count %></option>
                   <% savedAdd = @registration.selectedAddress %>
                   <% @address_match_list.each do |address| %>
                     <option value="<%=address.moniker%>::<%=address.partial%>"<% if savedAdd and !savedAdd.empty? and \
