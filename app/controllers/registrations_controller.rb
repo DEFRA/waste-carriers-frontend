@@ -870,23 +870,6 @@ class RegistrationsController < ApplicationController
     end
   end
 
-
-  def updatedParameters(databaseMetaData, submittedParams)
-    # Save DB MetaData
-    dbMetaData = databaseMetaData
-    # Create a new Registration from submitted params
-    regFromParams = Registration.ctor(submittedParams)
-    begin
-      metaDataFromParams = regFromParams.metaData
-      # Update Saved MD with revoked reason from Param
-      dbMetaData.revokedReason = metaDataFromParams.revokedReason
-    rescue
-      logger.info 'Warning: Cannot find meta data, this could be valid if being edited by an external user, Ignoring for now and continuing'
-    end
-    regFromParams.metaData = dbMetaData
-    regFromParams.attributes
-  end
-
   # DELETE /registrations/1
   # DELETE /registrations/1.json
   def destroy

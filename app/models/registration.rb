@@ -187,7 +187,7 @@ class Registration < Ohm::Model
       self.update(uuid: result['id'])
       self.update(regIdentifier: result['regIdentifier'])
 
-      if result['addresses'] #array of conviction sign offs
+      if result['addresses'] #array of addresses
         address_list = []
         result['addresses'].each do |address_hash|
           address = Address.init(address_hash)
@@ -265,7 +265,7 @@ class Registration < Ohm::Model
       result = JSON.parse(response.body)
 
       # Update metadata and financedetails with that from the service
-      if result['addresses'] #array of conviction sign offs
+      if result['addresses'] #array of addresses
         address_list = []
         result['addresses'].each do |address_hash|
           address = Address.init(address_hash)
