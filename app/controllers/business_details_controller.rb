@@ -87,8 +87,9 @@ class BusinessDetailsController < ApplicationController
       # registration. Either the company name has been left blank or if the line
       # below is activated its because the user never selected an address from
       # the results returned.
-      @address_match_list = AddressSearchResult.search(
-        @address.postcode) if 'address-results' == @address.addressMode
+      if 'address-results' == @address.addressMode
+        @address_match_list = AddressSearchResult.search(@address.postcode)
+      end
       render 'show', status: '400'
       return
     end
