@@ -182,6 +182,7 @@ class RegistrationsController < ApplicationController
   def updateNewConfirmation
     setup_registration 'confirmation'
     return unless @registration
+    @address = @registration.registered_address
 
     if @registration.valid?
       case session[:edit_mode].to_i
