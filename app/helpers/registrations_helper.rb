@@ -162,68 +162,19 @@ module RegistrationsHelper
       return
     end
   end
-
+  
   # Note: This method is called at the beginning of the GET request handlers for the registration's 'editing' page
   # to set up the @registration etc.
   def new_step_action current_step
     if (current_step.eql? Registration::FIRST_STEP) && !session[:edit_mode]
-      logger.info 'First registration step and not in edit mode - creating new registration...'
-      clear_edit_session
-      clear_registration_session
-      @registration = Registration.create
-
-      # TODO: AC confirm this is bext place to set new address models
-      @registration.addresses.add Address.init(addressType: 'REGISTERED')
-
-      # TODO: Reinstate this line when we are in a position to support the
-      # postal address.
-      # @registration.addresses.add Address.init(addressType: 'POSTAL')
-      session[:registration_id]= @registration.id
-      session[:editing] = true
-      logger.debug "creating new registration #{@registration.id}"
-      m = Metadata.create
-
-      if agency_user_signed_in?
-        m.update :route => 'ASSISTED_DIGITAL'
-        if @registration.accessCode.blank?
-          @registration.update :accessCode => @registration.generate_random_access_code
-        end
-      else
-        m.update :route => 'DIGITAL'
-      end
-
-      @registration.metaData.add m
+      logger.debug {'First registration step and not in edit mode - creating new registration...'}
+      initialise_new_registration_with_session
 
     elsif (current_step.eql? 'businesstype') && !session[:edit_mode] && !session[:registration_id]
-      logger.info 'Current step is businesstype, and not in edit mode, and no registration_id in the session. Creating new registration...'
-      clear_edit_session
-      clear_registration_session
-      @registration = Registration.create
-
-      # TODO: AC confirm this is bext place to set new address models
-      @registration.addresses.add Address.init(addressType: 'REGISTERED')
-
-      # TODO: Reinstate this line when we are in a position to support the
-      # postal address.
-      @registration.addresses.add Address.init(addressType: 'POSTAL')
-      session[:registration_id]= @registration.id
-      session[:editing] = true
-      logger.debug "creating new registration #{@registration.id}"
-      m = Metadata.create
-
-      if agency_user_signed_in?
-        m.update :route => 'ASSISTED_DIGITAL'
-        if @registration.accessCode.blank?
-          @registration.update :accessCode => @registration.generate_random_access_code
-        end
-      else
-        m.update :route => 'DIGITAL'
-      end
-
-      @registration.metaData.add m
+      logger.debug {'Current step is businesstype, and not in edit mode, and no registration_id in the session. Creating new registration...'}
+      initialise_new_registration_with_session
 
     elsif  session[:edit_mode] #editing existing registration
-
       if !session[:editing] && current_step != 'payment' && current_step != 'pending' && current_step != 'businesstype'
         logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
         redirect_to cannot_edit_path and return
@@ -284,6 +235,15 @@ module RegistrationsHelper
     #      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
     #      renderNotFound
     #    end
+  end
+  
+  # A simple helper for new_step_action that avoids code repetition.
+  def initialise_new_registration_with_session
+    clear_edit_session
+    clear_registration_session
+    @registration = Registration.ctor(agency_user_signed_in: agency_user_signed_in?)
+    session[:registration_id]= @registration.id
+    session[:editing] = true
   end
 
   def clear_edit_session
