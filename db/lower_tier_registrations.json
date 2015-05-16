@@ -28,17 +28,8 @@
         "town_city" : "ABERGAVENNY",
         "post_code" : "NP7 5DD",
         "location" : {}
-      },
-      {
-        "address_type" : "POSTAL",
-        "house_number" : "2",
-        "address_line_1" : "Lamb Close",
-        "town_city" : "ABERGAVENNY",
-        "post_code" : "NP7 5DD",
-        "location" : {}
       }
     ]
-
 },
 {
     "tier" : "LOWER",
@@ -65,14 +56,6 @@
     "addresses" : [
       {
         "address_type" : "REGISTERED",
-        "house_number" : "2",
-        "address_line_1" : "Lamb Close",
-        "town_city" : "ABERGAVENNY",
-        "post_code" : "NP7 5DD",
-        "location" : {}
-      },
-      {
-        "address_type" : "POSTAL",
         "house_number" : "2",
         "address_line_1" : "Lamb Close",
         "town_city" : "ABERGAVENNY",

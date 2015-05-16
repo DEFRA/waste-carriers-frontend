@@ -44,6 +44,8 @@ namespace :performance_testing do
     reg_data['phoneNumber'] = "01" + rand(999999999).to_s.rjust(9, '0')
     reg_data['addresses'][0]['easting'] =  (200000 + rand(200000)).to_s
     reg_data['addresses'][0]['northing'] = (100000 + rand(400000)).to_s
+    # TODO: Reinstate this line when we are in a position to support the
+    # postal address.
     #reg_data['addresses'][1]['easting'] =  (200000 + rand(200000)).to_s
     #reg_data['addresses'][1]['northing'] = (100000 + rand(400000)).to_s
     reg_data['uprn'] =     (100000 + rand(400000)).to_s
@@ -54,6 +56,8 @@ namespace :performance_testing do
     reg_data['addresses'][0]['administrativeArea'] = @counties.sample
     reg_data['addresses'][0]['postcode'] = make_random_postcode()
     reg_data['addresses'][0]['addressType'] = 'REGISTERED'
+    # TODO: Reinstate this line when we are in a position to support the
+    # postal address.
     #reg_data['addresses'][1]['houseNumber'] = (1 + rand(300)).to_s
     #reg_data['addresses'][1]['addressLine1'] = Faker::Address::street_name
     #reg_data['addresses'][1]['townCity'] = Faker::Address::city
