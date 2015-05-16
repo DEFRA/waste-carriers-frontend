@@ -24,29 +24,8 @@
       "addressType": "REGISTERED",
       "postCode":"BS1 5AH",
       "addressLine1":"DEANERY ROAD",
-      "location": {
-        "northing":"172708",
-        "easting":"358205"
-      },
-      "addressMode":"address-results",
-      "administrativeArea":"BRISTOL",
-      "townCity":"BRISTOL",
-      "dependentLocality":"",
-      "royalMailUpdateDate":"",
-      "dependentThoroughfare":"",
-      "houseNumber":"ENVIRONMENT AGENCY",
-      "localAuthorityUpdateDate":"",
-      "firstName":"",
-      "lastName":""
-    },
-    {
-      "addressType": "POSTAL",
-      "postCode":"BS1 5AH",
-      "addressLine1":"DEANERY ROAD",
-      "location": {
-        "northing":"172708",
-        "easting":"358205"
-      },
+      "northing":"172708",
+      "easting":"358205",
       "addressMode":"address-results",
       "administrativeArea":"BRISTOL",
       "townCity":"BRISTOL",

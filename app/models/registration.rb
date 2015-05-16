@@ -528,7 +528,7 @@ class Registration < Ohm::Model
         agency_user_signed_in = attrs[:agency_user_signed_in]
         attrs.delete(:agency_user_signed_in)
       end
-      
+
       r = Registration.create attrs
 
       m = Metadata.create
@@ -541,7 +541,9 @@ class Registration < Ohm::Model
       r.metaData.add m
 
       r.addresses.add(Address.init(addressType: 'REGISTERED'))
-      r.addresses.add(Address.init(addressType: 'POSTAL'))
+      # TODO: Reinstate this line when we are in a position to support the
+      # postal address.
+      # r.addresses.add(Address.init(addressType: 'POSTAL'))
 
       r.save
     end

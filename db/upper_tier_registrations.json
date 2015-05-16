@@ -64,14 +64,6 @@
         "town_city": "CARDIFF",
         "post_code": "CF3 0PH",
         "location": {}
-      },
-      {
-        "address_type" : "POSTAL",
-        "house_number": "7",
-        "address_line_1": "Aston Place",
-        "town_city": "CARDIFF",
-        "post_code": "CF3 0PH",
-        "location": {}
       }
     ]
   },
@@ -145,14 +137,6 @@
     "addresses": [
       {
         "address_type" : "REGISTERED",
-        "house_number": "7",
-        "address_line_1": "Aston Place",
-        "town_city": "CARDIFF",
-        "post_code": "CF3 0PH",
-        "location": {}
-      },
-      {
-        "address_type" : "POSTAL",
         "house_number": "7",
         "address_line_1": "Aston Place",
         "town_city": "CARDIFF",
