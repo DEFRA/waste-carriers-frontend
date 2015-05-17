@@ -2,7 +2,6 @@
   "reg_uuid": "11aac-asa-s2w23-sddf-3434",
   "companyName": "LT Charity company",
   "current_step": "signup",
-  "selectedAddress": "340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
   "newOrRenew": "new",
   "address_lookup_page": "yes",
   "uprn": "340116",
@@ -20,6 +19,7 @@
     "route": "DIGITAL"
   },
   "addresses": [{
+    "uprn": "340116",
     "addressType": "REGISTERED",
     "addressMode": "address-results",
     "postcode": "BS1 5AH",

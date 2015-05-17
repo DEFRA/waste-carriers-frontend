@@ -13,7 +13,6 @@
   "newOrRenew": "new",
   "address_lookup_page": "yes",
   "declaration": "1",
-  "selectedAddress": "340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
   "otherBusinesses": "no",
   "sign_up_mode": "sign_up",
   "constructionWaste": "no",
@@ -22,6 +21,7 @@
     "route": "DIGITAL"
   },
   "addresses": [{
+    "uprn": "340116",
     "addressType": "REGISTERED",
     "administrativeArea": "BRISTOL",
     "easting": "358205",
