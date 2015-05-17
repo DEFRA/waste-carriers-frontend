@@ -72,10 +72,9 @@
               <select id="registration_selectedAddress" name="registration[selectedAddress]" class="addressSelector"
                   size="<%=[1,@address_match_list.count].min%>" autofocus>
                   <option value=""><%= t '.num_addresses_found', num: @address_match_list.count %></option>
-                  <% savedAdd = @registration.selectedAddress %>
+                  <% saved_add = if @registration.selectedAddress then @registration.selectedAddress else @address.uprn end %>
                   <% @address_match_list.each do |address| %>
-                    <option value="<%=address.moniker%>::<%=address.partial%>"<% if savedAdd and !savedAdd.empty? and \
-                      address.partial.eql? savedAdd.split('::')[1]  %> selected<% end %>><%=address.partial%></option>
+                    <option value="<%=address.moniker%>"<% if saved_add == address.moniker %> selected<% end %>><%=address.partial%></option>
                   <%end%>
               </select>
             </div>

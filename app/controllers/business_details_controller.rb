@@ -7,6 +7,8 @@ class BusinessDetailsController < ApplicationController
     new_step_action 'businessdetails'
     @address = @registration.registered_address
 
+    confirm_route(@address.addressMode)
+
     return unless 'address-results' == @address.addressMode
 
     # When here it is because a user has clicked the find address button
@@ -57,8 +59,8 @@ class BusinessDetailsController < ApplicationController
     unless @registration.selectedAddress.blank?
       # User clicked Continue button
 
-      # We convert the selected address into an actual address object.
-      selected_address = convert_selected_address
+      selected_address =
+        AddressSearchResult.search_by_id(@registration.selectedAddress)
 
       # TODO: Understand why we note that address lookup was used in the session
       session[:address_lookup_selected] = true
@@ -114,32 +116,21 @@ class BusinessDetailsController < ApplicationController
     new_step_action 'businessdetails'
     @address = @registration.registered_address
 
-    if @address.addressMode == 'manual-uk'
-      redirect_to :business_details_manual
-      return
-    elsif @address.addressMode == 'manual-foreign'
-      redirect_to :business_details_non_uk
-      return
-    else
-      redirect_to :business_details
-      return
-    end
+    confirm_route(@address.addressMode)
+
+    redirect_to :business_details
   end
 
   private
 
-  def convert_selected_address
-    # The address is returned in the format moniker::part1, part 2, etc.
-    full_val = @registration.selectedAddress
-
-    # This splits it into the 2 parts
-    array = full_val.split('::')
-
-    # part 1 contains the unique ID for the address (part 2 is what gets
-    # displayed in the lookup list)
-    moniker = array[0].to_s
-
-    AddressSearchResult.search_by_id(moniker)
+  def confirm_route(address_mode)
+    if address_mode == 'manual-uk'
+      redirect_to :business_details_manual
+      return
+    elsif address_mode == 'manual-foreign'
+      redirect_to :business_details_non_uk
+      return
+    end
   end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment
