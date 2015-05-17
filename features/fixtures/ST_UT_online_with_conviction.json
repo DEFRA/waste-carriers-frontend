@@ -15,7 +15,6 @@
   "registrationType": "carrier_dealer",
   "companyName": "ST UT Company",
   "phoneNumber": "11",
-  "selectedAddress": "340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
   "current_step": "signup",
   "businessType": "soleTrader",
   "tier": "UPPER",
@@ -45,9 +44,10 @@
     "confirmed": "no"
   },
   "addresses": [{
+    "uprn": "340116",
     "addressType": "REGISTERED",
     "localAuthorityUpdateDate": "",
-    "postCode": "BS1 5AH",
+    "postcode": "BS1 5AH",
     "houseNumber": "ENVIRONMENT AGENCY",
     "royalMailUpdateDate": "",
     "northing": "172708",

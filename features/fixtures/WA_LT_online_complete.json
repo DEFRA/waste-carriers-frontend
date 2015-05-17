@@ -2,7 +2,6 @@
   "reg_uuid": "REG_UUID_REPLACE_ME",
   "companyName": "WA LT Company",
   "current_step": "signup",
-  "selectedAddress": "340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
   "newOrRenew": "new",
   "address_lookup_page": "yes",
   "uprn": "340116",
@@ -20,8 +19,9 @@
     "route": "DIGITAL"
   },
   "addresses": [{
+    "uprn": "340116",
     "addressType": "REGISTERED",
-    "postCode": "BS1 5AH",
+    "postcode": "BS1 5AH",
     "addressLine1": "DEANERY ROAD",
     "northing": "172708",
     "easting": "358205",
