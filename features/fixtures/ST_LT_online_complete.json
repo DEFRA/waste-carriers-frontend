@@ -1,44 +1,42 @@
 {
-  "reg_uuid" : "REG_UUID_REPLACE_ME",
-  "contactEmail":"st_lt@example.org",
-  "tier":"LOWER",
-  "isMainService":"yes",
-  "accountEmail":"st_lt@example.org",
-  "firstName":"FName",
-  "phoneNumber":"3232",
-  "companyName":"ST LT Company",
-  "businessType":"soleTrader",
-  "lastName":"LName",
-  "current_step":"signup",
-  "uprn":"340116",
-  "newOrRenew":"new",
-  "onlyAMF":"yes",
-  "address_lookup_page":"yes",
-  "declaration":"1",
-  "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
-  "otherBusinesses":"yes",
-  "sign_up_mode":"sign_up",
-  "password":"Test1234",
-  "metaData":{
-    "route":"DIGITAL"
+  "reg_uuid": "REG_UUID_REPLACE_ME",
+  "contactEmail": "st_lt@example.org",
+  "tier": "LOWER",
+  "isMainService": "yes",
+  "accountEmail": "st_lt@example.org",
+  "firstName": "FName",
+  "phoneNumber": "3232",
+  "companyName": "ST LT Company",
+  "businessType": "soleTrader",
+  "lastName": "LName",
+  "current_step": "signup",
+  "uprn": "340116",
+  "newOrRenew": "new",
+  "onlyAMF": "yes",
+  "address_lookup_page": "yes",
+  "declaration": "1",
+  "selectedAddress": "340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
+  "otherBusinesses": "yes",
+  "sign_up_mode": "sign_up",
+  "password": "Test1234",
+  "metaData": {
+    "route": "DIGITAL"
   },
-  "addresses": [
-    {
-      "addressType": "REGISTERED",
-      "administrativeArea":"BRISTOL",
-      "easting":"358205",
-      "northing":"172708"
-      "addressLine1":"DEANERY ROAD",
-      "townCity":"BRISTOL",
-      "dependentLocality":"",
-      "dependentThoroughfare":"",
-      "postcode":"BS1 5AH",
-      "localAuthorityUpdateDate":"",
-      "addressMode":"address-results",
-      "royalMailUpdateDate":"",
-      "houseNumber":"ENVIRONMENT AGENCY",
-      "firstName":"",
-      "lastName":""
-    }
-  ]
+  "addresses": [{
+    "addressType": "REGISTERED",
+    "administrativeArea": "BRISTOL",
+    "easting": "358205",
+    "northing": "172708",
+    "addressLine1": "DEANERY ROAD",
+    "townCity": "BRISTOL",
+    "dependentLocality": "",
+    "dependentThoroughfare": "",
+    "postcode": "BS1 5AH",
+    "localAuthorityUpdateDate": "",
+    "addressMode": "address-results",
+    "royalMailUpdateDate": "",
+    "houseNumber": "ENVIRONMENT AGENCY",
+    "firstName": "",
+    "lastName": ""
+  }]
 }
