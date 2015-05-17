@@ -894,6 +894,7 @@ en:
       legend: "Contact details"
       subtitle: "These will not be made public"
     convictions_step:
+      page_title: "Relevant convictions"
       title: "Has anyone involved in managing your organisation been convicted of an environmental offence in the last 12 months?"
       subtitle: "If you don’t tell us about any unspent environmental offences you may not be able to register."
       paragraph: "If anyone involved in managing your organisation has been convicted of an environmental offence it might affect this registration."
