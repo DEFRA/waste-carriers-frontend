@@ -1,69 +1,65 @@
 {
-  "reg_uuid" : "REG_UUID_REPLACE_ME",
-  "contactEmail":"pb_ut@example.org",
-  "tier":"UPPER",
-  "isMainService":"yes",
-  "declaredConvictions":"no",
-  "registrationType":"carrier_dealer",
-  "accountEmail":"pb_ut@example.org",
-  "firstName":"FName",
-  "phoneNumber":"342435546",
-  "companyName":"PB UT Company",
-  "businessType":"publicBody",
-  "lastName":"LName",
-  "current_step":"signup",
-  "uprn":"340116",
-  "newOrRenew":"new",
-  "onlyAMF":"no",
-  "address_lookup_page":"yes",
-  "declaration":"1",
-  "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
-  "otherBusinesses":"yes",
-  "sign_up_mode":"sign_up",
-  "password":"Test1234",
-  "expires_on":"1448928000000",
-  "metaData":{
-    "route":"DIGITAL"
+  "reg_uuid": "REG_UUID_REPLACE_ME",
+  "contactEmail": "pb_ut@example.org",
+  "tier": "UPPER",
+  "isMainService": "yes",
+  "declaredConvictions": "no",
+  "registrationType": "carrier_dealer",
+  "accountEmail": "pb_ut@example.org",
+  "firstName": "FName",
+  "phoneNumber": "342435546",
+  "companyName": "PB UT Company",
+  "businessType": "publicBody",
+  "lastName": "LName",
+  "current_step": "signup",
+  "uprn": "340116",
+  "newOrRenew": "new",
+  "onlyAMF": "no",
+  "address_lookup_page": "yes",
+  "declaration": "1",
+  "selectedAddress": "340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
+  "otherBusinesses": "yes",
+  "sign_up_mode": "sign_up",
+  "password": "Test1234",
+  "expires_on": "1448928000000",
+  "metaData": {
+    "route": "DIGITAL"
   },
-  "key_people":[
-    {
-      "first_name":"CEOFName",
-      "last_name":"CEOLName",
-      "position":"CEO",
-      "dob_day":"23",
-      "dob_month":"11",
-      "dob_year":"1964",
-      "dob":"1964-11-23",
-      "person_type":"KEY",
-      "conviction_search_result":{
-        "match_result":"NO",
-        "searched_at":"1417447746129",
-        "confirmed":"no"
-      }
+  "key_people": [{
+    "first_name": "CEOFName",
+    "last_name": "CEOLName",
+    "position": "CEO",
+    "dob_day": "23",
+    "dob_month": "11",
+    "dob_year": "1964",
+    "dob": "1964-11-23",
+    "person_type": "KEY",
+    "conviction_search_result": {
+      "match_result": "NO",
+      "searched_at": "1417447746129",
+      "confirmed": "no"
     }
-  ],
-  "conviction_search_result":{
-    "match_result":"NO",
-    "searched_at":"1417447654243",
-    "confirmed":"no"
+  }],
+  "conviction_search_result": {
+    "match_result": "NO",
+    "searched_at": "1417447654243",
+    "confirmed": "no"
   },
-  "addresses": [
-    {
-      "addressType": "REGISTERED",
-      "administrativeArea":"BRISTOL",
-      "easting":"358205",
-      "northing":"172708",
-      "addressLine1":"DEANERY ROAD",
-      "townCity":"BRISTOL",
-      "dependentThoroughfare":"",
-      "dependentLocality":"",
-      "postcode":"BS1 5AH",
-      "localAuthorityUpdateDate":"",
-      "addressMode":"address-results",
-      "royalMailUpdateDate":"",
-      "houseNumber":"ENVIRONMENT AGENCY",
-      "firstName":"",
-      "lastName":""
-    }
-  ]
+  "addresses": [{
+    "addressType": "REGISTERED",
+    "administrativeArea": "BRISTOL",
+    "easting": "358205",
+    "northing": "172708",
+    "addressLine1": "DEANERY ROAD",
+    "townCity": "BRISTOL",
+    "dependentThoroughfare": "",
+    "dependentLocality": "",
+    "postcode": "BS1 5AH",
+    "localAuthorityUpdateDate": "",
+    "addressMode": "address-results",
+    "royalMailUpdateDate": "",
+    "houseNumber": "ENVIRONMENT AGENCY",
+    "firstName": "",
+    "lastName": ""
+  }]
 }
