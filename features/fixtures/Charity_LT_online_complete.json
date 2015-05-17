@@ -1,42 +1,39 @@
 {
-  "reg_uuid" : "11aac-asa-s2w23-sddf-3434",
-  "companyName":"LT Charity company",
-  "current_step":"signup",
-  "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
-  "newOrRenew":"new",
-  "address_lookup_page":"yes",
-  "uprn":"340116",
-  "businessType":"charity",
-  "sign_up_mode":"sign_up",
-  "firstName":"FName",
-  "declaration":"1",
-  "phoneNumber":"231324534",
-  "contactEmail":"charity_lt@example.org",
-  "tier":"LOWER",
-  "lastName":"LName",
-  "accountEmail":"charity_lt@example.org",
-  "password":"Test1234",
-  "metaData":{
-    "route":"DIGITAL"
+  "reg_uuid": "11aac-asa-s2w23-sddf-3434",
+  "companyName": "LT Charity company",
+  "current_step": "signup",
+  "selectedAddress": "340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
+  "newOrRenew": "new",
+  "address_lookup_page": "yes",
+  "uprn": "340116",
+  "businessType": "charity",
+  "sign_up_mode": "sign_up",
+  "firstName": "FName",
+  "declaration": "1",
+  "phoneNumber": "231324534",
+  "contactEmail": "charity_lt@example.org",
+  "tier": "LOWER",
+  "lastName": "LName",
+  "accountEmail": "charity_lt@example.org",
+  "password": "Test1234",
+  "metaData": {
+    "route": "DIGITAL"
   },
-  "addresses": [
-    {
-      "addressType": "REGISTERED",
-      "addressMode":"address-results",
-      "postcode":"BS1 5AH",
-      "northing":"172708",
-      "easting":"358205"
-      "addressLine1":"DEANERY ROAD",
-      "administrativeArea":"BRISTOL",
-      "townCity":"BRISTOL",
-      "dependentLocality":"",
-      "royalMailUpdateDate":"",
-      "dependentThoroughfare":"",
-      "houseNumber":"ENVIRONMENT AGENCY",
-      "localAuthorityUpdateDate":"",
-      "firstName":"",
-      "lastName":""
-    }
-  ]
-
+  "addresses": [{
+    "addressType": "REGISTERED",
+    "addressMode": "address-results",
+    "postcode": "BS1 5AH",
+    "northing": "172708",
+    "easting": "358205",
+    "addressLine1": "DEANERY ROAD",
+    "administrativeArea": "BRISTOL",
+    "townCity": "BRISTOL",
+    "dependentLocality": "",
+    "royalMailUpdateDate": "",
+    "dependentThoroughfare": "",
+    "houseNumber": "ENVIRONMENT AGENCY",
+    "localAuthorityUpdateDate": "",
+    "firstName": "",
+    "lastName": ""
+  }]
 }
