@@ -75,7 +75,7 @@
 
         <div class="form-group">
           <ul>
-            <li><%= link_to t('business_details_manual.show.find_address_using_postcode'), business_details_path, class: 'link_to' %></li>
+            <li><%= link_to t('business_details_manual.show.find_address_using_postcode'), business_details_path(use_postcode: true), class: 'link_to' %></li>
             <li><%= link_to t('.uk_address_link'), business_details_manual_path, class: 'link_to' %></li>
           </ul>
         </div>

@@ -7,7 +7,16 @@ class BusinessDetailsController < ApplicationController
     new_step_action 'businessdetails'
     @address = @registration.registered_address
 
-    confirm_route(@address.addressMode)
+    # Because we persist the addressMode we can use it when a user wishs to
+    # edit their address to present the correct edit view. However if they
+    # wish to switch to using address lookup, our logic for determing that
+    # is that the addressMode is blank (or set to address-results). This means
+    # we need a way of removing the current addressMode when the user wishes to
+    # move from an manual address to address lookup
+    @address.update(addressMode: nil) if params[:use_postcode]
+
+    go_to = confirm_route(@address.addressMode)
+    redirect_to(go_to) unless go_to == business_details_path
 
     return unless 'address-results' == @address.addressMode
 
@@ -116,22 +125,10 @@ class BusinessDetailsController < ApplicationController
     new_step_action 'businessdetails'
     @address = @registration.registered_address
 
-    confirm_route(@address.addressMode)
-
-    redirect_to :business_details
+    redirect_to confirm_route(@address.addressMode)
   end
 
   private
-
-  def confirm_route(address_mode)
-    if address_mode == 'manual-uk'
-      redirect_to :business_details_manual
-      return
-    elsif address_mode == 'manual-foreign'
-      redirect_to :business_details_non_uk
-      return
-    end
-  end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment
   # from UI web pages
