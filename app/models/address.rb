@@ -139,7 +139,7 @@ class Address < Ohm::Model
       easting: nil,
       northing: nil,
       firstName: nil,
-      lastName: nil}
+      lastName: nil }
     update_attributes(arg)
 
     location[0] = nil if location[0]
@@ -174,6 +174,7 @@ class Address < Ohm::Model
   with_options if: :manual_foreign_address? do |address|
     address.validates :addressLine1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
     address.validates :addressLine2, :addressLine3, :addressLine4, length: { maximum: 35 }
+    address.validates :townCity, presence: { message:  I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), allow_blank: true }
     address.validates :country, presence: { message: I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
   end
 
