@@ -140,7 +140,7 @@ But(/^I can edit this postcode$/) do
 end
 
 And(/^add my address manually if I wanted to$/) do
-  expect(page).to have_link 'I want to add an address myself'
+  expect(page).to have_link 'I want to type the address myself'
 end
 
 Given(/^I have gone through the lower tier waste carrier process$/) do

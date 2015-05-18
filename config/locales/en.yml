@@ -397,7 +397,7 @@ en:
     refuse_button_label: "Refuse registration"
   global:
     betaMessage: "BETA"
-    betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/done/waste-carrier-or-broker-registration' target='_blank'> feedback </a>  will help us improve it."
+    betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/done/waste-carrier-or-broker-registration' target='_blank'>feedback</a> will help us improve it."
     bracketsEA: " Environment Agency (England) helpline:\ "
     bracketsNRW: "(Natural Resources Wales)"
     naturalResourcesWales: "Natural Resources Wales"
@@ -684,7 +684,7 @@ en:
       all_directors_helptext: "Please provide the name and date of birth for all directors of this business."
       all_partners_helptext: "Please provide the name and date of birth for all partners in this business."
       chief_execs_helptext: "Please provide the name and date of birth for each chief executive of this business."
-      add_people_one_at_a_time: "Add these details one person at a time."
+      add_people_one_at_a_time: "Add their details one person at a time."
       how_to_add_people_helptext: "Select ‘%{button_label}’ for each person you add."
       chief_execs_how_to_add_many: "Select ‘%{button_label}’ if there is more than one person in this role."
     key_person_form:
@@ -718,7 +718,7 @@ en:
       subtitle: "What is your waste carrier registration number?"
       title: "Existing registration renewal"
       ir_number_example: "Example: CB/AF7003CS/A001"
-      renewal_link: "I don't know my registration number"
+      renewal_link: "I don't know our registration number"
       heading: "You can:"
       bullet1: "check your renewal letter (your registration number will be at the top)"
       bullet2_html: "<a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>find your registration number online</a>"
@@ -789,15 +789,15 @@ en:
       name_field_public: "Business or organisation trading name"
       find_address_button: "Find address"
       num_addresses_found: "%{num} addresses found"
-      manual_address_link: "I want to add an address myself"
+      manual_address_link: "I want to type the address myself"
       foreign_address_link: "The address is outside the United Kingdom"
       postcode: "Postcode"
   business_details_manual:
     show:
-      find_address_using_postcode: "Find address using postcode"
+      find_address_using_postcode: "I want to search by postcode"
   business_details_non_uk:
     show:
-      uk_address_link: "I have an address in the United Kingdom"
+      uk_address_link: "The address is in the United Kingdom"
   registrations:
     approve:
       title_approve: "Approve registration"
