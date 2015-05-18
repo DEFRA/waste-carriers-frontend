@@ -60,7 +60,7 @@
           <%  unless registration.is_inactive? %>
           <tr>
               <td><%= registration.companyName %></td>
-              <td><%= registration.postcode %></td>
+              <td><%= registration.registered_address.postcode %></td>
               <td><%= registration.regIdentifier %></td>
               <td><%= registration.metaData.first.status %></td>
               <td>

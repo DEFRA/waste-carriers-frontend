@@ -23,11 +23,11 @@ Given(/^the caller provides his business organisation details$/) do
   click_link 'manual_uk_address'
 
   fill_in 'registration_companyName', with: 'Assisted Digital & Co'
-  fill_in 'registration_houseNumber', with: '12'
-  fill_in 'registration_streetLine1', with: 'Assisted Street'
-  fill_in 'registration_streetLine2', with: 'Digital City Centre'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 5AH'
+  fill_in 'address_houseNumber', with: '12'
+  fill_in 'address_addressLine1', with: 'Assisted Street'
+  fill_in 'address_addressLine2', with: 'Digital City Centre'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 5AH'
 
   click_button 'continue'
 end
@@ -70,11 +70,11 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
 
   click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Grades & Co'
-  fill_in 'registration_houseNumber', with: '12'
-  fill_in 'registration_streetLine1', with: 'Deanery Road'
-  fill_in 'registration_streetLine2', with: 'EA Building'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 5AH'
+  fill_in 'address_houseNumber', with: '12'
+  fill_in 'address_addressLine1', with: 'Deanery Road'
+  fill_in 'address_addressLine2', with: 'EA Building'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 5AH'
   click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Joe'
@@ -110,11 +110,11 @@ When(/^I create an upper tier registration on behalf of a caller$/) do
 
   click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
-  fill_in 'registration_houseNumber', with: '123'
-  fill_in 'registration_streetLine1', with: 'Deanery Road'
-  fill_in 'registration_streetLine2', with: 'EA Building'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 5AH'
+  fill_in 'address_houseNumber', with: '123'
+  fill_in 'address_addressLine1', with: 'Deanery Road'
+  fill_in 'address_addressLine2', with: 'EA Building'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 5AH'
   click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Antony'
@@ -157,11 +157,11 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
 
   click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
-  fill_in 'registration_houseNumber', with: '123'
-  fill_in 'registration_streetLine1', with: 'Deanery Road'
-  fill_in 'registration_streetLine2', with: 'EA Building'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 5AH'
+  fill_in 'address_houseNumber', with: '123'
+  fill_in 'address_addressLine1', with: 'Deanery Road'
+  fill_in 'address_addressLine2', with: 'EA Building'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 5AH'
   click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Antony'
