@@ -84,10 +84,10 @@ Given(/^I enter my foreign business address manually$/) do
 
   fill_in 'registration_companyName', with: 'IWC'
 
-  fill_in 'address_addressLine1', with: 'Broad Street'
-  fill_in 'address_addressLine2', with: 'City Centre'
-  fill_in 'address_addressLine3', with: 'Bristol'
-  fill_in 'address_addressLine4', with: 'BS1 2EP'
+  fill_in 'address_addressLine1', with: '35, rue du Faubourg St Honoré '
+  fill_in 'address_addressLine2', with: 'Paris Cedex 08'
+  fill_in 'address_addressLine3', with: '75383'
+  fill_in 'address_townCity', with: 'Paris'
 
   fill_in 'address_country', with: 'France'
 
