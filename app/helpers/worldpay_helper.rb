@@ -23,13 +23,13 @@ module WorldpayHelper
     shopper_first_name = registration.firstName.encode(xml: :text)
     shopper_lastname = registration.lastName.encode(xml: :text)
 
-    address = registration.registered_address
+    address = worldpay_address(registration.registered_address)
 
-    shopper_address_1 = address.houseNumber.encode(xml: :text) if address.houseNumber
-    shopper_address_2 = address.addressLine1.encode(xml: :text) if address.addressLine1
-    shopper_postcode = address.postcode.encode(xml: :text) if address.postcode
-    shopper_city = address.townCity.encode(xml: :text) if address.townCity
-    shopper_country_code = 'GB'
+    shopper_address_1 = address[:line_1].encode(xml: :text) if address[:line_1]
+    shopper_address_2 = address[:line_2].encode(xml: :text) if address[:line_2]
+    shopper_postcode = address[:postcode].encode(xml: :text) if address[:postcode]
+    shopper_city = address[:town_city].encode(xml: :text) if address[:town_city]
+    shopper_country_code = address[:country_code].encode(xml: :text) if address[:country_code]
 
     xml = "<?xml version=\"1.0\"?>\n"
     xml << "<!DOCTYPE paymentService PUBLIC '-//WorldPay/DTD WorldPay PaymentService v1/EN' 'http://dtd.worldpay.com/paymentService_v1.dtd'>\n"
@@ -55,13 +55,37 @@ module WorldpayHelper
     xml << '<address2>' + shopper_address_2.to_s + '</address2>'
     xml << '<postalCode>' + shopper_postcode.to_s + '</postalCode>'
     xml << '<city>' + shopper_city.to_s + '</city>'
-    xml << '<countryCode>' + shopper_country_code + '</countryCode>'
+    xml << '<countryCode>' + shopper_country_code.to_s + '</countryCode>'
     xml << '</address>'
     xml << '</billingAddress>' + "\n"
     xml << '</order>' + "\n"
     xml << '</submit>' + "\n"
     xml << '</paymentService>' + "\n"
     xml
+  end
+
+  def worldpay_address(address)
+    result = {}
+
+    if address.houseNumber.blank?
+      result[:line_1] = address.addressLine1
+      result[:line_2] = address.addressLine2
+    else
+      result[:line_1] = address.houseNumber
+      result[:line_2] = address.addressLine1
+    end
+
+    result[:town_city] = address.townCity
+    result[:postcode] = address.postcode
+
+    # We don't have to wrap the call to find_country_by_name as whether we pass
+    # null in or it finds nothing the result is simply nil.
+    # Worldpay will fail if we have no code hence we default to GB if no match
+    # was found.
+    country = Country.find_country_by_name(address.country)
+    result[:country_code] = country.nil? ? 'GB' : country.gec
+    
+    result
   end
 
   def send_xml(xml)
@@ -92,7 +116,6 @@ module WorldpayHelper
 
     response
   end
-
 
   def parse_xml(xml)
     doc = Nokogiri::XML(xml)
