@@ -9,7 +9,7 @@
           <li><%= render 'back_link' %></li>
         </ol>
     </div>
-    
+
     <%= render 'order/notice_or_alert' %>
     <%= render "errors" %>
 
@@ -24,16 +24,16 @@
     <% else %>
         <% content_for :page_title, createTitle('.title_unrevoke') %>
     <% end %>
-  
+
     <%= form_for(@registration, :url => revoke_path, html: {method: "post", autocomplete: 'off'}) do |f| %>
-    
+
     <div id="revoke" data-journey="waste-carriers-registration:revoke">
         <fieldset>
-        
+
             <div class="form-group">
                 <div class="form-label"><strong><%= @registration.regIdentifier %></strong></div>
                     <div class="form-label"><strong><%= @registration.companyName %></strong></div>
-                    <div class="form-label"><%= format_address(@registration) %></div>
+                    <div class="form-label"><%= format_address(@registration.registered_address) %></div>
                 </div>
 
                 <%= f.fields_for :metaData do |mdFields| %>
@@ -52,7 +52,7 @@
                     <% end %>
                 <% end %>
             </div>
-            
+
             <div class="inline">
             <%
             revokeLabel = t('registrations.form.revoke_button_label')

@@ -21,24 +21,24 @@ class RegistrationTypeController < ApplicationController
     if @registration.valid?
       if session[:edit_link_reg_type]
         session.delete(:edit_link_reg_type)
-        redirect_to :newConfirmation and return
+        redirect_to :newConfirmation
+        return
       else
-        redirect_to :newBusinessDetails and return
+        redirect_to :business_details
+        return
       end
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render 'show', :status => '400'
+      render 'show', status: '400'
     end
-
   end
 
   private
 
-    ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
-    def registration_params
-      params.require(:registration).permit(
-      :registrationType)
-    end
-
+  # 'strong parameters' - whitelisting parameters allowed for mass assignment
+  # from UI web pages
+  def registration_params
+    params.require(:registration).permit(:registrationType)
+  end
 end

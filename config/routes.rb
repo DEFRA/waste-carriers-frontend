@@ -107,15 +107,23 @@ Registrations::Application.routes.draw do
   get "your-registration/registration-type/edit" => "registration_type#edit", :as => :edit_registration_type
   post "your-registration/registration-type" => "registration_type#create"
 
-  # Registration urls - Lower tier
-  match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
-  get   "your-registration/edit/business-details" => "registrations#editBusinessDetails", :via => [:get], :as => :editBusinessDetails
-  match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
+  # Registrations - Business Details
+  get 'your-registration/business-details' => 'business_details#show', as: :business_details
+  get 'your-registration/business-details/edit' => 'business_details#edit', as: :business_details_edit
+  post 'your-registration/business-details' => 'business_details#create'
 
+  get 'your-registration/business-details-manual' => 'business_details_manual#show', as: :business_details_manual
+  post 'your-registration/business-details-manual' => 'business_details_manual#create'
+
+  get 'your-registration/business-details-non-uk' => 'business_details_non_uk#show', as: :business_details_non_uk
+  post 'your-registration/business-details-non-uk' => 'business_details_non_uk#create'
+
+  # Registrations - Contact details
   match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
   get   "your-registration/edit/contact-details" => "registrations#editContactDetails", :via => [:get], :as => :editContact
   match "your-registration/contact-details" => 'registrations#updateNewContactDetails', :via => [:post,:put,:patch]
 
+  # Registrations - Confirmation
   match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
   match "your-registration/confirmation" => 'registrations#updateNewConfirmation', :via => [:post,:put,:patch]
 
