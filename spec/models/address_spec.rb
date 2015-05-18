@@ -36,6 +36,7 @@ describe Address do
       it { should_not validate_presence_of(:addressLine2).with_message(/You must enter/) }
       it { should_not validate_presence_of(:addressLine3) }
       it { should_not validate_presence_of(:addressLine4) }
+      it { should_not validate_presence_of(:townCity) }
       it { should validate_presence_of(:country).with_message(/You must enter/) }
     end
 
@@ -45,6 +46,11 @@ describe Address do
       it { should ensure_length_of(:addressLine3).is_at_most(35) }
       it { should ensure_length_of(:addressLine4).is_at_most(35) }
       it { should ensure_length_of(:country).is_at_most(35) }
+    end
+
+    describe 'format' do
+      it { should allow_value('Paris', 'Amsterdam', 'Warsaw').for(:townCity) }
+      it { should_not allow_value('Paris!', 'District 9').for(:townCity) }
     end
   end
 end
