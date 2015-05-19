@@ -60,8 +60,12 @@ gem 'monetize', '~> 0.3.0'
 # Simplifies some Google Analytics work.
 gem 'json', '>= 1.8.0'
 
+# Added to give us maintenance mode functionality i.e. the service presents
+# a maintenance page to any users when switched on
 gem 'turnout', '~> 2.1.0'
 
+# Added and used to translate the country entered by a user to a 2 digit code
+# which is then passed to Worldpay
 gem 'countries'
 
 group :test do
