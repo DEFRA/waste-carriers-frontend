@@ -48,7 +48,6 @@ Registrations::Application.routes.draw do
   get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
   match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
   get   "registrations/:id/refunds" => 'payment#index', :via => [:get], :as => :refund
-  #   match "registrations/:id/refunds" => 'payment#createRefund', :via => [:post], :as => :saveRefund
   get   "registrations/:id/manualRefund/:orderCode" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
   match "registrations/:id/manualRefund/:orderCode" => 'payment#createManualRefund', :via => [:post]
   get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#newWPRefund', :via => [:get]
