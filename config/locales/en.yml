@@ -800,6 +800,13 @@ en:
   business_details_non_uk:
     show:
       uk_address_link: "The address is in the United Kingdom"
+  postal_address:
+    show:
+      title: "Postal address"
+      subtitle: "Postal address"
+      town_city: "Town or city (optional)"
+      postcode: "Postcode (optional)"
+      country: "Country (optional)"
   registrations:
     approve:
       title_approve: "Approve registration"

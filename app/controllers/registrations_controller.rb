@@ -90,17 +90,11 @@ class RegistrationsController < ApplicationController
         redirect_to :newConfirmation
         return
       end
-      if @registration.tier.eql? 'LOWER'
-        redirect_to :newConfirmation
-        return
-      else
-        redirect_to :registration_key_people
-        return
-      end
+      redirect_to :postal_address
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render 'newContactDetails', :status => '400'
+      render 'newContactDetails', status: '400'
     end
   end
 
@@ -132,7 +126,7 @@ class RegistrationsController < ApplicationController
     new_step_action 'confirmation'
     return unless @registration
     @address = @registration.registered_address
-    
+
     case session[:edit_mode].to_i
     when EditMode::EDIT, EditMode::RENEWAL
       @registration.declaration = false

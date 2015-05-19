@@ -117,6 +117,10 @@ Registrations::Application.routes.draw do
   get 'your-registration/business-details-non-uk' => 'business_details_non_uk#show', as: :business_details_non_uk
   post 'your-registration/business-details-non-uk' => 'business_details_non_uk#create'
 
+  # Registrations - postal address
+  get 'your-registration/postal-address' => 'postal_address#show', as: :postal_address
+  post 'your-registration/postal-address' => 'postal_address#create'
+
   # Registrations - Contact details
   match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
   get   "your-registration/edit/contact-details" => "registrations#editContactDetails", :via => [:get], :as => :editContact
