@@ -212,12 +212,18 @@ class Report
         return
       end
 
-      Time.parse(from)
-
-      unless from.is_date?
+      begin
+        Time.parse(from)
+      rescue ArgumentError
         Rails.logger.debug "report 'from' field is invalid"
         errors.add(:from, I18n.t('errors.messages.invalid_date') )
       end
+
+      unless from.to_s =~ /\d{2}\-\d{2}\-\d{4}/
+        Rails.logger.debug "report 'from' field is invalid"
+        errors.add(:from, I18n.t('errors.messages.invalid_date') )
+      end
+
 
     end
 
@@ -229,10 +235,15 @@ class Report
         return
       end
 
-      Time.parse(to)
-
-      unless to.is_date?
+      begin
+       Time.parse(to)
+      rescue ArgumentError
         Rails.logger.debug "report 'to' field is invalid"
+        errors.add(:to, I18n.t('errors.messages.invalid_date') )
+      end
+
+      unless to.to_s =~ /\d{2}\-\d{2}\-\d{4}/
+        Rails.logger.debug "report 'from' field is invalid"
         errors.add(:to, I18n.t('errors.messages.invalid_date') )
       end
 
