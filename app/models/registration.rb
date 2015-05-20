@@ -95,6 +95,7 @@ class Registration < Ohm::Model
   set :metaData, :Metadata #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
+
   set :conviction_search_result, :ConvictionSearchResult #will always be size=1
   set :conviction_sign_offs, :ConvictionSignOff #can be empty
 
@@ -1511,4 +1512,12 @@ class Registration < Ohm::Model
     # Finds the first element that matches and returns it
     addresses.to_a.find { |address| address.addressType == 'POSTAL' }
   end
+
+  def copy_card_order
+    # Finds the first element that matches and returns it
+
+    finance_details.first.orders.to_a.find { |order| order.order_items.to_a.find { |order_item| order_item.type == 'COPY_CARDS'} }
+  end
+
+
 end
