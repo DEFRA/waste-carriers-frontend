@@ -183,6 +183,11 @@ Registrations::Application.routes.draw do
   get "reports/payments/results" => 'reports#payments_search_results', :as => :payments_search_results
   match "reports/payments/results" => 'reports#payments_export', :via => [:post,:put,:patch]
 
+  get "reports/copy_cards" => 'reports#copy_cards_search', :as => :copy_cards_search
+  match "reports/copy_cards" => 'reports#copy_cards_search_post', :via => [:post,:put,:patch]
+  get "reports/copy_cards/results" => 'reports#copy_cards_search_results', :as => :copy_cards_search_results
+  match "reports/copy_cards/results" => 'reports#copy_cards_export', :via => [:post,:put,:patch]
+
   if !Rails.env.production?
     # Template URLS - These are just for the devs as working examples
     get "templates/form" => "templates#formExample", :as => :formExample
