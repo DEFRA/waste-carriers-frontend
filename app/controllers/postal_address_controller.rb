@@ -1,11 +1,15 @@
 # Controller for the postal address
 class PostalAddressController < ApplicationController
+  include PostalAddressHelper
   include RegistrationsHelper
 
   # GET /your-registration/postal-address
   def show
     new_step_action 'postaladdress'
     @address = @registration.postal_address
+
+    result = set?(@address)
+    populate_from_registered_address(@registration) unless set?(@address)
   end
 
   # POST /your-registration/postal-address
@@ -13,7 +17,15 @@ class PostalAddressController < ApplicationController
     setup_registration 'postaladdress'
     return unless @registration
 
-    if @registration.valid?
+    @address = @registration.postal_address
+
+    # Clear the existing address and then update it based on the data posted
+    # from the form
+    @address.clear
+    @address.update_attributes(params[:address])
+    @address.save
+
+    if @address.valid?
 
       if @registration.tier == 'LOWER'
         next_page = newConfirmation_path
