@@ -64,8 +64,7 @@ namespace :data_migration do
       "addresses.0.country": element.country, "addresses.0.dependentLocality": element.dependentLocality,
       "addresses.0.dependentThoroughfare": element.dependendThoroughfare, "addresses.0.administrativeArea": element.administrativeArea,
       "addresses.0.localAuthorityUpdateDate": element.localAuthorityUpdateDate, "addresses.0.royalMailUpdateDate": element.royalMailUpdateDate,
-      "addresses.0.easting": element.easting, "addresses.0.northing": element.northing, "addresses.0.location.lat": element.location.lat,
-      "addresses.0.location.lon": element.location.lon}});})
+      "addresses.0.easting": element.easting, "addresses.0.northing": element.northing, "addresses.0.location": element.location}});})
     db.registrations.find().forEach(
     function(element){
       if(element.addresses[0].uprn == undefined) {
@@ -102,10 +101,15 @@ namespace :data_migration do
         db.registrations.update({_id: element._id},{$unset: {"addresses.0.easting": ""}});};
       if(element.addresses[0].northing == undefined) {
         db.registrations.update({_id: element._id},{$unset: {"addresses.0.northing": ""}});};
-      if(element.addresses[0].location.lat == undefined) {
-        db.registrations.update({_id: element._id},{$unset: {"addresses.0.location.lat": ""}});};
-      if(element.addresses[0].location.lon == undefined) {
-        db.registrations.update({_id: element._id},{$unset: {"addresses.0.location.lon": ""}});};})'
+      if(element.addresses[0].location == undefined) {
+        db.registrations.update({_id: element._id}, {$unset: {"addresses.0.location": ""}});
+      } else {
+        if(element.addresses[0].location.lat == undefined) {
+          db.registrations.update({_id: element._id},{$unset: {"addresses.0.location.lat": ""}});};
+        if(element.addresses[0].location.lon == undefined) {
+          db.registrations.update({_id: element._id},{$unset: {"addresses.0.location.lon": ""}});};
+      }
+    })'
 
     puts 'Update completed.'
   end
