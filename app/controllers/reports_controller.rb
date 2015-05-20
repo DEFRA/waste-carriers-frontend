@@ -1,5 +1,6 @@
 class ReportsController < ApplicationController
   include RegistrationExportHelper
+  include CopyCardsExportHelper
 
   #We require authentication for all reports and authorisation for some reports.
 
@@ -138,6 +139,83 @@ class ReportsController < ApplicationController
 
   end
 
+  # GET /report/copy_cards
+  def copy_cards_search
+    set_report
+  end
+
+  # POST /report/copy_cards
+  def copy_cards_search_post
+
+    set_report
+    @report.search_type = :copy_cards
+
+    unless @report.is_new.blank?
+      @report.is_new = 'false'
+
+      if @report.valid?
+
+        @report.result_count = 100
+        @copy_cards = search_copy_cards
+
+        if @copy_cards.empty?
+          @report.errors.add(:base, t('errors.messages.no_results'))
+          render 'copy_cards_search', :status => '400'
+        else
+          render 'copy_cards_search_results'
+        end
+      else
+        logger.info 'Report filters are not valid'
+        render 'copy_cards_search', :status => '400'
+      end
+    end
+  end
+
+  # GET /reports/copy_cards/results
+  def copy_cards_search_results
+
+    set_report
+    @report.search_type = :copy_cards
+
+    if @report.valid?
+
+      @copy_cards = search_copy_cards
+
+      if @copy_cards.empty?
+        @report.errors.add(:base, t('errors.messages.no_results'))
+        render 'copy_cards_search', :status => '400'
+      end
+    else
+      logger.info 'Report filters are not valid'
+      render 'copy_cards_search', :status => '400'
+    end
+
+  end
+
+  # POST /reports/copy_cards/results
+  def copy_cards_export
+
+    set_report
+    @report.search_type = :copy_cards
+
+    if @report.valid?
+
+      @report.result_count = nil
+      @copy_cards = search_copy_cards
+
+      if @copy_cards.empty?
+        @report.errors.add(:base, t('errors.messages.no_results'))
+        render 'copy_cards_search', :status => '400'
+      else
+        render_copy_cards_csv("copy_cards-#{Time.now.strftime("%Y%m%d%H%M%S")}.csv")
+      end
+    else
+      logger.info 'Search filters are not valid'
+      render 'copy_cards_search', :status => '400'
+    end
+
+  end
+
   private
 
     def authenticate_admin_request!
@@ -201,6 +279,15 @@ class ReportsController < ApplicationController
 
     end
 
+  def search_copy_cards
+
+    return Registration.find_by_params(@report.copy_cards_parameter_args, options = {
+        :url => "/query/copy_cards",
+        :format => ""
+    })
+
+  end
+
     def filter_for_blanks(values)
 
       filtered = []
@@ -217,33 +304,44 @@ class ReportsController < ApplicationController
 
     end
 
-    def render_registrations_csv(filename)
-      csv_data = CSV.generate({ row_sep: "\r\n", force_quotes: true }) do |csv|
-        headers = regexport_get_headers('full')
-        csv << headers
-        @registrations.each do |registration|
-          reg_data = regexport_get_registration_data('full', registration)
-          if registration.lower?
-            csv << pad_array_to_match_length(headers, reg_data)
-          else
-            registration.key_people.each do |person|
-              person_data = regexport_get_person_data('full', registration, person)
-              csv << reg_data + person_data
-            end
+  def render_registrations_csv(filename)
+    csv_data = CSV.generate({ row_sep: "\r\n", force_quotes: true }) do |csv|
+      headers = regexport_get_headers('full')
+      csv << headers
+      @registrations.each do |registration|
+        reg_data = regexport_get_registration_data('full', registration)
+        if registration.lower?
+          csv << pad_array_to_match_length(headers, reg_data)
+        else
+          registration.key_people.each do |person|
+            person_data = regexport_get_person_data('full', registration, person)
+            csv << reg_data + person_data
           end
         end
       end
-      send_data(csv_data, filename: filename)
     end
+    send_data(csv_data, filename: filename)
+  end
 
-    def render_payments_csv(filename = nil)
-      filename ||= params[:action]
-      filename += '.csv'
+  def render_payments_csv(filename = nil)
+    filename ||= params[:action]
+    filename += '.csv'
 
-      set_export_headers filename
+    set_export_headers filename
 
-      render "payments_export.csv", :layout => false
+    render "payments_export.csv", :layout => false
+  end
+
+  def render_copy_cards_csv(filename)
+    csv_data = CSV.generate({ row_sep: "\r\n", force_quotes: true }) do |csv|
+      headers = copy_cards_export_get_headers('full')
+      csv << headers
+      @copy_cards.each do |copy_card|
+        csv << copy_cards_export_get_registration_data('full', copy_card)
+      end
     end
+    send_data(csv_data, filename: filename)
+  end
 
     # This method and the majority of the code in the reportRegistrations view
     # can be attributed to http://stackoverflow.com/a/94626. FasterCSV is now
