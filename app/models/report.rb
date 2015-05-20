@@ -174,6 +174,34 @@ class Report
 
   end
 
+  def copy_cards_parameter_args
+
+    param_args = {}
+
+    unless from.blank?
+      param_args[:from] = from
+    end
+
+    unless to.blank?
+      param_args[:until] = to
+    end
+
+    unless has_declared_convictions.blank?
+      param_args[:declaredConvictions] = has_declared_convictions
+    end
+
+    unless conviction_check_match.blank?
+      param_args[:convictionCheckMatch] = conviction_check_match
+    end
+
+    unless result_count.blank?
+      param_args[:resultCount] = result_count
+    end
+
+    param_args
+
+  end
+
   private
 
     def validate_from
