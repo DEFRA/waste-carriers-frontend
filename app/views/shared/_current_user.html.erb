@@ -21,6 +21,9 @@
     <div>
       <%= link_to t('.payments_export'), payments_search_path %>
     </div>
+    <div>
+      <%= link_to t('.copy_cards_export'), copy_cards_search_path %>
+    </div>
     <%= button_to t('.sign_out'), destroy_agency_user_session_path, :method => :delete, :class => 'button', :id => 'signout_button' %>
   </div>
 <% elsif admin_signed_in? %>
