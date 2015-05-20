@@ -1,0 +1,61 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+
+    <div class="back-section">
+      <ol>
+        <li><%= link_to t('registrations.form.back_button_label'), :copy_cards_search, :class => 'link_to' %></li>
+      </ol>
+    </div>
+
+    <header class="page-header group">
+      <div class="hgroup">
+        <h1 class="heading-xlarge"><%= t '.subtitle' %></h1>
+      </div>
+    </header>
+
+    <div class="grid-wrapper">
+      <div class="grid-2-3">
+        <div class="inner-block">
+          <!-- WF 4.3.2 -->
+          <div id="page0"  data-journey="waste-carriers-registration:copy_cards-export-results">
+            <% content_for :page_title, createTitle('.title') %>
+            <%= render 'errors' %>
+            <% table_summary = t('.summary', :record_count_pluralized => pluralize(@report.result_count, t('reports.record'))) %>
+            <h2 class="heading-small"><%= table_summary %></h2>
+            <%= form_for(@report, :url => copy_cards_search_results_path, :html => {:autocomplete => "off"}) do |f| %>
+              <fieldset>
+                <%= f.hidden_field :from %>
+                <%= f.hidden_field :to %>
+                <%= f.hidden_field :has_declared_convictions %>
+                <%= f.hidden_field :conviction_check_match %>
+              </fieldset>
+              <span class="continue_link">
+                <input id="export_btn" name="export" class="button button-get-started" type="submit" value="<%= t 'form.export_all_button_label' %>"/>
+              </span>
+            <% end %>
+          </div>
+        </div><!--inner-block-->
+      </div><!--grid-2-3-->
+    </div><!--grid-wrapper-->
+  </main><!--main-->
+</div><!--wrapper-->
+<% headers = copy_cards_export_get_headers('full') %>
+<div style="max-width: 90%; overflow-x: scroll; margin: 0 auto;">
+<table summary="<%= table_summary %>" role="presentation">
+  <thead>
+    <tr>
+      <% headers.each do |field| %><th><%= field %></th><% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @copy_cards.each do |copy_card| %>
+      <% reg_data = copy_cards_export_get_registration_data('full', copy_card) %>
+          <tr>
+            <% reg_data.each do |field| %><td><%= field %></td><% end %>
+          </tr>
+        <% end %>
+  </tbody>
+</table>
+</div>
