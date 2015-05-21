@@ -125,7 +125,6 @@ class RegistrationsController < ApplicationController
   def newConfirmation
     new_step_action 'confirmation'
     return unless @registration
-    @address = @registration.registered_address
 
     case session[:edit_mode].to_i
     when EditMode::EDIT, EditMode::RENEWAL
@@ -175,7 +174,6 @@ class RegistrationsController < ApplicationController
   def updateNewConfirmation
     setup_registration 'confirmation'
     return unless @registration
-    @address = @registration.registered_address
 
     if @registration.valid?
       case session[:edit_mode].to_i
