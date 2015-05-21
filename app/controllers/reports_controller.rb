@@ -337,7 +337,8 @@ class ReportsController < ApplicationController
       headers = copy_cards_export_get_headers('full')
       csv << headers
       @copy_cards.each do |copy_card|
-        csv << copy_cards_export_get_registration_data('full', copy_card)
+        data = copy_cards_export_get_registration_data('full', copy_card)
+        data.each { |data_line| csv << data_line }
       end
     end
     send_data(csv_data, filename: filename)

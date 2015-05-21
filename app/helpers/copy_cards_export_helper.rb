@@ -94,50 +94,53 @@ module CopyCardsExportHelper
     is_upper = registration.upper?
     registered_addr = registration.registered_address
     postal_addr = registration.postal_address
-    copy_cards_order = registration.copy_card_order
-    copy_cards_order_item = copy_cards_order.copy_cards_order_item
-    has_conviction_search_result = is_upper && (registration.conviction_search_result.first != nil)
-    [
-      registration.regIdentifier,
-      copy_cards_order_item.description,
-      "%.2f" % (copy_cards_order_item.amount.to_f / 100) + ' ' + copy_cards_order_item.currency,
-      "%.2f" % (copy_cards_order.totalAmount.to_f / 100) + ' ' + copy_cards_order.currency,
-      registration.companyName,
-      is_upper ? registration.company_no : '',
-      '',
-      registered_addr.houseNumber,
-      registered_addr.addressLine1,
-      registered_addr.addressLine2,
-      registered_addr.addressLine3,
-      registered_addr.addressLine4,
-      registered_addr.townCity,
-      registered_addr.postcode,
-      '',
-      postal_addr.nil? ? '' : postal_addr.houseNumber,
-      postal_addr.nil? ? '' : postal_addr.addressLine1,
-      postal_addr.nil? ? '' : postal_addr.addressLine2,
-      postal_addr.nil? ? '' : postal_addr.addressLine3,
-      postal_addr.nil? ? '' : postal_addr.addressLine4,
-      postal_addr.nil? ? '' : postal_addr.townCity,
-      postal_addr.nil? ? '' : postal_addr.postcode,
-      registration.contactEmail,
-      registration.firstName,
-      registration.lastName,
-      registration.phoneNumber,
-      registration.businessType,
-      registration.tier,
-      is_upper ? registration.registrationType : '',
-      format_as_date_only(registration.metaData.first.dateRegistered),
-      format_as_date_only(registration.metaData.first.dateActivated, blank_if_epoch: true),
-      format_as_date_only(registration.expires_on, blank_if_epoch: true),
-      format_as_date_only(copy_cards_order.dateCreated, blank_if_epoch: true),
-      format_as_date_only(copy_cards_order.dateLastUpdated, blank_if_epoch: true),
-      copy_cards_order.paymentMethod,
-      registration.metaData.first.status,
-      is_upper ? bool_to_string(!registration.paid_in_full?) : '',
-      is_upper ? bool_to_string(registration.is_awaiting_conviction_confirmation?) : '',
-      is_upper ? registration.declaredConvictions : '',
-    ]
-  end
+    copy_cards_orders = registration.copy_card_orders
+    data_rows = Array.new
+    copy_cards_orders.each {
+        |order| copy_cards_order_item = order.copy_cards_order_item
+        data_rows.append [
+          registration.regIdentifier,
+          copy_cards_order_item.description,
+          "%.2f" % (copy_cards_order_item.amount.to_f / 100) + ' ' + copy_cards_order_item.currency,
+          "%.2f" % (order.totalAmount.to_f / 100) + ' ' + order.currency,
+          registration.companyName,
+          is_upper ? registration.company_no : '',
+          '',
+          registered_addr.houseNumber,
+          registered_addr.addressLine1,
+          registered_addr.addressLine2,
+          registered_addr.addressLine3,
+          registered_addr.addressLine4,
+          registered_addr.townCity,
+          registered_addr.postcode,
+          '',
+          postal_addr.nil? ? '' : postal_addr.houseNumber,
+          postal_addr.nil? ? '' : postal_addr.addressLine1,
+          postal_addr.nil? ? '' : postal_addr.addressLine2,
+          postal_addr.nil? ? '' : postal_addr.addressLine3,
+          postal_addr.nil? ? '' : postal_addr.addressLine4,
+          postal_addr.nil? ? '' : postal_addr.townCity,
+          postal_addr.nil? ? '' : postal_addr.postcode,
+          registration.contactEmail,
+          registration.firstName,
+          registration.lastName,
+          registration.phoneNumber,
+          registration.businessType,
+          registration.tier,
+          is_upper ? registration.registrationType : '',
+          format_as_date_only(registration.metaData.first.dateRegistered),
+          format_as_date_only(registration.metaData.first.dateActivated, blank_if_epoch: true),
+          format_as_date_only(registration.expires_on, blank_if_epoch: true),
+          format_as_date_only(order.dateCreated, blank_if_epoch: true),
+          format_as_date_only(order.dateLastUpdated, blank_if_epoch: true),
+          order.paymentMethod,
+          registration.metaData.first.status,
+          is_upper ? bool_to_string(!registration.paid_in_full?) : '',
+          is_upper ? bool_to_string(registration.is_awaiting_conviction_confirmation?) : '',
+          is_upper ? registration.declaredConvictions : '',
+        ]
+    }
+    data_rows
+    end
 
 end
