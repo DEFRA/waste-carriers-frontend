@@ -95,6 +95,7 @@ module CopyCardsExportHelper
     registered_addr = registration.registered_address
     postal_addr = registration.postal_address
     copy_cards_orders = registration.copy_card_orders
+    copy_cards_orders.each { |order| Rails.logger.debug "========#####>>>>> #{order.orderId}" }
     data_rows = Array.new
     copy_cards_orders.each {
         |order| copy_cards_order_item = order.copy_cards_order_item
