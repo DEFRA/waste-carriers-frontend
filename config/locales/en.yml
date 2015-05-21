@@ -1381,6 +1381,7 @@ en:
       date_order_last_updated: "Date order last updated"
       status: "Registration status"
       pending_payment: "Pending payment"
+      amount_outstanding: "Amount outstanding"
       pending_convictions: "Pending convictions"
       route: "Route"
       access_code: "Access code"

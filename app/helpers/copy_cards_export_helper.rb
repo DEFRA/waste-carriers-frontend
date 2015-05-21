@@ -85,6 +85,7 @@ module CopyCardsExportHelper
       I18n.t('reports.fields.payment_method'),
       I18n.t('reports.fields.status'),
       I18n.t('reports.fields.pending_payment'),
+      I18n.t('reports.fields.amount_outstanding'),
       I18n.t('reports.fields.pending_convictions'),
       I18n.t('reports.fields.declared_convictions'),
     ]
@@ -137,6 +138,7 @@ module CopyCardsExportHelper
           order.paymentMethod,
           registration.metaData.first.status,
           is_upper ? bool_to_string(!registration.paid_in_full?) : '',
+          registration.finance_details.first.balance,
           is_upper ? bool_to_string(registration.is_awaiting_conviction_confirmation?) : '',
           is_upper ? registration.declaredConvictions : '',
         ]
