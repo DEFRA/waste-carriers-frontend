@@ -412,9 +412,7 @@ en:
     maintenance:
       title: "Maintenance - GOV.UK"
       heading: "Planned maintenance"
-      sorry_text: "Sorry, this service is currently unavailable."
-      please_try_text: "Please try again later."
-      assistance_text: "If you need assistance please contact the Environment Agency on telephone: 03708 506506."
+      sorry_text: "Sorry, we're updating this service and it's currently unavailable."
     notfound:
       heading: "Page not found"
       message: "Sorry, the page you're looking for can't be found."
