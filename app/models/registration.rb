@@ -1513,10 +1513,11 @@ class Registration < Ohm::Model
     addresses.to_a.find { |address| address.addressType == 'POSTAL' }
   end
 
-  def copy_card_order
-    # Finds the first element that matches and returns it
-
-    finance_details.first.orders.to_a.find { |order| order.order_items.to_a.find { |order_item| order_item.type == 'COPY_CARDS'} }
+  def copy_card_orders
+    # returns an array of copy card orders
+    copy_card_orders = Array.new
+    finance_details.first.orders.to_a.each { |order| order.order_items.to_a.each { |order_item| order_item.type == 'COPY_CARDS'; copy_card_orders.append order} }
+    copy_card_orders
   end
 
 

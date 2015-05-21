@@ -52,10 +52,12 @@
   <tbody>
     <% @copy_cards.each do |copy_card| %>
       <% reg_data = copy_cards_export_get_registration_data('full', copy_card) %>
+        <% reg_data.each do |data_line| %>
           <tr>
-            <% reg_data.each do |field| %><td><%= field %></td><% end %>
+            <% data_line.each do |field| %><td><%= field %></td><% end %>
           </tr>
         <% end %>
+      <% end %>
   </tbody>
 </table>
 </div>
