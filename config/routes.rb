@@ -119,6 +119,7 @@ Registrations::Application.routes.draw do
 
   # Registrations - postal address
   get 'your-registration/postal-address' => 'postal_address#show', as: :postal_address
+  get 'your-registration/postal-address/edit' => 'postal_address#edit', as: :postal_address_edit
   post 'your-registration/postal-address' => 'postal_address#create'
 
   # Registrations - Contact details

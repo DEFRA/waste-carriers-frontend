@@ -8,8 +8,15 @@ class PostalAddressController < ApplicationController
     new_step_action 'postaladdress'
     @address = @registration.postal_address
 
-    result = set?(@address)
     populate_from_registered_address(@registration) unless set?(@address)
+  end
+
+  # GET /your-registration/postal-address/edit
+  def edit
+    session[:edit_link_postal_address] = '1'
+    new_step_action 'postaladdress'
+
+    redirect_to :postal_address
   end
 
   # POST /your-registration/postal-address
@@ -33,7 +40,7 @@ class PostalAddressController < ApplicationController
         next_page = registration_key_people_path
       end
 
-      redirect_to next_page
+      redirect_to redirect_to?(@registration.tier)
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
