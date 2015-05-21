@@ -1516,7 +1516,12 @@ class Registration < Ohm::Model
   def copy_card_orders
     # returns an array of copy card orders
     copy_card_orders = Array.new
-    finance_details.first.orders.to_a.each { |order| order.order_items.to_a.each { |order_item| order_item.type == 'COPY_CARDS'; copy_card_orders.append order} }
+    finance_details.first.orders.to_a.each {
+      |order| order.order_items.to_a.each {
+        |order_item| order_item.type == 'COPY_CARDS'
+        copy_card_orders.append order unless copy_card_orders.include? order
+      }
+    }
     copy_card_orders
   end
 
