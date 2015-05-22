@@ -56,16 +56,16 @@ namespace :data_migration do
     puts 'About to update - converting to new address model...'
     send_mongo_command 'db.registrations.find().forEach(
     function(element){
-     db.registrations.update({_id: element._id},{$set: {"addresses.0.uprn": element.uprn, "addresses.0.addressType": "REGISTERED",
-      "addresses.0.addressMode": element.addressMode, "addresses.0.houseNumber": element.houseNumber,
-      "addresses.0.addressLine1": element.streetLine1, "addresses.0.addressLine2": element.streetLine2,
-      "addresses.0.addressLine3": element.streetLine3, "addresses.0.addressLine4": element.streetLine4,
-      "addresses.0.townCity": element.townCity, "addresses.0.postcode": element.postcode,
-      "addresses.0.country": element.country, "addresses.0.dependentLocality": element.dependentLocality,
-      "addresses.0.dependentThoroughfare": element.dependendThoroughfare, "addresses.0.administrativeArea": element.administrativeArea,
-      "addresses.0.localAuthorityUpdateDate": element.localAuthorityUpdateDate, "addresses.0.royalMailUpdateDate": element.royalMailUpdateDate,
-      "addresses.0.easting": element.easting, "addresses.0.northing": element.northing, "addresses.0.location.lat": element.location.lat,
-      "addresses.0.location.lon": element.location.lon}});})
+     db.registrations.update({_id: element._id},{$set: { "addresses": [{"uprn": element.uprn, "addressType": "REGISTERED",
+      "addressMode": element.addressMode, "houseNumber": element.houseNumber,
+      "addressLine1": element.streetLine1, "addressLine2": element.streetLine2,
+      "addressLine3": element.streetLine3, "addressLine4": element.streetLine4,
+      "townCity": element.townCity, "postcode": element.postcode,
+      "country": element.country, "dependentLocality": element.dependentLocality,
+      "dependentThoroughfare": element.dependendThoroughfare, "administrativeArea": element.administrativeArea,
+      "localAuthorityUpdateDate": element.localAuthorityUpdateDate, "royalMailUpdateDate": element.royalMailUpdateDate,
+      "easting": element.easting, "northing": element.northing, "location.lat": element.location.lat,
+      "location.lon": element.location.lon}]}});})
     db.registrations.find().forEach(
     function(element){
       if(element.addresses[0].uprn == undefined) {
