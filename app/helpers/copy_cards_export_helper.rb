@@ -50,6 +50,7 @@ module CopyCardsExportHelper
     [
       I18n.t('reports.fields.reg_identifier'),
       I18n.t('reports.fields.number_of_copy_cards'),
+      I18n.t('reports.fields.order_code'),
       I18n.t('reports.fields.price_paid'),
       I18n.t('reports.fields.total_price_paid'),
       I18n.t('reports.fields.company_name'),
@@ -103,6 +104,7 @@ module CopyCardsExportHelper
         data_rows.append [
           registration.regIdentifier,
           copy_cards_order_item.description,
+          order.orderCode,
           "%.2f" % (copy_cards_order_item.amount.to_f / 100) + ' ' + copy_cards_order_item.currency,
           "%.2f" % (order.totalAmount.to_f / 100) + ' ' + order.currency,
           registration.companyName,
