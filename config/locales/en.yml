@@ -804,6 +804,7 @@ en:
     show:
       title: "Postal address"
       subtitle: "Postal address"
+      house_number: "House number (optional)"
       town_city: "Town or city (optional)"
       postcode: "Postcode (optional)"
       country: "Country (optional)"
