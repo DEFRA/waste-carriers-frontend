@@ -219,7 +219,7 @@ class Report
         errors.add(:from, I18n.t('errors.messages.invalid_date') )
       end
 
-      unless from.to_s =~ /\d{2}\-\d{2}\-\d{4}/
+      unless from.to_s =~ /^(0[1-9]|[12][0-9]|3[01])[- \/](0[1-9]|1[012])[- \/](19|20)\d\d$/
         Rails.logger.debug "report 'from' field is invalid"
         errors.add(:from, I18n.t('errors.messages.invalid_date') )
       end
@@ -242,7 +242,7 @@ class Report
         errors.add(:to, I18n.t('errors.messages.invalid_date') )
       end
 
-      unless to.to_s =~ /\d{2}\-\d{2}\-\d{4}/
+      unless to.to_s =~ /^(0[1-9]|[12][0-9]|3[01])[- \/](0[1-9]|1[012])[- \/](19|20)\d\d$/
         Rails.logger.debug "report 'from' field is invalid"
         errors.add(:to, I18n.t('errors.messages.invalid_date') )
       end
