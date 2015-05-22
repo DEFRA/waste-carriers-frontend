@@ -22,8 +22,7 @@ module PostalAddressHelper
   # If the postal address has not been set, then its fields are defaulted to
   # those held against the registered_address, plus the first and last name
   # in contact details.
-  def populate_from_registered_address(registration)
-    postal_adr = registration.postal_address
+  def populate_from_registered_address!(registration, address)
 
     reg_adr = registration.registered_address
 
@@ -39,8 +38,10 @@ module PostalAddressHelper
       firstName: registration.firstName,
       lastName: registration.lastName }
 
-    postal_adr.update_attributes(arg)
-    postal_adr.save
+    address.update_attributes(arg)
+    address.save
+
+    address
   end
 
   # We need to determine whether the user arrived at the page as part of the

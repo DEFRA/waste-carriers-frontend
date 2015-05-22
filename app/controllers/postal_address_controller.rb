@@ -8,7 +8,9 @@ class PostalAddressController < ApplicationController
     new_step_action 'postaladdress'
     @address = @registration.postal_address
 
-    populate_from_registered_address(@registration) unless set?(@address)
+    unless set?(@address)
+      populate_from_registered_address!(@registration, @address)
+    end
   end
 
   # GET /your-registration/postal-address/edit
