@@ -53,6 +53,9 @@ Then(/^I change the legal entity$/) do
   # Contact details
   click_button 'continue'
 
+  # Postal address
+  click_button 'continue'
+
   # Key people - Partner details page
   fill_in 'key_person_first_name', with: 'Steve'
   fill_in 'key_person_last_name', with: 'Rogers'

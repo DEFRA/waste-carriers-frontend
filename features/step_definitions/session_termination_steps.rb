@@ -30,6 +30,8 @@ Given(/^I have completed my lower tier registration$/) do
   fill_in 'registration_contactEmail', with: my_email_address
   click_button 'continue'
 
+  postal_address_page_complete_form
+
   check 'registration_declaration'
   click_button 'confirm'
 
