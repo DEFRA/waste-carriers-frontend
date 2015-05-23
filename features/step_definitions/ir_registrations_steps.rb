@@ -22,6 +22,7 @@ When(/^I enter my IR registration number for a Sole trader and pay by credit car
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
@@ -35,6 +36,7 @@ When('I enter my expired IR registration number for a Sole trader and pay by cre
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
@@ -48,6 +50,7 @@ When(/^I enter my IR registration number for a public body and change my busines
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit(companyName:'New Public Body')
   contact_details_page_enter_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
@@ -61,6 +64,7 @@ When(/^I enter my IR registration number for a partnership and pay by bank trans
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_contact_details_and_submit
+  postal_address_page_complete_form
   enter_multiple_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
@@ -74,6 +78,7 @@ When(/^I enter my IR registration number for a Sole trader with convictions and 
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_yes
   relevant_people_page_enter_multiple_convicted_people_and_submit
@@ -88,6 +93,7 @@ When(/^I am registering an IR registration for a Sole trader and pay by credit c
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
@@ -101,6 +107,7 @@ When(/^I am registering an IR registration for a Public body and pay by credit c
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_yes
   relevant_people_page_enter_multiple_convicted_people_and_submit
@@ -115,6 +122,7 @@ Given(/^I am registering an IR registration for a Partnership and pay by bank tr
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
   enter_multiple_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
@@ -128,6 +136,7 @@ When(/^I enter my IR registration number for a partnership and pay by credit car
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_contact_details_and_submit
+  postal_address_page_complete_form
   enter_multiple_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
@@ -141,6 +150,7 @@ Given(/^I am registering an IR registration for a limited company with convictio
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_yes
   relevant_people_page_enter_multiple_convicted_people_and_submit
@@ -155,6 +165,7 @@ When(/^I enter my IR registration number for a limited company with convictions 
   registration_type_page_submit
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_yes
   relevant_people_page_enter_multiple_convicted_people_and_submit
@@ -169,6 +180,7 @@ Given(/^I am registering an IR registration for a limited company changing waste
   registration_type_page_select_carrier_dealer
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
 end
@@ -182,6 +194,7 @@ Given(/^I am registering an IR registration for a Sole trader changing waste car
   registration_type_page_select_carrier_dealer
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_yes
   relevant_people_page_enter_multiple_convicted_people_and_submit
@@ -348,6 +361,7 @@ When('I only change business details') do
     postcode: 'BS1 5AH',
     address: 'HARMSEN GROUP, TRIODOS BANK, DEANERY ROAD, BRISTOL, BS1 5AH')
   contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
   confirmation_page_registration_and_submit
@@ -366,6 +380,7 @@ When(/^I only change business name$/) do
     companyNo: '07713745',
     companyName: 'New company name')
   contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
   confirm_registration_and_page_submit
@@ -513,7 +528,7 @@ When('I Enter my details for two partners') do
   fill_in 'key_person_dob_month', with: '02'
   fill_in 'key_person_dob_year', with: '1980'
   click_button 'add_btn'
-  
+
   fill_in 'key_person_first_name', with: 'Joanne'
   fill_in 'key_person_last_name', with: 'Bloggs'
   fill_in 'key_person_dob_day', with: '02'

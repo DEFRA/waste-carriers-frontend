@@ -37,5 +37,15 @@
     "houseNumber": "ENVIRONMENT AGENCY",
     "firstName": "",
     "lastName": ""
+  }, {
+    "addressType": "POSTAL",
+    "firstName": "Joe",
+    "lastName": "Grades",
+    "houseNumber": "44",
+    "addressLine1": "Broad Street",
+    "addressLine2": "City Centre",
+    "townCity": "BRISTOL",
+    "postcode": "BS1 5AH",
+    "country": "United Kingdom"
   }]
 }
