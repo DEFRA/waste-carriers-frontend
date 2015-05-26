@@ -54,14 +54,35 @@ namespace :data_migration do
     send_mongo_command 'db.registrations.count()'
 
     puts 'About to update - converting to new address model...'
-    send_mongo_command 'db.registrations.find().forEach(
-    function(element){
-      var address = { "uprn": element.uprn, "addressType": "REGISTERED", "addressMode": element.addressMode, "houseNumber": element.houseNumber,
-      "addressLine1": element.streetLine1, "addressLine2": element.streetLine2, "addressLine3": element.streetLine3, "addressLine4": element.streetLine4,
-      "townCity": element.townCity, "postcode": element.postcode, "country": element.country, "dependentLocality": element.dependentLocality,
-      "dependentThoroughfare": element.dependendThoroughfare, "administrativeArea": element.administrativeArea, "localAuthorityUpdateDate": element.localAuthorityUpdateDate,
-      "royalMailUpdateDate": element.royalMailUpdateDate, "easting": element.easting, "northing": element.northing, "location": element.location };
-     db.registrations.update({_id: element._id},{$set: {"addresses.0": address}});})
+    send_mongo_command 'db.registrations.find().forEach(function(element) {
+      db.registrations.update({
+        _id: element._id
+      }, {
+        $set: {
+          "addresses": [{
+            "uprn": element.uprn,
+            "addressType": "REGISTERED",
+            "addressMode": element.addressMode,
+            "houseNumber": element.houseNumber,
+            "addressLine1": element.streetLine1,
+            "addressLine2": element.streetLine2,
+            "addressLine3": element.streetLine3,
+            "addressLine4": element.streetLine4,
+            "townCity": element.townCity,
+            "postcode": element.postcode,
+            "country": element.country,
+            "dependentLocality": element.dependentLocality,
+            "dependentThoroughfare": element.dependendThoroughfare,
+            "administrativeArea": element.administrativeArea,
+            "localAuthorityUpdateDate": element.localAuthorityUpdateDate,
+            "royalMailUpdateDate": element.royalMailUpdateDate,
+            "easting": element.easting,
+            "northing": element.northing,
+            "location": element.location
+          }]
+        }
+      });
+    });
     db.registrations.find().forEach(
     function(element){
       if(element.addresses[0].uprn == undefined) {
