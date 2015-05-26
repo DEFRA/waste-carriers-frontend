@@ -174,6 +174,34 @@ class Report
 
   end
 
+  def copy_cards_parameter_args
+
+    param_args = {}
+
+    unless from.blank?
+      param_args[:from] = from
+    end
+
+    unless to.blank?
+      param_args[:until] = to
+    end
+
+    unless has_declared_convictions.blank?
+      param_args[:declaredConvictions] = has_declared_convictions
+    end
+
+    unless conviction_check_match.blank?
+      param_args[:convictionCheckMatch] = conviction_check_match
+    end
+
+    unless result_count.blank?
+      param_args[:resultCount] = result_count
+    end
+
+    param_args
+
+  end
+
   private
 
     def validate_from
@@ -184,12 +212,18 @@ class Report
         return
       end
 
-      Time.parse(from)
-
-      unless from.is_date?
+      begin
+        Time.parse(from)
+      rescue ArgumentError
         Rails.logger.debug "report 'from' field is invalid"
         errors.add(:from, I18n.t('errors.messages.invalid_date') )
       end
+
+      unless from.to_s =~ /^(0[1-9]|[12][0-9]|3[01])[- \/](0[1-9]|1[012])[- \/](19|20)\d\d$/
+        Rails.logger.debug "report 'from' field is invalid"
+        errors.add(:from, I18n.t('errors.messages.invalid_date') )
+      end
+
 
     end
 
@@ -201,10 +235,15 @@ class Report
         return
       end
 
-      Time.parse(to)
-
-      unless to.is_date?
+      begin
+       Time.parse(to)
+      rescue ArgumentError
         Rails.logger.debug "report 'to' field is invalid"
+        errors.add(:to, I18n.t('errors.messages.invalid_date') )
+      end
+
+      unless to.to_s =~ /^(0[1-9]|[12][0-9]|3[01])[- \/](0[1-9]|1[012])[- \/](19|20)\d\d$/
+        Rails.logger.debug "report 'from' field is invalid"
         errors.add(:to, I18n.t('errors.messages.invalid_date') )
       end
 
