@@ -20,8 +20,19 @@
         <header class="page-header group">
           <div class="hgroup">
             <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
+            <div class="subtitle"><%= t '.subtitle1' %></div>
           </div>
         </header>
+
+        <details class="text">
+          <summary id="show-hide-details-summary-0" aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+            <span class='summary'><%= t '.subtitle2' %></span>
+          </summary>
+          <div style='display:block' class='panel-indent' id='details-content-0' >
+            <p><%= t '.subtitle3' %></p>
+            <p><%= t '.subtitle4' %></p>
+          </div>
+        </details>
 
         <div class="form-group<%if @address.errors[:firstName].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
             <%= validation_for(@address, :firstName) %>
