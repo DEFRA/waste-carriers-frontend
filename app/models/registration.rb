@@ -542,9 +542,7 @@ class Registration < Ohm::Model
       r.metaData.add m
 
       r.addresses.add(Address.init(addressType: 'REGISTERED'))
-      # TODO: Reinstate this line when we are in a position to support the
-      # postal address.
-      # r.addresses.add(Address.init(addressType: 'POSTAL'))
+      r.addresses.add(Address.init(addressType: 'POSTAL'))
 
       r.save
     end

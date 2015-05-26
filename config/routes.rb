@@ -48,7 +48,6 @@ Registrations::Application.routes.draw do
   get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
   match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
   get   "registrations/:id/refunds" => 'payment#index', :via => [:get], :as => :refund
-  #   match "registrations/:id/refunds" => 'payment#createRefund', :via => [:post], :as => :saveRefund
   get   "registrations/:id/manualRefund/:orderCode" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
   match "registrations/:id/manualRefund/:orderCode" => 'payment#createManualRefund', :via => [:post]
   get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#newWPRefund', :via => [:get]
@@ -117,6 +116,11 @@ Registrations::Application.routes.draw do
 
   get 'your-registration/business-details-non-uk' => 'business_details_non_uk#show', as: :business_details_non_uk
   post 'your-registration/business-details-non-uk' => 'business_details_non_uk#create'
+
+  # Registrations - postal address
+  get 'your-registration/postal-address' => 'postal_address#show', as: :postal_address
+  get 'your-registration/postal-address/edit' => 'postal_address#edit', as: :postal_address_edit
+  post 'your-registration/postal-address' => 'postal_address#create'
 
   # Registrations - Contact details
   match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact

@@ -3,22 +3,24 @@ en:
   activemodel:
     attributes:
       address:
-        uprn: "UPRN"
-        addressType: "Address type"
-        addressMode: "Address mode"
-        houseNumber: "Building name or number"
         addressLine1: "Address line 1"
         addressLine2: "Address line 2 (optional)"
         addressLine3: "Address line 3 (optional)"
         addressLine4: "Address line 4 (optional)"
-        townCity: "Town or city"
-        postcode: "Postcode"
+        addressMode: "Address mode"
+        addressType: "Address type"
+        administrativeArea: "Administrative area"
         country: "Country"
         dependentLocality: "Dependent locality"
         dependentThoroughfare: "Dependent thoroughfare"
-        administrativeArea: "Administrative area"
+        houseNumber: "Building name or number"
+        firstName: "First name"
+        lastName: "Last name"
         localAuthorityUpdateDate: "Local authority update date"
+        postcode: "Postcode"
         royalMailUpdateDate: "Royal mail update date"
+        townCity: "Town or city"
+        uprn: "UPRN"
       key_person:
         dob_day: "Day"
         dob_month: "Month"
@@ -798,6 +800,18 @@ en:
   business_details_non_uk:
     show:
       uk_address_link: "The address is in the United Kingdom"
+  postal_address:
+    show:
+      title: "Postal address"
+      subtitle: "Who should we write to?"
+      subtitle1: "Please provide details of the right person to receive our correspondence"
+      subtitle2: "Why do you need to write to me?"
+      subtitle3: "We'll only write to you in relation to your waste carrier account. For example, if you order copy cards of your registration."
+      subtitle4: "Don't worry, we won't send junk mail to this address."
+      house_number: "House number"
+      town_city: "Town or city (optional)"
+      postcode: "Postcode (optional)"
+      country: "Country (optional)"
   registrations:
     approve:
       title_approve: "Approve registration"
@@ -965,6 +979,8 @@ en:
       edit_business_details_link: "Edit your business or organisation address"
       contact_details_heading: "Your contact details"
       edit_contact_details_link: "Edit your contact details"
+      postal_address_heading: "Your postal details"
+      edit_post_details_link: "Edit your postal details"
       convictions_declaration_heading: "Relevant convictions"
       edit_convictions_declaration_link: "Edit relevant convictions"
       have_declared_convictions: "You told us you have relevant people with convictions in your business or organisation."
