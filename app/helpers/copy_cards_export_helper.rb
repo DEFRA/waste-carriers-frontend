@@ -144,7 +144,7 @@ module CopyCardsExportHelper
           order.paymentMethod,
           registration.metaData.first.status,
           is_upper ? bool_to_string(!registration.paid_in_full?) : '',
-          registration.finance_details.first.balance,
+          "%.2f" % (registration.finance_details.first.balance.to_f / 100) + ' ' + order.currency,
           is_upper ? bool_to_string(registration.is_awaiting_conviction_confirmation?) : '',
           is_upper ? registration.declaredConvictions : '',
         ]
