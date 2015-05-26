@@ -976,7 +976,7 @@ en:
       contact_details_heading: "Your contact details"
       edit_contact_details_link: "Edit your contact details"
       postal_address_heading: "Postal address"
-      edit_contact_details_link: "Edit your postal address"
+      edit_postal_address_link: "Edit your postal address"
       convictions_declaration_heading: "Relevant convictions"
       edit_convictions_declaration_link: "Edit relevant convictions"
       have_declared_convictions: "You told us you have relevant people with convictions in your business or organisation."
