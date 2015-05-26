@@ -197,7 +197,11 @@ class Address < Ohm::Model
   private
 
   def validate_postcode?
-    address_lookup? || manual_uk_address?
+    result = false
+    unless addressType == 'POSTAL'
+      result = address_lookup? || manual_uk_address?
+    end
+    result
   end
 
   def address_lines(lines)
