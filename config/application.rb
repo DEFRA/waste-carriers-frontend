@@ -99,7 +99,7 @@ module Registrations
     # of the frontend application. The version number of the services
     # application may change separately.
     # Use semantic versioning (Major.Minor.Patch).
-    config.application_version = '2.0.3-beta'
+    config.application_version = '2.1-beta'
 
     # The e-mail address shown on the Finish page and used in e-mails sent by
     # the application.

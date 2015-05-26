@@ -2,10 +2,6 @@
     "tier" : "LOWER",
     "businessType" : "charity",
     "companyName" : "EA ltd",
-    "houseNumber" : "2",
-    "streetLine1" : "Lamb Close",
-    "townCity" : "ABERGAVENNY",
-    "postcode" : "NP7 5DD",
     "firstName" : "Fred",
     "lastName" : "Heath",
     "position" : "Code Monkey",
@@ -24,16 +20,21 @@
         "route" : "DIGITAL",
         "distance" : ""
     },
-    "location" : {}
+    "addresses" : [
+      {
+        "address_type" : "REGISTERED",
+        "house_number" : "2",
+        "address_line_1" : "Lamb Close",
+        "town_city" : "ABERGAVENNY",
+        "post_code" : "NP7 5DD",
+        "location" : {}
+      }
+    ]
 },
 {
     "tier" : "LOWER",
     "businessType" : "charity",
     "companyName" : "Craftsmark",
-    "houseNumber" : "2",
-    "streetLine1" : "Lamb Close",
-    "townCity" : "ABERGAVENNY",
-    "postcode" : "NP7 5DD",
     "firstName" : "Fred",
     "lastName" : "Heath",
     "position" : "Code Monkey",
@@ -52,5 +53,14 @@
         "route" : "DIGITAL",
         "distance" : ""
     },
-    "location" : {}
+    "addresses" : [
+      {
+        "address_type" : "REGISTERED",
+        "house_number" : "2",
+        "address_line_1" : "Lamb Close",
+        "town_city" : "ABERGAVENNY",
+        "post_code" : "NP7 5DD",
+        "location" : {}
+      }
+    ]
 }]

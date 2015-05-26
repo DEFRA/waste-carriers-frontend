@@ -9,7 +9,7 @@
           <li><%= render 'back_link' %></li>
         </ol>
     </div>
-    
+
     <%= render 'order/notice_or_alert' %>
     <%= render "errors" %>
 
@@ -24,16 +24,16 @@
     <% else %>
         <% content_for :page_title, createTitle('.title_refuse') %>
     <% end %>
-  
+
     <%= form_for(@registration, :url => approve_path, html: {method: "post", :autocomplete => "off"}) do |f| %>
-    
+
     <div id="revoke" data-journey="waste-carriers-registration:revoke">
         <fieldset>
-        
+
             <div class="form-group">
                 <div class="form-label"><strong><%= @registration.regIdentifier %></strong></div>
                 <div class="form-label"><strong><%= @registration.companyName %></strong></div>
-                <div class="form-label"><%= format_address(@registration) %></div>
+                <div class="form-label"><%= format_address(@registration.registered_address) %></div>
                 <div class="form-label">
                   <strong><%= t '.declared_convictions_label' %></strong>
                   <%= @registration.has_declared_convictions? ? t('.declared_convictions_yes') : t('.declared_convictions_no') %>
@@ -67,7 +67,7 @@
                     </div>
                 <% end %>
             <% end %>
-            
+
             <div class="inline">
               <%
                 submitLabel = t('form.approve_button_label')

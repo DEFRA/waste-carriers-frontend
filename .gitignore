@@ -33,3 +33,4 @@ brakeman-report.txt
 dump.rdb
 
 .idea/
+.settings/
