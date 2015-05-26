@@ -40,6 +40,10 @@ Given(/^the caller provides his contact details$/) do
   click_button 'continue'
 end
 
+Given(/^the caller provides his postal address$/) do
+  postal_address_page_complete_form
+end
+
 Given(/^the caller declares the information provided is correct$/) do
   check 'registration_declaration'
 
@@ -81,6 +85,8 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   fill_in 'registration_lastName', with: 'Bloggs'
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
   click_button 'continue'
+
+  postal_address_page_complete_form
 
   check 'registration_declaration'
   click_button 'confirm'
@@ -168,6 +174,8 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
   fill_in 'registration_lastName', with: 'Assisted'
   fill_in 'registration_phoneNumber', with: '0123 456 789'
   click_button 'continue'
+
+  postal_address_page_complete_form
 
   step 'I enter the details of the business owner'
 
