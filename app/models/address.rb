@@ -172,10 +172,6 @@ class Address < Ohm::Model
     addressType == 'REGISTERED'
   end
 
-  with_options if: [:address_lookup?, :manual_uk_address?] do |address|
-    address.validates :postcode, uk_postcode: true
-  end
-
   with_options if: :manual_uk_address? do |address|
     address.validates :houseNumber, presence: { message: I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), allow_blank: true }, length: { maximum: 35 }
     address.validates :addressLine1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
@@ -196,7 +192,13 @@ class Address < Ohm::Model
     address.validates :addressLine1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
   end
 
+  validates :postcode, uk_postcode: true, if: :validate_postcode?
+
   private
+
+  def validate_postcode?
+    address_lookup? || manual_uk_address?
+  end
 
   def address_lines(lines)
     return if lines.empty?
