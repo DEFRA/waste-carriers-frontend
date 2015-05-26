@@ -10,6 +10,7 @@ Feature: Key People
       And I provide my company name
     Given I autocomplete my business address
       And I provide my personal contact details
+      And I provide a postal address
      Then I should only have to enter one key person
 
   Scenario: Partnership
@@ -18,6 +19,7 @@ Feature: Key People
       And I provide my company name
     Given I autocomplete my business address
       And I provide my personal contact details
+      And I provide a postal address
      Then I cannot proceed until I have added a key person
 
   Scenario: Partnership with multiple partners
@@ -26,6 +28,7 @@ Feature: Key People
       And I provide my company name
     Given I autocomplete my business address
       And I provide my personal contact details
+      And I provide a postal address
       And I add the following people:
         | first_name | last_name | dob_day | dob_month | dob_year |
         | James      | Hunt      | 29      | 08        | 1947     |
@@ -34,4 +37,3 @@ Feature: Key People
         | first_name | last_name |
         | James      | Hunt      |
         | Nikki      | Lauda     |
-

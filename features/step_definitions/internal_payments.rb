@@ -383,6 +383,8 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   fill_in 'registration_phoneNumber', with: '0123 456 789'
   click_button 'continue'
 
+  postal_address_page_complete_form
+
   step 'I enter the details of the business owner'
 
   choose 'No'

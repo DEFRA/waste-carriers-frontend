@@ -12,6 +12,7 @@ Background:
   And my company name is prepopulated
   And I autocomplete my business address
   And I provide my personal contact details
+  And I provide a postal address
   And I enter the details of the business owner
 
 @javascript

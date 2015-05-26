@@ -808,6 +808,7 @@ en:
       subtitle2: "Why do you need to write to me?"
       subtitle3: "We'll only write to you in relation to your waste carrier account. For example, if you order copy cards of your registration."
       subtitle4: "Don't worry, we won't send junk mail to this address."
+      house_number: "House number"
       town_city: "Town or city (optional)"
       postcode: "Postcode (optional)"
       country: "Country (optional)"
