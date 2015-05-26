@@ -16,24 +16,25 @@ module RegistrationsHelper
     numberOut = numberIn.strip.upcase
   end
 
-  def format_address(model)
-    if model.postcode.nil?
+  def format_address(address)
+    if address.postcode.nil?
       # Print International address
-      "#{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.streetLine3)}<br />#{h(model.streetLine4)}<br />#{h(model.country)}".html_safe
+      "#{h(address.addressLine1)}<br />#{h(address.addressLine2)}<br />#{h(address.addressLine3)}<br />#{h(address.addressLine4)}<br />#{h(address.country)}".html_safe
     else
-      if model.streetLine2.present?
-        # Print UK Address Including Street line 2 (as its optional but been populated)
-        if model.dependentLocality.present?
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.dependentLocality)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+      if address.addressLine2.present?
+        # Print UK Address Including Address line 2 (as its optional but been
+        # populated)
+        if address.dependentLocality.present?
+          "#{h(address.houseNumber)} #{h(address.addressLine2)}<br />#{h(address.addressLine2)}<br />#{h(address.dependentLocality)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         else
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.streetLine2)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+          "#{h(address.houseNumber)} #{h(address.addressLine1)}<br />#{h(address.addressLine2)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         end
       else
         # Print UK Address
-        if model.dependentLocality.present?
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.dependentLocality)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+        if address.dependentLocality.present?
+          "#{h(address.houseNumber)} #{h(address.addressLine1)}<br />#{h(address.dependentLocality)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         else
-          "#{h(model.houseNumber)} #{h(model.streetLine1)}<br />#{h(model.townCity)}<br />#{h(model.postcode)}".html_safe
+          "#{h(address.houseNumber)} #{h(address.addressLine1)}<br />#{h(address.townCity)}<br />#{h(address.postcode)}".html_safe
         end
       end
     end
@@ -108,7 +109,7 @@ module RegistrationsHelper
       logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
       redirect_to cannot_edit_path and return
     end
-    
+
     if session[:registration_id]
       @registration = Registration[ session[:registration_id]]
       logger.debug "Got Registration from session"
@@ -123,7 +124,7 @@ module RegistrationsHelper
         @registration = Registration.find_by_id(params[:id])
       end
     end
-    
+
     if @registration
       @registration.add( params[:registration] ) unless no_update
 
@@ -146,7 +147,7 @@ module RegistrationsHelper
               (params[:registration].keys[2].eql? "postcode")
         @registration.update(address_lookup_page: 'yes')
       end
-      
+
       @registration.save
       @registration.current_step = current_step
 
@@ -161,54 +162,19 @@ module RegistrationsHelper
       return
     end
   end
-
+  
   # Note: This method is called at the beginning of the GET request handlers for the registration's 'editing' page
   # to set up the @registration etc.
   def new_step_action current_step
     if (current_step.eql? Registration::FIRST_STEP) && !session[:edit_mode]
-      logger.info 'First registration step and not in edit mode - creating new registration...'
-      clear_edit_session
-      clear_registration_session
-      @registration = Registration.create
-      session[:registration_id]= @registration.id
-      session[:editing] = true
-      logger.debug "creating new registration #{@registration.id}"
-      m = Metadata.create
-
-      if agency_user_signed_in?
-        m.update :route => 'ASSISTED_DIGITAL'
-        if @registration.accessCode.blank?
-          @registration.update :accessCode => @registration.generate_random_access_code
-        end
-      else
-        m.update :route => 'DIGITAL'
-      end
-
-      @registration.metaData.add m
+      logger.debug {'First registration step and not in edit mode - creating new registration...'}
+      initialise_new_registration_with_session
 
     elsif (current_step.eql? 'businesstype') && !session[:edit_mode] && !session[:registration_id]
-      logger.info 'Current step is businesstype, and not in edit mode, and no registration_id in the session. Creating new registration...'
-      clear_edit_session
-      clear_registration_session
-      @registration = Registration.create
-      session[:registration_id]= @registration.id
-      session[:editing] = true
-      logger.debug "creating new registration #{@registration.id}"
-      m = Metadata.create
-
-      if agency_user_signed_in?
-        m.update :route => 'ASSISTED_DIGITAL'
-        if @registration.accessCode.blank?
-          @registration.update :accessCode => @registration.generate_random_access_code
-        end
-      else
-        m.update :route => 'DIGITAL'
-      end
-
-      @registration.metaData.add m
+      logger.debug {'Current step is businesstype, and not in edit mode, and no registration_id in the session. Creating new registration...'}
+      initialise_new_registration_with_session
 
     elsif  session[:edit_mode] #editing existing registration
-
       if !session[:editing] && current_step != 'payment' && current_step != 'pending' && current_step != 'businesstype'
         logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
         redirect_to cannot_edit_path and return
@@ -269,6 +235,15 @@ module RegistrationsHelper
     #      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
     #      renderNotFound
     #    end
+  end
+  
+  # A simple helper for new_step_action that avoids code repetition.
+  def initialise_new_registration_with_session
+    clear_edit_session
+    clear_registration_session
+    @registration = Registration.ctor(agency_user_signed_in: agency_user_signed_in?)
+    session[:registration_id]= @registration.id
+    session[:editing] = true
   end
 
   def clear_edit_session
@@ -482,8 +457,6 @@ module RegistrationsHelper
     res
   end
 
-  
-
   def proceed_as_upper
     @registration.tier = 'UPPER'
     @registration.save
@@ -495,7 +468,6 @@ module RegistrationsHelper
     @registration.tier = 'LOWER'
     @registration.save
     session[:ga_tier] = 'lower'
-    redirect_to :newBusinessDetails
+    redirect_to :business_details
   end
-
 end

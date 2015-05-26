@@ -52,7 +52,7 @@ describe RegistrationTypeController, :type => :controller do
 
       it "redirects to the 'Business details' page" do
         post :create, :registration => { "registrationType" => "carrier_dealer" }
-        expect(response).to redirect_to :newBusinessDetails
+        expect(response).to redirect_to :business_details
       end
 
       context "and edit has been selected from the confirmation page" do
@@ -81,7 +81,7 @@ describe RegistrationTypeController, :type => :controller do
 
       it "redirects to the 'Business details' page" do
         post :create, :registration => { "registrationType" => "broker_dealer" }
-        expect(response).to redirect_to :newBusinessDetails
+        expect(response).to redirect_to :business_details
       end
 
       context "and edit has been selected from the confirmation page" do
@@ -110,7 +110,7 @@ describe RegistrationTypeController, :type => :controller do
 
       it "redirects to the 'Business details' page" do
         post :create, :registration => { "registrationType" => "carrier_broker_dealer" }
-        expect(response).to redirect_to :newBusinessDetails
+        expect(response).to redirect_to :business_details
       end
 
       context "and edit has been selected from the confirmation page" do

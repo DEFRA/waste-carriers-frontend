@@ -102,33 +102,7 @@
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.business_address' %></td>
             <td>
-              <% unless @registration.houseNumber.blank? %>
-                  <%= @registration.houseNumber %></br>
-              <% end %>
-              <% unless @registration.streetLine1.blank? %>
-                  <%= @registration.streetLine1 %></br>
-              <% end %>
-              <% unless @registration.streetLine2.blank? %>
-                  <%= @registration.streetLine2 %></br>
-              <% end %>
-              <% unless @registration.streetLine3.blank? %>
-                  <%= @registration.streetLine3 %></br>
-              <% end %>
-              <% unless @registration.streetLine4.blank? %>
-                  <%= @registration.streetLine4 %></br>
-              <% end %>
-              <% unless @registration.dependentLocality.blank? %>
-                  <%= @registration.dependentLocality %></br>
-              <% end %>
-              <% unless @registration.townCity.blank? %>
-                  <%= @registration.townCity %></br>
-              <% end %>
-              <% unless @registration.postcode.blank? %>
-                  <%= @registration.postcode %></br>
-              <% end %>
-              <% unless @registration.country.blank? %>
-                  <%= @registration.country %></br>
-              <% end %>
+              <%= render 'address_display', r: @registration, a: @registration.registered_address  %>
             </td>
           </tr>
           <tr>
