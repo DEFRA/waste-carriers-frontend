@@ -8,7 +8,7 @@ module KnowsTheDomain
   end
 
   def my_unrecognised_postcode
-    @my_unrecognised_postcode ||= 'S015 OHX'
+    @my_unrecognised_postcode ||= 'BS1 4PW'
   end
 
   def agency_email_address
@@ -22,11 +22,11 @@ module KnowsTheDomain
   def my_finance_admin_user
     @my_finance_admin_user ||= FactoryGirl.create :finance_admin_user
   end
-  
+
   def my_finance_basic_user
     @my_finance_basic_user ||= FactoryGirl.create :finance_basic_user
   end
-  
+
   def my_agency_refund_user
     @my_agency_refund_user ||= FactoryGirl.create :agency_refund_user
   end
