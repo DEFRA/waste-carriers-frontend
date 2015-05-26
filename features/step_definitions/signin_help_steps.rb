@@ -185,6 +185,8 @@ When(/^I make a new registration and progress as far as accepting the Declaratio
   fill_in 'registration_contactEmail', with: @this_test_email
   click_button 'continue'
 
+  postal_address_page_complete_form
+
   check 'registration_declaration'
   click_button 'confirm'
 end
