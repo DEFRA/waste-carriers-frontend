@@ -311,6 +311,9 @@ class Order < Ohm::Model
     self.paymentMethod == 'OFFLINE'
   end
 
+  def copy_cards_order_item
+    order_items.to_a.find{ |order_item| order_item.type == 'COPY_CARDS'}
+  end
 
   private
 
