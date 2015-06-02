@@ -1375,6 +1375,7 @@ en:
       addressLine4: "Address line 4"
       townCity: "Town/City"
       postcode: "Postcode"
+      country: "Country"
       first_name: "First name"
       last_name: "Surname"
       position: "Position"
