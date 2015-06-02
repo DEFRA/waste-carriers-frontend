@@ -124,7 +124,7 @@
         <% else %>
           <h2 class='heading-medium'><%= t '.business_details_heading' %></h2>
         <% end %>
-          <%= render 'address_display', r: @registration, a: @address %>
+          <%= render 'address_display', r: @registration, a: @registration.registered_address %>
         <%= link_to t('.edit_business_details_link'), business_details_edit_path %>
       </div><!-- end business details form-group -->
 
@@ -133,6 +133,13 @@
         <h2 class='heading-medium'><%= t '.contact_details_heading' %></h2>
           <%= render 'contactdetails_display', r: @registration %>
         <%= link_to t('.edit_contact_details_link'), editContact_path %>
+      </div><!-- end form-group -->
+
+      <!-- Postal address section -->
+      <div class='form-group'>
+        <h2 class='heading-medium'><%= t '.postal_address_heading' %></h2>
+          <%= render 'shared/address_display', a: @registration.postal_address %>
+        <%= link_to t('.edit_post_details_link'), postal_address_edit_path %>
       </div><!-- end form-group -->
 
       <!-- Key people section -->

@@ -48,7 +48,6 @@ Registrations::Application.routes.draw do
   get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
   match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
   get   "registrations/:id/refunds" => 'payment#index', :via => [:get], :as => :refund
-  #   match "registrations/:id/refunds" => 'payment#createRefund', :via => [:post], :as => :saveRefund
   get   "registrations/:id/manualRefund/:orderCode" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
   match "registrations/:id/manualRefund/:orderCode" => 'payment#createManualRefund', :via => [:post]
   get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#newWPRefund', :via => [:get]
@@ -118,6 +117,11 @@ Registrations::Application.routes.draw do
   get 'your-registration/business-details-non-uk' => 'business_details_non_uk#show', as: :business_details_non_uk
   post 'your-registration/business-details-non-uk' => 'business_details_non_uk#create'
 
+  # Registrations - postal address
+  get 'your-registration/postal-address' => 'postal_address#show', as: :postal_address
+  get 'your-registration/postal-address/edit' => 'postal_address#edit', as: :postal_address_edit
+  post 'your-registration/postal-address' => 'postal_address#create'
+
   # Registrations - Contact details
   match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
   get   "your-registration/edit/contact-details" => "registrations#editContactDetails", :via => [:get], :as => :editContact
@@ -182,6 +186,11 @@ Registrations::Application.routes.draw do
   match "reports/payments" => 'reports#payments_search_post', :via => [:post,:put,:patch]
   get "reports/payments/results" => 'reports#payments_search_results', :as => :payments_search_results
   match "reports/payments/results" => 'reports#payments_export', :via => [:post,:put,:patch]
+
+  get "reports/copy_cards" => 'reports#copy_cards_search', :as => :copy_cards_search
+  match "reports/copy_cards" => 'reports#copy_cards_search_post', :via => [:post,:put,:patch]
+  get "reports/copy_cards/results" => 'reports#copy_cards_search_results', :as => :copy_cards_search_results
+  match "reports/copy_cards/results" => 'reports#copy_cards_export', :via => [:post,:put,:patch]
 
   if !Rails.env.production?
     # Template URLS - These are just for the devs as working examples

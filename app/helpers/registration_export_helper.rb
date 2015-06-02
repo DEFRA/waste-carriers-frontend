@@ -50,6 +50,7 @@ module RegistrationExportHelper
     [
       I18n.t('reports.fields.reg_identifier'),
       I18n.t('reports.fields.company_name'),
+      I18n.t('reports.fields.registered_address'),
       I18n.t('reports.fields.houseNumber'),
       I18n.t('reports.fields.addressLine1'),
       I18n.t('reports.fields.addressLine2'),
@@ -57,6 +58,16 @@ module RegistrationExportHelper
       I18n.t('reports.fields.addressLine4'),
       I18n.t('reports.fields.townCity'),
       I18n.t('reports.fields.postcode'),
+      I18n.t('reports.fields.country'),
+      I18n.t('reports.fields.postal_address'),
+      I18n.t('reports.fields.houseNumber'),
+      I18n.t('reports.fields.addressLine1'),
+      I18n.t('reports.fields.addressLine2'),
+      I18n.t('reports.fields.addressLine3'),
+      I18n.t('reports.fields.addressLine4'),
+      I18n.t('reports.fields.townCity'),
+      I18n.t('reports.fields.postcode'),
+      I18n.t('reports.fields.country'),
       I18n.t('reports.fields.first_name'),
       I18n.t('reports.fields.last_name'),
       I18n.t('reports.fields.position'),
@@ -98,10 +109,12 @@ module RegistrationExportHelper
   def get_registration_data_full(registration)
     is_upper = registration.upper?
     registered_addr = registration.registered_address
+    postal_addr = registration.postal_address
     has_conviction_search_result = is_upper && (registration.conviction_search_result.first != nil)
     [
       registration.regIdentifier,
       registration.companyName,
+      '',
       registered_addr.houseNumber,
       registered_addr.addressLine1,
       registered_addr.addressLine2,
@@ -109,6 +122,16 @@ module RegistrationExportHelper
       registered_addr.addressLine4,
       registered_addr.townCity,
       registered_addr.postcode,
+      registered_addr.country,
+      '',
+      postal_addr.nil? ? '' : postal_addr.houseNumber,
+      postal_addr.nil? ? '' : postal_addr.addressLine1,
+      postal_addr.nil? ? '' : postal_addr.addressLine2,
+      postal_addr.nil? ? '' : postal_addr.addressLine3,
+      postal_addr.nil? ? '' : postal_addr.addressLine4,
+      postal_addr.nil? ? '' : postal_addr.townCity,
+      postal_addr.nil? ? '' : postal_addr.postcode,
+      postal_addr.nil? ? '' : postal_addr.country,
       registration.firstName,
       registration.lastName,
       registration.position,

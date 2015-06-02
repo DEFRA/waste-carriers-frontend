@@ -119,10 +119,15 @@ namespace :data_migration do
         db.registrations.update({_id: element._id},{$unset: {"addresses.0.easting": ""}});};
       if(element.addresses[0].northing == undefined) {
         db.registrations.update({_id: element._id},{$unset: {"addresses.0.northing": ""}});};
-      if(element.addresses[0].location.lat == undefined) {
-        db.registrations.update({_id: element._id},{$unset: {"addresses.0.location.lat": ""}});};
-      if(element.addresses[0].location.lon == undefined) {
-        db.registrations.update({_id: element._id},{$unset: {"addresses.0.location.lon": ""}});};})'
+      if(element.addresses[0].location == undefined) {
+        db.registrations.update({_id: element._id}, {$unset: {"addresses.0.location": ""}});
+      } else {
+        if(element.addresses[0].location.lat == undefined) {
+          db.registrations.update({_id: element._id},{$unset: {"addresses.0.location.lat": ""}});};
+        if(element.addresses[0].location.lon == undefined) {
+          db.registrations.update({_id: element._id},{$unset: {"addresses.0.location.lon": ""}});};
+      }
+    })'
 
     puts 'Update completed.'
   end

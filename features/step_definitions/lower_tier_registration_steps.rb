@@ -25,6 +25,8 @@ Given(/^I have completed the lower tier registration form$/) do
   fill_in 'registration_contactEmail', with: my_email_address
   click_button 'continue'
 
+  postal_address_page_complete_form
+
   check 'registration_declaration'
   click_button 'confirm'
 
@@ -59,7 +61,7 @@ Given(/^I want my business address autocompleted but I provide an unrecognised p
 end
 
 Then(/^no address suggestions will be shown$/) do
-  expect(page).to have_text 'Please enter a valid postcode'
+  expect(page).to have_text 'No addresses match this postcode'
 end
 
 When(/^I try to select an address$/) do
@@ -101,6 +103,10 @@ And(/^I provide my personal contact details$/) do
   fill_in 'registration_contactEmail', with: my_email_address
 
   click_button 'continue'
+end
+
+And(/^I provide a postal address$/) do
+  postal_address_page_complete_form
 end
 
 And(/^I check the declaration$/) do
@@ -169,6 +175,8 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
   fill_in 'registration_contactEmail', with: my_email_address
   click_button 'continue'
+
+  postal_address_page_complete_form
 
   check 'registration_declaration'
   click_button 'confirm'
