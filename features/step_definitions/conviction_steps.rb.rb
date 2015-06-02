@@ -3,6 +3,7 @@ Given(/^I fill out the upper tier steps$/) do
   step 'I am a carrier dealer'
   step 'I enter my business details'
   step 'I enter my contact details'
+  postal_address_page_complete_form
   step 'I enter the details of the business owner'
 end
 

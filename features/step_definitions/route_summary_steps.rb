@@ -24,6 +24,8 @@ Given(/^I have come to the lower tier summary page$/) do
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
   fill_in 'registration_contactEmail', with: my_email_address
   click_button 'continue'
+
+  postal_address_page_complete_form
 end
 
 Then(/^I see I am a lower tier waste carrier$/) do
@@ -58,6 +60,8 @@ Given(/^I have come to the upper tier summary page$/) do
   fill_in 'registration_phoneNumber', with: '0117 926 9999'
   fill_in 'registration_contactEmail', with: my_email_address
   click_button 'continue'
+
+  postal_address_page_complete_form
 
   step 'I enter the details of the business owner'
 

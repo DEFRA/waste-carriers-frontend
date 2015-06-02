@@ -45,6 +45,8 @@ class Address < Ohm::Model
   VALID_HOUSE_NAME_OR_NUMBER_REGEX = /\A[a-zA-Z0-9\'\s\,\&-]+\z/
   TOWN_CITY_REGEX = /\A[a-zA-Z0-9\'\s\,-]+\z/
   POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
+  FIRST_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
+  LAST_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
   def self.init(address_hash)
     address = Address.create
@@ -162,7 +164,13 @@ class Address < Ohm::Model
     addressMode == 'manual-foreign'
   end
 
-  validates :postcode, uk_postcode: true, unless: :manual_foreign_address?
+  def postal_address?
+    addressType == 'POSTAL'
+  end
+
+  def registered_address?
+    addressType == 'REGISTERED'
+  end
 
   with_options if: :manual_uk_address? do |address|
     address.validates :houseNumber, presence: { message: I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), allow_blank: true }, length: { maximum: 35 }
@@ -178,7 +186,23 @@ class Address < Ohm::Model
     address.validates :country, presence: { message: I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
   end
 
+  with_options if: :postal_address? do |address|
+    address.validates :firstName, presence: { message: I18n.t('errors.messages.blank_first_name') }, format: { with: FIRST_NAME_REGEX, message: I18n.t('errors.messages.invalid_first_name'), allow_blank: true}, length: { maximum: 35 }
+    address.validates :lastName, presence: { message: I18n.t('errors.messages.blank_last_name') }, format: { with: LAST_NAME_REGEX, message: I18n.t('errors.messages.invalid_last_name'), allow_blank: true }, length: { maximum: 35 }
+    address.validates :addressLine1, presence: { message: I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
+  end
+
+  validates :postcode, uk_postcode: true, if: :validate_postcode?
+
   private
+
+  def validate_postcode?
+    result = false
+    unless addressType == 'POSTAL'
+      result = address_lookup? || manual_uk_address?
+    end
+    result
+  end
 
   def address_lines(lines)
     return if lines.empty?

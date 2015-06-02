@@ -12,6 +12,7 @@ Background:
 Scenario: Autocomplete address
   Given I autocomplete my business address
   And I provide my personal contact details
+  And I provide a postal address
   And I enter the details of the business owner
   And no key people in the organisation have convictions
   And I check the declaration
@@ -29,6 +30,7 @@ Scenario: Autocomplete with unrecognised postcode
 Scenario: Manually enter UK address
   Given I enter my business address manually
   And I provide my personal contact details
+  And I provide a postal address
   And I enter the details of the business owner
   And no key people in the organisation have convictions
   And I check the declaration
@@ -39,6 +41,7 @@ Scenario: Manually enter UK address
 Scenario: Foreign waste carrier
   Given I enter my foreign business address manually
   And I provide my personal contact details
+  And I provide a postal address
   And I enter the details of the business owner
   And no key people in the organisation have convictions
   And I check the declaration
@@ -50,6 +53,7 @@ Scenario: Foreign waste carrier
 Scenario: Card payment
   Given I autocomplete my business address
   And I provide my personal contact details
+  And I provide a postal address
   And I enter the details of the business owner
   And no key people in the organisation have convictions
   And I check the declaration
@@ -63,6 +67,7 @@ Scenario: Card payment
 Scenario: Bank transfer
   Given I autocomplete my business address
   And I provide my personal contact details
+  And I provide a postal address
   And I enter the details of the business owner
   And no key people in the organisation have convictions
   And I check the declaration
@@ -74,6 +79,7 @@ Scenario: Bank transfer
 Scenario: With convictions
   Given I autocomplete my business address
   And I provide my personal contact details
+  And I provide a postal address
   And I enter the details of the business owner
   And key people in the organisation have convictions
   And I enter the following people with relevant convictions:
