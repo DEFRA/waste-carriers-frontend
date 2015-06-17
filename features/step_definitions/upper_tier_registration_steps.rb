@@ -41,7 +41,7 @@ And(/^I am a carrier dealer$/) do
 end
 
 And(/^I enter my business details$/) do
-  fill_in 'registration_companyName', with: 'Bespoke'
+  fill_in 'registration_companyName', with: my_company_name
   fill_in 'sPostcode', with: 'BS1 5AH'
   click_button 'find_address'
 
