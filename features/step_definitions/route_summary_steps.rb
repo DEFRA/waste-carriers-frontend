@@ -47,7 +47,7 @@ Given(/^I have come to the upper tier summary page$/) do
   choose 'registration_registrationType_carrier_dealer'
   click_button 'continue'
 
-  fill_in 'registration_companyName', with: 'Bespoke'
+  fill_in 'registration_companyName', with: my_company_name
   fill_in 'sPostcode', with: 'BS1 5AH'
   click_button 'find_address'
 
