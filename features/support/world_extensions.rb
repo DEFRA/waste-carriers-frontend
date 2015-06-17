@@ -10,6 +10,10 @@ module KnowsTheDomain
   def my_unrecognised_postcode
     @my_unrecognised_postcode ||= 'BS1 4PW'
   end
+  
+  def my_company_name
+    @my_company_name ||= 'Bespoke'
+  end
 
   def agency_email_address
     @agency_email_address ||= 'user@agency.gov.uk'
