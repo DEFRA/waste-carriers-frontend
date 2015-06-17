@@ -9,9 +9,11 @@ class CompaniesHouseCaller
   end
 
   def status
+    raw_response = ''
     begin
       Rails.logger.info Time.now.to_s + ' - Calling Companies House...'
-      json = JSON.parse RestClient.get @url
+      raw_response = RestClient.get(@url)
+      json = JSON.parse(raw_response)
       Rails.logger.info Time.now.to_s + ' - Companies House has returned json response'
       company_status = json['primaryTopic']['CompanyStatus']
       Rails.logger.info 'Company status is ' + company_status
@@ -20,8 +22,15 @@ class CompaniesHouseCaller
       Rails.logger.info 'Companies House: Resource not found!'
       :not_found
     rescue => e
-      Rails.logger.error 'ERROR *** Companies House: Error calling service!!! ' + e.to_s
-      :error_calling_service
+      # Handle the new way that Companies House seems to provide a response for
+      # 'not found' company numbers.
+      raw_response.downcase!()
+      if raw_response.include?('resource not found') && raw_response.include?('error code: 9001')
+        :not_found
+      else
+        Rails.logger.error 'ERROR *** Companies House: Error calling service!!! ' + e.to_s
+        :error_calling_service
+      end
     end
   end
 
