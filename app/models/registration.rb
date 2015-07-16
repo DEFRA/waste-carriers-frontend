@@ -656,7 +656,6 @@ class Registration < Ohm::Model
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
           all_regs.each do |r|
-            Rails.logger.debug "----------> #{r}"
             registrations << Registration.init(r)
           end
         else
