@@ -826,6 +826,10 @@ class RegistrationsController < ApplicationController
       if (params[:registration][:accountEmail] != @registration.accountEmail)
         @user = User.find_by_email(@registration.accountEmail)
         Rails.logger.debug "user: #{@user.email}"
+        @user.skip_reconfirmation!
+        @user.email = params[:registration][:accountEmail]
+        @user.save!(:validate => false)
+        @user.send_reset_password_instructions
         @registration.accountEmail = params[:registration][:accountEmail]
         @registration.save!
         session[:saved] = true
