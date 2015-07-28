@@ -16,11 +16,11 @@ module BusinessDetailsPage
 
     click_link 'manual_uk_address'
     fill_in 'registration_companyName', with: companyName
-    fill_in 'registration_houseNumber', with: houseNumber
-    fill_in 'registration_streetLine1', with: line1
-    fill_in 'registration_streetLine2', with: line2
-    fill_in 'registration_townCity', with: townCity
-    fill_in 'registration_postcode', with: postcode
+    fill_in 'address_houseNumber', with: houseNumber
+    fill_in 'address_addressLine1', with: line1
+    fill_in 'address_addressLine2', with: line2
+    fill_in 'address_townCity', with: townCity
+    fill_in 'address_postcode', with: postcode
     business_details_page_submit_business_details_page
   end
   # for Limited Company only
@@ -31,11 +31,11 @@ module BusinessDetailsPage
     click_link 'manual_uk_address'
     fill_in 'registration_company_no', with: companyNo
     fill_in 'registration_companyName', with: companyName
-    fill_in 'registration_houseNumber', with: houseNumber
-    fill_in 'registration_streetLine1', with: line1
-    fill_in 'registration_streetLine2', with: line2
-    fill_in 'registration_townCity', with: townCity
-    fill_in 'registration_postcode', with: postcode
+    fill_in 'address_houseNumber', with: houseNumber
+    fill_in 'address_addressLine1', with: line1
+    fill_in 'address_addressLine2', with: line2
+    fill_in 'address_townCity', with: townCity
+    fill_in 'address_postcode', with: postcode
     business_details_page_submit_business_details_page
   end
   # for Limited Company only

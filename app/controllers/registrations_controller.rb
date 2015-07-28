@@ -67,209 +67,6 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # GET /your-registration/business-details
-  def newBusinessDetails
-    new_step_action 'businessdetails'
-
-    if !@registration
-      logger.warn 'There is no @registration - cannot proceed with address details'
-      return
-    end
-
-    if params[:changeAddress]
-      @registration.addressMode = nil
-    end
-
-    if params[:manualUkAddress] #we're in the manual uk address page
-      @registration.addressMode = 'manual-uk'
-      #clear any existing address fields, in case we changed over from foreign address
-      @registration.streetLine3 = @registration.streetLine4 = @registration.country = nil
-    elsif params[:foreignAddress] #we're in the manual foreign address page
-      @registration.addressMode = 'manual-foreign'
-      #clear any existing address fields, in case we changed over from uk address
-      @registration.streetLine1 = @registration.streetLine2 = @registration.townCity = @registration.postcode = nil
-    elsif params[:autoUkAddress] #user clicked to go back to address lookup
-      @registration.addressMode = nil
-    end
-
-    @registration.save
-
-    #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
-    if 'address-results'.eql? @registration.addressMode
-      begin
-        @address_match_list = Address.find(:all, :params => {:postcode => @registration.postcode})
-        session.delete(:address_lookup_failure) if session[:address_lookup_failure]
-        logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
-        logger.debug "@registration.postcode: '#{!@registration.postcode.empty?}'"
-        if @address_match_list.size < 1 && !@registration.postcode.empty?
-          @registration.errors.add(:postcode, ' test')
-        end
-      rescue Errno::ECONNREFUSED
-        session[:address_lookup_failure] = true
-        logger.error 'ERROR: Address Lookup Not running, or not found'
-      rescue ActiveResource::ServerError
-        session[:address_lookup_failure] = true
-        logger.error 'ERROR: ActiveResource Server error!'
-      rescue ActiveResource::BadRequest
-        logger.warn 'Address lookup returned Bad Request error code - postcode valid? - ' + @registration.postcode.to_s
-        @address_match_list = []
-      end
-    end
-
-  end
-
-  # GET /your-registration/edit/business-details
-  def editBusinessDetails
-    session[:edit_link_business_details] = '1'
-    new_step_action 'businessdetails'
-
-    if params[:changeAddress]
-      @registration.addressMode = nil
-    elsif params[:manualUkAddress] #we're in the manual uk address page
-      @registration.addressMode = 'manual-uk'
-      #clear any existing address fields, in case we changed over from foreign address
-      @registration.streetLine3 = @registration.streetLine4 = @registration.country = nil
-    elsif params[:foreignAddress] #we're in the manual foreign address page
-      @registration.addressMode = 'manual-foreign'
-      #clear any existing address fields, in case we changed over from uk address
-      @registration.streetLine1 = @registration.streetLine2 = @registration.townCity = @registration.postcode = nil
-    elsif params[:autoUkAddress] #user clicked to go back to address lookup
-      @registration.addressMode = nil
-    end
-
-    @registration.save
-
-    #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
-    if 'address-results'.eql? @registration.addressMode
-      begin
-        logger.info "addressMode is 'address-results'. Reading match list again..."
-        @address_match_list = Address.find(:all, :params => {:postcode => @registration.postcode})
-        session.delete(:address_lookup_failure) if session[:address_lookup_failure]
-        logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
-        logger.debug "@registration.postcode: '#{!@registration.postcode.empty?}'"
-        if @address_match_list.size < 1 && !@registration.postcode.empty?
-          @registration.errors.add(:postcode, ' test')
-        end
-      rescue Errno::ECONNREFUSED
-        session[:address_lookup_failure] = true
-        logger.error 'ERROR: Address Lookup Not running, or not Found'
-      rescue ActiveResource::ServerError
-        session[:address_lookup_failure] = true
-        logger.error 'ERROR: ActiveResource Server error!'
-      end
-    end
-
-    render 'newBusinessDetails'
-  end
-
-  # POST /your-registration/business-details
-  def updateNewBusinessDetails
-    setup_registration 'businessdetails'
-    return unless @registration
-
-    logger.info 'Entering updateNewBusinessDetails - the @registration has been set up...'
-
-    session.delete(:address_lookup_selected) if session[:address_lookup_selected]
-
-    #if params[:addressSelector]  #user selected an address from drop-down list
-    #if @registration.selectedAddress and !@registration.selectedAddress.empty?
-    if params[:registration][:selectedAddress]
-      logger.info '>>>>>>>> validate selected address'
-      @registration.validateSelectedAddress = true
-    end
-
-    if @registration.selectedAddress and !@registration.selectedAddress.empty? and 'address-results'.eql? @registration.addressMode
-
-      logger.info '>>>>>>>> @registration.selectedAddress has a value'
-
-      fullVal = @registration.selectedAddress
-
-      logger.info 'fullVal: ' + fullVal.to_s
-
-      array = fullVal.split('::')
-      logger.error 'array: ' + array.to_s
-      logger.error 'array[0]: ' + array[0].to_s
-      moniker = array[0].to_s
-      logger.error 'array[1]: ' + array[1].to_s
-      @registration.selectedAddress = array[1].to_s
-      logger.error '@registration.selectedAddress: ' +  @registration.selectedAddress
-
-      logger.info 'Retrieving address for the selected moniker: ' + moniker.to_s
-      @selected_address = Address.find(moniker)
-      session[:address_lookup_selected] = true
-      @selected_address ? copyAddressToSession :  logger.error("Couldn't match address #{params[:addressSelector]}")
-    end
-
-    if params[:findAddress] #user clicked on Find Address button
-      logger.info '>>>>>>>> in findAddress'
-      if @registration.valid?
-        # clicked find and valid
-        @registration.update(:addressMode => 'address-results')
-        @registration.update(:postcode => params[:registration][:postcode])
-
-        redirect_to :newBusinessDetails and return
-      else
-        # clicked find and not valid
-        render 'newBusinessDetails', status: '200' and return
-      end
-
-#      if @registration.postcode.empty?
-#        @registration.errors.add(:postcode, ' test1')
-#
-#        render 'newBusinessDetails', status: '200' and return
-#      else
-#
-#      #GGG - this bit should be done on the subsequent GET
-#      #render 'newBusinessDetails', status: '200'
-#      redirect_to :newBusinessDetails and return
-#      end
-    elsif @registration.valid?
-      if @registration.tier.eql? 'UPPER'
-        @registration.cross_check_convictions
-        @registration.save
-      end
-
-      if session[:edit_link_business_details]
-        session.delete(:edit_link_business_details)
-        redirect_to :newConfirmation and return
-        #if session[:edit_mode]
-        #  case @registration.businessType
-        #  when  'partnership', 'limitedCompany', 'publicBody'
-        #    redirect_to :newKeyPerson and return
-        #  else
-        #    redirect_to :newConfirmation and return
-        #  end
-      else
-        redirect_to :newContact and return
-      end
-    else
-
-      logger.error '>>>>>>>> if not valid'
-
-      #Load the list of addresses from the address lookup service if the user previously has clicked on the 'Find Address' button
-      if 'address-results'.eql? @registration.addressMode
-        logger.info 'We are in the address-results mode. About to retrieve the address match list (again)...'
-        begin
-          @address_match_list = Address.find(:all, :params => {:postcode => @registration.postcode})
-          session.delete(:address_lookup_failure) if session[:address_lookup_failure]
-          logger.debug "Address lookup found #{@address_match_list.size.to_s} addresses"
-          if @address_match_list.size < 1 && !@registration.postcode.empty?
-            @registration.errors.add(:postcode, ' test')
-          end
-        rescue Errno::ECONNREFUSED
-          session[:address_lookup_failure] = true
-          logger.error 'ERROR: Address Lookup not running, or not found'
-        rescue ActiveResource::ServerError
-          session[:address_lookup_failure] = true
-          logger.error 'ERROR: ActiveResource Server error!'
-        end
-      end
-
-      # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
-      render 'newBusinessDetails', :status => '400'
-    end
-  end
 
   # GET /your-registration/contact-details
   def newContactDetails
@@ -294,17 +91,11 @@ class RegistrationsController < ApplicationController
         redirect_to :newConfirmation
         return
       end
-      if @registration.tier.eql? 'LOWER'
-        redirect_to :newConfirmation
-        return
-      else
-        redirect_to :registration_key_people
-        return
-      end
+      redirect_to :postal_address
     else
       # there is an error (but data not yet saved)
       logger.info 'Registration is not valid, and data is not yet saved'
-      render 'newContactDetails', :status => '400'
+      render 'newContactDetails', status: '400'
     end
   end
 
@@ -334,9 +125,8 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/confirmation
   def newConfirmation
     new_step_action 'confirmation'
-    if !@registration
-      return
-    end
+    return unless @registration
+
     case session[:edit_mode].to_i
       when EditMode::EDIT, EditMode::RENEWAL
         @registration.declaration = false
@@ -1065,23 +855,9 @@ class RegistrationsController < ApplicationController
   def copyAddressToSession
     logger.info 'Copying address details into the registration...'
 
-    @registration = Registration[ session[:registration_id]]
-
-    @registration.houseNumber = @selected_address.lines[0] if @selected_address.lines[0]
-    @registration.streetLine1 = @selected_address.lines[1] if @selected_address.lines[1]
-    @registration.streetLine2 = @selected_address.lines[2] if @selected_address.lines[2]
-    @registration.streetLine3 = @selected_address.lines[3] if @selected_address.lines[3]
-    @registration.townCity = @selected_address.town  if @selected_address.town
-    @registration.postcode = @selected_address.postcode  if @selected_address.postcode
-    @registration.uprn = @selected_address.uprn if @selected_address.uprn
-    @registration.easting = @selected_address.easting if @selected_address.easting
-    @registration.northing = @selected_address.northing if @selected_address.northing
-    @registration.dependentLocality = @selected_address.dependentLocality if @selected_address.dependentLocality
-    @registration.dependentThroughfare = @selected_address.dependentThroughfare if @selected_address.dependentThroughfare
-    @registration.administrativeArea = @selected_address.administrativeArea if @selected_address.administrativeArea
-    @registration.localAuthorityUpdateDate = @selected_address.localAuthorityUpdateDate if @selected_address.localAuthorityUpdateDate
-    @registration.royalMailUpdateDate = @selected_address.royalMailUpdateDate if @selected_address.royalMailUpdateDate
-    @registration.save
+    @registration = Registration[session[:registration_id]]
+    @address = @registration.registered_address
+    @address.populate_from_address_search_result(@selected_address)
   end
 
   def pending
@@ -1099,7 +875,7 @@ class RegistrationsController < ApplicationController
   def redirect_to_failed_page(failedStep)
     logger.debug 'redirect_to_failed_page(failedStep) failedStep: ' +  failedStep
     if failedStep == "business"
-      redirect_to :newBusinessDetails
+      redirect_to :business_details
     elsif failedStep == "contact"
       redirect_to :newContact
     elsif failedStep == "confirmation"
@@ -1107,23 +883,6 @@ class RegistrationsController < ApplicationController
     elsif failedStep == "signup"
       redirect_to :newSignup
     end
-  end
-
-
-  def updatedParameters(databaseMetaData, submittedParams)
-    # Save DB MetaData
-    dbMetaData = databaseMetaData
-    # Create a new Registration from submitted params
-    regFromParams = Registration.ctor(submittedParams)
-    begin
-      metaDataFromParams = regFromParams.metaData
-      # Update Saved MD with revoked reason from Param
-      dbMetaData.revokedReason = metaDataFromParams.revokedReason
-    rescue
-      logger.info 'Warning: Cannot find meta data, this could be valid if being edited by an external user, Ignoring for now and continuing'
-    end
-    regFromParams.metaData = dbMetaData
-    regFromParams.attributes
   end
 
   # DELETE /registrations/1
@@ -1622,41 +1381,32 @@ class RegistrationsController < ApplicationController
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
     params.require(:registration).permit(
-        :businessType,
-        :registrationType,
-        :otherBusinesses,
-        :isMainService,
-        :constructionWaste,
-        :onlyAMF,
-        :companyName,
-        :addressMode,
-        :houseNumber,
-        :streetLine1,
-        :streetLine2,
-        :streetLine3,
-        :streetLine4,
-        :country,
-        :townCity,
-        :postcode,
-        :postcodeSearch,
-        :firstName,
-        :lastName,
-        :position,
-        :phoneNumber,
-        :contactEmail,
-        :accountEmail,
-        :declaration,
-        :password,
-        :password_confirmation,
-        :accountEmail_confirmation,
-        :tier,
-        :company_no,
-        :registration_fee,
-        :copy_card_fee,
-        :copy_cards,
-        :total_fee,
-        :address_match_list,
-        :sign_up_mode)
+      :businessType,
+      :registrationType,
+      :otherBusinesses,
+      :isMainService,
+      :constructionWaste,
+      :onlyAMF,
+      :companyName,
+      :postcodeSearch,
+      :firstName,
+      :lastName,
+      :position,
+      :phoneNumber,
+      :contactEmail,
+      :accountEmail,
+      :declaration,
+      :password,
+      :password_confirmation,
+      :accountEmail_confirmation,
+      :tier,
+      :company_no,
+      :registration_fee,
+      :copy_card_fee,
+      :copy_cards,
+      :total_fee,
+      :address_match_list,
+    :sign_up_mode)
   end
 
 end

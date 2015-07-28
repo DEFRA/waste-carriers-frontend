@@ -1,77 +1,89 @@
 {
-  "reg_uuid" : "REG_UUID_REPLACE_ME",
-  "contactEmail":"pt_ut@example.org",
-  "tier":"UPPER",
-  "isMainService":"no",
-  "declaredConvictions":"no",
-  "registrationType":"broker_dealer",
-  "administrativeArea":"BRISTOL",
-  "accountEmail":"pt_ut@example.org",
-  "firstName":"FName",
-  "easting":"358205",
-  "phoneNumber":"22",
-  "companyName":"PT UT Company",
-  "businessType":"partnership",
-  "lastName":"LName",
-  "streetLine1":"DEANERY ROAD",
-  "current_step":"signup",
-  "northing":"172708",
-  "townCity":"BRISTOL",
-  "dependentThroughfare":"",
-  "dependentLocality":"",
-  "uprn":"340116",
-  "postcode":"BS1 5AH",
-  "newOrRenew":"new",
-  "address_lookup_page":"yes",
-  "localAuthorityUpdateDate":"",
-  "declaration":"1",
-  "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
-  "addressMode":"address-results",
-  "otherBusinesses":"yes",
-  "royalMailUpdateDate":"",
-  "sign_up_mode":"sign_up",
-  "constructionWaste":"yes",
-  "houseNumber":"ENVIRONMENT AGENCY",
-  "password":"Test1234",
-  "expires_on":"1448928000000",
-  "metaData":{
-    "route":"DIGITAL"
+  "reg_uuid": "REG_UUID_REPLACE_ME",
+  "contactEmail": "pt_ut@example.org",
+  "tier": "UPPER",
+  "isMainService": "no",
+  "declaredConvictions": "no",
+  "registrationType": "broker_dealer",
+  "accountEmail": "pt_ut@example.org",
+  "firstName": "FName",
+  "phoneNumber": "22",
+  "companyName": "PT UT Company",
+  "businessType": "partnership",
+  "lastName": "LName",
+  "current_step": "signup",
+  "uprn": "340116",
+  "newOrRenew": "new",
+  "address_lookup_page": "yes",
+  "declaration": "1",
+  "otherBusinesses": "yes",
+  "sign_up_mode": "sign_up",
+  "constructionWaste": "yes",
+  "password": "Test1234",
+  "expires_on": "1448928000000",
+  "metaData": {
+    "route": "DIGITAL"
   },
-  "key_people":[
-    {
-      "first_name":"KPFName1",
-      "last_name":"KPLName1",
-      "position":"Partner",
-      "dob_day":"27",
-      "dob_month":"11",
-      "dob_year":"1967",
-      "dob":"1967-11-27",
-      "person_type":"KEY",
-      "conviction_search_result":{
-        "match_result":"NO",
-        "searched_at":"1417446055069",
-        "confirmed":"no"
-      }
-    },
-    {
-      "first_name":"KPFName2",
-      "last_name":"KPLName2",
-      "position":"Partner",
-      "dob_day":"9",
-      "dob_month":"1",
-      "dob_year":"1954",
-      "dob":"1954-01-09",
-      "person_type":"KEY",
-      "conviction_search_result":{
-        "match_result":"NO",
-        "searched_at":"1417446075054",
-        "confirmed":"no"
-      }
+  "key_people": [{
+    "first_name": "KPFName1",
+    "last_name": "KPLName1",
+    "position": "Partner",
+    "dob_day": "27",
+    "dob_month": "11",
+    "dob_year": "1967",
+    "dob": "1967-11-27",
+    "person_type": "KEY",
+    "conviction_search_result": {
+      "match_result": "NO",
+      "searched_at": "1417446055069",
+      "confirmed": "no"
     }
-  ],
-  "conviction_search_result":{
-    "match_result":"NO",
-    "searched_at":"1417446011519",
-    "confirmed":"no"
-  }
+  }, {
+    "first_name": "KPFName2",
+    "last_name": "KPLName2",
+    "position": "Partner",
+    "dob_day": "9",
+    "dob_month": "1",
+    "dob_year": "1954",
+    "dob": "1954-01-09",
+    "person_type": "KEY",
+    "conviction_search_result": {
+      "match_result": "NO",
+      "searched_at": "1417446075054",
+      "confirmed": "no"
+    }
+  }],
+  "conviction_search_result": {
+    "match_result": "NO",
+    "searched_at": "1417446011519",
+    "confirmed": "no"
+  },
+  "addresses": [{
+    "uprn": "340116",
+    "administrativeArea": "BRISTOL",
+    "addressType": "REGISTERED",
+    "easting": "358205",
+    "northing": "172708",
+    "addressLine1": "DEANERY ROAD",
+    "townCity": "BRISTOL",
+    "dependentThoroughfare": "",
+    "dependentLocality": "",
+    "postcode": "BS1 5AH",
+    "localAuthorityUpdateDate": "",
+    "addressMode": "address-results",
+    "royalMailUpdateDate": "",
+    "houseNumber": "ENVIRONMENT AGENCY",
+    "firstName": "",
+    "lastName": ""
+  }, {
+    "addressType": "POSTAL",
+    "firstName": "Joe",
+    "lastName": "Grades",
+    "houseNumber": "44",
+    "addressLine1": "Broad Street",
+    "addressLine2": "City Centre",
+    "townCity": "BRISTOL",
+    "postcode": "BS1 5AH",
+    "country": "United Kingdom"
+  }]
 }

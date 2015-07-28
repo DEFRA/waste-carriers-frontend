@@ -1,61 +1,74 @@
 {
-  "reg_uuid" : "REG_UUID_REPLACE_ME",
-  "declaredConvictions":"no",
-  "localAuthorityUpdateDate":"",
-  "otherBusinesses":"no",
-  "postcode":"BS1 5AH",
-  "houseNumber":"ENVIRONMENT AGENCY",
-  "accountEmail":"st_ut@example.org",
-  "royalMailUpdateDate":"",
-  "uprn":"340116",
-  "northing":"172708",
-  "easting":"358205",
-  "newOrRenew":"new",
-  "addressMode":"address-results",
-  "streetLine1":"DEANERY ROAD",
-  "firstName":"FName",
-  "address_lookup_page":"yes",
-  "contactEmail":"st_ut@example.org",
-  "constructionWaste":"yes",
-  "administrativeArea":"BRISTOL",
-  "dependentLocality":"",
-  "sign_up_mode":"sign_up",
-  "declaration":"1",
-  "lastName":"LName",
-  "dependentThroughfare":"",
-  "registrationType":"carrier_dealer",
-  "companyName":"ST UT Company",
-  "townCity":"BRISTOL",
-  "phoneNumber":"11",
-  "selectedAddress":"340116::ENVIRONMENT AGENCY, HORIZON HOUSE, DEANERY ROAD, BRISTOL, BS1 5AH",
-  "current_step":"signup",
-  "businessType":"soleTrader",
-  "tier":"UPPER",
-  "password":"Test1234",
-  "expires_on":"1448841600000",
-  "metaData":{
-    "route":"DIGITAL"
+  "reg_uuid": "REG_UUID_REPLACE_ME",
+  "declaredConvictions": "no",
+  "otherBusinesses": "no",
+  "accountEmail": "st_ut@example.org",
+  "uprn": "340116",
+  "newOrRenew": "new",
+  "firstName": "FName",
+  "address_lookup_page": "yes",
+  "contactEmail": "st_ut@example.org",
+  "constructionWaste": "yes",
+  "sign_up_mode": "sign_up",
+  "declaration": "1",
+  "lastName": "LName",
+  "registrationType": "carrier_dealer",
+  "companyName": "ST UT Company",
+  "phoneNumber": "11",
+  "current_step": "signup",
+  "businessType": "soleTrader",
+  "tier": "UPPER",
+  "password": "Test1234",
+  "expires_on": "1448841600000",
+  "metaData": {
+    "route": "DIGITAL"
   },
-  "key_people":[
-    {
-      "first_name":"KPFName",
-      "last_name":"KPLName",
-      "position":"Business owner",
-      "dob_day":"11",
-      "dob_month":"11",
-      "dob_year":"1111",
-      "dob":"1111-11-11",
-      "person_type":"KEY",
-      "conviction_search_result":{
-        "match_result":"NO",
-        "searched_at":"1417386224543",
-        "confirmed":"no"
-      }
+  "key_people": [{
+    "first_name": "KPFName",
+    "last_name": "KPLName",
+    "position": "Business owner",
+    "dob_day": "11",
+    "dob_month": "11",
+    "dob_year": "1111",
+    "dob": "1111-11-11",
+    "person_type": "KEY",
+    "conviction_search_result": {
+      "match_result": "NO",
+      "searched_at": "1417386224543",
+      "confirmed": "no"
     }
-  ],
-  "conviction_search_result":{
-    "match_result":"NO",
-    "searched_at":"1417386210463",
-    "confirmed":"no"
-  }
+  }],
+  "conviction_search_result": {
+    "match_result": "NO",
+    "searched_at": "1417386210463",
+    "confirmed": "no"
+  },
+  "addresses": [{
+    "uprn": "340116",
+    "addressType": "REGISTERED",
+    "localAuthorityUpdateDate": "",
+    "postcode": "BS1 5AH",
+    "addressLine1": "DEANERY ROAD",
+    "administrativeArea": "BRISTOL",
+    "northing": "172708",
+    "easting": "358205",
+    "dependentThoroughfare": "",
+    "townCity": "BRISTOL",
+    "royalMailUpdateDate": "",
+    "houseNumber": "ENVIRONMENT AGENCY",
+    "addressMode": "address-results",
+    "dependentLocality": "",
+    "firstName": "",
+    "lastName": ""
+  }, {
+    "addressType": "POSTAL",
+    "firstName": "Joe",
+    "lastName": "Grades",
+    "houseNumber": "44",
+    "addressLine1": "Broad Street",
+    "addressLine2": "City Centre",
+    "townCity": "BRISTOL",
+    "postcode": "BS1 5AH",
+    "country": "United Kingdom"
+  }]
 }

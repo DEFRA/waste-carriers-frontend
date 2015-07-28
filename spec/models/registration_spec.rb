@@ -69,10 +69,10 @@ describe Registration do
   end
 
   context 'businessdetails step' do
+    subject { Registration.ctor }
     before { subject.current_step = 'businessdetails' }
 
     it_behaves_like 'a company name step'
-    it_behaves_like 'a physical address step'
   end
 
   context 'signup step' do
@@ -155,10 +155,10 @@ describe Registration do
   end
 
   context 'upper_business_details step' do
+    subject { Registration.ctor }
     before { subject.current_step = 'businessdetails' }
 
     it_behaves_like 'a company name step'
-    it_behaves_like 'a physical address step'
 
     context 'not a limited company' do
       before { subject.businessType = 'soleTrader' }
