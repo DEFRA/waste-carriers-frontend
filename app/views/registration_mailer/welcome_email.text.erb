@@ -32,16 +32,16 @@
 <%=t 'registration_mailer.welcome_email.heading_update_registration' %>
 
 <%=t 'registration_mailer.welcome_email.paragraph3' %>
-
+<% address = @registration.registered_address %>
 <%= @registration.firstName%> <%= @registration.lastName%>
-<%= @registration.houseNumber %>
-<%= @registration.streetLine1 %>
-<%= @registration.streetLine2 %>
-<%= @registration.dependentLocality %>
-<%= @registration.townCity%>
-<%= @registration.postcode%>
+<%= address.houseNumber %>
+<%= address.addressLine1 %>
+<%= address.addressLine2 %>
+<%= address.dependentLocality %>
+<%= address.townCity%>
+<%= address.postcode%>
 
-<%=t 'registration_mailer.welcome_email.contactNumber'%><%= @registration.phoneNumber%>
+<%= t 'registration_mailer.welcome_email.contactNumber'%><%= @registration.phoneNumber%>
 <%= t 'registration_mailer.welcome_email.registeredOn', date: format_as_ordinal_date_only(@registration.date_registered) %>
 
 <%=t 'registration_mailer.welcome_email.updateWebsite1_html',:link=>link_to('sign in', new_user_session_url)%>
@@ -50,4 +50,3 @@
 
 <%=t 'registration_mailer.welcome_email.footer_bullet1' %>
 <%=t 'registration_mailer.welcome_email.footer_bullet2' %>
-

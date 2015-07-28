@@ -41,8 +41,10 @@ namespace :maintenance do
       ENV['allowed_paths'] = "#{ENV['allowed_paths']},^/assets/*"
     end
 
-    ENV['reason'] = "We have had to take the service offline whilst we make \
-      important changes to it." if ENV['reason'].blank?
+    if ENV['reason'].blank?
+      ENV['reason'] = "We’re sorry, but the service is currently down for \
+        maintenance."
+    end
 
     Rake::Task['maintenance:start'].invoke
   end

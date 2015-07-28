@@ -41,23 +41,10 @@ class Registration < Ohm::Model
   attribute :publicBodyType
   attribute :publicBodyTypeOther
   attribute :registrationType
-  attribute :houseNumber
 
-  attribute :addressMode
-  attribute :postcodeSearch
-  attribute :selectedMoniker
-  attribute :streetLine1
-  attribute :streetLine2
-  attribute :townCity
-  attribute :postcode
-  attribute :uprn
-  attribute :easting
-  attribute :northing
-  attribute :dependentLocality
-  attribute :dependentThroughfare
-  attribute :administrativeArea
-  attribute :royalMailUpdateDate
-  attribute :localAuthorityUpdateDate
+  attribute :postcodeSearch # unknown address attribute
+  attribute :selectedMoniker # unknown address attribute
+
   attribute :company_no
   attribute :expires_on
 
@@ -68,11 +55,6 @@ class Registration < Ohm::Model
   attribute :copy_cards
   attribute :balance
   attribute :payment_type
-
-  # Non UK address fields
-  attribute :streetLine3
-  attribute :streetLine4
-  attribute :country
 
   attribute :title
   attribute :otherTitle
@@ -93,8 +75,10 @@ class Registration < Ohm::Model
 
   attribute :renewalRequested
 
+  # This binds to the address select control on the business details page when
+  # used in its lookup mode, When posted the controller grabs the selected value
+  # and uses it to populate the registered address
   attribute :selectedAddress
-  attribute :validateSelectedAddress
 
   # The value that the waste carrier sets to say whether they admit to having
   # relevant people with relevant convictions
@@ -106,12 +90,12 @@ class Registration < Ohm::Model
   # whether the controller/view is at the address lookup page
   attribute :exception
   attribute :copy_card_only_order
-  attribute :address_lookup_page
 
+  set :addresses, :Address
   set :metaData, :Metadata #will always be size=1
-  set :location, :Location #will always be size=1
   set :key_people, :KeyPerson # is a true set
   set :finance_details, :FinanceDetails #will always be size=1
+
   set :conviction_search_result, :ConvictionSearchResult #will always be size=1
   set :conviction_sign_offs, :ConvictionSignOff #can be empty
 
@@ -203,9 +187,18 @@ class Registration < Ohm::Model
       # the Java services layer.
       self.update(uuid: result['id'])
       self.update(regIdentifier: result['regIdentifier'])
+
+      if result['addresses'] #array of addresses
+        address_list = []
+        result['addresses'].each do |address_hash|
+          address = Address.init(address_hash)
+          address_list << address
+        end
+        self.addresses.replace(address_list)
+      end
+
       self.metaData.replace([Metadata.init(result['metaData'])])
-      self.location.replace([Location.init(result['location'])])
-      
+
       if result['conviction_search_result']
         self.conviction_search_result.replace([ConvictionSearchResult.init(result['conviction_search_result'])])
       end
@@ -218,7 +211,7 @@ class Registration < Ohm::Model
         end
         self.conviction_sign_offs.replace(sign_offs)
       end
-      
+
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
         self.finance_details.replace([FinanceDetails.init(result['financeDetails'])])
@@ -273,9 +266,17 @@ class Registration < Ohm::Model
       result = JSON.parse(response.body)
 
       # Update metadata and financedetails with that from the service
+      if result['addresses'] #array of addresses
+        address_list = []
+        result['addresses'].each do |address_hash|
+          address = Address.init(address_hash)
+          address_list << address
+        end
+        self.addresses.replace(address_list)
+      end
+
       self.metaData.replace( [Metadata.init(result['metaData'])])
 
-      self.location.replace( [Location.init(result['location'])])
 
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
@@ -333,9 +334,15 @@ class Registration < Ohm::Model
       result_hash[k] = v
     end
 
-    result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
+    address_list = []
+    if addresses && addresses.size > 0
+      addresses.each do |address|
+        address_list << address.to_hash
+      end
+      result_hash['addresses'] = address_list
+    end # if
 
-    result_hash['location'] = location.first.attributes.to_hash if location.size == 1
+    result_hash['metaData'] = metaData.first.attributes.to_hash if metaData.size == 1
 
     key_people_list = []
     if key_people && key_people.size > 0
@@ -517,19 +524,25 @@ class Registration < Ohm::Model
   # with the metaData and finance_details sets populated with their initial objects.
   class << self
     def ctor(attrs = {})
+      agency_user_signed_in = false
+      if (attrs != nil) && attrs.key?(:agency_user_signed_in)
+        agency_user_signed_in = attrs[:agency_user_signed_in]
+        attrs.delete(:agency_user_signed_in)
+      end
 
       r = Registration.create attrs
 
       m = Metadata.create
-      m.update(:route => 'DIGITAL')
+      if agency_user_signed_in
+        m.update(:route => 'ASSISTED_DIGITAL')
+        r.update(:accessCode => r.generate_random_access_code)
+      else
+        m.update(:route => 'DIGITAL')
+      end
       r.metaData.add m
 
-      f = FinanceDetails.create
-      r.finance_details.add f
-
-      c = ConvictionSearchResult.create
-      c.update(:confirmed => 'no')
-      r.conviction_search_result.add c
+      r.addresses.add(Address.init(addressType: 'REGISTERED'))
+      r.addresses.add(Address.init(addressType: 'POSTAL'))
 
       r.save
     end
@@ -636,13 +649,14 @@ class Registration < Ohm::Model
             :format => ".json"
         }
         options = defaults.merge(options)
-        
+
         url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
         response = RestClient.get(url)
-        
+
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
           all_regs.each do |r|
+            Rails.logger.debug "----------> #{r}"
             registrations << Registration.init(r)
           end
         else
@@ -668,8 +682,12 @@ class Registration < Ohm::Model
         case k
           when 'id'
             new_reg.uuid = v
-          when 'address', 'uprn'
-            #TODO: do nothing for now, but these API fields are redundant and should be removed
+          when 'addresses'
+            if v && v.size > 0
+              v.each do |address|
+                new_reg.addresses.add Address.init(address)
+              end
+            end
           when 'key_people'
             if v && v.size > 0
               v.each do |person|
@@ -677,13 +695,11 @@ class Registration < Ohm::Model
               end
             end #if
           when 'metaData'
-            new_reg.metaData.add HashToObject(v, 'Metadata')
-          when 'location'
-            new_reg.location.add HashToObject(v, 'Location')
+            new_reg.metaData.add Metadata.init(v)
           when 'financeDetails'
             new_reg.finance_details.add FinanceDetails.init(v)
           when 'conviction_search_result'
-            new_reg.conviction_search_result.add HashToObject(v, 'ConvictionSearchResult')
+            new_reg.conviction_search_result.add ConvictionSearchResult.init(v)
           when 'conviction_sign_offs'
             if v
               v.each do |sign_off|
@@ -694,30 +710,18 @@ class Registration < Ohm::Model
             normal_attributes.store(k, v)
         end
       end #each
-      
+
       new_reg.update_attributes(normal_attributes)
-      
+
       new_reg.save
       new_reg
     end #method
   end
 
-  class << self
-    def HashToObject(hash, klass_name)
-      klass = Object.const_get( klass_name )
-      obj = klass.new
-      hash.each do |k, v|
-        obj.send("#{k.to_s}=",v)
-      end
-      obj.save
-      obj
-    end
-  end
-
   def copy_construct
     Registration.init(self.to_json)
   end
-  
+
   # Creates and returns a new registraiton, initialising most fields from an
   # existing instance.  This is intended to be used only in the case where the
   # user makes an edit requiring a new registration.  Specifically, finance
@@ -777,9 +781,7 @@ class Registration < Ohm::Model
   POSITION_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
   DISTANCES = %w[any 10 50 100]
-  VALID_HOUSE_NAME_OR_NUMBER_REGEX = /\A[a-zA-Z0-9\'\s\,\&-]+\z/
-  TOWN_CITY_REGEX = /\A[a-zA-Z0-9\'\s\,-]+\z/
-  POSTCODE_CHARACTERS = /\A[A-Za-z0-9\s]*\Z/
+
   YES_NO_ANSWER = %w(yes no)
   VALID_TELEPHONE_NUMBER_REGEX = /\A[0-9\-+()\s]+\z/
   VALID_COMPANY_NAME_REGEX = /\A[a-zA-Z0-9\s\.\-&\'\u2019\[\]\,\(\)]+\z/
@@ -816,28 +818,6 @@ class Registration < Ohm::Model
   with_options if: [:businessdetails_step?, :limited_company?, :upper?] do |registration|
     registration.validates :company_no, uk_company_number: true
     registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
-  end
-
-  with_options if: [:address_step?, :address_lookup? ] do |registration|
-    registration.validates :houseNumber, presence: true, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters') }, length: { maximum: 35 },  unless: :address_lookup_page?
-    # we're avoiding street field validation here, as sometime the Experian service fails to populate these fields so
-    # we don't want validation errors to stop the flow because the lookup isn't working properly.
-    registration.validates :townCity, presence: true, format: { with: TOWN_CITY_REGEX }, unless: :address_lookup_page?
-    registration.validates :postcode, uk_postcode: true
-  end
-
-  with_options if: [:address_step?, :manual_uk_address?] do |registration|
-    registration.validates :houseNumber, :presence => { :message => I18n.t('errors.messages.blank_building_name_or_number') }, format: { with: VALID_HOUSE_NAME_OR_NUMBER_REGEX, message: I18n.t('errors.messages.invalid_building_name_or_number_characters'), :allow_blank => true }, length: { maximum: 35 }
-    registration.validates :streetLine1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
-    registration.validates :streetLine2, length: { maximum: 35 }
-    registration.validates :townCity, :presence => { :message => I18n.t('errors.messages.blank_town_or_city') }, format: { with: TOWN_CITY_REGEX, message: I18n.t('errors.messages.invalid_town_or_city'), :allow_blank => true }
-    registration.validates :postcode, uk_postcode: true
-  end
-
-  with_options if: [:address_step?, :manual_foreign_address?] do |registration|
-    registration.validates :streetLine1, :presence => { :message => I18n.t('errors.messages.blank_address_line') }, length: { maximum: 35 }
-    registration.validates :streetLine2, :streetLine3, :streetLine4, length: { maximum: 35 }
-    registration.validates :country, :presence => { :message => I18n.t('errors.messages.blank_country') }, length: { maximum: 35 }
   end
 
   # TODO AH - is position ever used?
@@ -891,25 +871,17 @@ class Registration < Ohm::Model
   validates :copy_cards, numericality: { only_integer: true, greater_than_or_equal_to: 0 }, if: :payment_step?
   validates :payment_type, :presence => true, if: :payment_step?
 
-  validate :has_selected_address, if: (:businessdetails_step? && :isAddressLookup?)
+  validate :selected_address?, if: [:businessdetails_step?, :address_results?]
 
-  def isAddressLookup?
-    if !self.validateSelectedAddress.nil?
-      self.validateSelectedAddress
-    else
-      false
-    end
+  def address_results?
+    registered_address.address_results?
   end
 
-  def has_selected_address
-    if addressMode == 'address-results'
-      if selectedAddress.eql? ''
-        errors.add(:selectedAddress, I18n.t('errors.messages.invalid_selection'))
-      end
-    end
+  def selected_address?
+    errors.add(
+      :selectedAddress,
+      I18n.t('errors.messages.address_not_selected')) if selectedAddress.blank?
   end
-
-
 
   validate :copy_cards_added_to_copy_card_only_order?
   # TODO the following validations were problematic or possibly redundant
@@ -932,7 +904,6 @@ class Registration < Ohm::Model
     end
   end
 
-
   def copy_cards_added_to_copy_card_only_order?
     if (copy_cards && copy_cards.to_i < 1) and copy_card_only_order
       errors.add(:copy_cards, I18n.t('errors.messages.no_copy_cards_selected'))
@@ -943,15 +914,9 @@ class Registration < Ohm::Model
     end
   end
 
-
-
   def should_validate_key_people?
     result = key_person_step? || key_people_step? || relevant_people_step?
     result
-  end
-
-  def address_lookup_page?
-    address_lookup_page
   end
 
   def newOrRenew_step?
@@ -980,10 +945,6 @@ class Registration < Ohm::Model
 
   def onlydealwith_step?
     current_step.inquiry.onlydealwith?
-  end
-
-  def address_step?
-    businessdetails_step?
   end
 
   def businessdetails_step?
@@ -1062,19 +1023,6 @@ class Registration < Ohm::Model
     route == 'ASSISTED_DIGITAL'
   end
 
-  def manual_uk_address?
-    addressMode == 'manual-uk'
-  end
-
-  def manual_foreign_address?
-    addressMode == 'manual-foreign'
-  end
-
-  def address_lookup?
-    addressMode != 'manual-uk' &&
-        addressMode != 'manual-foreign'
-  end
-
   def limited_company?
     businessType == 'limitedCompany'
   end
@@ -1082,7 +1030,7 @@ class Registration < Ohm::Model
   def not_limited_company?
     businessType != 'limitedCompany'
   end
-  
+
   def partnership?
     businessType == 'partnership'
   end
@@ -1552,5 +1500,25 @@ class Registration < Ohm::Model
   def within_ir_renewal_window?
     originalDateExpiry ? (convert_date(originalDateExpiry.to_i) >= Date.today) : false
   end
+
+  def registered_address
+    # Finds the first element that matches and returns it
+    addresses.to_a.find { |address| address.addressType == 'REGISTERED' }
+  end
+
+  def postal_address
+    # Finds the first element that matches and returns it
+    addresses.to_a.find { |address| address.addressType == 'POSTAL' }
+  end
+
+  def copy_card_orders
+    # returns an array of copy card orders
+    finance_details.first.orders.to_a.select {
+      |order| order.order_items.to_a.any? {
+        |order_item| order_item.type == 'COPY_CARDS'
+      }
+    }
+  end
+
 
 end

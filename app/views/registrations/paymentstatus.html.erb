@@ -52,7 +52,7 @@
 			    <tbody>
 			      <tr>
 			      	<td><%= @registration.companyName %></td>
-			      	<td><%= format_address(@registration) %></td>
+			      	<td><%= format_address(@registration.registered_address) %></td>
 			        <td><%= @registration.regIdentifier %></td>
 			        <td><% if @registration.respond_to? :finance_details %>
 				        <div class="form-group">
@@ -67,7 +67,7 @@
 
 
 			  	<h2 class="heading-small panel-colour">Charge history</h2>
-					<table class="finance-table table-divider" summary='This table details the charge history of a registration'>
+					<table class="finance-table table-divider" summary='This table details the charge history of a registration' id="charge_history_table">
 						<thead class="">
 							<tr>
 								<th class="" ><%= t '.chargehistory_date_table_heading' %></th>
@@ -77,7 +77,6 @@
 						</thead>
 						<tbody>
 							<% regCount = 1; %>
-							<%#= @registration.to_json %>
 							<% if @registration.respond_to?('finance_details') and @registration.finance_details.first \
 							   && @registration.finance_details.size > 0 && @registration.finance_details.first.orders %>
 								<% @registration.finance_details.first.orders.each do |order| %>
@@ -111,7 +110,7 @@
 					</table>
 
 	        <h2 class="heading-small panel-colour"><%= t'.paymenthistory_table_heading' %></h2>
-					<table class="finance-table table-divider" summary='This table details the payment history of a registration'>
+					<table class="finance-table table-divider" summary='This table details the payment history of a registration' id="payment_history_table">
 						<thead class="">
 							<tr>
 								<th class="" ><%= t '.paymenthistory_date_table_heading' %></th>
@@ -165,7 +164,7 @@
 
 
       <h2 class="heading-small panel-colour"><%= t'.balance_table_heading' %></h2>
-				<table class="finance-table table-divider" summary='This table details the balance due on a registration'>
+				<table class="finance-table table-divider" summary='This table details the balance due on a registration' id="balance_table">
 					<thead class="">
 						<tr>
 							<th class="" ></th>

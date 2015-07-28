@@ -99,23 +99,25 @@
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
             <%= @registration.firstName%>&nbsp;<%= @registration.lastName%></p>
 
-            <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
-            <%= @registration.houseNumber %></p>
+            <% address = @registration.registered_address %>
 
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
-            <%= @registration.streetLine1 %></p>
+            <%= address.houseNumber %></p>
 
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
-            <%= @registration.streetLine2 %></p>
+            <%= address.addressLine1 %></p>
 
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
-            <%= @registration.dependentLocality %></p>
+            <%= address.addressLine2 %></p>
 
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
-            <%= @registration.townCity%></p>
+            <%= address.dependentLocality %></p>
+
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
+            <%= address.townCity%></p>
 
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;">
-            <%= @registration.postcode%></p>
+            <%= address.postcode%></p>
 
             <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
             <%=t 'registration_mailer.welcome_email.contactNumber'%><%= @registration.phoneNumber%></p>
@@ -140,4 +142,3 @@
 
 </body>
 </html>
-

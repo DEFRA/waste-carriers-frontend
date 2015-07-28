@@ -172,11 +172,11 @@ When(/^I make a new registration and progress as far as accepting the Declaratio
 
   click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Test Charity'
-  fill_in 'registration_houseNumber', with: 'Horizon House'
-  fill_in 'registration_streetLine1', with: 'Deanery Road'
-  fill_in 'registration_streetLine2', with: 'EA Building'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 5AH'
+  fill_in 'address_houseNumber', with: 'Horizon House'
+  fill_in 'address_addressLine1', with: 'Deanery Road'
+  fill_in 'address_addressLine2', with: 'EA Building'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 5AH'
   click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Firstname'
@@ -184,6 +184,8 @@ When(/^I make a new registration and progress as far as accepting the Declaratio
   fill_in 'registration_phoneNumber', with: '0123 456 7890'
   fill_in 'registration_contactEmail', with: @this_test_email
   click_button 'continue'
+
+  postal_address_page_complete_form
 
   check 'registration_declaration'
   click_button 'confirm'

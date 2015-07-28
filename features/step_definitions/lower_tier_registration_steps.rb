@@ -12,11 +12,11 @@ Given(/^I have completed the lower tier registration form$/) do
 
   click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Grades & Co'
-  fill_in 'registration_houseNumber', with: '12'
-  fill_in 'registration_streetLine1', with: 'Deanery Road'
-  fill_in 'registration_streetLine2', with: 'EA Building'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 5AH'
+  fill_in 'address_houseNumber', with: '12'
+  fill_in 'address_addressLine1', with: 'Deanery Road'
+  fill_in 'address_addressLine2', with: 'EA Building'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 5AH'
   click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Joe'
@@ -24,6 +24,8 @@ Given(/^I have completed the lower tier registration form$/) do
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
   fill_in 'registration_contactEmail', with: my_email_address
   click_button 'continue'
+
+  postal_address_page_complete_form
 
   check 'registration_declaration'
   click_button 'confirm'
@@ -59,7 +61,7 @@ Given(/^I want my business address autocompleted but I provide an unrecognised p
 end
 
 Then(/^no address suggestions will be shown$/) do
-  expect(page).to have_text 'Please enter a valid postcode'
+  expect(page).to have_text 'No addresses match this postcode'
 end
 
 When(/^I try to select an address$/) do
@@ -70,11 +72,11 @@ Given(/^I enter my business address manually$/) do
   click_link 'manual_uk_address'
 
   fill_in 'registration_companyName', with: 'Grades'
-  fill_in 'registration_houseNumber', with: '44'
-  fill_in 'registration_streetLine1', with: 'Broad Street'
-  fill_in 'registration_streetLine2', with: 'City Centre'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 2EP'
+  fill_in 'address_houseNumber', with: '44'
+  fill_in 'address_addressLine1', with: 'Broad Street'
+  fill_in 'address_addressLine2', with: 'City Centre'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 2EP'
 
   click_button 'continue'
 end
@@ -84,12 +86,12 @@ Given(/^I enter my foreign business address manually$/) do
 
   fill_in 'registration_companyName', with: 'IWC'
 
-  fill_in 'registration_streetLine1', with: 'Broad Street'
-  fill_in 'registration_streetLine2', with: 'City Centre'
-  fill_in 'registration_streetLine3', with: 'Bristol'
-  fill_in 'registration_streetLine4', with: 'BS1 2EP'
+  fill_in 'address_addressLine1', with: '35, rue du Faubourg St Honoré '
+  fill_in 'address_addressLine2', with: 'Paris Cedex 08'
+  fill_in 'address_addressLine3', with: '75383'
+  fill_in 'address_townCity', with: 'Paris'
 
-  fill_in 'registration_country', with: 'France'
+  fill_in 'address_country', with: 'France'
 
   click_button 'continue'
 end
@@ -101,6 +103,10 @@ And(/^I provide my personal contact details$/) do
   fill_in 'registration_contactEmail', with: my_email_address
 
   click_button 'continue'
+end
+
+And(/^I provide a postal address$/) do
+  postal_address_page_complete_form
 end
 
 And(/^I check the declaration$/) do
@@ -140,7 +146,7 @@ But(/^I can edit this postcode$/) do
 end
 
 And(/^add my address manually if I wanted to$/) do
-  expect(page).to have_link 'I want to add an address myself'
+  expect(page).to have_link 'I want to type the address myself'
 end
 
 Given(/^I have gone through the lower tier waste carrier process$/) do
@@ -157,11 +163,11 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
 
   click_link 'manual_uk_address'
   fill_in 'registration_companyName', with: 'Grades & Co'
-  fill_in 'registration_houseNumber', with: '12'
-  fill_in 'registration_streetLine1', with: 'Deanery Road'
-  fill_in 'registration_streetLine2', with: 'EA Building'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 5AH'
+  fill_in 'address_houseNumber', with: '12'
+  fill_in 'address_addressLine1', with: 'Deanery Road'
+  fill_in 'address_addressLine2', with: 'EA Building'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 5AH'
   click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Joe'
@@ -169,6 +175,8 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
   fill_in 'registration_phoneNumber', with: '0117 926 8332'
   fill_in 'registration_contactEmail', with: my_email_address
   click_button 'continue'
+
+  postal_address_page_complete_form
 
   check 'registration_declaration'
   click_button 'confirm'

@@ -48,7 +48,6 @@ Registrations::Application.routes.draw do
   get   "registrations/:id/writeOffs" => 'payment#newWriteOff', :via => [:get], :as => :enterWriteOff
   match "registrations/:id/writeOffs" => 'payment#createWriteOff', :via => [:post], :as => :saveWriteOff
   get   "registrations/:id/refunds" => 'payment#index', :via => [:get], :as => :refund
-  #   match "registrations/:id/refunds" => 'payment#createRefund', :via => [:post], :as => :saveRefund
   get   "registrations/:id/manualRefund/:orderCode" => 'payment#manualRefund', :via => [:get], :as => :manualRefund
   match "registrations/:id/manualRefund/:orderCode" => 'payment#createManualRefund', :via => [:post]
   get   "registrations/:id/worldpayRefund/:orderCode" => 'payment#newWPRefund', :via => [:get]
@@ -107,15 +106,28 @@ Registrations::Application.routes.draw do
   get "your-registration/registration-type/edit" => "registration_type#edit", :as => :edit_registration_type
   post "your-registration/registration-type" => "registration_type#create"
 
-  # Registration urls - Lower tier
-  match "your-registration/business-details" => 'registrations#newBusinessDetails', :via => [:get], :as => :newBusinessDetails
-  get   "your-registration/edit/business-details" => "registrations#editBusinessDetails", :via => [:get], :as => :editBusinessDetails
-  match "your-registration/business-details" => 'registrations#updateNewBusinessDetails', :via => [:post,:put,:patch]
+  # Registrations - Business Details
+  get 'your-registration/business-details' => 'business_details#show', as: :business_details
+  get 'your-registration/business-details/edit' => 'business_details#edit', as: :business_details_edit
+  post 'your-registration/business-details' => 'business_details#create'
 
+  get 'your-registration/business-details-manual' => 'business_details_manual#show', as: :business_details_manual
+  post 'your-registration/business-details-manual' => 'business_details_manual#create'
+
+  get 'your-registration/business-details-non-uk' => 'business_details_non_uk#show', as: :business_details_non_uk
+  post 'your-registration/business-details-non-uk' => 'business_details_non_uk#create'
+
+  # Registrations - postal address
+  get 'your-registration/postal-address' => 'postal_address#show', as: :postal_address
+  get 'your-registration/postal-address/edit' => 'postal_address#edit', as: :postal_address_edit
+  post 'your-registration/postal-address' => 'postal_address#create'
+
+  # Registrations - Contact details
   match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
   get   "your-registration/edit/contact-details" => "registrations#editContactDetails", :via => [:get], :as => :editContact
   match "your-registration/contact-details" => 'registrations#updateNewContactDetails', :via => [:post,:put,:patch]
 
+  # Registrations - Confirmation
   match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
   match "your-registration/confirmation" => 'registrations#updateNewConfirmation', :via => [:post,:put,:patch]
 
@@ -175,6 +187,11 @@ Registrations::Application.routes.draw do
   match "reports/payments" => 'reports#payments_search_post', :via => [:post,:put,:patch]
   get "reports/payments/results" => 'reports#payments_search_results', :as => :payments_search_results
   match "reports/payments/results" => 'reports#payments_export', :via => [:post,:put,:patch]
+
+  get "reports/copy_cards" => 'reports#copy_cards_search', :as => :copy_cards_search
+  match "reports/copy_cards" => 'reports#copy_cards_search_post', :via => [:post,:put,:patch]
+  get "reports/copy_cards/results" => 'reports#copy_cards_search_results', :as => :copy_cards_search_results
+  match "reports/copy_cards/results" => 'reports#copy_cards_export', :via => [:post,:put,:patch]
 
   if !Rails.env.production?
     # Template URLS - These are just for the devs as working examples

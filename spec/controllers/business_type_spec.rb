@@ -98,7 +98,7 @@ describe BusinessTypeController, :type => :controller do
 
       it "redirects to the 'business details' page" do
         post :create, :registration => { "businessType" => "charity" }
-        expect(response).to redirect_to :newBusinessDetails
+        expect(response).to redirect_to :business_details
       end
 
     end
@@ -114,7 +114,7 @@ describe BusinessTypeController, :type => :controller do
 
       it "redirects to the 'business details' page" do
         post :create, :registration => { "businessType" => "authority" }
-        expect(response).to redirect_to :newBusinessDetails
+        expect(response).to redirect_to :business_details
       end
 
     end

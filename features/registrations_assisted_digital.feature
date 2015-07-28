@@ -37,6 +37,7 @@ Scenario: Valid registration on behalf of a caller
   And the caller provides initial answers for the lower tier
   And the caller provides his business organisation details
   And the caller provides his contact details
+  And the caller provides his postal address
   And the caller declares the information provided is correct
   Then I should see the Finish page
   And the lower tier waste carrier registration id

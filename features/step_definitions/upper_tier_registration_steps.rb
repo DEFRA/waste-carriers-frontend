@@ -3,6 +3,7 @@ Given(/^I have completed the upper tier and chosen to pay by bank transfer$/) do
   step 'I am a carrier dealer'
   step 'I enter my business details'
   step 'I enter my contact details'
+  postal_address_page_complete_form
   step 'I enter the details of the business owner'
   step 'no key people in the organisation have convictions'
   step 'I confirm the declaration'
@@ -40,7 +41,7 @@ And(/^I am a carrier dealer$/) do
 end
 
 And(/^I enter my business details$/) do
-  fill_in 'registration_companyName', with: 'Bespoke'
+  fill_in 'registration_companyName', with: my_company_name
   fill_in 'sPostcode', with: 'BS1 5AH'
   click_button 'find_address'
 

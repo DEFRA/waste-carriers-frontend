@@ -371,17 +371,19 @@ When(/^I create an upper tier registration on behalf of a caller for payments$/)
   sleep 1
 
   fill_in 'registration_companyName', with: 'PaymentReg'+registrationCount.to_s
-  fill_in 'registration_houseNumber', with: '123'
-  fill_in 'registration_streetLine1', with: 'Deanery Road'
-  fill_in 'registration_streetLine2', with: 'EA Building'
-  fill_in 'registration_townCity', with: 'Bristol'
-  fill_in 'registration_postcode', with: 'BS1 5AH'
+  fill_in 'address_houseNumber', with: '123'
+  fill_in 'address_addressLine1', with: 'Deanery Road'
+  fill_in 'address_addressLine2', with: 'EA Building'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 5AH'
   click_button 'continue'
 
   fill_in 'registration_firstName', with: 'Antony'
   fill_in 'registration_lastName', with: 'Assisted'
   fill_in 'registration_phoneNumber', with: '0123 456 789'
   click_button 'continue'
+
+  postal_address_page_complete_form
 
   step 'I enter the details of the business owner'
 
