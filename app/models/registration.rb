@@ -655,10 +655,11 @@ class Registration < Ohm::Model
 
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
+          Rails.logger.warn 'Starting mapping of returned json to Registrations'
           all_regs.each do |r|
-            Rails.logger.debug "----------> #{r}"
             registrations << Registration.init(r)
           end
+          Rails.logger.warn 'Finished Mapping.'
         else
           Rails.logger.error {"Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"}
         end
