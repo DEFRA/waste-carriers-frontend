@@ -34,7 +34,7 @@ module PaymentsHelper
   end
 
   def money_value_without_currency_symbol_and_with_pence_part pence
-    value = Moy.new pence
+    value = Money.new pence
     humanized_money(value, { :no_cents_if_whole => false, :symbol => false })
   end
 
