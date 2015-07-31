@@ -820,7 +820,6 @@ class RegistrationsController < ApplicationController
       renderNotFound and return
     end
     authorize! :update, @registration
-    session[:saved] = false
 
     if request.patch?()
       if (params[:registration][:accountEmail] != @registration.accountEmail)
@@ -832,7 +831,6 @@ class RegistrationsController < ApplicationController
         @user.send_reset_password_instructions
         @registration.accountEmail = params[:registration][:accountEmail]
         @registration.save!
-        session[:saved] = true
       end
     end
 
