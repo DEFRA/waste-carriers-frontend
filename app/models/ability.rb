@@ -81,6 +81,7 @@ class Ability
     if !user.nil? and user.is_agency_user?
 #      can :manage, Payment
       can :read, Payment
+      can :update, User
     end
     
 	if !user.nil? and user.is_agency_user? and user.has_role? :Role_agencyRefundPayment, AgencyUser

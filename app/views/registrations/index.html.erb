@@ -192,6 +192,7 @@
               <li><span><%= t('.actions_heading') %></span><li>
               <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.view_button_label'), view_path(reg.uuid) %></li><% end %>
               <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to t('registrations.form.edit_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::EDIT) %></li><% end %>
+              <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to t('registrations.form.edit_account_email_label'), edit_account_email_path(reg.uuid) %></li><% end %>
               <% if reg.can_be_deleted?(current_agency_user) %><li><%= link_to t('form.delete_button_label'), confirmDelete_path(reg.uuid) %></li><% end %>
               <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid), id: "revokeRegistration#{regCount}" %></li><% end %>
               <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
