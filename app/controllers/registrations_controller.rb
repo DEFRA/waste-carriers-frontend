@@ -67,6 +67,7 @@ class RegistrationsController < ApplicationController
     end
   end
 
+
   # GET /your-registration/contact-details
   def newContactDetails
     new_step_action 'contactdetails'
@@ -127,42 +128,42 @@ class RegistrationsController < ApplicationController
     return unless @registration
 
     case session[:edit_mode].to_i
-    when EditMode::EDIT, EditMode::RENEWAL
-      @registration.declaration = false
-      if session[:edit_result].to_i.eql? EditResult::START  #this is the first time we hit the confirmation page
-        session[:edit_result] = EditResult::START + 1
-      else #we've hit the confirmation page before
-        logger.debug "going to compare"
-        original_registration = Registration[ session[:original_registration_id] ]
-        session[:edit_result] =  compare_registrations(@registration, original_registration )
-      end
+      when EditMode::EDIT, EditMode::RENEWAL
+        @registration.declaration = false
+        if session[:edit_result].to_i.eql? EditResult::START  #this is the first time we hit the confirmation page
+          session[:edit_result] = EditResult::START + 1
+        else #we've hit the confirmation page before
+          logger.debug "going to compare"
+          original_registration = Registration[ session[:original_registration_id] ]
+          session[:edit_result] =  compare_registrations(@registration, original_registration )
+        end
 
       # update_registration session[:edit_mode]
-    else # new registration, do nothing (default rendering will occur)
+      else # new registration, do nothing (default rendering will occur)
 
-      # Check if IR Renewal
-      logger.debug "Check if IR renewal flow"
-      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
-        logger.debug "IR renewal flow found"
-        original_registration = Registration[ session[:original_registration_id] ]
-        session[:edit_result] =  compare_registrations(@registration, original_registration )
-        logger.debug "edit result: " + session[:edit_result].to_s
+        # Check if IR Renewal
+        logger.debug "Check if IR renewal flow"
+        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
+          logger.debug "IR renewal flow found"
+          original_registration = Registration[ session[:original_registration_id] ]
+          session[:edit_result] =  compare_registrations(@registration, original_registration )
+          logger.debug "edit result: " + session[:edit_result].to_s
 
-        case session[:edit_result].to_i
-        when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-          logger.debug "++++++++++++++++++++++++ ir data, no charge"
-        when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-          logger.debug "++++++++++++++++++++++++ charge"
-        when RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
-          logger.debug "++++++++++++++++++++++++ ir data changed to new reg"
-        when RegistrationsController::EditResult::NO_CHANGES
-          logger.debug "++++++++++++++++++++++++ no change"
-        end #case
+          case session[:edit_result].to_i
+            when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+              logger.debug "++++++++++++++++++++++++ ir data, no charge"
+            when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+              logger.debug "++++++++++++++++++++++++ charge"
+            when RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
+              logger.debug "++++++++++++++++++++++++ ir data changed to new reg"
+            when RegistrationsController::EditResult::NO_CHANGES
+              logger.debug "++++++++++++++++++++++++ no change"
+          end #case
 
-        # Set edit mode to renew, to show panel for renew
-        session[:edit_mode] = RegistrationsController::EditMode::RENEWAL
+          # Set edit mode to renew, to show panel for renew
+          session[:edit_mode] = RegistrationsController::EditMode::RENEWAL
 
-      end
+        end
 
     end #case
 
@@ -177,105 +178,105 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       case session[:edit_mode].to_i
-      when EditMode::EDIT
-        case session[:edit_result].to_i
-        # Check if no Immediate edit actions have occured, and redirect back to
-        # appropraite start point
-        # This assumes that because the edit_result orignally is set to the
-        # start, and then when newConfirmation is rendered it is incremented by
-        # one, that this is the only situation where that can occur.
-        when  EditResult::START + 1
-          unless @registration.paid_in_full?
-            newOrder @registration.uuid
-            return
-          end
-          clear_edit_session
-          if current_user
-            redirect_to userRegistrations_path(current_user)
-          elsif current_agency_user
-            redirect_to registrations_path
-          else
-            renderAccessDenied
-          end
-          return
-        when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-          @registration.save!
-          unless @registration.paid_in_full?
-            newOrder @registration.uuid
-            return
-          end
-          clear_edit_session
-          if current_user
-            redirect_to userRegistrations_path(current_user)
-          elsif current_agency_user
-            redirect_to registrations_path
-          else
-            renderAccessDenied
-          end
-          return
-        when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-          newOrderEdit @registration.uuid
-        when  EditResult::CREATE_NEW_REGISTRATION
-          # If a new registration is needed at this point it should be created
-          # as the payment will then be processed against that registration and
-          # not the original one, which will be marked as deleted
-          new_reg = Registration.create_new_when_edit_requires_new_reg(@registration)
-          session[:editing] = true
+        when EditMode::EDIT
+          case session[:edit_result].to_i
+            # Check if no Immediate edit actions have occured, and redirect back to
+            # appropraite start point
+            # This assumes that because the edit_result orignally is set to the
+            # start, and then when newConfirmation is rendered it is incremented by
+            # one, that this is the only situation where that can occur.
+            when  EditResult::START + 1
+              unless @registration.paid_in_full?
+                newOrder @registration.uuid
+                return
+              end
+              clear_edit_session
+              if current_user
+                redirect_to userRegistrations_path(current_user)
+              elsif current_agency_user
+                redirect_to registrations_path
+              else
+                renderAccessDenied
+              end
+              return
+            when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
+              @registration.save!
+              unless @registration.paid_in_full?
+                newOrder @registration.uuid
+                return
+              end
+              clear_edit_session
+              if current_user
+                redirect_to userRegistrations_path(current_user)
+              elsif current_agency_user
+                redirect_to registrations_path
+              else
+                renderAccessDenied
+              end
+              return
+            when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+              newOrderEdit @registration.uuid
+            when  EditResult::CREATE_NEW_REGISTRATION
+              # If a new registration is needed at this point it should be created
+              # as the payment will then be processed against that registration and
+              # not the original one, which will be marked as deleted
+              new_reg = Registration.create_new_when_edit_requires_new_reg(@registration)
+              session[:editing] = true
 
-          # Need to re-get registration from DB as we are leaving the orig alone
-          original_reg = Registration.find_by_id(@registration.uuid)
-          # Mark original registration as deleted and save to db
-          original_reg.metaData.first.update(:status=>'INACTIVE')
+              # Need to re-get registration from DB as we are leaving the orig alone
+              original_reg = Registration.find_by_id(@registration.uuid)
+              # Mark original registration as deleted and save to db
+              original_reg.metaData.first.update(:status=>'INACTIVE')
 
-          if original_reg.save!
-            original_reg.save
-          end
+              if original_reg.save!
+                original_reg.save
+              end
 
-          # Use copy of registration in memory and save to database
-          new_reg.current_step = 'confirmation'
-          if new_reg.valid?
-            new_reg.reg_uuid = SecureRandom.uuid
-            if new_reg.commit
-              new_reg.save
-              @registration = new_reg
-              session[:registration_id] = new_reg.id
-              session[:registration_uuid] = @registration.uuid
+              # Use copy of registration in memory and save to database
+              new_reg.current_step = 'confirmation'
+              if new_reg.valid?
+                new_reg.reg_uuid = SecureRandom.uuid
+                if new_reg.commit
+                  new_reg.save
+                  @registration = new_reg
+                  session[:registration_id] = new_reg.id
+                  session[:registration_uuid] = @registration.uuid
+                else
+                  render 'newConfirmation', status: '400'
+                end
+              else
+                render 'newConfirmation', status: '400'
+              end
+
+              # Save copied registration to redis and update any session variables
+              @registration.save
+              newOrderCausedNew @registration.uuid
+              return
             else
-              render 'newConfirmation', status: '400'
-            end
-          else
-            render 'newConfirmation', status: '400'
+              edit_mode = session[:edit_mode]
+              edit_result = session[:edit_result]
+              # we don't need edit variables polluting the session any more
+              clear_edit_session
+              redirect_to(
+                  action: 'editRenewComplete',
+                  edit_mode: edit_mode,
+                  edit_result: edit_result)
+              return
           end
 
-          # Save copied registration to redis and update any session variables
-          @registration.save
-          newOrderCausedNew @registration.uuid
-          return
-        else
-          edit_mode = session[:edit_mode]
-          edit_result = session[:edit_result]
-          # we don't need edit variables polluting the session any more
-          clear_edit_session
-          redirect_to(
-            action: 'editRenewComplete',
-            edit_mode: edit_mode,
-            edit_result: edit_result)
-          return
-        end
+        when EditMode::RENEWAL
+          # Detect standard or IR renewal
+          if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+            redirect_to action: :account_mode
+          else
+            @registration.renewalRequested = true
 
-      when EditMode::RENEWAL
-        # Detect standard or IR renewal
-        if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+            @registration.save
+            newOrderRenew(@registration.uuid)
+            return
+          end
+        else # new registration
           redirect_to action: :account_mode
-        else
-          @registration.renewalRequested = true
-
-          @registration.save
-          newOrderRenew(@registration.uuid)
-          return
-        end
-      else # new registration
-        redirect_to action: :account_mode
       end
 
     else
@@ -311,45 +312,45 @@ class RegistrationsController < ApplicationController
     @registration.save
 
     case account_mode_val
-    when 'sign_in'
-      redirect_to :action => 'newSignin'
-    when 'sign_up'
-      redirect_to :action => 'newSignup'
-    else
-      if @registration.valid?
-        case @registration.tier
-        when 'LOWER'
-          if complete_new_registration(true)
-            logger.debug "Registration created, about to check user type"
-            if user_signed_in
-              redirect_to :action => 'finish'
-            else
-              redirect_to :action => 'finishAssisted'
-            end
-          else
-            @registration.errors.add(:exception, "Unable to commit registration")
-            render "newConfirmation", :status => '400'
-          end
-        when 'UPPER'
-          complete_new_registration
-          #
-          # Important!
-          # Now storing an additional variable in the session for the type of order
-          # you are about to make.
-          # This session variable needs to be set every time the order/new action
-          # is requested.
-          #
-          if @registration.originalRegistrationNumber &&
-              isIRRegistrationType(@registration.originalRegistrationNumber) &&
-              @registration.newOrRenew
-            newOrderRenew @registration.uuid
-          else
-            newOrder @registration.uuid
-          end
-        end
+      when 'sign_in'
+        redirect_to :action => 'newSignin'
+      when 'sign_up'
+        redirect_to :action => 'newSignup'
       else
-        render "newConfirmation", :status => '400'
-      end
+        if @registration.valid?
+          case @registration.tier
+            when 'LOWER'
+              if complete_new_registration(true)
+                logger.debug "Registration created, about to check user type"
+                if user_signed_in
+                  redirect_to :action => 'finish'
+                else
+                  redirect_to :action => 'finishAssisted'
+                end
+              else
+                @registration.errors.add(:exception, "Unable to commit registration")
+                render "newConfirmation", :status => '400'
+              end
+            when 'UPPER'
+              complete_new_registration
+              #
+              # Important!
+              # Now storing an additional variable in the session for the type of order
+              # you are about to make.
+              # This session variable needs to be set every time the order/new action
+              # is requested.
+              #
+              if @registration.originalRegistrationNumber &&
+                  isIRRegistrationType(@registration.originalRegistrationNumber) &&
+                  @registration.newOrRenew
+                newOrderRenew @registration.uuid
+              else
+                newOrder @registration.uuid
+              end
+          end
+        else
+          render "newConfirmation", :status => '400'
+        end
     end
 
   end
@@ -384,10 +385,10 @@ class RegistrationsController < ApplicationController
     end
 
     case @registration.tier
-    when 'LOWER'
-      complete_new_registration true
-    when 'UPPER'
-      complete_new_registration
+      when 'LOWER'
+        complete_new_registration true
+      when 'UPPER'
+        complete_new_registration
     end
 
     session.delete(:at_mid_registration_signin_step)
@@ -395,38 +396,38 @@ class RegistrationsController < ApplicationController
     @registration.save
 
     case @registration.tier
-    when 'LOWER'
-      redirect_to :action => 'finish'
-    when 'UPPER'
-      #
-      # Important!
-      # Now storing an additional variable in the session for the type of order
-      # you are about to make.
-      # This session variable needs to be set every time the order/new action
-      # is requested.
-      #
+      when 'LOWER'
+        redirect_to :action => 'finish'
+      when 'UPPER'
+        #
+        # Important!
+        # Now storing an additional variable in the session for the type of order
+        # you are about to make.
+        # This session variable needs to be set every time the order/new action
+        # is requested.
+        #
 
-      # Determine what type of registration order to create
-      # If an originalRegistrationNumber is presenet in the registration, then the registraiton is an IR Renewal
-      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-        if session[:edit_result]
-          case session[:edit_result].to_i
-          when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE, EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-            # no charge or ir renewal with charge
-            newOrderRenew @registration.uuid
-          when  EditResult::CREATE_NEW_REGISTRATION
-            # ir renewal converted to new because of changes
-            newOrder @registration.uuid
+        # Determine what type of registration order to create
+        # If an originalRegistrationNumber is presenet in the registration, then the registraiton is an IR Renewal
+        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+          if session[:edit_result]
+            case session[:edit_result].to_i
+              when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE, EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+                # no charge or ir renewal with charge
+                newOrderRenew @registration.uuid
+              when  EditResult::CREATE_NEW_REGISTRATION
+                # ir renewal converted to new because of changes
+                newOrder @registration.uuid
+              else
+                # standard renewal
+                newOrderRenew @registration.uuid
+            end
           else
-            # standard renewal
             newOrderRenew @registration.uuid
           end
         else
-          newOrderRenew @registration.uuid
+          newOrder @registration.uuid
         end
-      else
-        newOrder @registration.uuid
-      end
     end
   end
 
@@ -477,31 +478,31 @@ class RegistrationsController < ApplicationController
     logger.debug 'Determining next_step for redirection'
 
     next_step = case @registration.tier
-    when 'LOWER'
-      pending_url
-    when 'UPPER'
-      # Important!
-      # Now storing an additional variable in the session for the type of order
-      # you are about to make.
-      # This session variable needs to be set every time the order/new action
-      # is requested.
+                  when 'LOWER'
+                    pending_url
+                  when 'UPPER'
+                    # Important!
+                    # Now storing an additional variable in the session for the type of order
+                    # you are about to make.
+                    # This session variable needs to be set every time the order/new action
+                    # is requested.
 
-      # Determine what type of registration order to create
-      # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
-      if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-        session[:renderType] = Order.renew_registration_identifier
-        if session[:edit_result]
-          if session[:edit_result].to_i.eql? EditResult::CREATE_NEW_REGISTRATION
-            session[:renderType] = Order.editrenew_caused_new_identifier
-          end
-        end
-      else
-        session[:renderType] = Order.new_registration_identifier
-      end
+                    # Determine what type of registration order to create
+                    # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
+                    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+                      session[:renderType] = Order.renew_registration_identifier
+                      if session[:edit_result]
+                        if session[:edit_result].to_i.eql? EditResult::CREATE_NEW_REGISTRATION
+                          session[:renderType] = Order.editrenew_caused_new_identifier
+                        end
+                      end
+                    else
+                      session[:renderType] = Order.new_registration_identifier
+                    end
 
-      session[:orderCode] = generateOrderCode
-      upper_payment_path(:id => @registration.uuid)
-    end
+                    session[:orderCode] = generateOrderCode
+                    upper_payment_path(:id => @registration.uuid)
+                end
 
     # Reset Signed up user to signed in status
     @registration.sign_up_mode = 'sign_in'
@@ -811,6 +812,30 @@ class RegistrationsController < ApplicationController
     redirect_to :newConfirmation
   end
 
+  # GET, PATCH /registrations/1/edit_account_email
+  def edit_account_email
+    Rails.logger.debug "edit account email for: #{params[:uuid]}"
+    @registration = Registration.find_by_id(params[:uuid])
+    if !@registration
+      renderNotFound and return
+    end
+    authorize! :update, @registration
+
+    if request.patch?()
+      if (params[:registration][:accountEmail] != @registration.accountEmail)
+        @user = User.find_by_email(@registration.accountEmail)
+        Rails.logger.debug "user: #{@user.email}"
+        @user.skip_reconfirmation!
+        @user.email = params[:registration][:accountEmail]
+        @user.save!(:validate => false)
+        @user.send_reset_password_instructions
+        @registration.accountEmail = params[:registration][:accountEmail]
+        @registration.save!
+      end
+    end
+
+  end
+
   def paymentstatus
     @registration = Registration.find_by_id(params[:id])
     if @registration.nil?
@@ -1109,12 +1134,12 @@ class RegistrationsController < ApplicationController
 
 
         param_args = {
-          q: searchString,
-          searchWithin: 'companyName',
-          distance: distance,
-          activeOnly: 'true',
-          postcode: postcode,
-        excludeRegId: 'true' }
+            q: searchString,
+            searchWithin: 'companyName',
+            distance: distance,
+            activeOnly: 'true',
+            postcode: postcode,
+            excludeRegId: 'true' }
 
 
         @registrations = Registration.find_by_params(param_args)
@@ -1272,21 +1297,21 @@ class RegistrationsController < ApplicationController
     end
 
     next_step = if renderType.eql?(Order.extra_copycards_identifier)
-      # redirect to copy card complete page
-      complete_copy_cards_path(@registration.uuid)
-    elsif renderType.eql?(Order.edit_registration_identifier)
-      # redirect to edit complete
-      complete_edit_renew_path(@registration.uuid)
-    elsif renderType.eql?(Order.renew_registration_identifier)
-      # redirect to renew complete
-      complete_edit_renew_path(@registration.uuid)
-    elsif user_signed_in?
-      finish_path
-    elsif agency_user_signed_in?
-      finishAssisted_path
-    else
-      confirmed_path
-    end
+                  # redirect to copy card complete page
+                  complete_copy_cards_path(@registration.uuid)
+                elsif renderType.eql?(Order.edit_registration_identifier)
+                  # redirect to edit complete
+                  complete_edit_renew_path(@registration.uuid)
+                elsif renderType.eql?(Order.renew_registration_identifier)
+                  # redirect to renew complete
+                  complete_edit_renew_path(@registration.uuid)
+                elsif user_signed_in?
+                  finish_path
+                elsif agency_user_signed_in?
+                  finishAssisted_path
+                else
+                  confirmed_path
+                end
 
     redirect_to next_step
 
