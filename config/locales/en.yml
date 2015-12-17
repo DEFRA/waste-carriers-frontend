@@ -1305,6 +1305,11 @@ en:
       carrier_telephone_number: "Telephone number"
       registration_date: "Date of registration"
       expiry_date: "Expiry date of registration (unless revoked)"
+      upper_tier_registered_as: "%{tier} tier waste %{regType}"
+      lower_tier_registered_as: "%{tier} tier waste carrier, broker and dealer"
+      carrier_broker_dealer: "carrier, broker and dealer"
+      carrier_dealer: "carrier and dealer"
+      broker_dealer: "broker and dealer"
     publicSearch:
       address_table_heading: "Address"
       businessType_table_heading: "Business Type"

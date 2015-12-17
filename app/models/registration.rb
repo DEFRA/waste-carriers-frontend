@@ -1278,6 +1278,19 @@ class Registration < Ohm::Model
 
   end
 
+  def tier_and_registration_type_description
+    if upper?
+      I18n.t('registrations.view.upper_tier_registered_as',
+        tier: tier.downcase.with_indefinite_article,
+        regType: I18n.t('registrations.view.' + registrationType.to_s)
+      )
+    else
+      I18n.t('registrations.view.lower_tier_registered_as',
+        tier: tier.downcase.with_indefinite_article
+      )
+    end
+  end
+  
   UpperRegistrationStatus = %w[
     INACTIVE
     EXPIRED

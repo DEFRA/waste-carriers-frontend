@@ -17,7 +17,6 @@
     <!-- Header section -->
     <header class="page-header group">
       <div class="hgroup">
-        <% message = "#{t('registration_mailer.welcome_email.tier_result_message', :companyName => @registration.companyName, :tier_with_article => @registration.tier.downcase.with_indefinite_article)}" %>
         <h1 class="heading-small"><%=t 'registrations.view.heading' %></h1>
       </div>
     </header>
@@ -93,7 +92,7 @@
           <% end %>
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.registered' %></td>
-            <td><%= message %></td>
+            <td><%= @registration.tier_and_registration_type_description %></td>
           </tr>
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.registration_number' %></td>
