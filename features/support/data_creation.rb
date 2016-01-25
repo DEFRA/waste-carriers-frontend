@@ -35,9 +35,14 @@ def create_registration(type)
 end
 
 def create_registration_from_hash(reg_hash)
+  # Set expiry date for upper tier, as two years from today's date.
+  if reg_hash['tier'] == 'UPPER'
+    two_years_in_ms = 365 * 24 * 60 * 60 * 1000
+    reg_hash['expires_on'] = ((Time.now.to_f * 1000) + two_years_in_ms).to_i
+  end
+  
   #post registration
   reg_hash['reg_uuid'] = SecureRandom.uuid
-
   url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
   create_reg_response = RestClient.post url, reg_hash.to_json, :content_type => :json, :accept => :json
 
