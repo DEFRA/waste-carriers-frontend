@@ -184,10 +184,10 @@ module Registrations
 
     # Registration expiration (upper tier only; lower tier registrations are
     # indefinite).
-    config.registration_expires_after = ENV['WCRS_REGISTRATION_EXPIRES_AFTER'].to_i.years || 3.years
+    config.registration_expires_after = (ENV['WCRS_REGISTRATION_EXPIRES_AFTER'] || '3').to_i.years
 
     # Upper tier registrations can be renewed starting a given time period (e.g.
     # 6 months) before their expiration date.
-    config.registration_renewal_window = ENV['WCRS_REGISTRATION_RENEWAL_WINDOW'].to_i.months || 6.months
+    config.registration_renewal_window = (ENV['WCRS_REGISTRATION_RENEWAL_WINDOW'] || '6').to_i.months
   end
 end
