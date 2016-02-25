@@ -159,12 +159,12 @@ module Registrations
 
     # Offline payment.
     config.environment_agency_bank_account_name = 'Environment Agency'
-    config.environment_agency_bank_name = 'Citibank'
-    config.environment_agency_bank_address = 'Citigroup Centre, Canada Square, London, E14 5LB'
-    config.bank_transfer_sort_code = '08-33-00'
-    config.bank_transfer_account_number = '12800543'
-    config.iban_number = 'GB23 CITI0833 0012 8005 43'
-    config.swiftbic_number = 'CITI GB2LXXX'
+    config.environment_agency_bank_name = 'RBS/Natwest'
+    config.environment_agency_bank_address = 'Royal Bank of Scotland plc, London Corporate Service Centre, CPB Services 2nd Floor, 280 Bishopsgate, London, EC2M 4RB'
+    config.bank_transfer_sort_code = '60-70-80'
+    config.bank_transfer_account_number = '10014411'
+    config.iban_number = 'GB23 NWBK6070 8010 0144 11'
+    config.swiftbic_number = 'NWBK GB2L'
     config.income_email_address = 'FSC.AR@environment-agency.gov.uk'
     config.income_fax_number = '01733 464892'
     config.income_postal_address = 'Environment Agency, Income Dept 311, PO Box 263, Peterborough, PE2 8YD'
