@@ -167,7 +167,7 @@ module Registrations
     config.swiftbic_number = 'NWBK GB2L'
     config.income_email_address = 'ea_fsc_ar@sscl.gse.gov.uk'
     config.income_fax_number = '01733 464892'
-    config.income_postal_address = 'Environment Agency, Income Dept 311, PO Box 263, Peterborough, PE2 8YD'
+    config.income_postal_address = 'Environment Agency, SSCL Banking Team, PO Box 263, Peterborough, PE2 8YD'
 
     # Fees/charges: provide as a number expressed in pence (cents).
     # TODO: Have a more elaborate fee structure (and/or the fees in the
