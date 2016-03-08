@@ -82,7 +82,7 @@
             <%
             # Only show the Edit Row, if any of the butttons are shown
             if registration.can_view_certificate? || registration.can_be_edited? || \
-            	registration.is_active? || registration.about_to_expire? || \
+            	registration.is_active? || registration.can_be_renewed? || \
             	registration.can_request_copy_cards? %>
             <tr>
 
@@ -99,7 +99,7 @@
               </td>
 
 	            <td>
-		            <% if registration.upper? and registration.about_to_expire? %>
+		            <% if registration.upper? and registration.can_be_renewed? %>
 	            	<%= link_to t('form.renew_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL), :id => 'renew_'+registration.regIdentifier %>
 	            	<% end %>
 	            </td>
