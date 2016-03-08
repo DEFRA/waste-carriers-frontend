@@ -20,13 +20,10 @@ def create_complete_upper_tier_reg_from_hash(reg_hash, method, copy_cards)
   registration =  JSON.parse(create_registration_from_hash(reg_hash))
   id = registration['id']
   account_email = registration['accountEmail']
-
   create_user(account_email)
-
   #create order and pay
   order_response = JSON.parse(create_order(registration, copy_cards.to_i, method))
   create_payment(id, order_response['totalAmount'], account_email, method)
-
   return get_registration(id)
 end
 
