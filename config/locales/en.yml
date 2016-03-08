@@ -1087,6 +1087,7 @@ en:
       bullet3: "contact name"
       bullet4: "postcode"
       bullet5: "assisted digital code"
+      ir_search_hint: "To search for an IR registration, enter only the part shown in bold: CB/<b>AB1234CD</b>/A001"
       query_label: "Search for"
       search_within_label: "Search only within"
       option_any: "Any"

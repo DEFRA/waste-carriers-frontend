@@ -18,6 +18,7 @@ class OrderItem < Ohm::Model
     IRRENEW
     COPY_CARDS
     CHARGE_ADJUST
+    IR_IMPORT
   )
 
   class << self
