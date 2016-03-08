@@ -7,6 +7,10 @@ Given(/^I am renewing an IR registration$/) do
   click_button 'continue'
 end
 
+Given(/^I Click Continue$/) do
+  click_button 'continue'
+end
+
 Given(/^I have chosen to renew my registration from IR$/) do
   repopulate_database_with_IR_data
   go_to_start_page
@@ -178,6 +182,19 @@ Given(/^I am registering an IR registration for a limited company changing waste
   service_provided_page_select_yes
   only_deal_with_page_select_no
   registration_type_page_select_carrier_dealer
+  business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
+  contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_no
+end
+Given(/^I am registering an IR registration for a limited company changing CD to BD and pay by credit card$/) do
+  existing_registration_page_enter_limited_company_registration_number
+  business_type_page_submit
+  other_businesses_page_select_yes
+  service_provided_page_select_yes
+  only_deal_with_page_select_no
+  registration_type_page_select_broker_dealer
   business_details_page_enter_business_or_organisation_details_postcode_lookup_and_submit
   contact_details_page_enter_ad_contact_details_and_submit
   postal_address_page_complete_form
@@ -446,6 +463,11 @@ When(/^I change waste carrier type from CBD to CD$/) do
   click_button 'continue'
 end
 
+Then(/^I expect the Carrier Type to be: "(.*?)"$/) do |registration_type|
+  field = find(:radio_button, 'registration[registrationType]', checked: true).value
+  expect(field).to eq(registration_type)
+end
+
 When(/^I Enter business details$/) do
   fill_in 'sPostcode', with: 'HP10 9BX'
   click_button 'find_address'
@@ -563,6 +585,10 @@ end
 
 Given(/^I am renewing a valid CBD IR registration for limited company$/) do
   existing_registration_page_enter_limited_company_registration_number
+end
+
+Given(/^I Search for the Client Details with a IR Registration Number$/) do
+  existing_registration_page_enter_IR_renewl_registration_number
 end
 
 When(/^I change waste carrier type from BD to CD$/) do

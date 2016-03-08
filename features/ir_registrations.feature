@@ -54,3 +54,22 @@ Scenario: IR registrations - Limited company changes companies house number
   Then I will be charged for a new registration
   And my existing registration will be deleted and a new registration created
 
+# Registration ID migrated IR records Change Carrier type preserved
+@irdecom @javascript
+Scenario: migrated IR records Change Carrier type preserved
+  Given a "PT_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
+  And I build a new registration ID "CB/AN9999ZZ/R002"
+  And I Search for the Client Details with a IR Registration Number
+  And I don't change business type
+  And the smart answers keep me in Upper tier
+  Then I expect the Carrier Type to be: "broker_dealer"
+  Then I Click Continue
+  When I Enter business details
+  When I Enter my contact details
+  Then I Click Continue
+  Then I Enter my details for two partners
+  And I have no relevant convictions
+  And I confirm my details
+  Then I should be shown the total cost "105.00"
+  And registration should be complete when payment is successful
+  Then I click on the finish button
