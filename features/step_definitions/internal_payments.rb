@@ -273,7 +273,7 @@ When(/^balance is in credit$/) do
   expect(page).not_to have_text 'Awaiting payment'
 end
 
-When(/^refund is selected$/) do
+And(/^refund is selected$/) do
   expect(page).to have_text 'Payment status'
   click_link 'refund'
 end
