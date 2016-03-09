@@ -16,17 +16,20 @@ def create_complete_upper_tier_reg(type, method, copy_cards)
   return registration
 end
 
+def create_complete_upper_tier_reg_from_IR(type, method, copy_cards)
+  registration = create_complete_upper_tier_reg_from_hash(JSON.parse(File.read("features/fixtures/#{type}.json")), method, copy_cards)
+  @cucumber_reg_id = registration['referenceNumber']
+  return registration
+end
+
 def create_complete_upper_tier_reg_from_hash(reg_hash, method, copy_cards)
   registration =  JSON.parse(create_registration_from_hash(reg_hash))
   id = registration['id']
   account_email = registration['accountEmail']
-
   create_user(account_email)
-
   #create order and pay
   order_response = JSON.parse(create_order(registration, copy_cards.to_i, method))
   create_payment(id, order_response['totalAmount'], account_email, method)
-
   return get_registration(id)
 end
 
@@ -130,9 +133,20 @@ end
 def create_user(account_email)
   user = User.new
   user.email = account_email
-  
+
   # Keep this in-sync with the value in world_extensions.rb
   user.password = 'Password123'
   user.skip_confirmation!
   user.save
+end
+
+def change_registration_id(new_reg_id)
+  get_reg_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{@raw_id}.json"
+  get_reg_response = RestClient.get get_reg_url
+  parse_registration_hash = JSON.parse(get_reg_response)
+  parse_registration_hash['regIdentifier'] = new_reg_id
+  edit_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{@raw_id}.json"
+  edit_reg_response = RestClient.put edit_url, parse_registration_hash.to_json, :content_type => :json, :accept => :json
+  @irrenewl_id = new_reg_id
+return edit_reg_response
 end
