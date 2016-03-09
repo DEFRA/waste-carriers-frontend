@@ -1146,8 +1146,16 @@ class Registration < Ohm::Model
     metaData.first.status == "REVOKED" and user_can_edit_registration(agency_user)
   end
 
-  def about_to_expire?
-    metaData.first.status == 'ACTIVE' && expires_on && (convert_date(expires_on) - Rails.configuration.registration_renewal_window) < Time.now && convert_date(expires_on)  > Time.now
+  def can_be_renewed?
+    # Until we fix the within-service renewals process, we won't allow anybody
+    # to even try this route.
+    false
+    
+    #metaData.first.status == 'ACTIVE' && \
+    #  tier.inquiry.UPPER? && \
+    #  expires_on && \
+    #  (convert_date(expires_on) - Rails.configuration.registration_renewal_window) < Time.now && \
+    #  convert_date(expires_on) > Time.now
   end
 
   def can_be_edited?(agency_user=nil)
