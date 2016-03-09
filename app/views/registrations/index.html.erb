@@ -201,9 +201,9 @@
                 <% if reg.can_be_approved?(current_agency_user) %><li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid), id: "approveRegistration#{regCount}" %></li><% end %>
                 <% if reg.can_be_refused?(current_agency_user) %><li><%= link_to t('form.refuse_button_label'), refuse_path(reg.uuid) %></li><% end %>
                 <% if reg.can_view_payment_status? %><li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li><% end %>
-                <% if reg.about_to_expire? %>
-              <li><%= link_to t('form.renew_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %></li>
-              <% end %>
+                <% if reg.can_be_renewed? %>
+                  <li><%= link_to t('form.renew_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %></li>
+                <% end %>
                 <% if reg.can_request_copy_cards?(current_agency_user) %><li><%= link_to t('form.addCopyCards_button_label'), newOrderCopyCards_path(reg.uuid) %></li><% end %>
               <% end %>
             </ul>

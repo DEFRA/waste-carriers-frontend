@@ -34,7 +34,7 @@
             <h4 class="heading-small"><%= t 'registrations.confirmed.update_heading' %></h4>
 
           <% else %>
-            <p><%= t 'registrations.confirmed.paragraph1_upper' %></p>
+            <p><%= t 'registrations.confirmed.paragraph1_upper', :regType => @registration.tier_and_registration_type_description %></p>
 
             <p><%= t 'registrations.confirmed.being_waste_heading' %></p>
 
