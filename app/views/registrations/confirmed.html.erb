@@ -36,7 +36,7 @@
           <% else %>
             <p><%= t 'registrations.confirmed.paragraph1_upper', :regType => @registration.tier_and_registration_type_description %></p>
 
-            <p><%= t 'registrations.confirmed.being_waste_heading' %></p>
+            <p><%= t 'registrations.confirmed.being_waste_heading', :regType => @registration.tier_and_registration_type_description %></p>
 
             <ul class="list-bullet">
               <li><%= t 'registrations.confirmed.waste_bullet1' %></li>
