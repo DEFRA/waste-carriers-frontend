@@ -15,7 +15,7 @@
 <% else %>
 <%=t 'registration_mailer.welcome_email.paragraph1_upper', :regType => @registration.tier_and_registration_type_description %>
 
-<%=t 'registration_mailer.welcome_email.paragraph2_upper' %>
+<%=t 'registration_mailer.welcome_email.paragraph2_upper', :regType => @registration.tier_and_registration_type_description %>
 
 <%=t 'registration_mailer.welcome_email.bullet1_upper' %>
 <%=t 'registration_mailer.welcome_email.bullet2_upper' %>
