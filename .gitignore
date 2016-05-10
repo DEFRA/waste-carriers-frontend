@@ -36,3 +36,5 @@ dump.rdb
 .idea/
 .settings/
 **~
+
+coverage
