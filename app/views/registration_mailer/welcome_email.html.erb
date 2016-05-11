@@ -72,9 +72,9 @@
             </ul>
 
             <% else %>
-            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%=t 'registration_mailer.welcome_email.paragraph1_upper' %></p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;"><%=t 'registration_mailer.welcome_email.paragraph1_upper', :regType => @registration.tier_and_registration_type_description %></p>
 
-            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;"><%=t 'registration_mailer.welcome_email.paragraph2_upper' %></p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;"><%=t 'registration_mailer.welcome_email.paragraph2_upper', :regType => @registration.tier_and_registration_type_description %></p>
 
             <ul>
               <li style="font-size: 16px; line-height: 1.125; margin: 0 0 15px 0;"><%=t 'registration_mailer.welcome_email.bullet1_upper' %></li>
