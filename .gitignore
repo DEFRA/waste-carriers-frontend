@@ -13,6 +13,7 @@ capybara-*.html
 /public/maintenance.html
 /coverage/
 /spec/tmp/*
+/spec/vcr/**/*.yml
 *.orig
 rerun.txt
 pickle-email-*.html
@@ -34,3 +35,4 @@ dump.rdb
 
 .idea/
 .settings/
+**~

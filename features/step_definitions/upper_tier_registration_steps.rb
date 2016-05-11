@@ -142,3 +142,6 @@ end
 Given(/^I finish the registration$/) do
   click_button 'finished_btn'
 end
+Given(/^I click on the finish button$/) do
+  click_button 'finished'
+end

@@ -22,14 +22,13 @@ Scenario: Expired IR registration, No convictions, Online payment
   And I make no other changes to my registration details
   Then I will be charged the full fee
   And registration should be complete when payment is successful
-  
+
 @javascript
 Scenario: IR registrations, Convictions, Online payment
   When I enter my IR registration number for a limited company with convictions and pay by credit card
   And I make no other changes to my registration details
   Then I will be charged a renewal fee
   And my registration should be pending convictions checks when payment is successful
-
 
 Scenario: IR registrations, No Convictions, Offline payment
   When I enter my IR registration number for a partnership and pay by bank transfer
@@ -38,7 +37,6 @@ Scenario: IR registrations, No Convictions, Offline payment
   And my registration should be pending payment
   And my correct renewal charge should be shown
 
-
 Scenario: IR registrations, Convictions, Offline payment
   When I enter my IR registration number for a Sole trader with convictions and pay by bank transfer
   And I make no other changes to my registration details
@@ -46,12 +44,32 @@ Scenario: IR registrations, Convictions, Offline payment
   And my registration should be pending payment
 
 Scenario: IR registrations - Public body changes name
-When I enter my IR registration number for a public body and change my business name
-Then I will be charged a renewal fee
+  When I enter my IR registration number for a public body and change my business name
+  Then I will be charged a renewal fee
 
 # business logic fails linked to bug https://www.pivotaltracker.com/story/show/89518492
 @wip
 Scenario: IR registrations - Limited company changes companies house number
-When I enter my IR registration number for a limited company and change my companies house number
-Then I will be charged for a new registration
-And my existing registration will be deleted and a new registration created
+  When I enter my IR registration number for a limited company and change my companies house number
+  Then I will be charged for a new registration
+  And my existing registration will be deleted and a new registration created
+
+# Registration ID migrated IR records Change Carrier type preserved
+@irdecom @javascript
+Scenario: migrated IR records Change Carrier type preserved
+  Given a "PT_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
+  And I build a new registration ID "CB/AN9999ZZ/R002"
+  And I Search for the Client Details with a IR Registration Number
+  And I don't change business type
+  And the smart answers keep me in Upper tier
+  Then I expect the Carrier Type to be: "broker_dealer"
+  Then I Click Continue
+  When I Enter business details
+  When I Enter my contact details
+  Then I Click Continue
+  Then I Enter my details for two partners
+  And I have no relevant convictions
+  And I confirm my details
+  Then I should be shown the total cost "105.00"
+  And registration should be complete when payment is successful
+  Then I click on the finish button

@@ -655,10 +655,11 @@ class Registration < Ohm::Model
 
         if response.code == 200
           all_regs = JSON.parse(response.body) #all_regs should be Array
+          Rails.logger.warn 'Starting mapping of returned json to Registrations'
           all_regs.each do |r|
-            Rails.logger.debug "----------> #{r}"
             registrations << Registration.init(r)
           end
+          Rails.logger.warn 'Finished Mapping.'
         else
           Rails.logger.error {"Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"}
         end
@@ -1145,8 +1146,16 @@ class Registration < Ohm::Model
     metaData.first.status == "REVOKED" and user_can_edit_registration(agency_user)
   end
 
-  def about_to_expire?
-    metaData.first.status == 'ACTIVE' && expires_on && (convert_date(expires_on) - Rails.configuration.registration_renewal_window) < Time.now && convert_date(expires_on)  > Time.now
+  def can_be_renewed?
+    # Until we fix the within-service renewals process, we won't allow anybody
+    # to even try this route.
+    false
+    
+    #metaData.first.status == 'ACTIVE' && \
+    #  tier.inquiry.UPPER? && \
+    #  expires_on && \
+    #  (convert_date(expires_on) - Rails.configuration.registration_renewal_window) < Time.now && \
+    #  convert_date(expires_on) > Time.now
   end
 
   def can_be_edited?(agency_user=nil)
@@ -1277,6 +1286,19 @@ class Registration < Ohm::Model
 
   end
 
+  def tier_and_registration_type_description
+    if upper?
+      I18n.t('registrations.view.upper_tier_registered_as',
+        tier: tier.downcase.with_indefinite_article,
+        regType: I18n.t('registrations.view.' + registrationType.to_s)
+      )
+    else
+      I18n.t('registrations.view.lower_tier_registered_as',
+        tier: tier.downcase.with_indefinite_article
+      )
+    end
+  end
+  
   UpperRegistrationStatus = %w[
     INACTIVE
     EXPIRED

@@ -48,12 +48,15 @@ describe CompaniesHouseCaller do
     end
 
     context 'another active company' do
-      subject { CompaniesHouseCaller.new '7540106' }
+      subject { CompaniesHouseCaller.new '445790' }
 
       it 'is active', :vcr do
         subject.status.should == :active
       end
     end
+    
+    # TODO: Insert a test to cover behaviour for companies that have "Active -
+    # Proposal to Strike off" status.
 
     context 'not active' do
       subject { CompaniesHouseCaller.new '05868270' }
