@@ -3,5 +3,4 @@ task :coverage do
   ENV['COVERAGE'] = 'true'
   sh "rspec"
   sh "cucumber"
-  sh "open coverage/index.html"
 end
