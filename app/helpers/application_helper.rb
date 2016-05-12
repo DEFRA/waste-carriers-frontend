@@ -17,7 +17,8 @@ module ApplicationHelper
       begin
         res = Time.at(d / 1000.0)
         # if d is String the NoMethodError will be raised
-      rescue NoMethodError
+      rescue NoMethodError => e
+        Airbrake.notify(e)
         res = Time.parse(d)
       end
     end
