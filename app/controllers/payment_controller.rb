@@ -549,10 +549,11 @@ class PaymentController < ApplicationController
     @order.dateCreated = now
     @order.dateLastUpdated = now
 
-    theAmount = 0  
+    theAmount = 0
     begin
       theAmount = Float(@order.totalAmount)
     rescue => e
+      notify_airbrake(e)
       logger.info 'Couldnt convert to float: ' + e.to_s
     end
 

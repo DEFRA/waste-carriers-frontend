@@ -155,11 +155,13 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |exception|
+    notify_airbrake_async(exception)
     renderAccessDenied
   end
 
 
   rescue_from Errno::ECONNREFUSED do |exception|
+    notify_airbrake_async(exception)
     render :file => "/public/503.html", :status => 503
   end
 
