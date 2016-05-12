@@ -1,4 +1,5 @@
-# This file is copied to spec/ when you run 'rails generate rspec:install'
+require 'simplecov' if ENV['COVERAGE']
+
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
@@ -59,7 +60,7 @@ RSpec.configure do |config|
   config.before(:each) do
     TestHelpers::DatabaseCleaning.clean_all_databases
   end
-  
+
   # Fully clean all databases after all tests have finished running.
   config.after(:suite) do
     TestHelpers::DatabaseCleaning.clean_all_databases
