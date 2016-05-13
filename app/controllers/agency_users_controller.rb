@@ -51,8 +51,6 @@ class AgencyUsersController < ApplicationController
   # PATCH/PUT /agency_users/1.json
   def update
     respond_to do |format|
-      logger.info 'GET HERE'+agency_user_params.to_s
-
       if @agency_user.update(agency_user_params)
         addRemoveRoles
         format.html { redirect_to @agency_user, notice: I18n.t('registrations.form.agencyUserUpdated') }

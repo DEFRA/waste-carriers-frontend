@@ -84,7 +84,7 @@ module WorldpayHelper
     # was found.
     country = Country.find_country_by_name(address.country)
     result[:country_code] = country.nil? ? 'GB' : country.gec
-    
+
     result
   end
 
@@ -96,7 +96,7 @@ module WorldpayHelper
     headers = { "Authorization" => "Basic #{auth}" }
     res = https.post(uri.path, xml, headers)
     return res if res.code == '200'
-    logger.info "Worldpay connection returned #{res.code} and failed."
+    logger.debug "Worldpay connection returned #{res.code} and failed."
     # This error is built using a tag.
     # The intended message contains html which renders when called from a view
     @order.errors.add(:exception, 'worldPayConnectionIssue')
@@ -231,8 +231,6 @@ module WorldpayHelper
     mac_secret = worldpay_mac_secret
     data = orderKey + paymentAmount + paymentCurrency + paymentStatus + mac_secret
     digest = Digest::MD5.hexdigest(data)
-    logger.info 'MD5 digest = ' + digest.to_s
-    logger.info 'MAC = ' + mac
     digest.to_s.eql? mac
   end
 
@@ -248,12 +246,12 @@ module WorldpayHelper
     password = worldpay_xml_password
 
     xml = create_refund_request_xml(merchantCode,orderCode,currencyCode,amount)
-    logger.info 'About to contact WorldPay for refund: XML username = ' + worldpay_xml_username
-    logger.info 'Sending refund request XML to Worldpay: ' + xml
+    logger.debug 'About to contact WorldPay for refund: XML username '
+    logger.debug 'Sending refund request XML to Worldpay'
 
     response = send_xml_with_username_password(xml,username,password)
     @response = response.body
-    logger.info 'Received response from Worldpay: ' + @response
+    logger.debug 'Received response from Worldpay'
     @response
   end
 
@@ -270,12 +268,12 @@ module WorldpayHelper
 
     #xml = create_cancel_or_refund_request_xml(merchantCode,orderCode)
     xml = create_refund_request_xml(merchantCode, orderCode, currencyCode, amount)
-    logger.info 'About to contact WorldPay for refund: XML username = ' + username
-    logger.info 'Sending refund request XML to Worldpay: ' + xml
+    logger.debug 'About to contact WorldPay for refund'
+    logger.debug 'Sending refund request XML to Worldpay'
 
     response = send_xml_with_username_password(xml,username,password)
     @response = response.body
-    logger.info 'Received response from Worldpay: ' + @response
+    logger.debug 'Received response from Worldpay'
     @response
   end
 
@@ -313,7 +311,8 @@ module WorldpayHelper
   end
 
   def process_order_notification(notification)
-    logger.info "Processing order notification: " + notification.to_s
+    # TODO: This method appears to be unused. Remove?
+    # logger.debug "Processing order notification: " + notification.to_s
   end
 
   def use_moto? isMoto

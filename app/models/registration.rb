@@ -151,7 +151,7 @@ class Registration < Ohm::Model
         self.send("#{prop_name}=",prop_value)
       end
     else
-      Rails.logger.info 'no registration params found'
+      Rails.logger.debug 'no registration params found'
     end
   end
 
@@ -478,7 +478,7 @@ class Registration < Ohm::Model
         response = RestClient.get url
         if response.code == 200
           result = JSON.parse(response.body) #result should be Array
-          Rails.logger.info "find_all returned: #{ result.size.to_s} registrations"
+          Rails.logger.debug "find_all returned: #{ result.size.to_s} registrations"
           result.each do |r|
             registrations << Registration.init(r)
           end
@@ -500,7 +500,7 @@ class Registration < Ohm::Model
   class << self
     def find_by_email(email, with_statuses=nil)
       accountEmailParam = {ac: email}.to_query
-      Rails.logger.debug 'update search param to be encoded: ' + accountEmailParam.to_s
+      Rails.logger.debug 'update search param to be encoded'
       registrations = []
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{accountEmailParam}"
       begin
@@ -514,7 +514,7 @@ class Registration < Ohm::Model
           end
           Rails.logger.debug "#{registrations.size}"
         else
-          Rails.logger.error "Registration.find_by_email(#{email}) failed with a #{response.code} response from server"
+          Rails.logger.error "Registration.find_by_email failed with a #{response.code} response from server"
         end
       rescue => e
         Airbrake.notify(e)
@@ -1167,7 +1167,7 @@ class Registration < Ohm::Model
     # Until we fix the within-service renewals process, we won't allow anybody
     # to even try this route.
     false
-    
+
     #metaData.first.status == 'ACTIVE' && \
     #  tier.inquiry.UPPER? && \
     #  expires_on && \
@@ -1264,12 +1264,12 @@ class Registration < Ohm::Model
   end
 
   def getOrder( orderCode)
-    Rails.logger.info 'Registration getOrder ' + orderCode.to_s
+    Rails.logger.debug 'Registration getOrder ' + orderCode.to_s
     foundOrder = nil
     self.finance_details.first.orders.each do |order|
-      Rails.logger.info 'Order ' + order.orderCode.to_s
+      Rails.logger.debug 'Order ' + order.orderCode.to_s
       if orderCode.to_i == order.orderCode.to_i
-        Rails.logger.info 'Registration Found order ' + orderCode.to_s
+        Rails.logger.debug 'Registration Found order ' + orderCode.to_s
         foundOrder = order
       end
     end
@@ -1315,7 +1315,7 @@ class Registration < Ohm::Model
       )
     end
   end
-  
+
   UpperRegistrationStatus = %w[
     INACTIVE
     EXPIRED
@@ -1399,16 +1399,16 @@ class Registration < Ohm::Model
   end
 
   def self.activate_registrations(user)
-    Rails.logger.info "Activating pending registrations for user with email #{user.email}"
+    Rails.logger.debug "Activating pending registrations for user with email"
     rs = Registration.find_by_email(user.email)
-    Rails.logger.info("found: #{rs.size} pending registrations")
+    Rails.logger.debug("found: #{rs.size} pending registrations")
     rs.each do |r|
       Registration.activate_registration(r)
       if r.lower?
         Registration.send_registered_email(user, r)
       end
     end #each
-    Rails.logger.info "Activated registration(s) for user with email #{user.email}"
+    Rails.logger.debug "Activated registration(s) for user with email"
   end
 
   def self.isReadyToBeActive(reg)
@@ -1424,13 +1424,13 @@ class Registration < Ohm::Model
   end
 
   def self.activate_registration(r)
-    Rails.logger.debug "Check registration ready for activation: #{r.attributes.to_s}"
+    Rails.logger.debug "Check registration ready for activation"
     if r.pending? and Registration.isReadyToBeActive(r)
-      Rails.logger.info "Activating registration #{r.regIdentifier}"
+      Rails.logger.debug "Activating registration"
       r.activate!
       Rails.logger.debug "registration #{r.id} activated!"
     else
-      Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
+      Rails.logger.debug "Skipping non-pending registration"
     end
   end
 
@@ -1457,7 +1457,7 @@ class Registration < Ohm::Model
       # Send awaiting conviction check email
       RegistrationMailer.awaitingConvictionsCheck_email(user, r).deliver
     else
-      Rails.logger.info "Skipping sending registered email #{r.regIdentifier}"
+      Rails.logger.debug "Skipping sending registered email"
     end
   end
 

@@ -16,7 +16,7 @@ class OrderController < ApplicationController
     @renderType = session[:renderType]
     unless @order.isValidRenderType? @renderType
       logger.error 'Cannot find a renderType variable in the session. It is needed to determine the type of payment page to render.'
-      logger.error 'Rendering Page not found'
+      logger.debug 'Rendering Page not found'
       renderNotFound
     end
 
@@ -41,7 +41,7 @@ class OrderController < ApplicationController
   # POST /create
   def create
     setup_registration 'payment'
-    
+
     # Must get render type to determine what actions to take, and for
     # rerendering any errors if found.
     @renderType = session[:renderType]
@@ -56,13 +56,13 @@ class OrderController < ApplicationController
       @order = prepareOnlinePayment(@registration, @renderType)
     end
 
-    logger.info "Check if the registration is valid. This checks the data entered is valid"
+    logger.debug "Check if the registration is valid. This checks the data entered is valid"
     if @registration.valid?
 
       if @order.valid?
-        logger.info "Determining order save/update"
+        logger.debug "Determining order save/update"
         if @renderType.eql?(Order.new_registration_identifier) || isIRRenewal?(@registration, @renderType) || @renderType.eql?(Order.editrenew_caused_new_identifier)
-          logger.info "Saving the order"
+          logger.debug "Saving the order"
           # New registration, so update existing order
           if @order.save! @registration.uuid
             # order saved successfully
@@ -77,7 +77,7 @@ class OrderController < ApplicationController
 
             # Re-get registration from the database to update the local redis version
             regFromDB = Registration.find_by_id(@registration.uuid)
-            logger.info "Updated redis version after order save!"
+            logger.debug "Updated redis version after order save!"
 
             # Get all nested children out of registration, specifically finaince details and override local copy in redis and save to redis
             @registration.finance_details.replace([regFromDB.finance_details.first])
@@ -107,10 +107,10 @@ class OrderController < ApplicationController
           # that registrations marked as renewalRequested are treated appropriately
           #
           if @registration.save!
-            logger.info "Registration saved!"
+            logger.debug "Registration saved!"
             @registration.save
           else
-            logger.info "Failed to save registration prior to order"
+            logger.debug "Failed to save registration prior to order"
             @order.errors.add(:exception, @registration.exception.to_s)
 
             # error updating services
@@ -119,14 +119,14 @@ class OrderController < ApplicationController
           end
 
           # Must be an edit, update or copy card order
-          logger.info "Committing the order"
+          logger.debug "Committing the order"
           if @order.commit @registration.uuid
             # Order commited to services
-            logger.info "New order committed to services"
+            logger.debug "New order committed to services"
 
             # Re-get registration from the database to update the local redis version
             @registration = Registration.find_by_id(@registration.uuid)
-            logger.info "Updated redis version after order commit"
+            logger.debug "Updated redis version after order commit"
             @registration.save
 
           else
@@ -145,13 +145,13 @@ class OrderController < ApplicationController
         return
       end
 
-      logger.info "About to redirect to Worldpay/Offline payment"
+      logger.debug "About to redirect to Worldpay/Offline payment"
       set_google_analytics_payment_indicator(session, @order)
       if bank_transfer
-        logger.info "The registration is valid - redirecting to Offline payment page..."
+        logger.debug "The registration is valid - redirecting to Offline payment page..."
         redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
       else
-        logger.info "The registration is valid - redirecting to Worldpay..."
+        logger.debug "The registration is valid - redirecting to Worldpay..."
 
         response = send_xml(create_xml(@registration, @order))
         unless response
@@ -163,11 +163,10 @@ class OrderController < ApplicationController
       end
       return
     else
-      logger.error "validation errors: #{@registration.errors.messages.to_s}"
-      logger.error "The registration is not valid! " + @registration.to_s
+      logger.debug "validation errors: #{@registration.errors.messages.to_s}"
       render 'new', :status => '400'
     end
 
   end
-  
+
 end
