@@ -60,7 +60,7 @@ class AddressSearchResult
     begin
       result = JSON.parse(RestClient.get(url, params: params))
     rescue => e
-      Rails.logger.debug e
+      Airbrake.notify(e)
       result = []
     end
     result

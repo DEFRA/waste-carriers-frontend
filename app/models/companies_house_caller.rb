@@ -28,6 +28,7 @@ class CompaniesHouseCaller
       if raw_response.include?('resource not found') && raw_response.include?('error code: 9001')
         :not_found
       else
+        Airbrake.notify(e)
         Rails.logger.error 'ERROR *** Companies House: Error calling service!!! ' + e.to_s
         :error_calling_service
       end

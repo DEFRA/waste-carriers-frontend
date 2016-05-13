@@ -104,6 +104,7 @@ class Order < Ohm::Model
       save
       Rails.logger.debug "Commited order to service: #{attributes.to_s}"
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.error e.to_s
 
       if e.http_code == 422
@@ -147,6 +148,7 @@ class Order < Ohm::Model
       Rails.logger.debug  result.class.to_s
       save
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.error e.to_s
       if e.http_code == 422
         # Get actual error from services
