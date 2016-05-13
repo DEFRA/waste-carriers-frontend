@@ -71,6 +71,9 @@ gem 'turnout', '~> 2.1.0'
 # which is then passed to Worldpay
 gem 'countries'
 
+# Provides the 'ap' method which is like puts, but pretty prints objects to the console
+gem 'awesome_print'
+
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', '~> 1.4.0', require: false
@@ -94,7 +97,13 @@ group :development do
   # gem needed for Chrome's RailsPanel plugin
   gem 'meta_request', '~> 0.3.4'
 
+  # Hide assets in development server log
   gem 'quiet_assets'
+
+  # Dependency of better errors
+  gem 'binding_of_caller'
+  # Intercepts exceptions in development and displays an interactive debug console within the browser
+  gem 'better_errors'
 end
 
 group :test, :development do
