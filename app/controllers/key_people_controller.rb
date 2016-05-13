@@ -29,7 +29,6 @@ class KeyPeopleController < ApplicationController
       end
     else
       @key_person = @key_people.first
-      Rails.logger.debug "key_person: #{@key_person.attributes.to_s}"
     end
   end
 
@@ -43,7 +42,7 @@ class KeyPeopleController < ApplicationController
     if @key_person.valid?
       @key_person.cross_check_convictions
       @key_person.save
-      
+
       # Create a list of all non key people (ie.'RELEVANT'), to ensure they are
       # retained when the list is replaced.  We are assuming that the only 'KEY'
       # person is the key person from the params which we add after.
@@ -62,7 +61,7 @@ class KeyPeopleController < ApplicationController
       redirect_to :newRelevantConvictions
     else
       # there is an error (but data not yet saved)
-      logger.info 'Key person is not valid, and data is not yet saved'
+      logger.debug 'Key person is not valid, and data is not yet saved'
       render "newKeyPerson", :status => '400'
     end
   end
@@ -71,7 +70,7 @@ class KeyPeopleController < ApplicationController
   def newKeyPeople
     new_step_action 'key_people'
     get_key_people
-    
+
     # Check if we should force a validation of the key_people attribute on the
     # registration.  We do this to trigger the validation message for a
     # Partnership with < 2 partners.
@@ -79,7 +78,7 @@ class KeyPeopleController < ApplicationController
       @registration.validate_key_people()
       session.delete(:performKeyPeopleValidation)
     end
-    
+
     @key_person = KeyPerson.create
   end
 
@@ -89,7 +88,7 @@ class KeyPeopleController < ApplicationController
 
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
-    
+
     if !(params[:add] || params[:continue])
       logger.warn {'updateNewKeyPeople: unrecognised button found, sending back to newKeyPeople page'}
       render 'newKeyPeople', status: '400'
@@ -164,12 +163,12 @@ class KeyPeopleController < ApplicationController
           redirect_to action: 'newRelevantPeople'
         else
           # there is an error (but data not yet saved)
-          logger.info 'Registration is not valid, and data is not yet saved'
+          logger.debug 'Registration is not valid, and data is not yet saved'
           render "newRelevantPeople", :status => '400'
         end
       else
         # there is an error (but data not yet saved)
-        logger.info 'Relevant person is not valid, and data is not yet saved'
+        logger.debug 'Relevant person is not valid, and data is not yet saved'
         render "newRelevantPeople", :status => '400'
       end
     elsif params[:continue]
@@ -186,7 +185,7 @@ class KeyPeopleController < ApplicationController
           redirect_to :newConfirmation
         else
           # there is an error (but data not yet saved)
-          logger.info 'Registration is not valid, and data is not yet saved'
+          logger.debug 'Registration is not valid, and data is not yet saved'
           render "newRelevantPeople", :status => '400'
         end
       else
@@ -201,7 +200,7 @@ class KeyPeopleController < ApplicationController
             @registration.valid?
 
             # there is an error (but data not yet saved)
-            logger.info 'Key person is not valid, and data is not yet saved'
+            logger.debug 'Key person is not valid, and data is not yet saved'
             render "newRelevantPeople", :status => '400'
           else
             # Not 1st person and Form is blank so can go to declaration
@@ -209,12 +208,12 @@ class KeyPeopleController < ApplicationController
           end
         else
           # there is an error (but data not yet saved)
-          logger.info 'Key person is not valid, and data is not yet saved'
+          logger.debug 'Key person is not valid, and data is not yet saved'
           render "newRelevantPeople", :status => '400'
         end
       end
     else
-      logger.info 'Unrecognised button found, sending back to newRelevantPeople page'
+      logger.debug 'Unrecognised button found, sending back to newRelevantPeople page'
       render "newRelevantPeople", :status => '400'
     end
   end

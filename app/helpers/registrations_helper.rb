@@ -103,10 +103,10 @@ module RegistrationsHelper
   # to set up the @registration etc.
   def setup_registration current_step, no_update=false
 
-    logger.info 'setup_registration: current_step = ' + current_step.to_s
+    logger.debug 'setup_registration: current_step = ' + current_step.to_s
 
     if !session[:editing] && current_step != 'payment' && current_step != 'confirmation'
-      logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+      logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
       redirect_to cannot_edit_path and return
     end
 
@@ -116,11 +116,11 @@ module RegistrationsHelper
 
       @registration.update(current_step: current_step)
     else
-      logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
+      logger.debug 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
       @registration = Registration[ params[:id]]
       if @registration.nil? and params[:id]
         # Registration still not found in session, trying database
-        logger.info 'Cannot find registration in session, trying database'
+        logger.debug 'Cannot find registration in session, trying database'
         @registration = Registration.find_by_id(params[:id])
       end
     end
@@ -176,11 +176,11 @@ module RegistrationsHelper
 
     elsif  session[:edit_mode] #editing existing registration
       if !session[:editing] && current_step != 'payment' && current_step != 'pending' && current_step != 'businesstype'
-        logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
         redirect_to cannot_edit_path and return
       end
 
-      logger.info 'We are in edit mode. Retrieving registration...'
+      logger.debug 'We are in edit mode. Retrieving registration...'
       @registration = Registration[ session[:registration_id]]
       if @registration
         logger.debug "retrieving registration for edit #{@registration.id}"
@@ -188,7 +188,7 @@ module RegistrationsHelper
         logger.warn 'Could not find registration for id = ' + session[:registration_id].to_s
       end
     else #creating new registration but not first step
-      logger.info 'We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
+      logger.debug 'We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
       #puts '*** GGG6 - ' + current_step
       clear_edit_session
       @registration = Registration[ session[:registration_id]]
@@ -200,7 +200,7 @@ module RegistrationsHelper
       end
 
       if !session[:editing] && current_step != 'payment' && current_step != 'pending'
-        logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
         redirect_to cannot_edit_path
         return
       end

@@ -174,9 +174,9 @@ class Order < Ohm::Model
   def self.getOrder(registration, orderCode)
     foundOrder = nil
     registration.finance_details.first.orders.each do |order|
-      Rails.logger.info 'Payment getOrder ' + order.orderCode.to_s
+      Rails.logger.debug 'Payment getOrder ' + order.orderCode.to_s
       if orderCode == order.orderCode
-        Rails.logger.info 'Order getOrder foundOrder'
+        Rails.logger.debug 'Order getOrder foundOrder'
         foundOrder = order
       end
     end
@@ -221,17 +221,17 @@ class Order < Ohm::Model
   ]
 
   def includesOrderType? orderType
-    Rails.logger.info 'includesOrderType? orderType:' + orderType.to_s
-    Rails.logger.info 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
+    Rails.logger.debug 'includesOrderType? orderType:' + orderType.to_s
+    Rails.logger.debug 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
     ORDER_AMOUNT_TYPES.include? orderType
   end
 
   def isValidRenderType? renderType
-    Rails.logger.info 'isValidRenderType? renderType:' + renderType.to_s
+    Rails.logger.debug 'isValidRenderType? renderType:' + renderType.to_s
     res = %w[].push(Order.new_registration_identifier) \
     	.push(Order.edit_registration_identifier).push(Order.renew_registration_identifier) \
     	.push(Order.extra_copycards_identifier).push(Order.editrenew_caused_new_identifier).include? renderType
-    Rails.logger.info 'isValidRenderType? res: ' + res.to_s
+    Rails.logger.debug 'isValidRenderType? res: ' + res.to_s
     res
   end
 
@@ -278,18 +278,18 @@ class Order < Ohm::Model
   end
 
   def negateAmount
-    Rails.logger.info 'Order, negateAmount, amountType: ' + self.amountType
+    Rails.logger.debug 'Order, negateAmount, amountType: ' + self.amountType
     if self.amountType == Order.getNegativeType
       self.totalAmount = -self.totalAmount.to_f.abs
-      Rails.logger.info 'amount negated: ' + self.totalAmount.to_s
+      Rails.logger.debug 'amount negated: ' + self.totalAmount.to_s
     end
   end
 
   def unNegateAmount
-    Rails.logger.info 'Order, unNegateAmount, amountType: ' + self.amountType
+    Rails.logger.debug 'Order, unNegateAmount, amountType: ' + self.amountType
     if self.amountType == Order.getNegativeType
       self.totalAmount = self.totalAmount.to_f.abs
-      Rails.logger.info 'amount unNegated: ' + self.totalAmount.to_s
+      Rails.logger.debug 'amount unNegated: ' + self.totalAmount.to_s
     end
   end
 
@@ -334,13 +334,13 @@ class Order < Ohm::Model
   # This multiplies the amount up from pounds to pence
   def multiplyAmount
     self.totalAmount = (Float(self.totalAmount)*100).to_i
-    Rails.logger.info 'multiplyAmount result:' + self.totalAmount.to_s
+    Rails.logger.debug 'multiplyAmount result:' + self.totalAmount.to_s
   end
 
   # This divides the amount down from pence back to pounds
   def divideAmount
     self.totalAmount = (Float(self.totalAmount)/100).to_s
-    Rails.logger.info 'divideAmount result:' + self.totalAmount.to_s
+    Rails.logger.debug 'divideAmount result:' + self.totalAmount.to_s
   end
 
   def validate_totalAmount
@@ -352,11 +352,11 @@ class Order < Ohm::Model
   def convert_dateLastUpdated
     begin
       if self.respond_to?('dateLastUpdated_year') and self.respond_to?('dateLastUpdated_month') and self.respond_to?('dateLastUpdated_day')
-        Rails.logger.info 'year FOUND'
+        Rails.logger.debug 'year FOUND'
         self.dateLastUpdated = Date.civil(self.dateLastUpdated_year.to_i, self.dateLastUpdated_month.to_i, self.dateLastUpdated_day.to_i)
-        Rails.logger.info 'dateReceived:' + self.dateReceived
+        Rails.logger.debug 'dateReceived:' + self.dateReceived
       else
-        Rails.logger.info 'year not FOUND'
+        Rails.logger.debug 'year not FOUND'
       end
     rescue ArgumentError
       false

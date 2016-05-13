@@ -11,15 +11,15 @@ class CompaniesHouseCaller
   def status
     raw_response = ''
     begin
-      Rails.logger.info Time.now.to_s + ' - Calling Companies House...'
+      Rails.logger.debug Time.now.to_s + ' - Calling Companies House...'
       raw_response = RestClient.get(@url)
       json = JSON.parse(raw_response)
-      Rails.logger.info Time.now.to_s + ' - Companies House has returned json response'
+      Rails.logger.debug Time.now.to_s + ' - Companies House has returned json response'
       company_status = json['primaryTopic']['CompanyStatus']
-      Rails.logger.info 'Company status is ' + company_status
+      Rails.logger.debug 'Company status is ' + company_status
       company_status == 'Active' ? :active : :inactive
     rescue RestClient::ResourceNotFound
-      Rails.logger.info 'Companies House: Resource not found!'
+      Rails.logger.debug 'Companies House: Resource not found!'
       :not_found
     rescue => e
       # Handle the new way that Companies House seems to provide a response for
