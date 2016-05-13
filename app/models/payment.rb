@@ -69,6 +69,7 @@ class Payment < Ohm::Model
       save
       Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.error e.to_s
 
       if e.try(:http_code)
@@ -212,6 +213,7 @@ class Payment < Ohm::Model
           Rails.logger.error "Payment.find_by_registration for #{registration_uuid} failed with a #{response.code} response from server"
         end
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       payment

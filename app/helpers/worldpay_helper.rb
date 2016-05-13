@@ -156,7 +156,8 @@ module WorldpayHelper
 
         errorMessage = doc.at_css('error').text
         logger.warn 'WORLDPAY::REDIRECT_ERROR - errorMessage: ' + errorMessage
-      rescue
+      rescue => e
+        Airbrake.notify(e)
         logger.error 'WORLDPAY::REDIRECT_ERROR - Cannot determine error message from response: ' + doc.to_s
       end
       flash.now[:notice] = I18n.t('errors.messages.worldpayErrorRedirect')

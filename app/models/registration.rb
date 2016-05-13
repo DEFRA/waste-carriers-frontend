@@ -121,6 +121,7 @@ class Registration < Ohm::Model
     begin
       metaData.first.update(:route => name)
     rescue Exception => e
+      Airbrake.notify(e)
       Rails.logger.debug e.message
     end
 
@@ -131,6 +132,7 @@ class Registration < Ohm::Model
       route = self.try(:metaData).try(:first).try(:route)
       @route_name = route unless route.nil?
     rescue Exception => e
+      Airbrake.notify(e)
       Rails.logger.debug e.message
     end
 
@@ -220,9 +222,11 @@ class Registration < Ohm::Model
       save
       commited = true
     rescue Errno::ECONNREFUSED => e
+      Airbrake.notify(e)
       Rails.logger.error 'Services unavailable: ' + e.to_s
       self.exception = e.to_s
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.debug "Error in registration Commit to service: #{e.to_s} || #{attributes.to_s}"
       self.exception = e.to_s
     end
@@ -245,6 +249,7 @@ class Registration < Ohm::Model
       save
 
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.error e.to_s
       deleted = false
     end
@@ -296,6 +301,7 @@ class Registration < Ohm::Model
 
       save
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.error 'An error occurred during saving the registration: ' + e.to_s
 
       if e.try(:http_code)
@@ -480,6 +486,7 @@ class Registration < Ohm::Model
           Rails.logger.error "Registration.find_all failed with a #{response.code} response from server"
         end
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       registrations
@@ -510,6 +517,7 @@ class Registration < Ohm::Model
           Rails.logger.error "Registration.find_by_email(#{email}) failed with a #{response.code} response from server"
         end
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
 
@@ -571,6 +579,7 @@ class Registration < Ohm::Model
           Rails.logger.error "Registration.find_all_by(#{some_text}, #{within_field}) failed with a #{response.code} response from server"
         end
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       registrations
@@ -594,8 +603,10 @@ class Registration < Ohm::Model
           Rails.logger.error "Registration.find_by_id failed with a #{response.code.to_s} response from server"
         end
       rescue Errno::ECONNREFUSED => e
+        Airbrake.notify(e)
         Rails.logger.error "Services unavailable: " + e.to_s
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       result.size > 0 ? Registration.init(result) : nil
@@ -620,8 +631,10 @@ class Registration < Ohm::Model
           Rails.logger.error "Registration.find_by_ir_number failed with a #{response.code.to_s} response from server"
         end
       rescue Errno::ECONNREFUSED => e
+        Airbrake.notify(e)
         Rails.logger.error "Services unavailable: " + e.to_s
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       Rails.logger.debug "found ir reg: #{result.to_s}"
@@ -664,6 +677,7 @@ class Registration < Ohm::Model
           Rails.logger.error {"Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"}
         end
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       registrations
@@ -1008,6 +1022,7 @@ class Registration < Ohm::Model
     begin
       route = self.try(:metaData).try(:first).try(:route)
     rescue Exception => e
+      Airbrake.notify(e)
       Rails.logger.debug e.message
     end
 
@@ -1018,6 +1033,7 @@ class Registration < Ohm::Model
     begin
       route = self.try(:metaData).try(:first).try(:route)
     rescue Exception => e
+      Airbrake.notify(e)
       Rails.logger.debug e.message
     end
 
@@ -1055,6 +1071,7 @@ class Registration < Ohm::Model
       the_balance = self.try(:finance_details).try(:first).try(:balance)
       the_balance = 0 if the_balance.nil?
     rescue Exception => e
+      Airbrake.notify(e)
       Rails.logger.debug e.message
     end
 
