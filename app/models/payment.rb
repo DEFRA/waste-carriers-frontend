@@ -173,12 +173,12 @@ class Payment < Ohm::Model
   # Returns true if balance is in range for a small write off, otherwise returns an
   # error message representing why it failed.
   def self.isSmallWriteOff(balance)
-    Rails.logger.info 'balance: ' + balance.to_s
+    Rails.logger.debug 'balance: ' + balance.to_s
     if balance.to_f < Payment.basicMinimum
-      Rails.logger.info 'Balance is paid or overpaid'
+      Rails.logger.debug 'Balance is paid or overpaid'
       I18n.t('payment.newWriteOff.writeOffNotApplicable')
     elsif balance.to_f > Payment.basicMaximum
-      Rails.logger.info 'Balance is too great'
+      Rails.logger.debug 'Balance is too great'
       I18n.t('payment.newWriteOff.writeOffUnavailable')
     elsif balance.to_f == 0.to_f
       I18n.t('payment.newWriteOff.writeOffNotApplicable')
@@ -190,9 +190,9 @@ class Payment < Ohm::Model
   # Returns true if balance is in range for a large write off, otherwise returns an
   # error message representing why it failed.
   def self.isLargeWriteOff(balance)
-    Rails.logger.info 'balance: ' + balance.to_s
+    Rails.logger.debug 'balance: ' + balance.to_s
     if balance.to_f > Payment.adminMaximum
-      Rails.logger.info 'Balance is too great for even a finance admin'
+      Rails.logger.debug 'Balance is too great for even a finance admin'
       I18n.t('payment.newWriteOff.writeOffNotAvailable')
     else
       true
@@ -224,9 +224,9 @@ class Payment < Ohm::Model
   def self.getPayment(registration, orderCode)
     foundPayment = nil
     registration.finance_details.first.payments.each do |payment|
-      Rails.logger.info 'Payment getPayment ' + payment.orderKey.to_s
+      Rails.logger.debug 'Payment getPayment ' + payment.orderKey.to_s
       if orderCode == payment.orderKey
-        Rails.logger.info 'Payment getPayment foundPayment'
+        Rails.logger.debug 'Payment getPayment foundPayment'
         foundPayment = payment
       end
     end
@@ -287,13 +287,13 @@ class Payment < Ohm::Model
   # This multiplies the amount up from pounds to pence
   def multiplyAmount
     self.amount = (Float(self.amount)*100).to_i
-    Rails.logger.info 'multiplyAmount result:' + self.amount.to_s
+    Rails.logger.debug 'multiplyAmount result:' + self.amount.to_s
   end
 
   # This divides the amount down from pence back to pounds
   def divideAmount
     self.amount = (Float(self.amount)/100).to_s
-    Rails.logger.info 'divideAmount result:' + self.amount.to_s
+    Rails.logger.debug 'divideAmount result:' + self.amount.to_s
   end
 
   # Converts the three data input fields from a manual payment into an overal date

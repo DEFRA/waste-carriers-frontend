@@ -28,23 +28,23 @@ module OrderHelper
 
   def prepareOfflinePayment(my_registration, render_type)
     my_registration = calculate_fees(my_registration, render_type)
-    logger.info 'offline copy cards: ' + my_registration.copy_cards.to_s
-    logger.info 'offline total fee: ' + my_registration.total_fee.to_s
-    logger.info 'render_type: ' + render_type
+    logger.debug 'offline copy cards: ' + my_registration.copy_cards.to_s
+    logger.debug 'offline total fee: ' + my_registration.total_fee.to_s
+    logger.debug 'render_type: ' + render_type
     order = prepareOrder(my_registration, false, render_type)
     order
   end
 
   def prepareOnlinePayment(my_registration, render_type)
     my_registration = calculate_fees my_registration, render_type
-    logger.info 'online copy cards: ' + my_registration.copy_cards.to_s
-    logger.info 'online total fee: ' + my_registration.total_fee.to_s
+    logger.debug 'online copy cards: ' + my_registration.copy_cards.to_s
+    logger.debug 'online total fee: ' + my_registration.total_fee.to_s
     order = prepareOrder(my_registration, true, render_type)
     order
   end
 
   def calculate_fees(my_registration, render_type)
-    logger.info 'render_type: ' + render_type.to_s
+    logger.debug 'render_type: ' + render_type.to_s
     
     # Ensure copy cards contains a valid value.
     my_registration.copy_cards = 0 unless my_registration.copy_cards

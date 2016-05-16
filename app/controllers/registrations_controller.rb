@@ -94,7 +94,7 @@ class RegistrationsController < ApplicationController
       redirect_to :postal_address
     else
       # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
+      logger.debug 'Registration is not valid, and data is not yet saved'
       render 'newContactDetails', status: '400'
     end
   end
@@ -117,7 +117,7 @@ class RegistrationsController < ApplicationController
       end
     else
       # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
+      logger.debug 'Registration is not valid, and data is not yet saved'
       render "newRelevantConvictions", :status => '400'
     end
   end
@@ -371,7 +371,7 @@ class RegistrationsController < ApplicationController
       if @registration.valid?
         sign_in @user
       else
-        logger.error "GGG ERROR - password not valid for user with e-mail = " + @registration.accountEmail
+        logger.error "GGG ERROR - password not valid for user with e-mail"
         render "newSignin", :status => '400'
         return
       end
@@ -379,7 +379,7 @@ class RegistrationsController < ApplicationController
 
     if !@registration.valid?
       # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
+      logger.debug 'Registration is not valid, and data is not yet saved'
       render "newSignin", :status => '400'
       return
     end
@@ -447,10 +447,10 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       logger.debug 'The registration is valid...'
-      logger.info 'Check to commit registration, unless: ' + @registration.persisted?.to_s
+      logger.debug 'Check to commit registration, unless: ' + @registration.persisted?.to_s
       unless @registration.persisted?
         # Note: we have to store the new user first, and only if that succeeds, we want to commit the registration
-        logger.info 'Check to commit user, unless: ' + current_user.to_s
+        logger.debug 'Check to commit user'
         unless current_user
           if !commit_new_user
             render "newSignup", :status => '400'
@@ -459,7 +459,7 @@ class RegistrationsController < ApplicationController
         end
 
         if commit_new_registration?
-          logger.info 'The new registration has been committed successfully'
+          logger.debug 'The new registration has been committed successfully'
         else #registration was not committed
           logger.error 'Registration was valid but data is not yet saved due to an error in the services'
           @registration.errors.add(:exception, @registration.exception.to_s)
@@ -470,7 +470,7 @@ class RegistrationsController < ApplicationController
 
     else # the registration is not valid
       # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
+      logger.debug 'Registration is not valid, and data is not yet saved'
       render "newSignup", :status => '400'
       return
     end
@@ -601,7 +601,7 @@ class RegistrationsController < ApplicationController
       session[:userEmail] = @user.email
       return true
     else
-      logger.info 'Could not save user. Errors: ' + @user.errors.full_messages.to_s
+      logger.debug 'Could not save user. Errors: ' + @user.errors.full_messages.to_s
       @registration.errors.add(:accountEmail, @user.errors.full_messages)
       return false
     end
@@ -661,7 +661,7 @@ class RegistrationsController < ApplicationController
     tmpUser = User.find_by_id(params[:id])
     # if matches current logged in user
     if tmpUser.nil? || current_user.nil?
-      logger.info 'user not found - Showing Session Expired'
+      logger.debug 'user not found - Showing Session Expired'
       renderSessionExpired
     elsif current_user.email != tmpUser.email
       logger.warn 'User is requesting somebody else\'s registrations? - Showing Access Denied'
@@ -699,10 +699,10 @@ class RegistrationsController < ApplicationController
     authorize! :read, @registration
     if params[:finish]
       if agency_user_signed_in?
-        logger.info 'Keep agency user signed in before redirecting back to search page'
+        logger.debug 'Keep agency user signed in before redirecting back to search page'
         redirect_to registrations_path
       else
-        logger.info 'Sign user out before redirecting back to GDS site'
+        logger.debug 'Sign user out before redirecting back to GDS site'
         sign_out        # Performs a signout action on the current user
         redirect_to Rails.configuration.waste_exemplar_end_url
       end
@@ -792,7 +792,7 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/1/edit
   def edit
-    Rails.logger.debug "registration edit for: #{params[:id]}"
+    logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
     if !@registration
       renderNotFound and return
@@ -814,7 +814,7 @@ class RegistrationsController < ApplicationController
 
   # GET, PATCH /registrations/1/edit_account_email
   def edit_account_email
-    Rails.logger.debug "edit account email for: #{params[:uuid]}"
+    logger.debug "edit account email for: #{params[:uuid]}"
     @registration = Registration.find_by_id(params[:uuid])
     if !@registration
       renderNotFound and return
@@ -824,7 +824,6 @@ class RegistrationsController < ApplicationController
     if request.patch?()
       if (params[:registration][:accountEmail] != @registration.accountEmail)
         @user = User.find_by_email(@registration.accountEmail)
-        Rails.logger.debug "user: #{@user.email}"
         @user.skip_reconfirmation!
         @user.email = params[:registration][:accountEmail]
         @user.save!(:validate => false)
@@ -855,7 +854,7 @@ class RegistrationsController < ApplicationController
   end
 
   def copyAddressToSession
-    logger.info 'Copying address details into the registration...'
+    logger.debug 'Copying address details into the registration...'
 
     @registration = Registration[session[:registration_id]]
     @address = @registration.registered_address
@@ -942,7 +941,7 @@ class RegistrationsController < ApplicationController
           if agency_user_signed_in?                                     # Checks only agency users can revoke
             # Get reason from params
             revokedReason = params[:registration][:metaData][:revokedReason]
-            logger.info 'Revoked Reason: ' + revokedReason.to_s
+            logger.debug 'Revoked Reason: ' + revokedReason.to_s
 
             # Update registration with revoked comment and status
             @registration.metaData.first.update(revokedReason: revokedReason)
@@ -975,7 +974,7 @@ class RegistrationsController < ApplicationController
           if agency_user_signed_in?
             # Get reason from params
             unrevokedReason = params[:registration][:metaData][:unrevokedReason]
-            logger.info 'Unrevoked Reason: ' + unrevokedReason.to_s
+            logger.debug 'Unrevoked Reason: ' + unrevokedReason.to_s
 
             # Mark registration as unrevoked, i.e. reactivated
             @registration.metaData.first.update(revokedReason: unrevokedReason)
@@ -1037,7 +1036,7 @@ class RegistrationsController < ApplicationController
     # Validate if is in a correct state to approve/refuse?
     if params[:approve]
       # Approve
-      logger.info '>>>>>> Approve Request Found'
+      logger.debug '>>>>>> Approve Request Found'
       if !params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
         if agency_user_signed_in?                                     # Checks only agency users can approve
           # Get reason from params
@@ -1291,7 +1290,7 @@ class RegistrationsController < ApplicationController
     end
 
     if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
-      logger.info 'Send registered email (if not agency user)'
+      logger.debug 'Send registered email (if not agency user)'
       @user = User.find_by_email(@registration.accountEmail)
       Registration.send_registered_email(@user, @registration)
     end
