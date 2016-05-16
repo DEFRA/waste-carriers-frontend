@@ -231,6 +231,8 @@ GEM
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.5.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -391,6 +393,7 @@ DEPENDENCIES
   nokogiri (~> 1.6.2.1)
   ohm (~> 2.0.1)
   poltergeist (~> 1.6.0)
+  quiet_assets
   rails (= 4.0.12)
   rest-client (~> 1.6.7)
   rolify (~> 3.4.0)
