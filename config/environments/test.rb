@@ -46,9 +46,6 @@ Registrations::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  # this allows WEBrick to handle caret symbols in query parameters; needed for Worldpay
-  URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '^')
-
   # require access via www or admin service domain URLs for testing
   config.require_admin_requests = false
 
