@@ -31,7 +31,7 @@ class WorldpayController < ApplicationController
       when Order.new_registration_identifier,
            Order.editrenew_caused_new_identifier,
            Order.renew_registration_identifier
-           
+
         # This was a new registration (perhaps via an edit or IR renewal).
         next_step = if user_signed_in?
           finish_path
@@ -69,7 +69,7 @@ class WorldpayController < ApplicationController
         renderAccessDenied and return
       end
     end
-    
+
     redirect_to next_step
   end
 
@@ -123,7 +123,6 @@ class WorldpayController < ApplicationController
     logger.debug '++++++++++++++++++++++++++++++++++++++++++++++'
     logger.debug '+++++ Worldpay Notification Response +++++++++'
     logger.debug '++++++++++++++++++++++++++++++++++++++++++++++'
-    logger.debug request.body.read
     logger.debug '++++++++++++++++++++++++++++++++++++++++++++++'
     render nothing: true
   end
