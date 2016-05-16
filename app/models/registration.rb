@@ -727,7 +727,6 @@ class Registration < Ohm::Model
       end #each
 
       new_reg.update_attributes(normal_attributes)
-
       new_reg.save
       new_reg
     end #method
@@ -1167,7 +1166,7 @@ class Registration < Ohm::Model
     # Until we fix the within-service renewals process, we won't allow anybody
     # to even try this route.
     false
-    
+
     #metaData.first.status == 'ACTIVE' && \
     #  tier.inquiry.UPPER? && \
     #  expires_on && \
@@ -1315,7 +1314,7 @@ class Registration < Ohm::Model
       )
     end
   end
-  
+
   UpperRegistrationStatus = %w[
     INACTIVE
     EXPIRED
