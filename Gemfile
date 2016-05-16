@@ -93,6 +93,8 @@ group :development do
 
   # gem needed for Chrome's RailsPanel plugin
   gem 'meta_request', '~> 0.3.4'
+
+  gem 'quiet_assets'
 end
 
 group :test, :development do
