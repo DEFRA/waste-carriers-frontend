@@ -11,7 +11,7 @@ gem 'rails', '4.0.12'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # For exception logging.
-gem 'airbrake', '~> 5.2'
+gem 'airbrake', '~> 5.3'
 
 # We store user accounts (authentication with Devise) in a MongoDB database
 gem 'mongoid', '~> 4.0.0'
