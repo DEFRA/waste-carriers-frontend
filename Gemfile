@@ -124,4 +124,6 @@ group :test, :development do
 
   # Development web server
   gem 'thin'
+  # Load environment variables from .env
+  gem 'dotenv-rails'
 end
