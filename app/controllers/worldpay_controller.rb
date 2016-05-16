@@ -17,10 +17,10 @@ class WorldpayController < ApplicationController
       # If on the Digital route, send the new Registration email.
       if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
         if user_signed_in?
-          logger.info 'Send registered email (as current_user)'
+          logger.debug 'Send registered email (as current_user)'
           Registration.send_registered_email(current_user, @registration)
         else
-          logger.info 'Send registered email (as not signed in)'
+          logger.debug 'Send registered email (as not signed in)'
           @user = User.find_by_email(@registration.accountEmail)
           Registration.send_registered_email(@user, @registration)
         end
@@ -31,7 +31,7 @@ class WorldpayController < ApplicationController
       when Order.new_registration_identifier,
            Order.editrenew_caused_new_identifier,
            Order.renew_registration_identifier
-           
+
         # This was a new registration (perhaps via an edit or IR renewal).
         next_step = if user_signed_in?
           finish_path
@@ -65,11 +65,11 @@ class WorldpayController < ApplicationController
       if session[:renderType] and session[:orderCode]
         next_step = upper_payment_path(@registration.uuid)
       else
-        logger.info 'Cannot redirect to order page as session variables already removed, this assume, Retry failed.'
+        logger.debug 'Cannot redirect to order page as session variables already removed, this assume, Retry failed.'
         renderAccessDenied and return
       end
     end
-    
+
     redirect_to next_step
   end
 
@@ -119,12 +119,11 @@ class WorldpayController < ApplicationController
 
   # POST from Worldpay
   def update_order_notification
-    logger.info "Received order notification message from Worldpay..."
-    logger.info '++++++++++++++++++++++++++++++++++++++++++++++'
-    logger.info '+++++ Worldpay Notification Response +++++++++'
-    logger.info '++++++++++++++++++++++++++++++++++++++++++++++'
-    logger.info request.body.read
-    logger.info '++++++++++++++++++++++++++++++++++++++++++++++'
+    logger.debug "Received order notification message from Worldpay..."
+    logger.debug '++++++++++++++++++++++++++++++++++++++++++++++'
+    logger.debug '+++++ Worldpay Notification Response +++++++++'
+    logger.debug '++++++++++++++++++++++++++++++++++++++++++++++'
+    logger.debug '++++++++++++++++++++++++++++++++++++++++++++++'
     render nothing: true
   end
 
@@ -239,9 +238,9 @@ class WorldpayController < ApplicationController
       @order.order_items.add item
     end
 
-    logger.info  '***** The @order is:'
-    logger.info  @order.attributes
-    logger.info  '*****'
+    logger.debug  '***** The @order is:'
+    logger.debug  @order.attributes
+    logger.debug  '*****'
 
     if @order.valid?
       if @order.save! reg.uuid
@@ -266,7 +265,7 @@ class WorldpayController < ApplicationController
         # Re-get registration so its data is up to date, for later use
         @registration = Registration.find_by_id(session[:registration_uuid])
         logger.debug "#{@registration.id}"
-        logger.info 'Re-populated @registration from the database'
+        logger.debug 'Re-populated @registration from the database'
       else
         # Errored saving order
         logger.error "CODE ERROR: this should not happen if code implemented propery"

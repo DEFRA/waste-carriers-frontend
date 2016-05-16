@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
         logger.debug "locale set to: #{params[:locale]}"
       else
         flash.now[:notice] = "#{params[:locale]} translation not available"
-        logger.error flash.now[:notice]
+        logger.debug flash.now[:notice]
       end
     end
   end
@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource_or_scope)
-  	logger.info 'Signout function'
+  	logger.debug 'Signout function'
     #request.referrer
     #registrations_path
     #root_path
@@ -119,7 +119,7 @@ class ApplicationController < ActionController::Base
         logger.debug 'User was last seen at ' + session[:last_seen_at].to_s
       end
       if session[:last_seen_at] != nil && session_inactivity_timeout_time < now
-        logger.info 'The session is deemed to have expired. Showing the Session Expired page.'
+        logger.debug 'The session is deemed to have expired. Showing the Session Expired page.'
         reset_session
         render :file => "/public/session_expired.html", :status => 401
       end

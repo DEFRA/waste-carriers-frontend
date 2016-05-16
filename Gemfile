@@ -7,9 +7,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.0.12'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 # For exception logging.
 gem 'airbrake', '~> 5.2'
 
