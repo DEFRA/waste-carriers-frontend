@@ -32,7 +32,10 @@ Registrations::Application.configure do
   config.action_mailer.delivery_method = :test
 
   # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'] }
+  # config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'] }
+
+  config.action_mailer.default_url_options = { :host => 'localhost' }
+  Capybara.server_port = 3005
 
   # Ensures images included in emails that originate from our assest folder and pipepline
   # can still be viewed in emails. See

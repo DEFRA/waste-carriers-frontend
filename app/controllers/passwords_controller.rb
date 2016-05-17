@@ -13,7 +13,7 @@ class PasswordsController < Devise::PasswordsController
     end
     redirect_to
   end
-  
+
   # After a user updates their password, should we redirect them to the normal
   # 'your registrations' page (with the user signed-in), or quietly sign them
   # out so they can continue with a registration in another window?
