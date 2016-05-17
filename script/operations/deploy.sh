@@ -107,6 +107,7 @@ sudo crontab -u servicecheck /home/servicecheck/on
 if [ ${WCRS_FRONTEND_RAILS_ENV} != "production" ]; then
   # Wanted to use the -e option to stop the build if RSpec tests fail, but this would also stop publishing test reports further down
   # set -e
+  export COVERAGE=true
   echo "Running tests."
   rake db:test:prepare
   echo "Running unit tests (using rspec)"
@@ -129,6 +130,9 @@ if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
   echo "Copying cucumber report to Jenkins."
   scp ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json \
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/features/reports/
+  echo "Copying coverage reports to Jenkins"
+  scp ${WCRS_FRONTEND_HOME/live/coverage \
+     jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/coverage
 fi
 
 exit 0
