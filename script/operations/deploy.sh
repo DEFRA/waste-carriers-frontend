@@ -131,7 +131,7 @@ if [ "${WCRS_FRONTEND_RAILS_ENV}" == "development" ]; then
   scp ${WCRS_FRONTEND_HOME}/live/features/reports/cucumber.json \
       jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/features/reports/
   echo "Copying coverage reports to Jenkins"
-  scp ${WCRS_FRONTEND_HOME/live/coverage \
+  scp -rp ${WCRS_FRONTEND_HOME}/live/coverage \
      jenkins@ea-build:/caci/jenkins/jobs/waste-exemplar-frontend/workspace/coverage
 fi
 
