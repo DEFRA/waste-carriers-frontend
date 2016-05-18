@@ -196,9 +196,9 @@
 	    <section>
 	    	<div class="form-group">
 		    <%
-		    isFinanceBasic = (current_agency_user.has_role? :Role_financeBasic, AgencyUser) && !(@registration.deleted?)
-		    isFinanceAdmin = (current_agency_user.has_role? :Role_financeAdmin, AgencyUser) && !(@registration.deleted?)
-		    isRefundPayment = (current_agency_user.has_role? :Role_agencyRefundPayment, AgencyUser) && !(@registration.deleted?)
+		    isFinanceBasic = (current_agency_user.has_role? :Role_financeBasic, AgencyUser)
+		    isFinanceAdmin = (current_agency_user.has_role? :Role_financeAdmin, AgencyUser)
+		    isRefundPayment = (current_agency_user.has_role? :Role_agencyRefundPayment, AgencyUser)
 		    %>
 		    <% if isFinanceBasic or isRefundPayment %>
 		    <span class="continue_link"><%= link_to t('registrations.form.enterpayment_button_label'), :enterPayment, :class => 'button', :id => 'enterPayment' %></span>

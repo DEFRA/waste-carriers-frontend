@@ -897,12 +897,12 @@ class RegistrationsController < ApplicationController
 
     if current_user
       respond_to do |format|
-        format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deleted ' + deletedCompany) }
+        format.html { redirect_to userRegistrations_path(current_user.id, :note => 'Deregistered ' + deletedCompany) }
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_to registrations_path(:note => 'Deleted ' + deletedCompany) }
+        format.html { redirect_to registrations_path(:note => 'Deregistered ' + deletedCompany) }
         format.json { head :no_content }
       end
     end
