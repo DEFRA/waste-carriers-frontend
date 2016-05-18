@@ -378,7 +378,7 @@ en:
     back_button_label: "Back"
     confirm_button_label: "Confirm"
     delete_button_label: "Delete"
-    deregister_button_label: "Deregister"
+    deregister_button_label: "De-Register"
     edit_button_label: "Edit"
     edit_these_details: "Edit these details"
     export_button_label: "Export"
@@ -835,9 +835,9 @@ en:
       cookiesLink: "cookies"
       cookies2: "in your browser."
     confirmDelete:
-      deleteLabel: "Deregister"
-      message_html: "Are you sure that you want to deregister <b>%{companyName}</b>?"
-      title: "Confirm deregistration"
+      deleteLabel: "De-Register"
+      message_html: "Are you sure that you want to de-register <b>%{companyName}</b>?"
+      title: "Confirm De-Registration"
     confirmation_step:
       data_protection_heading: "How we use your personal information"
       data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
@@ -1583,7 +1583,7 @@ en:
     RENEW: "Renewal"
     NONE: "Ignore Copy cards"
   registration_status:
-    INACTIVE: "Deleted"
+    INACTIVE: "De-Registered"
     EXPIRED: "Expired"
     REVOKED: "Revoked"
     REFUSED: "Refused"
