@@ -12,6 +12,10 @@ class RegistrationMailer < ActionMailer::Base
     @url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "www.wastecarriersregistration.service.gov.uk"
     @registration = registration
     email_with_name = "#{Rails.configuration.registrations_service_emailName} <#{Rails.configuration.registrations_service_email}>"
+    attachments["WasteCarrierRegistrationCertificate-#{registration.uuid}.pdf"] = WickedPdf.new.pdf_from_string(
+      render_to_string(pdf: 'certificate', template: 'registration_mailer/certificate'),
+      {}
+    )
     mail(to: @user.email, subject: I18n.t('global.mailer.complete.subject'),
       from: email_with_name)
   end

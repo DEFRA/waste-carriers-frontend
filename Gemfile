@@ -71,6 +71,10 @@ gem 'countries'
 # Provides the 'ap' method which is like puts, but pretty prints objects to the console
 gem 'awesome_print'
 
+# Generates a PDF from HTML, in our case, the users certificate
+# Requires wkhtmltopdf. Install with sudo apt-get install wkhtmltopdf
+gem 'wicked_pdf'
+
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', '~> 1.4.0', require: false
