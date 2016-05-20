@@ -626,7 +626,6 @@ class RegistrationsController < ApplicationController
 
 
   def view
-
     reg_uuid = params[:id] || session[:registration_uuid]
 
     renderNotFound and return unless reg_uuid
@@ -648,7 +647,7 @@ class RegistrationsController < ApplicationController
       redirect_to finish_url(:id => @registration.id)
     else
       # Turn off default gov uk template so certificate can be printed exactly as is
-      render :layout => "non_govuk_template"
+      render 'certificate', layout: 'non_govuk_template'
       logger.debug 'Save View state in the view page (go to Finish)'
       flash[:alert] = 'Finish'
     end
