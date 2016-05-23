@@ -300,48 +300,48 @@ class Order < Ohm::Model
 
   private
 
-  def poundsToPence
-    multiplyAmount if is_manual_order?
-  end
-
-  def penceToPounds
-    divideAmount if is_manual_order?
-  end
-
-  # This multiplies the amount up from pounds to pence
-  def multiplyAmount
-    self.totalAmount = (Float(self.totalAmount)*100).to_i
-    Rails.logger.debug 'multiplyAmount result:' + self.totalAmount.to_s
-  end
-
-  # This divides the amount down from pence back to pounds
-  def divideAmount
-    self.totalAmount = (Float(self.totalAmount)/100).to_s
-    Rails.logger.debug 'divideAmount result:' + self.totalAmount.to_s
-  end
-
-  def validate_totalAmount
-    if self.totalAmount.to_s.include? "."
-      errors.add(:totalAmount, I18n.t('errors.messages.invalid')+ '. This is currently a Defect, Workaround, enter a value in pence only!' )
+    def poundsToPence
+      multiplyAmount if is_manual_order?
     end
-  end
 
-  def convert_dateLastUpdated
-    begin
-      if self.respond_to?('dateLastUpdated_year') and self.respond_to?('dateLastUpdated_month') and self.respond_to?('dateLastUpdated_day')
-        Rails.logger.debug 'year FOUND'
-        self.dateLastUpdated = Date.civil(self.dateLastUpdated_year.to_i, self.dateLastUpdated_month.to_i, self.dateLastUpdated_day.to_i)
-        Rails.logger.debug 'dateReceived:' + self.dateReceived
-      else
-        Rails.logger.debug 'year not FOUND'
+    def penceToPounds
+      divideAmount if is_manual_order?
+    end
+
+    # This multiplies the amount up from pounds to pence
+    def multiplyAmount
+      self.totalAmount = (Float(self.totalAmount)*100).to_i
+      Rails.logger.debug 'multiplyAmount result:' + self.totalAmount.to_s
+    end
+
+    # This divides the amount down from pence back to pounds
+    def divideAmount
+      self.totalAmount = (Float(self.totalAmount)/100).to_s
+      Rails.logger.debug 'divideAmount result:' + self.totalAmount.to_s
+    end
+
+    def validate_totalAmount
+      if self.totalAmount.to_s.include? "."
+        errors.add(:totalAmount, I18n.t('errors.messages.invalid')+ '. This is currently a Defect, Workaround, enter a value in pence only!' )
       end
-    rescue ArgumentError
-      false
     end
-  end
 
-  def validate_dateLastUpdated
-    errors.add(:dateLastUpdated, I18n.t('errors.messages.invalid') ) unless convert_dateLastUpdated
-  end
+    def convert_dateLastUpdated
+      begin
+        if self.respond_to?('dateLastUpdated_year') and self.respond_to?('dateLastUpdated_month') and self.respond_to?('dateLastUpdated_day')
+          Rails.logger.debug 'year FOUND'
+          self.dateLastUpdated = Date.civil(self.dateLastUpdated_year.to_i, self.dateLastUpdated_month.to_i, self.dateLastUpdated_day.to_i)
+          Rails.logger.debug 'dateReceived:' + self.dateReceived
+        else
+          Rails.logger.debug 'year not FOUND'
+        end
+      rescue ArgumentError
+        false
+      end
+    end
+
+    def validate_dateLastUpdated
+      errors.add(:dateLastUpdated, I18n.t('errors.messages.invalid') ) unless convert_dateLastUpdated
+    end
 
 end
