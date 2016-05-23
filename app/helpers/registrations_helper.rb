@@ -341,7 +341,7 @@ module RegistrationsHelper
   def set_google_analytics_payment_indicator(session, order)
     session.delete(:ga_payment_method)
     if order
-      if order.isOnlinePayment?
+      if order.is_online_payment?
         session[:ga_payment_method] = 'cc'
       elsif order.isOfflinePayment?
         session[:ga_payment_method] = 'bacs'

@@ -4,6 +4,23 @@ class Order < Ohm::Model
   include ActiveModel::Validations
   extend ActiveModel::Naming
 
+  WORLDPAY_STATUS = %w[
+    IN_PROGRESS
+    AUTHORISED
+    REFUSED
+    PENDING
+    ACTIVE
+    ETC
+  ]
+
+  ORDER_AMOUNT_TYPES = %w[
+    POSITIVE
+    NEGATIVE
+  ]
+
+  VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
+  VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
+
   attribute :orderId
   attribute :orderCode
   attribute :paymentMethod
@@ -23,47 +40,104 @@ class Order < Ohm::Model
   attribute :exception
   # the type of amount entered, pence or pounds, if manual then pounds used, if not pence are used
   attribute :manualOrder
-  
+
   # This is used to story the order item reference used in charge adjustments, this value is put inside the OrderItem.reference prior to saving
   attribute :order_item_reference
 
   set :order_items, :OrderItem
 
+  validates :id, presence: true
+  validates :orderCode, presence: true
+  validates :merchantId, presence: true
+  #validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_REGEX }
+  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_POUNDS_REGEX }, :if => :is_manual_order?
+  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_PENCE_REGEX },  :if => :is_automated_order?
+  #validate :validate_totalAmount
+  validates :currency, presence: true
+  validates :dateCreated, presence: true, length: { minimum: 8 }
+  validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }, :if => :is_online_payment?
+  #  validates :dateLastUpdated, presence: true, length: { minimum: 8 }
+  validate :validate_dateLastUpdated
+  validates :updatedByUser, presence: true
+  validates :description, presence: true, length: { maximum: 250 }
+
   # Creates a new Order object from an order-formatted hash
   # @param order_hash [Hash] the order-formatted hash
   # @return [Order] the Ohm-derived Order object.
-  class << self
-    def init (order_hash)
-      order = Order.create
-      normal_attributes = Hash.new
+  def self.init (order_hash)
+    order = Order.create
+    normal_attributes = Hash.new
 
-      order_hash.each do |k, v|
-        case k
-        when 'orderItems'
-          if v
-            # Important! Need to delete the order_items before new ones are
-            # added.
-            order.order_items.each do |orderItem|
-              order.order_items.delete orderItem
-            end
+    order_hash.each do |k, v|
+      case k
+      when 'orderItems'
+        if v
+          # Important! Need to delete the order_items before new ones are
+          # added.
+          order.order_items.each do |orderItem|
+            order.order_items.delete orderItem
+          end
 
-            v.each do |item_hash|
-              orderItem = OrderItem.init(item_hash)
-              order.order_items.add orderItem
-            end
-          end #if
-        else
-          normal_attributes.store(k, v)
-        end #case
-      end
-      
-      order.update_attributes(normal_attributes)
-      
-      order.save
-      order
+          v.each do |item_hash|
+            orderItem = OrderItem.init(item_hash)
+            order.order_items.add orderItem
+          end
+        end #if
+      else
+        normal_attributes.store(k, v)
+      end #case
     end
+
+    order.update_attributes(normal_attributes)
+
+    order.save
+    order
   end
 
+  # Returns the payment from the registration matching the orderCode
+  def self.getOrder(registration, orderCode)
+    foundOrder = nil
+    registration.finance_details.first.orders.each do |order|
+      Rails.logger.debug 'Payment getOrder ' + order.orderCode.to_s
+      if orderCode == order.orderCode
+        Rails.logger.debug 'Order getOrder foundOrder'
+        foundOrder = order
+      end
+    end
+    foundOrder
+  end
+
+  def self.worldpay_status_options_for_select
+    WORLDPAY_STATUS.collect {|d| [I18n.t('worldpay_status.'+d), d]}
+  end
+
+  def self.getPositiveType
+   ORDER_AMOUNT_TYPES[0]
+  end
+
+  def self.getNegativeType
+    ORDER_AMOUNT_TYPES[1]
+  end
+
+  def self.new_registration_identifier
+    'NEWREG'
+  end
+
+  def self.edit_registration_identifier
+    'EDIT'
+  end
+
+  def self.renew_registration_identifier
+    'RENEW'
+  end
+
+  def self.extra_copycards_identifier
+    'INCCOPYCARDS'
+  end
+
+  def self.editrenew_caused_new_identifier
+    'EDITRENEW_CAUSED_NEW'
+  end
 
   # Returns a JSON Java/DropWizard API compatible representation of this object.
   # @param none
@@ -82,7 +156,6 @@ class Order < Ohm::Model
     end
     h
   end
-
 
   # POSTs order to Java/Dropwizard service.
   # @param none
@@ -170,111 +243,19 @@ class Order < Ohm::Model
     commited
   end
 
-  # Returns the payment from the registration matching the orderCode
-  def self.getOrder(registration, orderCode)
-    foundOrder = nil
-    registration.finance_details.first.orders.each do |order|
-      Rails.logger.debug 'Payment getOrder ' + order.orderCode.to_s
-      if orderCode == order.orderCode
-        Rails.logger.debug 'Order getOrder foundOrder'
-        foundOrder = order
-      end
-    end
-    foundOrder
-  end
-
-
-  WORLDPAY_STATUS = %w[
-    IN_PROGRESS
-    AUTHORISED
-    REFUSED
-    PENDING
-    ACTIVE
-    ETC
-  ]
-
-  VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
-  VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
-
-  validates :id, presence: true
-  validates :orderCode, presence: true
-  validates :merchantId, presence: true
-  #validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_REGEX }
-  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_POUNDS_REGEX }, :if => :isManualOrder?
-  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_PENCE_REGEX },  :if => :isAutomatedOrder?
-  #validate :validate_totalAmount
-  validates :currency, presence: true
-  validates :dateCreated, presence: true, length: { minimum: 8 }
-  validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }, :if => :isOnlinePayment?
-  #  validates :dateLastUpdated, presence: true, length: { minimum: 8 }
-  validate :validate_dateLastUpdated
-  validates :updatedByUser, presence: true
-  validates :description, presence: true, length: { maximum: 250 }
-
-  def self.worldpay_status_options_for_select
-    (WORLDPAY_STATUS.collect {|d| [I18n.t('worldpay_status.'+d), d]})
-  end
-
-  ORDER_AMOUNT_TYPES = %w[
-    POSITIVE
-    NEGATIVE
-  ]
-
-  def includesOrderType? orderType
+  def includesOrderType?(orderType)
     Rails.logger.debug 'includesOrderType? orderType:' + orderType.to_s
     Rails.logger.debug 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
     ORDER_AMOUNT_TYPES.include? orderType
   end
 
-  def isValidRenderType? renderType
+  def isValidRenderType?(renderType)
     Rails.logger.debug 'isValidRenderType? renderType:' + renderType.to_s
     res = %w[].push(Order.new_registration_identifier) \
     	.push(Order.edit_registration_identifier).push(Order.renew_registration_identifier) \
     	.push(Order.extra_copycards_identifier).push(Order.editrenew_caused_new_identifier).include? renderType
     Rails.logger.debug 'isValidRenderType? res: ' + res.to_s
     res
-  end
-
-  class << self
-    def getPositiveType
-     ORDER_AMOUNT_TYPES[0]
-    end
-  end
-
-  class << self
-    def getNegativeType
-      ORDER_AMOUNT_TYPES[1]
-    end
-  end
-
-  class << self
-    def new_registration_identifier
-      'NEWREG'
-    end
-  end
-
-  class << self
-    def edit_registration_identifier
-      'EDIT'
-    end
-  end
-
-  class << self
-    def renew_registration_identifier
-      'RENEW'
-    end
-  end
-
-  class << self
-    def extra_copycards_identifier
-      'INCCOPYCARDS'
-    end
-  end
-  
-  class << self
-    def editrenew_caused_new_identifier
-      'EDITRENEW_CAUSED_NEW'
-    end
   end
 
   def negateAmount
@@ -293,7 +274,7 @@ class Order < Ohm::Model
     end
   end
 
-  def isManualOrder?
+  def is_manual_order?
     if !self.manualOrder.nil?
       self.manualOrder
     else
@@ -301,11 +282,11 @@ class Order < Ohm::Model
     end
   end
 
-  def isAutomatedOrder?
-    !isManualOrder?
+  def is_automated_order?
+    !is_manual_order?
   end
 
-  def isOnlinePayment?
+  def is_online_payment?
     self.paymentMethod == 'ONLINE'
   end
 
@@ -320,15 +301,11 @@ class Order < Ohm::Model
   private
 
   def poundsToPence
-    if isManualOrder?
-      multiplyAmount
-    end
+    multiplyAmount if is_manual_order?
   end
 
   def penceToPounds
-    if isManualOrder?
-      divideAmount
-    end
+    divideAmount if is_manual_order?
   end
 
   # This multiplies the amount up from pounds to pence
