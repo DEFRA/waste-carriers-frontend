@@ -112,6 +112,9 @@ class KeyPerson < Ohm::Model
 
     conviction_search_result.replace([result])
   end
+  def to_long_string
+    "#{first_name}#{last_name}#{dob_day}#{dob_month}#{dob_year}"
+  end
 
   private
 

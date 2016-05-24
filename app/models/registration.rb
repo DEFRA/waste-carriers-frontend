@@ -142,6 +142,11 @@ class Registration < Ohm::Model
   # @return  [String] the uuid assigned by MongoDB
   def commit
     commited = false
+
+    finance_detail = self.finance_details.first || FinanceDetails.create
+    # finance_detail.orders << order_builder.order if finance_detail.orders.empty?
+    self.finance_details.replace([finance_detail])
+
     begin
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
       response = RestClient.post(url, to_json, :content_type => :json, :accept => :json)
@@ -1069,7 +1074,7 @@ class Registration < Ohm::Model
   end
 
   def pending?
-    metaData and metaData.first.status == 'PENDING'
+    metaData && metaData.first && metaData.first.status == 'PENDING'
   end
 
   def activate!
@@ -1526,5 +1531,16 @@ class Registration < Ohm::Model
     }
   end
 
+  def registration_order
+    RegistrationOrder.new(self)
+  end
+
+  def order_builder
+    OrderBuilder.new(registration_order)
+  end
+
+  def order_types
+    registration_order.order_types
+  end
 
 end

@@ -160,7 +160,7 @@ class Order < Ohm::Model
   # POSTs order to Java/Dropwizard service.
   # @param none
   # @return  [Boolean] true if Post is successful (200), false if not
-  def commit (registration_uuid)
+  def commit(registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
     negateAmount
     poundsToPence

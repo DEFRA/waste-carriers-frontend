@@ -94,13 +94,13 @@
 
               <td>
               <% if registration.can_be_edited? %>
-                <%= link_to t('registrations.form.edit_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT), :id => 'edit_'+registration.regIdentifier %>
+                <%= link_to t('registrations.form.edit_button_label'), edit_path(registration.uuid), :id => 'edit_'+registration.regIdentifier %>
               <% end %>
               </td>
 
 	            <td>
 		            <% if registration.upper? and registration.can_be_renewed? %>
-	            	<%= link_to t('form.renew_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL), :id => 'renew_'+registration.regIdentifier %>
+	            	<%= link_to t('form.renew_button_label'), edit_path(registration.uuid), :id => 'renew_'+registration.regIdentifier %>
 	            	<% end %>
 	            </td>
 

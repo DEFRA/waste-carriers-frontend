@@ -17,7 +17,7 @@ Given(/^I partially complete an IR Renewal registration, but stop at the payment
   click_button 'continue'
   fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R002'
   click_button 'continue'
-  
+
   step 'I have been funneled into the upper tier path'
   step 'I am a carrier dealer'
   step 'I enter my business details'
@@ -39,14 +39,28 @@ When ('complete the registration as a normal user via the WorldPay route') do
   fill_in 'Email', with: my_email_address
   fill_in 'Password', with: my_password
   click_button 'sign_in'
-  
+
   expect(page).to have_text 'You have 1 registration'
   click_link('edit_CBDU1')
-  
+
   expect(page).to have_text 'Check your details before registering'
   step 'I confirm the declaration'
   step 'I pay by card'
 end
+
+Then ('I log in to my account and edit my registration') do
+  visit new_user_session_path
+  fill_in 'Email', with: my_email_address
+  fill_in 'Password', with: my_password
+  click_button 'sign_in'
+  expect(page).to have_text 'You have 1 registration'
+  click_link('edit_CBDU1')
+  expect(page).to have_text 'Check your details before registering'
+
+end
+
+
+
 
 When('sign in as an NCCC Finance Admin') do
   visit new_agency_user_session_path
