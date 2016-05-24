@@ -158,7 +158,7 @@
             <li><span><%= t('.registration').humanize %></span><p><!-- Reg: <%= reg.uuid %> --><%= reg.regIdentifier %></p>
             </li>
             <li><span><%= t 'activemodel.attributes.metadata.status' %></span>
-              <p><%= reg.registration_status %></p></li>
+              <p style='color: <%= reg.registration_status_color %>'><%= reg.registration_status %></p></li>
           </ul>
       </div>
     </div>
