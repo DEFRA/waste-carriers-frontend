@@ -1397,6 +1397,19 @@ class Registration < Ohm::Model
     end
   end
 
+  def registration_status_color
+    case registration_status
+    when 'De-Registered'
+      '#FF0000'
+    when 'Registered'
+      '#00823b'
+    when 'Awaiting payment'
+      '#e27300'
+    else
+      '#000000'
+    end
+  end
+
   def self.activate_registrations(user)
     Rails.logger.debug "Activating pending registrations for user with email"
     rs = Registration.find_by_email(user.email)
