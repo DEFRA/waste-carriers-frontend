@@ -1,6 +1,6 @@
-Feature: Kev's test area
+Feature: Business details validation rules
 
-#Validation notifications
+# Validation notifications
 
 Scenario: Email screen confirmation
 Given a lower tier registration is completed
