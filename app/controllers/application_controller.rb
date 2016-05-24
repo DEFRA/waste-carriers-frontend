@@ -151,7 +151,7 @@ class ApplicationController < ActionController::Base
   end
 
   def generateOrderCode
-    Time.now.to_i.to_s
+    SecureRandom.uuid.split('-').last
   end
 
   rescue_from CanCan::AccessDenied do |exception|

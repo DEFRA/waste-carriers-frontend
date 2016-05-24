@@ -62,7 +62,7 @@ class WorldpayController < ApplicationController
       # summary page but display the error details.
 
       # Check if renderType and orderCode exist, If so its okay to redirect to order page, If not render Expired page
-      if session[:renderType] and session[:orderCode]
+      if session[:orderCode]
         next_step = upper_payment_path(@registration.uuid)
       else
         logger.debug 'Cannot redirect to order page as session variables already removed, this assume, Retry failed.'

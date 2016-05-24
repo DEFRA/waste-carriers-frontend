@@ -46,6 +46,7 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+  config.expose_current_running_example_as :example
 
   config.before(:each) do
     Timecop.return

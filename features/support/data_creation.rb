@@ -43,7 +43,7 @@ def create_registration_from_hash(reg_hash)
     two_years_in_ms = 365 * 24 * 60 * 60 * 1000
     reg_hash['expires_on'] = ((Time.now.to_f * 1000) + two_years_in_ms).to_i
   end
-  
+
   #post registration
   reg_hash['reg_uuid'] = SecureRandom.uuid
   url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
@@ -82,8 +82,8 @@ end
 
 def create_order(edit_reg_response, no_of_copy_cards, method)
   edit_reg_response
-  id = edit_reg_response['id']
-  order_id = edit_reg_response['financeDetails']['orders'][0]['orderId']
+  registration_id = edit_reg_response['id']
+  # order_id = edit_reg_response['financeDetails']['orders'][0]['orderId']
   reg_identifier = edit_reg_response['regIdentifier']
 
   if method == "World Pay"
@@ -94,7 +94,7 @@ def create_order(edit_reg_response, no_of_copy_cards, method)
     order_data = JSON.parse(order_file)
   end
 
-  order_data['orderId'] = order_id
+  order_data['orderId'] = Time.zone.now.to_i.to_s
   order_data['updatedByUser'] = edit_reg_response['accountEmail']
   order_data['dateCreated'] = DateTime.now.strftime('%FT%T%:z')
   total_amount = 15400
@@ -119,8 +119,8 @@ def create_order(edit_reg_response, no_of_copy_cards, method)
   end
 
   order_data['totalAmount'] = total_amount
-  order_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{id}/orders/#{order_id}.json"
-  order_response = RestClient.put order_url, order_data.to_json, :content_type => :json, :accept => :json
+  order_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_id}/orders.json"
+  order_response = RestClient.post order_url, order_data.to_json, :content_type => :json, :accept => :json
   return order_response
 end
 

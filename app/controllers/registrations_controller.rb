@@ -10,6 +10,8 @@ class RegistrationsController < ApplicationController
     ACTIVE = 1
   end
 
+  # We require authentication (and authorisation) largely only for editing registrations,
+  # and for viewing the finished/completed registration.
   module EditResult
     START = -999
     NO_CHANGES = 1
@@ -23,10 +25,6 @@ class RegistrationsController < ApplicationController
     EDIT = 1
     RENEWAL = 2
   end
-
-
-  #We require authentication (and authorisation) largely only for editing registrations,
-  #and for viewing the finished/completed registration.
 
   before_filter :authenticate_admin_request!
 
@@ -125,49 +123,7 @@ class RegistrationsController < ApplicationController
   def newConfirmation
     new_step_action 'confirmation'
     return unless @registration
-
-    case session[:edit_mode].to_i
-      when EditMode::EDIT, EditMode::RENEWAL
-        @registration.declaration = false
-        if session[:edit_result].to_i.eql? EditResult::START  #this is the first time we hit the confirmation page
-          session[:edit_result] = EditResult::START + 1
-        else #we've hit the confirmation page before
-          logger.debug "going to compare"
-          original_registration = Registration[ session[:original_registration_id] ]
-          session[:edit_result] =  compare_registrations(@registration, original_registration )
-        end
-
-      # update_registration session[:edit_mode]
-      else # new registration, do nothing (default rendering will occur)
-
-        # Check if IR Renewal
-        logger.debug "Check if IR renewal flow"
-        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber) and @registration.newOrRenew
-          logger.debug "IR renewal flow found"
-          original_registration = Registration[ session[:original_registration_id] ]
-          session[:edit_result] =  compare_registrations(@registration, original_registration )
-          logger.debug "edit result: " + session[:edit_result].to_s
-
-          case session[:edit_result].to_i
-            when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-              logger.debug "++++++++++++++++++++++++ ir data, no charge"
-            when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-              logger.debug "++++++++++++++++++++++++ charge"
-            when RegistrationsController::EditResult::CREATE_NEW_REGISTRATION
-              logger.debug "++++++++++++++++++++++++ ir data changed to new reg"
-            when RegistrationsController::EditResult::NO_CHANGES
-              logger.debug "++++++++++++++++++++++++ no change"
-          end #case
-
-          # Set edit mode to renew, to show panel for renew
-          session[:edit_mode] = RegistrationsController::EditMode::RENEWAL
-
-        end
-
-    end #case
-
-    logger.debug "edit_mode = #{ session[:edit_mode]}"
-    logger.debug "edit_result = #{ session[:edit_result]}"
+    @order_builder = @registration.order_builder
   end
 
   # POST /your-registration/confirmation
@@ -176,106 +132,91 @@ class RegistrationsController < ApplicationController
     return unless @registration
 
     if @registration.valid?
-      case session[:edit_mode].to_i
-        when EditMode::EDIT
-          case session[:edit_result].to_i
-            # Check if no Immediate edit actions have occured, and redirect back to
-            # appropraite start point
-            # This assumes that because the edit_result orignally is set to the
-            # start, and then when newConfirmation is rendered it is incremented by
-            # one, that this is the only situation where that can occur.
-            when  EditResult::START + 1
-              unless @registration.paid_in_full?
-                newOrder @registration.uuid
-                return
-              end
-              clear_edit_session
-              if current_user
-                redirect_to userRegistrations_path(current_user)
-              elsif current_agency_user
-                redirect_to registrations_path
-              else
-                renderAccessDenied
-              end
-              return
-            when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-              @registration.save!
-              unless @registration.paid_in_full?
-                newOrder @registration.uuid
-                return
-              end
-              clear_edit_session
-              if current_user
-                redirect_to userRegistrations_path(current_user)
-              elsif current_agency_user
-                redirect_to registrations_path
-              else
-                renderAccessDenied
-              end
-              return
-            when  EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-              newOrderEdit @registration.uuid
-            when  EditResult::CREATE_NEW_REGISTRATION
-              # If a new registration is needed at this point it should be created
-              # as the payment will then be processed against that registration and
-              # not the original one, which will be marked as deleted
-              new_reg = Registration.create_new_when_edit_requires_new_reg(@registration)
-              session[:editing] = true
 
-              # Need to re-get registration from DB as we are leaving the orig alone
-              original_reg = Registration.find_by_id(@registration.uuid)
-              # Mark original registration as deleted and save to db
-              original_reg.metaData.first.update(:status=>'INACTIVE')
+      if @registration.order_types.include? :edit
 
-              if original_reg.save!
-                original_reg.save
-              end
+        if @registration.order_types.include? :change_reg_type
 
-              # Use copy of registration in memory and save to database
-              new_reg.current_step = 'confirmation'
-              if new_reg.valid?
-                new_reg.reg_uuid = SecureRandom.uuid
-                if new_reg.commit
-                  new_reg.save
-                  @registration = new_reg
-                  session[:registration_id] = new_reg.id
-                  session[:registration_uuid] = @registration.uuid
-                else
-                  render 'newConfirmation', status: '400'
-                end
-              else
-                render 'newConfirmation', status: '400'
-              end
+          newOrderEdit @registration.uuid
 
-              # Save copied registration to redis and update any session variables
-              @registration.save
-              newOrderCausedNew @registration.uuid
-              return
-            else
-              edit_mode = session[:edit_mode]
-              edit_result = session[:edit_result]
-              # we don't need edit variables polluting the session any more
-              clear_edit_session
-              redirect_to(
-                  action: 'editRenewComplete',
-                  edit_mode: edit_mode,
-                  edit_result: edit_result)
-              return
+        elsif @registration.order_types.include? :change_caused_new
+
+          # If a new registration is needed at this point it should be created
+          # as the payment will then be processed against that registration and
+          # not the original one, which will be marked as deleted
+          new_reg = Registration.create_new_when_edit_requires_new_reg(@registration)
+          session[:editing] = true
+
+          # Need to re-get registration from DB as we are leaving the orig alone
+          original_reg = Registration.find_by_id(@registration.uuid)
+          # Mark original registration as deleted and save to db
+          original_reg.metaData.first.update(:status=>'INACTIVE')
+
+          if original_reg.save!
+            original_reg.save
           end
 
-        when EditMode::RENEWAL
-          # Detect standard or IR renewal
-          if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
-            redirect_to action: :account_mode
+          # Use copy of registration in memory and save to database
+          new_reg.current_step = 'confirmation'
+          if new_reg.valid?
+            new_reg.reg_uuid = SecureRandom.uuid
+            if new_reg.commit
+              new_reg.save
+              @registration = new_reg
+              session[:registration_id] = new_reg.id
+              session[:registration_uuid] = @registration.uuid
+            else
+              render 'newConfirmation', status: '400'
+            end
           else
-            @registration.renewalRequested = true
+            render 'newConfirmation', status: '400'
+          end
 
-            @registration.save
-            newOrderRenew(@registration.uuid)
+          # Save copied registration to redis and update any session variables
+          @registration.save
+          newOrderCausedNew @registration.uuid
+
+        elsif @registration.order_types.include? :renew
+
+          edit_mode = session[:edit_mode]
+          edit_result = session[:edit_result]
+          # we don't need edit variables polluting the session any more
+          clear_edit_session
+          redirect_to complete_edit_renew_path(@registration.uuid)
+          return
+
+        else # no charge
+          @registration.save!
+          unless @registration.paid_in_full?
+            newOrder @registration.uuid
             return
           end
-        else # new registration
+          clear_edit_session
+          if current_user
+            redirect_to userRegistrations_path(current_user)
+          elsif current_agency_user
+            redirect_to registrations_path
+          else
+            renderAccessDenied
+          end
+        end
+
+        return
+
+      elsif @registration.order_types.include? :renew
+        # Detect standard or IR renewal
+        if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
           redirect_to action: :account_mode
+        else
+          @registration.renewalRequested = true
+
+          @registration.save
+          newOrderRenew(@registration.uuid)
+          return
+        end
+
+      else # new registration
+        redirect_to action: :account_mode
       end
 
     else
@@ -383,12 +324,7 @@ class RegistrationsController < ApplicationController
       return
     end
 
-    case @registration.tier
-      when 'LOWER'
-        complete_new_registration true
-      when 'UPPER'
-        complete_new_registration
-    end
+    complete_new_registration(@registration.tier == 'LOWER')
 
     session.delete(:at_mid_registration_signin_step)
     @registration.sign_up_mode = ''
@@ -736,7 +672,7 @@ class RegistrationsController < ApplicationController
     # on the email address of the user.
     reg_uuid = params[:id] || session[:registration_uuid]
     if reg_uuid
-      @registration = Registration.find_by_id( reg_uuid )
+      @registration = Registration.find_by_id(reg_uuid)
     else
       @registrations = Registration.find_by_email(@user.email)
       unless @registrations.empty?
@@ -804,8 +740,6 @@ class RegistrationsController < ApplicationController
 
     session[:registration_id] = @registration.id
     session[:registration_uuid] = @registration.uuid
-    session[:edit_mode] =  params[:edit_process] #view param knows if the user clicked edit or renew
-    session[:edit_result] = EditResult::START #initial state
     session[:editing] = true
 
     redirect_to :newConfirmation
@@ -1194,7 +1128,7 @@ class RegistrationsController < ApplicationController
   def newOrderRenew registration_uuid
     session[:renderType] = Order.renew_registration_identifier
     session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    redirect_to upper_payment_path(id: registration_uuid)
   end
 
   # Function to redirect additional copy card orders to the order controller
@@ -1227,10 +1161,7 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     # Need to store session variables as instance variable, so that
     # editRenewComplete.html can use them, as session will be cleared shortly.
-    @edit_mode = session[:edit_mode]
-    @edit_result = session[:edit_result]
-    logger.debug '@edit_mode: ' + @edit_mode.to_s
-    logger.debug '@edit_result: ' + @edit_result.to_s
+
 
     @confirmationType = getConfirmationType
 
@@ -1310,65 +1241,6 @@ class RegistrationsController < ApplicationController
                 end
 
     redirect_to next_step
-
-  end
-
-  def compare_registrations(edited_registration, original_registration)
-    res =  EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-
-    #
-    # PT 81010558 : Disallow the user to change tier
-    #
-    if (original_registration.tier != edited_registration.tier)
-      logger.debug 'Registration has changed Tier, Not Allowed'
-      res = EditResult::CHANGE_NOT_ALLOWED
-    else
-      #
-      # BUSINESS RULES for Determining NEW REGISTRATION:
-      # A new registration is created if the following changes are made:
-      #   1. Change of legal entity
-      #   2. Change of companies house number
-      #   3. A partner is added to a Partnership (Partnership legal entity only
-      #
-
-      if (original_registration.originalRegistrationNumber) and \
-          (isIRRegistrationType(original_registration.originalRegistrationNumber)) and \
-          (original_registration.key_people.size.to_i == 0)
-        # Assumed, 0 Key people is from an IR data import
-        if (original_registration.businessType != edited_registration.businessType) ||
-            (edited_registration.company_no != original_registration.company_no)
-          # NEW REGISTRATION Rule: 1 and 2
-          logger.debug 'NEW REG because Rule 1 or 2 (test 1)'
-          res = EditResult::CREATE_NEW_REGISTRATION
-        elsif (original_registration.registrationType != edited_registration.registrationType)
-          logger.debug 'Update REG WITH CHARGE (test 4)'
-          res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-        else
-          logger.debug "Standard IR Renewal Charge"
-          logger.debug 'Update REG NO CHARGE (test 5)'
-          res = EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-        end
-      else
-        if (original_registration.businessType != edited_registration.businessType) ||
-            (edited_registration.company_no != original_registration.company_no)
-          # NEW REGISTRATION Rule: 1 and 2
-          logger.debug 'NEW REG because Rule 1 or 2 (test 2)'
-          res = EditResult::CREATE_NEW_REGISTRATION
-        elsif (edited_registration.businessType == Registration::BUSINESS_TYPES[1]) &&
-            (original_registration.key_people.size < edited_registration.key_people.size )
-          # NEW REGISTRATION Rule: 3
-          logger.debug 'NEW REG because Rule 3 (test 3)'
-          logger.debug 'size before: ' + original_registration.key_people.size.to_s
-          logger.debug 'size after : ' + edited_registration.key_people.size.to_s
-          res = EditResult::CREATE_NEW_REGISTRATION
-        elsif (original_registration.registrationType != edited_registration.registrationType)
-          logger.debug 'Update REG WITH CHARGE (test 6)'
-          res = EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-        end
-      end
-    end
-
-    res
 
   end
 
