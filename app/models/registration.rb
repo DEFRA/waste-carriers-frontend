@@ -102,43 +102,6 @@ class Registration < Ohm::Model
   index :accountEmail
   index :companyName
 
-  ############## ROUTENAME ##############
-  # The following code should be seen as temporary until we better understand
-  # how we can remove the routeName property (which this code is) and still
-  # have the Rspecs passing. The RSpec tests work on the basis (it seems) of
-  # initialising a Registration via Registration.new but then calling methods
-  # that rely on the metaData and finance_details objects being populated. You
-  # cannot populate them however as you need to have called save against the
-  # registration first, and we cannot override the new method to allow us to do
-  # this.
-
-  @route_name
-
-  def routeName=(name)
-
-    @route_name = name
-
-    begin
-      metaData.first.update(:route => name)
-    rescue Exception => e
-      Airbrake.notify(e)
-      Rails.logger.debug e.message
-    end
-
-  end
-
-  def routeName
-    begin
-      route = self.try(:metaData).try(:first).try(:route)
-      @route_name = route unless route.nil?
-    rescue Exception => e
-      Airbrake.notify(e)
-      Rails.logger.debug e.message
-    end
-
-    @route_name
-  end
-
   ################# END #################
 
   def empty?
@@ -1542,10 +1505,6 @@ class Registration < Ohm::Model
 
   def get_status
     metaData.first.status
-  end
-
-  def assisted_digital?
-    metaData.first.route == 'ASSISTED_DIGITAL'
   end
 
   def within_ir_renewal_window?
