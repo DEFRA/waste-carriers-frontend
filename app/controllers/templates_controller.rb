@@ -81,7 +81,6 @@ class TemplatesController < ApplicationController
       :constructionWaste,
       :onlyAMF,
       :companyName,
-      :routeName,
       :postcodeSearch,
       :firstName,
       :lastName,
