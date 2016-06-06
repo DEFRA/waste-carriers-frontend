@@ -13,7 +13,7 @@ class RegistrationMailer < ActionMailer::Base
     @registration = registration
     @pdf = true
     email_with_name = "#{Rails.configuration.registrations_service_emailName} <#{Rails.configuration.registrations_service_email}>"
-    attachments["WasteCarrierRegistrationCertificate-#{registration.uuid}.pdf"] = WickedPdf.new.pdf_from_string(
+    attachments["WasteCarrierRegistrationCertificate-#{registration.regIdentifier}.pdf"] = WickedPdf.new.pdf_from_string(
       render_to_string(pdf: 'certificate', template: 'registrations/certificate', layout: 'pdf.html.erb'),
       {}
     )
