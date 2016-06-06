@@ -110,9 +110,7 @@ class KeyPerson < Ohm::Model
       dateOfBirth: dob
     )
 
-    Rails.logger.debug "KEY_PERSON::CROSS_CHECK_CONVICTIONS #{result}"
     conviction_search_result.replace([result])
-
   end
 
   private

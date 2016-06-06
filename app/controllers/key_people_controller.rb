@@ -226,9 +226,6 @@ class KeyPeopleController < ApplicationController
       return
     end
 
-    logger.debug "reg is: #{@registration.id}"
-    logger.debug "key person to remove is: #{key_person_to_remove.id}"
-
     @registration.key_people.delete(key_person_to_remove)
 
     redirect_to action: 'registration'
@@ -241,8 +238,6 @@ class KeyPeopleController < ApplicationController
       renderNotFound
       return
     end
-    logger.debug "reg is: #{@registration.id}"
-    logger.debug "relevant person to remove is: #{person_to_remove.id}"
 
     @registration.key_people.delete(person_to_remove)
 
