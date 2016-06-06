@@ -48,7 +48,6 @@ class RegistrationsController < ApplicationController
       flash.now[:notice] = I18n.t('errors.messages.search_criteria')
     end
     session[:registration_step] = session[:registration_params] = nil
-    logger.debug "index: #{ @registrations.size.to_s} items"
 
     #
     # REVIEWME: Ideally this should not be needed but in order to cover the 'Back and refresh issue'
@@ -941,7 +940,6 @@ class RegistrationsController < ApplicationController
           if agency_user_signed_in?                                     # Checks only agency users can revoke
             # Get reason from params
             revokedReason = params[:registration][:metaData][:revokedReason]
-            logger.debug 'Revoked Reason: ' + revokedReason.to_s
 
             # Update registration with revoked comment and status
             @registration.metaData.first.update(revokedReason: revokedReason)
@@ -974,7 +972,6 @@ class RegistrationsController < ApplicationController
           if agency_user_signed_in?
             # Get reason from params
             unrevokedReason = params[:registration][:metaData][:unrevokedReason]
-            logger.debug 'Unrevoked Reason: ' + unrevokedReason.to_s
 
             # Mark registration as unrevoked, i.e. reactivated
             @registration.metaData.first.update(revokedReason: unrevokedReason)
@@ -1318,8 +1315,6 @@ class RegistrationsController < ApplicationController
 
   def compare_registrations(edited_registration, original_registration)
     res =  EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE
-    logger.debug "#{original_registration.attributes}"
-    logger.debug "#{edited_registration.attributes}"
 
     #
     # PT 81010558 : Disallow the user to change tier

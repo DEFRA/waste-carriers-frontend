@@ -238,10 +238,6 @@ class WorldpayController < ApplicationController
       @order.order_items.add item
     end
 
-    logger.debug  '***** The @order is:'
-    logger.debug  @order.attributes
-    logger.debug  '*****'
-
     if @order.valid?
       if @order.save! reg.uuid
         if session[:edit_mode]
@@ -264,7 +260,6 @@ class WorldpayController < ApplicationController
 
         # Re-get registration so its data is up to date, for later use
         @registration = Registration.find_by_id(session[:registration_uuid])
-        logger.debug "#{@registration.id}"
         logger.debug 'Re-populated @registration from the database'
       else
         # Errored saving order

@@ -164,7 +164,7 @@ class Order < Ohm::Model
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
     negateAmount
     poundsToPence
-    Rails.logger.debug "about to post order: #{to_json.to_s}"
+    Rails.logger.debug "about to post order"
     commited = true
     begin
       response = RestClient.post url,
@@ -173,9 +173,8 @@ class Order < Ohm::Model
         :accept => :json
 
       result = JSON.parse(response.body)
-      Rails.logger.debug  result.class.to_s
       save
-      Rails.logger.debug "Commited order to service: #{attributes.to_s}"
+      Rails.logger.debug "Commited order to service"
     rescue => e
       Airbrake.notify(e)
       Rails.logger.error e.to_s
@@ -218,7 +217,6 @@ class Order < Ohm::Model
         :accept => :json
 
       result = JSON.parse(response.body)
-      Rails.logger.debug  result.class.to_s
       save
     rescue => e
       Airbrake.notify(e)

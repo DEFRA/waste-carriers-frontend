@@ -26,7 +26,6 @@ class BusinessDetailsController < ApplicationController
       # have something to search against.
       @address_match_list = AddressSearchResult.search(@address.postcode)
     else
-      logger.debug
       render 'show', status: '400'
     end
   end
