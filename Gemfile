@@ -94,7 +94,7 @@ group :development do
   gem 'letter_opener', '~> 1.2.0'
 
   # gem needed for Chrome's RailsPanel plugin
-  gem 'meta_request', '~> 0.3.4'
+  gem 'meta_request'
 
   # Hide assets in development server log
   gem 'quiet_assets'
