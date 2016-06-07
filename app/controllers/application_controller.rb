@@ -159,7 +159,6 @@ class ApplicationController < ActionController::Base
     renderAccessDenied
   end
 
-
   rescue_from Errno::ECONNREFUSED do |exception|
     notify_airbrake(exception)
     render :file => "/public/503.html", :status => 503
