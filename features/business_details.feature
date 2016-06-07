@@ -90,27 +90,17 @@ Given I am registering as a sole trader
 And I am a carrier dealer
 And I provide my company name
 And I autocomplete my business address
-And This is my postal address
 And I provide my personal contact details
 Then Business owner details are pre-populated
 
 #-------------------------------------------------------------------------------
 
-#Second Contact details
+# Second Contact details
 
-Scenario: Add second contact details for postal address
+Scenario: Check "Who should we write to?" page is pre-populated with relevant details
 Given I am registering as a sole trader
 And I am a carrier dealer
 And I provide my company name
-And I autocomplete my business contact address
-And This is not my postal address
-Then I am directed to the postal address details page
-And I can enter my postal address
-
-Scenario: Use the business address as the postal address
-Given I am registering as a sole trader
-And I am a carrier dealer
-And I provide my company name
-And I autocomplete my business contact address
-And This is my postal address
+And I autocomplete my business address
 And I provide my personal contact details
+Then The Who Should We Write To page is pre-populated with relevant details

@@ -195,35 +195,15 @@ end
 
 #-------------------------------------------
 
-#Second Contact address
-And(/^This is not my postal address$/) do
-  click_link 'manual_uk_address'
-  click_button 'continue'
-end
+# Second Contact address
 
-And(/^This is my postal address$/) do
-    click_button 'continue'
-end
-
-Then(/^I am directed to the postal address details page$/) do
-  expect(page). to have_text 'Building name or number'
-end
-
-Given(/^I autocomplete my business contact address$/) do
-  fill_in 'sPostcode', with: 'HP10 9BX'
-  click_button 'find_address'
-  select '33, FENNELS WAY, FLACKWELL HEATH, HIGH WYCOMBE, HP10 9BX'
-end
-
-And(/^I can enter my postal address$/) do
-  fill_in 'registration_companyName', with: 'Grades & Co'
-  fill_in 'address_houseNumber', with: '12'
-  fill_in 'address_addressLine1', with: 'Deanery Road'
-  fill_in 'address_addressLine2', with: 'EA Building'
-  fill_in 'address_townCity', with: 'Bristol'
-  fill_in 'address_postcode', with: 'BS1 5AH'
-  click_button 'continue'
-  expect(page). to have_text 'Contact details'
+Then('The Who Should We Write To page is pre-populated with relevant details') do
+  expect(page).to have_field('address_firstName', with: 'Joe')
+  expect(page).to have_field('address_lastName', with: 'Bloggs')
+  expect(page).to have_field('address_houseNumber', with: '33')
+  expect(page).to have_field('address_addressLine1', with: 'FENNELS WAY')
+  expect(page).to have_field('address_townCity', with: 'HIGH WYCOMBE')
+  expect(page).to have_field('address_postcode', with: 'HP10 9BX')
 end
 
 #------------------------------------------------------
