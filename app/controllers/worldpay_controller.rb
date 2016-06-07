@@ -210,7 +210,6 @@ class WorldpayController < ApplicationController
     orderCode = @payment.orderKey
     status = @payment.worldPayPaymentStatus
 
-
     reg = Registration.find_by_id(session[:registration_uuid])
 
     # Get the current_order from the registration
