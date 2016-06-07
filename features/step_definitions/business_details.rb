@@ -196,23 +196,17 @@ end
 #-------------------------------------------
 
 #Second Contact address
-
-#If the radio button option is decided on then need to specify the name of radio button
 And(/^This is not my postal address$/) do
-#  choose ‘whatever_this_radio_button_is_named’
-    click_button 'continue'
+  click_link 'manual_uk_address'
+  click_button 'continue'
 end
 
 And(/^This is my postal address$/) do
-  #  choose ‘whatever_this_radio_button_is_named’
     click_button 'continue'
 end
 
-#This needs the page heading or other text from the new page
-#Use the second expect(page) only if radio buttons are not used
 Then(/^I am directed to the postal address details page$/) do
-  expect(page). to have_text 'Contact details'
-  #expect(page). to have_text 'HP10 9BX' - use if no radio buttons i.e. fields pre-populated
+  expect(page). to have_text 'Building name or number'
 end
 
 Given(/^I autocomplete my business contact address$/) do
@@ -222,18 +216,14 @@ Given(/^I autocomplete my business contact address$/) do
 end
 
 And(/^I can enter my postal address$/) do
-#This is a temporary step definition until page is available
-  fill_in 'registration_firstName', with: 'John'
-  fill_in 'registration_lastName', with: 'Smith'
-  fill_in 'registration_phoneNumber', with: '01248 123456'# Not required for second contact
-#  fill_in 'registration_streetLine1', with: 'Broad Street'
-#  fill_in 'registration_streetLine2', with: 'City Centre'
-#  fill_in 'registration_streetLine3', with: 'Bristol'
-#  fill_in 'registration_streetLine4', with: 'BS1 2EP'
-
-#  fill_in 'registration_country', with: 'France'
-
-#  click_button 'continue'
+  fill_in 'registration_companyName', with: 'Grades & Co'
+  fill_in 'address_houseNumber', with: '12'
+  fill_in 'address_addressLine1', with: 'Deanery Road'
+  fill_in 'address_addressLine2', with: 'EA Building'
+  fill_in 'address_townCity', with: 'Bristol'
+  fill_in 'address_postcode', with: 'BS1 5AH'
+  click_button 'continue'
+  expect(page). to have_text 'Contact details'
 end
 
 #------------------------------------------------------
