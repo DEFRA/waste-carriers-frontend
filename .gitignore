@@ -38,5 +38,5 @@ dump.rdb
 
 coverage
 .directory
-.env
+.env*
 .byebug_history
