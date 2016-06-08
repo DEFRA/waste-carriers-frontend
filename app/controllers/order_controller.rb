@@ -33,7 +33,31 @@ class OrderController < ApplicationController
 
     @registration.copy_cards ||= 0
     @registration.order_builder.current_user = current_user || current_agency_user
-    @order = @registration.order_builder.order(session[:orderCode])
+
+    # HERE is the place where we determine whether we need to update an order
+    # that already exists against the registration (and is in the database),
+    # or create a new one.
+    if @registration.order_builder.indicates_new_registration?
+      # This order is for the initial registration, and has already been
+      # committed to the database at the time the registration was written.
+      # Therefore we need to update the existing order.
+      new_order_code = @registration.finance_details.first.orders.first.orderCode
+    elsif session.has_key?(:orderCode)
+      # The user has returned to this page by cancelling in Worldpay, or via
+      # using the back button.  To avoid creating a duplicate order, we re-use
+      # the last order-code.
+      new_order_code = session[:orderCode]
+    else
+      # This must be a new order; we'll let the Order Builder generate a new
+      # order code.
+      new_order_code = nil
+    end
+
+    # Generate the new order, and store its key in the session, so that we can
+    # handle the case where a user Cancels in Worldpay or uses the browser
+    # back button.
+    @order = @registration.order_builder.order(new_order_code)
+    session[:orderCode] = @order.orderCode
 
     unless @registration.valid? && @order.valid?
       logger.debug "registration validation errors: #{@registration.errors.messages.to_s}"

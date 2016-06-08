@@ -144,7 +144,7 @@ class Registration < Ohm::Model
     commited = false
 
     finance_detail = self.finance_details.first || FinanceDetails.create
-    # finance_detail.orders << order_builder.order if finance_detail.orders.empty?
+    finance_detail.orders << order_builder.order if finance_detail.orders.empty?
     self.finance_details.replace([finance_detail])
 
     begin
