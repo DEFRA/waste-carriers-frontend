@@ -216,7 +216,6 @@ module OrderHelper
     end
 
     orderDescription = orderLabel + incCopyCards
-    logger.debug 'orderDescription: ' + orderDescription
     orderDescription
   end
 
