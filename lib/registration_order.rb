@@ -12,19 +12,27 @@ class RegistrationOrder
     order_types = []
     return order_types if @current_registration.lower?
     order_types << :edit if is_editing_registration?
+    order_types << :tier_change_disallowed if is_tier_change_disallowed?
 
     if is_editing_registration? || is_renewing_registration?
       if is_legal_entity_change?
         order_types << :change_caused_new
+        order_types << :edit_charge
       else
-        order_types << :change_reg_type if is_reg_type_change?
-        order_types << :renew if is_renewing_registration?
+        if is_reg_type_change?
+          order_types << :change_reg_type
+          order_types << :edit_charge
+        end
+        if is_renewing_registration?
+          order_types << :renew
+          order_types << :edit_charge
+        end
       end
     else
       order_types << :new
     end
 
-    return order_types
+    return order_types.uniq
   end
 
   def is_reg_type_change?
@@ -39,6 +47,12 @@ class RegistrationOrder
 
   def is_tier_change?
     @original_registration.tier != @current_registration.tier
+  end
+
+  def is_tier_change_disallowed?
+    if @original_registration.try(:tier).present? && @current_registration.try(:tier).present?
+      @original_registration.tier == 'LOWER' && @current_registration.tier == 'UPPER'
+    end
   end
 
   def is_key_people_addition?
