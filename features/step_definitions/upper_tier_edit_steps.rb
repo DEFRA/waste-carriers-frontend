@@ -13,6 +13,10 @@ Then(/^Edit The Registration$/) do
   click_link "Edit registration"
 end
 
+Then(/^I visit the edit registration page$/) do
+  visit edit_registration_path(@raw_id)
+end
+
 Then(/^I check that no changes have occurred$/) do
   expect(page).to have_text 'Your waste carrier registrations'
   expect(page).to have_text 'Edit registration'
