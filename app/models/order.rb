@@ -206,7 +206,7 @@ class Order < Ohm::Model
 
   # PUT order to Java/Dropwizard service.
   # @param none
-  # @return  [Boolean] true if Post is successful (200), false if not
+  # @return  [Boolean] true if PUT is successful (200), false if not
   def save!(registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders/#{orderId}.json"
     commited = true

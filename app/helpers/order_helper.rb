@@ -45,14 +45,14 @@ module OrderHelper
 
   def calculate_fees(my_registration, render_type)
     logger.debug 'render_type: ' + render_type.to_s
-    
+
     # Ensure copy cards contains a valid value.
     my_registration.copy_cards = 0 unless my_registration.copy_cards
-    
+
     # Fees common to all order types.
     my_registration.registration_fee = Money.new(0, 'GBP').cents
     my_registration.copy_card_fee = my_registration.copy_cards.to_i * Rails.configuration.fee_copycard
-    
+
     # Calculate default fees based on page to render
     case render_type
     when Order.new_registration_identifier, Order.editrenew_caused_new_identifier
@@ -76,10 +76,10 @@ module OrderHelper
       logger.error 'Unrecogniseable render_type: ' + render_type.to_s
       return
     end
-    
+
     # Calculate total
     my_registration.total_fee = my_registration.registration_fee + my_registration.copy_card_fee
-    
+
     logger.debug format('Fees: registration=%d, copy cards=%d, total=%d',
                         my_registration.registration_fee,
                         my_registration.copy_card_fee,
