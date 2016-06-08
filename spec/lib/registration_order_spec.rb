@@ -19,7 +19,7 @@ describe RegistrationOrder do
         RegistrationOrder.any_instance.stub(:ir_renewal).and_return(ir_renewal_registration)
         RegistrationOrder.new(ir_renewal_registration)
       end
-      it { expect(registration_order.order_types).to eq([:renew]) }
+      it { expect(registration_order.order_types).to eq([:renew, :edit_charge]) }
     end
 
     context 'when registration is an IR renewal and reg type changed' do
@@ -27,7 +27,7 @@ describe RegistrationOrder do
         RegistrationOrder.any_instance.stub(:ir_renewal).and_return(ir_renewal_cd_registration)
         RegistrationOrder.new(ir_renewal_registration)
       end
-      it { expect(registration_order.order_types).to eq([:change_reg_type, :renew]) }
+      it { expect(registration_order.order_types).to eq([:change_reg_type, :edit_charge, :renew]) }
     end
 
     context 'when registration is an IR renewal and business type changed' do
@@ -35,7 +35,7 @@ describe RegistrationOrder do
         RegistrationOrder.any_instance.stub(:ir_renewal).and_return(ir_renewal_partnership_registration)
         RegistrationOrder.new(ir_renewal_registration)
       end
-      it { expect(registration_order.order_types).to eq([:change_caused_new]) }
+      it { expect(registration_order.order_types).to eq([:change_caused_new, :edit_charge]) }
     end
 
   end
