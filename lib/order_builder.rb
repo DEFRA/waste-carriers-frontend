@@ -63,6 +63,11 @@ class OrderBuilder
     order_items[type]
   end
 
+  def indicates_new_registration?
+    order_items = @registration_order.order_types
+    order_items.include?(:new) || order_items.include?(:change_caused_new) || order_items.include?(:renew)
+  end
+
   def order_items
     registration_order_items = @registration_order.order_types.map do |order_type|
       self.class.order_item_for_type(order_type)
