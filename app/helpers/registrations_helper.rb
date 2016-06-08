@@ -44,7 +44,7 @@ module RegistrationsHelper
     emailIn.downcase
   end
 
-  def one_full_message_per_invalid_attribute registration
+  def one_full_message_per_invalid_attribute(registration)
     hash_without_base = registration.errors.messages.except :base
 
     hash_without_base.each_key do |key|
@@ -56,7 +56,7 @@ module RegistrationsHelper
   end
 
 
-  def one_full_message_with_key_per_invalid_attribute registration
+  def one_full_message_with_key_per_invalid_attribute(registration)
     hash_without_base = registration.errors.messages.except :base
     errors_with_keys = []
 
@@ -73,7 +73,7 @@ module RegistrationsHelper
 
 
   # TODO not sure what this should do now smart answers and lower tier have been merged
-  def first_back_link registration
+  def first_back_link(registration)
     path = if registration.metaData.first.route == 'DIGITAL'
       if user_signed_in?
         userRegistrations_path current_user.id
@@ -101,7 +101,7 @@ module RegistrationsHelper
 
   # This method is called when updating from the registration's 'editing' pages (i.e. PUT/POST/MATCH)
   # to set up the @registration etc.
-  def setup_registration current_step, no_update=false
+  def setup_registration(current_step, no_update = false)
 
     logger.debug 'setup_registration: current_step = ' + current_step.to_s
 
@@ -162,10 +162,10 @@ module RegistrationsHelper
       return
     end
   end
-  
+
   # Note: This method is called at the beginning of the GET request handlers for the registration's 'editing' page
   # to set up the @registration etc.
-  def new_step_action current_step
+  def new_step_action(current_step)
     if (current_step.eql? Registration::FIRST_STEP) && !session[:edit_mode]
       logger.debug {'First registration step and not in edit mode - creating new registration...'}
       initialise_new_registration_with_session
@@ -189,7 +189,6 @@ module RegistrationsHelper
       end
     else #creating new registration but not first step
       logger.debug 'We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
-      #puts '*** GGG6 - ' + current_step
       clear_edit_session
       @registration = Registration[ session[:registration_id]]
       if @registration
@@ -236,7 +235,7 @@ module RegistrationsHelper
     #      renderNotFound
     #    end
   end
-  
+
   # A simple helper for new_step_action that avoids code repetition.
   def initialise_new_registration_with_session
     clear_edit_session
@@ -388,7 +387,7 @@ module RegistrationsHelper
     request
   end
 
-  def isCurrentRegistrationType registrationNumber
+  def isCurrentRegistrationType(registrationNumber)
     # Strip leading and trailing whitespace from number
     regNo = registrationNumber.rstrip.lstrip
 
