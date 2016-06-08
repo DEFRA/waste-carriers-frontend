@@ -190,7 +190,7 @@ class Registration < Ohm::Model
       self.exception = e.to_s
     rescue => e
       Airbrake.notify(e)
-      Rails.logger.debug "Error in registration Commit to service: #{e.to_s} || #{attributes.to_s}"
+      Rails.logger.debug "Error in registration Commit to service: #{e.to_s}"
       self.exception = e.to_s
     end
     commited
@@ -202,7 +202,7 @@ class Registration < Ohm::Model
   # @return  [Boolean] true if registration removed
   def delete!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
-    Rails.logger.debug "Registration: about to DELETE: #{ to_json.to_s}"
+    Rails.logger.debug "Registration: about to DELETE"
     deleted = true
     begin
       response = RestClient.delete url
@@ -223,8 +223,6 @@ class Registration < Ohm::Model
   # @return  [Boolean] true if registration updated
   def save!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
-    Rails.logger.debug "Registration financeDetails to PUT: #{self.finance_details.first.to_s}"
-    Rails.logger.debug "Registration: #{uuid} about to PUT: #{ to_json}"
     saved = true
     begin
       response = RestClient.put url,
@@ -600,7 +598,7 @@ class Registration < Ohm::Model
         Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
-      Rails.logger.debug "found ir reg: #{result.to_s}"
+      Rails.logger.debug "found ir reg"
       result.size > 0 ? Registration.init(result) : nil
     end
   end
@@ -1184,7 +1182,7 @@ class Registration < Ohm::Model
 
   def validate_revokedReason
     #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
-    Rails.logger.debug 'validate revokedReason, revoked:' + revoked
+    Rails.logger.debug 'validate revokedReason, revoked:'
     # If revoke question is Yes, and revoke reason is empty, then error
     if revoked.present?
       if metaData.revokedReason.blank?
@@ -1250,7 +1248,6 @@ class Registration < Ohm::Model
     end
 
     if is_awaiting_conviction_confirmation?
-      Rails.logger.debug "REGISTRATION::IS_COMPLETE? suspect = false"
       is_complete = false
       return
     end
@@ -1322,7 +1319,6 @@ class Registration < Ohm::Model
         get_label_for_status( UpperRegistrationStatus[3])
         # Conviction Check
       elsif is_awaiting_conviction_confirmation?
-        Rails.logger.debug "Upper registration " + companyName.to_s + " is awaiting convictions"
         get_label_for_status( UpperRegistrationStatus[4])
         # Awaiting Payment
       elsif !paid_in_full?
@@ -1334,7 +1330,7 @@ class Registration < Ohm::Model
         get_label_for_status( UpperRegistrationStatus[6])
       else
         # If all else fails .. PENDING
-        Rails.logger.debug "Upper registration " + companyName.to_s + " is unable to determine status, use Pending"
+        Rails.logger.warn "Upper registration " + companyName.to_s + " is unable to determine status, use Pending"
         get_label_for_status( LowerRegistrationStatus[2])
       end
     else

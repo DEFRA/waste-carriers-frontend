@@ -228,8 +228,6 @@ class PaymentController < ApplicationController
 	  @payment.errors.each do |error|
 	    logger.debug 'write off error: ' + error.to_s
 	  end
-	else
-	  logger.debug 'no errors???'
 	end
 
     authorize! :read, @registration
@@ -287,7 +285,7 @@ class PaymentController < ApplicationController
 	@registration = Registration.find_by_id(params[:id])
 	@foundPayment = Payment.getPayment(@registration, params[:orderCode])
 	@payment = Payment.new(@foundPayment.attributes)
-	logger.debug 'found payment:' + @foundPayment.attributes.to_s
+	logger.debug 'found payment:'
 
 	# Set the amount of the payment to be a negative payment, ie a refund from the balance due
 	@payment.amount = -getMaxRefundAmount(@registration, @foundPayment)
@@ -321,8 +319,6 @@ class PaymentController < ApplicationController
 	    @payment.errors.each do |error|
 	      logger.debug 'error: ' + error.to_s
 	    end
-	  else
-	    logger.debug 'no errors???'
 	  end
 
 	  render "manualRefund", :status => '400'
@@ -365,7 +361,7 @@ class PaymentController < ApplicationController
 	@registration = Registration.find_by_id(params[:id])
 	@foundPayment = Payment.getPayment(@registration, params[:orderCode])
 	@payment = Payment.new(@foundPayment.attributes)
-	logger.debug 'found payment:' + @foundPayment.attributes.to_s
+	logger.debug 'found payment'
 
 	# Set the amount of the payment to be a negative payment, ie a refund from the balance due
 	@payment.amount = -getMaxRefundAmount(@registration, @foundPayment)
@@ -420,8 +416,6 @@ class PaymentController < ApplicationController
 	    @payment.errors.each do |error|
 	      logger.debug 'error: ' + error.to_s
 	    end
-	  else
-	    logger.debug 'no errors???'
 	  end
 
 	  render "newWPRefund", :status => '400'
@@ -650,7 +644,6 @@ class PaymentController < ApplicationController
 
     # Update the payment to include a reference to the payment being reverse, and mark this as a reversal or said payment
     #@payment.orderKey = params[:orderCode] + '_REVERSAL'
-    #logger.debug 'Updated ordercode: ' + @payment.orderKey
 
     originalPayment = Payment.getPayment(@registration, params[:orderCode])
     @payment.amount = originalPayment.amount

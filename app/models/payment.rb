@@ -148,7 +148,7 @@ class Payment < Ohm::Model
   def self.getPayment(registration, orderCode)
     foundPayment = nil
     registration.finance_details.first.payments.each do |payment|
-      Rails.logger.debug 'Payment getPayment ' + payment.orderKey.to_s
+      Rails.logger.debug 'Payment getPayment '
       if orderCode == payment.orderKey
         Rails.logger.debug 'Payment getPayment foundPayment'
         foundPayment = payment
@@ -190,7 +190,7 @@ class Payment < Ohm::Model
       result = JSON.parse(response.body)
 
       save
-      Rails.logger.debug "Commited payment to service: #{attributes.to_s}"
+      Rails.logger.debug "Commited payment to service"
     rescue => e
       Airbrake.notify(e)
       Rails.logger.error e.to_s
