@@ -105,6 +105,16 @@ Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
   expect(page).to have_text 'Payment status'
 end
 
+Then(/^We are redirected to agency user home page with no fee$/) do
+  expect(page).to have_text 'Registration search'
+  expect(page).to have_text 'You can search for a registration by'
+end
+
+Then(/^We are redirected to account holder home page with no fee$/) do
+  expect(page).to have_text 'Your waste carrier registrations'
+  expect(page).to have_text 'These are the registrations linked to your account.'
+end
+
 Given(/^the registration is valid for a small write off$/) do
   # Here we am running a series of steps to get the registraiton in the state ready for a small write off
   # A payment of 150.00 puts the excess balance of 4 within the -5->5 (Payment.basicMinimum-Payment.basicMaximum)

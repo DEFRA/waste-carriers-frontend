@@ -131,6 +131,10 @@ Given(/^I am registering an IR registration for a Partnership and pay by bank tr
   relevant_convictions_page_select_no
 end
 
+Given(/^I enter multiple key people$/) do
+  enter_multiple_key_people_details_and_submit
+end
+
 When(/^I enter my IR registration number for a partnership and pay by credit card$/) do
   existing_registration_page_enter_partnership_registration_number
   business_type_page_submit
@@ -244,8 +248,8 @@ Then(/^there will be a renewal and edit amount charged$/) do
   confirmation_page_registration_check_for_renewal_text
   confirmation_page_registration_and_submit
   order_page_enter_copy_cards(no_of_cards: 0)
-  # renewal fee is 105 plus 30 edit charge
-  order_page_check_total_charge(amount: '135.00')
+  # renewal fee is 105 plus 40 edit charge
+  order_page_check_total_charge(amount: '145.00')
 end
 
 Then(/^the correct renewal charge should be shown$/) do
@@ -257,7 +261,7 @@ Then(/^my correct renewal charge should be shown$/) do
 end
 
 Then(/^the correct renewal and edit charge should be shown$/) do
-  finish_assisted_page_check_charge_amount(amount: '135.00')
+  finish_assisted_page_check_charge_amount(amount: '145.00')
 end
 
 Then(/^the callers registration should be complete when payment is successful$/) do
@@ -384,6 +388,22 @@ When('I only change business details') do
   confirmation_page_registration_and_submit
 end
 
+When('I Change the Company Number') do
+  business_type_page_submit
+  other_businesses_page_select_no
+  construction_demolition_page_select_yes
+  registration_type_page_submit
+  business_details_page_enter_ltd_business_details_postcode_lookup_and_submit(
+    companyNo: '02050399',
+    postcode: 'BS1 5AH',
+    address: 'HARMSEN GROUP, TRIODOS BANK, DEANERY ROAD, BRISTOL, BS1 5AH')
+  contact_details_page_enter_ad_contact_details_and_submit
+  postal_address_page_complete_form
+  enter_key_people_details_and_submit
+  relevant_convictions_page_select_no
+  confirmation_page_registration_and_submit
+end
+
 When(/^I make no other changes to my registration details$/) do
   # noop (step exists for readability of the feature only)
 end
@@ -400,7 +420,7 @@ When(/^I only change business name$/) do
   postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
-  confirm_registration_and_page_submit
+  confirmation_page_registration_and_submit
 end
 
 When(/^I change business details$/) do
@@ -411,7 +431,14 @@ When(/^I change business details$/) do
   click_button 'continue'
 end
 
+When(/^I don't change business details$/) do
+  click_button 'continue'
+end
+
 Given(/^I don't change waste carrier type$/) do
+  click_button 'continue'
+end
+Given(/^I don't change contact details$/) do
   click_button 'continue'
 end
 
@@ -427,12 +454,22 @@ When(/^I confirm their details$/) do
   click_button 'confirm'
 end
 
-Then(/^I should be shown the total cost is the charge amount and renewal amount "(.*?)"$/) do |arg1|
-  order_page_complete_order_pay_check_total_charge
+Then(/^I should be shown the total cost is the charge amount and renewal amount "(.*?)"$/) do |fee_amount|
+  order_page_confirm_registration_fee (fee_amount)
 end
 
 Given(/^I change business type to Sole Trader$/) do
   choose 'registration_businessType_soletrader'
+  click_button 'continue'
+end
+
+Given(/^I change business type to ltd company$/) do
+  choose 'registration_businessType_limitedcompany'
+  click_button 'continue'
+end
+
+Given(/^I change business type to partnership$/) do
+  choose 'registration_businessType_partnership'
   click_button 'continue'
 end
 
@@ -489,7 +526,6 @@ When(/^I Enter key people details$/) do
   fill_in 'key_person_dob_day', with: '01'
   fill_in 'key_person_dob_month', with: '02'
   fill_in 'key_person_dob_year', with: '1980'
-  click_button 'add_btn'
   click_button 'continue'
 end
 
@@ -523,9 +559,7 @@ Then(/^have the option to pay by Credit or Debit card or by bank transfer$/) do
 end
 
 Given(/^I am renewing a valid IR registration for sole trader$/) do
-  choose 'registration_newOrRenew_renew'
-  click_button 'continue'
-  fill_in 'registration_originalRegistrationNumber', with: 'CB/AN8888YY/R002'
+  fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999YY/R002'
   click_button 'continue'
 end
 
@@ -560,9 +594,7 @@ When('I Enter my details for two partners') do
 end
 
 Given(/^I am renewing a valid CBD IR registration for Partnership$/) do
-  choose 'registration_newOrRenew_renew'
-  click_button 'continue'
-  fill_in 'registration_originalRegistrationNumber', with: 'CB/AN8888ZZ/R002'
+  fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999ZZ/R002'
   click_button 'continue'
 end
 
@@ -572,9 +604,12 @@ When(/^I change waste carrier type from CBD to BD$/) do
 end
 
 Given(/^I am renewing a valid CD IR registration for Public Body$/) do
-  choose 'registration_newOrRenew_renew'
+  fill_in 'registration_originalRegistrationNumber', with: 'CB/VM9999WW/A001'
   click_button 'continue'
-  fill_in 'registration_originalRegistrationNumber', with: 'CB/VM8888WW/A001'
+end
+
+Given(/^I am renewing a valid BD IR registration for limited company$/) do
+  fill_in 'registration_originalRegistrationNumber', with: 'CB/AE9999XX/A001'
   click_button 'continue'
 end
 
@@ -597,9 +632,7 @@ When(/^I change waste carrier type from BD to CD$/) do
 end
 
 Given(/^I am renewing a valid BD IR registration for Partnership$/) do
-  choose 'registration_newOrRenew_renew'
-  click_button 'continue'
-  fill_in 'registration_originalRegistrationNumber', with: 'CB/AN8888ZZ/R003'
+  fill_in 'registration_originalRegistrationNumber', with: 'CB/AN9999ZZ/R003'
   click_button 'continue'
 end
 
