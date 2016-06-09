@@ -10,10 +10,10 @@ $(function() {
 
    var card_fee_obj = document.getElementById('registration_copy_card_fee');
    var total_fee_obj = document.getElementById('registration_total_fee');
-   var registration_fee_obj = document.getElementById('registration_registration_fee');
+   var registration_fee_obj = document.getElementById('total_excluding_copy_cards');
 
     card_fee_obj.value = Number(no_of_cards * 5).toFixed(2); // FIXME this monetary value duplicates amother Rails variable
-    
+
     // Add extra handling to cope with orders that do not have registration fee's
     if (registration_fee_obj !== null) {
         total_fee_obj.value =  Number(Number(card_fee_obj.value) + Number(registration_fee_obj.value)).toFixed(2)
