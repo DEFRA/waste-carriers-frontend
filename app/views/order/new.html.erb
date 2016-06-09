@@ -19,6 +19,8 @@
       <%= render "shared/registration_errors" %>
       <%= render "order/order_errors" %>
 
+      <input type="hidden" value="<%= @registration.order_builder.registration_fee_money %>" id="total_excluding_copy_cards">
+
       <table summary='payment-summary' role='presentation' id="payment-summary-table" class="text">
         <thead>
           <tr><td></td></tr>
