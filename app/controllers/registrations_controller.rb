@@ -639,15 +639,23 @@ class RegistrationsController < ApplicationController
         redirect_to registrations_path
       else
         logger.debug 'Sign user out before redirecting back to GDS site'
-        sign_out        # Performs a signout action on the current user
+        sign_out # Performs a signout action on the current user
         redirect_to Rails.configuration.waste_exemplar_end_url
       end
     elsif params[:back]
       logger.debug 'Default, redirecting back to Finish page'
-      redirect_to finish_url(:id => @registration.id)
+      redirect_to finish_url(id: @registration.id)
     else
       # Turn off default gov uk template so certificate can be printed exactly as is
-      render 'certificate', layout: 'non_govuk_template'
+      respond_to do |format|
+        format.html do
+          render 'certificate', layout: 'non_govuk_template'
+        end
+        format.pdf do
+          @pdf = true
+          render pdf: "certificate", template: 'registrations/certificate.html.erb', layout: 'pdf.html.erb', background: true
+        end
+      end
       logger.debug 'Save View state in the view page (go to Finish)'
       flash[:alert] = 'Finish'
     end

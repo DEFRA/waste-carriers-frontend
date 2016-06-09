@@ -6,11 +6,12 @@
 
     <% unless @pdf %>
       <!-- Back button section -->
-      <div class="no-print back-section">
-        <%= link_to t('registrations.form.back_button_label'), :back, :class => 'link-button-secondary' %>
+      <div class="no-print back-section" style='padding: 20px 0;'>
+        <%= link_to t('registrations.form.back_button_label'), :back, class: 'link-button-secondary' %>
         <% if session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RENEWAL  %>
-        <%= link_to t('registrations.form.finish_button_label'), action: "finish_renewal", :class => 'link-button-secondary' %>
-         <% end %>
+        <%= link_to t('registrations.form.finish_button_label'), action: "finish_renewal", class: 'link-button-secondary' %>
+        <% end %>
+        <%= link_to 'View in PDF format', {format: :pdf}, {class: 'link-button-secondary', style: 'margin: 5px 20px;'} %>
       </div>
     <% end %>
 
@@ -108,7 +109,7 @@
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.business_address' %></td>
             <td>
-              <%= render 'shared/address_display', r: @registration, a: @registration.registered_address  %>
+              <%= render 'shared/address_display.html.erb', r: @registration, a: @registration.registered_address  %>
             </td>
           </tr>
           <tr>

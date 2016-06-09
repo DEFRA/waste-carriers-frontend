@@ -72,7 +72,8 @@ gem 'countries'
 gem 'awesome_print'
 
 # Generates a PDF from HTML, in our case, the users certificate
-# Requires wkhtmltopdf. Install with sudo apt-get install wkhtmltopdf
+# If you don't have wkhtmltopdf installed on Ubuntu run this:
+# sudo apt-get install ttf-mscorefonts-installer wkhtmltopdf
 gem 'wicked_pdf'
 
 group :test do
