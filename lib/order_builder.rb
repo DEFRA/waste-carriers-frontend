@@ -60,12 +60,20 @@ class OrderBuilder
       amount: Rails.configuration.fee_registration
       )
     order_items[:edit] = nil # nil because basic edits are free of charge
+    order_items[:edit_charge] = nil # "edit_charge" merely indicates that *some* charge applies, but not a specific value
     order_items[type]
   end
 
   def indicates_new_registration?
-    order_items = @registration_order.order_types
-    order_items.include?(:new) || order_items.include?(:change_caused_new) || order_items.include?(:renew)
+    [:new, :change_caused_new, :renew].any? { |item| @registration_order.order_types.include?(item) }
+  end
+
+  def edit_charge_due?
+    [:change_caused_new, :change_reg_type, :renew].any? { |item| @registration_order.order_types.include?(item) }
+  end
+
+  def any_charge_due?
+    edit_charge_due? || @registration_order.order_types.include?(:new)
   end
 
   def order_items
