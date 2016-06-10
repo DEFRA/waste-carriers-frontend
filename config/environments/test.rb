@@ -52,4 +52,9 @@ Registrations::Application.configure do
   # During testing, don't redirect to an external site on log-out, so we can
   # use the Rack driver for testing.
   config.waste_exemplar_end_url = "/"
+
+  # Use en gb locale for Faker data in tests
+  config.i18n.enforce_available_locales = false
+  config.i18n.available_locales = ["en", "en-GB"]
+  config.i18n.default_locale = :en
 end

@@ -28,8 +28,7 @@
       <%= form_for(@registration, :url => newConfirmation_path, html: {autocomplete: 'off'}) do |f| %>
 
       <div class="text registration-tier">
-
-        <% unless @registration.order_types.include? :edit %>
+        <% if @registration.order_types.include? :new %>
           <div class="text">
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
             <% if @registration.upper? %>
@@ -44,27 +43,25 @@
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
             <% if @registration.upper? %>
               <% if @registration.registration_order.within_ir_renewal_window? %>
-                <p><%= t('.renewal_payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_renewal))) %></p>
+                <p><%= t('.renewal_payment_message', fee: humanized_money_with_symbol(Money.new(@registration.order_builder.registration_fee))) %></p>
               <% else %>
-                <p><%= t('.expired_renewal_payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_registration))) %></p>
+                <p><%= t('.expired_renewal_payment_message', fee: humanized_money_with_symbol(Money.new(@registration.order_builder.registration_fee))) %></p>
               <% end %>
             <% end %>
           </div>
-        <% end %>
-
-        <% if @registration.order_types.include? :edit %>
+        <% elsif @registration.order_types.include?(:edit) || flash[:start_editing] %>
           <h2 class="heading-small"><%= t '.title_edit_reg' %></h2>
 
           <% if @registration.order_types.include? :tier_change_disallowed %>
             <div class='text'><%= t '.subtitle_edit_change_not_allowed' %></div>
           <% elsif @registration.order_types.include? :edit_charge %>
-            <div class='text'> <%=  t '.subtitle_edit_reg_with_charge', :fee => Money.new(Rails.configuration.fee_reg_type_change) %> </div>
-          <% elsif ! @registration.order_types.include? :edit_charge %>
-            <div class='text'> <%=  t '.subtitle_edit_reg_no_charge' %> </div>
+            <div class='text'> <%=  t '.subtitle_edit_reg_with_charge', fee: Money.new(Rails.configuration.fee_reg_type_change) %> </div>
           <% elsif @registration.order_types.include? :new %>
-            <div class='text'> <%=  t '.subtitle_edit_reg_new_reg', :fee => Money.new(Rails.configuration.fee_registration) %> </div>
-          <% else %>
+            <div class='text'> <%=  t '.subtitle_edit_reg_new_reg', fee: Money.new(Rails.configuration.fee_registration) %> </div>
+          <% elsif flash[:start_editing] %>
             <div class='text'> <%=  t '.subtitle_edit_reg' %> </div>
+          <% else %>
+            <div class='text'> <%=  t '.subtitle_edit_reg_no_charge' %> </div>
           <% end %>
         <% end %>
 
@@ -173,37 +170,39 @@
         </div><!-- end convictions form-group -->
       <% end %>
 
-      <fieldset class="form-group">
+      <% unless @registration.order_types.include?(:tier_change_disallowed) %>
+        <fieldset class="form-group">
 
-        <legend class='heading-xlarge'>
-          <div class="icon-important">
-            <%= image_tag("icon-important-2x.png", {:alt => 'Important message'}) %>
-          </div><%= t '.declaration_legend' %>
-        </legend>
+          <legend class='heading-xlarge'>
+            <div class="icon-important">
+              <%= image_tag("icon-important-2x.png", {:alt => 'Important message'}) %>
+            </div><%= t '.declaration_legend' %>
+          </legend>
 
-        <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
-          <ol>
-            <li class="list-bullets"><%= t '.declaration_text1' %></li>
-            <li class='list-bullets'><%= t '.declaration_text2' %></li>
-          </ol>
-          <%= validation_for(@registration, :declaration) %>
-          <label class="block-label" for="registration_declaration">
-          <%= f.check_box :declaration%><%= t '.check_box_label' %>
-          </label>
-        </div>
+          <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
+            <ol>
+              <li class="list-bullets"><%= t '.declaration_text1' %></li>
+              <li class='list-bullets'><%= t '.declaration_text2' %></li>
+            </ol>
+            <%= validation_for(@registration, :declaration) %>
+            <label class="block-label" for="registration_declaration">
+              <%= f.check_box :declaration, {checked: false} %><%= t '.check_box_label' %>
+            </label>
+          </div>
 
-        <div class="form-group">
-          <ul>
-            <li>
-              <p class="privacy-data">
-                <%= t '.privacy_policy_text1' %><a href="/privacy?locale=en" target="_blank"><%= t '.privacy_policy_link1' %></a><%= t '.privacy_policy_text2' %>
-              </p>
-            </li>
-          </ul>
-          <input name="confirm" id="confirm" class="button" type="submit" value="<%= t 'form.confirm_button_label' %>"/>
-        </div>
+          <div class="form-group">
+            <ul>
+              <li>
+                <p class="privacy-data">
+                  <%= t '.privacy_policy_text1' %><a href="/privacy?locale=en" target="_blank"><%= t '.privacy_policy_link1' %></a><%= t '.privacy_policy_text2' %>
+                </p>
+              </li>
+            </ul>
+            <input name="confirm" id="confirm" class="button" type="submit" value="<%= t 'form.confirm_button_label' %>"/>
+          </div>
 
-      </fieldset>
+        </fieldset>
+      <% end # unless tier_change_disallowed %>
 
       <% end #form %>
 
