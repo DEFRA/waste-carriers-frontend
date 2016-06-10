@@ -98,7 +98,7 @@ class OrderBuilder
       amountType: Order.getPositiveType,
       currency: 'GBP',
       updatedByUser: current_user.try(:email) || @registration.accountEmail,
-      description: 'Some description', # TODO: implement new method to generate this based on order_helper #generateOrderDescription
+      description: order_description,
       dateCreated: now,
       dateLastUpdated: now
     )
@@ -142,4 +142,28 @@ class OrderBuilder
     Money.new(registration_fee + copycard_fee)
   end
 
+  def order_description
+    result = ''
+    copyCardMessage = (@registration.copy_cards.to_i > 0) ? I18n.t('registrations.order.ccMsg', amount: @registration.copy_cards.to_i.to_s) : nil
+
+    # Decide the template to use for the first part of the message.
+    template = nil
+    if @registration_order.order_types.include?(:new)
+      template = 'registrations.order.newRegistrationMsg'
+    elsif @registration_order.order_types.include?(:renew)
+      template = 'registrations.order.renewRegistrationMsg'
+    elsif @registration_order.order_types.include?(:edit) || @registration_order.order_types.include?(:change_caused_new)
+      template = 'registrations.order.editRegistrationMsg'
+    end
+
+    # Build the order description string.
+    if template
+      result = I18n.t(template, regMsg: I18n.t('registrations.order.regMsg'), identifier: @registration.regIdentifier, companyName: @registration.companyName)
+      result += I18n.t('registrations.order.incCopyCardsMsg', ccMsg: copyCardMessage) if copyCardMessage
+    elsif copyCardMessage
+      result = I18n.t('registrations.order.copyCardRegistrationMsg', ccMsg: copyCardMessage, companyName:  @registration.companyName)
+    end
+
+    result
+  end
 end
