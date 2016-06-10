@@ -1,6 +1,0 @@
-    	<%= f.label :renewal_fee, class: 'form-label' %>
-      <div class="currency-container">
-         <p class="currency-sign">£</p>
-    	    <%= f.text_field :registration_fee, class: 'form-control-1-8', :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.registration_fee) %>
-      </div>
-
