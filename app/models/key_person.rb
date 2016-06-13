@@ -21,9 +21,9 @@ class KeyPerson < Ohm::Model
   VALID_MONTH = /\A[0-9]{2}/
   VALID_YEAR = /\A[0-9]{4}/
 
-  MAX_ALLOWED_AGE = 130.years
+  MAX_ALLOWED_AGE = 110.years
   MIN_DIRECTOR_AGE = 16.years
-  MIN_NON_DIRECTOR_AGE = 18.years
+  MIN_NON_DIRECTOR_AGE = 17.years
 
   before_validation :strip_whitespace, :only => [:dob_day, :dob_month, :dob_year]
 
@@ -134,7 +134,7 @@ class KeyPerson < Ohm::Model
             end
           else
             if dob.try(:>, Date.today-MIN_NON_DIRECTOR_AGE)
-              errors.add(:dob, I18n.t('errors.messages.non-director_dob_less_than_18_years'))
+              errors.add(:dob, I18n.t('errors.messages.non-director_dob_less_than_17_years'))
             end
           end
         end
