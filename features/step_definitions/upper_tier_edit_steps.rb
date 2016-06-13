@@ -8,6 +8,15 @@ Then(/^I click the Edit Registration link$/) do
   click_link "edit_#{@cucumber_reg_id}"
 end
 
+Then(/^Edit The Registration$/) do
+  # Uses the saved registration ID to find the correct registration to renew
+  click_link "Edit registration"
+end
+
+Then(/^I visit the edit registration page$/) do
+  visit edit_registration_path(@raw_id)
+end
+
 Then(/^I check that no changes have occurred$/) do
   expect(page).to have_text 'Your waste carrier registrations'
   expect(page).to have_text 'Edit registration'
@@ -20,6 +29,11 @@ Then(/^I change the way we carry waste$/) do
   # original
   choose 'registration_registrationType_carrier_broker_dealer'
   click_button 'continue'
+end
+
+Then(/^I click Edit what you told us$/) do
+  expect(page).to have_link 'changeSmartAnswers'
+  click_link 'changeSmartAnswers'
 end
 
 Then(/^I change the legal entity$/) do

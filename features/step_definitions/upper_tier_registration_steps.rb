@@ -82,8 +82,7 @@ end
 Then(/^I am registered as an upper tier waste carrier$/) do
   do_short_pause_for_email_delivery
   open_email my_email_address
-  expect(current_email).to have_text 'you need to renew your registration '\
-                                     'every 3 years'
+  expect(current_email).to have_text 'you need to renew your registration every 3 years'
 end
 
 Then(/^I am successfully registered and activated as an upper tier waste carrier$/) do

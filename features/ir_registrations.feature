@@ -1,5 +1,4 @@
 Feature: IR registrations
-
   As a waste carrier
   I want to be able to renew my registration from IR
   So that I can continue to be registered as a waste carrier
