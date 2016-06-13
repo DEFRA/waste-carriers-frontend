@@ -107,3 +107,8 @@ When('change another Partner') do
   click_button 'add_btn'
   click_button 'continue'
 end
+
+Then('Delete first relevant person') do
+  click_link('Delete', match: :first)
+  click_button 'continue'
+end

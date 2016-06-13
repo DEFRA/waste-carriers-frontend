@@ -87,6 +87,7 @@ Feature: Relevant People
         | James      | Hunt      |
         | Nikki      | Lauda     |
 
+
   Scenario: Editing relevant person details for Partnership registration with multiple relevant people
     Given I am registering as a Partnership
     And I am a broker dealer

@@ -72,7 +72,6 @@ end
 Given(/^I change user to a nccc refunds user$/) do
   click_button 'Sign out'
   visit '/agency_users/sign_in'
-  save_and_open_page
   expect(page).to have_text 'Sign in'
   expect(page).to have_text 'Environment Agency login'
   fill_in 'Email', with: my_agency_refund_user.email
@@ -103,6 +102,16 @@ Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
   waitForSearchResultsToContainElementWithId(param.to_s, 'searchResult1')
   click_link('paymentStatus1')
   expect(page).to have_text 'Payment status'
+end
+
+Then(/^I am redirected to agency user home page with no fee$/) do
+  expect(page).to have_text 'Registration search'
+  expect(page).to have_text 'You can search for a registration by'
+end
+
+Then(/^I am redirected to account holder home page with no fee$/) do
+  expect(page).to have_text 'Your waste carrier registrations'
+  expect(page).to have_text 'These are the registrations linked to your account.'
 end
 
 Given(/^the registration is valid for a small write off$/) do

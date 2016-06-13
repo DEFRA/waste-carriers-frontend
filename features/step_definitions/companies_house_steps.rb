@@ -42,6 +42,7 @@ Given(/^I enter an active company number$/) do
   fill_in 'registration_company_no', with: '02050399'
 end
 
+
 Given(/^I enter an inactive company number$/) do
   fill_in 'registration_company_no', with: '05868270'
 end

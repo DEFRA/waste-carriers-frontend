@@ -93,6 +93,8 @@ module Registrations
     # Set configuration for error pages to manual, to enable more user friendly
     # error pages.
     config.exceptions_app = self.routes
+    
+    config.autoload_paths << Rails.root.join('lib')
 
     # Update this whenever the reported version number is supposed to have
     # changed - particularly before any new releases.  Note: this is the version
