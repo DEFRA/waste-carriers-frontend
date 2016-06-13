@@ -80,7 +80,9 @@ class OrderBuilder
     registration_order_items = @registration_order.order_types.map do |order_type|
       self.class.order_item_for_type(order_type)
     end
-    registration_order_items.compact
+    # Sort by price so that the most expensive order item comes first
+    sorted_items = registration_order_items.compact.sort_by{ |roi| roi.amount }.reverse
+    return sorted_items
   end
 
   def copycard_order_item
