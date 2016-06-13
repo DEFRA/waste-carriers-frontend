@@ -1540,7 +1540,7 @@ class Registration < Ohm::Model
   end
 
   def order_types
-    registration_order.order_types
+    @order_types ||= registration_order.order_types
   end
 
 end

@@ -21,7 +21,7 @@ FactoryGirl.define do
     end
 
     trait :ir_renewal do
-      originalRegistrationNumber 'CB/VM9999WW/A001'
+      originalRegistrationNumber 'CB/VM1111WW/A001'
       originalDateExpiry Date.today + 1.week
       newOrRenew 'renew'
     end
@@ -33,6 +33,11 @@ FactoryGirl.define do
     trait :editing do
       uuid '57441b720cf2edaa97355a4d'
       newOrRenew nil
+    end
+
+    after(:build) do |registration|
+      registration.addresses << Address.init(attributes_for(:address, addressType: 'POSTAL'))
+      registration.addresses << Address.init(attributes_for(:address, addressType: 'REGISTERED'))
     end
 
   end
