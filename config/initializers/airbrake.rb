@@ -6,4 +6,14 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
     config.root_directory = Rails.root
     config.blacklist_keys = [/password/i]
   end
+
+  Airbrake.add_filter do |notice|
+    nomethoderror = proc do |error|
+      error[:backtrace].empty? &&
+        error[:type] == 'NoMethodError' &&
+        error[:message] =~ %r{undefined method `call'}
+    end
+
+    notice.ignore! if notice[:errors].any?(&nomethoderror)
+  end
 end
