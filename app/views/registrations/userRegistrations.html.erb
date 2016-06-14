@@ -88,13 +88,13 @@
 
               <td>
               <% if registration.can_view_certificate? %>
-                <%= link_to t('registrations.form.view_button_label'), view_path(registration.uuid), :class => 'viewCertificate' %>
+                <%= link_to t('registrations.form.view_button_label'), view_path(registration.uuid), class: 'viewCertificate', target: '_blank' %>
               <% end %>
               </td>
 
               <td>
               <% if registration.can_be_edited? %>
-                <%= link_to t('registrations.form.edit_button_label'), edit_path(registration.uuid), :id => 'edit_'+registration.regIdentifier %>
+                <%= link_to t('registrations.form.edit_button_label'), edit_path(registration.uuid), id: 'edit_'+registration.regIdentifier %>
               <% end %>
               </td>
 
