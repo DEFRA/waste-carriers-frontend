@@ -54,7 +54,7 @@ describe 'registrations/newConfirmation', type: :view do
       render
 
       expect(rendered).to have_text("Editing your registration")
-      expect(rendered).to have_text("Please be aware that the changes you have made will require a payment of £40.00")
+      expect(rendered).to have_text("Please be aware that the changes you have made will require a payment of £40")
 
       expect(rendered).to_not have_text("Some charges may apply.")
       expect(rendered).to_not have_text("£145")
