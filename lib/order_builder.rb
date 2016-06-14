@@ -86,6 +86,10 @@ class OrderBuilder
     return sorted_items
   end
 
+  def order_items_excluding_copy_cards
+    order_items.select { |oi| oi.type != self.class.item_types[:copy_cards] }
+  end
+
   def copycard_order_item
     card_count = @registration.copy_cards.to_i
     if card_count > 0
