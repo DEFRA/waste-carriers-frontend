@@ -58,6 +58,8 @@ class RegistrationsController < ApplicationController
     clear_order_session
     logger.debug "Cleared registration session variables"
 
+    flash[:start_editing] = true
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @registrations }
