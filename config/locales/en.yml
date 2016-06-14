@@ -310,7 +310,7 @@ en:
       invalid_last_name: "The last name  can use letters, spaces and some special characters (-’). It must be no longer than 35 characters"
       blank_telephone: "You must enter a telephone number"
       invalid_telephone: "The telephone number can use numbers, spaces and some special characters (-+). It must be no longer than 20 characters"
-      non-director_dob_less_than_18_years: "You must be over 18 to use this service"
+      non-director_dob_less_than_17_years: "You must be over 17 to use this service"
       director_dob_less_than_16_years: "You must be over 16 to be a director of a private limited company in the UK"
 
       # Section 3 (convictions)
