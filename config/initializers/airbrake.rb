@@ -74,7 +74,7 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
       :addressLine3,
       :addressLine4,
       :townCity,
-      :# postcode,            # Caught by regex above; shown here only for completeness.
+      # :postcode,            # Caught by regex above; shown here only for completeness.
       :dependentLocality,
       :dependentThoroughfare,
       :localAuthorityUpdateDate,
