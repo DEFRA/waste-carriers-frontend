@@ -21,18 +21,18 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
       :phoneNumber,
       :contactEmail,
       :accountEmail,
-      :password,
+      # :password,                   # Caught by regex above; shown here only for completeness.
       :accessCode,
       :selectedAddress,
-      :declaredConvictions,
+      # :declaredConvictions,        # Caught by regex above; shown here only for completeness.
       :addresses,
       :key_people,
-      :conviction_search_result,
-      :conviction_sign_offs,
+      # :conviction_search_result,   # Caught by regex above; shown here only for completeness.
+      # :conviction_sign_offs,       # Caught by regex above; shown here only for completeness.
 
       # Attributes from a user / agency-user / admin.
       :email,
-      :encrypted_password,
+      # :encrypted_password,         # Caught by regex above; shown here only for completeness.
       :reset_password_token,
       :current_sign_in_ip,
       :last_sign_in_ip,
@@ -71,7 +71,7 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
       :addressLine3,
       :addressLine4,
       :townCity,
-      :postcode,
+      :# postcode,            # Caught by regex above; shown here only for completeness.
       :dependentLocality,
       :dependentThoroughfare,
       :localAuthorityUpdateDate,
@@ -84,10 +84,13 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
 
       # Form fields that are worthy of listing.
       :accountEmail_confirmation,
-      :password_confirmation,
+      # :password_confirmation,     # Caught by regex above; shown here only for completeness.
+
+      # Things stored in the session.
+      :userEmail,
+      :ga_convictions,  # Flag sent to Google Analytics
 
       # Other things we'll filter beacuse we're super-diligent.
-      :ga_convictions,  # Flag sent to Google Analytics
       :_csrf_token,
       :session_id,
       :authenticity_token
