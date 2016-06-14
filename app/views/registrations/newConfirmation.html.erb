@@ -55,9 +55,9 @@
           <% if @registration.order_types.include? :tier_change_disallowed %>
             <div class='text'><%= t '.subtitle_edit_change_not_allowed' %></div>
           <% elsif @registration.order_types.include? :edit_charge %>
-            <div class='text'> <%=  t '.subtitle_edit_reg_with_charge', fee: Money.new(Rails.configuration.fee_reg_type_change) %> </div>
+            <div class='text'> <%=  t '.subtitle_edit_reg_with_charge', fee: @registration.order_builder.registration_fee_money %> </div>
           <% elsif @registration.order_types.include? :new %>
-            <div class='text'> <%=  t '.subtitle_edit_reg_new_reg', fee: Money.new(Rails.configuration.fee_registration) %> </div>
+            <div class='text'> <%=  t '.subtitle_edit_reg_new_reg', fee: @registration.order_builder.registration_fee_money %> </div>
           <% elsif flash[:start_editing] %>
             <div class='text'> <%=  t '.subtitle_edit_reg' %> </div>
           <% else %>
