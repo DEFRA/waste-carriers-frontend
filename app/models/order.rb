@@ -215,7 +215,6 @@ class Order < Ohm::Model
         to_json,
         :content_type => :json,
         :accept => :json
-
       result = JSON.parse(response.body)
       save
     rescue => e
