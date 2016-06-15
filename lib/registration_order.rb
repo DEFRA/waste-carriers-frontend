@@ -71,7 +71,7 @@ class RegistrationOrder
     expiry_date = @current_registration.originalDateExpiry
     return false unless expiry_date.present?
     # Converts milliseconds since epoch to a DateTime if it's a string from an IR renewal
-    expiry_date = DateTime.strptime(expiry_date,'%Q') if expiry_date.is_a?(String)
+    expiry_date = DateTime.strptime(expiry_date.to_s,'%Q') if expiry_date.is_a?(String) || expiry_date.is_a?(Fixnum)
     expiry_date = expiry_date.to_date
     window_length = Rails.application.config.registration_renewal_window
     Date.today.between?((expiry_date - window_length), expiry_date)
