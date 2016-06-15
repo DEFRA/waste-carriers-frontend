@@ -26,7 +26,7 @@
           <tr><td></td></tr>
         </thead>
         <tbody>
-          <%= render @registration.order_builder.order_items, f: f %>
+          <%= render @registration.order_builder.order_items_excluding_copy_cards, f: f %>
 
           <% if show_copy_cards?(@renderType) %>
             <tr>

@@ -21,8 +21,8 @@ class Order < Ohm::Model
   VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
   VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
 
-  attribute :orderId
-  attribute :orderCode
+  attribute :orderId              # Used to identify the order by the Java Services
+  attribute :orderCode            # Used to identify the order by the Rails application
   attribute :paymentMethod
   attribute :merchantId
   attribute :totalAmount
@@ -215,7 +215,6 @@ class Order < Ohm::Model
         to_json,
         :content_type => :json,
         :accept => :json
-
       result = JSON.parse(response.body)
       save
     rescue => e

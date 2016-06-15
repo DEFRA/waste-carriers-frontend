@@ -67,7 +67,11 @@ class OrderController < ApplicationController
     end
 
     # Does the session order with orderCode exist already?
-    if @registration.getOrder(session[:orderCode]).present?
+    existing_order = @registration.getOrder(session[:orderCode])
+    if existing_order.present?
+      # We must update the newly-generated order to contain the ID of the existing
+      # order, as this is how the services decides which order to overwrite.
+      @order.orderId = existing_order.orderId
       @order.save!(@registration.uuid)
     else
       @order.commit(@registration.uuid)
