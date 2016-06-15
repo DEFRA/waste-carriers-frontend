@@ -80,18 +80,23 @@ class OrderBuilder
     registration_order_items = @registration_order.order_types.map do |order_type|
       self.class.order_item_for_type(order_type)
     end
+    registration_order_items << copycard_order_item
     # Sort by price so that the most expensive order item comes first
     sorted_items = registration_order_items.compact.sort_by{ |roi| roi.amount }.reverse
     return sorted_items
   end
 
+  def order_items_excluding_copy_cards
+    order_items.select { |oi| oi.type != self.class.item_types[:copy_cards] }
+  end
+
   def copycard_order_item
     card_count = @registration.copy_cards.to_i
     if card_count > 0
-      self.standard_order_item(
+      self.class.standard_order_item(
         description: I18n.t('registrations.order.copyCards', amount: card_count.to_s),
         amount: card_count * Rails.configuration.fee_copycard,
-        type: self.item_types[:copy_cards]
+        type: self.class.item_types[:copy_cards]
         )
     else
       nil
@@ -133,23 +138,21 @@ class OrderBuilder
   end
 
   def registration_fee
-    order_items.map(&:amount).inject(0, &:+)
+    order_items.inject(0) do |sum, oi|
+      oi.type == 'COPY_CARDS' ? sum : sum + oi.amount
+    end
   end
 
   def registration_fee_money
     Money.new(registration_fee)
   end
 
-  def copycard_fee
-    @registration.copy_cards.to_i * Rails.configuration.fee_copycard
-  end
-
   def total_fee
-    registration_fee + copycard_fee
+    order_items.map(&:amount).inject(0, &:+)
   end
 
   def total_fee_money
-    Money.new(registration_fee + copycard_fee)
+    Money.new(total_fee)
   end
 
   def order_description
