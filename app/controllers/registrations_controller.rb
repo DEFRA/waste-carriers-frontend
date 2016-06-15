@@ -608,9 +608,6 @@ class RegistrationsController < ApplicationController
       #TODO GM - editing should start later, this is just a quick fix/hack to get the current logic working
       session[:editing] = true
 
-      # Helps display the correct wording on the newConfirmation page
-      flash[:start_editing] = true
-
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -746,6 +743,8 @@ class RegistrationsController < ApplicationController
     session[:original_registration_id] = Registration.find_by_id(params[:id]).id
     authorize! :update, @registration
 
+    # Helps display the correct wording on the newConfirmation page
+    flash[:start_editing] = true
 
     session[:registration_id] = @registration.id
     session[:registration_uuid] = @registration.uuid
