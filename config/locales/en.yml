@@ -966,7 +966,7 @@ en:
       subtitle_renew_reg: "You are about to renew your registration."
       subtitle_renew_expired_reg: "Your previous registration has expired. This is a new registration."
       subtitle_edit_reg_no_charge: "Your registration has been updated. Click on Confirm to finish."
-      subtitle_edit_reg_with_charge: "Your registration has been updated. Please be aware that the changes you have made will require a payment of £%{fee}"
+      subtitle_edit_reg_with_charge: "Your registration has been updated. Please be aware that the changes you have made will require a payment of %{fee}"
       subtitle_edit_reg_new_reg: "Please be aware that the changes you have made means that a new upper tier registration will be made and will require a payment of £%{fee}"
       subtitle_edit_change_not_allowed: "You have changed tier and you cannot proceed. Check that you have told us the correct information, if you have and you are changing tier then you will need to create a new registration."
       tier_result_message: "Based on the information you provided, you are %{tier_with_article} tier waste carrier."
