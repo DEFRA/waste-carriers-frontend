@@ -835,6 +835,9 @@ en:
       cookies1: "To carry on with your registration please enable session"
       cookiesLink: "cookies"
       cookies2: "in your browser."
+    certificate:
+      new_window_instructions: "When you've finished viewing or printing this certificate you can close this browser tab or window."
+      view_pdf: "View in PDF format"
     confirmDelete:
       deleteLabel: "De-Register"
       message_html: "Are you sure that you want to de-register <b>%{companyName}</b>?"
