@@ -1508,10 +1508,6 @@ class Registration < Ohm::Model
     metaData.first.status
   end
 
-  def within_ir_renewal_window?
-    originalDateExpiry ? (convert_date(originalDateExpiry.to_i) >= Date.today) : false
-  end
-
   def registered_address
     # Finds the first element that matches and returns it
     addresses.to_a.find { |address| address.addressType == 'REGISTERED' }
