@@ -1176,7 +1176,6 @@ class RegistrationsController < ApplicationController
     # Need to store session variables as instance variable, so that
     # editRenewComplete.html can use them, as session will be cleared shortly.
 
-
     @confirmationType = getConfirmationType
 
     # Determine routing for Finish button
