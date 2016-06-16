@@ -31,7 +31,7 @@ end
 
 When('I start a new browser session') do
   Capybara.reset_sessions!
-  sleep 0.5 # TODO: Remove this hack; seems to be a timing issue somewhere.
+  # sleep 0.5 # TODO: Remove this hack; seems to be a timing issue somewhere.
 end
 
 When ('complete the registration as a normal user via the WorldPay route') do

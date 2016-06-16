@@ -141,6 +141,10 @@ And(/^I choose to pay by bank transfer$/) do
   click_button 'proceed_to_payment'
 end
 
+And(/^I expect to see a charge of £40$/) do
+  expect(page).to have_text('£40')
+end
+
 And(/^I choose pay via electronic transfer ensuring the total amount is (\d+)\.(\d+)$/) do |arg1, arg2|
   choose 'registration_payment_type_bank_transfer'
   click_button 'proceed_to_payment'
