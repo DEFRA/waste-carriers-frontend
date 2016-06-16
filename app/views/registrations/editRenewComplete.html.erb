@@ -43,7 +43,7 @@
     <p><%= t'registrations.confirmed.how_to_pay_message', email: @registration.accountEmail %></p>
 
     <h4 class="heading-small heading-with-border">
-      <%= @registration.within_ir_renewal_window? ? t('registrations.confirmed.next_step_ir') : t('registrations.confirmed.next_step') %>
+      <%= t('registrations.confirmed.next_step_ir') %>
     </h4>
 
     <p><%= t('registrations.confirmed.payment_details', charge: Money.new(@registration.order_builder.total_fee).format) %></p>
