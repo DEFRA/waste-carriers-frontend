@@ -892,6 +892,7 @@ en:
       update_details: "If any of your details change you must update your registration within 28 days."
       signin_view_html: "You can <a href='/users/sign_in'>sign in</a> to view your certificate or make a change to your registration."
       payment_details: "We've sent an email telling you how to pay the charge of %{charge}."
+      payment_details_non_specific: "We've sent an email telling you how to pay the charge."
       payment_timescale: "Please allow 5 working days for your payment to reach us."
       legally_entitled: "You’re not legally entitled to operate as a waste carrier until we have received your payment and confirmed your registration."
       signin__check_html: "You can <a href='/users/sign_in'>sign in</a> to check the status of your registration."
