@@ -12,11 +12,11 @@
 
         <header class="page-header group">
           <div class="hgroup summary-box">
-            <h1><%= render 'shared/complete_summary', :type => @confirmationType %></h1>
+            <h1><%= render 'shared/complete_summary', type: @confirmationType %></h1>
           </div>
         </header>
 
-        <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
+        <% if @confirmationType == RegistrationsHelper::STATUS_COMPLETE || @confirmationType == RegistrationsHelper::STATUS_COMPLETE_LOWER %>
           <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
 
           <h4 class="heading-small heading-with-border"><span id="ut_complete_or_lower_tier"><%= t 'registrations.confirmed.next' %></span></h4>
@@ -61,38 +61,34 @@
 
           <!-- Sign in  -->
 
-          <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE or @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE_LOWER %>
-
+          <% if @confirmationType == RegistrationsHelper::STATUS_COMPLETE || @confirmationType == RegistrationsHelper::STATUS_COMPLETE_LOWER %>
             <p><%= t 'registrations.confirmed.signin_view_html' %></p>
-
           <% else %>
-
             <p><%= t 'registrations.confirmed.signin__check_html' %></p>
-
           <% end %>
 
           <!-- end sign -->
 
         <!-- convictions check -->
-        <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
+        <% elsif @confirmationType == RegistrationsHelper::STATUS_CRIMINALLY_SUSPECT %>
 
-          <p><%= t '.details_emailed', :email => @registration.accountEmail %></p>
+          <p><%= t '.details_emailed', email: @registration.accountEmail %></p>
 
           <h4 class="heading-small heading-with-border"><span id="ut_pending_convictions_check"><%= t 'registrations.confirmed.next' %></span></h4>
-          <p><%= t '.confirm_within_limit', :limit => Rails.configuration.registrations_service_exceed_limit %></p>
+          <p><%= t '.confirm_within_limit', limit: Rails.configuration.registrations_service_exceed_limit %></p>
 
           <p class="panel-indent"><%= t 'registrations.confirmed.legally_entitled' %></p>
 
         <!-- end convictions check -->
 
         <!-- bank transfer  -->
-        <% elsif @confirmationType.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+        <% elsif @confirmationType == RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
 
-          <p><%= t '.how_to_pay_message', :email => @registration.accountEmail %></p>
+          <p><%= t '.how_to_pay_message', email: @registration.accountEmail %></p>
 
           <h4 class="heading-small heading-with-border"><span id="ut_bank_transfer"><%= t 'registrations.confirmed.next_step' %></span></h4>
 
-          <p><%= t '.payment_details', :regNum => @registration.regIdentifier %></p>
+          <p><%= t '.payment_details_non_specific' %></p>
 
           <p><%= t 'registrations.confirmed.payment_timescale' %></p>
 
@@ -111,8 +107,6 @@
         <div class="form-group ">
           <%= form_tag do |f| %>
             <input id="finished" name="finished" class="button button-get-started" type="submit" value="<%= t 'form.finished_button_label' %>"/>
-          <% end %>
-          <% if @confirmationType.eql? RegistrationsHelper::STATUS_COMPLETE and @registration.tier.downcase.eql? 'upper' %>
           <% end %>
         </div>
 
