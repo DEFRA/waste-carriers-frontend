@@ -182,7 +182,7 @@ end
 # TODO AH need to centralise date formatting and get expire date from services
 Then(/^my registration Certificate has a correct Expiry Date$/) do
   expectedExpiryDate = Date.today + Rails.configuration.registration_expires_after
-  first(:css, '.viewCertificate').click
+  visit first(:css, '.viewCertificate')[:href]
   expect(page).to have_text expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
 end
 
