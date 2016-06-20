@@ -1539,4 +1539,8 @@ class Registration < Ohm::Model
     @order_types ||= registration_order.order_types
   end
 
+  def latest_order
+    finance_details.first.orders.to_a.last
+  end
+
 end
