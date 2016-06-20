@@ -295,6 +295,10 @@ class Order < Ohm::Model
     order_items.to_a.find{ |order_item| order_item.type == 'COPY_CARDS'}
   end
 
+  def total_amount_money
+    Money.new(totalAmount)
+  end
+
   private
 
     def poundsToPence
