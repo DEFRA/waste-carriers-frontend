@@ -46,7 +46,7 @@
       <%= t('registrations.confirmed.next_step_ir') %>
     </h4>
 
-    <p><%= t('registrations.confirmed.payment_details', charge: Money.new(@registration.order_builder.total_fee).format) %></p>
+    <p><%= t('registrations.confirmed.payment_details', charge: @registration.latest_order.total_amount_money.format) %></p>
     <p><%= t'registrations.confirmed.payment_timescale' %></p>
     <p><%= t'registrations.confirmed.contact_agency_html' %></p>
     <p class="heading-with-border"><%= t'registrations.confirmed.survey_html' %><%= t'registrations.confirmed.survey_text' %></p>

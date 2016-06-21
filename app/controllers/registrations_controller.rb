@@ -1169,13 +1169,9 @@ class RegistrationsController < ApplicationController
 
   # Renders the edit renew order complete view
   def editRenewComplete
-    logger.debug 'original id' + session[:original_registration_id].to_s
-    logger.debug 'new id' + session[:registration_uuid].to_s
-    logger.debug 'params id' + params[:id].to_s
-    @registration = Registration.find_by_id(params[:id])
+    @registration = Registration.find_by_id(session[:registration_uuid])
     # Need to store session variables as instance variable, so that
     # editRenewComplete.html can use them, as session will be cleared shortly.
-
 
     @confirmationType = getConfirmationType
 
@@ -1195,6 +1191,7 @@ class RegistrationsController < ApplicationController
     regUuid = session[:registration_uuid]
     if regUuid
       @registration = Registration.find_by_id(regUuid)
+
       # Get the order just made from the order code param
       if @registration
         @order = @registration.getOrder(params[:orderCode])

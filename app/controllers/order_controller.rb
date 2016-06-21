@@ -66,6 +66,8 @@ class OrderController < ApplicationController
       return
     end
 
+    @registration.save! if @registration.save
+
     # Does the session order with orderCode exist already?
     existing_order = @registration.getOrder(session[:orderCode])
     if existing_order.present?
@@ -91,7 +93,7 @@ class OrderController < ApplicationController
 
     if @order.paymentMethod == 'OFFLINE'
       logger.debug "The registration is valid - redirecting to Offline payment page..."
-      redirect_to newOfflinePayment_path(orderCode: @order.orderCode )
+      redirect_to newOfflinePayment_path(orderCode: session[:orderCode])
     else
       logger.debug "The registration is valid - redirecting to Worldpay..."
       response = send_xml(create_xml(@registration, @order))
