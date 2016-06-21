@@ -11,7 +11,7 @@ module WorldpayHelper
   def create_xml(registration, order)
     merchant_code = worldpay_merchant_code
     order_code = order.orderCode
-    order_value = order.totalAmount + registration.outstanding_balance
+    order_value = order.totalAmount + registration.previous_outstanding_balance(order.totalAmount)
 
     # TODO: Remove pre-populated shopper values once Worldpay has been
     # reconfigured not to require address details

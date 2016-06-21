@@ -26,13 +26,13 @@
           <tr><td></td></tr>
         </thead>
         <tbody>
-          <% unless @registration.paid_in_full? %>
+          <% unless @registration.previous_paid_in_full?(@registration.total_fee) %>
             <tr>
               <td>
                 <%= f.label :outstanding_balance, 'Outstanding Balance', class: 'form-label' %>
                 <div class="currency-container">
                    <p class="currency-sign">£</p>
-                   <%= f.text_field :outstanding_balance, class: 'form-control-1-8', size: 5, autocomplete: :off, maxlength: 4, disabled: true, value: Money.new(@registration.outstanding_balance) %>
+                   <%= f.text_field :outstanding_balance, class: 'form-control-1-8', size: 5, autocomplete: :off, maxlength: 4, disabled: true, value: Money.new(@registration.previous_outstanding_balance(@registration.total_fee)) %>
                 </div>
               </td>
             </tr>
@@ -52,7 +52,7 @@
               <%= f.label :total_fee, class: 'form-label' %>
               <div class="currency-container">
                 <p class="currency-sign">£</p>
-                <%= f.text_field :total_fee, class: 'form-control-1-8', :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) + Money.new(@registration.outstanding_balance) %>
+                <%= f.text_field :total_fee, class: 'form-control-1-8', :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) + Money.new(@registration.previous_outstanding_balance(@registration.total_fee)) %>
               </div>
             </td>
           </tr>

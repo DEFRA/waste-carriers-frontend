@@ -1043,8 +1043,16 @@ class Registration < Ohm::Model
     end
   end
 
+  def previous_outstanding_balance(current_total_charge)
+    outstanding_balance - current_total_charge.to_i
+  end
+
   def paid_in_full?
     outstanding_balance <= 0
+  end
+
+  def previous_paid_in_full?(current_total_charge)
+    previous_outstanding_balance(current_total_charge) <= 0
   end
 
   def self.business_type_options_for_select
