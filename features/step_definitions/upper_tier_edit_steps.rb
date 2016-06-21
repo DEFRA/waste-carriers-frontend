@@ -36,6 +36,17 @@ Then(/^I click Edit what you told us$/) do
   click_link 'changeSmartAnswers'
 end
 
+Then(/^I edit the registered address$/) do
+  expect(page).to have_link 'Edit your business or organisation address'
+  click_link 'Edit your business or organisation address'
+  fill_in 'registration_companyName', with: 'Edited Company Name'
+  click_button 'Continue'
+end
+
+Then(/^I see the edited registered address name$/) do
+  expect(page).to have_text 'Edited Company Name'
+end
+
 Then(/^I change the legal entity$/) do
   expect(page).to have_link 'changeSmartAnswers'
   click_link 'changeSmartAnswers'
