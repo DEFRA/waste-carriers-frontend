@@ -78,6 +78,8 @@ class RegistrationOrder
   end
 
   def is_attempting_renewal?
+    return false if @original_registration.try(:is_active?)
+
     @current_registration.originalRegistrationNumber.present? &&
       @current_registration.newOrRenew.to_s.downcase != 'new'
   end
