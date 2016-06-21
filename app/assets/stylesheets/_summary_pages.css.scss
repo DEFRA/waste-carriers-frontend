@@ -92,6 +92,7 @@
   display:inline;
 }
 
+input#registration_outstanding_balance,
 input#registration_registration_fee,
 input#registration_copy_card_fee,
 input#registration_total_fee {
@@ -192,18 +193,3 @@ input#registration_copy_cards {
   border-top: 1px solid $grey-2;
   padding-top: $gutter-half;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
