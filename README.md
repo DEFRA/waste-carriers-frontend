@@ -14,7 +14,7 @@ The service layer in turn accesses a MongoDB database.
 
 For authentication purposes the application uses the Devise gem (https://github.com/plataformatec/devise) to manage the user accounts of waste carriers (i.e. external users), and internal users (agency users such as NCCC contact centre staff and administrators). User account information managed by the Devise gem is stored in MongoDB.
 
-It is expected that external user authentication will be migrated to mechanisms provided by the GOV.UK ID Assurance program, once these become available (thought to be in 2014).
+It is expected that external user authentication will be migrated to mechanisms provided by the GOV.UK ID Assurance program, once these become available.
 
 The application sends emails using the Sendgrid e-mail service.
 
@@ -26,6 +26,8 @@ Clone the repository, copying the project into a working directory:
 
 	$ git clone https://github.com/EnvironmentAgency/waste-exemplar-frontend.git
 
+A Vagrantfile has been created allowing easy setup of the Rails frontend and the associated backend Java services. This is located within Gitlab.
+
 ##Configuration
 
 The application contains a variety of configurable settings, which are set in several files located in the /config directory.
@@ -33,7 +35,7 @@ Environment-related configuration settings are located in the /config/environmen
 
 The frontend application expects the services to run on http://localhost:9090, unless configured otherwise.
 
-You may want or need to set the following environment variables, e.g. in your ~/.bash_profile (if you are a Mac or Linux user). Adjust these as required for your local setup:
+You may want or need to set the following environment variables, e.g. in your `~/.bash_profile` or `~/.zshrc`. Adjust these as required for your local setup:
 
 	## Sendgrid configuration - for sending emails
 	export WCRS_FRONTEND_EMAIL_USERNAME="<your sendgrid username here>"
@@ -63,7 +65,7 @@ You may want to edit your local 'hosts' file to have entries for the public and 
 
 ##Prerequisites
 
-
+* Ubuntu (or similar Linux distribution)
 * Git
 * Access to GitHub
 * Ruby 2.0.0
@@ -76,6 +78,11 @@ You may want to edit your local 'hosts' file to have entries for the public and 
 * MongoDB (version 2.4.6 or above) - to store registrations and user accounts
 * ElasticSearch (version 0.90.5 or above) - for full-text search
 
+## wkhtmltopdf
+
+We use wkhtmltopdf to create PDF files. On Ubuntu this can be installed like so:
+
+`sudo apt-get install wkhtmltopdf`
 
 ##Build and Deploy
 
@@ -125,6 +132,10 @@ Please refer to the 'waste-exemplar-address-lookup' project for details.
 
 
 ##Run Tests
+
+###Rspec Tests
+
+RSpec tests are available. Run `rspec` in this projects root.
 
 ###Acceptance Tests - using Cucumber
 
