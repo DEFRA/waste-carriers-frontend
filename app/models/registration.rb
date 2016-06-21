@@ -1497,6 +1497,7 @@ class Registration < Ohm::Model
   end
 
   def is_active?
+    return false unless metaData.present?
     metaData.first.status == 'ACTIVE'
   end
 
