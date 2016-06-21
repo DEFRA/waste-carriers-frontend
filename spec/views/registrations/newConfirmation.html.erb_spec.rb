@@ -89,6 +89,21 @@ describe 'registrations/newConfirmation', type: :view do
       expect(rendered).to_not have_text("£145")
     end
 
+    it 'displays the correct £154 charge when an expired renewal is used' do
+      expired_ir_renewal_registration = create(:registration, :ir_renewal, originalDateExpiry: Date.today - 3.months)
+      RegistrationOrder.any_instance.stub(:ir_renewal).and_return(expired_ir_renewal_registration)
+
+      renewal_registration = create(:registration, :ir_renewal, originalDateExpiry: Date.today - 3.months)
+      assign(:registration, renewal_registration)
+      render
+
+      expect(rendered).to have_text("Your previous registration has expired.")
+      expect(rendered).to have_text("The charge for this is £154", count: 1)
+      expect(rendered).to_not have_text("£105")
+
+      expect(rendered).to_not have_text("Editing your registration")
+    end
+
   end
 
 end
