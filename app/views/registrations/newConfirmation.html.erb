@@ -28,7 +28,7 @@
       <%= form_for(@registration, :url => newConfirmation_path, html: {autocomplete: 'off'}) do |f| %>
 
       <div class="text registration-tier">
-        <% if @registration.order_types.include?(:new) || @registration.lower? %>
+        <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration.registration_order.is_attempting_renewal? %>
           <div class="text">
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
             <% if @registration.upper? %>
