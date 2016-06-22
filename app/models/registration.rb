@@ -1031,16 +1031,28 @@ class Registration < Ohm::Model
     tier.inquiry.LOWER?
   end
 
-  def paid_in_full?
+  def outstanding_balance
     begin
       the_balance = self.try(:finance_details).try(:first).try(:balance)
       the_balance = 0 if the_balance.nil?
     rescue Exception => e
       Airbrake.notify(e)
       Rails.logger.debug e.message
+    else
+      return the_balance.to_i
     end
+  end
 
-    the_balance.to_i <= 0
+  def previous_outstanding_balance(current_total_charge)
+    outstanding_balance - current_total_charge.to_i
+  end
+
+  def paid_in_full?
+    outstanding_balance <= 0
+  end
+
+  def previous_paid_in_full?(current_total_charge)
+    previous_outstanding_balance(current_total_charge) <= 0
   end
 
   def self.business_type_options_for_select

@@ -99,7 +99,7 @@ class OrderController < ApplicationController
       logger.debug "The registration is valid - redirecting to Worldpay..."
       response = send_xml(create_xml(@registration, @order))
       render('new', status: '400') && return unless response
-      redirect_to get_redirect_url(parse_xml(response.body))
+      redirect_to worldpay_redirect_url(parse_xml(response.body))
     end
 
   end

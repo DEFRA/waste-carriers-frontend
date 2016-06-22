@@ -11,7 +11,7 @@ module WorldpayHelper
   def create_xml(registration, order)
     merchant_code = worldpay_merchant_code
     order_code = order.orderCode
-    order_value = order.totalAmount
+    order_value = registration.outstanding_balance
 
     # TODO: Remove pre-populated shopper values once Worldpay has been
     # reconfigured not to require address details
@@ -135,7 +135,7 @@ module WorldpayHelper
     response
   end
 
-  def get_redirect_url(doc)
+  def worldpay_redirect_url(doc)
     reference = doc.at_css('reference')
     if reference
       redirect_url = doc.at_css('reference').content
