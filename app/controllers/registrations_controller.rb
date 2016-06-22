@@ -186,10 +186,6 @@ class RegistrationsController < ApplicationController
 
         else # no charge
           @registration.save!
-          unless @registration.paid_in_full?
-            newOrder @registration.uuid
-            return
-          end
           clear_edit_session
           if current_user
             redirect_to userRegistrations_path(current_user)
