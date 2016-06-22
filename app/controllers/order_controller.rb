@@ -60,6 +60,7 @@ class OrderController < ApplicationController
     session[:orderCode] = @order.orderCode
 
     unless @registration.valid? && @order.valid?
+      @renderType = session[:renderType] # Needed in the view.
       logger.debug "registration validation errors: #{@registration.errors.messages.to_s}"
       logger.debug "order validation errors: #{@registration.errors.messages.to_s}"
       render 'new', status: '400'
