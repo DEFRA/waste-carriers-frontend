@@ -593,17 +593,22 @@ class Registration < Ohm::Model
         response = RestClient.get url
         if response.code == 200
           result = JSON.parse(response.body) #result should be Hash
+        elsif response.code == 204
+          # This is what is returned by the services if the IR Registration number
+          # is not found.  This is an "expected" error-case, and definitely does
+          # not require Airbrake logging.
+          Rails.logger.debug "Services reports that IR Renewal number not found"
+          result = {}
         else
           Rails.logger.error "Registration.find_by_ir_number failed with a #{response.code.to_s} response from server"
         end
-      rescue Errno::ECONNREFUSED => e
+      rescue Errno::ECONNREFUSED, Errno::ECONNRESET => e
         Airbrake.notify(e)
         Rails.logger.error "Services unavailable: " + e.to_s
       rescue => e
         Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
-      Rails.logger.debug "found ir reg"
       result.size > 0 ? Registration.init(result) : nil
     end
   end
