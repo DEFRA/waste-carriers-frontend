@@ -19,7 +19,7 @@ class OrderController < ApplicationController
 
     renderNotFound && return unless @registration
 
-    @registration.copy_cards ||= 0
+    @registration.copy_cards = 0
     @registration.update(copy_card_only_order: 'yes') if Order.extra_copycards_identifier == @renderType
 
     @registration.order_builder.current_user = current_user || current_agency_user
