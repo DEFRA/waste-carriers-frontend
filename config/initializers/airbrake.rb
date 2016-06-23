@@ -13,6 +13,7 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
       /password/i,
       /conviction/i,
       /postcode/i,
+      /warden/i,
 
       # Attributes from the registration.
       :companyName,
