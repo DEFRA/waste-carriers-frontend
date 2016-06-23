@@ -306,7 +306,10 @@ class Registration < Ohm::Model
       result_hash[k] = v
 
       # Convert the expiry string into iso8601 format for java services
-      result_hash[k] = Time.parse(v).iso8601 if k == :expires_on && v.is_a?(String)
+      # TODO: Figure out which format the java services prefer to recieve the date/time
+      # Is it always in Unix format? Or ISO?
+      # Does anywhere else use this to_json to update redis. Does redis always want a unix time?
+      result_hash[k] = Time.parse(v).iso8601 if k == :expires_on && v.to_s.number?
     end
 
     address_list = []
