@@ -76,6 +76,9 @@ gem 'awesome_print'
 # sudo apt-get install ttf-mscorefonts-installer wkhtmltopdf
 gem 'wicked_pdf'
 
+# Allows colorized output to the console
+gem 'colorize'
+
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', '~> 1.4.0', require: false
@@ -89,6 +92,7 @@ group :test do
   gem 'simplecov', require: false
   gem 'simplecov-json', require: false
   gem 'simplecov-rcov', require: false
+  gem 'show_me_the_cookies'
 end
 
 group :development do
