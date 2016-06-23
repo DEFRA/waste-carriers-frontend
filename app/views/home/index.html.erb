@@ -66,8 +66,14 @@
               <ul>
                 <li><a href='/templates/form'>Form example</a></li>
                 <li><a href='/templates/form-template'>Form template</a></li>
+              </ul>
+            </nav>
+        </div>
+        <div class="inner group related-subsection">
+          <h2 class="heading-small">Developer Actions</h2>
+            <nav aria-labelledby="parent-subsection" role="navigation">
+              <ul>
                 <li><a><%= button_to 'Reset database', home_seed_path, method: :put, class: 'button-warning', data: {confirm: "Are you sure you want to wipe and re-seed the database?"} %></a></li>
-                <li><br></li>
                 <li><a><%= button_to 'Reset session', destroy_user_session_path, method: :delete, class: 'button' %></a></li>
               </ul>
             </nav>
