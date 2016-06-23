@@ -20,6 +20,7 @@ Registrations::Application.routes.draw do
   # All routes managed by the Home controller
   root to: 'home#index'
   get 'home/index'
+  put 'home/seed'
   get 'version' => 'home#version', :via => [:get], :as => :app_version
   get 'cookies' => 'home#cookies', :via => [:get], :as => :cookies
   get 'privacy' => 'home#privacy', :via => [:get], :as => :privacy

@@ -66,7 +66,9 @@
               <ul>
                 <li><a href='/templates/form'>Form example</a></li>
                 <li><a href='/templates/form-template'>Form template</a></li>
-                <li><a><%= button_to 'Reset session', destroy_user_session_path, :method => :delete %></a></li>
+                <li><a><%= button_to 'Reset database', home_seed_path, method: :put, class: 'button-warning', data: {confirm: "Are you sure you want to wipe and re-seed the database?"} %></a></li>
+                <li><br></li>
+                <li><a><%= button_to 'Reset session', destroy_user_session_path, method: :delete, class: 'button' %></a></li>
               </ul>
             </nav>
         </div>

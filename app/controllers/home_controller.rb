@@ -45,4 +45,12 @@ class HomeController < ApplicationController
   def maintenance
     render file: '/public/maintenance_template.html'
   end
+
+  def seed
+    if Rails.application.config.show_developer_index_page
+      Rails.application.load_seed
+      flash[:notice] = 'Database wiped and seeded.'
+    end
+    redirect_to :back
+  end
 end
