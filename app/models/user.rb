@@ -5,7 +5,7 @@ class User
   store_in session: 'users'
 
   include PasswordHelper
-  
+
   # Note: Devise standard default modules are
   # :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
   # Include default devise modules. Others available are:
@@ -52,7 +52,7 @@ class User
   # to the temaplate, hence we add it as an attribute on the user object
   attr_accessor :current_tier
 
-  validate :password, presence: true, length: { in: 8..128 }
+  validates :password, presence: true, length: { in: 8..128 }
   validate :password_must_have_lowercase_uppercase_and_numeric
 
   def confirmed?

@@ -554,7 +554,7 @@ class RegistrationsController < ApplicationController
 
         unless @registration.assisted_digital?
           if @registration.is_complete?
-            RegistrationMailer.welcome_email(@user, @registration).deliver
+            RegistrationMailer.welcome_email(@user, @registration).deliver_now
           end
         end
         true
@@ -1005,7 +1005,7 @@ class RegistrationsController < ApplicationController
             unless @registration.assisted_digital?
               if @registration.paid_in_full?
                 @user = User.find_by_email(@registration.accountEmail)
-                RegistrationMailer.welcome_email(@user, @registration).deliver
+                RegistrationMailer.welcome_email(@user, @registration).deliver_now
               end
             end
 
