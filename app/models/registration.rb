@@ -1422,16 +1422,16 @@ class Registration < Ohm::Model
       #
       if user and r.metaData.first.route == 'DIGITAL'
         Rails.logger.debug "Send registration email"
-        RegistrationMailer.welcome_email(user,r).deliver
+        RegistrationMailer.welcome_email(user,r).deliver_now
       else
         Rails.logger.debug "Registration not Digital or User not valid, thus registraion email not to be sent"
       end
     elsif Registration.isAwaitingPayment(r) and r.metaData.first.route == 'DIGITAL'
       # Send awaiting payment email
-      RegistrationMailer.awaitingPayment_email(user, r).deliver
+      RegistrationMailer.awaitingPayment_email(user, r).deliver_now
     elsif Registration.isAwaitingConvictions(r) and r.metaData.first.route == 'DIGITAL'
       # Send awaiting conviction check email
-      RegistrationMailer.awaitingConvictionsCheck_email(user, r).deliver
+      RegistrationMailer.awaitingConvictionsCheck_email(user, r).deliver_now
     else
       Rails.logger.debug "Skipping sending registered email"
     end
