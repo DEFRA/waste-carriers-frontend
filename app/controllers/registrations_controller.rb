@@ -490,20 +490,22 @@ class RegistrationsController < ApplicationController
   def commit_new_registration?
     unless @registration.tier == 'LOWER'
       # ------------- Begin Note -----------------------------------------------
-      # NOTE: This code currently has no effect, as the Expiry Date is chosen by the
-      # Java services.  However, we leave it in as it may become useful if we ever
-      # remove the services tier.
+      # NOTE: The Expiry Date is chosen by the Java services.
+      # However, we leave it in as the services do require a valid expiry date
+      # to be supplied. It may also become useful if we ever remove the services
+      # tier.
+      # ------------- End Note -----------------------------------------------
 
-      # Detect standard or IR renewal
+      # Default case: This is a new registration; set the expiry date to 3 years from today.
+      @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
+
       if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
         # This is an IR renewal, so set the expiry date to 3 years from the
         # expiry of the existing IR registration.
-        @registration.expires_on = DateTime.strptime(@registration.originalDateExpiry,'%Q').to_date + Rails.configuration.registration_expires_after
-      else
-        # This is a new registration; set the expiry date to 3 years from today.
-        @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
+        if @registration.originalDateExpiry.present? && @registration.originalDateExpiry.number?
+          @registration.expires_on = DateTime.strptime(@registration.originalDateExpiry,'%Q').to_date + Rails.configuration.registration_expires_after
+        end
       end
-      # ------------- End Note -----------------------------------------------
     end
 
     # Note: we are assigning a unique identifier to the registration in order to
