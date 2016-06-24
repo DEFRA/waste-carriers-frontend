@@ -127,12 +127,7 @@ Given(/^the registration is valid for a small write off$/) do
 end
 
 Given(/^I sign out$/) do
-#  save_and_open_page
   click_button 'sign_out'
-#  save_and_open_page
-#  visit new_agency_user_session_path
-#  expect(page).to have_text 'Sign in'
-#  save_and_open_page
 end
 
 Given(/^I provided a payment type of Cheque$/) do
