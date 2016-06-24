@@ -498,7 +498,7 @@ class RegistrationsController < ApplicationController
       if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
         # This is an IR renewal, so set the expiry date to 3 years from the
         # expiry of the existing IR registration.
-        @registration.expires_on = convert_date(@registration.originalDateExpiry.to_i) + Rails.configuration.registration_expires_after
+        @registration.expires_on = DateTime.strptime(@registration.originalDateExpiry,'%Q').to_date + Rails.configuration.registration_expires_after
       else
         # This is a new registration; set the expiry date to 3 years from today.
         @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)

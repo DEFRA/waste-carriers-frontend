@@ -1,4 +1,3 @@
-
 class ApplicationController < ActionController::Base
   layout "govuk_template"
 

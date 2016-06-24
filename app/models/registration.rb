@@ -302,11 +302,8 @@ class Registration < Ohm::Model
   def to_json
     result_hash = {}
 
-    self.attributes.each do |k, v|
-      result_hash[k] = v
-
-      # Convert the expiry string into iso8601 format for java services
-      result_hash[k] = Time.parse(v).iso8601 if k == :expires_on && v.is_a?(String)
+    self.attributes.each do |key, value|
+      result_hash[key] = value
     end
 
     address_list = []
