@@ -301,12 +301,9 @@ class Registration < Ohm::Model
   # @return  [String]  the registration object in JSON form
   def to_json
     result_hash = {}
-
+    datetime_format = "%Y-%m-%dT%H:%M:%S%z"
     self.attributes.each do |k, v|
       result_hash[k] = v
-
-      # Convert the expiry string into iso8601 format for java services
-      result_hash[k] = Time.parse(v).iso8601 if k == :expires_on && v.is_a?(String)
     end
 
     address_list = []
