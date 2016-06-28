@@ -154,9 +154,11 @@ class Registration < Ohm::Model
       result = JSON.parse(response.body)
 
       # Update this object by replacing certain values that are determined by
-      # the Java services layer.
-      self.update(uuid: result['id'])
-      self.update(regIdentifier: result['regIdentifier'])
+      # the Java services layer.  We don't need to call update or save here, as
+      # we already call save() later in this method.
+      self.uuid = result['id']
+      self.regIdentifier = result['regIdentifier']
+      self.expires_on = result['expires_on'] if result.has_key?('expires_on')
 
       if result['addresses'] #array of addresses
         address_list = []
@@ -230,10 +232,7 @@ class Registration < Ohm::Model
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
     saved = true
     begin
-      response = RestClient.put url,
-                                to_json,
-                                :content_type => :json
-
+      response = RestClient.put(url, to_json, content_type: :json, accept: :json)
       result = JSON.parse(response.body)
 
       # Update metadata and financedetails with that from the service
@@ -301,12 +300,8 @@ class Registration < Ohm::Model
   # @return  [String]  the registration object in JSON form
   def to_json
     result_hash = {}
-
     self.attributes.each do |k, v|
       result_hash[k] = v
-
-      # Convert the expiry string into iso8601 format for java services
-      result_hash[k] = Time.parse(v).iso8601 if k == :expires_on && v.is_a?(String)
     end
 
     address_list = []

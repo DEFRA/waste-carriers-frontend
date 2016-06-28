@@ -465,6 +465,7 @@ en:
       copy_card_information: "You can buy more cards through your online account after you’ve registered."
       copy_card_text_html: "Cards can take up to 10 working days to arrive, depending on the status of your registration."
       copy_card_alt_text: "Example of a copy card registration"
+      failed_to_save_registration: "An internal error occurred.  Please try again, and contact us using the details below if the problem persists."
     copy_cards:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
