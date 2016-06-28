@@ -154,9 +154,11 @@ class Registration < Ohm::Model
       result = JSON.parse(response.body)
 
       # Update this object by replacing certain values that are determined by
-      # the Java services layer.
-      self.update(uuid: result['id'])
-      self.update(regIdentifier: result['regIdentifier'])
+      # the Java services layer.  We don't need to call update or save here, as
+      # we already call save() later in this method.
+      self.uuid = result['id']
+      self.regIdentifier = result['regIdentifier']
+      self.expires_on = result['expires_on'] if result.has_key?('expires_on')
 
       if result['addresses'] #array of addresses
         address_list = []
@@ -230,10 +232,7 @@ class Registration < Ohm::Model
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
     saved = true
     begin
-      response = RestClient.put url,
-                                to_json,
-                                :content_type => :json
-
+      response = RestClient.put(url, to_json, content_type: :json, accept: :json)
       result = JSON.parse(response.body)
 
       # Update metadata and financedetails with that from the service
