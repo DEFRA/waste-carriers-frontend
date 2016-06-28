@@ -301,7 +301,6 @@ class Registration < Ohm::Model
   # @return  [String]  the registration object in JSON form
   def to_json
     result_hash = {}
-    datetime_format = "%Y-%m-%dT%H:%M:%S%z"
     self.attributes.each do |k, v|
       result_hash[k] = v
     end
