@@ -490,9 +490,10 @@ class RegistrationsController < ApplicationController
   def commit_new_registration?
     unless @registration.tier == 'LOWER'
       # ------------- Begin Note -----------------------------------------------
-      # NOTE: This code currently has no effect, as the Expiry Date is chosen by the
-      # Java services.  However, we leave it in as it may become useful if we ever
-      # remove the services tier.
+      # NOTE: the date determined below is currently irrelevant, as the Expiry
+      # Date is chosen by the Java services.  However, we do need the value to
+      # be **valid** to prevent validation errors in the services, and the logic
+      # below may be useful in the future if we remove the services.
 
       # Detect standard or IR renewal
       if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
@@ -503,6 +504,9 @@ class RegistrationsController < ApplicationController
         # This is a new registration; set the expiry date to 3 years from today.
         @registration.expires_on = (Date.current + Rails.configuration.registration_expires_after)
       end
+      # Ensure value is always a Unix-like time, not a date, as Ohm/Redis handles
+      # this better.
+      @registration.expires_on = @registration.expires_on.to_time
       # ------------- End Note -----------------------------------------------
     end
 
