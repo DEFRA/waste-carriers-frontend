@@ -22,6 +22,6 @@ shared_examples_for 'password with strength restrictions' do
 
   # Valid passwords must be between 8 and 128 characters.
   xit "waiting for validation messages completion for all sections" do
-    should ensure_length_of(:password).is_at_least(8).with_message(/You must create a valid password/).is_at_most(128).with_message(/You must create a valid password/)
+    should validate_length_of(:password).is_at_least(8).with_message(/You must create a valid password/).is_at_most(128).with_message(/You must create a valid password/)
   end
 end
