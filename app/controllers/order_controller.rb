@@ -67,7 +67,14 @@ class OrderController < ApplicationController
       return
     end
 
-    @registration.save! if @registration.save
+    # Save the registration to the services so that any paid-for edits take
+    # effect now.
+    unless @registration.save && @registration.save!
+      @order.errors.add(:exception, t('order.new.failed_to_save_registration'))
+      logger.warn 'The registration was not saved to Redis or the Services'
+      render 'new', status: '500'
+      return
+    end
 
     # Does the session order with orderCode exist already?
     existing_order = @registration.getOrder(session[:orderCode])
