@@ -10,6 +10,15 @@
       </ol>
     </div>
 
+    <% if flash[:notice] %>
+      <div class="validation-summary notice">
+        <h2 class="heading-small"><%= t 'messages.notice' %></h2>
+        <ul>
+          <li><%= flash[:notice] %></li>
+        </ul>
+      </div>
+    <% end %>
+
     <%= render 'shared/errors' %>
     <header class="page-header group">
       <div class="hgroup">
