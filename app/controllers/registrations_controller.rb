@@ -764,7 +764,7 @@ class RegistrationsController < ApplicationController
     end
     authorize! :update, @registration
 
-    if request.patch?()
+    if request.patch?
       if (params[:registration][:accountEmail] != @registration.accountEmail)
         @user = User.find_by_email(@registration.accountEmail)
         @user.skip_reconfirmation!
@@ -773,6 +773,9 @@ class RegistrationsController < ApplicationController
         @user.send_reset_password_instructions
         @registration.accountEmail = params[:registration][:accountEmail]
         @registration.save!
+        flash[:notice] = I18n.t('agency_users.edit_account_email.email_updated')
+      else
+        flash[:notice] = I18n.t('agency_users.edit_account_email.email_not_updated')
       end
     end
 
