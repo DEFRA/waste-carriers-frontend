@@ -1,6 +1,6 @@
 class UkCompanyNumberValidator < ActiveModel::EachValidator
 
-  VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|[a-zA-Z]{2}\d{6}\z/i
+  VALID_COMPANIES_HOUSE_REGISTRATION_NUMBER_REGEX = /\A\d{1,8}|[A-Z]{2}\d{6}|IP\d{5}R\z/i
 
   def validate_each(record, attribute, value)
     if value.blank?
