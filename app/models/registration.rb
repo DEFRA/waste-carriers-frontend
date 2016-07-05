@@ -340,7 +340,7 @@ class Registration < Ohm::Model
   end
 
   def cross_check_convictions
-    if company_no.nil? || company_no.empty?
+    if company_no.nil? || company_no.empty? || foreign_limited_company?
       result = ConvictionSearchResult.search_company_convictions(
         companyName: companyName,
       )
