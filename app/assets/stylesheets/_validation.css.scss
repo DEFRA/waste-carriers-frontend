@@ -22,6 +22,9 @@
   border: 3px solid $error-colour;
   padding: $gutter-half $gutter;
   margin-bottom: $gutter;
+  &.notice {
+    border: 3px solid $button_colour;
+  }
   @include core-19;
     @include ie-lte(6){
     zoom: 1;
@@ -104,8 +107,3 @@
   width:95%;
  }
 }
-
-
-
-
-
