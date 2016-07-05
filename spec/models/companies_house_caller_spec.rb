@@ -39,7 +39,7 @@ describe CompaniesHouseCaller do
   end
 
   describe '#status' do
-    context 'active' do
+    context 'active (PLC, England/Wales, 8 digits)' do
       subject { CompaniesHouseCaller.new '02050399' }
 
       it 'is active', :vcr do
@@ -47,14 +47,70 @@ describe CompaniesHouseCaller do
       end
     end
 
-    context 'another active company' do
+    context 'another active company (PLC, England/Wales, 6 digits with leading zeros omitted)' do
       subject { CompaniesHouseCaller.new '445790' }
 
       it 'is active', :vcr do
         subject.status.should == :active
       end
     end
-    
+
+    context 'active (LLP, England/Wales)' do
+      subject { CompaniesHouseCaller.new 'OC379171' }
+
+      it 'is active', :vcr do
+        subject.status.should == :active
+      end
+    end
+
+    context 'active (PLC, Scotland)' do
+      subject { CompaniesHouseCaller.new 'SC028747' }
+
+      it 'is active', :vcr do
+        subject.status.should == :active
+      end
+    end
+
+    context 'active (LLP, Scotland)' do
+      subject { CompaniesHouseCaller.new 'SO302113' }
+
+      it 'is active', :vcr do
+        subject.status.should == :active
+      end
+    end
+
+    context 'active (PLC, Northern Ireland)' do
+      subject { CompaniesHouseCaller.new 'NI063992' }
+
+      it 'is active', :vcr do
+        subject.status.should == :active
+      end
+    end
+
+    context 'active (LLP, Northern Ireland)' do
+      subject { CompaniesHouseCaller.new 'NC000059' }
+
+      it 'is active', :vcr do
+        subject.status.should == :active
+      end
+    end
+
+    context 'active (Industrial and Provident Company, 6 digits)' do
+      subject { CompaniesHouseCaller.new 'IP031977' }
+
+      it 'is active', :vcr do
+        subject.status.should == :active
+      end
+    end
+
+    context 'active (Industrial and Provident Company, 5 digits with trailing R)' do
+      subject { CompaniesHouseCaller.new 'IP27406R' }
+
+      it 'is active', :vcr do
+        subject.status.should == :active
+      end
+    end
+
     # TODO: Insert a test to cover behaviour for companies that have "Active -
     # Proposal to Strike off" status.
 
