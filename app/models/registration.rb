@@ -795,9 +795,13 @@ class Registration < Ohm::Model
   end
 
   # Limited company
-  with_options if: [:businessdetails_step?, :limited_company?, :upper?] do |registration|
-    registration.validates :company_no, uk_company_number: true
+  with_options if: [:businessdetails_step?, :limited_company?] do |registration|
     registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
+  end
+
+  # Upper-tier limited company in the UK
+  with_options if: [:businessdetails_step?, :limited_company?, :uk_limited_company?, :upper?] do |registration|
+    registration.validates :company_no, uk_company_number: true
   end
 
   # TODO AH - is position ever used?
@@ -1007,6 +1011,18 @@ class Registration < Ohm::Model
 
   def limited_company?
     businessType == 'limitedCompany'
+  end
+
+  def foreign_limited_company?
+    return false unless limited_company?
+    regAddress = registered_address
+    (regAddress && regAddress.addressMode == 'manual-foreign')
+  end
+
+  def uk_limited_company?
+    return false unless limited_company?
+    regAddress = registered_address
+    (!regAddress || (regAddress.addressMode != 'manual-foreign'))
   end
 
   def not_limited_company?
