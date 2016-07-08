@@ -104,6 +104,12 @@ Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
   expect(page).to have_text 'Payment status'
 end
 
+Then(/^searching for registration '(.*)' confirms its status is now '(.*)'$/) do |searchTerm, expectedStatusText|
+  visit registrations_path
+  expect(page).to have_text 'Registration search'
+  waitForSearchResultsToContainText(searchTerm, 'Status ' + expectedStatusText)
+end
+
 Then(/^I am redirected to agency user home page with no fee$/) do
   expect(page).to have_text 'Registration search'
   expect(page).to have_text 'You can search for a registration by'
