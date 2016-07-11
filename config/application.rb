@@ -77,7 +77,7 @@ module Registrations
     config.waste_exemplar_frontend_admin_subdomain  = ENV['WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN']  || 'localhost'
 
     # Settings relating to Companies House.
-    config.waste_exemplar_companies_house_url = 'http://www.companieshouse.gov.uk/info'
+    config.waste_exemplar_companies_house_url = 'https://beta.companieshouse.gov.uk/'
 
     # In Production we want to verify that requests to agency user and
     # administration functionality have been made via the 'internal' subdomain
@@ -93,7 +93,7 @@ module Registrations
     # Set configuration for error pages to manual, to enable more user friendly
     # error pages.
     config.exceptions_app = self.routes
-    
+
     config.autoload_paths << Rails.root.join('lib')
 
     # Update this whenever the reported version number is supposed to have
