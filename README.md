@@ -1,4 +1,4 @@
-#waste-exemplar-frontend
+#waste-carriers-frontend
 
 Waste Carriers Registration Service Frontend application.
 
@@ -10,7 +10,7 @@ The service is implemented as a frontend web application, with a service API and
 
 The frontend application is a Ruby on Rails 4 application, which accesses a RESTful services layer implemented in Java.
 The services layer provides a RESTful API to manage (create, read, update, delete) registrations.
-The service layer in turn accesses a MongoDB database. 
+The service layer in turn accesses a MongoDB database.
 
 For authentication purposes the application uses the Devise gem (https://github.com/plataformatec/devise) to manage the user accounts of waste carriers (i.e. external users), and internal users (agency users such as NCCC contact centre staff and administrators). User account information managed by the Devise gem is stored in MongoDB.
 
@@ -24,7 +24,7 @@ The application sends emails using the Sendgrid e-mail service.
 
 Clone the repository, copying the project into a working directory:
 
-	$ git clone https://github.com/EnvironmentAgency/waste-exemplar-frontend.git
+	$ git clone https://github.com/EnvironmentAgency/waste-carriers-frontend.git
 
 A Vagrantfile has been created allowing easy setup of the Rails frontend and the associated backend Java services. This is located within Gitlab.
 
@@ -42,7 +42,7 @@ You may want or need to set the following environment variables, e.g. in your `~
 	export WCRS_FRONTEND_EMAIL_PASSWORD="<your sendgrid password here>"
 	export WCRS_FRONTEND_EMAIL_HOST="smtp.sendgrid.net"
 	export WCRS_FRONTEND_EMAIL_PORT=25
-	## Waste Exemplar Services
+	## Waste Carriers Service
 	export WCRS_FRONTEND_WCRS_SERVICES_URL="http://localhost:9090"
 	export WCRS_FRONTEND_PUBLIC_APP_DOMAIN="<your-public-domain-subdomain-here>"
 	export WCRS_FRONTEND_ADMIN_APP_DOMAIN="<your-admin-domain-subdomain-here>"
@@ -72,7 +72,7 @@ You may want to edit your local 'hosts' file to have entries for the public and 
 	* recommended: use RVM - the Ruby Version Manager
 * Rails 4.0
 * Redis (version 2.8.x) - for temporary session storage
-* The running services layer (build and deploy waste-exemplar-services)
+* The running services layer (build and deploy waste-carriers-service)
 * Java 7 JDK - for building the services layer
 * Maven (version 3.0 or above) - for building the services layer
 * MongoDB (version 2.4.6 or above) - to store registrations and user accounts
@@ -117,18 +117,22 @@ For local development:
 	$ redis-server
 
 This starts Redis with default settings, which is suitable for development.
-To start Redis with configuration settings, specify a path to a configuration file. 
+To start Redis with configuration settings, specify a path to a configuration file.
 A sample development configuration file is located in the db directory.
 
 	$ redis-server db/redis.conf
 
-### Waste Exemplar Services
+### Waste Carriers Service
 
-Please refer to the 'waste-exemplar-services' project for details.
+Please refer to the 'waste-carriers-service' project for details.
+
+https://github.com/EnvironmentAgency/waste-carriers-service
 
 ### Address Lookup Service
 
-Please refer to the 'waste-exemplar-address-lookup' project for details.
+Please refer to the 'os-places-address-lookup' project for details.
+
+https://github.com/EnvironmentAgency/os-places-address-lookup
 
 
 ##Run Tests
@@ -151,7 +155,7 @@ Acceptance tests are located in the features directory.
 We use Saucelabs to run cross-browser and cross-platform tests.
 Saucelabs supports a variety of languages and testing frameworks, including RSpec and Cucumber for Ruby and Rails based development.
 
-Cucumber-based tests are work-in-progress and sometimes fail due to connectivity and timeout problems. 
+Cucumber-based tests are work-in-progress and sometimes fail due to connectivity and timeout problems.
 
 To run the Cucumber-based tests against Saucelabs, execute:
 
