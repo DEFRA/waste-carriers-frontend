@@ -8,7 +8,7 @@ class Admin
   rolify
 
   include PasswordHelper
-  
+
   # Note: Devise standard default modules are
   # :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable, :validatable
   # Include default devise modules. Others available are:
@@ -49,7 +49,7 @@ class Admin
   field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
   field :locked_at,       :type => Time
 
-  validate :password, presence: true, length: { in: 8..128 }
+  validates :password, presence: true, length: { in: 8..128 }
   validate :password_must_have_lowercase_uppercase_and_numeric
 
   def is_admin?

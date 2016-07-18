@@ -3,5 +3,5 @@ shared_examples_for 'a company name step' do
   it { should allow_value('Dun & Bradstreet', '37signals', "Barry's Bikes").for(:companyName) }
   it { should_not allow_value('<script>alert("hi");</script>').for(:companyName) }
   it { should allow_value('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .-&\'’[],()').for(:companyName) }
-  it { should ensure_length_of(:companyName).is_at_most(150) }
+  it { should validate_length_of(:companyName).is_at_most(150) }
 end
