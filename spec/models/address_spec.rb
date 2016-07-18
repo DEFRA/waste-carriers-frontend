@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Address do
+describe Address, type: :model do
   context 'manual-uk addressMode' do
     before { subject.addressMode = 'manual-uk' }
 
@@ -22,9 +22,9 @@ describe Address do
     end
 
     describe 'length' do
-      it { should ensure_length_of(:houseNumber).is_at_most(35) }
-      it { should ensure_length_of(:addressLine1).is_at_most(35) }
-      it { should ensure_length_of(:addressLine2).is_at_most(35) }
+      it { should validate_length_of(:houseNumber).is_at_most(35) }
+      it { should validate_length_of(:addressLine1).is_at_most(35) }
+      it { should validate_length_of(:addressLine2).is_at_most(35) }
     end
   end
 
@@ -41,11 +41,11 @@ describe Address do
     end
 
     describe 'length' do
-      it { should ensure_length_of(:addressLine1).is_at_most(35) }
-      it { should ensure_length_of(:addressLine2).is_at_most(35) }
-      it { should ensure_length_of(:addressLine3).is_at_most(35) }
-      it { should ensure_length_of(:addressLine4).is_at_most(35) }
-      it { should ensure_length_of(:country).is_at_most(35) }
+      it { should validate_length_of(:addressLine1).is_at_most(35) }
+      it { should validate_length_of(:addressLine2).is_at_most(35) }
+      it { should validate_length_of(:addressLine3).is_at_most(35) }
+      it { should validate_length_of(:addressLine4).is_at_most(35) }
+      it { should validate_length_of(:country).is_at_most(35) }
     end
 
     describe 'format' do

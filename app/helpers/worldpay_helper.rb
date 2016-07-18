@@ -82,7 +82,7 @@ module WorldpayHelper
     # null in or it finds nothing the result is simply nil.
     # Worldpay will fail if we have no code hence we default to GB if no match
     # was found.
-    country = Country.find_country_by_name(address.country)
+    country = ISO3166::Country.find_country_by_name(address.country)
     result[:country_code] = country.nil? ? 'GB' : country.gec
 
     result
