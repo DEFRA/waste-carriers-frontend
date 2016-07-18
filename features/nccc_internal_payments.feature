@@ -35,13 +35,11 @@ Scenario Outline: Internal payment scenarios, underpayment and overpayment
   Then payment status will be <end_payment_status>
   And payment history will be updated
   And payment balance will be <outcome_balance>
-    # Changed these original values as they do not function as expected. Once the scenario runs for every entry in this list is gets
-    # a new registraiton. Not simple updates to the existing one found. As such the starting page never has the status
-    # other that the starting status. Thus this table should always have balance_amount of 154, and start_payment_status of pending
+  Then searching for registration 'Assisted Enterprises & Co' confirms its status is now '<registration_status>'
     Examples:
-    | balance_amount | payment_amount |	start_payment_status | end_payment_status | outcome_balance |
-    |	154				     | 154			      |	pending				       | paid 					    |	0.00				    |
-    |	154				     | 54			        |	pending  	           | pending					  |	100.00			 	  |
-    |	154				     | 153.99		      |	pending              | pending					  |	0.01				    |
-    |	154				     | 154.01		      |	pending			         | overpaid     			|	0.01 				    |
-    |	154				     | 200 		        |	pending			         | overpaid     			|	46.00 				  |
+    | balance_amount | payment_amount | start_payment_status | end_payment_status | outcome_balance | registration_status |
+    | 154            | 154            | pending              | paid               | 0.00            | Registered          |
+    | 154            | 54             | pending              | pending            | 100.00          | Awaiting payment    |
+    | 154            | 153.99         | pending              | pending            | 0.01            | Awaiting payment    |
+    | 154            | 154.01         | pending              | overpaid           | 0.01            | Registered          |
+    | 154            | 200            | pending              | overpaid           | 46.00           | Registered          |
