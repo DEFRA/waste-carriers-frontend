@@ -36,15 +36,15 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  use_https_in_emails = !(ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'].include?('localhost'))
+  use_https_in_emails = ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'].exclude?('localhost')
   config.action_mailer.default_url_options = { host: ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'], protocol: use_https_in_emails ? 'https' : 'http' }
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :address => ENV["WCRS_FRONTEND_EMAIL_HOST"],
-    :port => ENV["WCRS_FRONTEND_EMAIL_PORT"]
+    address: ENV["WCRS_FRONTEND_EMAIL_HOST"],
+    port: ENV["WCRS_FRONTEND_EMAIL_PORT"]
   }
 
   config.action_controller.asset_host = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || 'localhost:3000'
