@@ -5,16 +5,14 @@ class ReportsController < ApplicationController
   #We require authentication for all reports and authorisation for some reports.
 
   before_action :authenticate_agency_user!
+  before_action :set_report
 
   # GET /report/registrations
   def registrations_search
-    set_report
   end
 
   # POST /report/registrations
   def registrations_search_post
-
-    set_report
     @report.search_type = :registration
 
     unless @report.is_new.blank?
@@ -42,8 +40,6 @@ class ReportsController < ApplicationController
 
   # GET /reports/registrations/results
   def registrations_search_results
-
-    set_report
     @report.search_type = :registration
 
     if @report.valid?
@@ -64,8 +60,6 @@ class ReportsController < ApplicationController
 
   # POST /reports/registrations/results
   def registrations_export
-
-    set_report
     @report.search_type = :registration
 
     if @report.valid?
@@ -90,73 +84,63 @@ class ReportsController < ApplicationController
 
   # GET /report/payments
   def payments_search
-    set_report
   end
 
   # POST /report/payments
   def payments_search_post
-
-    set_report
     @report.search_type = :payment
+    @report.is_new = 'false'
 
-    unless @report.is_new.blank?
-      @report.is_new = 'false'
+    # render('payments_search') && return if @report.is_new.blank?
 
-      if @report.valid?
-
-        @report.result_count = 100
-        @registrations = search_payments
-
-        if @registrations.empty?
-          @report.errors.add(:base, t('errors.messages.no_results'))
-          logger.debug "No paymnet results found in #{__method__.to_s}"
-          render 'payments_search', :status => '400'
-        else
-          logger.debug "Rendering #{@registrations.count} payment search results in #{__method__.to_s}"
-          render 'payments_search_results'
-        end
-      else
-        logger.warn "Payment report filters are not valid in #{__method__.to_s}"
-        render 'payments_search', :status => '400'
-      end
+    unless @report.valid?
+      logger.warn "Payment report filters are not valid in #{__method__.to_s}"
+      render 'payments_search', status: '400'
+      return
     end
+
+    @report.result_count = 100
+    @registrations = search_payments
+
+    if @registrations.empty?
+      @report.errors.add(:base, t('errors.messages.no_results'))
+      render 'payments_search', status: '400'
+    else
+      render 'payments_search_results'
+    end
+
   end
 
   # POST /reports/payments/results
   def payments_export
-
-    set_report
     @report.search_type = :payment
 
-    if @report.valid?
+    unless @report.valid?
+      logger.warn "Payment report filters are not valid in #{__method__.to_s}"
+      render 'payments_search', status: '400'
+      return
+    end
 
-      @report.result_count = nil
-      @registrations = search_payments
+    @report.result_count = nil
+    @registrations = search_payments
 
-      if @registrations.empty?
-        @report.errors.add(:base, t('errors.messages.no_results'))
-        logger.debug "No payment results found in #{__method__.to_s}"
-        render 'payments_search', :status => '400'
-      else
-        logger.debug "Exporting #{@registrations.count} payment search results as csv in #{__method__.to_s}"
-        render_payments_csv("payments-#{Time.now.strftime("%Y%m%d%H%M%S")}")
-      end
+    if @registrations.empty?
+      @report.errors.add(:base, t('errors.messages.no_results'))
+      render 'payments_search', status: '400'
     else
-      logger.warn "Payment export filters are not valid in #{__method__.to_s}"
-      render 'payments_search', :status => '400'
+      filename = "payments-#{Time.now.strftime("%Y%m%d%H%M%S")}.csv"
+      set_export_headers(filename)
+      render text: PaymentsExport.new(@report, @registrations).generate_csv
     end
 
   end
 
   # GET /report/copy_cards
   def copy_cards_search
-    set_report
   end
 
   # POST /report/copy_cards
   def copy_cards_search_post
-
-    set_report
     @report.search_type = :copy_cards
 
     unless @report.is_new.blank?
@@ -184,8 +168,6 @@ class ReportsController < ApplicationController
 
   # GET /reports/copy_cards/results
   def copy_cards_search_results
-
-    set_report
     @report.search_type = :copy_cards
 
     if @report.valid?
@@ -206,8 +188,6 @@ class ReportsController < ApplicationController
 
   # POST /reports/copy_cards/results
   def copy_cards_export
-
-    set_report
     @report.search_type = :copy_cards
 
     if @report.valid?
@@ -239,8 +219,8 @@ class ReportsController < ApplicationController
     end
 
     def set_report
-
       @report = Report.new(params[:report])
+
       unless params[:routes].nil?
         @report.routes = filter_for_blanks params[:routes].values
       end
@@ -302,21 +282,21 @@ class ReportsController < ApplicationController
 
   end
 
-    def filter_for_blanks(values)
+  def filter_for_blanks(values)
 
-      filtered = []
+    filtered = []
 
-      unless values.nil?
-        filtered = values.reject(&:blank?)
-      end
-
-      unless filtered
-        filtered = []
-      end
-
-      filtered
-
+    unless values.nil?
+      filtered = values.reject(&:blank?)
     end
+
+    unless filtered
+      filtered = []
+    end
+
+    filtered
+
+  end
 
   def render_registrations_csv(filename)
     csv_data = CSV.generate({ row_sep: "\r\n", force_quotes: true }) do |csv|
@@ -342,17 +322,6 @@ class ReportsController < ApplicationController
     logger.debug 'finished parsing registration data and sending csv output to browser'
     send_data(csv_data, filename: filename)
     logger.debug 'sent registration data. finishing.'
-  end
-
-  def render_payments_csv(filename = nil)
-    filename ||= params[:action]
-    filename += '.csv'
-
-    set_export_headers filename
-
-    logger.debug 'finished parsing payment data and sending csv output to browser'
-    render "payments_export.csv", :layout => false
-    logger.debug 'sent payment data. finishing.'
   end
 
   def render_copy_cards_csv(filename)
