@@ -50,9 +50,6 @@ module Registrations
       "#{html_tag}".html_safe
     }
 
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '2.0'
-
     # Our services URL. This application is the REST-based client of that
     # service API.  As described in the comments above, this setting can be
     # redefined in 'config/environments/*.rb'.
@@ -93,7 +90,7 @@ module Registrations
     # Set configuration for error pages to manual, to enable more user friendly
     # error pages.
     config.exceptions_app = self.routes
-    
+
     config.autoload_paths << Rails.root.join('lib')
 
     # Update this whenever the reported version number is supposed to have
