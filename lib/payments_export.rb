@@ -26,7 +26,7 @@ class PaymentsExport
           row[:reference],
           row[:payment_amount],
           row[:comment],
-          rpw[:payment_updated_by],
+          row[:payment_updated_by],
           row[:payment_received],
           row[:balance]
         ]
@@ -35,28 +35,34 @@ class PaymentsExport
   end
 
   def rows
-    registrations.map do |registration|
+    registrations.flat_map do |registration|
       finance_details = registration.finance_details
       next unless finance_details.present?
       orders = finance_details.first.orders
       next unless orders.present?
 
-      orders.map do |order|
+      orders.flat_map do |order|
         related_payments = payments_for_order(registration, order)
-         order.order_items.map do |order_item|
-           row(registration, order, order_item, related_payments)
-         end
+        order.order_items.flat_map do |order_item|
+          if related_payments.present?
+            related_payments.flat_map do |payment|
+              row(registration, order, order_item, payment)
+            end
+          else
+            row(registration, order, order_item)
+          end
+        end
       end
     end
   end
 
-  def row(registration, order, order_item, related_payments)
+  def row(registration, order, order_item, payment = nil)
     row = {
       reg_identifier: registration.regIdentifier,
       company_name: registration.companyName,
       status: registration.metaData.first.status,
       route: registration.metaData.first.route,
-      transaction_date: format_time(order.dateCreated),
+      transaction_date: formatted_time(order.dateCreated),
       order_code: order.orderCode,
       charge_type: order_item.type,
       charge_amount: formatted_money(order_item.amount),
@@ -66,7 +72,7 @@ class PaymentsExport
       balance: formatted_money(registration.finance_details.first.balance)
     }
 
-    if related_payments.present?
+    if payment.present?
       additional_fields = {
         payment_amount: formatted_money(payment.amount),
         comment: payment.comment,
@@ -106,8 +112,8 @@ class PaymentsExport
 
   def payments_for_order(registration, order)
     payments = registration.finance_details.first.payments
-    return [] unless payments.present?
-    payments.to_a.select { |payment| payment.orderKey == order.orderCode }
+    #return [] unless payments.present?
+    payments.to_a#.select { |payment| payment.orderKey == order.orderCode }
   end
 
   def formatted_money(pence)
