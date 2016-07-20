@@ -11,7 +11,7 @@ class PaymentsExport
   def generate_csv
     CSV.generate do |csv|
       csv << headings
-      rows.each do |row|
+      rows.flatten.each do |row|
         csv << [
           row[:reg_identifier],
           row[:company_name],
@@ -36,28 +36,47 @@ class PaymentsExport
 
   def rows
     registrations.flat_map do |registration|
-      finance_details = registration.finance_details
-      next unless finance_details.present?
-      orders = finance_details.first.orders
-      next unless orders.present?
-
-      orders.flat_map do |order|
-        related_payments = payments_for_order(registration, order)
-        order.order_items.flat_map do |order_item|
-          if related_payments.present?
-            related_payments.flat_map do |payment|
-              row(registration, order, order_item, payment)
-            end
-          else
-            row(registration, order, order_item)
-          end
-        end
-      end
+      [
+        order_rows(registration),
+        unrelated_payment_rows(registration)
+      ].compact
     end
   end
 
-  def row(registration, order, order_item, payment = nil)
-    row = {
+  def order_rows(registration)
+    finance_details = registration.finance_details
+    return nil unless finance_details.present?
+    orders = finance_details.first.orders
+    return nil unless orders.present?
+
+    orders.flat_map do |order|
+      related_payments = payments_for_order(registration, order)
+      order_rows = order.order_items.flat_map do |order_item|
+        row(registration, order, order_item)
+      end
+      payment_rows = related_payments.flat_map do |payment|
+        payment_row(registration, payment)
+      end
+      [order_rows, payment_rows].compact
+    end
+  end
+
+  def unrelated_payment_rows(registration)
+    finance_details = registration.finance_details
+    return nil unless finance_details.present?
+    codes = registration_order_codes(registration)
+
+    unrelated_payments = finance_details.first.payments.to_a.select do |p|
+      codes.exclude?(p.orderKey)
+    end
+
+    unrelated_payments.flat_map do |payment|
+      payment_row(registration, payment)
+    end
+  end
+
+  def row(registration, order, order_item)
+    {
       reg_identifier: registration.regIdentifier,
       company_name: registration.companyName,
       status: registration.metaData.first.status,
@@ -71,18 +90,23 @@ class PaymentsExport
       reference: order_item.reference,
       balance: formatted_money(registration.finance_details.first.balance)
     }
+  end
 
-    if payment.present?
-      additional_fields = {
-        payment_amount: formatted_money(payment.amount),
-        comment: payment.comment,
-        payment_updated_by: payment.updatedByUser,
-        payment_received: formatted_time(payment.dateReceived)
-      }
-      row.reverse_merge!(additional_fields)
-    end
-
-    row
+  def payment_row(registration, payment)
+    {
+      reg_identifier: registration.regIdentifier,
+      company_name: registration.companyName,
+      status: registration.metaData.first.status,
+      route: registration.metaData.first.route,
+      transaction_date: formatted_time(payment.dateEntered),
+      reference: payment.registrationReference,
+      payment_type: payment.paymentType,
+      payment_amount: formatted_money(payment.amount),
+      comment: payment.comment,
+      payment_updated_by: payment.updatedByUser,
+      payment_received: formatted_time(payment.dateReceived),
+      balance: formatted_money(registration.finance_details.first.balance)
+    }
   end
 
   private
@@ -112,17 +136,20 @@ class PaymentsExport
 
   def payments_for_order(registration, order)
     payments = registration.finance_details.first.payments
-    #return [] unless payments.present?
-    payments.to_a#.select { |payment| payment.orderKey == order.orderCode }
+    return [] unless payments.present?
+    payments.to_a.select { |payment| payment.orderKey == order.orderCode }
   end
 
   def formatted_money(pence)
-    #humanized_money(Money.new(pence), { :no_cents_if_whole => false, :symbol => false })
     Money.new(pence)
   end
 
   def formatted_time(time)
-    time.to_s
+    Time.strptime(time.to_s, '%Q').iso8601
+  end
+
+  def registration_order_codes(registration)
+    registration.finance_details.first.orders.map(&:orderCode)
   end
 
 end
