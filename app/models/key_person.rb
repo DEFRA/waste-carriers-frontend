@@ -28,7 +28,7 @@ class KeyPerson < Ohm::Model
   FIRST_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
   LAST_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
-  before_validation :strip_whitespace, :only => [:dob_day, :dob_month, :dob_year]
+  before_validation :strip_whitespace, only: [:dob_day, :dob_month, :dob_year]
 
   validates :first_name,
     presence: { message: I18n.t('errors.messages.blank_first_name') },
