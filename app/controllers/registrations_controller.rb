@@ -773,7 +773,8 @@ class RegistrationsController < ApplicationController
         @user.send_reset_password_instructions
         @registration.accountEmail = params[:registration][:accountEmail]
         @registration.save!
-        flash[:notice] = I18n.t('agency_users.edit_account_email.email_updated', new_email: @registration.accountEmail)
+        flash.now[:notice] = I18n.t('agency_users.edit_account_email.email_updated', new_email: @registration.accountEmail)
+        flash.now[:instructions] = I18n.t('agency_users.edit_account_email.pwreset_reminder').html_safe
       else
         @registration.errors.add(:accountEmail, I18n.t('agency_users.edit_account_email.email_not_updated'))
       end

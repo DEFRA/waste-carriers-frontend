@@ -669,6 +669,7 @@ en:
       subtitle: "Listing agency users"
     edit_account_email:
       email_updated: 'The account email address has been updated to %{new_email}.'
+      pwreset_reminder: 'Please inform the customer they will receive a Password Reset email at this address.'
       email_not_updated: 'You entered an identical email address, so the account email address has not been updated.'
       change_account_email: "Change account email"
       change_account_email_helper_text: "This is where the account email address for any registration can be changed."
