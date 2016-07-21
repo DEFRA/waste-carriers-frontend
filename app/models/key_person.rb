@@ -67,7 +67,7 @@ class KeyPerson < Ohm::Model
     numericality: {
       only_integer: true,
       greater_than_or_equal_to: 1,
-      message: I18n.t('errors.messages.invalid_month'),
+      message: I18n.t('errors.messages.invalid_year'),
       allow_blank: true
     }
 
