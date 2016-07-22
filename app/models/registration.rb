@@ -768,6 +768,7 @@ class Registration < Ohm::Model
 
   # Maximum field lengths
   MAX_COMPANY_REGISTRATION_NO = 8
+  MAX_FOREIGN_COMPANY_NUMBER_LEN = 50
   MAX_COMPANY_NAME_LENGTH = 150
 
   # *********************************
@@ -802,6 +803,11 @@ class Registration < Ohm::Model
   # Upper-tier limited company in the UK
   with_options if: [:businessdetails_step?, :limited_company?, :uk_limited_company?, :upper?] do |registration|
     registration.validates :company_no, uk_company_number: true
+  end
+
+  # Upper-tier limited company outside the UK
+  with_options if: [:businessdetails_step?, :limited_company?, :foreign_limited_company?, :upper?] do |registration|
+    registration.validates :company_no, length: { maximum: MAX_FOREIGN_COMPANY_NUMBER_LEN, message: I18n.t('errors.messages.foreign_company_number_too_long', max: MAX_FOREIGN_COMPANY_NUMBER_LEN) }
   end
 
   # TODO AH - is position ever used?

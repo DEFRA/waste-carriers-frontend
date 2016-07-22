@@ -298,6 +298,7 @@ en:
       inactive_uk_company_number: "This company registration number is associated with a company that is no longer active. Please try again"
       not_found_uk_company_number: "This company registration number can’t be found. Please try again"
       companies_house_service_error: "This company registration number couldn’t be verified because of a problem contacting Companies House. Please try again"
+      foreign_company_number_too_long: "Business registration identity number or code is too long (maximum is %{max} characters)"
       address_not_selected: "You must select an address"
       blank_address_line: "You must enter at least one address line"
       blank_building_name_or_number: "You must enter a building name or number"
