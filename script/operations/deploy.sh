@@ -41,6 +41,7 @@ if [[ -z "${WCRS_USERSDB_URL2}" ]]; then env_alert WCRS_USERSDB_URL2; fi
 if [[ -z "${WCRS_ELASDB_URL_REST}" ]]; then env_alert WCRS_ELASDB_URL_REST; fi
 if [[ -z "${WCRS_REGISTRATION_EXPIRES_AFTER}" ]]; then env_alert WCRS_REGISTRATION_EXPIRES_AFTER; fi
 if [[ -z "${WCRS_REGISTRATION_RENEWAL_WINDOW}" ]]; then env_alert WCRS_REGISTRATION_RENEWAL_WINDOW; fi
+if [[ -z "${WCRS_FRONTEND_COMPANIES_HOUSE_API_KEY}" ]]; then env_alert WCRS_FRONTEND_COMPANIES_HOUSE_API_KEY; fi
 
 ##Disable cron job or service will be restarted during deploy
 sudo crontab -u servicecheck /home/servicecheck/off
