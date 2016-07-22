@@ -5,35 +5,35 @@ describe CompaniesHouseCaller do
     context '8 characters in total with whitespace leading whitespace' do
       subject { CompaniesHouseCaller.new ' 2050399' }
       it 'should strip leading whitespace' do
-        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/02050399.json')
+        expect(subject.url).to eq('https://api.companieshouse.gov.uk/company/02050399')
       end
     end
 
     context '8 characters in total with whitespace trailing whitespace' do
       subject { CompaniesHouseCaller.new '2050399 ' }
       it 'should strip trailing whitespace' do
-        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/02050399.json')
+        expect(subject.url).to eq('https://api.companieshouse.gov.uk/company/02050399')
       end
     end
 
     context '8 characters' do
       subject { CompaniesHouseCaller.new '02050399' }
       it 'should work with 8 characters' do
-        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/02050399.json')
+        expect(subject.url).to eq('https://api.companieshouse.gov.uk/company/02050399')
       end
     end
 
     context 'fewer than 8 characters' do
       subject { CompaniesHouseCaller.new '2050399' }
       it 'should prepend zeroes when fewer than 8 characters' do
-        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/02050399.json')
+        expect(subject.url).to eq('https://api.companieshouse.gov.uk/company/02050399')
       end
     end
 
     context 'lowercase prefix' do
       subject { CompaniesHouseCaller.new 'sc002180' }
       it 'should convert lowercase prefixes to uppercase' do
-        expect(subject.url).to eq('http://data.companieshouse.gov.uk/doc/company/SC002180.json')
+        expect(subject.url).to eq('https://api.companieshouse.gov.uk/company/SC002180')
       end
     end
   end
