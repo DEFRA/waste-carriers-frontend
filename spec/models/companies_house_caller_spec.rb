@@ -133,7 +133,7 @@ describe CompaniesHouseCaller do
 
   describe 'external service unavailable' do
     context 'timeout' do
-      before { stub_request(:any, 'data.companieshouse.gov.uk').to_timeout }
+      before { stub_request(:any, 'api.companieshouse.gov.uk').to_timeout }
 
       subject { CompaniesHouseCaller.new '02050399' }
 
@@ -143,7 +143,7 @@ describe CompaniesHouseCaller do
     end
 
     context 'server error' do
-      before { stub_request(:any, 'data.companieshouse.gov.uk').to_raise }
+      before { stub_request(:any, 'api.companieshouse.gov.uk').to_raise }
 
       subject { CompaniesHouseCaller.new '02050399' }
 
