@@ -622,7 +622,6 @@ en:
       heading: "What happens next:"
       paragraph1: "We'll check your details and let you know whether your application has been successful. We aim to do this within 10 working days."
       paragraph2: "You’re not legally entitled to operate as a waste carrier until we have received your payment and confirmed your registration"
-      paragraph3: "We probably won’t take action against you for operating while we’re waiting for your payment to come through. But the police or your local council might"
     awaitingPayment:
       heading: "Application received"
       app_received: "Application received"
@@ -651,7 +650,6 @@ en:
       pretext12: "Postal address:\ "
       paragraph8: "Please allow 5 working days for your payment to reach us."
       paragraph9: "You’re not legally entitled to operate as a waste carrier until we have received your payment and confirmed your registration"
-      paragraph10: "We probably won’t take action against you for operating while we’re waiting for your payment to come through. But the police or your local council might"
       payment_notice: "Payment notice"
     account_already_confirmed:
       title: "Waste Carriers Service"
