@@ -15,6 +15,9 @@
         <h2 class="heading-small"><%= t 'messages.notice' %></h2>
         <ul>
           <li><%= flash[:notice] %></li>
+          <% if flash[:instructions] %>
+            <li><strong><%= flash[:instructions] %></strong></li>
+          <% end %>
         </ul>
       </div>
     <% end %>
