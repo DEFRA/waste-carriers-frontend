@@ -93,7 +93,7 @@ module Registrations
     # Set configuration for error pages to manual, to enable more user friendly
     # error pages.
     config.exceptions_app = self.routes
-    
+
     config.autoload_paths << Rails.root.join('lib')
 
     # Update this whenever the reported version number is supposed to have
@@ -138,10 +138,6 @@ module Registrations
     # shown (as in production), then the application will redirect the user to a
     # suitable entry point, such as the 'Find out if I need to register' page.
     config.show_developer_index_page = false
-
-    # Use the letter opener gem if the environment variable is set. Don't use
-    # the letter opener in production!
-    config.use_letter_opener = ENV['WCRS_FRONTEND_USE_LETTER_OPENER'] || false
 
     # Worldpay configuration:
     # Waste Carriers use the e-commerce (ECOM) channel configuration;

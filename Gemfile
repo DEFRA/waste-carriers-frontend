@@ -94,8 +94,6 @@ group :development do
   gem 'brakeman', require: false
   gem 'bundler-audit', require: false
 
-  gem 'letter_opener', '~> 1.2.0'
-
   # gem needed for Chrome's RailsPanel plugin
   gem 'meta_request'
 
