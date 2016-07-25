@@ -340,7 +340,7 @@ class Registration < Ohm::Model
   end
 
   def cross_check_convictions
-    if company_no.nil? || company_no.empty? || foreign_limited_company?
+    if company_no.blank? || foreign_limited_company?
       result = ConvictionSearchResult.search_company_convictions(
         companyName: companyName,
       )
@@ -768,7 +768,7 @@ class Registration < Ohm::Model
 
   # Maximum field lengths
   MAX_COMPANY_REGISTRATION_NO = 8
-  MAX_FOREIGN_COMPANY_NUMBER_LEN = 50
+  MAX_FOREIGN_COMPANY_NUMBER_LENGTH = 50
   MAX_COMPANY_NAME_LENGTH = 150
 
   # *********************************
@@ -790,24 +790,46 @@ class Registration < Ohm::Model
   # *******************************************
   # * Section 2 (contact details) validations *
   # *******************************************
-  # Any company type except Limited company
-  with_options if: [:businessdetails_step?, :not_limited_company?] do |registration|
-    registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_non_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
-  end
 
-  # Limited company
-  with_options if: [:businessdetails_step?, :limited_company?] do |registration|
-    registration.validates :companyName, :presence => { :message => I18n.t('errors.messages.blank_ltd_company_name') }, format: { with: VALID_COMPANY_NAME_REGEX, message: I18n.t('errors.messages.invalid_company_name_characters'), :allow_blank => true, :maxLength => MAX_COMPANY_NAME_LENGTH }, length: { maximum: MAX_COMPANY_NAME_LENGTH }
-  end
-
-  # Upper-tier limited company in the UK
+  # Validate company number (Limited Company in the UK)
   with_options if: [:businessdetails_step?, :limited_company?, :uk_limited_company?, :upper?] do |registration|
-    registration.validates :company_no, uk_company_number: true
+    registration.validates :company_no,
+      uk_company_number: true
   end
 
-  # Upper-tier limited company outside the UK
+  # Validate company name (any company type except Limited Company)
+  with_options if: [:businessdetails_step?, :not_limited_company?] do |registration|
+    registration.validates :companyName,
+      presence: { message: I18n.t('errors.messages.blank_non_ltd_company_name') },
+      format: {
+        with: VALID_COMPANY_NAME_REGEX,
+        message: I18n.t('errors.messages.invalid_company_name_characters'),
+        allow_blank: true,
+        maxLength: MAX_COMPANY_NAME_LENGTH
+      },
+      length: { maximum: MAX_COMPANY_NAME_LENGTH }
+  end
+
+  # Validate company name (Limited Company)
+  with_options if: [:businessdetails_step?, :limited_company?] do |registration|
+    registration.validates :companyName,
+      presence: { message: I18n.t('errors.messages.blank_ltd_company_name') },
+      format: {
+        with: VALID_COMPANY_NAME_REGEX,
+        message: I18n.t('errors.messages.invalid_company_name_characters'),
+        allow_blank: true,
+        maxLength: MAX_COMPANY_NAME_LENGTH
+      },
+      length: { maximum: MAX_COMPANY_NAME_LENGTH }
+  end
+
+  # Validate company number (Limited Company outside the UK)
   with_options if: [:businessdetails_step?, :limited_company?, :foreign_limited_company?, :upper?] do |registration|
-    registration.validates :company_no, length: { maximum: MAX_FOREIGN_COMPANY_NUMBER_LEN, message: I18n.t('errors.messages.foreign_company_number_too_long', max: MAX_FOREIGN_COMPANY_NUMBER_LEN) }
+    registration.validates :company_no,
+      length: {
+        maximum: MAX_FOREIGN_COMPANY_NUMBER_LENGTH,
+        message: I18n.t('errors.messages.foreign_company_number_too_long', max: MAX_FOREIGN_COMPANY_NUMBER_LENGTH)
+      }
   end
 
   # TODO AH - is position ever used?

@@ -48,7 +48,7 @@
           <%= f.text_field :companyName, class: 'form-control-1-2', size: 35, maxlength:  Registration::MAX_COMPANY_NAME_LENGTH %>
         </div>
 
-        <% if @registration.businessType.eql?('limitedCompany') && @registration.tier.eql?('UPPER') %>
+        <% if @registration.limited_company? && @registration.upper? %>
           <div class="form-group<%if @registration.errors[:company_no].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
             <ul>
               <li><%= validation_for(@registration, :company_no) %></li>
@@ -57,7 +57,7 @@
                 <p class="form-hint text"><%= t('.foreign_company_number_info') %></p>
               </li>
               <li>
-                <%= f.text_field :company_no, class: 'form-control-1-2', :size => 35, :maxlength => Registration::MAX_FOREIGN_COMPANY_NUMBER_LEN %>
+                <%= f.text_field :company_no, class: 'form-control-1-2', :size => 35, :maxlength => Registration::MAX_FOREIGN_COMPANY_NUMBER_LENGTH %>
               </li>
             </ul>
           </div>
