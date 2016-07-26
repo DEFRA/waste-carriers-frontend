@@ -193,6 +193,11 @@ describe Registration do
         subject.registered_address.add(addressMode: 'manual-foreign')
       end
 
+      it 'is a foreign limited company' do
+        expect(subject.uk_limited_company?).to eq(false)
+        expect(subject.foreign_limited_company?).to eq(true)
+      end
+
       it { should_not validate_presence_of(:company_no) }
       it { should allow_value('12345', '11.22.33.AA.BB-C(EF)[GH]{IJ}', 'my SIREN number for 2016 is 6-5-4-3-2.1').for(:company_no) }
       it { should_not allow_value('z' * (Registration::MAX_FOREIGN_COMPANY_NUMBER_LENGTH + 1)).for(:company_no) }

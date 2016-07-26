@@ -1,4 +1,9 @@
 shared_examples_for 'a uk company number step' do
+  it 'is a uk limited company' do
+    expect(subject.uk_limited_company?).to eq(true)
+    expect(subject.foreign_limited_company?).to eq(false)
+  end
+
   it { should validate_presence_of(:company_no).with_message(/You must enter/) }
 
   it 'should not allow company which is not active', :vcr do
