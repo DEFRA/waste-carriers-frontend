@@ -34,12 +34,18 @@ class PaymentsExport
     end
   end
 
+  private
+
   def rows
     registrations.flat_map do |registration|
-      [
-        order_rows(registration),
-        unrelated_payment_rows(registration)
-      ].compact
+      begin
+        [
+          order_rows(registration),
+          unrelated_payment_rows(registration)
+        ].compact
+      rescue
+        []
+      end
     end
   end
 
@@ -108,8 +114,6 @@ class PaymentsExport
       balance: formatted_money(registration.finance_details.first.balance)
     }
   end
-
-  private
 
   delegate :t, to: I18n
 
