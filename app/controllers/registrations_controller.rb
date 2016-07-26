@@ -661,7 +661,10 @@ class RegistrationsController < ApplicationController
         end
         format.pdf do
           @pdf = true
-          render pdf: "certificate", template: 'registrations/certificate.html.erb', layout: 'pdf.html.erb', background: true
+          render pdf: "certificate",
+          template: 'registrations/certificate.html.erb',
+          layout: 'pdf.html.erb',
+          background: true
         end
       end
       logger.debug 'Save View state in the view page (go to Finish)'
