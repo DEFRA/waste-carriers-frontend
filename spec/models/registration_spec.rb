@@ -166,30 +166,36 @@ describe Registration do
       it { should_not validate_presence_of(:company_no) }
     end
 
-    context 'limited company' do
+    context 'UK limited company (postcode-lookup address)' do
       before do
         subject.businessType = 'limitedCompany'
         subject.tier = 'UPPER'
+        subject.registered_address.add(addressMode: 'address-results')
       end
 
-      it { should validate_presence_of(:company_no).with_message(/You must enter/) }
+      it_behaves_like 'a uk company number step'
+    end
 
-      it 'should not allow company which is not active', :vcr do
-        subject.should_not allow_value('05868270').for(:company_no)
+    context 'UK limited company (manual UK address)' do
+      before do
+        subject.businessType = 'limitedCompany'
+        subject.tier = 'UPPER'
+        subject.registered_address.add(addressMode: 'manual-uk')
       end
 
-      it 'should allow active company', :vcr do
-        subject.should allow_value('02050399').for(:company_no)
+      it_behaves_like 'a uk company number step'
+    end
+
+    context 'foreign limited company' do
+      before do
+        subject.businessType = 'limitedCompany'
+        subject.tier = 'UPPER'
+        subject.registered_address.add(addressMode: 'manual-foreign')
       end
 
-      context 'check format only' do
-        before do
-          allow_any_instance_of(CompaniesHouseCaller).to receive(:status).and_return(:active)
-        end
-
-        it { should allow_value('06731292', '6731292', '07589628', '7589628', '00000001', '1', 'ni123456', 'NI123456', 'RO123456', 'SC123456', 'OC123456', 'SO123456', 'NC123456', 'AC097609').for(:company_no) }
-        it { should_not allow_value('NII12345', 'NI1234567', '123456789', '0', '00000000', '-12345678', '-1234567').for(:company_no) }
-      end
+      it { should_not validate_presence_of(:company_no) }
+      it { should allow_value('12345', '11.22.33.AA.BB-C(EF)[GH]{IJ}', 'my SIREN number for 2016 is 6-5-4-3-2.1').for(:company_no) }
+      it { should_not allow_value('z' * (Registration::MAX_FOREIGN_COMPANY_NUMBER_LENGTH + 1)).for(:company_no) }
     end
   end
 
