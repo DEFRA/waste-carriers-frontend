@@ -154,9 +154,11 @@ class Registration < Ohm::Model
       result = JSON.parse(response.body)
 
       # Update this object by replacing certain values that are determined by
-      # the Java services layer.
-      self.update(uuid: result['id'])
-      self.update(regIdentifier: result['regIdentifier'])
+      # the Java services layer.  We don't need to call update or save here, as
+      # we already call save() later in this method.
+      self.uuid = result['id']
+      self.regIdentifier = result['regIdentifier']
+      self.expires_on = result['expires_on'] if result.has_key?('expires_on')
 
       if result['addresses'] #array of addresses
         address_list = []
@@ -230,10 +232,7 @@ class Registration < Ohm::Model
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
     saved = true
     begin
-      response = RestClient.put url,
-                                to_json,
-                                :content_type => :json
-
+      response = RestClient.put(url, to_json, content_type: :json, accept: :json)
       result = JSON.parse(response.body)
 
       # Update metadata and financedetails with that from the service
@@ -301,7 +300,6 @@ class Registration < Ohm::Model
   # @return  [String]  the registration object in JSON form
   def to_json
     result_hash = {}
-    datetime_format = "%Y-%m-%dT%H:%M:%S%z"
     self.attributes.each do |k, v|
       result_hash[k] = v
     end
@@ -593,17 +591,22 @@ class Registration < Ohm::Model
         response = RestClient.get url
         if response.code == 200
           result = JSON.parse(response.body) #result should be Hash
+        elsif response.code == 204
+          # This is what is returned by the services if the IR Registration number
+          # is not found.  This is an "expected" error-case, and definitely does
+          # not require Airbrake logging.
+          Rails.logger.debug "Services reports that IR Renewal number not found"
+          result = {}
         else
           Rails.logger.error "Registration.find_by_ir_number failed with a #{response.code.to_s} response from server"
         end
-      rescue Errno::ECONNREFUSED => e
+      rescue Errno::ECONNREFUSED, Errno::ECONNRESET => e
         Airbrake.notify(e)
         Rails.logger.error "Services unavailable: " + e.to_s
       rescue => e
         Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
-      Rails.logger.debug "found ir reg"
       result.size > 0 ? Registration.init(result) : nil
     end
   end
