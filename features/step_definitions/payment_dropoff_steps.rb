@@ -71,9 +71,7 @@ When('sign in as an NCCC Finance Admin') do
 end
 
 When('view the Payment Status for the registraiton') do
-  fill_in 'q', with: my_company_name
-  click_button 'reg-search'
-  expect(page).to have_text('Found 1 registration')
+  waitForSearchResultsToContainText(my_company_name, 'Found 1 registration')
   click_link('paymentStatus1')
   expect(page).to have_text('Charge history')
 end
