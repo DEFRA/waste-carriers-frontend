@@ -6,10 +6,10 @@
 <!--[if gt IE 9]>  <html> <![endif]-->
 <!--[if !IE]><!--> <html> <!--<![endif]-->
 <head>
-    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
   <meta content="utf-8" http-equiv="encoding">
-    <!-- Use title if it's in the page YAML frontmatter -->
-    <title>Waste Carriers Service</title>
+  <!-- Use title if it's in the page YAML frontmatter -->
+  <title>Waste Carriers Service</title>
 </head>
 
 <body style="font-family: Helvetica, Arial, sans-serif;font-size: 16px;margin: 0;color:#0b0c0c">
@@ -57,139 +57,128 @@
           <td width="25%">&nbsp;</td>
         </tr>
 
-            <tr>
-              <td width="75%" style="font-family: Helvetica, Arial, sans-serif;">
+        <tr>
+          <td width="75%" style="font-family: Helvetica, Arial, sans-serif;">
 
-                <p style="font-size: 24px; font-weight: bold; line-height: 1.315789474;margin: 45px 0 5px 0;"><%= t 'registration_mailer.awaitingPayment.paragraph1' %>
-                </p>
+            <p style="font-size: 24px; font-weight: bold; line-height: 1.315789474;margin: 45px 0 5px 0;">
+              <%= t 'registration_mailer.awaitingPayment.paragraph1' %>
+            </p>
 
-                <p style="font-size: 19px; line-height: 1.315789474;margin: 0;"><%= t 'registration_mailer.awaitingPayment.paragraph2' %>
-                </p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0;">
+              <%= t 'registration_mailer.awaitingPayment.paragraph2' %>
+            </p>
 
-                <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 5px 0;"><%= t 'registration_mailer.awaitingPayment.paragraph3' %>
-                </p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 5px 0;">
+              <%= t 'registration_mailer.awaitingPayment.paragraph3' %>
+            </p>
 
-                <p style="margin: 0 0 10px 0; border-color:#BFC1C3; border-style:none none solid;
-                  border-width:1px 1px 6px;">
-                </p>
+            <p style="font-size: 36px; color:#BFC1C3; font-weight: bold; line-height: 1.315789474; margin: 0 0 30px 0;" >
+              <%= t 'registration_mailer.awaitingPayment.step_one' %>
+            </p>
 
-                <p style="font-size: 36px; color:#BFC1C3; font-weight: bold; line-height: 1.315789474; margin: 0 0 30px 0;" >
-                <%= t 'registration_mailer.awaitingPayment.step_one' %>
-                </p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
+              <%= @registration.firstName%><%= t 'registration_mailer.awaitingPayment.paragraph4' %>
+            </p>
 
-                <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
-                  <%= @registration.firstName%><%= t 'registration_mailer.awaitingPayment.paragraph4' %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext1' %></strong>
+              <%= @registration.regIdentifier %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext1' %></strong>
-                  <%= @registration.regIdentifier %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext2' %></strong>
+              <%= Money.new(@registration.finance_details.first.balance).format %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext2' %></strong>
-                  <%= Money.new(@registration.finance_details.first.balance).format %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext3' %></strong>
+              <%= Rails.configuration.environment_agency_bank_account_name %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext3' %></strong>
-                  <%= Rails.configuration.environment_agency_bank_account_name %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext4' %></strong>
+              <%= Rails.configuration.environment_agency_bank_name %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext4' %></strong>
-                  <%= Rails.configuration.environment_agency_bank_name %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext5' %></strong>
+              <%= Rails.configuration.environment_agency_bank_address %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext5' %></strong>
-                  <%= Rails.configuration.environment_agency_bank_address %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext6' %></strong>
+              <%= Rails.configuration.bank_transfer_sort_code %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext6' %></strong>
-                  <%= Rails.configuration.bank_transfer_sort_code %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 30px 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext7' %></strong>
+              <%= Rails.configuration.bank_transfer_account_number %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 30px 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext7' %></strong>
-                  <%= Rails.configuration.bank_transfer_account_number %>
-                </p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;">
+              <%= t 'registration_mailer.awaitingPayment.paragraph5' %>
+            </p><br/>
 
-                <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;">
-                  <%= t 'registration_mailer.awaitingPayment.paragraph5' %>
-                </p><br/>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext8' %></strong>
+              <%= Rails.configuration.iban_number  %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext8' %></strong>
-                  <%= Rails.configuration.iban_number  %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext9' %></strong>
+              <%= Rails.configuration.swiftbic_number %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext9' %></strong>
-                  <%= Rails.configuration.swiftbic_number %>
-                </p>
+            <p style="font-size: 19px; font-weight: bold; line-height: 1.315789474;margin: 0 0 45px 0;">
+              <%= t 'registration_mailer.awaitingPayment.paragraph6' %>
+            </p>
 
-                <p style="font-size: 19px; font-weight: bold; line-height: 1.315789474;margin: 0 0 45px 0;"><%= t 'registration_mailer.awaitingPayment.paragraph6' %>
-                </p>
+            <p style="font-size: 36px; color:#BFC1C3; font-weight: bold; line-height: 1.315789474; margin: 0 0 30px 0;" >
+              <%= t 'registration_mailer.awaitingPayment.step_two' %>
+            </p>
 
-                <p style="margin: 0 0 10px 0; border-color:#BFC1C3; border-style:none none solid;
-                  border-width:1px 1px 6px;">
-                </p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
+             <%= t 'registration_mailer.awaitingPayment.heading3' %>
+            </p>
 
-                <p style="font-size: 36px; color:#BFC1C3; font-weight: bold; line-height: 1.315789474; margin: 0 0 30px 0;" >
-                <%= t 'registration_mailer.awaitingPayment.step_two' %>
-                </p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;">
+              <%= t 'registration_mailer.awaitingPayment.paragraph7' %>
+            </p>
 
-                <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
-                 <%= t 'registration_mailer.awaitingPayment.heading3' %>
-               </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext10' %></strong>
+              <%= Rails.configuration.income_email_address %>
+            </p>
 
-                <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 15px 0;">
-                  <%= t 'registration_mailer.awaitingPayment.paragraph7' %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext11' %></strong>
+              <%= Rails.configuration.income_fax_number %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext10' %></strong>
-                  <%= Rails.configuration.income_email_address %>
-                </p>
+            <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
+              <strong><%= t 'registration_mailer.awaitingPayment.pretext12' %></strong>
+              <%= Rails.configuration.income_postal_address %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext11' %></strong>
-                  <%= Rails.configuration.income_fax_number %>
-                </p>
+            <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
+              <%= t 'registration_mailer.awaitingPayment.paragraph8' %>
+            </p>
 
-                <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
-                  <strong><%= t 'registration_mailer.awaitingPayment.pretext12' %></strong>
-                  <%= Rails.configuration.income_postal_address %>
-                </p>
-
-                <p style="font-size: 19px; line-height: 1.315789474;margin: 0 0 30px 0;">
-                  <%= t 'registration_mailer.awaitingPayment.paragraph8' %></p>
-
-               <ul>
-                <li style="font-size: 16px; font-weight:bold; line-height: 1.315789474;margin: 0 0 30px 0;"><%= t 'registration_mailer.awaitingPayment.paragraph9' %></li>
-                <li style="font-size: 16px; line-height: 1.315789474;margin: 0 0 30px 0;">
-                  <%= t 'registration_mailer.awaitingPayment.paragraph10' %></li>
-               </ul>
-
-              </tr>
-
-               <tr>
-                <td align="left" width="75%" style="font-family: Helvetica, Arial, sans-serif;">
-                <ul>
-                  <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 15px 0;">
-                    <%=t 'registration_mailer.welcome_email.footer_bullet1' %></li>
-                  <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 30px 0;">
-                    <%=t 'registration_mailer.welcome_email.footer_bullet2' %></li>
-                </ul>
-                  </td>
-                </tr>
-
-                <td width="25%">&nbsp;</td>
-              </td>
-           </tr>
-        </table>
+            <ul>
+              <li style="font-size: 16px; font-weight:bold; line-height: 1.315789474;margin: 0 0 15px 0;">
+                <%= t 'registration_mailer.awaitingPayment.paragraph9' %>
+              </li>
+              <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 15px 0;">
+                <%=t 'registration_mailer.welcome_email.footer_bullet1' %>
+              </li>
+              <li style="font-size: 16px; color: #6f777b; line-height: 1.125; margin: 0 0 30px 0;">
+                <%=t 'registration_mailer.welcome_email.footer_bullet2' %>
+              </li>
+            </ul>
+          </td>
+          <td width="25%">&nbsp;</td>
+        </tr>
+      </table>
     </td>
   </tr>
 </table>
