@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style type='text/css'>
+      * {
+        font-family: Helvetica, Arial, Sans-Serif !important;
+        background: #FFF;
+      }
+      h1 {
+        margin-bottom: 20px;
+      }
+      body {
+        margin: 40px 60px;
+      }
+      table tr td:first-child {
+        width: 220px;
+      }
+      ul, li {
+        list-style-type: none;
+        margin-left: 0;
+        padding-left: 0;
+      }
+      li, td, p {
+        font-size: 18px;
+        line-height: 1.5;
+      }
+      table th {
+        margin-top: 20px;
+        text-align: left;
+        font-size: 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <%= yield %>
+  </body>
+</html>

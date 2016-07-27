@@ -1,7 +1,7 @@
 After do |scenario|
   if scenario.failed?
     begin
-      save_and_open_page
+      save_and_open_page unless ENV['DISABLE_LAUNCHY']
     rescue Exception=>e
       # handle e
       puts ''

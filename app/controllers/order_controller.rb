@@ -10,164 +10,105 @@ class OrderController < ApplicationController
 
   # GET /new
   def new
-    # Renders a new Order page (formerly newPayment)
     @order ||= Order.new
 
     @renderType = session[:renderType]
-    unless @order.isValidRenderType? @renderType
-      logger.error 'Cannot find a renderType variable in the session. It is needed to determine the type of payment page to render.'
-      logger.error 'Rendering Page not found'
-      renderNotFound
-    end
+    renderNotFound && return unless @order.isValidRenderType?(@renderType)
 
-    # Setup page
-    setup_registration 'payment', true
-    unless @registration
-      logger.warn 'No @registration. Cannot show order page.'
-      renderNotFound
-      return
-    end
+    setup_registration('payment', true)
 
-    @registration.copy_cards = 0 unless @registration.copy_cards
+    renderNotFound && return unless @registration
 
-    if @renderType.eql? Order.extra_copycards_identifier
-      @registration.update(copy_card_only_order: 'yes')
-    end
+    @registration.update(copy_cards: 0)
+    @registration.update(copy_card_only_order: 'yes') if Order.extra_copycards_identifier == @renderType
 
-    # Calculate fees shown on page
-    @registration = calculate_fees(@registration, @renderType)
+    @registration.order_builder.current_user = current_user || current_agency_user
+    @registration.registration_fee = @registration.order_builder.registration_fee
+    @registration.total_fee = @registration.order_builder.total_fee
   end
 
   # POST /create
   def create
     setup_registration 'payment'
-    
-    # Must get render type to determine what actions to take, and for
-    # rerendering any errors if found.
-    @renderType = session[:renderType]
-    logger.debug 'renderType session: ' + session[:renderType].to_s
 
-    # Determine what kind of payment selected and redirect to other action if required
-    bank_transfer = (@registration.payment_type === "bank_transfer")
+    @registration.copy_cards ||= 0
+    @registration.order_builder.current_user = current_user || current_agency_user
 
-    if bank_transfer
-      @order = prepareOfflinePayment(@registration, @renderType)
+    # HERE is the place where we determine whether we need to update an order
+    # that already exists against the registration (and is in the database),
+    # or create a new one.
+    if @registration.order_builder.indicates_new_registration?
+      # This order is for the initial registration, and has already been
+      # committed to the database at the time the registration was written.
+      # Therefore we need to update the existing order.
+      new_order_code = @registration.finance_details.first.orders.first.orderCode
+    elsif session.has_key?(:orderCode)
+      # The user has returned to this page by cancelling in Worldpay, or via
+      # using the back button.  To avoid creating a duplicate order, we re-use
+      # the last order-code.
+      new_order_code = session[:orderCode]
     else
-      @order = prepareOnlinePayment(@registration, @renderType)
+      # This must be a new order; we'll let the Order Builder generate a new
+      # order code.
+      new_order_code = nil
     end
 
-    logger.info "Check if the registration is valid. This checks the data entered is valid"
-    if @registration.valid?
+    # Generate the new order, and store its key in the session, so that we can
+    # handle the case where a user Cancels in Worldpay or uses the browser
+    # back button.
+    @order = @registration.order_builder.order(new_order_code)
+    session[:orderCode] = @order.orderCode
 
-      if @order.valid?
-        logger.info "Determining order save/update"
-        if @renderType.eql?(Order.new_registration_identifier) || isIRRenewal?(@registration, @renderType) || @renderType.eql?(Order.editrenew_caused_new_identifier)
-          logger.info "Saving the order"
-          # New registration, so update existing order
-          if @order.save! @registration.uuid
-            # order saved successfully
-
-            #
-            # TODO:
-            # cleanup render Type from session
-            #
-            # However: should be done later than here, because otherwise you cannot select one payment type,
-            #           go back in browser and select again link you can currently
-            #session.delete(:renderType)
-
-            # Re-get registration from the database to update the local redis version
-            regFromDB = Registration.find_by_id(@registration.uuid)
-            logger.info "Updated redis version after order save!"
-
-            # Get all nested children out of registration, specifically finaince details and override local copy in redis and save to redis
-            @registration.finance_details.replace([regFromDB.finance_details.first])
-            @registration.save
-
-          else
-            @order.errors.add(:exception, @order.exception.to_s)
-
-            # error updating services
-            logger.warn 'The update order was not saved to services.'
-            render 'new', :status => '400'
-            return
-          end
-        else
-
-          # Remove un-needed fee values from the registration about to be saved
-          @registration.total_fee = nil
-          @registration.registration_fee = nil
-          @registration.copy_card_fee = nil
-          @registration.copy_cards = nil
-
-          #
-          # Save the updated registration prior to making the new order, that way the returned order contains the up to date registration
-          # including any changes that have happended to the registration.
-          #
-          # The downside to this is an edge-case whereby the registration saves, and the commit fails so we need to ensure
-          # that registrations marked as renewalRequested are treated appropriately
-          #
-          if @registration.save!
-            logger.info "Registration saved!"
-            @registration.save
-          else
-            logger.info "Failed to save registration prior to order"
-            @order.errors.add(:exception, @registration.exception.to_s)
-
-            # error updating services
-            render 'new', :status => '400'
-            return
-          end
-
-          # Must be an edit, update or copy card order
-          logger.info "Committing the order"
-          if @order.commit @registration.uuid
-            # Order commited to services
-            logger.info "New order committed to services"
-
-            # Re-get registration from the database to update the local redis version
-            @registration = Registration.find_by_id(@registration.uuid)
-            logger.info "Updated redis version after order commit"
-            @registration.save
-
-          else
-            @order.errors.add(:exception, @order.exception.to_s)
-
-            # error updating services
-            logger.warn 'The new order was not committed to services.'
-            render 'new', :status => '400'
-            return
-          end
-        end
-      else
-        #We should hardly get into here given we constructed the order just above...
-        logger.warn 'The new Order is invalid: ' + @order.errors.full_messages.to_s
-        render 'new', :status => '400'
-        return
-      end
-
-      logger.info "About to redirect to Worldpay/Offline payment"
-      set_google_analytics_payment_indicator(session, @order)
-      if bank_transfer
-        logger.info "The registration is valid - redirecting to Offline payment page..."
-        redirect_to newOfflinePayment_path(:orderCode => @order.orderCode )
-      else
-        logger.info "The registration is valid - redirecting to Worldpay..."
-
-        response = send_xml(create_xml(@registration, @order))
-        unless response
-          render 'new', :status => '400'
-          return
-        end
-
-        redirect_to get_redirect_url(parse_xml(response.body))
-      end
+    unless @registration.valid? && @order.valid?
+      @renderType = session[:renderType] # Needed in the view.
+      logger.debug "registration validation errors: #{@registration.errors.messages.to_s}"
+      logger.debug "order validation errors: #{@registration.errors.messages.to_s}"
+      render 'new', status: '400'
       return
+    end
+
+    # Save the registration to the services so that any paid-for edits take
+    # effect now.
+    unless @registration.save && @registration.save!
+      @order.errors.add(:exception, t('order.new.failed_to_save_registration'))
+      logger.warn 'The registration was not saved to Redis or the Services'
+      render 'new', status: '500'
+      return
+    end
+
+    # Does the session order with orderCode exist already?
+    existing_order = @registration.getOrder(session[:orderCode])
+    if existing_order.present?
+      # We must update the newly-generated order to contain the ID of the existing
+      # order, as this is how the services decides which order to overwrite.
+      @order.orderId = existing_order.orderId
+      @order.save!(@registration.uuid)
     else
-      logger.error "validation errors: #{@registration.errors.messages.to_s}"
-      logger.error "The registration is not valid! " + @registration.to_s
-      render 'new', :status => '400'
+      @order.commit(@registration.uuid)
+    end
+
+    # Re-get registration from the database to update the local redis version
+    @registration = Registration.find_by_id(@registration.uuid)
+    unless @registration.save
+      @order.errors.add(:exception, @order.exception.to_s)
+      logger.warn 'The update order was not saved to services.'
+      render 'new', status: '400'
+      return
+    end
+
+    logger.debug "About to redirect to Worldpay or Offline payment"
+    set_google_analytics_payment_indicator(session, @order)
+
+    if @order.paymentMethod == 'OFFLINE'
+      logger.debug "The registration is valid - redirecting to Offline payment page..."
+      redirect_to newOfflinePayment_path(orderCode: session[:orderCode])
+    else
+      logger.debug "The registration is valid - redirecting to Worldpay..."
+      response = send_xml(create_xml(@registration, @order))
+      render('new', status: '400') && return unless response
+      redirect_to get_redirect_url(parse_xml(response.body))
     end
 
   end
-  
+
 end

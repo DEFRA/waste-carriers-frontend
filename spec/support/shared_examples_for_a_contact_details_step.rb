@@ -25,13 +25,13 @@ shared_examples_for 'a contact details step' do
     it { should ensure_length_of(:phoneNumber).is_at_most(20) }
 
     context 'digital route' do
-      before { subject.routeName = 'DIGITAL' }
+      before { subject.metaData.first.route = 'DIGITAL' }
 
       it_behaves_like 'email validation', :contactEmail
     end
 
     context 'assisted digital route' do
-      before { subject.routeName = 'ASSISTED_DIGITAL' }
+      before { subject.metaData.first.route = 'ASSISTED_DIGITAL' }
 
       it { should_not validate_presence_of(:contactEmail) }
     end

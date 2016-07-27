@@ -7,8 +7,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '4.0.12'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
+# For exception logging.
+gem 'airbrake', '~> 5.3'
 
 # We store user accounts (authentication with Devise) in a MongoDB database
 gem 'mongoid', '~> 4.0.0'
@@ -68,6 +68,14 @@ gem 'turnout', '~> 2.1.0'
 # which is then passed to Worldpay
 gem 'countries'
 
+# Provides the 'ap' method which is like puts, but pretty prints objects to the console
+gem 'awesome_print'
+
+# Generates a PDF from HTML, in our case, the users certificate
+# If you don't have wkhtmltopdf installed on Ubuntu run this:
+# sudo apt-get install ttf-mscorefonts-installer wkhtmltopdf
+gem 'wicked_pdf'
+
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', '~> 1.4.0', require: false
@@ -78,6 +86,9 @@ group :test do
   gem 'vcr'
   gem 'webmock'
   gem 'faker', '~> 1.4.3'
+  gem 'simplecov', require: false
+  gem 'simplecov-json', require: false
+  gem 'simplecov-rcov', require: false
 end
 
 group :development do
@@ -88,7 +99,15 @@ group :development do
   gem 'letter_opener', '~> 1.2.0'
 
   # gem needed for Chrome's RailsPanel plugin
-  gem 'meta_request', '~> 0.3.4'
+  gem 'meta_request'
+
+  # Hide assets in development server log
+  gem 'quiet_assets'
+
+  # Dependency of better errors
+  gem 'binding_of_caller'
+  # Intercepts exceptions in development and displays an interactive debug console within the browser
+  gem 'better_errors'
 end
 
 group :test, :development do
@@ -107,4 +126,13 @@ group :test, :development do
   # Required to populate the database with load-test data for Convictions.
   gem 'elasticsearch-persistence', '~> 0.1.6'
   gem 'ruby-progressbar', '>= 1.7.1'
+
+  # Development web server
+  gem 'thin'
+
+  # Load environment variables from .env
+  gem 'dotenv-rails'
+
+  # Interactive debug tool
+  gem 'byebug'
 end

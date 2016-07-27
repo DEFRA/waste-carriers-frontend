@@ -21,9 +21,9 @@ class KeyPerson < Ohm::Model
   VALID_MONTH = /\A[0-9]{2}/
   VALID_YEAR = /\A[0-9]{4}/
 
-  MAX_ALLOWED_AGE = 130.years
+  MAX_ALLOWED_AGE = 110.years
   MIN_DIRECTOR_AGE = 16.years
-  MIN_NON_DIRECTOR_AGE = 18.years
+  MIN_NON_DIRECTOR_AGE = 17.years
 
   before_validation :strip_whitespace, :only => [:dob_day, :dob_month, :dob_year]
 
@@ -61,7 +61,7 @@ class KeyPerson < Ohm::Model
       end
 
       key_person.update_attributes(normal_attributes)
-      
+
       key_person.save
       key_person
     end
@@ -78,7 +78,7 @@ class KeyPerson < Ohm::Model
     # It would do this is the self.dob was a value of 1970-04-93, but would not if it was a long int
     if self.dob.to_i.to_s.length.eql? self.dob.length
       # lengths match thus should be integer, thus convert it to a date
-      Rails.logger.debug "Convert " + self.dob.to_i.to_s + " to a Date object"
+      Rails.logger.debug "Convert to a Date object"
       hash['dob'] = ApplicationController.helpers.convert_date(self.dob.to_i).to_date
     else
       Rails.logger.debug "Use original value as its already formatted as a Date"
@@ -110,9 +110,10 @@ class KeyPerson < Ohm::Model
       dateOfBirth: dob
     )
 
-    Rails.logger.debug "KEY_PERSON::CROSS_CHECK_CONVICTIONS #{result}"
     conviction_search_result.replace([result])
-
+  end
+  def to_long_string
+    "#{first_name}#{last_name}#{dob_day}#{dob_month}#{dob_year}"
   end
 
   private
@@ -133,7 +134,7 @@ class KeyPerson < Ohm::Model
             end
           else
             if dob.try(:>, Date.today-MIN_NON_DIRECTOR_AGE)
-              errors.add(:dob, I18n.t('errors.messages.non-director_dob_less_than_18_years'))
+              errors.add(:dob, I18n.t('errors.messages.non-director_dob_less_than_17_years'))
             end
           end
         end
@@ -146,7 +147,7 @@ class KeyPerson < Ohm::Model
   def set_dob
     begin
       resultDate = Date.civil(self.dob_year.to_i, self.dob_month.to_i, self.dob_day.to_i)
-      Rails.logger.debug "Calculated DOB of " + resultDate.to_s
+      Rails.logger.debug "Calculated DOB"
       self.dob = resultDate
     rescue ArgumentError
       nil

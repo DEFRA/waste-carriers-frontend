@@ -95,6 +95,7 @@ class ConvictionSearchResult < Ohm::Model
         result = JSON.parse(RestClient.get(url, params: params))
         search_result = ConvictionSearchResult.init(result)
       rescue Exception => e
+        Airbrake.notify(e)
         Rails.logger.error format('Convictions service error: %s', e.message)
         search_result.match_result = 'UNKNOWN'
         search_result.matching_system = 'ERROR'

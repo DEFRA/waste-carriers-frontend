@@ -20,7 +20,7 @@ class OtherBusinessesController < ApplicationController
       end
     else
       # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
+      logger.debug 'Registration is not valid, and data is not yet saved'
       render 'show', :status => '400'
     end
 

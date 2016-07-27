@@ -1,15 +1,16 @@
-<%= render 'shared/content_for_pages' %>
+<%= render 'shared/content_for_pages' unless @pdf %>
+
 <div id="wrapper">
 
   <main id="content" role="main" class="group">
 
-    <!-- Back button section -->
-    <div class="no-print back-section">
-      <%= link_to t('registrations.form.back_button_label'), :back, :class => 'link-button-secondary' %>
-      <% if session[:edit_mode].to_i  ==  RegistrationsController::EditMode::RENEWAL  %>
-      <%= link_to t('registrations.form.finish_button_label'), action: "finish_renewal", :class => 'link-button-secondary' %>
-       <% end %>
-    </div>
+    <% unless @pdf %>
+      <!-- Back button section -->
+      <div class="no-print back-section" style='padding: 20px; background: #eee;'>
+        <p><%= t('.new_window_instructions') %></p>
+        <%= link_to t('.view_pdf'), {format: :pdf}, {class: 'link-button-secondary'} %>
+      </div>
+    <% end %>
 
     <div class="grid-wrapper">
     <div class="grid-2-3">
@@ -32,7 +33,11 @@
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.name' %></td>
               <td>
-                <%= image_tag("Environment_Agency_logo.png", {:alt => 'Environment Agency Logo', :border => '0', :height => '39', :width => '129'}) %>
+                <% if @pdf %>
+                  <%= wicked_pdf_image_tag("Environment_Agency_logo.png", {:alt => 'Environment Agency Logo', :border => '0', :height => '39', :width => '129'}) %>
+                <% else %>
+                  <%= image_tag("Environment_Agency_logo.png", {:alt => 'Environment Agency Logo', :border => '0', :height => '39', :width => '129'}) %>
+                <% end %>
               </td>
           </tr>
           <tr>
@@ -101,7 +106,7 @@
           <tr>
             <td class="table-column-text"><%=t 'registrations.view.business_address' %></td>
             <td>
-              <%= render 'address_display', r: @registration, a: @registration.registered_address  %>
+              <%= render 'shared/address_display.html.erb', r: @registration, a: @registration.registered_address  %>
             </td>
           </tr>
           <tr>

@@ -21,13 +21,11 @@ class OrderItem < Ohm::Model
     IR_IMPORT
   )
 
-  class << self
-    def init (order_items_hash)
-      orderItem = OrderItem.create
-      orderItem.update_attributes(order_items_hash)
-      orderItem.save
-      orderItem
-    end
+  def self.init (order_items_hash)
+    orderItem = OrderItem.create
+    orderItem.update_attributes(order_items_hash)
+    orderItem.save
+    orderItem
   end
 
   # returns a hash representation of the OrderItem object
@@ -37,7 +35,6 @@ class OrderItem < Ohm::Model
   def to_hash
     self.attributes.to_hash
   end
-
 
   # returns a JSON Java/DropWizard API compatible representation of the OrderItem object
   #

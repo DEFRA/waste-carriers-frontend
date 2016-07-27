@@ -10,11 +10,11 @@ class TemplatesController < ApplicationController
     setup_registration 'formExample'
 
     if @registration.valid?
-      logger.info 'Registration is valid so far, go to next page'
+      logger.debug 'Registration is valid so far, go to next page'
       redirect_to :root
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
+      logger.debug 'Registration is not valid, and data is not yet saved'
       render "formExample", :status => '400'
     end
   end
@@ -28,11 +28,11 @@ class TemplatesController < ApplicationController
     setup_registration 'formTemplate'
 
     if @registration.valid?
-      logger.info 'Registration is valid so far, go to next page'
+      logger.debug 'Registration is valid so far, go to next page'
       redirect_to :root
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
-      logger.info 'Registration is not valid, and data is not yet saved'
+      logger.debug 'Registration is not valid, and data is not yet saved'
       render "formTemplate", :status => '400'
     end
   end
@@ -81,7 +81,6 @@ class TemplatesController < ApplicationController
       :constructionWaste,
       :onlyAMF,
       :companyName,
-      :routeName,
       :postcodeSearch,
       :firstName,
       :lastName,

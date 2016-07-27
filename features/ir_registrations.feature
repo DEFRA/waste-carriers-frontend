@@ -1,5 +1,4 @@
 Feature: IR registrations
-
   As a waste carrier
   I want to be able to renew my registration from IR
   So that I can continue to be registered as a waste carrier
@@ -22,6 +21,9 @@ Scenario: Expired IR registration, No convictions, Online payment
   And I make no other changes to my registration details
   Then I will be charged the full fee
   And registration should be complete when payment is successful
+  When I activate my account by clicking the link in the activation email
+  And I am logged in as waste carrier user 'joe@grades.co.uk'
+  Then my registration Certificate has a correct Expiry Date
 
 @javascript
 Scenario: IR registrations, Convictions, Online payment

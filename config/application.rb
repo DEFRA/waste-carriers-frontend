@@ -50,9 +50,6 @@ module Registrations
       "#{html_tag}".html_safe
     }
 
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '2.0'
-
     # Our services URL. This application is the REST-based client of that
     # service API.  As described in the comments above, this setting can be
     # redefined in 'config/environments/*.rb'.
@@ -94,12 +91,14 @@ module Registrations
     # error pages.
     config.exceptions_app = self.routes
 
+    config.autoload_paths << Rails.root.join('lib')
+
     # Update this whenever the reported version number is supposed to have
     # changed - particularly before any new releases.  Note: this is the version
     # of the frontend application. The version number of the services
     # application may change separately.
     # Use semantic versioning (Major.Minor.Patch).
-    config.application_version = '2.1.2-beta'
+    config.application_version = '2.2.0-beta'
 
     # The e-mail address shown on the Finish page and used in e-mails sent by
     # the application.
