@@ -92,7 +92,7 @@ When(/^add another Partner$/) do
   fill_in 'key_person_last_name', with: 'Moss'
   fill_in 'key_person_dob_day', with: '02'
   fill_in 'key_person_dob_month', with: '08'
-  fill_in 'key_person_dob_year', with: '1900'
+  fill_in 'key_person_dob_year', with: '1950'
   click_button 'add_btn'
   click_button 'continue'
 end
@@ -103,7 +103,12 @@ When('change another Partner') do
   fill_in 'key_person_last_name', with: 'Moss'
   fill_in 'key_person_dob_day', with: '02'
   fill_in 'key_person_dob_month', with: '08'
-  fill_in 'key_person_dob_year', with: '1900'
+  fill_in 'key_person_dob_year', with: '1950'
   click_button 'add_btn'
+  click_button 'continue'
+end
+
+Then('Delete first relevant person') do
+  click_link('Delete', match: :first)
   click_button 'continue'
 end

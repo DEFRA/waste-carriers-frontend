@@ -27,14 +27,14 @@ class ReportsController < ApplicationController
 
         if @registrations.empty?
           @report.errors.add(:base, t('errors.messages.no_results'))
-          logger.warn "No registration results found in #{__method__.to_s}\n\n#{@report.inspect}\n"
+          logger.debug "No registration results found in #{__method__.to_s}"
           render 'registrations_search', :status => '400'
         else
-          logger.warn "Rendering #{@registrations.count} registration search results in #{__method__.to_s}\n\n#{@report.inspect}\n"
+          logger.debug "Rendering #{@registrations.count} registration search results in #{__method__.to_s}"
           render 'registrations_search_results'
         end
       else
-        logger.warn "Registrations report filters are not valid in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.warn "Registrations report filters are not valid in #{__method__.to_s}"
         render 'registrations_search', :status => '400'
       end
     end
@@ -52,11 +52,11 @@ class ReportsController < ApplicationController
 
       if @registrations.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
-        logger.warn "No registration results found in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.debug "No registration results found in #{__method__.to_s}"
         render 'registrations_search', :status => '400'
       end
     else
-      logger.warn "Registrations report filters are not valid in #{__method__.to_s}\n\n#{@report.inspect}\n"
+      logger.warn "Registrations report filters are not valid in #{__method__.to_s}"
       render 'registrations_search', :status => '400'
     end
 
@@ -75,14 +75,14 @@ class ReportsController < ApplicationController
 
       if @registrations.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
-        logger.warn "No registration results found in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.debug "No registration results found in #{__method__.to_s}"
         render 'registrations_search', :status => '400'
       else
-        logger.warn "Exporting #{@registrations.count} registration search results as csv in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.debug "Exporting #{@registrations.count} registration search results as csv in #{__method__.to_s}"
         render_registrations_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}.csv")
       end
     else
-      logger.warn "Registrations export filters are not valid in #{__method__.to_s}\n\n#{@report.inspect}\n"
+      logger.warn "Registrations export filters are not valid in #{__method__.to_s}"
       render 'registrations_search', :status => '400'
     end
 
@@ -109,14 +109,14 @@ class ReportsController < ApplicationController
 
         if @registrations.empty?
           @report.errors.add(:base, t('errors.messages.no_results'))
-          logger.warn "No paymnet results found in #{__method__.to_s}\n\n#{@report.inspect}\n"
+          logger.debug "No paymnet results found in #{__method__.to_s}"
           render 'payments_search', :status => '400'
         else
-          logger.warn "Rendering #{@registrations.count} payment search results in #{__method__.to_s}\n\n#{@report.inspect}\n"
+          logger.debug "Rendering #{@registrations.count} payment search results in #{__method__.to_s}"
           render 'payments_search_results'
         end
       else
-        logger.warn "Payment report filters are not valid in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.warn "Payment report filters are not valid in #{__method__.to_s}"
         render 'payments_search', :status => '400'
       end
     end
@@ -135,14 +135,14 @@ class ReportsController < ApplicationController
 
       if @registrations.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
-        logger.warn "No payment results found in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.debug "No payment results found in #{__method__.to_s}"
         render 'payments_search', :status => '400'
       else
-        logger.warn "Exporting #{@registrations.count} payment search results as csv in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.debug "Exporting #{@registrations.count} payment search results as csv in #{__method__.to_s}"
         render_payments_csv("payments-#{Time.now.strftime("%Y%m%d%H%M%S")}")
       end
     else
-      logger.warn "Payment export filters are not valid in #{__method__.to_s}\n\n#{@report.inspect}\n"
+      logger.warn "Payment export filters are not valid in #{__method__.to_s}"
       render 'payments_search', :status => '400'
     end
 
@@ -169,14 +169,14 @@ class ReportsController < ApplicationController
 
         if @copy_cards.empty?
           @report.errors.add(:base, t('errors.messages.no_results'))
-          logger.warn "No copy card results found in #{__method__.to_s}\n\n#{@report.inspect}\n"
+          logger.debug "No copy card results found in #{__method__.to_s}"
           render 'copy_cards_search', :status => '400'
         else
-          logger.warn "Rendering #{@copy_cards.count} copy cards search results in #{__method__.to_s}\n\n#{@report.inspect}\n"
+          logger.debug "Rendering #{@copy_cards.count} copy cards search results in #{__method__.to_s}"
           render 'copy_cards_search_results'
         end
       else
-        logger.warn "Copy cards report filters are not valid in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.warn "Copy cards report filters are not valid in #{__method__.to_s}"
         render 'copy_cards_search', :status => '400'
       end
     end
@@ -194,11 +194,11 @@ class ReportsController < ApplicationController
 
       if @copy_cards.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
-        logger.warn "No copy card results found in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.debug "No copy card results found in #{__method__.to_s}"
         render 'copy_cards_search', :status => '400'
       end
     else
-      logger.warn "Copy cards report filters are not valid in #{__method__.to_s}\n\n#{@report.inspect}\n"
+      logger.warn "Copy cards report filters are not valid in #{__method__.to_s}"
       render 'copy_cards_search', :status => '400'
     end
 
@@ -217,14 +217,14 @@ class ReportsController < ApplicationController
 
       if @copy_cards.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
-        logger.warn "No copy card results found in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.debug "No copy card results found in #{__method__.to_s}"
         render 'copy_cards_search', :status => '400'
       else
-        logger.warn "Exporting #{@copy_cards.count} copy cards search results as csv in #{__method__.to_s}\n\n#{@report.inspect}\n"
+        logger.debug "Exporting #{@copy_cards.count} copy cards search results as csv in #{__method__.to_s}"
         render_copy_cards_csv("copy_cards-#{Time.now.strftime("%Y%m%d%H%M%S")}.csv")
       end
     else
-      logger.warn "Copy cards export filters are not valid in #{__method__.to_s}\n\n#{@report.inspect}\n"
+      logger.warn "Copy cards export filters are not valid in #{__method__.to_s}"
       render 'copy_cards_search', :status => '400'
     end
 
@@ -334,9 +334,9 @@ class ReportsController < ApplicationController
         end
       end
     end
-    logger.warn 'finished parsing registration data and sending csv output to browser'
+    logger.debug 'finished parsing registration data and sending csv output to browser'
     send_data(csv_data, filename: filename)
-    logger.warn 'sent registration data. finishing.'
+    logger.debug 'sent registration data. finishing.'
   end
 
   def render_payments_csv(filename = nil)
@@ -345,9 +345,9 @@ class ReportsController < ApplicationController
 
     set_export_headers filename
 
-    logger.warn 'finished parsing payment data and sending csv output to browser'
+    logger.debug 'finished parsing payment data and sending csv output to browser'
     render "payments_export.csv", :layout => false
-    logger.warn 'sent payment data. finishing.'
+    logger.debug 'sent payment data. finishing.'
   end
 
   def render_copy_cards_csv(filename)
@@ -359,9 +359,9 @@ class ReportsController < ApplicationController
         data.each { |data_line| csv << data_line }
       end
     end
-    logger.warn 'finished parsing copy card data and sending csv output to browser'
+    logger.debug 'finished parsing copy card data and sending csv output to browser'
     send_data(csv_data, filename: filename)
-    logger.warn 'sent copy card data. finishing.'
+    logger.debug 'sent copy card data. finishing.'
   end
 
     # This method and the majority of the code in the reportRegistrations view

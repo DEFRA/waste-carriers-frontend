@@ -44,7 +44,7 @@ module RegistrationsHelper
     emailIn.downcase
   end
 
-  def one_full_message_per_invalid_attribute registration
+  def one_full_message_per_invalid_attribute(registration)
     hash_without_base = registration.errors.messages.except :base
 
     hash_without_base.each_key do |key|
@@ -56,7 +56,7 @@ module RegistrationsHelper
   end
 
 
-  def one_full_message_with_key_per_invalid_attribute registration
+  def one_full_message_with_key_per_invalid_attribute(registration)
     hash_without_base = registration.errors.messages.except :base
     errors_with_keys = []
 
@@ -73,7 +73,7 @@ module RegistrationsHelper
 
 
   # TODO not sure what this should do now smart answers and lower tier have been merged
-  def first_back_link registration
+  def first_back_link(registration)
     path = if registration.metaData.first.route == 'DIGITAL'
       if user_signed_in?
         userRegistrations_path current_user.id
@@ -101,12 +101,12 @@ module RegistrationsHelper
 
   # This method is called when updating from the registration's 'editing' pages (i.e. PUT/POST/MATCH)
   # to set up the @registration etc.
-  def setup_registration current_step, no_update=false
+  def setup_registration(current_step, no_update = false)
 
-    logger.info 'setup_registration: current_step = ' + current_step.to_s
+    logger.debug 'setup_registration: current_step = ' + current_step.to_s
 
     if !session[:editing] && current_step != 'payment' && current_step != 'confirmation'
-      logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+      logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
       redirect_to cannot_edit_path and return
     end
 
@@ -116,11 +116,11 @@ module RegistrationsHelper
 
       @registration.update(current_step: current_step)
     else
-      logger.info 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
+      logger.debug 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
       @registration = Registration[ params[:id]]
       if @registration.nil? and params[:id]
         # Registration still not found in session, trying database
-        logger.info 'Cannot find registration in session, trying database'
+        logger.debug 'Cannot find registration in session, trying database'
         @registration = Registration.find_by_id(params[:id])
       end
     end
@@ -162,10 +162,10 @@ module RegistrationsHelper
       return
     end
   end
-  
+
   # Note: This method is called at the beginning of the GET request handlers for the registration's 'editing' page
   # to set up the @registration etc.
-  def new_step_action current_step
+  def new_step_action(current_step)
     if (current_step.eql? Registration::FIRST_STEP) && !session[:edit_mode]
       logger.debug {'First registration step and not in edit mode - creating new registration...'}
       initialise_new_registration_with_session
@@ -176,11 +176,11 @@ module RegistrationsHelper
 
     elsif  session[:edit_mode] #editing existing registration
       if !session[:editing] && current_step != 'payment' && current_step != 'pending' && current_step != 'businesstype'
-        logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
         redirect_to cannot_edit_path and return
       end
 
-      logger.info 'We are in edit mode. Retrieving registration...'
+      logger.debug 'We are in edit mode. Retrieving registration...'
       @registration = Registration[ session[:registration_id]]
       if @registration
         logger.debug "retrieving registration for edit #{@registration.id}"
@@ -188,8 +188,7 @@ module RegistrationsHelper
         logger.warn 'Could not find registration for id = ' + session[:registration_id].to_s
       end
     else #creating new registration but not first step
-      logger.info 'We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
-      #puts '*** GGG6 - ' + current_step
+      logger.debug 'We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
       clear_edit_session
       @registration = Registration[ session[:registration_id]]
       if @registration
@@ -200,7 +199,7 @@ module RegistrationsHelper
       end
 
       if !session[:editing] && current_step != 'payment' && current_step != 'pending'
-        logger.info 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
         redirect_to cannot_edit_path
         return
       end
@@ -236,7 +235,7 @@ module RegistrationsHelper
     #      renderNotFound
     #    end
   end
-  
+
   # A simple helper for new_step_action that avoids code repetition.
   def initialise_new_registration_with_session
     clear_edit_session
@@ -325,14 +324,6 @@ module RegistrationsHelper
       confirmationType = STATUS_COMPLETE_LOWER if @registration.get_status.eql? 'ACTIVE'
     end
 
-    unless confirmationType
-      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE For Registration: #{@registration.uuid}"
-      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE awaiting conv confirm: #{awaiting_conviction_confirm}"
-      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE paid_in_full?: #{@registration.paid_in_full?}"
-      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE tier: #{@registration.tier.downcase}"
-      logger.debug "REGISTRATIONS_HELPER::GETCONFIRMATIONTYPE status: #{@registration.metaData.first.status.downcase}"
-    end
-
     return confirmationType
   end
 
@@ -341,7 +332,7 @@ module RegistrationsHelper
   def set_google_analytics_payment_indicator(session, order)
     session.delete(:ga_payment_method)
     if order
-      if order.isOnlinePayment?
+      if order.is_online_payment?
         session[:ga_payment_method] = 'cc'
       elsif order.isOfflinePayment?
         session[:ga_payment_method] = 'bacs'
@@ -396,7 +387,7 @@ module RegistrationsHelper
     request
   end
 
-  def isCurrentRegistrationType registrationNumber
+  def isCurrentRegistrationType(registrationNumber)
     # Strip leading and trailing whitespace from number
     regNo = registrationNumber.rstrip.lstrip
 

@@ -26,7 +26,7 @@ class StartController < ApplicationController
     end
 
     # there is an error (but data not yet saved)
-    logger.info 'No selection made'
+    logger.debug 'No selection made'
     render 'show', :status => '400'
 
   end

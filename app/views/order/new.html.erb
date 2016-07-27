@@ -19,40 +19,31 @@
       <%= render "shared/registration_errors" %>
       <%= render "order/order_errors" %>
 
+      <input type="hidden" value="<%= @registration.order_builder.registration_fee_money %>" id="total_excluding_copy_cards">
+
       <table summary='payment-summary' role='presentation' id="payment-summary-table" class="text">
         <thead>
-        <tr>
-          <td></td>
-        </tr>
+          <tr><td></td></tr>
         </thead>
         <tbody>
-        <% if show_registration_fee?(@registration, @renderType) || show_edit_fee?(@renderType) || show_edit_full_fee?(@renderType) || show_renewal_fee?(@registration, @renderType) %>
+          <%= render @registration.order_builder.order_items_excluding_copy_cards, f: f %>
+
+          <% if show_copy_cards?(@renderType) %>
+            <tr>
+              <td><%= render "order/copy_cards", f: f %>
+              </td>
+            </tr>
+          <% end %>
+
           <tr>
-            <td>
-              <%= render "order/registration_fee", :f => f if show_registration_fee?(@registration, @renderType) %>
-              <%= render "order/edit_registration_fee", :f => f if show_edit_fee?(@renderType) %>
-              <%= render "order/edit_registration_fee", :f => f if show_edit_full_fee?(@renderType) %>
-              <%= render "order/renew_registration_fee", :f => f if show_renewal_fee?(@registration, @renderType) %>
+            <td class='total-charge'>
+              <%= f.label :total_fee, class: 'form-label' %>
+              <div class="currency-container">
+                <p class="currency-sign">£</p>
+                <%= f.text_field :total_fee, class: 'form-control-1-8', :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
+              </div>
             </td>
           </tr>
-        <% end %>
-
-        <% if show_copy_cards?(@renderType) %>
-          <tr>
-            <td><%= render "order/copy_cards", :f => f %>
-            </td>
-          </tr>
-        <% end %>
-
-        <tr>
-          <td class='total-charge'>
-            <%= f.label :total_fee, class: 'form-label' %>
-            <div class="currency-container">
-              <p class="currency-sign">£</p>
-              <%= f.text_field :total_fee, class: 'form-control-1-8', :size =>5, :autocomplete => :off, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.total_fee) %>
-            </div>
-          </td>
-        </tr>
         </tbody>
       </table>
       <div class="form-note"><%= t '.total_fee_vat' %></div>

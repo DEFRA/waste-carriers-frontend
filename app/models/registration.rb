@@ -102,41 +102,6 @@ class Registration < Ohm::Model
   index :accountEmail
   index :companyName
 
-  ############## ROUTENAME ##############
-  # The following code should be seen as temporary until we better understand
-  # how we can remove the routeName property (which this code is) and still
-  # have the Rspecs passing. The RSpec tests work on the basis (it seems) of
-  # initialising a Registration via Registration.new but then calling methods
-  # that rely on the metaData and finance_details objects being populated. You
-  # cannot populate them however as you need to have called save against the
-  # registration first, and we cannot override the new method to allow us to do
-  # this.
-
-  @route_name
-
-  def routeName=(name)
-
-    @route_name = name
-
-    begin
-      metaData.first.update(:route => name)
-    rescue Exception => e
-      Rails.logger.debug e.message
-    end
-
-  end
-
-  def routeName
-    begin
-      route = self.try(:metaData).try(:first).try(:route)
-      @route_name = route unless route.nil?
-    rescue Exception => e
-      Rails.logger.debug e.message
-    end
-
-    @route_name
-  end
-
   ################# END #################
 
   def empty?
@@ -149,7 +114,7 @@ class Registration < Ohm::Model
         self.send("#{prop_name}=",prop_value)
       end
     else
-      Rails.logger.info 'no registration params found'
+      Rails.logger.debug 'no registration params found'
     end
   end
 
@@ -177,6 +142,11 @@ class Registration < Ohm::Model
   # @return  [String] the uuid assigned by MongoDB
   def commit
     commited = false
+
+    finance_detail = self.finance_details.first || FinanceDetails.create
+    finance_detail.orders << order_builder.order if finance_detail.orders.empty?
+    self.finance_details.replace([finance_detail])
+
     begin
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
       response = RestClient.post(url, to_json, :content_type => :json, :accept => :json)
@@ -184,9 +154,11 @@ class Registration < Ohm::Model
       result = JSON.parse(response.body)
 
       # Update this object by replacing certain values that are determined by
-      # the Java services layer.
-      self.update(uuid: result['id'])
-      self.update(regIdentifier: result['regIdentifier'])
+      # the Java services layer.  We don't need to call update or save here, as
+      # we already call save() later in this method.
+      self.uuid = result['id']
+      self.regIdentifier = result['regIdentifier']
+      self.expires_on = result['expires_on'] if result.has_key?('expires_on')
 
       if result['addresses'] #array of addresses
         address_list = []
@@ -220,10 +192,12 @@ class Registration < Ohm::Model
       save
       commited = true
     rescue Errno::ECONNREFUSED => e
+      Airbrake.notify(e)
       Rails.logger.error 'Services unavailable: ' + e.to_s
       self.exception = e.to_s
     rescue => e
-      Rails.logger.debug "Error in registration Commit to service: #{e.to_s} || #{attributes.to_s}"
+      Airbrake.notify(e)
+      Rails.logger.debug "Error in registration Commit to service: #{e.to_s}"
       self.exception = e.to_s
     end
     commited
@@ -235,7 +209,7 @@ class Registration < Ohm::Model
   # @return  [Boolean] true if registration removed
   def delete!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
-    Rails.logger.debug "Registration: about to DELETE: #{ to_json.to_s}"
+    Rails.logger.debug "Registration: about to DELETE"
     deleted = true
     begin
       response = RestClient.delete url
@@ -245,6 +219,7 @@ class Registration < Ohm::Model
       save
 
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.error e.to_s
       deleted = false
     end
@@ -255,14 +230,9 @@ class Registration < Ohm::Model
   # @return  [Boolean] true if registration updated
   def save!
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{uuid}.json"
-    Rails.logger.debug "Registration financeDetails to PUT: #{self.finance_details.first.to_s}"
-    Rails.logger.debug "Registration: #{uuid} about to PUT: #{ to_json}"
     saved = true
     begin
-      response = RestClient.put url,
-                                to_json,
-                                :content_type => :json
-
+      response = RestClient.put(url, to_json, content_type: :json, accept: :json)
       result = JSON.parse(response.body)
 
       # Update metadata and financedetails with that from the service
@@ -296,6 +266,7 @@ class Registration < Ohm::Model
 
       save
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.error 'An error occurred during saving the registration: ' + e.to_s
 
       if e.try(:http_code)
@@ -329,7 +300,6 @@ class Registration < Ohm::Model
   # @return  [String]  the registration object in JSON form
   def to_json
     result_hash = {}
-    datetime_format = "%Y-%m-%dT%H:%M:%S%z"
     self.attributes.each do |k, v|
       result_hash[k] = v
     end
@@ -472,7 +442,7 @@ class Registration < Ohm::Model
         response = RestClient.get url
         if response.code == 200
           result = JSON.parse(response.body) #result should be Array
-          Rails.logger.info "find_all returned: #{ result.size.to_s} registrations"
+          Rails.logger.debug "find_all returned: #{ result.size.to_s} registrations"
           result.each do |r|
             registrations << Registration.init(r)
           end
@@ -480,6 +450,7 @@ class Registration < Ohm::Model
           Rails.logger.error "Registration.find_all failed with a #{response.code} response from server"
         end
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       registrations
@@ -493,7 +464,7 @@ class Registration < Ohm::Model
   class << self
     def find_by_email(email, with_statuses=nil)
       accountEmailParam = {ac: email}.to_query
-      Rails.logger.debug 'update search param to be encoded: ' + accountEmailParam.to_s
+      Rails.logger.debug 'update search param to be encoded'
       registrations = []
       url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{accountEmailParam}"
       begin
@@ -507,9 +478,10 @@ class Registration < Ohm::Model
           end
           Rails.logger.debug "#{registrations.size}"
         else
-          Rails.logger.error "Registration.find_by_email(#{email}) failed with a #{response.code} response from server"
+          Rails.logger.error "Registration.find_by_email failed with a #{response.code} response from server"
         end
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
 
@@ -571,6 +543,7 @@ class Registration < Ohm::Model
           Rails.logger.error "Registration.find_all_by(#{some_text}, #{within_field}) failed with a #{response.code} response from server"
         end
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       registrations
@@ -594,8 +567,10 @@ class Registration < Ohm::Model
           Rails.logger.error "Registration.find_by_id failed with a #{response.code.to_s} response from server"
         end
       rescue Errno::ECONNREFUSED => e
+        Airbrake.notify(e)
         Rails.logger.error "Services unavailable: " + e.to_s
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       result.size > 0 ? Registration.init(result) : nil
@@ -616,15 +591,22 @@ class Registration < Ohm::Model
         response = RestClient.get url
         if response.code == 200
           result = JSON.parse(response.body) #result should be Hash
+        elsif response.code == 204
+          # This is what is returned by the services if the IR Registration number
+          # is not found.  This is an "expected" error-case, and definitely does
+          # not require Airbrake logging.
+          Rails.logger.debug "Services reports that IR Renewal number not found"
+          result = {}
         else
           Rails.logger.error "Registration.find_by_ir_number failed with a #{response.code.to_s} response from server"
         end
-      rescue Errno::ECONNREFUSED => e
+      rescue Errno::ECONNREFUSED, Errno::ECONNRESET => e
+        Airbrake.notify(e)
         Rails.logger.error "Services unavailable: " + e.to_s
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
-      Rails.logger.debug "found ir reg: #{result.to_s}"
       result.size > 0 ? Registration.init(result) : nil
     end
   end
@@ -664,6 +646,7 @@ class Registration < Ohm::Model
           Rails.logger.error {"Registration.find_by_params() [#{url}] failed with a #{response.code} response from server"}
         end
       rescue => e
+        Airbrake.notify(e)
         Rails.logger.error e.to_s
       end
       registrations
@@ -713,7 +696,6 @@ class Registration < Ohm::Model
       end #each
 
       new_reg.update_attributes(normal_attributes)
-
       new_reg.save
       new_reg
     end #method
@@ -1008,6 +990,7 @@ class Registration < Ohm::Model
     begin
       route = self.try(:metaData).try(:first).try(:route)
     rescue Exception => e
+      Airbrake.notify(e)
       Rails.logger.debug e.message
     end
 
@@ -1018,6 +1001,7 @@ class Registration < Ohm::Model
     begin
       route = self.try(:metaData).try(:first).try(:route)
     rescue Exception => e
+      Airbrake.notify(e)
       Rails.logger.debug e.message
     end
 
@@ -1055,6 +1039,7 @@ class Registration < Ohm::Model
       the_balance = self.try(:finance_details).try(:first).try(:balance)
       the_balance = 0 if the_balance.nil?
     rescue Exception => e
+      Airbrake.notify(e)
       Rails.logger.debug e.message
     end
 
@@ -1092,7 +1077,7 @@ class Registration < Ohm::Model
   end
 
   def pending?
-    metaData and metaData.first.status == 'PENDING'
+    metaData && metaData.first && metaData.first.status == 'PENDING'
   end
 
   def activate!
@@ -1150,7 +1135,7 @@ class Registration < Ohm::Model
     # Until we fix the within-service renewals process, we won't allow anybody
     # to even try this route.
     false
-    
+
     #metaData.first.status == 'ACTIVE' && \
     #  tier.inquiry.UPPER? && \
     #  expires_on && \
@@ -1205,7 +1190,7 @@ class Registration < Ohm::Model
 
   def validate_revokedReason
     #validate :validate_revokedReason, :if => lambda { |o| o.persisted? }
-    Rails.logger.debug 'validate revokedReason, revoked:' + revoked
+    Rails.logger.debug 'validate revokedReason, revoked:'
     # If revoke question is Yes, and revoke reason is empty, then error
     if revoked.present?
       if metaData.revokedReason.blank?
@@ -1247,12 +1232,12 @@ class Registration < Ohm::Model
   end
 
   def getOrder( orderCode)
-    Rails.logger.info 'Registration getOrder ' + orderCode.to_s
+    Rails.logger.debug 'Registration getOrder ' + orderCode.to_s
     foundOrder = nil
     self.finance_details.first.orders.each do |order|
-      Rails.logger.info 'Order ' + order.orderCode.to_s
+      Rails.logger.debug 'Order ' + order.orderCode.to_s
       if orderCode.to_i == order.orderCode.to_i
-        Rails.logger.info 'Registration Found order ' + orderCode.to_s
+        Rails.logger.debug 'Registration Found order ' + orderCode.to_s
         foundOrder = order
       end
     end
@@ -1271,7 +1256,6 @@ class Registration < Ohm::Model
     end
 
     if is_awaiting_conviction_confirmation?
-      Rails.logger.debug "REGISTRATION::IS_COMPLETE? suspect = false"
       is_complete = false
       return
     end
@@ -1298,7 +1282,7 @@ class Registration < Ohm::Model
       )
     end
   end
-  
+
   UpperRegistrationStatus = %w[
     INACTIVE
     EXPIRED
@@ -1343,7 +1327,6 @@ class Registration < Ohm::Model
         get_label_for_status( UpperRegistrationStatus[3])
         # Conviction Check
       elsif is_awaiting_conviction_confirmation?
-        Rails.logger.debug "Upper registration " + companyName.to_s + " is awaiting convictions"
         get_label_for_status( UpperRegistrationStatus[4])
         # Awaiting Payment
       elsif !paid_in_full?
@@ -1355,7 +1338,7 @@ class Registration < Ohm::Model
         get_label_for_status( UpperRegistrationStatus[6])
       else
         # If all else fails .. PENDING
-        Rails.logger.debug "Upper registration " + companyName.to_s + " is unable to determine status, use Pending"
+        Rails.logger.warn "Upper registration " + companyName.to_s + " is unable to determine status, use Pending"
         get_label_for_status( LowerRegistrationStatus[2])
       end
     else
@@ -1381,17 +1364,30 @@ class Registration < Ohm::Model
     end
   end
 
+  def registration_status_color
+    case registration_status
+    when 'De-Registered'
+      '#FF0000'
+    when 'Registered'
+      '#00823b'
+    when 'Awaiting payment'
+      '#e27300'
+    else
+      '#000000'
+    end
+  end
+
   def self.activate_registrations(user)
-    Rails.logger.info "Activating pending registrations for user with email #{user.email}"
+    Rails.logger.debug "Activating pending registrations for user with email"
     rs = Registration.find_by_email(user.email)
-    Rails.logger.info("found: #{rs.size} pending registrations")
+    Rails.logger.debug("found: #{rs.size} pending registrations")
     rs.each do |r|
       Registration.activate_registration(r)
       if r.lower?
         Registration.send_registered_email(user, r)
       end
     end #each
-    Rails.logger.info "Activated registration(s) for user with email #{user.email}"
+    Rails.logger.debug "Activated registration(s) for user with email"
   end
 
   def self.isReadyToBeActive(reg)
@@ -1407,13 +1403,13 @@ class Registration < Ohm::Model
   end
 
   def self.activate_registration(r)
-    Rails.logger.debug "Check registration ready for activation: #{r.attributes.to_s}"
+    Rails.logger.debug "Check registration ready for activation"
     if r.pending? and Registration.isReadyToBeActive(r)
-      Rails.logger.info "Activating registration #{r.regIdentifier}"
+      Rails.logger.debug "Activating registration"
       r.activate!
       Rails.logger.debug "registration #{r.id} activated!"
     else
-      Rails.logger.info "Skipping non-pending registration #{r.regIdentifier}"
+      Rails.logger.debug "Skipping non-pending registration"
     end
   end
 
@@ -1440,7 +1436,7 @@ class Registration < Ohm::Model
       # Send awaiting conviction check email
       RegistrationMailer.awaitingConvictionsCheck_email(user, r).deliver
     else
-      Rails.logger.info "Skipping sending registered email #{r.regIdentifier}"
+      Rails.logger.debug "Skipping sending registered email"
     end
   end
 
@@ -1504,6 +1500,7 @@ class Registration < Ohm::Model
   end
 
   def is_active?
+    return false unless metaData.present?
     metaData.first.status == 'ACTIVE'
   end
 
@@ -1513,14 +1510,6 @@ class Registration < Ohm::Model
 
   def get_status
     metaData.first.status
-  end
-
-  def assisted_digital?
-    metaData.first.route == 'ASSISTED_DIGITAL'
-  end
-
-  def within_ir_renewal_window?
-    originalDateExpiry ? (convert_date(originalDateExpiry.to_i) >= Date.today) : false
   end
 
   def registered_address
@@ -1542,5 +1531,20 @@ class Registration < Ohm::Model
     }
   end
 
+  def registration_order
+    RegistrationOrder.new(self)
+  end
+
+  def order_builder
+    OrderBuilder.new(registration_order)
+  end
+
+  def order_types
+    @order_types ||= registration_order.order_types
+  end
+
+  def latest_order
+    finance_details.first.orders.to_a.last
+  end
 
 end

@@ -4,8 +4,25 @@ class Order < Ohm::Model
   include ActiveModel::Validations
   extend ActiveModel::Naming
 
-  attribute :orderId
-  attribute :orderCode
+  WORLDPAY_STATUS = %w[
+    IN_PROGRESS
+    AUTHORISED
+    REFUSED
+    PENDING
+    ACTIVE
+    ETC
+  ]
+
+  ORDER_AMOUNT_TYPES = %w[
+    POSITIVE
+    NEGATIVE
+  ]
+
+  VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
+  VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
+
+  attribute :orderId              # Used to identify the order by the Java Services
+  attribute :orderCode            # Used to identify the order by the Rails application
   attribute :paymentMethod
   attribute :merchantId
   attribute :totalAmount
@@ -23,47 +40,104 @@ class Order < Ohm::Model
   attribute :exception
   # the type of amount entered, pence or pounds, if manual then pounds used, if not pence are used
   attribute :manualOrder
-  
+
   # This is used to story the order item reference used in charge adjustments, this value is put inside the OrderItem.reference prior to saving
   attribute :order_item_reference
 
   set :order_items, :OrderItem
 
+  validates :id, presence: true
+  validates :orderCode, presence: true
+  validates :merchantId, presence: true
+  #validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_REGEX }
+  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_POUNDS_REGEX }, :if => :is_manual_order?
+  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_PENCE_REGEX },  :if => :is_automated_order?
+  #validate :validate_totalAmount
+  validates :currency, presence: true
+  validates :dateCreated, presence: true, length: { minimum: 8 }
+  validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }, :if => :is_online_payment?
+  #  validates :dateLastUpdated, presence: true, length: { minimum: 8 }
+  validate :validate_dateLastUpdated
+  validates :updatedByUser, presence: true
+  validates :description, presence: true, length: { maximum: 250 }
+
   # Creates a new Order object from an order-formatted hash
   # @param order_hash [Hash] the order-formatted hash
   # @return [Order] the Ohm-derived Order object.
-  class << self
-    def init (order_hash)
-      order = Order.create
-      normal_attributes = Hash.new
+  def self.init (order_hash)
+    order = Order.create
+    normal_attributes = Hash.new
 
-      order_hash.each do |k, v|
-        case k
-        when 'orderItems'
-          if v
-            # Important! Need to delete the order_items before new ones are
-            # added.
-            order.order_items.each do |orderItem|
-              order.order_items.delete orderItem
-            end
+    order_hash.each do |k, v|
+      case k
+      when 'orderItems'
+        if v
+          # Important! Need to delete the order_items before new ones are
+          # added.
+          order.order_items.each do |orderItem|
+            order.order_items.delete orderItem
+          end
 
-            v.each do |item_hash|
-              orderItem = OrderItem.init(item_hash)
-              order.order_items.add orderItem
-            end
-          end #if
-        else
-          normal_attributes.store(k, v)
-        end #case
-      end
-      
-      order.update_attributes(normal_attributes)
-      
-      order.save
-      order
+          v.each do |item_hash|
+            orderItem = OrderItem.init(item_hash)
+            order.order_items.add orderItem
+          end
+        end #if
+      else
+        normal_attributes.store(k, v)
+      end #case
     end
+
+    order.update_attributes(normal_attributes)
+
+    order.save
+    order
   end
 
+  # Returns the payment from the registration matching the orderCode
+  def self.getOrder(registration, orderCode)
+    foundOrder = nil
+    registration.finance_details.first.orders.each do |order|
+      Rails.logger.debug 'Payment getOrder ' + order.orderCode.to_s
+      if orderCode == order.orderCode
+        Rails.logger.debug 'Order getOrder foundOrder'
+        foundOrder = order
+      end
+    end
+    foundOrder
+  end
+
+  def self.worldpay_status_options_for_select
+    WORLDPAY_STATUS.collect {|d| [I18n.t('worldpay_status.'+d), d]}
+  end
+
+  def self.getPositiveType
+   ORDER_AMOUNT_TYPES[0]
+  end
+
+  def self.getNegativeType
+    ORDER_AMOUNT_TYPES[1]
+  end
+
+  def self.new_registration_identifier
+    'NEWREG'
+  end
+
+  def self.edit_registration_identifier
+    'EDIT'
+  end
+
+  def self.renew_registration_identifier
+    'RENEW'
+  end
+
+  def self.extra_copycards_identifier
+    'INCCOPYCARDS'
+  end
+
+  def self.editrenew_caused_new_identifier
+    'EDITRENEW_CAUSED_NEW'
+  end
 
   # Returns a JSON Java/DropWizard API compatible representation of this object.
   # @param none
@@ -83,15 +157,14 @@ class Order < Ohm::Model
     h
   end
 
-
   # POSTs order to Java/Dropwizard service.
   # @param none
   # @return  [Boolean] true if Post is successful (200), false if not
-  def commit (registration_uuid)
+  def commit(registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders.json"
     negateAmount
     poundsToPence
-    Rails.logger.debug "about to post order: #{to_json.to_s}"
+    Rails.logger.debug "about to post order"
     commited = true
     begin
       response = RestClient.post url,
@@ -100,10 +173,10 @@ class Order < Ohm::Model
         :accept => :json
 
       result = JSON.parse(response.body)
-      Rails.logger.debug  result.class.to_s
       save
-      Rails.logger.debug "Commited order to service: #{attributes.to_s}"
+      Rails.logger.debug "Commited order to service"
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.error e.to_s
 
       if e.http_code == 422
@@ -133,7 +206,7 @@ class Order < Ohm::Model
 
   # PUT order to Java/Dropwizard service.
   # @param none
-  # @return  [Boolean] true if Post is successful (200), false if not
+  # @return  [Boolean] true if PUT is successful (200), false if not
   def save!(registration_uuid)
     url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{registration_uuid}/orders/#{orderId}.json"
     commited = true
@@ -142,11 +215,10 @@ class Order < Ohm::Model
         to_json,
         :content_type => :json,
         :accept => :json
-
       result = JSON.parse(response.body)
-      Rails.logger.debug  result.class.to_s
       save
     rescue => e
+      Airbrake.notify(e)
       Rails.logger.error e.to_s
       if e.http_code == 422
         # Get actual error from services
@@ -168,130 +240,38 @@ class Order < Ohm::Model
     commited
   end
 
-  # Returns the payment from the registration matching the orderCode
-  def self.getOrder(registration, orderCode)
-    foundOrder = nil
-    registration.finance_details.first.orders.each do |order|
-      Rails.logger.info 'Payment getOrder ' + order.orderCode.to_s
-      if orderCode == order.orderCode
-        Rails.logger.info 'Order getOrder foundOrder'
-        foundOrder = order
-      end
-    end
-    foundOrder
-  end
-
-
-  WORLDPAY_STATUS = %w[
-    IN_PROGRESS
-    AUTHORISED
-    REFUSED
-    PENDING
-    ACTIVE
-    ETC
-  ]
-
-  VALID_CURRENCY_POUNDS_REGEX = /\A[-]?([0]|[1-9]+[0-9]*)(\.[0-9]{1,2})?\z/          # This is an expression for formatting currency as pounds
-  VALID_CURRENCY_PENCE_REGEX = /\A[-]?[0-9]+\z/                                      # This is an expression for formatting currency as pence
-
-  validates :id, presence: true
-  validates :orderCode, presence: true
-  validates :merchantId, presence: true
-  #validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_REGEX }
-  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_POUNDS_REGEX }, :if => :isManualOrder?
-  validates :totalAmount, presence: true, format: { with: VALID_CURRENCY_PENCE_REGEX },  :if => :isAutomatedOrder?
-  #validate :validate_totalAmount
-  validates :currency, presence: true
-  validates :dateCreated, presence: true, length: { minimum: 8 }
-  validates :worldPayStatus, presence: true, inclusion: { in: WORLDPAY_STATUS }, :if => :isOnlinePayment?
-  #  validates :dateLastUpdated, presence: true, length: { minimum: 8 }
-  validate :validate_dateLastUpdated
-  validates :updatedByUser, presence: true
-  validates :description, presence: true, length: { maximum: 250 }
-
-  def self.worldpay_status_options_for_select
-    (WORLDPAY_STATUS.collect {|d| [I18n.t('worldpay_status.'+d), d]})
-  end
-
-  ORDER_AMOUNT_TYPES = %w[
-    POSITIVE
-    NEGATIVE
-  ]
-
-  def includesOrderType? orderType
-    Rails.logger.info 'includesOrderType? orderType:' + orderType.to_s
-    Rails.logger.info 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
+  def includesOrderType?(orderType)
+    Rails.logger.debug 'includesOrderType? orderType:' + orderType.to_s
+    Rails.logger.debug 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
     ORDER_AMOUNT_TYPES.include? orderType
   end
 
-  def isValidRenderType? renderType
-    Rails.logger.info 'isValidRenderType? renderType:' + renderType.to_s
+  def isValidRenderType?(renderType)
+    Rails.logger.debug 'isValidRenderType? renderType:' + renderType.to_s
     res = %w[].push(Order.new_registration_identifier) \
     	.push(Order.edit_registration_identifier).push(Order.renew_registration_identifier) \
     	.push(Order.extra_copycards_identifier).push(Order.editrenew_caused_new_identifier).include? renderType
-    Rails.logger.info 'isValidRenderType? res: ' + res.to_s
+    Rails.logger.debug 'isValidRenderType? res: ' + res.to_s
     res
   end
 
-  class << self
-    def getPositiveType
-     ORDER_AMOUNT_TYPES[0]
-    end
-  end
-
-  class << self
-    def getNegativeType
-      ORDER_AMOUNT_TYPES[1]
-    end
-  end
-
-  class << self
-    def new_registration_identifier
-      'NEWREG'
-    end
-  end
-
-  class << self
-    def edit_registration_identifier
-      'EDIT'
-    end
-  end
-
-  class << self
-    def renew_registration_identifier
-      'RENEW'
-    end
-  end
-
-  class << self
-    def extra_copycards_identifier
-      'INCCOPYCARDS'
-    end
-  end
-  
-  class << self
-    def editrenew_caused_new_identifier
-      'EDITRENEW_CAUSED_NEW'
-    end
-  end
-
   def negateAmount
-    Rails.logger.info 'Order, negateAmount, amountType: ' + self.amountType
+    Rails.logger.debug 'Order, negateAmount, amountType: ' + self.amountType
     if self.amountType == Order.getNegativeType
       self.totalAmount = -self.totalAmount.to_f.abs
-      Rails.logger.info 'amount negated: ' + self.totalAmount.to_s
+      Rails.logger.debug 'amount negated: ' + self.totalAmount.to_s
     end
   end
 
   def unNegateAmount
-    Rails.logger.info 'Order, unNegateAmount, amountType: ' + self.amountType
+    Rails.logger.debug 'Order, unNegateAmount, amountType: ' + self.amountType
     if self.amountType == Order.getNegativeType
       self.totalAmount = self.totalAmount.to_f.abs
-      Rails.logger.info 'amount unNegated: ' + self.totalAmount.to_s
+      Rails.logger.debug 'amount unNegated: ' + self.totalAmount.to_s
     end
   end
 
-  def isManualOrder?
+  def is_manual_order?
     if !self.manualOrder.nil?
       self.manualOrder
     else
@@ -299,11 +279,11 @@ class Order < Ohm::Model
     end
   end
 
-  def isAutomatedOrder?
-    !isManualOrder?
+  def is_automated_order?
+    !is_manual_order?
   end
 
-  def isOnlinePayment?
+  def is_online_payment?
     self.paymentMethod == 'ONLINE'
   end
 
@@ -315,54 +295,54 @@ class Order < Ohm::Model
     order_items.to_a.find{ |order_item| order_item.type == 'COPY_CARDS'}
   end
 
+  def total_amount_money
+    Money.new(totalAmount)
+  end
+
   private
 
-  def poundsToPence
-    if isManualOrder?
-      multiplyAmount
+    def poundsToPence
+      multiplyAmount if is_manual_order?
     end
-  end
 
-  def penceToPounds
-    if isManualOrder?
-      divideAmount
+    def penceToPounds
+      divideAmount if is_manual_order?
     end
-  end
 
-  # This multiplies the amount up from pounds to pence
-  def multiplyAmount
-    self.totalAmount = (Float(self.totalAmount)*100).to_i
-    Rails.logger.info 'multiplyAmount result:' + self.totalAmount.to_s
-  end
-
-  # This divides the amount down from pence back to pounds
-  def divideAmount
-    self.totalAmount = (Float(self.totalAmount)/100).to_s
-    Rails.logger.info 'divideAmount result:' + self.totalAmount.to_s
-  end
-
-  def validate_totalAmount
-    if self.totalAmount.to_s.include? "."
-      errors.add(:totalAmount, I18n.t('errors.messages.invalid')+ '. This is currently a Defect, Workaround, enter a value in pence only!' )
+    # This multiplies the amount up from pounds to pence
+    def multiplyAmount
+      self.totalAmount = (Float(self.totalAmount)*100).to_i
+      Rails.logger.debug 'multiplyAmount result:' + self.totalAmount.to_s
     end
-  end
 
-  def convert_dateLastUpdated
-    begin
-      if self.respond_to?('dateLastUpdated_year') and self.respond_to?('dateLastUpdated_month') and self.respond_to?('dateLastUpdated_day')
-        Rails.logger.info 'year FOUND'
-        self.dateLastUpdated = Date.civil(self.dateLastUpdated_year.to_i, self.dateLastUpdated_month.to_i, self.dateLastUpdated_day.to_i)
-        Rails.logger.info 'dateReceived:' + self.dateReceived
-      else
-        Rails.logger.info 'year not FOUND'
+    # This divides the amount down from pence back to pounds
+    def divideAmount
+      self.totalAmount = (Float(self.totalAmount)/100).to_s
+      Rails.logger.debug 'divideAmount result:' + self.totalAmount.to_s
+    end
+
+    def validate_totalAmount
+      if self.totalAmount.to_s.include? "."
+        errors.add(:totalAmount, I18n.t('errors.messages.invalid')+ '. This is currently a Defect, Workaround, enter a value in pence only!' )
       end
-    rescue ArgumentError
-      false
     end
-  end
 
-  def validate_dateLastUpdated
-    errors.add(:dateLastUpdated, I18n.t('errors.messages.invalid') ) unless convert_dateLastUpdated
-  end
+    def convert_dateLastUpdated
+      begin
+        if self.respond_to?('dateLastUpdated_year') and self.respond_to?('dateLastUpdated_month') and self.respond_to?('dateLastUpdated_day')
+          Rails.logger.debug 'year FOUND'
+          self.dateLastUpdated = Date.civil(self.dateLastUpdated_year.to_i, self.dateLastUpdated_month.to_i, self.dateLastUpdated_day.to_i)
+          Rails.logger.debug 'dateReceived:' + self.dateReceived
+        else
+          Rails.logger.debug 'year not FOUND'
+        end
+      rescue ArgumentError
+        false
+      end
+    end
+
+    def validate_dateLastUpdated
+      errors.add(:dateLastUpdated, I18n.t('errors.messages.invalid') ) unless convert_dateLastUpdated
+    end
 
 end

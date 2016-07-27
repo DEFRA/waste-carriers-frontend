@@ -2,7 +2,6 @@
 *.sassc
 .sass-cache
 capybara-*.html
-.rspec
 /.bundle
 /vendor/bundle
 /vendor/cache
@@ -36,3 +35,8 @@ dump.rdb
 .idea/
 .settings/
 **~
+
+coverage
+.directory
+.env*
+.byebug_history

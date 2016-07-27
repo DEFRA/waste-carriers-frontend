@@ -8,12 +8,12 @@ module StartPage
     page.expect(page).to have_css 'a[data-journey$="new-or-renew"]'
   end
 
-  def start_page_select_new(submit: 'true')
+  def start_page_select_new(submit = true)
     choose 'registration_newOrRenew_new'
     start_page_submit if submit
   end
 
-  def start_page_select_renew(submit: 'true')
+  def start_page_select_renew(submit = true)
     choose 'registration_newOrRenew_renew'
     start_page_submit if submit
   end

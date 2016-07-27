@@ -46,13 +46,15 @@ Registrations::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
-  # this allows WEBrick to handle caret symbols in query parameters; needed for Worldpay
-  URI::DEFAULT_PARSER = URI::Parser.new(:UNRESERVED => URI::REGEXP::PATTERN::UNRESERVED + '^')
-
   # require access via www or admin service domain URLs for testing
   config.require_admin_requests = false
 
   # During testing, don't redirect to an external site on log-out, so we can
   # use the Rack driver for testing.
   config.waste_exemplar_end_url = "/"
+
+  # Use en gb locale for Faker data in tests
+  config.i18n.enforce_available_locales = false
+  config.i18n.available_locales = ["en", "en-GB"]
+  config.i18n.default_locale = :en
 end

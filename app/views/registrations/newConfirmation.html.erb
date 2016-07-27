@@ -11,6 +11,7 @@
   </div>
 
   <%= render 'shared/errors' %>
+
   <header class="page-header group">
     <div class="hgroup">
       <h1 class="heading-xlarge" id="groupLabel"><%= t '.subtitle' %></h1>
@@ -27,47 +28,43 @@
       <%= form_for(@registration, :url => newConfirmation_path, html: {autocomplete: 'off'}) do |f| %>
 
       <div class="text registration-tier">
-        <% unless session[:edit_mode]  %>
+        <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration.registration_order.is_attempting_renewal? %>
           <div class="text">
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
             <% if @registration.upper? %>
-              <p><%= t('.payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_registration))) %></p>
+              <p><%= t('.payment_message', fee: humanized_money_with_symbol(@registration.order_builder.registration_fee_money)) %></p>
             <% end %>
           </div>
-        <% else %>
-         <% case session[:edit_mode].to_i %>
-         <% when RegistrationsController::EditMode::RENEWAL %>
-            <div class='text'>
-              <p><%= @registration.within_ir_renewal_window? ? t('.subtitle_renew_reg') : t('.subtitle_renew_expired_reg') %></p>
-              <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
-              <% if @registration.upper? %>
-                <% if @registration.within_ir_renewal_window? %>
-                  <p><%= t('.renewal_payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_renewal))) %></p>
-                <% else %>
-                  <p><%= t('.expired_renewal_payment_message', fee: humanized_money_with_symbol(Money.new(Rails.configuration.fee_registration))) %></p>
-                <% end %>
+        <% end %>
+
+        <% if @registration.registration_order.is_attempting_renewal? %>
+          <div class='text'>
+            <p><%= @registration.registration_order.within_ir_renewal_window? ? t('.subtitle_renew_reg') : t('.subtitle_renew_expired_reg') %></p>
+            <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
+            <% if @registration.upper? %>
+              <% if @registration.registration_order.within_ir_renewal_window? %>
+                <p><%= t('.renewal_payment_message', fee: humanized_money_with_symbol(@registration.order_builder.registration_fee_money)) %></p>
+              <% else %>
+                <p><%= t('.expired_renewal_payment_message', fee: humanized_money_with_symbol(@registration.order_builder.registration_fee_money)) %></p>
               <% end %>
-            </div>
-          <% when RegistrationsController::EditMode::EDIT %>
-            <h2 class="heading-small"><%= t '.title_edit_reg' %></h2>
-            <% case  session[:edit_result].to_i %>
-            <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE  %>
-                 <div class='text'> <%=  t '.subtitle_edit_reg_no_charge' %> </div>
-
-            <% when RegistrationsController::EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE %>
-                  <div class='text'> <%=  t '.subtitle_edit_reg_with_charge', :fee => Money.new(Rails.configuration.fee_reg_type_change) %> </div>
-
-            <% when  RegistrationsController::EditResult::CREATE_NEW_REGISTRATION  %>
-                   <div class='text'> <%=  t '.subtitle_edit_reg_new_reg', :fee => Money.new(Rails.configuration.fee_registration) %> </div>
-
-            <% when  RegistrationsController::EditResult::NO_CHANGES  %>
-            <% when RegistrationsController::EditResult::CHANGE_NOT_ALLOWED %>
-                   <div class='text'><%= t '.subtitle_edit_change_not_allowed' %></div>
-            <% else %>
-                   <div class='text'> <%=  t '.subtitle_edit_reg' %> </div>
             <% end %>
+          </div>
+        <% elsif @registration.order_types.include?(:edit) || flash[:start_editing] %>
+          <h2 class="heading-small"><%= t '.title_edit_reg' %></h2>
+
+          <% if @registration.order_types.include? :tier_change_disallowed %>
+            <div class='text'><%= t '.subtitle_edit_change_not_allowed' %></div>
+          <% elsif @registration.order_types.include? :edit_charge %>
+            <div class='text'> <%=  t '.subtitle_edit_reg_with_charge', fee: humanized_money_with_symbol(@registration.order_builder.registration_fee_money) %> </div>
+          <% elsif @registration.order_types.include? :new %>
+            <div class='text'> <%=  t '.subtitle_edit_reg_new_reg', fee: humanized_money_with_symbol(@registration.order_builder.registration_fee_money) %> </div>
+          <% elsif flash[:start_editing] %>
+            <div class='text'> <%=  t '.subtitle_edit_reg' %> </div>
+          <% else %>
+            <div class='text'> <%=  t '.subtitle_edit_reg_no_charge' %> </div>
           <% end %>
         <% end %>
+
       </div><!-- end registration tier -->
 
       <details class="text">
@@ -100,18 +97,18 @@
       </div><!-- end smart answers form-group -->
 
       <% if @registration.upper? %>
-      <!-- Registration type section ::: Only shown for Upper tier -->
-      <div class='form-group'>
-        <h2 class="heading-medium"><%= t '.registrationType_heading' %></h2>
-          <ul id='registrationtype_display'>
-            <li>
-              <%  reg_type_prettify = give_meaning_to_reg_type( @registration.registrationType) %>
-              <%= t('.show_registration_type', reg_type: reg_type_prettify) %>
-          </li>
-        </ul>
-        <%= link_to t('.edit_change_reg_type_link'), edit_registration_type_path, id: 'changeRegistrationType' %>
+        <!-- Registration type section ::: Only shown for Upper tier -->
+        <div class='form-group'>
+          <h2 class="heading-medium"><%= t '.registrationType_heading' %></h2>
+            <ul id='registrationtype_display'>
+              <li>
+                <%  reg_type_prettify = give_meaning_to_reg_type( @registration.registrationType) %>
+                <%= t('.show_registration_type', reg_type: reg_type_prettify) %>
+            </li>
+          </ul>
+          <%= link_to t('.edit_change_reg_type_link'), edit_registration_type_path, id: 'changeRegistrationType' %>
 
-      </div><!-- end registration type form-group -->
+        </div><!-- end registration type form-group -->
       <% end %>
 
       <!-- Business or organisation address section -->
@@ -144,41 +141,43 @@
 
       <!-- Key people section -->
       <% unless @registration.tier.eql?('LOWER') %>
-      <div class='form-group'>
-        <% case @registration.businessType %>
-        <% when 'limitedCompany' %>
-          <h2 class='heading-medium'><%= t '.key_person_limited_heading' %></h2>
-        <% when 'partnership' %>
-          <h2 class='heading-medium'><%= t '.key_person_partnership_heading' %></h2>
-        <% when 'publicBody' %>
-          <h2 class='heading-medium'><%= t '.key_person_public_heading' %></h2>
-        <% else %>
-          <h2 class='heading-medium'><%= t '.key_person_heading' %></h2>
-        <% end %>
-          <%= render '/key_people/key_people_display', r: @registration %>
-        <%= link_to t('.edit_key_person_link'), registration_key_people_path, :id => 'edit_key_person' %>
-      </div><!-- end key people form-group -->
+        <div class='form-group'>
+          <% case @registration.businessType %>
+          <% when 'limitedCompany' %>
+            <h2 class='heading-medium'><%= t '.key_person_limited_heading' %></h2>
+          <% when 'partnership' %>
+            <h2 class='heading-medium'><%= t '.key_person_partnership_heading' %></h2>
+          <% when 'publicBody' %>
+            <h2 class='heading-medium'><%= t '.key_person_public_heading' %></h2>
+          <% else %>
+            <h2 class='heading-medium'><%= t '.key_person_heading' %></h2>
+          <% end %>
+            <%= render '/key_people/key_people_display', r: @registration %>
+          <%= link_to t('.edit_key_person_link'), registration_key_people_path, :id => 'edit_key_person' %>
+        </div><!-- end key people form-group -->
       <% end %>
 
       <!-- Convictions section -->
       <% unless @registration.tier.eql?('LOWER') %>
-      <div class='form-group end-summary'>
-        <h2 class='heading-medium'><%= t '.convictions_declaration_heading' %></h2>
-            <% if @registration.declaredConvictions == 'yes' %>
-              <p><%= t '.have_declared_convictions' %></p>
-            <% else %>
-              <p><%= t '.have_not_declared_convictions' %></p>
-            <% end %>
-        <a><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path, :id => 'edit_conviction_declaration' %></a>
-      </div><!-- end convictions form-group -->
+        <div class='form-group end-summary'>
+          <h2 class='heading-medium'><%= t '.convictions_declaration_heading' %></h2>
+              <% if @registration.declaredConvictions == 'yes' %>
+                <p><%= t '.have_declared_convictions' %></p>
+              <% else %>
+                <p><%= t '.have_not_declared_convictions' %></p>
+              <% end %>
+          <a><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path, :id => 'edit_conviction_declaration' %></a>
+        </div><!-- end convictions form-group -->
       <% end %>
 
-      <fieldset class="form-group">
-        <legend class='heading-xlarge'>
-          <div class="icon-important">
-            <%= image_tag("icon-important-2x.png", {:alt => 'Important message'}) %>
-          </div><%= t '.declaration_legend' %>
-        </legend>
+      <% unless @registration.order_types.include?(:tier_change_disallowed) %>
+        <fieldset class="form-group">
+
+          <legend class='heading-xlarge'>
+            <div class="icon-important">
+              <%= image_tag("icon-important-2x.png", {:alt => 'Important message'}) %>
+            </div><%= t '.declaration_legend' %>
+          </legend>
 
           <div class="panel-indent<%if @registration.errors[:declaration].any?%> validation<%end%>">
             <ol>
@@ -187,7 +186,7 @@
             </ol>
             <%= validation_for(@registration, :declaration) %>
             <label class="block-label" for="registration_declaration">
-            <%= f.check_box :declaration%><%= t '.check_box_label' %>
+              <%= f.check_box :declaration, {checked: false} %><%= t '.check_box_label' %>
             </label>
           </div>
 
@@ -199,13 +198,13 @@
                 </p>
               </li>
             </ul>
-            <% if showConfirmButton? %>
             <input name="confirm" id="confirm" class="button" type="submit" value="<%= t 'form.confirm_button_label' %>"/>
-            <% end %>
-            <% end %>
           </div>
 
         </fieldset>
+      <% end # unless tier_change_disallowed %>
+
+      <% end #form %>
 
     </div>
 

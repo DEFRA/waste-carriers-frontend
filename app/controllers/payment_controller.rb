@@ -24,7 +24,7 @@ class PaymentController < ApplicationController
       @payment.dateReceived_day = ''
       @payment.dateReceived_month = ''
       @payment.dateReceived_year = ''
-      logger.info 'set date received manually'
+      logger.debug 'set date received manually'
     end
 
     authorize! :read, @registration
@@ -33,7 +33,7 @@ class PaymentController < ApplicationController
 
   # POST /payments
   def create
-    logger.info 'create request has been made'
+    logger.debug 'create request has been made'
     # Need to re-get the registration information as it was not re-posted
     @registration = Registration.find_by_id(params[:id])
     authorize! :read, @registration
@@ -60,24 +60,21 @@ class PaymentController < ApplicationController
     @payment.negateAmount
 
 	if @payment.valid?
-	  logger.info 'payment is valid'
-    logger.info @payment.to_json
+	  logger.debug 'payment is valid'
 	  if @payment.save! params[:id]
 	    # Payment successful, Now need to check if registration activated?
 
 	    # Get updated registration
 	    updatedRegistration = Registration.find_by_id(params[:id])
-	    logger.info 'updatedRegistration: ' + updatedRegistration.to_s
 
 	    # If registration has been activated
 	    if wasActivated(@registration, updatedRegistration)
-	      logger.info 'About to send email because payment received'
+	      logger.debug 'About to send email because payment received'
 
 	      # Send welcome email
 	      user = User.find_by_email(@registration.accountEmail)
-	      logger.info 'user found: ' + user.to_s
 	      Registration.send_registered_email(user, updatedRegistration)
-	      logger.info 'Registration email sent'
+	      logger.debug 'Registration email sent'
 	    end
 
 	    # Redirect user back to payment status
@@ -86,7 +83,7 @@ class PaymentController < ApplicationController
       end
 	end
 
-	logger.info 'payment is invalid'
+	logger.debug 'payment is invalid'
 
 	# add any payment errors if server side error
 	if !@payment.exception.nil?
@@ -120,14 +117,14 @@ class PaymentController < ApplicationController
       @type = 'writeOffLarge'
       # do finance admin write off
       # Redirect to paymentstatus is balance is negative or paid
-      logger.info 'balance: ' + @registration.finance_details.first.balance.to_s
+      logger.debug 'balance: ' + @registration.finance_details.first.balance.to_s
       isLargeMessage = Payment.isLargeWriteOff( @registration.finance_details.first.balance)
       if isLargeMessage == true
-        logger.info 'Balance is in range for a large write off'
+        logger.debug 'Balance is in range for a large write off'
         # Set fixed Amount at exactly negative outstanding balance
         @payment.amount = @registration.finance_details.first.balance.to_f.abs
       else
-        logger.info 'Balance is out of range for a large write off'
+        logger.debug 'Balance is out of range for a large write off'
         redirect_to :paymentstatus, :alert => isLargeMessage
       end
       authorize! :writeOffLargePayment, @payment
@@ -136,24 +133,24 @@ class PaymentController < ApplicationController
       @type = 'writeOffSmall'
       # Redirect to paymentstatus is balance is negative or paid
       if @registration.finance_details.first
-        logger.info 'balance: ' + @registration.finance_details.first.balance.to_s
+        logger.debug 'balance: ' + @registration.finance_details.first.balance.to_s
         isSmallMessage = Payment.isSmallWriteOff( @registration.finance_details.first.balance)
         if isSmallMessage == true
-          logger.info 'Balance is in range for a small write off'
+          logger.debug 'Balance is in range for a small write off'
           # Set fixed Amount at exactly negative outstanding balance
           @payment.amount = @registration.finance_details.first.balance.to_f.abs
         else
-          logger.info 'Balance is out of range for a small write off'
+          logger.debug 'Balance is out of range for a small write off'
           redirect_to :paymentstatus, :alert => isSmallMessage
         end
       else
-        logger.info 'Balance is not available'
+        logger.debug 'Balance is not available'
         redirect_to :paymentstatus, :alert => I18n.t('payment.newWriteOff.writeOffNotAppropriate')
       end
       authorize! :writeOffSmallPayment, @payment
     else
       message = 'Write off type incorrect'
-      logger.info message
+      logger.debug message
       redirect_to :paymentstatus, :alert => I18n.t('payment.newWriteOff.writeOffTypeIncorrect')
       return
     end
@@ -163,28 +160,28 @@ class PaymentController < ApplicationController
 
   # POST /writeOffs
   def createWriteOff
-    logger.info 'createWriteOff request has been made'
+    logger.debug 'createWriteOff request has been made'
 
     @registration = Registration.find_by_id(params[:id])
     # Get a new payment object from the parameters in the post
     @payment = Payment.init(params[:payment])
 
     if params[:writeOffSmall] == I18n.t('registrations.form.writeoff_button_label')
-      logger.info 'Write off small'
+      logger.debug 'Write off small'
       @type = 'writeOffSmall'
       @payment.paymentType = 'WRITEOFFSMALL'
       @payment.registrationReference = 'WRITEOFFSMALL'
       authorize! :writeOffSmallPayment, @payment
     elsif params[:writeOffLarge] == I18n.t('registrations.form.writeoff_button_label')
-      logger.info 'Write off large'
+      logger.debug 'Write off large'
       @type = 'writeOffLarge'
       @payment.paymentType = 'WRITEOFFLARGE'
       @payment.registrationReference = 'WRITEOFFLARGE'
       authorize! :writeOffLargePayment, @payment
     else
-      logger.info 'Unrecognised write off button, sending back to newWriteoff page'
+      logger.debug 'Unrecognised write off button, sending back to newWriteoff page'
       message = 'Write off type incorrect'
-      logger.info message
+      logger.debug message
       redirect_to :paymentstatus, :alert => I18n.t('payment.newWriteOff.writeOffTypeIncorrect')
       return
     end
@@ -205,21 +202,19 @@ class PaymentController < ApplicationController
 	@payment.manualPayment = false
 
 	if @payment.valid?
-	  logger.info 'writeOff is valid'
+	  logger.debug 'writeOff is valid'
 	  if @payment.save! params[:id]
 	    # Get updated registration
 	    updatedRegistration = Registration.find_by_id(params[:id])
-	    logger.info 'updatedRegistration: ' + updatedRegistration.to_s
 
 	    # If registration has been activated
 	    if wasActivated(@registration, updatedRegistration)
-	      logger.info 'About to send email because writeoff received'
+	      logger.debug 'About to send email because writeoff received'
 
 	      # Send welcome email
 	      user = User.find_by_email(@registration.accountEmail)
-	      logger.info 'user found: ' + user.to_s
 	      Registration.send_registered_email(user, updatedRegistration)
-	      logger.info 'Registration email sent'
+	      logger.debug 'Registration email sent'
 	    end
 
 	    # Redirect user back to payment status
@@ -228,13 +223,11 @@ class PaymentController < ApplicationController
 	  end
 	end
 
-	logger.info 'writeOff is invalid'
+	logger.debug 'writeOff is invalid'
 	if @payment.errors.any?
 	  @payment.errors.each do |error|
-	    logger.info 'write off error: ' + error.to_s
+	    logger.debug 'write off error: ' + error.to_s
 	  end
-	else
-	  logger.info 'no errors???'
 	end
 
     authorize! :read, @registration
@@ -271,7 +264,7 @@ class PaymentController < ApplicationController
   # GET /manualRefund/:orderCode
   def manualRefund
 
-    logger.info 'Request to manualRefund'
+    logger.debug 'Request to manualRefund'
     @registration = Registration.find_by_id(params[:id])
     @orderCode = params[:orderCode]
 
@@ -286,17 +279,17 @@ class PaymentController < ApplicationController
 
   # POST /manualRefund/:orderCode
   def createManualRefund
-    logger.info 'Request to createManualRefund'
+    logger.debug 'Request to createManualRefund'
 
 	# Get selected payment from registration by order code
 	@registration = Registration.find_by_id(params[:id])
 	@foundPayment = Payment.getPayment(@registration, params[:orderCode])
 	@payment = Payment.new(@foundPayment.attributes)
-	logger.info 'found payment:' + @foundPayment.attributes.to_s
+	logger.debug 'found payment:'
 
 	# Set the amount of the payment to be a negative payment, ie a refund from the balance due
 	@payment.amount = -getMaxRefundAmount(@registration, @foundPayment)
-	logger.info 'payment amount:' + @payment.amount.to_s
+	logger.debug 'payment amount:' + @payment.amount.to_s
 
 	# Ensure currency set
     @payment.currency = getDefaultCurrency
@@ -312,7 +305,7 @@ class PaymentController < ApplicationController
     @payment.makeRefund
 
 	if @payment.valid?
-	  logger.info 'payment is valid'
+	  logger.debug 'payment is valid'
 
 	  # Save refund payment
 	  @payment.save! params[:id]
@@ -320,14 +313,12 @@ class PaymentController < ApplicationController
 	  # Force a redirect to completeRefund, so that a get request on this URL wil not be caused by a refresh
       redirect_to ({ action: 'completeRefund', id: params[:id], orderCode: params[:orderCode] })
 	else
-	  logger.info 'payment is not valid'
+	  logger.debug 'payment is not valid'
 	  if @payment.errors.any?
-	    logger.info 'has errors'
+	    logger.debug 'has errors'
 	    @payment.errors.each do |error|
-	      logger.info 'error: ' + error.to_s
+	      logger.debug 'error: ' + error.to_s
 	    end
-	  else
-	    logger.info 'no errors???'
 	  end
 
 	  render "manualRefund", :status => '400'
@@ -343,7 +334,7 @@ class PaymentController < ApplicationController
 
   # GET /worldpayRefund/:orderCode
   def newWPRefund
-    logger.info 'Request to worldpayRefund'
+    logger.debug 'Request to worldpayRefund'
     @registration = Registration.find_by_id(params[:id])
     @orderCode = params[:orderCode]
 
@@ -360,7 +351,7 @@ class PaymentController < ApplicationController
 
   # POST /worldpayRefund/:orderCode
   def createWPRefund
-    logger.info 'Request to createWorldpay'
+    logger.debug 'Request to createWorldpay'
 
     #
     # TODO: Use order code value to create a negative payment of the amount requested in the order
@@ -370,11 +361,11 @@ class PaymentController < ApplicationController
 	@registration = Registration.find_by_id(params[:id])
 	@foundPayment = Payment.getPayment(@registration, params[:orderCode])
 	@payment = Payment.new(@foundPayment.attributes)
-	logger.info 'found payment:' + @foundPayment.attributes.to_s
+	logger.debug 'found payment'
 
 	# Set the amount of the payment to be a negative payment, ie a refund from the balance due
 	@payment.amount = -getMaxRefundAmount(@registration, @foundPayment)
-	logger.info 'payment amount:' + @payment.amount.to_s
+	logger.debug 'payment amount:' + @payment.amount.to_s
 
 	# Ensure currency set
     @payment.currency = getDefaultCurrency
@@ -390,11 +381,11 @@ class PaymentController < ApplicationController
     @payment.makeRefund
 
 	if @payment.valid?
-	  logger.info 'payment is valid'
+	  logger.debug 'payment is valid'
 
 	  # Find original order from registration
 	  order = Order.getOrder(@registration, params[:orderCode])
-	  logger.info 'Merchant Id found from original order: ' + order.merchantId
+	  logger.debug 'Merchant Id found from original order: ' + order.merchantId
 
 	  # Make request to worldpay
 	  response = request_refund_from_worldpay(params[:orderCode], order.merchantId, @payment.amount.to_i.abs )
@@ -408,7 +399,7 @@ class PaymentController < ApplicationController
 	    # Force a redirect to worldpayRefund, so that a get request on this URL wil not be caused by a refresh
         redirect_to ({ action: 'completeRefund', id: params[:id], orderCode: params[:orderCode] })
 	  else
-	    logger.info 'Failed request from WP'
+	    logger.debug 'Failed request from WP'
 
 	    # Reset payment to payment from db
 	    @payment = @foundPayment
@@ -419,14 +410,12 @@ class PaymentController < ApplicationController
 	    render "newWPRefund", :status => '400'
 	  end
 	else
-	  logger.info 'payment is not valid'
+	  logger.debug 'payment is not valid'
 	  if @payment.errors.any?
-	    logger.info 'has errors'
+	    logger.debug 'has errors'
 	    @payment.errors.each do |error|
-	      logger.info 'error: ' + error.to_s
+	      logger.debug 'error: ' + error.to_s
 	    end
-	  else
-	    logger.info 'no errors???'
 	  end
 
 	  render "newWPRefund", :status => '400'
@@ -474,7 +463,7 @@ class PaymentController < ApplicationController
 
   # GET /refund/:orderCode/refundComplete
   def completeRefund
-    logger.info 'Request to worldpayRefund'
+    logger.debug 'Request to worldpayRefund'
     @registration = Registration.find_by_id(params[:id])
     @orderCode = params[:orderCode]
 
@@ -505,13 +494,13 @@ class PaymentController < ApplicationController
     authorize! :read, @registration
 
     if params[:positive_payment] == I18n.t('registrations.form.chargePositive_button_label')
-      logger.info 'Positive Order entry requested'
+      logger.debug 'Positive Order entry requested'
       redirect_to newAdjustment_path(:orderType => Order.getPositiveType )
     elsif params[:negative_payment] == I18n.t('registrations.form.chargeNegative_button_label')
-      logger.info 'Negative Order entry requested'
+      logger.debug 'Negative Order entry requested'
       redirect_to newAdjustment_path(:orderType => Order.getNegativeType )
     else
-      logger.info 'Unrecognised button found, sending back to chargeIndex page'
+      logger.debug 'Unrecognised button found, sending back to chargeIndex page'
       render 'chargeIndex'
     end
 
@@ -523,7 +512,7 @@ class PaymentController < ApplicationController
 
   # GET /newAdjustment
   def newAdjustment
-    logger.info 'orderType:' + params[:orderType]
+    logger.debug 'orderType:' + params[:orderType]
 
     @order = Order.create
     @order.amountType = params[:orderType]
@@ -549,11 +538,12 @@ class PaymentController < ApplicationController
     @order.dateCreated = now
     @order.dateLastUpdated = now
 
-    theAmount = 0  
+    theAmount = 0
     begin
       theAmount = Float(@order.totalAmount)
     rescue => e
-      logger.info 'Couldnt convert to float: ' + e.to_s
+      notify_airbrake(e)
+      logger.debug 'Couldnt convert to float: ' + e.to_s
     end
 
     # Create Order Item
@@ -598,17 +588,15 @@ class PaymentController < ApplicationController
 
           # Get updated registration
 	      updatedRegistration = Registration.find_by_id(params[:id])
-	      logger.info 'updatedRegistration: ' + updatedRegistration.to_s
 
 	      # If registration has been activated
 	      if wasActivated(originalRegistration, updatedRegistration)
-	        logger.info 'About to send email because writeoff received'
+	        logger.debug 'About to send email because writeoff received'
 
 	        # Send welcome email
 	        user = User.find_by_email(originalRegistration.accountEmail)
-	        logger.info 'user found: ' + user.to_s
 	        Registration.send_registered_email(user, updatedRegistration)
-	        logger.info 'Registration email sent'
+	        logger.debug 'Registration email sent'
 	      end
 
           # Redirect user back to payment status
@@ -656,7 +644,6 @@ class PaymentController < ApplicationController
 
     # Update the payment to include a reference to the payment being reverse, and mark this as a reversal or said payment
     #@payment.orderKey = params[:orderCode] + '_REVERSAL'
-    #logger.info 'Updated ordercode: ' + @payment.orderKey
 
     originalPayment = Payment.getPayment(@registration, params[:orderCode])
     @payment.amount = originalPayment.amount
@@ -666,7 +653,7 @@ class PaymentController < ApplicationController
       @payment.dateReceived_day = ''
       @payment.dateReceived_month = ''
       @payment.dateReceived_year = ''
-      logger.info 'set date received manually'
+      logger.debug 'set date received manually'
     end
 
     authorize! :read, @registration
@@ -710,9 +697,9 @@ class PaymentController < ApplicationController
     # Negate payment for reversals
     @payment.negateAmount
 
-    logger.info 'amount after negation: ' + @payment.amount.to_s
+    logger.debug 'amount after negation: ' + @payment.amount.to_s
 
-    logger.info 'Is manual payment: ' + @payment.isManualPayment?.to_s
+    logger.debug 'Is manual payment: ' + @payment.isManualPayment?.to_s
 
     if @payment.valid?
       @payment.save! @registration.uuid
@@ -723,7 +710,7 @@ class PaymentController < ApplicationController
     # Re-populate the original payment
     @payment.amount = originalAmount
 
-    logger.info 'amount after revert: ' + @payment.amount.to_s
+    logger.debug 'amount after revert: ' + @payment.amount.to_s
 
     # Return to entry page, as errors must have occured
     render "newReversal", :status => '400'

@@ -54,7 +54,7 @@ describe Registration do
 
   context 'convictions step' do
     it "is implemented but waiting" do
-      pending("waiting for validation messages completion for section 3 (convictions)")
+      skip "waiting for validation messages completion for section 3 (convictions)"
 
       before { subject.current_step = 'convictions' }
 

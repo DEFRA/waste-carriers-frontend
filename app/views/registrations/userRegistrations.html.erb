@@ -88,19 +88,19 @@
 
               <td>
               <% if registration.can_view_certificate? %>
-                <%= link_to t('registrations.form.view_button_label'), view_path(registration.uuid), :class => 'viewCertificate' %>
+                <%= link_to t('registrations.form.view_button_label'), view_path(registration.uuid), class: 'viewCertificate', target: '_blank' %>
               <% end %>
               </td>
 
               <td>
               <% if registration.can_be_edited? %>
-                <%= link_to t('registrations.form.edit_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::EDIT), :id => 'edit_'+registration.regIdentifier %>
+                <%= link_to t('registrations.form.edit_button_label'), edit_path(registration.uuid), id: 'edit_'+registration.regIdentifier %>
               <% end %>
               </td>
 
 	            <td>
 		            <% if registration.upper? and registration.can_be_renewed? %>
-	            	<%= link_to t('form.renew_button_label'), edit_path(registration.uuid, edit_process: RegistrationsController::EditMode::RENEWAL), :id => 'renew_'+registration.regIdentifier %>
+	            	<%= link_to t('form.renew_button_label'), edit_path(registration.uuid), :id => 'renew_'+registration.regIdentifier %>
 	            	<% end %>
 	            </td>
 
@@ -118,9 +118,9 @@
 
     </br>
 
-<form method="get" action="<%= find_path %>" class="action group">
-  <input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />
-</form>
+    <form method="get" action="<%= find_path %>" class="action group">
+      <input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />
+    </form>
 
     </br>
 

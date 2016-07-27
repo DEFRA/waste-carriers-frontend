@@ -55,7 +55,25 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:image" content="<%= asset_path "opengraph-image.png" %>">
-
+    <style media="all" type="text/css">
+      * {
+        font-family: Sans-Serif !important;
+      }
+      .grid-2-3 {
+        width: 100% !important;
+      }
+      .page-header {
+        max-width: 100% !important;
+      }
+      h1 {
+        font-size: 26px !important;
+        width: 100% !important;
+      }
+      table th, table td {
+        border: 0px !important;
+        padding: 2px !important;
+      }
+    </style>
     <%= yield :head %>
   </head>
 

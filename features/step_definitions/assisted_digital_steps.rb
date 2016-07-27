@@ -217,3 +217,9 @@ Then(/^the print page does not contain unnecessary content$/) do
   expect(page).not_to have_text(
     'registrations@wastecarriersregistration.service.gov.uk')
 end
+
+Then(/^I search for the following organisation "(.*?)"$/) do |org_search|
+  repopulate_database_with_IR_data
+  fill_in 'q', with: org_search
+  click_button 'reg-search'
+end
