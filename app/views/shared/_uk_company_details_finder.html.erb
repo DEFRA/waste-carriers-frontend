@@ -1,0 +1,15 @@
+<div class="form-group<%if r.errors[:company_no].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel">
+  <ul>
+    <li><%= validation_for(r, :company_no) %></li>
+    <li class="form-label">
+      <%= f.label :company_no %>
+      <p class="form-hint text"><%= t('.company_number_info', ch_url: Rails.configuration.waste_exemplar_companies_house_url).html_safe %></p>
+    </li>
+    <li>
+      <%= f.text_field :company_no, class: 'form-control-1-2', :size => 35, :maxlength => Registration::MAX_COMPANY_REGISTRATION_NO %>
+    </li>
+    <li>
+      <%= link_to t('business_details.show.foreign_address_link'), business_details_non_uk_path, class: 'link_to', id: 'foreign_address' %>
+    </li>
+  </ul>
+</div>
