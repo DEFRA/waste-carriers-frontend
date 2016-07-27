@@ -50,9 +50,6 @@ module Registrations
       "#{html_tag}".html_safe
     }
 
-    # Version of your assets, change this if you want to expire all your assets
-    config.assets.version = '2.0'
-
     # Our services URL. This application is the REST-based client of that
     # service API.  As described in the comments above, this setting can be
     # redefined in 'config/environments/*.rb'.
