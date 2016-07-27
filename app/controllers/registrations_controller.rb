@@ -232,8 +232,13 @@ class RegistrationsController < ApplicationController
       @user = User.find_by_email(@registration.accountEmail)
       user_signed_in = true
     elsif agency_user_signed_in?
-      @registration.accountEmail = current_agency_user.email
-      @user = User.find_by_email(@registration.accountEmail)
+      if @registration.accountEmail.blank?
+        # Only update the account email if not already set.  This allows users
+        # who drop-off at payment, but use NCCC to make a payment, stay as
+        # digital users.
+        @registration.accountEmail = current_agency_user.email
+      end
+      @user = User.find_by_email(current_agency_user.email)
       agency_user_signed_in = true
     else
       @registration.accountEmail = @registration.contactEmail
