@@ -3,6 +3,8 @@ class PaymentsExport
 
   attr_reader :report, :registrations
 
+  delegate :t, to: I18n
+
   def initialize(report, registrations)
     @report = report
     @registrations = registrations
@@ -43,8 +45,9 @@ class PaymentsExport
           order_rows(registration),
           unrelated_payment_rows(registration)
         ].compact
-      rescue
-        []
+      rescue => e
+        notify_airbake(e)
+        [error_row(registration)]
       end
     end
   end
@@ -115,7 +118,12 @@ class PaymentsExport
     }
   end
 
-  delegate :t, to: I18n
+  def error_row(registration)
+    {
+      reg_identifier: registration.try(:regIdentifier),
+      company_name: t('reports.errors.csv_row_error')
+    }
+  end
 
   def headings
     [
@@ -149,11 +157,18 @@ class PaymentsExport
   end
 
   def formatted_time(time)
-    Time.strptime(time.to_s, '%Q').iso8601
+    # %Q - Unix time
+    # %F - The ISO 8601 date format (%Y-%m-%d)
+    # %T - 24-hour time (%H:%M:%S)
+    Time.strptime(time.to_s, '%Q').strftime('%F %T')
   end
 
   def registration_order_codes(registration)
     registration.finance_details.first.orders.map(&:orderCode)
+  end
+
+  def notify_airbake(e)
+    Airbrake.notify(e)
   end
 
 end
