@@ -7,6 +7,8 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
     config.project_id = project_id.zero? ? 1 : project_id
     config.project_key = ENV['WCRS_FRONTEND_AIRBRAKE_PROJECT_KEY']
     config.root_directory = Rails.root
+    config.app_version = Rails.configuration.application_version
+    config.environment = Rails.env
 
     config.blacklist_keys = [
       # Catch-all "safety net" regexes.
@@ -101,6 +103,8 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
     ]
   end
 
+  # Don't log bogus exceptions caused by Passenger:
+  # https://github.com/airbrake/airbrake/issues/490
   Airbrake.add_filter do |notice|
     nomethoderror = proc do |error|
       error[:backtrace].empty? &&
@@ -109,5 +113,13 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
     end
 
     notice.ignore! if notice[:errors].any?(&nomethoderror)
+  end
+
+  # Filter-out logged-in customer's email address.  This cannot be done using the
+  # blacklist_keys above presently, hence a separate filter here.
+  Airbrake.add_filter do |notice|
+    if notice && notice[:context] && notice[:context][:user] && notice[:context][:user][:email]
+      notice[:context][:user][:email] = '[Filtered]'
+    end
   end
 end
