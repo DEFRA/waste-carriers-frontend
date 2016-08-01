@@ -114,12 +114,4 @@ if ENV['WCRS_FRONTEND_USE_AIRBRAKE'] && !Rails.env.test?
 
     notice.ignore! if notice[:errors].any?(&nomethoderror)
   end
-
-  # Filter-out logged-in customer's email address.  This cannot be done using the
-  # blacklist_keys above presently, hence a separate filter here.
-  Airbrake.add_filter do |notice|
-    if notice && notice[:context] && notice[:context][:user] && notice[:context][:user][:email]
-      notice[:context][:user][:email] = '[Filtered]'
-    end
-  end
 end
