@@ -91,8 +91,6 @@ class ReportsController < ApplicationController
     @report.search_type = :payment
     @report.is_new = 'false'
 
-    # render('payments_search') && return if @report.is_new.blank?
-
     unless @report.valid?
       logger.warn "Payment report filters are not valid in #{__method__.to_s}"
       render 'payments_search', status: '400'
