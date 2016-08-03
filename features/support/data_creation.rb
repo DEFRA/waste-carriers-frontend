@@ -30,7 +30,8 @@ def create_complete_upper_tier_reg_from_hash(reg_hash, method, copy_cards)
 
   # Pay outstanding balance.
   money_owed = registration['financeDetails']['orders'][0]['totalAmount']
-  create_payment(id, money_owed, account_email, method)
+  order_code = registration['financeDetails']['orders'][0]['orderCode']
+  create_payment(id, money_owed, account_email, method, order_code)
   return get_registration(id)
 end
 
@@ -60,11 +61,12 @@ def create_registration_from_hash(reg_hash, method, copy_cards)
   return edit_reg_response
 end
 
-def create_payment(id, amount, email, method)
+def create_payment(id, amount, email, method, order_code)
   if method == "World Pay"
     payment_file = File.read("features/fixtures/payment_world_pay.json")
     payment_data = JSON.parse(payment_file)
     payment_data['updatedByUser'] = email
+    payment_data['orderKey'] = order_code
   else
     payment_file = File.read("features/fixtures/payment.json")
     payment_data = JSON.parse(payment_file)
