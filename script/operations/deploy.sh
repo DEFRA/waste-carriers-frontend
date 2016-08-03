@@ -12,7 +12,7 @@ function env_alert() {
 }
 
 DATESTAMP=`date +%Y.%m.%d-%H.%M`
-WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p645" ## TODO this is currently hardcoded but could get it from RVM
+WCRS_FRONTEND_RUBY_VERSION="ruby-2.3.1" ## TODO this is currently hardcoded but could get it from RVM
 
 echo ""
 echo "Running Frontend deploy.sh script"
