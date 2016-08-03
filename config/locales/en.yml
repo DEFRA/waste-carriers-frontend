@@ -1383,6 +1383,7 @@ en:
     errors:
       error: "error"
       error_message: "You have %{count} on this page"
+      csv_row_error: "There was an error exporting this record"
     fields:
       reg_identifier: "Registration"
       company_name: "Trading name"
