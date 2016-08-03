@@ -113,7 +113,7 @@ group :test, :development do
   gem 'capybara-email', '~> 2.2.0'
 
   gem 'launchy', '~> 2.4.2', require: false
-  gem 'rspec-rails', '~> 2.12'
+  gem 'rspec-rails', '~> 2.14'
 
   gem 'capybara', '~> 2.1.0'
   gem 'selenium-webdriver', '~> 2.44.0'

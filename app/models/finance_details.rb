@@ -9,14 +9,12 @@ class FinanceDetails < Ohm::Model
   set :orders, :Order
   set :payments, :Payment
 
-
   class << self
     def init (fd_hash)
       fd = FinanceDetails.create
       normal_attributes = Hash.new
-
       fd_hash.each do |k, v|
-        case k
+        case k.to_s
         when 'orders'
           if v #array of order hashes
             v.each do |order_hash|
@@ -33,9 +31,9 @@ class FinanceDetails < Ohm::Model
           normal_attributes.store(k, v)
         end #case
       end
-      
+
       fd.update_attributes(normal_attributes)
-      
+
       fd.save
       fd
     end
