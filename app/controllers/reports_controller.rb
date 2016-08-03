@@ -314,6 +314,8 @@ class ReportsController < ApplicationController
             end
           end
         rescue => e
+          # Insert a failure message into the CSV
+          csv << registration_error(registration)
           Airbrake.notify(e)
           next
         end
@@ -333,6 +335,8 @@ class ReportsController < ApplicationController
           data = copy_cards_export_get_registration_data('full', copy_card)
           data.each { |data_line| csv << data_line }
         rescue => e
+          # Insert a failure message into the CSV
+          csv << registration_error(copy_card)
           Airbrake.notify(e)
           next
         end
