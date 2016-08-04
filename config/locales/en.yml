@@ -472,6 +472,14 @@ en:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
       copy_card_label: "Copy cards cost £5 each"
+    contact_us_to_complete_payment:
+      title: 'Contact us to complete payment'
+      paragraph1: 'Your registration has an outstanding balance.  Unfortunately you cannot pay for this using this website.'
+      paragraph2: 'Please contact us on the telephone number below, quoting registration number %{reg_num}, to complete your payment.'
+      paragraph3: 'After completing payment by telephone, you can return to %{link}.'
+      paragraph3_link_text: 'my registrations'
+      nccc_paragraph1: 'You will need to manually take a payment from the customer, and get the finance team to record this in the system.'
+      nccc_go_home_link: 'Return to home screen'
   payment:
     completeRefund:
       heading: "Refund complete"
