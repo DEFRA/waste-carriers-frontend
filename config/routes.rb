@@ -29,7 +29,7 @@ Registrations::Application.routes.draw do
 
   # Static pages controller
   get '/account_confirmed' => 'pages#account_confirmed'
-  get '/password_changed'  => 'pages#mid_registration_password_changed', as: 'mid_registration_password_changed'
+  get '/password_changed'  => 'pages#mid_registration_password_changed', as: :mid_registration_password_changed
 
   # Add routing for Public Search
   get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
@@ -165,6 +165,7 @@ Registrations::Application.routes.draw do
   get "your-registration/relevant-people/done" => "key_people#doneRelevantPeople", :as => :done_relevant_people
 
   get "your-registration/:id/order" => "order#new", :as => :upper_payment
+  get "your-registration/:id/contact_us_to_complete_payment" => 'order#contact_us_to_complete_payment', :as => :contact_us_to_complete_payment
   get "your-registration/:id/order/editRegistration" => "registrations#newOrderEdit", :via => [:get], :as => :newOrderEdit
   get "your-registration/:id/order/renewRegistration" => "registrations#newOrderRenew", :via => [:get], :as => :newOrderRenew
   get "your-registration/:id/order/additionalCopyCards" => "registrations#newOrderCopyCards", :via => [:get], :as => :newOrderCopyCards

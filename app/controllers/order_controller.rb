@@ -8,6 +8,13 @@ class OrderController < ApplicationController
     # does nothing
   end
 
+  # Used only when the system gets into a state where it cannot allow further
+  # processing of an order.
+  def contact_us_to_complete_payment
+    setup_registration('payment', true)
+    renderNotFound && return unless @registration
+  end
+
   # GET /new
   def new
     @order ||= Order.new
@@ -22,9 +29,21 @@ class OrderController < ApplicationController
     @registration.update(copy_cards: 0)
     @registration.update(copy_card_only_order: 'yes') if Order.extra_copycards_identifier == @renderType
 
-    @registration.order_builder.current_user = current_user || current_agency_user
-    @registration.registration_fee = @registration.order_builder.registration_fee
-    @registration.total_fee = @registration.order_builder.total_fee
+    # The Order Builder is not cached by the Registration, so we'll cache it
+    # here (and use the cached version in the view too).
+    @order_builder = @registration.order_builder
+
+    if (@order_builder.total_fee == 0) && (@registration.copy_card_only_order == 'yes')
+      # Somehow we have a non copy-card-only order with a total cost of 0, which
+      # can happen if a user abandons a payment.  Our architecture doesn't allow
+      # us to handle this elegantly, so lets just get them to call NCCC.
+      redirect_to contact_us_to_complete_payment_path
+      return
+    end
+
+    @order_builder.current_user = (current_user || current_agency_user)
+    @registration.registration_fee = @order_builder.registration_fee
+    @registration.total_fee = @order_builder.total_fee
   end
 
   # POST /create
@@ -32,12 +51,13 @@ class OrderController < ApplicationController
     setup_registration 'payment'
 
     @registration.copy_cards ||= 0
-    @registration.order_builder.current_user = current_user || current_agency_user
+    @order_builder = @registration.order_builder
+    @order_builder.current_user = (current_user || current_agency_user)
 
     # HERE is the place where we determine whether we need to update an order
     # that already exists against the registration (and is in the database),
     # or create a new one.
-    if @registration.order_builder.indicates_new_registration?
+    if @order_builder.indicates_new_registration?
       # This order is for the initial registration, and has already been
       # committed to the database at the time the registration was written.
       # Therefore we need to update the existing order.
@@ -56,7 +76,7 @@ class OrderController < ApplicationController
     # Generate the new order, and store its key in the session, so that we can
     # handle the case where a user Cancels in Worldpay or uses the browser
     # back button.
-    @order = @registration.order_builder.order(new_order_code)
+    @order = @order_builder.order(new_order_code)
     session[:orderCode] = @order.orderCode
 
     unless @registration.valid? && @order.valid?
