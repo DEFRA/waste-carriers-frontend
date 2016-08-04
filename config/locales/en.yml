@@ -476,9 +476,8 @@ en:
       title: 'Contact us to complete payment'
       paragraph1: 'Your registration has an outstanding balance.  Unfortunately you cannot pay for this using this website.'
       paragraph2: 'Please contact us on the telephone number below, quoting registration number %{reg_num}, to complete your payment.'
-      paragraph3a: 'After completing payment by telephone, you can return to '
+      paragraph3: 'After completing payment by telephone, you can return to %{link}.'
       paragraph3_link_text: 'my registrations'
-      paragraph3b: '.'
       nccc_paragraph1: 'You will need to manually take a payment from the customer, and get the finance team to record this in the system.'
       nccc_go_home_link: 'Return to home screen'
   payment:

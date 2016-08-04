@@ -15,7 +15,7 @@
       <p class="text"><%= t('.paragraph1') %></p>
       <p class="text"><%= t('.paragraph2', reg_num: @registration.regIdentifier) %></p>
       <p class="text">
-        <%= t('.paragraph3a') %><%= link_to(t('.paragraph3_link_text'), userRegistrations_path(current_user)) %><%= t('.paragraph3b') %>
+        <%= t('.paragraph3', link: link_to(t(".paragraph3_link_text"), userRegistrations_path(current_user))).html_safe %>
       </p>
     <% elsif agency_user_signed_in? %>
       <p class="text"><%= t('.nccc_paragraph1') %></p>
