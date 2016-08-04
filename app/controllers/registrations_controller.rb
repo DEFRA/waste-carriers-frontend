@@ -123,6 +123,7 @@ class RegistrationsController < ApplicationController
   def newConfirmation
     new_step_action 'confirmation'
     return unless @registration
+    @registration_order = @registration.registration_order
   end
 
   # POST /your-registration/confirmation
