@@ -3,6 +3,13 @@
 module Airbrake
   module Rack
     class User
+
+      class << self
+        # Because we're monkey patching, we'll need to alias the original
+        # method so we can call that later
+        alias_method :original_extract, :extract
+      end
+
       # Finds the user in the Rack environment and creates a new user wrapper.
       #
       # @param [Hash{String=>Object}] rack_env The Rack environment
@@ -19,7 +26,7 @@ module Airbrake
         end
 
         # Fallback, if the above didn't work.
-        super(rack_env)
+        self.original_extract(rack_env)
       end
 
       # Custom method that doesn't log email address, but does include user class.
