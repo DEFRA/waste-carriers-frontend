@@ -314,7 +314,7 @@ class ReportsController < ApplicationController
         rescue => e
           # Insert a failure message into the CSV
           csv << registration_error(registration)
-          Airbrake.notify(e)
+          notify_airbrake(e)
           next
         end
       end
@@ -335,7 +335,7 @@ class ReportsController < ApplicationController
         rescue => e
           # Insert a failure message into the CSV
           csv << registration_error(copy_card)
-          Airbrake.notify(e)
+          notify_airbrake(e)
           next
         end
       end
