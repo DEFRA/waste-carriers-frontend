@@ -5,6 +5,7 @@ class BusinessDetailsNonUkController < ApplicationController
   # GET /your-registration/business-details-non-uk
   def show
     new_step_action 'businessdetails'
+    return unless @registration
     @address = @registration.registered_address
   end
 
