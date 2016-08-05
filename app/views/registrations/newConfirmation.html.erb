@@ -28,7 +28,7 @@
       <%= form_for(@registration, :url => newConfirmation_path, html: {autocomplete: 'off'}) do |f| %>
 
       <div class="text registration-tier">
-        <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration.registration_order.is_attempting_renewal? %>
+        <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration_order.is_attempting_renewal? %>
           <div class="text">
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
             <% if @registration.upper? %>
@@ -37,12 +37,12 @@
           </div>
         <% end %>
 
-        <% if @registration.registration_order.is_attempting_renewal? %>
+        <% if @registration_order.is_attempting_renewal? %>
           <div class='text'>
-            <p><%= @registration.registration_order.within_ir_renewal_window? ? t('.subtitle_renew_reg') : t('.subtitle_renew_expired_reg') %></p>
+            <p><%= @registration_order.within_ir_renewal_window? ? t('.subtitle_renew_reg') : t('.subtitle_renew_expired_reg') %></p>
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
             <% if @registration.upper? %>
-              <% if @registration.registration_order.within_ir_renewal_window? %>
+              <% if @registration_order.within_ir_renewal_window? %>
                 <p><%= t('.renewal_payment_message', fee: humanized_money_with_symbol(@registration.order_builder.registration_fee_money)) %></p>
               <% else %>
                 <p><%= t('.expired_renewal_payment_message', fee: humanized_money_with_symbol(@registration.order_builder.registration_fee_money)) %></p>
