@@ -4,6 +4,7 @@ class BusinessTypeController < ApplicationController
   # GET /your-registration/business-type
   def show
     new_step_action 'businesstype'
+    return unless @registration
     logger.debug "Route is #{@registration.metaData.first.route}"
   end
 
@@ -27,7 +28,7 @@ class BusinessTypeController < ApplicationController
       logger.debug 'Registration is not valid, and data is not yet saved'
       render 'show', :status => '400'
     end
-    
+
   end
 
   private
