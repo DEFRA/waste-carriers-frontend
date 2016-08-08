@@ -11,7 +11,16 @@ class OrderController < ApplicationController
   # Used only when the system gets into a state where it cannot allow further
   # processing of an order.
   def contact_us_to_complete_payment
+    # Horrible hack: when the user triggers a £40 edit charge, chooses a payment
+    # method but then navigates backward, we get into a state where we can no
+    # longer compare the "old" and "new" carrier types (because we no longer
+    # know what the "old" type was as its now been overwritten in Mongo).  This
+    # means the new charge determination will output no charge, potentially
+    # making the change of carrier type free.
     setup_registration('payment', true)
+    clear_registration_session
+    clear_edit_session
+    clear_order_session
     renderNotFound && return unless @registration
   end
 
@@ -33,7 +42,7 @@ class OrderController < ApplicationController
     # here (and use the cached version in the view too).
     @order_builder = @registration.order_builder
 
-    if (@order_builder.total_fee == 0) && (@registration.copy_card_only_order == 'yes')
+    if (@order_builder.total_fee == 0) && (Order.extra_copycards_identifier != @renderType)
       # Somehow we have a non copy-card-only order with a total cost of 0, which
       # can happen if a user abandons a payment.  Our architecture doesn't allow
       # us to handle this elegantly, so lets just get them to call NCCC.
@@ -115,6 +124,17 @@ class OrderController < ApplicationController
       render 'new', status: '400'
       return
     end
+
+    # The @registration loaded above is a new Ohm object, so we need to update
+    # the ID referencing it that we store in the session.  The UUID will not
+    # have changed.  This blocks some "hacks" that the user could trigger if
+    # they now navigated back to the confirmation page using the browser history,
+    # where the system would load the OLD version of the registration (which has
+    # changes from the previous edit, but WITHOUT the corresponding Order), then
+    # confirm their changes, which would trick the system into thinking that a
+    # free edit had taken place, and thus overwrite the NEW version that we've
+    # just loaded from Mongo, in effect creating a "free" edit.
+    session[:registration_id] = @registration.id
 
     logger.debug "About to redirect to Worldpay or Offline payment"
     set_google_analytics_payment_indicator(session, @order)
