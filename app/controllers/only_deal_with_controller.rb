@@ -4,6 +4,7 @@ class OnlyDealWithController < ApplicationController
   # GET /your-registration/only-deal-with
   def show
     new_step_action 'onlydealwith'
+    return unless @registration
   end
 
   # POST /your-registration/only-deal-with
