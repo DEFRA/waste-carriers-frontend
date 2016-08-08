@@ -33,7 +33,7 @@ class OrderController < ApplicationController
     # here (and use the cached version in the view too).
     @order_builder = @registration.order_builder
 
-    if (@order_builder.total_fee == 0) && (@registration.copy_card_only_order == 'yes')
+    if (@order_builder.total_fee == 0) && (Order.extra_copycards_identifier != @renderType)
       # Somehow we have a non copy-card-only order with a total cost of 0, which
       # can happen if a user abandons a payment.  Our architecture doesn't allow
       # us to handle this elegantly, so lets just get them to call NCCC.
