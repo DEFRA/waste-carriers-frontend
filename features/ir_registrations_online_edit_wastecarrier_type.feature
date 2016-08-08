@@ -39,7 +39,7 @@ And I confirm my details
 Then I should be shown the total cost "145.00"
 And registration should be complete when payment is successful
 
-@javascript @AndyTest
+@javascript
 Scenario: IR registrations - Partner changes waste carrier type
 Given have chosen to renew an existing licence
 And I am renewing a valid CBD IR registration for Partnership

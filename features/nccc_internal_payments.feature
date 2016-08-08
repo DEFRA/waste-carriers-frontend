@@ -15,7 +15,6 @@ Background:
   And I am logged in as a finance basic user
   And I have found a registrations payment details by name: Assisted Enterprises & Co
 
-@happy_days
 Scenario: Successful payment of total balance
   When I select to enter payment
   And I pay the full amount owed
