@@ -8,7 +8,7 @@ Feature: Refunds via Worldpay
 Background:
   Given I am logged in as a nccc refunds user
 
-@javascript @happy_days
+@javascript
 Scenario: Refund via worldpay
   Given I create an upper tier registration on behalf of a caller for payments
   And I provide valid credit card payment details on behalf of a caller

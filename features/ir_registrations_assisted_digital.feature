@@ -9,7 +9,7 @@ Background: Environment agency user is logged into system
 Given I have signed in as an Environment Agency user
 And have chosen to renew a customers existing licence
 
-@javascript @happy_days
+@javascript
 Scenario: Assisted Digital IR registrations, No convictions, Online payment
   Given I am registering an IR registration for a Sole trader and pay by credit card
   When I make no other changes to my registration details
@@ -62,7 +62,7 @@ Scenario: Assisted Digital IR registrations, Convictions, Offline payment
   And the callers registration should be pending convictions checks when payment is successful
 
 #Change Carrier Type Carrier Dealer
-@javascript @happy_days
+@javascript
 Scenario: IR registrations - AD - Limited company changes waste carrier type and pays by credit card
   Given I am registering an IR registration for a limited company changing waste carrier type and pay by credit card
   When I make no other changes to my registration details
@@ -70,7 +70,6 @@ Scenario: IR registrations - AD - Limited company changes waste carrier type and
   And the callers registration should be complete when payment is successful
   And I should see the Finish page
 
-@happy_days
 Scenario: IR registrations - AD - Sole Trader changes waste carrier type with convictions and pays by bank transfer
   Given I am registering an IR registration for a Sole trader changing waste carrier type with convictions and pay by bank transfer
   When I make no other changes to my registration details

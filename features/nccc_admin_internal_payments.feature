@@ -17,7 +17,6 @@ Background:
   And I am logged in as a finance admin user
   And I have found a registrations payment details by name: Assisted Enterprises & Co
 
-@happy_days
 Scenario: Write off underpayment
   When I select to enter a large writeoff
   And I writeoff equal to underpayment amount

@@ -9,7 +9,6 @@ Feature: Companies House
   Background:
     Given I am registering as a limited company
 
-  @happy_days
   Scenario: Active upper tier company
     Given I am on the business details page as an upper tier
     And I enter an active company number
@@ -18,7 +17,6 @@ Feature: Companies House
     When I click to advance
     Then I proceed to the next wizard step
 
-  @happy_days
   Scenario: Active lower tier company
     Given I am on the business details page as an lower tier
     Then I am not asked for my company number
