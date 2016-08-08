@@ -4,6 +4,7 @@ class ConstructionDemolitionController < ApplicationController
   # GET /your-registration/construction-demolition
   def show
     new_step_action 'constructiondemolition'
+    return unless @registration
   end
 
   # POST /your-registration/construction-demolition

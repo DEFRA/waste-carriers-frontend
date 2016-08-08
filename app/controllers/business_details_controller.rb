@@ -5,6 +5,7 @@ class BusinessDetailsController < ApplicationController
   # GET /your-registration/business-details
   def show
     new_step_action 'businessdetails'
+    return unless @registration
     @address = @registration.registered_address
 
     # Because we persist the addressMode we can use it when a user wishs to
@@ -122,6 +123,7 @@ class BusinessDetailsController < ApplicationController
   def edit
     session[:edit_link_business_details] = '1'
     new_step_action 'businessdetails'
+    return unless @registration
     @address = @registration.registered_address
 
     redirect_to confirm_route(@address.addressMode)

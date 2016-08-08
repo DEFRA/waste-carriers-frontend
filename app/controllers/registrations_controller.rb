@@ -68,12 +68,14 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/contact-details
   def newContactDetails
     new_step_action 'contactdetails'
+    return unless @registration
   end
 
   # GET /your-registration/edit/contact-details
   def editContactDetails
     session[:edit_link_contact_details] = '1'
     new_step_action 'contactdetails'
+    return unless @registration
     render 'newContactDetails'
   end
 
@@ -98,6 +100,7 @@ class RegistrationsController < ApplicationController
 
   def newRelevantConvictions
     new_step_action 'convictions'
+    return unless @registration
   end
 
   def updateNewRelevantConvictions
@@ -224,6 +227,7 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/account-mode
   def account_mode
     new_step_action 'account-mode'
+    return unless @registration
 
     user_signed_in = false
     agency_user_signed_in = false
@@ -300,6 +304,7 @@ class RegistrationsController < ApplicationController
   def newSignin
     session[:at_mid_registration_signin_step] = true
     new_step_action 'signin'
+    return unless @registration
   end
 
   # POST /your-registration/signin
@@ -370,6 +375,7 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/signup
   def newSignup
     new_step_action 'signup'
+    return unless @registration
   end
 
   # POST /your-registration/signup
