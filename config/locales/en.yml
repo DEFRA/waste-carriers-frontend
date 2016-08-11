@@ -345,6 +345,7 @@ en:
       blank_year: "You must enter a year"
       invalid_year: "You must enter a valid year"
       invalid_date: "You must enter a valid date"
+      invalid_date_short: "must be a valid date"
       date_not_in_past: "The date must be in the past"
       your_blank_email: "You must enter your email address"
       invalid_email: "Please enter a valid email address"
