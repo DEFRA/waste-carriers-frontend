@@ -29,7 +29,7 @@ tarball_name="codedrop-wcrs-frontend-j${jenkins_build_number}-${datestamp}.tgz"
 echo "Tarring up this codedrop for deploys to other servers. You can find it here:"
 echo "    $baseline_dir/$tarball_name"
 cd $workspace_dir
-tar -zc --exclude='.git' --exclude='.gitignore' -f "$baseline_dir/$tarball_name" .simplecov *
+tar -zc --exclude='.git' --exclude='.gitignore' -f "$baseline_dir/$tarball_name" .simplecov .ruby-gemset .ruby-version *
 
 ## Deploy to ea-dev.
 echo "Deploying $tarball_name to ea-dev."

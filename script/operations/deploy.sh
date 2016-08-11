@@ -79,7 +79,7 @@ if [ `uname -n` == "ea-dev" ]; then
   echo "Tarring up this codedrop for deploys to other servers. You can find it here:"
   echo "    ${WCRS_FRONTEND_HOME}/baselines/codedrop-wcrs-frontend-${JENKINS_BUILD_NUMBER}-${DATESTAMP}.tgz"
   cd "${WCRS_FRONTEND_SOURCE}"
-  tar -zcf "${WCRS_FRONTEND_HOME}/baselines/codedrop-wcrs-frontend-${JENKINS_BUILD_NUMBER}-${DATESTAMP}.tgz" *
+  tar -zcf "${WCRS_FRONTEND_HOME}/baselines/codedrop-wcrs-frontend-${JENKINS_BUILD_NUMBER}-${DATESTAMP}.tgz" .simplecov .ruby-gemset .ruby-version *
 fi
 
 ## Bundle
