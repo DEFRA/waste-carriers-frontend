@@ -4,7 +4,7 @@ LTD to Partnership Ensuring that I am required to enter Key People to the record
 Prompting a fee of 154.00
 
 
-@javascript @check
+@javascript
 Scenario: Agency assisted change LTD to Partnership
 Given a "LTD_UT_online_complete" upper tier registration paid for by "World Pay" with 0 copy cards
 Given I have signed in as an Environment Agency user

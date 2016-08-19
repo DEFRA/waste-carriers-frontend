@@ -111,10 +111,9 @@ module RegistrationsHelper
     end
 
     if session[:registration_id]
+      logger.debug "Getting Registration from session"
       @registration = Registration[ session[:registration_id]]
-      logger.debug "Got Registration from session"
-
-      @registration.update(current_step: current_step)
+      @registration.update(current_step: current_step) if @registration
     else
       logger.debug 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
       @registration = Registration[ params[:id]]
@@ -158,6 +157,7 @@ module RegistrationsHelper
       session[:registration_uuid] ||= @registration.uuid
     else
       logger.warn {'There is no @registration. Redirecting to the Cookies page'}
+      Airbrake.notify(RuntimeError.new('Failed to get @registration in setup_registration()'))
       redirect_to cookies_path
       return
     end

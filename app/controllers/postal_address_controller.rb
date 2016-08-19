@@ -6,6 +6,7 @@ class PostalAddressController < ApplicationController
   # GET /your-registration/postal-address
   def show
     new_step_action 'postaladdress'
+    return unless @registration
     @address = @registration.postal_address
 
     unless set?(@address)
@@ -17,6 +18,7 @@ class PostalAddressController < ApplicationController
   def edit
     session[:edit_link_postal_address] = '1'
     new_step_action 'postaladdress'
+    return unless @registration
 
     redirect_to :postal_address
   end

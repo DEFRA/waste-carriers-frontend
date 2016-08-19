@@ -1,4 +1,3 @@
-
 class Report
   include ActiveModel::Model
 
@@ -205,7 +204,6 @@ class Report
   private
 
     def validate_from
-
       if from.blank?
         Rails.logger.debug "report 'from' field is empty"
         errors.add(:from, I18n.t('errors.messages.blank') )
@@ -214,21 +212,17 @@ class Report
 
       begin
         Time.parse(from)
+        unless from.to_s =~ /^(0[1-9]|[12][0-9]|3[01])[- \/](0[1-9]|1[012])[- \/](19|20)\d\d$/
+          Rails.logger.debug "report 'from' field is invalid"
+          errors.add(:from, I18n.t('errors.messages.invalid_date_short') )
+        end
       rescue ArgumentError
         Rails.logger.debug "report 'from' field is invalid"
-        errors.add(:from, I18n.t('errors.messages.invalid_date') )
+        errors.add(:from, I18n.t('errors.messages.invalid_date_short') )
       end
-
-      unless from.to_s =~ /^(0[1-9]|[12][0-9]|3[01])[- \/](0[1-9]|1[012])[- \/](19|20)\d\d$/
-        Rails.logger.debug "report 'from' field is invalid"
-        errors.add(:from, I18n.t('errors.messages.invalid_date') )
-      end
-
-
     end
 
     def validate_to
-
       if to.blank?
         Rails.logger.debug "report 'to' field is empty"
         errors.add(:to, I18n.t('errors.messages.blank') )
@@ -237,16 +231,14 @@ class Report
 
       begin
        Time.parse(to)
+       unless to.to_s =~ /^(0[1-9]|[12][0-9]|3[01])[- \/](0[1-9]|1[012])[- \/](19|20)\d\d$/
+         Rails.logger.debug "report 'to' field is invalid"
+         errors.add(:to, I18n.t('errors.messages.invalid_date_short') )
+       end
       rescue ArgumentError
         Rails.logger.debug "report 'to' field is invalid"
-        errors.add(:to, I18n.t('errors.messages.invalid_date') )
+        errors.add(:to, I18n.t('errors.messages.invalid_date_short') )
       end
-
-      unless to.to_s =~ /^(0[1-9]|[12][0-9]|3[01])[- \/](0[1-9]|1[012])[- \/](19|20)\d\d$/
-        Rails.logger.debug "report 'from' field is invalid"
-        errors.add(:to, I18n.t('errors.messages.invalid_date') )
-      end
-
     end
 
 end

@@ -40,6 +40,15 @@ module RegistrationExportHelper
     end
   end
 
+  def registration_error(registration)
+    pad_array_to_match_length(headers,
+      [
+        registration.try(:regIdentifier),
+        I18n.t('reports.errors.csv_row_error')
+      ]
+    )
+  end
+
   private
 
   def bool_to_string(value)

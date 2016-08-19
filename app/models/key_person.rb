@@ -25,18 +25,51 @@ class KeyPerson < Ohm::Model
   MIN_DIRECTOR_AGE = 16.years
   MIN_NON_DIRECTOR_AGE = 17.years
 
-  before_validation :strip_whitespace, :only => [:dob_day, :dob_month, :dob_year]
+  FIRST_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
+  LAST_NAME_REGEX = /\A[a-zA-Z\s\-\']+\z/
 
-  validates :first_name, :presence => { :message => I18n.t('errors.messages.blank_first_name') }
-  validates :last_name, :presence => { :message => I18n.t('errors.messages.blank_last_name') }
-  validates :position, :presence => { :message => I18n.t('errors.messages.blank_position') }
-  validates :dob_day, :presence => { :message => I18n.t('errors.messages.blank_day') }
-  validates :dob_month, :presence => { :message => I18n.t('errors.messages.blank_month') }
-  validates :dob_year, :presence => { :message => I18n.t('errors.messages.blank_year') }
+  before_validation :strip_whitespace, only: [:dob_day, :dob_month, :dob_year]
 
-  validates :dob_day, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 31, :message => I18n.t('errors.messages.invalid_day'), allow_blank: true }
-  validates :dob_month, numericality: { only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 12, :message => I18n.t('errors.messages.invalid_month'), allow_blank: true }
-  validates :dob_year, numericality: { only_integer: true, greater_than_or_equal_to: 1, :message => I18n.t('errors.messages.invalid_year'), allow_blank: true }
+  validates :first_name,
+    presence: { message: I18n.t('errors.messages.blank_first_name') },
+    format: { with: FIRST_NAME_REGEX, message: I18n.t('errors.messages.invalid_first_name'), allow_blank: true},
+    length: { maximum: 35 }
+
+  validates :last_name,
+    presence: { message: I18n.t('errors.messages.blank_last_name') },
+    format: { with: LAST_NAME_REGEX, message: I18n.t('errors.messages.invalid_last_name'), allow_blank: true},
+    length: { maximum: 35 }
+
+  validates :position, presence: { message: I18n.t('errors.messages.blank_position') }
+
+  validates :dob_day,
+    presence: { message: I18n.t('errors.messages.blank_day') },
+    numericality: {
+      only_integer: true,
+      greater_than_or_equal_to: 1,
+      less_than_or_equal_to: 31,
+      message: I18n.t('errors.messages.invalid_day'),
+      allow_blank: true
+    }
+
+  validates :dob_month,
+    presence: { message: I18n.t('errors.messages.blank_month') },
+    numericality: {
+      only_integer: true,
+      greater_than_or_equal_to: 1,
+      less_than_or_equal_to: 12,
+      message: I18n.t('errors.messages.invalid_month'),
+      allow_blank: true
+    }
+
+  validates :dob_year,
+    presence: { message: I18n.t('errors.messages.blank_year') },
+    numericality: {
+      only_integer: true,
+      greater_than_or_equal_to: 1,
+      message: I18n.t('errors.messages.invalid_year'),
+      allow_blank: true
+    }
 
   validate :validate_dob
 
@@ -112,6 +145,7 @@ class KeyPerson < Ohm::Model
 
     conviction_search_result.replace([result])
   end
+
   def to_long_string
     "#{first_name}#{last_name}#{dob_day}#{dob_month}#{dob_year}"
   end
@@ -125,15 +159,15 @@ class KeyPerson < Ohm::Model
       if dob
         if dob.try(:>, Date.today)
           errors.add(:dob, I18n.t('errors.messages.date_not_in_past'))
-        elsif dob.try(:<, Date.today-MAX_ALLOWED_AGE)
+        elsif dob.try(:<, MAX_ALLOWED_AGE.ago)
           errors.add(:dob, I18n.t('errors.messages.invalid_date'))
         else
           if position == 'Director'
-            if dob.try(:>, Date.today-MIN_DIRECTOR_AGE)
+            if dob.try(:>, MIN_DIRECTOR_AGE.ago)
               errors.add(:dob, I18n.t('errors.messages.director_dob_less_than_16_years'))
             end
           else
-            if dob.try(:>, Date.today-MIN_NON_DIRECTOR_AGE)
+            if dob.try(:>, MIN_NON_DIRECTOR_AGE.ago)
               errors.add(:dob, I18n.t('errors.messages.non-director_dob_less_than_17_years'))
             end
           end

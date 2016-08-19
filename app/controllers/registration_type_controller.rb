@@ -4,12 +4,14 @@ class RegistrationTypeController < ApplicationController
   # GET /your-registration/registration-type
   def show
     new_step_action 'registrationtype'
+    return unless @registration
   end
 
   # GET /your-registration/registration-type/edit
   def edit
     session[:edit_link_reg_type] = '1'
     new_step_action 'registrationtype'
+    return unless @registration
     render 'show'
   end
 

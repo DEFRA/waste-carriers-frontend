@@ -4,6 +4,7 @@ class StartController < ApplicationController
   # GET /registrations/start
   def show
     new_step_action 'newOrRenew'
+    return unless @registration
   end
 
   # POST /registrations/start

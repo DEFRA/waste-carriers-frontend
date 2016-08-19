@@ -48,7 +48,7 @@ describe PostalAddressController, type: :controller do
                lastName: 'Grades',
                addressLine1: 'Broad Street'
              }
-        expect(response).to redirect_to(newConfirmation_path)
+        expect(response).to redirect_to :newConfirmation
       end
     end
 
@@ -63,7 +63,7 @@ describe PostalAddressController, type: :controller do
                lastName: 'Grades',
                addressLine1: 'Broad Street'
              }
-        expect(response).to redirect_to(registration_key_people_path)
+        expect(response).to redirect_to :registration_key_people
       end
     end
 

@@ -80,7 +80,7 @@ en:
         business_type: "Business type"
         business_or_organisation_address: "Business or organisation address"
         companyName: "Business or organisation trading name"
-        company_no: "Company registration number (CRN)"
+        company_no: "UK company registration number"
         constructionWaste: "Do you deal with construction waste"
         contactEmail: "Email address"
         copy_cards: "Copy cards"
@@ -142,7 +142,8 @@ en:
       payment: Payment
       order: Order
       registration: Registration
-
+  messages:
+    notice: Notice
   mongoid:
     attributes:
       agency_user:
@@ -292,11 +293,12 @@ en:
       blank_non_ltd_company_name: "You must enter the trading name of your business or organisation"
       blank_ltd_company_name: "You must enter the trading name of the business"
       invalid_company_name_characters: "The business or organisation trading name can use letters, numbers, spaces and some special characters (.-&”[],) and must be no longer than 150 characters"
-      blank_uk_company_number: "You must enter the company registration number (CRN)"
-      invalid_uk_company_number_characters: "Please check your company registration number (CRN). It should be either an 8 digit number, or 2 letters followed by a 6 digit number"
-      inactive_uk_company_number: "This company registration number (CRN) is associated with a company that is no longer active. Please try again"
-      not_found_uk_company_number: "This company registration number (CRN) can’t be found. Please try again"
-      companies_house_service_error: "This company registration number (CRN) couldn’t be verified because of a problem contacting Companies House. Please try again"
+      blank_uk_company_number: "You must enter the company registration number"
+      invalid_uk_company_number_characters: "Please check your company registration number. It should be an 8 digit number, or 2 letters followed by a 6 digit number"
+      inactive_uk_company_number: "This company registration number is associated with a company that is no longer active. Please try again"
+      not_found_uk_company_number: "This company registration number can’t be found. Please try again"
+      companies_house_service_error: "This company registration number couldn’t be verified because of a problem contacting Companies House. Please try again"
+      foreign_company_number_too_long: "Business registration identity number or code is too long (maximum is %{max} characters)"
       address_not_selected: "You must select an address"
       blank_address_line: "You must enter at least one address line"
       blank_building_name_or_number: "You must enter a building name or number"
@@ -343,6 +345,7 @@ en:
       blank_year: "You must enter a year"
       invalid_year: "You must enter a valid year"
       invalid_date: "You must enter a valid date"
+      invalid_date_short: "must be a valid date"
       date_not_in_past: "The date must be in the past"
       your_blank_email: "You must enter your email address"
       invalid_email: "Please enter a valid email address"
@@ -470,6 +473,14 @@ en:
       copy_card_info: "Copy cards are credit-card sized copies of your registration and cost £5 each"
       copy_card_note: "Copy cards are sent out within approximately 2 weeks depending on the status of your registration"
       copy_card_label: "Copy cards cost £5 each"
+    contact_us_to_complete_payment:
+      title: 'Contact us to complete payment'
+      paragraph1: 'Your registration has an outstanding balance.  Unfortunately you cannot pay for this using this website.'
+      paragraph2: 'Please contact us on the telephone number below, quoting registration number %{reg_num}, to complete your payment.'
+      paragraph3: 'After completing payment by telephone, you can return to %{link}.'
+      paragraph3_link_text: 'my registrations'
+      nccc_paragraph1: 'You will need to manually take a payment from the customer, and get the finance team to record this in the system.'
+      nccc_go_home_link: 'Return to home screen'
   payment:
     completeRefund:
       heading: "Refund complete"
@@ -622,7 +633,6 @@ en:
       heading: "What happens next:"
       paragraph1: "We'll check your details and let you know whether your application has been successful. We aim to do this within 10 working days."
       paragraph2: "You’re not legally entitled to operate as a waste carrier until we have received your payment and confirmed your registration"
-      paragraph3: "We probably won’t take action against you for operating while we’re waiting for your payment to come through. But the police or your local council might"
     awaitingPayment:
       heading: "Application received"
       app_received: "Application received"
@@ -637,12 +647,12 @@ en:
       pretext3: "Account name:\ "
       pretext4: "Bank name:\ "
       pretext5: "Bank address:\ "
-      pretext6: "Sortcode:\ "
+      pretext6: "Sort code:\ "
       pretext7: "Account number:\ "
       paragraph5: "If you are making a payment from outside the United Kingdom include the international banking references below."
       paragraph6: "Payments must  be made in sterling."
-      pretext8: "IBAN number:\ "
-      pretext9: "SWIFTBIC number:\ "
+      pretext8: "IBAN:\ "
+      pretext9: "SWIFTBIC:\ "
       step_two: "Step 2"
       heading3: "Once you have made a payment, let us know so we can activate your registration."
       paragraph7: "You can contact us by email, fax or post."
@@ -651,7 +661,6 @@ en:
       pretext12: "Postal address:\ "
       paragraph8: "Please allow 5 working days for your payment to reach us."
       paragraph9: "You’re not legally entitled to operate as a waste carrier until we have received your payment and confirmed your registration"
-      paragraph10: "We probably won’t take action against you for operating while we’re waiting for your payment to come through. But the police or your local council might"
       payment_notice: "Payment notice"
     account_already_confirmed:
       title: "Waste Carriers Service"
@@ -668,6 +677,9 @@ en:
       title: "Administration"
       subtitle: "Listing agency users"
     edit_account_email:
+      email_updated: 'The account email address has been updated to %{new_email}.'
+      pwreset_reminder: 'Please inform the customer they will receive a Password Reset email at this address.'
+      email_not_updated: 'You entered an identical email address, so the account email address has not been updated.'
       change_account_email: "Change account email"
       change_account_email_helper_text: "This is where the account email address for any registration can be changed."
   key_people:
@@ -796,14 +808,18 @@ en:
       find_address_button: "Find address"
       num_addresses_found: "%{num} addresses found"
       manual_address_link: "I want to type the address myself"
-      foreign_address_link: "The address is outside the United Kingdom"
+      foreign_address_link: "The business was formed outside the UK"
       postcode: "Postcode"
   business_details_manual:
     show:
       find_address_using_postcode: "I want to search by postcode"
   business_details_non_uk:
     show:
+      business_based_in_uk: "The business is based in the UK"
+      foreign_company_number_label: "Business registration identity number or code (optional)"
+      foreign_company_number_info: "A number or code that identifies the business.  For example: business number or code, registration number, VAT or tax number, CIK, KRS, RCS or SIREN numbers."
       uk_address_link: "The address is in the United Kingdom"
+      formed_outside_uk: "\ if formed outside the UK"
   postal_address:
     show:
       title: "Postal address"
@@ -1222,14 +1238,14 @@ en:
       fax_number: "Fax"
       heading: "Payment by bank transfer"
       iban_instructions: "If you are paying from outside the United Kingdom, include the international banking references below."
-      iban_number: "IBAN number"
+      iban_number: "IBAN"
       payment_due: "Payment due"
       postal_address: "Postal address"
       payment_notice: "We need confirmation of your payment to complete your registration. If you do not complete step 2 the payment process could be delayed and prevent us from sending your registration certificate"
       reference: "Payment reference number"
       sterling_instruction: "Payments must be made in sterling"
       sort_code: "Sort code"
-      swiftbic_number: "SWIFTBIC number"
+      swiftbic_number: "SWIFTBIC"
       table_heading1: "Step 1 - "
       table_heading2: "use our account details below to make your internet or telephone banking payment."
       table_heading3: "Step 2 - "
@@ -1376,6 +1392,7 @@ en:
     errors:
       error: "error"
       error_message: "You have %{count} on this page"
+      csv_row_error: "There was an error exporting this record"
     fields:
       reg_identifier: "Registration"
       company_name: "Trading name"
@@ -1510,17 +1527,8 @@ en:
       copycard_title: "Your order has been completed"
       copycardAwaitingPayment_title: "Your order has been received"
       edit_complete_title: "Your changes have been successful"
-    company_details_finder:
-      companies_house_explain: "This is your company registration number"
-      companies_house_details_link: "What’s this?"
-      companies_house_paragraph1: "A Company Registration Number (CRN) is allocated by"
-      companies_house_html: "Companies House"
-      companies_house_paragraph2: "\ when a limited company is registered."
-      companies_house_paragraph3: "It comprises an 8 digit number or 2 letters followed by a 6 digit number."
-      companies_house_paragraph4: "You will find it on any documentation received from Companies House. If you cannot locate this number please contact your HM Revenue & Customs (HMRC) Corporation Tax Office."
-      companies_house_registration_number_inactive: "is listed by Companies House but does not have active status"
-      companies_house_registration_number_not_found: "is not listed by Companies House"
-      companies_house_service_error: "could not be verified because there was a problem contacting Companies House. Please retry."
+    uk_company_details_finder:
+      company_number_info: "An 8 digit number, or 2 letters followed by a 6 digit number.  Find it on a letter from <a href=\"%{ch_url}\" target=\"_blank\" rel=\"external\">Companies House</a> or HMRC tax office."
     current_user:
       change_password: "Change password"
       new_registration: "New or renew registration"

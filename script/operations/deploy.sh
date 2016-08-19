@@ -12,7 +12,7 @@ function env_alert() {
 }
 
 DATESTAMP=`date +%Y.%m.%d-%H.%M`
-WCRS_FRONTEND_RUBY_VERSION="ruby-2.0.0-p645" ## TODO this is currently hardcoded but could get it from RVM
+WCRS_FRONTEND_RUBY_VERSION="ruby-2.3.1" ## TODO this is currently hardcoded but could get it from RVM
 
 echo ""
 echo "Running Frontend deploy.sh script"
@@ -41,6 +41,7 @@ if [[ -z "${WCRS_USERSDB_URL2}" ]]; then env_alert WCRS_USERSDB_URL2; fi
 if [[ -z "${WCRS_ELASDB_URL_REST}" ]]; then env_alert WCRS_ELASDB_URL_REST; fi
 if [[ -z "${WCRS_REGISTRATION_EXPIRES_AFTER}" ]]; then env_alert WCRS_REGISTRATION_EXPIRES_AFTER; fi
 if [[ -z "${WCRS_REGISTRATION_RENEWAL_WINDOW}" ]]; then env_alert WCRS_REGISTRATION_RENEWAL_WINDOW; fi
+if [[ -z "${WCRS_FRONTEND_COMPANIES_HOUSE_API_KEY}" ]]; then env_alert WCRS_FRONTEND_COMPANIES_HOUSE_API_KEY; fi
 
 ##Disable cron job or service will be restarted during deploy
 sudo crontab -u servicecheck /home/servicecheck/off
@@ -78,14 +79,14 @@ if [ `uname -n` == "ea-dev" ]; then
   echo "Tarring up this codedrop for deploys to other servers. You can find it here:"
   echo "    ${WCRS_FRONTEND_HOME}/baselines/codedrop-wcrs-frontend-${JENKINS_BUILD_NUMBER}-${DATESTAMP}.tgz"
   cd "${WCRS_FRONTEND_SOURCE}"
-  tar -zcf "${WCRS_FRONTEND_HOME}/baselines/codedrop-wcrs-frontend-${JENKINS_BUILD_NUMBER}-${DATESTAMP}.tgz" *
+  tar -zcf "${WCRS_FRONTEND_HOME}/baselines/codedrop-wcrs-frontend-${JENKINS_BUILD_NUMBER}-${DATESTAMP}.tgz" .simplecov .ruby-gemset .ruby-version *
 fi
 
 ## Bundle
 echo "Installing bundle."
 cd "${WCRS_FRONTEND_HOME}/live"
-rvm use '2.0.0-p645@waste-exemplar-frontend'
-gem install rails -v '4.0.12'
+rvm use 'ruby-2.3.1@waste-exemplar-frontend'
+gem install bundler
 bundle clean --force
 bundle install
 

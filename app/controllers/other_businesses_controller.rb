@@ -4,6 +4,7 @@ class OtherBusinessesController < ApplicationController
   # GET /your-registration/other-businesses
   def show
     new_step_action 'otherbusinesses'
+    return unless @registration
   end
 
   # POST /your-registration/other-businesses

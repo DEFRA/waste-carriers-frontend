@@ -104,6 +104,12 @@ Given(/^I have found a registrations payment details by name: (.*)$/) do |param|
   expect(page).to have_text 'Payment status'
 end
 
+Then(/^searching for registration '(.*)' confirms its status is now '(.*)'$/) do |searchTerm, expectedStatusText|
+  visit registrations_path
+  expect(page).to have_text 'Registration search'
+  waitForSearchResultsToContainText(searchTerm, 'Status ' + expectedStatusText)
+end
+
 Then(/^I am redirected to agency user home page with no fee$/) do
   expect(page).to have_text 'Registration search'
   expect(page).to have_text 'You can search for a registration by'
@@ -127,12 +133,7 @@ Given(/^the registration is valid for a small write off$/) do
 end
 
 Given(/^I sign out$/) do
-#  save_and_open_page
   click_button 'sign_out'
-#  save_and_open_page
-#  visit new_agency_user_session_path
-#  expect(page).to have_text 'Sign in'
-#  save_and_open_page
 end
 
 Given(/^I provided a payment type of Cheque$/) do

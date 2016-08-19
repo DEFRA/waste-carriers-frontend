@@ -13,7 +13,7 @@ class ConfirmationsController < Devise::ConfirmationsController
       user = User.find_by_email(resource_params['email'])
       if user && user.confirmed?
         RegistrationMailer.account_already_confirmed_email(user,
-            session.key?(:at_mid_registration_signin_step)).deliver
+            session.key?(:at_mid_registration_signin_step)).deliver_now
       end
     end
     super

@@ -76,7 +76,7 @@ Then(/^I am told the company was not found$/) do
 end
 
 Then(/^I am told the company number needs to be filled in$/) do
-  expect(page).to have_text 'You must enter the company registration number (CRN)'
+  expect(page).to have_text 'You must enter the company registration number'
 end
 
 Then(/^I am not asked for my company number$/) do

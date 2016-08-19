@@ -74,6 +74,8 @@ module Registrations
     config.waste_exemplar_frontend_admin_subdomain  = ENV['WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN']  || 'localhost'
 
     # Settings relating to Companies House.
+    config.waste_exemplar_companies_house_api_url = 'https://api.companieshouse.gov.uk/company/'
+    config.waste_exemplar_companies_house_api_key = ENV['WCRS_FRONTEND_COMPANIES_HOUSE_API_KEY']
     config.waste_exemplar_companies_house_url = 'http://www.companieshouse.gov.uk/info'
 
     # In Production we want to verify that requests to agency user and
@@ -98,7 +100,7 @@ module Registrations
     # of the frontend application. The version number of the services
     # application may change separately.
     # Use semantic versioning (Major.Minor.Patch).
-    config.application_version = '2.2.0-beta'
+    config.application_version = '2.2.1-beta'
 
     # The e-mail address shown on the Finish page and used in e-mails sent by
     # the application.
@@ -135,10 +137,6 @@ module Registrations
     # shown (as in production), then the application will redirect the user to a
     # suitable entry point, such as the 'Find out if I need to register' page.
     config.show_developer_index_page = false
-
-    # Use the letter opener gem if the environment variable is set. Don't use
-    # the letter opener in production!
-    config.use_letter_opener = ENV['WCRS_FRONTEND_USE_LETTER_OPENER'] || false
 
     # Worldpay configuration:
     # Waste Carriers use the e-commerce (ECOM) channel configuration;

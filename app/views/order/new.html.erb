@@ -19,14 +19,14 @@
       <%= render "shared/registration_errors" %>
       <%= render "order/order_errors" %>
 
-      <input type="hidden" value="<%= @registration.order_builder.registration_fee_money %>" id="total_excluding_copy_cards">
+      <input type="hidden" value="<%= @order_builder.registration_fee_money %>" id="total_excluding_copy_cards">
 
       <table summary='payment-summary' role='presentation' id="payment-summary-table" class="text">
         <thead>
           <tr><td></td></tr>
         </thead>
         <tbody>
-          <%= render @registration.order_builder.order_items_excluding_copy_cards, f: f %>
+          <%= render @order_builder.order_items_excluding_copy_cards, f: f %>
 
           <% if show_copy_cards?(@renderType) %>
             <tr>
