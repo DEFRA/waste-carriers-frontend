@@ -4,6 +4,7 @@ class ServiceProvidedController < ApplicationController
   # GET /your-registration/service-provided
   def show
     new_step_action 'serviceprovided'
+    return unless @registration
   end
 
   # POST /your-registration/service-provided

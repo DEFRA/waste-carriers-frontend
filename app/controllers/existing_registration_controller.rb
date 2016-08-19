@@ -4,6 +4,7 @@ class ExistingRegistrationController < ApplicationController
   # GET /your-registration/existing-registration
   def show
     new_step_action 'enterRegNumber'
+    return unless @registration
   end
 
   # POST /your-registration/existing-registration

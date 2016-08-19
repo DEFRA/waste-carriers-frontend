@@ -68,12 +68,14 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/contact-details
   def newContactDetails
     new_step_action 'contactdetails'
+    return unless @registration
   end
 
   # GET /your-registration/edit/contact-details
   def editContactDetails
     session[:edit_link_contact_details] = '1'
     new_step_action 'contactdetails'
+    return unless @registration
     render 'newContactDetails'
   end
 
@@ -98,6 +100,7 @@ class RegistrationsController < ApplicationController
 
   def newRelevantConvictions
     new_step_action 'convictions'
+    return unless @registration
   end
 
   def updateNewRelevantConvictions
@@ -123,6 +126,7 @@ class RegistrationsController < ApplicationController
   def newConfirmation
     new_step_action 'confirmation'
     return unless @registration
+    @registration_order = @registration.registration_order
   end
 
   # POST /your-registration/confirmation
@@ -223,6 +227,7 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/account-mode
   def account_mode
     new_step_action 'account-mode'
+    return unless @registration
 
     user_signed_in = false
     agency_user_signed_in = false
@@ -232,8 +237,13 @@ class RegistrationsController < ApplicationController
       @user = User.find_by_email(@registration.accountEmail)
       user_signed_in = true
     elsif agency_user_signed_in?
-      @registration.accountEmail = current_agency_user.email
-      @user = User.find_by_email(@registration.accountEmail)
+      if @registration.accountEmail.blank?
+        # Only update the account email if not already set.  This allows users
+        # who drop-off at payment, but use NCCC to make a payment, stay as
+        # digital users.
+        @registration.accountEmail = current_agency_user.email
+      end
+      @user = User.find_by_email(current_agency_user.email)
       agency_user_signed_in = true
     else
       @registration.accountEmail = @registration.contactEmail
@@ -294,6 +304,7 @@ class RegistrationsController < ApplicationController
   def newSignin
     session[:at_mid_registration_signin_step] = true
     new_step_action 'signin'
+    return unless @registration
   end
 
   # POST /your-registration/signin
@@ -364,6 +375,7 @@ class RegistrationsController < ApplicationController
   # GET /your-registration/signup
   def newSignup
     new_step_action 'signup'
+    return unless @registration
   end
 
   # POST /your-registration/signup
@@ -558,7 +570,7 @@ class RegistrationsController < ApplicationController
 
         unless @registration.assisted_digital?
           if @registration.is_complete?
-            RegistrationMailer.welcome_email(@user, @registration).deliver
+            RegistrationMailer.welcome_email(@user, @registration).deliver_now
           end
         end
         true
@@ -656,7 +668,10 @@ class RegistrationsController < ApplicationController
         end
         format.pdf do
           @pdf = true
-          render pdf: "certificate", template: 'registrations/certificate.html.erb', layout: 'pdf.html.erb', background: true
+          render pdf: "certificate",
+            template: 'registrations/certificate.html.erb',
+            layout: 'pdf.html.erb',
+            background: true
         end
       end
       logger.debug 'Save View state in the view page (go to Finish)'
@@ -768,7 +783,7 @@ class RegistrationsController < ApplicationController
     end
     authorize! :update, @registration
 
-    if request.patch?()
+    if request.patch?
       if (params[:registration][:accountEmail] != @registration.accountEmail)
         @user = User.find_by_email(@registration.accountEmail)
         @user.skip_reconfirmation!
@@ -777,6 +792,10 @@ class RegistrationsController < ApplicationController
         @user.send_reset_password_instructions
         @registration.accountEmail = params[:registration][:accountEmail]
         @registration.save!
+        flash.now[:notice] = I18n.t('agency_users.edit_account_email.email_updated', new_email: @registration.accountEmail)
+        flash.now[:instructions] = I18n.t('agency_users.edit_account_email.pwreset_reminder')
+      else
+        @registration.errors.add(:accountEmail, I18n.t('agency_users.edit_account_email.email_not_updated'))
       end
     end
 
@@ -1009,7 +1028,7 @@ class RegistrationsController < ApplicationController
             unless @registration.assisted_digital?
               if @registration.paid_in_full?
                 @user = User.find_by_email(@registration.accountEmail)
-                RegistrationMailer.welcome_email(@user, @registration).deliver
+                RegistrationMailer.welcome_email(@user, @registration).deliver_now
               end
             end
 

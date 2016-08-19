@@ -19,6 +19,7 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/key-person
   def newKeyPerson
     new_step_action 'key_person'
+    return unless @registration
     get_key_people
 
     if @key_people.empty?
@@ -69,6 +70,7 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/key-people
   def newKeyPeople
     new_step_action 'key_people'
+    return unless @registration
     get_key_people
 
     # Check if we should force a validation of the key_people attribute on the
@@ -138,6 +140,7 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/relevant-people
   def newRelevantPeople
     new_step_action 'relevant_people'
+    return unless @registration
     get_relevant_people
 
     @key_person = KeyPerson.create

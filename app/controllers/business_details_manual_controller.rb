@@ -5,6 +5,7 @@ class BusinessDetailsManualController < ApplicationController
   # GET /your-registration/business-details-manual
   def show
     new_step_action 'businessdetails'
+    return unless @registration
     @address = @registration.registered_address
   end
 

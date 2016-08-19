@@ -20,7 +20,7 @@ class RegistrationMailer < ActionMailer::Base
     mail(to: @user.email, subject: I18n.t('global.mailer.complete.subject'), from: email_with_name)
   end
 
-  # Call via: RegistrationMailer.awaitingPayment_email(@user, @registration).deliver
+  # Call via: RegistrationMailer.awaitingPayment_email(@user, @registration).deliver_now
   def awaitingPayment_email(user, registration)
     @user = user
     @url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "www.wastecarriersregistration.service.gov.uk"
@@ -30,7 +30,7 @@ class RegistrationMailer < ActionMailer::Base
     mail(to: @user.email, subject: subjectMessage, from: email_with_name)
   end
 
-  # Call via: RegistrationMailer.awaitingConvictionsCheck_email(@user, @registration).deliver
+  # Call via: RegistrationMailer.awaitingConvictionsCheck_email(@user, @registration).deliver_now
   def awaitingConvictionsCheck_email(user, registration)
     @user = user
     @url = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"] || "www.wastecarriersregistration.service.gov.uk"
@@ -40,7 +40,7 @@ class RegistrationMailer < ActionMailer::Base
     mail(to: @user.email, subject: subjectMessage, from: email_with_name)
   end
 
-  # Call via: RegistrationMailer.account_already_confirmed_email(user, is_mid_registration).deliver
+  # Call via: RegistrationMailer.account_already_confirmed_email(user, is_mid_registration).deliver_now
   def account_already_confirmed_email(user, is_mid_registration)
     @is_mid_registration = is_mid_registration
     subject = I18n.t('registration_mailer.account_already_confirmed.title')

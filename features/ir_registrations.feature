@@ -8,7 +8,7 @@ Background:
 
 #Should be offered the chance to order copy cards, commented step should be included when bug fixed
 #https://www.pivotaltracker.com/story/show/86997468
-@javascript @happydays
+@javascript
 Scenario: IR registrations, No convictions, Online payment
   When I enter my IR registration number for a Sole trader and pay by credit card
   And I make no other changes to my registration details
@@ -57,7 +57,7 @@ Scenario: IR registrations - Limited company changes companies house number
   And my existing registration will be deleted and a new registration created
 
 # Registration ID migrated IR records Change Carrier type preserved
-@irdecom @javascript
+@javascript
 Scenario: migrated IR records Change Carrier type preserved
   Given a "PT_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
   And I build a new registration ID "CB/AN9999ZZ/R002"
