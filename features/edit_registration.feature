@@ -9,7 +9,7 @@ Background:
 Scenario: Public Body Waste carrier can edit their registration and pay by bank transfer
   Given I log in as a Public body waste carrier
   Then I visit the edit registration page
-  And I edit the registered address
+  And I edit the registered company name
   And I change the way we carry waste
   Then I expect to see a charge of £40
   And I check the declaration
@@ -23,7 +23,7 @@ Scenario: Public Body Waste carrier can edit their registration and pay by bank 
 Scenario: Public Body Waste carrier can edit their registration and pay by worldpay
   Given I log in as a Public body waste carrier
   Then I visit the edit registration page
-  And I edit the registered address
+  And I edit the registered company name
   And I change the way we carry waste
   Then I expect to see a charge of £40
   And I check the declaration
