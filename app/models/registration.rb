@@ -1188,18 +1188,11 @@ class Registration < Ohm::Model
   end
 
   def can_be_edited?(agency_user=nil)
-    metaData.first.status != 'REVOKED' && \
-      metaData.first.status != 'EXPIRED' && \
-      metaData.first.status != 'INACTIVE' && \
-      metaData.first.status != 'REFUSED' && \
-      user_can_edit_registration(agency_user)
+    (metaData.first.status == 'PENDING' || metaData.first.status == 'ACTIVE') && user_can_edit_registration(agency_user)
   end
 
   def can_view_certificate?
-    metaData.first.status != 'REVOKED' && \
-      metaData.first.status != 'EXPIRED' && \
-      metaData.first.status != 'PENDING' && \
-      metaData.first.status != 'INACTIVE'
+    metaData.first.status == 'ACTIVE'
   end
 
   def can_request_copy_cards?(agency_user=nil)
