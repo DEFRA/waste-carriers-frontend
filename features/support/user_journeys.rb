@@ -10,7 +10,7 @@ module SoleTraderJourneys
     enter_contact_details_and_submit(firstName: 'Nick')
     enter_key_people_details_and_submit
     select_relevant_convictions_and_submit('registration_declaredConvictions_no')
-    confirmation_page_registration_and_submit
+    confirmation_page_agree_to_declaration_and_submit
     enter_email_details_and_submit
     order_page_complete_order_pay_by_bank_transfer_and_submit(0)
     complete_offline_payment
@@ -31,7 +31,7 @@ module PartnershipJourneys
     enter_contact_details_and_submit
     enter_key_people_details_and_submit
     select_relevant_convictions_and_submit('registration_declaredConvictions_no')
-    confirmation_page_registration_and_submit
+    confirmation_page_agree_to_declaration_and_submit
     enter_email_details_and_submit
     order_page_complete_order_pay_by_bank_transfer_and_submit(0)
     complete_offline_payment

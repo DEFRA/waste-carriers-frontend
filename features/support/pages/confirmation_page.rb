@@ -1,6 +1,6 @@
 # Helper used in testing for working with the confirmation page.
 module ConfirmationPage
-  def confirmation_page_registration_and_submit
+  def confirmation_page_agree_to_declaration_and_submit
     check 'registration_declaration'
     confirmation_page_submit
   end
