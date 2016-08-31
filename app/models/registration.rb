@@ -1188,11 +1188,11 @@ class Registration < Ohm::Model
   end
 
   def can_be_edited?(agency_user=nil)
-    (metaData.first.status == 'PENDING' || metaData.first.status == 'ACTIVE') && user_can_edit_registration(agency_user)
+    (pending? || is_active?) && user_can_edit_registration(agency_user)
   end
 
   def can_view_certificate?
-    metaData.first.status == 'ACTIVE'
+    is_active?
   end
 
   def can_request_copy_cards?(agency_user=nil)
