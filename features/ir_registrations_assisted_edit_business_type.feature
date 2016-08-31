@@ -9,7 +9,7 @@ Scenario: Agency assisted change LTD to Partnership
 Given a "LTD_UT_online_complete" upper tier registration paid for by "World Pay" with 0 copy cards
 Given I have signed in as an Environment Agency user
 Then I search for the following organisation "LTD UT Company"
-Then Edit The Registration
+Then I Edit The Registration
 Then I click Edit what you told us
 Then I change business type to partnership
 And the smart answers keep me in Upper tier

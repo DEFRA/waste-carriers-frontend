@@ -8,8 +8,7 @@ Then(/^I click the Edit Registration link$/) do
   click_link "edit_#{@cucumber_reg_id}"
 end
 
-Then(/^Edit The Registration$/) do
-  # Uses the saved registration ID to find the correct registration to renew
+Then('I Edit The Registration') do
   click_link "Edit registration"
 end
 
@@ -36,7 +35,7 @@ Then(/^I click Edit what you told us$/) do
   click_link 'changeSmartAnswers'
 end
 
-Then(/^I edit the registered address$/) do
+Then('I edit the registered company name') do
   expect(page).to have_link 'Edit your business or organisation address'
   click_link 'Edit your business or organisation address'
   fill_in 'registration_companyName', with: 'Edited Company Name'
