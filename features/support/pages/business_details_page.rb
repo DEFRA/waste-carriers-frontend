@@ -55,5 +55,15 @@ module BusinessDetailsPage
   def business_details_page_submit_business_details_page()
     click_button 'continue'
   end
+
+  # Select a different address (from postcode lookup)
+  def business_details_page_change_business_address(postcode: 'BS1 5AH',
+      address: 'HARMSEN GROUP, TRIODOS BANK, DEANERY ROAD, BRISTOL, BS1 5AH')
+
+    fill_in 'sPostcode', with: postcode
+    click_button 'find_address'
+    select address
+    business_details_page_submit_business_details_page
+  end
 end
 World(BusinessDetailsPage)
