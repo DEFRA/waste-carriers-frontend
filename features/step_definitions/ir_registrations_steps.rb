@@ -224,14 +224,14 @@ end
 
 Then(/^a renewal fee will be charged$/) do
   confirmation_page_registration_check_for_renewal_text
-  confirmation_page_registration_and_submit
+  confirmation_page_agree_to_declaration_and_submit
   order_page_enter_copy_cards(no_of_cards: 0)
   order_page_check_total_charge(amount: '105.00')
 end
 
 Then(/^I will be charged a renewal fee$/) do
   confirmation_page_registration_check_for_renewal_text
-  confirmation_page_registration_and_submit
+  confirmation_page_agree_to_declaration_and_submit
   enter_email_details_and_submit
   # order_page_enter_copy_cards(no_of_cards:0)
   order_page_check_total_charge(amount: '105.00')
@@ -239,7 +239,7 @@ end
 
 Then(/^I will be charged the full fee$/) do
   confirmation_page_registration_check_for_expired_renewal_text
-  confirmation_page_registration_and_submit
+  confirmation_page_agree_to_declaration_and_submit
   enter_email_details_and_submit
   # order_page_enter_copy_cards(no_of_cards:0)
   order_page_check_total_charge(amount: '154.00')
@@ -247,7 +247,7 @@ end
 
 Then(/^there will be a renewal and edit amount charged$/) do
   confirmation_page_registration_check_for_renewal_text
-  confirmation_page_registration_and_submit
+  confirmation_page_agree_to_declaration_and_submit
   order_page_enter_copy_cards(no_of_cards: 0)
   # renewal fee is 105 plus 40 edit charge
   order_page_check_total_charge(amount: '145.00')
@@ -386,7 +386,7 @@ When('I only change business details') do
   postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
-  confirmation_page_registration_and_submit
+  confirmation_page_agree_to_declaration_and_submit
 end
 
 When('I Change the Company Number') do
@@ -402,7 +402,7 @@ When('I Change the Company Number') do
   postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
-  confirmation_page_registration_and_submit
+  confirmation_page_agree_to_declaration_and_submit
 end
 
 When(/^I make no other changes to my registration details$/) do
@@ -421,7 +421,7 @@ When(/^I only change business name$/) do
   postal_address_page_complete_form
   enter_key_people_details_and_submit
   relevant_convictions_page_select_no
-  confirmation_page_registration_and_submit
+  confirmation_page_agree_to_declaration_and_submit
 end
 
 When(/^I change business details$/) do

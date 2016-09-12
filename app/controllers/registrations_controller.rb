@@ -135,15 +135,10 @@ class RegistrationsController < ApplicationController
     return unless @registration
 
     if @registration.valid?
-
       if @registration.order_types.include? :edit
-
         if @registration.order_types.include? :change_reg_type
-
           newOrderEdit @registration.uuid
-
         elsif @registration.order_types.include? :change_caused_new
-
           # If a new registration is needed at this point it should be created
           # as the payment will then be processed against that registration and
           # not the original one, which will be marked as deleted
@@ -179,8 +174,9 @@ class RegistrationsController < ApplicationController
           @registration.save
           newOrderCausedNew @registration.uuid
 
-        elsif @registration.order_types.include? :renew
+          ## ---- End of "if @registration.order_types.include? :change_caused_new" ---- ##
 
+        elsif @registration.order_types.include? :renew
           edit_mode = session[:edit_mode]
           edit_result = session[:edit_result]
           # we don't need edit variables polluting the session any more
@@ -188,19 +184,13 @@ class RegistrationsController < ApplicationController
           redirect_to complete_edit_renew_path(@registration.uuid)
           return
 
-        else # no charge
-          @registration.save!
-          clear_edit_session
-          if current_user
-            redirect_to userRegistrations_path(current_user)
-          elsif current_agency_user
-            redirect_to registrations_path
-          else
-            renderAccessDenied
-          end
+        else # upper tier edit with no charge
+          complete_edit_that_has_no_charge and return
         end
 
         return
+
+        ## ---- End of "if @registration.order_types.include? :edit" ---- ##
 
       elsif @registration.order_types.include? :renew
         # Detect standard or IR renewal
@@ -214,6 +204,8 @@ class RegistrationsController < ApplicationController
           return
         end
 
+      elsif @registration.lower? && @registration.persisted?
+        complete_edit_that_has_no_charge and return
       else # new registration
         redirect_to action: :account_mode
       end
@@ -221,6 +213,20 @@ class RegistrationsController < ApplicationController
     else
       # there is an error (but data not yet saved)
       render 'newConfirmation', status: '400'
+    end
+  end
+
+  # Helper for above function that should be called when the user has completed
+  # an edit to their registration that does not incur any charge.
+  def complete_edit_that_has_no_charge
+    @registration.save!
+    clear_edit_session
+    if current_user
+      redirect_to userRegistrations_path(current_user)
+    elsif current_agency_user
+      redirect_to registrations_path
+    else
+      renderAccessDenied
     end
   end
 
@@ -560,26 +566,19 @@ class RegistrationsController < ApplicationController
   end
 
   def complete_new_registration (activateRegistration=false)
-
     unless @registration.persisted?
-
-      if commit_new_registration?
+      unless commit_new_registration?
+        return false
+      else
         logger.debug "Committed registration, about to activate if appropriate"
         @registration.activate! if activateRegistration
         @registration.save
-
-        unless @registration.assisted_digital?
-          if @registration.is_complete?
-            RegistrationMailer.welcome_email(@user, @registration).deliver_now
-          end
+        if @registration.digital_route? && @registration.is_complete?
+          RegistrationMailer.welcome_email(@user, @registration).deliver_now
         end
-        true
-      else
-        false
       end
-
     end
-    true  #Return true as already saved in db, as false is used for failed to save
+    true  # Either saved successfully, or was already in the database.
   end
 
   def validate_search_parameters?(searchString, searchWithin)
