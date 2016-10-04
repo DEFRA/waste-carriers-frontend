@@ -91,6 +91,7 @@ module RegistrationsHelper
 
     if !session[:editing] && current_step != 'payment' && current_step != 'confirmation'
       logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+      Airbrake.notify(RuntimeError.new('Registration is not editable, redirected to cannot_edit_path'))
       redirect_to cannot_edit_path and return
     end
 
@@ -141,7 +142,7 @@ module RegistrationsHelper
       session[:registration_uuid] ||= @registration.uuid
     else
       logger.warn {'There is no @registration. Redirecting to the Cookies page'}
-      Airbrake.notify(RuntimeError.new('Failed to get @registration in setup_registration()'))
+      Airbrake.notify(RuntimeError.new("Failed to get @registration in setup_registration(), session[:registration_id] is #{session[:registration_id]} and params[:id] is #{params[:id]}"))
       redirect_to cookies_path
       return
     end
@@ -161,6 +162,7 @@ module RegistrationsHelper
     elsif  session[:edit_mode] #editing existing registration
       if !session[:editing] && current_step != 'payment' && current_step != 'pending' && current_step != 'businesstype'
         logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        Airbrake.notify(RuntimeError.new('Registration is not editable, redirected to cannot_edit_path'))
         redirect_to cannot_edit_path and return
       end
 
@@ -184,6 +186,7 @@ module RegistrationsHelper
 
       if !session[:editing] && current_step != 'payment' && current_step != 'pending'
         logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        Airbrake.notify(RuntimeError.new('Registration is not editable, redirected to cannot_edit_path'))
         redirect_to cannot_edit_path
         return
       end

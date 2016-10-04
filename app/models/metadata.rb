@@ -18,6 +18,8 @@ class Metadata < Ohm::Model
     def init (md_hash)
       md = Metadata.create
       md.update_attributes(md_hash)
+       # Set the route to digital to prevent empty route failure in Java service
+      md.route = 'DIGITAL' unless md.route.present?
       md.save
       md
     end
