@@ -71,22 +71,6 @@ module RegistrationsHelper
     errors_with_keys
   end
 
-
-  # TODO not sure what this should do now smart answers and lower tier have been merged
-  def first_back_link(registration)
-    path = if registration.metaData.first.route == 'DIGITAL'
-      if user_signed_in?
-        userRegistrations_path current_user.id
-      else
-        find_path
-      end
-    else
-      registrations_path
-    end
-
-    link_to t('registrations.form.back_button_label'), path, class: 'button-secondary'
-  end
-
   def isSmallWriteOffAvailable(registration)
     registration.finance_details.first and (Payment.isSmallWriteOff( registration.finance_details.first.balance) == true)
   end
