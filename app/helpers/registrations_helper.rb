@@ -71,22 +71,6 @@ module RegistrationsHelper
     errors_with_keys
   end
 
-
-  # TODO not sure what this should do now smart answers and lower tier have been merged
-  def first_back_link(registration)
-    path = if registration.metaData.first.route == 'DIGITAL'
-      if user_signed_in?
-        userRegistrations_path current_user.id
-      else
-        find_path
-      end
-    else
-      registrations_path
-    end
-
-    link_to t('registrations.form.back_button_label'), path, class: 'button-secondary'
-  end
-
   def isSmallWriteOffAvailable(registration)
     registration.finance_details.first and (Payment.isSmallWriteOff( registration.finance_details.first.balance) == true)
   end
@@ -107,6 +91,7 @@ module RegistrationsHelper
 
     if !session[:editing] && current_step != 'payment' && current_step != 'confirmation'
       logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+      Airbrake.notify(RuntimeError.new('Registration is not editable, redirected to cannot_edit_path'))
       redirect_to cannot_edit_path and return
     end
 
@@ -157,7 +142,7 @@ module RegistrationsHelper
       session[:registration_uuid] ||= @registration.uuid
     else
       logger.warn {'There is no @registration. Redirecting to the Cookies page'}
-      Airbrake.notify(RuntimeError.new('Failed to get @registration in setup_registration()'))
+      Airbrake.notify(RuntimeError.new("Failed to get @registration in setup_registration(), session[:registration_id] is #{session[:registration_id]} and params[:id] is #{params[:id]}"))
       redirect_to cookies_path
       return
     end
@@ -177,6 +162,7 @@ module RegistrationsHelper
     elsif  session[:edit_mode] #editing existing registration
       if !session[:editing] && current_step != 'payment' && current_step != 'pending' && current_step != 'businesstype'
         logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        Airbrake.notify(RuntimeError.new('Registration is not editable, redirected to cannot_edit_path'))
         redirect_to cannot_edit_path and return
       end
 
@@ -200,6 +186,7 @@ module RegistrationsHelper
 
       if !session[:editing] && current_step != 'payment' && current_step != 'pending'
         logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
+        Airbrake.notify(RuntimeError.new('Registration is not editable, redirected to cannot_edit_path'))
         redirect_to cannot_edit_path
         return
       end

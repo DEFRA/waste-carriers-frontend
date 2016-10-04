@@ -245,8 +245,7 @@ class Registration < Ohm::Model
         self.addresses.replace(address_list)
       end
 
-      self.metaData.replace( [Metadata.init(result['metaData'])])
-
+      self.metaData.replace([Metadata.init(result['metaData'])])
 
       unless self.tier == 'LOWER'
         Rails.logger.debug 'Initialise finance details'
