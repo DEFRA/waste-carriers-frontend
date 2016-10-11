@@ -2,7 +2,7 @@ class BusinessDetailsController < ApplicationController
   include BusinessDetailsHelper
   include RegistrationsHelper
 
-  # GET /your-registration/business-details
+  # GET /your-registration/:reg_uuid/business-details
   def show
     new_step_action 'businessdetails'
     return unless @registration
@@ -67,19 +67,17 @@ class BusinessDetailsController < ApplicationController
 
     unless @registration.selectedAddress.blank?
       # User clicked Continue button
-
-      selected_address =
-        AddressSearchResult.search_by_id(@registration.selectedAddress)
+      selected_address = AddressSearchResult.search_by_id(@registration.selectedAddress)
 
       # TODO: Understand why we note that address lookup was used in the session
-      session[:address_lookup_selected] = true
+      # session[:address_lookup_selected] = true
 
       # Update the address object based on the selected address
       @address.populate_from_address_search_result(selected_address)
 
       # If the registration is upper tier we run a conviction check against
       # the company name.
-      unless @registration.tier.eql? 'LOWER'
+      unless @registration.tier == 'LOWER'
         @registration.cross_check_convictions
         @registration.save
       end
@@ -113,19 +111,31 @@ class BusinessDetailsController < ApplicationController
       return
     end
 
-    # This is a call into a method in the Bus Dtls helper. It looks at a value
-    # in the session to determine if we need to go to the next step in the
+    # This looks at a value to determine if we need to go to the next step in the
     # application or back to the confirmation page
-    redirect_to redirect_to?
+
+    # We need to determine whether the user arrived at the page as part of the
+    # application process, or by choosing to edit their details on the
+    # confirmation page. Determining this is based on whether
+    # edit_link_business_details exists in the session.
+
+    if session[:edit_link_business_details] == @registration.reg_uuid
+      session.delete(:edit_link_business_details)
+      go_to = confirmation_path(@registration.reg_uuid)
+    else
+      go_to = contact_details_path(@registration.reg_uuid)
+    end
+
+    redirect_to(go_to)
+
   end
 
-  # GET /your-registration/business-details/edit
+  # GET /your-registration/:reg_uuid/business-details/edit
   def edit
-    session[:edit_link_business_details] = '1'
     new_step_action 'businessdetails'
     return unless @registration
     @address = @registration.registered_address
-
+    session[:edit_link_business_details] = @registration.reg_uuid
     redirect_to confirm_route(@address.addressMode)
   end
 

@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe RegistrationTypeController, :type => :controller do
 
-  before :each do
-    session[:registration_id] = registration.id
-    session[:editing] = true
-  end
-
   describe 'GET #show' do
 
     let(:registration) { Registration.create }
@@ -58,7 +53,7 @@ describe RegistrationTypeController, :type => :controller do
       context "and edit has been selected from the confirmation page" do
 
         before :each do
-          session[:edit_link_reg_type] = '1'
+          session[:edit_link_reg_type] = @registration.reg_uuid
         end
 
         it "redirects to the 'Confirmation' page" do
@@ -87,7 +82,7 @@ describe RegistrationTypeController, :type => :controller do
       context "and edit has been selected from the confirmation page" do
 
         before :each do
-          session[:edit_link_reg_type] = '1'
+          session[:edit_link_reg_type] = @registration.reg_uuid
         end
 
         it "redirects to the 'Confirmation' page" do
@@ -116,7 +111,7 @@ describe RegistrationTypeController, :type => :controller do
       context "and edit has been selected from the confirmation page" do
 
         before :each do
-          session[:edit_link_reg_type] = '1'
+          session[:edit_link_reg_type] = @registration.reg_uuid
         end
 
         it "redirects to the 'Confirmation' page" do

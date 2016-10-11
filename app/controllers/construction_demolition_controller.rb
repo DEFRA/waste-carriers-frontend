@@ -1,7 +1,7 @@
 class ConstructionDemolitionController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/construction-demolition
+  # GET /your-registration/:reg_uuid/construction-demolition
   def show
     new_step_action 'constructiondemolition'
     return unless @registration

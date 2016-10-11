@@ -1,7 +1,7 @@
 class ExistingRegistrationController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/existing-registration
+  # GET /your-registration/:reg_uuid/existing-registration
   def show
     new_step_action 'enterRegNumber'
     return unless @registration

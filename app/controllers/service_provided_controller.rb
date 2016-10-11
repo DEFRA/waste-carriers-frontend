@@ -1,7 +1,7 @@
 class ServiceProvidedController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/service-provided
+  # GET /your-registration/:reg_uuid/service-provided
   def show
     new_step_action 'serviceprovided'
     return unless @registration

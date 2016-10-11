@@ -925,7 +925,7 @@ en:
     editRenewComplete:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"
-    newContactDetails:
+    new_contact_details:
       title: "Contact details"
     contactdetails_step:
       legend: "Contact details"
@@ -965,7 +965,7 @@ en:
       relevant_convictions_scrap_2013: "Scrap Metal Dealers Act 2013"
       relevant_person_link_text: "What is a relevant person?"
       relevant_person_convictions: "What is a relevant person?"
-    newConfirmation:
+    confirmation:
       title: "Confirmation"
       subtitle: "Check your details before registering"
       tier_link_title: "What are lower tier and upper tier?"

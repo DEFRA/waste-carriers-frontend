@@ -18,13 +18,16 @@ class Registration < Ohm::Model
 
   attribute :current_step
 
-  #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
+  # uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
   # Note: this is the id (_id) assigned by the database.
   attribute :uuid
 
   # We are generating a uuid client-side (in the frontend) in order to make the POST idempotent
   # and to guard against accidentally repeated requests.
+  # This is used in the regitstration step pages URL's
   attribute :reg_uuid
+  index :reg_uuid
+  unique :reg_uuid
 
   # New or renew field used to determine initial routing prior to smart answers
   attribute :newOrRenew
@@ -104,6 +107,8 @@ class Registration < Ohm::Model
 
   ################# END #################
 
+
+
   def empty?
     self.attributes.empty?
   end
@@ -137,6 +142,10 @@ class Registration < Ohm::Model
     self.uuid
   end
 
+  def save
+    self.reg_uuid = SecureRandom.urlsafe_base64 unless reg_uuid.present?
+    super
+  end
 
   # POSTs registration to Java/Dropwizard service - creates new registration to DB
   # @return  [String] the uuid assigned by MongoDB

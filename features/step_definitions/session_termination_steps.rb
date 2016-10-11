@@ -64,5 +64,5 @@ Then(/^I am informed that I have to login again to change my registration$/) do
 end
 
 When(/^I attempt to access the confirmation page$/) do
-  visit newConfirmation_path
+  visit confirmation_path
 end

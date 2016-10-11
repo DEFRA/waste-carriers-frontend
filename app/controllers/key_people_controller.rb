@@ -1,23 +1,19 @@
-require 'securerandom'
-
-# TODO AH could enjoy major refactoring using single logic for all person types
-
 class KeyPeopleController < ApplicationController
   include RegistrationsHelper
 
   before_action :get_registration, except: [:doneKeyPeople, :doneRelevantPeople]
 
-  # GET /your-registration/key-people/registration
+  # GET /your-registration/:reg_uuid/key-people/registration
   def registration
     if @registration.businessType == 'soleTrader'
-      redirect_to action: 'newKeyPerson'
+      redirect_to action: :key_person
     else
-      redirect_to action: 'newKeyPeople'
+      redirect_to action: :key_people
     end
   end
 
-  # GET /your-registration/key-person
-  def newKeyPerson
+  # GET /your-registration/:reg_uuid/key-person
+  def key_person
     new_step_action 'key_person'
     return unless @registration
     get_key_people
@@ -34,7 +30,7 @@ class KeyPeopleController < ApplicationController
   end
 
   # POST /your-registration/key-person
-  def updateNewKeyPerson
+  def update_key_person
     get_key_people
 
     @key_person = KeyPerson.create
@@ -59,7 +55,7 @@ class KeyPeopleController < ApplicationController
       @registration.key_people.replace(personList)
       @registration.save
 
-      redirect_to :newRelevantConvictions
+      redirect_to :relevant_convictions
     else
       # there is an error (but data not yet saved)
       logger.debug 'Key person is not valid, and data is not yet saved'
@@ -67,8 +63,8 @@ class KeyPeopleController < ApplicationController
     end
   end
 
-  # GET /your-registration/key-people
-  def newKeyPeople
+  # GET /your-registration/:reg_uuid/key-people
+  def key_people
     new_step_action 'key_people'
     return unless @registration
     get_key_people
@@ -85,7 +81,7 @@ class KeyPeopleController < ApplicationController
   end
 
   # POST /your-registration/key-people
-  def updateNewKeyPeople
+  def update_key_people
     get_key_people
 
     @key_person = KeyPerson.create
@@ -103,7 +99,7 @@ class KeyPeopleController < ApplicationController
       if params[:continue]
         if @registration.valid?
           # Everything is OK; continue to next page.
-          redirect_to :newRelevantConvictions
+          redirect_to :relevant_convictions
         else
           # User wanted to continue, but they haven't added enough Key People.
           # We set a variable in the session to force the re-validation of the
@@ -120,25 +116,25 @@ class KeyPeopleController < ApplicationController
       # Form was left blank.
       if params[:add]
         # The user clicked the 'add' button but didn't provide any details.
-        render 'newKeyPeople', status: '400'
+        render :key_people, status: '400'
       else
         @key_person.errors.clear
         unless @registration.valid?
           # We have too few Key People added so far.
-          render 'newKeyPeople', status: '400'
+          render :key_people, status: '400'
         else
           # Everything is OK; continue to next page.
-          redirect_to :newRelevantConvictions
+          redirect_to :relevant_convictions
         end
       end
     else
       # Key Person details are not blank, but failed validation.
-      render 'newKeyPeople', status: '400'
+      render :key_people, status: '400'
     end
   end
 
-  # GET /your-registration/relevant-people
-  def newRelevantPeople
+  # GET /your-registration/:reg_uuid/relevant-people
+  def relevant_people
     new_step_action 'relevant_people'
     return unless @registration
     get_relevant_people
@@ -147,7 +143,7 @@ class KeyPeopleController < ApplicationController
   end
 
   # POST /your-registration/relevant-people
-  def updateNewRelevantPeople
+  def update_relevant_people
     get_relevant_people
 
     @key_person = KeyPerson.create
@@ -185,7 +181,7 @@ class KeyPeopleController < ApplicationController
         if @registration.valid?
           @registration.save
 
-          redirect_to :newConfirmation
+          redirect_to :confirmation
         else
           # there is an error (but data not yet saved)
           logger.debug 'Registration is not valid, and data is not yet saved'
@@ -207,7 +203,7 @@ class KeyPeopleController < ApplicationController
             render "newRelevantPeople", :status => '400'
           else
             # Not 1st person and Form is blank so can go to declaration
-            redirect_to :newConfirmation
+            redirect_to :confirmation
           end
         else
           # there is an error (but data not yet saved)
@@ -221,7 +217,7 @@ class KeyPeopleController < ApplicationController
     end
   end
 
-  # GET /your-registration/key-people/delete/:id
+  # GET /your-registration/:reg_uuid/key-people/delete/:id
   def delete
     key_person_to_remove = KeyPerson[params[:id]]
     if !key_person_to_remove
@@ -234,8 +230,8 @@ class KeyPeopleController < ApplicationController
     redirect_to action: 'registration'
   end
 
-  # GET /your-registration/relevant-people/delete/:id
-  def deleteRelevantPerson
+  # GET /your-registration/:reg_uuid/relevant-people/delete/:id
+  def delete_relevant_person
     person_to_remove = KeyPerson[params[:id]]
     if !person_to_remove
       renderNotFound
@@ -247,7 +243,7 @@ class KeyPeopleController < ApplicationController
     redirect_to action: 'newRelevantPeople'
   end
 
-  # GET /your-registration/key-people
+  # GET /your-registration/:reg_uuid/key-people
   def index
     get_key_people
   end
@@ -258,8 +254,8 @@ class KeyPeopleController < ApplicationController
   end
 
   def get_registration
-    @registration = Registration[session[:registration_id]]
-    if !@registration
+    setup_registration 'key_people'
+    unless @registration
       renderNotFound
     end
   end

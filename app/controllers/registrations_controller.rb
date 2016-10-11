@@ -65,72 +65,74 @@ class RegistrationsController < ApplicationController
   end
 
 
-  # GET /your-registration/contact-details
-  def newContactDetails
+  # GET /your-registration/:reg_uuid/contact-details
+  def new_contact_details
     new_step_action 'contactdetails'
     return unless @registration
   end
 
-  # GET /your-registration/edit/contact-details
-  def editContactDetails
-    session[:edit_link_contact_details] = '1'
+  # GET /your-registration/:reg_uuid/edit/contact-details
+  def edit_contact_details
     new_step_action 'contactdetails'
     return unless @registration
-    render 'newContactDetails'
+
+    session[:edit_link_contact_details] = @registration.reg_uuid
+
+    render :new_contact_details
   end
 
   # POST /your-registration/contact-details
-  def updateNewContactDetails
+  def update_new_contact_details
     setup_registration 'contactdetails'
     return unless @registration
 
     if @registration.valid?
-      if session[:edit_link_contact_details]
+      if session[:edit_link_contact_details] == @registration.reg_uuid
         session.delete(:edit_link_contact_details)
-        redirect_to :newConfirmation
+        redirect_to confirmation_path(@registration.reg_uuid)
         return
       end
       redirect_to :postal_address
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render 'newContactDetails', status: '400'
+      render :new_contact_details, status: '400'
     end
   end
 
-  def newRelevantConvictions
+  def relevant_convictions
     new_step_action 'convictions'
     return unless @registration
   end
 
-  def updateNewRelevantConvictions
+  def update_relevant_convictions
     setup_registration 'convictions'
     return unless @registration
 
     if @registration.valid?
       set_google_analytics_convictions_indicator(session, @registration)
-      #      (redirect_to :newConfirmation and return) if session[:edit_mode]
+      #      (redirect_to :confirmation and return) if session[:edit_mode]
       if @registration.declaredConvictions == 'yes'
-        redirect_to :newRelevantPeople
+        redirect_to relevant_people_path(@registration.reg_uuid)
       else
-        redirect_to :newConfirmation
+        redirect_to confirmation_path(@registration.reg_uuid)
       end
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render "newRelevantConvictions", :status => '400'
+      render :relevant_convictions, status: '400'
     end
   end
 
-  # GET /your-registration/confirmation
-  def newConfirmation
+  # GET /your-registration/:reg_uuid/confirmation
+  def confirmation
     new_step_action 'confirmation'
     return unless @registration
     @registration_order = @registration.registration_order
   end
 
   # POST /your-registration/confirmation
-  def updateNewConfirmation
+  def update_confirmation
     setup_registration 'confirmation'
     return unless @registration
 
@@ -143,7 +145,6 @@ class RegistrationsController < ApplicationController
           # as the payment will then be processed against that registration and
           # not the original one, which will be marked as deleted
           new_reg = Registration.create_new_when_edit_requires_new_reg(@registration)
-          session[:editing] = true
 
           # Need to re-get registration from DB as we are leaving the orig alone
           original_reg = Registration.find_by_id(@registration.uuid)
@@ -157,17 +158,18 @@ class RegistrationsController < ApplicationController
           # Use copy of registration in memory and save to database
           new_reg.current_step = 'confirmation'
           if new_reg.valid?
-            new_reg.reg_uuid = SecureRandom.uuid
+            # TODO: Moved to model, no longer needed
+            # new_reg.reg_uuid = SecureRandom.uuid
             if new_reg.commit
               new_reg.save
               @registration = new_reg
               session[:registration_id] = new_reg.id
               session[:registration_uuid] = @registration.uuid
             else
-              render 'newConfirmation', status: '400'
+              render 'confirmation', status: '400'
             end
           else
-            render 'newConfirmation', status: '400'
+            render 'confirmation', status: '400'
           end
 
           # Save copied registration to redis and update any session variables
@@ -212,7 +214,7 @@ class RegistrationsController < ApplicationController
 
     else
       # there is an error (but data not yet saved)
-      render 'newConfirmation', status: '400'
+      render 'confirmation', status: '400'
     end
   end
 
@@ -230,7 +232,7 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # GET /your-registration/account-mode
+  # GET /your-registration/:reg_uuid/account-mode
   def account_mode
     new_step_action 'account-mode'
     return unless @registration
@@ -280,7 +282,7 @@ class RegistrationsController < ApplicationController
                 end
               else
                 @registration.errors.add(:exception, "Unable to commit registration")
-                render "newConfirmation", :status => '400'
+                render "confirmation", :status => '400'
               end
             when 'UPPER'
               complete_new_registration
@@ -300,13 +302,13 @@ class RegistrationsController < ApplicationController
               end
           end
         else
-          render "newConfirmation", :status => '400'
+          render "confirmation", :status => '400'
         end
     end
 
   end
 
-  # GET /your-registration/signin
+  # GET /your-registration/:reg_uuid/signin
   def newSignin
     session[:at_mid_registration_signin_step] = true
     new_step_action 'signin'
@@ -378,7 +380,7 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # GET /your-registration/signup
+  # GET /your-registration/:reg_uuid/signup
   def newSignup
     new_step_action 'signup'
     return unless @registration
@@ -530,13 +532,15 @@ class RegistrationsController < ApplicationController
 
     # Note: we are assigning a unique identifier to the registration in order to
     # make the POST request idempotent
-    @registration.reg_uuid = SecureRandom.uuid
+
+    # TODO: Moved to model, no longer needed
+    # @registration.reg_uuid = SecureRandom.uuid
 
     @registration.save
     if @registration.commit
       session[:registration_uuid] = @registration.uuid
       session[:registration_id] = @registration.id
-      session[:editing] = false
+
       logger.debug "Registration commited"
       true
     else
@@ -622,9 +626,6 @@ class RegistrationsController < ApplicationController
       @registrations = Registration.find_by_email(tmpUser.email,
                                                   %w(ACTIVE PENDING REVOKED EXPIRED)).sort_by { |r| r.date_registered }
 
-      #TODO GM - editing should start later, this is just a quick fix/hack to get the current logic working
-      session[:editing] = true
-
       respond_to do |format|
         format.html # index.html.erb
         format.json { render json: @registrations }
@@ -678,7 +679,7 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # GET /your-registration/confirmed
+  # GET /your-registration/:reg_uuid/confirmed
   def confirmed
     unless session.key?(:userEmail)
       logger.error 'Session does not contain expected "userEmail" key. Showing 404.'
@@ -763,14 +764,10 @@ class RegistrationsController < ApplicationController
     session[:original_registration_id] = Registration.find_by_id(params[:id]).id
     authorize! :update, @registration
 
-    # Helps display the correct wording on the newConfirmation page
+    # Helps display the correct wording on the confirmation page
     flash[:start_editing] = true
 
-    session[:registration_id] = @registration.id
-    session[:registration_uuid] = @registration.uuid
-    session[:editing] = true
-
-    redirect_to :newConfirmation
+    redirect_to :confirmation
   end
 
   # GET, PATCH /registrations/1/edit_account_email
@@ -843,9 +840,9 @@ class RegistrationsController < ApplicationController
     if failedStep == "business"
       redirect_to :business_details
     elsif failedStep == "contact"
-      redirect_to :newContact
+      redirect_to :contact
     elsif failedStep == "confirmation"
-      redirect_to :newConfirmation
+      redirect_to :confirmation
     elsif failedStep == "signup"
       redirect_to :newSignup
     end

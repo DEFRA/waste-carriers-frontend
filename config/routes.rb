@@ -78,58 +78,105 @@ Registrations::Application.routes.draw do
   match "registrations/:id/approve" => 'registrations#updateApprove', :via => [:post]
 
   get "registrations/find" => 'start#show', :as => :find
-  get "registrations/start" => 'start#show', :as => :start
-  post "registrations/start" => 'start#create'
+  get "registrations/(:reg_uuid)/start" => 'start#show', :as => :start
+  post "registrations/:reg_uuid/start" => 'start#create', :as => :create_start
 
-  get "your-registration/existing-registration" => 'existing_registration#show', :as => :existing_registration
-  post "your-registration/existing-registration" => 'existing_registration#create'
+  scope path: 'your-registration/:reg_uuid' do
 
-  # Registration urls - Smart answers
-  get "your-registration/business-type" => 'business_type#show', :as => :business_type
-  post "your-registration/business-type" => 'business_type#create'
+    scope controller: 'existing_registration' do
+      get 'existing-registration', action: :show
+      post 'existing-registration', action: :create
+    end
 
-  get "your-registration/no-registration" => 'no_registration#show', :as => :no_registration
+    scope controller: 'business_type' do
+      get 'business-type', action: :show
+      post 'business-type', action: :create
+    end
 
-  get "your-registration/other-businesses" => 'other_businesses#show', :as => :other_businesses
-  post "your-registration/other-businesses" => 'other_businesses#create'
+    scope controller: 'no_registration' do
+      get 'no-registration', action: :show
+    end
 
-  get "your-registration/service-provided" => 'service_provided#show', :as => :service_provided
-  post "your-registration/service-provided" => 'service_provided#create'
+    scope controller: 'other_businesses' do
+      get 'other-businesses', action: :show
+      post 'other-businesses', action: :create
+    end
 
-  get "your-registration/construction-demolition" => 'construction_demolition#show', :as => :construction_demolition
-  post "your-registration/construction-demolition" => 'construction_demolition#create'
+    scope controller: 'service_provided' do
+      get 'service-provided', action: :show
+      post 'service-provided', action: :create
+    end
 
-  get "your-registration/only-deal-with" => 'only_deal_with#show', :as => :only_deal_with
-  post "your-registration/only-deal-with" => 'only_deal_with#create'
+    scope controller: 'construction_demolition' do
+      get 'construction-demolition', action: :show
+      post 'construction-demolition', action: :create
+    end
 
-  get "your-registration/registration-type" => "registration_type#show", :as => :registration_type
-  get "your-registration/registration-type/edit" => "registration_type#edit", :as => :edit_registration_type
-  post "your-registration/registration-type" => "registration_type#create"
+    scope controller: 'only_deal_with' do
+      get 'only-deal-with', action: :show
+      post 'only-deal-with', action: :create
+    end
 
-  # Registrations - Business Details
-  get 'your-registration/business-details' => 'business_details#show', as: :business_details
-  get 'your-registration/business-details/edit' => 'business_details#edit', as: :business_details_edit
-  post 'your-registration/business-details' => 'business_details#create'
+    scope controller: 'registration_type' do
+      get 'registration-type', action: :show
+      get 'registration-type/edit', action: :edit
+      post 'registration-type', action: :create
+    end
 
-  get 'your-registration/business-details-manual' => 'business_details_manual#show', as: :business_details_manual
-  post 'your-registration/business-details-manual' => 'business_details_manual#create'
+    scope controller: 'business_details' do
+      get 'business-details', action: :show
+      get 'business-details/edit', action: :edit
+      post 'business-details', action: :create
+    end
 
-  get 'your-registration/business-details-non-uk' => 'business_details_non_uk#show', as: :business_details_non_uk
-  post 'your-registration/business-details-non-uk' => 'business_details_non_uk#create'
+    scope controller: 'business_details_manual' do
+      get 'business-details-manual', action: :show
+      post 'business-details-manual', action: :create
+    end
 
-  # Registrations - postal address
-  get 'your-registration/postal-address' => 'postal_address#show', as: :postal_address
-  get 'your-registration/postal-address/edit' => 'postal_address#edit', as: :postal_address_edit
-  post 'your-registration/postal-address' => 'postal_address#create'
+    scope controller: 'business_details_non_uk' do
+      get 'business-details-non-uk', action: :show
+      post 'business-details-non-uk', action: :create
+    end
 
-  # Registrations - Contact details
-  match "your-registration/contact-details" => 'registrations#newContactDetails', :via => [:get], :as => :newContact
-  get   "your-registration/edit/contact-details" => "registrations#editContactDetails", :via => [:get], :as => :editContact
-  match "your-registration/contact-details" => 'registrations#updateNewContactDetails', :via => [:post,:put,:patch]
+    scope controller: 'postal_address' do
+      get 'postal-address', action: :show
+      get 'postal-address/edit', action: :edit
+      post 'postal-address', action: :create
+    end
+
+    scope controller: 'key_people' do
+      get 'key-person', action: :key_person
+      post 'key-person', action: :update_ey_person
+
+      get 'key-people/registration', action: :registration, as: :registration_key_people
+      get 'key-people', action: :key_people
+      post 'key-people', action: :update_key_people
+      get 'key-people/delete', action: :delete_key_person
+      get 'key-people/done', action: :done_key_people
+    end
+
+    scope controller: 'registrations' do
+      get 'contact-details', action: :contact_details
+      get 'contact-details/edit', action: :edit_contact_details
+      post 'contact-details', action: :update_contact_details
+
+      get 'confirmation', action: :confirmation
+      post 'confirmation', action: :update_confirmation
+
+      get 'relevant-convictions', action: :relevant_convictions
+      post 'relevant-convictions', action: :update_relevant_convictions
+
+    end
+
+  end
+
+  get "your-registration/relevant-people" => "key_people#newRelevantPeople", :as => :newRelevantPeople
+  post "your-registration/relevant-people" => "key_people#updateNewRelevantPeople"
+  get "your-registration/relevant-people/delete" => "key_people#deleteRelevantPerson", :as => :delete_relevant_person
+  get "your-registration/relevant-people/done" => "key_people#doneRelevantPeople", :as => :done_relevant_people
 
   # Registrations - Confirmation
-  match "your-registration/confirmation" => 'registrations#newConfirmation', :via => [:get], :as => :newConfirmation
-  match "your-registration/confirmation" => 'registrations#updateNewConfirmation', :via => [:post,:put,:patch]
 
   get "your-registration/account-mode" => 'registrations#account_mode', :as => :account_mode
 
@@ -148,22 +195,6 @@ Registrations::Application.routes.draw do
 
   resources :registrations
 
-  get "your-registration/key-people/registration" => "key_people#registration", :as => :registration_key_people
-  get "your-registration/key-person" => "key_people#newKeyPerson", :as => :newKeyPerson
-  post "your-registration/key-person" => "key_people#updateNewKeyPerson"
-  match "your-registration/key_people" => 'key_people#newKeyPeople', :via => [:get], :as => :newKeyPeople
-  match "your-registration/key_people" => 'key_people#updateNewKeyPeople', :via => [:post,:put,:patch]
-  get "your-registration/key-people/delete" => "key_people#delete", :as => :delete_key_person
-  get "your-registration/key-people/done" => "key_people#doneKeyPeople", :as => :done_key_people
-
-  get "your-registration/relevant-convictions" => "registrations#newRelevantConvictions", :via => [:get], :as => :newRelevantConvictions
-  match "your-registration/relevant-convictions" => "registrations#updateNewRelevantConvictions", :via => [:post,:put,:patch]
-
-  get "your-registration/relevant-people" => "key_people#newRelevantPeople", :as => :newRelevantPeople
-  post "your-registration/relevant-people" => "key_people#updateNewRelevantPeople"
-  get "your-registration/relevant-people/delete" => "key_people#deleteRelevantPerson", :as => :delete_relevant_person
-  get "your-registration/relevant-people/done" => "key_people#doneRelevantPeople", :as => :done_relevant_people
-
   get "your-registration/:id/order" => "order#new", :as => :upper_payment
   get "your-registration/:id/contact_us_to_complete_payment" => 'order#contact_us_to_complete_payment', :as => :contact_us_to_complete_payment
   get "your-registration/:id/order/editRegistration" => "registrations#newOrderEdit", :via => [:get], :as => :newOrderEdit
@@ -172,6 +203,9 @@ Registrations::Application.routes.draw do
   match "your-registration/:id/order" => "order#create", :via => [:post,:put,:patch]
   get "your-registration/:id/CopyCardsComplete" => "registrations#copyCardComplete", :as => :complete_copy_cards
   get "your-registration/:id/EditRenewComplete" => "registrations#editRenewComplete", :as => :complete_edit_renew
+
+  get 'your-registration/offline-payment' => 'registrations#newOfflinePayment', :as => :newOfflinePayment
+  post 'your-registration/offline-payment' => 'registrations#updateNewOfflinePayment'
 
   # routes for renewals and edits
   match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
@@ -201,9 +235,6 @@ Registrations::Application.routes.draw do
     get "templates/form-template" => "templates#formTemplate", :as => :formTemplate
     post "templates/form-template" => "templates#updateFormTemplate"
   end
-
-  get 'your-registration/offline-payment' => 'registrations#newOfflinePayment', :as => :newOfflinePayment
-  post 'your-registration/offline-payment' => 'registrations#updateNewOfflinePayment'
 
   # Worldpay response messages
   get "worldpay/success"

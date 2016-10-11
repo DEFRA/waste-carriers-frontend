@@ -11,7 +11,7 @@
     </div>
 
 	  <% content_for :page_title, createTitle('registrations.convictions_step.page_title') %>
-	  <%= form_for(@registration, :url => newRelevantConvictions_path, html: {autocomplete: 'off'}) do |f| %>
+	  <%= form_for(@registration, :url => relevant_convictions_path, html: {autocomplete: 'off'}) do |f| %>
   	  <%= render "convictions_step", :f => f %>
 	  <% end %>
 

@@ -20,7 +20,6 @@ describe BusinessTypeController, :type => :controller do
 
     before :each do
       session[:registration_id] = registration.id
-      session[:editing] = true
     end
 
     context "when 'sole trader' is selected" do

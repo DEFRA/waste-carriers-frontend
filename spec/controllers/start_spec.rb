@@ -18,11 +18,6 @@ describe StartController, :type => :controller do
 
   describe 'POST #create' do
 
-    before :each do
-      session[:registration_id] = registration.id
-      session[:editing] = true
-    end
-
     context "when 'renew' is selected" do
 
       let(:registration) { Registration.create }
