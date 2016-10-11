@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe ServiceProvidedController, :type => :controller do
 
-  before :each do
-    session[:registration_id] = registration.id
-    session[:editing] = true
-  end
-
   describe 'GET #show' do
 
     let(:registration) { Registration.create }

@@ -2,7 +2,7 @@ class BusinessDetailsNonUkController < ApplicationController
   include BusinessDetailsHelper
   include RegistrationsHelper
 
-  # GET /your-registration/business-details-non-uk
+  # GET /your-registration/:reg_uuid/business-details-non-uk
   def show
     new_step_action 'businessdetails'
     return unless @registration

@@ -1,7 +1,7 @@
 class OnlyDealWithController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/only-deal-with
+  # GET /your-registration/:reg_uuid/only-deal-with
   def show
     new_step_action 'onlydealwith'
     return unless @registration

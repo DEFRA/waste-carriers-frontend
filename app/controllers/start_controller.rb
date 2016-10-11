@@ -3,7 +3,8 @@ class StartController < ApplicationController
 
   # GET /registrations/start
   def show
-    new_step_action 'newOrRenew'
+    begin_steps(params[:reg_uuid])
+    # new_step_action 'newOrRenew'
     return unless @registration
   end
 

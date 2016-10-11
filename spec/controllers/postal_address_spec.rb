@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe PostalAddressController, type: :controller do
-  before :each do
-    session[:registration_id] = registration.id
-    session[:editing] = true
-  end
 
   describe 'GET #show' do
     let(:registration) { Registration.ctor }
@@ -38,7 +34,7 @@ describe PostalAddressController, type: :controller do
     end
 
     context 'when completing a new lower tier registration' do
-      it 'redirects to newConfirmation_path' do
+      it 'redirects to confirmation_path' do
         post :create,
              registration: {
                tier: 'LOWER'
@@ -69,7 +65,7 @@ describe PostalAddressController, type: :controller do
 
     context 'when edit has been selected from the confirmation page' do
       before :each do
-        session[:edit_link_postal_address] = '1'
+        session[:edit_link_postal_address] = @registration.reg_uuid
       end
 
       it "redirects to the 'Confirmation' page" do

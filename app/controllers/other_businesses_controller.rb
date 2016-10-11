@@ -1,7 +1,7 @@
 class OtherBusinessesController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/other-businesses
+  # GET /your-registration/:reg_uuid/other-businesses
   def show
     new_step_action 'otherbusinesses'
     return unless @registration

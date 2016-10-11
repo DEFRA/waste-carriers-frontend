@@ -1,7 +1,7 @@
 class BusinessTypeController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/business-type
+  # GET /your-registration/:reg_uuid/business-type
   def show
     new_step_action 'businesstype'
     return unless @registration

@@ -25,7 +25,7 @@
 
       <% content_for :page_title, createTitle('.title') %>
 
-      <%= form_for(@registration, :url => newConfirmation_path, html: {autocomplete: 'off'}) do |f| %>
+      <%= form_for(@registration, :url => confirmation_path, html: {autocomplete: 'off'}) do |f| %>
 
       <div class="text registration-tier">
         <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration_order.is_attempting_renewal? %>
@@ -129,7 +129,7 @@
       <div class='form-group'>
         <h2 class='heading-medium'><%= t '.contact_details_heading' %></h2>
           <%= render 'contactdetails_display', r: @registration %>
-        <%= link_to t('.edit_contact_details_link'), editContact_path %>
+        <%= link_to t('.edit_contact_details_link'), contact_details_edit_path(@registration.reg_uuid) %>
       </div><!-- end form-group -->
 
       <!-- Postal address section -->
@@ -166,7 +166,7 @@
               <% else %>
                 <p><%= t '.have_not_declared_convictions' %></p>
               <% end %>
-          <a><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path, :id => 'edit_conviction_declaration' %></a>
+          <a><%= link_to t('.edit_convictions_declaration_link'), relevant_convictions_path, :id => 'edit_conviction_declaration' %></a>
         </div><!-- end convictions form-group -->
       <% end %>
 
