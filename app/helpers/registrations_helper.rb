@@ -476,9 +476,9 @@ module RegistrationsHelper
 
     if (original_registration.businessType != edited_registration.businessType) && \
         (['partnership', 'limitedCompany', 'publicBody'].include? edited_registration.businessType )
-      {controller: 'key_people', action: 'newKeyPeople'}
+      {controller: :key_people, action: :key_people}
     else
-      {action: 'confirmation'}
+      {action: :confirmation}
     end
 
   end

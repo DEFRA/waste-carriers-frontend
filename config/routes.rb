@@ -147,13 +147,19 @@ Registrations::Application.routes.draw do
 
     scope controller: 'key_people' do
       get 'key-person', action: :key_person
-      post 'key-person', action: :update_ey_person
+      post 'key-person', action: :update_key_person
 
       get 'key-people/registration', action: :registration, as: :registration_key_people
+
       get 'key-people', action: :key_people
       post 'key-people', action: :update_key_people
-      get 'key-people/delete', action: :delete_key_person
-      get 'key-people/done', action: :done_key_people
+      delete 'key-people/:id', action: :delete, as: :delete_key_person
+      get 'key-people/done', action: :done_key_people, as: :done_key_people
+
+      get 'relevant-people', action: :relevant_people, as: :relevant_people
+      post 'relevant-people', action: :update_relevant_people, as: :update_relevant_people
+      delete 'relevant-people', action: :delete_relevant_person, as: :delete_relevant_person
+      get 'relevant-people/done', action: :done_relevant_people, as: :done_relevant_people
     end
 
     scope controller: 'registrations' do
@@ -167,18 +173,14 @@ Registrations::Application.routes.draw do
       get 'relevant-convictions', action: :relevant_convictions
       post 'relevant-convictions', action: :update_relevant_convictions
 
+      get 'account-mode', action: :account_mode, as: :account_mode
     end
 
   end
 
-  get "your-registration/relevant-people" => "key_people#newRelevantPeople", :as => :newRelevantPeople
-  post "your-registration/relevant-people" => "key_people#updateNewRelevantPeople"
-  get "your-registration/relevant-people/delete" => "key_people#deleteRelevantPerson", :as => :delete_relevant_person
-  get "your-registration/relevant-people/done" => "key_people#doneRelevantPeople", :as => :done_relevant_people
+
 
   # Registrations - Confirmation
-
-  get "your-registration/account-mode" => 'registrations#account_mode', :as => :account_mode
 
   match "your-registration/signup" => 'registrations#newSignup', :via => [:get], :as => :newSignup
   match "your-registration/signup" => 'registrations#updateNewSignup', :via => [:post,:put,:patch]

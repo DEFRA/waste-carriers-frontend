@@ -31,7 +31,7 @@ class BusinessDetailsManualController < ApplicationController
     @address.save
 
     unless @registration.valid? && @address.valid?
-      render 'show', status: '400'
+      render 'show', status: :bad_request
       return
     end
 

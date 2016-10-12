@@ -788,6 +788,7 @@ class Registration < Ohm::Model
   # *********************************
   validates :newOrRenew, :presence => { :message => I18n.t('errors.messages.select_new_or_renew') }, if: :newOrRenew_step?
   validates :originalRegistrationNumber, :presence => { :message => I18n.t('errors.messages.blank_registration_number') }, if: :enterRegNumber_step?
+  validates :reg_uuid, presence: true # There must always be a reg_uuid
 
   # *****************************************
   # * Section 1 (smart answers) validations *

@@ -2,26 +2,26 @@
 <header id="registration_key_people" class="page-header group">
     <div class="hgroup">
         <h1 class="heading-large"><%= legend %></h1>
-        
+
         <% case @registration.businessType %>
           <% when 'soleTrader' %>
-            <p class="subtitle"><%= t('key_people.newKeyPerson.sole_trader_helptext') %></p>
+            <p class="subtitle"><%= t('key_people.key_person.sole_trader_helptext') %></p>
           <% when 'limitedCompany' %>
-            <p class="subtitle"><%= t('key_people.newKeyPeople.all_directors_helptext') %></p>
-            <p class="subtitle"><%= t('key_people.newKeyPeople.add_people_one_at_a_time') %></p>
+            <p class="subtitle"><%= t('key_people.key_people.all_directors_helptext') %></p>
+            <p class="subtitle"><%= t('key_people.key_people.add_people_one_at_a_time') %></p>
             <p class="subtitle">
-              <%= t('key_people.newKeyPeople.how_to_add_people_helptext', button_label: t('key_people.newKeyPeople.button_label_limited')) %>
+              <%= t('key_people.key_people.how_to_add_people_helptext', button_label: t('key_people.key_people.button_label_limited')) %>
             </p>
           <% when 'partnership' %>
-            <p class="subtitle"><%= t('key_people.newKeyPeople.all_partners_helptext') %></p>
-            <p class="subtitle"><%= t('key_people.newKeyPeople.add_people_one_at_a_time') %></p>
+            <p class="subtitle"><%= t('key_people.key_people.all_partners_helptext') %></p>
+            <p class="subtitle"><%= t('key_people.key_people.add_people_one_at_a_time') %></p>
             <p class="subtitle">
-              <%= t('key_people.newKeyPeople.how_to_add_people_helptext', button_label: t('key_people.newKeyPeople.button_label_partner')) %>
+              <%= t('key_people.key_people.how_to_add_people_helptext', button_label: t('key_people.key_people.button_label_partner')) %>
             </p>
           <% when 'publicBody' %>
-            <p class="subtitle"><%= t('key_people.newKeyPeople.chief_execs_helptext') %></p>
+            <p class="subtitle"><%= t('key_people.key_people.chief_execs_helptext') %></p>
             <p class="subtitle">
-              <%= t('key_people.newKeyPeople.chief_execs_how_to_add_many', button_label: t('key_people.newKeyPeople.button_label_public')) %>
+              <%= t('key_people.key_people.chief_execs_how_to_add_many', button_label: t('key_people.key_people.button_label_public')) %>
             </p>
         <% end %>
     </div>

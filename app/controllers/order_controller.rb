@@ -92,7 +92,7 @@ class OrderController < ApplicationController
       @renderType = session[:renderType] # Needed in the view.
       logger.debug "registration validation errors: #{@registration.errors.messages.to_s}"
       logger.debug "order validation errors: #{@registration.errors.messages.to_s}"
-      render 'new', status: '400'
+      render 'new', status: :bad_request
       return
     end
 
@@ -121,7 +121,7 @@ class OrderController < ApplicationController
     unless @registration.save
       @order.errors.add(:exception, @order.exception.to_s)
       logger.warn 'The update order was not saved to services.'
-      render 'new', status: '400'
+      render 'new', status: :bad_request
       return
     end
 
@@ -145,7 +145,7 @@ class OrderController < ApplicationController
     else
       logger.debug "The registration is valid - redirecting to Worldpay..."
       response = send_xml(create_xml(@registration, @order))
-      render('new', status: '400') && return unless response
+      render('new', status: :bad_request) && return unless response
       redirect_to get_redirect_url(parse_xml(response.body))
     end
 
