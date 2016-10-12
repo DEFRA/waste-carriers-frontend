@@ -66,12 +66,12 @@ class RegistrationsController < ApplicationController
 
 
   # GET /your-registration/:reg_uuid/contact-details
-  def new_contact_details
+  def contact_details
     new_step_action 'contactdetails'
     return unless @registration
   end
 
-  # GET /your-registration/:reg_uuid/edit/contact-details
+  # GET /your-registration/:reg_uuid/contact-details/edit
   def edit_contact_details
     new_step_action 'contactdetails'
     return unless @registration
@@ -82,7 +82,7 @@ class RegistrationsController < ApplicationController
   end
 
   # POST /your-registration/contact-details
-  def update_new_contact_details
+  def update_contact_details
     setup_registration 'contactdetails'
     return unless @registration
 
@@ -96,7 +96,7 @@ class RegistrationsController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render :new_contact_details, status: '400'
+      render :new_contact_details, status: :bad_request
     end
   end
 
@@ -120,7 +120,7 @@ class RegistrationsController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render :relevant_convictions, status: '400'
+      render :relevant_convictions, status: :bad_request
     end
   end
 
@@ -158,18 +158,19 @@ class RegistrationsController < ApplicationController
           # Use copy of registration in memory and save to database
           new_reg.current_step = 'confirmation'
           if new_reg.valid?
-            # TODO: Moved to model, no longer needed
-            # new_reg.reg_uuid = SecureRandom.uuid
             if new_reg.commit
               new_reg.save
               @registration = new_reg
-              session[:registration_id] = new_reg.id
-              session[:registration_uuid] = @registration.uuid
+
+              # TODO: Commenting this, removing all things session related
+              # Remove before finishing this work.
+              # session[:registration_id] = new_reg.id
+              # session[:registration_uuid] = @registration.uuid
             else
-              render 'confirmation', status: '400'
+              render 'confirmation', status: :bad_request
             end
           else
-            render 'confirmation', status: '400'
+            render 'confirmation', status: :bad_request
           end
 
           # Save copied registration to redis and update any session variables
@@ -197,7 +198,7 @@ class RegistrationsController < ApplicationController
       elsif @registration.order_types.include? :renew
         # Detect standard or IR renewal
         if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
-          redirect_to action: :account_mode
+          redirect_to :account_mode
         else
           @registration.renewalRequested = true
 
@@ -209,12 +210,12 @@ class RegistrationsController < ApplicationController
       elsif @registration.lower? && @registration.persisted?
         complete_edit_that_has_no_charge and return
       else # new registration
-        redirect_to action: :account_mode
+        redirect_to :account_mode
       end
 
     else
       # there is an error (but data not yet saved)
-      render 'confirmation', status: '400'
+      render :confirmation, status: :bad_request
     end
   end
 
@@ -282,7 +283,7 @@ class RegistrationsController < ApplicationController
                 end
               else
                 @registration.errors.add(:exception, "Unable to commit registration")
-                render "confirmation", :status => '400'
+                render "confirmation", status: :bad_request
               end
             when 'UPPER'
               complete_new_registration
@@ -302,7 +303,7 @@ class RegistrationsController < ApplicationController
               end
           end
         else
-          render "confirmation", :status => '400'
+          render "confirmation", status: :bad_request
         end
     end
 
@@ -326,15 +327,15 @@ class RegistrationsController < ApplicationController
         sign_in @user
       else
         logger.error "GGG ERROR - password not valid for user with e-mail"
-        render "newSignin", :status => '400'
+        render "newSignin", status: :bad_request
         return
       end
     end
 
-    if !@registration.valid?
+    unless @registration.valid?
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render "newSignin", :status => '400'
+      render "newSignin", status: :bad_request
       return
     end
 
@@ -402,8 +403,8 @@ class RegistrationsController < ApplicationController
         # Note: we have to store the new user first, and only if that succeeds, we want to commit the registration
         logger.debug 'Check to commit user'
         unless current_user
-          if !commit_new_user
-            render "newSignup", :status => '400'
+          unless commit_new_user
+            render "newSignup", status: :bad_request
             return
           end
         end
@@ -413,7 +414,7 @@ class RegistrationsController < ApplicationController
         else #registration was not committed
           logger.error 'Registration was valid but data is not yet saved due to an error in the services'
           @registration.errors.add(:exception, @registration.exception.to_s)
-          render "newSignup", :status => '400'
+          render "newSignup", status: :bad_request
           return
         end
       end
@@ -421,7 +422,7 @@ class RegistrationsController < ApplicationController
     else # the registration is not valid
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render "newSignup", :status => '400'
+      render "newSignup", status: :bad_request
       return
     end
 
@@ -599,8 +600,8 @@ class RegistrationsController < ApplicationController
 
     searchCrossField_valid = true
     # Add cross field check, to ensure that correct params supplied if needed
-    if !searchString.nil?
-      if !searchString.empty?
+    unless searchString.nil?
+      unless searchString.empty?
         if searchDistance.nil? || searchPostcode.nil?
           searchCrossField_valid = false
         end
@@ -688,7 +689,7 @@ class RegistrationsController < ApplicationController
     end
 
     @user = User.find_by_email(session[:userEmail])
-    if !@user
+    unless @user
       logger.error 'Could not retrieve the activated user. Showing 404.'
       renderNotFound
       return
@@ -712,7 +713,7 @@ class RegistrationsController < ApplicationController
       end
     end
 
-    if !@registration
+    unless @registration
       renderNotFound and return
     end
 
@@ -737,7 +738,7 @@ class RegistrationsController < ApplicationController
 
     # Request version from REST api
     @apiVersionObj = Version.find(:one, :from => "/version.json" )
-    if !@apiVersionObj.nil?
+    unless @apiVersionObj.nil?
       logger.debug 'Version info, version number:' + @apiVersionObj.versionDetails + ' lastBuilt: ' + @apiVersionObj.lastBuilt
       @apiVersion = @apiVersionObj.versionDetails
     end
@@ -756,12 +757,9 @@ class RegistrationsController < ApplicationController
   def edit
     logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
-    if !@registration
-      renderNotFound and return
-    end
-    # let's keep track of the original registration before any edits have been done
-    # the we can use it to compare it with the edited one.
-    session[:original_registration_id] = Registration.find_by_id(params[:id]).id
+
+    renderNotFound and return unless @registration
+
     authorize! :update, @registration
 
     # Helps display the correct wording on the confirmation page
@@ -774,9 +772,9 @@ class RegistrationsController < ApplicationController
   def edit_account_email
     logger.debug "edit account email for: #{params[:uuid]}"
     @registration = Registration.find_by_id(params[:uuid])
-    if !@registration
-      renderNotFound and return
-    end
+
+    renderNotFound and return unless @registration
+
     authorize! :update, @registration
 
     if request.patch?
@@ -808,7 +806,7 @@ class RegistrationsController < ApplicationController
   end
 
   def check_steps_are_valid_up_until_current current_step
-    if !@registration.steps_valid?(current_step)
+    unless@registration.steps_valid?(current_step)
       redirect_to_failed_page(@registration.current_step)
     else
       logger.debug 'Previous pages are valid'
@@ -899,7 +897,7 @@ class RegistrationsController < ApplicationController
     # Validate if is in a correct state to revoke/unrevoke?
     if params[:revoke]                      # Checks the type of request, ie which button was clicked
       if @registration.is_revocable?        # Checks if revocable, i.e. is registration in a state that can be made revoked
-        if !params[:registration][:metaData][:revokedReason].empty?     # Checks the reason was provided
+        unless params[:registration][:metaData][:revokedReason].empty?     # Checks the reason was provided
           if agency_user_signed_in?                                     # Checks only agency users can revoke
             # Get reason from params
             revokedReason = params[:registration][:metaData][:revokedReason]
@@ -931,7 +929,7 @@ class RegistrationsController < ApplicationController
     else
       # check if unrevocable
       if @registration.is_unrevocable?
-        if !params[:registration][:metaData][:unrevokedReason].empty?
+        unless params[:registration][:metaData][:unrevokedReason].empty?
           if agency_user_signed_in?
             # Get reason from params
             unrevokedReason = params[:registration][:metaData][:unrevokedReason]
@@ -964,11 +962,11 @@ class RegistrationsController < ApplicationController
     if params[:revoke]
       # from revoke
       @isRevoke = true
-      render :revoke, :status => '400'
+      render :revoke, status: :bad_request
     else
       # from unrevoke
       @isRevoke = false
-      render :revoke, :status => '400'
+      render :revoke, status: :bad_request
     end
   end
   #####################################################################################
@@ -997,7 +995,7 @@ class RegistrationsController < ApplicationController
     if params[:approve]
       # Approve
       logger.debug '>>>>>> Approve Request Found'
-      if !params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
+      unless params[:registration][:metaData][:approveReason].empty?     # Checks the reason was provided
         if agency_user_signed_in?                                     # Checks only agency users can approve
           # Get reason from params
           approveReasonParam = params[:registration][:metaData][:approveReason]
@@ -1043,7 +1041,7 @@ class RegistrationsController < ApplicationController
     else
       # Refuse
       if @registration.is_awaiting_conviction_confirmation?(current_agency_user)        # Checks if refusable, i.e. is registration in a state that can be made refused
-        if !params[:registration][:metaData][:refusedReason].empty?                     # Checks the reason was provided
+        unless params[:registration][:metaData][:refusedReason].empty?                     # Checks the reason was provided
           # Get reason from params
           refusedReasonParam = params[:registration][:metaData][:refusedReason]
 
@@ -1074,11 +1072,11 @@ class RegistrationsController < ApplicationController
     if params[:approve]
       # from approve
       @isApprove = true
-      render :approve, :status => '400'
+      render :approve, status: :bad_request
     else
       # from refuse
       @isApprove = false
-      render :approve, :status => '400'
+      render :approve, status: :bad_request
     end
   end
 
@@ -1226,11 +1224,9 @@ class RegistrationsController < ApplicationController
     renderType = session[:renderType]
 
     # Validate that actions only occur here if a render type is
-    if !renderType
-      # If the renderType has been cleared you have already gone through this controller
-      # thus any subsequent action renders the access denied page
-      renderAccessDenied and return
-    end
+    # If the renderType has been cleared you have already gone through this controller
+    # thus any subsequent action renders the access denied page
+    (renderAccessDenied and return) unless renderType
 
     # This should be an acceptable time to delete the render type and
     # the order code from the session, as these are used for payment

@@ -683,12 +683,11 @@ en:
       change_account_email: "Change account email"
       change_account_email_helper_text: "This is where the account email address for any registration can be changed."
   key_people:
-    newKeyPerson:
-      title: "Key person"
-      subtitle: "These will not be made public"
-      legend: "Business owner details"
-      sole_trader_helptext: "Please provide the name and date of birth for the owner of this business."
-    newKeyPeople:
+    title: "Key person"
+    subtitle: "These will not be made public"
+    legend: "Business owner details"
+    sole_trader_helptext: "Please provide the name and date of birth for the owner of this business."
+    key_people:
       title: "Key people"
       legend: "Business owner details"
       legend_limited: "Director details"
@@ -708,7 +707,7 @@ en:
     key_person_form:
       legend: "Key person details"
       subtitle: "These will not be made public"
-    newRelevantPeople:
+    relevant_people:
       title: "Relevant people"
       legend: "Details of the person with a conviction"
       button_label: "Add another person"
@@ -925,7 +924,7 @@ en:
     editRenewComplete:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"
-    new_contact_details:
+    contact_details:
       title: "Contact details"
     contactdetails_step:
       legend: "Contact details"

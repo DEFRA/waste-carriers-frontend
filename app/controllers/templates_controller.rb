@@ -15,7 +15,7 @@ class TemplatesController < ApplicationController
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render "formExample", :status => '400'
+      render "formExample", status: :bad_request
     end
   end
 
@@ -33,7 +33,7 @@ class TemplatesController < ApplicationController
     elsif @registration.new_record?
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render "formTemplate", :status => '400'
+      render "formTemplate", status: :bad_request
     end
   end
 

@@ -6,7 +6,7 @@
 
     <div class="back-section">
       <ol>
-        <li><%= link_to t('registrations.form.back_button_label'), :contact, :class => 'link_to' %></li>
+        <li><%= link_to t('registrations.form.back_button_label'), :contact_details, :class => 'link_to' %></li>
       </ol>
     </div>
 
@@ -25,7 +25,7 @@
         <div class="inner-block">
           <% content_for :page_title, createTitle('.title') %>
           <% button_label = nil %>
-          <%= form_for(@key_person, url: {action: "updateNewKeyPeople"}, html: {autocomplete: 'off'} ) do |f| %>
+          <%= form_for(@key_person, url: {action: :update_key_people}, html: {autocomplete: 'off'} ) do |f| %>
 
             <% case @registration.businessType %>
               <% when 'limitedCompany' %>
@@ -56,7 +56,7 @@
             <div class="inner group related-subsection">
               <h2 class="heading-small"><%= t '.you_have_added' %></h2>
               <%= content_tag_for(:p, @key_people) do |key_person| %>
-                <%= first_name_last_name(key_person) %> <%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'delete', :id => key_person.id), :class => 'link_to' %>
+                <%= first_name_last_name(key_person) %> <%= link_to t('form.delete_button_label'), delete_key_person_path(@registration.reg_uuid, key_person.id), method: :delete, class: 'link_to' %>
               <% end %>
               <div id="includedContent"></div>
             </div>

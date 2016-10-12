@@ -29,7 +29,7 @@ class StartController < ApplicationController
 
     # there is an error (but data not yet saved)
     logger.debug 'No selection made'
-    render 'show', :status => '400'
+    render 'show', status: :bad_request
 
   end
 

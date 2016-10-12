@@ -27,7 +27,7 @@ class BusinessDetailsController < ApplicationController
       # have something to search against.
       @address_match_list = AddressSearchResult.search(@address.postcode)
     else
-      render 'show', status: '400'
+      render 'show', status: :bad_request
     end
   end
 
@@ -70,7 +70,7 @@ class BusinessDetailsController < ApplicationController
       selected_address = AddressSearchResult.search_by_id(@registration.selectedAddress)
 
       # TODO: Understand why we note that address lookup was used in the session
-      # session[:address_lookup_selected] = true
+      # session [:address_lookup_selected] = true
 
       # Update the address object based on the selected address
       @address.populate_from_address_search_result(selected_address)
@@ -99,7 +99,7 @@ class BusinessDetailsController < ApplicationController
       if 'address-results' == @address.addressMode
         @address_match_list = AddressSearchResult.search(@address.postcode)
       end
-      render 'show', status: '400'
+      render 'show', status: :bad_request
       return
     end
 
@@ -107,7 +107,7 @@ class BusinessDetailsController < ApplicationController
     # want to validate the address to record the postcode error before
     # returning the page back.
     unless @address.valid?
-      render 'show', status: '400'
+      render 'show', status: :bad_request
       return
     end
 

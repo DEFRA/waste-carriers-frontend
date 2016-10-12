@@ -28,7 +28,7 @@
       <%= form_for(@registration, :url => confirmation_path, html: {autocomplete: 'off'}) do |f| %>
 
       <div class="text registration-tier">
-        <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration_order.is_attempting_renewal? %>
+        <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration_order.try(:is_attempting_renewal?) %>
           <div class="text">
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
             <% if @registration.upper? %>
@@ -37,7 +37,7 @@
           </div>
         <% end %>
 
-        <% if @registration_order.is_attempting_renewal? %>
+        <% if @registration_order.try(:is_attempting_renewal?) %>
           <div class='text'>
             <p><%= @registration_order.within_ir_renewal_window? ? t('.subtitle_renew_reg') : t('.subtitle_renew_expired_reg') %></p>
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
@@ -106,7 +106,7 @@
                 <%= t('.show_registration_type', reg_type: reg_type_prettify) %>
             </li>
           </ul>
-          <%= link_to t('.edit_change_reg_type_link'), edit_registration_type_path, id: 'changeRegistrationType' %>
+          <%= link_to t('.edit_change_reg_type_link'), registration_type_edit_path, id: 'changeRegistrationType' %>
 
         </div><!-- end registration type form-group -->
       <% end %>

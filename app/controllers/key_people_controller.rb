@@ -43,23 +43,21 @@ class KeyPeopleController < ApplicationController
       # Create a list of all non key people (ie.'RELEVANT'), to ensure they are
       # retained when the list is replaced.  We are assuming that the only 'KEY'
       # person is the key person from the params which we add after.
-      personList = Array.new
-      @registration.key_people.each do |kPerson|
-        if !kPerson.person_type.eql? "KEY"
-          personList.push(kPerson)
-        end
+      person_list = Array.new
+      @registration.key_people.each do |key_person|
+        person_list.push(key_person) unless key_person.person_type == "KEY"
       end
       # Add key person from params
-      personList.push(@key_person)
+      person_list.push(@key_person)
 
-      @registration.key_people.replace(personList)
+      @registration.key_people.replace(person_list)
       @registration.save
 
       redirect_to :relevant_convictions
     else
       # there is an error (but data not yet saved)
       logger.debug 'Key person is not valid, and data is not yet saved'
-      render "newKeyPerson", :status => '400'
+      render :key_person, status: :bad_request
     end
   end
 
@@ -87,10 +85,12 @@ class KeyPeopleController < ApplicationController
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
 
-    if !(params[:add] || params[:continue])
+    unless (params[:add] || params[:continue])
       logger.warn {'updateNewKeyPeople: unrecognised button found, sending back to newKeyPeople page'}
-      render 'newKeyPeople', status: '400'
-    elsif @key_person.valid?
+      render :key_people, status: :bad_request and return
+    end
+
+    if @key_person.valid?
       @key_person.cross_check_convictions
       @key_person.save
       @registration.key_people.add(@key_person)
@@ -116,12 +116,12 @@ class KeyPeopleController < ApplicationController
       # Form was left blank.
       if params[:add]
         # The user clicked the 'add' button but didn't provide any details.
-        render :key_people, status: '400'
+        render :key_people, status: :bad_request
       else
         @key_person.errors.clear
         unless @registration.valid?
           # We have too few Key People added so far.
-          render :key_people, status: '400'
+          render :key_people, status: :bad_request
         else
           # Everything is OK; continue to next page.
           redirect_to :relevant_convictions
@@ -129,7 +129,7 @@ class KeyPeopleController < ApplicationController
       end
     else
       # Key Person details are not blank, but failed validation.
-      render :key_people, status: '400'
+      render :key_people, status: :bad_request
     end
   end
 
@@ -159,16 +159,16 @@ class KeyPeopleController < ApplicationController
         if @registration.valid?
           @registration.save
 
-          redirect_to action: 'newRelevantPeople'
+          redirect_to action: :relevant_people
         else
           # there is an error (but data not yet saved)
           logger.debug 'Registration is not valid, and data is not yet saved'
-          render "newRelevantPeople", :status => '400'
+          render :relevant_people, status: :bad_request
         end
       else
         # there is an error (but data not yet saved)
         logger.debug 'Relevant person is not valid, and data is not yet saved'
-        render "newRelevantPeople", :status => '400'
+        render :relevant_people, status: :bad_request
       end
     elsif params[:continue]
       if @key_person.valid?
@@ -185,7 +185,7 @@ class KeyPeopleController < ApplicationController
         else
           # there is an error (but data not yet saved)
           logger.debug 'Registration is not valid, and data is not yet saved'
-          render "newRelevantPeople", :status => '400'
+          render :relevant_people, status: :bad_request
         end
       else
         # No data entered
@@ -200,7 +200,7 @@ class KeyPeopleController < ApplicationController
 
             # there is an error (but data not yet saved)
             logger.debug 'Key person is not valid, and data is not yet saved'
-            render "newRelevantPeople", :status => '400'
+            render :relevant_people, status: :bad_request
           else
             # Not 1st person and Form is blank so can go to declaration
             redirect_to :confirmation
@@ -208,22 +208,19 @@ class KeyPeopleController < ApplicationController
         else
           # there is an error (but data not yet saved)
           logger.debug 'Key person is not valid, and data is not yet saved'
-          render "newRelevantPeople", :status => '400'
+          render :relevant_people, status: :bad_request
         end
       end
     else
       logger.debug 'Unrecognised button found, sending back to newRelevantPeople page'
-      render "newRelevantPeople", :status => '400'
+      render :relevant_people, status: :bad_request
     end
   end
 
-  # GET /your-registration/:reg_uuid/key-people/delete/:id
+  # DELETE /your-registration/:reg_uuid/key-people/:id
   def delete
     key_person_to_remove = KeyPerson[params[:id]]
-    if !key_person_to_remove
-      renderNotFound
-      return
-    end
+    renderNotFound and return unless key_person_to_remove
 
     @registration.key_people.delete(key_person_to_remove)
 
@@ -233,14 +230,11 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/:reg_uuid/relevant-people/delete/:id
   def delete_relevant_person
     person_to_remove = KeyPerson[params[:id]]
-    if !person_to_remove
-      renderNotFound
-      return
-    end
+    renderNotFound and return unless person_to_remove
 
     @registration.key_people.delete(person_to_remove)
 
-    redirect_to action: 'newRelevantPeople'
+    redirect_to action: :relevant_people
   end
 
   # GET /your-registration/:reg_uuid/key-people
@@ -255,9 +249,7 @@ class KeyPeopleController < ApplicationController
 
   def get_registration
     setup_registration 'key_people'
-    unless @registration
-      renderNotFound
-    end
+    renderNotFound and return unless @registration
   end
 
   def get_key_people

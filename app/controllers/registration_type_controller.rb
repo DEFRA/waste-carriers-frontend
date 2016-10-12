@@ -34,7 +34,7 @@ class RegistrationTypeController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render 'show', status: '400'
+      render 'show', status: :bad_request
     end
   end
 
