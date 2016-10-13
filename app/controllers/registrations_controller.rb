@@ -89,7 +89,7 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       if session[:edit_link_contact_details] == @registration.reg_uuid
         session.delete(:edit_link_contact_details)
-        redirect_to confirmation_path(@registration.reg_uuid)
+        redirect_to declaration_path(@registration.reg_uuid)
         return
       end
       redirect_to :postal_address
@@ -115,7 +115,7 @@ class RegistrationsController < ApplicationController
       if @registration.declaredConvictions == 'yes'
         redirect_to relevant_people_path(@registration.reg_uuid)
       else
-        redirect_to confirmation_path(@registration.reg_uuid)
+        redirect_to declaration_path(@registration.reg_uuid)
       end
     else
       # there is an error (but data not yet saved)
@@ -124,16 +124,16 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  # GET /your-registration/:reg_uuid/confirmation
-  def confirmation
-    new_step_action 'confirmation'
+  # GET /your-registration/:reg_uuid/declaration
+  def declaration
+    new_step_action 'declaration'
     return unless @registration
     @registration_order = @registration.registration_order
   end
 
-  # POST /your-registration/confirmation
-  def update_confirmation
-    setup_registration 'confirmation'
+  # POST /your-registration/:reg_uuid/declaration
+  def update_declaration
+    setup_registration 'declaration'
     return unless @registration
 
     if @registration.valid?
@@ -149,14 +149,14 @@ class RegistrationsController < ApplicationController
           # Need to re-get registration from DB as we are leaving the orig alone
           original_reg = Registration.find_by_id(@registration.uuid)
           # Mark original registration as deleted and save to db
-          original_reg.metaData.first.update(:status=>'INACTIVE')
+          original_reg.metaData.first.update(status: 'INACTIVE')
 
           if original_reg.save!
             original_reg.save
           end
 
           # Use copy of registration in memory and save to database
-          new_reg.current_step = 'confirmation'
+          new_reg.current_step = 'declaration'
           if new_reg.valid?
             if new_reg.commit
               new_reg.save
@@ -167,10 +167,10 @@ class RegistrationsController < ApplicationController
               # session[:registration_id] = new_reg.id
               # session[:registration_uuid] = @registration.uuid
             else
-              render 'confirmation', status: :bad_request
+              render 'declaration', status: :bad_request
             end
           else
-            render 'confirmation', status: :bad_request
+            render 'declaration', status: :bad_request
           end
 
           # Save copied registration to redis and update any session variables
@@ -215,7 +215,7 @@ class RegistrationsController < ApplicationController
 
     else
       # there is an error (but data not yet saved)
-      render :confirmation, status: :bad_request
+      render :declaration, status: :bad_request
     end
   end
 
@@ -267,9 +267,9 @@ class RegistrationsController < ApplicationController
 
     case account_mode_val
       when 'sign_in'
-        redirect_to :action => 'newSignin'
+        redirect_to action: :signin
       when 'sign_up'
-        redirect_to :action => 'newSignup'
+        redirect_to action: :signup
       else
         if @registration.valid?
           case @registration.tier
@@ -283,7 +283,7 @@ class RegistrationsController < ApplicationController
                 end
               else
                 @registration.errors.add(:exception, "Unable to commit registration")
-                render "confirmation", status: :bad_request
+                render "declaration", status: :bad_request
               end
             when 'UPPER'
               complete_new_registration
@@ -303,21 +303,22 @@ class RegistrationsController < ApplicationController
               end
           end
         else
-          render "confirmation", status: :bad_request
+          render "declaration", status: :bad_request
         end
     end
 
   end
 
   # GET /your-registration/:reg_uuid/signin
-  def newSignin
-    session[:at_mid_registration_signin_step] = true
+  def signin
     new_step_action 'signin'
     return unless @registration
+    session[:at_mid_registration_signin_step] = @registration.reg_uuid
+    @registration.sign_up_mode = 'sign_in'
   end
 
-  # POST /your-registration/signin
-  def updateNewSignin
+  # POST /your-registration/:reg_uuid/signin
+  def update_signin
     setup_registration 'signin'
     return unless @registration
 
@@ -327,7 +328,7 @@ class RegistrationsController < ApplicationController
         sign_in @user
       else
         logger.error "GGG ERROR - password not valid for user with e-mail"
-        render "newSignin", status: :bad_request
+        render "signin", status: :bad_request
         return
       end
     end
@@ -335,7 +336,7 @@ class RegistrationsController < ApplicationController
     unless @registration.valid?
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render "newSignin", status: :bad_request
+      render "signin", status: :bad_request
       return
     end
 
@@ -382,13 +383,14 @@ class RegistrationsController < ApplicationController
   end
 
   # GET /your-registration/:reg_uuid/signup
-  def newSignup
+  def signup
     new_step_action 'signup'
     return unless @registration
+    @registration.sign_up_mode = 'sign_up'
   end
 
-  # POST /your-registration/signup
-  def updateNewSignup
+  # POST /your-registration/:reg_uuid/signup
+  def update_signup
     setup_registration 'signup'
     return unless @registration
 
@@ -404,7 +406,7 @@ class RegistrationsController < ApplicationController
         logger.debug 'Check to commit user'
         unless current_user
           unless commit_new_user
-            render "newSignup", status: :bad_request
+            render "signup", status: :bad_request
             return
           end
         end
@@ -414,7 +416,7 @@ class RegistrationsController < ApplicationController
         else #registration was not committed
           logger.error 'Registration was valid but data is not yet saved due to an error in the services'
           @registration.errors.add(:exception, @registration.exception.to_s)
-          render "newSignup", status: :bad_request
+          render "signup", status: :bad_request
           return
         end
       end
@@ -422,7 +424,7 @@ class RegistrationsController < ApplicationController
     else # the registration is not valid
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render "newSignup", status: :bad_request
+      render "signup", status: :bad_request
       return
     end
 
@@ -432,6 +434,7 @@ class RegistrationsController < ApplicationController
                   when 'LOWER'
                     pending_url
                   when 'UPPER'
+
                     # Important!
                     # Now storing an additional variable in the session for the type of order
                     # you are about to make.
@@ -440,19 +443,20 @@ class RegistrationsController < ApplicationController
 
                     # Determine what type of registration order to create
                     # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
-                    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-                      session[:renderType] = Order.renew_registration_identifier
-                      if session[:edit_result]
-                        if session[:edit_result].to_i.eql? EditResult::CREATE_NEW_REGISTRATION
-                          session[:renderType] = Order.editrenew_caused_new_identifier
-                        end
-                      end
-                    else
-                      session[:renderType] = Order.new_registration_identifier
-                    end
+                    # if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+                      # session[:renderType] = Order.renew_registration_identifier
+                      # if session[:edit_result]
+                        # if session[:edit_result].to_i.eql? EditResult::CREATE_NEW_REGISTRATION
+                        #  session[:renderType] = Order.editrenew_caused_new_identifier
+                        # end
+                      # end
+                    # else
+                      # session[:renderType] = Order.new_registration_identifier
+                    # end
 
-                    session[:orderCode] = generateOrderCode
-                    upper_payment_path(:id => @registration.uuid)
+                    # session[:orderCode] = generateOrderCode
+
+                    upper_payment_path(@registration.reg_uuid)
                 end
 
     # Reset Signed up user to signed in status
@@ -462,9 +466,9 @@ class RegistrationsController < ApplicationController
     redirect_to next_step
   end
 
-  # GET /registrations/finish
+  # GET /registrations/:reg_uuid/finish
   def finish
-    @registration = Registration.find_by_id(session[:registration_uuid])
+    setup_registration 'finish'
     authorize! :read, @registration
 
     @confirmationType = getConfirmationType
@@ -475,30 +479,24 @@ class RegistrationsController < ApplicationController
   end
 
   # POST /registrations/finish
-  def updateFinish
-    #
-    # Finished here, ok to clear session variables
-    #
-    clear_registration_session
+  def update_finish
     if user_signed_in?
-      redirect_to userRegistrations_path(current_user)
+      redirect_to user_registrations_path(current_user)
     else
-      reset_session
       redirect_to Rails.configuration.waste_exemplar_end_url
     end
   end
 
   # GET /registrations/finish-assisted
-  def finishAssisted
+  def finish_assisted
     @registration = Registration.find_by_id(session[:registration_uuid])
     authorize! :read, @registration
   end
 
   # POST /registrations/finish-assisted
-  def updateFinishAssisted
+  def update_finish_assisted
     if agency_user_signed_in?
-      clear_registration_session
-      redirect_to :action => 'index'
+      redirect_to :index
     else
       redirect_to controller: 'errors', action: 'server_error_500'
     end
@@ -539,8 +537,8 @@ class RegistrationsController < ApplicationController
 
     @registration.save
     if @registration.commit
-      session[:registration_uuid] = @registration.uuid
-      session[:registration_id] = @registration.id
+      # session[:registration_uuid] = @registration.uuid
+      # session[:registration_id] = @registration.id
 
       logger.debug "Registration commited"
       true
@@ -561,11 +559,12 @@ class RegistrationsController < ApplicationController
       # first having to have clicked the link in the confirmaton email. The Confirmed action relies on pulling
       # out the user from the session as when you do click the link the ConfirmationsController::after_confirmation_path_for
       # action stores the confirmed user there.
-      session[:userEmail] = @user.email
+      # session[:userEmail] = @user.email
       return true
     else
       logger.debug 'Could not save user. Errors: ' + @user.errors.full_messages.to_s
-      @registration.errors.add(:accountEmail, @user.errors.full_messages)
+      # Full messages returns an array, so join to avoid printing [ ] on screen
+      @registration.errors.add(:accountEmail, @user.errors.full_messages.join(' '))
       return false
     end
   end
@@ -724,7 +723,7 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  def completeConfirmed
+  def complete_confirmed
     #
     # Finished here, ok to clear session variables
     #
@@ -765,7 +764,7 @@ class RegistrationsController < ApplicationController
     # Helps display the correct wording on the confirmation page
     flash[:start_editing] = true
 
-    redirect_to :confirmation
+    redirect_to :declaration
   end
 
   # GET, PATCH /registrations/1/edit_account_email
@@ -805,14 +804,6 @@ class RegistrationsController < ApplicationController
     authorize! :read, Payment
   end
 
-  def check_steps_are_valid_up_until_current current_step
-    unless@registration.steps_valid?(current_step)
-      redirect_to_failed_page(@registration.current_step)
-    else
-      logger.debug 'Previous pages are valid'
-    end
-  end
-
   def copyAddressToSession
     logger.debug 'Copying address details into the registration...'
 
@@ -831,19 +822,6 @@ class RegistrationsController < ApplicationController
     # user = @registration.user
     # user.current_registration = @registration
     # user.send_confirmation_instructions unless user.confirmed?
-  end
-
-  def redirect_to_failed_page(failedStep)
-    logger.debug 'redirect_to_failed_page(failedStep) failedStep: ' +  failedStep
-    if failedStep == "business"
-      redirect_to :business_details
-    elsif failedStep == "contact"
-      redirect_to :contact
-    elsif failedStep == "confirmation"
-      redirect_to :confirmation
-    elsif failedStep == "signup"
-      redirect_to :newSignup
-    end
   end
 
   # DELETE /registrations/1
@@ -872,6 +850,7 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
   end
+
   #####################################################################################
   # Revoke / Unvoke
   #####################################################################################
@@ -914,7 +893,7 @@ class RegistrationsController < ApplicationController
             # We don't send a revoke email, because NCCC handle this process manually.
 
             # Redirect to registrations page
-            redirect_to registrations_path(:note => I18n.t('registrations.form.reg_revoked') ) and return
+            redirect_to registrations_path(note: I18n.t('registrations.form.reg_revoked')) and return
           else
             renderAccessDenied and return
           end

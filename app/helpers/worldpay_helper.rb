@@ -135,11 +135,11 @@ module WorldpayHelper
     response
   end
 
-  def get_redirect_url(doc)
+  def get_redirect_url(doc, registration)
     reference = doc.at_css('reference')
     if reference
       redirect_url = doc.at_css('reference').content
-      redirect_url_with_args = set_redirect_arguments(redirect_url)
+      redirect_url_with_args = set_redirect_arguments(redirect_url, registration)
       redirect_url_with_args
     else
       logger.warn 'WORLDPAY::REDIRECT_ERROR - The was a problem redirecting to the payment pages.'
@@ -166,7 +166,7 @@ module WorldpayHelper
     end
   end
 
-  def set_redirect_arguments(url)
+  def set_redirect_arguments(url, registration)
     success_url = URI::encode(worldpay_success_url)
     failure_url = URI::encode(worldpay_failure_url)
     pending_url = URI::encode(worldpay_pending_url)
@@ -179,6 +179,7 @@ module WorldpayHelper
     redirect_args << '&failureURL=' + failure_url
     redirect_args << '&pendingURL=' + pending_url
     redirect_args << '&cancelURL=' + cancel_url
+    redirect_args << '&reg_uuid=' + registration.reg_uuid
     url_with_args = url + redirect_args
 
     url_with_args

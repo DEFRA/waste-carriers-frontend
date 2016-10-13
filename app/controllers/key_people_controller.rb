@@ -70,7 +70,7 @@ class KeyPeopleController < ApplicationController
     # Check if we should force a validation of the key_people attribute on the
     # registration.  We do this to trigger the validation message for a
     # Partnership with < 2 partners.
-    if session.key?(:performKeyPeopleValidation)
+    if session.key?(:performKeyPeopleValidation) && (session[:performKeyPeopleValidation] == @registration.reg_uuid)
       @registration.validate_key_people()
       session.delete(:performKeyPeopleValidation)
     end
@@ -105,7 +105,7 @@ class KeyPeopleController < ApplicationController
           # We set a variable in the session to force the re-validation of the
           # Key People attribute on the registraiton.  This allows the page to
           # display all the required information.
-          session[:performKeyPeopleValidation] = true
+          session[:performKeyPeopleValidation] = @registration.reg_uuid
           redirect_to :back
         end
       else

@@ -47,7 +47,7 @@ Then(/^I should be sent to the normal User Sign In page$/) do
 end
 
 Then(/^I should be sent to the mid\-registration User Sign In page$/) do
-  expect(URI.parse(current_url).path).to eq(newSignin_path)
+  expect(URI.parse(current_url).path).to eq(signin_path)
 end
 
 Then(/^I should be sent to the normal Agency User Sign In page$/) do

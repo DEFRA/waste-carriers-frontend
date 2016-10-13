@@ -278,7 +278,7 @@ en:
       # TODO AH start wip until all validation message changes complete
 
       # Section 0 (start)
-      select_new_or_renew: "You must answer this question" 
+      select_new_or_renew: "You must answer this question"
       blank_registration_number: "You must enter your registration number"
       invalid_registration_number: "The registration number you entered is not recognised"
 
@@ -683,10 +683,11 @@ en:
       change_account_email: "Change account email"
       change_account_email_helper_text: "This is where the account email address for any registration can be changed."
   key_people:
-    title: "Key person"
-    subtitle: "These will not be made public"
-    legend: "Business owner details"
-    sole_trader_helptext: "Please provide the name and date of birth for the owner of this business."
+    key_person:
+      title: "Key person"
+      subtitle: "These will not be made public"
+      legend: "Business owner details"
+      sole_trader_helptext: "Please provide the name and date of birth for the owner of this business."
     key_people:
       title: "Key people"
       legend: "Business owner details"
@@ -858,7 +859,7 @@ en:
       deleteLabel: "De-Register"
       message_html: "Are you sure that you want to de-register <b>%{companyName}</b>?"
       title: "Confirm De-Registration"
-    confirmation_step:
+    confirmation:
       data_protection_heading: "How we use your personal information"
       data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
       declaration_heading: Declaration
@@ -964,7 +965,7 @@ en:
       relevant_convictions_scrap_2013: "Scrap Metal Dealers Act 2013"
       relevant_person_link_text: "What is a relevant person?"
       relevant_person_convictions: "What is a relevant person?"
-    confirmation:
+    declaration:
       title: "Confirmation"
       subtitle: "Check your details before registering"
       tier_link_title: "What are lower tier and upper tier?"
@@ -1022,7 +1023,7 @@ en:
       privacy_policy_link2: "cookies"
       privacy_policy_text1: "See our"
       privacy_policy_text2: "\ policy to find out how the Environment Agency will use this information."
-    newSignup:
+    signup:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
       subtitle: ""
@@ -1036,7 +1037,7 @@ en:
       createPassword: "Create a password"
       sign_in_link: "I already have a waste carrier account"
       password_hint: "Password must be at least 8 characters and contain at least 1 uppercase letter, 1 lowercase letter and 1 number"
-    newSignin:
+    signin:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
       subtitle: ""

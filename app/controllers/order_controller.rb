@@ -24,12 +24,9 @@ class OrderController < ApplicationController
     renderNotFound && return unless @registration
   end
 
-  # GET /new
+  # GET /your-registration/:reg_uuid/order
   def new
     @order ||= Order.new
-
-    @renderType = session[:renderType]
-    renderNotFound && return unless @order.isValidRenderType?(@renderType)
 
     setup_registration('payment', true)
 
@@ -55,7 +52,7 @@ class OrderController < ApplicationController
     @registration.total_fee = @order_builder.total_fee
   end
 
-  # POST /create
+  # POST /your-registration/:reg_uuid/order
   def create
     setup_registration 'payment'
 
@@ -71,11 +68,11 @@ class OrderController < ApplicationController
       # committed to the database at the time the registration was written.
       # Therefore we need to update the existing order.
       new_order_code = @registration.finance_details.first.orders.first.orderCode
-    elsif session.has_key?(:orderCode)
+    #elsif session.has_key?(:orderCode)
       # The user has returned to this page by cancelling in Worldpay, or via
       # using the back button.  To avoid creating a duplicate order, we re-use
       # the last order-code.
-      new_order_code = session[:orderCode]
+      #new_order_code = session[:orderCode]
     else
       # This must be a new order; we'll let the Order Builder generate a new
       # order code.
@@ -86,10 +83,10 @@ class OrderController < ApplicationController
     # handle the case where a user Cancels in Worldpay or uses the browser
     # back button.
     @order = @order_builder.order(new_order_code)
-    session[:orderCode] = @order.orderCode
+    #session[:orderCode] = @order.orderCode
 
     unless @registration.valid? && @order.valid?
-      @renderType = session[:renderType] # Needed in the view.
+      # @renderType = session[:renderType] # Needed in the view.
       logger.debug "registration validation errors: #{@registration.errors.messages.to_s}"
       logger.debug "order validation errors: #{@registration.errors.messages.to_s}"
       render 'new', status: :bad_request
@@ -106,7 +103,7 @@ class OrderController < ApplicationController
     end
 
     # Does the session order with orderCode exist already?
-    existing_order = @registration.getOrder(session[:orderCode])
+    existing_order = @registration.getOrder(@order.orderCode)
     if existing_order.present?
       # We must update the newly-generated order to contain the ID of the existing
       # order, as this is how the services decides which order to overwrite.
@@ -134,7 +131,7 @@ class OrderController < ApplicationController
     # confirm their changes, which would trick the system into thinking that a
     # free edit had taken place, and thus overwrite the NEW version that we've
     # just loaded from Mongo, in effect creating a "free" edit.
-    session[:registration_id] = @registration.id
+    # session[:registration_id] = @registration.id
 
     logger.debug "About to redirect to Worldpay or Offline payment"
     set_google_analytics_payment_indicator(session, @order)
@@ -146,7 +143,7 @@ class OrderController < ApplicationController
       logger.debug "The registration is valid - redirecting to Worldpay..."
       response = send_xml(create_xml(@registration, @order))
       render('new', status: :bad_request) && return unless response
-      redirect_to get_redirect_url(parse_xml(response.body))
+      redirect_to get_redirect_url(parse_xml(response.body), @registration)
     end
 
   end

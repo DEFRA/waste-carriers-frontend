@@ -66,6 +66,7 @@
               <ul>
                 <li><a href='/templates/form'>Form example</a></li>
                 <li><a href='/templates/form-template'>Form template</a></li>
+                <li><a><%= button_to 'Reset session', destroy_user_session_path, :method => :delete %></a></li>
               </ul>
             </nav>
         </div>

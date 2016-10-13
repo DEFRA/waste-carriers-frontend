@@ -89,7 +89,7 @@ class Order < Ohm::Model
     end
 
     order.update_attributes(normal_attributes)
-    
+
     order.save
     order
   end

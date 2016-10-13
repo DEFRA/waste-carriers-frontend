@@ -1,9 +1,15 @@
 Registrations::Application.routes.draw do
-  devise_for :users, skip: [:registrations], controllers: { registrations: 'devise/registrations', confirmations: 'confirmations', passwords: 'passwords' }
-    as :user do
-      get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
-      put 'users/:id' => 'devise/registrations#update', :as => 'user_registration'
-    end
+  devise_for :users,
+    skip: [:registrations],
+    controllers: {
+      registrations: 'devise/registrations',
+      confirmations: 'confirmations',
+      passwords: 'passwords'
+    }
+      as :user do
+        get 'users/edit' => 'devise/registrations#edit', :as => 'edit_user_registration'
+        put 'users/:id' => 'devise/registrations#update', :as => 'user_registration'
+      end
 
   devise_for :agency_users, :skip => [:registrations], :controllers => { :registrations => "devise/registrations"}
     as :agency_user do
@@ -167,47 +173,62 @@ Registrations::Application.routes.draw do
       get 'contact-details/edit', action: :edit_contact_details
       post 'contact-details', action: :update_contact_details
 
-      get 'confirmation', action: :confirmation
-      post 'confirmation', action: :update_confirmation
+      get 'declaration', action: :declaration
+      match 'declaration', action: :update_declaration, via: [:post, :put, :patch]
 
       get 'relevant-convictions', action: :relevant_convictions
       post 'relevant-convictions', action: :update_relevant_convictions
 
+      # User accounts
       get 'account-mode', action: :account_mode, as: :account_mode
+      get 'signup', action: :signup
+      match 'signup', action: :update_signup, via: [:post, :put, :patch]
+      get 'signin', action: :signin
+      match 'signin', action: :update_signin, via: [:post, :put, :patch]
+      get 'confirm-account', action: :pending, as: :pending
+      get 'confirmed', action: :confirmed, as: :confirmed
+      match 'confirmed', action: :complete_confirmed, via: [:post, :put, :patch]
+
+      get 'cannot-edit', action: :cannot_edit, as: :cannot_edit
+
+      get 'order/edit-registration', action: :order_edit, as: :order_edit
+      get 'order/renew-registration', action: :order_renew, as: :order_renew
+      get 'order/order-copy_cards', action: :order_copy_cards, as: :order_copy_cards
+
+      get 'copy-cards-complete', action: :copy_card_complete, as: :complete_copy_cards
+      get 'edit-renew-complete', action: :edit_renew_complete, as: :complete_edit_renew
+
+      get 'offline-payment', action: :offline_payment, as: :offline_payment
+      post 'offline-payment', action: :update_offline_payment
     end
+
+    scope controller: 'order' do
+      get 'order', action: :new, as: :upper_payment
+      match 'order', action: :create, via: [:post, :put, :patch]
+      get 'contact_us_to_complete_payment', action: :contact_us_to_complete_payment, as: :contact_us_to_complete_payment
+    end
+
+    # Worldpay response messages
+    get "worldpay/success"
+    get "worldpay/failure"
+    get "worldpay/pending"
+    get "worldpay/cancel"
+    get "worldpay/error"
+
+    unless Rails.env.production?
+      # TODO Remove GET after having configured Worldpay order notifications in the WP Merchant Admin Interface
+      get "worldpay/notification" => 'worldpay#order_notification'
+      get "worldpay/refund" => 'worldpay#newRefund'
+      post "worldpay/refund" => 'worldpay#updateNewRefund'
+
+      #To be used by the Worldpay Order Notification service - the service will post to this URL
+      post "worldpay/notification" => 'worldpay#update_order_notification', :as => :order_notification
+    end
+
 
   end
 
-
-
-  # Registrations - Confirmation
-
-  match "your-registration/signup" => 'registrations#newSignup', :via => [:get], :as => :newSignup
-  match "your-registration/signup" => 'registrations#updateNewSignup', :via => [:post,:put,:patch]
-
-  get "your-registration/signin" => 'registrations#newSignin', :as => :newSignin
-  match "your-registration/signin" => 'registrations#updateNewSignin', :via => [:post,:put,:patch]
-
-  get "your-registration/confirm-account" => 'registrations#pending', :as => :pending
-
-  get "your-registration/confirmed" => 'registrations#confirmed', :as => :confirmed
-  match "your-registration/confirmed" => 'registrations#completeConfirmed', :via => [:post]
-
-  get "your-registration/cannot-edit" => 'registrations#cannot_edit', :as => :cannot_edit
-
   resources :registrations
-
-  get "your-registration/:id/order" => "order#new", :as => :upper_payment
-  get "your-registration/:id/contact_us_to_complete_payment" => 'order#contact_us_to_complete_payment', :as => :contact_us_to_complete_payment
-  get "your-registration/:id/order/editRegistration" => "registrations#newOrderEdit", :via => [:get], :as => :newOrderEdit
-  get "your-registration/:id/order/renewRegistration" => "registrations#newOrderRenew", :via => [:get], :as => :newOrderRenew
-  get "your-registration/:id/order/additionalCopyCards" => "registrations#newOrderCopyCards", :via => [:get], :as => :newOrderCopyCards
-  match "your-registration/:id/order" => "order#create", :via => [:post,:put,:patch]
-  get "your-registration/:id/CopyCardsComplete" => "registrations#copyCardComplete", :as => :complete_copy_cards
-  get "your-registration/:id/EditRenewComplete" => "registrations#editRenewComplete", :as => :complete_edit_renew
-
-  get 'your-registration/offline-payment' => 'registrations#newOfflinePayment', :as => :newOfflinePayment
-  post 'your-registration/offline-payment' => 'registrations#updateNewOfflinePayment'
 
   # routes for renewals and edits
   match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
@@ -236,23 +257,6 @@ Registrations::Application.routes.draw do
     post "templates/form" => "templates#updateFormExample"
     get "templates/form-template" => "templates#formTemplate", :as => :formTemplate
     post "templates/form-template" => "templates#updateFormTemplate"
-  end
-
-  # Worldpay response messages
-  get "worldpay/success"
-  get "worldpay/failure"
-  get "worldpay/pending"
-  get "worldpay/cancel"
-  get "worldpay/error"
-
-  if !Rails.env.production?
-  #TODO Remove GET after having configured Worldpay order notifications in the WP Merchant Admin Interface
-    get "worldpay/notification" => 'worldpay#order_notification'
-    get "worldpay/refund" => 'worldpay#newRefund'
-    post "worldpay/refund" => 'worldpay#updateNewRefund'
-
-    #To be used by the Worldpay Order Notification service - the service will post to this URL
-    post "worldpay/notification" => 'worldpay#update_order_notification', :as => :order_notification
   end
 
   resources :agency_users
