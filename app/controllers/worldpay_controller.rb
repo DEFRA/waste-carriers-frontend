@@ -5,14 +5,14 @@ class WorldpayController < ApplicationController
   include WorldpayHelper
   include RegistrationsHelper
 
-  def success
-    @registration = Registration[session[:registration_id]]
+  before_action :set_registration
 
+  def success
     if process_payment
       update_order
 
       # Get render type from session
-      renderType = session[:renderType]
+      renderType = nil #session[:renderType]
 
       # If on the Digital route, send the new Registration email.
       if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
@@ -26,60 +26,43 @@ class WorldpayController < ApplicationController
         end
       end
 
-      # Now decide which page we'll redirect the user to.
-      case renderType
-      when Order.new_registration_identifier,
-           Order.editrenew_caused_new_identifier,
-           Order.renew_registration_identifier
-
-        # This was a new registration (perhaps via an edit or IR renewal).
-        next_step = if user_signed_in?
-          finish_path
-        elsif agency_user_signed_in?
-          finishAssisted_path
-        else
-          confirmed_path
-        end
-      when Order.edit_registration_identifier
-        # An existing registration was edited.
-        next_step = complete_edit_renew_path(id: @registration.uuid,
-          edit_mode: session[:edit_mode],
-          edit_result: session[:edit_result])
-      when Order.extra_copycards_identifier
-        # Extra copy cards were ordered.
-        # TODO: Insert appropriate routing for copy cards routes here
-        next_step = complete_copy_cards_path(@registration.uuid)
-        clear_registration_session
+      next_step = if user_signed_in?
+        finish_path
+      elsif agency_user_signed_in?
+        finishAssisted_path
+      else
+        confirmed_path
       end
 
       # This should be an acceptable time to delete the render type, order code
       # and edit-related items from the session.
-      clear_order_session
-      clear_edit_session
+      # TODO: We don't use the session any more so don't need this
+      # clear_order_session
+      # clear_edit_session
     else # We get here if 'process_payment' returns false.
       # Used to redirect_to WorldpayController::Error however that doesn't actually
       # exist, plus the plan as discussed with Georg was to redirect back to the payment
       # summary page but display the error details.
 
       # Check if renderType and orderCode exist, If so its okay to redirect to order page, If not render Expired page
-      if session[:orderCode]
-        next_step = upper_payment_path(@registration.uuid)
-      else
-        logger.debug 'Cannot redirect to order page as session variables already removed, this assume, Retry failed.'
-        renderAccessDenied and return
-      end
+      # TODO Remove this session
+      # if session[:orderCode]
+      next_step = upper_payment_path(@registration.reg_uuid)
+      # else
+      #  logger.debug 'Cannot redirect to order page as session variables already removed, this assume, Retry failed.'
+      #  renderAccessDenied and return
+      # end
     end
 
     redirect_to next_step
   end
 
   def failure
-    @registration = Registration.find_by_id(session[:registration_uuid])
     if process_payment
       # Should not get here as payment should have failed and thus return false
     else
       flash[:notice] = I18n.t('registrations.form.paymentFailed')
-      redirect_to upper_payment_path(session[:registration_uuid])
+      redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid)
     end
   end
 
@@ -89,12 +72,11 @@ class WorldpayController < ApplicationController
   end
 
   def cancel
-    @registration = Registration.find_by_id(session[:registration_uuid])
     if process_payment
       # should not get here as payment was cancelled
     else
       flash[:notice] = I18n.t('registrations.form.paymentCancelled')
-      redirect_to upper_payment_path(session[:registration_uuid])
+      redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid)
     end
   end
 
@@ -146,7 +128,7 @@ class WorldpayController < ApplicationController
       now = Time.now.utc.xmlschema
       order.dateLastUpdated = now
       order.worldPayStatus = 'VERIFICATIONFAILED'
-      order.save! session[:registration_uuid]
+      order.save! @registration.reg_uuid
 
       payment_processed = false
     elsif paymentStatus.eql? 'AUTHORISED'
@@ -173,8 +155,8 @@ class WorldpayController < ApplicationController
 
       #TODO re-enable validation and saving - current validation rules are geared towards offline payments
       if @payment.valid?
-        logger.debug "registration uuid: #{session[:registration_uuid]}"
-        if @payment.save! session[:registration_uuid]
+        logger.debug "registration uuid: #{@registration.reg_uuid}"
+        if @payment.save! @registration.uuid
           #@payment.save(:validate => false)
           payment_processed = true
         end
@@ -194,7 +176,7 @@ class WorldpayController < ApplicationController
         now = Time.now.utc.xmlschema
         order.dateLastUpdated = now
         order.worldPayStatus = paymentStatus
-        order.save! session[:registration_uuid]
+        order.save! @registration.uuid
       else
         logger.error 'There is no @registration. Cannot update registration.'
       end
@@ -210,7 +192,7 @@ class WorldpayController < ApplicationController
     orderCode = @payment.orderKey
     status = @payment.worldPayPaymentStatus
 
-    reg = Registration.find_by_id(session[:registration_uuid])
+    reg = @registration
 
     # Get the current_order from the registration
     ord = reg.getOrder(orderCode)
@@ -258,7 +240,8 @@ class WorldpayController < ApplicationController
 
 
         # Re-get registration so its data is up to date, for later use
-        @registration = Registration.find_by_id(session[:registration_uuid])
+        set_registration
+
         logger.debug 'Re-populated @registration from the database'
       else
         # Errored saving order
@@ -270,5 +253,9 @@ class WorldpayController < ApplicationController
     end
 
   end #update_order
+
+  def set_registration
+    @registration = Registration.find(reg_uuid: params[:reg_uuid]).first
+  end
 
 end

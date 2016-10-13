@@ -668,7 +668,11 @@ class Registration < Ohm::Model
   # @return [Registration] the Java Service object converted into a Registration object.
   class << self
     def init (response_hash)
-      new_reg = Registration.create
+      reg_uuid = response_hash['reg_uuid']
+
+      # Find or create a Redis registration for the reg_uuid
+      new_reg = Registration.find(reg_uuid: reg_uuid).first.presence || Registration.create
+
       normal_attributes = Hash.new
 
       response_hash.each do |k, v|
@@ -1435,6 +1439,7 @@ class Registration < Ohm::Model
       end
     end #each
     Rails.logger.debug "Activated registration(s) for user with email"
+    return rs
   end
 
   def self.isReadyToBeActive(reg)

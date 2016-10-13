@@ -21,11 +21,11 @@
     <div class="summary-page">
 
       <!-- WF 4.3.3 -->
-      <div id="page9"  data-journey="waste-carriers-registration:confirmation"></div>
+      <div id="page9" data-journey="waste-carriers-registration:confirmation"></div>
 
       <% content_for :page_title, createTitle('.title') %>
 
-      <%= form_for(@registration, :url => confirmation_path, html: {autocomplete: 'off'}) do |f| %>
+      <%= form_for(@registration, :url => declaration_path, html: {autocomplete: 'off'}) do |f| %>
 
       <div class="text registration-tier">
         <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration_order.try(:is_attempting_renewal?) %>
