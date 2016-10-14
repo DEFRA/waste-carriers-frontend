@@ -204,7 +204,7 @@
                 <% if reg.can_be_renewed? %>
                   <li><%= link_to t('form.renew_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %></li>
                 <% end %>
-                <% if reg.can_request_copy_cards?(current_agency_user) %><li><%= link_to t('form.addCopyCards_button_label'), newOrderCopyCards_path(reg.uuid) %></li><% end %>
+                <% if reg.can_request_copy_cards?(current_agency_user) %><li><%= link_to t('form.addCopyCards_button_label'), order_copy_cards_path(reg.uuid) %></li><% end %>
               <% end %>
             </ul>
           </nav>

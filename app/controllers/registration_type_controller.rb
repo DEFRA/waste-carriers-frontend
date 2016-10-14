@@ -25,7 +25,7 @@ class RegistrationTypeController < ApplicationController
     if @registration.valid?
       if session[:edit_link_reg_type] == @registration.reg_uuid
         session.delete(:edit_link_reg_type)
-        redirect_to :confirmation
+        redirect_to declaration_path(reg_uuid: @registration.reg_uuid)
         return
       else
         redirect_to :business_details

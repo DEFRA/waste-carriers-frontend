@@ -180,6 +180,8 @@ module RegistrationsHelper
     raise 'Registration UUID Param not found' unless reg_uuid.present?
     @registration = Registration.find(reg_uuid: reg_uuid).first
 
+    raise 'Registration not found' unless @registration.present?
+
     @registration.add(params[:registration]) unless no_update
 
     # Force contact email to lower case
@@ -209,6 +211,7 @@ module RegistrationsHelper
     reg_uuid = params[:reg_uuid]
     raise 'Registration UUID Param not found' unless reg_uuid.present?
     @registration = Registration.find(reg_uuid: reg_uuid).first
+    raise 'Registration not found' unless @registration.present?
   end
 
   # Note: This method is called at the beginning of the GET request handlers for the registration's 'editing' page

@@ -45,18 +45,18 @@ class RegistrationsController < ApplicationController
       @registrations = []
       flash.now[:notice] = I18n.t('errors.messages.search_criteria')
     end
-    session[:registration_step] = session[:registration_params] = nil
 
-    #
+    # session[:registration_step] = session[:registration_params] = nil
+
     # REVIEWME: Ideally this should not be needed but in order to cover the 'Back and refresh issue'
     # The variables will be cleared for subequent requests
     # This will not fix a user clicking and Edit then using browser back, and then clicking a link
     # that was present, e.g click an edit, go back then click New registration.
     #
-    clear_edit_session
-    clear_registration_session
-    clear_order_session
-    logger.debug "Cleared registration session variables"
+    # clear_edit_session
+    # clear_registration_session
+    # clear_order_session
+    # logger.debug "Cleared registration session variables"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -111,7 +111,7 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       set_google_analytics_convictions_indicator(session, @registration)
-      #      (redirect_to :confirmation and return) if session[:edit_mode]
+      #      (redirect_to declaration_path(reg_uuid: @registration.reg_uuid) and return) if session[:edit_mode]
       if @registration.declaredConvictions == 'yes'
         redirect_to relevant_people_path(@registration.reg_uuid)
       else
@@ -126,9 +126,10 @@ class RegistrationsController < ApplicationController
 
   # GET /your-registration/:reg_uuid/declaration
   def declaration
-    new_step_action 'declaration'
-    return unless @registration
-    @registration_order = @registration.registration_order
+    @registration = Registration.find(reg_uuid: params[:reg_uuid]).first
+    @registration_order = RegistrationOrder.new(@registration)
+
+    # logger.debug "any addresses? #{@registration.addresses.any?}"
   end
 
   # POST /your-registration/:reg_uuid/declaration
@@ -139,7 +140,7 @@ class RegistrationsController < ApplicationController
     if @registration.valid?
       if @registration.order_types.include? :edit
         if @registration.order_types.include? :change_reg_type
-          newOrderEdit @registration.uuid
+          order_edit(@registration.uuid)
         elsif @registration.order_types.include? :change_caused_new
           # If a new registration is needed at this point it should be created
           # as the payment will then be processed against that registration and
@@ -175,7 +176,7 @@ class RegistrationsController < ApplicationController
 
           # Save copied registration to redis and update any session variables
           @registration.save
-          newOrderCausedNew @registration.uuid
+          order_caused_new(@registration.uuid)
 
           ## ---- End of "if @registration.order_types.include? :change_caused_new" ---- ##
 
@@ -359,7 +360,7 @@ class RegistrationsController < ApplicationController
         #
 
         # Determine what type of registration order to create
-        # If an originalRegistrationNumber is presenet in the registration, then the registraiton is an IR Renewal
+        # If an originalRegistrationNumber is presenet in the registration, then the registration is an IR Renewal
         if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
           if session[:edit_result]
             case session[:edit_result].to_i
@@ -442,7 +443,7 @@ class RegistrationsController < ApplicationController
                     # is requested.
 
                     # Determine what type of registration order to create
-                    # If an originalRegistrationNumber is present in the registration, then the registraiton is an IR Renewal
+                    # If an originalRegistrationNumber is present in the registration, then the registration is an IR Renewal
                     # if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
                       # session[:renderType] = Order.renew_registration_identifier
                       # if session[:edit_result]
@@ -489,7 +490,7 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/finish-assisted
   def finish_assisted
-    @registration = Registration.find_by_id(session[:registration_uuid])
+    # @registration = Registration.find_by_id(session[:registration_uuid])
     authorize! :read, @registration
   end
 
@@ -612,24 +613,15 @@ class RegistrationsController < ApplicationController
   end
 
   def userRegistrations
-    # Get user from id in url
-    tmpUser = User.find_by_id(params[:id])
-    # if matches current logged in user
-    if tmpUser.nil? || current_user.nil?
-      logger.debug 'user not found - Showing Session Expired'
-      renderSessionExpired
-    elsif current_user.email != tmpUser.email
-      logger.warn 'User is requesting somebody else\'s registrations? - Showing Access Denied'
-      renderAccessDenied
-    else
-      # Search for users registrations
-      @registrations = Registration.find_by_email(tmpUser.email,
-                                                  %w(ACTIVE PENDING REVOKED EXPIRED)).sort_by { |r| r.date_registered }
+    authenticate_external_user!
 
-      respond_to do |format|
-        format.html # index.html.erb
-        format.json { render json: @registrations }
-      end
+    # Search for users registrations
+    @registrations = Registration.find_by_email(current_user.email,
+                                                %w(ACTIVE PENDING REVOKED EXPIRED)).sort_by { |r| r.date_registered }
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @registrations }
     end
   end
 
@@ -681,44 +673,17 @@ class RegistrationsController < ApplicationController
 
   # GET /your-registration/:reg_uuid/confirmed
   def confirmed
-    unless session.key?(:userEmail)
-      logger.error 'Session does not contain expected "userEmail" key. Showing 404.'
-      renderNotFound
-      return
-    end
+    setup_registration 'confirmed'
 
-    @user = User.find_by_email(session[:userEmail])
-    unless @user
-      logger.error 'Could not retrieve the activated user. Showing 404.'
-      renderNotFound
-      return
-    end
+    @user = User.find_by_email(@registration.accountEmail)
 
-    # If we come this way as part of the upper tier registration then we should have the ID for the
-    # registration we are dealing with else we came via a account confirmation link and can only go
-    # on the email address of the user.
-    reg_uuid = params[:id] || session[:registration_uuid]
-    if reg_uuid
-      @registration = Registration.find_by_id(reg_uuid)
-    else
-      @registrations = Registration.find_by_email(@user.email)
-      unless @registrations.empty?
-        @sorted = @registrations.sort_by { |r| r.date_registered}.reverse!
-        @registration = @sorted.first
-        session[:registration_uuid] = @registration.uuid
-      else
-        flash[:notice] = 'Registration list is empty, Found no registrations for user: ' + @user.email.to_s
-        renderNotFound and return
-      end
-    end
-
-    unless @registration
-      renderNotFound and return
-    end
+    renderNotFound and return unless @user
+    renderNotFound and return unless @registration
 
     @confirmationType = getConfirmationType
+
     unless @confirmationType
-      flash[:notice] = 'Invalid confirmation type. Check routing to this page'
+      flash[:notice] = 'Invalid confirmation type. Check routing to this page.'
       renderNotFound and return
     end
   end
@@ -754,17 +719,19 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/1/edit
   def edit
-    logger.debug "registration edit for: #{params[:id]}"
     @registration = Registration.find_by_id(params[:id])
-
     renderNotFound and return unless @registration
+
+    logger.debug "registration edit for: #{@registration.reg_uuid}"
+
+    logger.debug "any addresses? #{@registration.addresses.any?}"
 
     authorize! :update, @registration
 
     # Helps display the correct wording on the confirmation page
     flash[:start_editing] = true
 
-    redirect_to :declaration
+    redirect_to declaration_path(reg_uuid: @registration.reg_uuid)
   end
 
   # GET, PATCH /registrations/1/edit_account_email
@@ -813,7 +780,7 @@ class RegistrationsController < ApplicationController
   end
 
   def pending
-    @registration = Registration.find_by_id(session[:registration_uuid])
+    # @registration = Registration.find_by_id(session[:registration_uuid])
 
     # May not be necessary but seeing as we get a fuller object from services
     # at this point thought as a 'just in case' we should update the one in redis
@@ -1097,20 +1064,15 @@ class RegistrationsController < ApplicationController
   end
 
   def authenticate_admin_request!
-    if is_admin_request?
-      authenticate_agency_user!
-    end
+    authenticate_agency_user! if is_admin_request?
   end
 
   def authenticate_external_user!
-    if !is_admin_request? && !agency_user_signed_in?
-      authenticate_user!
-    end
+    authenticate_user! if (!is_admin_request? && !agency_user_signed_in?)
   end
 
-
   # Function to redirect newOrders to the order controller
-  def newOrder registration_uuid
+  def order(registration_uuid)
     #
     # Important!
     # Now storing an additional variable in the session for the type of order
@@ -1118,50 +1080,50 @@ class RegistrationsController < ApplicationController
     # This session variable needs to be set every time the order/new action
     # is requested.
     #
-    session[:renderType] = Order.new_registration_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+    # session[:renderType] = Order.new_registration_identifier
+    # session[:orderCode] = generateOrderCode
+    redirect_to upper_payment_path(id: registration_uuid)
   end
 
   # Function to redirect registration edit orders to the order controller
-  def newOrderEdit registration_uuid
-    session[:renderType] = Order.edit_registration_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+  def order_edit(registration_uuid)
+    # session[:renderType] = Order.edit_registration_identifier
+    # session[:orderCode] = generateOrderCode
+    redirect_to upper_payment_path(id: registration_uuid)
   end
 
   # Function to redirect registration renew orders to the order controller
-  def newOrderRenew registration_uuid
-    session[:renderType] = Order.renew_registration_identifier
-    session[:orderCode] = generateOrderCode
+  def order_renew(registration_uuid)
+    # session[:renderType] = Order.renew_registration_identifier
+    # session[:orderCode] = generateOrderCode
     redirect_to upper_payment_path(id: registration_uuid)
   end
 
   # Function to redirect additional copy card orders to the order controller
-  def newOrderCopyCards
-    clear_registration_session
-    session[:renderType] = Order.extra_copycards_identifier
-    session[:orderCode] = generateOrderCode
+  def order_copy_cards
+    # clear_registration_session
+    # session[:renderType] = Order.extra_copycards_identifier
+    # session[:orderCode] = generateOrderCode
     redirect_to upper_payment_path
   end
 
   # Function to redirect renewal which caused new registration to the order controller
-  def newOrderCausedNew registration_uuid
-    session[:renderType] = Order.editrenew_caused_new_identifier
-    session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(:id => registration_uuid)
+  def order_caused_new(registration_uuid)
+    # session[:renderType] = Order.editrenew_caused_new_identifier
+    # session[:orderCode] = generateOrderCode
+    redirect_to upper_payment_path(id: registration_uuid)
   end
 
   # Renders the additional copy card order complete view
-  def copyCardComplete
+  def copy_card_complete
     @registration = Registration.find_by_id(params[:id])
     @confirmationType = getConfirmationType
     authorize! :read, @registration
   end
 
   # Renders the edit renew order complete view
-  def editRenewComplete
-    @registration = Registration.find_by_id(session[:registration_uuid])
+  def edit_renew_complete
+    # @registration = Registration.find_by_id(session[:registration_uuid])
     # Need to store session variables as instance variable, so that
     # editRenewComplete.html can use them, as session will be cleared shortly.
 
@@ -1178,9 +1140,9 @@ class RegistrationsController < ApplicationController
     clear_edit_session
   end
 
-  def newOfflinePayment
+  def offline_payment
     # Check is registration still in session, if not render denied page
-    regUuid = session[:registration_uuid]
+    # regUuid = session[:registration_uuid]
     if regUuid
       @registration = Registration.find_by_id(regUuid)
 
@@ -1196,11 +1158,11 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  def updateNewOfflinePayment
-    @registration = Registration.find_by_id(session[:registration_uuid])
+  def update_offline_payment
+    # @registration = Registration.find_by_id(session[:registration_uuid])
 
     # Get renderType from recent order
-    renderType = session[:renderType]
+    # renderType = session[:renderType]
 
     # Validate that actions only occur here if a render type is
     # If the renderType has been cleared you have already gone through this controller
