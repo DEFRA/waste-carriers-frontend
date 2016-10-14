@@ -1076,7 +1076,7 @@ en:
       declared_convictions_message: "We will let you know when your application has been successful."
       pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
       details_change: "If any of your details change you must update your registration within 28 days."
-    editRenewComplete:
+    edit_renew_complete:
       title: "End of registration"
       title_renew_reg: "Renewed registration"
       title_edit_reg: "Edited registration"
@@ -1088,7 +1088,7 @@ en:
       subtitle_pending: "Registration pending"
       your_reg_number: "Your registration number is: %{reg}"
       back_button: "Back to your registrations"
-    finishAssisted:
+    finish_assisted:
       title: "Finished"
       subtitle_complete: "Registration complete"
       subtitle_pending: "Registration pending"
