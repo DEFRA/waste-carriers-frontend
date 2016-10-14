@@ -1142,24 +1142,19 @@ class RegistrationsController < ApplicationController
   end
 
   def offline_payment
+    new_step_action 'offline_payment'
     # Check is registration still in session, if not render denied page
     # regUuid = session[:registration_uuid]
-    if regUuid
-      @registration = Registration.find_by_id(regUuid)
-
-      # Get the order just made from the order code param
-      if @registration
-        @order = @registration.getOrder(params[:orderCode])
-      else
-        renderNotFound
-      end
+    if @registration
+      @order = @registration.getOrder(params[:orderCode])
     else
-      logger.warn 'Attempting to access registration from uuid in session, but no uuid is in the session. Showing Not Found'
-      renderNotFound
+      logger.warn 'Registration not found by reg_uuid'
+      renderNotFound and return
     end
   end
 
   def update_offline_payment
+    setup_registration 'offline_payment'
     # @registration = Registration.find_by_id(session[:registration_uuid])
 
     # Get renderType from recent order
@@ -1168,41 +1163,42 @@ class RegistrationsController < ApplicationController
     # Validate that actions only occur here if a render type is
     # If the renderType has been cleared you have already gone through this controller
     # thus any subsequent action renders the access denied page
-    (renderAccessDenied and return) unless renderType
+    # (renderAccessDenied and return) unless renderType
 
     # This should be an acceptable time to delete the render type and
     # the order code from the session, as these are used for payment
     # and if reached here payment request succeeded
-    session.delete(:renderType)
-    session.delete(:orderCode)
+    # session.delete(:renderType)
+    # session.delete(:orderCode)
 
     # Should also Clear other registration variables for other routes...
-    if renderType.eql?(Order.extra_copycards_identifier)
-      clear_registration_session
-    end
+    # if renderType.eql?(Order.extra_copycards_identifier)
+    #  clear_registration_session
+    # end
 
-    if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
+    if @registration.digital_route? # and !renderType.eql?(Order.extra_copycards_identifier)
       logger.debug 'Send registered email (if not agency user)'
       @user = User.find_by_email(@registration.accountEmail)
       Registration.send_registered_email(@user, @registration)
     end
 
-    next_step = if renderType.eql?(Order.extra_copycards_identifier)
-                  # redirect to copy card complete page
-                  complete_copy_cards_path(@registration.uuid)
-                elsif renderType.eql?(Order.edit_registration_identifier)
-                  # redirect to edit complete
-                  complete_edit_renew_path(@registration.uuid)
-                elsif renderType.eql?(Order.renew_registration_identifier)
-                  # redirect to renew complete
-                  complete_edit_renew_path(@registration.uuid)
-                elsif user_signed_in?
-                  finish_path
-                elsif agency_user_signed_in?
-                  finishAssisted_path
-                else
-                  confirmed_path
-                end
+    # next_step = if renderType.eql?(Order.extra_copycards_identifier)
+    #               # redirect to copy card complete page
+    #               complete_copy_cards_path(@registration.uuid)
+    #             elsif renderType.eql?(Order.edit_registration_identifier)
+    #               # redirect to edit complete
+    #               complete_edit_renew_path(@registration.uuid)
+    #             elsif renderType.eql?(Order.renew_registration_identifier)
+    #               # redirect to renew complete
+    #               complete_edit_renew_path(@registration.uuid)
+
+    next_step = if user_signed_in?
+      finish_path
+    elsif agency_user_signed_in?
+      finish_assisted_path
+    else
+      confirmed_path
+    end
 
     redirect_to next_step
 

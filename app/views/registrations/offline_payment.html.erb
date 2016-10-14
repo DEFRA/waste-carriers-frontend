@@ -99,7 +99,7 @@
 
     <p class="panel-indent"><strong><%= t '.payment_notice' %></strong></p>
 
-    <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post, html: {autocomplete: 'off'}) do |f| %>
+    <%= form_for(@registration, :url => offline_payment_path, :method => :post, html: {autocomplete: 'off'}) do |f| %>
 
     <%= render 'shared/registration_continue_link' %> 
 
