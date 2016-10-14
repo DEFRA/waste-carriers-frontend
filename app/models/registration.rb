@@ -667,11 +667,13 @@ class Registration < Ohm::Model
   # @param response_hash [Hash] the Java Service response JSON object
   # @return [Registration] the Java Service object converted into a Registration object.
   class << self
-    def init (response_hash)
+    def init(response_hash)
       reg_uuid = response_hash['reg_uuid']
 
-      # Find or create a Redis registration for the reg_uuid
-      new_reg = Registration.find(reg_uuid: reg_uuid).first.presence || Registration.create
+      # Find and delete Redis registration for the reg_uuid
+      existing_redis_reg = Registration.find(reg_uuid: reg_uuid).first
+
+      new_reg = Registration.create
 
       normal_attributes = Hash.new
 
@@ -679,16 +681,22 @@ class Registration < Ohm::Model
         case k
           when 'id'
             new_reg.uuid = v
+          when 'reg_uuid'
+            if existing_redis_reg.present?
+              new_reg.reg_uuid = reg_uuid + SecureRandom.hex(5)
+            else
+              new_reg.reg_uuid = reg_uuid
+            end
           when 'addresses'
-            if v && v.size > 0
+            if v.any?
               v.each do |address|
-                new_reg.addresses.add Address.init(address)
+                new_reg.addresses.add(Address.init(address))
               end
             end
           when 'key_people'
-            if v && v.size > 0
+            if v.any?
               v.each do |person|
-                new_reg.key_people.add KeyPerson.init(person)
+                new_reg.key_people.add(KeyPerson.init(person))
               end
             end #if
           when 'metaData'
@@ -703,13 +711,14 @@ class Registration < Ohm::Model
                 new_reg.conviction_sign_offs.add ConvictionSignOff.init(sign_off)
               end
             end
-          else  #normal attribute'
+          else # normal attribute
             normal_attributes.store(k, v)
         end
       end #each
 
       new_reg.update_attributes(normal_attributes)
       new_reg.save
+
       new_reg
     end #method
   end
@@ -718,7 +727,7 @@ class Registration < Ohm::Model
     Registration.init(self.to_json)
   end
 
-  # Creates and returns a new registraiton, initialising most fields from an
+  # Creates and returns a new registration, initialising most fields from an
   # existing instance.  This is intended to be used only in the case where the
   # user makes an edit requiring a new registration.  Specifically, finance
   # details and conviction sign-off results are not copied, and convictions
@@ -728,6 +737,7 @@ class Registration < Ohm::Model
     new_reg = Registration.create
     new_reg.add(original_registration.to_hash)
     new_reg.add(original_registration.attributes)
+    new_reg.reg_uuid = nil # saving will auto create a new reg_uuid
 
     # New registration should not get the Finance Details or Conviction
     # sign-offs of the old.
@@ -1275,11 +1285,7 @@ class Registration < Ohm::Model
   end
 
   def date_registered
-    if metaData.first.dateActivated
-      metaData.first.dateActivated
-    else
-      '' # return empty string for records with no activation date
-    end
+    metaData.first.dateActivated.presence.to_s
   end
 
   def getOrder( orderCode)
@@ -1592,7 +1598,7 @@ class Registration < Ohm::Model
   end
 
   def order_types
-    @order_types ||= registration_order.order_types
+    registration_order.order_types
   end
 
   def latest_order

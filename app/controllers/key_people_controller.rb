@@ -103,7 +103,7 @@ class KeyPeopleController < ApplicationController
         else
           # User wanted to continue, but they haven't added enough Key People.
           # We set a variable in the session to force the re-validation of the
-          # Key People attribute on the registraiton.  This allows the page to
+          # Key People attribute on the registration.  This allows the page to
           # display all the required information.
           session[:performKeyPeopleValidation] = @registration.reg_uuid
           redirect_to :back
@@ -181,7 +181,7 @@ class KeyPeopleController < ApplicationController
         if @registration.valid?
           @registration.save
 
-          redirect_to :confirmation
+          redirect_to declaration_path(reg_uuid: @registration.reg_uuid)
         else
           # there is an error (but data not yet saved)
           logger.debug 'Registration is not valid, and data is not yet saved'
@@ -203,7 +203,7 @@ class KeyPeopleController < ApplicationController
             render :relevant_people, status: :bad_request
           else
             # Not 1st person and Form is blank so can go to declaration
-            redirect_to :confirmation
+            redirect_to declaration_path(reg_uuid: @registration.reg_uuid)
           end
         else
           # there is an error (but data not yet saved)

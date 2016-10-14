@@ -70,7 +70,7 @@ When('sign in as an NCCC Finance Admin') do
   expect(page).to have_selector(:id, 'agency-user-signed-in')
 end
 
-When('view the Payment Status for the registraiton') do
+When('view the Payment Status for the registration') do
   waitForSearchResultsToContainText(my_company_name, 'Found 1 registration')
   click_link('paymentStatus1')
   expect(page).to have_text('Charge history')

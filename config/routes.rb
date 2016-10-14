@@ -171,13 +171,13 @@ Registrations::Application.routes.draw do
     scope controller: 'registrations' do
       get 'contact-details', action: :contact_details
       get 'contact-details/edit', action: :edit_contact_details
-      post 'contact-details', action: :update_contact_details
+      match 'contact-details', action: :update_contact_details, via: [:post, :put, :patch]
 
       get 'declaration', action: :declaration
       match 'declaration', action: :update_declaration, via: [:post, :put, :patch]
 
       get 'relevant-convictions', action: :relevant_convictions
-      post 'relevant-convictions', action: :update_relevant_convictions
+      match 'relevant-convictions', action: :update_relevant_convictions, via: [:post, :put, :patch]
 
       # User accounts
       get 'account-mode', action: :account_mode, as: :account_mode
