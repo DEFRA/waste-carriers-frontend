@@ -1225,7 +1225,7 @@ en:
       paymentCancelled: "You have cancelled your payment"
       paymentWorldPay: "Paid via Worldpay"
       refund_request: "A refund has been requested for this worldpay payment"
-    newOfflinePayment:
+    offline_payment:
       account_name: "Account name"
       account_number: "Account number"
       bank_address: "Bank address"
