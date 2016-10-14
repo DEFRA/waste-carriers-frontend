@@ -29,7 +29,7 @@ class WorldpayController < ApplicationController
       next_step = if user_signed_in?
         finish_path
       elsif agency_user_signed_in?
-        finishAssisted_path
+        finish_assisted_path
       else
         confirmed_path
       end

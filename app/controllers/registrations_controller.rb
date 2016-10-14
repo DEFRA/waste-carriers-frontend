@@ -78,7 +78,7 @@ class RegistrationsController < ApplicationController
 
     session[:edit_link_contact_details] = @registration.reg_uuid
 
-    render :new_contact_details
+    render :contact_details
   end
 
   # POST /your-registration/contact-details
@@ -96,7 +96,7 @@ class RegistrationsController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render :new_contact_details, status: :bad_request
+      render :contact_details, status: :bad_request
     end
   end
 
@@ -216,7 +216,7 @@ class RegistrationsController < ApplicationController
 
     else
       # there is an error (but data not yet saved)
-      render :declaration, status: :bad_request
+      render :declaration
     end
   end
 
@@ -490,14 +490,15 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/finish-assisted
   def finish_assisted
-    @registration = Registration.find(reg_uuid: params[:reg_uuid])
+    new_step_action 'finish_assisted'
+
     authorize! :read, @registration
   end
 
   # POST /registrations/finish-assisted
   def update_finish_assisted
     if agency_user_signed_in?
-      redirect_to :index
+      redirect_to registrations_path
     else
       redirect_to controller: 'errors', action: 'server_error_500'
     end
@@ -1134,7 +1135,7 @@ class RegistrationsController < ApplicationController
     if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
       @exitRoute = confirmed_path
     elsif current_agency_user
-      @exitRoute = finishAssisted_path
+      @exitRoute = finish_assisted_path
     else
       @exitRoute = registrations_finish_path
     end

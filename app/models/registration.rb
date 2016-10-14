@@ -1141,7 +1141,7 @@ class Registration < Ohm::Model
   end
 
   def confirmation_step?
-    current_step == 'confirmation'
+    current_step == 'confirmation' || current_step == 'declaration'
   end
 
   def pending?
