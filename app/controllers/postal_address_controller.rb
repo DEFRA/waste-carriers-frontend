@@ -45,9 +45,9 @@ class PostalAddressController < ApplicationController
       # edit_link_postal_address exists in the session.
       if session[:edit_link_postal_address] == @registration.reg_uuid
         session.delete(:edit_link_postal_address)
-        next_page = confirmation_path(@registration.reg_uuid)
+        next_page = declaration_path(reg_uuid: @registration.reg_uuid)
       elsif @registration.tier == 'LOWER'
-        next_page = confirmation_path(@registration.reg_uuid)
+        next_page = declaration_path(reg_uuid: @registration.reg_uuid)
       else
         next_page = registration_key_people_path(@registration.reg_uuid)
       end

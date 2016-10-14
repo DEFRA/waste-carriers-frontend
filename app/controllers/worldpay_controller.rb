@@ -114,16 +114,16 @@ class WorldpayController < ApplicationController
   def process_payment
     payment_processed = false
     orderKey = params[:orderKey] || ''
+    orderCode = orderKey.split('^').at(2)
     paymentAmount = params[:paymentAmount] || ''
     paymentCurrency = params[:paymentCurrency] || ''
     paymentStatus = params[:paymentStatus] || ''
     mac = params[:mac] || ''
-    if !validate_worldpay_return_parameters(orderKey,paymentAmount,paymentCurrency,paymentStatus,mac)
+    if !validate_worldpay_return_parameters(orderKey, paymentAmount, paymentCurrency, paymentStatus,mac)
       logger.error 'Validation of Worldpay return parameters failed. MAC verification failed!'
       # TODO Possibly need to do something more meaningful with the fact the MAC check has failed
 
       # Update order to reflect failed payment status
-      orderCode = orderKey.split('^').at(2)
       order = @registration.getOrder(orderCode)
       now = Time.now.utc.xmlschema
       order.dateLastUpdated = now
@@ -131,9 +131,7 @@ class WorldpayController < ApplicationController
       order.save! @registration.reg_uuid
 
       payment_processed = false
-    elsif paymentStatus.eql? 'AUTHORISED'
-      orderCode = orderKey.split('^').at(2)
-
+    elsif paymentStatus == 'AUTHORISED'
       now = Time.now.utc
       #now = Time.now.utc.xmlschema
       @payment = Payment.new
@@ -141,7 +139,7 @@ class WorldpayController < ApplicationController
       @payment.dateReceived_year = now.year
       @payment.dateReceived_month = now.month
       @payment.dateReceived_day = now.day
-      #We don't need to set the dateEntered; this is done within the service
+      # We don't need to set the dateEntered; this is done within the service
       # TODO get the user if not yet logged in (still to be activated)
       @payment.updatedByUser = @registration.accountEmail
       @payment.amount = paymentAmount.to_i
@@ -153,7 +151,7 @@ class WorldpayController < ApplicationController
       @payment.registrationReference = 'Worldpay'
       @payment.comment = I18n.t('registrations.form.paymentWorldPay')
 
-      #TODO re-enable validation and saving - current validation rules are geared towards offline payments
+      # TODO re-enable validation and saving - current validation rules are geared towards offline payments
       if @payment.valid?
         logger.debug "registration uuid: #{@registration.reg_uuid}"
         if @payment.save! @registration.uuid
@@ -163,11 +161,10 @@ class WorldpayController < ApplicationController
       else
         logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
         payment_processed = false
-        #TODO: what does this do? -need to replace it with explicit save
+        # TODO: what does this do? -need to replace it with explicit save
         @payment.save(:validate => false)
       end
     else
-      orderCode = orderKey.split('^').at(2)
       logger.error 'Payment status was not successful, paymentStatus: ' + paymentStatus.to_s + " for order: " + orderCode.to_s
 
       # Update order to reflect failed payment status

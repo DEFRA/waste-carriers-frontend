@@ -9,30 +9,33 @@ class RegistrationOrder
   end
 
   def order_types
-    order_types = []
-    return order_types if current_registration.lower?
-    order_types << :edit if is_editing_registration?
-    order_types << :tier_change_disallowed if is_tier_change_disallowed?
+    return @order_types if defined? @order_types
+    @order_types = begin
+      order_types = []
+      return order_types if current_registration.lower?
+      order_types << :edit if is_editing_registration?
+      order_types << :tier_change_disallowed if is_tier_change_disallowed?
 
-    if is_editing_registration? || is_renewing_registration?
-      if is_legal_entity_change?
-        order_types << :change_caused_new
-        order_types << :edit_charge
+      if is_editing_registration? || is_renewing_registration?
+        if is_legal_entity_change?
+          order_types << :change_caused_new
+          order_types << :edit_charge
+        else
+          if is_reg_type_change?
+            order_types << :change_reg_type
+            order_types << :edit_charge
+          end
+          if is_renewing_registration?
+            order_types << :renew
+            order_types << :edit_charge
+          end
+        end
       else
-        if is_reg_type_change?
-          order_types << :change_reg_type
-          order_types << :edit_charge
-        end
-        if is_renewing_registration?
-          order_types << :renew
-          order_types << :edit_charge
-        end
+        order_types << :new
       end
-    else
-      order_types << :new
+      order_types.uniq
     end
-
-    return order_types.uniq
+    return @order_types
   end
 
   def is_reg_type_change?

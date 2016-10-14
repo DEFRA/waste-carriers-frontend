@@ -688,13 +688,13 @@ class Registration < Ohm::Model
               new_reg.reg_uuid = reg_uuid
             end
           when 'addresses'
-            if v.any?
+            if v && v.any?
               v.each do |address|
                 new_reg.addresses.add(Address.init(address))
               end
             end
           when 'key_people'
-            if v.any?
+            if v && v.any?
               v.each do |person|
                 new_reg.key_people.add(KeyPerson.init(person))
               end
