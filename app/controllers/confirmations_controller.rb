@@ -43,9 +43,9 @@ class ConfirmationsController < Devise::ConfirmationsController
       #session[:registration_uuid] = registration.uuid
 
       goto_page = if registration.tier == 'LOWER'
-         confirmed_path
+         confirmed_path(reg_uuid: registration.reg_uuid)
       else
-        account_confirmed_path
+        account_confirmed_path(reg_uuid: registration.reg_uuid)
       end
     end
     goto_page

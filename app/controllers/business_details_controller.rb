@@ -121,9 +121,9 @@ class BusinessDetailsController < ApplicationController
 
     if session[:edit_link_business_details] == @registration.reg_uuid
       session.delete(:edit_link_business_details)
-      go_to = confirmation_path(@registration.reg_uuid)
+      go_to = declaration_path(reg_uuid: @registration.reg_uuid)
     else
-      go_to = contact_details_path(@registration.reg_uuid)
+      go_to = contact_details_path(reg_uuid: @registration.reg_uuid)
     end
 
     redirect_to(go_to)

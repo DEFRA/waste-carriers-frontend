@@ -42,10 +42,15 @@ class BusinessDetailsManualController < ApplicationController
       @registration.save
     end
 
-    # This is a call into a method in the Bus Dtls helper. It looks at a value
-    # in the session to determine if we need to go to the next step in the
-    # application or back to the confirmation page
-    redirect_to redirect_to?
+    if session[:edit_link_business_details] == @registration.reg_uuid
+      session.delete(:edit_link_business_details)
+      go_to = declaration_path(reg_uuid: @registration.reg_uuid)
+    else
+      go_to = contact_details_path(reg_uuid: @registration.reg_uuid)
+    end
+
+    redirect_to(go_to)
+
   end
 
   private

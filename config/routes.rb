@@ -40,12 +40,6 @@ Registrations::Application.routes.draw do
   # Add routing for Public Search
   get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
 
-  get "registrations/finish" => 'registrations#finish', :as => :finish
-  match "registrations/finish" => 'registrations#updateFinish', :via => [:post,:put,:patch]
-
-  get "registrations/finish-assisted" => 'registrations#finishAssisted', :as => :finishAssisted
-  match "registrations/finish-assisted" => 'registrations#updateFinishAssisted', :via => [:post,:put,:patch]
-
   get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
   get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
 
@@ -200,6 +194,12 @@ Registrations::Application.routes.draw do
 
       get 'offline-payment', action: :offline_payment, as: :offline_payment
       post 'offline-payment', action: :update_offline_payment
+
+      get 'finish', action: :finish, as: :finish
+      match 'finish', action: :update_finish, as: :update_finish, via: [:post,:put,:patch]
+
+      get 'finish-assisted', action: :finish_assisted, as: :finish_assisted
+      match 'finish-assisted', action: :update_finish_assisted, as: :update_finish_assisted, via: [:post,:put,:patch]
     end
 
     scope controller: 'order' do

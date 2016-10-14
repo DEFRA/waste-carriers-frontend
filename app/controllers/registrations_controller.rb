@@ -26,9 +26,9 @@ class RegistrationsController < ApplicationController
     RENEWAL = 2
   end
 
-  before_filter :authenticate_admin_request!
+  before_action :authenticate_admin_request!
 
-  before_filter :authenticate_external_user!, :only => [:update, :destroy, :finish, :view]
+  before_action :authenticate_external_user!, only: [:update, :destroy, :finish, :view]
 
   # GET /registrations
   # GET /registrations.json
@@ -204,7 +204,7 @@ class RegistrationsController < ApplicationController
           @registration.renewalRequested = true
 
           @registration.save
-          newOrderRenew(@registration.uuid)
+          order_renew(@registration.uuid)
           return
         end
 
@@ -278,9 +278,9 @@ class RegistrationsController < ApplicationController
               if complete_new_registration(true)
                 logger.debug "Registration created, about to check user type"
                 if user_signed_in
-                  redirect_to :action => 'finish'
+                  redirect_to finish_path(reg_uuid: @registration.reg_uuid)
                 else
-                  redirect_to :action => 'finishAssisted'
+                  redirect_to finish_assisted_path(reg_uuid: @registration.reg_uuid)
                 end
               else
                 @registration.errors.add(:exception, "Unable to commit registration")
@@ -298,9 +298,9 @@ class RegistrationsController < ApplicationController
               if @registration.originalRegistrationNumber &&
                   isIRRegistrationType(@registration.originalRegistrationNumber) &&
                   @registration.newOrRenew
-                newOrderRenew @registration.uuid
+                order_renew @registration.uuid
               else
-                newOrder @registration.uuid
+                order @registration.uuid
               end
           end
         else
@@ -349,7 +349,7 @@ class RegistrationsController < ApplicationController
 
     case @registration.tier
       when 'LOWER'
-        redirect_to :action => 'finish'
+        redirect_to finish_path(reg_uuid: @registration.reg_uuid)
       when 'UPPER'
         #
         # Important!
@@ -366,19 +366,19 @@ class RegistrationsController < ApplicationController
             case session[:edit_result].to_i
               when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE, EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
                 # no charge or ir renewal with charge
-                newOrderRenew @registration.uuid
+                order_renew @registration.uuid
               when  EditResult::CREATE_NEW_REGISTRATION
                 # ir renewal converted to new because of changes
-                newOrder @registration.uuid
+                order @registration.uuid
               else
                 # standard renewal
-                newOrderRenew @registration.uuid
+                order_renew @registration.uuid
             end
           else
-            newOrderRenew @registration.uuid
+            order_renew @registration.uuid
           end
         else
-          newOrder @registration.uuid
+          order @registration.uuid
         end
     end
   end
@@ -490,7 +490,7 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/finish-assisted
   def finish_assisted
-    # @registration = Registration.find_by_id(session[:registration_uuid])
+    @registration = Registration.find(reg_uuid: params[:reg_uuid])
     authorize! :read, @registration
   end
 
@@ -651,7 +651,7 @@ class RegistrationsController < ApplicationController
       end
     elsif params[:back]
       logger.debug 'Default, redirecting back to Finish page'
-      redirect_to finish_url(id: @registration.id)
+      redirect_to finish_path(reg_uuid: @registration.reg_uuid)
     else
       # Turn off default gov uk template so certificate can be printed exactly as is
       respond_to do |format|
@@ -780,7 +780,8 @@ class RegistrationsController < ApplicationController
   end
 
   def pending
-    # @registration = Registration.find_by_id(session[:registration_uuid])
+    redis_registration = Registration.find(reg_uuid: params[:reg_uuid]).first
+    @registration = Registration.find_by_id(redis_registration.uuid)
 
     # May not be necessary but seeing as we get a fuller object from services
     # at this point thought as a 'just in case' we should update the one in redis
