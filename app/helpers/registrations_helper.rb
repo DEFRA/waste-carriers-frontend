@@ -173,6 +173,15 @@ module RegistrationsHelper
     end
   end
 
+  def set_registration_from_uuid_or_reg_uuid
+    uuid = reg_uuid = params[:reg_uuid]
+    # Check redis
+    @registration = Registration.find(reg_uuid: reg_uuid).first
+    # Check the services / mongo
+    @registration = Registration.find_by_id(uuid) unless @registration.present?
+    raise 'Registration not found' unless @registration.present?
+  end
+
   # This method is called when updating from the registration's 'editing' pages (i.e. PUT/POST/MATCH)
   # to set up the @registration etc.
   def setup_registration(current_step, no_update = false)
