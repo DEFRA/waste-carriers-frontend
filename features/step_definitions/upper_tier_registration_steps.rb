@@ -1,4 +1,5 @@
 Given(/^I have completed the upper tier and chosen to pay by bank transfer$/) do
+  step 'I start a new registration'
   step 'I have been funneled into the upper tier path'
   step 'I am a carrier dealer'
   step 'I enter my business details'
@@ -12,7 +13,6 @@ Given(/^I have completed the upper tier and chosen to pay by bank transfer$/) do
 end
 
 Given(/^I have been funneled into the upper tier path$/) do
-  visit business_type_path
   choose 'registration_businessType_soletrader'
   click_button 'continue'
   choose 'registration_otherBusinesses_yes'
@@ -24,7 +24,6 @@ Given(/^I have been funneled into the upper tier path$/) do
 end
 
 Given(/^I am a partnership on the upper tier path$/) do
-  visit business_type_path
   choose 'registration_businessType_partnership'
   click_button 'continue'
   choose 'registration_otherBusinesses_yes'

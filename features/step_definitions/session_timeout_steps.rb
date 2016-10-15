@@ -16,9 +16,9 @@ Given(/^I have started my registration$/) do
   click_button 'continue'
 end
 
-When(/^I try to proceed with my unfinished registration$/) do
-  visit business_type_path
-end
+# When(/^I try to proceed with my unfinished registration$/) do
+#   visit business_type_path
+# end
 
 Then(/^I can still proceed$/) do
   expect(page).to have_text 'What type of business or organisation are you?'
@@ -29,10 +29,10 @@ Given(/^I keep working on my registration for more than (\d+) hours$/) do |numbe
   Timecop.travel(number_of_hours.to_i.hours.from_now + 1.minute)
 end
 
-Then(/^I can continue with my registration$/) do
-  visit business_type_path
-  expect(page).to have_text 'What type of business or organisation are you?'
-end
+# Then(/^I can continue with my registration$/) do
+#   visit business_type_path
+#   expect(page).to have_text 'What type of business or organisation are you?'
+# end
 
 Given(/^I am logged in as a waste carrier$/) do
   open_email my_user.email

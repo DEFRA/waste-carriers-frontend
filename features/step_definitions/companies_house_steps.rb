@@ -1,6 +1,4 @@
 Given(/^I am registering as a limited company$/) do
-  visit business_type_path
-
   choose 'registration_businessType_limitedcompany'
   click_button 'continue'
 end

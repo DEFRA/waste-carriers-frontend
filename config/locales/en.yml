@@ -916,7 +916,7 @@ en:
       contact_agency_html: "Contact the <a href='mailto:nccc-carrierbroker@environment-agency.gov.uk'>Environment Agency</a> if you have any questions about your application."
       survey_html: "<a href='https://www.gov.uk/done/waste-carrier-or-broker-registration' target='_blank'> What did you think of the service?</a>"
       survey_text: "\ (takes 30 seconds)"
-    copyCardComplete:
+    copy_card_complete:
       subtitle: "Thank you for your copy card order"
       title: "Order Complete"
       copyCardDelayNotice: "We’ll send your order to the postal address linked to your account."
