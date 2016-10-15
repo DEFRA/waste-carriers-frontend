@@ -23,12 +23,12 @@ describe StartController, :type => :controller do
       let(:registration) { Registration.create }
 
       it "sets #newOrRenew to 'renew' on the registration" do
-        post :create, :registration => { "newOrRenew" => "renew" }
+        post :create, :registration => { "newOrRenew" => "renew" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).newOrRenew).to eq('renew')
       end
 
       it "redirects to the 'existing registration' page" do
-        post :create, :registration => { "newOrRenew" => "renew" }
+        post :create, :registration => { "newOrRenew" => "renew" }, reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :existing_registration
       end
 
@@ -39,12 +39,12 @@ describe StartController, :type => :controller do
       let(:registration) { Registration.create }
 
       it "sets #newOrRenew to 'new' on the registration" do
-        post :create, :registration => { "newOrRenew" => "new" }
+        post :create, :registration => { "newOrRenew" => "new" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).newOrRenew).to eq('new')
       end
 
       it "redirects to the 'business type' page" do
-        post :create, :registration => { "newOrRenew" => "new" }
+        post :create, :registration => { "newOrRenew" => "new" }, reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :business_type
       end
 
@@ -55,12 +55,12 @@ describe StartController, :type => :controller do
       let(:registration) { Registration.create }
 
       it 'does not set #newOrRenew' do
-        post :create, :registration => { "newOrRenew" => "" }
+        post :create, :registration => { "newOrRenew" => "" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).newOrRenew).to eq('')
       end
 
       it "re-renders the 'start' page with a HTTP status code of 400" do
-        post :create, :registration => { "newOrRenew" => "" }
+        post :create, :registration => { "newOrRenew" => "" }, reg_uuid: registration.reg_uuid
         expect(response).to render_template("show")
         expect(response.code).to eq('400')
       end

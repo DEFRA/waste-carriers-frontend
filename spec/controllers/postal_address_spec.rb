@@ -6,12 +6,12 @@ describe PostalAddressController, type: :controller do
     let(:registration) { Registration.ctor }
 
     it 'responds successfully with a HTTP 200 status code' do
-      get :show
+      get :show, reg_uuid: registration.reg_uuid
       expect(response.code).to eq('200')
     end
 
     it 'renders the #show template' do
-      get :show
+      get :show, reg_uuid: registration.reg_uuid
       expect(response).to render_template('show')
     end
   end
@@ -21,13 +21,13 @@ describe PostalAddressController, type: :controller do
 
     context 'when mandatory fields are left bank' do
       it 'does not set #firstName' do
-        post :create, address: { addressType: 'POSTAL', firstName: '' }
+        post :create, address: { addressType: 'POSTAL', firstName: '' }, reg_uuid: registration.reg_uuid
         expect(assigns(:address).firstName).to eq('')
       end
 
       it "re-renders the 'existing registration' page with a HTTP/
         status code of 400" do
-        post :create, address: { addressType: 'POSTAL' }
+        post :create, address: { addressType: 'POSTAL' }, reg_uuid: registration.reg_uuid
         expect(response).to render_template('show')
         expect(response.code).to eq('400')
       end
@@ -43,8 +43,9 @@ describe PostalAddressController, type: :controller do
                firstName: 'Joe',
                lastName: 'Grades',
                addressLine1: 'Broad Street'
-             }
-        expect(response).to redirect_to :newConfirmation
+             },
+             reg_uuid: registration.reg_uuid
+        expect(response).to redirect_to :declaration
       end
     end
 
@@ -58,14 +59,15 @@ describe PostalAddressController, type: :controller do
                firstName: 'Joe',
                lastName: 'Grades',
                addressLine1: 'Broad Street'
-             }
+             },
+             reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :registration_key_people
       end
     end
 
     context 'when edit has been selected from the confirmation page' do
       before :each do
-        session[:edit_link_postal_address] = @registration.reg_uuid
+        session[:edit_link_postal_address] = registration.reg_uuid
       end
 
       it "redirects to the 'Confirmation' page" do
@@ -77,8 +79,9 @@ describe PostalAddressController, type: :controller do
                firstName: 'Joe',
                lastName: 'Grades',
                addressLine1: 'Broad Street'
-             }
-        expect(response).to redirect_to :newConfirmation
+             },
+             reg_uuid: registration.reg_uuid
+        expect(response).to redirect_to :declaration
       end
     end
   end

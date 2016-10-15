@@ -5,6 +5,7 @@ Feature: Lower tier
   So that my registration is processed by the Environment Agency
 
   Background:
+    Given I start a new registration
     Given I have been funneled into the lower tier path
     And I provide my company name
 
