@@ -9,11 +9,11 @@
 
       <div class="back-section">
         <ol>
-          <li><%= link_to t('form.back_button_label'), other_businesses_path %></li>
+          <li><%= link_to t('form.back_button_label'), other_businesses_path(reg_uuid: @registration.reg_uuid) %></li>
         </ol>
       </div>
 
-      <%= form_for(@registration, :url => service_provided_path, html: {autocomplete: 'off', :method => :post}) do |f| %>
+      <%= form_for(@registration, :url => service_provided_path(reg_uuid: @registration.reg_uuid), html: {autocomplete: 'off', :method => :post}) do |f| %>
 
         <%= render 'shared/errors' %>
 

@@ -5,7 +5,6 @@ class BusinessTypeController < ApplicationController
   def show
     new_step_action 'businesstype'
     return unless @registration
-    logger.debug "Route is #{@registration.metaData.first.route}"
   end
 
   # POST /your-registration/business-type

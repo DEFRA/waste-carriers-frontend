@@ -1,14 +1,16 @@
 require 'spec_helper'
 
-describe 'registrations/newConfirmation', type: :view do
+describe 'registrations/declaration', type: :view do
   let!(:ir_renewal) { create(:irrenewal) }
 
   context "when registration is new" do
+
     subject(:registration) { create(:registration) }
 
     it 'displays the correct charge wording' do
       assign(:registration, subject)
       assign(:registration_order, subject.registration_order)
+
       render
 
       expect(rendered).to have_text("Based on the information you provided, you are an upper tier waste carrier.")
@@ -26,6 +28,7 @@ describe 'registrations/newConfirmation', type: :view do
       RegistrationOrder.any_instance.stub(:ir_renewal).and_return(subject)
       assign(:registration, subject)
       assign(:registration_order, subject.registration_order)
+
       render
 
       expect(rendered).to have_text("The renewal charge is £105, which will register you for 3 years.")
@@ -36,6 +39,7 @@ describe 'registrations/newConfirmation', type: :view do
   end
 
   context "when registration is being edited" do
+
     subject(:editing_registration) { create(:registration, :editing) }
 
     it 'displays the correct introductory wording' do
@@ -43,6 +47,7 @@ describe 'registrations/newConfirmation', type: :view do
       RegistrationOrder.any_instance.stub(:original_registration).and_return(subject)
       assign(:registration, subject)
       assign(:registration_order, subject.registration_order)
+
       render
 
       expect(rendered).to have_text("Editing your registration")
@@ -55,6 +60,7 @@ describe 'registrations/newConfirmation', type: :view do
       subject.save
       assign(:registration, subject)
       assign(:registration_order, subject.registration_order)
+
       render
 
       expect(rendered).to have_text("Editing your registration")
@@ -70,6 +76,7 @@ describe 'registrations/newConfirmation', type: :view do
       editing_renewal_registration = create(:registration, :ir_renewal, :editing, registrationType: 'carrier_dealer')
       assign(:registration, editing_renewal_registration)
       assign(:registration_order, editing_renewal_registration.registration_order)
+
       render
 
       expect(rendered).to have_text("You are about to renew your registration.")
