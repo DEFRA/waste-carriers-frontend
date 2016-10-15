@@ -76,7 +76,7 @@ module RegistrationsHelper
   def first_back_link(registration)
     path = if registration.metaData.first.route == 'DIGITAL'
       if user_signed_in?
-        userRegistrations_path current_user.id
+        user_registrations_path current_user.id
       else
         find_path
       end

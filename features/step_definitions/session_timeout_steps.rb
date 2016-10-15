@@ -44,7 +44,7 @@ Given(/^I am logged in as a waste carrier$/) do
 end
 
 When(/^I try to continue with my registrations$/) do
-  visit userRegistrations_path(my_user)
+  visit user_registrations_path(my_user)
 end
 
 Then(/^my waste carrier session has expired$/) do

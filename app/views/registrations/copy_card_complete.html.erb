@@ -46,7 +46,7 @@
           </ul>
 
         <% if current_user %>
-          <%= link_to t('form.finished_button_label'), userRegistrations_path(current_user.id), id: 'finished_btn', class: 'button' %>
+          <%= link_to t('form.finished_button_label'), user_registrations_path(current_user.id), id: 'finished_btn', class: 'button' %>
         <% else %>
           <%= link_to t('form.finished_button_label'), registrations_path, id: 'finished_btn', class: 'button' %>
         <% end %>

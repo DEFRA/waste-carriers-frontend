@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     session[:expires_at] = Time.current + Rails.application.config.app_session_total_timeout
   	if user_signed_in?
-  	  userRegistrations_path(resource)
+  	  user_registrations_path(resource)
   	elsif agency_user_signed_in?
   	  registrations_path
   	elsif admin_signed_in?

@@ -31,7 +31,7 @@ Registrations::Application.routes.draw do
   get 'privacy' => 'home#privacy', :via => [:get], :as => :privacy
   get 'maintenance' => 'home#maintenance'
 
-  get "user/:id/registrations" => 'registrations#userRegistrations', :as => :userRegistrations
+  get "user/:id/registrations" => 'registrations#userRegistrations', as: :user_registrations
 
   # Static pages controller
   get '/account_confirmed' => 'pages#account_confirmed'

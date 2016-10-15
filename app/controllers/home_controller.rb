@@ -10,7 +10,7 @@ class HomeController < ApplicationController
         redirect_to registrations_path
       else
         if user_signed_in?
-          redirect_to userRegistrations_path(current_user)
+          redirect_to user_registrations_path(current_user)
         elsif agency_user_signed_in?
           redirect_to registrations_path
         elsif admin_signed_in?

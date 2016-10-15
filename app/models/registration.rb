@@ -597,7 +597,7 @@ class Registration < Ohm::Model
       url = "#{Rails.configuration.waste_exemplar_services_url}/irrenewals.json?#{irRenewalParam}"
       begin
         Rails.logger.debug "about to GET ir registration: #{ir_number.to_s}"
-        response = RestClient.get url
+        response = RestClient.get(url)
         if response.code == 200
           result = JSON.parse(response.body) #result should be Hash
         elsif response.code == 204
