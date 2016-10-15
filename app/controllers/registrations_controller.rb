@@ -444,20 +444,21 @@ class RegistrationsController < ApplicationController
 
                     # Determine what type of registration order to create
                     # If an originalRegistrationNumber is present in the registration, then the registration is an IR Renewal
-                    # if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-                      # session[:renderType] = Order.renew_registration_identifier
+                    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+                      order_type = session[:renderType] = Order.renew_registration_identifier
+
+                      # TODO: LB: Figure out how to get the editrenew_caused_new_identifier identified here
                       # if session[:edit_result]
                         # if session[:edit_result].to_i.eql? EditResult::CREATE_NEW_REGISTRATION
                         #  session[:renderType] = Order.editrenew_caused_new_identifier
                         # end
                       # end
-                    # else
-                      # session[:renderType] = Order.new_registration_identifier
-                    # end
 
-                    # session[:orderCode] = generateOrderCode
+                    else
+                      order_type = Order.new_registration_identifier
+                    end
 
-                    upper_payment_path(@registration.reg_uuid)
+                    upper_payment_path(@registration.reg_uuid, order_type: order_type)
                 end
 
     # Reset Signed up user to signed in status
@@ -1075,44 +1076,28 @@ class RegistrationsController < ApplicationController
 
   # Function to redirect newOrders to the order controller
   def order(registration_uuid)
-    #
-    # Important!
-    # Now storing an additional variable in the session for the type of order
-    # you are about to make.
-    # This session variable needs to be set every time the order/new action
-    # is requested.
-    #
-    # session[:renderType] = Order.new_registration_identifier
-    # session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(id: registration_uuid)
+    redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.new_registration_identifier)
   end
 
   # Function to redirect registration edit orders to the order controller
   def order_edit(registration_uuid)
-    # session[:renderType] = Order.edit_registration_identifier
-    # session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(id: registration_uuid)
+    redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.edit_registration_identifier)
   end
 
   # Function to redirect registration renew orders to the order controller
   def order_renew(registration_uuid)
-    # session[:renderType] = Order.renew_registration_identifier
-    # session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(id: registration_uuid)
+    redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.renew_registration_identifier)
   end
 
   # Function to redirect additional copy card orders to the order controller
   def order_copy_cards
     set_registration_from_uuid_or_reg_uuid
-    renderNotFound and return unless @registration
     redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.extra_copycards_identifier)
   end
 
   # Function to redirect renewal which caused new registration to the order controller
   def order_caused_new(registration_uuid)
-    # session[:renderType] = Order.editrenew_caused_new_identifier
-    # session[:orderCode] = generateOrderCode
-    redirect_to upper_payment_path(id: registration_uuid)
+    redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.editrenew_caused_new_identifier)
   end
 
   # Renders the additional copy card order complete view
@@ -1125,6 +1110,9 @@ class RegistrationsController < ApplicationController
   # Renders the edit renew order complete view
   def edit_renew_complete
     set_registration_from_uuid_or_reg_uuid
+
+    # Force regresh latest version from Java services / Mongo
+    @registration = Registration.find_by_id(@registration.uuid)
 
     @confirmationType = getConfirmationType
 

@@ -208,12 +208,13 @@ Registrations::Application.routes.draw do
       get 'contact_us_to_complete_payment', action: :contact_us_to_complete_payment, as: :contact_us_to_complete_payment
     end
 
-    # Worldpay response messages
-    get "worldpay/success"
-    get "worldpay/failure"
-    get "worldpay/pending"
-    get "worldpay/cancel"
-    get "worldpay/error"
+    scope controller: 'worldpay' do
+      get "worldpay/success/:order_code/:order_type", action: :success, as: :worldpay_success
+      get "worldpay/failure/:order_code/:order_type", action: :failure, as: :worldpay_failure
+      get "worldpay/pending/:order_code/:order_type", action: :pending, as: :worldpay_pending
+      get "worldpay/cancel/:order_code/:order_type", action: :cancel, as: :worldpay_cancel
+      get "worldpay/error/:order_code/:order_type", action: :error, as: :worldpay_error
+    end
 
     unless Rails.env.production?
       # TODO Remove GET after having configured Worldpay order notifications in the WP Merchant Admin Interface

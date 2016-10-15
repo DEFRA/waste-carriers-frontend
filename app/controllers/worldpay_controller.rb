@@ -11,11 +11,10 @@ class WorldpayController < ApplicationController
     if process_payment
       update_order
 
-      # Get render type from session
-      renderType = nil #session[:renderType]
+      order_type = params[:order_type]
 
       # If on the Digital route, send the new Registration email.
-      if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
+      if @registration.digital_route? and !order_type.eql?(Order.extra_copycards_identifier)
         if user_signed_in?
           logger.debug 'Send registered email (as current_user)'
           Registration.send_registered_email(current_user, @registration)
@@ -26,32 +25,32 @@ class WorldpayController < ApplicationController
         end
       end
 
-      next_step = if user_signed_in?
-        finish_path
-      elsif agency_user_signed_in?
-        finish_assisted_path
-      else
-        confirmed_path
+      # Now decide which page we'll redirect the user to.
+      case order_type
+      when Order.new_registration_identifier,
+           Order.editrenew_caused_new_identifier,
+           Order.renew_registration_identifier
+
+        # This was a new registration (perhaps via an edit or IR renewal).
+        next_step = if user_signed_in?
+          finish_path
+        elsif agency_user_signed_in?
+          finishAssisted_path
+        else
+          confirmed_path
+        end
+      when Order.edit_registration_identifier
+        # An existing registration was edited.
+        next_step = complete_edit_renew_path(id: @registration.uuid,
+          edit_mode: session[:edit_mode],
+          edit_result: session[:edit_result])
+      when Order.extra_copycards_identifier
+        # Extra copy cards were ordered.
+        next_step = complete_copy_cards_path(@registration.uuid)
       end
 
-      # This should be an acceptable time to delete the render type, order code
-      # and edit-related items from the session.
-      # TODO: We don't use the session any more so don't need this
-      # clear_order_session
-      # clear_edit_session
     else # We get here if 'process_payment' returns false.
-      # Used to redirect_to WorldpayController::Error however that doesn't actually
-      # exist, plus the plan as discussed with Georg was to redirect back to the payment
-      # summary page but display the error details.
-
-      # Check if renderType and orderCode exist, If so its okay to redirect to order page, If not render Expired page
-      # TODO Remove this session
-      # if session[:orderCode]
       next_step = upper_payment_path(@registration.reg_uuid)
-      # else
-      #  logger.debug 'Cannot redirect to order page as session variables already removed, this assume, Retry failed.'
-      #  renderAccessDenied and return
-      # end
     end
 
     redirect_to next_step
@@ -188,6 +187,9 @@ class WorldpayController < ApplicationController
     #TODO better pass in as variables?
     orderCode = @payment.orderKey
     status = @payment.worldPayPaymentStatus
+
+    # Re-get the registration from Java / Mongo to ensure orders are all present
+    @registration = Registration.find_by_id(@registration.uuid)
 
     reg = @registration
 
