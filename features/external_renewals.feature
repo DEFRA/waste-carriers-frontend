@@ -9,7 +9,8 @@ Feature: external renewals
 
 # This background task creates a registration for which the scenarios can perform renew related tests
 Background:
-  Given I have been funneled into the upper tier path
+  Given I start a new registration
+  And I have been funneled into the upper tier path
   And I am a carrier dealer
   And I provide the following company name: RenewalTest
   And I autocomplete my business address

@@ -1,4 +1,5 @@
 Given(/^I partially complete an Upper Tier registration, but stop at the payment page$/) do
+  step 'I start a new registration'
   step 'I have been funneled into the upper tier path'
   step 'I am a carrier dealer'
   step 'I enter my business details'

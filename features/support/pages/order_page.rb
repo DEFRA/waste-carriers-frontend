@@ -38,12 +38,12 @@ module OrderPage
    fill_in 'registration_copy_cards', with: no_of_cards.to_i
   end
 
-  def order_page_pay_by_credit_card(submit: 'true')
+  def order_page_pay_by_credit_card(submit: true)
     choose 'registration_payment_type_world_pay'
     order_page_submit if submit
   end
 
-  def order_page_pay_by_bank_transfer(submit: 'true')
+  def order_page_pay_by_bank_transfer(submit: true)
     choose 'registration_payment_type_bank_transfer'
     order_page_submit if submit
   end
