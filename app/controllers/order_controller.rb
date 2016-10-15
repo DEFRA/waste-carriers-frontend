@@ -28,8 +28,12 @@ class OrderController < ApplicationController
     @registration.update(copy_cards: 0)
     if Order.extra_copycards_identifier == order_type_param
       @registration.update(copy_card_only_order: 'yes')
-      @show_copy_cards = true
     end
+
+    @show_copy_cards = order_type_param.eql?(Order.new_registration_identifier) ||
+                       order_type_param.eql?(Order.renew_registration_identifier) ||
+                       order_type_param.eql?(Order.editrenew_caused_new_identifier) ||
+                       order_type_param.eql?(Order.extra_copycards_identifier)
 
     # The Order Builder is not cached by the Registration, so we'll cache it
     # here (and use the cached version in the view too).

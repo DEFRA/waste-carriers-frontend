@@ -902,8 +902,7 @@ class Registration < Ohm::Model
 
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
-  validate :validate_key_people, :if => :should_validate_key_people?
-
+  validate :validate_key_people, if: :should_validate_key_people?
 
   validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
 
@@ -954,8 +953,7 @@ class Registration < Ohm::Model
   end
 
   def should_validate_key_people?
-    result = key_person_step? || key_people_step? || relevant_people_step?
-    result
+    key_person_step? || key_people_step? || relevant_people_step?
   end
 
   def newOrRenew_step?

@@ -167,6 +167,7 @@ class RegistrationsController < ApplicationController
               # Remove before finishing this work.
               # session[:registration_id] = new_reg.id
               # session[:registration_uuid] = @registration.uuid
+
             else
               render 'declaration', status: :bad_request
             end
@@ -176,7 +177,7 @@ class RegistrationsController < ApplicationController
 
           # Save copied registration to redis and update any session variables
           @registration.save
-          order_caused_new(@registration.uuid)
+          redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.editrenew_caused_new_identifier) && return
 
           ## ---- End of "if @registration.order_types.include? :change_caused_new" ---- ##
 
@@ -187,7 +188,6 @@ class RegistrationsController < ApplicationController
           clear_edit_session
           redirect_to complete_edit_renew_path(@registration.uuid)
           return
-
         else # upper tier edit with no charge
           complete_edit_that_has_no_charge and return
         end
@@ -199,20 +199,21 @@ class RegistrationsController < ApplicationController
       elsif @registration.order_types.include? :renew
         # Detect standard or IR renewal
         if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
-          redirect_to :account_mode
+          redirect_to :account_mode and return
         else
           @registration.renewalRequested = true
 
           @registration.save
-          order_renew(@registration.uuid)
-          return
+          order_renew(@registration.uuid) and return
         end
 
       elsif @registration.lower? && @registration.persisted?
         complete_edit_that_has_no_charge and return
       else # new registration
-        redirect_to :account_mode
+        redirect_to :account_mode and return
       end
+
+      return
 
     else
       # there is an error (but data not yet saved)
@@ -298,9 +299,9 @@ class RegistrationsController < ApplicationController
               if @registration.originalRegistrationNumber &&
                   isIRRegistrationType(@registration.originalRegistrationNumber) &&
                   @registration.newOrRenew
-                order_renew @registration.uuid
+                order_renew(@registration.uuid) and return
               else
-                order @registration.uuid
+                order(@registration.uuid) and return
               end
           end
         else
@@ -575,13 +576,13 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  def complete_new_registration (activateRegistration=false)
+  def complete_new_registration(activate_registration = false)
     unless @registration.persisted?
       unless commit_new_registration?
         return false
       else
         logger.debug "Committed registration, about to activate if appropriate"
-        @registration.activate! if activateRegistration
+        @registration.activate! if activate_registration
         @registration.save
         if @registration.digital_route? && @registration.is_complete?
           RegistrationMailer.welcome_email(@user, @registration).deliver_now
@@ -1098,11 +1099,6 @@ class RegistrationsController < ApplicationController
     redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.extra_copycards_identifier)
   end
 
-  # Function to redirect renewal which caused new registration to the order controller
-  def order_caused_new(registration_uuid)
-    redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.editrenew_caused_new_identifier)
-  end
-
   # Renders the additional copy card order complete view
   def copy_card_complete
     set_registration_from_uuid_or_reg_uuid
@@ -1118,15 +1114,16 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(@registration.uuid)
 
     @confirmationType = getConfirmationType
-
+    
     # Determine routing for Finish button
-    if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
-      @exitRoute = confirmed_path(reg_uuid: @registration.reg_uuid)
+    @exitRoute = if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+      confirmed_path(reg_uuid: @registration.reg_uuid)
     elsif current_agency_user
-      @exitRoute = finish_assisted_path(reg_uuid: @registration.reg_uuid)
+      finish_assisted_path(reg_uuid: @registration.reg_uuid)
     else
-      @exitRoute = finish_path(reg_uuid: @registration.reg_uuid)
+      finish_path(reg_uuid: @registration.reg_uuid)
     end
+
     clear_edit_session
   end
 

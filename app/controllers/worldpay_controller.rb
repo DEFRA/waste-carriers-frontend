@@ -13,6 +13,9 @@ class WorldpayController < ApplicationController
 
       order_type = params[:order_type]
 
+      # Refresh registration from the Java services / Mongo after payments have been applied
+      @registration = Registration.find_by_id(@registration.uuid)
+
       # If on the Digital route, send the new Registration email.
       if @registration.digital_route? and !order_type.eql?(Order.extra_copycards_identifier)
         if user_signed_in?
@@ -33,11 +36,11 @@ class WorldpayController < ApplicationController
 
         # This was a new registration (perhaps via an edit or IR renewal).
         next_step = if user_signed_in?
-          finish_path
+          finish_path(reg_uuid: @registration.reg_uuid)
         elsif agency_user_signed_in?
-          finishAssisted_path
+          finish_assisted_path(reg_uuid: @registration.reg_uuid)
         else
-          confirmed_path
+          confirmed_path(reg_uuid: @registration.reg_uuid)
         end
       when Order.edit_registration_identifier
         # An existing registration was edited.
