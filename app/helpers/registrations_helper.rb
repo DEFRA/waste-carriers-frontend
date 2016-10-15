@@ -179,7 +179,7 @@ module RegistrationsHelper
     @registration = Registration.find(reg_uuid: reg_uuid).first
     # Check the services / mongo
     @registration = Registration.find_by_id(uuid) unless @registration.present?
-    raise 'Registration not found' unless @registration.present?
+    renderNotFound and return unless @registration.present?
   end
 
   # This method is called when updating from the registration's 'editing' pages (i.e. PUT/POST/MATCH)
