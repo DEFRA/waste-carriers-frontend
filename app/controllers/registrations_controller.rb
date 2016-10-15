@@ -226,7 +226,7 @@ class RegistrationsController < ApplicationController
     @registration.save!
     clear_edit_session
     if current_user
-      redirect_to userRegistrations_path(current_user)
+      redirect_to user_registrations_path(current_user)
     elsif current_agency_user
       redirect_to registrations_path
     else
@@ -471,6 +471,8 @@ class RegistrationsController < ApplicationController
   # GET /registrations/:reg_uuid/finish
   def finish
     setup_registration 'finish'
+    # Force regresh latest version from Java services / Mongo
+    @registration = Registration.find_by_id(@registration.uuid)
     authorize! :read, @registration
 
     @confirmationType = getConfirmationType
@@ -492,7 +494,8 @@ class RegistrationsController < ApplicationController
   # GET /registrations/finish-assisted
   def finish_assisted
     new_step_action 'finish_assisted'
-
+    # Force regresh latest version from Java services / Mongo
+    @registration = Registration.find_by_id(@registration.uuid)
     authorize! :read, @registration
   end
 
@@ -805,7 +808,7 @@ class RegistrationsController < ApplicationController
 
     if current_user
       respond_to do |format|
-        format.html { redirect_to userRegistrations_path(current_user.id, :note => 'De-Registered ' + deletedCompany) }
+        format.html { redirect_to user_registrations_path(current_user.id, :note => 'De-Registered ' + deletedCompany) }
         format.json { head :no_content }
       end
     else
@@ -1118,11 +1121,11 @@ class RegistrationsController < ApplicationController
 
     # Determine routing for Finish button
     if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
-      @exitRoute = confirmed_path
+      @exitRoute = confirmed_path(reg_uuid: @registration.reg_uuid)
     elsif current_agency_user
-      @exitRoute = finish_assisted_path
+      @exitRoute = finish_assisted_path(reg_uuid: @registration.reg_uuid)
     else
-      @exitRoute = finish_path
+      @exitRoute = finish_path(reg_uuid: @registration.reg_uuid)
     end
     clear_edit_session
   end
@@ -1163,9 +1166,9 @@ class RegistrationsController < ApplicationController
                   # redirect to renew complete
                   complete_edit_renew_path(@registration.uuid)
                 elsif user_signed_in?
-                  finish_path
+                  finish_path(reg_uuid: @registration.reg_uuid)
                 elsif agency_user_signed_in?
-                  finish_assisted_path
+                  finish_assisted_path(reg_uuid: @registration.reg_uuid)
                 else
                   confirmed_path
                 end
