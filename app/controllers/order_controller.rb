@@ -83,7 +83,6 @@ class OrderController < ApplicationController
     # handle the case where a user Cancels in Worldpay or uses the browser
     # back button.
     @order = @order_builder.order(new_order_code)
-    #session[:orderCode] = @order.orderCode
 
     unless @registration.valid? && @order.valid?
       logger.debug "registration validation errors: #{@registration.errors.messages.to_s}"
