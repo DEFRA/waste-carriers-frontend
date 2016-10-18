@@ -683,7 +683,7 @@ class Registration < Ohm::Model
             new_reg.uuid = v
           when 'reg_uuid'
             if existing_redis_reg.present?
-              new_reg.reg_uuid = reg_uuid + SecureRandom.hex(5)
+              new_reg.reg_uuid = reg_uuid + SecureRandom.hex(3)
             else
               new_reg.reg_uuid = reg_uuid
             end
