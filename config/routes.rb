@@ -63,7 +63,7 @@ Registrations::Application.routes.draw do
   match "registrations/:id/newAdjustment" => 'payment#createAdjustment', :via => [:post]
 
   # Add routing for confirm delete registration
-  get "registrations/:id/confirmDelete" => 'registrations#confirmDelete', :via => [:get], :as => :confirmDelete
+  get "registrations/:id/confirm_delete" => 'registrations#confirm_delete', :via => [:get], :as => :confirmDelete
 
   # Add a new route for the view certificate view
   match "registrations/:id/view" => 'registrations#view', :via => [:get,:patch], :as => :view
