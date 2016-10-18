@@ -438,8 +438,6 @@ class RegistrationsController < ApplicationController
 
     @confirmationType = getConfirmationType
 
-    puts @confirmationType
-
     unless @confirmationType
       flash[:notice] = 'Invalid confirmation type. Check routing to this page'
       renderNotFound and return
