@@ -3,7 +3,7 @@ class PaymentController < ApplicationController
   include WorldpayHelper
   include PaymentsHelper
 
-  before_filter :authenticate_agency_user!
+  before_action :authenticate_agency_user!
 
   #####################################################################################
   # Payments

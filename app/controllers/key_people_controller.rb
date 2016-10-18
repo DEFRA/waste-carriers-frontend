@@ -4,7 +4,7 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/:reg_uuid/key-people/registration
   def registration
     setup_registration('key_people')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
 
     if @registration.businessType == 'soleTrader'
       redirect_to action: :key_person
@@ -16,7 +16,7 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/:reg_uuid/key-person
   def key_person
     setup_registration('key_person')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
     get_key_people
 
     if @key_people.empty?
@@ -33,7 +33,7 @@ class KeyPeopleController < ApplicationController
   # POST /your-registration/key-person
   def update_key_person
     setup_registration('key_person')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
     get_key_people
 
     @key_person = KeyPerson.create
@@ -67,7 +67,7 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/:reg_uuid/key-people
   def key_people
     setup_registration('key_people')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
     get_key_people
 
     # Check if we should force a validation of the key_people attribute on the
@@ -84,7 +84,7 @@ class KeyPeopleController < ApplicationController
   # POST /your-registration/key-people
   def update_key_people
     setup_registration('key_people')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
     get_key_people
 
     @key_person = KeyPerson.create
@@ -150,7 +150,7 @@ class KeyPeopleController < ApplicationController
   # POST /your-registration/relevant-people
   def update_relevant_people
     setup_registration('relevant_people')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
     get_relevant_people
 
     @key_person = KeyPerson.create
@@ -226,10 +226,10 @@ class KeyPeopleController < ApplicationController
   # DELETE /your-registration/:reg_uuid/key-people/:id
   def delete
     setup_registration('key_people')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
 
     key_person_to_remove = KeyPerson[params[:id]]
-    renderNotFound and return unless key_person_to_remove
+    render_not_found and return unless key_person_to_remove
 
     @registration.key_people.delete(key_person_to_remove)
 
@@ -239,10 +239,10 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/:reg_uuid/relevant-people/delete/:id
   def delete_relevant_person
     setup_registration('relevant_people')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
 
     person_to_remove = KeyPerson[params[:id]]
-    renderNotFound and return unless person_to_remove
+    render_not_found and return unless person_to_remove
 
     @registration.key_people.delete(person_to_remove)
 
@@ -252,7 +252,7 @@ class KeyPeopleController < ApplicationController
   # GET /your-registration/:reg_uuid/key-people
   def index
     setup_registration('key_people')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
 
     get_key_people
   end
@@ -260,7 +260,7 @@ class KeyPeopleController < ApplicationController
   # DELETE /your-registration/:reg_uuid/key-person/:id
   def destroy
     setup_registration('key_person')
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
 
     get_key_person
   end

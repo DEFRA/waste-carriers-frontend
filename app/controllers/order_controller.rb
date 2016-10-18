@@ -12,14 +12,14 @@ class OrderController < ApplicationController
     # means the new charge determination will output no charge, potentially
     # making the change of carrier type free.
     setup_registration('payment', true)
-    renderNotFound && return unless @registration
+    render_not_found && return unless @registration
   end
 
   # GET /your-registration/:reg_uuid/order
   def new
     @order ||= Order.new
     setup_registration('payment', true)
-    renderNotFound && return unless @registration
+    render_not_found && return unless @registration
     order_type_param = params[:order_type]
 
     @registration.update(copy_cards: 0)
