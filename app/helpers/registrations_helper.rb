@@ -135,7 +135,6 @@ module RegistrationsHelper
   end
 
   def new_step_action(current_step)
-    raise 'yy'
     reg_uuid = params[:reg_uuid]
     raise 'Registration UUID Param not found' unless reg_uuid.present?
     @registration = Registration.find(reg_uuid: reg_uuid).first
