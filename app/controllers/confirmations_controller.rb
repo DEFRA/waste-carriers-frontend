@@ -40,8 +40,6 @@ class ConfirmationsController < Devise::ConfirmationsController
       sorted = user_registrations.sort_by { |r| r.date_registered }.reverse!
       registration = sorted.first
 
-      #session[:registration_uuid] = registration.uuid
-
       goto_page = if registration.tier == 'LOWER'
          confirmed_path(reg_uuid: registration.reg_uuid)
       else

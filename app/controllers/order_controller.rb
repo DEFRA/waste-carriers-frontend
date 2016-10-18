@@ -12,9 +12,6 @@ class OrderController < ApplicationController
     # means the new charge determination will output no charge, potentially
     # making the change of carrier type free.
     setup_registration('payment', true)
-    clear_registration_session
-    clear_edit_session
-    clear_order_session
     renderNotFound && return unless @registration
   end
 
@@ -75,7 +72,7 @@ class OrderController < ApplicationController
       # The user has returned to this page by cancelling in Worldpay, or via
       # using the back button.  To avoid creating a duplicate order, we re-use
       # the last order-code.
-      #new_order_code = session[:orderCode]
+      # new_order_code = session[:orderCode]
     else
       # This must be a new order; we'll let the Order Builder generate a new
       # order code.
@@ -89,7 +86,6 @@ class OrderController < ApplicationController
     #session[:orderCode] = @order.orderCode
 
     unless @registration.valid? && @order.valid?
-      # @renderType = session[:renderType] # Needed in the view.
       logger.debug "registration validation errors: #{@registration.errors.messages.to_s}"
       logger.debug "order validation errors: #{@registration.errors.messages.to_s}"
       render 'new', status: :bad_request

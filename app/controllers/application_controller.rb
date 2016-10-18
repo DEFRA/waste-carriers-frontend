@@ -38,12 +38,6 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_out_path_for(resource_or_scope)
-  	logger.debug 'Signout function'
-    #request.referrer
-    #registrations_path
-    #root_path
-    #Rails.cache.clear # Could possibly clear the cache here
-    reset_session
     Rails.configuration.waste_exemplar_end_url
   end
 
