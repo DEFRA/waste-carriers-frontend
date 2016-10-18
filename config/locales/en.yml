@@ -428,6 +428,7 @@ en:
       heading: "The change you wanted was rejected."
       message: "Maybe you tried to change something you didn't have access to."
     serverError:
+      heading: "Internal server error"
       message: "We're sorry, but something went wrong."
     siteHeader_html: "Register as a waste carrier"
     timeout:

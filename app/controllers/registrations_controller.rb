@@ -207,7 +207,7 @@ class RegistrationsController < ApplicationController
     elsif current_agency_user
       redirect_to registrations_path
     else
-      renderAccessDenied
+      render_access_denied
     end
   end
 
@@ -440,7 +440,7 @@ class RegistrationsController < ApplicationController
 
     unless @confirmationType
       flash[:notice] = 'Invalid confirmation type. Check routing to this page'
-      renderNotFound and return
+      render_not_found and return
     end
   end
 
@@ -591,14 +591,14 @@ class RegistrationsController < ApplicationController
   # GET /registrations/1
   # GET /registrations/1.json
   def show
-    renderNotFound
+    render_not_found
   end
 
 
   def view
     reg_uuid = params[:id] || session[:registration_uuid]
 
-    renderNotFound and return unless reg_uuid
+    render_not_found and return unless reg_uuid
     @registration = Registration.find_by_id( reg_uuid )
     redirect_to registrations_path and return unless @registration
 
@@ -640,15 +640,15 @@ class RegistrationsController < ApplicationController
 
     @user = User.find_by_email(@registration.accountEmail)
 
-    renderNotFound and return unless @user
-    renderNotFound and return unless @registration
+    render_not_found and return unless @user
+    render_not_found and return unless @registration
 
 
     @confirmationType = getConfirmationType
 
     unless @confirmationType
       flash[:notice] = 'Invalid confirmation type. Check routing to this page.'
-      renderNotFound and return
+      render_not_found and return
     end
   end
 
@@ -672,14 +672,14 @@ class RegistrationsController < ApplicationController
   # GET /registrations/new
   # GET /registrations/new.json
   def new
-    renderNotFound
+    render_not_found
   end
 
 
   # GET /registrations/1/edit
   def edit
     @registration = Registration.find_by_id(params[:id])
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
 
     logger.debug "registration edit for: #{@registration.reg_uuid}"
 
@@ -698,7 +698,7 @@ class RegistrationsController < ApplicationController
     logger.debug "edit account email for: #{params[:uuid]}"
     @registration = Registration.find_by_id(params[:uuid])
 
-    renderNotFound and return unless @registration
+    render_not_found and return unless @registration
 
     authorize! :update, @registration
 
@@ -723,7 +723,7 @@ class RegistrationsController < ApplicationController
   def paymentstatus
     @registration = Registration.find_by_id(params[:id])
     if @registration.nil?
-      renderNotFound
+      render_not_found
       return
     end
     authorize! :read, @registration
@@ -822,7 +822,7 @@ class RegistrationsController < ApplicationController
             # Redirect to registrations page
             redirect_to registrations_path(note: I18n.t('registrations.form.reg_revoked')) and return
           else
-            renderAccessDenied and return
+            render_access_denied and return
           end
         else
           # Reason not provided
@@ -939,7 +939,7 @@ class RegistrationsController < ApplicationController
             @registration.errors.add(:exception, 'Failed to save approve in DB')
           end
         else
-          renderAccessDenied and return
+          render_access_denied and return
         end
       else
         @registration.errors.add(:approveReason, I18n.t('errors.messages.blank'))
@@ -970,7 +970,7 @@ class RegistrationsController < ApplicationController
           @registration.errors.add(:refusedReason, I18n.t('errors.messages.blank'))
         end
       else
-        renderAccessDenied and return
+        render_access_denied and return
       end
     end
 
@@ -1087,7 +1087,7 @@ class RegistrationsController < ApplicationController
       @order = @registration.getOrder(params[:orderCode])
     else
       logger.warn 'Registration not found by reg_uuid'
-      renderNotFound and return
+      render_not_found and return
     end
   end
 
@@ -1098,7 +1098,7 @@ class RegistrationsController < ApplicationController
     @order_type = params[:order_type]
 
     # Validate that actions only occur here if a order type is set
-    (renderAccessDenied and return) unless @order || order_type
+    (render_access_denied and return) unless @order || order_type
 
     if @registration.digital_route? && !(@order_type == Order.extra_copycards_identifier)
       logger.debug 'Send registered email (if not agency user)'

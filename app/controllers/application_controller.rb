@@ -1,4 +1,3 @@
-
 class ApplicationController < ActionController::Base
   layout "govuk_template"
 
@@ -11,12 +10,12 @@ class ApplicationController < ActionController::Base
 
   before_action :set_i18n_locale_from_params
 
-  before_filter :validate_session_total_timeout!
-  before_filter :validate_session_inactivity_timeout!
+  before_action :validate_session_total_timeout!
+  before_action :validate_session_inactivity_timeout!
 
-  before_filter :require_admin_url, if: :devise_controller?
+  before_action :require_admin_url, if: :devise_controller?
 
-  before_filter :set_no_cache
+  before_action :set_no_cache
 
 
   include ApplicationHelper
@@ -78,16 +77,12 @@ class ApplicationController < ActionController::Base
     current_user || current_agency_user || current_admin
   end
 
-  def renderAccessDenied
-    render :file => "/public/403.html", :status => 403
+  def render_access_denied
+    render file: "/public/403.html", status: 403
   end
 
-  def renderSessionExpired
-    render :file => "/public/session_expired.html", :status => 401
-  end
-
-  def renderNotFound
-    render :file => "/public/404.html", :status => 404
+  def render_not_found
+    render file: "/public/404.html", status: 404
   end
 
   #Total session timeout. No session is allowed to be longer than this.
@@ -98,7 +93,7 @@ class ApplicationController < ActionController::Base
       session[:expires_at] ||= now + Rails.application.config.app_session_total_timeout
       if session[:expires_at] < now
         reset_session
-        render :file => "/public/session_expired.html", :status => 401
+        render file: "/public/session_expired.html", status: 401
       end
     end
   end
@@ -115,7 +110,7 @@ class ApplicationController < ActionController::Base
       if session[:last_seen_at] != nil && session_inactivity_timeout_time < now
         logger.debug 'The session is deemed to have expired. Showing the Session Expired page.'
         reset_session
-        render :file => "/public/session_expired.html", :status => 401
+        render file: "/public/session_expired.html", status: 401
       end
     end
     session[:last_seen_at] = Time.current
@@ -126,14 +121,14 @@ class ApplicationController < ActionController::Base
     #and available only via the internal admin URLs
     if Rails.application.config.require_admin_requests && !is_admin_request? && request.fullpath[0..5] != '/users'
       logger.warn "Attempted request to access internal login pages. Returning 404 not found."
-      renderNotFound
+      render_not_found
       return
     end
 
     #However, when using the internal admin interface, it should not be possible to login as an external waste carrier either.
     if Rails.application.config.require_admin_requests && is_admin_request? && request.fullpath[0..5] == '/users'
       logger.warn "Attempted request to log in as user via admin URL. Returning 404 not found."
-      renderNotFound
+      render_not_found
     end
 
   end
@@ -150,7 +145,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     notify_airbrake(exception)
-    renderAccessDenied
+    render_access_denied
   end
 
   rescue_from Errno::ECONNREFUSED do |exception|

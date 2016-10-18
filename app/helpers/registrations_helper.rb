@@ -99,15 +99,16 @@ module RegistrationsHelper
     @registration = Registration.find(reg_uuid: reg_uuid).first
     # Check the services / mongo
     @registration = Registration.find_by_id(uuid) unless @registration.present?
-    renderNotFound and return unless @registration.present?
+    render_not_found and return unless @registration.present?
   end
 
   def setup_registration(current_step, no_update = false)
     reg_uuid = params[:reg_uuid]
     raise 'Registration UUID Param not found' unless reg_uuid.present?
+
     @registration = Registration.find(reg_uuid: reg_uuid).first
 
-    raise 'Registration not found' unless @registration.present?
+    render_not_found and return unless @registration.present?
 
     @registration.add(params[:registration]) unless no_update
 
@@ -134,10 +135,11 @@ module RegistrationsHelper
   end
 
   def new_step_action(current_step)
+    raise 'yy'
     reg_uuid = params[:reg_uuid]
     raise 'Registration UUID Param not found' unless reg_uuid.present?
     @registration = Registration.find(reg_uuid: reg_uuid).first
-    raise 'Registration not found' unless @registration.present?
+    render_not_found and return unless @registration.present?
   end
 
   def clear_edit_session
