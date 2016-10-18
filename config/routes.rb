@@ -252,14 +252,6 @@ Registrations::Application.routes.draw do
   get "reports/copy_cards/results" => 'reports#copy_cards_search_results', :as => :copy_cards_search_results
   match "reports/copy_cards/results" => 'reports#copy_cards_export', :via => [:post,:put,:patch]
 
-  if !Rails.env.production?
-    # Template URLS - These are just for the devs as working examples
-    get "templates/form" => "templates#formExample", :as => :formExample
-    post "templates/form" => "templates#updateFormExample"
-    get "templates/form-template" => "templates#formTemplate", :as => :formTemplate
-    post "templates/form-template" => "templates#updateFormTemplate"
-  end
-
   resources :agency_users
 
   get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user

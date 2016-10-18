@@ -46,18 +46,6 @@ class RegistrationsController < ApplicationController
       flash.now[:notice] = I18n.t('errors.messages.search_criteria')
     end
 
-    # session[:registration_step] = session[:registration_params] = nil
-
-    # REVIEWME: Ideally this should not be needed but in order to cover the 'Back and refresh issue'
-    # The variables will be cleared for subequent requests
-    # This will not fix a user clicking and Edit then using browser back, and then clicking a link
-    # that was present, e.g click an edit, go back then click New registration.
-    #
-    # clear_edit_session
-    # clear_registration_session
-    # clear_order_session
-    # logger.debug "Cleared registration session variables"
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @registrations }
@@ -111,7 +99,6 @@ class RegistrationsController < ApplicationController
 
     if @registration.valid?
       set_google_analytics_convictions_indicator(session, @registration)
-      #      (redirect_to declaration_path(reg_uuid: @registration.reg_uuid) and return) if session[:edit_mode]
       if @registration.declaredConvictions == 'yes'
         redirect_to relevant_people_path(@registration.reg_uuid)
       else
@@ -128,8 +115,6 @@ class RegistrationsController < ApplicationController
   def declaration
     @registration = Registration.find(reg_uuid: params[:reg_uuid]).first
     @registration_order = RegistrationOrder.new(@registration)
-
-    # logger.debug "any addresses? #{@registration.addresses.any?}"
   end
 
   # POST /your-registration/:reg_uuid/declaration
@@ -162,12 +147,6 @@ class RegistrationsController < ApplicationController
             if new_reg.commit
               new_reg.save
               @registration = new_reg
-
-              # TODO: Commenting this, removing all things session related
-              # Remove before finishing this work.
-              # session[:registration_id] = new_reg.id
-              # session[:registration_uuid] = @registration.uuid
-
             else
               render 'declaration', status: :bad_request
             end
@@ -177,15 +156,12 @@ class RegistrationsController < ApplicationController
 
           # Save copied registration to redis and update any session variables
           @registration.save
-          redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.editrenew_caused_new_identifier) && return
+
+          redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: Order.editrenew_caused_new_identifier) and return
 
           ## ---- End of "if @registration.order_types.include? :change_caused_new" ---- ##
 
         elsif @registration.order_types.include? :renew
-          edit_mode = session[:edit_mode]
-          edit_result = session[:edit_result]
-          # we don't need edit variables polluting the session any more
-          clear_edit_session
           redirect_to complete_edit_renew_path(@registration.uuid)
           return
         else # upper tier edit with no charge
@@ -343,7 +319,6 @@ class RegistrationsController < ApplicationController
     end
 
     complete_new_registration(@registration.tier == 'LOWER')
-
     session.delete(:at_mid_registration_signin_step)
     @registration.sign_up_mode = ''
     @registration.save
@@ -362,25 +337,25 @@ class RegistrationsController < ApplicationController
 
         # Determine what type of registration order to create
         # If an originalRegistrationNumber is presenet in the registration, then the registration is an IR Renewal
-        if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-          if session[:edit_result]
-            case session[:edit_result].to_i
-              when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE, EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
-                # no charge or ir renewal with charge
-                order_renew @registration.uuid
-              when  EditResult::CREATE_NEW_REGISTRATION
-                # ir renewal converted to new because of changes
-                order @registration.uuid
-              else
-                # standard renewal
-                order_renew @registration.uuid
-            end
-          else
-            order_renew @registration.uuid
-          end
-        else
-          order @registration.uuid
-        end
+        # if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+        #   if session[:edit_result]
+        #     case session[:edit_result].to_i
+        #       when  EditResult::NO_CHANGES, EditResult::UPDATE_EXISTING_REGISTRATION_NO_CHARGE, EditResult::UPDATE_EXISTING_REGISTRATION_WITH_CHARGE
+        #         # no charge or ir renewal with charge
+        #         order_renew @registration.uuid
+        #       when  EditResult::CREATE_NEW_REGISTRATION
+        #         # ir renewal converted to new because of changes
+        #         order @registration.uuid
+        #       else
+        #         # standard renewal
+        #         order_renew @registration.uuid
+        #     end
+        #   else
+        #     order_renew @registration.uuid
+        #   end
+        # else
+        order @registration.uuid
+        # end
     end
   end
 
@@ -436,25 +411,10 @@ class RegistrationsController < ApplicationController
                   when 'LOWER'
                     pending_url
                   when 'UPPER'
-
-                    # Important!
-                    # Now storing an additional variable in the session for the type of order
-                    # you are about to make.
-                    # This session variable needs to be set every time the order/new action
-                    # is requested.
-
                     # Determine what type of registration order to create
                     # If an originalRegistrationNumber is present in the registration, then the registration is an IR Renewal
                     if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
-                      order_type = session[:renderType] = Order.renew_registration_identifier
-
-                      # TODO: LB: Figure out how to get the editrenew_caused_new_identifier identified here
-                      # if session[:edit_result]
-                        # if session[:edit_result].to_i.eql? EditResult::CREATE_NEW_REGISTRATION
-                        #  session[:renderType] = Order.editrenew_caused_new_identifier
-                        # end
-                      # end
-
+                      order_type = Order.renew_registration_identifier
                     else
                       order_type = Order.new_registration_identifier
                     end
@@ -477,6 +437,9 @@ class RegistrationsController < ApplicationController
     authorize! :read, @registration
 
     @confirmationType = getConfirmationType
+
+    puts @confirmationType
+
     unless @confirmationType
       flash[:notice] = 'Invalid confirmation type. Check routing to this page'
       renderNotFound and return
@@ -535,13 +498,7 @@ class RegistrationsController < ApplicationController
       @registration.expires_on = @registration.expires_on.to_time
       # ------------- End Note -----------------------------------------------
     end
-
-    # Note: we are assigning a unique identifier to the registration in order to
-    # make the POST request idempotent
-
-    # TODO: Moved to model, no longer needed
-    # @registration.reg_uuid = SecureRandom.uuid
-
+    
     @registration.save
     if @registration.commit
       # session[:registration_uuid] = @registration.uuid
@@ -686,6 +643,7 @@ class RegistrationsController < ApplicationController
     renderNotFound and return unless @user
     renderNotFound and return unless @registration
 
+
     @confirmationType = getConfirmationType
 
     unless @confirmationType
@@ -695,11 +653,6 @@ class RegistrationsController < ApplicationController
   end
 
   def complete_confirmed
-    #
-    # Finished here, ok to clear session variables
-    #
-    clear_registration_session
-    reset_session
     redirect_to Rails.configuration.waste_exemplar_end_url
   end
 
@@ -1114,7 +1067,7 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find_by_id(@registration.uuid)
 
     @confirmationType = getConfirmationType
-    
+
     # Determine routing for Finish button
     @exitRoute = if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
       confirmed_path(reg_uuid: @registration.reg_uuid)

@@ -357,8 +357,7 @@ module RegistrationsHelper
     #complete_class = 'complete'
     #complete_lower_class = 'complete lower'
 
-    if @registration.tier.downcase.eql? 'upper'
-      awaiting_conviction_confirm = @registration.is_awaiting_conviction_confirmation?
+    if @registration.upper?
 
       if @registration.paid_in_full?
         logger.debug "registration.paid_in_full"
@@ -373,7 +372,7 @@ module RegistrationsHelper
       #       mark registration as almost complete
       #   else no convictions & paid in full (via World Pay)
       #       mark registration as complete
-      if awaiting_conviction_confirm && @registration.paid_in_full?
+      if @registration.is_awaiting_conviction_confirmation? && @registration.paid_in_full?
         confirmationType = STATUS_CRIMINALLY_SUSPECT
       elsif !@registration.paid_in_full?
         confirmationType = STATUS_ALMOST_COMPLETE
@@ -381,7 +380,7 @@ module RegistrationsHelper
         confirmationType = STATUS_COMPLETE
       end
     else # lower registration
-      confirmationType = STATUS_COMPLETE_LOWER if @registration.get_status.eql? 'ACTIVE'
+      confirmationType = STATUS_COMPLETE_LOWER if @registration.is_active?
     end
 
     return confirmationType

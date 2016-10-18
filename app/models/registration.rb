@@ -737,7 +737,7 @@ class Registration < Ohm::Model
     new_reg = Registration.create
     new_reg.add(original_registration.to_hash)
     new_reg.add(original_registration.attributes)
-    new_reg.reg_uuid = nil # saving will auto create a new reg_uuid
+    new_reg.reg_uuid = original_registration.reg_uuid + SecureRandom.hex(3)
 
     # New registration should not get the Finance Details or Conviction
     # sign-offs of the old.
