@@ -60,6 +60,8 @@ class WorldpayController < ApplicationController
   end
 
   def failure
+    # Refresh registration from the Java services / Mongo
+    @registration = Registration.find_by_id(@registration.uuid)
     if process_payment
       # Should not get here as payment should have failed and thus return false
     else
@@ -69,11 +71,14 @@ class WorldpayController < ApplicationController
   end
 
   def pending
-    # TODO: Process response and redirect...
+    # Refresh registration from the Java services / Mongo
+    @registration = Registration.find_by_id(@registration.uuid)
     process_payment
   end
 
   def cancel
+    # Refresh registration from the Java services / Mongo
+    @registration = Registration.find_by_id(@registration.uuid)
     if process_payment
       # should not get here as payment was cancelled
     else
