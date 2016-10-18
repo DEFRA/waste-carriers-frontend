@@ -773,7 +773,7 @@ class RegistrationsController < ApplicationController
     end
   end
 
-  def confirmDelete
+  def confirm_delete
     @registration = Registration.find_by_id(params[:id])
     authorize! :update, @registration
   end

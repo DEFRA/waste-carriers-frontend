@@ -856,7 +856,7 @@ en:
     certificate:
       new_window_instructions: "When you've finished viewing or printing this certificate you can close this browser tab or window."
       view_pdf: "View in PDF format"
-    confirmDelete:
+    confirm_delete:
       deleteLabel: "De-Register"
       message_html: "Are you sure that you want to de-register <b>%{companyName}</b>?"
       title: "Confirm De-Registration"
