@@ -448,6 +448,8 @@ class RegistrationsController < ApplicationController
 
   # POST /registrations/finish
   def update_finish
+    clear_edit_session
+    clear_registration_session
     if user_signed_in?
       redirect_to user_registrations_path(current_user)
     else
@@ -498,7 +500,7 @@ class RegistrationsController < ApplicationController
       @registration.expires_on = @registration.expires_on.to_time
       # ------------- End Note -----------------------------------------------
     end
-    
+
     @registration.save
     if @registration.commit
       # session[:registration_uuid] = @registration.uuid
