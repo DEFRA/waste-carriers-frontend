@@ -683,7 +683,7 @@ class Registration < Ohm::Model
             new_reg.uuid = v
           when 'reg_uuid'
             if existing_redis_reg.present?
-              new_reg.reg_uuid = reg_uuid + SecureRandom.hex(3)
+              new_reg.reg_uuid = SecureRandom.urlsafe_base64
             else
               new_reg.reg_uuid = reg_uuid
             end
@@ -737,7 +737,7 @@ class Registration < Ohm::Model
     new_reg = Registration.create
     new_reg.add(original_registration.to_hash)
     new_reg.add(original_registration.attributes)
-    new_reg.reg_uuid = original_registration.reg_uuid + SecureRandom.hex(3)
+    new_reg.reg_uuid = SecureRandom.urlsafe_base64
 
     # New registration should not get the Finance Details or Conviction
     # sign-offs of the old.
@@ -1139,7 +1139,7 @@ class Registration < Ohm::Model
   end
 
   def confirmation_step?
-    current_step == 'confirmation' || current_step == 'declaration'
+    current_step == 'declaration'
   end
 
   def pending?
@@ -1286,7 +1286,7 @@ class Registration < Ohm::Model
     metaData.first.dateActivated.presence.to_s
   end
 
-  def getOrder( orderCode)
+  def getOrder(orderCode)
     Rails.logger.debug 'Registration getOrder ' + orderCode.to_s
     foundOrder = nil
     self.finance_details.first.orders.each do |order|

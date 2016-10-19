@@ -431,9 +431,8 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/:reg_uuid/finish
   def finish
-    setup_registration 'finish'
-    # Force regresh latest version from Java services / Mongo
-    @registration = Registration.find_by_id(@registration.uuid)
+    set_registration_from_uuid_or_reg_uuid(refresh_from_services: true)
+
     authorize! :read, @registration
 
     @confirmationType = getConfirmationType
@@ -457,9 +456,8 @@ class RegistrationsController < ApplicationController
 
   # GET /registrations/finish-assisted
   def finish_assisted
-    new_step_action 'finish_assisted'
-    # Force regresh latest version from Java services / Mongo
-    @registration = Registration.find_by_id(@registration.uuid)
+    set_registration_from_uuid_or_reg_uuid(refresh_from_services: true)
+
     authorize! :read, @registration
   end
 
@@ -577,15 +575,9 @@ class RegistrationsController < ApplicationController
     # Search for users registrations
     @registrations = Registration.find_by_email(current_user.email,
                                                 %w(ACTIVE PENDING REVOKED EXPIRED)).sort_by { |r| r.date_registered }
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @registrations }
-    end
   end
 
   # GET /registrations/1
-  # GET /registrations/1.json
   def show
     render_not_found
   end
@@ -726,17 +718,10 @@ class RegistrationsController < ApplicationController
     authorize! :read, Payment
   end
 
-  def copyAddressToSession
-    logger.debug 'Copying address details into the registration...'
-
-    @registration = Registration[session[:registration_id]]
-    @address = @registration.registered_address
-    @address.populate_from_address_search_result(@selected_address)
-  end
-
   def pending
     redis_registration = Registration.find(reg_uuid: params[:reg_uuid]).first
     @registration = Registration.find_by_id(redis_registration.uuid)
+    render_not_found unless @registration.present?
 
     # May not be necessary but seeing as we get a fuller object from services
     # at this point thought as a 'just in case' we should update the one in redis
@@ -1057,10 +1042,7 @@ class RegistrationsController < ApplicationController
 
   # Renders the edit renew order complete view
   def edit_renew_complete
-    set_registration_from_uuid_or_reg_uuid
-
-    # Force regresh latest version from Java services / Mongo
-    @registration = Registration.find_by_id(@registration.uuid)
+    set_registration_from_uuid_or_reg_uuid(refresh_from_services: true)
 
     @confirmationType = getConfirmationType
 
@@ -1112,9 +1094,9 @@ class RegistrationsController < ApplicationController
                   # redirect to renew complete
                   complete_edit_renew_path(@registration.uuid)
                 elsif user_signed_in?
-                  finish_path(reg_uuid: @registration.reg_uuid)
+                  finish_path(@registration.uuid)
                 elsif agency_user_signed_in?
-                  finish_assisted_path(reg_uuid: @registration.reg_uuid)
+                  finish_assisted_path(@registration.uuid)
                 else
                   confirmed_path
                 end

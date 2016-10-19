@@ -3,8 +3,14 @@ class StartController < ApplicationController
 
   # GET /registrations/start
   def show
-    begin_steps(params[:reg_uuid])
-    # new_step_action 'newOrRenew'
+    reg_uuid = params[:reg_uuid]
+    @registration = if reg_uuid.present?
+      # Edit an existing registration
+      Registration.find(reg_uuid: reg_uuid).first
+    else
+      # Create a new registration
+      Registration.ctor(agency_user_signed_in: agency_user_signed_in?)
+    end
     return unless @registration
   end
 

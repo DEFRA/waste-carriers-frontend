@@ -23,7 +23,6 @@ class Order < Ohm::Model
 
   attribute :orderId              # Used to identify the order by the Java Services
   attribute :orderCode            # Used to identify the order by the Rails application
-  index :orderCode
 
   attribute :paymentMethod
   attribute :merchantId

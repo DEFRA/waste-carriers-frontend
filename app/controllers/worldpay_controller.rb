@@ -247,7 +247,7 @@ class WorldpayController < ApplicationController
 
 
         # Re-get registration so its data is up to date, for later use
-        set_registration
+        @registration = Registration.find_by_id(@registration.uuid)
 
         logger.debug 'Re-populated @registration from the database'
       else
