@@ -153,12 +153,12 @@ Registrations::Application.routes.draw do
 
       get 'key-people', action: :key_people
       post 'key-people', action: :update_key_people
-      delete 'key-people/:id', action: :delete, as: :delete_key_person
+      get 'key-people/:id/delete', action: :delete_key_person, as: :delete_key_person
       get 'key-people/done', action: :done_key_people, as: :done_key_people
 
       get 'relevant-people', action: :relevant_people, as: :relevant_people
       post 'relevant-people', action: :update_relevant_people, as: :update_relevant_people
-      delete 'relevant-people', action: :delete_relevant_person, as: :delete_relevant_person
+      get 'relevant-people/:id/delete', action: :delete_relevant_person, as: :delete_relevant_person
       get 'relevant-people/done', action: :done_relevant_people, as: :done_relevant_people
     end
 

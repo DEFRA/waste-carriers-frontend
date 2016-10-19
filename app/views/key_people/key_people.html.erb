@@ -56,7 +56,7 @@
             <div class="inner group related-subsection">
               <h2 class="heading-small"><%= t '.you_have_added' %></h2>
               <%= content_tag_for(:p, @key_people) do |key_person| %>
-                <%= first_name_last_name(key_person) %> <%= link_to t('form.delete_button_label'), delete_key_person_path(@registration.reg_uuid, key_person.id), method: :delete, class: 'link_to' %>
+                <%= first_name_last_name(key_person) %> <%= link_to t('form.delete_button_label'), delete_key_person_path(@registration.reg_uuid, key_person.id), class: 'link_to' %>
               <% end %>
               <div id="includedContent"></div>
             </div>

@@ -223,8 +223,8 @@ class KeyPeopleController < ApplicationController
     end
   end
 
-  # DELETE /your-registration/:reg_uuid/key-people/:id
-  def delete
+  # GET /your-registration/:reg_uuid/key-people/:id/delete
+  def delete_key_person
     setup_registration('key_people')
     render_not_found and return unless @registration
 
@@ -233,10 +233,10 @@ class KeyPeopleController < ApplicationController
 
     @registration.key_people.delete(key_person_to_remove)
 
-    redirect_to action: 'registration'
+    redirect_to action: :registration
   end
 
-  # GET /your-registration/:reg_uuid/relevant-people/delete/:id
+  # GET /your-registration/:reg_uuid/relevant-people/:id/delete
   def delete_relevant_person
     setup_registration('relevant_people')
     render_not_found and return unless @registration
