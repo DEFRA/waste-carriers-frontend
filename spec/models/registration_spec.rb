@@ -140,7 +140,7 @@ describe Registration do
   end
 
   context 'confirmation step' do
-    before { subject.current_step = 'confirmation' }
+    before { subject.current_step = 'declaration' }
 
     it_behaves_like 'an acceptance step'
   end

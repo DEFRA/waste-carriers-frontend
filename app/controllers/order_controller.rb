@@ -146,10 +146,10 @@ class OrderController < ApplicationController
   private
 
   def show_copy_cards(order_type)
-    order_type_param.eql?(Order.new_registration_identifier) ||
-      order_type_param.eql?(Order.renew_registration_identifier) ||
-      order_type_param.eql?(Order.editrenew_caused_new_identifier) ||
-      order_type_param.eql?(Order.extra_copycards_identifier)
+    order_type.eql?(Order.new_registration_identifier) ||
+      order_type.eql?(Order.renew_registration_identifier) ||
+      order_type.eql?(Order.editrenew_caused_new_identifier) ||
+      order_type.eql?(Order.extra_copycards_identifier)
   end
 
 end

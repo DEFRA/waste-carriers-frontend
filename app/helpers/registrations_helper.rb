@@ -83,26 +83,23 @@ module RegistrationsHelper
     registration.finance_details.first.balance.to_f < 0
   end
 
-  def begin_steps(reg_uuid)
-    if reg_uuid.present?
-      # Edit an existing registration
-      @registration = Registration.find(reg_uuid: reg_uuid).first
-    else
-      # Create a new registration
-      @registration = Registration.ctor(agency_user_signed_in: agency_user_signed_in?)
-    end
-  end
-
-  def set_registration_from_uuid_or_reg_uuid
-    uuid = reg_uuid = params[:reg_uuid]
+  def set_registration_from_uuid_or_reg_uuid(refresh_from_services: false)
+    uuid = params[:reg_uuid]
     # Check redis
-    @registration = Registration.find(reg_uuid: reg_uuid).first
+    @registration = Registration.find(reg_uuid: uuid).first
     # Check the services / mongo
-    @registration = Registration.find_by_id(uuid) unless @registration.present?
+    @registration = Registration.find_by_id(uuid) if @registration.blank?
+    # Force refresh from the services if possible and requested
+    @registration = Registration.find_by_id(@registration.uuid) if @registration.present? && refresh_from_services
     render_not_found and return unless @registration.present?
   end
 
   def setup_registration(current_step, no_update = false)
+    # This method is called throughout the system to set the registration
+    # model from a Redis find.
+    # Then the registration params are added to the model and the current step
+    # set, which is the way the application performs validation on the model.
+
     reg_uuid = params[:reg_uuid]
     raise 'Registration UUID Param not found' unless reg_uuid.present?
 
@@ -115,30 +112,18 @@ module RegistrationsHelper
     # Force contact email to lower case
     @registration.contactEmail = format_email(@registration.contactEmail) if @registration.contactEmail
 
-    # now check if we're on the address lookup page and -if yes- set
-    # the relevant model attribute
-    if params[:registration] &&
-            params[:registration].keys.size == 2 &&
-            (params[:registration].keys[0].eql? "companyName") &&
-            (params[:registration].keys[1].eql? "postcode")
-      @registration.update(address_lookup_page: 'yes')
-    elsif params[:registration] &&
-            params[:registration].keys.size == 3 &&
-            (params[:registration].keys[0].eql? "company_no") &&
-            (params[:registration].keys[1].eql? "companyName") &&
-            (params[:registration].keys[2].eql? "postcode")
-      @registration.update(address_lookup_page: 'yes')
-    end
-
     @registration.save
     @registration.current_step = current_step
   end
 
+  # A simple version of setup_registration to set the registration model from
+  # Redis
   def new_step_action(current_step)
     reg_uuid = params[:reg_uuid]
     raise 'Registration UUID Param not found' unless reg_uuid.present?
     @registration = Registration.find(reg_uuid: reg_uuid).first
     render_not_found and return unless @registration.present?
+    @registration.current_step = current_step
   end
 
   def clear_edit_session
