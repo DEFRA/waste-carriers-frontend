@@ -12,14 +12,14 @@ class OrderController < ApplicationController
     # means the new charge determination will output no charge, potentially
     # making the change of carrier type free.
     setup_registration('payment', true)
-    render_not_found && return unless @registration
+    render_not_found and return unless @registration
   end
 
   # GET /your-registration/:reg_uuid/order
   def new
     @order ||= Order.new
     setup_registration('payment', true)
-    render_not_found && return unless @registration
+    render_not_found and return unless @registration
     order_type_param = params[:order_type]
 
     @registration.update(copy_cards: 0)
@@ -27,10 +27,7 @@ class OrderController < ApplicationController
       @registration.update(copy_card_only_order: 'yes')
     end
 
-    @show_copy_cards = order_type_param.eql?(Order.new_registration_identifier) ||
-                       order_type_param.eql?(Order.renew_registration_identifier) ||
-                       order_type_param.eql?(Order.editrenew_caused_new_identifier) ||
-                       order_type_param.eql?(Order.extra_copycards_identifier)
+    @show_copy_cards = show_copy_cards(order_type_param)
 
     # The Order Builder is not cached by the Registration, so we'll cache it
     # here (and use the cached version in the view too).
@@ -58,7 +55,7 @@ class OrderController < ApplicationController
     @order_builder.current_user = (current_user || current_agency_user)
 
     order_type_param = params[:order_type]
-    @show_copy_cards = Order.extra_copycards_identifier == order_type_param
+    @show_copy_cards = show_copy_cards(order_type_param)
 
     # HERE is the place where we determine whether we need to update an order
     # that already exists against the registration (and is in the database),
@@ -140,10 +137,19 @@ class OrderController < ApplicationController
     else
       logger.debug "The registration is valid - redirecting to Worldpay..."
       response = send_xml(create_xml(@registration, @order))
-      render('new', status: :bad_request) && return unless response
+      render('new', status: :bad_request) and return unless response
       redirect_to get_redirect_url(parse_xml(response.body), @registration, @order.orderCode, order_type_param)
     end
 
+  end
+
+  private
+
+  def show_copy_cards(order_type)
+    order_type_param.eql?(Order.new_registration_identifier) ||
+      order_type_param.eql?(Order.renew_registration_identifier) ||
+      order_type_param.eql?(Order.editrenew_caused_new_identifier) ||
+      order_type_param.eql?(Order.extra_copycards_identifier)
   end
 
 end
