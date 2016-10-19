@@ -563,12 +563,8 @@ class RegistrationsController < ApplicationController
 
     searchCrossField_valid = true
     # Add cross field check, to ensure that correct params supplied if needed
-    unless searchString.nil?
-      unless searchString.empty?
-        if searchDistance.nil? || searchPostcode.nil?
-          searchCrossField_valid = false
-        end
-      end
+    if searchString.present?
+      searchCrossField_valid = searchDistance.present? || searchPostcode.present?
     end
 
     logger.debug 'Validate Public Search Params Q:' + searchString_valid.to_s + ' SW:' + searchWithin_valid.to_s + ' D:' + searchDistance_valid.to_s + ' P:' + searchPostcode_valid.to_s + ' CF: ' + searchCrossField_valid.to_s
