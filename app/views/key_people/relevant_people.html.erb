@@ -6,7 +6,7 @@
 
     <div class="back-section">
       <ol>
-        <li><%= link_to t('registrations.form.back_button_label'), :newRelevantConvictions, :class => 'link_to' %></li>
+        <li><%= link_to t('registrations.form.back_button_label'), :relevant_convictions, :class => 'link_to' %></li>
       </ol>
     </div>
 
@@ -21,7 +21,7 @@
 
           <% content_for :page_title, createTitle('.title') %>
           <%= render 'shared/errors' %>
-          <%= form_for(@key_person, url: {action: "updateNewRelevantPeople"}, html: {autocomplete: 'off'} ) do |f| %>
+          <%= form_for(@key_person, url: {action: :update_relevant_people}, html: {autocomplete: 'off'} ) do |f| %>
             <%= render 'relevant_person_form', f: f, d: @key_person, legend: t('.legend') %>
 
             <span class="continue_link"><%= render 'continue_link' %></span>
@@ -40,10 +40,10 @@
             <div class="inner group related-subsection">
               <h2 class="heading-small"><%= t '.you_have_added' %></h2>
                 <nav aria-labelledby="parent-subsection" role="navigation">
-                <%= content_tag_for(:p, @relevant_people) do |key_person| %>
-                <%= first_name_last_name_position(key_person) %>
-                <%= link_to t('form.delete_button_label'), url_for(:controller => 'key_people', :action => 'deleteRelevantPerson', :id => key_person.id), :class => 'link_to' %>
-                  <% end %>
+                <%= content_tag_for(:p, @relevant_people) do |relevant_person| %>
+                  <%= first_name_last_name_position(relevant_person) %>
+                  <%= link_to t('form.delete_button_label'), delete_relevant_person_path(@registration.reg_uuid, relevant_person.id), :class => 'link_to' %>
+                <% end %>
                 </nav>
               <div id="includedContent"></div>
             </div>

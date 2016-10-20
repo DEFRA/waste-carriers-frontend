@@ -5,7 +5,8 @@ Feature: Upper tier
   So that my registration is processed with the Environment Agency
 
 Background:
-  Given I have been funneled into the upper tier path
+  Given I start a new registration
+  And I have been funneled into the upper tier path
   And I am a carrier dealer
   And I provide my company name
 

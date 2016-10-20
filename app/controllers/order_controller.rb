@@ -1,12 +1,6 @@
 class OrderController < ApplicationController
-  include OrderHelper
   include WorldpayHelper
   include RegistrationsHelper
-
-  # GET /index
-  def index
-    # does nothing
-  end
 
   # Used only when the system gets into a state where it cannot allow further
   # processing of an order.
@@ -18,31 +12,28 @@ class OrderController < ApplicationController
     # means the new charge determination will output no charge, potentially
     # making the change of carrier type free.
     setup_registration('payment', true)
-    clear_registration_session
-    clear_edit_session
-    clear_order_session
-    renderNotFound && return unless @registration
+    render_not_found and return unless @registration
   end
 
-  # GET /new
+  # GET /your-registration/:reg_uuid/order
   def new
     @order ||= Order.new
-
-    @renderType = session[:renderType]
-    renderNotFound && return unless @order.isValidRenderType?(@renderType)
-
     setup_registration('payment', true)
-
-    renderNotFound && return unless @registration
+    render_not_found and return unless @registration
+    order_type_param = params[:order_type]
 
     @registration.update(copy_cards: 0)
-    @registration.update(copy_card_only_order: 'yes') if Order.extra_copycards_identifier == @renderType
+    if Order.extra_copycards_identifier == order_type_param
+      @registration.update(copy_card_only_order: 'yes')
+    end
+
+    @show_copy_cards = show_copy_cards(order_type_param)
 
     # The Order Builder is not cached by the Registration, so we'll cache it
     # here (and use the cached version in the view too).
     @order_builder = @registration.order_builder
 
-    if (@order_builder.total_fee == 0) && (Order.extra_copycards_identifier != @renderType)
+    if (@order_builder.total_fee == 0) && (Order.extra_copycards_identifier != order_type_param)
       # Somehow we have a non copy-card-only order with a total cost of 0, which
       # can happen if a user abandons a payment.  Our architecture doesn't allow
       # us to handle this elegantly, so lets just get them to call NCCC.
@@ -55,13 +46,16 @@ class OrderController < ApplicationController
     @registration.total_fee = @order_builder.total_fee
   end
 
-  # POST /create
+  # POST /your-registration/:reg_uuid/order
   def create
     setup_registration 'payment'
 
     @registration.copy_cards ||= 0
     @order_builder = @registration.order_builder
     @order_builder.current_user = (current_user || current_agency_user)
+
+    order_type_param = params[:order_type]
+    @show_copy_cards = show_copy_cards(order_type_param)
 
     # HERE is the place where we determine whether we need to update an order
     # that already exists against the registration (and is in the database),
@@ -71,11 +65,11 @@ class OrderController < ApplicationController
       # committed to the database at the time the registration was written.
       # Therefore we need to update the existing order.
       new_order_code = @registration.finance_details.first.orders.first.orderCode
-    elsif session.has_key?(:orderCode)
+    #elsif session.has_key?(:orderCode)
       # The user has returned to this page by cancelling in Worldpay, or via
       # using the back button.  To avoid creating a duplicate order, we re-use
       # the last order-code.
-      new_order_code = session[:orderCode]
+      # new_order_code = session[:orderCode]
     else
       # This must be a new order; we'll let the Order Builder generate a new
       # order code.
@@ -86,13 +80,11 @@ class OrderController < ApplicationController
     # handle the case where a user Cancels in Worldpay or uses the browser
     # back button.
     @order = @order_builder.order(new_order_code)
-    session[:orderCode] = @order.orderCode
 
     unless @registration.valid? && @order.valid?
-      @renderType = session[:renderType] # Needed in the view.
       logger.debug "registration validation errors: #{@registration.errors.messages.to_s}"
       logger.debug "order validation errors: #{@registration.errors.messages.to_s}"
-      render 'new', status: '400'
+      render 'new', status: :bad_request
       return
     end
 
@@ -106,7 +98,7 @@ class OrderController < ApplicationController
     end
 
     # Does the session order with orderCode exist already?
-    existing_order = @registration.getOrder(session[:orderCode])
+    existing_order = @registration.getOrder(@order.orderCode)
     if existing_order.present?
       # We must update the newly-generated order to contain the ID of the existing
       # order, as this is how the services decides which order to overwrite.
@@ -121,7 +113,7 @@ class OrderController < ApplicationController
     unless @registration.save
       @order.errors.add(:exception, @order.exception.to_s)
       logger.warn 'The update order was not saved to services.'
-      render 'new', status: '400'
+      render 'new', status: :bad_request
       return
     end
 
@@ -134,21 +126,30 @@ class OrderController < ApplicationController
     # confirm their changes, which would trick the system into thinking that a
     # free edit had taken place, and thus overwrite the NEW version that we've
     # just loaded from Mongo, in effect creating a "free" edit.
-    session[:registration_id] = @registration.id
+    # session[:registration_id] = @registration.id
 
     logger.debug "About to redirect to Worldpay or Offline payment"
     set_google_analytics_payment_indicator(session, @order)
 
     if @order.paymentMethod == 'OFFLINE'
       logger.debug "The registration is valid - redirecting to Offline payment page..."
-      redirect_to newOfflinePayment_path(orderCode: session[:orderCode])
+      redirect_to offline_payment_path(reg_uuid: @registration.reg_uuid, orderCode: @order.orderCode, orderType: order_type_param)
     else
       logger.debug "The registration is valid - redirecting to Worldpay..."
       response = send_xml(create_xml(@registration, @order))
-      render('new', status: '400') && return unless response
-      redirect_to get_redirect_url(parse_xml(response.body))
+      render('new', status: :bad_request) and return unless response
+      redirect_to get_redirect_url(parse_xml(response.body), @registration, @order.orderCode, order_type_param)
     end
 
+  end
+
+  private
+
+  def show_copy_cards(order_type)
+    order_type.eql?(Order.new_registration_identifier) ||
+      order_type.eql?(Order.renew_registration_identifier) ||
+      order_type.eql?(Order.editrenew_caused_new_identifier) ||
+      order_type.eql?(Order.extra_copycards_identifier)
   end
 
 end

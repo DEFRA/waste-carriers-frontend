@@ -3,7 +3,7 @@ When(/^I activate the account within the permissible timeout period$/) do
   timeoutPeriodEnd = Devise.confirm_within
 
   Timecop.travel(timeoutPeriodEnd.from_now - 1.minute) do
-    visit business_type_path # refreshes page so don't get timed out after 20 minutes
+    visit start_path # refreshes page so don't get timed out after 20 minutes
     do_short_pause_for_email_delivery
     open_email my_email_address
     current_email.click_link 'confirmation_link'
@@ -15,7 +15,7 @@ When(/^I attempt to activate the account after the permissible timeout period$/)
   timeoutPeriodEnd = Devise.confirm_within
 
   Timecop.travel(timeoutPeriodEnd.from_now + 1.minute) do
-    visit business_type_path # refreshes page so don't get timed out after 20 minutes
+    visit start_path # refreshes page so don't get timed out after 20 minutes
     do_short_pause_for_email_delivery
     open_email my_email_address
     current_email.click_link 'confirmation_link'

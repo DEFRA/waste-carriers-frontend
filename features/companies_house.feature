@@ -7,6 +7,7 @@ Feature: Companies House
   proceed. Such scenarios are covered in a separate RSpec (it was difficult to get WebMock working with Cucumber).
 
   Background:
+    Given I start a new registration
     Given I am registering as a limited company
 
   Scenario: Active upper tier company

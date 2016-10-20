@@ -17,31 +17,32 @@
     </div>
   </header>
 
-    <%= form_for(resource, :as => resource_name, :url => confirmation_path(resource_name), :html => { :method => :post, :autocomplete => :off }) do |f| %>
+  <%= form_for(resource, as: resource_name, url: user_confirmation_path, html: { method: :post, autocomplete: :off }) do |f| %>
 
     <p class="text"><%= t 'devise.confirmations.resendText1'%></p>
-      <details class="text">
-        <summary id="show-hide-details-summary-0" aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
-          <span class='summary'><%= t 'devise.passwords.sendInstructionsDetails'%></span>
-        </summary>
-          <div style='display:block' id='details-content-0' >
-          <p><%= t 'devise.passwords.sendInstructionsSummaryText'%></p>
-        </div>
-      </details>
 
-      <ul class="panel-indent text">
-        <li class="small-text"><%= t 'devise.confirmations.resendBullet1'%></li>
-        <li class="small-text"><%= t 'devise.confirmations.resendBullet2'%></li>
-      </ul>
+    <details class="text">
+      <summary id="show-hide-details-summary-0" aria controls='details-content-0' tabindex='0' aria-controls="details-content-0" role="button">
+        <span class='summary'><%= t 'devise.passwords.sendInstructionsDetails'%></span>
+      </summary>
+        <div style='display:block' id='details-content-0' >
+        <p><%= t 'devise.passwords.sendInstructionsSummaryText'%></p>
+      </div>
+    </details>
+
+    <ul class="panel-indent text">
+      <li class="small-text"><%= t 'devise.confirmations.resendBullet1'%></li>
+      <li class="small-text"><%= t 'devise.confirmations.resendBullet2'%></li>
+    </ul>
 
     <div class="form-group" role="group" aria-labelledby="groupLabel">
 	     <%= f.label :email, class: 'form-label' %>
 	     <%= f.email_field :email, class: 'form-control-1-2', :autofocus => true %>
     </div>
 
-	   <%= f.submit t('devise.confirmations.resendButton'), {:class => "button", :id => "send_instructions_button"} %>
+	  <%= f.submit t('devise.confirmations.resendButton'), {:class => "button", :id => "send_instructions_button"} %>
 
-    <% end %>
+  <% end %>
 
   </main><!-- end content -->
 </div><!-- end wrapper -->

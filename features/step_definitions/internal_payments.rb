@@ -121,7 +121,7 @@ Then(/^I am redirected to account holder home page with no fee$/) do
 end
 
 Given(/^the registration is valid for a small write off$/) do
-  # Here we am running a series of steps to get the registraiton in the state ready for a small write off
+  # Here we am running a series of steps to get the registration in the state ready for a small write off
   # A payment of 150.00 puts the excess balance of 4 within the -5->5 (Payment.basicMinimum-Payment.basicMaximum)
   # range of the small write off
   steps %Q{

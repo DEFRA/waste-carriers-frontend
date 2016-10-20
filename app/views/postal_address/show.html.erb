@@ -13,7 +13,7 @@
         </ol>
       </div>
 
-      <%= form_for(@address, url: postal_address_path, html: { autocomplete: 'off', :method => :post }) do |f| %>
+      <%= form_for(@address, url: postal_address_path(reg_uuid: @registration.reg_uuid), html: { autocomplete: 'off', :method => :post }) do |f| %>
 
         <%= render 'shared/errors' %>
 

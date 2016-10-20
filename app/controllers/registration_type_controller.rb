@@ -1,17 +1,19 @@
 class RegistrationTypeController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/registration-type
+  # GET /your-registration/:reg_uuid/registration-type
   def show
     new_step_action 'registrationtype'
     return unless @registration
   end
 
-  # GET /your-registration/registration-type/edit
+  # GET /your-registration/:reg_uuid/registration-type/edit
   def edit
-    session[:edit_link_reg_type] = '1'
     new_step_action 'registrationtype'
     return unless @registration
+    
+    session[:edit_link_reg_type] = @registration.reg_uuid
+
     render 'show'
   end
 
@@ -21,9 +23,9 @@ class RegistrationTypeController < ApplicationController
     return unless @registration
 
     if @registration.valid?
-      if session[:edit_link_reg_type]
+      if session[:edit_link_reg_type] == @registration.reg_uuid
         session.delete(:edit_link_reg_type)
-        redirect_to :newConfirmation
+        redirect_to declaration_path(reg_uuid: @registration.reg_uuid)
         return
       else
         redirect_to :business_details
@@ -32,7 +34,7 @@ class RegistrationTypeController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render 'show', status: '400'
+      render 'show', status: :bad_request
     end
   end
 

@@ -104,7 +104,7 @@
 	            	<% end %>
 	            </td>
 
-	            <td><%= link_to t('form.addCopyCards_button_label'), newOrderCopyCards_path(registration.uuid), :id => 'addcopycards_'+registration.regIdentifier  if registration.can_request_copy_cards?  %>
+	            <td><%= link_to t('form.addCopyCards_button_label'), order_copy_cards_path(registration.uuid), :id => 'addcopycards_'+registration.regIdentifier  if registration.can_request_copy_cards?  %>
               </td>
 
               <td><%= link_to t('registrations.form.delete_button_label'), confirmDelete_path(registration.uuid), :method => :get, :id => "delete" if registration.is_active? %>

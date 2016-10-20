@@ -543,6 +543,7 @@ When(/^I confirm my details$/) do
   fill_in 'registration_accountEmail_confirmation', with: my_email_address
   fill_in 'registration_password', with: my_password
   fill_in 'registration_password_confirmation', with: my_password
+
   click_button 'continue'
 end
 
@@ -648,7 +649,7 @@ When(/^I change waste carrier type from BD to CBD$/) do
 end
 
 Then(/^registration should be complete when payment is successful$/) do
-  order_page_submit
+  order_page_pay_by_credit_card
   secure_payment_page_pay_by_visa
   secure_payment_details_page_enter_visa_details_and_submit
   secure_test_simulator_page_continue

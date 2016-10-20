@@ -4,13 +4,15 @@ describe BusinessTypeController, :type => :controller do
 
   describe 'GET #show' do
 
+    let(:registration) { Registration.create }
+
     it 'responds successfully with a HTTP 200 status code' do
-      get :show
+      get :show, reg_uuid: registration.reg_uuid
       expect(response.code).to eq('200')
     end
 
     it 'renders the #show template' do
-        get :show
+        get :show, reg_uuid: registration.reg_uuid
         expect(response).to render_template("show")
     end
 
@@ -18,22 +20,17 @@ describe BusinessTypeController, :type => :controller do
 
   describe 'POST #create' do
 
-    before :each do
-      session[:registration_id] = registration.id
-      session[:editing] = true
-    end
-
     context "when 'sole trader' is selected" do
 
       let(:registration) { Registration.create }
 
       it "sets #businessType to 'soleTrader' on the registration" do
-        post :create, :registration => { "businessType" => "soleTrader" }
+        post :create, :registration => { "businessType" => "soleTrader" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).businessType).to eq('soleTrader')
       end
 
       it "redirects to the 'other businesses' page" do
-        post :create, :registration => { "businessType" => "soleTrader" }
+        post :create, :registration => { "businessType" => "soleTrader" }, reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :other_businesses
       end
 
@@ -44,12 +41,12 @@ describe BusinessTypeController, :type => :controller do
       let(:registration) { Registration.create }
 
       it "sets #businessType to 'partnership' on the registration" do
-        post :create, :registration => { "businessType" => "partnership" }
+        post :create, :registration => { "businessType" => "partnership" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).businessType).to eq('partnership')
       end
 
       it "redirects to the 'other businesses' page" do
-        post :create, :registration => { "businessType" => "partnership" }
+        post :create, :registration => { "businessType" => "partnership" }, reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :other_businesses
       end
 
@@ -60,12 +57,12 @@ describe BusinessTypeController, :type => :controller do
       let(:registration) { Registration.create }
 
       it "sets #businessType to 'limitedCompany' on the registration" do
-        post :create, :registration => { "businessType" => "limitedCompany" }
+        post :create, :registration => { "businessType" => "limitedCompany" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).businessType).to eq('limitedCompany')
       end
 
       it "redirects to the 'other businesses' page" do
-        post :create, :registration => { "businessType" => "limitedCompany" }
+        post :create, :registration => { "businessType" => "limitedCompany" }, reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :other_businesses
       end
 
@@ -76,12 +73,12 @@ describe BusinessTypeController, :type => :controller do
       let(:registration) { Registration.create }
 
       it "sets #businessType to 'publicBody' on the registration" do
-        post :create, :registration => { "businessType" => "publicBody" }
+        post :create, :registration => { "businessType" => "publicBody" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).businessType).to eq('publicBody')
       end
 
       it "redirects to the 'other businesses' page" do
-        post :create, :registration => { "businessType" => "publicBody" }
+        post :create, :registration => { "businessType" => "publicBody" }, reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :other_businesses
       end
 
@@ -92,12 +89,12 @@ describe BusinessTypeController, :type => :controller do
       let(:registration) { Registration.create }
 
       it "sets #businessType to 'charity' on the registration" do
-        post :create, :registration => { "businessType" => "charity" }
+        post :create, :registration => { "businessType" => "charity" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).businessType).to eq('charity')
       end
 
       it "redirects to the 'business details' page" do
-        post :create, :registration => { "businessType" => "charity" }
+        post :create, :registration => { "businessType" => "charity" }, reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :business_details
       end
 
@@ -108,12 +105,12 @@ describe BusinessTypeController, :type => :controller do
       let(:registration) { Registration.create }
 
       it "sets #businessType to 'authority' on the registration" do
-        post :create, :registration => { "businessType" => "authority" }
+        post :create, :registration => { "businessType" => "authority" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).businessType).to eq('authority')
       end
 
       it "redirects to the 'business details' page" do
-        post :create, :registration => { "businessType" => "authority" }
+        post :create, :registration => { "businessType" => "authority" }, reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :business_details
       end
 
@@ -124,12 +121,12 @@ describe BusinessTypeController, :type => :controller do
       let(:registration) { Registration.create }
 
       it "sets #businessType to 'other' on the registration" do
-        post :create, :registration => { "businessType" => "other" }
+        post :create, :registration => { "businessType" => "other" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).businessType).to eq('other')
       end
 
       it "redirects to the 'no registration' page" do
-        post :create, :registration => { "businessType" => "other" }
+        post :create, :registration => { "businessType" => "other" }, reg_uuid: registration.reg_uuid
         expect(response).to redirect_to :no_registration
       end
 
@@ -140,12 +137,12 @@ describe BusinessTypeController, :type => :controller do
       let(:registration) { Registration.create }
 
       it 'does not set #businessType' do
-        post :create, :registration => { "businessType" => "" }
+        post :create, :registration => { "businessType" => "" }, reg_uuid: registration.reg_uuid
         expect(assigns(:registration).businessType).to eq('')
       end
 
       it "re-renders the 'business type' page with a HTTP status code of 400" do
-        post :create, :registration => { "businessType" => "" }
+        post :create, :registration => { "businessType" => "" }, reg_uuid: registration.reg_uuid
         expect(response).to render_template("show")
         expect(response.code).to eq('400')
       end

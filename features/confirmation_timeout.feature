@@ -6,6 +6,7 @@ Feature: confirmation link timeout
   So that the chances of someone else creating the account in my name is reduced
 
   Background:
+    Given I start a new registration
     Given I have completed the lower tier registration form
 
   Scenario: Successful account activation within time limit

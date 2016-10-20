@@ -71,22 +71,6 @@ module RegistrationsHelper
     errors_with_keys
   end
 
-
-  # TODO not sure what this should do now smart answers and lower tier have been merged
-  def first_back_link(registration)
-    path = if registration.metaData.first.route == 'DIGITAL'
-      if user_signed_in?
-        userRegistrations_path current_user.id
-      else
-        find_path
-      end
-    else
-      registrations_path
-    end
-
-    link_to t('registrations.form.back_button_label'), path, class: 'button-secondary'
-  end
-
   def isSmallWriteOffAvailable(registration)
     registration.finance_details.first and (Payment.isSmallWriteOff( registration.finance_details.first.balance) == true)
   end
@@ -99,150 +83,47 @@ module RegistrationsHelper
     registration.finance_details.first.balance.to_f < 0
   end
 
-  # This method is called when updating from the registration's 'editing' pages (i.e. PUT/POST/MATCH)
-  # to set up the @registration etc.
-  def setup_registration(current_step, no_update = false)
-
-    logger.debug 'setup_registration: current_step = ' + current_step.to_s
-
-    if !session[:editing] && current_step != 'payment' && current_step != 'confirmation'
-      logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
-      redirect_to cannot_edit_path and return
-    end
-
-    if session[:registration_id]
-      logger.debug "Getting Registration from session"
-      @registration = Registration[ session[:registration_id]]
-      @registration.update(current_step: current_step) if @registration
-    else
-      logger.debug 'Cannot find registration_id from session, try params[:id]: ' + params[:id].to_s
-      @registration = Registration[ params[:id]]
-      if @registration.nil? and params[:id]
-        # Registration still not found in session, trying database
-        logger.debug 'Cannot find registration in session, trying database'
-        @registration = Registration.find_by_id(params[:id])
-      end
-    end
-
-    if @registration
-      @registration.add( params[:registration] ) unless no_update
-
-      # Force contact email to lower case
-      if @registration.contactEmail
-        @registration.contactEmail = format_email(@registration.contactEmail)
-      end
-
-      # now check if we're on the address lookup page and -if yes- set
-      # the relevant model attribute
-      if params[:registration] &&
-              params[:registration].keys.size == 2 &&
-              (params[:registration].keys[0].eql? "companyName") &&
-              (params[:registration].keys[1].eql? "postcode")
-        @registration.update(address_lookup_page: 'yes')
-      elsif params[:registration] &&
-              params[:registration].keys.size == 3 &&
-              (params[:registration].keys[0].eql? "company_no") &&
-              (params[:registration].keys[1].eql? "companyName") &&
-              (params[:registration].keys[2].eql? "postcode")
-        @registration.update(address_lookup_page: 'yes')
-      end
-
-      @registration.save
-      @registration.current_step = current_step
-
-      # Additionally set these if route has not gone through registration process
-      # this could happen, for instance, if the user's adding copycards to an existing
-      # registration
-      session[:registration_id] ||= @registration.id
-      session[:registration_uuid] ||= @registration.uuid
-    else
-      logger.warn {'There is no @registration. Redirecting to the Cookies page'}
-      Airbrake.notify(RuntimeError.new('Failed to get @registration in setup_registration()'))
-      redirect_to cookies_path
-      return
-    end
+  def set_registration_from_uuid_or_reg_uuid(refresh_from_services: false)
+    uuid = params[:reg_uuid]
+    # Check redis
+    @registration = Registration.find(reg_uuid: uuid).first
+    # Check the services / mongo
+    @registration = Registration.find_by_id(uuid) if @registration.blank?
+    # Force refresh from the services if possible and requested
+    @registration = Registration.find_by_id(@registration.uuid) if @registration.present? && refresh_from_services
+    render_not_found and return unless @registration.present?
   end
 
-  # Note: This method is called at the beginning of the GET request handlers for the registration's 'editing' page
-  # to set up the @registration etc.
-  def new_step_action(current_step)
-    if (current_step.eql? Registration::FIRST_STEP) && !session[:edit_mode]
-      logger.debug {'First registration step and not in edit mode - creating new registration...'}
-      initialise_new_registration_with_session
+  def setup_registration(current_step, no_update = false)
+    # This method is called throughout the system to set the registration
+    # model from a Redis find.
+    # Then the registration params are added to the model and the current step
+    # set, which is the way the application performs validation on the model.
 
-    elsif (current_step.eql? 'businesstype') && !session[:edit_mode] && !session[:registration_id]
-      logger.debug {'Current step is businesstype, and not in edit mode, and no registration_id in the session. Creating new registration...'}
-      initialise_new_registration_with_session
+    reg_uuid = params[:reg_uuid]
+    raise 'Registration UUID Param not found' unless reg_uuid.present?
 
-    elsif  session[:edit_mode] #editing existing registration
-      if !session[:editing] && current_step != 'payment' && current_step != 'pending' && current_step != 'businesstype'
-        logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
-        redirect_to cannot_edit_path and return
-      end
+    @registration = Registration.find(reg_uuid: reg_uuid).first
 
-      logger.debug 'We are in edit mode. Retrieving registration...'
-      @registration = Registration[ session[:registration_id]]
-      if @registration
-        logger.debug "retrieving registration for edit #{@registration.id}"
-      else
-        logger.warn 'Could not find registration for id = ' + session[:registration_id].to_s
-      end
-    else #creating new registration but not first step
-      logger.debug 'We are somewhere else in creating a registration but not in the first step. Retrieving registration...'
-      clear_edit_session
-      @registration = Registration[ session[:registration_id]]
-      if @registration
-        logger.debug "retrieving registration #{@registration.id}"
-        m = Metadata.create
-      else
-        logger.warn 'Could not find registration for id = ' + session[:registration_id].to_s
-      end
+    render_not_found and return unless @registration.present?
 
-      if !session[:editing] && current_step != 'payment' && current_step != 'pending'
-        logger.debug 'Registration is not editable anymore. Cannot access page - current_step = ' + current_step.to_s
-        redirect_to cannot_edit_path
-        return
-      end
-    end
+    @registration.add(params[:registration]) unless no_update
 
-    if !@registration
-      logger.warn 'new_step_action - no @registration - showing 404 not found'
-      renderNotFound
-      return
-    end
-
-    # TODO by setting the step here this should work better with forward and back buttons and urls
-    # but this might have changed the behaviour
-    @registration.current_step = current_step
-
-    # Quick fix to get around problem when coming from sign in page and sign_up_mode is still set to sign_in causing
-    # some validations to not fire correctly - must be a better place to put this?
-    if @registration.current_step == 'signup'
-      @registration.sign_up_mode = 'sign_up'
-    elsif @registration.current_step == 'signin'
-      @registration.sign_up_mode = 'sign_in'
-    end
+    # Force contact email to lower case
+    @registration.contactEmail = format_email(@registration.contactEmail) if @registration.contactEmail
 
     @registration.save
-    logger.debug "new step action: #{current_step}"
-    logger.debug "current step: #{ @registration.current_step}"
-    # Pass in current page to check previous page is valid
-    # TODO had to comment this out for now because causing problems but will probably need to reinstate
-    # check_steps_are_valid_up_until_current current_step
-
-    #    if (session[:registration_id])
-    #      #TODO show better page - the user should not be able to return to these pages after the registration has been saved
-    #      renderNotFound
-    #    end
+    @registration.current_step = current_step
   end
 
-  # A simple helper for new_step_action that avoids code repetition.
-  def initialise_new_registration_with_session
-    clear_edit_session
-    clear_registration_session
-    @registration = Registration.ctor(agency_user_signed_in: agency_user_signed_in?)
-    session[:registration_id]= @registration.id
-    session[:editing] = true
+  # A simple version of setup_registration to set the registration model from
+  # Redis
+  def new_step_action(current_step)
+    reg_uuid = params[:reg_uuid]
+    raise 'Registration UUID Param not found' unless reg_uuid.present?
+    @registration = Registration.find(reg_uuid: reg_uuid).first
+    render_not_found and return unless @registration.present?
+    @registration.current_step = current_step
   end
 
   def clear_edit_session
@@ -261,11 +142,6 @@ module RegistrationsHelper
     session.delete(:ga_tier)
     session.delete(:ga_convictions)
     session.delete(:ga_payment_method)
-  end
-
-  def clear_order_session
-    session.delete(:renderType)
-    session.delete(:orderCode)
   end
 
   def give_meaning_to_reg_type(attr_value)
@@ -291,14 +167,13 @@ module RegistrationsHelper
   def getConfirmationType
     confirmationType = nil
 
-    # These must match the css classes they related to
-    #criminally_suspect_class = 'criminallySuspect'
-    #almost_complete_class = 'almostComplete'
-    #complete_class = 'complete'
-    #complete_lower_class = 'complete lower'
+    # These must match the css classes they related to:
+    # criminally_suspect_class = 'criminallySuspect'
+    # almost_complete_class = 'almostComplete'
+    # complete_class = 'complete'
+    # complete_lower_class = 'complete lower'
 
-    if @registration.tier.downcase.eql? 'upper'
-      awaiting_conviction_confirm = @registration.is_awaiting_conviction_confirmation?
+    if @registration.upper?
 
       if @registration.paid_in_full?
         logger.debug "registration.paid_in_full"
@@ -313,7 +188,7 @@ module RegistrationsHelper
       #       mark registration as almost complete
       #   else no convictions & paid in full (via World Pay)
       #       mark registration as complete
-      if awaiting_conviction_confirm && @registration.paid_in_full?
+      if @registration.is_awaiting_conviction_confirmation? && @registration.paid_in_full?
         confirmationType = STATUS_CRIMINALLY_SUSPECT
       elsif !@registration.paid_in_full?
         confirmationType = STATUS_ALMOST_COMPLETE
@@ -321,7 +196,7 @@ module RegistrationsHelper
         confirmationType = STATUS_COMPLETE
       end
     else # lower registration
-      confirmationType = STATUS_COMPLETE_LOWER if @registration.get_status.eql? 'ACTIVE'
+      confirmationType = STATUS_COMPLETE_LOWER if @registration.is_active?
     end
 
     return confirmationType
@@ -428,9 +303,9 @@ module RegistrationsHelper
 
     if (original_registration.businessType != edited_registration.businessType) && \
         (['partnership', 'limitedCompany', 'publicBody'].include? edited_registration.businessType )
-      {controller: 'key_people', action: 'newKeyPeople'}
+      {controller: :key_people, action: :key_people}
     else
-      {action: 'newConfirmation'}
+      {action: :confirmation}
     end
 
   end

@@ -1,25 +1,22 @@
-require 'securerandom'
-
-# TODO AH could enjoy major refactoring using single logic for all person types
-
 class KeyPeopleController < ApplicationController
   include RegistrationsHelper
 
-  before_action :get_registration, except: [:doneKeyPeople, :doneRelevantPeople]
-
-  # GET /your-registration/key-people/registration
+  # GET /your-registration/:reg_uuid/key-people/registration
   def registration
+    setup_registration('key_people')
+    render_not_found and return unless @registration
+
     if @registration.businessType == 'soleTrader'
-      redirect_to action: 'newKeyPerson'
+      redirect_to action: :key_person
     else
-      redirect_to action: 'newKeyPeople'
+      redirect_to action: :key_people
     end
   end
 
-  # GET /your-registration/key-person
-  def newKeyPerson
-    new_step_action 'key_person'
-    return unless @registration
+  # GET /your-registration/:reg_uuid/key-person
+  def key_person
+    setup_registration('key_person')
+    render_not_found and return unless @registration
     get_key_people
 
     if @key_people.empty?
@@ -34,7 +31,9 @@ class KeyPeopleController < ApplicationController
   end
 
   # POST /your-registration/key-person
-  def updateNewKeyPerson
+  def update_key_person
+    setup_registration('key_person')
+    render_not_found and return unless @registration
     get_key_people
 
     @key_person = KeyPerson.create
@@ -47,36 +46,34 @@ class KeyPeopleController < ApplicationController
       # Create a list of all non key people (ie.'RELEVANT'), to ensure they are
       # retained when the list is replaced.  We are assuming that the only 'KEY'
       # person is the key person from the params which we add after.
-      personList = Array.new
-      @registration.key_people.each do |kPerson|
-        if !kPerson.person_type.eql? "KEY"
-          personList.push(kPerson)
-        end
+      person_list = Array.new
+      @registration.key_people.each do |key_person|
+        person_list.push(key_person) unless key_person.person_type == "KEY"
       end
       # Add key person from params
-      personList.push(@key_person)
+      person_list.push(@key_person)
 
-      @registration.key_people.replace(personList)
+      @registration.key_people.replace(person_list)
       @registration.save
 
-      redirect_to :newRelevantConvictions
+      redirect_to :relevant_convictions
     else
       # there is an error (but data not yet saved)
       logger.debug 'Key person is not valid, and data is not yet saved'
-      render "newKeyPerson", :status => '400'
+      render :key_person, status: :bad_request
     end
   end
 
-  # GET /your-registration/key-people
-  def newKeyPeople
-    new_step_action 'key_people'
-    return unless @registration
+  # GET /your-registration/:reg_uuid/key-people
+  def key_people
+    setup_registration('key_people')
+    render_not_found and return unless @registration
     get_key_people
 
     # Check if we should force a validation of the key_people attribute on the
     # registration.  We do this to trigger the validation message for a
     # Partnership with < 2 partners.
-    if session.key?(:performKeyPeopleValidation)
+    if session.key?(:performKeyPeopleValidation) && (session[:performKeyPeopleValidation] == @registration.reg_uuid)
       @registration.validate_key_people()
       session.delete(:performKeyPeopleValidation)
     end
@@ -85,16 +82,20 @@ class KeyPeopleController < ApplicationController
   end
 
   # POST /your-registration/key-people
-  def updateNewKeyPeople
+  def update_key_people
+    setup_registration('key_people')
+    render_not_found and return unless @registration
     get_key_people
 
     @key_person = KeyPerson.create
     @key_person.add(params[:key_person])
 
-    if !(params[:add] || params[:continue])
+    unless (params[:add] || params[:continue])
       logger.warn {'updateNewKeyPeople: unrecognised button found, sending back to newKeyPeople page'}
-      render 'newKeyPeople', status: '400'
-    elsif @key_person.valid?
+      render :key_people, status: :bad_request and return
+    end
+
+    if @key_person.valid?
       @key_person.cross_check_convictions
       @key_person.save
       @registration.key_people.add(@key_person)
@@ -103,13 +104,13 @@ class KeyPeopleController < ApplicationController
       if params[:continue]
         if @registration.valid?
           # Everything is OK; continue to next page.
-          redirect_to :newRelevantConvictions
+          redirect_to :relevant_convictions
         else
           # User wanted to continue, but they haven't added enough Key People.
           # We set a variable in the session to force the re-validation of the
-          # Key People attribute on the registraiton.  This allows the page to
+          # Key People attribute on the registration.  This allows the page to
           # display all the required information.
-          session[:performKeyPeopleValidation] = true
+          session[:performKeyPeopleValidation] = @registration.reg_uuid
           redirect_to :back
         end
       else
@@ -120,25 +121,25 @@ class KeyPeopleController < ApplicationController
       # Form was left blank.
       if params[:add]
         # The user clicked the 'add' button but didn't provide any details.
-        render 'newKeyPeople', status: '400'
+        render :key_people, status: :bad_request
       else
         @key_person.errors.clear
         unless @registration.valid?
           # We have too few Key People added so far.
-          render 'newKeyPeople', status: '400'
+          render :key_people, status: :bad_request
         else
           # Everything is OK; continue to next page.
-          redirect_to :newRelevantConvictions
+          redirect_to :relevant_convictions
         end
       end
     else
       # Key Person details are not blank, but failed validation.
-      render 'newKeyPeople', status: '400'
+      render :key_people, status: :bad_request
     end
   end
 
-  # GET /your-registration/relevant-people
-  def newRelevantPeople
+  # GET /your-registration/:reg_uuid/relevant-people
+  def relevant_people
     new_step_action 'relevant_people'
     return unless @registration
     get_relevant_people
@@ -147,7 +148,9 @@ class KeyPeopleController < ApplicationController
   end
 
   # POST /your-registration/relevant-people
-  def updateNewRelevantPeople
+  def update_relevant_people
+    setup_registration('relevant_people')
+    render_not_found and return unless @registration
     get_relevant_people
 
     @key_person = KeyPerson.create
@@ -163,16 +166,16 @@ class KeyPeopleController < ApplicationController
         if @registration.valid?
           @registration.save
 
-          redirect_to action: 'newRelevantPeople'
+          redirect_to action: :relevant_people
         else
           # there is an error (but data not yet saved)
           logger.debug 'Registration is not valid, and data is not yet saved'
-          render "newRelevantPeople", :status => '400'
+          render :relevant_people, status: :bad_request
         end
       else
         # there is an error (but data not yet saved)
         logger.debug 'Relevant person is not valid, and data is not yet saved'
-        render "newRelevantPeople", :status => '400'
+        render :relevant_people, status: :bad_request
       end
     elsif params[:continue]
       if @key_person.valid?
@@ -185,16 +188,15 @@ class KeyPeopleController < ApplicationController
         if @registration.valid?
           @registration.save
 
-          redirect_to :newConfirmation
+          redirect_to declaration_path(reg_uuid: @registration.reg_uuid)
         else
           # there is an error (but data not yet saved)
-          logger.debug 'Registration is not valid, and data is not yet saved'
-          render "newRelevantPeople", :status => '400'
+          logger.debug '1 Registration is not valid, and data is not yet saved'
+          render :relevant_people, status: :bad_request
         end
       else
         # No data entered
         if form_blank?
-
           # 1st person
           if @relevant_people.empty?
             @key_person.errors.clear
@@ -203,65 +205,64 @@ class KeyPeopleController < ApplicationController
             @registration.valid?
 
             # there is an error (but data not yet saved)
-            logger.debug 'Key person is not valid, and data is not yet saved'
-            render "newRelevantPeople", :status => '400'
+            logger.debug '2 Key person is not valid, and data is not yet saved'
+            render :relevant_people, status: :bad_request
           else
             # Not 1st person and Form is blank so can go to declaration
-            redirect_to :newConfirmation
+            redirect_to declaration_path(reg_uuid: @registration.reg_uuid)
           end
         else
           # there is an error (but data not yet saved)
-          logger.debug 'Key person is not valid, and data is not yet saved'
-          render "newRelevantPeople", :status => '400'
+          logger.debug '3 Key person is not valid, and data is not yet saved'
+          render :relevant_people, status: :bad_request
         end
       end
     else
       logger.debug 'Unrecognised button found, sending back to newRelevantPeople page'
-      render "newRelevantPeople", :status => '400'
+      render :relevant_people, status: :bad_request
     end
   end
 
-  # GET /your-registration/key-people/delete/:id
-  def delete
+  # GET /your-registration/:reg_uuid/key-people/:id/delete
+  def delete_key_person
+    setup_registration('key_people')
+    render_not_found and return unless @registration
+
     key_person_to_remove = KeyPerson[params[:id]]
-    if !key_person_to_remove
-      renderNotFound
-      return
-    end
+    render_not_found and return unless key_person_to_remove
 
     @registration.key_people.delete(key_person_to_remove)
 
-    redirect_to action: 'registration'
+    redirect_to action: :registration
   end
 
-  # GET /your-registration/relevant-people/delete/:id
-  def deleteRelevantPerson
+  # GET /your-registration/:reg_uuid/relevant-people/:id/delete
+  def delete_relevant_person
+    setup_registration('relevant_people')
+    render_not_found and return unless @registration
+
     person_to_remove = KeyPerson[params[:id]]
-    if !person_to_remove
-      renderNotFound
-      return
-    end
+    render_not_found and return unless person_to_remove
 
     @registration.key_people.delete(person_to_remove)
 
-    redirect_to action: 'newRelevantPeople'
+    redirect_to action: :relevant_people
   end
 
-  # GET /your-registration/key-people
+  # GET /your-registration/:reg_uuid/key-people
   def index
+    setup_registration('key_people')
+    render_not_found and return unless @registration
+
     get_key_people
   end
 
-  # DELETE /key-person/:id
+  # DELETE /your-registration/:reg_uuid/key-person/:id
   def destroy
-    get_key_person
-  end
+    setup_registration('key_person')
+    render_not_found and return unless @registration
 
-  def get_registration
-    @registration = Registration[session[:registration_id]]
-    if !@registration
-      renderNotFound
-    end
+    get_key_person
   end
 
   def get_key_people

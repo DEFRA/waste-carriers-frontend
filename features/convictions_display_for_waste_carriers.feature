@@ -1,4 +1,6 @@
 Feature: Displaying convictions check to waste carriers
+  Background:
+    Given I start a new registration
 
   Scenario: Declared convictions
     Given I fill out the upper tier steps

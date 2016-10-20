@@ -135,11 +135,11 @@ module WorldpayHelper
     response
   end
 
-  def get_redirect_url(doc)
+  def get_redirect_url(doc, registration, order_code, order_type)
     reference = doc.at_css('reference')
     if reference
       redirect_url = doc.at_css('reference').content
-      redirect_url_with_args = set_redirect_arguments(redirect_url)
+      redirect_url_with_args = set_redirect_arguments(redirect_url, registration, order_code, order_type)
       redirect_url_with_args
     else
       logger.warn 'WORLDPAY::REDIRECT_ERROR - The was a problem redirecting to the payment pages.'
@@ -162,15 +162,16 @@ module WorldpayHelper
       end
       flash.now[:notice] = I18n.t('errors.messages.worldpayErrorRedirect')
       flash[:notice] = I18n.t('errors.messages.worldpayErrorRedirect') + errorMessage.to_s
-      redirect_url = upper_payment_path
+      redirect_url = upper_payment_path(reg_uuid: registration.reg_uuid)
     end
   end
 
-  def set_redirect_arguments(url)
-    success_url = URI::encode(worldpay_success_url)
-    failure_url = URI::encode(worldpay_failure_url)
-    pending_url = URI::encode(worldpay_pending_url)
-    cancel_url = URI::encode(worldpay_cancel_url)
+  def set_redirect_arguments(url, registration, order_code, order_type)
+    custom_url_params = {order_code: order_code, order_type: order_type}
+    success_url = URI::encode(worldpay_success_url(custom_url_params))
+    failure_url = URI::encode(worldpay_failure_url(custom_url_params))
+    pending_url = URI::encode(worldpay_pending_url(custom_url_params))
+    cancel_url = URI::encode(worldpay_cancel_url(custom_url_params))
 
     # Note: The URL returned from WP already has some query parameters e.g. for the orderCode
     redirect_args = ''
@@ -179,6 +180,7 @@ module WorldpayHelper
     redirect_args << '&failureURL=' + failure_url
     redirect_args << '&pendingURL=' + pending_url
     redirect_args << '&cancelURL=' + cancel_url
+    redirect_args << '&reg_uuid=' + registration.reg_uuid
     url_with_args = url + redirect_args
 
     url_with_args
