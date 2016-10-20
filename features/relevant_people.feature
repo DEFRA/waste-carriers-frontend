@@ -4,6 +4,8 @@ Feature: Relevant People
   I want to record all relevant people for my organisation
   So that I'm compliant with regulations and my registration is valid
 
+  Background:
+    Given I start a new registration
 
   Scenario: Completing a sole trader registration - no relevant people added
     Given I am registering as a sole trader

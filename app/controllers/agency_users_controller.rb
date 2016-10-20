@@ -2,11 +2,11 @@
 
 class AgencyUsersController < ApplicationController
 
-  before_filter :require_admin_request!
+  before_action :require_admin_request!
 
 
   #Only administrators can manage other users - requires administrator login.
-  before_filter :authenticate_admin!
+  before_action :authenticate_admin!
 
   before_action :set_agency_user, only: [:show, :edit, :update, :confirm_delete, :destroy]
 
@@ -81,7 +81,7 @@ class AgencyUsersController < ApplicationController
     def set_agency_user
       @agency_user = AgencyUser.find(params[:id])
       if !@agency_user
-        renderNotFound
+        render_not_found
       end
     end
 
@@ -93,7 +93,7 @@ class AgencyUsersController < ApplicationController
     def require_admin_request!
       if Rails.application.config.require_admin_requests
         if !is_admin_request? && !is_local_request?
-          renderNotFound
+          render_not_found
         end
       end
     end

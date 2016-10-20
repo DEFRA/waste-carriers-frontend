@@ -12,6 +12,7 @@ FactoryGirl.define do
     registrationType 'carrier_broker_dealer'
     tier 'UPPER'
     newOrRenew ''
+    reg_uuid SecureRandom.urlsafe_base64
 
     trait :partnership do
       businessType 'partnership'

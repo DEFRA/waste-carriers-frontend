@@ -2,9 +2,6 @@
 #Validation notification messages
 
 Given(/^a lower tier registration is completed$/) do
-
-  visit business_type_path
-
   choose 'registration_businessType_soletrader'
   click_button 'continue'
 
@@ -46,13 +43,11 @@ end
 
 
 Given(/^I am on the business or organisation details page for a Charity$/) do
-  visit business_type_path
   choose 'registration_businessType_charity'
   click_button 'continue'
 end
 
 Given(/^I am on the business or organisation details page for an Authority$/) do
-  visit business_type_path
   choose 'registration_businessType_authority'
   click_button 'continue'
 end
@@ -65,13 +60,7 @@ Then(/^a validation message for the trading name is displayed$/) do
   expect(page). to have_text 'You must enter the trading name of your business or organisation'
 end
 
-Given(/^I am on the business type page$/) do
-  visit business_type_path
-  click_button 'continue'
-end
-
 Given(/^I am on the construction waste page for a Sole trader$/) do
-  visit business_type_path
   choose 'registration_businessType_soletrader'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'
@@ -79,7 +68,6 @@ Given(/^I am on the construction waste page for a Sole trader$/) do
 end
 
 Given(/^I am on the who produces the waste page for Sole trader$/) do
-  visit business_type_path
   choose 'registration_businessType_soletrader'
   click_button 'continue'
   choose 'registration_otherBusinesses_yes'
@@ -87,7 +75,6 @@ Given(/^I am on the who produces the waste page for Sole trader$/) do
 end
 
 Given(/^I am on the CBD page for a Sole trader$/) do
-  visit business_type_path
   choose 'registration_businessType_soletrader'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'
@@ -97,7 +84,6 @@ Given(/^I am on the CBD page for a Sole trader$/) do
 end
 
 Given(/^I am on the construction waste page for a Partnership$/) do
-  visit business_type_path
   choose 'registration_businessType_partnership'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'
@@ -105,7 +91,6 @@ Given(/^I am on the construction waste page for a Partnership$/) do
 end
 
 Given(/^I am on the who produces the waste page for a Partnership$/) do
-  visit business_type_path
   choose 'registration_businessType_partnership'
   click_button 'continue'
   choose 'registration_otherBusinesses_yes'
@@ -113,7 +98,6 @@ Given(/^I am on the who produces the waste page for a Partnership$/) do
 end
 
 Given(/^I am on the CBD page for a Partnership$/) do
-  visit business_type_path
   choose 'registration_businessType_partnership'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'
@@ -123,7 +107,6 @@ Given(/^I am on the CBD page for a Partnership$/) do
 end
 
 Given(/^I am on the construction waste page for a Ltd Company$/) do
-  visit business_type_path
   choose 'registration_businessType_limitedcompany'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'
@@ -131,7 +114,6 @@ Given(/^I am on the construction waste page for a Ltd Company$/) do
 end
 
 Given(/^I am on the who produces the waste page for a Ltd Company$/) do
-  visit business_type_path
   choose 'registration_businessType_limitedcompany'
   click_button 'continue'
   choose 'registration_otherBusinesses_yes'
@@ -139,7 +121,6 @@ Given(/^I am on the who produces the waste page for a Ltd Company$/) do
 end
 
 Given(/^I am on the CBD page for a Ltd Company$/) do
-  visit business_type_path
   choose 'registration_businessType_limitedcompany'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'
@@ -149,7 +130,6 @@ Given(/^I am on the CBD page for a Ltd Company$/) do
 end
 
 Given(/^I am on the construction waste page for a Public body$/) do
-  visit business_type_path
   choose 'registration_businessType_publicbody'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'
@@ -157,7 +137,6 @@ Given(/^I am on the construction waste page for a Public body$/) do
 end
 
 Given(/^I am on the who produces the waste page for a Public body$/) do
-  visit business_type_path
   choose 'registration_businessType_publicbody'
   click_button 'continue'
   choose 'registration_otherBusinesses_yes'
@@ -165,7 +144,6 @@ Given(/^I am on the who produces the waste page for a Public body$/) do
 end
 
 Given(/^I am on the CBD page for a Public body$/) do
-  visit business_type_path
   choose 'registration_businessType_publicbody'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'

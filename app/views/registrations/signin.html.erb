@@ -14,11 +14,11 @@
       <div class="hgroup">
         <h1 class="heading-xlarge" id="groupLabel"><%= t '.legend' %></h1>
           <ul>
-            <li><a href="/your-registration/signup"><%= t '.sign_up_link'%></a></li>
+            <li><%= link_to t('.sign_up_link'), signup_path %></li>
           <ul>
       </div>
     </header>
-    
+
     <% if notice %>
     <div id="notice_explanation" class="note-summary text">
       <ul>
@@ -32,9 +32,9 @@
     <!-- WF 4.3.4 -->
     <div id="page4"  data-journey="waste-carriers-registration:signin"></div>
     <% content_for :page_title, createTitle('.title') %>
-    
+
     <div class="form-group" role="group" aria-labelledby="groupLabel">
-      <%= form_for(@registration, :url => newSignin_path, html: {autocomplete: 'off'}) do |f| %>
+      <%= form_for(@registration, :url => signin_path, html: {autocomplete: 'off'}) do |f| %>
         <div class="form-group <%if @registration.errors[:accountEmail].any?%> validation<%end%>" id="registration_accountEmail" role="group" aria-labelledby="groupLabel">
           <%= validation_for(@registration, :accountEmail) %>
           <%= f.label :accountEmail, class: 'form-label' %>
@@ -50,7 +50,7 @@
         <%= render 'continue_link' %>
       <% end %>
     </div>
-    
+
     <%= render partial: 'shared/sign_in_help', locals: { resource_name: :user, registration_in_progress: true } %>
 
   </main><!-- end main -->

@@ -23,6 +23,7 @@ class Order < Ohm::Model
 
   attribute :orderId              # Used to identify the order by the Java Services
   attribute :orderCode            # Used to identify the order by the Rails application
+
   attribute :paymentMethod
   attribute :merchantId
   attribute :totalAmount
@@ -89,7 +90,7 @@ class Order < Ohm::Model
     end
 
     order.update_attributes(normal_attributes)
-    
+
     order.save
     order
   end
@@ -244,15 +245,6 @@ class Order < Ohm::Model
     Rails.logger.debug 'includesOrderType? orderType:' + orderType.to_s
     Rails.logger.debug 'returning: ' + (ORDER_AMOUNT_TYPES.include?(orderType)).to_s
     ORDER_AMOUNT_TYPES.include? orderType
-  end
-
-  def isValidRenderType?(renderType)
-    Rails.logger.debug 'isValidRenderType? renderType:' + renderType.to_s
-    res = %w[].push(Order.new_registration_identifier) \
-    	.push(Order.edit_registration_identifier).push(Order.renew_registration_identifier) \
-    	.push(Order.extra_copycards_identifier).push(Order.editrenew_caused_new_identifier).include? renderType
-    Rails.logger.debug 'isValidRenderType? res: ' + res.to_s
-    res
   end
 
   def negateAmount

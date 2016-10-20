@@ -1,3 +1,18 @@
-<div class="dialog">
-  <h2><%=t 'global.serverError.message'%></h2>
-</div>
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+
+  <main id="content" role="main" class="group">
+
+		<header class="page-header group">
+			<div class="hgroup">
+				<h1 class="heading-large"><%=t 'global.serverError.heading' %></h1>
+			</div>
+		</header>
+
+		<% content_for :page_title, createTitle('global.serverError.heading') %>
+
+		<p class="text"><%=t 'global.serverError.message'%></p>
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
