@@ -31,6 +31,8 @@ module Registrations
     # config/initializers; all .rb files in that directory are automatically
     # loaded.
 
+    config.time_zone = "Europe/London"
+
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(#{config.root}/lib)
 
