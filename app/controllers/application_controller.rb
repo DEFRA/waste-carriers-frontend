@@ -8,6 +8,8 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery
 
+  before_action :check_if_redis_is_available
+
   before_action :set_i18n_locale_from_params
 
   before_action :validate_session_total_timeout!
@@ -85,6 +87,10 @@ class ApplicationController < ActionController::Base
     render file: "/public/404.html", status: 404
   end
 
+  def render_service_unavailable
+    render file: "/public/503.html", status: 503
+  end
+
   #Total session timeout. No session is allowed to be longer than this.
   def validate_session_total_timeout!
     if user_signed_in? || agency_user_signed_in? || admin_signed_in?
@@ -141,6 +147,16 @@ class ApplicationController < ActionController::Base
 
   def generateOrderCode
     SecureRandom.uuid.split('-').last
+  end
+
+  def check_if_redis_is_available
+    # Try to write a key to Redis. If it works then we know Redis is not full.
+    # If it doesn't work, show a friendly error page.
+    result = Ohm.redis.call("SET", "test_memory", "x")
+    unless result == "OK"
+      notify_airbrake('Redis is full.')
+      render_service_unavailable and return
+    end
   end
 
   rescue_from CanCan::AccessDenied do |exception|
