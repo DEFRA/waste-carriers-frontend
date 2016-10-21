@@ -53,7 +53,7 @@ class WorldpayController < ApplicationController
       end
 
     else # We get here if 'process_payment' returns false.
-      next_step = upper_payment_path(@registration.reg_uuid)
+      next_step = upper_payment_path(@registration.reg_uuid, order_type: order_type)
     end
 
     redirect_to next_step
@@ -66,7 +66,7 @@ class WorldpayController < ApplicationController
       # Should not get here as payment should have failed and thus return false
     else
       flash[:notice] = I18n.t('registrations.form.paymentFailed')
-      redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid)
+      redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: params[:order_type])
     end
   end
 
