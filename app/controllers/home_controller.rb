@@ -1,6 +1,6 @@
-# Default controller for the service, it handles the index (root) page and
-# other pages like version and maintenance
 class HomeController < ApplicationController
+  # Default controller for the service, it handles the index (root) page and
+  # other pages like version and maintenance
 
   def index
     if Rails.application.config.show_developer_index_page
