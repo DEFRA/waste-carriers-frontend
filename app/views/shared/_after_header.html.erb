@@ -7,3 +7,11 @@
 </div>
 
 <%= render 'shared/google_data_layer' %>
+
+<% if Time.zone.now.hour == 2  && !ENV.has_key?('DISABLE_NIGHTLY_WARNING') %>
+  <div class="warning-banner">
+    <div class="inner-block">
+      <p><%= t('global.nightly_downtime_warning') %></p>
+    </div>
+  </div>
+<% end %>
