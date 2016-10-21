@@ -21,7 +21,7 @@
   		<p>
   		<%= params.inspect %>
   		</p>
-  	  <%= link_to 'Back to payment', upper_payment_path(session[:registration_uuid]) %>
+  	  <%= link_to 'Back to payment', upper_payment_path(session[:registration_uuid], order_type: params[:order_type]) %>
     </section>
 
   </main><!-- end main -->

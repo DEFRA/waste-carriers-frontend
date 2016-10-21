@@ -19,7 +19,7 @@ module WorldpayHelper
       'registrations.order.wpOrderDescription',
       identifier: registration.regIdentifier.to_s)
     order_content = order.description.encode(xml: :text)
-    shopper_email = registration.accountEmail || ''
+    shopper_email = CGI.escape(registration.accountEmail) || ''
     shopper_first_name = registration.firstName.encode(xml: :text)
     shopper_lastname = registration.lastName.encode(xml: :text)
 
@@ -167,6 +167,7 @@ module WorldpayHelper
   end
 
   def set_redirect_arguments(url, registration, order_code, order_type)
+    raise 'Invalid order code or type' unless order_code.present? && order_type.present?
     custom_url_params = {order_code: order_code, order_type: order_type}
     success_url = URI::encode(worldpay_success_url(custom_url_params))
     failure_url = URI::encode(worldpay_failure_url(custom_url_params))

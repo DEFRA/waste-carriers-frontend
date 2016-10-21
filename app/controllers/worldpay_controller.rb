@@ -83,7 +83,7 @@ class WorldpayController < ApplicationController
       # should not get here as payment was cancelled
     else
       flash[:notice] = I18n.t('registrations.form.paymentCancelled')
-      redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid)
+      redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: params[:order_type])
     end
   end
 
