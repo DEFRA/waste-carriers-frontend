@@ -162,7 +162,7 @@ module WorldpayHelper
       end
       flash.now[:notice] = I18n.t('errors.messages.worldpayErrorRedirect')
       flash[:notice] = I18n.t('errors.messages.worldpayErrorRedirect') + errorMessage.to_s
-      redirect_url = upper_payment_path(reg_uuid: registration.reg_uuid)
+      redirect_url = upper_payment_path(reg_uuid: registration.reg_uuid, order_type: order_type)
     end
   end
 
