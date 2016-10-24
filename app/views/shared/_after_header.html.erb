@@ -8,10 +8,14 @@
 
 <%= render 'shared/google_data_layer' %>
 
-<% if Time.zone.now.hour == 2  && !ENV.has_key?('DISABLE_NIGHTLY_WARNING') %>
+<% if Time.zone.now.hour == 10  && !ENV.has_key?('DISABLE_NIGHTLY_WARNING') %>
   <div class="warning-banner">
-    <div class="inner-block">
-      <p><%= t('global.nightly_downtime_warning') %></p>
+    <div class="validation-summary" role="group" aria-labelledby="error-summary-heading-example-1">
+      <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
+        <%= t('global.nightly_downtime_warning.heading') %>
+      </h1>
+      <p><%= t('global.nightly_downtime_warning.maintenance') %></p>
+      <p><%= t('global.nightly_downtime_warning.please_come_back') %></p>
     </div>
   </div>
 <% end %>

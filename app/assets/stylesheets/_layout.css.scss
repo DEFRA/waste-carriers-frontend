@@ -68,21 +68,11 @@ display: block;
 }
 
 .warning-banner {
-  @include phase-banner($state: beta);
   @include outer-block;
   max-width: 960px;
 
-  border: 0;
-  padding: 20px 0;
-
-  .inner-block {
-    border-left: 5px solid #b10e1e;
-    padding: 10px;
-    p {
-      font-size: 19px;
-      font-weight: bold;
-      padding: 0;
-    }
+  .validation-summary {
+    margin-top: 1em;
   }
 }
 
