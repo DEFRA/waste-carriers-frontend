@@ -8,7 +8,8 @@
 
 <%= render 'shared/google_data_layer' %>
 
-<% if Time.zone.now.hour == 10  && !ENV.has_key?('DISABLE_NIGHTLY_WARNING') %>
+<%# Will display between 2am and 3am %>
+<% if Time.zone.now.hour == 2 && !ENV.has_key?('DISABLE_NIGHTLY_WARNING') %>
   <div class="warning-banner">
     <div class="validation-summary" role="group" aria-labelledby="error-summary-heading-example-1">
       <h1 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
