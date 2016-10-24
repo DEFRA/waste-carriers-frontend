@@ -405,7 +405,10 @@ en:
     betaMessage: "BETA"
     betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/done/waste-carrier-or-broker-registration' target='_blank'>feedback</a> will help us improve it."
     bracketsEA: " Environment Agency (England) helpline:\ "
-    nightly_downtime_warning: This service will be unavailable between 2 a.m. and 3 a.m. each day.
+    nightly_downtime_warning:
+      heading: Don't use this service between 2:15am and 2:40am
+      maintenance: We're doing maintenance on the service between 2:15am and 2:40am. We can't accept any registrations during this time.
+      please_come_back: Please come back after 2:40am.
     cookieMessage_html: "<a href='https://www.gov.uk/help/cookies'>GOV.UK uses cookies to make the site simpler. Find out more about cookies</a>"
     england: "England"
     footerCopyright_html: "<a href='http://www.nationalarchives.gov.uk/information-management/our-services/crown-copyright.htm'>© Crown Copyright</a>"
