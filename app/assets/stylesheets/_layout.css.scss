@@ -67,6 +67,15 @@ display: block;
   max-width: 960px;
 }
 
+.warning-banner {
+  @include outer-block;
+  max-width: 960px;
+
+  .validation-summary {
+    margin-top: 1em;
+  }
+}
+
 /* Wrapper ========================================================== */
 
 #wrapper {
@@ -146,4 +155,3 @@ display: block;
   @include core-16;
   margin-right:10px;
 }
-
