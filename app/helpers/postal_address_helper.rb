@@ -44,21 +44,4 @@ module PostalAddressHelper
     address
   end
 
-  # We need to determine whether the user arrived at the page as part of the
-  # application process, or by choosing to edit their details on the
-  # confirmation page. Determining this is based on whether
-  # edit_link_postal_address exists in the session.
-  def redirect_to?(tier)
-
-    if session[:edit_link_postal_address]
-      session.delete(:edit_link_postal_address)
-      next_page = :newConfirmation
-    elsif @registration.tier == 'LOWER'
-      next_page = :newConfirmation
-    else
-      next_page = :registration_key_people
-    end
-
-    next_page
-  end
 end

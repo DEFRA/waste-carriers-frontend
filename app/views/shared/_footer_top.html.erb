@@ -1,8 +1,30 @@
-
 <div class="ea-footer">
   <p><%=t 'global.bracketsEA'%><%= Rails.configuration.registrations_service_phone %></p>
   <ul>
     <li class="inline"><a href="<%= privacy_path %>" target="_blank"><%=t 'global.footer_privacy_link'%></a></li>
     <li class="inline"><a href="<%= cookies_path %>" target="_blank"><%=t 'global.footer_cookies_link'%></a></li>
   </ul>
+  <% if Rails.env.development? %>
+    <ul>
+      <% session.to_hash.each do |k, v| %>
+        <li>
+          <span style='width: 200px; display: inline-block; font-weight: bold;'><%= k %></span>
+          <%= v %></li>
+        </li>
+      <% end %>
+    </ul>
+    <br>
+    <h4>Registration</h4>
+    <ul>
+      <% if @registration.present? %>
+        <pre>
+          <%= JSON.pretty_generate(JSON.parse(@registration.to_json)) %>
+        </pre>
+      <% else %>
+        <p style='color: red;'>
+            @registration not found
+        </p>
+      <% end %>
+    </ul>
+  <% end %>
 </div>

@@ -8,7 +8,14 @@ Feature: Session termination
 
   After the user has completed his registration and finished his session, it should not be possible anymore to access the registration and session data.
 
-@javascript
+  # TODO: After refactoring the way we use the session we should change these
+  # tests to check that users cannot skip certain steps or processes in the
+  # journey by just modifying the URL
+
+Background:
+  Given I start a new registration
+
+@wip
 Scenario: Clicking Back after finishing the registration session
   Given I have completed my lower tier registration
   And I have confirmed my user account
@@ -16,6 +23,7 @@ Scenario: Clicking Back after finishing the registration session
   When I attempt to access the previous page
   Then my registration data is not shown anymore
 
+@wip
 Scenario: Going back after completing (saving) the registration
   Given I have completed my lower tier registration
   When I attempt to access the confirmation page

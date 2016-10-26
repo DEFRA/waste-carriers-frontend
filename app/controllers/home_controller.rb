@@ -1,6 +1,6 @@
-# Default controller for the service, it handles the index (root) page and
-# other pages like version and maintenance
 class HomeController < ApplicationController
+  # Default controller for the service, it handles the index (root) page and
+  # other pages like version and maintenance
 
   def index
     if Rails.application.config.show_developer_index_page
@@ -10,7 +10,7 @@ class HomeController < ApplicationController
         redirect_to registrations_path
       else
         if user_signed_in?
-          redirect_to userRegistrations_path(current_user)
+          redirect_to user_registrations_path(current_user)
         elsif agency_user_signed_in?
           redirect_to registrations_path
         elsif admin_signed_in?

@@ -1,7 +1,7 @@
 class ConstructionDemolitionController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/construction-demolition
+  # GET /your-registration/:reg_uuid/construction-demolition
   def show
     new_step_action 'constructiondemolition'
     return unless @registration
@@ -23,7 +23,7 @@ class ConstructionDemolitionController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render 'show', :status => '400'
+      render 'show', status: :bad_request
     end
 
   end

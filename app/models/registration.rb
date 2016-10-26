@@ -18,13 +18,16 @@ class Registration < Ohm::Model
 
   attribute :current_step
 
-  #uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
+  # uuid assigned by mongo. Found when registrations are retrieved from the Java Service API
   # Note: this is the id (_id) assigned by the database.
   attribute :uuid
 
   # We are generating a uuid client-side (in the frontend) in order to make the POST idempotent
   # and to guard against accidentally repeated requests.
+  # This is used in the regitstration step pages URL's
   attribute :reg_uuid
+  index :reg_uuid
+  unique :reg_uuid
 
   # New or renew field used to determine initial routing prior to smart answers
   attribute :newOrRenew
@@ -104,6 +107,8 @@ class Registration < Ohm::Model
 
   ################# END #################
 
+
+
   def empty?
     self.attributes.empty?
   end
@@ -137,6 +142,10 @@ class Registration < Ohm::Model
     self.uuid
   end
 
+  def save
+    self.reg_uuid = SecureRandom.urlsafe_base64 unless reg_uuid.present?
+    super
+  end
 
   # POSTs registration to Java/Dropwizard service - creates new registration to DB
   # @return  [String] the uuid assigned by MongoDB
@@ -588,7 +597,7 @@ class Registration < Ohm::Model
       url = "#{Rails.configuration.waste_exemplar_services_url}/irrenewals.json?#{irRenewalParam}"
       begin
         Rails.logger.debug "about to GET ir registration: #{ir_number.to_s}"
-        response = RestClient.get url
+        response = RestClient.get(url)
         if response.code == 200
           result = JSON.parse(response.body) #result should be Hash
         elsif response.code == 204
@@ -658,24 +667,36 @@ class Registration < Ohm::Model
   # @param response_hash [Hash] the Java Service response JSON object
   # @return [Registration] the Java Service object converted into a Registration object.
   class << self
-    def init (response_hash)
+    def init(response_hash)
+      reg_uuid = response_hash['reg_uuid']
+
+      # Find and delete Redis registration for the reg_uuid
+      existing_redis_reg = Registration.find(reg_uuid: reg_uuid).first
+
       new_reg = Registration.create
+
       normal_attributes = Hash.new
 
       response_hash.each do |k, v|
         case k
           when 'id'
             new_reg.uuid = v
+          when 'reg_uuid'
+            if existing_redis_reg.present?
+              new_reg.reg_uuid = SecureRandom.urlsafe_base64
+            else
+              new_reg.reg_uuid = reg_uuid
+            end
           when 'addresses'
-            if v && v.size > 0
+            if v && v.any?
               v.each do |address|
-                new_reg.addresses.add Address.init(address)
+                new_reg.addresses.add(Address.init(address))
               end
             end
           when 'key_people'
-            if v && v.size > 0
+            if v && v.any?
               v.each do |person|
-                new_reg.key_people.add KeyPerson.init(person)
+                new_reg.key_people.add(KeyPerson.init(person))
               end
             end #if
           when 'metaData'
@@ -690,13 +711,14 @@ class Registration < Ohm::Model
                 new_reg.conviction_sign_offs.add ConvictionSignOff.init(sign_off)
               end
             end
-          else  #normal attribute'
+          else # normal attribute
             normal_attributes.store(k, v)
         end
       end #each
 
       new_reg.update_attributes(normal_attributes)
       new_reg.save
+
       new_reg
     end #method
   end
@@ -705,7 +727,7 @@ class Registration < Ohm::Model
     Registration.init(self.to_json)
   end
 
-  # Creates and returns a new registraiton, initialising most fields from an
+  # Creates and returns a new registration, initialising most fields from an
   # existing instance.  This is intended to be used only in the case where the
   # user makes an edit requiring a new registration.  Specifically, finance
   # details and conviction sign-off results are not copied, and convictions
@@ -715,6 +737,7 @@ class Registration < Ohm::Model
     new_reg = Registration.create
     new_reg.add(original_registration.to_hash)
     new_reg.add(original_registration.attributes)
+    new_reg.reg_uuid = SecureRandom.urlsafe_base64
 
     # New registration should not get the Finance Details or Conviction
     # sign-offs of the old.
@@ -779,6 +802,7 @@ class Registration < Ohm::Model
   # *********************************
   validates :newOrRenew, :presence => { :message => I18n.t('errors.messages.select_new_or_renew') }, if: :newOrRenew_step?
   validates :originalRegistrationNumber, :presence => { :message => I18n.t('errors.messages.blank_registration_number') }, if: :enterRegNumber_step?
+  validates :reg_uuid, presence: true # There must always be a reg_uuid
 
   # *****************************************
   # * Section 1 (smart answers) validations *
@@ -878,8 +902,7 @@ class Registration < Ohm::Model
 
 
   validates! :tier, presence: true, inclusion: { in: %w(LOWER UPPER) }, if: :signup_step?
-  validate :validate_key_people, :if => :should_validate_key_people?
-
+  validate :validate_key_people, if: :should_validate_key_people?
 
   validate :is_valid_account?, if: [:signin_step?, :sign_up_mode_present?]
 
@@ -930,8 +953,7 @@ class Registration < Ohm::Model
   end
 
   def should_validate_key_people?
-    result = key_person_step? || key_people_step? || relevant_people_step?
-    result
+    key_person_step? || key_people_step? || relevant_people_step?
   end
 
   def newOrRenew_step?
@@ -1117,7 +1139,7 @@ class Registration < Ohm::Model
   end
 
   def confirmation_step?
-    current_step == 'confirmation'
+    current_step == 'declaration'
   end
 
   def pending?
@@ -1261,14 +1283,10 @@ class Registration < Ohm::Model
   end
 
   def date_registered
-    if metaData.first.dateActivated
-      metaData.first.dateActivated
-    else
-      '' # return empty string for records with no activation date
-    end
+    metaData.first.dateActivated.presence.to_s
   end
 
-  def getOrder( orderCode)
+  def getOrder(orderCode)
     Rails.logger.debug 'Registration getOrder ' + orderCode.to_s
     foundOrder = nil
     self.finance_details.first.orders.each do |order|
@@ -1425,6 +1443,7 @@ class Registration < Ohm::Model
       end
     end #each
     Rails.logger.debug "Activated registration(s) for user with email"
+    return rs
   end
 
   def self.isReadyToBeActive(reg)
@@ -1577,7 +1596,7 @@ class Registration < Ohm::Model
   end
 
   def order_types
-    @order_types ||= registration_order.order_types
+    registration_order.order_types
   end
 
   def latest_order

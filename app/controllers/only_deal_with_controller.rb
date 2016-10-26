@@ -1,7 +1,7 @@
 class OnlyDealWithController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/only-deal-with
+  # GET /your-registration/:reg_uuid/only-deal-with
   def show
     new_step_action 'onlydealwith'
     return unless @registration
@@ -23,7 +23,7 @@ class OnlyDealWithController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render 'show', :status => '400'
+      render 'show', status: :bad_request
     end
 
   end

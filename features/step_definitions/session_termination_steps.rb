@@ -1,7 +1,5 @@
 #
 Given(/^I have completed my lower tier registration$/) do
-  visit business_type_path
-
   choose 'registration_businessType_soletrader'
   click_button 'continue'
 
@@ -63,6 +61,6 @@ Then(/^I am informed that I have to login again to change my registration$/) do
   expect(page).to have_text "Sorry, you can't make changes"
 end
 
-When(/^I attempt to access the confirmation page$/) do
-  visit newConfirmation_path
+When(/^I attempt to access the declartion page$/) do
+  visit confirmation_path
 end

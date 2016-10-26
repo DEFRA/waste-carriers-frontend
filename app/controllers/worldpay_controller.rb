@@ -5,17 +5,19 @@ class WorldpayController < ApplicationController
   include WorldpayHelper
   include RegistrationsHelper
 
-  def success
-    @registration = Registration[session[:registration_id]]
+  before_action :set_registration
 
+  def success
     if process_payment
       update_order
 
-      # Get render type from session
-      renderType = session[:renderType]
+      order_type = params[:order_type]
+
+      # Refresh registration from the Java services / Mongo after payments have been applied
+      @registration = Registration.find_by_id(@registration.uuid)
 
       # If on the Digital route, send the new Registration email.
-      if @registration.digital_route? and !renderType.eql?(Order.extra_copycards_identifier)
+      if @registration.digital_route? and !order_type.eql?(Order.extra_copycards_identifier)
         if user_signed_in?
           logger.debug 'Send registered email (as current_user)'
           Registration.send_registered_email(current_user, @registration)
@@ -27,18 +29,18 @@ class WorldpayController < ApplicationController
       end
 
       # Now decide which page we'll redirect the user to.
-      case renderType
+      case order_type
       when Order.new_registration_identifier,
            Order.editrenew_caused_new_identifier,
            Order.renew_registration_identifier
 
         # This was a new registration (perhaps via an edit or IR renewal).
         next_step = if user_signed_in?
-          finish_path
+          finish_path(reg_uuid: @registration.reg_uuid)
         elsif agency_user_signed_in?
-          finishAssisted_path
+          finish_assisted_path(reg_uuid: @registration.reg_uuid)
         else
-          confirmed_path
+          confirmed_path(reg_uuid: @registration.reg_uuid)
         end
       when Order.edit_registration_identifier
         # An existing registration was edited.
@@ -47,54 +49,41 @@ class WorldpayController < ApplicationController
           edit_result: session[:edit_result])
       when Order.extra_copycards_identifier
         # Extra copy cards were ordered.
-        # TODO: Insert appropriate routing for copy cards routes here
         next_step = complete_copy_cards_path(@registration.uuid)
-        clear_registration_session
       end
 
-      # This should be an acceptable time to delete the render type, order code
-      # and edit-related items from the session.
-      clear_order_session
-      clear_edit_session
     else # We get here if 'process_payment' returns false.
-      # Used to redirect_to WorldpayController::Error however that doesn't actually
-      # exist, plus the plan as discussed with Georg was to redirect back to the payment
-      # summary page but display the error details.
-
-      # Check if renderType and orderCode exist, If so its okay to redirect to order page, If not render Expired page
-      if session[:orderCode]
-        next_step = upper_payment_path(@registration.uuid)
-      else
-        logger.debug 'Cannot redirect to order page as session variables already removed, this assume, Retry failed.'
-        renderAccessDenied and return
-      end
+      next_step = upper_payment_path(@registration.reg_uuid, order_type: order_type)
     end
 
     redirect_to next_step
   end
 
   def failure
-    @registration = Registration.find_by_id(session[:registration_uuid])
+    # Refresh registration from the Java services / Mongo
+    @registration = Registration.find_by_id(@registration.uuid)
     if process_payment
       # Should not get here as payment should have failed and thus return false
     else
       flash[:notice] = I18n.t('registrations.form.paymentFailed')
-      redirect_to upper_payment_path(session[:registration_uuid])
+      redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: params[:order_type])
     end
   end
 
   def pending
-    # TODO: Process response and redirect...
+    # Refresh registration from the Java services / Mongo
+    @registration = Registration.find_by_id(@registration.uuid)
     process_payment
   end
 
   def cancel
-    @registration = Registration.find_by_id(session[:registration_uuid])
+    # Refresh registration from the Java services / Mongo
+    @registration = Registration.find_by_id(@registration.uuid)
     if process_payment
       # should not get here as payment was cancelled
     else
       flash[:notice] = I18n.t('registrations.form.paymentCancelled')
-      redirect_to upper_payment_path(session[:registration_uuid])
+      redirect_to upper_payment_path(reg_uuid: @registration.reg_uuid, order_type: params[:order_type])
     end
   end
 
@@ -132,26 +121,24 @@ class WorldpayController < ApplicationController
   def process_payment
     payment_processed = false
     orderKey = params[:orderKey] || ''
+    orderCode = orderKey.split('^').at(2)
     paymentAmount = params[:paymentAmount] || ''
     paymentCurrency = params[:paymentCurrency] || ''
     paymentStatus = params[:paymentStatus] || ''
     mac = params[:mac] || ''
-    if !validate_worldpay_return_parameters(orderKey,paymentAmount,paymentCurrency,paymentStatus,mac)
+    if !validate_worldpay_return_parameters(orderKey, paymentAmount, paymentCurrency, paymentStatus,mac)
       logger.error 'Validation of Worldpay return parameters failed. MAC verification failed!'
       # TODO Possibly need to do something more meaningful with the fact the MAC check has failed
 
       # Update order to reflect failed payment status
-      orderCode = orderKey.split('^').at(2)
       order = @registration.getOrder(orderCode)
       now = Time.now.utc.xmlschema
       order.dateLastUpdated = now
       order.worldPayStatus = 'VERIFICATIONFAILED'
-      order.save! session[:registration_uuid]
+      order.save! @registration.reg_uuid
 
       payment_processed = false
-    elsif paymentStatus.eql? 'AUTHORISED'
-      orderCode = orderKey.split('^').at(2)
-
+    elsif paymentStatus == 'AUTHORISED'
       now = Time.now.utc
       #now = Time.now.utc.xmlschema
       @payment = Payment.new
@@ -159,7 +146,7 @@ class WorldpayController < ApplicationController
       @payment.dateReceived_year = now.year
       @payment.dateReceived_month = now.month
       @payment.dateReceived_day = now.day
-      #We don't need to set the dateEntered; this is done within the service
+      # We don't need to set the dateEntered; this is done within the service
       # TODO get the user if not yet logged in (still to be activated)
       @payment.updatedByUser = @registration.accountEmail
       @payment.amount = paymentAmount.to_i
@@ -171,21 +158,20 @@ class WorldpayController < ApplicationController
       @payment.registrationReference = 'Worldpay'
       @payment.comment = I18n.t('registrations.form.paymentWorldPay')
 
-      #TODO re-enable validation and saving - current validation rules are geared towards offline payments
+      # TODO re-enable validation and saving - current validation rules are geared towards offline payments
       if @payment.valid?
-        logger.debug "registration uuid: #{session[:registration_uuid]}"
-        if @payment.save! session[:registration_uuid]
+        logger.debug "registration uuid: #{@registration.reg_uuid}"
+        if @payment.save! @registration.uuid
           #@payment.save(:validate => false)
           payment_processed = true
         end
       else
         logger.error 'Payment is not valid! ' + @payment.errors.messages.to_s
         payment_processed = false
-        #TODO: what does this do? -need to replace it with explicit save
+        # TODO: what does this do? -need to replace it with explicit save
         @payment.save(:validate => false)
       end
     else
-      orderCode = orderKey.split('^').at(2)
       logger.error 'Payment status was not successful, paymentStatus: ' + paymentStatus.to_s + " for order: " + orderCode.to_s
 
       # Update order to reflect failed payment status
@@ -194,7 +180,7 @@ class WorldpayController < ApplicationController
         now = Time.now.utc.xmlschema
         order.dateLastUpdated = now
         order.worldPayStatus = paymentStatus
-        order.save! session[:registration_uuid]
+        order.save! @registration.uuid
       else
         logger.error 'There is no @registration. Cannot update registration.'
       end
@@ -210,7 +196,10 @@ class WorldpayController < ApplicationController
     orderCode = @payment.orderKey
     status = @payment.worldPayPaymentStatus
 
-    reg = Registration.find_by_id(session[:registration_uuid])
+    # Re-get the registration from Java / Mongo to ensure orders are all present
+    @registration = Registration.find_by_id(@registration.uuid)
+
+    reg = @registration
 
     # Get the current_order from the registration
     ord = reg.getOrder(orderCode)
@@ -258,7 +247,8 @@ class WorldpayController < ApplicationController
 
 
         # Re-get registration so its data is up to date, for later use
-        @registration = Registration.find_by_id(session[:registration_uuid])
+        @registration = Registration.find_by_id(@registration.uuid)
+
         logger.debug 'Re-populated @registration from the database'
       else
         # Errored saving order
@@ -270,5 +260,9 @@ class WorldpayController < ApplicationController
     end
 
   end #update_order
+
+  def set_registration
+    @registration = Registration.find(reg_uuid: params[:reg_uuid]).first
+  end
 
 end

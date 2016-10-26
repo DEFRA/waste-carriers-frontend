@@ -3,7 +3,14 @@ class StartController < ApplicationController
 
   # GET /registrations/start
   def show
-    new_step_action 'newOrRenew'
+    reg_uuid = params[:reg_uuid]
+    @registration = if reg_uuid.present?
+      # Edit an existing registration
+      Registration.find(reg_uuid: reg_uuid).first
+    else
+      # Create a new registration
+      Registration.ctor(agency_user_signed_in: agency_user_signed_in?)
+    end
     return unless @registration
   end
 
@@ -28,7 +35,7 @@ class StartController < ApplicationController
 
     # there is an error (but data not yet saved)
     logger.debug 'No selection made'
-    render 'show', :status => '400'
+    render 'show', status: :bad_request
 
   end
 

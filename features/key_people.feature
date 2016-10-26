@@ -4,6 +4,9 @@ Feature: Key People
   I want to record all key people for my organisation
   So that I'm compliant with regulations and my registration is valid
 
+  Background:
+    Given I start a new registration
+
   Scenario: Sole Trader
     Given I have been funneled into the upper tier path
       And I am a carrier dealer

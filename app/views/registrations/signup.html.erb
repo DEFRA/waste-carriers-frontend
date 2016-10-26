@@ -21,14 +21,14 @@
 
   <div class="text">
     <ul>
-      <li><a href="/your-registration/signin"><%= t '.sign_in_link'%></a></li>
+      <li><%= link_to t('.sign_in_link'), signin_path %></li>
     </ul>
   </div>
 
 	<!-- WF 4.3.4 -->
 	<div id="page4" data-journey="waste-carriers-registration:signup">
     <% content_for :page_title, createTitle('.title') %></div>
-		<%= form_for(@registration, :url => newSignup_path, html: {autocomplete: 'off'}) do |f| %>
+		<%= form_for(@registration, :url => signup_path, html: {autocomplete: 'off'}) do |f| %>
 
         <div class="form-group text <%if @registration.errors[:accountEmail].any?%> validation<%end%>" role="group" aria-labelledby="groupLabel" id="registration_accountEmail">
             <%= validation_for(@registration, :accountEmail) %>
@@ -58,4 +58,3 @@
 
   </main><!--content end-->
 </div><!--wrapper end-->
-

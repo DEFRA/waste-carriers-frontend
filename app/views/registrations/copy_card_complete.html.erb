@@ -1,0 +1,60 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+<main id="content" role="main" class="group">
+
+<div class="grid">
+  <div class="grid-2-3">
+
+    <header class="page-header group">
+      <div class="hgroup summary-box">
+          <% type = RegistrationsHelper::STATUS_COMPLETE
+          type = RegistrationsHelper::STATUS_ALMOST_COMPLETE unless @registration.paid_in_full? %>
+          <div class="completeSummary <%= type %>">
+        	  <h1 class="completeSummaryTitle">
+          		<%= t'shared.complete_summary.copycard_title' if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+          		<%= t'shared.complete_summary.copycardAwaitingPayment_title' if type.eql? RegistrationsHelper::STATUS_ALMOST_COMPLETE %>
+        	  </h1>
+          </div>
+      </div>
+    </header>
+
+    <p><%= t '.subtitle' %></p>
+
+    <p class="heading-small heading-with-border"><%= t'registrations.confirmed.next' %></p>
+
+      <div id='payment-copycardcomplete-page'>
+
+        <% content_for :page_title, createTitle('.title') %>
+
+        <%= render "order/notice_or_alert" %>
+        <%= render "shared/registration_errors" %>
+
+        <ul>
+          <% if type.eql? RegistrationsHelper::STATUS_COMPLETE %>
+            <li><%= t '.copyCardDelayNotice' %></li>
+          <% else %>
+            <li><%= t '.copyCardAwaitingPaymentNotice' %></li>
+          <% end %>
+            <li class="panel-indent">
+              <%= t '.copyCardDelayTime' %>
+            </li>
+            <li class="heading-with-border">
+              <%= t'registrations.confirmed.survey_html' %>
+              <%= t'registrations.confirmed.survey_text' %>
+            </li>
+          </ul>
+
+        <% if current_user %>
+          <%= link_to t('form.finished_button_label'), user_registrations_path(current_user.id), id: 'finished_btn', class: 'button' %>
+        <% else %>
+          <%= link_to t('form.finished_button_label'), registrations_path, id: 'finished_btn', class: 'button' %>
+        <% end %>
+
+      </div>
+
+      </div><!-- end grid -->
+    </div><!-- end grid -->
+
+  </main><!-- end main -->
+</div><!-- end wrapper -->
