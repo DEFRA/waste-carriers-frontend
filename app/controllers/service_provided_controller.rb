@@ -1,7 +1,7 @@
 class ServiceProvidedController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/service-provided
+  # GET /your-registration/:reg_uuid/service-provided
   def show
     new_step_action 'serviceprovided'
     return unless @registration
@@ -22,7 +22,7 @@ class ServiceProvidedController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render 'show', :status => '400'
+      render 'show', status: :bad_request
     end
 
   end

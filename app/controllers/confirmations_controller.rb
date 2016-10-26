@@ -25,7 +25,7 @@ class ConfirmationsController < Devise::ConfirmationsController
     # In case the account has been locked prior to confirmation, unlock it now.
     @user.unlock_access!
 
-    Registration.activate_registrations(resource)
+    user_registrations = Registration.activate_registrations(resource)
 
     # Temporarily storing the email address of the confirmed user in the session
     # to be picked up from the registrations controller.
@@ -33,19 +33,17 @@ class ConfirmationsController < Devise::ConfirmationsController
 
     # This is a variable that represents the page to be redirected to after the
     # verification link
-    registrations = Registration.find_by_email(@user.email)
-    if registrations.empty?
-      flash[:notice] = 'Registration list is empty, Found no registrations for user: ' + @user.email.to_s
-      ## todo put here path to sign in page
+    if user_registrations.empty?
+      flash[:notice] = 'Found no registrations for user: ' + @user.email.to_s
       goto_page = new_user_session_path
     else
-      sorted = registrations.sort_by { |r| r.date_registered }.reverse!
+      sorted = user_registrations.sort_by { |r| r.date_registered }.reverse!
       registration = sorted.first
-      session[:registration_uuid] = registration.uuid
-      if registration.tier.eql? 'LOWER'
-        goto_page = confirmed_path
+
+      goto_page = if registration.tier == 'LOWER'
+         confirmed_path(reg_uuid: registration.reg_uuid)
       else
-        goto_page = account_confirmed_path
+        account_confirmed_path(reg_uuid: registration.reg_uuid)
       end
     end
     goto_page
@@ -57,7 +55,7 @@ class ConfirmationsController < Devise::ConfirmationsController
   def after_resending_confirmation_instructions_path_for(resource_name)
     redirect_to = super
     if resource_name == :user && session.key?(:at_mid_registration_signin_step)
-      redirect_to = newSignin_path
+      redirect_to = signin_path(reg_uuid: session[:at_mid_registration_signin_step])
     end
     redirect_to
   end

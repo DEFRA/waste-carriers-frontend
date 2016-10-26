@@ -3,7 +3,7 @@ class PaymentController < ApplicationController
   include WorldpayHelper
   include PaymentsHelper
 
-  before_filter :authenticate_agency_user!
+  before_action :authenticate_agency_user!
 
   #####################################################################################
   # Payments
@@ -95,7 +95,7 @@ class PaymentController < ApplicationController
     @payment.dateReceived_month = params[:payment][:dateReceived_month]
     @payment.dateReceived_year = params[:payment][:dateReceived_year]
 
-    render "new", :status => '400'
+    render "new", status: :bad_request
   end
 
   #####################################################################################
@@ -235,7 +235,7 @@ class PaymentController < ApplicationController
     # Revert payment amount to outstanding balance
     @payment.amount = @registration.finance_details.first.balance.to_f.abs
 
-    render "newWriteOff", :status => '400'
+    render "newWriteOff", status: :bad_request
   end
 
   #####################################################################################
@@ -321,7 +321,7 @@ class PaymentController < ApplicationController
 	    end
 	  end
 
-	  render "manualRefund", :status => '400'
+	  render "manualRefund", status: :bad_request
 	end
 
 	authorize! :read, @registration
@@ -407,7 +407,7 @@ class PaymentController < ApplicationController
 	    # Add refund request failed from WP error
 	    @payment.errors.add(:worldPayPaymentStatus, I18n.t('errors.messages.worldpayFailed'))
 
-	    render "newWPRefund", :status => '400'
+	    render "newWPRefund", status: :bad_request
 	  end
 	else
 	  logger.debug 'payment is not valid'
@@ -418,7 +418,7 @@ class PaymentController < ApplicationController
 	    end
 	  end
 
-	  render "newWPRefund", :status => '400'
+	  render "newWPRefund", status: :bad_request
 	end
 
 	authorize! :read, @registration
@@ -611,7 +611,7 @@ class PaymentController < ApplicationController
     end
 
     # Return to entry page, as errors must have occured
-    render "newAdjustment", :status => '400'
+    render "newAdjustment", status: :bad_request
 
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?
@@ -713,7 +713,7 @@ class PaymentController < ApplicationController
     logger.debug 'amount after revert: ' + @payment.amount.to_s
 
     # Return to entry page, as errors must have occured
-    render "newReversal", :status => '400'
+    render "newReversal", status: :bad_request
 
     #
     # TODO: Change this if not appropriate, if we are listing the orders, or manipulating them later?

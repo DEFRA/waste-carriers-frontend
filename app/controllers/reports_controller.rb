@@ -26,14 +26,14 @@ class ReportsController < ApplicationController
         if @registrations.empty?
           @report.errors.add(:base, t('errors.messages.no_results'))
           logger.debug "No registration results found in #{__method__.to_s}"
-          render 'registrations_search', :status => '400'
+          render 'registrations_search', status: :bad_request
         else
           logger.debug "Rendering #{@registrations.count} registration search results in #{__method__.to_s}"
           render 'registrations_search_results'
         end
       else
         logger.warn "Registrations report filters are not valid in #{__method__.to_s}"
-        render 'registrations_search', :status => '400'
+        render 'registrations_search', status: :bad_request
       end
     end
   end
@@ -49,11 +49,11 @@ class ReportsController < ApplicationController
       if @registrations.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
         logger.debug "No registration results found in #{__method__.to_s}"
-        render 'registrations_search', :status => '400'
+        render 'registrations_search', status: :bad_request
       end
     else
       logger.warn "Registrations report filters are not valid in #{__method__.to_s}"
-      render 'registrations_search', :status => '400'
+      render 'registrations_search', status: :bad_request
     end
 
   end
@@ -70,14 +70,14 @@ class ReportsController < ApplicationController
       if @registrations.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
         logger.debug "No registration results found in #{__method__.to_s}"
-        render 'registrations_search', :status => '400'
+        render 'registrations_search', status: :bad_request
       else
         logger.debug "Exporting #{@registrations.count} registration search results as csv in #{__method__.to_s}"
         render_registrations_csv("registrations-#{Time.now.strftime("%Y%m%d%H%M%S")}.csv")
       end
     else
       logger.warn "Registrations export filters are not valid in #{__method__.to_s}"
-      render 'registrations_search', :status => '400'
+      render 'registrations_search', status: :bad_request
     end
 
   end
@@ -93,7 +93,7 @@ class ReportsController < ApplicationController
 
     unless @report.valid?
       logger.warn "Payment report filters are not valid in #{__method__.to_s}"
-      render 'payments_search', status: '400'
+      render 'payments_search', status: :bad_request
       return
     end
 
@@ -102,7 +102,7 @@ class ReportsController < ApplicationController
 
     if @registrations.empty?
       @report.errors.add(:base, t('errors.messages.no_results'))
-      render 'payments_search', status: '400'
+      render 'payments_search', status: :bad_request
     else
       render 'payments_search_results'
     end
@@ -115,7 +115,7 @@ class ReportsController < ApplicationController
 
     unless @report.valid?
       logger.warn "Payment report filters are not valid in #{__method__.to_s}"
-      render 'payments_search', status: '400'
+      render 'payments_search', status: :bad_request
       return
     end
 
@@ -124,7 +124,7 @@ class ReportsController < ApplicationController
 
     if @registrations.empty?
       @report.errors.add(:base, t('errors.messages.no_results'))
-      render 'payments_search', status: '400'
+      render 'payments_search', status: :bad_request
     else
       filename = "payments-#{Time.now.strftime("%Y%m%d%H%M%S")}.csv"
       set_export_headers(filename)
@@ -152,14 +152,14 @@ class ReportsController < ApplicationController
         if @copy_cards.empty?
           @report.errors.add(:base, t('errors.messages.no_results'))
           logger.debug "No copy card results found in #{__method__.to_s}"
-          render 'copy_cards_search', :status => '400'
+          render 'copy_cards_search', status: :bad_request
         else
           logger.debug "Rendering #{@copy_cards.count} copy cards search results in #{__method__.to_s}"
           render 'copy_cards_search_results'
         end
       else
         logger.warn "Copy cards report filters are not valid in #{__method__.to_s}"
-        render 'copy_cards_search', :status => '400'
+        render 'copy_cards_search', status: :bad_request
       end
     end
   end
@@ -175,11 +175,11 @@ class ReportsController < ApplicationController
       if @copy_cards.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
         logger.debug "No copy card results found in #{__method__.to_s}"
-        render 'copy_cards_search', :status => '400'
+        render 'copy_cards_search', status: :bad_request
       end
     else
       logger.warn "Copy cards report filters are not valid in #{__method__.to_s}"
-      render 'copy_cards_search', :status => '400'
+      render 'copy_cards_search', status: :bad_request
     end
 
   end
@@ -196,14 +196,14 @@ class ReportsController < ApplicationController
       if @copy_cards.empty?
         @report.errors.add(:base, t('errors.messages.no_results'))
         logger.debug "No copy card results found in #{__method__.to_s}"
-        render 'copy_cards_search', :status => '400'
+        render 'copy_cards_search', status: :bad_request
       else
         logger.debug "Exporting #{@copy_cards.count} copy cards search results as csv in #{__method__.to_s}"
         render_copy_cards_csv("copy_cards-#{Time.now.strftime("%Y%m%d%H%M%S")}.csv")
       end
     else
       logger.warn "Copy cards export filters are not valid in #{__method__.to_s}"
-      render 'copy_cards_search', :status => '400'
+      render 'copy_cards_search', status: :bad_request
     end
 
   end

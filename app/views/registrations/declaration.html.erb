@@ -21,14 +21,14 @@
     <div class="summary-page">
 
       <!-- WF 4.3.3 -->
-      <div id="page9"  data-journey="waste-carriers-registration:confirmation"></div>
+      <div id="page9" data-journey="waste-carriers-registration:confirmation"></div>
 
       <% content_for :page_title, createTitle('.title') %>
 
-      <%= form_for(@registration, :url => newConfirmation_path, html: {autocomplete: 'off'}) do |f| %>
+      <%= form_for(@registration, url: declaration_path(reg_uuid: @registration.reg_uuid), html: {autocomplete: 'off'}) do |f| %>
 
       <div class="text registration-tier">
-        <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration_order.is_attempting_renewal? %>
+        <% if (@registration.order_types.include?(:new) || @registration.lower?) && !@registration_order.try(:is_attempting_renewal?) %>
           <div class="text">
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
             <% if @registration.upper? %>
@@ -37,7 +37,7 @@
           </div>
         <% end %>
 
-        <% if @registration_order.is_attempting_renewal? %>
+        <% if @registration_order.try(:is_attempting_renewal?) %>
           <div class='text'>
             <p><%= @registration_order.within_ir_renewal_window? ? t('.subtitle_renew_reg') : t('.subtitle_renew_expired_reg') %></p>
             <p><%= t('.tier_result_message', tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
@@ -93,7 +93,7 @@
       <div class='form-group'>
         <h2 class="heading-medium"><%= t '.smart_answers_heading' %></h2>
           <span class='list-bullets'><%= render 'smartanswers_display', r: @registration %></span>
-        <%= link_to t('.edit_smart_answers_link'), business_type_path, id: 'changeSmartAnswers' %>
+        <%= link_to t('.edit_smart_answers_link'), business_type_path(reg_uuid: @registration.reg_uuid), id: 'changeSmartAnswers' %>
       </div><!-- end smart answers form-group -->
 
       <% if @registration.upper? %>
@@ -106,7 +106,7 @@
                 <%= t('.show_registration_type', reg_type: reg_type_prettify) %>
             </li>
           </ul>
-          <%= link_to t('.edit_change_reg_type_link'), edit_registration_type_path, id: 'changeRegistrationType' %>
+          <%= link_to t('.edit_change_reg_type_link'), registration_type_edit_path(reg_uuid: @registration.reg_uuid), id: 'changeRegistrationType' %>
 
         </div><!-- end registration type form-group -->
       <% end %>
@@ -121,22 +121,22 @@
         <% else %>
           <h2 class='heading-medium'><%= t '.business_details_heading' %></h2>
         <% end %>
-          <%= render 'address_display', r: @registration, a: @registration.registered_address %>
-        <%= link_to t('.edit_business_details_link'), business_details_edit_path %>
+        <%= render 'address_display', r: @registration, a: @registration.registered_address %>
+        <%= link_to t('.edit_business_details_link'), business_details_edit_path(reg_uuid: @registration.reg_uuid) %>
       </div><!-- end business details form-group -->
 
       <!-- Contact details section -->
       <div class='form-group'>
         <h2 class='heading-medium'><%= t '.contact_details_heading' %></h2>
           <%= render 'contactdetails_display', r: @registration %>
-        <%= link_to t('.edit_contact_details_link'), editContact_path %>
+        <%= link_to t('.edit_contact_details_link'), contact_details_edit_path(reg_uuid: @registration.reg_uuid) %>
       </div><!-- end form-group -->
 
       <!-- Postal address section -->
       <div class='form-group'>
         <h2 class='heading-medium'><%= t '.postal_address_heading' %></h2>
           <%= render 'shared/address_display', a: @registration.postal_address %>
-        <%= link_to t('.edit_post_details_link'), postal_address_edit_path %>
+        <%= link_to t('.edit_post_details_link'), postal_address_edit_path(reg_uuid: @registration.reg_uuid) %>
       </div><!-- end form-group -->
 
       <!-- Key people section -->
@@ -153,7 +153,7 @@
             <h2 class='heading-medium'><%= t '.key_person_heading' %></h2>
           <% end %>
             <%= render '/key_people/key_people_display', r: @registration %>
-          <%= link_to t('.edit_key_person_link'), registration_key_people_path, :id => 'edit_key_person' %>
+          <%= link_to t('.edit_key_person_link'), registration_key_people_path(reg_uuid: @registration.reg_uuid), :id => 'edit_key_person' %>
         </div><!-- end key people form-group -->
       <% end %>
 
@@ -166,7 +166,7 @@
               <% else %>
                 <p><%= t '.have_not_declared_convictions' %></p>
               <% end %>
-          <a><%= link_to t('.edit_convictions_declaration_link'), newRelevantConvictions_path, :id => 'edit_conviction_declaration' %></a>
+          <a><%= link_to t('.edit_convictions_declaration_link'), relevant_convictions_path(reg_uuid: @registration.reg_uuid), :id => 'edit_conviction_declaration' %></a>
         </div><!-- end convictions form-group -->
       <% end %>
 

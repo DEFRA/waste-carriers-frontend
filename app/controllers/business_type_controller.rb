@@ -1,11 +1,10 @@
 class BusinessTypeController < ApplicationController
   include RegistrationsHelper
 
-  # GET /your-registration/business-type
+  # GET /your-registration/:reg_uuid/business-type
   def show
     new_step_action 'businesstype'
     return unless @registration
-    logger.debug "Route is #{@registration.metaData.first.route}"
   end
 
   # POST /your-registration/business-type
@@ -26,7 +25,7 @@ class BusinessTypeController < ApplicationController
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render 'show', :status => '400'
+      render 'show', status: :bad_request
     end
 
   end

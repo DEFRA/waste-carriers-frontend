@@ -47,7 +47,7 @@ Then(/^I should be sent to the normal User Sign In page$/) do
 end
 
 Then(/^I should be sent to the mid\-registration User Sign In page$/) do
-  expect(URI.parse(current_url).path).to eq(newSignin_path)
+  expect(URI.parse(current_url).path).to eq(signin_path(reg_uuid: @registration_uuid))
 end
 
 Then(/^I should be sent to the normal Agency User Sign In page$/) do
@@ -187,6 +187,8 @@ When(/^I make a new registration and progress as far as accepting the Declaratio
 
   postal_address_page_complete_form
 
+  @registration_uuid = URI.parse(current_url).path.split('/')[2]
+
   check 'registration_declaration'
   click_button 'confirm'
 end
@@ -195,7 +197,7 @@ Then(/^I should be able to continue with my registration$/) do
   fill_in 'registration_password', with: @this_test_password
   click_button 'continue'
 
-  expect(URI.parse(current_url).path).to eq(finish_path)
+  expect(URI.parse(current_url).path).to eq(finish_path(reg_uuid: @registration_uuid))
   expect(page).to have_text 'Registration complete'
   click_button 'finished_btn'
 
@@ -210,5 +212,5 @@ When(/^I complete my first registration but do not confirm my email address$/) d
   fill_in 'registration_password', with: @this_test_password
   fill_in 'registration_password_confirmation', with: @this_test_password
   click_button 'continue'
-  expect(URI.parse(current_url).path).to eq(pending_path)
+  expect(URI.parse(current_url).path).to eq(pending_path(reg_uuid: @registration_uuid))
 end

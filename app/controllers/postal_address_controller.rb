@@ -3,7 +3,7 @@ class PostalAddressController < ApplicationController
   include PostalAddressHelper
   include RegistrationsHelper
 
-  # GET /your-registration/postal-address
+  # GET /your-registration/:reg_uuid/postal-address
   def show
     new_step_action 'postaladdress'
     return unless @registration
@@ -14,11 +14,12 @@ class PostalAddressController < ApplicationController
     end
   end
 
-  # GET /your-registration/postal-address/edit
+  # GET /your-registration/:reg_uuid/postal-address/edit
   def edit
-    session[:edit_link_postal_address] = '1'
     new_step_action 'postaladdress'
     return unless @registration
+
+    session[:edit_link_postal_address] = @registration.reg_uuid # Needs to be unique per registration
 
     redirect_to :postal_address
   end
@@ -38,17 +39,25 @@ class PostalAddressController < ApplicationController
 
     if @address.valid?
 
-      if @registration.tier == 'LOWER'
-        next_page = newConfirmation_path
+      # We need to determine whether the user arrived at the page as part of the
+      # application process, or by choosing to edit their details on the
+      # confirmation page. Determining this is based on whether
+      # edit_link_postal_address exists in the session.
+      if session[:edit_link_postal_address] == @registration.reg_uuid
+        session.delete(:edit_link_postal_address)
+        next_page = declaration_path(reg_uuid: @registration.reg_uuid)
+      elsif @registration.tier == 'LOWER'
+        next_page = declaration_path(reg_uuid: @registration.reg_uuid)
       else
-        next_page = registration_key_people_path
+        next_page = registration_key_people_path(@registration.reg_uuid)
       end
 
-      redirect_to redirect_to?(@registration.tier)
+      redirect_to(next_page)
+
     else
       # there is an error (but data not yet saved)
       logger.debug 'Registration is not valid, and data is not yet saved'
-      render 'show', status: '400'
+      render 'show', status: :bad_request
     end
   end
 end

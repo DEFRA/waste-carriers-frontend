@@ -20,6 +20,7 @@
       <%= render "order/order_errors" %>
 
       <input type="hidden" value="<%= @order_builder.registration_fee_money %>" id="total_excluding_copy_cards">
+      <input type="hidden" name="order_type" value="<%= sanitize(params[:order_type]) %>">
 
       <table summary='payment-summary' role='presentation' id="payment-summary-table" class="text">
         <thead>
@@ -28,7 +29,7 @@
         <tbody>
           <%= render @order_builder.order_items_excluding_copy_cards, f: f %>
 
-          <% if show_copy_cards?(@renderType) %>
+          <% if @show_copy_cards %>
             <tr>
               <td><%= render "order/copy_cards", f: f %>
               </td>

@@ -7,7 +7,7 @@ Scenario: New upper tier registration that drops-off at payment, with later offl
    Then the registration should not appear on the public register
    When I start a new browser session
     And sign in as an NCCC Finance Admin
-    And view the Payment Status for the registraiton
+    And view the Payment Status for the registration
    Then the Charge History should contain the text "Initial Registration"
     And the Balance should be £154.00
    When I enter a payment for the full ammount owed
@@ -23,14 +23,14 @@ Scenario: IR renewal registration that drops-off at payment, with later online p
    Then the registration should not appear on the public register
    When I start a new browser session
     And sign in as an NCCC Finance Admin
-    And view the Payment Status for the registraiton
+    And view the Payment Status for the registration
    Then the Charge History should contain the text "Renewal of Registration"
     And the Balance should be £105.00
    When I start a new browser session
     And complete the registration as a normal user via the WorldPay route
    When I start a new browser session
     And sign in as an NCCC Finance Admin
-    And view the Payment Status for the registraiton
+    And view the Payment Status for the registration
    Then the Balance should be £0.00
    When I start a new browser session
    Then the registration should appear on the public register

@@ -99,11 +99,11 @@
 
     <p class="panel-indent"><strong><%= t '.payment_notice' %></strong></p>
 
-    <%= form_for(@registration, :url => newOfflinePayment_path, :method => :post, html: {autocomplete: 'off'}) do |f| %>
-
-    <%= render 'shared/registration_continue_link' %> 
-
-      <% end %>
+    <%= form_for(@registration, url: offline_payment_path, method: :post, html: {autocomplete: 'off'}) do |f| %>
+      <%= hidden_field_tag 'order_code', @order.orderCode %>
+      <%= hidden_field_tag 'order_type', sanitize(params[:orderType]) %>
+      <%= render 'shared/registration_continue_link' %> 
+    <% end %>
     </div><!-- end payment-table-wrapper -->
     </div><!-- end grid -->
   </div><!-- end grid -->

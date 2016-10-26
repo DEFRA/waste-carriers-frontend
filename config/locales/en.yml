@@ -278,7 +278,7 @@ en:
       # TODO AH start wip until all validation message changes complete
 
       # Section 0 (start)
-      select_new_or_renew: "You must answer this question" 
+      select_new_or_renew: "You must answer this question"
       blank_registration_number: "You must enter your registration number"
       invalid_registration_number: "The registration number you entered is not recognised"
 
@@ -428,6 +428,7 @@ en:
       heading: "The change you wanted was rejected."
       message: "Maybe you tried to change something you didn't have access to."
     serverError:
+      heading: "Internal server error"
       message: "We're sorry, but something went wrong."
     siteHeader_html: "Register as a waste carrier"
     timeout:
@@ -683,12 +684,12 @@ en:
       change_account_email: "Change account email"
       change_account_email_helper_text: "This is where the account email address for any registration can be changed."
   key_people:
-    newKeyPerson:
+    key_person:
       title: "Key person"
       subtitle: "These will not be made public"
       legend: "Business owner details"
       sole_trader_helptext: "Please provide the name and date of birth for the owner of this business."
-    newKeyPeople:
+    key_people:
       title: "Key people"
       legend: "Business owner details"
       legend_limited: "Director details"
@@ -708,7 +709,7 @@ en:
     key_person_form:
       legend: "Key person details"
       subtitle: "These will not be made public"
-    newRelevantPeople:
+    relevant_people:
       title: "Relevant people"
       legend: "Details of the person with a conviction"
       button_label: "Add another person"
@@ -855,11 +856,11 @@ en:
     certificate:
       new_window_instructions: "When you've finished viewing or printing this certificate you can close this browser tab or window."
       view_pdf: "View in PDF format"
-    confirmDelete:
+    confirm_delete:
       deleteLabel: "De-Register"
       message_html: "Are you sure that you want to de-register <b>%{companyName}</b>?"
       title: "Confirm De-Registration"
-    confirmation_step:
+    confirmation:
       data_protection_heading: "How we use your personal information"
       data_protection_text1: "The Environment Agency will use the information you provide in order to: manage your registration; make sure you keep to the conditions of the registration; and keep the public registers up to date."
       declaration_heading: Declaration
@@ -916,7 +917,7 @@ en:
       contact_agency_html: "Contact the <a href='mailto:nccc-carrierbroker@environment-agency.gov.uk'>Environment Agency</a> if you have any questions about your application."
       survey_html: "<a href='https://www.gov.uk/done/waste-carrier-or-broker-registration' target='_blank'> What did you think of the service?</a>"
       survey_text: "\ (takes 30 seconds)"
-    copyCardComplete:
+    copy_card_complete:
       subtitle: "Thank you for your copy card order"
       title: "Order Complete"
       copyCardDelayNotice: "We’ll send your order to the postal address linked to your account."
@@ -925,7 +926,7 @@ en:
     editRenewComplete:
       subtitle: "Edit/Renew order complete"
       title: "Order Complete"
-    newContactDetails:
+    contact_details:
       title: "Contact details"
     contactdetails_step:
       legend: "Contact details"
@@ -965,7 +966,7 @@ en:
       relevant_convictions_scrap_2013: "Scrap Metal Dealers Act 2013"
       relevant_person_link_text: "What is a relevant person?"
       relevant_person_convictions: "What is a relevant person?"
-    newConfirmation:
+    declaration:
       title: "Confirmation"
       subtitle: "Check your details before registering"
       tier_link_title: "What are lower tier and upper tier?"
@@ -1023,7 +1024,7 @@ en:
       privacy_policy_link2: "cookies"
       privacy_policy_text1: "See our"
       privacy_policy_text2: "\ policy to find out how the Environment Agency will use this information."
-    newSignup:
+    signup:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
       subtitle: ""
@@ -1037,7 +1038,7 @@ en:
       createPassword: "Create a password"
       sign_in_link: "I already have a waste carrier account"
       password_hint: "Password must be at least 8 characters and contain at least 1 uppercase letter, 1 lowercase letter and 1 number"
-    newSignin:
+    signin:
       step: "Step %{step_x} of %{step_y}"
       title: "User account"
       subtitle: ""
@@ -1076,7 +1077,7 @@ en:
       declared_convictions_message: "We will let you know when your application has been successful."
       pending_key_people_check_message: "The registration will be confirmed once additional checks have been completed."
       details_change: "If any of your details change you must update your registration within 28 days."
-    editRenewComplete:
+    edit_renew_complete:
       title: "End of registration"
       title_renew_reg: "Renewed registration"
       title_edit_reg: "Edited registration"
@@ -1088,7 +1089,7 @@ en:
       subtitle_pending: "Registration pending"
       your_reg_number: "Your registration number is: %{reg}"
       back_button: "Back to your registrations"
-    finishAssisted:
+    finish_assisted:
       title: "Finished"
       subtitle_complete: "Registration complete"
       subtitle_pending: "Registration pending"
@@ -1225,7 +1226,7 @@ en:
       paymentCancelled: "You have cancelled your payment"
       paymentWorldPay: "Paid via Worldpay"
       refund_request: "A refund has been requested for this worldpay payment"
-    newOfflinePayment:
+    offline_payment:
       account_name: "Account name"
       account_number: "Account number"
       bank_address: "Bank address"

@@ -1,13 +1,15 @@
 Feature: Business details validation rules
+  Checks the validation messages are correct after each business type selection
+  scenario
 
-# Validation notifications
+Background:
+  Given I start a new registration
 
 Scenario: Email screen confirmation
 Given a lower tier registration is completed
 Then I see the confirm email screen
 
 Scenario: Validation message for non-selection on business type page
-Given I am on the business type page
 And I continue without selecting an option
 Then a validation message for none selection is displayed
 

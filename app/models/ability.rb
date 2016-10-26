@@ -11,12 +11,12 @@ class Ability
     #     can :read, :all
     #   end
     #
-    # The first argument to `can` is the action you are giving the user 
+    # The first argument to `can` is the action you are giving the user
     # permission to do.
     # If you pass :manage it will apply to every action. Other common actions
     # here are :read, :create, :update and :destroy.
     #
-    # The second argument is the resource the user can perform the action on. 
+    # The second argument is the resource the user can perform the action on.
     # If you pass :all it will apply to every resource. Otherwise pass a Ruby
     # class of the resource.
     #
@@ -43,10 +43,10 @@ class Ability
 
     can :update, Registration do |registration|
       if user
-        # 
+        #
         # Note: This is a negative check for neither financeBasic or financeAdmin, thus any other role can perform updates
-        # 
-        if user.email == registration.accountEmail 
+        #
+        if user.email == registration.accountEmail
           true
         elsif user.is_agency_user?
           isEitherFinance = user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
@@ -58,12 +58,12 @@ class Ability
         false
       end
     end
-    
+
     can :approve, Registration do |registration|
       if user
-        # 
+        #
         # Note: This is a negative check for neither financeBasic or financeAdmin, thus any other role can perform updates
-        # 
+        #
         if user.is_agency_user?
           isEitherFinance = user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
           !isEitherFinance
@@ -74,7 +74,7 @@ class Ability
         false
       end
     end
-    
+
     #
     # TODO: Adjust this later if a particular agency user is not allowed to add payments
     #
@@ -83,29 +83,29 @@ class Ability
       can :read, Payment
       can :update, User
     end
-    
+
 	if !user.nil? and user.is_agency_user? and user.has_role? :Role_agencyRefundPayment, AgencyUser
 	  can :newRefund, Payment
 	  can :writeOffSmallPayment, Payment
 	end
-	
+
 	if !user.nil? and user.is_agency_user? and user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, \
 																	{ :name => :Role_financeAdmin, :resource => AgencyUser }, \
 																	{ :name => :Role_agencyRefundPayment, :resource => AgencyUser })
 	  can :enterPayment, Payment
 	  can :newReversal, Payment
 	end
-	
+
 	if !user.nil? and user.is_agency_user? and user.has_role? :Role_financeAdmin, AgencyUser
 	  # TMP: make tests pass re:review tests once roles correct?
 	  can :writeOffLargePayment, Payment
-	  
+
 	  # Start refund process by entering a negative order - TODO
 	  can :newRefund, Order
-	  
+
 	  # Enter charge adjustments
 	  can :newAdjustment, Order
-	end	
+	end
 
   end #initialize
 

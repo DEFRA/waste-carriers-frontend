@@ -1,5 +1,7 @@
 Given(/^I start a new registration$/) do
-  visit business_type_path
+  visit start_path
+  choose 'registration_newOrRenew_new'
+  click_button 'continue'
 end
 
 And(/^I enter my business type as (.*)$/) do |business_type|
