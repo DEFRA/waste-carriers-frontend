@@ -5,7 +5,7 @@ module OnlyDealWithPage
   end
 
   def only_deal_with_page?
-    page.expect(page).to have_css 'a[data-journey$="onlydealwith"]'
+    expect(page).to have_css 'div[data-journey$="onlydealwith"]'
   end
 
   def only_deal_with_page_select_no(submit: 'true')

@@ -5,7 +5,7 @@ module StartPage
   end
 
   def start_page?
-    page.expect(page).to have_css 'a[data-journey$="new-or-renew"]'
+    expect(page).to have_css 'div[data-journey$="new-or-renew"]'
   end
 
   def start_page_select_new(submit = true)
