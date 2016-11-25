@@ -5,7 +5,7 @@ module NoRegistrationPage
   end
 
   def no_registration_page?
-    page.expect(page).to have_css 'a[data-journey$="noregistration"]'
+    expect(page).to have_css 'div[data-journey$="noregistration"]'
   end
 end
 World(NoRegistrationPage)

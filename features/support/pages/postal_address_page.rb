@@ -5,7 +5,7 @@ module PostalAddressPage
   end
 
   def postal_address_page?
-    expect(page).to have_css 'a[data-journey$="postal-address"]'
+    expect(page).to have_css 'div[data-journey$="postal-address"]'
   end
 
   def postal_address_page_complete_form(

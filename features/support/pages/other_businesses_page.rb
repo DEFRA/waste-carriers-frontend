@@ -5,7 +5,7 @@ module OtherBusinessesPage
   end
 
   def other_businesses_page?
-    page.expect(page).to have_css 'a[data-journey$="otherbusinesses"]'
+    expect(page).to have_css 'div[data-journey$="otherbusinesses"]'
   end
 
   def other_businesses_page_select_no(submit: 'true')
