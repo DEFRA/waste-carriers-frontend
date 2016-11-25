@@ -39,6 +39,7 @@ describe CompaniesHouseCaller do
   end
 
   describe '#status' do
+    # Active companies.
     context 'active (PLC, England/Wales, 8 digits)' do
       subject { CompaniesHouseCaller.new '02050399' }
 
@@ -111,9 +112,42 @@ describe CompaniesHouseCaller do
       end
     end
 
-    # TODO: Insert a test to cover behaviour for companies that have "Active -
-    # Proposal to Strike off" status.
+    # The service allows companies in the "Active - Proposal to strike off" and
+    # "Voluntary arrangement" statuses to register as a Waste Carrier.  Companies
+    # are unlikely to remain in these states indefinitely, hence it is likely that
+    # the first test in each pair below will fail in the medium term (hence using
+    # a long-term recording in the second example).
+    context 'proposal to strike off' do
+      subject { CompaniesHouseCaller.new '01558706' }
 
+      it 'live response from Companies House (will fail when company changes status)', :vcr do
+        subject.status.should == :active
+      end
+
+      it 'recorded response via VCR (recorded response may become invalid if API changes)' do
+        cassette_name = 'manually_expired/companies_house/proposal_to_strike_off'
+        VCR.use_cassette(cassette_name, record: :new_episodes, re_record_interval: 1.year) do
+          subject.status.should == :active
+        end
+      end
+    end
+
+    context 'voluntary arrangement' do
+      subject { CompaniesHouseCaller.new '04270505' }
+
+      it 'live response from Companies House (will fail when company changes status)', :vcr do
+        subject.status.should == :active
+      end
+
+      it 'recorded response via VCR (recorded response may become invalid if API changes)' do
+        cassette_name = 'manually_expired/companies_house/voluntary_arrangement'
+        VCR.use_cassette(cassette_name, record: :new_episodes, re_record_interval: 1.year) do
+          subject.status.should == :active
+        end
+      end
+    end
+
+    # Inactive company.
     context 'not active' do
       subject { CompaniesHouseCaller.new '05868270' }
 
@@ -122,6 +156,7 @@ describe CompaniesHouseCaller do
       end
     end
 
+    # Company not found.
     context 'not found' do
       subject { CompaniesHouseCaller.new '99999999' }
 
