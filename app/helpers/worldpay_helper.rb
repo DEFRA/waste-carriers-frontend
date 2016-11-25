@@ -19,7 +19,7 @@ module WorldpayHelper
       'registrations.order.wpOrderDescription',
       identifier: registration.regIdentifier.to_s)
     order_content = order.description.encode(xml: :text)
-    shopper_email = CGI.escape(registration.accountEmail) || ''
+    shopper_email = CGI.escape(registration.accountEmail.to_s)
     shopper_first_name = registration.firstName.encode(xml: :text)
     shopper_lastname = registration.lastName.encode(xml: :text)
 
