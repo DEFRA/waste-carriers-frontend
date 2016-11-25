@@ -23,7 +23,7 @@ class CompaniesHouseCaller
 
       company_status = json['company_status']
       Rails.logger.debug 'JSON company status is ' + company_status
-      company_status == 'active' ? :active : :inactive
+      Rails.configuration.waste_exemplar_allowed_company_statuses.include?(company_status) ? :active : :inactive
 
     rescue RestClient::ResourceNotFound
       Rails.logger.debug 'Companies House: resource not found'

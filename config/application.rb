@@ -79,6 +79,10 @@ module Registrations
     config.waste_exemplar_companies_house_api_url = 'https://api.companieshouse.gov.uk/company/'
     config.waste_exemplar_companies_house_api_key = ENV['WCRS_FRONTEND_COMPANIES_HOUSE_API_KEY']
     config.waste_exemplar_companies_house_url = 'http://www.companieshouse.gov.uk/info'
+    # (The value for this environment variable should be a comma-separated list of allowed
+    # company statuses.  We convert this into a whitespace-free array of strings below)
+    config.waste_exemplar_allowed_company_statuses =
+      (ENV['WCRS_FRONTEND_ALLOWED_COMPANY_STATUSES'] || 'active, voluntary-arrangement').split(/\s*,\s*/)
 
     # In Production we want to verify that requests to agency user and
     # administration functionality have been made via the 'internal' subdomain
