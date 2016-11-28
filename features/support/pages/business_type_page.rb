@@ -1,8 +1,8 @@
 # Helper used in testing for working with the business type page.
 module BusinessTypePage
-  
+
   def business_type_page?
-    expect(page).to have_css 'a[data-journey$="business-type"]'
+    expect(page).to have_css 'div[data-journey$="business-type"]'
   end
 
   def business_type_page_select_sole_trader(submit: 'true')

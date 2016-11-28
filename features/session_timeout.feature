@@ -19,15 +19,14 @@ Feature: Session timeout
   in application.rb.
 
 Scenario: Waste carrier registration does not expire due to inactivity
-  Given I have started my registration
+  Given I have started a new registration and gone as far as the Waste From Other Businesses step
   When I do nothing for more than 20 minutes
-  And I try to proceed with my unfinished registration
-  Then I can still proceed
+  Then I can still continue past the Waste From Other Businesses step
 
 Scenario: Waste carrier registration does not expire due to total session duration
-  Given I have started my registration
+  Given I have started a new registration and gone as far as the Waste From Other Businesses step
   And I keep working on my registration for more than 8 hours
-  Then I can continue with my registration
+  Then I can still continue past the Waste From Other Businesses step
 
 Scenario: Logged in waste carrier session expires due to inactivity
   Given I am logged in as a waste carrier
