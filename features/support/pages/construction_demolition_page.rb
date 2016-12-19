@@ -5,7 +5,7 @@ module ConstructionDemolitionPage
   end
 
   def construction_demolition_page?
-    page.expect(page).to have_css 'a[data-journey$="constructiondemolition"]'
+    expect(page).to have_css 'div[data-journey$="constructiondemolition"]'
   end
 
   def construction_demolition_page_select_no(submit: 'true')
