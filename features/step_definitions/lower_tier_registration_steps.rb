@@ -52,6 +52,10 @@ Given(/^I autocomplete my business address$/) do
   click_button 'continue'
 end
 
+Then(/^I see the OS places copyright message$/) do
+  expect(page).to have_text 'Crown copyright and database rights 2016 Ordnance Survey 100024198'
+end
+
 Given(/^I want my business address autocompleted but I provide an unrecognised postcode$/) do
   fill_in 'sPostcode', with: my_unrecognised_postcode
 end
