@@ -5,7 +5,7 @@ module RegistrationTypePage
   end
 
   def registration_type_page?
-    page.expect(page).to have_css 'a[data-journey$="registration-type"]'
+    expect(page).to have_css 'div[data-journey$="registration-type"]'
   end
 
   def registration_type_page_select_carrier_dealer(submit: 'true')
