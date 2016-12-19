@@ -34,6 +34,7 @@ Registrations::Application.routes.draw do
   get "user/:id/registrations" => 'registrations#userRegistrations', as: :user_registrations
 
   # Static pages controller
+  get '/os_places_terms' => 'pages#os_places_terms'
   get '/account_confirmed' => 'pages#account_confirmed'
   get '/password_changed'  => 'pages#mid_registration_password_changed', as: :mid_registration_password_changed
 
