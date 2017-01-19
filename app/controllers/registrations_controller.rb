@@ -46,6 +46,8 @@ class RegistrationsController < ApplicationController
       flash.now[:notice] = I18n.t('errors.messages.search_criteria')
     end
 
+    flash[:start_editing] = true
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @registrations }
