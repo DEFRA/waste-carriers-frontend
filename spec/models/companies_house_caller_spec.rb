@@ -118,7 +118,7 @@ describe CompaniesHouseCaller do
     # the first test in each pair below will fail in the medium term (hence using
     # a long-term recording in the second example).
     context 'proposal to strike off' do
-      subject { CompaniesHouseCaller.new '01558706' }
+      subject { CompaniesHouseCaller.new '10761329' }
 
       it 'live response from Companies House (will fail when company changes status)', :vcr do
         subject.status.should == :active
