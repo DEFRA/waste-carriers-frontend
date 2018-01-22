@@ -83,7 +83,7 @@ module WorldpayHelper
     # Worldpay will fail if we have no code hence we default to GB if no match
     # was found.
     country = ISO3166::Country.find_country_by_name(address.country)
-    result[:country_code] = country.nil? ? 'GB' : country.gec
+    result[:country_code] = country.nil? ? 'GB' : country.alpha2
 
     result
   end
