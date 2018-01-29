@@ -18,7 +18,7 @@ class ExistingRegistrationController < ApplicationController
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
     if @registration.valid?
       # Check current format
-      if isCurrentRegistrationType(@registration.originalRegistrationNumber)
+      if valid_registration_format?(@registration.originalRegistrationNumber)
         # regNo matched
 
         # redirect to sign in page

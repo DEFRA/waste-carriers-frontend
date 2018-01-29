@@ -262,7 +262,7 @@ module RegistrationsHelper
     request
   end
 
-  def isCurrentRegistrationType(reference)
+  def valid_registration_format?(reference)
     # Strip leading and trailing whitespace from number, ensure its uppercase
     # then make sure the format is valid
     # Format should be CBDU or CBDL, followed by at least one digit

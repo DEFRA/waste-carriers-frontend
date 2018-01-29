@@ -38,46 +38,46 @@ describe RegistrationsHelper do
     end
   end
 
-  describe '#isCurrentRegistrationType' do
+  describe '#valid_registration_format?' do
     context 'when passed a digital style upper tier registration number' do
       it 'returns true' do
-        expect(helper.isCurrentRegistrationType('CBDU215437')).to be_truthy
+        expect(helper.valid_registration_format?('CBDU215437')).to be_truthy
       end
     end
 
     context 'when passed a digital style lower tier registration number' do
       it 'returns true' do
-        expect(helper.isCurrentRegistrationType('CBDL215437')).to be_truthy
+        expect(helper.valid_registration_format?('CBDL215437')).to be_truthy
       end
     end
 
     context 'when passed a digital style registration number with leading and trailing whitespace' do
       it 'returns true' do
-        expect(helper.isCurrentRegistrationType('  CBDU215437   ')).to be_truthy
+        expect(helper.valid_registration_format?('  CBDU215437   ')).to be_truthy
       end
     end
 
     context 'when passed a digital style registration number with lowercase characters' do
       it 'returns true' do
-        expect(helper.isCurrentRegistrationType('cbdu215437')).to be_truthy
+        expect(helper.valid_registration_format?('cbdu215437')).to be_truthy
       end
     end
 
     context 'when passed an IR style registration number' do
       it 'returns false' do
-        expect(helper.isCurrentRegistrationType('CB/AF7003CS/A001')).to be_falsey
+        expect(helper.valid_registration_format?('CB/AF7003CS/A001')).to be_falsey
       end
     end
 
     context 'when passed nonsense' do
       it 'returns false' do
-        expect(helper.isCurrentRegistrationType('green eggs and ham')).to be_falsey
+        expect(helper.valid_registration_format?('green eggs and ham')).to be_falsey
       end
     end
 
     context 'when passed nothing' do
       it 'errors' do
-        expect { helper.isCurrentRegistrationType(nil) }.to raise_error
+        expect { helper.valid_registration_format?(nil) }.to raise_error
       end
     end
   end
