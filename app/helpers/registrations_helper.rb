@@ -269,22 +269,20 @@ module RegistrationsHelper
     reference.rstrip.lstrip.upcase.match(/^CBD[U|L][0-9]+$/)
   end
 
-  def isIRRegistrationType(registrationNumber)
-    if registrationNumber
-      # Strip leading and trailing whitespace from number
-      regNo = registrationNumber.rstrip.lstrip
+  def isIRRegistrationType(reference)
+    return false unless reference
 
-      # Just look at first 3 characters
-      regNo = regNo[0, 3]
-
-      # First 3 characters of reg ex
-      legacy_reg_format = "CB/"
-
-      # Check legacy format
-      regNo.upcase.match(legacy_reg_format)
-    else
-      false
-    end
+    # Strip leading and trailing whitespace from number, ensure its uppercase
+    # then make sure the format is valid
+    # Format should be
+    # - CB/
+    # - [2 chars A to Z]
+    # - [4 digits 0-9]
+    # - [2 chars A to Z]
+    # - /
+    # - [1 char A to Z]
+    # - [3 digits 0-9]
+    reference.rstrip.lstrip.upcase.match(/^CB\/[A-Z]{2}[0-9]{4}[A-Z]{2}\/[A-Z][0-9]{3}$/)
   end
 
   # determines what we need to do after Smart Answers have been edited
