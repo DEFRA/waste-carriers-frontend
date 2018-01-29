@@ -25,7 +25,7 @@ class ExistingRegistrationController < ApplicationController
         logger.debug "Current registration matched, Redirect to user sign in"
         redirect_to :new_user_session
         return
-      elsif(isIRRegistrationType @registration.originalRegistrationNumber)
+      elsif(valid_ir_format? @registration.originalRegistrationNumber)
         # Legacy regNo matched, check old format
 
         # Call IR services to import IR registraion data

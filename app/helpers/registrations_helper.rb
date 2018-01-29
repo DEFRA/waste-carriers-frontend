@@ -269,7 +269,7 @@ module RegistrationsHelper
     reference.rstrip.lstrip.upcase.match(/^CBD[U|L][0-9]+$/)
   end
 
-  def isIRRegistrationType(reference)
+  def valid_ir_format?(reference)
     return false unless reference
 
     # Strip leading and trailing whitespace from number, ensure its uppercase
