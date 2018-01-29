@@ -82,4 +82,48 @@ describe RegistrationsHelper do
     end
   end
 
+  describe '#isIRRegistrationType' do
+    context 'when passed a digital style upper tier registration number' do
+      it 'returns false' do
+        expect(helper.isIRRegistrationType('CBDU215437')).to be_falsey
+      end
+    end
+
+    context 'when passed a digital style lower tier registration number' do
+      it 'returns false' do
+        expect(helper.isIRRegistrationType('CBDL215437')).to be_falsey
+      end
+    end
+
+    context 'when passed an IR style registration number' do
+      it 'returns true' do
+        expect(helper.isIRRegistrationType('CB/AF7003CS/A001')).to be_truthy
+      end
+    end
+
+    context 'when passed an IR style registration number with leading and trailing whitespace' do
+      it 'returns true' do
+        expect(helper.isIRRegistrationType('  CB/AF7003CS/A001   ')).to be_truthy
+      end
+    end
+
+    context 'when passed an IR style registration number with lowercase characters' do
+      it 'returns true' do
+        expect(helper.isIRRegistrationType('cb/af7003cs/a001')).to be_truthy
+      end
+    end
+
+    context 'when passed nonsense' do
+      it 'returns false' do
+        expect(helper.isIRRegistrationType('green eggs and ham')).to be_falsey
+      end
+    end
+
+    context 'when passed nothing' do
+      it 'returns false' do
+        expect(helper.isIRRegistrationType(nil)).to be_falsey
+      end
+    end
+  end
+
 end
