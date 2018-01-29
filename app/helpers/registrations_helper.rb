@@ -262,18 +262,11 @@ module RegistrationsHelper
     request
   end
 
-  def isCurrentRegistrationType(registrationNumber)
-    # Strip leading and trailing whitespace from number
-    regNo = registrationNumber.rstrip.lstrip
-
-    # Just look at first 3 characters
-    regNo = regNo[0, 3]
-
-    # First 3 characters of reg ex
-    current_reg_format = "CBD"
-
-    # Check current format
-    regNo.upcase.match(current_reg_format)
+  def isCurrentRegistrationType(reference)
+    # Strip leading and trailing whitespace from number, ensure its uppercase
+    # then make sure the format is valid
+    # Format should be CBDU or CBDL, followed by at least one digit
+    reference.rstrip.lstrip.upcase.match(/^CBD[U|L][0-9]+$/)
   end
 
   def isIRRegistrationType(registrationNumber)
