@@ -16,37 +16,35 @@ class ExistingRegistrationController < ApplicationController
     @registration.originalRegistrationNumber = formatIRRenewalNumber(registration_params[:originalRegistrationNumber])
 
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
-    if @registration.valid?
-      # Check current format
-      if valid_registration_format?(@registration.originalRegistrationNumber)
-        # regNo matched
+    # Check current format
+    if valid_registration_format?(@registration.originalRegistrationNumber)
+      # regNo matched
 
-        # redirect to sign in page
-        logger.debug "Current registration matched, Redirect to user sign in"
-        redirect_to :new_user_session
-        return
-      elsif(valid_ir_format? @registration.originalRegistrationNumber)
-        # Legacy regNo matched, check old format
+      # redirect to sign in page
+      logger.debug "Current registration matched, Redirect to user sign in"
+      redirect_to :new_user_session
+      return
+    elsif(valid_ir_format? @registration.originalRegistrationNumber)
+      # Legacy regNo matched, check old format
 
-        # Call IR services to import IR registraion data
-        ir_registration = Registration.find_by_ir_number(@registration.originalRegistrationNumber)
+      # Call IR services to import IR registraion data
+      ir_registration = Registration.find_by_ir_number(@registration.originalRegistrationNumber)
 
-        if ir_registration.present?
-          # IR data found, merge with registration in redis
-          # Access Code and reg_uuid should not get overriden with IR data
-          @registration.add(ir_registration.attributes.except(:reg_uuid, :accessCode))
-          @registration.save
+      if ir_registration.present?
+        # IR data found, merge with registration in redis
+        # Access Code and reg_uuid should not get overriden with IR data
+        @registration.add(ir_registration.attributes.except(:reg_uuid, :accessCode))
+        @registration.save
 
-          logger.debug "Legacy registration matched, Redirect to smart answers"
-          redirect_to(:business_type) and return
-        else
-          # No IR data found
-          @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid_registration_number'))
-        end
-        # Error not matched
+        logger.debug "Legacy registration matched, Redirect to smart answers"
+        redirect_to(:business_type) and return
       else
+        # No IR data found
         @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid_registration_number'))
       end
+      # Error not matched
+    else
+      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid_registration_number'))
     end
 
     # Error must have occured, re-render view
