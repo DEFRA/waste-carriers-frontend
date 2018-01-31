@@ -264,17 +264,22 @@ module RegistrationsHelper
 
   def valid_registration_format?(reference)
     # Strip leading and trailing whitespace from number, ensure its uppercase
-    # then make sure the format is valid
-    # Format should be CBDU or CBDL, followed by at least one digit
-    reference.rstrip.lstrip.upcase.match(/^CBD[U|L][0-9]+$/)
+    clean_reference = reference.rstrip.lstrip.upcase
+
+    # Then make sure the format is valid. Format should be
+    # - CBD
+    # - [1 char U or L]
+    # - [at least 1 digit 0-9]
+    return clean_reference.match(/^CBD[U|L][0-9]+$/) ? true : false
   end
 
   def valid_ir_format?(reference)
     return false unless reference
 
     # Strip leading and trailing whitespace from number, ensure its uppercase
-    # then make sure the format is valid
-    # Format should be
+    clean_reference = reference.rstrip.lstrip.upcase
+
+    # Then make sure the format is valid. Format should be
     # - CB/
     # - [2 chars A to Z]
     # - [4 digits 0-9]
@@ -282,7 +287,7 @@ module RegistrationsHelper
     # - /
     # - [1 char A to Z]
     # - [3 digits 0-9]
-    reference.rstrip.lstrip.upcase.match(/^CB\/[A-Z]{2}[0-9]{4}[A-Z]{2}\/[A-Z][0-9]{3}$/)
+    return clean_reference.match(/^CB\/[A-Z]{2}[0-9]{4}[A-Z]{2}\/[A-Z][0-9]{3}$/) ? true : false
   end
 
   # determines what we need to do after Smart Answers have been edited

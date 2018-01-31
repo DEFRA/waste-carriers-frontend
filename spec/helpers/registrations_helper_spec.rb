@@ -41,37 +41,37 @@ describe RegistrationsHelper do
   describe '#valid_registration_format?' do
     context 'when passed a digital style upper tier registration number' do
       it 'returns true' do
-        expect(helper.valid_registration_format?('CBDU215437')).to be_truthy
+        expect(helper.valid_registration_format?('CBDU215437')).to eq(true)
       end
     end
 
     context 'when passed a digital style lower tier registration number' do
       it 'returns true' do
-        expect(helper.valid_registration_format?('CBDL215437')).to be_truthy
+        expect(helper.valid_registration_format?('CBDL215437')).to eq(true)
       end
     end
 
     context 'when passed a digital style registration number with leading and trailing whitespace' do
       it 'returns true' do
-        expect(helper.valid_registration_format?('  CBDU215437   ')).to be_truthy
+        expect(helper.valid_registration_format?('  CBDU215437   ')).to eq(true)
       end
     end
 
     context 'when passed a digital style registration number with lowercase characters' do
       it 'returns true' do
-        expect(helper.valid_registration_format?('cbdu215437')).to be_truthy
+        expect(helper.valid_registration_format?('cbdu215437')).to eq(true)
       end
     end
 
     context 'when passed an IR style registration number' do
       it 'returns false' do
-        expect(helper.valid_registration_format?('CB/AF7003CS/A001')).to be_falsey
+        expect(helper.valid_registration_format?('CB/AF7003CS/A001')).to eq(false)
       end
     end
 
     context 'when passed nonsense' do
       it 'returns false' do
-        expect(helper.valid_registration_format?('green eggs and ham')).to be_falsey
+        expect(helper.valid_registration_format?('green eggs and ham')).to eq(false)
       end
     end
 
@@ -85,43 +85,43 @@ describe RegistrationsHelper do
   describe '#valid_ir_format?' do
     context 'when passed a digital style upper tier registration number' do
       it 'returns false' do
-        expect(helper.valid_ir_format?('CBDU215437')).to be_falsey
+        expect(helper.valid_ir_format?('CBDU215437')).to eq(false)
       end
     end
 
     context 'when passed a digital style lower tier registration number' do
       it 'returns false' do
-        expect(helper.valid_ir_format?('CBDL215437')).to be_falsey
+        expect(helper.valid_ir_format?('CBDL215437')).to eq(false)
       end
     end
 
     context 'when passed an IR style registration number' do
       it 'returns true' do
-        expect(helper.valid_ir_format?('CB/AF7003CS/A001')).to be_truthy
+        expect(helper.valid_ir_format?('CB/AF7003CS/A001')).to eq(true)
       end
     end
 
     context 'when passed an IR style registration number with leading and trailing whitespace' do
       it 'returns true' do
-        expect(helper.valid_ir_format?('  CB/AF7003CS/A001   ')).to be_truthy
+        expect(helper.valid_ir_format?('  CB/AF7003CS/A001   ')).to eq(true)
       end
     end
 
     context 'when passed an IR style registration number with lowercase characters' do
       it 'returns true' do
-        expect(helper.valid_ir_format?('cb/af7003cs/a001')).to be_truthy
+        expect(helper.valid_ir_format?('cb/af7003cs/a001')).to eq(true)
       end
     end
 
     context 'when passed nonsense' do
       it 'returns false' do
-        expect(helper.valid_ir_format?('green eggs and ham')).to be_falsey
+        expect(helper.valid_ir_format?('green eggs and ham')).to eq(false)
       end
     end
 
     context 'when passed nothing' do
       it 'returns false' do
-        expect(helper.valid_ir_format?(nil)).to be_falsey
+        expect(helper.valid_ir_format?(nil)).to eq(false)
       end
     end
   end
