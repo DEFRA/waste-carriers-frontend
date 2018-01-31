@@ -11,11 +11,6 @@ module RegistrationsHelper
     end
   end
 
-  # Strip off leading/trailing whitespace and force to uppercase
-  def formatIRRenewalNumber(numberIn)
-    numberOut = numberIn.strip.upcase
-  end
-
   def format_address(address)
     if address.postcode.nil?
       # Print International address

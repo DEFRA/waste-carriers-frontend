@@ -13,7 +13,7 @@ class ExistingRegistrationController < ApplicationController
     return unless @registration
 
     # Strip off leading/trailing whitespace and force to uppercase
-    @registration.originalRegistrationNumber = formatIRRenewalNumber(registration_params[:originalRegistrationNumber])
+    @registration.originalRegistrationNumber = registration_params[:originalRegistrationNumber].strip.upcase
 
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
     # Check current format
