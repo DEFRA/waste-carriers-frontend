@@ -95,9 +95,15 @@ describe RegistrationsHelper do
       end
     end
 
-    context 'when passed an IR style registration number' do
+    context 'when passed a 16 character IR style registration number' do
       it 'returns true' do
         expect(helper.valid_ir_format?('CB/AF7003CS/A001')).to eq(true)
+      end
+    end
+
+    context 'when passed a 15 character IR style registration number' do
+      it 'returns true' do
+        expect(helper.valid_ir_format?('CB/AE888XX/A001')).to eq(true)
       end
     end
 

@@ -282,12 +282,12 @@ module RegistrationsHelper
     # Then make sure the format is valid. Format should be
     # - CB/
     # - [2 chars A to Z]
-    # - [4 digits 0-9]
+    # - [3 to 4 digits 0-9]
     # - [2 chars A to Z]
     # - /
     # - [1 char A to Z]
     # - [3 digits 0-9]
-    return clean_reference.match(/^CB\/[A-Z]{2}[0-9]{4}[A-Z]{2}\/[A-Z][0-9]{3}$/) ? true : false
+    return clean_reference.match(/^CB\/[A-Z]{2}[0-9]{3,4}[A-Z]{2}\/[A-Z][0-9]{3}$/) ? true : false
   end
 
   # determines what we need to do after Smart Answers have been edited
