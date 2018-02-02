@@ -17,13 +17,9 @@ class ExistingRegistrationController < ApplicationController
 
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
     # Check current format
-    if valid_registration_format?(@registration.originalRegistrationNumber)
-      # regNo matched
-
-      # redirect to sign in page
+    if existing_registration?
       logger.debug "Current registration matched, Redirect to user sign in"
-      redirect_to :new_user_session
-      return
+      redirect_to(:new_user_session) and return
     elsif existing_ir_registration?
       logger.debug "Legacy registration matched, Redirect to smart answers"
       redirect_to(:business_type) and return
@@ -38,6 +34,10 @@ class ExistingRegistrationController < ApplicationController
   end
 
   private
+
+  def existing_registration?
+    return valid_registration_format?(@registration.originalRegistrationNumber)
+  end
 
   def existing_ir_registration?
     exists = false
