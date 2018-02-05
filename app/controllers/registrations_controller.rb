@@ -174,7 +174,7 @@ class RegistrationsController < ApplicationController
 
       elsif @registration.order_types.include? :renew
         # Detect standard or IR renewal
-        if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+        if @registration.originalRegistrationNumber && valid_ir_format?(@registration.originalRegistrationNumber) && @registration.newOrRenew
           redirect_to :account_mode and return
         else
           @registration.renewalRequested = true
@@ -273,7 +273,7 @@ class RegistrationsController < ApplicationController
               # is requested.
               #
               if @registration.originalRegistrationNumber &&
-                  isIRRegistrationType(@registration.originalRegistrationNumber) &&
+                  valid_ir_format?(@registration.originalRegistrationNumber) &&
                   @registration.newOrRenew
                 order_renew(@registration.uuid) and return
               else
