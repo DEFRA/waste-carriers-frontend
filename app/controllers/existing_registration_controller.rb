@@ -25,10 +25,11 @@ class ExistingRegistrationController < ApplicationController
       redirect_to(:business_type) and return
     end
 
-    # If we are here there must be validation errors so add a validation error
-    # and re-render view with a 400 status
-    @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid_registration_number'))
-
+    # If we are here, and there are no existing errors there must be validation
+    # errors so add a validation error and re-render view with a 400 status
+    if @registration.errors.empty?
+      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid_registration_number'))
+    end
     render 'show', status: :bad_request
 
   end
@@ -36,16 +37,16 @@ class ExistingRegistrationController < ApplicationController
   private
 
   def existing_registration?
-    exists = false
-    return exists unless valid_registration_format?(@registration.originalRegistrationNumber)
+    return false unless valid_registration_format?(@registration.originalRegistrationNumber)
 
     registration = Registration.find_by_registration_no(@registration.originalRegistrationNumber)
 
-    if registration.present?
-      exists = true
+    unless registration.present?
+      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.registration_number_not_found'))
+      return false
     end
 
-    exists
+    true
   end
 
   def existing_ir_registration?
