@@ -36,7 +36,16 @@ class ExistingRegistrationController < ApplicationController
   private
 
   def existing_registration?
-    return valid_registration_format?(@registration.originalRegistrationNumber)
+    exists = false
+    return exists unless valid_registration_format?(@registration.originalRegistrationNumber)
+
+    registration = Registration.find_by_registration_no(@registration.originalRegistrationNumber)
+
+    if registration.present?
+      exists = true
+    end
+
+    exists
   end
 
   def existing_ir_registration?
