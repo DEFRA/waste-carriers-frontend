@@ -11,11 +11,6 @@ module RegistrationsHelper
     end
   end
 
-  # Strip off leading/trailing whitespace and force to uppercase
-  def formatIRRenewalNumber(numberIn)
-    numberOut = numberIn.strip.upcase
-  end
-
   def format_address(address)
     if address.postcode.nil?
       # Print International address
@@ -262,36 +257,32 @@ module RegistrationsHelper
     request
   end
 
-  def isCurrentRegistrationType(registrationNumber)
-    # Strip leading and trailing whitespace from number
-    regNo = registrationNumber.rstrip.lstrip
+  def valid_registration_format?(reference)
+    # Strip leading and trailing whitespace from number, ensure its uppercase
+    clean_reference = reference.rstrip.lstrip.upcase
 
-    # Just look at first 3 characters
-    regNo = regNo[0, 3]
-
-    # First 3 characters of reg ex
-    current_reg_format = "CBD"
-
-    # Check current format
-    regNo.upcase.match(current_reg_format)
+    # Then make sure the format is valid. Format should be
+    # - CBD
+    # - [1 char U or L]
+    # - [at least 1 digit 0-9]
+    return clean_reference.match(/^CBD[U|L][0-9]+$/) ? true : false
   end
 
-  def isIRRegistrationType(registrationNumber)
-    if registrationNumber
-      # Strip leading and trailing whitespace from number
-      regNo = registrationNumber.rstrip.lstrip
+  def valid_ir_format?(reference)
+    return false unless reference
 
-      # Just look at first 3 characters
-      regNo = regNo[0, 3]
+    # Strip leading and trailing whitespace from number, ensure its uppercase
+    clean_reference = reference.rstrip.lstrip.upcase
 
-      # First 3 characters of reg ex
-      legacy_reg_format = "CB/"
-
-      # Check legacy format
-      regNo.upcase.match(legacy_reg_format)
-    else
-      false
-    end
+    # Then make sure the format is valid. Format should be
+    # - CB/
+    # - [2 chars A to Z]
+    # - [3 to 4 digits 0-9]
+    # - [2 chars A to Z]
+    # - /
+    # - [1 char A to Z]
+    # - [3 digits 0-9]
+    return clean_reference.match(/^CB\/[A-Z]{2}[0-9]{3,4}[A-Z]{2}\/[A-Z][0-9]{3}$/) ? true : false
   end
 
   # determines what we need to do after Smart Answers have been edited

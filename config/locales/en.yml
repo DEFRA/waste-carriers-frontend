@@ -738,7 +738,7 @@ en:
     show:
       subtitle: "What is your waste carrier registration number?"
       title: "Existing registration renewal"
-      ir_number_example: "Example: CB/AF7003CS/A001"
+      number_example: "Example: CB/AF7003CS/A001 or CBDU215437"
       renewal_link: "I don't know our registration number"
       heading: "You can:"
       bullet1: "check your renewal letter (your registration number will be at the top)"
