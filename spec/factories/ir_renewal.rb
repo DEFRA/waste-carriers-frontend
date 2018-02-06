@@ -45,5 +45,9 @@ FactoryGirl.define do
       expiryDate Date.today
     end
 
+    trait :expires_outside_renewal_window do
+      expiryDate (Rails.configuration.registration_renewal_window + 1.month).from_now
+    end
+
   end
 end

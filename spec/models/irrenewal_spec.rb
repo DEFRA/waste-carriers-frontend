@@ -17,6 +17,29 @@ describe Irrenewal do
     end
   end
 
+  describe "#in_renewal_window?" do
+    context "when the IR registration has expired" do
+      subject(:ir_renewal) { build(:irrenewal, :company, :expired) }
+      it "returns false" do
+        expect(ir_renewal.in_renewal_window?).to eq(false)
+      end
+    end
+
+    context "when the IR reg. expires within the renewal window" do
+      subject(:ir_renewal) { build(:irrenewal, :company) }
+      it "returns true" do
+        expect(ir_renewal.in_renewal_window?).to eq(true)
+      end
+    end
+
+    context "when the IR reg. expires after the renewal window" do
+      subject(:ir_renewal) { build(:irrenewal, :company, :expires_outside_renewal_window) }
+      it "returns false" do
+        expect(ir_renewal.in_renewal_window?).to eq(false)
+      end
+    end
+  end
+
   context "Renewing a registration" do
     subject(:ir_renewal) { build(:irrenewal, :company) }
 
