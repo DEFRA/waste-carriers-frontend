@@ -25,10 +25,11 @@ class ExistingRegistrationController < ApplicationController
       redirect_to(:business_type) and return
     end
 
-    # If we are here there must be validation errors so add a validation error
-    # and re-render view with a 400 status
-    @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid_registration_number'))
-
+    # If we are here, and there are no existing errors there must be validation
+    # errors so add a validation error and re-render view with a 400 status
+    if @registration.errors.empty?
+      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.invalid_registration_number'))
+    end
     render 'show', status: :bad_request
 
   end
@@ -36,24 +37,34 @@ class ExistingRegistrationController < ApplicationController
   private
 
   def existing_registration?
-    return valid_registration_format?(@registration.originalRegistrationNumber)
+    return false unless valid_registration_format?(@registration.originalRegistrationNumber)
+
+    registration = Registration.find_by_registration_no(@registration.originalRegistrationNumber)
+
+    unless registration.present?
+      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.registration_number_not_found'))
+      return false
+    end
+
+    true
   end
 
   def existing_ir_registration?
-    exists = false
-    return exists unless valid_ir_format?(@registration.originalRegistrationNumber)
+    return false unless valid_ir_format?(@registration.originalRegistrationNumber)
 
-    # Call IR services to import IR registraion data
     ir_registration = Registration.find_by_ir_number(@registration.originalRegistrationNumber)
 
-    if ir_registration.present?
-      # IR data found, merge with registration in redis
-      # Access Code and reg_uuid should not get overriden with IR data
-      @registration.add(ir_registration.attributes.except(:reg_uuid, :accessCode))
-      @registration.save
-      exists = true
+    unless ir_registration.present?
+      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.registration_number_not_found'))
+      return false
     end
-    exists
+
+    # IR data found, merge with registration in redis
+    # Access Code and reg_uuid should not get overriden with IR data
+    @registration.add(ir_registration.attributes.except(:reg_uuid, :accessCode))
+    @registration.save
+  
+    true
   end
 
   def registration_params
