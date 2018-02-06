@@ -41,5 +41,9 @@ FactoryGirl.define do
       tradingName "#{Faker::Address.county} City Council"
     end
 
+    trait :expired do
+      expiryDate Date.today
+    end
+
   end
 end

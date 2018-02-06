@@ -19,4 +19,9 @@ class Irrenewal
   field :partnershipName,        :type => String
   field :partyName,              :type => String
 
+
+  def expired?
+    expiryDate.to_date <= Date.today
+  end
+
 end
