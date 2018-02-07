@@ -1,0 +1,73 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:9090/registrations.json/original/CB%2FRN5572WE%2FR002
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 07 Feb 2018 22:55:03 GMT
+      Content-Type:
+      - application/json
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding, User-Agent
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        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
+        AONEo3/rDwAA
+    http_version: 
+  recorded_at: Wed, 07 Feb 2018 22:55:03 GMT
+recorded_with: VCR 3.0.3

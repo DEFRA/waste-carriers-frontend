@@ -49,5 +49,13 @@ FactoryGirl.define do
       expiryDate (Rails.configuration.registration_renewal_window + 1.month).from_now
     end
 
+    trait :already_renewed do
+      referenceNumber 'CB/RN5419MF/R002'
+    end
+
+    trait :being_renewed do
+      referenceNumber 'CB/RN5572WE/R002'
+    end
+
   end
 end

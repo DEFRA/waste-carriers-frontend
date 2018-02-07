@@ -30,4 +30,12 @@ class Irrenewal
     expiryDate.to_date < Rails.configuration.registration_renewal_window.from_now
   end
 
+  def already_renewed?
+    registration = Registration.find_by_original_registration_no(referenceNumber)
+
+    return true if registration.present? && registration.metaData.first.status != 'PENDING'
+
+    false
+  end
+
 end
