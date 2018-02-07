@@ -1,0 +1,65 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.companieshouse.gov.uk/company/04270505
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic <COMPANIES_HOUSE_API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 18 Jan 2018 16:10:02 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1655'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - X-RateLimit-Query, origin, content-type, content-length, user-agent, host,
+        accept, authorization
+      Access-Control-Expose-Headers:
+      - Location,www-authenticate,cache-control,pragma,content-type,expires,last-modified
+      - X-RateLimit-Window, X-RateLimit-Limit, X-RateLimit-Remain, X-RateLimit-Reset,
+        Location, www-authenticate, cache-control, pragma, content-type, expires,
+        last-modified
+      Access-Control-Max-Age:
+      - '3600'
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Pragma:
+      - no-cache
+      X-Ratelimit-Limit:
+      - '600'
+      X-Ratelimit-Remain:
+      - '598'
+      X-Ratelimit-Reset:
+      - '1516292001'
+      X-Ratelimit-Window:
+      - 5m
+      Server:
+      - CompaniesHouse
+    body:
+      encoding: UTF-8
+      string: '{"registered_office_address":{"postal_code":"SR8 2HY","locality":"Peterlee","address_line_2":"North
+        West Industrial Estate","address_line_1":"2 Cook Way","region":"Co Durham"},"has_been_liquidated":false,"accounts":{"next_made_up_to":"2018-03-31","next_accounts":{"overdue":false,"period_end_on":"2018-03-31","period_start_on":"2017-04-01","due_on":"2018-12-31"},"overdue":false,"next_due":"2018-12-31","accounting_reference_date":{"month":"03","day":"31"},"last_accounts":{"period_end_on":"2017-03-31","made_up_to":"2017-03-31","period_start_on":"2016-04-01","type":"full"}},"jurisdiction":"england-wales","company_name":"TSF
+        RETAIL SOLUTIONS LIMITED","type":"ltd","last_full_members_list_date":"2015-08-15","sic_codes":["43320","43390","43999"],"date_of_creation":"2001-08-15","company_number":"04270505","undeliverable_registered_office_address":false,"has_insolvency_history":true,"etag":"a47700a2d099085f5f6096387d0b5ef584bc269b","company_status":"active","has_charges":true,"previous_company_names":[{"effective_from":"2001-11-01","ceased_on":"2006-06-01","name":"MOMS
+        LIMITED"},{"name":"BLAZECLEAN LIMITED","effective_from":"2001-08-15","ceased_on":"2001-11-01"}],"confirmation_statement":{"last_made_up_to":"2017-08-15","next_made_up_to":"2018-08-15","next_due":"2018-08-29","overdue":false},"links":{"self":"/company/04270505","filing_history":"/company/04270505/filing-history","officers":"/company/04270505/officers","charges":"/company/04270505/charges","insolvency":"/company/04270505/insolvency","persons_with_significant_control":"/company/04270505/persons-with-significant-control"},"registered_office_is_in_dispute":false,"can_file":true}'
+    http_version: 
+  recorded_at: Thu, 18 Jan 2018 16:09:58 GMT
+recorded_with: VCR 3.0.3
