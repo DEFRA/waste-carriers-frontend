@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:9290/convictions/person?firstname=Waste&lastname=Want
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 07 Feb 2018 23:47:22 GMT
+      Content-Type:
+      - application/json
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding, User-Agent
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAAF3NTQqDMBQE4Lu8tQsTFIuHaI8QYhx/IHnCS1xI6d2ViCLd
+        fsPMfEkwQMAO1PLqfUFu4WGWgJ5a4oUKCja5yQji6tNh789lM48mbjEhXN3M
+        6A3bcO9FWMloj7aq1ausGl1prdXjK4d//6bbTvvtIVt8AaYAAAA=
+    http_version: 
+  recorded_at: Wed, 07 Feb 2018 23:47:22 GMT
+recorded_with: VCR 3.0.3
