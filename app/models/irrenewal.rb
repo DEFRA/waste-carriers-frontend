@@ -19,10 +19,6 @@ class Irrenewal
   field :partnershipName,        :type => String
   field :partyName,              :type => String
 
-  def expired?
-    expiryDate.to_date <= Date.today
-  end
-
   def in_renewal_window?
     return false if expired?
     # If the registration expires in more than x months from now, its outside

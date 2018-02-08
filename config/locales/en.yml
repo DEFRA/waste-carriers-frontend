@@ -282,6 +282,7 @@ en:
       blank_registration_number: "You must enter your registration number"
       invalid_registration_number: "The registration number you entered is not recognised"
       registration_number_not_found: "The registration number you entered could not be found"
+      registration_expired: "The registration number you entered has expired"
 
       # Section 1 (smart answers)
       select_business_type: "You must answer this question"

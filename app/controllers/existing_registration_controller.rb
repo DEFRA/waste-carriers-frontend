@@ -20,7 +20,7 @@ class ExistingRegistrationController < ApplicationController
     if existing_registration?
       logger.debug "Current registration matched, Redirect to user sign in"
       redirect_to(:new_user_session) and return
-    elsif existing_ir_registration?
+    elsif existing_ir_registration? && can_renew_ir_registration?
       logger.debug "Legacy registration matched, Redirect to smart answers"
       redirect_to(:business_type) and return
     end
@@ -63,8 +63,20 @@ class ExistingRegistrationController < ApplicationController
     # Access Code and reg_uuid should not get overriden with IR data
     @registration.add(ir_registration.attributes.except(:reg_uuid, :accessCode))
     @registration.save
-  
+
     true
+  end
+
+  def can_renew_ir_registration?
+    expiry_date = convert_date(@registration.originalDateExpiry.to_i)
+    if expired?(expiry_date)
+      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.registration_expired'))
+      return false
+    end
+  end
+
+  def expired?(expiry_date)
+    expiry_date.to_date <= Date.today
   end
 
   def registration_params
