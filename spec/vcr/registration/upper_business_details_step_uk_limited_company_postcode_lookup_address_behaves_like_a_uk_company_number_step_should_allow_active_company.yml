@@ -1,0 +1,67 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.companieshouse.gov.uk/company/02050399
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic <COMPANIES_HOUSE_API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 06 Feb 2018 14:28:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1601'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - X-RateLimit-Query, origin, content-type, content-length, user-agent, host,
+        accept, authorization
+      Access-Control-Expose-Headers:
+      - Location,www-authenticate,cache-control,pragma,content-type,expires,last-modified
+      - X-RateLimit-Window, X-RateLimit-Limit, X-RateLimit-Remain, X-RateLimit-Reset,
+        Location, www-authenticate, cache-control, pragma, content-type, expires,
+        last-modified
+      Access-Control-Max-Age:
+      - '3600'
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Pragma:
+      - no-cache
+      X-Ratelimit-Limit:
+      - '600'
+      X-Ratelimit-Remain:
+      - '598'
+      X-Ratelimit-Reset:
+      - '1517927615'
+      X-Ratelimit-Window:
+      - 5m
+      Server:
+      - CompaniesHouse
+    body:
+      encoding: UTF-8
+      string: '{"company_number":"02050399","accounts":{"accounting_reference_date":{"month":"03","day":"31"},"next_due":"2018-12-31","next_made_up_to":"2018-03-31","overdue":false,"last_accounts":{"period_start_on":"2016-04-01","made_up_to":"2017-03-31","type":"micro-entity","period_end_on":"2017-03-31"},"next_accounts":{"period_end_on":"2018-03-31","overdue":false,"period_start_on":"2017-04-01","due_on":"2018-12-31"}},"jurisdiction":"england-wales","registered_office_address":{"region":"Mid
+        Glamorgan","locality":"Caerphilly","postal_code":"CF83 1BR","address_line_1":"15
+        Lon Uchaf Lon Uchaf"},"last_full_members_list_date":"2015-12-31","date_of_creation":"1986-08-28","type":"ltd","has_been_liquidated":false,"company_name":"ZENITH
+        PRINT (UK) LIMITED","sic_codes":["70100"],"undeliverable_registered_office_address":false,"has_insolvency_history":false,"etag":"9c6b544fbd0427cdfbb53e0870ca8fa32c084470","company_status":"active","has_charges":true,"previous_company_names":[{"ceased_on":"1996-03-22","effective_from":"1993-04-22","name":"ZENITH
+        TREFOREST PRESS LIMITED"},{"name":"ZENITH COLOUR PRINTING LIMITED","ceased_on":"1993-04-22","effective_from":"1986-11-14"},{"effective_from":"1986-08-28","ceased_on":"1986-11-14","name":"CHANCETACKLE
+        LIMITED"}],"confirmation_statement":{"last_made_up_to":"2017-12-31","next_made_up_to":"2018-12-31","overdue":false,"next_due":"2019-01-14"},"links":{"self":"/company/02050399","filing_history":"/company/02050399/filing-history","officers":"/company/02050399/officers","charges":"/company/02050399/charges"},"registered_office_is_in_dispute":false,"can_file":true}'
+    http_version: 
+  recorded_at: Tue, 06 Feb 2018 14:27:53 GMT
+recorded_with: VCR 3.0.3
