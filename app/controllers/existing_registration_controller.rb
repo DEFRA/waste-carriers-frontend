@@ -68,15 +68,26 @@ class ExistingRegistrationController < ApplicationController
   end
 
   def can_renew_ir_registration?
+    # We have to convert the date because its returned as milliseconds since the
+    # epoch (1970-1-1).
     expiry_date = convert_date(@registration.originalDateExpiry.to_i)
-    if expired?(expiry_date)
-      @registration.errors.add(:originalRegistrationNumber, I18n.t('errors.messages.registration_expired'))
-      return false
-    end
+
+    return false if expired?(expiry_date)
+
+    true
   end
 
   def expired?(expiry_date)
-    expiry_date.to_date <= Date.today
+    # Registrations are expired on the date recorded for their expiry date e.g.
+    # an expiry date of Mar 25 2018 means the registration was active up till
+    # 24:00 on Mar 24 2018.
+    return false if expiry_date.to_date > Date.today
+
+    @registration.errors.add(
+      :originalRegistrationNumber,
+      I18n.t('errors.messages.registration_expired')
+    )
+    true
   end
 
   def registration_params
