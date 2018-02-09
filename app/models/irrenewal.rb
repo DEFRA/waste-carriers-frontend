@@ -19,12 +19,4 @@ class Irrenewal
   field :partnershipName,        :type => String
   field :partyName,              :type => String
 
-  def already_renewed?
-    registration = Registration.find_by_original_registration_no(referenceNumber)
-
-    return true if registration.present? && registration.metaData.first.status != 'PENDING'
-
-    false
-  end
-
 end

@@ -21,7 +21,6 @@ class ExistingRegistrationController < ApplicationController
       logger.debug "Current registration matched, Redirect to user sign in"
       redirect_to(:new_user_session) and return
     elsif existing_ir_registration? && can_renew_ir_registration?
-      logger.debug "Legacy registration matched, Redirect to smart answers"
       redirect_to(:business_type) and return
     end
 
@@ -76,6 +75,8 @@ class ExistingRegistrationController < ApplicationController
 
     return false unless in_renewal_window?(expiry_date)
 
+    return false if already_renewed?(@registration.originalRegistrationNumber)
+
     true
   end
 
@@ -107,6 +108,21 @@ class ExistingRegistrationController < ApplicationController
       )
     )
     false
+  end
+
+  def already_renewed?(reference_number)
+    registration = Registration.find_by_original_registration_no(reference_number)
+
+    return false unless registration.present? && registration.metaData.first.status != 'PENDING'
+
+    @registration.errors.add(
+      :originalRegistrationNumber,
+      I18n.t(
+        'errors.messages.registration_already_renewed',
+        helpline: Rails.configuration.registrations_service_phone.to_s
+      )
+    )
+    true
   end
 
   def registration_params
