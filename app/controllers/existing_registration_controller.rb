@@ -74,6 +74,8 @@ class ExistingRegistrationController < ApplicationController
 
     return false if expired?(expiry_date)
 
+    return false unless in_renewal_window?(expiry_date)
+
     true
   end
 
@@ -88,6 +90,23 @@ class ExistingRegistrationController < ApplicationController
       I18n.t('errors.messages.registration_expired')
     )
     true
+  end
+
+  def in_renewal_window?(expiry_date)
+    # If the registration expires in more than x months from now, its outside
+    # the renewal window
+    return true if expiry_date.to_date < Rails.configuration.registration_renewal_window.from_now
+
+    renew_from = date_can_renew_from(expiry_date)
+
+    @registration.errors.add(
+      :originalRegistrationNumber,
+      I18n.t(
+        'errors.messages.registration_not_in_renewal_window',
+        date: renew_from.strftime('%A ' + renew_from.mday.ordinalize + ' %B %Y')
+      )
+    )
+    false
   end
 
   def registration_params

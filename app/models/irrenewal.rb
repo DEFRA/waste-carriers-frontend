@@ -19,13 +19,6 @@ class Irrenewal
   field :partnershipName,        :type => String
   field :partyName,              :type => String
 
-  def in_renewal_window?
-    return false if expired?
-    # If the registration expires in more than x months from now, its outside
-    # the renewal window
-    expiryDate.to_date < Rails.configuration.registration_renewal_window.from_now
-  end
-
   def already_renewed?
     registration = Registration.find_by_original_registration_no(referenceNumber)
 
