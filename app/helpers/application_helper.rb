@@ -14,7 +14,7 @@ module ApplicationHelper
   # For more details about the renewal window check out
   # https://github.com/DEFRA/waste-carriers-renewals/wiki/Renewal-window
   def date_can_renew_from(date)
-    (date.to_date - Rails.configuration.registration_renewal_window) - 1.day
+    (date.to_date - Rails.configuration.registration_renewal_window) + 1.day
   end
 
   def convert_date(d)

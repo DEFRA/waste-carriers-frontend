@@ -283,7 +283,7 @@ en:
       invalid_registration_number: "The registration number you entered is not recognised"
       registration_number_not_found: "The registration number you entered could not be found"
       registration_expired: "The registration number you entered has expired"
-      registration_not_in_renewal_window: "This registration is not eligible for renewal till %{date}."
+      registration_not_in_renewal_window: "This registration is not eligible for renewal until %{date}."
       registration_already_renewed: "This registration has already been renewed. Call our helpline on %{helpline} if you think this is incorrect."
 
       # Section 1 (smart answers)
