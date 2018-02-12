@@ -614,7 +614,37 @@ class Registration < Ohm::Model
     end
   end
 
-  # Retrieves a specific registration object from the Java Service based on its original registration number
+  # Retrieves a specific registration object from the Java Service based on its
+  # original registration number.
+  #
+  # @param registration_no [String] the original IR registration number
+  # @return [Registration] the registration in MongoDB with an originalRegistrationNumber property that matches the registration number
+  class << self
+    def find_by_original_registration_no(registration_no)
+      result = {}
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json/original/#{CGI::escape(registration_no)}"
+      begin
+        Rails.logger.debug "about to GET: original registration no #{registration_no.to_s}"
+        response = RestClient.get url
+        if response.code == 200
+          result = JSON.parse(response.body) #result should be Hash
+        else
+          Rails.logger.error "Registration.find_by_original_registration_no failed with a #{response.code.to_s} response from server"
+        end
+      rescue Errno::ECONNREFUSED => e
+        Airbrake.notify(e)
+        Rails.logger.error "Services unavailable: " + e.to_s
+      rescue => e
+        Airbrake.notify(e)
+        Rails.logger.error e.to_s
+      end
+      result.size > 0 ? Registration.init(result) : nil
+    end
+  end
+
+  # Queries the Java services for an IR registration record with the specified
+  # registration number. If found the Java services converts the IR record to a
+  # Registration and return that.
   #
   # @param ir_number [String] the original registration number used in the legacy system
   # @return [Registration] the registration in IR data matching the ir_number

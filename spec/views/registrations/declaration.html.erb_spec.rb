@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'registrations/declaration', type: :view do
-  let!(:ir_renewal) { create(:irrenewal) }
+  let!(:ir_renewal) { create(:irrenewal, :company) }
 
   context "when registration is new" do
 
