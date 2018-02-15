@@ -131,7 +131,6 @@ class ExistingRegistrationController < ApplicationController
   end
 
   def active?
-    puts "*********** #{@registration.metaData.first.status}"
     return true if @registration.metaData.first.status == 'ACTIVE'
 
     @registration.errors.add(
@@ -141,6 +140,7 @@ class ExistingRegistrationController < ApplicationController
         helpline: Rails.configuration.registrations_service_phone.to_s
       )
     )
+
     false
   end
 
