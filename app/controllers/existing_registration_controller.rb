@@ -81,7 +81,7 @@ class ExistingRegistrationController < ApplicationController
 
     return false unless in_renewal_window?(expiry_date)
 
-    return false unless active?
+    return false unless status_eligible?(@registration.metaData.first.status)
 
     true
   end
@@ -130,8 +130,8 @@ class ExistingRegistrationController < ApplicationController
     false
   end
 
-  def active?
-    return true if @registration.metaData.first.status == 'ACTIVE'
+  def status_eligible?(status)
+    return true if status == 'ACTIVE'
 
     @registration.errors.add(
       :originalRegistrationNumber,

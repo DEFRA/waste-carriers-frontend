@@ -173,4 +173,27 @@ describe ExistingRegistrationController, type: :controller do
       end
     end
   end
+
+  describe "#status_eligible?" do
+    let(:registration) { Registration.create }
+    let(:existing_registration_controller) { ExistingRegistrationController.new }
+
+    before(:each) do
+      existing_registration_controller.instance_variable_set(:@registration, registration)
+    end
+
+    context "when the registration is ACTIVE" do
+      it "should be eligible" do
+        expect(existing_registration_controller.send(:status_eligible?, 'ACTIVE')).to eq(true)
+      end
+    end
+
+    ['PENDING', 'REVOKED', 'EXPIRED', 'INACTIVE'].each do |status|
+      context "when the registration is #{status}" do
+        it "should not be eligible" do
+          expect(existing_registration_controller.send(:status_eligible?, status)).to eq(false)
+        end
+      end
+    end
+  end
 end
