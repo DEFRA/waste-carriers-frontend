@@ -17,8 +17,7 @@ class ExistingRegistrationController < ApplicationController
 
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
     # Check current format
-    if existing_registration?
-      logger.debug "Current registration matched, Redirect to user sign in"
+    if existing_registration? && can_renew_registration?
       redirect_to(:new_user_session) and return
     elsif existing_ir_registration? && can_renew_ir_registration?
       redirect_to(:business_type) and return
@@ -45,6 +44,13 @@ class ExistingRegistrationController < ApplicationController
       return false
     end
 
+    # Record found, so for the sake of accessing the data the subsequent checks
+    # need we overwrite our global registration object with what came back from
+    # the Java services.
+    # We don't save it however, as we cannot describe what would happen should
+    # the user cancel the renewal and attempt to start a new registration.
+    @registration = registration
+
     true
   end
 
@@ -62,6 +68,20 @@ class ExistingRegistrationController < ApplicationController
     # Access Code and reg_uuid should not get overriden with IR data
     @registration.add(ir_registration.attributes.except(:reg_uuid, :accessCode))
     @registration.save
+
+    true
+  end
+
+  def can_renew_registration?
+    # We have to convert the date because its returned as milliseconds since the
+    # epoch (1970-1-1).
+    expiry_date = convert_date(@registration.expires_on.to_i)
+
+    return false if expired?(expiry_date)
+
+    return false unless in_renewal_window?(expiry_date)
+
+    return false unless active?
 
     true
   end
@@ -105,6 +125,20 @@ class ExistingRegistrationController < ApplicationController
       I18n.t(
         'errors.messages.registration_not_in_renewal_window',
         date: renew_from.strftime('%A ' + renew_from.mday.ordinalize + ' %B %Y')
+      )
+    )
+    false
+  end
+
+  def active?
+    puts "*********** #{@registration.metaData.first.status}"
+    return true if @registration.metaData.first.status == 'ACTIVE'
+
+    @registration.errors.add(
+      :originalRegistrationNumber,
+      I18n.t(
+        'errors.messages.registration_not_active',
+        helpline: Rails.configuration.registrations_service_phone.to_s
       )
     )
     false
