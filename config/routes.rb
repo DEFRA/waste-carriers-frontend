@@ -37,6 +37,7 @@ Registrations::Application.routes.draw do
   get '/os_places_terms' => 'pages#os_places_terms'
   get '/account_confirmed' => 'pages#account_confirmed'
   get '/password_changed'  => 'pages#mid_registration_password_changed', as: :mid_registration_password_changed
+  get '/renew(/:id)' => 'pages#renewal_extension'
 
   # Add routing for Public Search
   get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
