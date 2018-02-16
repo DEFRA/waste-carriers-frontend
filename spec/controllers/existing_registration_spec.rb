@@ -86,11 +86,90 @@ describe ExistingRegistrationController, type: :controller do
     end
   end
 
-  describe "#can_renew_ir_registration?" do
-    let(:registration) { Registration.create }
+  describe "#can_renew_registration?" do
+    let(:existing_registration_controller) { ExistingRegistrationController.new }
+    let(:registration) do
+      registration = Registration.ctor
+      registration.originalRegistrationNumber = "CBDU1"
+      registration.expires_on = date_to_utc_milliseconds(Date.tomorrow)
+      registration.metaData.first.update(status: 'ACTIVE')
+      registration
+    end
 
-    before(:each) do
-      @registration = registration
+    context "when the registration is eligible for renewal" do
+      it "can be renewed" do
+        existing_registration_controller.instance_variable_set(:@registration, registration)
+
+        expect(existing_registration_controller.send(:can_renew_registration?)).to eq(true)
+      end
+    end
+
+    context "when the registration is expired" do
+      it "cannot be renewed" do
+        registration.expires_on = date_to_utc_milliseconds(Date.today)
+        existing_registration_controller.instance_variable_set(:@registration, registration)
+
+        expect(existing_registration_controller.send(:can_renew_registration?)).to eq(false)
+      end
+    end
+
+    context "when the registration expires outside the renewal window" do
+      it "cannot be renewed" do
+        registration.expires_on = date_to_utc_milliseconds(Date.today + 7.months)
+        existing_registration_controller.instance_variable_set(:@registration, registration)
+
+        expect(existing_registration_controller.send(:can_renew_registration?)).to eq(false)
+      end
+    end
+
+    context "when the registration is not ACTIVE" do
+      it "cannot be renewed" do
+        registration.metaData.first.update(status: 'INACTIVE')
+        existing_registration_controller.instance_variable_set(:@registration, registration)
+        expect(existing_registration_controller.send(:can_renew_registration?)).to eq(false)
+      end
+    end
+  end
+
+  describe "#can_renew_ir_registration?" do
+    let(:existing_registration_controller) { ExistingRegistrationController.new }
+    let(:registration) do
+      registration = Registration.ctor
+      registration.originalRegistrationNumber = "CB/AE888XX/A001"
+      registration.originalDateExpiry = date_to_utc_milliseconds(Date.tomorrow)
+      registration
+    end
+
+    context "when the IR registration is eligible for renewal" do
+      it "can be renewed" do
+        existing_registration_controller.instance_variable_set(:@registration, registration)
+
+        expect(existing_registration_controller.send(:can_renew_ir_registration?)).to eq(true)
+      end
+    end
+
+    context "when the IR registration is expired" do
+      it "cannot be renewed" do
+        registration.originalDateExpiry = date_to_utc_milliseconds(Date.today)
+        existing_registration_controller.instance_variable_set(:@registration, registration)
+
+        expect(existing_registration_controller.send(:can_renew_ir_registration?)).to eq(false)
+      end
+    end
+
+    context "when the IR registration expires outside the renewal window" do
+      it "cannot be renewed" do
+        registration.originalDateExpiry = date_to_utc_milliseconds(Date.today + 7.months)
+        existing_registration_controller.instance_variable_set(:@registration, registration)
+        expect(existing_registration_controller.send(:can_renew_ir_registration?)).to eq(false)
+      end
+    end
+
+    context "when the IR registration has already been renewed" do
+      it "cannot be renewed" do
+        skip("a solution to populating registration data during tests")
+        expect(existing_registration_controller.send(:can_renew_ir_registration?)).to eq(false)
+      end
     end
   end
 
@@ -169,6 +248,29 @@ describe ExistingRegistrationController, type: :controller do
 
         it "should be in the window" do
           expect(existing_registration_controller.send(:in_renewal_window?, expiry_date)).to eq(true)
+        end
+      end
+    end
+  end
+
+  describe "#status_eligible?" do
+    let(:registration) { Registration.create }
+    let(:existing_registration_controller) { ExistingRegistrationController.new }
+
+    before(:each) do
+      existing_registration_controller.instance_variable_set(:@registration, registration)
+    end
+
+    context "when the registration is ACTIVE" do
+      it "should be eligible" do
+        expect(existing_registration_controller.send(:status_eligible?, 'ACTIVE')).to eq(true)
+      end
+    end
+
+    ['PENDING', 'REVOKED', 'EXPIRED', 'INACTIVE'].each do |status|
+      context "when the registration is #{status}" do
+        it "should not be eligible" do
+          expect(existing_registration_controller.send(:status_eligible?, status)).to eq(false)
         end
       end
     end
