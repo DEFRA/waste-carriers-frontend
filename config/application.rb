@@ -89,6 +89,8 @@ module Registrations
     # URL rather than via the public domain and URL.
     config.require_admin_requests = Rails.env.production? || ENV['WCRS_FRONTEND_REQUIRE_ADMIN_REQUESTS'] || false
 
+    config.renewals_service_url = "#{get_url_from_environment_or_default('WCRS_FRONTEND_RENEWALS_SERVICE_URL', 'http://localhost:3000')}/renew/"
+
     # Add a URL to represent the GOV.UK page that the process goes to, after the
     # registration happy path.
     config.waste_exemplar_end_url              = 'https://www.gov.uk/done/waste-carrier-or-broker-registration'
