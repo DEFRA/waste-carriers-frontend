@@ -18,7 +18,8 @@ class ExistingRegistrationController < ApplicationController
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
     # Check current format
     if existing_registration? && can_renew_registration?
-      redirect_to(:new_user_session) and return
+      renewals_url = "#{Rails.configuration.renewals_service_url}#{@registration.regIdentifier}"
+      redirect_to(renewals_url) and return
     elsif existing_ir_registration? && can_renew_ir_registration?
       redirect_to(:business_type) and return
     end
