@@ -90,6 +90,7 @@ describe ExistingRegistrationController, type: :controller do
     let(:existing_registration_controller) { ExistingRegistrationController.new }
     let(:registration) do
       registration = Registration.ctor
+      registration.tier = "UPPER"
       registration.originalRegistrationNumber = "CBDU1"
       registration.expires_on = date_to_utc_milliseconds(Date.tomorrow)
       registration.metaData.first.update(status: 'ACTIVE')
@@ -125,6 +126,14 @@ describe ExistingRegistrationController, type: :controller do
     context "when the registration is not ACTIVE" do
       it "cannot be renewed" do
         registration.metaData.first.update(status: 'INACTIVE')
+        existing_registration_controller.instance_variable_set(:@registration, registration)
+        expect(existing_registration_controller.send(:can_renew_registration?)).to eq(false)
+      end
+    end
+
+    context "when the registration is lower tier" do
+      it "cannot be renewed" do
+        registration.tier = "LOWER"
         existing_registration_controller.instance_variable_set(:@registration, registration)
         expect(existing_registration_controller.send(:can_renew_registration?)).to eq(false)
       end

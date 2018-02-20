@@ -74,6 +74,8 @@ class ExistingRegistrationController < ApplicationController
   end
 
   def can_renew_registration?
+    return false if lower_tier_registration?
+
     date_service = DateService.new(@registration.expires_on)
 
     return false if expired?(date_service)
@@ -94,6 +96,19 @@ class ExistingRegistrationController < ApplicationController
 
     return false if already_renewed?(@registration.originalRegistrationNumber)
 
+    true
+  end
+
+  def lower_tier_registration?
+    return false unless @registration.lower?
+
+    @registration.errors.add(
+      :originalRegistrationNumber,
+      I18n.t(
+        'errors.messages.registration_is_lower_tier',
+        helpline: Rails.configuration.registrations_service_phone.to_s
+      )
+    )
     true
   end
 
