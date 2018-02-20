@@ -20,6 +20,56 @@ describe Registration do
     specify { Registration.ctor(tier: 'UPPER').should_not be_lower }
   end
 
+  describe "#can_renew?" do
+    subject do
+      registration = Registration.ctor
+      registration.originalRegistrationNumber = "CBDU1"
+      registration.tier = "UPPER"
+      registration.expires_on = date_to_utc_milliseconds(Date.tomorrow)
+      registration.metaData.first.update(status: 'ACTIVE')
+      registration
+    end
+
+    context "when the registration is eligible for renewal" do
+      it "can be renewed" do
+        expect(subject.can_renew?).to eq(true)
+      end
+    end
+
+    context "when the registration is lower tier" do
+      it "cannot be renewed" do
+        subject.tier = "LOWER"
+        expect(subject.can_renew?).to eq(false)
+      end
+    end
+
+    context "when the registration is expired" do
+      it "cannot be renewed" do
+        subject.expires_on = date_to_utc_milliseconds(Date.today)
+        expect(subject.can_renew?).to eq(false)
+      end
+    end
+
+    context "when the registration is not ACTIVE" do
+      it "cannot be renewed" do
+        subject.metaData.first.update(status: 'REVOKED')
+        expect(subject.can_renew?).to eq(false)
+      end
+    end
+
+    context "when the registration expires outside the renewal window" do
+      before do
+        Rails.configuration.stub(:registration_renewal_window).and_return(3.months)
+      end
+
+      it "cannot be renewed" do
+        expiry_date = (3.months.from_now + 2.day).to_date
+        subject.expires_on = date_to_utc_milliseconds(expiry_date)
+        expect(subject.can_renew?).to eq(false)
+      end
+    end
+  end
+
   describe "#expired?" do
     subject do
       registration = Registration.ctor
