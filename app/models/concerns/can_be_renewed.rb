@@ -23,4 +23,8 @@ module CanBeRenewed
     false
   end
 
+  def renewals_url
+    "#{Rails.configuration.renewals_service_url}#{regIdentifier}"
+  end
+
 end

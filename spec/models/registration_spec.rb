@@ -23,7 +23,6 @@ describe Registration do
   describe "#can_renew?" do
     subject do
       registration = Registration.ctor
-      registration.originalRegistrationNumber = "CBDU1"
       registration.tier = "UPPER"
       registration.expires_on = date_to_utc_milliseconds(Date.tomorrow)
       registration.metaData.first.update(status: 'ACTIVE')
@@ -104,6 +103,23 @@ describe Registration do
         subject.tier = "LOWER"
         expect(subject.expired?).to eq(false)
       end
+    end
+  end
+
+  describe "#renewals_url" do
+    before do
+      Rails.configuration.stub(:renewals_service_url).and_return("http://localhost:3000/renew/")
+    end
+
+    subject do
+      registration = Registration.ctor
+      registration.regIdentifier = "CBDU1"
+      registration
+    end
+
+    it "returns the configured url with the registration number appended to the end" do
+      subject.tier = "LOWER"
+      expect(subject.renewals_url).to eq("http://localhost:3000/renew/CBDU1")
     end
   end
 
