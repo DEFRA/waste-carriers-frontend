@@ -118,7 +118,8 @@ class ExistingRegistrationController < ApplicationController
     # the renewal window
     return true if expiry_date.to_date < Rails.configuration.registration_renewal_window.from_now
 
-    renew_from = date_can_renew_from(expiry_date)
+    date_service = DateService.new(expiry_date)
+    renew_from = date_service.date_can_renew_from
 
     @registration.errors.add(
       :originalRegistrationNumber,
