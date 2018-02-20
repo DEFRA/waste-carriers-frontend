@@ -5,6 +5,7 @@ class Registration < Ohm::Model
   extend ActiveModel::Naming
   include PasswordHelper
   include ApplicationHelper
+  include CanBeRenewed
 
   FIRST_STEP = 'newOrRenew'
 
@@ -1216,23 +1217,9 @@ class Registration < Ohm::Model
     save!
   end
 
-
   #only upper tier registrations can expire
   def expirable?
     upper?
-  end
-
-  def expired?
-    if upper?
-      if metaData.first.status == 'EXPIRED'
-        true
-      end
-      if expires_on and convert_date(expires_on) < Time.now
-        true
-      end
-    else
-      false
-    end
   end
 
   def revoked?

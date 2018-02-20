@@ -20,6 +20,43 @@ describe Registration do
     specify { Registration.ctor(tier: 'UPPER').should_not be_lower }
   end
 
+  describe "#expired?" do
+    subject do
+      registration = Registration.ctor
+      registration.tier = "UPPER"
+      registration.expires_on = date_to_utc_milliseconds(Date.tomorrow)
+      registration.metaData.first.update(status: 'ACTIVE')
+      registration
+    end
+
+    context "when the registration is ACTIVE and not expired" do
+      it "returns false" do
+        expect(subject.expired?).to eq(false)
+      end
+    end
+
+    context "when the registration's status is EXPIRED" do
+      it "returns true" do
+        subject.metaData.first.update(status: 'EXPIRED')
+        expect(subject.expired?).to eq(true)
+      end
+    end
+
+    context "when the registration expired yesterday" do
+      it "returns true" do
+        subject.expires_on = date_to_utc_milliseconds(Date.yesterday)
+        expect(subject.expired?).to eq(true)
+      end
+    end
+
+    context "when the registration is lower tier" do
+      it "returns true" do
+        subject.tier = "LOWER"
+        expect(subject.expired?).to eq(false)
+      end
+    end
+  end
+
   context 'businesstype step' do
     before { subject.current_step = 'businesstype' }
 
