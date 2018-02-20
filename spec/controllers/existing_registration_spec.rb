@@ -173,53 +173,6 @@ describe ExistingRegistrationController, type: :controller do
     end
   end
 
-  describe "#in_renewal_window?" do
-    let(:registration) { Registration.create }
-    let(:existing_registration_controller) { ExistingRegistrationController.new }
-
-    before(:each) do
-      existing_registration_controller.instance_variable_set(:@registration, registration)
-    end
-
-    context "when the renewal window is 3 months" do
-      before do
-        Rails.configuration.stub(:registration_renewal_window).and_return(3.months)
-      end
-
-      context "when the expiry date is 3 months and 2 days from today" do
-        let(:expiry_date) { 3.months.from_now + 2.day }
-
-        it "should not be in the window" do
-          expect(existing_registration_controller.send(:in_renewal_window?, expiry_date)).to eq(false)
-        end
-      end
-
-      context "when the expiry date is 3 months and 1 day from today" do
-        let(:expiry_date) { 3.months.from_now + 1.day }
-
-        it "should not be in the window" do
-          expect(existing_registration_controller.send(:in_renewal_window?, expiry_date)).to eq(false)
-        end
-      end
-
-      context "when the expiry date is 3 months from today" do
-        let(:expiry_date) { 3.months.from_now }
-
-        it "should be in the window" do
-          expect(existing_registration_controller.send(:in_renewal_window?, expiry_date)).to eq(true)
-        end
-      end
-
-      context "when the expiry date is less than 3 months from today" do
-        let(:expiry_date) { 3.months.from_now - 1.day }
-
-        it "should be in the window" do
-          expect(existing_registration_controller.send(:in_renewal_window?, expiry_date)).to eq(true)
-        end
-      end
-    end
-  end
-
   describe "#status_eligible?" do
     let(:registration) { Registration.create }
     let(:existing_registration_controller) { ExistingRegistrationController.new }

@@ -44,4 +44,46 @@ RSpec.describe DateService do
     end
 
   end
+
+  describe "#in_renewal_window?" do
+
+    context "when the renewal window is 3 months" do
+      before do
+        Rails.configuration.stub(:registration_renewal_window).and_return(3.months)
+      end
+
+      context "and the expiry date is 3 months and 2 days from today" do
+        subject { DateService.new(3.months.from_now + 2.day) }
+
+        it "should not be in the window" do
+          expect(subject.in_renewal_window?).to eq(false)
+        end
+      end
+
+      context "and the expiry date is 3 months and 1 day from today" do
+        subject { DateService.new(3.months.from_now + 1.day) }
+
+        it "should not be in the window" do
+          expect(subject.in_renewal_window?).to eq(false)
+        end
+      end
+
+      context "and the expiry date is 3 months from today" do
+        subject { DateService.new(3.months.from_now) }
+
+        it "should be in the window" do
+          expect(subject.in_renewal_window?).to eq(true)
+        end
+      end
+
+      context "and the expiry date is less than 3 months from today" do
+        subject { DateService.new(3.months.from_now - 1.day) }
+
+        it "should be in the window" do
+          expect(subject.in_renewal_window?).to eq(true)
+        end
+      end
+    end
+  end
+
 end

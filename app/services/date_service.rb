@@ -20,4 +20,12 @@ class DateService
     true
   end
 
+  def in_renewal_window?
+    # If the registration expires in more than x months from now, its outside
+    # the renewal window
+    return true if @date < Rails.configuration.registration_renewal_window.from_now
+
+    false
+  end
+
 end

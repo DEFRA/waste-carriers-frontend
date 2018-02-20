@@ -81,7 +81,7 @@ class ExistingRegistrationController < ApplicationController
 
     return false if expired?(date_service)
 
-    return false unless in_renewal_window?(expiry_date)
+    return false unless in_renewal_window?(date_service)
 
     return false unless status_eligible?(@registration.metaData.first.status)
 
@@ -96,7 +96,7 @@ class ExistingRegistrationController < ApplicationController
 
     return false if expired?(date_service)
 
-    return false unless in_renewal_window?(expiry_date)
+    return false unless in_renewal_window?(date_service)
 
     return false if already_renewed?(@registration.originalRegistrationNumber)
 
@@ -113,12 +113,9 @@ class ExistingRegistrationController < ApplicationController
     true
   end
 
-  def in_renewal_window?(expiry_date)
-    # If the registration expires in more than x months from now, its outside
-    # the renewal window
-    return true if expiry_date.to_date < Rails.configuration.registration_renewal_window.from_now
+  def in_renewal_window?(date_service)
+    return true if date_service.in_renewal_window?
 
-    date_service = DateService.new(expiry_date)
     renew_from = date_service.date_can_renew_from
 
     @registration.errors.add(
