@@ -77,8 +77,9 @@ class ExistingRegistrationController < ApplicationController
     # We have to convert the date because its returned as milliseconds since the
     # epoch (1970-1-1).
     expiry_date = convert_date(@registration.expires_on.to_i)
+    date_service = DateService.new(expiry_date)
 
-    return false if expired?(expiry_date)
+    return false if expired?(date_service)
 
     return false unless in_renewal_window?(expiry_date)
 
@@ -91,8 +92,9 @@ class ExistingRegistrationController < ApplicationController
     # We have to convert the date because its returned as milliseconds since the
     # epoch (1970-1-1).
     expiry_date = convert_date(@registration.originalDateExpiry.to_i)
+    date_service = DateService.new(expiry_date)
 
-    return false if expired?(expiry_date)
+    return false if expired?(date_service)
 
     return false unless in_renewal_window?(expiry_date)
 
@@ -101,11 +103,8 @@ class ExistingRegistrationController < ApplicationController
     true
   end
 
-  def expired?(expiry_date)
-    # Registrations are expired on the date recorded for their expiry date e.g.
-    # an expiry date of Mar 25 2018 means the registration was active up till
-    # 24:00 on Mar 24 2018.
-    return false if expiry_date.to_date > Date.today
+  def expired?(date_service)
+    return false unless date_service.expired?
 
     @registration.errors.add(
       :originalRegistrationNumber,
