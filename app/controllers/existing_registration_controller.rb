@@ -74,10 +74,7 @@ class ExistingRegistrationController < ApplicationController
   end
 
   def can_renew_registration?
-    # We have to convert the date because its returned as milliseconds since the
-    # epoch (1970-1-1).
-    expiry_date = convert_date(@registration.expires_on.to_i)
-    date_service = DateService.new(expiry_date)
+    date_service = DateService.new(@registration.expires_on)
 
     return false if expired?(date_service)
 
@@ -89,10 +86,7 @@ class ExistingRegistrationController < ApplicationController
   end
 
   def can_renew_ir_registration?
-    # We have to convert the date because its returned as milliseconds since the
-    # epoch (1970-1-1).
-    expiry_date = convert_date(@registration.originalDateExpiry.to_i)
-    date_service = DateService.new(expiry_date)
+    date_service = DateService.new(@registration.originalDateExpiry)
 
     return false if expired?(date_service)
 
