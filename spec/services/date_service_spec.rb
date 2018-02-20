@@ -1,16 +1,54 @@
 require "spec_helper"
 
 RSpec.describe DateService do
-  describe '#date_can_renew_from' do
+  describe "#attributes" do
 
-    context 'when the renewal window is 3 months and the date provided is 2018-03-25' do
+    context "when initialized with a date" do
+      provided_date = Date.today
+      subject { DateService.new(provided_date) }
+
+      it "sets :source_date to that date" do
+        expect(subject.source_date).to eq(provided_date)
+      end
+    end
+
+    context "when initialized with nil" do
+      subject { DateService.new(nil) }
+
+      it "sets :source_date to the epoch" do
+        expect(subject.source_date).to eq(Date.new(1970,1,1))
+      end
+    end
+
+    context "when initialized with UTC time in milliseconds" do
+      # Equivalent to 2018-03-25 14:35:27
+      subject { DateService.new(1521984927000) }
+
+      it "sets :source_date to the Mar 25 2018" do
+        expect(subject.source_date).to eq(Date.new(2018,3,25))
+      end
+    end
+
+    context "when initialized with a string that represents a UTC time in milliseconds" do
+      # Equivalent to 2018-03-25 14:35:27
+      subject { DateService.new("1521984927000") }
+
+      it "sets :source_date to the Mar 25 2018" do
+        expect(subject.source_date).to eq(Date.new(2018,3,25))
+      end
+    end
+  end
+
+  describe "#date_can_renew_from" do
+
+    context "when the renewal window is 3 months and the date provided is 2018-03-25" do
       before do
         Rails.configuration.stub(:registration_renewal_window).and_return(3.months)
       end
 
       subject { DateService.new(Date.parse("2018-03-25-T12:00:00.000Z")) }
 
-      it 'returns a date of 2017-12-25' do
+      it "returns a date of 2017-12-25" do
         expect(subject.date_can_renew_from).to eq(Date.new(2017,12,25))
       end
     end
