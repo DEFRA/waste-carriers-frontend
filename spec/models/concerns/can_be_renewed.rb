@@ -48,6 +48,30 @@ shared_examples_for "can_be_renewed" do
         expect(subject.can_renew?).to eq(false)
       end
     end
+
+    context "when the registration cannot be renewed and save validations is disabled" do
+      it "no validation messages should be added to the registration's error collection" do
+        subject.tier = "LOWER"
+        expect(subject.can_renew?(false)).to eq(false)
+        expect(subject.errors.empty?).to eq(true)
+      end
+    end
+
+    context "when the registration cannot be renewed and save validations is enabled" do
+      it "adds a validation message to the registration's error collection" do
+        subject.tier = "LOWER"
+        expect(subject.can_renew?(true)).to eq(false)
+        expect(subject.errors.empty?).to eq(false)
+      end
+    end
+
+    context "when the registration cannot be renewed, save validations is enabled and we pass a different error_id" do
+      it "adds a validation message to the registration's error collection with the same error id" do
+        subject.tier = "LOWER"
+        expect(subject.can_renew?(true,:originalRegistrationNumber)).to eq(false)
+        expect(subject.errors.first[0]).to eq(:originalRegistrationNumber)
+      end
+    end
   end
 
   describe "#expired?" do
