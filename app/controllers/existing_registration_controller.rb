@@ -17,9 +17,8 @@ class ExistingRegistrationController < ApplicationController
 
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
     # Check current format
-    if existing_registration? && can_renew_registration?
-      renewals_url = "#{Rails.configuration.renewals_service_url}#{@registration.regIdentifier}"
-      redirect_to(renewals_url) and return
+    if existing_registration? && @registration.can_renew?(true, :originalRegistrationNumber)
+      redirect_to(@registration.renewals_url) and return
     elsif existing_ir_registration? && can_renew_ir_registration?
       redirect_to(:business_type) and return
     end
@@ -73,20 +72,6 @@ class ExistingRegistrationController < ApplicationController
     true
   end
 
-  def can_renew_registration?
-    return false if lower_tier_registration?
-
-    date_service = DateService.new(@registration.expires_on)
-
-    return false if expired?(date_service)
-
-    return false unless in_renewal_window?(date_service)
-
-    return false unless status_eligible?(@registration.metaData.first.status)
-
-    true
-  end
-
   def can_renew_ir_registration?
     date_service = DateService.new(@registration.originalDateExpiry)
 
@@ -96,19 +81,6 @@ class ExistingRegistrationController < ApplicationController
 
     return false if already_renewed?(@registration.originalRegistrationNumber)
 
-    true
-  end
-
-  def lower_tier_registration?
-    return false unless @registration.lower?
-
-    @registration.errors.add(
-      :originalRegistrationNumber,
-      I18n.t(
-        'errors.messages.registration_is_lower_tier',
-        helpline: Rails.configuration.registrations_service_phone.to_s
-      )
-    )
     true
   end
 
@@ -134,20 +106,6 @@ class ExistingRegistrationController < ApplicationController
         date: renew_from.strftime('%A ' + renew_from.mday.ordinalize + ' %B %Y')
       )
     )
-    false
-  end
-
-  def status_eligible?(status)
-    return true if status == 'ACTIVE'
-
-    @registration.errors.add(
-      :originalRegistrationNumber,
-      I18n.t(
-        'errors.messages.registration_not_active',
-        helpline: Rails.configuration.registrations_service_phone.to_s
-      )
-    )
-
     false
   end
 
