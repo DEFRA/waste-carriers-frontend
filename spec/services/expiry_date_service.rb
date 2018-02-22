@@ -124,21 +124,4 @@ RSpec.describe ExpiryDateService do
     end
   end
 
-  describe ".date_as_day_ordinal_date_month_and_year" do
-    context "when a valid date is provided" do
-      it "should return the date as Wednesday 21st February 2018" do
-        provided_date = Date.new(2018,2,21)
-        result = ExpiryDateService.date_as_day_ordinal_date_month_and_year(provided_date)
-        expect(result).to eq("Wednesday 21st February 2018")
-      end
-    end
-
-    context "when an invalid date is provided" do
-      it "should return nil" do
-        result = ExpiryDateService.date_as_day_ordinal_date_month_and_year("foo")
-        expect(result).to eq(nil)
-      end
-    end
-  end
-
 end

@@ -34,11 +34,6 @@ class ExpiryDateService
     false
   end
 
-  def self.date_as_day_ordinal_date_month_and_year(date)
-    return unless date.is_a? Date
-    date.strftime('%A ' + date.mday.ordinalize + ' %B %Y')
-  end
-
   private
 
   # Believe we have functionality that relies on setting dates to the epoch

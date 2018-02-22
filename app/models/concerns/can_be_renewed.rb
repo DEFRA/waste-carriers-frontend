@@ -61,7 +61,7 @@ module CanBeRenewed
       renew_from = ExpiryDateService.new(expires_on).date_can_renew_from
       translation = I18n.t(
         'errors.messages.registration_not_in_renewal_window',
-        date: ExpiryDateService.date_as_day_ordinal_date_month_and_year(renew_from)
+        date: renew_from.to_formatted_s(:day_month_year)
       )
     end
 
