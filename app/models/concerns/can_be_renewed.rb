@@ -17,8 +17,8 @@ module CanBeRenewed
       return false
     end
 
-    date_service = DateService.new(expires_on)
-    unless date_service.in_renewal_window?
+    service = ExpiryDateService.new(expires_on)
+    unless service.in_renewal_window?
       add_validation_error(:registration_not_in_renewal_window, error_id) if log_reason
       return false
     end
@@ -30,9 +30,9 @@ module CanBeRenewed
     return false if lower?
     return true if metaData.first.status == 'EXPIRED'
 
-    date_service = DateService.new(expires_on)
+    service = ExpiryDateService.new(expires_on)
 
-    return true if date_service.expired?
+    return true if service.expired?
 
     false
   end
@@ -58,10 +58,10 @@ module CanBeRenewed
     when :registration_expired
       translation = I18n.t('errors.messages.registration_expired')
     when :registration_not_in_renewal_window
-      renew_from = DateService.new(expires_on).date_can_renew_from
+      renew_from = ExpiryDateService.new(expires_on).date_can_renew_from
       translation = I18n.t(
         'errors.messages.registration_not_in_renewal_window',
-        date: DateService.date_as_day_ordinal_date_month_and_year(renew_from)
+        date: ExpiryDateService.date_as_day_ordinal_date_month_and_year(renew_from)
       )
     end
 

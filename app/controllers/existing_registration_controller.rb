@@ -73,19 +73,19 @@ class ExistingRegistrationController < ApplicationController
   end
 
   def can_renew_ir_registration?
-    date_service = DateService.new(@registration.originalDateExpiry)
+    service = ExpiryDateService.new(@registration.originalDateExpiry)
 
-    return false if expired?(date_service)
+    return false if expired?(service)
 
-    return false unless in_renewal_window?(date_service)
+    return false unless in_renewal_window?(service)
 
     return false if already_renewed?(@registration.originalRegistrationNumber)
 
     true
   end
 
-  def expired?(date_service)
-    return false unless date_service.expired?
+  def expired?(service)
+    return false unless service.expired?
 
     @registration.errors.add(
       :originalRegistrationNumber,
@@ -94,10 +94,10 @@ class ExistingRegistrationController < ApplicationController
     true
   end
 
-  def in_renewal_window?(date_service)
-    return true if date_service.in_renewal_window?
+  def in_renewal_window?(service)
+    return true if service.in_renewal_window?
 
-    renew_from = date_service.date_can_renew_from
+    renew_from = service.date_can_renew_from
 
     @registration.errors.add(
       :originalRegistrationNumber,
