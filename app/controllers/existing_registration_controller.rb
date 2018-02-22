@@ -17,9 +17,8 @@ class ExistingRegistrationController < ApplicationController
 
     # Validate which type of registration applied with, legacy IR system, Lower, or Upper current system
     # Check current format
-    if existing_registration? && can_renew_registration?
-      renewals_url = "#{Rails.configuration.renewals_service_url}#{@registration.regIdentifier}"
-      redirect_to(renewals_url) and return
+    if existing_registration? && @registration.can_renew?(true, :originalRegistrationNumber)
+      redirect_to(@registration.renewals_url) and return
     elsif existing_ir_registration? && can_renew_ir_registration?
       redirect_to(:business_type) and return
     end
@@ -73,39 +72,20 @@ class ExistingRegistrationController < ApplicationController
     true
   end
 
-  def can_renew_registration?
-    # We have to convert the date because its returned as milliseconds since the
-    # epoch (1970-1-1).
-    expiry_date = convert_date(@registration.expires_on.to_i)
-
-    return false if expired?(expiry_date)
-
-    return false unless in_renewal_window?(expiry_date)
-
-    return false unless status_eligible?(@registration.metaData.first.status)
-
-    true
-  end
-
   def can_renew_ir_registration?
-    # We have to convert the date because its returned as milliseconds since the
-    # epoch (1970-1-1).
-    expiry_date = convert_date(@registration.originalDateExpiry.to_i)
+    service = ExpiryDateService.new(@registration.originalDateExpiry)
 
-    return false if expired?(expiry_date)
+    return false if expired?(service)
 
-    return false unless in_renewal_window?(expiry_date)
+    return false unless in_renewal_window?(service)
 
     return false if already_renewed?(@registration.originalRegistrationNumber)
 
     true
   end
 
-  def expired?(expiry_date)
-    # Registrations are expired on the date recorded for their expiry date e.g.
-    # an expiry date of Mar 25 2018 means the registration was active up till
-    # 24:00 on Mar 24 2018.
-    return false if expiry_date.to_date > Date.today
+  def expired?(service)
+    return false unless service.expired?
 
     @registration.errors.add(
       :originalRegistrationNumber,
@@ -114,12 +94,10 @@ class ExistingRegistrationController < ApplicationController
     true
   end
 
-  def in_renewal_window?(expiry_date)
-    # If the registration expires in more than x months from now, its outside
-    # the renewal window
-    return true if expiry_date.to_date < Rails.configuration.registration_renewal_window.from_now
+  def in_renewal_window?(service)
+    return true if service.in_renewal_window?
 
-    renew_from = date_can_renew_from(expiry_date)
+    renew_from = service.date_can_renew_from
 
     @registration.errors.add(
       :originalRegistrationNumber,
@@ -128,20 +106,6 @@ class ExistingRegistrationController < ApplicationController
         date: renew_from.strftime('%A ' + renew_from.mday.ordinalize + ' %B %Y')
       )
     )
-    false
-  end
-
-  def status_eligible?(status)
-    return true if status == 'ACTIVE'
-
-    @registration.errors.add(
-      :originalRegistrationNumber,
-      I18n.t(
-        'errors.messages.registration_not_active',
-        helpline: Rails.configuration.registrations_service_phone.to_s
-      )
-    )
-
     false
   end
 
