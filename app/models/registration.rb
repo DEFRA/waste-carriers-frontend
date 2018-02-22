@@ -5,6 +5,7 @@ class Registration < Ohm::Model
   extend ActiveModel::Naming
   include PasswordHelper
   include ApplicationHelper
+  include CanBeRenewed
 
   FIRST_STEP = 'newOrRenew'
 
@@ -1216,23 +1217,9 @@ class Registration < Ohm::Model
     save!
   end
 
-
   #only upper tier registrations can expire
   def expirable?
     upper?
-  end
-
-  def expired?
-    if upper?
-      if metaData.first.status == 'EXPIRED'
-        true
-      end
-      if expires_on and convert_date(expires_on) < Time.now
-        true
-      end
-    else
-      false
-    end
   end
 
   def revoked?
@@ -1253,18 +1240,6 @@ class Registration < Ohm::Model
 
   def is_unrevocable?(agency_user=nil)
     metaData.first.status == "REVOKED" and user_can_edit_registration(agency_user)
-  end
-
-  def can_be_renewed?
-    # Until we fix the within-service renewals process, we won't allow anybody
-    # to even try this route.
-    false
-
-    #metaData.first.status == 'ACTIVE' && \
-    #  tier.inquiry.UPPER? && \
-    #  expires_on && \
-    #  (convert_date(expires_on) - Rails.configuration.registration_renewal_window) < Time.now && \
-    #  convert_date(expires_on) > Time.now
   end
 
   def can_be_edited?(agency_user=nil)
