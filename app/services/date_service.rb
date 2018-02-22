@@ -53,6 +53,7 @@ class DateService
 
   def date_from_utc_milliseconds(milliseconds)
     return false if milliseconds.is_a? Date
+    return false if milliseconds.is_a? Time
 
     milliseconds = milliseconds.to_i if milliseconds.is_a? String
 
