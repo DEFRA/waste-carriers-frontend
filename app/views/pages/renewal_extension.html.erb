@@ -21,23 +21,32 @@
       <li><%= t('.renew_list_item1') %></li>
       <li><%= t('.renew_list_item2') %></li>
       <li><%= t('.renew_list_item3') %></li>
-      <li><%= t('.renew_list_item4') %></li>
-      <li><%= t('.renew_list_item5') %></li>
     </ul>
 
-    <h2 class="heading-medium"><%= t('.renew_enforcement_heading_h2') %></h2>
-
-    <p class="text"><%= t('.renew_para4') %></p>
-
-    <p class="text"><%= t('.renew_para5') %></p>
-
-    <h2 class="heading-medium"><%= t('.renew_check_back_heading_h2') %></h2>
-
-    <p class="text"><%= t '.renew_para6' %>
+    <p class="text"><%= t '.renew_para4' %>
       <a rel='external' href="https://www.gov.uk/government/publications/waste-carrier-broker-and-dealer-registration-renewals-due-after-25-march-2018-rps-208/waste-carrier-broker-and-dealer-registration-renewals-due-after-25-march-2018-rps-208"><%= t '.renew_rps_link' %></a>
     </p>
 
-    <p class="text"><%= t('.renew_para7') %></p>
+    <h2 class="heading-medium"><%= t('.renew_heading_h2') %></h2>
+
+    <p class="text"><%= t('.renew_para5') %></p>
+
+    <p class="text"><%= t(
+      '.renew_para6',
+      renewal_fee: Rails.configuration.fee_renewal / 100
+    ) %></p>
+
+    <p class="text"><%= t(
+      '.renew_para7',
+      registration_fee: Rails.configuration.fee_registration / 100
+    ) %></p>
+
+    <p class="text"><%= t(
+      '.renew_para8',
+      service_phone: Rails.configuration.registrations_service_phone
+    ) %></p>
+
+    <p class="text"><%= t('.renew_para9') %></p>
 
   </div>
 </div>
