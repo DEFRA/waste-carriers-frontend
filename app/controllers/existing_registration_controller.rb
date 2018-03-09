@@ -50,6 +50,7 @@ class ExistingRegistrationController < ApplicationController
     # We don't save it however, as we cannot describe what would happen should
     # the user cancel the renewal and attempt to start a new registration.
     @registration = registration
+    @registration.save
 
     true
   end

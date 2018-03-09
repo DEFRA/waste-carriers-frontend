@@ -750,6 +750,29 @@ en:
       bullet1: "check your renewal letter (your registration number will be at the top)"
       bullet2_html: "<a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>find your registration number online</a>"
       paragraph: "Call 03708 506506 if you have any problems."
+  renewal_extension:
+    show:
+      renew_title: Registration renewals due after 25 March 2018
+      renew_heading_h1: Registration renewals due after 25 March 2018
+      renew_para1: Currently our service does not allow users who have registered since March 2015 to renew.
+      renew_para2: The Environment Agency is upgrading the service so users can renew online, but it may not be ready until after April 2018.
+      renew_para3: 'If you need to renew after 25 March 2018, the Environment Agency will:'
+      renew_list_item1: tell you what you need to do if the extension applies to you when they send you your renewals reminder
+      renew_list_item2: |-
+        extend your current registration by 3 months at no extra cost – you will not need to renew until the upgraded online
+        registration system is ready
+      renew_list_item3: |-
+        extend the registrations of affected customers in stages until the upgraded online registration system is
+        ready - starting with those due between 25 March and 25 April 2018
+      renew_list_item4: provide this notice in the online registration system telling those affected about the automatic extension
+      renew_list_item5: make sure your business is still registered and visible on the public register during the extension period
+      renew_enforcement_heading_h2: Enforcement
+      renew_para4: The Environment Agency will not take enforcement action against you if you do not register during the 3 month extension period.
+      renew_para5: They will take enforcement action against you if you do not register after the 3 month extension period.
+      renew_check_back_heading_h2: When to check back
+      renew_para6: The situation and the Environment Agency position on it is set out in this
+      renew_rps_link: regulatory position statement
+      renew_para7: It will be reviewed by 31 March 2018 and you will need to check back then to see if it still applies.
   business_type:
     show:
       subtitle: "What type of business or organisation are you?"
@@ -1703,25 +1726,3 @@ en:
       title: 'Your password has been changed'
       paragraph1: 'It looks like you were in the middle of creating a new Registration when you changed your password.'
       paragraph2: 'You can now close this page and continue with your registration in the previous browser window.'
-    renewal_extension:
-      renew_title: Registration renewals due after 25 March 2018
-      renew_heading_h1: Registration renewals due after 25 March 2018
-      renew_para1: Currently our service does not allow users who have registered since March 2015 to renew.
-      renew_para2: The Environment Agency is upgrading the service so users can renew online, but it may not be ready until after April 2018.
-      renew_para3: 'If you need to renew after 25 March 2018, the Environment Agency will:'
-      renew_list_item1: tell you what you need to do if the extension applies to you when they send you your renewals reminder
-      renew_list_item2: |-
-        extend your current registration by 3 months at no extra cost – you will not need to renew until the upgraded online
-        registration system is ready
-      renew_list_item3: |-
-        extend the registrations of affected customers in stages until the upgraded online registration system is
-        ready - starting with those due between 25 March and 25 April 2018
-      renew_list_item4: provide this notice in the online registration system telling those affected about the automatic extension
-      renew_list_item5: make sure your business is still registered and visible on the public register during the extension period
-      renew_enforcement_heading_h2: Enforcement
-      renew_para4: The Environment Agency will not take enforcement action against you if you do not register during the 3 month extension period.
-      renew_para5: They will take enforcement action against you if you do not register after the 3 month extension period.
-      renew_check_back_heading_h2: When to check back
-      renew_para6: The situation and the Environment Agency position on it is set out in this
-      renew_rps_link: regulatory position statement
-      renew_para7: It will be reviewed by 31 March 2018 and you will need to check back then to see if it still applies.
