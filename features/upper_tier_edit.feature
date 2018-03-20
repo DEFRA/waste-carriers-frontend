@@ -15,7 +15,7 @@ Scenario: Upper tier Edit with no change
 
 @javascript
 Scenario: Upper tier Edit with change, Online payment
-  Given The edit link is available
+  Given PENDING: The edit link is available
   Then I click the Edit Registration link
   And I change the way we carry waste
   And I check the declaration
@@ -34,7 +34,7 @@ Scenario: Upper tier Edit with change, Offline payment
 
 @javascript
 Scenario: Upper tier Edit that forces a New Registration, Online payment
-  Given The edit link is available
+  Given PENDING: The edit link is available
   Then I click the Edit Registration link
   And I change the legal entity
   And I check the declaration

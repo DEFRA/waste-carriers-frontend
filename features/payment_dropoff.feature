@@ -1,7 +1,7 @@
 Feature: Handling of registrations that drop-off at payment
 
 Scenario: New upper tier registration that drops-off at payment, with later offline payment.
-  Given I partially complete an Upper Tier registration, but stop at the payment page
+  Given PENDING: I partially complete an Upper Tier registration, but stop at the payment page
     And I have confirmed my email address
    When I start a new browser session
    Then the registration should not appear on the public register
@@ -17,7 +17,7 @@ Scenario: New upper tier registration that drops-off at payment, with later offl
 
 @javascript
 Scenario: IR renewal registration that drops-off at payment, with later online payment.
-  Given I partially complete an IR Renewal registration, but stop at the payment page
+  Given PENDING: I partially complete an IR Renewal registration, but stop at the payment page
     And I have confirmed my email address
    When I start a new browser session
    Then the registration should not appear on the public register
