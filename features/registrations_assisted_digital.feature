@@ -19,7 +19,7 @@ Scenario: Lower tier
 
 @javascript @worldpay
 Scenario: Upper tier
-  When I create an upper tier registration on behalf of a caller for payments
+  When PENDING: I create an upper tier registration on behalf of a caller for payments
   And I provide valid credit card payment details on behalf of a caller
   Then I see the six-character access code for the user
   And the upper tier waste carrier registration id
