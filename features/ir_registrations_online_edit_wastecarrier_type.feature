@@ -8,7 +8,7 @@ The three types of Waste carrier are Carrier Dealer (CD), Broker Dealer (BD) or 
 
 @javascript
 Scenario: IR registrations - Limited company changes waste carrier type
-Given have chosen to renew an existing licence
+Given PENDING: have chosen to renew an existing licence
 And I am renewing a valid CBD IR registration for limited company
 And I don't change business type
 And the smart answers keep me in Upper tier
@@ -25,7 +25,7 @@ And registration should be complete when payment is successful
 
 @javascript
 Scenario: IR registrations - Sole Trader changes waste carrier type
-Given have chosen to renew an existing licence
+Given PENDING: have chosen to renew an existing licence
 And I am renewing a valid IR registration for sole trader
 And I don't change business type
 And the smart answers keep me in Upper tier
@@ -41,7 +41,7 @@ And registration should be complete when payment is successful
 
 @javascript
 Scenario: IR registrations - Partner changes waste carrier type
-Given have chosen to renew an existing licence
+Given PENDING: have chosen to renew an existing licence
 And I am renewing a valid CBD IR registration for Partnership
 And I don't change business type
 And the smart answers keep me in Upper tier
@@ -57,7 +57,7 @@ And registration should be complete when payment is successful
 
 @javascript
 Scenario: IR registrations - Public body changes waste carrier type
-Given have chosen to renew an existing licence
+Given PENDING: have chosen to renew an existing licence
 And I am renewing a valid CD IR registration for Public Body
 And I don't change business type
 And the smart answers keep me in Upper tier
@@ -73,7 +73,7 @@ And registration should be complete when payment is successful
 
 @javascript
 Scenario: IR registrations - Limited company changes waste carrier type
-Given have chosen to renew an existing licence
+Given PENDING: have chosen to renew an existing licence
 And I am renewing a valid BD IR registration for limited company
 And I don't change business type
 And the smart answers keep me in Upper tier
@@ -89,7 +89,7 @@ And registration should be complete when payment is successful
 
 @javascript
 Scenario: IR registrations - Partner changes waste carrier type
-Given have chosen to renew an existing licence
+Given PENDING: have chosen to renew an existing licence
 And I am renewing a valid BD IR registration for Partnership
 And I don't change business type
 And the smart answers keep me in Upper tier

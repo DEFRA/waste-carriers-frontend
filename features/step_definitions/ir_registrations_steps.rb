@@ -379,7 +379,7 @@ When('I only change business details') do
   construction_demolition_page_select_yes
   registration_type_page_submit
   business_details_page_enter_ltd_business_details_postcode_lookup_and_submit(
-    companyNo: '07713745',
+    companyNo: '10926928',
     postcode: 'BS1 5AH',
     address: 'HARMSEN GROUP, TRIODOS BANK, DEANERY ROAD, BRISTOL, BS1 5AH')
   contact_details_page_enter_ad_contact_details_and_submit
@@ -395,7 +395,7 @@ When('I Change the Company Number') do
   construction_demolition_page_select_yes
   registration_type_page_submit
   business_details_page_enter_ltd_business_details_postcode_lookup_and_submit(
-    companyNo: '02050399',
+    companyNo: '10926928',
     postcode: 'BS1 5AH',
     address: 'HARMSEN GROUP, TRIODOS BANK, DEANERY ROAD, BRISTOL, BS1 5AH')
   contact_details_page_enter_ad_contact_details_and_submit
@@ -415,7 +415,7 @@ When(/^I only change business name$/) do
   construction_demolition_page_select_yes
   registration_type_page_submit
   business_details_page_enter_ltd_business_details_postcode_lookup_and_submit(
-    companyNo: '07713745',
+    companyNo: '10926928',
     companyName: 'New company name')
   contact_details_page_enter_ad_contact_details_and_submit
   postal_address_page_complete_form

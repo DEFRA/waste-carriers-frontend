@@ -1,4 +1,3 @@
-
 Feature: Copy cards
 
   As a registered waste carrier
@@ -7,11 +6,11 @@ Feature: Copy cards
 
 Background:
   Given a "PB_UT_online_complete" upper tier registration paid for by "World Pay" with 3 copy cards
-  
+
 
 @javascript
 Scenario: Public Body Waste carrier can order copy cards and pay by credit card online
-  Given I log in as a Public body waste carrier
+  Given PENDING: I log in as a Public body waste carrier
   When I order and pay for 3 cards with Mastercard
   Then I will be shown confirmation of paid order
 

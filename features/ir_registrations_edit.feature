@@ -17,7 +17,7 @@ Background:
 
 @javascript
 Scenario: IR registrations changed business type causing full fee, No convictions, Online payment
-  Given no key people in the organisation have convictions
+  Given PENDING: no key people in the organisation have convictions
   And I check the declaration
   And I provide my email address and create a password
   And I pay by card ensuring the total amount is 154.00
