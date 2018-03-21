@@ -18,6 +18,9 @@ Feature: Lower tier
     When I confirm account creation via email
     Then I am registered as a lower tier waste carrier
 
+  Scenario: OS Places copyright message is displayed
+    Then I see the OS places copyright message
+
   Scenario: Autocomplete with unrecognised postcode
     Given I want my business address autocompleted but I provide an unrecognised postcode
     When I try to select an address

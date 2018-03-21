@@ -66,4 +66,7 @@ RSpec.configure do |config|
   config.after(:suite) do
     TestHelpers::DatabaseCleaning.clean_all_databases
   end
+
+  # Make our generic test helpers available to all unit tests.
+  config.include Helpers
 end

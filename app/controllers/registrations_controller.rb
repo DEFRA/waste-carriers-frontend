@@ -174,7 +174,7 @@ class RegistrationsController < ApplicationController
 
       elsif @registration.order_types.include? :renew
         # Detect standard or IR renewal
-        if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+        if @registration.originalRegistrationNumber && valid_ir_format?(@registration.originalRegistrationNumber) && @registration.newOrRenew
           redirect_to :account_mode and return
         else
           @registration.renewalRequested = true
@@ -273,7 +273,7 @@ class RegistrationsController < ApplicationController
               # is requested.
               #
               if @registration.originalRegistrationNumber &&
-                  isIRRegistrationType(@registration.originalRegistrationNumber) &&
+                  valid_ir_format?(@registration.originalRegistrationNumber) &&
                   @registration.newOrRenew
                 order_renew(@registration.uuid) and return
               else
@@ -413,7 +413,7 @@ class RegistrationsController < ApplicationController
                   when 'UPPER'
                     # Determine what type of registration order to create
                     # If an originalRegistrationNumber is present in the registration, then the registration is an IR Renewal
-                    if @registration.originalRegistrationNumber and isIRRegistrationType(@registration.originalRegistrationNumber)
+                    if valid_ir_format?(@registration.originalRegistrationNumber)
                       order_type = Order.renew_registration_identifier
                     else
                       order_type = Order.new_registration_identifier
@@ -483,7 +483,7 @@ class RegistrationsController < ApplicationController
       # below may be useful in the future if we remove the services.
 
       # Detect standard or IR renewal
-      if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+      if valid_ir_format?(@registration.originalRegistrationNumber) && @registration.newOrRenew
         # This is an IR renewal, so set the expiry date to 3 years from the
         # expiry of the existing IR registration.
         @registration.expires_on = convert_date(@registration.originalDateExpiry.to_i) + Rails.configuration.registration_expires_after
@@ -1047,7 +1047,7 @@ class RegistrationsController < ApplicationController
     @confirmationType = getConfirmationType
 
     # Determine routing for Finish button
-    @exitRoute = if @registration.originalRegistrationNumber && isIRRegistrationType(@registration.originalRegistrationNumber) && @registration.newOrRenew
+    @exitRoute = if valid_ir_format?(@registration.originalRegistrationNumber) && @registration.newOrRenew
       confirmed_path(reg_uuid: @registration.reg_uuid)
     elsif current_agency_user
       finish_assisted_path(reg_uuid: @registration.reg_uuid)

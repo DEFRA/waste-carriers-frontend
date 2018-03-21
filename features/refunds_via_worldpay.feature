@@ -10,7 +10,7 @@ Background:
 
 @javascript
 Scenario: Refund via worldpay
-  Given I create an upper tier registration on behalf of a caller for payments
+  Given PENDING: I create an upper tier registration on behalf of a caller for payments
   And I provide valid credit card payment details on behalf of a caller
   And I remember the registration id
   And I have found a registrations payment details using the remembered id

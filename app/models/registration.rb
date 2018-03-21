@@ -5,6 +5,7 @@ class Registration < Ohm::Model
   extend ActiveModel::Naming
   include PasswordHelper
   include ApplicationHelper
+  include CanBeRenewed
 
   FIRST_STEP = 'newOrRenew'
 
@@ -586,7 +587,65 @@ class Registration < Ohm::Model
     end
   end
 
-  # Retrieves a specific registration object from the Java Service based on its original registration number
+  # Retrieves a specific registration object from the Java Service based on its
+  # registration number
+  #
+  # @param registration_no [String] the registration number
+  # @return [Registration] the registration in MongoDB matching the registration number
+  class << self
+    def find_by_registration_no(registration_no)
+      result = {}
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json/#{registration_no}"
+      begin
+        Rails.logger.debug "about to GET: #{registration_no.to_s}"
+        response = RestClient.get url
+        if response.code == 200
+          result = JSON.parse(response.body) #result should be Hash
+        else
+          Rails.logger.error "Registration.find_by_registration_no failed with a #{response.code.to_s} response from server"
+        end
+      rescue Errno::ECONNREFUSED => e
+        Airbrake.notify(e)
+        Rails.logger.error "Services unavailable: " + e.to_s
+      rescue => e
+        Airbrake.notify(e)
+        Rails.logger.error e.to_s
+      end
+      result.size > 0 ? Registration.init(result) : nil
+    end
+  end
+
+  # Retrieves a specific registration object from the Java Service based on its
+  # original registration number.
+  #
+  # @param registration_no [String] the original IR registration number
+  # @return [Registration] the registration in MongoDB with an originalRegistrationNumber property that matches the registration number
+  class << self
+    def find_by_original_registration_no(registration_no)
+      result = {}
+      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json/original/#{CGI::escape(registration_no)}"
+      begin
+        Rails.logger.debug "about to GET: original registration no #{registration_no.to_s}"
+        response = RestClient.get url
+        if response.code == 200
+          result = JSON.parse(response.body) #result should be Hash
+        else
+          Rails.logger.error "Registration.find_by_original_registration_no failed with a #{response.code.to_s} response from server"
+        end
+      rescue Errno::ECONNREFUSED => e
+        Airbrake.notify(e)
+        Rails.logger.error "Services unavailable: " + e.to_s
+      rescue => e
+        Airbrake.notify(e)
+        Rails.logger.error e.to_s
+      end
+      result.size > 0 ? Registration.init(result) : nil
+    end
+  end
+
+  # Queries the Java services for an IR registration record with the specified
+  # registration number. If found the Java services converts the IR record to a
+  # Registration and return that.
   #
   # @param ir_number [String] the original registration number used in the legacy system
   # @return [Registration] the registration in IR data matching the ir_number
@@ -1158,23 +1217,9 @@ class Registration < Ohm::Model
     save!
   end
 
-
   #only upper tier registrations can expire
   def expirable?
     upper?
-  end
-
-  def expired?
-    if upper?
-      if metaData.first.status == 'EXPIRED'
-        true
-      end
-      if expires_on and convert_date(expires_on) < Time.now
-        true
-      end
-    else
-      false
-    end
   end
 
   def revoked?
@@ -1195,18 +1240,6 @@ class Registration < Ohm::Model
 
   def is_unrevocable?(agency_user=nil)
     metaData.first.status == "REVOKED" and user_can_edit_registration(agency_user)
-  end
-
-  def can_be_renewed?
-    # Until we fix the within-service renewals process, we won't allow anybody
-    # to even try this route.
-    false
-
-    #metaData.first.status == 'ACTIVE' && \
-    #  tier.inquiry.UPPER? && \
-    #  expires_on && \
-    #  (convert_date(expires_on) - Rails.configuration.registration_renewal_window) < Time.now && \
-    #  convert_date(expires_on) > Time.now
   end
 
   def can_be_edited?(agency_user=nil)

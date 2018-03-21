@@ -21,7 +21,7 @@ Scenario: Public Body Waste carrier can edit their registration and pay by bank 
 
 @javascript
 Scenario: Public Body Waste carrier can edit their registration and pay by worldpay
-  Given I log in as a Public body waste carrier
+  Given PENDING: I log in as a Public body waste carrier
   Then I visit the edit registration page
   And I edit the registered company name
   And I change the way we carry waste

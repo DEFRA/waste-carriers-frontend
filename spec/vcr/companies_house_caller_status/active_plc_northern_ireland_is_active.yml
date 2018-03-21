@@ -1,0 +1,66 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.companieshouse.gov.uk/company/NI063992
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic <COMPANIES_HOUSE_API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 06 Feb 2018 14:28:47 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1546'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - X-RateLimit-Query, origin, content-type, content-length, user-agent, host,
+        accept, authorization
+      Access-Control-Expose-Headers:
+      - Location,www-authenticate,cache-control,pragma,content-type,expires,last-modified
+      - X-RateLimit-Window, X-RateLimit-Limit, X-RateLimit-Remain, X-RateLimit-Reset,
+        Location, www-authenticate, cache-control, pragma, content-type, expires,
+        last-modified
+      Access-Control-Max-Age:
+      - '3600'
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Pragma:
+      - no-cache
+      X-Ratelimit-Limit:
+      - '600'
+      X-Ratelimit-Remain:
+      - '585'
+      X-Ratelimit-Reset:
+      - '1517927615'
+      X-Ratelimit-Window:
+      - 5m
+      Server:
+      - CompaniesHouse
+    body:
+      encoding: UTF-8
+      string: '{"has_been_liquidated":false,"last_full_members_list_date":"2016-06-01","jurisdiction":"northern-ireland","company_name":"AMEY
+        ROADS NI FINANCIAL PLC","sic_codes":["82990"],"status":"active","registered_office_address":{"locality":"Belfast","address_line_1":"Murray
+        House","postal_code":"BT1 6DN","address_line_2":"Murray Street","care_of":"CARSON
+        MCDOWELL LLP"},"type":"plc","company_number":"NI063992","accounts":{"next_due":"2018-09-30","last_accounts":{"made_up_to":"2017-03-31","period_start_on":"2016-04-01","period_end_on":"2017-03-31","type":"full"},"next_accounts":{"overdue":false,"due_on":"2018-09-30","period_start_on":"2017-04-01","period_end_on":"2018-03-31"},"accounting_reference_date":{"month":"03","day":"31"},"overdue":false,"next_made_up_to":"2018-03-31"},"date_of_creation":"2007-04-04","undeliverable_registered_office_address":false,"has_insolvency_history":false,"etag":"2b612dfa19e53d8d345da9a27625313a2552c7a0","company_status":"active","has_charges":true,"previous_company_names":[{"effective_from":"2007-04-04","ceased_on":"2014-12-12","name":"AMEY
+        LAGAN ROADS FINANCIAL PLC"}],"confirmation_statement":{"next_due":"2018-06-15","next_made_up_to":"2018-06-01","last_made_up_to":"2017-06-01","overdue":false},"links":{"self":"/company/NI063992","filing_history":"/company/NI063992/filing-history","officers":"/company/NI063992/officers","charges":"/company/NI063992/charges","persons_with_significant_control":"/company/NI063992/persons-with-significant-control"},"registered_office_is_in_dispute":false,"can_file":true}'
+    http_version: 
+  recorded_at: Tue, 06 Feb 2018 14:28:04 GMT
+recorded_with: VCR 3.0.3

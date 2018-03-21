@@ -1,0 +1,64 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.companieshouse.gov.uk/company/05868270
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+      Authorization:
+      - Basic <COMPANIES_HOUSE_API_KEY>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 06 Feb 2018 14:28:36 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '969'
+      Connection:
+      - keep-alive
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Headers:
+      - X-RateLimit-Query, origin, content-type, content-length, user-agent, host,
+        accept, authorization
+      Access-Control-Expose-Headers:
+      - Location,www-authenticate,cache-control,pragma,content-type,expires,last-modified
+      - X-RateLimit-Window, X-RateLimit-Limit, X-RateLimit-Remain, X-RateLimit-Reset,
+        Location, www-authenticate, cache-control, pragma, content-type, expires,
+        last-modified
+      Access-Control-Max-Age:
+      - '3600'
+      Cache-Control:
+      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0
+      Pragma:
+      - no-cache
+      X-Ratelimit-Limit:
+      - '600'
+      X-Ratelimit-Remain:
+      - '597'
+      X-Ratelimit-Reset:
+      - '1517927615'
+      X-Ratelimit-Window:
+      - 5m
+      Server:
+      - CompaniesHouse
+    body:
+      encoding: UTF-8
+      string: '{"has_been_liquidated":true,"last_full_members_list_date":"2013-07-06","date_of_creation":"2006-07-06","type":"ltd","sic_codes":["62012","63110","63120"],"jurisdiction":"england-wales","company_name":"BEEF
+        LTD","registered_office_address":{"address_line_2":"Bath Road","locality":"Bristol","postal_code":"BS4
+        3EH","address_line_1":"Unit 1.10 The Paintworks"},"company_number":"05868270","undeliverable_registered_office_address":false,"accounts":{"accounting_reference_date":{"month":"08","day":"31"},"last_accounts":{"type":"total-exemption-small","made_up_to":"2012-08-31"}},"has_insolvency_history":true,"etag":"d40ffbea6e7243a46b5626710fdfcb29c515cb62","company_status":"dissolved","has_charges":false,"links":{"self":"/company/05868270","filing_history":"/company/05868270/filing-history","officers":"/company/05868270/officers","insolvency":"/company/05868270/insolvency"},"registered_office_is_in_dispute":false,"date_of_cessation":"2016-12-13","can_file":false}'
+    http_version: 
+  recorded_at: Tue, 06 Feb 2018 14:27:53 GMT
+recorded_with: VCR 3.0.3

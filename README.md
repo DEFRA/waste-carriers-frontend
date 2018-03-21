@@ -1,4 +1,4 @@
-#waste-carriers-frontend
+# waste-carriers-frontend
 
 Waste Carriers Registration Service Frontend application.
 
@@ -18,17 +18,15 @@ It is expected that external user authentication will be migrated to mechanisms 
 
 The application sends emails using the Sendgrid e-mail service.
 
-
-##Installation
-
+## Installation
 
 Clone the repository, copying the project into a working directory:
 
-	$ git clone https://github.com/EnvironmentAgency/waste-carriers-frontend.git
+	$ git clone https://github.com/DEFRA/waste-carriers-frontend.git
 
 A Vagrantfile has been created allowing easy setup of the Rails frontend and the associated backend Java services. This is located within Gitlab.
 
-##Configuration
+## Configuration
 
 The application contains a variety of configurable settings, which are set in several files located in the /config directory.
 Environment-related configuration settings are located in the /config/environments directory, e.g. development.rb, production.rb, etc.
@@ -62,8 +60,7 @@ You may want or need to set the following environment variables, e.g. in your `~
 
 You may want to edit your local 'hosts' file to have entries for the public and admin domains and subdomains.
 
-
-##Prerequisites
+## Prerequisites
 
 * Ubuntu (or similar Linux distribution)
 * Git
@@ -84,7 +81,7 @@ We use wkhtmltopdf to create PDF files. On Ubuntu this can be installed like so:
 
 `sudo apt-get install wkhtmltopdf`
 
-##Build and Deploy
+## Build and Deploy
 
 As is standard with Rails applications, navigate to the project directory, and execute the following:
 
@@ -102,7 +99,7 @@ Once the application server is started you should be able to access the applicat
 
 	http://localhost:3000
 
-##User Guide
+## User Guide
 
 While in development, the application contains a (temporary) root index page which shows a variety of links for the typical entry points into the application. Note: this page may be removed at a later stage.
 
@@ -126,22 +123,21 @@ A sample development configuration file is located in the db directory.
 
 Please refer to the 'waste-carriers-service' project for details.
 
-https://github.com/EnvironmentAgency/waste-carriers-service
+https://github.com/DEFRA/waste-carriers-service
 
 ### Address Lookup Service
 
 Please refer to the 'os-places-address-lookup' project for details.
 
-https://github.com/EnvironmentAgency/os-places-address-lookup
+https://github.com/DEFRA/os-places-address-lookup
 
+## Run Tests
 
-##Run Tests
-
-###Rspec Tests
+### Rspec Tests
 
 RSpec tests are available. Run `rspec` in this projects root.
 
-###Acceptance Tests - using Cucumber
+### Acceptance Tests - using Cucumber
 
 To run the Cucumber-based acceptance tests, navigate to the application project directory, and execute from the command line / Terminal window:
 
@@ -149,8 +145,7 @@ To run the Cucumber-based acceptance tests, navigate to the application project 
 
 Acceptance tests are located in the features directory.
 
-
-###Cross-Browser Tests
+### Cross-Browser Tests
 
 We use Saucelabs to run cross-browser and cross-platform tests.
 Saucelabs supports a variety of languages and testing frameworks, including RSpec and Cucumber for Ruby and Rails based development.
@@ -161,13 +156,11 @@ To run the Cucumber-based tests against Saucelabs, execute:
 
 	$ rake sauce:features
 
-
 To run RSpec-based tests against Saucelabs, execute:
 
 	$ rake sauce:spec
 
-
-##Related Resources
+## Related Resources
 
 Ruby on Rails: http://rubyonrails.org
 
@@ -179,7 +172,6 @@ Apache Maven: http://www.elasticsearch.org
 
 Redis: http://redis.io
 
-
-##License
+## License
 
 TBD

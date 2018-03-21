@@ -220,6 +220,7 @@ end
 
 Then(/^I search for the following organisation "(.*?)"$/) do |org_search|
   repopulate_database_with_IR_data
+  sleep(2)
   fill_in 'q', with: org_search
   click_button 'reg-search'
 end

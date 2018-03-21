@@ -52,7 +52,7 @@ Scenario: Foreign waste carrier
 
 @javascript
 Scenario: Card payment
-  Given I autocomplete my business address
+  Given PENDING: I autocomplete my business address
   And I provide my personal contact details
   And I provide a postal address
   And I enter the details of the business owner
