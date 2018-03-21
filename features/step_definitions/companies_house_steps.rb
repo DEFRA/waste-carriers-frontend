@@ -37,7 +37,7 @@ Given(/^I select an address$/) do
 end
 
 Given(/^I enter an active company number$/) do
-  fill_in 'registration_company_no', with: '02050399'
+  fill_in 'registration_company_no', with: '10926928'
 end
 
 

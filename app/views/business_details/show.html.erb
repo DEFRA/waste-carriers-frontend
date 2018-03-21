@@ -91,6 +91,22 @@
         </div>
 
         <%= render 'shared/registration_continue_link' %>
+        <br />
+        <br />
+        <br />
+        <hr />
+        <p class="text font-xsmall" id="os-notice">
+          <%=
+            t(
+              "os_notice.text_html",
+              link: link_to(
+                t("os_notice.url_text"),
+                os_places_terms_path,
+                target: "_blank"
+              )
+            )
+          %>
+        </p>
 
       <% end %>
 

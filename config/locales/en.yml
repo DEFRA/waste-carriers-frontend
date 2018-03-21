@@ -281,6 +281,12 @@ en:
       select_new_or_renew: "You must answer this question"
       blank_registration_number: "You must enter your registration number"
       invalid_registration_number: "The registration number you entered is not recognised"
+      registration_number_not_found: "The registration number you entered could not be found"
+      registration_is_lower_tier: "This is a lower tier registration so never expires. Call our helpline on %{helpline} if you think this is incorrect."
+      registration_expired: "The registration number you entered has expired"
+      registration_not_in_renewal_window: "This registration is not eligible for renewal until %{date}."
+      registration_already_renewed: "This registration has already been renewed. Call our helpline on %{helpline} if you think this is incorrect."
+      registration_not_active: "This number is not registered. Call our helpline on %{helpline} if you think this is incorrect."
 
       # Section 1 (smart answers)
       select_business_type: "You must answer this question"
@@ -738,7 +744,7 @@ en:
     show:
       subtitle: "What is your waste carrier registration number?"
       title: "Existing registration renewal"
-      ir_number_example: "Example: CB/AF7003CS/A001"
+      number_example: "Example: CB/AF7003CS/A001 or CBDU215437"
       renewal_link: "I don't know our registration number"
       heading: "You can:"
       bullet1: "check your renewal letter (your registration number will be at the top)"
@@ -1662,7 +1668,31 @@ en:
       subtitle: "Summary"
       title: "Summary"
       use_your_information_link: "How we use your personal information"
+  os_notice:
+    text_html: |-
+          &copy; Crown copyright and database rights 2016 Ordnance Survey 100024198. Use of this addressing data is subject to the %{link}.
+    url_text: terms and conditions
   pages:
+    os_places_terms:
+      heading_h1: Ordnance Survey terms and conditions
+      heading_h2: Terms and conditions
+      list_item1: |-
+        You are granted a non-exclusive, royalty free revocable licence solely to view the licensed mapping and addressing data for
+        non-commercial purposes for the period during which we make it available.
+      list_item2: You are not permitted to copy, sub-license, distribute, sell or otherwise make available such data to third parties in any form.
+      list_item3: Third party rights to enforce the terms of this licence shall be reserved to OS.
+      para1_text: |-
+        Addressing information and mapping data from Ordnance Survey (OS) is &copy; Crown copyright and database rights 2016 OS 100024198.
+      para2_text: |-
+        Use of this data is subject to the following conditions by way of exception to the standard Open Government Licence (OGL) referred
+        to at the foot of this page.
+      para3_text: |-
+        20 December 2016: Please note that addressing information and mapping data available from this web service was previously inadvertently
+        released without passing on these terms and conditions.
+      para4_text: |-
+        The previous reference to the OGL without these additional terms was an omission, and you should note that you are only permitted
+        to use such information for viewing for non-commercial purposes; you are not permitted to copy, sub-license, distribute, sell or
+        otherwise make available such data, or use it for any other purpose.
     account_confirmed:
       title: 'Email address confirmed'
       paragraph1: 'Thank you for confirming your email address.'
@@ -1673,3 +1703,30 @@ en:
       title: 'Your password has been changed'
       paragraph1: 'It looks like you were in the middle of creating a new Registration when you changed your password.'
       paragraph2: 'You can now close this page and continue with your registration in the previous browser window.'
+    renewal_extension:
+      renew_title: Registration renewals due after 25 March 2018
+      renew_heading_h1: Registration renewals due after 25 March 2018
+      renew_para1: Currently our service does not allow users who have registered since March 2015 to renew.
+      renew_para2: We are upgrading the service so users can renew online, but it will not be ready until after April 2018.
+      renew_para3: 'In order for you to operate lawfully in the interim period the Environment Agency has published a Regulatory Position Statement (RPS) which will:'
+      renew_list_item1: |-
+        extend your current registration by 3 months at no extra cost – you will not need to renew until the upgraded online
+        registration system is ready
+      renew_list_item2: make sure your business is still registered and visible on the public register during the extension period
+      renew_list_item3: |-
+        confirm the Environment Agency will not take enforcement action against you if you do not renew during the 3 month extension period
+      renew_para4: For more details read the full
+      renew_rps_link: regulatory position statement
+      renew_heading_h2: Renewing your registration
+      renew_para5: You will be asked to log into your account with your email address and password.
+      renew_para6: |-
+        If your business details stay the same and you renew before the expiry date, you will pay a reduced fee of £%{renewal_fee}.
+        Your payment must clear by the expiry date for the reduced fee to apply.
+      renew_para7: |-
+        If you do not renew on time, or you make significant changes to your details, for example changing from a Limited Company to a
+        Sole Trader, you will be charged the full fee of £%{registration_fee}.
+      renew_para8: |-
+        If you need any help renewing, please call us on %{service_phone} to renew over the phone. We no longer accept postal/paper renewals.
+      renew_para9: |-
+        If you continue to operate as a carrier, broker or dealer of waste without being registered it is an offence for which you
+        may be prosecuted and fined.

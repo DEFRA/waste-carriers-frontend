@@ -10,14 +10,14 @@ Background:
 #https://www.pivotaltracker.com/story/show/86997468
 @javascript
 Scenario: IR registrations, No convictions, Online payment
-  When I enter my IR registration number for a Sole trader and pay by credit card
+  When PENDING: I enter my IR registration number for a Sole trader and pay by credit card
   And I make no other changes to my registration details
   Then I will be charged a renewal fee
   And registration should be complete when payment is successful
 
 @javascript
 Scenario: Expired IR registration, No convictions, Online payment
-  When I enter my expired IR registration number for a Sole trader and pay by credit card
+  When PENDING: I enter my expired IR registration number for a Sole trader and pay by credit card
   And I make no other changes to my registration details
   Then I will be charged the full fee
   And registration should be complete when payment is successful
@@ -27,7 +27,7 @@ Scenario: Expired IR registration, No convictions, Online payment
 
 @javascript
 Scenario: IR registrations, Convictions, Online payment
-  When I enter my IR registration number for a limited company with convictions and pay by credit card
+  When PENDING: I enter my IR registration number for a limited company with convictions and pay by credit card
   And I make no other changes to my registration details
   Then I will be charged a renewal fee
   And my registration should be pending convictions checks when payment is successful
@@ -59,7 +59,7 @@ Scenario: IR registrations - Limited company changes companies house number
 # Registration ID migrated IR records Change Carrier type preserved
 @javascript
 Scenario: migrated IR records Change Carrier type preserved
-  Given a "PT_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
+  Given PENDING: a "PT_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
   And I build a new registration ID "CB/AN9999ZZ/R002"
   And I Search for the Client Details with a IR Registration Number
   And I don't change business type

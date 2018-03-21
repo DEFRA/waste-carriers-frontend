@@ -198,13 +198,21 @@
               <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid), id: "revokeRegistration#{regCount}" %></li><% end %>
               <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
               <% if reg.upper? %>
-                <% if reg.can_be_approved?(current_agency_user) %><li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid), id: "approveRegistration#{regCount}" %></li><% end %>
-                <% if reg.can_be_refused?(current_agency_user) %><li><%= link_to t('form.refuse_button_label'), refuse_path(reg.uuid) %></li><% end %>
-                <% if reg.can_view_payment_status? %><li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li><% end %>
-                <% if reg.can_be_renewed? %>
-                  <li><%= link_to t('form.renew_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::RENEWAL) %></li>
+                <% if reg.can_be_approved?(current_agency_user) %>
+                  <li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid), id: "approveRegistration#{regCount}" %></li>
                 <% end %>
-                <% if reg.can_request_copy_cards?(current_agency_user) %><li><%= link_to t('form.addCopyCards_button_label'), order_copy_cards_path(reg.uuid) %></li><% end %>
+                <% if reg.can_be_refused?(current_agency_user) %>
+                  <li><%= link_to t('form.refuse_button_label'), refuse_path(reg.uuid) %></li>
+                <% end %>
+                <% if reg.can_view_payment_status? %>
+                  <li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li>
+                <% end %>
+                <% if reg.can_renew? %>
+                  <li><%= link_to t('form.renew_button_label'), reg.renewals_url %></li>
+                <% end %>
+                <% if reg.can_request_copy_cards?(current_agency_user) %>
+                  <li><%= link_to t('form.addCopyCards_button_label'), order_copy_cards_path(reg.uuid) %></li>
+                <% end %>
               <% end %>
             </ul>
           </nav>

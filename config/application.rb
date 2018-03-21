@@ -89,6 +89,8 @@ module Registrations
     # URL rather than via the public domain and URL.
     config.require_admin_requests = Rails.env.production? || ENV['WCRS_FRONTEND_REQUIRE_ADMIN_REQUESTS'] || false
 
+    config.renewals_service_url = "#{get_url_from_environment_or_default('WCRS_FRONTEND_RENEWALS_SERVICE_URL', 'http://localhost:3000')}/renew/"
+
     # Add a URL to represent the GOV.UK page that the process goes to, after the
     # registration happy path.
     config.waste_exemplar_end_url              = 'https://www.gov.uk/done/waste-carrier-or-broker-registration'
@@ -106,7 +108,7 @@ module Registrations
     # of the frontend application. The version number of the services
     # application may change separately.
     # Use semantic versioning (Major.Minor.Patch).
-    config.application_version = '2.3.1-beta'
+    config.application_version = '2.3.2-beta'
 
     # The e-mail address shown on the Finish page and used in e-mails sent by
     # the application.

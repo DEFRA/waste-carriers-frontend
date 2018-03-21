@@ -9,7 +9,7 @@ Background: Waste carrier choose to renew registration from IR
 Given have chosen to renew an existing licence
 @javascript
 Scenario: IR registrations - Limited company changes business type and is prompted to complete new registration
-Given I am renewing a valid CBD IR registration for limited company
+Given PENDING: I am renewing a valid CBD IR registration for limited company
 And I change business type to Sole Trader
 And the smart answers keep me in Upper tier
 And I don't change waste carrier type
@@ -25,7 +25,7 @@ And registration should be complete when payment is successful
 
 @javascript
 Scenario: IR registrations - Sole Trader changes business type and is prompted to complete new registration
-Given I am renewing a valid IR registration for sole trader
+Given PENDING: I am renewing a valid IR registration for sole trader
 And I change business type to ltd company
 And the smart answers keep me in Upper tier
 And I don't change business type
@@ -42,7 +42,7 @@ And registration should be complete when payment is successful
 
 @javascript
 Scenario: IR registrations - Partner changes business type and is prompted to complete new registration
-Given I am renewing a valid CBD IR registration for Partnership
+Given PENDING: I am renewing a valid CBD IR registration for Partnership
 And I change business type to ltd company
 And the smart answers keep me in Upper tier
 And I don't change business type
@@ -59,7 +59,7 @@ And registration should be complete when payment is successful
 
 @javascript
 Scenario: IR registrations - Public body changes business type and is prompted to complete new registration
-Given I am renewing a valid CD IR registration for Public Body
+Given PENDING: I am renewing a valid CD IR registration for Public Body
 And I change business type to ltd company
 And the smart answers keep me in Upper tier
 And I don't change business type

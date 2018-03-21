@@ -11,7 +11,7 @@ And have chosen to renew a customers existing licence
 
 @javascript
 Scenario: Assisted Digital IR registrations, No convictions, Online payment
-  Given I am registering an IR registration for a Sole trader and pay by credit card
+  Given PENDING: I am registering an IR registration for a Sole trader and pay by credit card
   When I make no other changes to my registration details
   Then a renewal fee will be charged
   And the callers registration should be complete when payment is successful
@@ -19,7 +19,7 @@ Scenario: Assisted Digital IR registrations, No convictions, Online payment
 #Change Company Address
 @javascript
 Scenario: IR registrations - AD - Limited company changes business details should be charged renewal fee
-  Given I am renewing a valid CBD IR registration for limited company
+  Given PENDING: I am renewing a valid CBD IR registration for limited company
   When I only change business details
   Then I should be shown the total cost is the charge amount and renewal amount "105.00"
   And the callers registration should be pending convictions checks when payment is successful
@@ -27,7 +27,7 @@ Scenario: IR registrations - AD - Limited company changes business details shoul
 #Change Company Number
 @javascript
 Scenario: IR registrations - AD - Limited company changes business details should be charged renewal fee
-  Given I am renewing a valid CBD IR registration for limited company
+  Given PENDING: I am renewing a valid CBD IR registration for limited company
   When I Change the Company Number
   Then I should be shown the total cost is the charge amount and renewal amount "154.00"
   And the callers registration should be pending convictions checks when payment is successful
@@ -35,14 +35,14 @@ Scenario: IR registrations - AD - Limited company changes business details shoul
 #Change Business Name
 @javascript
 Scenario: IR registrations - AD - Limited company changes business name should be charged renewal fee
-  Given I am renewing a valid CBD IR registration for limited company
+  Given PENDING: I am renewing a valid CBD IR registration for limited company
   When I only change business name
   Then I should be shown the total cost is the charge amount and renewal amount "105.00"
   And the callers registration should be complete when payment is successful
 
 @javascript
 Scenario: Assisted Digital IR registrations, Convictions, Online payment
-   Given I am registering an IR registration for a Public body and pay by credit card
+   Given PENDING: I am registering an IR registration for a Public body and pay by credit card
    When I make no other changes to my registration details
    Then a renewal fee will be charged
    And the callers registration should be pending convictions checks when payment is successful
@@ -56,7 +56,7 @@ Scenario: Assisted Digital IR registrations, No Convictions, Offline payment
 
 @javascript
 Scenario: Assisted Digital IR registrations, Convictions, Offline payment
-  Given I am registering an IR registration for a limited company with convictions and pay by bank transfer
+  Given PENDING: I am registering an IR registration for a limited company with convictions and pay by bank transfer
   When I make no other changes to my registration details
   Then a renewal fee will be charged
   And the callers registration should be pending convictions checks when payment is successful
@@ -64,7 +64,7 @@ Scenario: Assisted Digital IR registrations, Convictions, Offline payment
 #Change Carrier Type Carrier Dealer
 @javascript
 Scenario: IR registrations - AD - Limited company changes waste carrier type and pays by credit card
-  Given I am registering an IR registration for a limited company changing waste carrier type and pay by credit card
+  Given PENDING: I am registering an IR registration for a limited company changing waste carrier type and pay by credit card
   When I make no other changes to my registration details
   Then there will be a renewal and edit amount charged
   And the callers registration should be complete when payment is successful

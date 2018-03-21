@@ -1,6 +1,9 @@
 require 'spec_helper'
+require Rails.root.join "spec/models/concerns/can_be_renewed.rb"
 
 describe Registration do
+
+  it_behaves_like "can_be_renewed"
 
   it { should respond_to :paid_in_full? }
 
