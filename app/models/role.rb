@@ -1,12 +1,12 @@
 class Role
   include Mongoid::Document
-  store_in session: 'users'
+  store_in client: 'users'
   has_and_belongs_to_many :users
   has_and_belongs_to_many :agency_users
   belongs_to :resource, :polymorphic => true
 #  belongs_to :users, :polymorphic => true
 #  belongs_to :agency_users, :polymorphic => true
-  
+
   field :name, :type => String
 
   index({
@@ -15,7 +15,7 @@ class Role
     :resource_id => 1
   },
   { :unique => true})
-  
+
   # This is the master role list, If these values change they are directly updated in the database,
   # and any old records will become out of sync unless they have been removed.
   ROLE_TYPES = %w[
@@ -23,11 +23,11 @@ class Role
     Role_financeAdmin
     Role_agencyRefundPayment
   ]
-  
+
   def self.roles
     ROLE_TYPES
   end
-  
+
   def self.translated_roles
     list = Array.new
     Role.roles.each do |role|
@@ -38,6 +38,6 @@ class Role
     end
     list
   end
-  
+
   scopify
 end

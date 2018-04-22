@@ -2,7 +2,7 @@
 
 class User
   include Mongoid::Document
-  store_in session: 'users'
+  store_in client: 'users'
 
   include PasswordHelper
 

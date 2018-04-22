@@ -10,30 +10,33 @@ module TestHelpers
       user_name = ENV['WCRS_USERSDB_USERNAME']
       password = ENV['WCRS_USERSDB_PASSWORD']
 
-      session = Moped::Session.new([ host_url ])
-      session.with(database: db_name).login(user_name, password)
-      session.use(db_name)
+      client = Mongo::Client.new(
+        [ host_url ],
+        database: db_name,
+        user: user_name,
+        password: password
+      )
 
-      session[:admins].drop
-      session[:agency_users].drop
-      session[:users].drop
+      client[:admins].drop
+      client[:agency_users].drop
+      client[:users].drop
     end
-    
+
     # Cleans the Mongo database(s) used by the applicaiton.
     def self.clean_mongo
       # Use the DatabaseCleaner Gem to clean the Mongo Registrations DB.
       DatabaseCleaner.clean
-      
-      # Use our own Moped-based method to clean the Mongo Users DB.
+
+      # Use our own MongoDb driver method to clean the Mongo Users DB.
       clean_mongo_users_db()
     end
-    
+
     # Cleans the Redis database(s) used by the applicaiton.
     def self.clean_redis
       Ohm.redis.call "FLUSHDB"
       # puts "Redis DB currently has #{Ohm.redis.call "DBSIZE"} keys"      # UNCOMMENT ME TO PROVE REDIS IS BEING CLEANED.
     end
-    
+
     # Cleans the ElasticSearch database(s) used by the application.
     def self.clean_elasticsearch
       if !Rails.env.production?
@@ -46,13 +49,13 @@ module TestHelpers
         end
       end
     end
-    
+
     # Cleans all databases used by the application.  For use during Unit & Integration tests.
     def self.clean_all_databases
       clean_mongo()
       clean_redis()
       clean_elasticsearch()
     end
-    
+
   end
 end
