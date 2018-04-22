@@ -2,33 +2,16 @@ require 'database_cleaner'
 
 module TestHelpers
   class DatabaseCleaning
-    # Cleans the Mongo 'Users' DB.  This method will become obsolete
-    # if Users and Registrations are migrated into a single DB.
-    def self.clean_mongo_users_db
-      host_url = ENV['WCRS_USERSDB_URL1']
-      db_name = ENV['WCRS_USERSDB_NAME']
-      user_name = ENV['WCRS_USERSDB_USERNAME']
-      password = ENV['WCRS_USERSDB_PASSWORD']
-
-      client = Mongo::Client.new(
-        [ host_url ],
-        database: db_name,
-        user: user_name,
-        password: password
-      )
-
-      client[:admins].drop
-      client[:agency_users].drop
-      client[:users].drop
-    end
-
     # Cleans the Mongo database(s) used by the applicaiton.
     def self.clean_mongo
-      # Use the DatabaseCleaner Gem to clean the Mongo Registrations DB.
+      # This will clean the mongoid default database, which in this case is the
+      # registrations db
+      DatabaseCleaner[:mongoid, {:connection => :default}]
       DatabaseCleaner.clean
 
-      # Use our own MongoDb driver method to clean the Mongo Users DB.
-      clean_mongo_users_db()
+      # This will setup DatabaseCleaner to then clean the users db
+      DatabaseCleaner[:mongoid, {:connection => :users}]
+      DatabaseCleaner.clean
     end
 
     # Cleans the Redis database(s) used by the applicaiton.
