@@ -75,7 +75,7 @@ def create_payment(id, amount, email, method, order_code)
   payment_data['dateReceived_day'] = current_date.strftime('%-m')
   payment_data['dateReceived_month'] = current_date.strftime('%-d')
   payment_data['dateReceived_year'] = current_date.strftime('%Y')
-  payment_data['dateReceived'] = current_date.strftime('%Y-%-m-%-d')
+  payment_data['dateReceived'] = current_date.strftime('%Y-%m-%d')
   payment_data['amount'] = amount
 
   payment_url = "#{Rails.configuration.waste_exemplar_services_url}/registrations/#{id}/payments.json"
