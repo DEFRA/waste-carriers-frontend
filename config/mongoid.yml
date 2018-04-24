@@ -19,6 +19,7 @@ development:
         password: <%= ENV['WCRS_USERSDB_PASSWORD'] || 'password1234' %>
   # Configure Mongoid specific options. (optional)
   options:
+    raise_not_found_error: false
 test:
   clients:
     default:
@@ -70,3 +71,5 @@ production:
         password: <%= ENV['WCRS_USERSDB_PASSWORD'] %>
         max_retries: 1
         retry_interval: 0
+    options:
+      raise_not_found_error: false
