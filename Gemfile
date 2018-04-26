@@ -11,7 +11,7 @@ gem 'rails', '4.2.6'
 gem 'airbrake', '~> 5.3'
 
 # We store user accounts (authentication with Devise) in a MongoDB database
-gem 'mongoid', '~> 4.0.0'
+gem "mongoid", "~> 5.2"
 
 # Using devise for authentication
 gem 'devise', '~> 3.4.1'
@@ -77,7 +77,7 @@ gem 'wicked_pdf'
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', '~> 1.4.0', require: false
-  gem 'database_cleaner', '~> 1.3.0'
+  gem 'database_cleaner', '~> 1.7.0'
   gem 'timecop', '~> 0.7.1'
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'shoulda-matchers', '~> 2.8.0'
