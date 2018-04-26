@@ -3,7 +3,7 @@
 
 class Admin
   include Mongoid::Document
-  store_in session: 'users'
+  store_in client: 'users'
   resourcify :resources
   rolify
 
