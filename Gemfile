@@ -1,10 +1,7 @@
 source 'https://rubygems.org'
 ruby "2.4.2"
 
-# Needed for pre-release gov.uk gems - not needed anymore?
-# source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
-
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.10'
 
 # For exception logging.
 gem 'airbrake', '~> 5.3'
@@ -49,7 +46,7 @@ gem 'jquery-rails'
 # gem 'capistrano', '~> 3.0.0'
 
 gem 'rest-client', '~> 1.6.7'
-gem 'ohm', '~> 2.3.0'
+gem 'ohm', '~> 3.0.0'
 
 gem 'money-rails'
 gem 'monetize'
