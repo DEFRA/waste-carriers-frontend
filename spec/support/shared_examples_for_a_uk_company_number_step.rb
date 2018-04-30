@@ -29,7 +29,7 @@ shared_examples_for 'a uk company number step' do
     end
 
     it 'should not allow invalid company numbers' do
-      expect(subject).should_not allow_value('NII12345', 'NI1234567', '123456789', '0',
+      expect(subject).not_to allow_value('NII12345', 'NI1234567', '123456789', '0',
           '00000000', '-12345678', '-1234567'
       ).for(:company_no)
     end

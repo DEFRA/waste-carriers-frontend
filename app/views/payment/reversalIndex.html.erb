@@ -62,7 +62,7 @@
 									<% end %>
 									</td>
 									<td class=""><%= t('payment_types.'+payment.paymentType) %></td>
-									<td class=""><%= Money.new(payment.amount) %></td>
+									<td class=""><%= Money.new(payment.amount || 0) %></td>
 									<td class="">
 									<% isReversalAppropriateForMe = false
 

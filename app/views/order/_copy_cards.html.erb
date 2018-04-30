@@ -21,7 +21,7 @@
 
         <div class="currency-container">
         <p class="currency-sign">£</p>
-        <%= f.text_field :copy_card_fee, class: 'form-control-1-8', :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee) %>
+        <%= f.text_field :copy_card_fee, class: 'form-control-1-8', :size =>5, :maxlength => 4, :disabled=>true, :value => Money.new(@registration.copy_card_fee || 0) %>
         </div>
            <%= f.number_field :copy_cards, class: 'form-control-1-8', :min => 0 %>
            <%= validation_for(@registration, :copy_cards) %>

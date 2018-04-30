@@ -6,7 +6,7 @@ describe 'postal_address/show', type: :view do
     assign(:registration, Registration.ctor(id: 1))
     assign(:address, Address.create)
     render
-    expect(rendered).to have_selector("form [autocomplete='off']")
+    expect(rendered).to have_selector("[autocomplete=off]")
   end
 
 end

@@ -5,7 +5,7 @@ describe 'existing_registration/show', :type => :view do
   it 'has autocomplete turned off in the form' do
     assign(:registration, Registration.ctor(attrs={:id => 1}))
     render
-    expect(rendered).to have_selector("form [autocomplete='off']")
+    expect(rendered).to have_selector("[autocomplete=off]")
   end
 
   context "when first visting the page" do
