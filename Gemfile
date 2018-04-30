@@ -78,7 +78,7 @@ group :test do
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'shoulda-matchers', '~> 2.8.0'
   gem 'vcr'
-  gem 'webmock'
+  gem "webmock", "~> 3.3"
   gem 'faker'
   gem 'simplecov', require: false
   gem 'simplecov-json', require: false
