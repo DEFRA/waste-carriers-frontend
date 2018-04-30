@@ -1,11 +1,7 @@
 source 'https://rubygems.org'
-#ruby=2.0.0-p645
-#ruby-gemset=waste-exemplar-frontend
+ruby "2.4.2"
 
-# Needed for pre-release gov.uk gems - not needed anymore?
-# source 'https://BnrJb6FZyzspBboNJzYZ@gem.fury.io/govuk/'
-
-gem 'rails', '4.2.6'
+gem 'rails', '4.2.10'
 
 # For exception logging.
 gem 'airbrake', '~> 5.3'
@@ -36,9 +32,6 @@ gem 'govuk_frontend_toolkit', '~> 2.0.1'
 # Gems used only for assets and not required
 # in production environments by default.
 
-# Using Nokogiri for parsing XML retrieved from WorldPay
-gem 'nokogiri', '~> 1.6.2.1'
-
 gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.0'
 
@@ -50,7 +43,7 @@ gem 'jquery-rails'
 # gem 'capistrano', '~> 3.0.0'
 
 gem 'rest-client', '~> 1.6.7'
-gem 'ohm', '~> 2.3.0'
+gem 'ohm', '~> 3.0.0'
 
 gem 'money-rails'
 gem 'monetize'
@@ -82,7 +75,7 @@ group :test do
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'shoulda-matchers', '~> 2.8.0'
   gem 'vcr'
-  gem 'webmock'
+  gem "webmock", "~> 3.3"
   gem 'faker'
   gem 'simplecov', require: false
   gem 'simplecov-json', require: false

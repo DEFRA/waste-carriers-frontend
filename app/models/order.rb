@@ -288,7 +288,7 @@ class Order < Ohm::Model
   end
 
   def total_amount_money
-    Money.new(totalAmount)
+    Money.new(totalAmount || 0)
   end
 
   private

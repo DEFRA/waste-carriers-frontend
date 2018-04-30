@@ -22,19 +22,19 @@ module PaymentsHelper
   end
 
   def pence_to_currency(pence)
-    Money.new(pence).format
+    Money.new(pence || 0).format
   end
 
   def money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(pence)
-    humanized_money(Money.new(pence))
+    humanized_money(Money.new(pence || 0))
   end
 
   def money_value_with_currency_symbol_and_with_pence_part(pence)
-    humanized_money(Money.new(pence), { :no_cents_if_whole => false, :symbol => true })
+    humanized_money(Money.new(pence || 0), { :no_cents_if_whole => false, :symbol => true })
   end
 
   def money_value_without_currency_symbol_and_with_pence_part(pence)
-    humanized_money(Money.new(pence), { :no_cents_if_whole => false, :symbol => false })
+    humanized_money(Money.new(pence || 0), { :no_cents_if_whole => false, :symbol => false })
   end
 
   def hasOrderKey(paymentModel)

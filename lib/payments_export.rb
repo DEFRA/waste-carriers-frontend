@@ -153,7 +153,7 @@ class PaymentsExport
   end
 
   def formatted_money(pence)
-    Money.new(pence)
+    Money.new(pence || 0)
   end
 
   def formatted_time(time)

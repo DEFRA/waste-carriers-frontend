@@ -87,7 +87,7 @@
 
             <p style="font-size: 16px; line-height: 1.315789474;margin: 0 0 15px 0;">
               <strong><%= t 'registration_mailer.awaitingPayment.pretext2' %></strong>
-              <%= Money.new(@registration.finance_details.first.balance).format %>
+              <%= Money.new(@registration.finance_details.first.balance || 0).format %>
             </p>
 
             <p style="font-size: 16px; line-height: 1.315789474;margin: 0;">
