@@ -144,7 +144,7 @@ class OrderBuilder
   end
 
   def registration_fee_money
-    Money.new(registration_fee)
+    Money.new(registration_fee || 0)
   end
 
   def total_fee
@@ -152,7 +152,7 @@ class OrderBuilder
   end
 
   def total_fee_money
-    Money.new(total_fee)
+    Money.new(total_fee || 0)
   end
 
   def order_description

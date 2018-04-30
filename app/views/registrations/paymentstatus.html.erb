@@ -85,7 +85,7 @@
 										<tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %> orderItem">
 											<td class="" ><%= format_time order.dateLastUpdated %></td>
 											<td class="" ><%= orderItem.description %></td>
-											<td class="" ><%= Money.new(orderItem.amount) %></td>
+											<td class="" ><%= Money.new(orderItem.amount || 0) %></td>
 										</tr>
 									  <% regCount = regCount + 1; %>
 								    <% end %>
@@ -93,7 +93,7 @@
 									  <tr class="<% if regCount.odd? %> solid-box<% else %> lighter-box<% end %> order">
 										<td class="" >ORDER::<%= format_time order.dateLastUpdated %></td>
 										<td class="" ><%= order.description %></td>
-										<td class="" ><%= Money.new(order.totalAmount) %></td>
+										<td class="" ><%= Money.new(order.totalAmount || 0) %></td>
 									  </tr>
 									<% regCount = regCount + 1; %>
 								  <% end %>
@@ -145,7 +145,7 @@
 												:style => 'font-size: medium;', :id => 'writeOffSmall' if showRetryLink %>
 										</td>
 										<td class="" ><% if hasOrderKey(payment) %><%= payment.orderKey %><%else%><%= t 'registrations.form.not_applicable' %><%end%>/<%= payment.registrationReference %></td>
-										<td class="" ><%= Money.new(payment.amount) %></td>
+										<td class="" ><%= Money.new(payment.amount || 0) %></td>
 										<td class="" ><%= payment.comment %></td>
 									</tr>
 								<% regCount = regCount + 1; %>
@@ -177,7 +177,7 @@
 							<td class="" >
 				        	<%= amount_summary_for(@registration, false) %>
 							</td>
-							<td class="" id="balanceDue"><%= Money.new(@registration.finance_details.first.balance.to_f.abs) %>
+							<td class="" id="balanceDue"><%= Money.new(@registration.finance_details.first.balance.to_f.abs || 0) %>
 							</td>
 						</tr>
 						<%# Assume if finance_details are not available it is because no charges are present on the account therefore must have a zero balance %>
