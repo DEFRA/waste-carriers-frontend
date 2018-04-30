@@ -33,7 +33,7 @@ gem 'govuk_frontend_toolkit', '~> 2.0.1'
 # in production environments by default.
 
 # Using Nokogiri for parsing XML retrieved from WorldPay
-gem 'nokogiri', '~> 1.6.2.1'
+# gem 'nokogiri', '~> 1.6.2.1'
 
 gem 'sass-rails',   '~> 4.0.3'
 gem 'coffee-rails', '~> 4.0.0'
@@ -106,12 +106,12 @@ group :test, :development do
 
   # Needed for headless testing with Javascript or pages that ref external sites
   gem 'poltergeist', '~> 1.6.0'
-  gem 'capybara-email', '~> 2.2.0'
+  gem 'capybara-email', '~> 2.5.0'
 
   gem 'launchy', '~> 2.4.2', require: false
   gem 'rspec-rails', '~> 2.14'
 
-  gem 'capybara', '~> 2.1.0'
+  gem 'capybara', '~> 2.18'
   gem 'selenium-webdriver', '~> 2.44.0'
   gem 'chromedriver-helper', '~> 0.0.8'
 
