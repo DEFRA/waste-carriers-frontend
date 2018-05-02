@@ -9,7 +9,7 @@ describe RegistrationsHelper do
       end
 
       it 'should have both base errors' do
-        helper.one_full_message_per_invalid_attribute(@registration).should == ['Error 1', 'Error 2']
+        expect(helper.one_full_message_per_invalid_attribute(@registration)).to eq(['Error 1', 'Error 2'])
       end
     end
 
@@ -20,7 +20,7 @@ describe RegistrationsHelper do
       end
 
       it 'should have first error' do
-        helper.one_full_message_per_invalid_attribute(@registration).should == ['First name too short']
+        expect(helper.one_full_message_per_invalid_attribute(@registration)).to eq(['First name too short'])
       end
     end
 
@@ -33,7 +33,7 @@ describe RegistrationsHelper do
       end
 
       it 'should have both base errors' do
-        helper.one_full_message_per_invalid_attribute(@registration).should == ['First name too short', 'Last name too posh', 'Error 1', 'Error 2']
+        expect(helper.one_full_message_per_invalid_attribute(@registration)).to eq(['First name too short', 'Last name too posh', 'Error 1', 'Error 2'])
       end
     end
   end
@@ -77,7 +77,7 @@ describe RegistrationsHelper do
 
     context 'when passed nothing' do
       it 'errors' do
-        expect { helper.valid_registration_format?(nil) }.to raise_error
+        expect { helper.valid_registration_format?(nil) }.to raise_error(NoMethodError)
       end
     end
   end

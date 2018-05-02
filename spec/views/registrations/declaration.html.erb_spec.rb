@@ -25,7 +25,7 @@ describe 'registrations/declaration', type: :view do
     subject(:ir_renewal_registration) { create(:registration, :ir_renewal) }
 
     it 'displays the correct charge wording' do
-      RegistrationOrder.any_instance.stub(:ir_renewal).and_return(subject)
+      allow_any_instance_of(RegistrationOrder).to receive(:ir_renewal).and_return(subject)
       assign(:registration, subject)
       assign(:registration_order, subject.registration_order)
 
@@ -44,7 +44,7 @@ describe 'registrations/declaration', type: :view do
 
     it 'displays the correct introductory wording' do
       flash[:start_editing] = true # normally set on the previous page (user registration list)
-      RegistrationOrder.any_instance.stub(:original_registration).and_return(subject)
+      allow_any_instance_of(RegistrationOrder).to receive(:original_registration).and_return(subject)
       assign(:registration, subject)
       assign(:registration_order, subject.registration_order)
 
@@ -55,7 +55,7 @@ describe 'registrations/declaration', type: :view do
     end
 
     it 'displays the correct £40 charge' do
-      RegistrationOrder.any_instance.stub(:original_registration).and_return(create(:registration, :editing))
+      allow_any_instance_of(RegistrationOrder).to receive(:original_registration).and_return(create(:registration, :editing))
       subject.registrationType = 'carrier_dealer'
       subject.save
       assign(:registration, subject)
@@ -72,7 +72,7 @@ describe 'registrations/declaration', type: :view do
     end
 
     it 'displays the correct £145 charge' do
-      RegistrationOrder.any_instance.stub(:ir_renewal).and_return(create(:registration, :ir_renewal))
+      allow_any_instance_of(RegistrationOrder).to receive(:ir_renewal).and_return(create(:registration, :ir_renewal))
       editing_renewal_registration = create(:registration, :ir_renewal, :editing, registrationType: 'carrier_dealer')
       assign(:registration, editing_renewal_registration)
       assign(:registration_order, editing_renewal_registration.registration_order)
@@ -88,7 +88,7 @@ describe 'registrations/declaration', type: :view do
     end
 
     it 'displays the correct £154 charge when a change caused new' do
-      RegistrationOrder.any_instance.stub(:ir_renewal).and_return(create(:registration, :ir_renewal))
+      allow_any_instance_of(RegistrationOrder).to receive(:ir_renewal).and_return(create(:registration, :ir_renewal))
       editing_renewal_registration = create(:registration, :ir_renewal, :editing, businessType: 'soleTrader') # changing to soleTrader triggers change caused new
       assign(:registration, editing_renewal_registration)
       assign(:registration_order, editing_renewal_registration.registration_order)
@@ -104,7 +104,7 @@ describe 'registrations/declaration', type: :view do
 
     it 'displays the correct £154 charge when an expired renewal is used' do
       expired_ir_renewal_registration = create(:registration, :ir_renewal, originalDateExpiry: Date.today - 3.months)
-      RegistrationOrder.any_instance.stub(:ir_renewal).and_return(expired_ir_renewal_registration)
+      allow_any_instance_of(RegistrationOrder).to receive(:ir_renewal).and_return(expired_ir_renewal_registration)
 
       renewal_registration = create(:registration, :ir_renewal, originalDateExpiry: Date.today - 3.months)
       assign(:registration, renewal_registration)

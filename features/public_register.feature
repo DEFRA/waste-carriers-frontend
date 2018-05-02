@@ -10,7 +10,7 @@ Feature: Public register
 
 Scenario: Lower tier waste carrier registers company, confirms email address and is visible on the public register
   Given I have registered as a lower tier charity waste carrier
-  When I have confirmed my email address details
+  When I have confirmed my email address
   Then my lower tier charity waste registration details should be found on the public register
 
 Scenario: Lower tier waste carrier registers company, unconfirmed email address and is not visible on the public register
@@ -21,5 +21,5 @@ Scenario: Lower tier waste carrier registers company, unconfirmed email address 
 Scenario: Upper tier waste carrier registers company and confirms email is not visible on the public register when fee is not paid
   Given I have registered as an upper tier sole trader
   But I have not paid the registration charge
-  When I have confirmed my email address details
+  When I have confirmed my email address
   Then my upper tier sole trader registration details should not be found on the public register

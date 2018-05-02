@@ -5,30 +5,30 @@ describe Registration do
 
   it_behaves_like "can_be_renewed"
 
-  it { should respond_to :paid_in_full? }
+  it { is_expected.to respond_to :paid_in_full? }
 
   describe '#upper?' do
-    specify { Registration.ctor(tier: 'UPPER').should be_upper }
-    specify { Registration.ctor(tier: 'upper').should_not be_upper }
-    specify { Registration.ctor(tier: '').should_not be_upper }
-    specify { Registration.ctor(tier: nil).should_not be_upper }
-    specify { Registration.ctor(tier: 'LOWER').should_not be_upper }
+    specify { expect(Registration.ctor(tier: 'UPPER')).to be_upper }
+    specify { expect(Registration.ctor(tier: 'upper')).not_to be_upper }
+    specify { expect(Registration.ctor(tier: '')).not_to be_upper }
+    specify { expect(Registration.ctor(tier: nil)).not_to be_upper }
+    specify { expect(Registration.ctor(tier: 'LOWER')).not_to be_upper }
   end
 
   describe '#lower?' do
-    specify { Registration.ctor(tier: 'LOWER').should be_lower }
-    specify { Registration.ctor(tier: 'lower').should_not be_lower }
-    specify { Registration.ctor(tier: '').should be_lower }
-    specify { Registration.ctor(tier: nil).should be_lower }
-    specify { Registration.ctor(tier: 'UPPER').should_not be_lower }
+    specify { expect(Registration.ctor(tier: 'LOWER')).to be_lower }
+    specify { expect(Registration.ctor(tier: 'lower')).not_to be_lower }
+    specify { expect(Registration.ctor(tier: '')).to be_lower }
+    specify { expect(Registration.ctor(tier: nil)).to be_lower }
+    specify { expect(Registration.ctor(tier: 'UPPER')).not_to be_lower }
   end
 
   context 'businesstype step' do
     before { subject.current_step = 'businesstype' }
 
-    it { should validate_presence_of(:businessType).with_message(/You must answer this question/) }
-    it { should allow_value('soleTrader', 'partnership', 'limitedCompany', 'publicBody', 'charity', 'authority', 'other').for(:businessType) }
-    it { should_not allow_value('sole_trader', 'plc', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority').for(:businessType) }
+    it { is_expected.to validate_presence_of(:businessType).with_message(/You must answer this question/) }
+    it { is_expected.to allow_value('soleTrader', 'partnership', 'limitedCompany', 'publicBody', 'charity', 'authority', 'other').for(:businessType) }
+    it { is_expected.not_to allow_value('sole_trader', 'plc', 'collectionAuthority', 'disposalAuthority', 'regulationAuthority').for(:businessType) }
   end
 
   context 'otherbusinesses step' do
@@ -84,7 +84,7 @@ describe Registration do
       subject.tier = 'UPPER'
     end
 
-    it { should allow_value('LOWER', 'UPPER').for(:tier) }
+    it { is_expected.to allow_value('LOWER', 'UPPER').for(:tier) }
 
     context 'nil tier' do
       before { subject.tier = nil }
@@ -111,20 +111,20 @@ describe Registration do
     end
 
     context 'without signup mode' do
-      it { should_not validate_presence_of(:accountEmail) }
+      it { is_expected.not_to validate_presence_of(:accountEmail) }
     end
 
     context 'sign_in signup mode' do
       before { subject.sign_up_mode = 'sign_in' }
 
-      it { should validate_presence_of(:accountEmail).with_message(/You must enter/) }
+      it { is_expected.to validate_presence_of(:accountEmail).with_message(/You must enter/) }
     end
 
     context 'sign_up signup mode' do
       before { subject.sign_up_mode = 'sign_up' }
 
       it_behaves_like 'email validation', :accountEmail
-      it { should validate_confirmation_of(:accountEmail).with_message(/You must confirm/) }
+      it { is_expected.to validate_confirmation_of(:accountEmail).with_message(/You must confirm/) }
 
       context 'unpersisted' do
         before { allow(subject).to receive(:persisted?).and_return(false) }
@@ -135,7 +135,7 @@ describe Registration do
           context 'User exists with supplied accountEmail' do
             let(:user) { FactoryGirl.create :user }
 
-            it { should_not allow_value(user.email).for(:accountEmail) }
+            it { is_expected.not_to allow_value(user.email).for(:accountEmail) }
           end
         end
       end
@@ -151,10 +151,10 @@ describe Registration do
   context 'registrationtype step' do
     before { subject.current_step = 'registrationtype' }
 
-    it { should validate_presence_of(:registrationType).with_message(/You must answer this question/) }
+    it { is_expected.to validate_presence_of(:registrationType).with_message(/You must answer this question/) }
 
-    it { should allow_value('carrier_dealer', 'broker_dealer', 'carrier_broker_dealer').for(:registrationType) }
-    it { should_not allow_value('CARRIER_DEALER', 'BROKER_DEALER', 'CARRIER_BROKER_DEALER').for(:registrationType) }
+    it { is_expected.to allow_value('carrier_dealer', 'broker_dealer', 'carrier_broker_dealer').for(:registrationType) }
+    it { is_expected.not_to allow_value('CARRIER_DEALER', 'BROKER_DEALER', 'CARRIER_BROKER_DEALER').for(:registrationType) }
   end
 
   context 'upper_business_details step' do
@@ -166,7 +166,7 @@ describe Registration do
     context 'not a limited company' do
       before { subject.businessType = 'soleTrader' }
 
-      it { should_not validate_presence_of(:company_no) }
+      it { is_expected.not_to validate_presence_of(:company_no) }
     end
 
     context 'UK limited company (postcode-lookup address)' do
@@ -201,9 +201,9 @@ describe Registration do
         expect(subject.foreign_limited_company?).to eq(true)
       end
 
-      it { should_not validate_presence_of(:company_no) }
-      it { should allow_value('12345', '11.22.33.AA.BB-C(EF)[GH]{IJ}', 'my SIREN number for 2016 is 6-5-4-3-2.1').for(:company_no) }
-      it { should_not allow_value('z' * (Registration::MAX_FOREIGN_COMPANY_NUMBER_LENGTH + 1)).for(:company_no) }
+      it { is_expected.not_to validate_presence_of(:company_no) }
+      it { is_expected.to allow_value('12345', '11.22.33.AA.BB-C(EF)[GH]{IJ}', 'my SIREN number for 2016 is 6-5-4-3-2.1').for(:company_no) }
+      it { is_expected.not_to allow_value('z' * (Registration::MAX_FOREIGN_COMPANY_NUMBER_LENGTH + 1)).for(:company_no) }
     end
   end
 
@@ -216,7 +216,7 @@ describe Registration do
   context 'payment step' do
     before { subject.current_step = 'payment' }
 
-    it { should validate_numericality_of(:copy_cards).is_greater_than_or_equal_to(0).only_integer }
+    it { is_expected.to validate_numericality_of(:copy_cards).is_greater_than_or_equal_to(0).only_integer }
   end
 
   context 'upper_summary step' do
