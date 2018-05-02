@@ -17,25 +17,25 @@ describe ConvictionSearchResult do
 
     context 'params for company' do
       it 'errors' do
-        expect { ConvictionSearchResult.search_person_convictions(companyName: 'Acme Ltd.', companyNumber: '99999999') }.to raise_error
+        expect { ConvictionSearchResult.search_person_convictions(companyName: 'Acme Ltd.', companyNumber: '99999999') }.to raise_error(ArgumentError)
       end
     end
 
     context 'mix of params for person and company' do
       it 'errors' do
-        expect { ConvictionSearchResult.search_person_convictions(firstname: 'Fred', companyNumber: '99999999') }.to raise_error
+        expect { ConvictionSearchResult.search_person_convictions(firstname: 'Fred', companyNumber: '99999999') }.to raise_error(ArgumentError)
       end
     end
 
     context 'invalid params' do
       it 'errors' do
-        expect { ConvictionSearchResult.search_person_convictions(firstname: 'Fred', not_a_param: 'ABC') }.to raise_error
+        expect { ConvictionSearchResult.search_person_convictions(firstname: 'Fred', not_a_param: 'ABC') }.to raise_error(ArgumentError)
       end
     end
 
     context 'empty params' do
       it 'errors' do
-        expect { ConvictionSearchResult.search_person_convictions({}) }.to raise_error
+        expect { ConvictionSearchResult.search_person_convictions({}) }.to raise_error(RuntimeError)
       end
     end
 
@@ -136,25 +136,25 @@ describe ConvictionSearchResult do
 
     context 'params for person' do
       it 'errors' do
-        expect { ConvictionSearchResult.search_company_convictions(firstname: 'Fred', lastname: 'Blogs') }.to raise_error
+        expect { ConvictionSearchResult.search_company_convictions(firstname: 'Fred', lastname: 'Blogs') }.to raise_error(ArgumentError)
       end
     end
 
     context 'mix of params for person and company' do
       it 'errors' do
-        expect { ConvictionSearchResult.search_company_convictions(companyName: 'Acme Ltd.', firstname: 'Fred') }.to raise_error
+        expect { ConvictionSearchResult.search_company_convictions(companyName: 'Acme Ltd.', firstname: 'Fred') }.to raise_error(ArgumentError)
       end
     end
 
     context 'invalid params' do
       it 'errors' do
-        expect { ConvictionSearchResult.search_company_convictions(companyName: 'Acme Ltd.', not_a_param: 'ABC') }.to raise_error
+        expect { ConvictionSearchResult.search_company_convictions(companyName: 'Acme Ltd.', not_a_param: 'ABC') }.to raise_error(ArgumentError)
       end
     end
 
     context 'empty params' do
       it 'errors' do
-        expect { ConvictionSearchResult.search_company_convictions({}) }.to raise_error
+        expect { ConvictionSearchResult.search_company_convictions({}) }.to raise_error(RuntimeError)
       end
     end
 

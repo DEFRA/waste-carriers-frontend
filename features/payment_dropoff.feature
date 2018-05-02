@@ -35,7 +35,6 @@ Scenario: IR renewal registration that drops-off at payment, with later online p
    When I start a new browser session
    Then the registration should appear on the public register
 
-@javascript
 Scenario: As a User I want to be able to renew my registration up to the point
   where my account is created and I am presented with the Payment Summary page
   which shows the renewal fee of 105.00. I then kill my session and return by login in
