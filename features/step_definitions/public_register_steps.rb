@@ -40,12 +40,6 @@ Given(/^I have not paid the registration charge$/) do
   order_page_pay_by_bank_transfer
 end
 
-Given(/^I have confirmed my email address details$/) do
-  do_short_pause_for_email_delivery
-  open_email my_email_address
-  current_email.click_link 'confirmation_link'
-end
-
 Given(/^I have not confirmed my email address details$/) do
 # do nothing
 end

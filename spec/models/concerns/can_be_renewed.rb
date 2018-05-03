@@ -39,7 +39,7 @@ shared_examples_for "can_be_renewed" do
 
     context "when the registration expires outside the renewal window" do
       before do
-        Rails.configuration.stub(:registration_renewal_window).and_return(3.months)
+        allow(Rails.configuration).to receive(:registration_renewal_window).and_return(3.months)
       end
 
       it "cannot be renewed" do
@@ -113,7 +113,7 @@ shared_examples_for "can_be_renewed" do
 
   describe "#renewals_url" do
     before do
-      Rails.configuration.stub(:renewals_service_url).and_return("http://localhost:3000/renew/")
+      allow(Rails.configuration).to receive(:renewals_service_url).and_return("http://localhost:3000/renew/")
     end
 
     subject do
