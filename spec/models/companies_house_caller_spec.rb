@@ -44,7 +44,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new '02050399' }
 
       it 'is active', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
     end
 
@@ -52,7 +52,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new '445790' }
 
       it 'is active', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
     end
 
@@ -60,7 +60,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new 'OC379171' }
 
       it 'is active', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
     end
 
@@ -68,7 +68,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new 'SC028747' }
 
       it 'is active', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
     end
 
@@ -76,7 +76,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new 'SO302113' }
 
       it 'is active', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
     end
 
@@ -84,7 +84,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new 'NI063992' }
 
       it 'is active', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
     end
 
@@ -92,7 +92,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new 'NC000059' }
 
       it 'is active', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
     end
 
@@ -100,7 +100,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new 'IP031977' }
 
       it 'is active', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
     end
 
@@ -108,7 +108,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new 'IP27406R' }
 
       it 'is active', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
     end
 
@@ -121,13 +121,13 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new '10761329' }
 
       it 'live response from Companies House (will fail when company changes status)', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
 
       it 'recorded response via VCR (recorded response may become invalid if API changes)' do
         cassette_name = 'manually_expired/companies_house/proposal_to_strike_off'
         VCR.use_cassette(cassette_name, record: :new_episodes, re_record_interval: 1.year) do
-          subject.status.should == :active
+          expect(subject.status).to eq(:active)
         end
       end
     end
@@ -136,13 +136,13 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new '04270505' }
 
       it 'live response from Companies House (will fail when company changes status)', :vcr do
-        subject.status.should == :active
+        expect(subject.status).to eq(:active)
       end
 
       it 'recorded response via VCR (recorded response may become invalid if API changes)' do
         cassette_name = 'manually_expired/companies_house/voluntary_arrangement'
         VCR.use_cassette(cassette_name, record: :new_episodes, re_record_interval: 1.year) do
-          subject.status.should == :active
+          expect(subject.status).to eq(:active)
         end
       end
     end
@@ -152,7 +152,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new '05868270' }
 
       it 'is not active', :vcr do
-        subject.status.should == :inactive
+        expect(subject.status).to eq(:inactive)
       end
     end
 
@@ -161,7 +161,7 @@ describe CompaniesHouseCaller do
       subject { CompaniesHouseCaller.new '99999999' }
 
       it 'is not found', :vcr do
-        subject.status.should == :not_found
+        expect(subject.status).to eq(:not_found)
       end
     end
   end

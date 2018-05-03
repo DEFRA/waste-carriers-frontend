@@ -1,7 +1,7 @@
 shared_examples_for 'a company name step' do
-  it { should validate_presence_of(:companyName).with_message(/You must enter/) }
-  it { should allow_value('Dun & Bradstreet', '37signals', "Barry's Bikes").for(:companyName) }
-  it { should_not allow_value('<script>alert("hi");</script>').for(:companyName) }
-  it { should allow_value('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .-&\'’[],()').for(:companyName) }
-  it { should validate_length_of(:companyName).is_at_most(150) }
+  it { is_expected.to validate_presence_of(:companyName).with_message(/You must enter/) }
+  it { is_expected.to allow_value('Dun & Bradstreet', '37signals', "Barry's Bikes").for(:companyName) }
+  it { is_expected.not_to allow_value('<script>alert("hi");</script>').for(:companyName) }
+  it { is_expected.to allow_value('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 .-&\'’[],()').for(:companyName) }
+  it { is_expected.to validate_length_of(:companyName).is_at_most(150) }
 end

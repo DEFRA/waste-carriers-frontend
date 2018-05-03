@@ -3,19 +3,19 @@ require 'spec_helper'
 describe PaymentsHelper do
 
   describe 'money parsing' do
-    specify { Monetize.parse('£100').should be_a Money }
-    specify { Monetize.parse('£99').cents.should == 9900 }
-    specify { Monetize.parse('£9.99').cents.should == 999 }
+    specify { expect(Monetize.parse('£100')).to be_a(Money) }
+    specify { expect(Monetize.parse('£99').cents).to eq(9900) }
+    specify { expect(Monetize.parse('£9.99').cents).to eq(999) }
   end
 
   describe '#pence_to_currency' do
-    specify { helper.pence_to_currency(15400).should == '£154.00' }
-    specify { helper.pence_to_currency(15900).should == '£159.00' }
+    specify { expect(helper.pence_to_currency(15400)).to eq('£154.00') }
+    specify { expect(helper.pence_to_currency(15900)).to eq('£159.00') }
   end
 
   describe '#money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes' do
-    specify { helper.money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(15400).should == '154' }
-    specify { helper.money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(15450).should == '154.50' }
+    specify { expect(helper.money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(15400)).to eq('154') }
+    specify { expect(helper.money_value_without_currency_symbol_and_without_pence_part_if_it_only_contains_zeroes(15450)).to eq('154.50') }
   end
 
   describe '#amountPaymentSummary_for' do
@@ -34,8 +34,8 @@ describe PaymentsHelper do
         allow(finance_details).to receive(:balance).and_return(10000)
       end
 
-      specify { helper.amount_payment_summary_for(registration).should include 'Awaiting payment' }
-      specify { helper.amount_payment_summary_for(registration).should include '£100.00' }
+      specify { expect(helper.amount_payment_summary_for(registration)).to include('Awaiting payment') }
+      specify { expect(helper.amount_payment_summary_for(registration)).to include('£100.00') }
     end
 
     context 'negative balance' do
@@ -43,8 +43,8 @@ describe PaymentsHelper do
         allow(finance_details).to receive(:balance).and_return(-10000)
       end
 
-      specify { helper.amount_payment_summary_for(registration).should include 'Overpaid by' }
-      specify { helper.amount_payment_summary_for(registration).should include '£100.00' }
+      specify { expect(helper.amount_payment_summary_for(registration)).to include('Overpaid by') }
+      specify { expect(helper.amount_payment_summary_for(registration)).to include ('£100.00') }
     end
 
     context 'zero balance' do
@@ -52,7 +52,7 @@ describe PaymentsHelper do
         allow(finance_details).to receive(:balance).and_return(0)
       end
 
-      specify { helper.amount_payment_summary_for(registration).should == 'Paid in full' }
+      specify { expect(helper.amount_payment_summary_for(registration)).to eq('Paid in full') }
     end
   end
 
@@ -73,8 +73,8 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(10000)
         end
 
-        specify { helper.amount_summary_for(registration, true).should include 'Awaiting payment' }
-        specify { helper.amount_summary_for(registration, true).should include '£100.00' }
+        specify { expect(helper.amount_summary_for(registration, true)).to include('Awaiting payment') }
+        specify { expect(helper.amount_summary_for(registration, true)).to include('£100.00') }
       end
 
       context 'negative balance' do
@@ -82,8 +82,8 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(-10000)
         end
 
-        specify { helper.amount_summary_for(registration, true).should include 'Overpaid by' }
-        specify { helper.amount_summary_for(registration, true).should include '£100.00' }
+        specify { expect(helper.amount_summary_for(registration, true)).to include('Overpaid by') }
+        specify { expect(helper.amount_summary_for(registration, true)).to include('£100.00') }
       end
 
       context 'zero balance' do
@@ -91,7 +91,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(0)
         end
 
-        specify { helper.amount_summary_for(registration, true).should == 'Paid in full' }
+        specify { expect(helper.amount_summary_for(registration, true)).to eq('Paid in full') }
       end
     end
 
@@ -101,7 +101,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(10000)
         end
 
-        specify { helper.amount_summary_for(registration, false).should == 'Awaiting payment' }
+        specify { expect(helper.amount_summary_for(registration, false)).to eq('Awaiting payment') }
       end
 
       context 'negative balance' do
@@ -109,7 +109,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(-10000)
         end
 
-        specify { helper.amount_summary_for(registration, false).should == 'Overpaid by' }
+        specify { expect(helper.amount_summary_for(registration, false)).to eq('Overpaid by') }
       end
 
       context 'zero balance' do
@@ -117,7 +117,7 @@ describe PaymentsHelper do
           allow(finance_details).to receive(:balance).and_return(0)
         end
 
-        specify { helper.amount_summary_for(registration, false).should == 'Paid in full' }
+        specify { expect(helper.amount_summary_for(registration, false)).to eq('Paid in full') }
       end
     end
   end

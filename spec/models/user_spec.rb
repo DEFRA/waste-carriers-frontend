@@ -19,7 +19,7 @@ describe User, type: :model do
           allow(registration).to receive(:tier).and_return('LOWER')
         end
 
-        it { should be_able_to(:view, registration) }
+        it { is_expected.to be_able_to(:view, registration) }
       end
 
       context 'certificate for other waste carrier' do
@@ -32,7 +32,7 @@ describe User, type: :model do
           allow(registration).to receive(:tier).and_return('LOWER')
         end
 
-        it { should_not be_able_to(:view, registration) }
+        it { is_expected.not_to be_able_to(:view, registration) }
       end
 
       context 'upper tier' do
@@ -46,7 +46,7 @@ describe User, type: :model do
             allow(registration).to receive(:tier).and_return('UPPER')
           end
 
-          it { should be_able_to(:view, registration) }
+          it { is_expected.to be_able_to(:view, registration) }
         end
 
         context 'unpaid' do
@@ -59,7 +59,7 @@ describe User, type: :model do
             allow(registration).to receive(:tier).and_return('UPPER')
           end
 
-          it { should_not be_able_to(:view, registration) }
+          it { is_expected.not_to be_able_to(:view, registration) }
         end
       end
     end
@@ -78,7 +78,7 @@ describe User, type: :model do
           allow(registration).to receive(:tier).and_return('UPPER')
         end
 
-        it { should be_able_to(:view, registration) }
+        it { is_expected.to be_able_to(:view, registration) }
       end
     end
   end
@@ -89,7 +89,7 @@ describe User, type: :model do
         subject.confirmed_at = nil
       end
 
-      it { should_not be_confirmed }
+      it { is_expected.not_to be_confirmed }
     end
 
     context 'with confirmed_at' do
@@ -97,7 +97,7 @@ describe User, type: :model do
         subject.confirmed_at = 1.day.ago
       end
 
-      it { should be_confirmed }
+      it { is_expected.to be_confirmed }
     end
   end
 end

@@ -120,7 +120,6 @@ When(/^I update my password$/) do
   fill_in 'user_password', with: @this_test_password
   fill_in 'user_password_confirmation', with: @this_test_password
   click_button 'change_password_button'
-  expect(URI.parse(current_url).path).to eq(mid_registration_password_changed_path)
 
   visit page_before_opening_email
 end

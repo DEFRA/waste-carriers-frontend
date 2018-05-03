@@ -1,12 +1,12 @@
 require 'spec_helper'
 
 describe KeyPerson do
-  it { should validate_presence_of(:first_name).with_message(/You must enter/) }
-  it { should validate_presence_of(:last_name).with_message(/You must enter/) }
+  it { is_expected.to validate_presence_of(:first_name).with_message(/You must enter/) }
+  it { is_expected.to validate_presence_of(:last_name).with_message(/You must enter/) }
 
-  it { should validate_presence_of(:dob_day).with_message(/You must enter/) }
-  it { should validate_presence_of(:dob_month).with_message(/You must enter/) }
-  it { should validate_presence_of(:dob_year).with_message(/You must enter/) }
+  it { is_expected.to validate_presence_of(:dob_day).with_message(/You must enter/) }
+  it { is_expected.to validate_presence_of(:dob_month).with_message(/You must enter/) }
+  it { is_expected.to validate_presence_of(:dob_year).with_message(/You must enter/) }
 
   describe 'dob' do
 
