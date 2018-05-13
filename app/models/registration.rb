@@ -446,7 +446,7 @@ class Registration < Ohm::Model
   # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
     def find_by_email(email, with_statuses=nil)
-      accountEmailParam = URI.encode(email)
+      accountEmailParam = CGI.escape(email)
       registrations = []
       url = "#{Rails.configuration.waste_exemplar_services_url}/search/account/#{accountEmailParam}"
       begin
@@ -511,7 +511,7 @@ class Registration < Ohm::Model
     def find_all_by(some_text, within_field)
       registrations = []
       all_regs = {}
-      searchFor = URI.encode(some_text)
+      searchFor = CGI.escape(some_text)
       url = "#{Rails.configuration.waste_exemplar_services_url}/search/registrations/#{within_field}/#{searchFor}"
       begin
         response = RestClient.get url
@@ -595,14 +595,15 @@ class Registration < Ohm::Model
   class << self
     def find_by_original_registration_no(registration_no)
       result = {}
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json/original/#{CGI::escape(registration_no)}"
+      searchFor = CGI.escape(registration_no)
+      url = "#{Rails.configuration.waste_exemplar_services_url}/search/original/#{searchFor}"
       begin
         Rails.logger.debug "about to GET: original registration no #{registration_no.to_s}"
         response = RestClient.get url
         if response.code == 200
           result = JSON.parse(response.body) #result should be Hash
         else
-          Rails.logger.error "Registration.find_by_original_registration_no failed with a #{response.code.to_s} response from server"
+          Rails.logger.error "Registration.find_by_original_registration_no(#{registration_no}) failed with a #{response.code.to_s} response from server"
         end
       rescue Errno::ECONNREFUSED => e
         Airbrake.notify(e)
