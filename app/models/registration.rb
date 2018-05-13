@@ -473,10 +473,9 @@ class Registration < Ohm::Model
   # @return [Array] list of registrations in MongoDB matching the specified email
   class << self
     def find_by_email(email, with_statuses=nil)
-      accountEmailParam = {ac: email}.to_query
-      Rails.logger.debug 'update search param to be encoded'
+      accountEmailParam = URI.encode(email)
       registrations = []
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{accountEmailParam}"
+      url = "#{Rails.configuration.waste_exemplar_services_url}/search/account/#{accountEmailParam}"
       begin
         response = RestClient.get url
         if response.code == 200
@@ -488,7 +487,7 @@ class Registration < Ohm::Model
           end
           Rails.logger.debug "#{registrations.size}"
         else
-          Rails.logger.error "Registration.find_by_email failed with a #{response.code} response from server"
+          Rails.logger.error "Registration.find_by_email(#{email}) failed with a #{response.code} response from server"
         end
       rescue => e
         Airbrake.notify(e)
