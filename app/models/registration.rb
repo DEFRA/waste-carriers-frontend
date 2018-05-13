@@ -440,33 +440,6 @@ class Registration < Ohm::Model
 
   end
 
-  # Retrieves all registration objects from the Java Service
-  #
-  # @param none
-  # @return  [Array]  list of all registrations in MongoDB
-  class << self
-    def find_all
-      registrations = []
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json"
-      begin
-        response = RestClient.get url
-        if response.code == 200
-          result = JSON.parse(response.body) #result should be Array
-          Rails.logger.debug "find_all returned: #{ result.size.to_s} registrations"
-          result.each do |r|
-            registrations << Registration.init(r)
-          end
-        else
-          Rails.logger.error "Registration.find_all failed with a #{response.code} response from server"
-        end
-      rescue => e
-        Airbrake.notify(e)
-        Rails.logger.error e.to_s
-      end
-      registrations
-    end
-  end
-
   # Retrieves a specific registration object from the Java Service based on its email value
   #
   # @param email [String] the accountEmail to search for
