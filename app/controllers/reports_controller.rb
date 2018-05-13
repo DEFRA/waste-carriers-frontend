@@ -256,7 +256,7 @@ class ReportsController < ApplicationController
     def search_registrations
 
       return Registration.find_by_params(@report.registration_parameter_args, options = {
-          :url => "/query/registrations",
+          :url => "/search/registrations",
           :format => ""
       })
 
