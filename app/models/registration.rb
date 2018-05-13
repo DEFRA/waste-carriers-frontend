@@ -539,8 +539,8 @@ class Registration < Ohm::Model
     def find_all_by(some_text, within_field)
       registrations = []
       all_regs = {}
-      searchFor = {:q => some_text}
-      url = "#{Rails.configuration.waste_exemplar_services_url}/registrations.json?#{searchFor.to_query}&searchWithin=#{within_field}"
+      searchFor = URI.encode(some_text)
+      url = "#{Rails.configuration.waste_exemplar_services_url}/search/registrations/#{within_field}/#{searchFor}"
       begin
         response = RestClient.get url
         if response.code == 200
