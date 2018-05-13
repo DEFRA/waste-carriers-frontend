@@ -274,7 +274,7 @@ class ReportsController < ApplicationController
   def search_copy_cards
 
     return Registration.find_by_params(@report.copy_cards_parameter_args, options = {
-        :url => "/query/copy_cards",
+        :url => "/search/copycards",
         :format => ""
     })
 
