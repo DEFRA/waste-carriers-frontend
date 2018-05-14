@@ -235,10 +235,6 @@ class ReportsController < ApplicationController
         @report.business_types = filter_for_blanks params[:business_types].values
       end
 
-      unless params[:payment_statuses].nil?
-        @report.payment_statuses = filter_for_blanks params[:payment_statuses].values
-      end
-
       unless params[:payment_types].nil?
         @report.payment_types = filter_for_blanks params[:payment_types].values
       end
@@ -256,7 +252,7 @@ class ReportsController < ApplicationController
     def search_registrations
 
       return Registration.find_by_params(@report.registration_parameter_args, options = {
-          :url => "/query/registrations",
+          :url => "/search/registrations",
           :format => ""
       })
 
@@ -265,7 +261,7 @@ class ReportsController < ApplicationController
     def search_payments
 
       return Registration.find_by_params(@report.payment_parameter_args, options = {
-          :url => "/query/payments",
+          :url => "/search/payments",
           :format => ""
       })
 
@@ -274,7 +270,7 @@ class ReportsController < ApplicationController
   def search_copy_cards
 
     return Registration.find_by_params(@report.copy_cards_parameter_args, options = {
-        :url => "/query/copy_cards",
+        :url => "/search/copycards",
         :format => ""
     })
 
@@ -306,9 +302,13 @@ class ReportsController < ApplicationController
           if registration.lower?
             csv << pad_array_to_match_length(headers, reg_data)
           else
-            registration.key_people.each do |person|
-              person_data = regexport_get_person_data('full', registration, person)
-              csv << reg_data + person_data
+            if registration.key_people.any?
+              registration.key_people.each do |person|
+                person_data = regexport_get_person_data('full', registration, person)
+                csv << reg_data + person_data
+              end
+            else
+              csv << reg_data
             end
           end
         rescue => e
