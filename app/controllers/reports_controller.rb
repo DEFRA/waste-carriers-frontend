@@ -235,10 +235,6 @@ class ReportsController < ApplicationController
         @report.business_types = filter_for_blanks params[:business_types].values
       end
 
-      unless params[:payment_statuses].nil?
-        @report.payment_statuses = filter_for_blanks params[:payment_statuses].values
-      end
-
       unless params[:payment_types].nil?
         @report.payment_types = filter_for_blanks params[:payment_types].values
       end

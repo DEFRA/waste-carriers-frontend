@@ -381,6 +381,7 @@ en:
       too_weak: "is not secure; it must include at least one lowercase letter, uppercase letter and number"
       greater_than_or_equal_to: "must be greater than or equal to %{count}"
       search_criteria: "You must provide valid search parameters. Please only use letters, numbers, or any of \' . & ! %."
+      missing_payment_status: "must be selected"
 
   form:
     add_button_label: "Add"
