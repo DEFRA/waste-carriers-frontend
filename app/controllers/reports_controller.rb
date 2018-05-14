@@ -265,7 +265,7 @@ class ReportsController < ApplicationController
     def search_payments
 
       return Registration.find_by_params(@report.payment_parameter_args, options = {
-          :url => "/query/payments",
+          :url => "/search/payments",
           :format => ""
       })
 
@@ -306,9 +306,13 @@ class ReportsController < ApplicationController
           if registration.lower?
             csv << pad_array_to_match_length(headers, reg_data)
           else
-            registration.key_people.each do |person|
-              person_data = regexport_get_person_data('full', registration, person)
-              csv << reg_data + person_data
+            if registration.key_people.any?
+              registration.key_people.each do |person|
+                person_data = regexport_get_person_data('full', registration, person)
+                csv << reg_data + person_data
+              end
+            else
+              csv << reg_data
             end
           end
         rescue => e
