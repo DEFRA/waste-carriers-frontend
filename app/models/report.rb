@@ -4,11 +4,12 @@ class Report
   attr_accessor :is_new, :search_type
   attr_accessor :from, :to, :has_declared_convictions, :conviction_check_match
   attr_accessor :routes, :tiers, :statuses, :business_types, :copy_cards
-  attr_accessor :payment_statuses, :payment_types, :charge_types
+  attr_accessor :payment_status, :payment_types, :charge_types
   attr_accessor :result_count
 
   validate :validate_from
   validate :validate_to
+  validate :validate_payment_status, if: -> {search_type == :payment}
 
   ROUTE_OPTIONS = %w[
     DIGITAL
@@ -153,8 +154,8 @@ class Report
       param_args[:until] = to
     end
 
-    unless @payment_statuses.nil? || @payment_statuses.empty?
-      param_args[:paymentStatus] = @payment_statuses
+    unless payment_status.blank?
+      param_args[:paymentStatus] = payment_status
     end
 
     unless @payment_types.nil? || @payment_types.empty?
@@ -241,4 +242,9 @@ class Report
       end
     end
 
+    def validate_payment_status
+      if payment_status.blank?
+        errors.add(:payment_status, I18n.t('errors.messages.missing_payment_status') )
+      end
+    end
 end

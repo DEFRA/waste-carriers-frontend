@@ -48,9 +48,10 @@
 
               <h3 class="heading-small"><%= t '.payment_status' %></h3>
               <div class='form-group inline'>
+                <%= validation_for(@report, :payment_status) %>
                 <% Report.payment_status_options.each do |option| %>
-                  <%= f.label :payment_statuses, for: "payment_statuses_#{option.second.downcase}", class: 'block-label' do %>
-                    <%= check_box("payment_statuses", option.second.downcase, {}, option.second, "") %>
+                  <%= f.label :payment_status, for: "report_payment_status_#{option.second.downcase}", class: 'block-label' do %>
+                    <%= radio_button("report", "payment_status", option.second, {}) %>
                     <%= option.first %>
                   <% end %>
                 <% end %>

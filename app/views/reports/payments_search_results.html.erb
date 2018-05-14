@@ -27,9 +27,7 @@
               <fieldset>
                 <%= f.hidden_field :from %>
                 <%= f.hidden_field :to %>
-                <% @report.payment_statuses.each do |value| %>
-                  <%= f.hidden_field :payment_statuses, :multiple => true, :value => value %>
-                <% end %>
+                <%= f.hidden_field :payment_status %>
                 <% @report.payment_types.each do |value| %>
                   <%= f.hidden_field :payment_types, :multiple => true, :value => value %>
                 <% end %>
