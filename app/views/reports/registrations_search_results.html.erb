@@ -76,11 +76,17 @@
           <% reg_data.each do |field| %><td><%= field %></td><% end %>
         </tr>
       <% else %>
-        <% registration.key_people.each do |person| %>
-          <% person_data = regexport_get_person_data('full', registration, person) %>
-          <% row_data = reg_data + person_data %>
+        <% if registration.key_people.any? %>
+          <% registration.key_people.each do |person| %>
+            <% person_data = regexport_get_person_data('full', registration, person) %>
+            <% row_data = reg_data + person_data %>
+            <tr>
+              <% row_data.each do |field| %><td><%= field %></td><% end %>
+            </tr>
+          <% end %>
+        <% else %>
           <tr>
-            <% row_data.each do |field| %><td><%= field %></td><% end %>
+            <% reg_data.each do |field| %><td><%= field %></td><% end %>
           </tr>
         <% end %>
       <% end %>
