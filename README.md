@@ -74,8 +74,7 @@ Feature tests are located in the `features` directory.
 
 - [Ruby on Rails](http://rubyonrails.org)
 - [MongoDB](http://www.mongodb.org)
-- [ElasticSearch](http://www.elasticsearch.org)
-- [Apache Maven](http://www.elasticsearch.org)
+- [Apache Maven](https://maven.apache.org/)
 - [Redis](http://redis.io)
 
 ## Contributing to this project

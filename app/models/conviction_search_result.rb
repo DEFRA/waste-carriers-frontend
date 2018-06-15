@@ -42,7 +42,7 @@ class ConvictionSearchResult < Ohm::Model
     end
     result
   end
-  
+
   class << self
     def init(conviction_search_result_hash)
       conviction_search_result = ConvictionSearchResult.create
@@ -54,13 +54,13 @@ class ConvictionSearchResult < Ohm::Model
     def search_person_convictions(params)
       # Validate parameters.
       fail if params.empty?
-      params.assert_valid_keys [:firstname, :lastname, :dateOfBirth]
+      params.assert_valid_keys [:firstname, :lastname, :dateofbirth]
 
       # Perform the convictions search.
       do_convictions_search(
         format(
-          '%s/convictions/person',
-          Rails.configuration.waste_exemplar_convictions_service_url
+          '%s/match/person',
+          Rails.configuration.waste_exemplar_services_url
         ),
         params
       )
@@ -69,18 +69,18 @@ class ConvictionSearchResult < Ohm::Model
     def search_company_convictions(params)
       # Validate parameters.
       fail if params.empty?
-      params.assert_valid_keys [:companyName, :companyNumber]
+      params.assert_valid_keys [:name, :number]
 
       # If company number is provided, pad it out to eight characters.
-      if params.key?(:companyNumber)
-        params[:companyNumber] = params[:companyNumber].to_s.strip.rjust(8, '0')
+      if params.key?(:number)
+        params[:number] = params[:number].to_s.strip.rjust(8, '0')
       end
 
       # Perform the convictions search.
       do_convictions_search(
         format(
-          '%s/convictions/company',
-          Rails.configuration.waste_exemplar_convictions_service_url
+          '%s/match/company',
+          Rails.configuration.waste_exemplar_services_url
         ),
         params
       )

@@ -140,7 +140,7 @@ class KeyPerson < Ohm::Model
     result = ConvictionSearchResult.search_person_convictions(
       firstname: first_name,
       lastname:  last_name,
-      dateOfBirth: dob
+      dateofbirth: dob
     )
 
     conviction_search_result.replace([result])
