@@ -4,7 +4,6 @@ Scenario: New upper tier registration that drops-off at payment, with later offl
   Given PENDING: I partially complete an Upper Tier registration, but stop at the payment page
     And I have confirmed my email address
    When I start a new browser session
-   Then the registration should not appear on the public register
    When I start a new browser session
     And sign in as an NCCC Finance Admin
     And view the Payment Status for the registration
@@ -13,14 +12,12 @@ Scenario: New upper tier registration that drops-off at payment, with later offl
    When I enter a payment for the full ammount owed
    Then the Balance should be £0.00
    When I start a new browser session
-   Then the registration should appear on the public register
 
 @javascript
 Scenario: IR renewal registration that drops-off at payment, with later online payment.
   Given PENDING: I partially complete an IR Renewal registration, but stop at the payment page
     And I have confirmed my email address
    When I start a new browser session
-   Then the registration should not appear on the public register
    When I start a new browser session
     And sign in as an NCCC Finance Admin
     And view the Payment Status for the registration
@@ -33,7 +30,6 @@ Scenario: IR renewal registration that drops-off at payment, with later online p
     And view the Payment Status for the registration
    Then the Balance should be £0.00
    When I start a new browser session
-   Then the registration should appear on the public register
 
 Scenario: As a User I want to be able to renew my registration up to the point
   where my account is created and I am presented with the Payment Summary page
@@ -43,7 +39,6 @@ Scenario: As a User I want to be able to renew my registration up to the point
   Given I partially complete an IR Renewal registration, but stop at the payment page
     And I have confirmed my email address
    When I start a new browser session
-   Then the registration should not appear on the public register
    When I start a new browser session
    When I log in to my account and edit my registration
    Then I confirm the declaration

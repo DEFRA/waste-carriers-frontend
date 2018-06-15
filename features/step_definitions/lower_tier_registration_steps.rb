@@ -191,17 +191,3 @@ Given(/^I have gone through the lower tier waste carrier process$/) do
 
   do_short_pause_for_email_delivery
 end
-
-Then('My company name should not appear on the Public Register') do
-  visit public_path
-  waitForSearchResultsToContainText(
-    'Grades',
-    "Showing 0 of 0")
-end
-
-Then('My company name should appear on the Public Register') do
-  visit public_path
-  waitForSearchResultsToContainText(
-    'Grades',
-    "Showing 1 of 1")
-end

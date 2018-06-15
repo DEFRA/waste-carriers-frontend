@@ -39,9 +39,6 @@ Registrations::Application.routes.draw do
   get '/password_changed'  => 'pages#mid_registration_password_changed', as: :mid_registration_password_changed
   get '/renew(/:id)' => 'pages#renewal_extension'
 
-  # Add routing for Public Search
-  get "registrations/search" => 'registrations#publicSearch', :via => [:get], :as => :public
-
   get "registrations/version" => 'registrations#version', :via => [:get], :as => :version
   get "registrations/:id/paymentstatus" => 'registrations#paymentstatus', :as => :paymentstatus
 
