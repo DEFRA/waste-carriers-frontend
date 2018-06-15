@@ -350,12 +350,12 @@ class Registration < Ohm::Model
   def cross_check_convictions
     if company_no.blank? || foreign_limited_company?
       result = ConvictionSearchResult.search_company_convictions(
-        companyName: companyName,
+        name: companyName,
       )
     else
       result = ConvictionSearchResult.search_company_convictions(
-        companyName: companyName,
-        companyNumber: company_no
+        name: companyName,
+        number: company_no
       )
     end
 
@@ -448,7 +448,7 @@ class Registration < Ohm::Model
     def find_by_email(email, with_statuses=nil)
       accountEmailParam = CGI.escape(email)
       registrations = []
-      url = "#{Rails.configuration.waste_exemplar_services_url}/search/account/#{accountEmailParam}"
+      url = "#{Rails.configuration.waste_exemplar_services_url}/search/account?email=#{accountEmailParam}"
       begin
         response = RestClient.get url
         if response.code == 200
@@ -512,7 +512,9 @@ class Registration < Ohm::Model
       registrations = []
       all_regs = {}
       searchFor = CGI.escape(some_text)
-      url = "#{Rails.configuration.waste_exemplar_services_url}/search/registrations/#{within_field}/#{searchFor}"
+      Rails.logger.debug "THE VALUE IS #{searchFor}"
+      url = "#{Rails.configuration.waste_exemplar_services_url}/search/registrations/#{within_field}?value=#{searchFor}"
+      Rails.logger.debug "THE URL IS #{url}"
       begin
         response = RestClient.get url
         if response.code == 200
@@ -674,6 +676,7 @@ class Registration < Ohm::Model
         options = defaults.merge(options)
 
         url = "#{options[:root_url]}#{options[:url]}#{options[:format]}?#{params.to_query}"
+        Rails.logger.debug "HERE ---> #{url}"
         response = RestClient.get(url)
 
         if response.code == 200

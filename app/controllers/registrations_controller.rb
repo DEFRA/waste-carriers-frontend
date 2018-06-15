@@ -969,33 +969,6 @@ class RegistrationsController < ApplicationController
 
   #####################################################################################
 
-  def publicSearch
-    distance = params[:distance]
-    searchString = params[:q]
-    postcode = params[:postcode]
-    if validate_public_search_parameters?(searchString,"any",distance, postcode)
-      if searchString && !searchString.empty?
-
-
-        param_args = {
-            q: searchString,
-            searchWithin: 'companyName',
-            distance: distance,
-            activeOnly: 'true',
-            postcode: postcode,
-            excludeRegId: 'true' }
-
-
-        @registrations = Registration.find_by_params(param_args)
-      else
-        @registrations = []
-      end
-    else
-      @registrations = []
-      flash.now[:notice] = I18n.t('registrations.form.invalid_public_params')
-    end
-  end
-
   def notfound
     redirect_to registrations_path(:error => params[:message] )
   end

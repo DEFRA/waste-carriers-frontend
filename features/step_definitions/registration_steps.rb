@@ -19,13 +19,6 @@ When(/^I search for and approve the first registration that matches the text '(.
   click_button 'approveButton'
 end
 
-Then(/^searching the public register for '(.+)' should return (\d+) records{0,1}$/) do |search_term, expected_record_count|
-  visit public_path
-  waitForSearchResultsToContainText(
-    search_term,
-    "Showing #{expected_record_count} of #{expected_record_count}")
-end
-
 Then(/^when I repeat the search for '(.+)', the registration can no longer be approved$/) do |search_text|
   waitForSearchResultToPassLambda(
     search_text,
