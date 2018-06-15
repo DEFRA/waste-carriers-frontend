@@ -216,34 +216,6 @@ namespace :performance_testing do
     end
   end
 
-  task :seed_convictions, [:num_records] => :environment do |t, args|
-    args.with_defaults(:num_records => 10)
-    puts "Creating #{args.num_records} conviction records..."
-    pb = ProgressBar.create(total: args.num_records.to_i, throttle_rate: 0.1, format: '%E |%b>%i| %p%%')
-
-    # Configure the ElasticSearch client connection.
-    Conviction.gateway.client = Elasticsearch::Client.new host: Rails.configuration.waste_exemplar_elasticsearch_url
-
-    # Generate a mixture of company and individual conviction records.
-    system_flag_names = ['EMS', 'NEDS']
-    for n in (1..args.num_records.to_i) do
-      incident_number = (1000 + rand(99999)).to_s
-      # We'll make one-fifth of the records for individuals, the rest for companies...
-      if (n.modulo(5) == 0)
-        person_name = Faker::Name::first_name + " " + Faker::Name::last_name
-        # And we'll make about 20% of individuals have no known date-of-birth.
-        if (rand < 0.2)
-          Conviction.create name: person_name, systemFlag: system_flag_names.sample, incidentNumber: incident_number
-        else
-          Conviction.create name: person_name, systemFlag: system_flag_names.sample, incidentNumber: incident_number, dateOfBirth: Faker::Date.between(70.years.ago, 20.years.ago)
-        end
-      else
-        Conviction.create name: make_company_name(), companyNumber: make_company_number(), systemFlag: system_flag_names.sample, incidentNumber: incident_number
-      end
-      pb.increment
-    end
-  end
-
   task :seed_ir_renewals, [:num_records] => :environment do |t, args|
     args.with_defaults(:num_records => 10)
     puts "Creating #{args.num_records} complete IR-renewals..."

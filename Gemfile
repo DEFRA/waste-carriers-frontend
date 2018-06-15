@@ -112,8 +112,6 @@ group :test, :development do
   gem 'selenium-webdriver', '~> 2.44.0'
   gem 'chromedriver-helper', '~> 0.0.8'
 
-  # Required to populate the database with load-test data for Convictions.
-  gem 'elasticsearch-persistence', '~> 0.1.6'
   gem 'ruby-progressbar', '>= 1.7.1'
 
   # Development web server
