@@ -56,18 +56,15 @@ module Registrations
     # service API.  As described in the comments above, this setting can be
     # redefined in 'config/environments/*.rb'.
     # Changing this value requires restart of the application.
-    config.waste_exemplar_services_url            = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_SERVICES_URL',       'http://localhost:8004')
-    config.waste_exemplar_services_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_SERVICES_ADMIN_URL', 'http://localhost:8005')
-    config.waste_exemplar_addresses_url           = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_ADDRESSES_URL',      'http://localhost:8006')
+    config.waste_exemplar_services_url            = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_SERVICES_URL',       'http://localhost:8003')
+    config.waste_exemplar_services_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_SERVICES_ADMIN_URL', 'http://localhost:8004')
+    config.waste_exemplar_addresses_url           = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_ADDRESSES_URL',      'http://localhost:8005')
 
     # The application URL.
     config.waste_exemplar_frontend_url            = get_url_from_environment_or_default('WCRS_FRONTEND_PUBLIC_APP_DOMAIN',       'http://localhost:3000')
 
     # The application admin URL.
     config.waste_exemplar_frontend_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_ADMIN_APP_DOMAIN',        'http://localhost:3000')
-
-    # Settings relating to the Convictions Service.
-    config.waste_exemplar_convictions_service_url = get_url_from_environment_or_default('WCRS_FRONTEND_CONVICTIONS_SERVICE_URL', 'http://localhost:9290')
 
     # The subdomains used in links for password reset and other e-mails sent by
     # the Devise authentication component.
