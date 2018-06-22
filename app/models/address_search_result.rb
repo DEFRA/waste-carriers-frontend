@@ -33,7 +33,7 @@ class AddressSearchResult
 
     do_search(
       format(
-        '%s/addresses.json',
+        '%s/addresses',
         Rails.configuration.waste_exemplar_addresses_url
       ),
       postcode: value
@@ -47,7 +47,7 @@ class AddressSearchResult
 
     result = do_search(
       format(
-        '%s/addresses/%s.json',
+        '%s/addresses/%s',
         Rails.configuration.waste_exemplar_addresses_url,
         value
       ),
