@@ -140,7 +140,7 @@ class KeyPerson < Ohm::Model
     result = ConvictionSearchResult.search_person_convictions(
       firstname: first_name,
       lastname:  last_name,
-      dateofbirth: dob
+      dateofbirth: dob_elements_as_string()
     )
 
     conviction_search_result.replace([result])
@@ -200,5 +200,9 @@ class KeyPerson < Ohm::Model
 
   def no_existing_dob_errors?
     (!self.errors.include? :dob_day) && (!self.errors.include? :dob_month) && (!self.errors.include? :dob_year)
+  end
+
+  def dob_elements_as_string
+    "%d-%02d-%02d" % [self.dob_year.to_i, self.dob_month.to_i, self.dob_day.to_i]
   end
 end
