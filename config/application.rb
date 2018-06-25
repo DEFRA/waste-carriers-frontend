@@ -68,7 +68,7 @@ module Registrations
     # service API.  As described in the comments above, this setting can be
     # redefined in 'config/environments/*.rb'.
     # Changing this value requires restart of the application.
-    config.waste_exemplar_services_url            = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_SERVICES_URL',       'http://localhost:8003')
+    config.waste_exemplar_services_url            = get_url_from_environment_or_default('WCRS_SERVICES_DOMAIN',       'http://localhost:8003')
     config.waste_exemplar_services_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_SERVICES_ADMIN_URL', 'http://localhost:8004')
     config.waste_exemplar_addresses_url           = get_url_from_environment_or_default('WCRS_OS_PLACES_DOMAIN',                 'http://localhost:8005')
 
