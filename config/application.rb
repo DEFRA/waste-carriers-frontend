@@ -26,6 +26,18 @@ module Registrations
       value
     end
 
+    # Currently this just handles passing in WCRS_FRONTEND_DOMAIN which in dev
+    # will be http://localhost but in production will be
+    # https://wastecarriersregistrations.service.gov.uk.
+    # We don't want to manage an extra env var which holds the same url just
+    # minus the protocol, but we just need the host element for email functions.
+    # We use this method to extract just the host from the env var
+    def self.strip_protocol_from_url(url)
+      return if url == nil || url.blank?
+      # https://stackoverflow.com/a/24378458/6117745
+      return url.sub %r{^https?:(//|\\\\)(www\.)?}i, ''
+    end
+
     # Settings in config/environments/* take precedence over those specified
     # here.  Application configuration should go into files in
     # config/initializers; all .rb files in that directory are automatically
@@ -61,7 +73,7 @@ module Registrations
     config.waste_exemplar_addresses_url           = get_url_from_environment_or_default('WCRS_OS_PLACES_DOMAIN',                 'http://localhost:8005')
 
     # The application URL.
-    config.waste_exemplar_frontend_url            = get_url_from_environment_or_default('WCRS_FRONTEND_PUBLIC_APP_DOMAIN',       'http://localhost:3000')
+    config.waste_exemplar_frontend_url            = get_url_from_environment_or_default('WCRS_FRONTEND_DOMAIN',                  'http://localhost:3000')
 
     # The application admin URL.
     config.waste_exemplar_frontend_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_ADMIN_APP_DOMAIN',        'http://localhost:3000')
@@ -110,6 +122,7 @@ module Registrations
     # the application.
     config.registrations_service_email = 'registrations@wastecarriersregistration.service.gov.uk'
     config.registrations_service_emailName = 'Waste Carriers Service'
+    config.mailer_url = strip_protocol_from_url(ENV['WCRS_FRONTEND_DOMAIN'] || "http://localhost:3000")
 
     # The phone number shown on the certificate and used in e-mails sent by the
     # application.
