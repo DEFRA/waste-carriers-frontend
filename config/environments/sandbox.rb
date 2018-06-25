@@ -85,11 +85,11 @@ Registrations::Application.configure do
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :user_name => ENV["WCRS_FRONTEND_EMAIL_USERNAME"],
-    :password => ENV["WCRS_FRONTEND_EMAIL_PASSWORD"],
+    :user_name => ENV["WCRS_EMAIL_USERNAME"],
+    :password => ENV["WCRS_EMAIL_PASSWORD"],
     :domain => config.mailer_url,
-    :address => ENV["WCRS_FRONTEND_EMAIL_HOST"],
-    :port => ENV["WCRS_FRONTEND_EMAIL_PORT"],
+    :address => ENV["WCRS_EMAIL_HOST"],
+    :port => ENV["WCRS_EMAIL_PORT"],
     :authentication => :plain,
     :enable_starttls_auto => true
   }

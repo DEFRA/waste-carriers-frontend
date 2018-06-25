@@ -43,8 +43,8 @@ Registrations::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV["WCRS_FRONTEND_EMAIL_HOST"],
-    port: ENV["WCRS_FRONTEND_EMAIL_PORT"]
+    address: ENV["WCRS_EMAIL_HOST"],
+    port: ENV["WCRS_EMAIL_PORT"]
   }
 
   config.action_controller.asset_host = config.mailer_url
