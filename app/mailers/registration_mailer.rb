@@ -9,7 +9,7 @@ class RegistrationMailer < ActionMailer::Base
 
   def welcome_email(user, registration)
     @user = user
-    @url = Rails.configuration.mailer_url
+    @url = Rails.configuration.subdomain
     @registration = registration
     @pdf = true
     email_with_name = "#{Rails.configuration.registrations_service_emailName} <#{Rails.configuration.registrations_service_email}>"
@@ -23,7 +23,7 @@ class RegistrationMailer < ActionMailer::Base
   # Call via: RegistrationMailer.awaitingPayment_email(@user, @registration).deliver_now
   def awaitingPayment_email(user, registration)
     @user = user
-    @url = Rails.configuration.mailer_url
+    @url = Rails.configuration.subdomain
     @registration = registration
     email_with_name = "#{Rails.configuration.registrations_service_emailName} <#{Rails.configuration.registrations_service_email}>"
     subjectMessage = I18n.t('global.mailer.payment.subject', tier: @registration.tier.downcase, companyName: @registration.companyName)
@@ -33,7 +33,7 @@ class RegistrationMailer < ActionMailer::Base
   # Call via: RegistrationMailer.awaitingConvictionsCheck_email(@user, @registration).deliver_now
   def awaitingConvictionsCheck_email(user, registration)
     @user = user
-    @url = Rails.configuration.mailer_url
+    @url = Rails.configuration.subdomain
     @registration = registration
     email_with_name = "#{Rails.configuration.registrations_service_emailName} <#{Rails.configuration.registrations_service_email}>"
     subjectMessage = I18n.t('global.mailer.convictions.subject', tier: @registration.tier.downcase, companyName: @registration.companyName)

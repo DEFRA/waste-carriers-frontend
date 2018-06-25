@@ -37,7 +37,7 @@ Registrations::Application.configure do
 
   # Sending e-mails is required for user management and registration e-mails
   use_https_in_emails = ENV['WCRS_FRONTEND_DOMAIN'].exclude?('localhost')
-  config.action_mailer.default_url_options = { host: config.mailer_url, protocol: use_https_in_emails ? 'https' : 'http' }
+  config.action_mailer.default_url_options = { host: config.subdomain, protocol: use_https_in_emails ? 'https' : 'http' }
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
@@ -47,8 +47,8 @@ Registrations::Application.configure do
     port: ENV["WCRS_EMAIL_PORT"]
   }
 
-  config.action_controller.asset_host = config.mailer_url
-  config.action_mailer.asset_host = "#{use_https_in_emails ? 'https' : 'http'}://#{config.mailer_url}"
+  config.action_controller.asset_host = config.subdomain
+  config.action_mailer.asset_host = "#{use_https_in_emails ? 'https' : 'http'}://#{config.subdomain}"
 
   # Overriding 'Done' URL for development
   #config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"

@@ -76,7 +76,7 @@ class User
   end
 
   def subdomain
-    Rails.application.config.waste_exemplar_frontend_public_subdomain
+    Rails.application.config.subdomain
   end
 
 private
