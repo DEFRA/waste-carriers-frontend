@@ -72,8 +72,8 @@ module Registrations
     config.waste_exemplar_frontend_admin_subdomain  = ENV['WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN']  || 'localhost'
 
     # Settings relating to Companies House.
-    config.waste_exemplar_companies_house_api_url = 'https://api.companieshouse.gov.uk/company/'
-    config.waste_exemplar_companies_house_api_key = ENV['WCRS_FRONTEND_COMPANIES_HOUSE_API_KEY']
+    config.waste_exemplar_companies_house_api_url = ENV["WCRS_COMPANIES_HOUSE_HOST"] || "https://api.companieshouse.gov.uk/company/"
+    config.waste_exemplar_companies_house_api_key = ENV['WCRS_COMPANIES_HOUSE_API_KEY']
     config.waste_exemplar_companies_house_url = 'http://www.companieshouse.gov.uk/info'
     # (The value for this environment variable should be a comma-separated list of allowed
     # company statuses.  We convert this into a whitespace-free array of strings below)
