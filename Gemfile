@@ -114,9 +114,6 @@ group :test, :development do
 
   gem 'ruby-progressbar', '>= 1.7.1'
 
-  # Development web server
-  gem 'thin'
-
   # Load environment variables from .env
   gem 'dotenv-rails'
 
