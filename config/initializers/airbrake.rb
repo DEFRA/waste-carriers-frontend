@@ -1,7 +1,7 @@
 if ENV['WCRS_USE_AIRBRAKE'] && !Rails.env.test?
 
   Airbrake.configure do |config|
-    config.host = ENV['WCRS_FRONTEND_AIRBRAKE_HOST']
+    config.host = ENV['WCRS_AIRBRAKE_URL']
     # Errbit (which we send the exceptions to) doesn't make use of
     # the project ID, but it still has to be set to a positive integer or
     # Airbrake errors. Hence we just set it to 1.
