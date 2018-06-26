@@ -36,7 +36,7 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  use_https_in_emails = ENV['WCRS_FRONTEND_DOMAIN'].exclude?('localhost')
+  use_https_in_emails = config.waste_exemplar_frontend_url.exclude?('localhost')
   config.action_mailer.default_url_options = { host: config.subdomain, protocol: use_https_in_emails ? 'https' : 'http' }
 
   # Don't care if the mailer can't send (if set to false)
