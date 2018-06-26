@@ -56,24 +56,24 @@ module Registrations
     # service API.  As described in the comments above, this setting can be
     # redefined in 'config/environments/*.rb'.
     # Changing this value requires restart of the application.
-    config.waste_exemplar_services_url            = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_SERVICES_URL',       'http://localhost:8003')
-    config.waste_exemplar_services_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_SERVICES_ADMIN_URL', 'http://localhost:8004')
-    config.waste_exemplar_addresses_url           = get_url_from_environment_or_default('WCRS_FRONTEND_WCRS_ADDRESSES_URL',      'http://localhost:8005')
+    config.waste_exemplar_services_url            = get_url_from_environment_or_default('WCRS_SERVICES_DOMAIN',       'http://localhost:8003')
+    config.waste_exemplar_services_admin_url      = get_url_from_environment_or_default('WCRS_SERVICES_ADMIN_DOMAIN', 'http://localhost:8004')
+    config.waste_exemplar_addresses_url           = get_url_from_environment_or_default('WCRS_OS_PLACES_DOMAIN',      'http://localhost:8005')
 
     # The application URL.
-    config.waste_exemplar_frontend_url            = get_url_from_environment_or_default('WCRS_FRONTEND_PUBLIC_APP_DOMAIN',       'http://localhost:3000')
+    config.waste_exemplar_frontend_url            = get_url_from_environment_or_default('WCRS_FRONTEND_DOMAIN',       'http://localhost:3000')
 
     # The application admin URL.
-    config.waste_exemplar_frontend_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_ADMIN_APP_DOMAIN',        'http://localhost:3000')
+    config.waste_exemplar_frontend_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_ADMIN_DOMAIN', 'http://localhost:3000')
 
     # The subdomains used in links for password reset and other e-mails sent by
     # the Devise authentication component.
-    config.waste_exemplar_frontend_public_subdomain = ENV['WCRS_FRONTEND_PUBLIC_APP_SUBDOMAIN'] || 'localhost'
-    config.waste_exemplar_frontend_admin_subdomain  = ENV['WCRS_FRONTEND_ADMIN_APP_SUBDOMAIN']  || 'localhost'
+    config.subdomain = ENV['WCRS_FRONTEND_SUBDOMAIN'] || 'localhost:3000'
+    config.admin_subdomain  = ENV['WCRS_FRONTEND_ADMIN_SUBDOMAIN']  || 'localhost:3000'
 
     # Settings relating to Companies House.
-    config.waste_exemplar_companies_house_api_url = 'https://api.companieshouse.gov.uk/company/'
-    config.waste_exemplar_companies_house_api_key = ENV['WCRS_FRONTEND_COMPANIES_HOUSE_API_KEY']
+    config.waste_exemplar_companies_house_api_url = ENV["WCRS_COMPANIES_HOUSE_URL"] || "https://api.companieshouse.gov.uk/company/"
+    config.waste_exemplar_companies_house_api_key = ENV['WCRS_COMPANIES_HOUSE_API_KEY']
     config.waste_exemplar_companies_house_url = 'http://www.companieshouse.gov.uk/info'
     # (The value for this environment variable should be a comma-separated list of allowed
     # company statuses.  We convert this into a whitespace-free array of strings below)
@@ -85,7 +85,7 @@ module Registrations
     # URL rather than via the public domain and URL.
     config.require_admin_requests = Rails.env.production? || ENV['WCRS_FRONTEND_REQUIRE_ADMIN_REQUESTS'] || false
 
-    config.renewals_service_url = "#{get_url_from_environment_or_default('WCRS_FRONTEND_RENEWALS_SERVICE_URL', 'http://localhost:3000')}/renew/"
+    config.renewals_service_url = "#{get_url_from_environment_or_default('WCRS_RENEWALS_DOMAIN', 'http://localhost:3000')}/renew/"
 
     # Add a URL to represent the GOV.UK page that the process goes to, after the
     # registration happy path.
@@ -125,7 +125,7 @@ module Registrations
     # in production, it is optional elsewhere.
     config.use_google_analytics = false
     unless config.google_tag_manager_id.blank?
-      config.use_google_analytics = (ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] == 'true') || Rails.env.production?
+      config.use_google_analytics = (ENV['WCRS_USE_GOOGLE_ANALYTICS'] == 'true') || Rails.env.production?
     end
 
     # Total (a.k.a. global) session timeout - total session duration.
@@ -145,6 +145,7 @@ module Registrations
     # Worldpay configuration:
     # Waste Carriers use the e-commerce (ECOM) channel configuration;
     # Assisted Digital uses the integrated MOTO channel configuration.
+    config.worldpay_uri = ENV["WCRS_WORLDPAY_URL"] || "https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp"
     config.worldpay_ecom_merchantcode = ENV['WCRS_WORLDPAY_ECOM_MERCHANTCODE'] || 'MERCHANTCODE'
     config.worldpay_ecom_username = ENV['WCRS_WORLDPAY_ECOM_USERNAME'] || 'USERNAME'
     config.worldpay_ecom_password = ENV['WCRS_WORLDPAY_ECOM_PASSWORD'] || 'PASSWORD'
@@ -154,9 +155,6 @@ module Registrations
     config.worldpay_moto_username = ENV['WCRS_WORLDPAY_MOTO_USERNAME'] || 'USERNAME'
     config.worldpay_moto_password = ENV['WCRS_WORLDPAY_MOTO_PASSWORD'] || 'PASSWORD'
     config.worldpay_moto_macsecret = ENV['WCRS_WORLDPAY_MOTO_MACSECRET'] || 'MACSECRET'
-
-    # Using the Worldpay TEST service in all environments by default.
-    config.worldpay_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
 
     # Offline payment.
     config.environment_agency_bank_account_name = 'Environment Agency'
@@ -170,15 +168,10 @@ module Registrations
     config.income_fax_number = '01733 464892'
     config.income_postal_address = 'Environment Agency, SSCL Banking Team, PO Box 263, Peterborough, PE2 8YD'
 
-    # Fees/charges: provide as a number expressed in pence (cents).
-    # TODO: Have a more elaborate fee structure (and/or the fees in the
-    # database?) which allows us to set new fees in advance so that this
-    # configuration file does not need to be edited at new years eve late or
-    # whenever new fees come into place.
-    config.fee_registration = Monetize.parse('£154').cents
-    config.fee_renewal = Monetize.parse('£105').cents
-    config.fee_copycard = Monetize.parse('£5').cents
-    config.fee_reg_type_change = Monetize.parse('£40').cents
+    config.fee_registration = ENV["WCRS_REGISTRATION_CHARGE"].to_i || 154
+    config.fee_renewal = ENV["WCRS_RENEWAL_CHARGE"].to_i || 105
+    config.fee_copycard = ENV["WCRS_CARD_CHARGE"].to_i || 5
+    config.fee_reg_type_change = ENV["WCRS_TYPE_CHANGE_CHARGE"].to_i || 40
 
     # Conviciton checks must be completed within limit.
     config.registrations_service_exceed_limit = '10'
