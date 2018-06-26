@@ -168,10 +168,10 @@ module Registrations
     config.income_fax_number = '01733 464892'
     config.income_postal_address = 'Environment Agency, SSCL Banking Team, PO Box 263, Peterborough, PE2 8YD'
 
-    config.fee_registration = ENV["WCRS_REGISTRATION_CHARGE"].to_i || 154
-    config.fee_renewal = ENV["WCRS_RENEWAL_CHARGE"].to_i || 105
-    config.fee_copycard = ENV["WCRS_CARD_CHARGE"].to_i || 5
-    config.fee_reg_type_change = ENV["WCRS_TYPE_CHANGE_CHARGE"].to_i || 40
+    config.fee_registration = ENV["WCRS_REGISTRATION_CHARGE"].to_i
+    config.fee_renewal = ENV["WCRS_RENEWAL_CHARGE"].to_i
+    config.fee_copycard = ENV["WCRS_CARD_CHARGE"].to_i
+    config.fee_reg_type_change = ENV["WCRS_TYPE_CHANGE_CHARGE"].to_i
 
     # Conviciton checks must be completed within limit.
     config.registrations_service_exceed_limit = '10'
