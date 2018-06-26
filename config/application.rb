@@ -125,7 +125,7 @@ module Registrations
     # in production, it is optional elsewhere.
     config.use_google_analytics = false
     unless config.google_tag_manager_id.blank?
-      config.use_google_analytics = (ENV['WCRS_FRONTEND_USE_GOOGLE_ANALYTICS'] == 'true') || Rails.env.production?
+      config.use_google_analytics = (ENV['WCRS_USE_GOOGLE_ANALYTICS'] == 'true') || Rails.env.production?
     end
 
     # Total (a.k.a. global) session timeout - total session duration.
@@ -170,15 +170,10 @@ module Registrations
     config.income_fax_number = '01733 464892'
     config.income_postal_address = 'Environment Agency, SSCL Banking Team, PO Box 263, Peterborough, PE2 8YD'
 
-    # Fees/charges: provide as a number expressed in pence (cents).
-    # TODO: Have a more elaborate fee structure (and/or the fees in the
-    # database?) which allows us to set new fees in advance so that this
-    # configuration file does not need to be edited at new years eve late or
-    # whenever new fees come into place.
-    config.fee_registration = Monetize.parse('£154').cents
-    config.fee_renewal = Monetize.parse('£105').cents
-    config.fee_copycard = Monetize.parse('£5').cents
-    config.fee_reg_type_change = Monetize.parse('£40').cents
+    config.fee_registration = ENV["WCRS_REGISTRATION_CHARGE"].to_i || 154
+    config.fee_renewal = ENV["WCRS_RENEWAL_CHARGE"].to_i || 105
+    config.fee_copycard = ENV["WCRS_CARD_CHARGE"].to_i || 5
+    config.fee_reg_type_change = ENV["WCRS_TYPE_CHANGE_CHARGE"].to_i || 40
 
     # Conviciton checks must be completed within limit.
     config.registrations_service_exceed_limit = '10'
