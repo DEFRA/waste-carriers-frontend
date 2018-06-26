@@ -12,55 +12,51 @@ def output_created_registration(registration)
 end
 
 unless Rails.env.production?
+  password = ENV["WCRS_DEFAULT_PASSWORD"] || "Secret123"
   unless Admin.find_by_email('admin@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => 'Secret123')
+    admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => password)
     admin.save!
   end
 
   unless Admin.find_by_email('finance@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'finance@waste-exemplar.gov.uk', :password => 'Secret123')
+    admin = Admin.new(:email => 'finance@waste-exemplar.gov.uk', :password => password)
     admin.add_role :Role_financeSuper, Admin
     admin.save!
   end
 
   unless Admin.find_by_email('admin1@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin1@waste-exemplar.gov.uk', :password => 'MyS3cr3t!')
+    admin = Admin.new(:email => 'admin1@waste-exemplar.gov.uk', :password => password)
     admin.save!
   end
 
   unless Admin.find_by_email('admin2@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin2@waste-exemplar.gov.uk', :password => 'MyS3cr3t!')
+    admin = Admin.new(:email => 'admin2@waste-exemplar.gov.uk', :password => password)
     admin.save!
   end
 
-  unless Admin.find_by_email('gmueller@caci.co.uk')
-    admin = Admin.new(:email => 'gmueller@caci.co.uk', :password => 'MyS3cr3t!')
-    admin.save!
-  end
+  AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: password
 
-  AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: 'Secret123'
+  AgencyUser.find_or_create_by email: 'nccc1@waste-exemplar.gov.uk', password: password
 
-  AgencyUser.find_or_create_by email: 'nccc1@waste-exemplar.gov.uk', password: 'Secret123'
-
-  AgencyUser.find_or_create_by email: 'nccc2@waste-exemplar.gov.uk', password: 'Secret123'
+  AgencyUser.find_or_create_by email: 'nccc2@waste-exemplar.gov.uk', password: password
 
   # Adds a agency user associated with the finance basic role
-  agencyUser = AgencyUser.find_or_create_by email: 'financebasic1@waste-exemplar.gov.uk', password: 'Secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'financebasic1@waste-exemplar.gov.uk', password: password
   agencyUser.add_role :Role_financeBasic, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'financebasic2@waste-exemplar.gov.uk', password: 'Secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'financebasic2@waste-exemplar.gov.uk', password: password
   agencyUser.add_role :Role_financeBasic, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin1@waste-exemplar.gov.uk', password: 'Secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin1@waste-exemplar.gov.uk', password: password
   agencyUser.add_role :Role_financeAdmin, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin2@waste-exemplar.gov.uk', password: 'Secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin2@waste-exemplar.gov.uk', password: password
   agencyUser.add_role :Role_financeAdmin, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment1@waste-exemplar.gov.uk', password: 'Secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment1@waste-exemplar.gov.uk', password: password
   agencyUser.add_role :Role_agencyRefundPayment, AgencyUser
 
-  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment2@waste-exemplar.gov.uk', password: 'Secret123'
+  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment2@waste-exemplar.gov.uk', password: password
   agencyUser.add_role :Role_agencyRefundPayment, AgencyUser
 
 end  #unless Rails.env.production?
@@ -77,6 +73,6 @@ if (Rails.env.eql? 'development') || (Rails.env.eql? 'sandbox')
   output_created_registration(create_complete_upper_tier_reg('PB_UT_online_complete', 'Bank Transfer', 0))
   output_created_registration(create_complete_upper_tier_reg('PT_UT_online_complete', 'World Pay', 0))
   output_created_registration(create_complete_upper_tier_reg('ST_UT_online_complete', 'World Pay', 4))
-  
+
   RestClient.post "#{Rails.configuration.waste_exemplar_services_admin_url}/tasks/ir-repopulate", {}
 end

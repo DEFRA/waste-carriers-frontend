@@ -69,7 +69,7 @@ Registrations::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   # Sending e-mails is required for user management and registration e-mails
-  config.action_mailer.default_url_options = { :host => ENV['WCRS_FRONTEND_PUBLIC_APP_DOMAIN'], :protocol => 'https' }
+  config.action_mailer.default_url_options = { :host => config.subdomain, :protocol => 'https' }
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
@@ -77,16 +77,16 @@ Registrations::Application.configure do
   # Ensures images included in emails that originate from our assest folder and pipepline
   # can still be viewed in emails. See
   # http://stackoverflow.com/questions/6152231/is-there-a-ruby-library-gem-that-will-generate-a-url-based-on-a-set-of-parameter for an explanation of the problem we faced and hopefully (!) the solution
-  config.action_controller.asset_host = ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"]
-  config.action_mailer.asset_host = "#{'https'}://#{ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"]}"
+  config.action_controller.asset_host = config.subdomain
+  config.action_mailer.asset_host = "#{'https'}://#{config.subdomain}"
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    :user_name => ENV["WCRS_FRONTEND_EMAIL_USERNAME"],
-    :password => ENV["WCRS_FRONTEND_EMAIL_PASSWORD"],
-    :domain => ENV["WCRS_FRONTEND_PUBLIC_APP_DOMAIN"],
-    :address => ENV["WCRS_FRONTEND_EMAIL_HOST"],
-    :port => ENV["WCRS_FRONTEND_EMAIL_PORT"],
+    :user_name => ENV["WCRS_EMAIL_USERNAME"],
+    :password => ENV["WCRS_EMAIL_PASSWORD"],
+    :domain => config.subdomain,
+    :address => ENV["WCRS_EMAIL_HOST"],
+    :port => ENV["WCRS_EMAIL_PORT"],
     :authentication => :plain,
     :enable_starttls_auto => true
   }
@@ -98,14 +98,5 @@ Registrations::Application.configure do
     application-ie6.css
     application.js
   )
-
-  #Worldpay configuration. Use the Production service unless we want to use the test service (e.g. in staging)
-  if ENV['WCRS_FRONTEND_USE_WORLDPAY_TEST_SERVICE'] == 'true'
-    #Using the Worldpay TEST service in all environments - even in Production (for now at least)
-    config.worldpay_uri = 'https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp'
-  else
-    #The Worldpay Production payment service is located here:
-    config.worldpay_uri = 'https://secure.worldpay.com/jsp/merchant/xml/paymentService.jsp'
-  end
 
 end

@@ -65,7 +65,7 @@ class Admin
   end
 
   def subdomain
-    Rails.application.config.waste_exemplar_frontend_admin_subdomain
+    Rails.application.config.admin_subdomain
   end
 
 end
