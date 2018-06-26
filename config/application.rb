@@ -145,7 +145,7 @@ module Registrations
     # Worldpay configuration:
     # Waste Carriers use the e-commerce (ECOM) channel configuration;
     # Assisted Digital uses the integrated MOTO channel configuration.
-    config.worldpay_uri = ENV["WCRS_WORLDPAY_DOMAIN"] || "https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp"
+    config.worldpay_uri = ENV["WCRS_WORLDPAY_URL"] || "https://secure-test.worldpay.com/jsp/merchant/xml/paymentService.jsp"
     config.worldpay_ecom_merchantcode = ENV['WCRS_WORLDPAY_ECOM_MERCHANTCODE'] || 'MERCHANTCODE'
     config.worldpay_ecom_username = ENV['WCRS_WORLDPAY_ECOM_USERNAME'] || 'USERNAME'
     config.worldpay_ecom_password = ENV['WCRS_WORLDPAY_ECOM_PASSWORD'] || 'PASSWORD'
