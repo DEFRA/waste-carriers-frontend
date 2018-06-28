@@ -88,51 +88,33 @@ module WorldpayHelper
     result
   end
 
+  def send_request(xml, username, password)
+    Rails.logger.debug "Sending initial request to WorldPay"
+    response = RestClient::Request.execute(
+      method: :get,
+      url: Rails.configuration.worldpay_uri,
+      payload: xml,
+      headers: {
+        "Authorization" => "Basic " + Base64.encode64(username + ":" + password).to_s
+      }
+    )
+    Rails.logger.debug "Received response from WorldPay"
+    response
+  end
+
   def send_xml(xml)
-    uri = URI(Rails.configuration.worldpay_uri)
-    https = Net::HTTP.new(uri.host, uri.port)
-    https.use_ssl = true
-    auth = Base64.encode64("#{worldpay_xml_username}:#{worldpay_xml_password}").to_s
-    headers = { "Authorization" => "Basic #{auth}" }
-    res = https.post(uri.path, xml, headers)
-    return res if res.code == '200'
-    logger.warn "Worldpay connection returned #{res.code} and failed."
+    response = send_request(xml, worldpay_xml_username(), worldpay_xml_password())
+    return response if response.code == 200
+    byebug
+    logger.warn "Worldpay connection returned #{response.code} and failed."
     # This error is built using a tag.
     # The intended message contains html which renders when called from a view
     @order.errors.add(:exception, 'worldPayConnectionIssue')
     nil
   end
 
-  def send_xml_with_username_password(xml, username, password)
-    worldpay_service_uri = Rails.configuration.worldpay_uri
-    uri = URI(worldpay_service_uri)
-    https = Net::HTTP.new(uri.host,uri.port)
-    https.use_ssl = true
-    headers =
-    {
-      "Authorization" => 'Basic ' + Base64.encode64(username + ':' + password).to_s
-    }
-    response = https.post(uri.path, xml, headers)
-
-    response
-  end
-
   def parse_xml(xml)
     doc = Nokogiri::XML(xml)
-  end
-
-  def send_xml_with_username_password(xml, username, password)
-    worldpay_service_uri = Rails.configuration.worldpay_uri
-    uri = URI(worldpay_service_uri)
-    https = Net::HTTP.new(uri.host,uri.port)
-    https.use_ssl = true
-    headers =
-    {
-      "Authorization" => 'Basic ' + Base64.encode64(username + ':' + password).to_s
-    }
-    response = https.post(uri.path, xml, headers)
-
-    response
   end
 
   def get_redirect_url(doc, registration, order_code, order_type)
@@ -252,7 +234,7 @@ module WorldpayHelper
     logger.debug 'About to contact WorldPay for refund: XML username '
     logger.debug 'Sending refund request XML to Worldpay'
 
-    response = send_xml_with_username_password(xml,username,password)
+    response = send_request(xml, username, password)
     @response = response.body
     logger.debug 'Received response from Worldpay'
     @response
@@ -274,7 +256,7 @@ module WorldpayHelper
     logger.debug 'About to contact WorldPay for refund'
     logger.debug 'Sending refund request XML to Worldpay'
 
-    response = send_xml_with_username_password(xml,username,password)
+    response = send_request(xml, username, password)
     @response = response.body
     logger.debug 'Received response from Worldpay'
     @response
