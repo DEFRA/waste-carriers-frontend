@@ -3,73 +3,26 @@ development:
   clients:
     # Config for the registrations database
     default:
-      database: <%= ENV['WCRS_REGSDB_NAME'] || 'waste-carriers' %>
-      hosts:
-        - <%= ENV['WCRS_REGSDB_URL1'] || 'localhost:27017' %>
-      options:
-        user: <%= ENV['WCRS_REGSDB_USERNAME'] || 'mongoUser' %>
-        password: <%= ENV['WCRS_REGSDB_PASSWORD'] || 'password1234' %>
+      uri: <%= ENV['WCRS_REGSDB_URI'] || 'mongodb://mongoUser:password1234@localhost:27017/waste-carriers' %>
     # Config for the users database
     users:
-      database: <%= ENV['WCRS_USERSDB_NAME'] || 'waste-carriers-users' %>
-      hosts:
-        - <%= ENV['WCRS_USERSDB_URL1'] || 'localhost:27017' %>
-      options:
-        user: <%= ENV['WCRS_USERSDB_USERNAME'] || 'mongoUser' %>
-        password: <%= ENV['WCRS_USERSDB_PASSWORD'] || 'password1234' %>
+      uri: <%= ENV['WCRS_USERSDB_URI'] || 'mongodb://mongoUser:password1234@localhost:27017/waste-carriers-users' %>
   # Configure Mongoid specific options. (optional)
   options:
     raise_not_found_error: false
 test:
   clients:
     default:
-      database: <%= ENV['WCRS_REGSDB_NAME'] || 'waste-carriers' %>
-      hosts:
-        - <%= ENV['WCRS_REGSDB_URL1'] || 'localhost:27017' %>
-      options:
-        user: <%= ENV['WCRS_REGSDB_USERNAME'] || 'mongoUser' %>
-        password: <%= ENV['WCRS_REGSDB_PASSWORD'] || 'password1234' %>
-        # In the test environment we lower the retries and retry interval to
-        # low amounts for fast failures.
-        max_retries: 1
-        retry_interval: 0
+      uri: <%= ENV['WCRS_REGSDB_URI'] || 'mongodb://mongoUser:password1234@localhost:27017/waste-carriers' %>
     users:
-      database: <%= ENV['WCRS_USERSDB_NAME'] || 'waste-carriers-users' %>
-      hosts:
-        - <%= ENV['WCRS_USERSDB_URL1'] || 'localhost:27017' %>
-      options:
-        user: <%= ENV['WCRS_USERSDB_USERNAME'] || 'mongoUser' %>
-        password: <%= ENV['WCRS_USERSDB_PASSWORD'] || 'password1234' %>
-        # In the test environment we lower the retries and retry interval to
-        # low amounts for fast failures.
-        max_retries: 1
-        retry_interval: 0
+      uri: <%= ENV['WCRS_USERSDB_URI'] || 'mongodb://mongoUser:password1234@localhost:27017/waste-carriers-users' %>
   options:
     raise_not_found_error: false
 production:
   clients:
     default:
-      database: <%= ENV['WCRS_REGSDB_NAME'] %>
-      hosts:
-        - <%= ENV['WCRS_REGSDB_URL1'] %>
-        - <%= ENV['WCRS_REGSDB_URL2'] %>
-        - <%= ENV['WCRS_REGSDB_URL3'] %>
-      options:
-        user: <%= ENV['WCRS_REGSDB_USERNAME'] %>
-        password: <%= ENV['WCRS_REGSDB_PASSWORD'] %>
-        max_retries: 1
-        retry_interval: 0
+      uri: <%= ENV['WCRS_REGSDB_URI'] %>
     users:
-      # Details for the user database
-      database: <%= ENV['WCRS_USERSDB_NAME'] %>
-      hosts:
-        - <%= ENV['WCRS_USERSDB_URL1'] %>
-        - <%= ENV['WCRS_USERSDB_URL2'] %>
-        - <%= ENV['WCRS_REGSDB_URL3'] %>
-      options:
-        user: <%= ENV['WCRS_USERSDB_USERNAME'] %>
-        password: <%= ENV['WCRS_USERSDB_PASSWORD'] %>
-        max_retries: 1
-        retry_interval: 0
+      uri: <%= ENV['WCRS_USERSDB_URI'] %>
     options:
       raise_not_found_error: false
