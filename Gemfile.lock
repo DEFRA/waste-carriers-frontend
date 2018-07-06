@@ -204,6 +204,9 @@ GEM
       stal
     origin (2.3.1)
     orm_adapter (0.5.0)
+    passenger (5.3.3)
+      rack
+      rake (>= 0.8.1)
     poltergeist (1.6.0)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -371,6 +374,7 @@ DEPENDENCIES
   money-rails
   mongoid (~> 5.2)
   ohm (~> 3.0.0)
+  passenger (~> 5.0, >= 5.0.30)
   poltergeist (~> 1.6.0)
   quiet_assets
   rails (= 4.2.10)
