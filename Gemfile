@@ -39,9 +39,6 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'jquery-rails'
 
-# Deploy with Capistrano
-# gem 'capistrano', '~> 3.0.0'
-
 gem 'rest-client', '~> 1.6.7'
 gem 'ohm', '~> 3.0.0'
 
@@ -66,6 +63,13 @@ gem 'awesome_print'
 # If you don't have wkhtmltopdf installed on Ubuntu run this:
 # sudo apt-get install ttf-mscorefonts-installer wkhtmltopdf
 gem 'wicked_pdf'
+
+# Web application server that replaces webrick. It handles HTTP requests,
+# manages processes and resources, and enables administration, monitoring
+# and problem diagnosis. It is used in production because it gives us an ability
+# to scale by creating additional processes, and will automatically restart any
+# that fail.
+gem "passenger", "~> 5.0", ">= 5.0.30", require: "phusion_passenger/rack_handler"
 
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
