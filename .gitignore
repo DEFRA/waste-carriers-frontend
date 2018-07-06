@@ -40,3 +40,9 @@ coverage
 .directory
 .env*
 .byebug_history
+
+# Passengerfile
+# This is used to configure how the web application server we use will
+# run in any given environment. Because it is environment dependent we don't
+# add it to source code.
+Passengerfile.json
