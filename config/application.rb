@@ -16,6 +16,11 @@ end
 
 module Registrations
   class Application < Rails::Application
+    # Settings in config/environments/* take precedence over those specified
+    # here.  Application configuration should go into files in
+    # config/initializers; all .rb files in that directory are automatically
+    # loaded.
+
     # Helper which takes a URL from the specified environment variable, or uses
     # a default value if the environment variable isn't set, and ensures it is
     # prefixed with a protocol (such as 'http://').
@@ -26,10 +31,25 @@ module Registrations
       value
     end
 
-    # Settings in config/environments/* take precedence over those specified
-    # here.  Application configuration should go into files in
-    # config/initializers; all .rb files in that directory are automatically
-    # loaded.
+    # We have an issue when deploying to our environments in that when
+    # Capistrano runs the deploy:assets:precompile step (specifically bundle
+    # exec rake assets:precompile) it does so having set RAILS_ENV to production.
+    # However we have no default value for the SECRET_KEY in production, and
+    # when the command runs an env var with the value has not been set. This
+    # causes Devise to throw an error which prevents the task from completing.
+    # We have found the simplest solution to the problem is to add this logic
+    # which determines if we are running in production and if the originating
+    # call was made from rake. If that's the case we can assume a task like
+    # assets:precompile is being run and therefore programmtically set the
+    # secret key, stopping devise from erroring.
+    # https://stackoverflow.com/a/15767148/6117745
+    def apply_dummy_secret_key?
+      return false unless Rails.env.production?
+      return false unless File.basename($0) == "rake"
+      return false unless config.secret_key_base.blank?
+
+      true
+    end
 
     config.time_zone = "Europe/London"
 
@@ -183,5 +203,7 @@ module Registrations
     # Upper tier registrations can be renewed starting a given time period (e.g.
     # 6 months) before their expiration date.
     config.registration_renewal_window = (ENV['WCRS_REGISTRATION_RENEWAL_WINDOW'] || '6').to_i.months
+
+    config.secret_key_base = "iamonlyherefordevisewhenraketasksarecalled" if apply_dummy_secret_key?
   end
 end
