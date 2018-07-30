@@ -1707,26 +1707,29 @@ en:
       renew_title: Registration renewals due after 25 March 2018
       renew_heading_h1: Registration renewals due after 25 March 2018
       renew_para1: Currently our service does not allow users who have registered since March 2015 to renew.
-      renew_para2: We are upgrading the service so users can renew online, but it will not be ready until after April 2018.
-      renew_para3: 'In order for you to operate lawfully in the interim period the Environment Agency has published a Regulatory Position Statement (RPS) which will:'
+      renew_para2: We are upgrading the service so users can renew online, but it will not be ready until September 2018.
+      renew_para3: 'In order for you to operate lawfully in the interim period the Environment Agency has published a Regulatory Position Statement (RPS).'
+      renew_para4: 'If you need to renew after 25 March 2018, the Environment Agency will:'
       renew_list_item1: |-
-        extend your current registration by 3 months at no extra cost – you will not need to renew until the upgraded online
+        tell you what you need to do if the extension applies to you when they send you your renewals reminder
+      renew_list_item2: |-
+        extend your current registration at no extra cost – you will not need to renew until the upgraded online
         registration system is ready
-      renew_list_item2: make sure your business is still registered and visible on the public register during the extension period
-      renew_list_item3: |-
-        confirm the Environment Agency will not take enforcement action against you if you do not renew during the 3 month extension period
-      renew_para4: For more details read the full
+      renew_list_item3: make sure your business is still registered and visible on the public register during the extension period
+      renew_list_item4: |-
+        confirm the Environment Agency will not take enforcement action against you if you do not renew during the extension period you have been given
+      renew_para5: For more details read the full
       renew_rps_link: regulatory position statement
       renew_heading_h2: Renewing your registration
-      renew_para5: You will be asked to log into your account with your email address and password.
-      renew_para6: |-
+      renew_para6: When you renew you will be asked to log into your account with your email address and password.
+      renew_para7: |-
         If your business details stay the same and you renew before the expiry date, you will pay a reduced fee of £%{renewal_fee}.
         Your payment must clear by the expiry date for the reduced fee to apply.
-      renew_para7: |-
+      renew_para8: |-
         If you do not renew on time, or you make significant changes to your details, for example changing from a Limited Company to a
         Sole Trader, you will be charged the full fee of £%{registration_fee}.
-      renew_para8: |-
-        If you need any help renewing, please call us on %{service_phone} to renew over the phone. We no longer accept postal/paper renewals.
       renew_para9: |-
+        If you need any help renewing, please call us on %{service_phone} to renew over the phone. We no longer accept postal/paper renewals.
+      renew_para10: |-
         If you continue to operate as a carrier, broker or dealer of waste without being registered it is an offence for which you
         may be prosecuted and fined.
