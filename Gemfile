@@ -71,6 +71,12 @@ gem 'wicked_pdf'
 # that fail.
 gem "passenger", "~> 5.0", ">= 5.0.30", require: "phusion_passenger/rack_handler"
 
+# Defines a route for ELB healthchecks. The healthcheck is a piece of Rack
+# middleware that does absolutely nothing, so it is faster than just using the
+# default `/` route, or `/version` as was previously used.
+# The app now returns a 200 from `/healthcheck`
+gem 'aws-healthcheck'
+
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', '~> 1.4.0', require: false
