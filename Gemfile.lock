@@ -48,6 +48,8 @@ GEM
       io-like (~> 0.3.0)
     arel (6.0.4)
     awesome_print (1.7.0)
+    aws-healthcheck (1.0.1)
+      rails (>= 3.0)
     bcrypt (3.1.11)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
@@ -345,6 +347,7 @@ DEPENDENCIES
   activeresource (~> 4.0.0)
   airbrake (~> 5.3)
   awesome_print
+  aws-healthcheck
   better_errors
   binding_of_caller
   brakeman
