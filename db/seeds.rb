@@ -1,78 +1,30 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
-require_relative '../features/support/data_creation.rb'
-
-def output_created_registration(registration)
-  puts "Registration created: #{registration['regIdentifier']}, #{registration['tier']}, #{registration['companyName']}, #{registration['contactEmail']}, #{registration['metaData']['status']}"
+def create_agency_user(email, password)
+  AgencyUser.find_or_create_by(email: email, password: password)
 end
 
-unless Rails.env.production?
+def create_admin(email, password)
+  Admin.find_or_create_by(email: email, password: password)
+end
+
+def create_all_the_users
   password = ENV["WCRS_DEFAULT_PASSWORD"] || "Secret123"
-  unless Admin.find_by_email('admin@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin@waste-exemplar.gov.uk', :password => password)
-    admin.save!
-  end
 
-  unless Admin.find_by_email('finance@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'finance@waste-exemplar.gov.uk', :password => password)
-    admin.add_role :Role_financeSuper, Admin
-    admin.save!
-  end
+  # Agency super
+  create_admin("agency-super@wcr.gov.uk", password)
+  # Finance super
+  create_admin("finance-super@wcr.gov.uk", password).add_role(:Role_financeSuper, Admin)
 
-  unless Admin.find_by_email('admin1@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin1@waste-exemplar.gov.uk', :password => password)
-    admin.save!
-  end
+  # Standard agency user
+  create_agency_user("agency-user@wcr.gov.uk", password)
+  # Agency refund payment user
+  create_agency_user("agency-refund-payment-user@wcr.gov.uk", password).add_role(:Role_agencyRefundPayment, AgencyUser)
+  # Finance basic user
+  create_agency_user("finance-user@wcr.gov.uk", password).add_role(:Role_financeBasic, AgencyUser)
+  # Finance admin user
+  create_agency_user("finance-admin-user@wcr.gov.uk", password).add_role(:Role_financeAdmin, AgencyUser)
+end
 
-  unless Admin.find_by_email('admin2@waste-exemplar.gov.uk')
-    admin = Admin.new(:email => 'admin2@waste-exemplar.gov.uk', :password => password)
-    admin.save!
-  end
-
-  AgencyUser.find_or_create_by email: 'agencyuser@nccc.gov.uk', password: password
-
-  AgencyUser.find_or_create_by email: 'nccc1@waste-exemplar.gov.uk', password: password
-
-  AgencyUser.find_or_create_by email: 'nccc2@waste-exemplar.gov.uk', password: password
-
-  # Adds a agency user associated with the finance basic role
-  agencyUser = AgencyUser.find_or_create_by email: 'financebasic1@waste-exemplar.gov.uk', password: password
-  agencyUser.add_role :Role_financeBasic, AgencyUser
-
-  agencyUser = AgencyUser.find_or_create_by email: 'financebasic2@waste-exemplar.gov.uk', password: password
-  agencyUser.add_role :Role_financeBasic, AgencyUser
-
-  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin1@waste-exemplar.gov.uk', password: password
-  agencyUser.add_role :Role_financeAdmin, AgencyUser
-
-  agencyUser = AgencyUser.find_or_create_by email: 'financeadmin2@waste-exemplar.gov.uk', password: password
-  agencyUser.add_role :Role_financeAdmin, AgencyUser
-
-  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment1@waste-exemplar.gov.uk', password: password
-  agencyUser.add_role :Role_agencyRefundPayment, AgencyUser
-
-  agencyUser = AgencyUser.find_or_create_by email: 'agencyrefundpayment2@waste-exemplar.gov.uk', password: password
-  agencyUser.add_role :Role_agencyRefundPayment, AgencyUser
-
-end  #unless Rails.env.production?
-
-if (Rails.env.eql? 'development') || (Rails.env.eql? 'sandbox')
-  output_created_registration(create_complete_lower_tier_reg('Charity_LT_online_complete'))
-  output_created_registration(create_complete_lower_tier_reg('LTD_LT_online_complete'))
-  output_created_registration(create_complete_lower_tier_reg('PB_LT_online_complete'))
-  output_created_registration(create_complete_lower_tier_reg('PT_LT_online_complete'))
-  output_created_registration(create_complete_lower_tier_reg('ST_LT_online_complete'))
-  output_created_registration(create_complete_lower_tier_reg('WA_LT_online_complete'))
-
-  output_created_registration(create_complete_upper_tier_reg('LTD_UT_online_complete', 'Bank Transfer', 5))
-  output_created_registration(create_complete_upper_tier_reg('PB_UT_online_complete', 'Bank Transfer', 0))
-  output_created_registration(create_complete_upper_tier_reg('PT_UT_online_complete', 'World Pay', 0))
-  output_created_registration(create_complete_upper_tier_reg('ST_UT_online_complete', 'World Pay', 4))
-
-  RestClient.post "#{Rails.configuration.waste_exemplar_services_admin_url}/tasks/ir-repopulate", {}
+# Only seed if not running in production or we specifically require it, eg. for Heroku
+if !Rails.env.production? || ENV["WCR_ALLOW_SEED"]
+  create_all_the_users
 end
