@@ -128,8 +128,18 @@ module Registrations
 
     # The e-mail address shown on the Finish page and used in e-mails sent by
     # the application.
-    config.registrations_service_email = 'registrations@wastecarriersregistration.service.gov.uk'
-    config.registrations_service_emailName = 'Waste Carriers Service'
+    # In our dev environments if we are not using mailcatcher and actually want
+    # to send an email, we must use something other than
+    # registrations@wastecarriersregistration.service.gov.uk. This is because
+    # email recipients like Gmail will check the details of the email against
+    # the production DMARC setup and will spot an inconsistency because we are
+    # not using the production sendgrid credentials to send the email. In most
+    # cases they will then block receipt of the email.
+    # By using something else e.g. wcr-dev@example.com, as no DMARC is set it
+    # will not fail the check so is unlikely to be blocked (but might be flagged
+    # within the email client).
+    config.registrations_service_email = ENV["WCRS_EMAIL_SERVICE_EMAIL"] || 'registrations@wastecarriersregistration.service.gov.uk'
+    config.registrations_service_emailName = 'Waste Carriers Registration Service'
 
     # The phone number shown on the certificate and used in e-mails sent by the
     # application.
@@ -205,5 +215,7 @@ module Registrations
     config.registration_renewal_window = (ENV['WCRS_REGISTRATION_RENEWAL_WINDOW'] || '6').to_i.months
 
     config.secret_key_base = "iamonlyherefordevisewhenraketasksarecalled" if apply_dummy_secret_key?
+
+    config.email_test_address = ENV["WCRS_EMAIL_TEST_ADDRESS"] || "waste-carriers@example.com"
   end
 end

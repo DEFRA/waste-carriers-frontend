@@ -36,19 +36,25 @@ Registrations::Application.configure do
   config.assets.debug = true
 
   # Sending e-mails is required for user management and registration e-mails
-  use_https_in_emails = config.waste_exemplar_frontend_url.exclude?('localhost')
-  config.action_mailer.default_url_options = { host: config.subdomain, protocol: use_https_in_emails ? 'https' : 'http' }
+  config.action_mailer.default_url_options = { host: config.subdomain, protocol: 'http' }
 
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :smtp
+
+  # Default settings are for mailcatcher
   config.action_mailer.smtp_settings = {
-    address: ENV["WCRS_EMAIL_HOST"],
-    port: ENV["WCRS_EMAIL_PORT"]
+    user_name: ENV["WCRS_EMAIL_USERNAME"],
+    password: ENV["WCRS_EMAIL_PASSWORD"],
+    domain: config.subdomain,
+    address: ENV["WCRS_EMAIL_HOST"] || "localhost",
+    port: ENV["WCRS_EMAIL_PORT"] || 1025,
+    authentication: :plain,
+    enable_starttls_auto: true
   }
 
   config.action_controller.asset_host = config.subdomain
-  config.action_mailer.asset_host = "#{use_https_in_emails ? 'https' : 'http'}://#{config.subdomain}"
+  config.action_mailer.asset_host = "http://#{config.subdomain}"
 
   # Overriding 'Done' URL for development
   #config.waste_exemplar_end_url = "https://www.gov.uk/done/waste-carrier-or-broker-registration"
