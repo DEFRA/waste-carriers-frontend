@@ -1,9 +1,9 @@
 def create_agency_user(email, password)
-  AgencyUser.create(email: email, password: password)
+  AgencyUser.find_or_create_by(email: email, password: password)
 end
 
 def create_admin(email, password)
-  Admin.create(email: email, password: password)
+  Admin.find_or_create_by(email: email, password: password)
 end
 
 def create_all_the_users
