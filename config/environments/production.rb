@@ -74,12 +74,6 @@ Registrations::Application.configure do
   # Don't care if the mailer can't send (if set to false)
   config.action_mailer.raise_delivery_errors = false
 
-  # Ensures images included in emails that originate from our assest folder and pipepline
-  # can still be viewed in emails. See
-  # http://stackoverflow.com/questions/6152231/is-there-a-ruby-library-gem-that-will-generate-a-url-based-on-a-set-of-parameter for an explanation of the problem we faced and hopefully (!) the solution
-  config.action_controller.asset_host = config.subdomain
-  config.action_mailer.asset_host = "https://#{config.subdomain}"
-
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     user_name: ENV["WCRS_EMAIL_USERNAME"],
