@@ -21,16 +21,6 @@ module Registrations
     # config/initializers; all .rb files in that directory are automatically
     # loaded.
 
-    # Helper which takes a URL from the specified environment variable, or uses
-    # a default value if the environment variable isn't set, and ensures it is
-    # prefixed with a protocol (such as 'http://').
-    def self.get_url_from_environment_or_default(environment_variable_name, default_value)
-      value = ENV[environment_variable_name]
-      value = default_value if value.blank?
-      value = format("http://#{value}") unless value =~ %r{://}
-      value
-    end
-
     # We have an issue when deploying to our environments in that when
     # Capistrano runs the deploy:assets:precompile step (specifically bundle
     # exec rake assets:precompile) it does so having set RAILS_ENV to production.
@@ -72,29 +62,25 @@ module Registrations
       "#{html_tag}".html_safe
     }
 
-    # Our services URL. This application is the REST-based client of that
-    # service API.  As described in the comments above, this setting can be
-    # redefined in 'config/environments/*.rb'.
-    # Changing this value requires restart of the application.
-    config.waste_exemplar_services_url            = get_url_from_environment_or_default('WCRS_SERVICES_DOMAIN',       'http://localhost:8003')
-    config.waste_exemplar_services_admin_url      = get_url_from_environment_or_default('WCRS_SERVICES_ADMIN_DOMAIN', 'http://localhost:8004')
-    config.waste_exemplar_addresses_url           = get_url_from_environment_or_default('WCRS_OS_PLACES_DOMAIN',      'http://localhost:8005')
+    config.waste_exemplar_services_url = ENV['WCRS_SERVICES_DOMAIN'] || 'http://localhost:8003'
+    config.waste_exemplar_services_admin_url = ENV['WCRS_SERVICES_ADMIN_DOMAIN'] || 'http://localhost:8004'
+    config.waste_exemplar_addresses_url = ENV['WCRS_OS_PLACES_DOMAIN'] || 'http://localhost:8005'
 
-    # The application URL.
-    config.waste_exemplar_frontend_url            = get_url_from_environment_or_default('WCRS_FRONTEND_DOMAIN',       'http://localhost:3000')
+    config.renewals_service_url = "#{ENV['WCRS_RENEWALS_DOMAIN'] || 'http://localhost:3000'}/fo/renew/"
 
-    # The application admin URL.
-    config.waste_exemplar_frontend_admin_url      = get_url_from_environment_or_default('WCRS_FRONTEND_ADMIN_DOMAIN', 'http://localhost:3000')
+    config.waste_exemplar_frontend_url = ENV['WCRS_FRONTEND_DOMAIN'] || 'http://localhost:3000'
+    config.waste_exemplar_frontend_admin_url = ENV['WCRS_FRONTEND_ADMIN_DOMAIN'] || 'http://localhost:3000'
 
     # The subdomains used in links for password reset and other e-mails sent by
     # the Devise authentication component.
     config.subdomain = ENV['WCRS_FRONTEND_SUBDOMAIN'] || 'localhost:3000'
-    config.admin_subdomain  = ENV['WCRS_FRONTEND_ADMIN_SUBDOMAIN']  || 'localhost:3000'
+    config.admin_subdomain = ENV['WCRS_FRONTEND_ADMIN_SUBDOMAIN'] || 'localhost:3000'
 
     # Settings relating to Companies House.
     config.waste_exemplar_companies_house_api_url = ENV["WCRS_COMPANIES_HOUSE_URL"] || "https://api.companieshouse.gov.uk/company/"
     config.waste_exemplar_companies_house_api_key = ENV['WCRS_COMPANIES_HOUSE_API_KEY']
     config.waste_exemplar_companies_house_url = 'http://www.companieshouse.gov.uk/info'
+
     # (The value for this environment variable should be a comma-separated list of allowed
     # company statuses.  We convert this into a whitespace-free array of strings below)
     config.waste_exemplar_allowed_company_statuses =
@@ -103,9 +89,7 @@ module Registrations
     # In Production we want to verify that requests to agency user and
     # administration functionality have been made via the 'internal' subdomain
     # URL rather than via the public domain and URL.
-    config.require_admin_requests = Rails.env.production? || ENV['WCRS_FRONTEND_REQUIRE_ADMIN_REQUESTS'] || false
-
-    config.renewals_service_url = "#{get_url_from_environment_or_default('WCRS_RENEWALS_DOMAIN', 'http://localhost:3000')}/fo/renew/"
+    config.require_admin_requests = Rails.env.production? || false
 
     # Add a URL to represent the GOV.UK page that the process goes to, after the
     # registration happy path.
