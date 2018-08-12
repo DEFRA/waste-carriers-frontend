@@ -2,10 +2,6 @@ class RegistrationMailer < ActionMailer::Base
   helper :application
   helper :registrations
 
-  # This line should have set the default from name, but didnt in testing,
-  # as such from_address variables were created to pass in the email name
-  #default :from => "\"EA Waste Carriers\" <registrations@wastecarriersregistration.service.gov.uk>"
-
   def welcome_email(user, registration)
     @user = user
     @url = Rails.configuration.subdomain
