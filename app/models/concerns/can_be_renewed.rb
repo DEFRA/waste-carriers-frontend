@@ -41,6 +41,10 @@ module CanBeRenewed
     "#{Rails.configuration.renewals_service_url}#{regIdentifier}"
   end
 
+  def back_office_renewals_url
+    "#{Rails.configuration.back_office_renewals_url}#{regIdentifier}"
+  end
+
   private
 
   def add_validation_error(key, error_id)
