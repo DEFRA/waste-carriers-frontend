@@ -67,6 +67,7 @@ module Registrations
     config.waste_exemplar_addresses_url = ENV['WCRS_OS_PLACES_DOMAIN'] || 'http://localhost:8005'
 
     config.renewals_service_url = "#{ENV['WCRS_RENEWALS_DOMAIN'] || 'http://localhost:3000'}/fo/renew/"
+    config.back_office_renewals_url = "#{ENV['WCRS_BACK_OFFICE_DOMAIN'] || 'http://localhost:8001'}/bo/renew/"
 
     config.waste_exemplar_frontend_url = ENV['WCRS_FRONTEND_DOMAIN'] || 'http://localhost:3000'
     config.waste_exemplar_frontend_admin_url = ENV['WCRS_FRONTEND_ADMIN_DOMAIN'] || 'http://localhost:3000'
