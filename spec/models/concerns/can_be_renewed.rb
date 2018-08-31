@@ -127,4 +127,21 @@ shared_examples_for "can_be_renewed" do
       expect(subject.renewals_url).to eq("http://localhost:3000/renew/CBDU1")
     end
   end
+
+  describe "#back_office_renewals_url" do
+    before do
+      allow(Rails.configuration).to receive(:back_office_renewals_url).and_return("http://localhost:8001/bo/renew/")
+    end
+
+    subject do
+      registration = described_class.ctor
+      registration.regIdentifier = "CBDU1"
+      registration
+    end
+
+    it "returns the configured url with the registration number appended to the end" do
+      subject.tier = "LOWER"
+      expect(subject.back_office_renewals_url).to eq("http://localhost:8001/bo/renew/CBDU1")
+    end
+  end
 end
