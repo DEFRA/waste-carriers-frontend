@@ -1,6 +1,7 @@
 class RegistrationMailer < ActionMailer::Base
   helper :application
   helper :registrations
+  add_template_helper(EmailHelper)
 
   def welcome_email(user, registration)
     @user = user
