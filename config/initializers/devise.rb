@@ -259,3 +259,14 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 end
+
+# We need to include the email_image_tag() in our Devise custom mailer views
+# however we don't have a Registrations_Mailer.rb that we can call
+# add_template_helper() in.
+# The solution appears to be to add this piece of custom config in the Devise
+# initializer
+# https://groups.google.com/d/msg/plataformatec-devise/ZKo9EcgZxGA/8wyd0C8nCwAJ
+# https://github.com/plataformatec/devise/wiki/How-To:-Create-custom-layouts#application--devise-config
+Rails.application.config.to_prepare do
+  Devise::Mailer.helper :email
+end
