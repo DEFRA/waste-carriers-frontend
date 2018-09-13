@@ -42,13 +42,28 @@ module Registrations
     end
 
     def renewal_service_url(app_path)
-      base_url = ENV['WCRS_RENEWALS_DOMAIN'] || 'http://localhost:3000'
+      base_url = base_url(app_path)
       path = if ENV['WCRS_HOLD_RENEWALS']
         '/renew/'
       else
         "/#{app_path}/renew/"
       end
       "#{base_url}#{path}"
+    end
+
+    def base_url(app_path)
+      if Rails.env.production?
+        # In production the base url needs to match the external url, hence we
+        # can just pull from our config.
+        back_office = config.waste_exemplar_frontend_admin_url
+        front_office = config.waste_exemplar_frontend_url
+      else
+        back_office = ENV['WCRS_BACKOFFICE_DOMAIN'] || 'http://localhost:8001'
+        front_office = ENV['WCRS_RENEWALS_DOMAIN'] || 'http://localhost:3000'
+      end
+
+      return front_office if app_path == "fo"
+      back_office
     end
 
     config.time_zone = "Europe/London"
@@ -72,15 +87,15 @@ module Registrations
       "#{html_tag}".html_safe
     }
 
+    config.waste_exemplar_frontend_url = ENV['WCRS_FRONTEND_DOMAIN'] || 'http://localhost:3000'
+    config.waste_exemplar_frontend_admin_url = ENV['WCRS_FRONTEND_ADMIN_DOMAIN'] || 'http://localhost:3000'
+
     config.waste_exemplar_services_url = ENV['WCRS_SERVICES_DOMAIN'] || 'http://localhost:8003'
     config.waste_exemplar_services_admin_url = ENV['WCRS_SERVICES_ADMIN_DOMAIN'] || 'http://localhost:8004'
     config.waste_exemplar_addresses_url = ENV['WCRS_OS_PLACES_DOMAIN'] || 'http://localhost:8005'
 
     config.renewals_service_url = renewal_service_url("fo")
     config.back_office_renewals_url = renewal_service_url("bo")
-
-    config.waste_exemplar_frontend_url = ENV['WCRS_FRONTEND_DOMAIN'] || 'http://localhost:3000'
-    config.waste_exemplar_frontend_admin_url = ENV['WCRS_FRONTEND_ADMIN_DOMAIN'] || 'http://localhost:3000'
 
     # The subdomains used in links for password reset and other e-mails sent by
     # the Devise authentication component.
