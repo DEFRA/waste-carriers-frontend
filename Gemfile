@@ -71,6 +71,17 @@ gem 'wicked_pdf'
 # that fail.
 gem "passenger", "~> 5.0", ">= 5.0.30", require: "phusion_passenger/rack_handler"
 
+# Allows us to automatically generate the change log from the tags, issues,
+# labels and pull requests on GitHub. Added as a dependency so all dev's have
+# access to it to generate a log, and so they are using the same version.
+# New dev's should first create GitHub personal app token and add it to their
+# ~/.bash_profile (or equivalent)
+# https://github.com/skywinder/github-changelog-generator#github-token
+# Then simply run `bundle exec rake changelog` to update CHANGELOG.md
+# Should be in the :development group however when it is it breaks deployment
+# to Heroku. Hence moved outside group till we can understand why.
+gem "github_changelog_generator", require: false
+
 # Defines a route for ELB healthchecks. The healthcheck is a piece of Rack
 # middleware that does absolutely nothing, so it is faster than just using the
 # default `/` route, or `/version` as was previously used.
