@@ -1,11 +1,12 @@
 # Change Log
 
-## [Unreleased](https://github.com/DEFRA/waste-carriers-frontend/tree/HEAD)
-
-[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4...HEAD)
+## [v2.4.1](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.1) (2018-09-14)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4...v2.4.1)
 
 **Merged pull requests:**
 
+- Remove change account email from admin screen [\#164](https://github.com/DEFRA/waste-carriers-frontend/pull/164) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add CHANGELOG to the project [\#163](https://github.com/DEFRA/waste-carriers-frontend/pull/163) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix broken renew link in back office [\#162](https://github.com/DEFRA/waste-carriers-frontend/pull/162) ([Cruikshanks](https://github.com/Cruikshanks))
 
 ## [v2.4](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4) (2018-09-10)
