@@ -1543,7 +1543,7 @@ en:
       company_number_info: "An 8 digit number, or 2 letters followed by a 6 digit number.  Find it on a letter from <a href=\"%{ch_url}\" target=\"_blank\" rel=\"external\">Companies House</a> or HMRC tax office."
     current_user:
       change_password: "Change password"
-      new_registration: "New or renew registration"
+      new_registration: "New registration"
       registrations_export: "Registrations export"
       payments_export: "Payments export"
       copy_cards_export: "Copy cards export"
