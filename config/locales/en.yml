@@ -1134,6 +1134,7 @@ en:
       aside_heading: "Other functions"
       company_name: "Name"
       no_account_email: "none"
+      no_matching_account: "No matching user found"
       registration: "registration"
       record: "record"
       actions_heading: "Actions"

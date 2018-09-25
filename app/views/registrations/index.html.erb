@@ -155,6 +155,10 @@
               <% else %>
                 <%= t '.no_account_email' %>
               <% end %>
+              <% if reg.account_email_has_no_matching_user? %>
+                <br>
+                <em><%= t '.no_matching_account' %></em>
+              <% end %>
               </p>
             </li>
           </ul>

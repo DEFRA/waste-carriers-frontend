@@ -1612,4 +1612,10 @@ class Registration < Ohm::Model
     finance_details.first.orders.to_a.last
   end
 
+  # This is just true for matching external users, not agency users or other backend users
+  def account_email_has_no_matching_user?
+    return true if accountEmail.blank?
+    return false if User.where(email: accountEmail).count.positive?
+    true
+  end
 end
