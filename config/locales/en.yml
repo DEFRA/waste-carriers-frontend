@@ -1133,6 +1133,7 @@ en:
       registration_status_message: "Registrations status: %{status}"
       aside_heading: "Other functions"
       company_name: "Name"
+      no_account_email: "none"
       registration: "registration"
       record: "record"
       actions_heading: "Actions"
