@@ -147,6 +147,20 @@
           <ul>
             <li><span><%= t '.company_name' %></span><p><%= reg.companyName %></p></li>
             <li><span><%= t 'activemodel.attributes.address.postcode' %></span><p><%= reg.registered_address.postcode %></p></li>
+            <li>
+              <span><%= t 'activemodel.attributes.accountEmail' %></span>
+              <p>
+              <% if reg.accountEmail.present? %>
+                <%= reg.accountEmail %>
+              <% else %>
+                <%= t '.no_account_email' %>
+              <% end %>
+              <% if reg.account_email_has_no_matching_user? %>
+                <br>
+                <em><%= t '.no_matching_account' %></em>
+              <% end %>
+              </p>
+            </li>
           </ul>
       </div>
     </div>

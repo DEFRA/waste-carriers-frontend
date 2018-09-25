@@ -224,4 +224,27 @@ describe Registration do
 
     it_behaves_like 'an acceptance step'
   end
+
+  describe "account_email_has_no_matching_user?" do
+    context "when there is a matching account" do
+      before do
+        user = User.create(email: "thisexists@example.com", password: "Secret123")
+        subject.accountEmail = user.email
+      end
+
+      it "returns false" do
+        expect(subject.account_email_has_no_matching_user?).to eq(false)
+      end
+    end
+
+    context "when there is no matching account" do
+      before do
+        subject.accountEmail = "thisdoesnotexist@example.com"
+      end
+
+      it "returns false" do
+        expect(subject.account_email_has_no_matching_user?).to eq(true)
+      end
+    end
+  end
 end
