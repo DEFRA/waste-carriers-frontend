@@ -1,39 +1,55 @@
 # Change Log
 
+## [v2.4.2](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.2) (2018-09-25)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.1...v2.4.2)
+
+**Implemented enhancements:**
+
+- Display account\_email for registrations in NCCC dashboard [\#165](https://github.com/DEFRA/waste-carriers-frontend/pull/165) ([irisfaraway](https://github.com/irisfaraway))
+
+**Fixed bugs:**
+
+- Inaccurate "new or renew registration" link in existing backend [\#166](https://github.com/DEFRA/waste-carriers-frontend/pull/166) ([irisfaraway](https://github.com/irisfaraway))
+
 ## [v2.4.1](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.1) (2018-09-14)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4...v2.4.1)
 
-**Merged pull requests:**
+**Implemented enhancements:**
+
+- Add CHANGELOG to the project [\#163](https://github.com/DEFRA/waste-carriers-frontend/pull/163) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Fixed bugs:**
 
 - Remove change account email from admin screen [\#164](https://github.com/DEFRA/waste-carriers-frontend/pull/164) ([Cruikshanks](https://github.com/Cruikshanks))
-- Add CHANGELOG to the project [\#163](https://github.com/DEFRA/waste-carriers-frontend/pull/163) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix broken renew link in back office [\#162](https://github.com/DEFRA/waste-carriers-frontend/pull/162) ([Cruikshanks](https://github.com/Cruikshanks))
 
 ## [v2.4](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4) (2018-09-10)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.3.2-beta...v2.4)
 
-**Merged pull requests:**
+**Implemented enhancements:**
+
+- Add rake task to purge both databases [\#156](https://github.com/DEFRA/waste-carriers-frontend/pull/156) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add rake task to test mongodb connection [\#153](https://github.com/DEFRA/waste-carriers-frontend/pull/153) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add specific support for ELB health check calls [\#148](https://github.com/DEFRA/waste-carriers-frontend/pull/148) ([Cruikshanks](https://github.com/Cruikshanks))
+- Set secret\_key\_base when run under prod & rake [\#144](https://github.com/DEFRA/waste-carriers-frontend/pull/144) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add Passenger web app server to project [\#142](https://github.com/DEFRA/waste-carriers-frontend/pull/142) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update endpoints for various calls to WCR services [\#132](https://github.com/DEFRA/waste-carriers-frontend/pull/132) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update project to support connecting to MongoDb 3.6 [\#127](https://github.com/DEFRA/waste-carriers-frontend/pull/127) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Fixed bugs:**
 
 - Fix missing GOV.UK logo in emails [\#161](https://github.com/DEFRA/waste-carriers-frontend/pull/161) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix renewals url for back office [\#160](https://github.com/DEFRA/waste-carriers-frontend/pull/160) ([Cruikshanks](https://github.com/Cruikshanks))
 - Update renewal hold fix to not mess with env var [\#159](https://github.com/DEFRA/waste-carriers-frontend/pull/159) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix broken logic for renewals holding page [\#158](https://github.com/DEFRA/waste-carriers-frontend/pull/158) ([Cruikshanks](https://github.com/Cruikshanks))
-- Assisted digital renewals are routed incorrectly [\#157](https://github.com/DEFRA/waste-carriers-frontend/pull/157) ([irisfaraway](https://github.com/irisfaraway))
-- Add rake task to purge both databases [\#156](https://github.com/DEFRA/waste-carriers-frontend/pull/156) ([Cruikshanks](https://github.com/Cruikshanks))
 - Do not raise error on Mongoid document not found [\#155](https://github.com/DEFRA/waste-carriers-frontend/pull/155) ([Cruikshanks](https://github.com/Cruikshanks))
 - Remove hard coded use of service email values [\#154](https://github.com/DEFRA/waste-carriers-frontend/pull/154) ([Cruikshanks](https://github.com/Cruikshanks))
-- Add rake task to test mongodb connection [\#153](https://github.com/DEFRA/waste-carriers-frontend/pull/153) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix missing assets by not setting asset\_host [\#152](https://github.com/DEFRA/waste-carriers-frontend/pull/152) ([Cruikshanks](https://github.com/Cruikshanks))
 - Simplify the setting of urls in application.rb [\#151](https://github.com/DEFRA/waste-carriers-frontend/pull/151) ([Cruikshanks](https://github.com/Cruikshanks))
-- Update email settings and add test email rake task [\#150](https://github.com/DEFRA/waste-carriers-frontend/pull/150) ([Cruikshanks](https://github.com/Cruikshanks))
-- Rewrite frontend seeding of users [\#149](https://github.com/DEFRA/waste-carriers-frontend/pull/149) ([irisfaraway](https://github.com/irisfaraway))
-- Add specific support for ELB health check calls [\#148](https://github.com/DEFRA/waste-carriers-frontend/pull/148) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix Perf. test rake task breaking cap deploy [\#147](https://github.com/DEFRA/waste-carriers-frontend/pull/147) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix CI reporter rake task breaking cap deploy [\#146](https://github.com/DEFRA/waste-carriers-frontend/pull/146) ([Cruikshanks](https://github.com/Cruikshanks))
 - Move renewal root path to logic not env var [\#145](https://github.com/DEFRA/waste-carriers-frontend/pull/145) ([Cruikshanks](https://github.com/Cruikshanks))
-- Set secret\_key\_base when run under prod & rake [\#144](https://github.com/DEFRA/waste-carriers-frontend/pull/144) ([Cruikshanks](https://github.com/Cruikshanks))
 - Ignore Passengerfile.json [\#143](https://github.com/DEFRA/waste-carriers-frontend/pull/143) ([Cruikshanks](https://github.com/Cruikshanks))
-- Add Passenger web app server to project [\#142](https://github.com/DEFRA/waste-carriers-frontend/pull/142) ([Cruikshanks](https://github.com/Cruikshanks))
 - Refactor mongoid config to use URI's [\#141](https://github.com/DEFRA/waste-carriers-frontend/pull/141) ([Cruikshanks](https://github.com/Cruikshanks))
 - Update to support using mock worldpay service [\#140](https://github.com/DEFRA/waste-carriers-frontend/pull/140) ([Cruikshanks](https://github.com/Cruikshanks))
 - Resolve issues with config found in testing [\#139](https://github.com/DEFRA/waste-carriers-frontend/pull/139) ([Cruikshanks](https://github.com/Cruikshanks))
@@ -42,44 +58,57 @@
 - Update url for address lookup [\#136](https://github.com/DEFRA/waste-carriers-frontend/pull/136) ([Cruikshanks](https://github.com/Cruikshanks))
 - Update default ports used for services [\#135](https://github.com/DEFRA/waste-carriers-frontend/pull/135) ([Cruikshanks](https://github.com/Cruikshanks))
 - Remove references and dependencies on elasticsearch [\#134](https://github.com/DEFRA/waste-carriers-frontend/pull/134) ([Cruikshanks](https://github.com/Cruikshanks))
-- Update month stated in renewals holding page [\#133](https://github.com/DEFRA/waste-carriers-frontend/pull/133) ([Cruikshanks](https://github.com/Cruikshanks))
-- Update endpoints for various calls to WCR services [\#132](https://github.com/DEFRA/waste-carriers-frontend/pull/132) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix broken rake by upgrading Rspec [\#131](https://github.com/DEFRA/waste-carriers-frontend/pull/131) ([Cruikshanks](https://github.com/Cruikshanks))
 - Synch secret key base & devise init. with renewals [\#130](https://github.com/DEFRA/waste-carriers-frontend/pull/130) ([Cruikshanks](https://github.com/Cruikshanks))
 - Upgrade service to 2.4.2 to match wcr renewals [\#129](https://github.com/DEFRA/waste-carriers-frontend/pull/129) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Merged pull requests:**
+
+- Assisted digital renewals are routed incorrectly [\#157](https://github.com/DEFRA/waste-carriers-frontend/pull/157) ([irisfaraway](https://github.com/irisfaraway))
+- Update email settings and add test email rake task [\#150](https://github.com/DEFRA/waste-carriers-frontend/pull/150) ([Cruikshanks](https://github.com/Cruikshanks))
+- Rewrite frontend seeding of users [\#149](https://github.com/DEFRA/waste-carriers-frontend/pull/149) ([irisfaraway](https://github.com/irisfaraway))
+- Update month stated in renewals holding page [\#133](https://github.com/DEFRA/waste-carriers-frontend/pull/133) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix README details and defaults for services [\#128](https://github.com/DEFRA/waste-carriers-frontend/pull/128) ([Cruikshanks](https://github.com/Cruikshanks))
-- Update project to support connecting to MongoDb 3.6 [\#127](https://github.com/DEFRA/waste-carriers-frontend/pull/127) ([Cruikshanks](https://github.com/Cruikshanks))
 
 ## [v2.3.2-beta](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.3.2-beta) (2018-03-21)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.3.1...v2.3.2-beta)
 
-**Merged pull requests:**
+**Implemented enhancements:**
 
-- Update master to latest for release 2.3.2-beta [\#126](https://github.com/DEFRA/waste-carriers-frontend/pull/126) ([Cruikshanks](https://github.com/Cruikshanks))
-- Update version to 2.3.2-beta prior to release [\#125](https://github.com/DEFRA/waste-carriers-frontend/pull/125) ([Cruikshanks](https://github.com/Cruikshanks))
-- Fix or mark PENDING broken feature tests [\#124](https://github.com/DEFRA/waste-carriers-frontend/pull/124) ([Cruikshanks](https://github.com/Cruikshanks))
-- Update content CBD renewals service stand in page [\#123](https://github.com/DEFRA/waste-carriers-frontend/pull/123) ([Cruikshanks](https://github.com/Cruikshanks))
 - Add link to renew reg. from user signed in page [\#121](https://github.com/DEFRA/waste-carriers-frontend/pull/121) ([Cruikshanks](https://github.com/Cruikshanks))
 - Redirect digital renewals to temporary info page [\#120](https://github.com/DEFRA/waste-carriers-frontend/pull/120) ([Cruikshanks](https://github.com/Cruikshanks))
 - Check if registration eligible to renew [\#118](https://github.com/DEFRA/waste-carriers-frontend/pull/118) ([Cruikshanks](https://github.com/Cruikshanks))
-- Temp/expiry tests [\#117](https://github.com/DEFRA/waste-carriers-frontend/pull/117) ([irisfaraway](https://github.com/irisfaraway))
-- Fix dates in test for renewable-from date [\#116](https://github.com/DEFRA/waste-carriers-frontend/pull/116) ([irisfaraway](https://github.com/irisfaraway))
-- Add VCR cassettes to the project [\#115](https://github.com/DEFRA/waste-carriers-frontend/pull/115) ([Cruikshanks](https://github.com/Cruikshanks))
 - Check if IR registration eligible to renew [\#114](https://github.com/DEFRA/waste-carriers-frontend/pull/114) ([Cruikshanks](https://github.com/Cruikshanks))
 - Logic to confirm if reg. exists in enter reg. page [\#113](https://github.com/DEFRA/waste-carriers-frontend/pull/113) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Fixed bugs:**
+
+- Fix or mark PENDING broken feature tests [\#124](https://github.com/DEFRA/waste-carriers-frontend/pull/124) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update content CBD renewals service stand in page [\#123](https://github.com/DEFRA/waste-carriers-frontend/pull/123) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add VCR cassettes to the project [\#115](https://github.com/DEFRA/waste-carriers-frontend/pull/115) ([Cruikshanks](https://github.com/Cruikshanks))
 - Refactor existing\_registration\_ctrl logic [\#111](https://github.com/DEFRA/waste-carriers-frontend/pull/111) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix broken comp. house strike off test [\#110](https://github.com/DEFRA/waste-carriers-frontend/pull/110) ([Cruikshanks](https://github.com/Cruikshanks))
 - Fix wrong use of country code from countries gem [\#109](https://github.com/DEFRA/waste-carriers-frontend/pull/109) ([Cruikshanks](https://github.com/Cruikshanks))
 - Update Devise account locking config [\#108](https://github.com/DEFRA/waste-carriers-frontend/pull/108) ([irisfaraway](https://github.com/irisfaraway))
 - Fix markdown formatting, update GitHub links [\#107](https://github.com/DEFRA/waste-carriers-frontend/pull/107) ([irisfaraway](https://github.com/irisfaraway))
+
+**Merged pull requests:**
+
+- Update master to latest for release 2.3.2-beta [\#126](https://github.com/DEFRA/waste-carriers-frontend/pull/126) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update version to 2.3.2-beta prior to release [\#125](https://github.com/DEFRA/waste-carriers-frontend/pull/125) ([Cruikshanks](https://github.com/Cruikshanks))
+- Temp/expiry tests [\#117](https://github.com/DEFRA/waste-carriers-frontend/pull/117) ([irisfaraway](https://github.com/irisfaraway))
+- Fix dates in test for renewable-from date [\#116](https://github.com/DEFRA/waste-carriers-frontend/pull/116) ([irisfaraway](https://github.com/irisfaraway))
 - Change date of OS Places terms to 20 December [\#104](https://github.com/DEFRA/waste-carriers-frontend/pull/104) ([lewispb](https://github.com/lewispb))
 
 ## [v2.3.1](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.3.1) (2016-12-19)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.3.0...v2.3.1)
 
-**Closed issues:**
+**Fixed bugs:**
 
 - Simplecov creating files with very long path names [\#102](https://github.com/DEFRA/waste-carriers-frontend/issues/102)
+
+**Closed issues:**
+
 - Create a cron job to clear Redis every night at 2.30 a.m. [\#95](https://github.com/DEFRA/waste-carriers-frontend/issues/95)
 - Implement rails config gem, use settings.yml [\#23](https://github.com/DEFRA/waste-carriers-frontend/issues/23)
 
@@ -133,6 +162,17 @@
 ## [v2.2.0-beta](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.2.0-beta) (2016-07-27)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.1.2-beta_irdecom...v2.2.0-beta)
 
+**Fixed bugs:**
+
+- Precompile print css [\#71](https://github.com/DEFRA/waste-carriers-frontend/pull/71) ([lewispb](https://github.com/lewispb))
+- Remove special and broken page title from 500 page [\#40](https://github.com/DEFRA/waste-carriers-frontend/pull/40) ([lewispb](https://github.com/lewispb))
+- Refactor wording logic on editRenewComplete [\#39](https://github.com/DEFRA/waste-carriers-frontend/pull/39) ([lewispb](https://github.com/lewispb))
+- Fix edit-caused-new wording charge on confirmation [\#38](https://github.com/DEFRA/waste-carriers-frontend/pull/38) ([lewispb](https://github.com/lewispb))
+- Resolve issue displaying edit wording incorrectly [\#37](https://github.com/DEFRA/waste-carriers-frontend/pull/37) ([lewispb](https://github.com/lewispb))
+- Add copy cards to order builder [\#36](https://github.com/DEFRA/waste-carriers-frontend/pull/36) ([lewispb](https://github.com/lewispb))
+- View certificate in new tab, prevent layout issue [\#34](https://github.com/DEFRA/waste-carriers-frontend/pull/34) ([lewispb](https://github.com/lewispb))
+- Show correct wording on order complete page [\#33](https://github.com/DEFRA/waste-carriers-frontend/pull/33) ([lewispb](https://github.com/lewispb))
+
 **Closed issues:**
 
 - PUTing a Registration to the Services over-writes payments [\#43](https://github.com/DEFRA/waste-carriers-frontend/issues/43)
@@ -146,7 +186,6 @@
 - Add instructions to NCCC screen for Update Account Email [\#75](https://github.com/DEFRA/waste-carriers-frontend/pull/75) ([TThurston](https://github.com/TThurston))
 - Improve key person validations [\#73](https://github.com/DEFRA/waste-carriers-frontend/pull/73) ([lewispb](https://github.com/lewispb))
 - Tweak project to use MailCatcher rather than LetterOpener [\#72](https://github.com/DEFRA/waste-carriers-frontend/pull/72) ([TThurston](https://github.com/TThurston))
-- Precompile print css [\#71](https://github.com/DEFRA/waste-carriers-frontend/pull/71) ([lewispb](https://github.com/lewispb))
 - Upgrade ruby and rails [\#70](https://github.com/DEFRA/waste-carriers-frontend/pull/70) ([TThurston](https://github.com/TThurston))
 - Extend integration test to cover "overpayment should activate" requirement [\#69](https://github.com/DEFRA/waste-carriers-frontend/pull/69) ([TThurston](https://github.com/TThurston))
 - Correct IBAN and SWIFTBAC typos [\#68](https://github.com/DEFRA/waste-carriers-frontend/pull/68) ([TThurston](https://github.com/TThurston))
@@ -164,14 +203,7 @@
 - Use thin with capybara [\#45](https://github.com/DEFRA/waste-carriers-frontend/pull/45) ([lewispb](https://github.com/lewispb))
 - Apply charged edits when payment method is selected [\#44](https://github.com/DEFRA/waste-carriers-frontend/pull/44) ([lewispb](https://github.com/lewispb))
 - Extend the Cucumber test for renewing an expired IR registration [\#41](https://github.com/DEFRA/waste-carriers-frontend/pull/41) ([TThurston](https://github.com/TThurston))
-- Remove special and broken page title from 500 page [\#40](https://github.com/DEFRA/waste-carriers-frontend/pull/40) ([lewispb](https://github.com/lewispb))
-- Refactor wording logic on editRenewComplete [\#39](https://github.com/DEFRA/waste-carriers-frontend/pull/39) ([lewispb](https://github.com/lewispb))
-- Fix edit-caused-new wording charge on confirmation [\#38](https://github.com/DEFRA/waste-carriers-frontend/pull/38) ([lewispb](https://github.com/lewispb))
-- Resolve issue displaying edit wording incorrectly [\#37](https://github.com/DEFRA/waste-carriers-frontend/pull/37) ([lewispb](https://github.com/lewispb))
-- Add copy cards to order builder [\#36](https://github.com/DEFRA/waste-carriers-frontend/pull/36) ([lewispb](https://github.com/lewispb))
 - Resolve Passenger call errors in Airbrake \(hopefully\) [\#35](https://github.com/DEFRA/waste-carriers-frontend/pull/35) ([lewispb](https://github.com/lewispb))
-- View certificate in new tab, prevent layout issue [\#34](https://github.com/DEFRA/waste-carriers-frontend/pull/34) ([lewispb](https://github.com/lewispb))
-- Show correct wording on order complete page [\#33](https://github.com/DEFRA/waste-carriers-frontend/pull/33) ([lewispb](https://github.com/lewispb))
 - Update date-of-birth validation rules [\#31](https://github.com/DEFRA/waste-carriers-frontend/pull/31) ([TThurston](https://github.com/TThurston))
 - Filter personal- and security-related information from the fields we record in Airbrake [\#30](https://github.com/DEFRA/waste-carriers-frontend/pull/30) ([TThurston](https://github.com/TThurston))
 - Filter passwords in params before going to Airbrake [\#29](https://github.com/DEFRA/waste-carriers-frontend/pull/29) ([lewispb](https://github.com/lewispb))
