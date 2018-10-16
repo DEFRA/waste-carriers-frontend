@@ -489,7 +489,6 @@ class Registration < Ohm::Model
       m = Metadata.create
       if agency_user_signed_in
         m.update(:route => 'ASSISTED_DIGITAL')
-        r.update(:accessCode => r.generate_random_access_code)
       else
         m.update(:route => 'DIGITAL')
       end
