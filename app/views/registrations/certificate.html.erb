@@ -138,7 +138,7 @@
           <p class="certificate_text"><%= t 'registration_mailer.welcome_email.lower_renewal_html' %></p>
         <% end %>
         <% if @registration.assisted_digital? %>
-          <p class="certificate_text"><%= t 'registration_mailer.welcome_email.updatePhone' %><strong><span id='accessCode'><%= @registration.accessCode %></span></strong>.</p>
+          <p class="certificate_text"><%= t 'registration_mailer.welcome_email.updatePhone' %>.</p>
         <% end %>
       </div>
 
