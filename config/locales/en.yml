@@ -636,7 +636,7 @@ en:
       responsibilitiesIntro: "If you produce, carry, import, keep, treat or dispose of waste, or manage it for other people, you have a legal 'duty of care' for that waste. The duty of care aims to protect the environment and human health. There are some simple rules you must follow:"
       telephone: "Telephone:\ "
       tier_result_message: "%{tier_with_article} tier waste carrier"
-      updatePhone: "You can do this by calling the Environment Agency and providing your access code. Your access code is:\ "
+      updatePhone: "You can do this by calling the Environment Agency "
       updateWebsite_html: "You can <a href='link' %{link}></a> here to make a change to your account."
       upperTierRegistration: "Upper tier registration"
     awaitingConvictionsCheck:
@@ -1106,7 +1106,6 @@ en:
       subtitle_complete: "Registration complete"
       subtitle_pending: "Registration pending"
       your_reg_number_html: "The registration number is: <span id='registrationNumber'>%{reg}</span>"
-      access_code: "The assisted digital access code is:\ "
       registered_as: "%{companyName} has been registered as %{tier_with_article} tier waste carrier."
       applied_as: "%{companyName} has applied as %{tier_with_article} tier waste carrier."
       payment_message: "Please remind the applicant to arrange a bank transfer. Alternatively select the registration and choose to pay by credit or debit card on their behalf."

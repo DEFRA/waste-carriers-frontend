@@ -23,7 +23,6 @@
 				publicBodyType:$elem.attr("data-publicBodyType"),
 				mdStatus:$elem.attr("data-status"),
 				regIdentifier:$elem.attr("data-regIdentifier"),
-				accessCode:$elem.attr("data-accessCode"),
 				address: address
 			}
 
@@ -129,16 +128,12 @@
 
 		var address = data.address;
 		var regIden = data.regIdentifier;
-		var accessCode = data.accessCode;
 
 		var orgInfo = "";
 
 		var html = "";
 		html += "<div>"+orgName+orgInfo+"</div>";
 		html += "<div>Registration number: "+regIden+"</div>";
-		if (accessCode!=="") {
-		    html += "<div>Access code: "+accessCode+"</div>";
-		}
 		html += address;
 		if (email !== "")
 		{
@@ -270,7 +265,7 @@
 			e.preventDefault();
 			advancedToggle();
 		});
-		
+
 		$("#manualAddressLink").click(function(e){
 			e.preventDefault();
 			manualAddress();
