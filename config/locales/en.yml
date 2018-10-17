@@ -1374,6 +1374,8 @@ en:
       title_unrevoke: "UnRevoke registration"
     smartanswers_display:
       business_type: "You are a %{businessType}"
+      overseas_business_type: "You are based overseas"
+      sole_trader_business_type: "You are an individual or sole trader"
       construction_demolition_no: "You never deal with construction or demolition waste"
       construction_demolition_yes: "You deal with construction or demolition waste"
       only_deal_with_no: "You deal with waste other than animal by-products, waste from a mine or quarry, or farm or agricultural waste"
