@@ -1,7 +1,13 @@
 <ul id='smartanswers_display'>
   <% unless r.businessType.blank? %>
     <li>
-      <%= t '.business_type', :businessType => t('business_types.' + r.businessType).downcase %>
+      <% if r.businessType == "overseas" %>
+        <%= t '.overseas_business_type' %>
+      <% elsif r.businessType == "soleTrader" %>
+        <%= t '.sole_trader_business_type' %>
+      <% else %>
+        <%= t '.business_type', :businessType => t('business_types.' + r.businessType).downcase %>
+      <% end %>
     </li>
   <% end %>
   <% unless r.otherBusinesses.blank? %>
