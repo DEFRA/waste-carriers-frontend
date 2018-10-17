@@ -343,10 +343,6 @@ end
 Then(/^the callers registration should be pending convictions checks$/) do
   expect(page).to have_text 'The applicant declared relevant people with '\
                             'convictions'
-
-  # validate the access code is present and of the correct length
-  access_code = page.find_by_id 'accessCode'
-  expect(access_code.text.length).to eq(6)
 end
 
 Then(/^registration should be pending payment$/) do

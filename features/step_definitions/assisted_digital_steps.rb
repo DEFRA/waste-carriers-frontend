@@ -56,13 +56,6 @@ Then(/^the registration confirmation email should not be sent$/) do
   expect(current_email).to be_nil
 end
 
-Then(/^the print page contains the six-digit access code for the user$/) do
-  click_link 'view_certificate'
-
-  access_code = page.find_by_id 'accessCode'
-  expect(access_code.text.length).to eq(6)
-end
-
 When(/^I create a lower tier registration on behalf of a caller$/) do
   click_link 'new_registration'
 
@@ -195,10 +188,6 @@ end
 
 And(/^the upper tier waste carrier registration id/) do
   expect(page).to have_text 'The registration number is: CBDU'
-end
-
-Then(/^I see the six\-character access code for the user$/) do
-  expect(page).to have_text 'The assisted digital access code is:'
 end
 
 And(/^I see the payment details to tell the customer$/) do
