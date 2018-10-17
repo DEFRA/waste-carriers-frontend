@@ -65,8 +65,8 @@ class ExistingRegistrationController < ApplicationController
     end
 
     # IR data found, merge with registration in redis
-    # Access Code and reg_uuid should not get overriden with IR data
-    @registration.add(ir_registration.attributes.except(:reg_uuid, :accessCode))
+    # Reg_uuid should not get overriden with IR data
+    @registration.add(ir_registration.attributes.except(:reg_uuid))
     @registration.save
 
     true

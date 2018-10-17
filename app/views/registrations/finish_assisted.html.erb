@@ -18,10 +18,6 @@
         </div>
       </header>
 
-        <p><%= t '.access_code' %>
-          <span id="accessCode"><%= @registration.accessCode %></span>
-        </p>
-
         <p class="heading-with-border"><%= t('.registered_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %>
         </p>
 
@@ -32,10 +28,6 @@
         <% else %>
           <h1 class="heading-large"><%= t '.subtitle_pending' %></h1>
           <h2 class="heading-medium"><%= t '.your_reg_number_html', :reg => @registration.regIdentifier %></h2>
-
-          <p><%= t '.access_code' %>
-            <span id="accessCode"><%= @registration.accessCode %></span>
-          </p>
 
           <p><%= t('.applied_as', :companyName => @registration.companyName, tier_with_article: @registration.tier.downcase.with_indefinite_article) %></p>
 
