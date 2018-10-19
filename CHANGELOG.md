@@ -1,5 +1,17 @@
 # Change Log
 
+## [v2.4.3](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.3) (2018-10-17)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.2...v2.4.3)
+
+**Implemented enhancements:**
+
+- Remove the access code feature for assisted digital [\#167](https://github.com/DEFRA/waste-carriers-frontend/pull/167) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Fixed bugs:**
+
+- Fix some business type content in declaration [\#169](https://github.com/DEFRA/waste-carriers-frontend/pull/169) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update business types in locales to add missing [\#168](https://github.com/DEFRA/waste-carriers-frontend/pull/168) ([Cruikshanks](https://github.com/Cruikshanks))
+
 ## [v2.4.2](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.2) (2018-09-25)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.1...v2.4.2)
 
