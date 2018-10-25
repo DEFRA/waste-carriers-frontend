@@ -25,10 +25,25 @@ shared_examples_for "can_be_renewed" do
     end
 
     context "when the registration is expired" do
-      it "cannot be renewed" do
-        subject.metaData.first.update(status: 'EXPIRED')
-        expect(subject.can_renew?(true)).to eq(false)
-        expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
+      context "because the status is expired" do
+        it "cannot be renewed" do
+          subject.metaData.first.update(status: 'EXPIRED')
+          expect(subject.can_renew?(true)).to eq(false)
+          expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
+        end
+      end
+
+      context "because the expires_on date is expired" do
+        # Registrations are marked as EXPIRED by the waste-carriers-service.
+        # We know the job runs at 8pm each day, and has been fixed to ignore the
+        # time element, however just to be sure, or in the event the service
+        # goes down, the class checks both the status and the expires_on field.
+        # Hence we test both contexts here.
+        it "cannot be renewed" do
+          subject.expires_on = date_to_utc_milliseconds(Date.today)
+          expect(subject.can_renew?(true)).to eq(false)
+          expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
+        end
       end
     end
 
