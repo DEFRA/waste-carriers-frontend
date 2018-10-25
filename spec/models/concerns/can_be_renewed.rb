@@ -38,10 +38,6 @@ shared_examples_for "can_be_renewed" do
     end
 
     context "when the registration expires outside the renewal window" do
-      before do
-        allow(Rails.configuration).to receive(:registration_renewal_window).and_return(3.months)
-      end
-
       it "cannot be renewed" do
         expiry_date = (3.months.from_now + 2.day).to_date
         subject.expires_on = date_to_utc_milliseconds(expiry_date)

@@ -222,7 +222,7 @@ module Registrations
 
     # Upper tier registrations can be renewed starting a given time period (e.g.
     # 6 months) before their expiration date.
-    config.registration_renewal_window = (ENV['WCRS_REGISTRATION_RENEWAL_WINDOW'] || '6').to_i.months
+    config.registration_renewal_window = (ENV['WCRS_REGISTRATION_RENEWAL_WINDOW'] || '3').to_i.months
 
     config.secret_key_base = "iamonlyherefordevisewhenraketasksarecalled" if apply_dummy_secret_key?
 
