@@ -19,21 +19,24 @@ shared_examples_for "can_be_renewed" do
     context "when the registration is lower tier" do
       it "cannot be renewed" do
         subject.tier = "LOWER"
-        expect(subject.can_renew?).to eq(false)
+        expect(subject.can_renew?(true)).to eq(false)
+        expect(subject.errors.first[1]).to eq("This is a lower tier registration so never expires. Call our helpline on 03708 506506 if you think this is incorrect.")
       end
     end
 
     context "when the registration is expired" do
       it "cannot be renewed" do
-        subject.expires_on = date_to_utc_milliseconds(Date.today)
-        expect(subject.can_renew?).to eq(false)
+        subject.metaData.first.update(status: 'EXPIRED')
+        expect(subject.can_renew?(true)).to eq(false)
+        expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
       end
     end
 
     context "when the registration is not ACTIVE" do
       it "cannot be renewed" do
         subject.metaData.first.update(status: 'REVOKED')
-        expect(subject.can_renew?).to eq(false)
+        expect(subject.can_renew?(true)).to eq(false)
+        expect(subject.errors.first[1]).to eq("This number is not registered. Call our helpline on 03708 506506 if you think this is incorrect.")
       end
     end
 
@@ -41,7 +44,9 @@ shared_examples_for "can_be_renewed" do
       it "cannot be renewed" do
         expiry_date = (3.months.from_now + 2.day).to_date
         subject.expires_on = date_to_utc_milliseconds(expiry_date)
-        expect(subject.can_renew?).to eq(false)
+        renew_from = ExpiryDateService.new(expiry_date).date_can_renew_from
+        expect(subject.can_renew?(true)).to eq(false)
+        expect(subject.errors.first[1]).to eq("This registration is not eligible for renewal until #{renew_from.to_formatted_s(:day_month_year)}.")
       end
     end
 
