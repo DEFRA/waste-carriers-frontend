@@ -25,24 +25,47 @@ shared_examples_for "can_be_renewed" do
     end
 
     context "when the registration is expired" do
-      context "because the status is expired" do
-        it "cannot be renewed" do
-          subject.metaData.first.update(status: 'EXPIRED')
-          expect(subject.can_renew?(true)).to eq(false)
-          expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
+      context "and we are outside the 'grace window'" do
+        context "if the status is expired" do
+          it "cannot be renewed" do
+            subject.metaData.first.update(status: 'EXPIRED')
+            expect(subject.can_renew?(true)).to eq(false)
+            expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
+          end
+        end
+
+        context "if the expires_on date is expired" do
+          # Registrations are marked as EXPIRED by the waste-carriers-service.
+          # We know the job runs at 8pm each day, and has been fixed to ignore the
+          # time element, however just to be sure, or in the event the service
+          # goes down, the class checks both the status and the expires_on field.
+          # Hence we test both contexts here.
+          it "cannot be renewed" do
+            subject.expires_on = date_to_utc_milliseconds(Date.today)
+            expect(subject.can_renew?(true)).to eq(false)
+            expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
+          end
         end
       end
 
-      context "because the expires_on date is expired" do
-        # Registrations are marked as EXPIRED by the waste-carriers-service.
-        # We know the job runs at 8pm each day, and has been fixed to ignore the
-        # time element, however just to be sure, or in the event the service
-        # goes down, the class checks both the status and the expires_on field.
-        # Hence we test both contexts here.
-        it "cannot be renewed" do
-          subject.expires_on = date_to_utc_milliseconds(Date.today)
-          expect(subject.can_renew?(true)).to eq(false)
-          expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
+      context "and we are inside the 'grace window'" do
+        context "if the status is expired" do
+          it "can be renewed" do
+            subject.metaData.first.update(status: 'EXPIRED')
+            expect(subject.can_renew?(true)).to eq(true)
+          end
+        end
+
+        context "if the expires_on date is expired" do
+          # Registrations are marked as EXPIRED by the waste-carriers-service.
+          # We know the job runs at 8pm each day, and has been fixed to ignore the
+          # time element, however just to be sure, or in the event the service
+          # goes down, the class checks both the status and the expires_on field.
+          # Hence we test both contexts here.
+          it "can be renewed" do
+            subject.expires_on = date_to_utc_milliseconds(Date.today)
+            expect(subject.can_renew?(true)).to eq(true)
+          end
         end
       end
     end
@@ -123,6 +146,29 @@ shared_examples_for "can_be_renewed" do
       it "returns true" do
         subject.tier = "LOWER"
         expect(subject.expired?).to eq(false)
+      end
+    end
+  end
+
+  describe "#in_expiry_grace_window?" do
+    subject do
+      registration = described_class.ctor
+      registration.tier = "UPPER"
+      registration.metaData.first.update(status: "EXPIRED")
+      registration
+    end
+
+    context "when the expires_on date is within the window" do
+      it "returns true" do
+        subject.expires_on = date_to_utc_milliseconds(Date.today)
+        expect(subject.in_expiry_grace_window?).to eq(true)
+      end
+    end
+
+    context "when the expires_on date is outside the window" do
+      it "returns false" do
+        subject.expires_on = date_to_utc_milliseconds(Date.today)
+        expect(subject.in_expiry_grace_window?).to eq(false)
       end
     end
   end
