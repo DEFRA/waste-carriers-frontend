@@ -158,6 +158,13 @@ shared_examples_for "can_be_renewed" do
       registration
     end
 
+    context "when the registration is lower tier" do
+      it "returns false" do
+        subject.tier = "LOWER"
+        expect(subject.in_expiry_grace_window?).to eq(false)
+      end
+    end
+
     context "when the expires_on date is within the window" do
       it "returns true" do
         subject.expires_on = date_to_utc_milliseconds(Date.today)
