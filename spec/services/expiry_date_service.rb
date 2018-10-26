@@ -43,7 +43,7 @@ RSpec.describe ExpiryDateService do
 
     context "when the renewal window is 3 months and the date provided is 2018-03-25" do
       before do
-        Rails.configuration.stub(:registration_renewal_window).and_return(3.months)
+        allow(Rails.configuration).to receive(:registration_renewal_window).and_return(3.months)
       end
 
       subject { ExpiryDateService.new(Date.parse("2018-03-25-T12:00:00.000Z")) }
@@ -87,7 +87,7 @@ RSpec.describe ExpiryDateService do
 
     context "when the renewal window is 3 months" do
       before do
-        Rails.configuration.stub(:registration_renewal_window).and_return(3.months)
+        allow(Rails.configuration).to receive(:registration_renewal_window).and_return(3.months)
       end
 
       context "and the expiry date is 3 months and 2 days from today" do
@@ -127,10 +127,10 @@ RSpec.describe ExpiryDateService do
   describe "#in_expiry_grace_window?" do
     context "when the grace window is 3 days" do
       before do
-        Rails.configuration.stub(:registration_grace_window).and_return(3.days)
+        allow(Rails.configuration).to receive(:registration_grace_window).and_return(3.days)
       end
 
-      let (:expires_on) { "1 Oct 2018".to_date }
+      let (:expires_on) { Date.today }
       subject { ExpiryDateService.new(expires_on) }
 
       context "and the current date is within the window" do
