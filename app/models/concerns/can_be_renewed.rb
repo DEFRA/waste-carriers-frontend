@@ -37,10 +37,6 @@ module CanBeRenewed
     false
   end
 
-  def in_expiry_grace_window?
-    return false if lower?
-  end
-
   def renewals_url
     "#{Rails.configuration.renewals_service_url}#{regIdentifier}"
   end

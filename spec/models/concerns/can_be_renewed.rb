@@ -150,41 +150,6 @@ shared_examples_for "can_be_renewed" do
     end
   end
 
-  describe "#in_expiry_grace_window?" do
-    let (:expires_on) { "1 Oct 2018".to_date }
-
-    subject do
-      registration = described_class.ctor
-      registration.tier = "UPPER"
-      registration.expires_on = date_to_utc_milliseconds(expires_on)
-      registration.metaData.first.update(status: "EXPIRED")
-      registration
-    end
-
-    context "when the registration is lower tier" do
-      it "returns false" do
-        subject.tier = "LOWER"
-        expect(subject.in_expiry_grace_window?).to eq(false)
-      end
-    end
-
-    context "when the current date is within the window" do
-      it "returns true" do
-        Timecop.freeze(date_inside_grace_window(expires_on)) do
-          expect(subject.in_expiry_grace_window?).to eq(true)
-        end
-      end
-    end
-
-    context "when the current date is outside the window" do
-      it "returns false" do
-        Timecop.freeze(date_outside_grace_window(expires_on)) do
-          expect(subject.in_expiry_grace_window?).to eq(false)
-        end
-      end
-    end
-  end
-
   describe "#renewals_url" do
     before do
       allow(Rails.configuration).to receive(:renewals_service_url).and_return("http://localhost:3000/renew/")

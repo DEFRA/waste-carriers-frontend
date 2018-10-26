@@ -34,6 +34,10 @@ class ExpiryDateService
     false
   end
 
+  def in_expiry_grace_window?
+
+  end
+
   private
 
   # Believe we have functionality that relies on setting dates to the epoch
