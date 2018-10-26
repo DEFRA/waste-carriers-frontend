@@ -26,46 +26,17 @@ shared_examples_for "can_be_renewed" do
 
     context "when the registration is expired" do
       context "and we are outside the 'grace window'" do
-        context "if the status is expired" do
-          it "cannot be renewed" do
-            subject.metaData.first.update(status: 'EXPIRED')
-            expect(subject.can_renew?(true)).to eq(false)
-            expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
-          end
-        end
-
-        context "if the expires_on date is expired" do
-          # Registrations are marked as EXPIRED by the waste-carriers-service.
-          # We know the job runs at 8pm each day, and has been fixed to ignore the
-          # time element, however just to be sure, or in the event the service
-          # goes down, the class checks both the status and the expires_on field.
-          # Hence we test both contexts here.
-          it "cannot be renewed" do
-            subject.expires_on = date_to_utc_milliseconds(Date.today)
-            expect(subject.can_renew?(true)).to eq(false)
-            expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
-          end
+        it "cannot be renewed" do
+          subject.expires_on = date_to_utc_milliseconds(Date.today - Rails.configuration.registration_grace_window)
+          expect(subject.can_renew?(true)).to eq(false)
+          expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
         end
       end
 
       context "and we are inside the 'grace window'" do
-        context "if the status is expired" do
-          it "can be renewed" do
-            subject.metaData.first.update(status: 'EXPIRED')
-            expect(subject.can_renew?(true)).to eq(true)
-          end
-        end
-
-        context "if the expires_on date is expired" do
-          # Registrations are marked as EXPIRED by the waste-carriers-service.
-          # We know the job runs at 8pm each day, and has been fixed to ignore the
-          # time element, however just to be sure, or in the event the service
-          # goes down, the class checks both the status and the expires_on field.
-          # Hence we test both contexts here.
-          it "can be renewed" do
-            subject.expires_on = date_to_utc_milliseconds(Date.today)
-            expect(subject.can_renew?(true)).to eq(true)
-          end
+        it "can be renewed" do
+          subject.expires_on = date_to_utc_milliseconds(Date.today)
+          expect(subject.can_renew?(true)).to eq(true)
         end
       end
     end
@@ -128,17 +99,17 @@ shared_examples_for "can_be_renewed" do
       end
     end
 
-    context "when the registration's status is EXPIRED" do
-      it "returns true" do
-        subject.metaData.first.update(status: 'EXPIRED')
-        expect(subject.expired?).to eq(true)
+    context "when the registration expired yesterday" do
+      it "returns false" do
+        subject.expires_on = date_to_utc_milliseconds(Date.yesterday)
+        expect(subject.expired?).to eq(false)
       end
     end
 
-    context "when the registration expired yesterday" do
+    context "when the registration expired outside the renewal window" do
       it "returns true" do
-        subject.expires_on = date_to_utc_milliseconds(Date.yesterday)
-        expect(subject.expired?).to eq(true)
+        subject.expires_on = Date.today + Rails.configuration.registration_grace_window
+        expect(subject.expired?).to eq(false)
       end
     end
 
