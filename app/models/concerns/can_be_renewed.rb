@@ -7,13 +7,13 @@ module CanBeRenewed
       return false
     end
 
-    unless metaData.first.status == 'ACTIVE'
-      add_validation_error(:registration_not_active, error_id) if log_reason
+    if expired?
+      add_validation_error(:registration_expired, error_id) if log_reason
       return false
     end
 
-    if expired?
-      add_validation_error(:registration_expired, error_id) if log_reason
+    unless metaData.first.status == 'ACTIVE'
+      add_validation_error(:registration_not_active, error_id) if log_reason
       return false
     end
 
