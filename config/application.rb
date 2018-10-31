@@ -228,7 +228,7 @@ module Registrations
     # is within a given 'grace window' after the registration expired. So if the
     # window is 3 days, the current date is October 12, and the reg. expired Oct
     # 10 then the reg. is within the window and can still be renewed.
-    config.registration_grace_window = (ENV['WCRS_REGISTRATION_GRACE_WINDOW'] || '3').to_i.days
+    config.registration_grace_window = (ENV["WCRS_REGISTRATION_GRACE_WINDOW"] || "3").to_i.days
 
     config.secret_key_base = "iamonlyherefordevisewhenraketasksarecalled" if apply_dummy_secret_key?
 
