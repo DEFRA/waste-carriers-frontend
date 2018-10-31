@@ -29,10 +29,9 @@ module CanBeRenewed
   def expired?
     return false if lower?
 
-    service = ExpiryDateService.new(expires_on)
+    return true if metaData&.first&.status == "EXPIRED"
 
-    return false if service.in_expiry_grace_window?
-    return true if service.expired?
+    return true if ExpiryDateService.new(expires_on).expired?
 
     false
   end
