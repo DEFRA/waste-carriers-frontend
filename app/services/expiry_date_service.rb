@@ -34,6 +34,19 @@ class ExpiryDateService
     false
   end
 
+  # Its important to note that a registration is expired on its expires_on date.
+  # For example if the expires_on date is Oct 1, then the registration was
+  # ACTIVE Sept 30, and EXPIRED Oct 1. If the grace window is 3 days, just
+  # adding 3 days to that date would give the impression the grace window lasts
+  # till Oct 4 (i.e. 1 + 3) when in fact we need to include the 1st as one of
+  # our grace window days.
+  def in_expiry_grace_window?
+    last_date_of_grace_window = (@expiry_date + Rails.configuration.registration_grace_window) - 1.day
+    return false if Date.today > last_date_of_grace_window
+
+    true
+  end
+
   private
 
   # Believe we have functionality that relies on setting dates to the epoch
