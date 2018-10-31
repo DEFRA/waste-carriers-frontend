@@ -25,24 +25,18 @@ shared_examples_for "can_be_renewed" do
     end
 
     context "when the registration is expired" do
-      context "because the status is expired" do
+      context "and we are outside the 'grace window'" do
         it "cannot be renewed" do
-          subject.metaData.first.update(status: 'EXPIRED')
+          subject.expires_on = date_to_utc_milliseconds(Date.today - Rails.configuration.registration_grace_window)
           expect(subject.can_renew?(true)).to eq(false)
           expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
         end
       end
 
-      context "because the expires_on date is expired" do
-        # Registrations are marked as EXPIRED by the waste-carriers-service.
-        # We know the job runs at 8pm each day, and has been fixed to ignore the
-        # time element, however just to be sure, or in the event the service
-        # goes down, the class checks both the status and the expires_on field.
-        # Hence we test both contexts here.
-        it "cannot be renewed" do
+      context "and we are inside the 'grace window'" do
+        it "can be renewed" do
           subject.expires_on = date_to_utc_milliseconds(Date.today)
-          expect(subject.can_renew?(true)).to eq(false)
-          expect(subject.errors.first[1]).to eq("The registration number you entered has expired")
+          expect(subject.can_renew?(true)).to eq(true)
         end
       end
     end
@@ -94,29 +88,9 @@ shared_examples_for "can_be_renewed" do
     subject do
       registration = described_class.ctor
       registration.tier = "UPPER"
-      registration.expires_on = date_to_utc_milliseconds(Date.tomorrow)
-      registration.metaData.first.update(status: 'ACTIVE')
+      registration.expires_on = date_to_utc_milliseconds(Date.today)
+      registration.metaData.first.update(status: "EXPIRED")
       registration
-    end
-
-    context "when the registration is ACTIVE and not expired" do
-      it "returns false" do
-        expect(subject.expired?).to eq(false)
-      end
-    end
-
-    context "when the registration's status is EXPIRED" do
-      it "returns true" do
-        subject.metaData.first.update(status: 'EXPIRED')
-        expect(subject.expired?).to eq(true)
-      end
-    end
-
-    context "when the registration expired yesterday" do
-      it "returns true" do
-        subject.expires_on = date_to_utc_milliseconds(Date.yesterday)
-        expect(subject.expired?).to eq(true)
-      end
     end
 
     context "when the registration is lower tier" do
@@ -125,6 +99,39 @@ shared_examples_for "can_be_renewed" do
         expect(subject.expired?).to eq(false)
       end
     end
+
+    context "when the registration is 'ACTIVE'" do
+      it "returns false" do
+        subject.metaData.first.update(status: "ACTIVE")
+        subject.expires_on = date_to_utc_milliseconds(Date.tomorrow)
+        expect(subject.expired?).to eq(false)
+      end
+    end
+
+    context "when the registration is 'EXPIRED'" do
+      it "returns true" do
+        expect(subject.expired?).to eq(true)
+      end
+    end
+
+    context "when the registration 'expires_on' date is today" do
+      it "returns true" do
+        expect(subject.expired?).to eq(true)
+      end
+    end
+
+    context "when the registration is 'ACTIVE' but the 'expires_on' date is today" do
+      # Registrations are marked as expired by a job that runs daily at 8pm. It
+      # should pick up all registrations due to expire on a given day but in the
+      # event it fails to run the status of expired registrations won't get.
+      # Hence we have an additional check on the expires_on date as well as the
+      # check on the status
+      it "returns true" do
+        subject.metaData.first.update(status: "ACTIVE")
+        expect(subject.expired?).to eq(true)
+      end
+    end
+
   end
 
   describe "#renewals_url" do
