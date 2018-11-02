@@ -7,17 +7,17 @@ module CanBeRenewed
       return false
     end
 
-    expiry_date_service = ExpiryDateService.new(expires_on)
-    if expired?
-      return true if expiry_date_service.in_expiry_grace_window?
-
-      add_validation_error(:registration_expired, error_id) if log_reason
+    unless %w[ACTIVE EXPIRED].include?(metaData.first.status)
+      add_validation_error(:registration_not_active, error_id) if log_reason
       return false
     end
 
-    unless metaData.first.status == "ACTIVE"
-      add_validation_error(:registration_not_active, error_id) if log_reason
-      return false
+    expiry_date_service = ExpiryDateService.new(expires_on)
+    if expired?
+      unless expiry_date_service.in_expiry_grace_window?
+        add_validation_error(:registration_expired, error_id) if log_reason
+        return false
+      end
     end
 
     unless expiry_date_service.in_renewal_window?
