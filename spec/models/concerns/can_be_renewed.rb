@@ -36,8 +36,15 @@ shared_examples_for "can_be_renewed" do
       end
 
       context "and we are inside the 'grace window'" do
+        before { subject.expires_on = date_to_utc_milliseconds(Date.today) }
+        context "and the status is 'REVOKED'" do
+          it "cannot be renewed" do
+            subject.metaData.first.update(status: "REVOKED")
+            expect(subject.can_renew?(true)).to eq(false)
+          end
+        end
+
         it "can be renewed" do
-          subject.expires_on = date_to_utc_milliseconds(Date.today)
           expect(subject.can_renew?(true)).to eq(true)
         end
       end
