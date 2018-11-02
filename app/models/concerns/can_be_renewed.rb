@@ -9,13 +9,13 @@ module CanBeRenewed
 
     expiry_date_service = ExpiryDateService.new(expires_on)
     if expired?
-      unless expiry_date_service.in_expiry_grace_window?
-        add_validation_error(:registration_expired, error_id) if log_reason
-        return false
-      end
+      return true if expiry_date_service.in_expiry_grace_window?
+
+      add_validation_error(:registration_expired, error_id) if log_reason
+      return false
     end
 
-    unless metaData.first.status == 'ACTIVE'
+    unless metaData.first.status == "ACTIVE"
       add_validation_error(:registration_not_active, error_id) if log_reason
       return false
     end
@@ -52,20 +52,20 @@ module CanBeRenewed
     case key
     when :registration_is_lower_tier
       translation = I18n.t(
-        'errors.messages.registration_is_lower_tier',
+        "errors.messages.registration_is_lower_tier",
         helpline: Rails.configuration.registrations_service_phone.to_s
       )
     when :registration_not_active
       translation = I18n.t(
-        'errors.messages.registration_not_active',
+        "errors.messages.registration_not_active",
         helpline: Rails.configuration.registrations_service_phone.to_s
       )
     when :registration_expired
-      translation = I18n.t('errors.messages.registration_expired')
+      translation = I18n.t("errors.messages.registration_expired")
     when :registration_not_in_renewal_window
       renew_from = ExpiryDateService.new(expires_on).date_can_renew_from
       translation = I18n.t(
-        'errors.messages.registration_not_in_renewal_window',
+        "errors.messages.registration_not_in_renewal_window",
         date: renew_from.to_formatted_s(:day_month_year)
       )
     end

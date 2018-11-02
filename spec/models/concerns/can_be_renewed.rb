@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 shared_examples_for "can_be_renewed" do
   describe "#can_renew?" do
@@ -6,7 +6,7 @@ shared_examples_for "can_be_renewed" do
       registration = described_class.ctor
       registration.tier = "UPPER"
       registration.expires_on = date_to_utc_milliseconds(Date.tomorrow)
-      registration.metaData.first.update(status: 'ACTIVE')
+      registration.metaData.first.update(status: "ACTIVE")
       registration
     end
 
@@ -25,6 +25,8 @@ shared_examples_for "can_be_renewed" do
     end
 
     context "when the registration is expired" do
+      before { subject.metaData.first.update(status: "EXPIRED") }
+
       context "and we are outside the 'grace window'" do
         it "cannot be renewed" do
           subject.expires_on = date_to_utc_milliseconds(Date.today - Rails.configuration.registration_grace_window)
@@ -43,7 +45,7 @@ shared_examples_for "can_be_renewed" do
 
     context "when the registration is not ACTIVE" do
       it "cannot be renewed" do
-        subject.metaData.first.update(status: 'REVOKED')
+        subject.metaData.first.update(status: "REVOKED")
         expect(subject.can_renew?(true)).to eq(false)
         expect(subject.errors.first[1]).to eq("This number is not registered. Call our helpline on 03708 506506 if you think this is incorrect.")
       end
