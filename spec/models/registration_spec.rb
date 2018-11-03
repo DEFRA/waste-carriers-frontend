@@ -1,5 +1,5 @@
-require 'spec_helper'
-require Rails.root.join "spec/models/concerns/can_be_renewed.rb"
+require "spec_helper"
+require Rails.root.join "spec/models/concerns/can_be_renewed_spec.rb"
 
 describe Registration do
 
