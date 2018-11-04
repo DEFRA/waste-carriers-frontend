@@ -126,9 +126,7 @@ RSpec.describe ExpiryDateService do
 
   describe "#in_expiry_grace_window?" do
     context "when the grace window is 3 days" do
-      before do
-        allow(Rails.configuration).to receive(:registration_grace_window).and_return(3.days)
-      end
+      before { allow(Rails.configuration).to receive(:registration_grace_window).and_return(3.days) }
 
       let (:expires_on) { Date.today }
       subject { ExpiryDateService.new(expires_on) }
@@ -146,6 +144,19 @@ RSpec.describe ExpiryDateService do
           Timecop.freeze(date_outside_grace_window(expires_on)) do
             expect(subject.in_expiry_grace_window?).to eq(false)
           end
+        end
+      end
+    end
+    
+    context "when there is no grace window" do
+      before { allow(Rails.configuration).to receive(:registration_grace_window).and_return(0.days) }
+
+      let (:expires_on) { Date.today }
+      subject { ExpiryDateService.new(expires_on) }
+
+      it "returns false" do
+        Timecop.freeze(date_outside_grace_window(expires_on)) do
+          expect(subject.in_expiry_grace_window?).to eq(false)
         end
       end
     end
