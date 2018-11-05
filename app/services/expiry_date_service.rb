@@ -41,10 +41,10 @@ class ExpiryDateService
   # till Oct 4 (i.e. 1 + 3) when in fact we need to include the 1st as one of
   # our grace window days.
   def in_expiry_grace_window?
-    last_date_of_grace_window = (@expiry_date + Rails.configuration.registration_grace_window) - 1.day
-    return false if Date.today > last_date_of_grace_window
+    current_day = Date.today
+    last_day_of_grace_window = (@expiry_date + Rails.configuration.registration_grace_window) - 1.day
 
-    true
+    current_day >= @expiry_date && current_day <= last_day_of_grace_window
   end
 
   private
