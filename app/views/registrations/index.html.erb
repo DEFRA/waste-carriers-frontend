@@ -210,6 +210,9 @@
               <% if reg.can_be_deleted?(current_agency_user) %><li><%= link_to t('form.deregister_button_label'), confirmDelete_path(reg.uuid) %></li><% end %>
               <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid), id: "revokeRegistration#{regCount}" %></li><% end %>
               <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
+              <% if reg.can_be_transferred?(current_agency_user) %>
+                <li><%= link_to t('form.transfer_button_label'), link_to_transfer(reg) %></li>
+              <% end %>
               <% if reg.upper? %>
                 <% if reg.can_be_approved?(current_agency_user) %>
                   <li><%= link_to t('form.approve_button_label'), approve_path(reg.uuid), id: "approveRegistration#{regCount}" %></li>
