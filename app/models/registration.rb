@@ -1246,6 +1246,10 @@ class Registration < Ohm::Model
     metaData.first.status == 'PENDING' && is_awaiting_conviction_confirmation?(agency_user)
   end
 
+  def can_be_transferred?(agency_user)
+    user_can_edit_registration(agency_user)
+  end
+
   def user_can_edit_registration(agency_user)
     if agency_user and agency_user.is_agency_user?
       isEitherFinance = agency_user.has_any_role?({ :name => :Role_financeBasic, :resource => AgencyUser }, { :name => :Role_financeAdmin, :resource => AgencyUser })
