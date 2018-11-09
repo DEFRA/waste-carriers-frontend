@@ -327,4 +327,11 @@ module RegistrationsHelper
     session[:ga_tier] = 'lower'
     redirect_to :business_details
   end
+
+  def link_to_transfer(registration)
+    reg_identifier = registration.regIdentifier
+    base_url = Rails.configuration.back_office_url
+
+    "#{base_url}/bo/transfer-registration/#{reg_identifier}"
+  end
 end

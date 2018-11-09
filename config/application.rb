@@ -96,6 +96,7 @@ module Registrations
 
     config.renewals_service_url = renewal_service_url("fo")
     config.back_office_renewals_url = renewal_service_url("bo")
+    config.back_office_url = base_url("bo")
 
     # The subdomains used in links for password reset and other e-mails sent by
     # the Devise authentication component.
