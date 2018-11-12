@@ -1,5 +1,21 @@
 # Change Log
 
+## [v2.4.4](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.4) (2018-11-09)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.3...v2.4.4)
+
+**Implemented enhancements:**
+
+- Add link to transfer a registration to different account [\#176](https://github.com/DEFRA/waste-carriers-frontend/pull/176) ([irisfaraway](https://github.com/irisfaraway))
+- Add standard rubocop config to project [\#173](https://github.com/DEFRA/waste-carriers-frontend/pull/173) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add a grace window for expired regs to renew [\#172](https://github.com/DEFRA/waste-carriers-frontend/pull/172) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Fixed bugs:**
+
+- Fix broken grace window check in CanBeRenewed [\#175](https://github.com/DEFRA/waste-carriers-frontend/pull/175) ([Cruikshanks](https://github.com/Cruikshanks))
+- Add missing grace window to example .env file [\#174](https://github.com/DEFRA/waste-carriers-frontend/pull/174) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update default renewal window to match current [\#171](https://github.com/DEFRA/waste-carriers-frontend/pull/171) ([Cruikshanks](https://github.com/Cruikshanks))
+- Fix expired regs not found when trying to renew [\#170](https://github.com/DEFRA/waste-carriers-frontend/pull/170) ([Cruikshanks](https://github.com/Cruikshanks))
+
 ## [v2.4.3](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.3) (2018-10-17)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.2...v2.4.3)
 
