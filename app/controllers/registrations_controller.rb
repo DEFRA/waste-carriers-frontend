@@ -228,7 +228,7 @@ class RegistrationsController < ApplicationController
         # Only update the account email if not already set.  This allows users
         # who drop-off at payment, but use NCCC to make a payment, stay as
         # digital users.
-        @registration.accountEmail = current_agency_user.email
+        @registration.accountEmail = Rails.configuration.assisted_digital_account_email
       end
       @user = User.find_by_email(current_agency_user.email)
       agency_user_signed_in = true

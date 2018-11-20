@@ -234,5 +234,7 @@ module Registrations
     config.secret_key_base = "iamonlyherefordevisewhenraketasksarecalled" if apply_dummy_secret_key?
 
     config.email_test_address = ENV["WCRS_EMAIL_TEST_ADDRESS"] || "waste-carriers@example.com"
+
+    config.assisted_digital_account_email = ENV["WCRS_ASSISTED_DIGITAL_EMAIL"]
   end
 end
