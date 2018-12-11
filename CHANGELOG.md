@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.4.5](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.5) (2018-11-20)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.4...v2.4.5)
+
+**Merged pull requests:**
+
+- Use NCCC default for AD accountEmail instead of individual emails [\#177](https://github.com/DEFRA/waste-carriers-frontend/pull/177) ([irisfaraway](https://github.com/irisfaraway))
+
 ## [v2.4.4](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.4) (2018-11-09)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.3...v2.4.4)
 
