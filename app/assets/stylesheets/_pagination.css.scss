@@ -28,10 +28,12 @@
 .pagination {
   padding: 0;
 }
+
 .pagination__item {
   display: inline-block;
   list-style: none;
 }
+
 .pagination__link {
   display: block;
   padding: 5px 10px;
@@ -40,6 +42,12 @@
   &:hover, &:focus {
     background: $highlight-colour;
     outline: 3px solid #ffbf47; // Should be $focus-colour, but template is out-of-date
+  }
+
+  &:focus {
+    // Not required in back-office due to different template version
+    // Without this, focusing on the link causes it to move out of alignment
+    overflow: visible;
   }
 
   &.current {
