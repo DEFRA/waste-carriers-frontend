@@ -118,6 +118,17 @@
 
     </br>
 
+    <div class="grid-row">
+      <div class="column-full">
+        <nav role="navigation" class="pagination" aria-label="Pagination">
+          <div class="pagination__summary">
+            <%= page_entries_info @registrations, entry_name: "item" %>
+          </div>
+          <%= paginate @registrations %>
+        </nav>
+      </div>
+    </div>
+
     <form method="get" action="<%= find_path %>" class="action group">
       <input type="submit" class="button" value="<%= t 'registrations.form.new_button_label' %>" />
     </form>
