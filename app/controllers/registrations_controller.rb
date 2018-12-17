@@ -577,6 +577,7 @@ class RegistrationsController < ApplicationController
                                                     %w(ACTIVE PENDING REVOKED EXPIRED))
                                      .sort_by { |r| r.date_registered }
 
+    @registrations_count = user_registrations.count
     @registrations = Kaminari.paginate_array(user_registrations).page(params[:page])
   end
 
