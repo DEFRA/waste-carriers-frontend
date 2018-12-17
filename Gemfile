@@ -64,6 +64,9 @@ gem 'awesome_print'
 # sudo apt-get install ttf-mscorefonts-installer wkhtmltopdf
 gem 'wicked_pdf'
 
+# Use Kaminari for pagination
+gem "kaminari"
+
 # Web application server that replaces webrick. It handles HTTP requests,
 # manages processes and resources, and enables administration, monitoring
 # and problem diagnosis. It is used in production because it gives us an ability
