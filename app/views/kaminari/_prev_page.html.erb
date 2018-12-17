@@ -1,0 +1,10 @@
+<li class="pagination__item">
+  <%= link_to_unless current_page.first?, raw(t("views.pagination.previous")),
+                                          url,
+                                          {
+                                            rel: "prev",
+                                            remote: remote,
+                                            class: "pagination__link",
+                                            "aria-label": "Previous page"
+                                           } %>
+</li>
