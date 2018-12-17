@@ -573,8 +573,11 @@ class RegistrationsController < ApplicationController
     authenticate_external_user!
 
     # Search for users registrations
-    @registrations = Registration.find_by_email(current_user.email,
-                                                %w(ACTIVE PENDING REVOKED EXPIRED)).sort_by { |r| r.date_registered }
+    user_registrations = Registration.find_by_email(current_user.email,
+                                                    %w(ACTIVE PENDING REVOKED EXPIRED))
+                                     .sort_by { |r| r.date_registered }
+
+    @registrations = Kaminari.paginate_array(user_registrations).page(params[:page])
   end
 
   # GET /registrations/1
