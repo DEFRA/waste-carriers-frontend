@@ -570,11 +570,7 @@ class RegistrationsController < ApplicationController
   end
 
   def userRegistrations
-    authenticate_external_user!
-
-    # Search for users registrations
-    @registrations = Registration.find_by_email(current_user.email,
-                                                %w(ACTIVE PENDING REVOKED EXPIRED)).sort_by { |r| r.date_registered }
+    redirect_to("#{Rails.configuration.front_office_url}/fo")
   end
 
   # GET /registrations/1
