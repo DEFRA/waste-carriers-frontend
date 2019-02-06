@@ -1,5 +1,12 @@
 # Change Log
 
+## [v2.4.6](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.6) (2019-01-02)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.5...v2.4.6)
+
+**Merged pull requests:**
+
+- Redirect to front office user dashboard [\#179](https://github.com/DEFRA/waste-carriers-frontend/pull/179) ([irisfaraway](https://github.com/irisfaraway))
+
 ## [v2.4.5](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.5) (2018-11-20)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.4...v2.4.5)
 
