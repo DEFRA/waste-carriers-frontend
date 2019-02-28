@@ -21,26 +21,6 @@ module Registrations
     # config/initializers; all .rb files in that directory are automatically
     # loaded.
 
-    # We have an issue when deploying to our environments in that when
-    # Capistrano runs the deploy:assets:precompile step (specifically bundle
-    # exec rake assets:precompile) it does so having set RAILS_ENV to production.
-    # However we have no default value for the SECRET_KEY in production, and
-    # when the command runs an env var with the value has not been set. This
-    # causes Devise to throw an error which prevents the task from completing.
-    # We have found the simplest solution to the problem is to add this logic
-    # which determines if we are running in production and if the originating
-    # call was made from rake. If that's the case we can assume a task like
-    # assets:precompile is being run and therefore programmtically set the
-    # secret key, stopping devise from erroring.
-    # https://stackoverflow.com/a/15767148/6117745
-    def apply_dummy_secret_key?
-      return false unless Rails.env.production?
-      return false unless File.basename($0) == "rake"
-      return false unless config.secret_key_base.blank?
-
-      true
-    end
-
     def renewal_service_url(app_path)
       base_url = base_url(app_path)
       path = if ENV['WCRS_HOLD_RENEWALS']
@@ -232,8 +212,6 @@ module Registrations
     # window is 3 days, the current date is October 12, and the reg. expired Oct
     # 10 then the reg. is within the window and can still be renewed.
     config.registration_grace_window = (ENV["WCRS_REGISTRATION_GRACE_WINDOW"] || "3").to_i.days
-
-    config.secret_key_base = "iamonlyherefordevisewhenraketasksarecalled" if apply_dummy_secret_key?
 
     config.email_test_address = ENV["WCRS_EMAIL_TEST_ADDRESS"] || "waste-carriers@example.com"
 
