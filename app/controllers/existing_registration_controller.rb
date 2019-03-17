@@ -20,7 +20,7 @@ class ExistingRegistrationController < ApplicationController
     if existing_registration? && @registration.can_renew?(true, :originalRegistrationNumber)
       redirect_to(@registration.renewals_url) and return
     elsif existing_ir_registration? && can_renew_ir_registration?
-      redirect_to(:business_type) and return
+      redirect_to(:location) and return
     end
 
     # If we are here, and there are no existing errors there must be validation

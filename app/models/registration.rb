@@ -35,6 +35,7 @@ class Registration < Ohm::Model
   attribute :originalRegistrationNumber
   attribute :originalDateExpiry
 
+  attribute :location
   attribute :businessType
   attribute :otherBusinesses
   attribute :isMainService
@@ -807,6 +808,14 @@ class Registration < Ohm::Model
     new
   ]
 
+  LOCATIONS = %w[
+    england
+    wales
+    scotland
+    northern_ireland
+    overseas
+  ]
+
   # TODO this regexs need to be rethought if allowing foreign waste carriers.
   # My advice is to not check the format for free text fields but keep them only for those things where the form is
   # well-defined such as for UK postcodes
@@ -841,6 +850,7 @@ class Registration < Ohm::Model
   # *****************************************
   # * Section 1 (smart answers) validations *
   # *****************************************
+  validates :location, :presence => { :message => I18n.t('errors.messages.select_location') }, inclusion: { in: LOCATIONS, :allow_blank => true }, if: :location_step?
   validates :businessType, :presence => { :message => I18n.t('errors.messages.select_business_type') }, inclusion: { in: BUSINESS_TYPES, :allow_blank => true }, if: :businesstype_step?
   validates :otherBusinesses, :presence => { :message => I18n.t('errors.messages.select_other_businesses') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :otherbusinesses_step?
   validates :isMainService, :presence => { :message => I18n.t('errors.messages.select_service_provided') }, inclusion: { in: YES_NO_ANSWER, :allow_blank => true }, if: :serviceprovided_step?
@@ -996,6 +1006,10 @@ class Registration < Ohm::Model
 
   def enterRegNumber_step?
     current_step.inquiry.enterRegNumber?
+  end
+
+  def location_step?
+    current_step.inquiry.location?
   end
 
   def businesstype_step?

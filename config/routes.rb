@@ -87,6 +87,26 @@ Registrations::Application.routes.draw do
       post 'existing-registration', action: :create
     end
 
+    scope controller: 'location' do
+      get 'location', action: :show
+      post 'location', action: :create
+    end
+
+    scope controller: 'register_in_northern_ireland' do
+      get 'register-in-northern-ireland', action: :show
+      post 'register-in-northern-ireland', action: :create
+    end
+
+    scope controller: 'register_in_scotland' do
+      get 'register-in-scotland', action: :show
+      post 'register-in-scotland', action: :create
+    end
+
+    scope controller: 'register_in_wales' do
+      get 'register-in-wales', action: :show
+      post 'register-in-wales', action: :create
+    end
+
     scope controller: 'business_type' do
       get 'business-type', action: :show
       post 'business-type', action: :create

@@ -28,7 +28,7 @@ class StartController < ApplicationController
         return
       when 'new'
         session[:ga_is_renewal] = false
-        redirect_to :business_type
+        redirect_to :location
         return
       end
     end

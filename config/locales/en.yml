@@ -292,6 +292,7 @@ en:
       registration_not_active: "This number is not registered. Call our helpline on %{helpline} if you think this is incorrect."
 
       # Section 1 (smart answers)
+      select_location: "You must answer this question"
       select_business_type: "You must answer this question"
       select_other_businesses: "You must answer this question"
       select_service_provided: "You must answer this question"
@@ -755,6 +756,17 @@ en:
       bullet1: "check your renewal letter (your registration number will be at the top)"
       bullet2_html: "<a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>find your registration number online</a>"
       paragraph: "Call 03708 506506 if you have any problems."
+  location:
+    show:
+      subtitle: "Where is your principal place of business?"
+      title: "Location"
+      explanation_link: "What is the principal place of business?"
+      explanation: "For companies and LLPs this is where your business is registered. For others, this is where the day-to-day business is run."
+      england: "England"
+      wales: "Wales"
+      scotland: "Scotland"
+      northern_ireland: "Northern Ireland"
+      overseas: "Not in the United Kingdom"
   business_type:
     show:
       subtitle: "What type of business or organisation are you?"
