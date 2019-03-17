@@ -64,13 +64,6 @@ gem 'awesome_print'
 # sudo apt-get install ttf-mscorefonts-installer wkhtmltopdf
 gem 'wicked_pdf'
 
-# Web application server that replaces webrick. It handles HTTP requests,
-# manages processes and resources, and enables administration, monitoring
-# and problem diagnosis. It is used in production because it gives us an ability
-# to scale by creating additional processes, and will automatically restart any
-# that fail.
-gem "passenger", "~> 5.0", ">= 5.0.30", require: "phusion_passenger/rack_handler"
-
 # Allows us to automatically generate the change log from the tags, issues,
 # labels and pull requests on GitHub. Added as a dependency so all dev's have
 # access to it to generate a log, and so they are using the same version.
@@ -88,6 +81,15 @@ gem "github_changelog_generator", require: false
 # The app now returns a 200 from `/healthcheck`
 # Test with `curl -I http://localhost:3000/healthcheck`
 gem 'aws-healthcheck'
+
+group :production do
+  # Web application server that replaces webrick. It handles HTTP requests,
+  # manages processes and resources, and enables administration, monitoring
+  # and problem diagnosis. It is used in production because it gives us an ability
+  # to scale by creating additional processes, and will automatically restart any
+  # that fail. We don't use it when running tests for speed's sake.
+  gem "passenger", "~> 5.0", ">= 5.0.30", require: "phusion_passenger/rack_handler"
+end
 
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
