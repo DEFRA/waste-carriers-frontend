@@ -1,5 +1,3 @@
-include Warden::Test::Helpers
-
 module UserRegistrationsPage
   def user_registrations_page_add_copy_cards()
     click_on 'Order copy cards'

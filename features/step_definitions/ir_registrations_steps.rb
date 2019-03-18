@@ -548,7 +548,7 @@ Then(/^I should be shown the total cost "(.*?)"$/) do |amount|
     :xpath,
     ".//input[@id='registration_total_fee']"
   ).value
-  assert_equal amount, registration_total_fee
+  expect(registration_total_fee).to eq(amount)
 end
 
 Then(/^have the option to pay by Credit or Debit card or by bank transfer$/) do

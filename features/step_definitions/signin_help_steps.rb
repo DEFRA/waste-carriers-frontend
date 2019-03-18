@@ -8,7 +8,7 @@ end
 
 Given(/^I am a Waste Carrier and already have an account with a confirmed email address$/) do
   registration = create_complete_lower_tier_reg('Charity_LT_online_complete')
-  assert_equal "ACTIVE", registration['metaData']['status']
+  expect(registration['metaData']['status']).to eq("ACTIVE")
   @this_test_email = registration['accountEmail']
   @this_test_password = my_password
   @resource_name = :user
