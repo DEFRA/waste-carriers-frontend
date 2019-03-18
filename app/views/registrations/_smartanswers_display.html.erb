@@ -1,4 +1,13 @@
 <ul id='smartanswers_display'>
+  <% unless r.location.blank? %>
+    <li>
+      <% if r.location == "overseas" %>
+        <%= t '.location_overseas' %>
+      <% else %>
+        <%= t '.location', :location => t('locations.' + r.location) %>
+      <% end %>
+    </li>
+  <% end %>
   <% unless r.businessType.blank? %>
     <li>
       <% if r.businessType == "overseas" %>

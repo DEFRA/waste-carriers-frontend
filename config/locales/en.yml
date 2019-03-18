@@ -186,6 +186,12 @@ en:
     show: "Show"
     updateLabel: "Update agency user"
     no_role: "No role"
+  locations:
+    england: "England"
+    wales: "Wales"
+    scotland: "Scotland"
+    northern_ireland: "Northern Ireland"
+    overseas: "Not in the United Kingdom"
   business_types:
     soleTrader: "Individual or sole trader"
     limitedCompany: "Limited company"
@@ -1412,6 +1418,8 @@ en:
       title_revoke: "Revoke registration"
       title_unrevoke: "UnRevoke registration"
     smartanswers_display:
+      location: "Your principal place of business is in %{location}"
+      location_overseas: "Your principal place of business is not in the United Kingdom"
       business_type: "You are a %{businessType}"
       overseas_business_type: "You are based overseas"
       sole_trader_business_type: "You are an individual or sole trader"
