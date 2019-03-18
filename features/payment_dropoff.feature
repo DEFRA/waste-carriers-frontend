@@ -30,16 +30,3 @@ Scenario: IR renewal registration that drops-off at payment, with later online p
     And view the Payment Status for the registration
    Then the Balance should be £0.00
    When I start a new browser session
-
-Scenario: As a User I want to be able to renew my registration up to the point
-  where my account is created and I am presented with the Payment Summary page
-  which shows the renewal fee of 105.00. I then kill my session and return by login in
-  and competing the registration ensuring I have a renewal Fee of 105.00
-
-  Given I partially complete an IR Renewal registration, but stop at the payment page
-    And I have confirmed my email address
-   When I start a new browser session
-   When I start a new browser session
-   When I log in to my account and edit my registration
-   Then I confirm the declaration
-   Then I should be shown the total cost "105.00"

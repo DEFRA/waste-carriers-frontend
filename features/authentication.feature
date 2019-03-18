@@ -7,6 +7,7 @@ Generally, the application supports three types of users:
 3) Administrators
 
 External users can can register (and sign up during that registration process and flow), and sign in to amend their own registration.
+However they now do so through the waste carriers front office application.
 
 Internal users can create and amend registrations on behalf of other users (e.g. for Assisted Digital purposes).
 Internal users can revoke or delete registrations, if authorised to do so.
@@ -18,20 +19,6 @@ Users can change their password (once signed in), or have their password reset i
 
 Internal and administrative functions can only be accessed from known locations (registered IP addresses) and via a special "admin" URL subdomain. Administrative functions will have special URLs such as "/agency_users/*" or "/admins/*".
 
-
-Scenario: Log in successfully as Waste Carrier
-  Given there is an activated user
-  When somebody visits the External User Sign In page
-  And enters valid credentials
-  Then the user should be logged in successfully
-
-
-Scenario: Log in as Waste Carrier - invalid password
-  Given there is an activated user
-  When somebody visits the External User Sign In page
-  And enters invalid credentials
-  Then the user should see a login error
-
 Scenario Outline: Lock a user account
   Given an <user_type> exists and has an activated, non-locked account
   When somebody visits the <user_type> Sign In page
@@ -40,7 +27,6 @@ Scenario Outline: Lock a user account
 
   Examples:
     | user_type     |
-    | External User |
     | Internal User |
     | Admin User    |
 
@@ -53,7 +39,6 @@ Scenario Outline: Unlock a user account
 
   Examples:
     | user_type     |
-    | External User |
     | Internal User |
     | Admin User    |
 
@@ -66,7 +51,6 @@ Scenario Outline: It should not be possible to enumerate accounts using the pass
 
   Examples:
     | user_type     |
-    | External User |
     | Internal User |
     | Admin User    |
 
@@ -78,7 +62,6 @@ Scenario Outline: It should not be possible to enumerate accounts using the pass
 
   Examples:
     | user_type     |
-    | External User |
     | Internal User |
     | Admin User    |
 
@@ -93,7 +76,6 @@ Scenario Outline: It should not be possible to enumerate accounts using the acco
 
   Examples:
     | user_type     |
-    | External User |
     | Internal User |
     | Admin User    |
 
@@ -105,7 +87,6 @@ Scenario Outline: It should not be possible to enumerate accounts using the acco
 
   Examples:
     | user_type     |
-    | External User |
     | Internal User |
     | Admin User    |
 
@@ -152,15 +133,3 @@ Scenario: Log in as agency user from the admin URL
 Scenario: Log in as waste carrier from the admin URL
   When the user tries to access the user login URL from the internal admin domain
   Then the page is not found
-
-Scenario: A Upper Tier registration Certificate has an Expiry Date
-  Given a "LTD_UT_online_complete" upper tier registration paid for by "Bank Transfer" with 0 copy cards
-  And I wait for 2 seconds for these actions to be finalised
-  When I am logged in as waste carrier user 'ltd_ut@example.org'
-  Then my registration Certificate has a correct Expiry Date
-
-Scenario: A Lower Tier registration Certificate does not have an Expiry Date
-  Given a "Charity_LT_online_complete" lower tier registration
-  And I wait for 2 seconds for these actions to be finalised
-  When I am logged in as waste carrier user 'charity_lt@example.org'
-  Then my registration Certificate does not have an Expiry Date
