@@ -6,6 +6,7 @@
   "firstName": "FName",
   "companyName": "PB LT Company",
   "phoneNumber": "112",
+  "location": "england",
   "businessType": "publicBody",
   "lastName": "LName",
   "current_step": "signup",

@@ -9,6 +9,7 @@
   "firstName": "FName",
   "phoneNumber": "22",
   "companyName": "PT UT Company",
+  "location": "england",
   "businessType": "partnership",
   "lastName": "LName",
   "current_step": "signup",

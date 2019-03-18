@@ -2,6 +2,8 @@ Given(/^I start a new registration$/) do
   visit start_path
   choose 'registration_newOrRenew_new'
   click_button 'continue'
+  choose 'registration_location_england'
+  click_button 'continue'
 end
 
 And(/^I enter my business type as (.*)$/) do |business_type|
@@ -76,6 +78,8 @@ Given(/^I navigate to the construction\/demolition step via the other businesses
   visit start_path
   choose 'registration_newOrRenew_new'
   click_button 'continue'
+  choose 'registration_location_england'
+  click_button 'continue'
   choose 'registration_businessType_soletrader'
   click_button 'continue'
   choose 'registration_otherBusinesses_no'
@@ -85,6 +89,8 @@ end
 Given(/^I navigate to the construction\/demolition step via the main service step$/) do
   visit start_path
   choose 'registration_newOrRenew_new'
+  click_button 'continue'
+  choose 'registration_location_england'
   click_button 'continue'
   choose 'registration_businessType_soletrader'
   click_button 'continue'
