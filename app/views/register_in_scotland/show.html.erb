@@ -1,0 +1,40 @@
+<%= render 'shared/content_for_pages' %>
+
+<div id="wrapper">
+  <main id="content" role="main" class="group">
+
+    <% content_for :page_title, createTitle('.title') %>
+
+    <div id="page1" data-journey="waste-carriers-registration:register-in-scotland">
+
+      <div class="back-section">
+        <ol>
+          <li><%= link_to t('form.back_button_label'), :back, id: 'back_link' %></li>
+        </ol>
+      </div>
+
+      <%= form_for(@registration, :url => register_in_scotland_path(reg_uuid: @registration.reg_uuid), html: {autocomplete: 'off', :method => :post}) do |f| %>
+
+        <%= render 'shared/errors' %>
+
+        <header class="page-header group">
+          <div class="hgroup">
+            <h1 class="heading-large" id="groupLabel"><%= t '.subtitle' %></h1>
+          </div>
+        </header>
+
+        <div id="register-text">
+          <div class="text">
+            <p><%= t '.paragraph_1' %></p>
+            <p><%= t '.paragraph_2' %> <a href="https://www.gov.uk/waste-carrier-or-broker-registration-scotland"><%= t(".service_link") %></a>.</p>
+            <p><%= t '.paragraph_3' %></p>
+          </div>
+        </div>
+
+        <input name="continue" id="continue" class="button button-get-started" type="submit" value="<%= t '.continue_button_label' %>"/>
+
+      <% end %>
+
+    </div>
+  </main>
+</div>
