@@ -21,11 +21,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Thu, 18 Jan 2018 21:23:43 GMT
+      - Tue, 19 Mar 2019 15:41:18 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1198'
+      - '1171'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -47,9 +47,9 @@ http_interactions:
       X-Ratelimit-Limit:
       - '600'
       X-Ratelimit-Remain:
-      - '580'
+      - '597'
       X-Ratelimit-Reset:
-      - '1516310778'
+      - '1553010167'
       X-Ratelimit-Window:
       - 5m
       Server:
@@ -57,8 +57,8 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"registered_office_is_in_dispute":false,"has_charges":false,"undeliverable_registered_office_address":false,"type":"ltd","company_status":"active","links":{"self":"/company/10761329","persons_with_significant_control":"/company/10761329/persons-with-significant-control","filing_history":"/company/10761329/filing-history","officers":"/company/10761329/officers"},"has_insolvency_history":false,"company_number":"10761329","company_name":"WASTE
-        AWAY SERVICES LTD","confirmation_statement":{"next_due":"2018-05-22","overdue":false,"next_made_up_to":"2018-05-08"},"accounts":{"next_due":"2019-02-09","accounting_reference_date":{"month":"05","day":"31"},"next_accounts":{"due_on":"2019-02-09","period_start_on":"2017-05-09","overdue":false,"period_end_on":"2018-05-31"},"last_accounts":{"type":"null"},"next_made_up_to":"2018-05-31","overdue":false},"sic_codes":["96090"],"registered_office_address":{"locality":"Hoddesdon","country":"United
-        Kingdom","address_line_1":"72 Old Essex Road","postal_code":"EN11 0AE"},"etag":"395a26e068aad0ceab8d335a43e6452b6d4b4726","jurisdiction":"england-wales","date_of_creation":"2017-05-09","company_status_detail":"active-proposal-to-strike-off","can_file":true}'
+        AWAY SERVICES LTD","confirmation_statement":{"next_due":"2019-05-22","last_made_up_to":"2018-05-08","next_made_up_to":"2019-05-08","overdue":false},"accounts":{"next_accounts":{"overdue":true,"period_start_on":"2017-05-09","period_end_on":"2018-05-31","due_on":"2019-02-09"},"last_accounts":{"type":"null"},"next_due":"2019-02-09","accounting_reference_date":{"day":"31","month":"05"},"next_made_up_to":"2018-05-31","overdue":true},"sic_codes":["96090"],"registered_office_address":{"locality":"Hoddesdon","address_line_1":"72
+        Old Essex Road","country":"United Kingdom","postal_code":"EN11 0AE"},"etag":"c93515bd86e73a2584d295b3f7be4c035eac275b","jurisdiction":"england-wales","date_of_creation":"2017-05-09","can_file":true}'
     http_version: 
-  recorded_at: Thu, 18 Jan 2018 21:23:43 GMT
+  recorded_at: Tue, 19 Mar 2019 15:41:18 GMT
 recorded_with: VCR 3.0.3

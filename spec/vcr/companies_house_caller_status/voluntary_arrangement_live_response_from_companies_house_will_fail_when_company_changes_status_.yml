@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.companieshouse.gov.uk/company/04270505
+    uri: https://api.companieshouse.gov.uk/company/01618428
     body:
       encoding: US-ASCII
       string: ''
@@ -21,11 +21,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 06 Feb 2018 14:28:45 GMT
+      - Tue, 19 Mar 2019 16:38:57 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1655'
+      - '1564'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -47,19 +47,19 @@ http_interactions:
       X-Ratelimit-Limit:
       - '600'
       X-Ratelimit-Remain:
-      - '595'
+      - '596'
       X-Ratelimit-Reset:
-      - '1517927615'
+      - '1553013748'
       X-Ratelimit-Window:
       - 5m
       Server:
       - CompaniesHouse
     body:
       encoding: UTF-8
-      string: '{"registered_office_address":{"postal_code":"SR8 2HY","locality":"Peterlee","address_line_2":"North
-        West Industrial Estate","address_line_1":"2 Cook Way","region":"Co Durham"},"has_been_liquidated":false,"accounts":{"next_made_up_to":"2018-03-31","next_accounts":{"overdue":false,"period_end_on":"2018-03-31","period_start_on":"2017-04-01","due_on":"2018-12-31"},"overdue":false,"next_due":"2018-12-31","accounting_reference_date":{"month":"03","day":"31"},"last_accounts":{"period_end_on":"2017-03-31","made_up_to":"2017-03-31","period_start_on":"2016-04-01","type":"full"}},"jurisdiction":"england-wales","company_name":"TSF
-        RETAIL SOLUTIONS LIMITED","type":"ltd","last_full_members_list_date":"2015-08-15","sic_codes":["43320","43390","43999"],"date_of_creation":"2001-08-15","company_number":"04270505","undeliverable_registered_office_address":false,"has_insolvency_history":true,"etag":"a47700a2d099085f5f6096387d0b5ef584bc269b","company_status":"active","has_charges":true,"previous_company_names":[{"effective_from":"2001-11-01","ceased_on":"2006-06-01","name":"MOMS
-        LIMITED"},{"name":"BLAZECLEAN LIMITED","effective_from":"2001-08-15","ceased_on":"2001-11-01"}],"confirmation_statement":{"last_made_up_to":"2017-08-15","next_made_up_to":"2018-08-15","next_due":"2018-08-29","overdue":false},"links":{"self":"/company/04270505","filing_history":"/company/04270505/filing-history","officers":"/company/04270505/officers","charges":"/company/04270505/charges","insolvency":"/company/04270505/insolvency","persons_with_significant_control":"/company/04270505/persons-with-significant-control"},"registered_office_is_in_dispute":false,"can_file":true}'
+      string: '{"jurisdiction":"england-wales","etag":"efb72a189e07662facd6d1f872a6edef8388edb5","date_of_creation":"1982-03-01","accounts":{"next_made_up_to":"2019-03-27","next_due":"2019-12-27","overdue":false,"last_accounts":{"made_up_to":"2018-03-24","period_end_on":"2018-03-24","type":"full","period_start_on":"2017-03-26"},"accounting_reference_date":{"day":"27","month":"03"},"next_accounts":{"period_end_on":"2019-03-27","overdue":false,"period_start_on":"2018-03-25","due_on":"2019-12-27"}},"last_full_members_list_date":"2015-07-30","company_number":"01618428","has_charges":true,"company_name":"NEW
+        LOOK RETAILERS LIMITED","registered_office_address":{"postal_code":"DT3 5HJ","address_line_1":"New
+        Look House","address_line_2":"Mercery Road","locality":"Weymouth","region":"Dorset"},"type":"ltd","sic_codes":["47710","47721","47722","47910"],"company_status":"voluntary-arrangement","has_insolvency_history":true,"previous_company_names":[{"effective_from":"1982-03-01","name":"NEW
+        LOOK WHOLESALERS LIMITED","ceased_on":"1987-06-08"}],"undeliverable_registered_office_address":false,"confirmation_statement":{"overdue":false,"next_due":"2019-08-13","next_made_up_to":"2019-07-30","last_made_up_to":"2018-07-30"},"links":{"self":"/company/01618428","filing_history":"/company/01618428/filing-history","officers":"/company/01618428/officers","charges":"/company/01618428/charges","persons_with_significant_control":"/company/01618428/persons-with-significant-control","insolvency":"/company/01618428/insolvency"},"registered_office_is_in_dispute":false,"can_file":true}'
     http_version: 
-  recorded_at: Tue, 06 Feb 2018 14:28:02 GMT
+  recorded_at: Tue, 19 Mar 2019 16:38:57 GMT
 recorded_with: VCR 3.0.3
