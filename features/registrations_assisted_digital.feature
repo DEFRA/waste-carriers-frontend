@@ -13,13 +13,6 @@ Scenario: Lower tier
   And the lower tier waste carrier registration id
   But the registration confirmation email should not be sent
 
-@javascript @worldpay
-Scenario: Upper tier
-  When PENDING: I create an upper tier registration on behalf of a caller for payments
-  And I provide valid credit card payment details on behalf of a caller
-  Then I see the upper tier waste carrier registration id
-  But the registration confirmation email should not be sent
-
 Scenario: Upper tier offline payment
   When I create an upper tier registration on behalf of a caller who wants to pay offline
   And I see the payment details to tell the customer

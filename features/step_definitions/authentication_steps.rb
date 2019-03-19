@@ -1,83 +1,10 @@
-Given(/^there is an activated user$/) do
-  open_email my_user.email
-  current_email.click_link 'confirmation_link'
-end
-
 When(/^somebody visits the ([\w ]+) Sign In page$/) do |user_type|
   visit get_sign_in_path_for_user_type(user_type)
-end
-
-When(/^enters valid credentials$/) do
-  expect(page).to have_text 'Sign in'
-  fill_in 'Email', with: my_user.email
-  fill_in 'Password', with: my_user.password
-  click_button 'sign_in'
-end
-
-Then(/^the user should be logged in successfully$/) do
-  expect(page).to have_text 'Signed in as'
-end
-
-When(/^enters invalid credentials$/) do
-  expect(page).to have_text 'Sign in'
-  fill_in 'Email', with: my_user.email
-  fill_in 'Password', with: 'incorrect_password'
-  click_button 'sign_in'
 end
 
 Then(/^the user should see a login account unlocked successfully page$/) do
   expect(page).to have_text 'Your account has been unlocked successfully'
 end
-
-Then(/^the user should see a login error$/) do
-  expect(page).to have_text 'Invalid email or password.'
-end
-
-# TODO GM - still need to figure out how to switch between www and admin subdomains in Cucumber
-
-When(/^the user tries to access the internal admin login URL from the public domain$/) do
-  base_url = 'http://' + Rails.configuration.waste_exemplar_frontend_url
-  url = base_url + new_user_session_path
-  visit url
-end
-
-Then(/^the page is not found$/) do
-  expect(current_path).to have_text /sign_in/i
-end
-
-When(/^the user tries to access the internal agency login URL from the public domain$/) do
-  base_url = Rails.configuration.waste_exemplar_frontend_url
-  url = base_url + new_agency_user_session_path
-  visit url
-end
-
-When(/^the user tries to access the internal admin login URL from the admin domain$/) do
-  base_url = Rails.configuration.waste_exemplar_frontend_admin_url
-  url = base_url + new_admin_session_path
-  visit url
-end
-
-Then(/^the admin login page is shown$/) do
-  expect(current_path).to have_text /admins\/sign_in/i
-end
-
-When(/^the user tries to access the internal agency login URL from the admin domain$/) do
-  base_url = Rails.configuration.waste_exemplar_frontend_admin_url
-  url = base_url + new_agency_user_session_path
-  visit url
-end
-
-Then(/^the agency user login page is shown$/) do
-  expect(current_path).to have_text /agency_users\/sign_in/i
-end
-
-When(/^the user tries to access the user login URL from the internal admin domain$/) do
-  base_url = Rails.configuration.waste_exemplar_frontend_admin_url
-  url = base_url + new_user_session_path
-  visit url
-end
-
-
 
 Given(/^an ([\w ]+) exists and has an activated, non-locked account$/) do |user_type|
   if user_type == 'External User'
@@ -169,24 +96,4 @@ Then(/^the External User should receive an email allowing them to confirm their 
   expect(current_email.subject).to have_text 'Confirm your email address'
   current_email.click_link 'confirmation_link'
   expect(get_database_object_for_user_type('External User').confirmed?).to be true
-end
-
-When(/^I am logged in as waste carrier user '([\w@\.]+)'$/) do | email|
-   visit new_user_session_path
-   fill_in 'Email', with: email
-   fill_in 'Password', with: my_password
-   click_button 'sign_in'
-   expect(page).to have_xpath("//*[@id = 'external-user-signed-in']")
-end
-
-# TODO AH need to centralise date formatting and get expire date from services
-Then(/^my registration Certificate has a correct Expiry Date$/) do
-  expectedExpiryDate = Date.today + Rails.configuration.registration_expires_after
-  visit first(:css, '.viewCertificate')[:href]
-  expect(page).to have_text expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
-end
-
-Then(/^my registration Certificate does not have an Expiry Date/) do
-  first(:css, '.viewCertificate').click
-  expect(page).not_to have_text 'Expiry date of registration (unless revoked)'
 end

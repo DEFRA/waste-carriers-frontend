@@ -8,7 +8,7 @@ end
 
 Given(/^I am a Waste Carrier and already have an account with a confirmed email address$/) do
   registration = create_complete_lower_tier_reg('Charity_LT_online_complete')
-  assert_equal "ACTIVE", registration['metaData']['status']
+  expect(registration['metaData']['status']).to eq("ACTIVE")
   @this_test_email = registration['accountEmail']
   @this_test_password = my_password
   @resource_name = :user
@@ -38,13 +38,7 @@ Given(/^I am not currently signed\-in to the service$/) do
   # noop (step exists for readability of the feature only)
 end
 
-
-
 # ---- Assert that we end up on the expected page ----
-
-Then(/^I should be sent to the normal User Sign In page$/) do
-  expect(URI.parse(current_url).path).to eq(new_user_session_path)
-end
 
 Then(/^I should be sent to the mid\-registration User Sign In page$/) do
   expect(URI.parse(current_url).path).to eq(signin_path(reg_uuid: @registration_uuid))
@@ -58,8 +52,6 @@ Then(/^I should be sent to the normal Admin Sign In page$/) do
   expect(URI.parse(current_url).path).to eq(new_admin_session_path)
 end
 
-
-
 # ---- Assert that the page contains various Sign In help elements ----
 
 Then(/^there should be a link to request password reset instructions$/) do
@@ -67,27 +59,10 @@ Then(/^there should be a link to request password reset instructions$/) do
   expect(page).to have_selector(:link, 'password_reset_link')
 end
 
-Then(/^there should be a link to request account confirmation instructions$/) do
-  expect(page).to have_selector(:id, 'confirmation_instructions_help')
-  expect(page).to have_selector(:link, 'confirmation_instructions_link')
-end
-
 Then(/^there should be a link to request account unlock instructions$/) do
   expect(page).to have_selector(:id, 'unlock_instructions_help')
   expect(page).to have_selector(:link, 'unlock_instructions_link')
 end
-
-Then(/^the NCCC contract number (should|should not) be shown$/) do |should|
-  if should.eql?('should')
-    expect(page).to have_selector(:id, 'unknown_email_help')
-    expect(page).to have_text 'contact our helpline'
-  else
-    expect(page).not_to have_selector(:id, 'unknown_email_help')
-    expect(page).not_to have_text 'contact our helpline'
-  end
-end
-
-
 
 # ---- Use various Sign In help elements ----
 
@@ -108,23 +83,6 @@ When(/^I request Account Unlock instructions$/) do
   fill_in "#{@resource_name}_email", with: @this_test_email
   click_button 'send_instructions_button'
 end
-
-When(/^I update my password$/) do
-  page_before_opening_email = current_url
-
-  open_email @this_test_email
-  expect(current_email.subject).to have_text 'password'
-  current_email.click_link 'password_reset_link'
-  expect(URI.parse(current_url).path).to eq(edit_user_password_path)
-  @this_test_password = 'NewPassword789'
-  fill_in 'user_password', with: @this_test_password
-  fill_in 'user_password_confirmation', with: @this_test_password
-  click_button 'change_password_button'
-
-  visit page_before_opening_email
-end
-
-
 
 # ---- Interact with emails sent to the user ----
 
@@ -155,8 +113,6 @@ When(/^I confirm my my account, then close the browser window$/) do
 
   visit page_before_opening_email
 end
-
-
 
 # ---- Perform a new registration ----
 
@@ -190,17 +146,6 @@ When(/^I make a new registration and progress as far as accepting the Declaratio
 
   check 'registration_declaration'
   click_button 'confirm'
-end
-
-Then(/^I should be able to continue with my registration$/) do
-  fill_in 'registration_password', with: @this_test_password
-  click_button 'continue'
-
-  expect(URI.parse(current_url).path).to eq(finish_path(reg_uuid: @registration_uuid))
-  expect(page).to have_text 'Registration complete'
-  click_button 'finished_btn'
-
-  expect(page).to have_selector(:id, 'external-user-signed-in')
 end
 
 When(/^I complete my first registration but do not confirm my email address$/) do

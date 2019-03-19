@@ -86,53 +86,6 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
 
 end
 
-When(/^I create an upper tier registration on behalf of a caller$/) do
-  click_link 'new_registration'
-
-  choose 'registration_newOrRenew_new'
-  click_button 'continue'
-
-  choose 'registration_businessType_soletrader'
-  click_button 'continue'
-
-  choose 'registration_otherBusinesses_yes'
-  click_button 'continue'
-
-  choose 'registration_isMainService_yes'
-  click_button 'continue'
-
-  choose 'registration_onlyAMF_no'
-  click_button 'continue'
-
-  choose 'registration_registrationType_carrier_dealer'
-  click_button 'continue'
-
-  click_link 'manual_uk_address'
-  fill_in 'registration_companyName', with: 'Assisted Enterprises & Co'
-  fill_in 'address_houseNumber', with: '123'
-  fill_in 'address_addressLine1', with: 'Deanery Road'
-  fill_in 'address_addressLine2', with: 'EA Building'
-  fill_in 'address_townCity', with: 'Bristol'
-  fill_in 'address_postcode', with: 'BS1 5AH'
-  click_button 'continue'
-
-  fill_in 'registration_firstName', with: 'Antony'
-  fill_in 'registration_lastName', with: 'Assisted'
-  fill_in 'registration_phoneNumber', with: '0123 456 789'
-  click_button 'continue'
-
-  step 'I enter the details of the business owner'
-
-  choose 'No'
-  click_button 'continue'
-
-  check 'registration_declaration'
-  click_button 'confirm'
-
-  choose 'registration_payment_type_world_pay'
-  click_button 'proceed_to_payment'
-end
-
 When(/^I create an upper tier registration on behalf of a caller who wants to pay offline$/) do
   click_link 'new_registration'
 
@@ -186,7 +139,7 @@ And(/^the lower tier waste carrier registration id$/) do
   expect(page).to have_text 'The registration number is: CBDL'
 end
 
-And(/^the upper tier waste carrier registration id/) do
+And(/^I see the upper tier waste carrier registration id/) do
   expect(page).to have_text 'The registration number is: CBDU'
 end
 
@@ -205,11 +158,4 @@ Then(/^the print page does not contain unnecessary content$/) do
   # No contact details
   expect(page).not_to have_text(
     'registrations@wastecarriersregistration.service.gov.uk')
-end
-
-Then(/^I search for the following organisation "(.*?)"$/) do |org_search|
-  repopulate_database_with_IR_data
-  sleep(2)
-  fill_in 'q', with: org_search
-  click_button 'reg-search'
 end

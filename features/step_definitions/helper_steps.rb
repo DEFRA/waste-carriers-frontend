@@ -1,7 +1,3 @@
-Given /^PENDING/ do
-  pending
-end
-
 When(/^I wait for (\d+) seconds{0,1} for these actions to be finalised$/) do |delay_in_seconds|
   sleep delay_in_seconds.to_i
 end

@@ -28,12 +28,6 @@ Scenario: Waste carrier registration does not expire due to total session durati
   And I keep working on my registration for more than 8 hours
   Then I can still continue past the Waste From Other Businesses step
 
-Scenario: Logged in waste carrier session expires due to inactivity
-  Given I am logged in as a waste carrier
-  When I do nothing for more than 20 minutes
-  And I try to continue with my registrations
-  Then my waste carrier session has expired
-
 Scenario: Administration session expires due to inactivity
   Given I am logged in as an administrator
   When I do nothing for more than 20 minutes
