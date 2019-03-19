@@ -8,16 +8,6 @@ Feature: Refunds via Worldpay
 Background:
   Given I am logged in as a nccc refunds user
 
-@javascript
-Scenario: Refund via worldpay
-  Given PENDING: I create an upper tier registration on behalf of a caller for payments
-  And I provide valid credit card payment details on behalf of a caller
-  And I remember the registration id
-  And I have found a registrations payment details using the remembered id
-  When original payment method was via Worldpay
-  And balance is in credit
-  And refund is selected
-
 Scenario: Refund rejected when balance is not in credit
   Given I create an upper tier registration on behalf of a caller who wants to pay offline
   And I make a note of the details

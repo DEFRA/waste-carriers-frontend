@@ -26,12 +26,6 @@ But(/^I have not confirmed my email address$/) do
   # no-op
 end
 
-When(/^I have confirmed my email address$/) do
-  do_short_pause_for_email_delivery
-  open_email my_email_address
-  current_email.click_link 'confirmation_link'
-end
-
 Given(/^I have received an awaiting payment email$/) do
   do_short_pause_for_email_delivery
   open_email my_email_address
@@ -44,19 +38,6 @@ When(/^I attempt to sign in$/) do
   fill_in 'user_password', with: my_password
   click_button 'sign_in'
  end
-
-When(/^I log in to the '(.+)' account$/) do |email_address|
-  visit new_user_session_path
-  fill_in 'user_email', with: email_address
-  fill_in 'user_password', with: my_password
-  click_button 'sign_in'
-  expect(page).to have_text 'Your waste carrier registrations'
-end
-
-Then(/^my account should not be locked, and I should be able to log in to my account$/) do
-  expect(User.find_by(email: my_email_address).access_locked?).to be false
-  step "I log in to the '#{my_email_address}' account"
-end
 
 When(/^I request that account confirmation instructions are re-sent for '(.+)'$/) do |email_address|
   visit new_user_confirmation_path
@@ -133,10 +114,6 @@ Then(/^I am not shown how to pay in my confirmation email$/) do
   do_short_pause_for_email_delivery
   open_email my_email_address
   expect(current_email).not_to have_text 'How to pay'
-end
-
-Then(/^I am shown the sign in page$/) do
-  expect(page).to have_text 'Sign in'
 end
 
 Then(/I am shown the 'email address confirmed' page$/) do

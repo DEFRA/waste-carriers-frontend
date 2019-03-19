@@ -51,26 +51,3 @@ And(/^this takes me back to the conviction step$/) do
   click_link 'edit_conviction_declaration'
   expect(page).to have_text 'environmental offence in the last 12 months?'
 end
-
-But(/^the convictions service says I am suspect$/) do
-  allow_any_instance_of(ConvictionsCaller).to receive(:convicted?).and_return(true)
-end
-
-When(/^I come to the final step$/) do
-  check 'registration_declaration'
-  click_button 'confirm'
-
-  fill_in 'registration_accountEmail_confirmation', with: my_email_address
-  fill_in 'registration_password', with: my_password
-  fill_in 'registration_password_confirmation', with: my_password
-  click_button 'continue'
-
-  choose 'registration_payment_type_bank_transfer'
-  click_button 'proceed_to_payment'
-
-  click_button 'continue'
-end
-
-Then(/^I am told my application is being checked$/) do
-  expect(page).to have_text 'Your registration is pending checks.'
-end

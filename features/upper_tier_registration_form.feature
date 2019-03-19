@@ -50,21 +50,6 @@ Scenario: Foreign waste carrier
   And I choose pay via electronic transfer
   Then I have completed the application as an upper tier waste carrier via electronic transfer
 
-@javascript
-Scenario: Card payment
-  Given PENDING: I autocomplete my business address
-  And I provide my personal contact details
-  And I provide a postal address
-  And I enter the details of the business owner
-  And no key people in the organisation have convictions
-  And I check the declaration
-  And I provide my email address and create a password
-  And I pay by card
-  And I am registered as an upper tier waste carrier
-  And I activate my account by clicking the link in the activation email
-  When I attempt to sign in
-  Then I am successfully registered and activated as an upper tier waste carrier
-
 Scenario: Bank transfer
   Given I autocomplete my business address
   And I provide my personal contact details

@@ -36,8 +36,6 @@ Feature: Email confirmation
       And I have received an awaiting payment email
      When I activate my account by clicking the link in the activation email
      Then I am shown the 'email address confirmed' page
-     When I attempt to sign in
-     Then I have applied as an upper tier waste carrier
 
   Scenario: upper tier unconfirmed with balance owing
     Given I have completed the upper tier and chosen to pay by bank transfer
@@ -55,5 +53,3 @@ Feature: Email confirmation
     Given I have gone through the lower tier waste carrier process
      When my account becomes locked due to several successive failed sign-in attempts
       And I activate my account by clicking the link in the activation email
-     Then I am shown my confirmed registration
-      And my account should not be locked, and I should be able to log in to my account

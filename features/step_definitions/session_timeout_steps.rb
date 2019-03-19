@@ -28,20 +28,3 @@ Given(/^I keep working on my registration for more than (\d+) hours$/) do |numbe
   # Note: We could keep accessing the current page to avoid session inactivity timeouts - but this should not be necessary for WCs
   Timecop.travel(number_of_hours.to_i.hours.from_now + 1.minute)
 end
-
-Given(/^I am logged in as a waste carrier$/) do
-  open_email my_user.email
-  current_email.click_link 'confirmation_link'
-  visit new_user_session_path
-  fill_in 'Email', with: my_user.email
-  fill_in 'Password', with: my_user.password
-  click_button 'sign_in'
-end
-
-When(/^I try to continue with my registrations$/) do
-  visit user_registrations_path(my_user)
-end
-
-Then(/^my waste carrier session has expired$/) do
-  expect(page).to have_text 'Your session has expired'
-end

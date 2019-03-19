@@ -1,13 +1,3 @@
-Given(/^I am registering as an upper tier waste carrier$/) do
-  step 'I have been funneled into the upper tier path'
-  step 'I am a carrier dealer'
-  step 'I provide my company name'
-  step 'I autocomplete my business address'
-  step 'I provide my personal contact details'
-  postal_address_page_complete_form
-  step 'I enter the details of the business owner'
-end
-
 And(/^There are relevant people with relevant convictions in my organisation$/) do
   choose 'registration_declaredConvictions_yes'
   click_button 'continue'
