@@ -133,7 +133,7 @@ describe CompaniesHouseCaller do
     end
 
     context 'voluntary arrangement' do
-      subject { CompaniesHouseCaller.new '04270505' }
+      subject { CompaniesHouseCaller.new '01618428' }
 
       it 'live response from Companies House (will fail when company changes status)', :vcr do
         expect(subject.status).to eq(:active)
