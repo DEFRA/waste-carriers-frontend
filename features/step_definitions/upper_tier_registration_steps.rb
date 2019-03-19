@@ -77,18 +77,6 @@ And(/^I choose pay via electronic transfer$/) do
   click_button 'continue'
 end
 
-Then(/^I am registered as an upper tier waste carrier$/) do
-  do_short_pause_for_email_delivery
-  open_email my_email_address
-  expect(current_email).to have_text 'you need to renew your registration every 3 years'
-end
-
-Then(/^I am successfully registered and activated as an upper tier waste carrier$/) do
-  expect(page).to have_text 'Signed in as'
-  expect(page).to have_text 'CBDU'
-  expect(page).to have_text 'ACTIVE'
-end
-
 Then(/^I have completed the application as an upper tier waste carrier via electronic transfer$/) do
   expect(page).to have_text 'Please allow 5 working days for your payment to reach us'
 end

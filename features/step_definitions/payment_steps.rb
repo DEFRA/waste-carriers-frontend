@@ -40,32 +40,6 @@ def waitForWorldpayToLoad
   end
 end
 
-And(/^I pay by card$/) do
-  expect(page).to have_text 'Payment summary'
-
-  choose 'registration_payment_type_world_pay'
-  click_button 'proceed_to_payment'
-
-  sleep 0.5
-
-  # Wait a period for worldpay to load
-  waitForWorldpayToLoad
-
-  click_on 'MasterCard'
-
-  fill_in 'Card number', with: '4444333322221111'
-  select '12', from: 'cardExp.month'
-  select Date.current.year + 2, from: 'cardExp.year'
-  fill_in "Cardholder's name", with: 'B Butler'
-  fill_in 'Address 1', with: 'Deanery St.'
-  fill_in 'Town/City', with: 'Bristol'
-  fill_in 'Postcode/ZIP', with: 'BS1 5AH'
-  click_on 'op-PMMakePayment'
-
-  step 'I set test simulator page to all okay'
-
-end
-
 And(/^I choose to pay by bank transfer$/) do
   choose 'registration_payment_type_bank_transfer'
   click_button 'proceed_to_payment'

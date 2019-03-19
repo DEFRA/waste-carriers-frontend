@@ -6,52 +6,6 @@ Then(/^the user should see a login account unlocked successfully page$/) do
   expect(page).to have_text 'Your account has been unlocked successfully'
 end
 
-# TODO GM - still need to figure out how to switch between www and admin subdomains in Cucumber
-
-When(/^the user tries to access the internal admin login URL from the public domain$/) do
-  base_url = 'http://' + Rails.configuration.waste_exemplar_frontend_url
-  url = base_url + new_user_session_path
-  visit url
-end
-
-Then(/^the page is not found$/) do
-  expect(current_path).to have_text /sign_in/i
-end
-
-When(/^the user tries to access the internal agency login URL from the public domain$/) do
-  base_url = Rails.configuration.waste_exemplar_frontend_url
-  url = base_url + new_agency_user_session_path
-  visit url
-end
-
-When(/^the user tries to access the internal admin login URL from the admin domain$/) do
-  base_url = Rails.configuration.waste_exemplar_frontend_admin_url
-  url = base_url + new_admin_session_path
-  visit url
-end
-
-Then(/^the admin login page is shown$/) do
-  expect(current_path).to have_text /admins\/sign_in/i
-end
-
-When(/^the user tries to access the internal agency login URL from the admin domain$/) do
-  base_url = Rails.configuration.waste_exemplar_frontend_admin_url
-  url = base_url + new_agency_user_session_path
-  visit url
-end
-
-Then(/^the agency user login page is shown$/) do
-  expect(current_path).to have_text /agency_users\/sign_in/i
-end
-
-When(/^the user tries to access the user login URL from the internal admin domain$/) do
-  base_url = Rails.configuration.waste_exemplar_frontend_admin_url
-  url = base_url + new_user_session_path
-  visit url
-end
-
-
-
 Given(/^an ([\w ]+) exists and has an activated, non-locked account$/) do |user_type|
   if user_type == 'External User'
     open_email my_user.email
