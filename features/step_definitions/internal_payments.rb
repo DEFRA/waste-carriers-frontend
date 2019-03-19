@@ -205,25 +205,22 @@ Then(/^payment history will show writeoff$/) do
   expect(page).to have_text 'Large Write off'
 end
 
-When(/^balance is (\d+)$/) do |arg1|
-  expect(page).to have_text 'Awaiting payment £' + arg1
+When("balance is {int}") do |expected_balance|
+  expect(page).to have_text "Awaiting payment £#{expected_balance}"
 end
 
-When(/^I enter (\d+)$/) do |arg1|
-  fill_in 'payment_amount', with: arg1
+When("I enter {int}") do |payment|
+  fill_in 'payment_amount', with: payment
 end
 
-When(/^I enter (\d+)\.(\d+)$/) do |arg1, arg2|
-  total_val = arg1 + '.' + arg2
-  fill_in 'payment_amount', with: total_val
+When("I enter {float}") do |payment|
+  fill_in 'payment_amount', with: payment
 end
 
-Then(/^payment balance will be (\d+)\.(\d+)$/) do |arg1, arg2|
+Then("payment balance will be {float}") do |expected_balance|
   balance_due = page.find_by_id 'balanceDue'
-  total_val = arg1 + '.' + arg2
-  expect(balance_due).to have_text total_val
+  expect(balance_due).to have_text expected_balance.to_s
 end
-
 
 Then(/^payment status will be paid$/) do
   expect(page).to have_text 'Paid in full'
