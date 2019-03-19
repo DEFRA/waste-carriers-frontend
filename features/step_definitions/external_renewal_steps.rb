@@ -1,14 +1,3 @@
-Given(/^The renewal link is available$/) do
-  # This will only be true given the current set of expiration parameters, ie any new registration created is automatically able to be expired
-  expect(page).to have_text 'Renew registration'
-end
-
-Then(/^I click the renew link for: (.*)$/) do |name|
-  # FIXME: Improve this test to find a unique renew link
-  # Uses the saved registration ID to find the correct registration to renew
-  click_link 'renew_'+@stored_value
-end
-
 Then(/^my renewal should be complete$/) do
   expect(page).to have_text 'Registration complete'
   click_button 'finished'
@@ -28,11 +17,6 @@ Then(/^the expiry date should be updated$/) do
   # Get expiry period from configuration and check page has expected expiry date
   d = Date.today + Rails.configuration.registration_expires_after
   expect(page).to have_text d.strftime("%d-%^B-%Y")
-end
-
-Given(/^I provide the following company name: (.*)$/) do |table|
-  # table is a Cucumber::Ast::Table
-  fill_in 'registration_companyName', with: table
 end
 
 Then(/^I remember the registration id$/) do

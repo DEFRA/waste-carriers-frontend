@@ -1,36 +1,9 @@
-Given(/^there is an activated user$/) do
-  open_email my_user.email
-  current_email.click_link 'confirmation_link'
-end
-
 When(/^somebody visits the ([\w ]+) Sign In page$/) do |user_type|
   visit get_sign_in_path_for_user_type(user_type)
 end
 
-When(/^enters valid credentials$/) do
-  expect(page).to have_text 'Sign in'
-  fill_in 'Email', with: my_user.email
-  fill_in 'Password', with: my_user.password
-  click_button 'sign_in'
-end
-
-Then(/^the user should be logged in successfully$/) do
-  expect(page).to have_text 'Signed in as'
-end
-
-When(/^enters invalid credentials$/) do
-  expect(page).to have_text 'Sign in'
-  fill_in 'Email', with: my_user.email
-  fill_in 'Password', with: 'incorrect_password'
-  click_button 'sign_in'
-end
-
 Then(/^the user should see a login account unlocked successfully page$/) do
   expect(page).to have_text 'Your account has been unlocked successfully'
-end
-
-Then(/^the user should see a login error$/) do
-  expect(page).to have_text 'Invalid email or password.'
 end
 
 # TODO GM - still need to figure out how to switch between www and admin subdomains in Cucumber
@@ -169,24 +142,4 @@ Then(/^the External User should receive an email allowing them to confirm their 
   expect(current_email.subject).to have_text 'Confirm your email address'
   current_email.click_link 'confirmation_link'
   expect(get_database_object_for_user_type('External User').confirmed?).to be true
-end
-
-When(/^I am logged in as waste carrier user '([\w@\.]+)'$/) do | email|
-   visit new_user_session_path
-   fill_in 'Email', with: email
-   fill_in 'Password', with: my_password
-   click_button 'sign_in'
-   expect(page).to have_xpath("//*[@id = 'external-user-signed-in']")
-end
-
-# TODO AH need to centralise date formatting and get expire date from services
-Then(/^my registration Certificate has a correct Expiry Date$/) do
-  expectedExpiryDate = Date.today + Rails.configuration.registration_expires_after
-  visit first(:css, '.viewCertificate')[:href]
-  expect(page).to have_text expectedExpiryDate.strftime('%A ' + expectedExpiryDate.mday.ordinalize + ' %B %Y')
-end
-
-Then(/^my registration Certificate does not have an Expiry Date/) do
-  first(:css, '.viewCertificate').click
-  expect(page).not_to have_text 'Expiry date of registration (unless revoked)'
 end

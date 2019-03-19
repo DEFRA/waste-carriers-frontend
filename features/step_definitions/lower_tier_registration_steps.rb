@@ -81,11 +81,6 @@ Given(/^I enter my business address manually$/) do
   click_button 'continue'
 end
 
-Given(/^I confirm my postal address$/) do
-  postal_address_page_submit
-end
-
-
 Given(/^I enter my foreign business address manually$/) do
   click_link 'foreign_address'
 
