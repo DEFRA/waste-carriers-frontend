@@ -186,7 +186,7 @@ And(/^the lower tier waste carrier registration id$/) do
   expect(page).to have_text 'The registration number is: CBDL'
 end
 
-And(/^the upper tier waste carrier registration id/) do
+And(/^I see the upper tier waste carrier registration id/) do
   expect(page).to have_text 'The registration number is: CBDU'
 end
 
