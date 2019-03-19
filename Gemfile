@@ -93,7 +93,7 @@ end
 
 group :test do
   gem 'ci_reporter', '~> 1.9.0'
-  gem 'cucumber-rails', '~> 1.4.0', require: false
+  gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner', '~> 1.7.0'
   gem 'timecop', '~> 0.7.1'
   gem 'factory_girl_rails', '~> 4.4.1'
