@@ -23,6 +23,14 @@ describe Registration do
     specify { expect(Registration.ctor(tier: 'UPPER')).not_to be_lower }
   end
 
+  context 'location step' do
+    before { subject.current_step = 'location' }
+
+    it { is_expected.to validate_presence_of(:location).with_message(/You must answer this question/) }
+    it { is_expected.to allow_value('england', 'wales', 'scotland', 'northern_ireland', 'overseas').for(:location) }
+    it { is_expected.not_to allow_value('wakanda', 'absurdistan', 'bartovia').for(:location) }
+  end
+
   context 'businesstype step' do
     before { subject.current_step = 'businesstype' }
 

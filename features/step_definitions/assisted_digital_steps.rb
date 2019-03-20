@@ -12,6 +12,9 @@ Given(/^I start a new registration on behalf of a caller$/) do
 
   choose 'registration_newOrRenew_new'
   click_button 'continue'
+
+  choose 'registration_location_england'
+  click_button 'continue'
 end
 
 Given(/^the caller provides initial answers for the lower tier$/) do
@@ -62,6 +65,9 @@ When(/^I create a lower tier registration on behalf of a caller$/) do
   choose 'registration_newOrRenew_new'
   click_button 'continue'
 
+  choose 'registration_location_england'
+  click_button 'continue'
+
   choose 'registration_businessType_charity'
   click_button 'continue'
 
@@ -90,6 +96,9 @@ When(/^I create an upper tier registration on behalf of a caller who wants to pa
   click_link 'new_registration'
 
   choose 'registration_newOrRenew_new'
+  click_button 'continue'
+
+  choose 'registration_location_england'
   click_button 'continue'
 
   choose 'registration_businessType_soletrader'

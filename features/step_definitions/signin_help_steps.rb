@@ -122,6 +122,9 @@ When(/^I make a new registration and progress as far as accepting the Declaratio
   choose 'registration_newOrRenew_new'
   click_button 'continue'
 
+  choose 'registration_location_england'
+  click_button 'continue'
+
   choose 'registration_businessType_charity'
   click_button 'continue'
 

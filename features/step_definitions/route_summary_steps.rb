@@ -3,6 +3,9 @@ Given(/^I have come to the lower tier summary page$/) do
   choose 'registration_newOrRenew_new'
   click_button 'continue'
 
+  choose 'registration_location_england'
+  click_button 'continue'
+
   choose 'registration_businessType_soletrader'
   click_button 'continue'
 
@@ -37,6 +40,9 @@ end
 Given(/^I have come to the upper tier summary page$/) do
   visit start_path
   choose 'registration_newOrRenew_new'
+  click_button 'continue'
+
+  choose 'registration_location_england'
   click_button 'continue'
 
   choose 'registration_businessType_soletrader'

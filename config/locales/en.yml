@@ -186,6 +186,12 @@ en:
     show: "Show"
     updateLabel: "Update agency user"
     no_role: "No role"
+  locations:
+    england: "England"
+    wales: "Wales"
+    scotland: "Scotland"
+    northern_ireland: "Northern Ireland"
+    overseas: "Not in the United Kingdom"
   business_types:
     soleTrader: "Individual or sole trader"
     limitedCompany: "Limited company"
@@ -292,6 +298,7 @@ en:
       registration_not_active: "This number is not registered. Call our helpline on %{helpline} if you think this is incorrect."
 
       # Section 1 (smart answers)
+      select_location: "You must answer this question"
       select_business_type: "You must answer this question"
       select_other_businesses: "You must answer this question"
       select_service_provided: "You must answer this question"
@@ -755,6 +762,44 @@ en:
       bullet1: "check your renewal letter (your registration number will be at the top)"
       bullet2_html: "<a href='http://www.environment-agency.gov.uk/ePRInternet/SearchRegisters.aspx' target='_blank'>find your registration number online</a>"
       paragraph: "Call 03708 506506 if you have any problems."
+  location:
+    show:
+      subtitle: "Where is your principal place of business?"
+      title: "Location"
+      explanation_link: "What is the principal place of business?"
+      explanation: "For companies and LLPs this is where your business is registered. For others, this is where the day-to-day business is run."
+      england: "England"
+      wales: "Wales"
+      scotland: "Scotland"
+      northern_ireland: "Northern Ireland"
+      overseas: "Not in the United Kingdom"
+  register_in_wales:
+    show:
+      subtitle: "You can register in Wales"
+      title: "Register in Wales"
+      paragraph_1: "You can continue to renew in England, but you’re encouraged to register with the appropriate authority for your region. This allows customers to verify that you are a registered waste carrier."
+      paragraph_2: "In Wales you need to register with Natural Resources Wales (NRW). For details on how, visit"
+      service_link: "Register or renew as a waste carrier, broker or dealer (Wales)"
+      paragraph_3: "If you have any questions about this, please contact our helpline on 03708 506 506."
+      continue_button_label: "Continue to register in England"
+  register_in_scotland:
+    show:
+      subtitle: "You can register in Scotland"
+      title: "Register in Scotland"
+      paragraph_1: "You can continue to renew in England, but you are encouraged to register with the appropriate authority for your region. This allows customers to verify that you’re a registered waste carrier."
+      paragraph_2: "In Scotland you need to register with the Scottish Environment Protection Agency (SEPA). For details on how, visit"
+      service_link: "Register or renew as a waste carrier or broker (Scotland)"
+      paragraph_3: "If you have any questions about this, please contact our helpline on 03708 506 506."
+      continue_button_label: "Continue to register in England"
+  register_in_northern_ireland:
+    show:
+      subtitle: "You can register in Northern Ireland"
+      title: "Register in Northern Ireland"
+      paragraph_1: "You can continue to renew in England, but you are encouraged to register with the appropriate authority for your region. This allows customers to verify that you’re a registered waste carrier."
+      paragraph_2: "In Northern Ireland, you need to register with the Northern Ireland Environment Agency (NIEA). For details on how, visit"
+      service_link: "Register or renew as a waste carrier, broker or dealer (Northern Ireland)"
+      paragraph_3: "If you have any questions about this, please contact our helpline on 03708 506 506."
+      continue_button_label: "Continue to register in England"
   business_type:
     show:
       subtitle: "What type of business or organisation are you?"
@@ -1373,6 +1418,8 @@ en:
       title_revoke: "Revoke registration"
       title_unrevoke: "UnRevoke registration"
     smartanswers_display:
+      location: "Your principal place of business is in %{location}"
+      location_overseas: "Your principal place of business is not in the United Kingdom"
       business_type: "You are a %{businessType}"
       overseas_business_type: "You are based overseas"
       sole_trader_business_type: "You are an individual or sole trader"

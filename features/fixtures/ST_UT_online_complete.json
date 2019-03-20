@@ -16,6 +16,7 @@
   "companyName": "ST UT Company",
   "phoneNumber": "11",
   "current_step": "signup",
+  "location": "england",
   "businessType": "soleTrader",
   "tier": "UPPER",
   "password": "Test1234",

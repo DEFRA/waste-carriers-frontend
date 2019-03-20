@@ -10,6 +10,7 @@
   "firstName": "FName",
   "phoneNumber": "32143",
   "companyName": "LTD UT Company",
+  "location": "england",
   "businessType": "limitedCompany",
   "lastName": "LName",
   "current_step": "signup",

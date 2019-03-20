@@ -6,6 +6,7 @@
   "firstName": "FName",
   "companyName": "LT LTD Company",
   "phoneNumber": "11",
+  "location": "england",
   "businessType": "limitedCompany",
   "lastName": "LName",
   "current_step": "signup",

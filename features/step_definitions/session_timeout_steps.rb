@@ -13,6 +13,8 @@ end
 Given('I have started a new registration and gone as far as the Waste From Other Businesses step') do
   go_to_start_page
   start_page_select_new
+  location_page?
+  location_page_select_england
   business_type_page?
   business_type_page_select_sole_trader
   other_businesses_page?

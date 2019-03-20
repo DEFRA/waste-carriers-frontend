@@ -43,9 +43,9 @@ describe StartController, :type => :controller do
         expect(assigns(:registration).newOrRenew).to eq('new')
       end
 
-      it "redirects to the 'business type' page" do
+      it "redirects to the 'location' page" do
         post :create, :registration => { "newOrRenew" => "new" }, reg_uuid: registration.reg_uuid
-        expect(response).to redirect_to :business_type
+        expect(response).to redirect_to :location
       end
 
     end

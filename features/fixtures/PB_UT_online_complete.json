@@ -9,6 +9,7 @@
   "firstName": "FName",
   "phoneNumber": "342435546",
   "companyName": "PB UT Company",
+  "location": "england",
   "businessType": "publicBody",
   "lastName": "LName",
   "current_step": "signup",
