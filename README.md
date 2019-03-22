@@ -1,5 +1,11 @@
 # Waste carriers frontend
 
+[![Build Status](https://travis-ci.com/DEFRA/waste-carriers-frontend.svg?branch=master)](https://travis-ci.com/DEFRA/waste-carriers-frontend)
+[![Maintainability](https://api.codeclimate.com/v1/badges/54a95cbae5d7ddcc20b7/maintainability)](https://codeclimate.com/github/DEFRA/waste-carriers-frontend/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/54a95cbae5d7ddcc20b7/test_coverage)](https://codeclimate.com/github/DEFRA/waste-carriers-frontend/test_coverage)
+[![security](https://hakiri.io/github/DEFRA/waste-carriers-frontend/master.svg)](https://hakiri.io/github/DEFRA/waste-carriers-frontend/master)
+[![Licence](https://img.shields.io/badge/Licence-OGLv3-blue.svg)](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3)
+
 The Waste Carrier Registrations Service allows businesses, who deal with waste and thus have to register according to the regulations, to register online. Once registered, businesses can sign in again to edit their registrations if needed.
 
 The service also allows authorised agency users and NCCC contact centre staff to create and manage registrations on a user's behalf, e.g. to support 'Assisted Digital' registrations. The service provides an internal user account management facility which allows authorised administrators to create and manage other agency user accounts.
