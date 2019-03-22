@@ -58,14 +58,9 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    brakeman (3.3.2)
     bson (4.3.0)
     builder (3.2.3)
-    bundler-audit (0.5.0)
-      bundler (~> 1.2)
-      thor (~> 0.18)
     byebug (9.0.5)
-    callsite (0.0.11)
     cancan (1.6.10)
     capybara (2.18.0)
       addressable
@@ -82,8 +77,6 @@ GEM
     chromedriver-helper (0.0.9)
       archive-zip (~> 0.7.0)
       nokogiri (~> 1.6)
-    ci_reporter (1.9.3)
-      builder (>= 2.1.2)
     cliver (0.3.2)
     coderay (1.1.1)
     coffee-rails (4.0.1)
@@ -152,7 +145,6 @@ GEM
       faraday (~> 0.8)
     ffi (1.9.10)
     gherkin (5.1.0)
-    git-version-bump (0.15.1)
     github_changelog_generator (1.14.3)
       activesupport
       faraday-http-cache
@@ -188,10 +180,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.0)
       mini_mime (>= 0.1.1)
-    meta_request (0.4.0)
-      callsite (~> 0.0, >= 0.0.11)
-      rack-contrib (~> 1.1)
-      railties (>= 3.0.0, < 5.1.0)
     mime-types (1.25.1)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
@@ -241,9 +229,6 @@ GEM
     rack (1.6.11)
     rack-accept (0.4.5)
       rack (>= 0.4)
-    rack-contrib (1.4.0)
-      git-version-bump (~> 0.15)
-      rack (~> 1.4)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (4.2.10)
@@ -323,11 +308,6 @@ GEM
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
-    simplecov-json (0.2)
-      json
-      simplecov
-    simplecov-rcov (0.2.3)
-      simplecov (>= 0.4.1)
     sixarm_ruby_unaccent (1.1.1)
     sprockets (2.12.4)
       hike (~> 1.2)
@@ -376,14 +356,11 @@ DEPENDENCIES
   aws-healthcheck
   better_errors
   binding_of_caller
-  brakeman
-  bundler-audit
   byebug
   cancan (~> 1.6.10)
   capybara (~> 2.4)
   capybara-email (~> 2.4)
   chromedriver-helper (~> 0.0.8)
-  ci_reporter (~> 1.9.0)
   coffee-rails (~> 4.0.0)
   countries
   cucumber-rails (~> 1.6.0)
@@ -399,7 +376,6 @@ DEPENDENCIES
   jquery-rails
   json (>= 1.8.0)
   launchy (~> 2.4.2)
-  meta_request
   monetize
   money-rails
   mongoid (~> 5.2)
@@ -416,8 +392,6 @@ DEPENDENCIES
   selenium-webdriver (~> 2.44.0)
   shoulda-matchers (~> 2.8.0)
   simplecov
-  simplecov-json
-  simplecov-rcov
   timecop (~> 0.7.1)
   turnout (~> 2.1.0)
   uglifier (>= 1.3.0)

@@ -1,4 +1,8 @@
-require 'simplecov'
+# frozen_string_literal: true
+
+# Require and run our simplecov initializer as the very first thing we do.
+# This is as per its docs https://github.com/colszowka/simplecov#getting-started
+require "./spec/support/simplecov"
 
 ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
@@ -11,7 +15,11 @@ require_relative '../lib/test_helpers/database_cleaning'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+#
+# We make an exception for simplecov because that will already have been
+# required and run at the very top of spec_helper.rb
+support_files = Dir["./spec/support/**/*.rb"].reject { |file| file == "./spec/support/simplecov.rb" }
+support_files.each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
