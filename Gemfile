@@ -92,7 +92,6 @@ group :production do
 end
 
 group :test do
-  gem 'ci_reporter', '~> 1.9.0'
   gem 'cucumber-rails', '~> 1.6.0', require: false
   gem 'database_cleaner', '~> 1.7.0'
   gem 'timecop', '~> 0.7.1'
@@ -102,18 +101,9 @@ group :test do
   gem "webmock", "~> 3.3"
   gem 'faker'
   gem 'simplecov', require: false
-  gem 'simplecov-json', require: false
-  gem 'simplecov-rcov', require: false
 end
 
 group :development do
-  # For static source code analysis
-  gem 'brakeman', require: false
-  gem 'bundler-audit', require: false
-
-  # gem needed for Chrome's RailsPanel plugin
-  gem 'meta_request'
-
   # Hide assets in development server log
   gem 'quiet_assets'
 
