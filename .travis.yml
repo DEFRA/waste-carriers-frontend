@@ -19,8 +19,8 @@ before_install:
 
 before_script:
   # Set up Mongo databases
-  - mongo waste-carriers-test --eval 'db.createUser({user:"mongoUser", pwd:"password1234", roles:["readWrite", "dbAdmin", "userAdmin"]})'
-  - mongo waste-carriers-users-test --eval 'db.createUser({user:"mongoUser", pwd:"password1234", roles:["readWrite", "dbAdmin", "userAdmin"]})'
+  - mongo waste-carriers --eval 'db.createUser({user:"mongoUser", pwd:"password1234", roles:["readWrite", "dbAdmin", "userAdmin"]})'
+  - mongo waste-carriers-users --eval 'db.createUser({user:"mongoUser", pwd:"password1234", roles:["readWrite", "dbAdmin", "userAdmin"]})'
   # Setup to support the CodeClimate test coverage submission
   # As per CodeClimate's documentation, they suggest only running
   # ./cc-test-reporter commands on travis-ci push builds only. Hence we wrap all
