@@ -11,6 +11,7 @@ ActionMailer::Base.smtp_settings = {
   :enable_starttls_auto => true
 }
 
+Money.locale_backend = :i18n
 Money.default_currency = Money::Currency.new 'GBP'
 
 # Logging: log timestamp with the log message
