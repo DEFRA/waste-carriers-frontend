@@ -215,7 +215,7 @@ GEM
       stal
     origin (2.3.1)
     orm_adapter (0.5.0)
-    passenger (5.3.4)
+    passenger (5.3.7)
       rack
       rake (>= 0.8.1)
     poltergeist (1.6.0)
