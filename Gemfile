@@ -11,7 +11,7 @@ gem 'airbrake', '~> 5.3'
 gem "mongoid", "~> 5.2.0"
 
 # Using devise for authentication
-gem 'devise', '~> 3.4.1'
+gem "devise", ">= 4.4.3"
 
 # Using cancan for authorisation
 gem 'cancan', '~> 1.6.10'
