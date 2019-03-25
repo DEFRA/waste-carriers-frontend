@@ -40,7 +40,7 @@ gem 'uglifier', '>= 1.3.0'
 
 gem 'jquery-rails'
 
-gem 'rest-client', '~> 1.6.7'
+gem "rest-client", "~> 2.0"
 gem 'ohm', '~> 3.0.0'
 
 gem 'money-rails'
