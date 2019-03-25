@@ -7,7 +7,8 @@ gem 'rails', '4.2.10'
 gem 'airbrake', '~> 5.3'
 
 # We store user accounts (authentication with Devise) in a MongoDB database
-gem "mongoid", "~> 5.2"
+# This version of mongoid supports MongoDb 3.6
+gem "mongoid", "~> 5.2.0"
 
 # Using devise for authentication
 gem 'devise', '~> 3.4.1'

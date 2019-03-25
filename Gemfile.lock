@@ -382,7 +382,7 @@ DEPENDENCIES
   launchy (~> 2.4.2)
   monetize
   money-rails
-  mongoid (~> 5.2)
+  mongoid (~> 5.2.0)
   ohm (~> 3.0.0)
   passenger (~> 5.0, >= 5.0.30)
   poltergeist (~> 1.6.0)
