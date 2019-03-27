@@ -251,18 +251,6 @@ en:
       cookie_table3_cell1: "seen_cookie_message"
       cookie_table3_cell2: "Stores a message to let us know that you have seen our cookie message"
       cookie_table3_cell3: "1 month"
-    privacy:
-      privacyHeading: "Privacy policy"
-      privacy_text1: "The Waste Carrier service is run by the Environment Agency. We will handle the information you give us according to the Environment Agency "
-      privacy_link: "personal information charter."
-      privacy_text2: "We will use the personal information you give us to keep the public register of waste carriers up to date. Only your organisation name and address will appear on the public register."
-      privacy_text3: "We may also use the personal information you give us to:"
-      privacy_text4: "contact you about our customer service"
-      privacy_text5: "send you environmental information, or consult you on environmental issues"
-      privacy_text6: "carry out research on environmental issues"
-      privacy_text7: "prevent someone from breaking environmental laws, or investigate and take action when someone may have broken environmental laws"
-      privacy_text8: "respond to freedom of information requests (if data protection laws let us)"
-      privacy_text9: "We may pass on your personal information to our agents or representatives so that they can do any of these things on our behalf. And we may share your personal information with other organisations if the law says we have to do so."
   distances:
     ? "10"
     : "10 Miles"
