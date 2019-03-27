@@ -251,6 +251,8 @@ en:
       cookie_table3_cell1: "seen_cookie_message"
       cookie_table3_cell2: "Stores a message to let us know that you have seen our cookie message"
       cookie_table3_cell3: "1 month"
+    privacy:
+      title: "Waste carriers, brokers and dealers privacy policy"
   distances:
     ? "10"
     : "10 Miles"
