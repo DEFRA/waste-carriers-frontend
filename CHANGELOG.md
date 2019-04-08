@@ -1,5 +1,57 @@
 # Change Log
 
+## [v2.5](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.5) (2019-04-08)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.6...v2.5)
+
+**Implemented enhancements:**
+
+- Update privacy policy date [\#223](https://github.com/DEFRA/waste-carriers-frontend/pull/223) ([irisfaraway](https://github.com/irisfaraway))
+- Update privacy policy [\#218](https://github.com/DEFRA/waste-carriers-frontend/pull/218) ([irisfaraway](https://github.com/irisfaraway))
+- Add location question to journey [\#182](https://github.com/DEFRA/waste-carriers-frontend/pull/182) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Fixed bugs:**
+
+- Fix broken link to NI waste carriers service [\#221](https://github.com/DEFRA/waste-carriers-frontend/pull/221) ([Cruikshanks](https://github.com/Cruikshanks))
+- Fix up privacy policy after QA [\#220](https://github.com/DEFRA/waste-carriers-frontend/pull/220) ([irisfaraway](https://github.com/irisfaraway))
+
+**Merged pull requests:**
+
+- Bump wicked\_pdf from 1.2.1 to 1.2.2 [\#222](https://github.com/DEFRA/waste-carriers-frontend/pull/222) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump devise from 4.6.1 to 4.6.2 [\#219](https://github.com/DEFRA/waste-carriers-frontend/pull/219) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump dotenv-rails from 2.7.1 to 2.7.2 [\#217](https://github.com/DEFRA/waste-carriers-frontend/pull/217) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump json from 1.8.6 to 2.2.0 [\#216](https://github.com/DEFRA/waste-carriers-frontend/pull/216) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update devise and reference in Gemfile [\#215](https://github.com/DEFRA/waste-carriers-frontend/pull/215) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update rest-client and reference in Gemfile [\#214](https://github.com/DEFRA/waste-carriers-frontend/pull/214) ([Cruikshanks](https://github.com/Cruikshanks))
+- Update rails version and Gemfile declaration [\#213](https://github.com/DEFRA/waste-carriers-frontend/pull/213) ([Cruikshanks](https://github.com/Cruikshanks))
+- Fix how mongoid is specified in Gemfile [\#212](https://github.com/DEFRA/waste-carriers-frontend/pull/212) ([Cruikshanks](https://github.com/Cruikshanks))
+- Bump awesome\_print from 1.7.0 to 1.8.0 [\#211](https://github.com/DEFRA/waste-carriers-frontend/pull/211) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump vcr from 3.0.3 to 4.0.0 [\#210](https://github.com/DEFRA/waste-carriers-frontend/pull/210) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump byebug from 9.0.5 to 11.0.1 [\#209](https://github.com/DEFRA/waste-carriers-frontend/pull/209) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump webmock from 3.4.0 to 3.5.1 [\#208](https://github.com/DEFRA/waste-carriers-frontend/pull/208) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump countries from 1.2.5 to 3.0.0 [\#207](https://github.com/DEFRA/waste-carriers-frontend/pull/207) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump rspec-rails from 3.7.2 to 3.8.2 [\#206](https://github.com/DEFRA/waste-carriers-frontend/pull/206) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump ruby-progressbar from 1.8.1 to 1.10.0 [\#205](https://github.com/DEFRA/waste-carriers-frontend/pull/205) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump simplecov from 0.11.2 to 0.16.1 [\#203](https://github.com/DEFRA/waste-carriers-frontend/pull/203) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump faker from 1.6.3 to 1.9.3 [\#202](https://github.com/DEFRA/waste-carriers-frontend/pull/202) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump wicked\_pdf from 1.0.6 to 1.2.1 [\#201](https://github.com/DEFRA/waste-carriers-frontend/pull/201) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Update Money-rails to latest [\#200](https://github.com/DEFRA/waste-carriers-frontend/pull/200) ([Cruikshanks](https://github.com/Cruikshanks))
+- Bump dotenv-rails from 2.1.1 to 2.7.1 [\#199](https://github.com/DEFRA/waste-carriers-frontend/pull/199) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump better\_errors from 2.1.1 to 2.5.1 [\#198](https://github.com/DEFRA/waste-carriers-frontend/pull/198) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump passenger from 5.3.4 to 5.3.7 [\#197](https://github.com/DEFRA/waste-carriers-frontend/pull/197) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump airbrake from 5.4.1 to 5.8.1 [\#196](https://github.com/DEFRA/waste-carriers-frontend/pull/196) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Add Continuous Integration support [\#195](https://github.com/DEFRA/waste-carriers-frontend/pull/195) ([Cruikshanks](https://github.com/Cruikshanks))
+- \[Security\] Bump sprockets from 2.12.4 to 2.12.5 [\#194](https://github.com/DEFRA/waste-carriers-frontend/pull/194) ([dependabot[bot]](https://github.com/apps/dependabot))
+- \[Security\] Bump rubyzip from 1.2.0 to 1.2.2 [\#193](https://github.com/DEFRA/waste-carriers-frontend/pull/193) ([dependabot[bot]](https://github.com/apps/dependabot))
+- \[Security\] Bump ffi from 1.9.10 to 1.10.0 [\#191](https://github.com/DEFRA/waste-carriers-frontend/pull/191) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump jquery-rails from 4.1.1 to 4.3.3 [\#190](https://github.com/DEFRA/waste-carriers-frontend/pull/190) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump binding\_of\_caller from 0.7.2 to 0.8.0 [\#187](https://github.com/DEFRA/waste-carriers-frontend/pull/187) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump uglifier from 3.0.0 to 4.1.20 [\#186](https://github.com/DEFRA/waste-carriers-frontend/pull/186) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Fix WARNING: Shared example group 'can\_be\_renewed' [\#185](https://github.com/DEFRA/waste-carriers-frontend/pull/185) ([Cruikshanks](https://github.com/Cruikshanks))
+- Fix specs by re-recording VCR cassettes [\#184](https://github.com/DEFRA/waste-carriers-frontend/pull/184) ([Cruikshanks](https://github.com/Cruikshanks))
+- Fix and update broken cucumber features [\#183](https://github.com/DEFRA/waste-carriers-frontend/pull/183) ([Cruikshanks](https://github.com/Cruikshanks))
+- Move passenger to production only in Gemfile [\#181](https://github.com/DEFRA/waste-carriers-frontend/pull/181) ([Cruikshanks](https://github.com/Cruikshanks))
+- Remove dummy secret key logic in application.rb [\#180](https://github.com/DEFRA/waste-carriers-frontend/pull/180) ([Cruikshanks](https://github.com/Cruikshanks))
+
 ## [v2.4.6](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.4.6) (2019-01-02)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.4.5...v2.4.6)
 
