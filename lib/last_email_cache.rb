@@ -36,13 +36,20 @@ class LastEmailCache
 
   # If you've set multipart emails then you'll have both a text and a html
   # version (determined by adding the relevant erb views). If you do so then
-  # `my_mail.parts.length` will equal 2. If however you only have the one then
-  # `parts` doesn't seem to get populated. To cater for this we have this
-  # method to grab the body content
+  # `my_mail.parts.length` will at least equal 2. If you only have one of them
+  # e.g. just a text version then parts doesn't get populated.
+  #
+  # However any attachments will cause ActionMailer to use parts. So for example
+  # if we have a text only email with an attached image, then parts will be of
+  # length 2; one being the content and the other being the attachment.
+  #
+  # To cater for all possibilities we have this method to grab the body content
   # https://guides.rubyonrails.org/action_mailer_basics.html#sending-multipart-emails
+  # https://stackoverflow.com/a/15818886
   def email_body
-    return last_email.body.to_s if last_email.parts.empty?
+    part_to_use = last_email.text_part || last_email.html_part || last_email
 
-    last_email.text_part.to_s
+    # return the message body without the header information
+    part_to_use.body.decoded
   end
 end

@@ -29,7 +29,7 @@ RSpec.describe LastEmailCache do
       let(:recipient) { "test@example.com" }
       before(:each) do
         instance.reset
-        generate_test_email(recipient).deliver_now
+        TestMailer.basic_text_email(recipient).deliver_now
       end
 
       it "returns a JSON string" do
@@ -50,8 +50,8 @@ RSpec.describe LastEmailCache do
       let(:second_recipient) { "joe.bloggs@example.com" }
       before(:each) do
         instance.reset
-        generate_test_email(first_recipient).deliver_now
-        generate_test_email(second_recipient).deliver_now
+        TestMailer.basic_text_email(first_recipient).deliver_now
+        TestMailer.basic_text_email(second_recipient).deliver_now
       end
 
       it "returns a JSON string" do
@@ -63,6 +63,63 @@ RSpec.describe LastEmailCache do
         parsed_result = JSON.parse(result)
         expect(parsed_result["last_email"].keys).to match_array(expected_attributes)
         expect(parsed_result["last_email"]["to"]).to eq([second_recipient])
+      end
+    end
+
+    context "when handling emails with different formats" do
+      let(:result) { instance.last_email_json }
+      before(:each) { instance.reset }
+
+      context "where the email is not multipart" do
+        context "and is plain text" do
+          it "is able to extract the body content" do
+            TestMailer.basic_text_email("test@example.com").deliver_now
+            parsed_result = JSON.parse(result)
+
+            expect(parsed_result["last_email"].keys).to match_array(expected_attributes)
+            expect(parsed_result["last_email"]["body"]).to eq("Test email")
+          end
+        end
+
+        context "and is html" do
+          it "is able to extract the body content" do
+            TestMailer.basic_html_email("test@example.com").deliver_now
+            parsed_result = JSON.parse(result)
+
+            expect(parsed_result["last_email"].keys).to match_array(expected_attributes)
+            expect(parsed_result["last_email"]["body"]).to eq("<h1>Test email</h1>")
+          end
+        end
+      end
+
+      context "where the email is multipart" do
+        context "but just contains a plain text part" do
+          it "is able to extract the body content" do
+            TestMailer.multipart_text_email("test@example.com").deliver_now
+            parsed_result = JSON.parse(result)
+
+            expect(parsed_result["last_email"].keys).to match_array(expected_attributes)
+            expect(parsed_result["last_email"]["body"]).to start_with("This is a text test email")
+          end
+        end
+
+        context "but just contains a html part" do
+          it "is able to extract the body content" do
+            TestMailer.multipart_html_email("test@example.com").deliver_now
+            parsed_result = JSON.parse(result)
+
+            expect(parsed_result["last_email"].keys).to match_array(expected_attributes)
+            expect(parsed_result["last_email"]["body"]).to start_with("<p>This is a html test email")
+          end
+        end
+
+        it "extracts the plain text body content" do
+          TestMailer.multipart_email("test@example.com").deliver_now
+          parsed_result = JSON.parse(result)
+
+          expect(parsed_result["last_email"].keys).to match_array(expected_attributes)
+          expect(parsed_result["last_email"]["body"]).to start_with("This is a text test email")
+        end
       end
     end
   end
