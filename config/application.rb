@@ -216,5 +216,9 @@ module Registrations
     config.email_test_address = ENV["WCRS_EMAIL_TEST_ADDRESS"] || "waste-carriers@example.com"
 
     config.assisted_digital_account_email = ENV["WCRS_ASSISTED_DIGITAL_EMAIL"]
+
+    # Expose the data stored by the LastEmailCache. Only used in our acceptance
+    # tests and should not be enabled in production.
+    config.use_last_email_cache = ENV["WCRS_USE_LAST_EMAIL_CACHE"] || false
   end
 end

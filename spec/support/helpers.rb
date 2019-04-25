@@ -18,4 +18,12 @@ module Helpers
   def date_outside_grace_window(expires_on)
     (expires_on + Rails.configuration.registration_grace_window)
   end
+
+  def generate_test_email(recipient)
+    ActionMailer::Base.mail(
+      from: "test@defra.gov.uk",
+      to: recipient,
+      body: "message"
+    )
+  end
 end

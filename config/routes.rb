@@ -250,6 +250,15 @@ Registrations::Application.routes.draw do
 
   resources :registrations
 
+  # Expose the data stored by the LastEmailCache
+  # if Rails.configuration.use_last_email_cache
+  #   get "/last-email" => "last_email#show", :as => :last_email
+  # end
+  get "/last-email",
+      to: "last_email#show",
+      as: "last_email",
+      constraints: ->(_request) { Rails.configuration.use_last_email_cache }
+
   # routes for renewals and edits
   match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
   match "registrations/:uuid/edit" => 'registrations#update', :via => [:post,:put,:patch]
