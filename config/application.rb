@@ -213,8 +213,6 @@ module Registrations
     # 10 then the reg. is within the window and can still be renewed.
     config.registration_grace_window = (ENV["WCRS_REGISTRATION_GRACE_WINDOW"] || "3").to_i.days
 
-    config.email_test_address = ENV["WCRS_EMAIL_TEST_ADDRESS"] || "waste-carriers@example.com"
-
     config.assisted_digital_account_email = ENV["WCRS_ASSISTED_DIGITAL_EMAIL"]
 
     # Expose the data stored by the LastEmailCache. Only used in our acceptance
