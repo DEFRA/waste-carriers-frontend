@@ -5,16 +5,17 @@ require "spec_helper"
 RSpec.describe "Errors", type: :request do
   describe "GET /last-email" do
     context "when `Rails.configuration.use_last_email_cache` is \"true\"" do
+      let(:recipient) { "test@example.com" }
       before do
         allow(Rails.configuration).to receive(:use_last_email_cache).and_return(true)
       end
 
       it "returns the JSON value of the LastEmailCache", inject_interceptor: LastEmailCache do
-        generate_test_email("test@example.com").deliver_now
+        TestMailer.basic_text_email(recipient).deliver_now
         get last_email_path
         result = JSON.parse(response.body)
 
-        expect(result["last_email"]["to"]).to eq(["test@example.com"])
+        expect(result["last_email"]["to"]).to eq([recipient])
       end
     end
 
