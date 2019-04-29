@@ -132,6 +132,6 @@ group :test, :development do
   # Load environment variables from .env
   gem 'dotenv-rails'
 
-  # Call "buinding.pry" anywhere in the code to stop execution and get a debugger console
+  # Call "binding.pry" anywhere in the code to stop execution and get a debugger console
   gem "pry-byebug"
 end
