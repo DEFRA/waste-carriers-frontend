@@ -186,6 +186,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
+    method_source (0.9.2)
     mime-types (3.2.2)
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
@@ -231,6 +232,12 @@ GEM
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
+    pry (0.12.2)
+      coderay (~> 1.1.0)
+      method_source (~> 0.9.0)
+    pry-byebug (3.7.0)
+      byebug (~> 11.0)
+      pry (~> 0.10)
     public_suffix (3.0.3)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
@@ -372,7 +379,6 @@ DEPENDENCIES
   aws-healthcheck
   better_errors
   binding_of_caller
-  byebug
   cancan (~> 1.6.10)
   capybara (~> 2.4)
   capybara-email (~> 2.4)
@@ -398,6 +404,7 @@ DEPENDENCIES
   ohm (~> 3.0.0)
   passenger (~> 5.0, >= 5.0.30)
   poltergeist (~> 1.6.0)
+  pry-byebug
   quiet_assets
   rails (~> 4.2.11)
   rest-client (~> 2.0)
