@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 namespace :email do
-  desc "Send a test email to confirm confirm setup is correct"
+  desc "Send a test email to confirm setup is correct"
   task test: :environment do
-    puts RegistrationMailer.test_email.deliver_now
+    recipient = ENV["WCRS_EMAIL_TEST_ADDRESS"] || "waste-carriers@example.com"
+    puts TestMailer.basic_text_email(recipient).deliver_now
   end
 end

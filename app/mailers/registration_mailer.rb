@@ -44,12 +44,4 @@ class RegistrationMailer < ActionMailer::Base
     subject = I18n.t('registration_mailer.account_already_confirmed.title')
     mail(to: user.email, subject: subject, from: from_address)
   end
-
-  def test_email
-    from_address = "#{Rails.configuration.registrations_service_emailName} <#{Rails.configuration.registrations_service_email}>"
-    subject = "Waste Carriers Test email"
-    mail(to: Rails.configuration.email_test_address, subject: subject, from: from_address) do |format|
-      format.text(content_type: "text/plain", charset: "UTF-8", content_transfer_encoding: "7bit")
-    end
-  end
 end
