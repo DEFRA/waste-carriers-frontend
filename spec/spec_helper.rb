@@ -13,6 +13,9 @@ require 'capybara/email/rspec'
 require 'webmock/rspec'
 require_relative '../lib/test_helpers/database_cleaning'
 
+# Call "buinding.pry" anywhere in the code to stop execution and get a debugger console
+require "pry-byebug"
+
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
 #
