@@ -105,7 +105,7 @@ module WorldpayHelper
   def send_xml(xml)
     response = send_request(xml, worldpay_xml_username(), worldpay_xml_password())
     return response if response.code == 200
-    byebug
+
     logger.warn "Worldpay connection returned #{response.code} and failed."
     # This error is built using a tag.
     # The intended message contains html which renders when called from a view
