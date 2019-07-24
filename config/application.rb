@@ -34,7 +34,7 @@ module Registrations
     def ad_verbal_privacy_policy_renewal_url(app_path)
       base_url = base_url(app_path)
 
-      "#{base_url}/bo/ad-privacy-policy/"
+      "#{base_url}/#{app_path}/ad-privacy-policy/"
     end
 
     def base_url(app_path)
