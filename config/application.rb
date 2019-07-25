@@ -31,6 +31,12 @@ module Registrations
       "#{base_url}#{path}"
     end
 
+    def ad_verbal_privacy_policy_renewal_url(app_path)
+      base_url = base_url(app_path)
+
+      "#{base_url}/#{app_path}/ad-privacy-policy/"
+    end
+
     def base_url(app_path)
       if Rails.env.production?
         # In production the base url needs to match the external url, hence we
@@ -75,7 +81,7 @@ module Registrations
     config.waste_exemplar_addresses_url = ENV['WCRS_OS_PLACES_DOMAIN'] || 'http://localhost:8005'
 
     config.renewals_service_url = renewal_service_url("fo")
-    config.back_office_renewals_url = renewal_service_url("bo")
+    config.back_office_renewals_url = ad_verbal_privacy_policy_renewal_url("bo")
 
     config.front_office_url = base_url("fo")
     config.back_office_url = base_url("bo")
