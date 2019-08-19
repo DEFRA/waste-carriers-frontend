@@ -1,5 +1,24 @@
 # Change Log
 
+## [v2.6.0](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.6.0) (2019-08-12)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.5.1...v2.6.0)
+
+**Implemented enhancements:**
+
+- Renew link to point to verbal privacy policy [\#246](https://github.com/DEFRA/waste-carriers-frontend/pull/246) ([cintamani](https://github.com/cintamani))
+
+**Merged pull requests:**
+
+- Bump faker from 2.1.0 to 2.1.2 [\#251](https://github.com/DEFRA/waste-carriers-frontend/pull/251) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- \[Security\] Bump nokogiri from 1.10.3 to 1.10.4 [\#250](https://github.com/DEFRA/waste-carriers-frontend/pull/250) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump faker from 1.9.6 to 2.1.0 [\#249](https://github.com/DEFRA/waste-carriers-frontend/pull/249) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump dotenv-rails from 2.7.4 to 2.7.5 [\#248](https://github.com/DEFRA/waste-carriers-frontend/pull/248) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump webmock from 3.6.0 to 3.6.2 [\#247](https://github.com/DEFRA/waste-carriers-frontend/pull/247) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump faker from 1.9.5 to 1.9.6 [\#245](https://github.com/DEFRA/waste-carriers-frontend/pull/245) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump monetize from 1.9.1 to 1.9.2 [\#244](https://github.com/DEFRA/waste-carriers-frontend/pull/244) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump faker from 1.9.4 to 1.9.5 [\#243](https://github.com/DEFRA/waste-carriers-frontend/pull/243) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump simplecov from 0.16.1 to 0.17.0 [\#242](https://github.com/DEFRA/waste-carriers-frontend/pull/242) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
 ## [v2.5.1](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.5.1) (2019-06-24)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.5...v2.5.1)
 
