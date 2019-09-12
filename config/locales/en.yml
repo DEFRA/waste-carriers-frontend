@@ -220,6 +220,7 @@ en:
       title: "Key person details"
   home:
     cookies:
+      title: "Cookies"
       heading: "Cookies"
       cookie_text1: "The register as a waste carrier service puts small files (known as ‘cookies’) on to your computer. "
       cookie_text2: "These cookies are used to:"
