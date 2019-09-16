@@ -1,5 +1,32 @@
 # Change Log
 
+## [Unreleased](https://github.com/DEFRA/waste-carriers-frontend/tree/HEAD)
+
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.6.1...HEAD)
+
+**Merged pull requests:**
+
+- Bump webmock from 3.7.2 to 3.7.3 [\#262](https://github.com/DEFRA/waste-carriers-frontend/pull/262) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
+## [v2.6.1](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.6.1) (2019-09-12)
+[Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.6.0...v2.6.1)
+
+**Implemented enhancements:**
+
+- Add page title to cookies page [\#261](https://github.com/DEFRA/waste-carriers-frontend/pull/261) ([andrewhick](https://github.com/andrewhick))
+- Add link to accessibility statement [\#259](https://github.com/DEFRA/waste-carriers-frontend/pull/259) ([cintamani](https://github.com/cintamani))
+
+**Merged pull requests:**
+
+- Bump devise from 4.7.0 to 4.7.1 [\#260](https://github.com/DEFRA/waste-carriers-frontend/pull/260) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump webmock from 3.7.1 to 3.7.2 [\#258](https://github.com/DEFRA/waste-carriers-frontend/pull/258) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump webmock from 3.7.0 to 3.7.1 [\#257](https://github.com/DEFRA/waste-carriers-frontend/pull/257) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump faker from 2.2.0 to 2.2.1 [\#256](https://github.com/DEFRA/waste-carriers-frontend/pull/256) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump faker from 2.1.2 to 2.2.0 [\#255](https://github.com/DEFRA/waste-carriers-frontend/pull/255) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump webmock from 3.6.2 to 3.7.0 [\#254](https://github.com/DEFRA/waste-carriers-frontend/pull/254) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump rest-client from 2.0.2 to 2.1.0 [\#253](https://github.com/DEFRA/waste-carriers-frontend/pull/253) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump devise from 4.6.2 to 4.7.0 [\#252](https://github.com/DEFRA/waste-carriers-frontend/pull/252) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
 ## [v2.6.0](https://github.com/DEFRA/waste-carriers-frontend/tree/v2.6.0) (2019-08-12)
 [Full Changelog](https://github.com/DEFRA/waste-carriers-frontend/compare/v2.5.1...v2.6.0)
 
