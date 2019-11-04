@@ -151,10 +151,10 @@ module WorldpayHelper
   def set_redirect_arguments(url, registration, order_code, order_type)
     raise 'Invalid order code or type' unless order_code.present? && order_type.present?
     custom_url_params = {order_code: order_code, order_type: order_type}
-    success_url = URI::encode(worldpay_success_url(custom_url_params))
-    failure_url = URI::encode(worldpay_failure_url(custom_url_params))
-    pending_url = URI::encode(worldpay_pending_url(custom_url_params))
-    cancel_url = URI::encode(worldpay_cancel_url(custom_url_params))
+    success_url = CGI.escape(worldpay_success_url(custom_url_params))
+    failure_url = CGI.escape(worldpay_failure_url(custom_url_params))
+    pending_url = CGI.escape(worldpay_pending_url(custom_url_params))
+    cancel_url = CGI.escape(worldpay_cancel_url(custom_url_params))
 
     # Note: The URL returned from WP already has some query parameters e.g. for the orderCode
     redirect_args = ''
