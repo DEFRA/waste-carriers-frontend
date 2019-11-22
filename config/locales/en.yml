@@ -410,6 +410,7 @@ en:
     approve_button_label: "Approve registration"
     refuse_button_label: "Refuse registration"
     transfer_button_label: "Transfer to another account"
+    details: "Details"
   global:
     betaMessage: "BETA"
     betaMessage_html: "This is a new service - your <a href='https://www.gov.uk/done/waste-carrier-or-broker-registration' target='_blank'>feedback</a> will help us improve it."

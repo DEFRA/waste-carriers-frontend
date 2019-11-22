@@ -1,6 +1,9 @@
 require 'json'
 
 module RegistrationsHelper
+  def back_office_details_url(reg_identifier)
+    "#{Rails.configuration.back_office_url}/bo/registrations/#{reg_identifier}"
+  end
 
   def validation_for(model, attribute)
     if model.errors[attribute].any?

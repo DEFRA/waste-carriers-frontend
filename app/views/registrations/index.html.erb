@@ -205,6 +205,7 @@
           <nav aria-labelledby="parent-subsection" role="navigation">
             <ul class="actions-border">
               <li><span><%= t('.actions_heading') %></span><li>
+              <li><%= link_to t('form.details'), back_office_details_url(reg.regIdentifier) %></li>
               <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.view_button_label'), view_path(reg.uuid), target: '_blank' %></li><% end %>
               <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to t('registrations.form.edit_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::EDIT) %></li><% end %>
               <% if reg.can_be_deleted?(current_agency_user) %><li><%= link_to t('form.deregister_button_label'), confirmDelete_path(reg.uuid) %></li><% end %>
