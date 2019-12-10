@@ -71,10 +71,6 @@ Registrations::Application.routes.draw do
   get "registrations/:id/revoke" => 'registrations#revoke', :via => [:get], :as => :revoke
   get "registrations/:id/unrevoke" => 'registrations#unRevoke', :via => [:get], :as => :unrevoke
   match "registrations/:id/revoke" => 'registrations#updateRevoke', :via => [:post]
-  # Add routing for approve/refuse registration
-  get "registrations/:id/approve"   => 'registrations#approve', :via => [:get], :as => :approve
-  get "registrations/:id/refuse"    => 'registrations#refuse',  :via => [:get], :as => :refuse
-  match "registrations/:id/approve" => 'registrations#updateApprove', :via => [:post]
 
   get "registrations/find" => 'start#show', :as => :find
   get "registrations/(:reg_uuid)/start" => 'start#show', :as => :start
