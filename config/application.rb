@@ -23,11 +23,7 @@ module Registrations
 
     def renewal_service_url(app_path)
       base_url = base_url(app_path)
-      path = if ENV['WCRS_HOLD_RENEWALS']
-        '/renew/'
-      else
-        "/#{app_path}/renew/"
-      end
+      path = "/#{app_path}/renew/"
       "#{base_url}#{path}"
     end
 
