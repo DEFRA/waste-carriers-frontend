@@ -21,31 +21,26 @@ module Registrations
     # config/initializers; all .rb files in that directory are automatically
     # loaded.
 
-    def renewal_service_url(app_path)
-      base_url = base_url(app_path)
-      path = "/#{app_path}/renew/"
-      "#{base_url}#{path}"
-    end
-
-    def ad_verbal_privacy_policy_renewal_url(app_path)
-      base_url = base_url(app_path)
-
-      "#{base_url}/#{app_path}/ad-privacy-policy/"
-    end
-
     def base_url(app_path)
       if Rails.env.production?
         # In production the base url needs to match the external url, hence we
         # can just pull from our config.
-        back_office = config.waste_exemplar_frontend_admin_url
-        front_office = config.waste_exemplar_frontend_url
+        backend = config.waste_exemplar_frontend_admin_url
+        frontend = config.waste_exemplar_frontend_url
       else
-        back_office = ENV['WCRS_BACKOFFICE_DOMAIN'] || 'http://localhost:8001'
-        front_office = ENV['WCRS_RENEWALS_DOMAIN'] || 'http://localhost:3000'
+        backend = ENV['WCRS_BACKOFFICE_DOMAIN'] || 'http://localhost:8001'
+        frontend = ENV['WCRS_RENEWALS_DOMAIN'] || 'http://localhost:3000'
       end
 
-      return front_office if app_path == "fo"
-      back_office
+      return frontend if app_path == "fo"
+
+      backend
+    end
+
+    def base_office_url(app_path)
+      return base_url(app_path) unless Rails.env.production?
+
+      File.join(base_url(app_path), app_path)
     end
 
     config.time_zone = "Europe/London"
@@ -76,11 +71,8 @@ module Registrations
     config.waste_exemplar_services_admin_url = ENV['WCRS_SERVICES_ADMIN_DOMAIN'] || 'http://localhost:8004'
     config.waste_exemplar_addresses_url = ENV['WCRS_OS_PLACES_DOMAIN'] || 'http://localhost:8005'
 
-    config.renewals_service_url = renewal_service_url("fo")
-    config.back_office_renewals_url = ad_verbal_privacy_policy_renewal_url("bo")
-
-    config.front_office_url = base_url("fo")
-    config.back_office_url = base_url("bo")
+    config.front_office_url = base_office_url("fo")
+    config.back_office_url = base_office_url("bo")
 
     # The subdomains used in links for password reset and other e-mails sent by
     # the Devise authentication component.
