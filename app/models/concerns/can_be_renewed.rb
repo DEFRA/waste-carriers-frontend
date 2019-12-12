@@ -15,10 +15,10 @@ module CanBeRenewed
   end
 
   def renewals_url
-    "#{Rails.configuration.renewals_service_url}#{regIdentifier}"
+    File.join(Rails.configuration.front_office_url, regIdentifier, "renew")
   end
 
   def back_office_renewals_url
-    "#{Rails.configuration.back_office_renewals_url}#{regIdentifier}"
+    File.join(Rails.configuration.back_office_url, regIdentifier, "ad-privacy-policy")
   end
 end
