@@ -570,7 +570,7 @@ class RegistrationsController < ApplicationController
   end
 
   def userRegistrations
-    redirect_to("#{Rails.configuration.front_office_url}/fo")
+    redirect_to("#{Rails.configuration.front_office_url}")
   end
 
   # GET /registrations/1

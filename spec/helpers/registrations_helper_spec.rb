@@ -132,11 +132,35 @@ describe RegistrationsHelper do
     end
   end
 
-  describe "#link_to_transfer" do
+  describe "#back_office_details_url" do
     it "returns the correct URL" do
       registration = build(:registration, regIdentifier: "CBDU99999")
-      url = "http://localhost:8001/bo/transfer-registration/CBDU99999"
-      expect(helper.link_to_transfer(registration)).to eq(url)
+      url = "http://localhost:8001/bo/registrations/CBDU99999"
+      expect(helper.back_office_details_url(registration)).to eq(url)
+    end
+  end
+
+  describe "#back_office_renewals_url" do
+    it "returns the correct URL" do
+      registration = build(:registration, regIdentifier: "CBDU99999")
+      url = "http://localhost:8001/bo/ad-privacy-policy/CBDU99999"
+      expect(helper.back_office_renewals_url(registration)).to eq(url)
+    end
+  end
+
+  describe "#back_office_transfer_url" do
+    it "returns the correct URL" do
+      registration = build(:registration, regIdentifier: "CBDU99999")
+      url = "http://localhost:8001/bo/registrations/CBDU99999/transfer"
+      expect(helper.back_office_transfer_url(registration)).to eq(url)
+    end
+  end
+
+  describe "#back_office_order_copy_cards_url" do
+    it "returns the correct URL" do
+      registration = build(:registration, regIdentifier: "CBDU99999")
+      url = "http://localhost:8001/bo/CBDU99999/order-copy-cards"
+      expect(helper.back_office_order_copy_cards_url(registration)).to eq(url)
     end
   end
 end
