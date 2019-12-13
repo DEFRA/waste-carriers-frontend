@@ -212,7 +212,7 @@
               <% if reg.is_revocable?(current_agency_user) %><li><%= link_to t('registrations.form.revoke_button_label'), revoke_path(reg.uuid), id: "revokeRegistration#{regCount}" %></li><% end %>
               <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
               <% if reg.can_be_transferred?(current_agency_user) %>
-                <li><%= link_to t('form.transfer_button_label'), link_to_transfer(reg) %></li>
+                <li><%= link_to t('form.transfer_button_label'), back_office_transfer_url(reg) %></li>
               <% end %>
               <% if reg.upper? %>
                 <% if reg.can_view_payment_status? %>

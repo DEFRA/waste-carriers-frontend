@@ -339,7 +339,7 @@ module RegistrationsHelper
     "#{Rails.configuration.back_office_url}/ad-privacy-policy/#{reg_identifier}"
   end
 
-  def link_to_transfer(registration)
+  def back_office_transfer_url(registration)
     reg_identifier = registration.regIdentifier
 
     "#{Rails.configuration.back_office_url}/registrations/#{reg_identifier}/transfer"
