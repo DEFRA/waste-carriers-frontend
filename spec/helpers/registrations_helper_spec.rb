@@ -155,4 +155,12 @@ describe RegistrationsHelper do
       expect(helper.back_office_transfer_url(registration)).to eq(url)
     end
   end
+
+  describe "#back_office_order_copy_cards_url" do
+    it "returns the correct URL" do
+      registration = build(:registration, regIdentifier: "CBDU99999")
+      url = "http://localhost:8001/bo/CBDU99999/order-copy-cards"
+      expect(helper.back_office_order_copy_cards_url(registration)).to eq(url)
+    end
+  end
 end

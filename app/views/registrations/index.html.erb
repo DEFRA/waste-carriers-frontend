@@ -222,7 +222,7 @@
                   <li><%= link_to t('form.renew_button_label'), back_office_renewals_url(reg) %></li>
                 <% end %>
                 <% if reg.can_request_copy_cards?(current_agency_user) %>
-                  <li><%= link_to t('form.addCopyCards_button_label'), link_to_order_copy_cards(reg) %></li>
+                  <li><%= link_to t('form.addCopyCards_button_label'), back_office_order_copy_cards_url(reg) %></li>
                 <% end %>
               <% end %>
             </ul>

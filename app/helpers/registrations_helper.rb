@@ -345,10 +345,9 @@ module RegistrationsHelper
     "#{Rails.configuration.back_office_url}/registrations/#{reg_identifier}/transfer"
   end
 
-  def link_to_order_copy_cards(registration)
+  def back_office_order_copy_cards_url(registration)
     reg_identifier = registration.regIdentifier
-    base_url = Rails.configuration.back_office_url
 
-    "#{base_url}/#{reg_identifier}/order-copy-cards"
+    "#{Rails.configuration.back_office_url}/#{reg_identifier}/order-copy-cards"
   end
 end
