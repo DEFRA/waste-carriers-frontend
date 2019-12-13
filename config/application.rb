@@ -38,8 +38,6 @@ module Registrations
     end
 
     def base_office_url(app_path)
-      return base_url(app_path) unless Rails.env.production?
-
       File.join(base_url(app_path), app_path)
     end
 
