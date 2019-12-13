@@ -1,10 +1,6 @@
 require 'json'
 
 module RegistrationsHelper
-  def back_office_details_url(reg_identifier)
-    "#{Rails.configuration.back_office_url}/registrations/#{reg_identifier}"
-  end
-
   def validation_for(model, attribute)
     if model.errors[attribute].any?
       # Note: Calling raw() forces the characters to be un-escaped and thus HTML elements can be defined here
@@ -329,6 +325,10 @@ module RegistrationsHelper
     @registration.save
     session[:ga_tier] = 'lower'
     redirect_to :business_details
+  end
+
+  def back_office_details_url(reg_identifier)
+    "#{Rails.configuration.back_office_url}/registrations/#{reg_identifier}"
   end
 
   def link_to_transfer(registration)
