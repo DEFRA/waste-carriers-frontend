@@ -327,19 +327,22 @@ module RegistrationsHelper
     redirect_to :business_details
   end
 
-  def back_office_details_url(reg_identifier)
+  def back_office_details_url(registration)
+    reg_identifier = registration.regIdentifier
+
     "#{Rails.configuration.back_office_url}/registrations/#{reg_identifier}"
   end
 
-  def back_office_renewals_url(reg_identifier)
+  def back_office_renewals_url(registration)
+    reg_identifier = registration.regIdentifier
+
     "#{Rails.configuration.back_office_url}/ad-privacy-policy/#{reg_identifier}"
   end
 
   def link_to_transfer(registration)
     reg_identifier = registration.regIdentifier
-    base_url = Rails.configuration.back_office_url
 
-    "#{base_url}/registrations/#{reg_identifier}/transfer"
+    "#{Rails.configuration.back_office_url}/registrations/#{reg_identifier}/transfer"
   end
 
   def link_to_order_copy_cards(registration)
