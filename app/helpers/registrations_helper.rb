@@ -342,6 +342,6 @@ module RegistrationsHelper
     reg_identifier = registration.regIdentifier
     base_url = Rails.configuration.back_office_url
 
-    "#{base_url}/bo/#{reg_identifier}/order-copy-cards"
+    "#{base_url}/#{reg_identifier}/order-copy-cards"
   end
 end
