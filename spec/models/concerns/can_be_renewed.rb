@@ -85,14 +85,4 @@ shared_examples_for "can_be_renewed" do
       expect(registration.renewals_url).to eq("http://localhost:3000/fo/CBDU1/renew")
     end
   end
-
-  describe "#back_office_renewals_url" do
-    before do
-      allow(Rails.configuration).to receive(:back_office_url).and_return("http://localhost:8001/bo")
-    end
-
-    it "returns the configured url with the registration number as part of the path" do
-      expect(registration.back_office_renewals_url).to eq("http://localhost:8001/bo/CBDU1/ad-privacy-policy")
-    end
-  end
 end

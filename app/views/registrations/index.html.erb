@@ -219,7 +219,7 @@
                   <li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li>
                 <% end %>
                 <% if reg.can_renew? %>
-                  <li><%= link_to t('form.renew_button_label'), reg.back_office_renewals_url %></li>
+                  <li><%= link_to t('form.renew_button_label'), back_office_renewals_url(reg.regIdentifier) %></li>
                 <% end %>
                 <% if reg.can_request_copy_cards?(current_agency_user) %>
                   <li><%= link_to t('form.addCopyCards_button_label'), link_to_order_copy_cards(reg) %></li>
