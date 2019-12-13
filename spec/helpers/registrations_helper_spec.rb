@@ -132,6 +132,14 @@ describe RegistrationsHelper do
     end
   end
 
+  describe "#back_office_details_url" do
+    it "returns the correct URL" do
+      registration = build(:registration, regIdentifier: "CBDU99999")
+      url = "http://localhost:8001/bo/registrations/CBDU99999"
+      expect(helper.link_to_transfer(registration)).to eq(url)
+    end
+  end
+
   describe "#link_to_transfer" do
     it "returns the correct URL" do
       registration = build(:registration, regIdentifier: "CBDU99999")
