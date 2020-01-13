@@ -89,7 +89,7 @@ module WorldpayHelper
   end
 
   def send_request(xml, username, password)
-    Rails.logger.debug "Sending initial request to WorldPay"
+    Rails.logger.debug "Sending initial request to WorldPay: #{xml}"
     response = RestClient::Request.execute(
       method: :get,
       url: Rails.configuration.worldpay_uri,
@@ -98,7 +98,7 @@ module WorldpayHelper
         "Authorization" => "Basic " + Base64.encode64(username + ":" + password).to_s
       }
     )
-    Rails.logger.debug "Received response from WorldPay"
+    Rails.logger.debug "Received response from WorldPay: #{response}"
     response
   end
 
