@@ -101,7 +101,7 @@ group :test do
   gem 'vcr'
   gem "webmock", "~> 3.3"
   gem 'faker'
-  gem 'simplecov', require: false
+  gem 'simplecov', '~> 0.17.1', require: false
 end
 
 group :development do
