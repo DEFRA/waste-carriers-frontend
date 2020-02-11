@@ -87,8 +87,8 @@ GEM
       execjs
     coffee-script-source (1.10.0)
     concurrent-ruby (1.1.5)
-    countries (3.0.0)
-      i18n_data (~> 0.8.0)
+    countries (3.0.1)
+      i18n_data (~> 0.10.0)
       sixarm_ruby_unaccent (~> 1.1)
       unicode_utils (~> 1.4)
     crack (0.4.3)
@@ -171,7 +171,7 @@ GEM
       domain_name (~> 0.5)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
-    i18n_data (0.8.0)
+    i18n_data (0.10.0)
     indefinite_article (0.2.4)
       activesupport
     io-like (0.3.0)
