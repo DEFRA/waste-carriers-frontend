@@ -83,6 +83,10 @@ gem "github_changelog_generator", require: false
 # Test with `curl -I http://localhost:3000/healthcheck`
 gem 'aws-healthcheck'
 
+# Used as part of testing. When enabled adds a /email/last-email route from
+# which details of the last email sent by the app can be accessed
+gem "defra_ruby_email"
+
 group :production do
   # Web application server that replaces webrick. It handles HTTP requests,
   # manages processes and resources, and enables administration, monitoring

@@ -240,20 +240,9 @@ Registrations::Application.routes.draw do
       #To be used by the Worldpay Order Notification service - the service will post to this URL
       post "worldpay/notification" => 'worldpay#update_order_notification', :as => :order_notification
     end
-
-
   end
 
   resources :registrations
-
-  # Expose the data stored by the LastEmailCache
-  # if Rails.configuration.use_last_email_cache
-  #   get "/last-email" => "last_email#show", :as => :last_email
-  # end
-  get "/last-email",
-      to: "last_email#show",
-      as: "last_email",
-      constraints: ->(_request) { Rails.configuration.use_last_email_cache }
 
   # routes for renewals and edits
   match "registrations/:uuid/edit" => 'registrations#edit', :via => [:get], :as => :edit
@@ -279,6 +268,8 @@ Registrations::Application.routes.draw do
   resources :agency_users
 
   get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user
+
+  mount DefraRubyEmail::Engine => "/email"
 
   # Custom error handling routes
   match '/401', to: 'errors#client_error_401', via: :all

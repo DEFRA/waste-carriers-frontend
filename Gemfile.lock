@@ -118,6 +118,8 @@ GEM
     cucumber-wire (0.0.1)
     database_cleaner (1.7.0)
     debug_inspector (0.0.3)
+    defra_ruby_email (0.1.0)
+      rails (~> 4.2.11.1)
     devise (4.7.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -389,6 +391,7 @@ DEPENDENCIES
   countries
   cucumber-rails (~> 1.6.0)
   database_cleaner (~> 1.7.0)
+  defra_ruby_email
   devise (>= 4.4.3)
   dotenv-rails
   factory_girl_rails (~> 4.4.1)

@@ -206,9 +206,5 @@ module Registrations
     config.registration_grace_window = (ENV["WCRS_REGISTRATION_GRACE_WINDOW"] || "3").to_i.days
 
     config.assisted_digital_account_email = ENV["WCRS_ASSISTED_DIGITAL_EMAIL"]
-
-    # Expose the data stored by the LastEmailCache. Only used in our acceptance
-    # tests and should not be enabled in production.
-    config.use_last_email_cache = ENV["WCRS_USE_LAST_EMAIL_CACHE"] || false
   end
 end
