@@ -240,8 +240,6 @@ Registrations::Application.routes.draw do
       #To be used by the Worldpay Order Notification service - the service will post to this URL
       post "worldpay/notification" => 'worldpay#update_order_notification', :as => :order_notification
     end
-
-
   end
 
   resources :registrations
@@ -270,6 +268,8 @@ Registrations::Application.routes.draw do
   resources :agency_users
 
   get "agency_users/:id/confirm_delete" => 'agency_users#confirm_delete', :as => :confirm_delete_agency_user
+
+  mount DefraRubyEmail::Engine => "/email"
 
   # Custom error handling routes
   match '/401', to: 'errors#client_error_401', via: :all
