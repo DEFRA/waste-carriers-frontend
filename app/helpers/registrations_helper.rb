@@ -356,4 +356,10 @@ module RegistrationsHelper
 
     "#{Rails.configuration.back_office_url}/resources/#{reg_uuid}/finance-details"
   end
+
+  def back_office_view_certificate_url(registration)
+    reg_identifier = registration.regIdentifier
+
+    "#{Rails.configuration.back_office_url}/registrations/#{reg_identifier}/certificate"
+  end
 end
