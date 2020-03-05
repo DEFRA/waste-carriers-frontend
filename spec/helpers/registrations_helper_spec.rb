@@ -171,4 +171,12 @@ describe RegistrationsHelper do
       expect(helper.back_office_payment_details_url(registration)).to eq(url)
     end
   end
+
+  describe "#back_office_view_certificate_url" do
+    it "returns the correct URL" do
+      registration = build(:registration, regIdentifier: "CBDU99999")
+      url = "http://localhost:8001/bo/registrations/CBDU99999/certificate"
+      expect(helper.back_office_view_certificate_url(registration)).to eq(url)
+    end
+  end
 end

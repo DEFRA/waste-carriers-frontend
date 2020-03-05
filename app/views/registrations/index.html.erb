@@ -206,7 +206,7 @@
             <ul class="actions-border">
               <li><span><%= t('.actions_heading') %></span><li>
               <li><%= link_to t('form.details'), back_office_details_url(reg) %></li>
-              <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.view_button_label'), view_path(reg.uuid), target: '_blank' %></li><% end %>
+              <% if reg.can_view_certificate? %><li><%= link_to t('registrations.form.view_button_label'), back_office_view_certificate_url(reg) %></li><% end %>
               <% if reg.can_be_edited?(current_agency_user) %><li><%= link_to t('registrations.form.edit_button_label'), edit_path(reg.uuid, edit_process: RegistrationsController::EditMode::EDIT) %></li><% end %>
               <% if reg.is_unrevocable?(current_agency_user) %><li><%= link_to t('registrations.form.unrevoke_button_label'), unrevoke_path(reg.uuid) %></li><% end %>
               <% if reg.can_be_transferred?(current_agency_user) %>
