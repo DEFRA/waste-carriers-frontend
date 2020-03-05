@@ -163,4 +163,12 @@ describe RegistrationsHelper do
       expect(helper.back_office_order_copy_cards_url(registration)).to eq(url)
     end
   end
+
+  describe "#back_office_payment_details_url" do
+    it "returns the correct URL" do
+      registration = build(:registration, uuid: "abcde12345")
+      url = "http://localhost:8001/bo/resources/abcde12345/finance-details"
+      expect(helper.back_office_payment_details_url(registration)).to eq(url)
+    end
+  end
 end

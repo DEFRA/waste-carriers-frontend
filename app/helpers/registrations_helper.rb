@@ -350,4 +350,10 @@ module RegistrationsHelper
 
     "#{Rails.configuration.back_office_url}/#{reg_identifier}/order-copy-cards"
   end
+
+  def back_office_payment_details_url(registration)
+    reg_uuid = registration.uuid
+
+    "#{Rails.configuration.back_office_url}/resources/#{reg_uuid}/finance-details"
+  end
 end

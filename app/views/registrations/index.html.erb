@@ -214,7 +214,7 @@
               <% end %>
               <% if reg.upper? %>
                 <% if reg.can_view_payment_status? %>
-                  <li><%= link_to t('form.payment_status_button_label'), paymentstatus_url(reg.uuid), id: "paymentStatus#{regCount}" %></li>
+                  <li><%= link_to t('form.payment_status_button_label'), back_office_payment_details_url(reg), id: "paymentStatus#{regCount}" %></li>
                 <% end %>
                 <% if reg.can_renew? %>
                   <li><%= link_to t('form.renew_button_label'), back_office_renewals_url(reg) %></li>
