@@ -8,11 +8,13 @@ http_interactions:
       string: ''
     headers:
       Accept:
-      - "*/*; q=0.5, application/xml"
-      Accept-Encoding:
-      - gzip, deflate
+      - "*/*"
       User-Agent:
-      - Ruby
+      - rest-client/2.1.0 (linux-gnu x86_64) ruby/2.4.2p198
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - api.companieshouse.gov.uk
       Authorization:
       - Basic <COMPANIES_HOUSE_API_KEY>
   response:
@@ -21,7 +23,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 19 Mar 2019 16:35:43 GMT
+      - Tue, 24 Mar 2020 11:29:01 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -49,17 +51,18 @@ http_interactions:
       X-Ratelimit-Remain:
       - '595'
       X-Ratelimit-Reset:
-      - '1553013442'
+      - '1585049391'
       X-Ratelimit-Window:
       - 5m
       Server:
       - CompaniesHouse
     body:
       encoding: UTF-8
-      string: '{"jurisdiction":"england-wales","etag":"efb72a189e07662facd6d1f872a6edef8388edb5","date_of_creation":"1982-03-01","accounts":{"next_made_up_to":"2019-03-27","next_due":"2019-12-27","overdue":false,"last_accounts":{"made_up_to":"2018-03-24","period_end_on":"2018-03-24","type":"full","period_start_on":"2017-03-26"},"accounting_reference_date":{"day":"27","month":"03"},"next_accounts":{"period_end_on":"2019-03-27","overdue":false,"period_start_on":"2018-03-25","due_on":"2019-12-27"}},"last_full_members_list_date":"2015-07-30","company_number":"01618428","has_charges":true,"company_name":"NEW
-        LOOK RETAILERS LIMITED","registered_office_address":{"postal_code":"DT3 5HJ","address_line_1":"New
-        Look House","address_line_2":"Mercery Road","locality":"Weymouth","region":"Dorset"},"type":"ltd","sic_codes":["47710","47721","47722","47910"],"company_status":"voluntary-arrangement","has_insolvency_history":true,"previous_company_names":[{"effective_from":"1982-03-01","name":"NEW
-        LOOK WHOLESALERS LIMITED","ceased_on":"1987-06-08"}],"undeliverable_registered_office_address":false,"confirmation_statement":{"overdue":false,"next_due":"2019-08-13","next_made_up_to":"2019-07-30","last_made_up_to":"2018-07-30"},"links":{"self":"/company/01618428","filing_history":"/company/01618428/filing-history","officers":"/company/01618428/officers","charges":"/company/01618428/charges","persons_with_significant_control":"/company/01618428/persons-with-significant-control","insolvency":"/company/01618428/insolvency"},"registered_office_is_in_dispute":false,"can_file":true}'
-    http_version: 
-  recorded_at: Tue, 19 Mar 2019 16:35:43 GMT
-recorded_with: VCR 3.0.3
+      string: '{"jurisdiction":"england-wales","etag":"cb310140fea0e953498819f93decbd31f1fe14d0","date_of_creation":"1982-03-01","accounts":{"next_due":"2020-12-27","last_accounts":{"made_up_to":"2019-03-30","type":"full","period_end_on":"2019-03-30","period_start_on":"2018-03-25"},"next_accounts":{"period_start_on":"2019-03-31","period_end_on":"2020-03-27","overdue":false,"due_on":"2020-12-27"},"overdue":false,"next_made_up_to":"2020-03-27","accounting_reference_date":{"day":"27","month":"03"}},"last_full_members_list_date":"2015-07-30","company_number":"01618428","has_charges":true,"company_name":"NEW
+        LOOK RETAILERS LIMITED","registered_office_address":{"address_line_2":"Mercery
+        Road","address_line_1":"New Look House","region":"Dorset","postal_code":"DT3
+        5HJ","locality":"Weymouth"},"type":"ltd","sic_codes":["47710","47721","47722","47910"],"company_status":"voluntary-arrangement","has_insolvency_history":true,"previous_company_names":[{"effective_from":"1982-03-01","ceased_on":"1987-06-08","name":"NEW
+        LOOK WHOLESALERS LIMITED"}],"undeliverable_registered_office_address":false,"confirmation_statement":{"overdue":false,"next_made_up_to":"2020-07-30","last_made_up_to":"2019-07-30","next_due":"2020-08-13"},"links":{"self":"/company/01618428","filing_history":"/company/01618428/filing-history","officers":"/company/01618428/officers","charges":"/company/01618428/charges","persons_with_significant_control":"/company/01618428/persons-with-significant-control","insolvency":"/company/01618428/insolvency"},"registered_office_is_in_dispute":false,"can_file":true}'
+    http_version: null
+  recorded_at: Tue, 24 Mar 2020 11:28:58 GMT
+recorded_with: VCR 5.1.0

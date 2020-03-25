@@ -8,11 +8,13 @@ http_interactions:
       string: ''
     headers:
       Accept:
-      - "*/*; q=0.5, application/xml"
-      Accept-Encoding:
-      - gzip, deflate
+      - "*/*"
       User-Agent:
-      - Ruby
+      - rest-client/2.1.0 (linux-gnu x86_64) ruby/2.4.2p198
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - api.companieshouse.gov.uk
       Authorization:
       - Basic <COMPANIES_HOUSE_API_KEY>
   response:
@@ -21,11 +23,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 19 Mar 2019 15:41:18 GMT
+      - Tue, 24 Mar 2020 11:29:01 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1171'
+      - '1270'
       Connection:
       - keep-alive
       Access-Control-Allow-Credentials:
@@ -47,9 +49,9 @@ http_interactions:
       X-Ratelimit-Limit:
       - '600'
       X-Ratelimit-Remain:
-      - '597'
+      - '596'
       X-Ratelimit-Reset:
-      - '1553010167'
+      - '1585049391'
       X-Ratelimit-Window:
       - 5m
       Server:
@@ -57,8 +59,8 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"registered_office_is_in_dispute":false,"has_charges":false,"undeliverable_registered_office_address":false,"type":"ltd","company_status":"active","links":{"self":"/company/10761329","persons_with_significant_control":"/company/10761329/persons-with-significant-control","filing_history":"/company/10761329/filing-history","officers":"/company/10761329/officers"},"has_insolvency_history":false,"company_number":"10761329","company_name":"WASTE
-        AWAY SERVICES LTD","confirmation_statement":{"next_due":"2019-05-22","last_made_up_to":"2018-05-08","next_made_up_to":"2019-05-08","overdue":false},"accounts":{"next_accounts":{"overdue":true,"period_start_on":"2017-05-09","period_end_on":"2018-05-31","due_on":"2019-02-09"},"last_accounts":{"type":"null"},"next_due":"2019-02-09","accounting_reference_date":{"day":"31","month":"05"},"next_made_up_to":"2018-05-31","overdue":true},"sic_codes":["96090"],"registered_office_address":{"locality":"Hoddesdon","address_line_1":"72
-        Old Essex Road","country":"United Kingdom","postal_code":"EN11 0AE"},"etag":"c93515bd86e73a2584d295b3f7be4c035eac275b","jurisdiction":"england-wales","date_of_creation":"2017-05-09","can_file":true}'
-    http_version: 
-  recorded_at: Tue, 19 Mar 2019 15:41:18 GMT
-recorded_with: VCR 3.0.3
+        AWAY SERVICES LTD","confirmation_statement":{"next_made_up_to":"2020-05-08","next_due":"2020-05-22","last_made_up_to":"2019-05-08","overdue":false},"accounts":{"next_due":"2021-02-28","accounting_reference_date":{"month":"05","day":"31"},"next_made_up_to":"2020-05-31","last_accounts":{"type":"dormant","period_end_on":"2019-05-31","made_up_to":"2019-05-31","period_start_on":"2018-06-01"},"overdue":false,"next_accounts":{"due_on":"2021-02-28","period_start_on":"2019-06-01","overdue":false,"period_end_on":"2020-05-31"}},"sic_codes":["38110","96090"],"registered_office_address":{"locality":"Hoddesdon","country":"United
+        Kingdom","postal_code":"EN11 0AE","address_line_1":"72 Old Essex Road"},"etag":"0bc238ee08efa2f83215be47d4437639c183ddf3","jurisdiction":"england-wales","date_of_creation":"2017-05-09","can_file":true}'
+    http_version: null
+  recorded_at: Tue, 24 Mar 2020 11:28:58 GMT
+recorded_with: VCR 5.1.0
