@@ -345,6 +345,12 @@ module RegistrationsHelper
     "#{Rails.configuration.back_office_url}/registrations/#{reg_identifier}/transfer"
   end
 
+  def back_office_edit_url(registration)
+    reg_identifier = registration.regIdentifier
+
+    "#{Rails.configuration.back_office_url}/#{reg_identifier}/edit"
+  end
+
   def back_office_order_copy_cards_url(registration)
     reg_identifier = registration.regIdentifier
 
