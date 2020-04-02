@@ -156,6 +156,14 @@ describe RegistrationsHelper do
     end
   end
 
+  describe "#back_office_edit_url" do
+    it "returns the correct URL" do
+      registration = build(:registration, regIdentifier: "CBDU99999")
+      url = "http://localhost:8001/bo/CBDU99999/edit"
+      expect(helper.back_office_edit_url(registration)).to eq(url)
+    end
+  end
+
   describe "#back_office_order_copy_cards_url" do
     it "returns the correct URL" do
       registration = build(:registration, regIdentifier: "CBDU99999")
