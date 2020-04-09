@@ -1232,7 +1232,7 @@ class Registration < Ohm::Model
   end
 
   def can_be_edited?(agency_user=nil)
-    (pending? || is_active?) && user_can_edit_registration(agency_user)
+    is_active? && user_can_edit_registration(agency_user)
   end
 
   def can_view_certificate?
