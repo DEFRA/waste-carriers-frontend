@@ -179,7 +179,7 @@ module Registrations
     config.bank_transfer_account_number = '10014411'
     config.iban_number = 'GB23 NWBK6070 8010 0144 11'
     config.swiftbic_number = 'NWBK GB2L'
-    config.income_email_address = 'ea_fsc_ar@sscl.gse.gov.uk'
+    config.income_email_address = 'ea_fsc_ar@gov.sscl.com'
     config.income_fax_number = '01733 464892'
     config.income_postal_address = 'Environment Agency, SSCL Banking Team, PO Box 263, Peterborough, PE2 8YD'
 
