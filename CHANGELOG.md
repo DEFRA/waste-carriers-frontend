@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased](https://github.com/defra/waste-carriers-frontend/tree/HEAD)
+
+[Full Changelog](https://github.com/defra/waste-carriers-frontend/compare/v2.6.4...HEAD)
+
+**Implemented enhancements:**
+
+- Fix email ea\_fsc\_ar@gov.sscl.com address [\#316](https://github.com/DEFRA/waste-carriers-frontend/pull/316) ([cintamani](https://github.com/cintamani))
+
 ## [v2.6.4](https://github.com/defra/waste-carriers-frontend/tree/v2.6.4) (2020-04-09)
 
 [Full Changelog](https://github.com/defra/waste-carriers-frontend/compare/v2.6.3...v2.6.4)
