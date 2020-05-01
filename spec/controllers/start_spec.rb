@@ -13,12 +13,12 @@ describe StartController, :type => :controller do
 
     context "when the do_not_redirect params is passed in" do
       it 'responds successfully with a HTTP 200 status code' do
-        get :show, do_no_redirect: 1
+        get :show, do_not_redirect: 1
         expect(response.code).to eq("200")
       end
 
       it 'renders the #show template' do
-        get :show, do_no_redirect: 1
+        get :show, do_not_redirect: 1
         expect(response).to render_template("show")
       end
     end
