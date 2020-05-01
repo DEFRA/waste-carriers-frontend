@@ -2,11 +2,23 @@
 
 ## [Unreleased](https://github.com/defra/waste-carriers-frontend/tree/HEAD)
 
-[Full Changelog](https://github.com/defra/waste-carriers-frontend/compare/v2.6.4...HEAD)
+[Full Changelog](https://github.com/defra/waste-carriers-frontend/compare/v2.6.5...HEAD)
+
+**Implemented enhancements:**
+
+- Redirect the registration journey to the new app [\#318](https://github.com/DEFRA/waste-carriers-frontend/pull/318) ([cintamani](https://github.com/cintamani))
+
+## [v2.6.5](https://github.com/defra/waste-carriers-frontend/tree/v2.6.5) (2020-04-29)
+
+[Full Changelog](https://github.com/defra/waste-carriers-frontend/compare/v2.6.4...v2.6.5)
 
 **Implemented enhancements:**
 
 - Fix email ea\_fsc\_ar@gov.sscl.com address [\#316](https://github.com/DEFRA/waste-carriers-frontend/pull/316) ([cintamani](https://github.com/cintamani))
+
+**Merged pull requests:**
+
+- Bump better\_errors from 2.6.0 to 2.7.0 [\#317](https://github.com/DEFRA/waste-carriers-frontend/pull/317) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [v2.6.4](https://github.com/defra/waste-carriers-frontend/tree/v2.6.4) (2020-04-09)
 
@@ -141,7 +153,6 @@
 - Bump faker from 1.9.5 to 1.9.6 [\#245](https://github.com/DEFRA/waste-carriers-frontend/pull/245) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump monetize from 1.9.1 to 1.9.2 [\#244](https://github.com/DEFRA/waste-carriers-frontend/pull/244) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump faker from 1.9.4 to 1.9.5 [\#243](https://github.com/DEFRA/waste-carriers-frontend/pull/243) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
-- Bump simplecov from 0.16.1 to 0.17.0 [\#242](https://github.com/DEFRA/waste-carriers-frontend/pull/242) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 
 ## [v2.5.1](https://github.com/defra/waste-carriers-frontend/tree/v2.5.1) (2019-06-24)
 
@@ -162,6 +173,7 @@
 
 **Merged pull requests:**
 
+- Bump simplecov from 0.16.1 to 0.17.0 [\#242](https://github.com/DEFRA/waste-carriers-frontend/pull/242) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump dotenv-rails from 2.7.2 to 2.7.4 [\#241](https://github.com/DEFRA/waste-carriers-frontend/pull/241) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump faker from 1.9.3 to 1.9.4 [\#240](https://github.com/DEFRA/waste-carriers-frontend/pull/240) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
 - Bump jquery-rails from 4.3.3 to 4.3.5 [\#239](https://github.com/DEFRA/waste-carriers-frontend/pull/239) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
