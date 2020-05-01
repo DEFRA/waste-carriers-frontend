@@ -3,7 +3,7 @@ class StartController < ApplicationController
 
   # GET /registrations/start
   def show
-    unless params[:do_no_redirect].present?
+    unless params[:do_not_redirect].present?
       new_app_start_page_url = File.join(Rails.configuration.front_office_url, "start")
 
       redirect_to new_app_start_page_url

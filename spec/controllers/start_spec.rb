@@ -11,7 +11,7 @@ describe StartController, :type => :controller do
       expect(response).to redirect_to "http://localhost:3000/fo/start"
     end
 
-    context "when the do_no_redirect params is passed in" do
+    context "when the do_not_redirect params is passed in" do
       it 'responds successfully with a HTTP 200 status code' do
         get :show, do_no_redirect: 1
         expect(response.code).to eq("200")
