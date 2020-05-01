@@ -3,6 +3,13 @@ class StartController < ApplicationController
 
   # GET /registrations/start
   def show
+    unless params[:do_no_redirect].present?
+      new_app_start_page_url = File.join(Rails.configuration.front_office_url, "start")
+
+      redirect_to new_app_start_page_url
+      return
+    end
+
     reg_uuid = params[:reg_uuid]
     @registration = if reg_uuid.present?
       # Edit an existing registration

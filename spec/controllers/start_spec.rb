@@ -1,19 +1,27 @@
 require 'spec_helper'
 
 describe StartController, :type => :controller do
-
   describe 'GET #show' do
+    it "returns a 302 response and redirects to the new app journey" do
+      allow(Rails.configuration).to receive(:front_office_url).and_return("http://localhost:3000/fo")
 
-    it 'responds successfully with a HTTP 200 status code' do
       get :show
-      expect(response.code).to eq('200')
+
+      expect(response.code).to eq("302")
+      expect(response).to redirect_to "http://localhost:3000/fo/start"
     end
 
-    it 'renders the #show template' do
-      get :show
-      expect(response).to render_template("show")
-    end
+    context "when the do_no_redirect params is passed in" do
+      it 'responds successfully with a HTTP 200 status code' do
+        get :show, do_no_redirect: 1
+        expect(response.code).to eq("200")
+      end
 
+      it 'renders the #show template' do
+        get :show, do_no_redirect: 1
+        expect(response).to render_template("show")
+      end
+    end
   end
 
   describe 'POST #create' do
