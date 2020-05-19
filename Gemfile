@@ -3,6 +3,10 @@ ruby "2.4.2"
 
 gem "rails", "~> 4.2.11"
 
+# sprockets-4.0.0 requires ruby version >= 2.5.0, which is incompatible with
+# the current version, ruby 2.4.2p198
+gem "sprockets", "~> 2.12.5"
+
 # For exception logging.
 gem 'airbrake', '~> 5.3'
 
