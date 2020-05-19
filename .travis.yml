@@ -26,7 +26,7 @@ services:
   - redis-server
 before_install:
   - export TZ=UTC
-  - gem install -v 1.17.3 bundler --no-rdoc --no-ri
+  - gem install -v 1.17.3 bundler --no-document
 
 before_script:
   # Set up Mongo databases
