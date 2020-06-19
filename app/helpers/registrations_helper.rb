@@ -336,7 +336,7 @@ module RegistrationsHelper
   def back_office_renewals_url(registration)
     reg_identifier = registration.regIdentifier
 
-    "#{Rails.configuration.back_office_url}/ad-privacy-policy/#{reg_identifier}"
+    "#{Rails.configuration.back_office_url}/ad-privacy-policy?reg_identifier=#{reg_identifier}"
   end
 
   def back_office_transfer_url(registration)
