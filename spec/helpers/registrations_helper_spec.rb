@@ -143,7 +143,8 @@ describe RegistrationsHelper do
   describe "#back_office_renewals_url" do
     it "returns the correct URL" do
       registration = build(:registration, regIdentifier: "CBDU99999")
-      url = "http://localhost:8001/bo/ad-privacy-policy/CBDU99999"
+      # url = "http://localhost:8001/bo/ad-privacy-policy/CBDU99999"
+      url = "http://localhost:8001/bo/ad-privacy-policy?reg_identifier=CBDU99999"
       expect(helper.back_office_renewals_url(registration)).to eq(url)
     end
   end
