@@ -1,0 +1,13 @@
+---
+  active_test_feature:
+    active: true
+  not_active_test_feature:
+    active: false
+  broken_test_feature:
+    active: truue
+  broken_test_feature_2:
+    activated: true
+  env_variable_test_feature:
+    active: <%= ENV["ENV_VARIABLE_TEST_FEATURE"] %>
+  string_true_test_feature:
+    active: "true"
