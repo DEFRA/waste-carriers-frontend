@@ -3,7 +3,7 @@ class StartController < ApplicationController
 
   # GET /registrations/start
   def show
-    unless params[:do_not_redirect].present?
+    if redirect_to_new_journey?
       new_app_start_page_url = File.join(Rails.configuration.front_office_url, "start")
 
       redirect_to new_app_start_page_url
@@ -47,6 +47,10 @@ class StartController < ApplicationController
   end
 
   private
+
+  def redirect_to_new_journey?
+    FeatureToggle.active?(:new_registration) && !params[:do_not_redirect].present?
+  end
 
   ## 'strong parameters' - whitelisting parameters allowed for mass assignment from UI web pages
   def registration_params
