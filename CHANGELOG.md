@@ -1,5 +1,23 @@
 # Changelog
 
+## [v2.7.0](https://github.com/defra/waste-carriers-frontend/tree/v2.7.0) (2020-07-17)
+
+[Full Changelog](https://github.com/defra/waste-carriers-frontend/compare/v2.6.7...v2.7.0)
+
+**Implemented enhancements:**
+
+- Toggle redirect to FO new reg. using feat. toggle [\#329](https://github.com/DEFRA/waste-carriers-frontend/pull/329) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Fixed bugs:**
+
+- Set path for create new reg. based on feat. toggle [\#332](https://github.com/DEFRA/waste-carriers-frontend/pull/332) ([Cruikshanks](https://github.com/Cruikshanks))
+- Fix new-reg redirect to go to AD privacy policy [\#330](https://github.com/DEFRA/waste-carriers-frontend/pull/330) ([Cruikshanks](https://github.com/Cruikshanks))
+
+**Merged pull requests:**
+
+- Bump dotenv-rails from 2.7.5 to 2.7.6 [\#331](https://github.com/DEFRA/waste-carriers-frontend/pull/331) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+- Bump json from 2.3.0 to 2.3.1 [\#328](https://github.com/DEFRA/waste-carriers-frontend/pull/328) ([dependabot-preview[bot]](https://github.com/apps/dependabot-preview))
+
 ## [v2.6.7](https://github.com/defra/waste-carriers-frontend/tree/v2.6.7) (2020-06-22)
 
 [Full Changelog](https://github.com/defra/waste-carriers-frontend/compare/v2.6.6...v2.6.7)
